@@ -8,13 +8,8 @@ import mongoose.entities.Cart;
 import mongoose.entities.Event;
 import mongoose.entities.Option;
 import mongoose.entities.Rate;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityId;
-import naga.framework.orm.entity.EntityList;
-import naga.framework.orm.entity.EntityStore;
-import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
+import naga.framework.orm.entity.*;
 import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
@@ -22,7 +17,6 @@ import naga.platform.services.query.spi.QueryService;
 import naga.platform.spi.Platform;
 import naga.util.Numbers;
 import naga.util.Objects;
-import naga.util.async.Batch;
 import naga.util.async.Future;
 import naga.util.async.FutureBroadcaster;
 import naga.util.collection.Collections;
@@ -105,11 +99,10 @@ class EventServiceImpl implements EventService {
         if (eventOptionsFutureBroadcaster != null)
             return eventOptionsFutureBroadcaster.newClient().map(this::getEvent);
 */
-        if (eventFutureBroadcaster == null) {
-            eventFutureBroadcaster = new FutureBroadcaster<>(executeEventQuery(
-                    new EventQuery(EVENTS_LIST_ID, "select <frontend_loadEvent> from Event where id=" + eventId)
-            ).map(this::getEvent));
-        }
+        if (eventFutureBroadcaster == null)
+            eventFutureBroadcaster = new FutureBroadcaster<>(
+                store.executeQuery("select <frontend_loadEvent> from Event where id=" + eventId, EVENTS_LIST_ID)
+                .map(this::getEvent));
         return eventFutureBroadcaster.newClient();
     }
 
@@ -125,11 +118,11 @@ class EventServiceImpl implements EventService {
             String optionCondition = "event.(id=? and (host=null or host=? or ?='localhost')) and online and (!dev or ?=true)";
             String siteIds = "(select site.id from Option where " + optionCondition + ")";
             String rateCondition = "site.id in " + siteIds + " and (startDate is null or startDate <= site.event.endDate) and (endDate is null or endDate >= site.event.startDate) and (onDate is null or onDate <= now()) and (offDate is null or offDate > now())";
-            eventOptionsFutureBroadcaster = new FutureBroadcaster<>(executeParallelEventQueries(
-                    new EventQuery(OPTIONS_LIST_ID,    "select <frontend_loadEvent> from Option where " + optionCondition + " order by ord", parameters),
-                    new EventQuery(SITES_LIST_ID,      "select <frontend_loadEvent> from Site where id in " + siteIds, parameters),
-                    new EventQuery(RATES_LIST_ID,      "select <frontend_loadEvent> from Rate where " + rateCondition, parameters),
-                    new EventQuery(DATE_INFOS_LIST_ID, "select <frontend_loadEvent> from DateInfo where event=? order by id", eventId)
+            eventOptionsFutureBroadcaster = new FutureBroadcaster<>(store.executeQueryBatch(
+                      new EntityStoreQuery("select <frontend_loadEvent> from Option where " + optionCondition + " order by ord", parameters, OPTIONS_LIST_ID)
+                    , new EntityStoreQuery("select <frontend_loadEvent> from Site where id in " + siteIds, parameters, SITES_LIST_ID)
+                    , new EntityStoreQuery("select <frontend_loadEvent> from Rate where " + rateCondition, parameters, RATES_LIST_ID)
+                    , new EntityStoreQuery("select <frontend_loadEvent> from DateInfo where event=? order by id", new Object[]{eventId}, DATE_INFOS_LIST_ID)
             ).map(this::getEventOptions));
         }
         return eventOptionsFutureBroadcaster.newClient();
@@ -245,19 +238,18 @@ class EventServiceImpl implements EventService {
     @Override
     public Future<QueryResultSet> onEventAvailabilities() {
         if (eventAvailabilitiesFutureBroadcaster == null)
-            eventAvailabilitiesFutureBroadcaster = new FutureBroadcaster<>(() -> executeQuery(
-                // getting all resource availabilities (per site, per item, per day) for this event
-                "with ra as (select * from resource_availability_by_event_items(?) where max>0)," + // resources with max(=max_online)=0 (like private rooms) are not displayed in the frontend
-                        // let's see if some options for this event require to have the per day availabilities details
-                        " pda as (select site_id,item_id,item_family_id from option where per_day_availability and event_id=?)" +
-                        // for such options we keep all the details: site, item and date (this applies to availabilities having site=option.site and item=option.item if set, item_family=item.family otherwise)
-                        " (select row_number,      site_id as site,      item_id as item,      date,         max - current as available,      i.ord as ord      from ra join item i on i.id=item_id where     exists(select * from pda where site_id=ra.site_id and (item_id=ra.item_id or item_id is null and item_family_id=i.family_id)) )" +
-                        " union " + // union of both queries
-                        // for others, we group by site and item (=> dates disappears => simpler and less data to transfer to browser) and keep the min values for availability all over the event time range
-                        " (select min(row_number), min(site_id) as site, min(item_id) as item, null as date, min(max - current) as available, min(i.ord) as ord from ra join item i on i.id=item_id where not exists(select * from pda where site_id=ra.site_id and (item_id=ra.item_id or item_id is null and item_family_id=i.family_id)) group by site_id,item_id)" +
-                        // finally we order this query union by site, item and date
-                        " order by site,ord,date",
-                eventId, eventId).map(rs -> eventAvailabilities = rs));
+            eventAvailabilitiesFutureBroadcaster = new FutureBroadcaster<>(() -> QueryService.executeQuery(new QueryArgument(
+                    "with ra as (select * from resource_availability_by_event_items(?) where max>0)," + // resources with max(=max_online)=0 (like private rooms) are not displayed in the frontend
+                    // let's see if some options for this event require to have the per day availabilities details
+                    " pda as (select site_id,item_id,item_family_id from option where per_day_availability and event_id=?)" +
+                    // for such options we keep all the details: site, item and date (this applies to availabilities having site=option.site and item=option.item if set, item_family=item.family otherwise)
+                    " (select row_number,      site_id as site,      item_id as item,      date,         max - current as available,      i.ord as ord      from ra join item i on i.id=item_id where     exists(select * from pda where site_id=ra.site_id and (item_id=ra.item_id or item_id is null and item_family_id=i.family_id)) )" +
+                    " union " + // union of both queries
+                    // for others, we group by site and item (=> dates disappears => simpler and less data to transfer to browser) and keep the min values for availability all over the event time range
+                    " (select min(row_number), min(site_id) as site, min(item_id) as item, null as date, min(max - current) as available, min(i.ord) as ord from ra join item i on i.id=item_id where not exists(select * from pda where site_id=ra.site_id and (item_id=ra.item_id or item_id is null and item_family_id=i.family_id)) group by site_id,item_id)" +
+                    // finally we order this query union by site, item and date
+                    " order by site,ord,date", new Object[]{eventId, eventId}, getDataSourceModel().getId()))
+                    .map(rs -> eventAvailabilities = rs));
         return eventAvailabilitiesFutureBroadcaster.newClient();
     }
 
@@ -275,38 +267,6 @@ class EventServiceImpl implements EventService {
     private static String getHost() {
         return ((WebSocketBusOptions) Platform.getBusOptions()).getServerHost();
     }
-
-    private Future<Batch<EntityList>> executeParallelEventQueries(EventQuery... eventQueries) {
-        return executeParallelEventQueries(new Batch<>(eventQueries));
-    }
-
-    private Future<Batch<EntityList>> executeParallelEventQueries(Batch<EventQuery> batch) {
-        return batch.executeParallel(EntityList[]::new, this::executeEventQuery);
-    }
-
-    private Future<EntityList> executeEventQuery(EventQuery eventQuery) {
-        SqlCompiled sqlCompiled = getDomainModel().compileSelect(eventQuery.queryString, eventQuery.parameters);
-        return executeQuery(sqlCompiled.getSql(), eventQuery.parameters)
-                .map(rs ->  QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), store, eventQuery.listId));
-    }
-
-    private Future<QueryResultSet> executeQuery(String queryString, Object... parameters) {
-        return QueryService.executeQuery(new QueryArgument(queryString, parameters, getDataSourceModel().getId()));
-    }
-
-    private static class EventQuery {
-        Object listId;
-        String queryString;
-        Object[] parameters;
-
-        EventQuery(Object listId, String queryString, Object... parameters) {
-            this.listId = listId;
-            this.queryString = queryString;
-            this.parameters = parameters;
-        }
-    }
-
-    //
 
     private OptionsPreselection selectedOptionsPreselection;
     @Override

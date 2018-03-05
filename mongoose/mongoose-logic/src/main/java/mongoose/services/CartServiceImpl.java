@@ -4,21 +4,15 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
 import mongoose.entities.*;
-import naga.platform.services.log.spi.Logger;
-import naga.platform.services.query.spi.QueryService;
-import naga.util.Strings;
-import naga.util.async.Batch;
-import naga.util.async.Future;
-import naga.util.collection.Collections;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
-import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
+import naga.framework.orm.entity.EntityStoreQuery;
+import naga.platform.services.log.spi.Logger;
+import naga.util.Strings;
+import naga.util.async.Future;
+import naga.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,35 +125,24 @@ class CartServiceImpl implements CartService {
     public Future<Cart> onCart() {
         if (isLoaded())
             return Future.succeededFuture(cart);
-        DataSourceModel dataSourceModel = store.getDataSourceModel();
-        Object dataSourceId = dataSourceModel.getId();
-        DomainModel domainModel = dataSourceModel.getDomainModel();
         String documentCondition = "document.cart." + (id != null ? "id=?" : "uuid=?");
         Object[] parameter = new Object[]{id != null ? id : uuid};
-        SqlCompiled sqlCompiled1 = domainModel.compileSelect(Strings.replaceAll(WorkingDocumentLoader.DOCUMENT_LINE_LOAD_QUERY, "document=?", documentCondition));
-        SqlCompiled sqlCompiled2 = domainModel.compileSelect(Strings.replaceAll(WorkingDocumentLoader.ATTENDANCE_LOAD_QUERY, "document=?", documentCondition));
-        SqlCompiled sqlCompiled3 = domainModel.compileSelect(Strings.replaceAll(WorkingDocumentLoader.PAYMENT_LOAD_QUERY, "document=?", documentCondition));
-        Future<Batch<QueryResultSet>> queryBatchFuture = QueryService.executeQueryBatch(
-                new Batch<>(new QueryArgument[]{
-                        new QueryArgument(sqlCompiled1.getSql(), parameter, dataSourceId),
-                        new QueryArgument(sqlCompiled2.getSql(), parameter, dataSourceId),
-                        new QueryArgument(sqlCompiled3.getSql(), parameter, dataSourceId)
-                })
-        );
-        loading = true;
-        return queryBatchFuture.compose(v -> {
-            Batch<QueryResultSet> b = queryBatchFuture.result();
-            EntityList<DocumentLine> dls = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[0], sqlCompiled1.getQueryMapping(), store, "dl");
-            EntityList<Attendance> as = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[1], sqlCompiled2.getQueryMapping(), store, "a");
-            cartPayments = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[2], sqlCompiled3.getQueryMapping(), store, "mt");
+        return store.executeQueryBatch(
+              new EntityStoreQuery(Strings.replaceAll(WorkingDocumentLoader.DOCUMENT_LINE_LOAD_QUERY, "document=?", documentCondition), parameter)
+            , new EntityStoreQuery(Strings.replaceAll(WorkingDocumentLoader.ATTENDANCE_LOAD_QUERY, "document=?", documentCondition), parameter)
+            , new EntityStoreQuery(Strings.replaceAll(WorkingDocumentLoader.PAYMENT_LOAD_QUERY, "document=?", documentCondition), parameter)
+        ).compose((entityLists, future) -> {
+            EntityList<DocumentLine> dls = entityLists[0];
+            EntityList<Attendance> as = entityLists[1];
+            cartPayments = entityLists[2];
             cartDocuments = new ArrayList<>();
             cartWorkingDocuments = new ArrayList<>();
             if (dls.isEmpty()) {
                 loading = false;
-                return Future.succeededFuture();
+                future.complete();
             }
             eventService = EventService.getOrCreateFromDocument(dls.get(0).getDocument());
-            return eventService.onEventOptions().compose(v2 -> {
+            eventService.onEventOptions().setHandler(ar -> {
                 if (!cartDocuments.isEmpty()) {
                     Logger.log("Warning: CartService.onCart() has been called again before the first call is finished");
                     cartDocuments.clear();
@@ -180,7 +163,7 @@ class CartServiceImpl implements CartService {
                 addWorkingDocument(currentDocument, wdls);
                 setCart(cartDocuments.get(0).getCart());
                 loading = false;
-                return Future.succeededFuture(cart);
+                future.complete(cart);
             });
         });
     }

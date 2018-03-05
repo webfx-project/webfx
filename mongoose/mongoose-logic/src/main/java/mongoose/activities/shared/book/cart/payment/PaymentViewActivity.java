@@ -15,28 +15,22 @@ import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.*;
 import mongoose.entities.markers.EntityHasName;
 import mongoose.util.Labels;
-import naga.platform.services.log.spi.Logger;
-import naga.platform.services.query.spi.QueryService;
-import naga.util.Dates;
-import naga.util.Strings;
-import naga.util.async.Batch;
-import naga.util.collection.Collections;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
+import naga.framework.orm.entity.EntityStoreQuery;
 import naga.framework.orm.entity.UpdateStore;
-import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.HtmlText;
 import naga.platform.client.bus.WebSocketBus;
 import naga.platform.client.url.location.WindowLocation;
-import naga.platform.services.query.QueryArgument;
+import naga.platform.services.log.spi.Logger;
 import naga.platform.spi.Platform;
 import naga.platform.spi.client.ClientPlatform;
+import naga.util.Dates;
+import naga.util.Strings;
+import naga.util.collection.Collections;
 
 import java.util.List;
 
@@ -245,23 +239,16 @@ class PaymentViewActivity extends CartBasedViewActivity {
                 Logger.log("Error submitting payment", ar.cause());
             else {
                 cartService().unload();
-                DataSourceModel dataSourceModel = loadStore.getDataSourceModel();
-                Object dataSourceId = dataSourceModel.getId();
                 Object[] paymentIdParameter = {ar.result().getArray()[0].getGeneratedKeys()[0]};
-                DomainModel domainModel = dataSourceModel.getDomainModel();
-                SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_loadEvent> from GatewayParameter gp where exists(select MoneyTransfer mt where mt=? and (gp.account=mt.toMoneyAccount or gp.account=null and gp.company=mt.toMoneyAccount.gatewayCompany)) order by company");
-                SqlCompiled sqlCompiled2 = domainModel.compileSelect("select <frontend_cart> from MoneyTransfer where id=?");
-                QueryService.executeQueryBatch(
-                        new Batch<>(new QueryArgument[]{
-                                new QueryArgument(sqlCompiled1.getSql(), paymentIdParameter, dataSourceId),
-                                new QueryArgument(sqlCompiled2.getSql(), paymentIdParameter, dataSourceId)
-                        })
+                loadStore.executeQueryBatch(
+                      new EntityStoreQuery("select <frontend_loadEvent> from GatewayParameter gp where exists(select MoneyTransfer mt where mt=? and (gp.account=mt.toMoneyAccount or gp.account=null and gp.company=mt.toMoneyAccount.gatewayCompany)) order by company", paymentIdParameter, "gatewayParameters")
+                    , new EntityStoreQuery("select <frontend_cart> from MoneyTransfer where id=?", paymentIdParameter, "lastPayment")
                 ).setHandler(ar2 -> {
-                    if (ar.failed())
+                    if (ar2.failed())
                         Logger.log("Error submitting payment", ar.cause());
                     else {
-                        EntityList<GatewayParameter> gatewayParameters = QueryResultSetToEntityListGenerator.createEntityList(ar2.result().getArray()[0], sqlCompiled1.getQueryMapping(), loadStore, "gatewayParameters");
-                        lastPayment = (MoneyTransfer) QueryResultSetToEntityListGenerator.createEntityList(ar2.result().getArray()[1], sqlCompiled2.getQueryMapping(), loadStore, "lastPayment").get(0);
+                        EntityList<GatewayParameter> gatewayParameters = ar2.result()[0];
+                        lastPayment = (MoneyTransfer) ar2.result()[1].get(0);
                         Toolkit.get().scheduler().runInUiThread(() -> {
                             String innerHtml = generateHtmlForm(gatewayParameters);
                             //Platform.log(innerHtml);

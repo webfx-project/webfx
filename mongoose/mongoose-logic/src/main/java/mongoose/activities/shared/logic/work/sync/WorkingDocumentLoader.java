@@ -6,16 +6,9 @@ import mongoose.entities.Attendance;
 import mongoose.entities.Document;
 import mongoose.entities.DocumentLine;
 import mongoose.services.EventService;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
-import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
-import naga.platform.services.query.spi.QueryService;
-import naga.util.async.Batch;
+import naga.framework.orm.entity.EntityStoreQuery;
 import naga.util.async.Future;
 import naga.util.collection.Collections;
 
@@ -36,28 +29,20 @@ public class WorkingDocumentLoader {
     }
 
     public static Future<WorkingDocument> load(EventService eventService, Object documentPk) {
-        DataSourceModel dataSourceModel = eventService.getDataSourceModel();
-        Object dataSourceId = dataSourceModel.getId();
-        DomainModel domainModel = dataSourceModel.getDomainModel();
-        SqlCompiled sqlCompiled1 = domainModel.compileSelect(DOCUMENT_LINE_LOAD_QUERY);
-        SqlCompiled sqlCompiled2 = domainModel.compileSelect(ATTENDANCE_LOAD_QUERY);
-        Object[] documentPkParameter = {documentPk};
-        Future<Batch<QueryResultSet>> queryBatchFuture;
-        return Future.allOf(eventService.onEventOptions(), queryBatchFuture = QueryService.executeQueryBatch(
-                new Batch<>(new QueryArgument[]{
-                        new QueryArgument(sqlCompiled1.getSql(), documentPkParameter, dataSourceId),
-                        new QueryArgument(sqlCompiled2.getSql(), documentPkParameter, dataSourceId)
-                })
-        )).compose(v -> {
-            Batch<QueryResultSet> b = queryBatchFuture.result();
-            EntityStore store = EntityStore.createAbove(eventService.getEventStore());
-            EntityList<DocumentLine> dls = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[0], sqlCompiled1.getQueryMapping(), store, "dl");
-            EntityList<Attendance> as = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[1], sqlCompiled2.getQueryMapping(), store, "a");
+        EntityStore store = EntityStore.createAbove(eventService.getEventStore());
+        Future<EntityList[]> queryBatchFuture = store.executeQueryBatch(
+              new EntityStoreQuery(DOCUMENT_LINE_LOAD_QUERY, new Object[]{documentPk})
+            , new EntityStoreQuery(ATTENDANCE_LOAD_QUERY   , new Object[]{documentPk})
+        );
+        return Future.allOf(eventService.onEventOptions(), queryBatchFuture).map(v -> {
+            EntityList[] entityLists = queryBatchFuture.result();
+            EntityList<DocumentLine> dls = entityLists[0];
+            EntityList<Attendance> as = entityLists[1];
             List<WorkingDocumentLine> wdls = new ArrayList<>();
             for (DocumentLine dl : dls)
                 wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventService));
             WorkingDocument loadedWorkingDocument = new WorkingDocument(eventService, store.getEntity(Document.class, documentPk), wdls);
-            return Future.succeededFuture(new WorkingDocument(loadedWorkingDocument));
+            return new WorkingDocument(loadedWorkingDocument);
         });
     }
 

@@ -1,19 +1,15 @@
 package mongoose.authz;
 
 import mongoose.authn.MongooseUserPrincipal;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.operation.authz.OperationAuthorizationRuleParser;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.router.auth.authz.RoutingAuthorizationRule;
 import naga.framework.router.auth.authz.RoutingAuthorizationRuleParser;
 import naga.framework.spi.authz.impl.inmemory.AuthorizationRuleType;
 import naga.framework.spi.authz.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
 import naga.platform.services.log.spi.Logger;
-import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.spi.QueryService;
 import naga.util.Strings;
 
 /**
@@ -28,15 +24,12 @@ class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrin
         // Registering the authorization (requests and rules) parsers
         ruleRegistry.addAuthorizationRuleParser(new RoutingAuthorizationRuleParser());
         ruleRegistry.addAuthorizationRuleParser(new OperationAuthorizationRuleParser());
-        if (userPrincipal != null) {
-            // Loading the authorizations assigned to the user
-            Object[] parameters = {principal.getUserPersonId()};
-            SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select rule.rule,activityState.route from AuthorizationAssignment where active and management.user=?", parameters);
-            setUpInMemoryAsyncRulesLoading(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, dataSourceModel.getId())), ar -> {
+        if (userPrincipal != null)
+            setUpInMemoryAsyncRulesLoading(EntityStore.create(dataSourceModel).executeQuery("select rule.rule,activityState.route from AuthorizationAssignment where active and management.user=?", new Object[]{principal.getUserPersonId()}), ar -> {
                 if (ar.failed())
                     Logger.log(ar.cause());
                 else // When successfully loaded, iterating over the assignments
-                    for (Entity assignment: QueryResultSetToEntityListGenerator.createEntityList(ar.result(), sqlCompiled.getQueryMapping(), EntityStore.create(dataSourceModel), "assignments")) {
+                    for (Entity assignment: ar.result()) {
                         // If it is an authorization rule assignment, registering it
                         Entity authorizationRule = assignment.getForeignEntity("rule");
                         if (authorizationRule != null) // if yes, passing the rule as a string (will be parsed)
@@ -52,6 +45,5 @@ class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrin
                         }
                     }
             });
-        }
     }
 }

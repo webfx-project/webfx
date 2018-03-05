@@ -3,18 +3,14 @@ package mongoose.activities.backend.util;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
-import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.HtmlTextEditor;
-import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.spi.QueryService;
 import naga.util.Objects;
 import naga.util.Strings;
 import naga.util.async.Handler;
@@ -108,18 +104,15 @@ public class MultiLanguageEditor {
         Object entityId = entityIdGetter.call();
         if (entityUpdates.containsKey(entityId))
             monoLanguageEditor.setEditedEntity(entityUpdates.get(entityId));
-        else if (loadingSelect != null) {
-            SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(loadingSelect);
-            // Then we ask the query service to execute the sql query
-            QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), new Object[]{entityId}, dataSourceModel.getId())).setHandler(ar -> {
+        else if (loadingSelect != null)
+            loadingStore.executeQuery(loadingSelect, new Object[]{entityId}, entityListId).setHandler(ar -> {
                 if (ar.succeeded()) {
-                    Entity entity = QueryResultSetToEntityListGenerator.createEntityList(ar.result(), sqlCompiled.getQueryMapping(), loadingStore, entityListId).get(0);
+                    Entity entity = ar.result().get(0);
                     EditedEntity editedEntity = new EditedEntity(entity);
                     entityUpdates.put(entityId, editedEntity);
                     monoLanguageEditor.setEditedEntity(editedEntity);
                 }
             });
-        }
     }
 
     private MonoLanguageEditor getCurrentMonoLanguageEditor() {
