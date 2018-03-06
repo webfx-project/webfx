@@ -542,6 +542,10 @@
                         <failOnError>true</failOnError>
                         <draftCompile>${plugin.gwt.param.draftCompile}</draftCompile>
                         <optimize>${plugin.gwt.param.optimize}</optimize>
+                        <!--compilerArgs>
+                            <compilerArg>-style</compilerArg>
+                            <compilerArg>DETAILED</compilerArg>
+                        </compilerArgs-->
                         <!-- Trying to solve a java heap OutOfMemoryError on the server -->
                         <jvmArgs>
                             <jvmArg>-Xmx1024m</jvmArg>

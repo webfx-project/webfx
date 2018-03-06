@@ -11,6 +11,7 @@ import naga.framework.ui.action.Action;
 import naga.fx.spi.Toolkit;
 import naga.util.async.AsyncFunction;
 import naga.util.async.Future;
+import naga.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,7 +68,26 @@ public class OperationActionRegistry {
     }
 
     public ObservableBooleanValue authorizedOperationActionProperty(Object operationCode, ObservableValue userPrincipalProperty, AsyncFunction<Object, Boolean> authorizationFunction) {
-        return AuthorizationUtil.authorizedOperationProperty(this::newOperationActionRequest, request -> request == null ? Future.succeededFuture(false) : authorizationFunction.apply(request), operationActionProperty(operationCode), userPrincipalProperty);
+        // Note: it's possible we don't know yet what operation action we are talking about at this stage, because this
+        // method can (and usually is) called before the operation action associated with that code is registered
+        Function<OperationAction, Object> operationRequestFactory = this::newOperationActionRequest; // Will return null until the operation action with that code is registered
+        // We embed the authorization function to handle the special case where the request is null
+        AsyncFunction<Object, Boolean> embedAuthorizationFunction = new AsyncFunction<Object, Boolean>() { // Using a lambda expression here causes a wrong GWT code factorization which lead to an application crash! Keeping the Java 7 style solves the problem.
+            @Override
+            public Future<Boolean> apply(Object request) {
+                if (request != null)
+                    return authorizationFunction.apply(request);
+                // If the request is null, this is because no operation action with that code has yet been registered, so we
+                // don't know what operation it is yet, so we return not authorized by default (if this action is shown in a
+                // button, the button will be invisible (or at least disabled) until the operation action is registered
+                return Future.succeededFuture(false);
+            }
+        };
+        return AuthorizationUtil.authorizedOperationProperty(
+                  operationRequestFactory
+                , embedAuthorizationFunction
+                , operationActionProperty(operationCode) // will change when operation action will be registered, causing a new authorization evaluation
+                , userPrincipalProperty);
     }
 
 
@@ -124,7 +144,12 @@ public class OperationActionRegistry {
     }
 
     private <A, R> A newOperationActionRequest(OperationAction<A, R> operationAction) {
-        return operationAction == null ? null : operationAction.getOperationRequestFactory().apply(new ActionEvent());
+        if (operationAction == null)
+            return null;
+        Function<ActionEvent, A> operationRequestFactory = operationAction.getOperationRequestFactory();
+        if (operationRequestFactory != null)
+            return operationRequestFactory.apply(new ActionEvent());
+        return null;
     }
 
 }

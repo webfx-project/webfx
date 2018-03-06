@@ -7,5 +7,5 @@
   <source path="client"/>
   <source path="shared"/>
   <super-source path="super"/>
-  <!--set-property name="jre.checks.checkLevel" value="MINIMAL" /-->
+  <set-property name="jre.checks.checkLevel" value="MINIMAL"/>
 </module>
