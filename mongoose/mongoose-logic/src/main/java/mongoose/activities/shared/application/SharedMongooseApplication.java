@@ -116,6 +116,7 @@ public abstract class SharedMongooseApplication
     }
 
     static {
+        Logger.log("build.number = " + System.getProperty("build.number"));
         Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProvider::new);

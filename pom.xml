@@ -96,6 +96,10 @@
         <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
         <plugin.teavm.minifying>true</plugin.teavm.minifying>
         <plugin.teavm.debug>false</plugin.teavm.debug>
+
+        <!-- Build number property (should be set by Jenkins server each time a new build is started) -->
+        <!-- Will be passed to GWT compiler so that the java code can get its value using System.getProperty("build.number") -->
+        <build.number>SNAPSHOT</build.number>
     </properties>
 
     <pluginRepositories>
@@ -542,10 +546,12 @@
                         <failOnError>true</failOnError>
                         <draftCompile>${plugin.gwt.param.draftCompile}</draftCompile>
                         <optimize>${plugin.gwt.param.optimize}</optimize>
-                        <!--compilerArgs>
-                            <compilerArg>-style</compilerArg>
-                            <compilerArg>DETAILED</compilerArg>
-                        </compilerArgs-->
+                        <compilerArgs>
+                            <compilerArg>-setProperty</compilerArg>
+                            <compilerArg>build.number=${build.number}</compilerArg>
+                            <!--compilerArg>-style</compilerArg>
+                            <compilerArg>DETAILED</compilerArg-->
+                        </compilerArgs>
                         <!-- Trying to solve a java heap OutOfMemoryError on the server -->
                         <jvmArgs>
                             <jvmArg>-Xmx1024m</jvmArg>

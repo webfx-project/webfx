@@ -1,10 +1,14 @@
 <module rename-to="mongoose_logic_web">
 
-    <!-- Specify the paths for translatable code                    -->
+    <!-- Specifying the paths for translatable code                    -->
     <source path="mongoose/activities/backend/application/web"/>
     <source path="mongoose/activities/frontend/application/web"/>
     <source path="mongoose/activities/shared/application/web"/>
 
     <resource path="images"/>
+
+    <!-- Declaring build.number property so it can be accessed through System.getProperty("build.number")  -->
+    <!-- Note: this property is set with the -setProperty GWT compiler argument when calling the GWT plugin in the root pom.xml -->
+    <define-configuration-property name="build.number" is_multi_valued="false"/>
 
 </module>
