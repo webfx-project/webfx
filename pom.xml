@@ -99,7 +99,8 @@
 
         <!-- Build number property (should be set by Jenkins server each time a new build is started) -->
         <!-- Will be passed to GWT compiler so that the java code can get its value using System.getProperty("build.number") -->
-        <build.number>SNAPSHOT</build.number>
+        <build.number>build.number.SNAPSHOT</build.number>
+        <build.id>build.id.SNAPSHOT</build.id>
     </properties>
 
     <pluginRepositories>
@@ -549,6 +550,8 @@
                         <compilerArgs>
                             <compilerArg>-setProperty</compilerArg>
                             <compilerArg>build.number=${build.number}</compilerArg>
+                            <compilerArg>-setProperty</compilerArg>
+                            <compilerArg>build.id=${build.id}</compilerArg>
                             <!--compilerArg>-style</compilerArg>
                             <compilerArg>DETAILED</compilerArg-->
                         </compilerArgs>
