@@ -10,6 +10,6 @@
     <!-- Declaring build.number property so it can be accessed through System.getProperty("build.number")  -->
     <!-- Note: this property is set with the -setProperty GWT compiler argument when calling the GWT plugin in the root pom.xml -->
     <define-configuration-property name="build.number" is_multi_valued="false"/>
-    <define-configuration-property name="build.id" is_multi_valued="false"/>
+    <define-configuration-property name="build.timestamp" is_multi_valued="false"/>
 
 </module>

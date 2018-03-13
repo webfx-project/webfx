@@ -100,7 +100,9 @@
         <!-- Build number property (should be set by Jenkins server each time a new build is started) -->
         <!-- Will be passed to GWT compiler so that the java code can get its value using System.getProperty("build.number") -->
         <build.number>build.number.SNAPSHOT</build.number>
-        <build.id>build.id.SNAPSHOT</build.id>
+        <!-- Build timestamp property (automatically set using maven but can be overridden using Jenkins) -->
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <!-- Will be passed to GWT compiler so that the java code can get its value using System.getProperty("build.timestamp") -->
     </properties>
 
     <pluginRepositories>
@@ -551,7 +553,7 @@
                             <compilerArg>-setProperty</compilerArg>
                             <compilerArg>build.number=${build.number}</compilerArg>
                             <compilerArg>-setProperty</compilerArg>
-                            <compilerArg>build.id=${build.id}</compilerArg>
+                            <compilerArg>build.timestamp=${build.timestamp}</compilerArg>
                             <!--compilerArg>-style</compilerArg>
                             <compilerArg>DETAILED</compilerArg-->
                         </compilerArgs>
