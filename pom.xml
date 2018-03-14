@@ -97,11 +97,14 @@
         <plugin.teavm.minifying>true</plugin.teavm.minifying>
         <plugin.teavm.debug>false</plugin.teavm.debug>
 
+        <application.name>${project.name}</application.name>
+        <application.version>${project.version}</application.version>
         <!-- Build number property (should be set by Jenkins server each time a new build is started) -->
         <!-- Will be passed to GWT compiler so that the java code can get its value using System.getProperty("build.number") -->
-        <build.number>build.number.SNAPSHOT</build.number>
+        <application.build.number>build.number.SNAPSHOT</application.build.number>
         <!-- Build timestamp property (automatically set using maven but can be overridden using Jenkins) -->
-        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+        <application.build.timestamp>${maven.build.timestamp}</application.build.timestamp>
         <!-- Will be passed to GWT compiler so that the java code can get its value using System.getProperty("build.timestamp") -->
     </properties>
 
@@ -551,9 +554,13 @@
                         <optimize>${plugin.gwt.param.optimize}</optimize>
                         <compilerArgs>
                             <compilerArg>-setProperty</compilerArg>
-                            <compilerArg>build.number=${build.number}</compilerArg>
+                            <compilerArg>application.name=${application.name}</compilerArg>
                             <compilerArg>-setProperty</compilerArg>
-                            <compilerArg>build.timestamp=${build.timestamp}</compilerArg>
+                            <compilerArg>application.version=${application.version}</compilerArg>
+                            <compilerArg>-setProperty</compilerArg>
+                            <compilerArg>application.build.number=${application.build.number}</compilerArg>
+                            <compilerArg>-setProperty</compilerArg>
+                            <compilerArg>application.build.timestamp=${application.build.timestamp}</compilerArg>
                             <!--compilerArg>-style</compilerArg>
                             <compilerArg>DETAILED</compilerArg-->
                         </compilerArgs>

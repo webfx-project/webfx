@@ -91,14 +91,6 @@ public abstract class SharedMongooseApplication
 
     protected void registerActions() {
         MongooseActions.registerActions(getI18n());
-/*
-        getOperationActionRegistry()
-                .registerOperationAction(BackwardRoutingRequest.class,  newAction("<<"))
-                .registerOperationAction(ForwardRoutingRequest.class,   newAction(">>"))
-                .registerOperationAction(EnglishLanguageRequest.class,  newAction("English"))
-                .registerOperationAction(FrenchLanguageRequest.class,   newAction("Français"))
-        ;
-*/
         EntityStore.create(getDataSourceModel()).executeQuery("select operationCode,i18nCode,public from Operation").setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
@@ -116,8 +108,10 @@ public abstract class SharedMongooseApplication
     }
 
     static {
-        Logger.log("build.number = " + System.getProperty("build.number"));
-        Logger.log("build.timestamp = " + System.getProperty("build.timestamp"));
+        Logger.log("application.name = " + System.getProperty("application.name"));
+        Logger.log("application.version = " + System.getProperty("application.version"));
+        Logger.log("application.build.number = " + System.getProperty("application.build.number"));
+        Logger.log("application.build.timestamp = " + System.getProperty("application.build.timestamp"));
         Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProvider::new);

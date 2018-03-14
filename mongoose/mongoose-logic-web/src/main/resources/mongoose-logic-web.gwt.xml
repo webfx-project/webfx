@@ -7,9 +7,11 @@
 
     <resource path="images"/>
 
-    <!-- Declaring build.number property so it can be accessed through System.getProperty("build.number")  -->
-    <!-- Note: this property is set with the -setProperty GWT compiler argument when calling the GWT plugin in the root pom.xml -->
-    <define-configuration-property name="build.number" is_multi_valued="false"/>
-    <define-configuration-property name="build.timestamp" is_multi_valued="false"/>
+    <!-- Declaring application properties so they can be accessed through System.getProperty()  -->
+    <!-- Note: these properties are set with the -setProperty GWT compiler argument when calling the GWT plugin in the root pom.xml -->
+    <define-configuration-property name="application.name" is_multi_valued="false"/>
+    <define-configuration-property name="application.version" is_multi_valued="false"/>
+    <define-configuration-property name="application.build.number" is_multi_valued="false"/>
+    <define-configuration-property name="application.build.timestamp" is_multi_valued="false"/>
 
 </module>
