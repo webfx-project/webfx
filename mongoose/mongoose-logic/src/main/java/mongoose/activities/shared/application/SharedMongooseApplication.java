@@ -29,6 +29,7 @@ import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.router.UiRouter;
 import naga.fx.properties.Properties;
+import naga.fx.spi.Toolkit;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityManager;
@@ -108,11 +109,13 @@ public abstract class SharedMongooseApplication
     }
 
     static {
-        Logger.log("application.name = " + System.getProperty("application.name"));
-        Logger.log("application.version = " + System.getProperty("application.version"));
-        Logger.log("application.build.number = " + System.getProperty("application.build.number"));
+        Logger.log("application.name = "            + System.getProperty("application.name"));
+        Logger.log("application.version = "         + System.getProperty("application.version"));
+        Logger.log("application.build.number = "    + System.getProperty("application.build.number"));
         Logger.log("application.build.timestamp = " + System.getProperty("application.build.timestamp"));
-        Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
+        Logger.log("User Agent = "                  + Toolkit.get().getUserAgent());
+        // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
+        Platform.bus();
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProvider::new);
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProvider::new);

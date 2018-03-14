@@ -38,6 +38,11 @@ public class JavaFxToolkit extends Toolkit {
         }
     }
 
+    @Override
+    public String getUserAgent() {
+        return "JavaFx";
+    }
+
     private static void onJavaFxPlatformReady() {
         // Activating SVG support
         SvgImageLoaderFactory.install();

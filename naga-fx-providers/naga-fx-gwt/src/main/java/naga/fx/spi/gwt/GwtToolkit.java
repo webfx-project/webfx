@@ -25,6 +25,11 @@ public class GwtToolkit extends Toolkit {
     }
 
     @Override
+    public String getUserAgent() {
+        return DomGlobal.navigator.userAgent;
+    }
+
+    @Override
     public StagePeer createStagePeer(Stage stage) {
         if (stage == getPrimaryStage())
             return new GwtPrimaryStagePeer(stage);

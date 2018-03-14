@@ -22,6 +22,8 @@ public abstract class Toolkit {
         this.primaryStage = primaryStage;
     }
 
+    public abstract String getUserAgent();
+
     public abstract Screen getPrimaryScreen();
 
     public Stage getPrimaryStage() {
