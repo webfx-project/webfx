@@ -10,11 +10,6 @@ import naga.providers.platform.abstr.java.services.JdbcConnectedServiceProviderP
  */
 public class JdbcUpdateServiceProvider extends RemoteUpdateServiceProvider {
 
-    public static final JdbcUpdateServiceProvider SINGLETON = new JdbcUpdateServiceProvider();
-
-    private JdbcUpdateServiceProvider() {
-    }
-
     @Override
     protected UpdateServiceProvider createConnectedUpdateService(ConnectionDetails connectionDetails) {
         return new JdbcConnectedServiceProviderProvider(connectionDetails);
