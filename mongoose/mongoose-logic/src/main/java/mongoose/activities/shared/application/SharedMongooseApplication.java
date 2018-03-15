@@ -12,7 +12,6 @@ import mongoose.activities.shared.book.event.summary.SummaryRouting;
 import mongoose.activities.shared.book.event.terms.TermsRouting;
 import mongoose.activities.shared.generic.session.ClientSessionRecorder;
 import mongoose.authn.MongooseAuthenticationServiceProvider;
-import mongoose.authn.MongooseUserPrincipal;
 import mongoose.authz.MongooseAuthorizationServiceProvider;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
@@ -31,13 +30,11 @@ import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.router.UiRouter;
 import naga.fx.properties.Properties;
-import naga.fx.spi.Toolkit;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
 import naga.platform.services.log.spi.Logger;
-import naga.platform.spi.Platform;
 import naga.util.function.Consumer;
 import naga.util.function.Factory;
 import naga.util.serviceloader.ServiceLoaderHelper;
@@ -66,6 +63,8 @@ public abstract class SharedMongooseApplication
     public void onCreate(ViewDomainActivityContext context) {
         this.context = context;
         context.getUiRouter().routeAndMount("/", getContainerActivityFactory(), setupContainedRouter(UiRouter.createSubRouter(context)));
+        // Also passing the userPrincipal property to the client session recorder so it can react to user changes
+        ClientSessionRecorder.get().setUserPrincipalProperty(getUiSession().userPrincipalProperty());
     }
 
     protected abstract Factory<Activity<ViewDomainActivityContextFinal>> getContainerActivityFactory();
@@ -111,14 +110,9 @@ public abstract class SharedMongooseApplication
     }
 
     static {
-        Logger.log("User Agent = " + Toolkit.get().getUserAgent());
-        Logger.log("application.name = "            + System.getProperty("application.name"));
-        Logger.log("application.version = "         + System.getProperty("application.version"));
-        Logger.log("application.build.tool = "      + System.getProperty("application.build.tool"));
-        Logger.log("application.build.timestamp = " + System.getProperty("application.build.timestamp"));
-        Logger.log("application.build.number = "    + System.getProperty("application.build.number"));
         // Instantiating the platform bus as soon as possible to open the connection while the application is initializing
-        Platform.bus();
+        // Platform.bus(); // Commented and replaced by the following code:
+        ClientSessionRecorder.get(); // The static constructor instantiate the platform bus and set the bus hook for client session recording
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProvider::new);
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProvider::new);
