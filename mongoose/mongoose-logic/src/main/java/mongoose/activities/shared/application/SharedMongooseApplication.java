@@ -10,7 +10,9 @@ import mongoose.activities.shared.book.event.program.ProgramRouting;
 import mongoose.activities.shared.book.event.start.StartBookingRouting;
 import mongoose.activities.shared.book.event.summary.SummaryRouting;
 import mongoose.activities.shared.book.event.terms.TermsRouting;
+import mongoose.activities.shared.generic.session.ClientSessionRecorder;
 import mongoose.authn.MongooseAuthenticationServiceProvider;
+import mongoose.authn.MongooseUserPrincipal;
 import mongoose.authz.MongooseAuthorizationServiceProvider;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
@@ -109,16 +111,18 @@ public abstract class SharedMongooseApplication
     }
 
     static {
+        Logger.log("User Agent = " + Toolkit.get().getUserAgent());
         Logger.log("application.name = "            + System.getProperty("application.name"));
         Logger.log("application.version = "         + System.getProperty("application.version"));
-        Logger.log("application.build.number = "    + System.getProperty("application.build.number"));
+        Logger.log("application.build.tool = "      + System.getProperty("application.build.tool"));
         Logger.log("application.build.timestamp = " + System.getProperty("application.build.timestamp"));
-        Logger.log("User Agent = "                  + Toolkit.get().getUserAgent());
-        // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
+        Logger.log("application.build.number = "    + System.getProperty("application.build.number"));
+        // Instantiating the platform bus as soon as possible to open the connection while the application is initializing
         Platform.bus();
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProvider::new);
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProvider::new);
+        // Activating focus owner auto scroll
         SceneUtil.installPrimarySceneFocusOwnerAutoScroll();
     }
 

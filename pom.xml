@@ -101,11 +101,12 @@
         <application.version>${project.version}</application.version>
         <!-- Build number property (should be set by Jenkins server each time a new build is started) -->
         <!-- Will be passed to GWT compiler so that the java code can get its value using System.getProperty("build.number") -->
-        <application.build.number>build.number.SNAPSHOT</application.build.number>
+        <application.build.number>0</application.build.number>
+        <application.build.tool>MAVEN</application.build.tool>
         <!-- Build timestamp property (automatically set using maven but can be overridden using Jenkins) -->
-        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <application.build.timestamp>${maven.build.timestamp}</application.build.timestamp>
         <!-- Will be passed to GWT compiler so that the java code can get its value using System.getProperty("build.timestamp") -->
+        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'.000'X</maven.build.timestamp.format>
+        <application.build.timestamp>${maven.build.timestamp}</application.build.timestamp>
     </properties>
 
     <pluginRepositories>
@@ -557,6 +558,8 @@
                             <compilerArg>application.name=${application.name}</compilerArg>
                             <compilerArg>-setProperty</compilerArg>
                             <compilerArg>application.version=${application.version}</compilerArg>
+                            <compilerArg>-setProperty</compilerArg>
+                            <compilerArg>application.build.tool=${application.build.tool}</compilerArg>
                             <compilerArg>-setProperty</compilerArg>
                             <compilerArg>application.build.number=${application.build.number}</compilerArg>
                             <compilerArg>-setProperty</compilerArg>

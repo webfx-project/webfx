@@ -11,6 +11,7 @@
     <!-- Note: these properties are set with the -setProperty GWT compiler argument when calling the GWT plugin in the root pom.xml -->
     <define-configuration-property name="application.name" is_multi_valued="false"/>
     <define-configuration-property name="application.version" is_multi_valued="false"/>
+    <define-configuration-property name="application.build.tool" is_multi_valued="false"/>
     <define-configuration-property name="application.build.number" is_multi_valued="false"/>
     <define-configuration-property name="application.build.timestamp" is_multi_valued="false"/>
 
