@@ -4,8 +4,8 @@ import naga.framework.expression.Expression;
 import naga.framework.expression.lci.CompilerDomainModelReader;
 import naga.framework.expression.parser.ExpressionParser;
 import naga.framework.expression.sqlcompiler.ExpressionSqlCompiler;
-import naga.framework.expression.sqlcompiler.sql.DbmsSqlSyntaxOptions;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
+import naga.framework.expression.sqlcompiler.sql.dbms.PostgresSyntax;
 import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.expression.terms.Select;
 import naga.framework.orm.domainmodel.lciimpl.CompilerDomainModelReaderImpl;
@@ -70,6 +70,6 @@ public class DomainModel {
     }
 
     public SqlCompiled compileSelect(Select select, Object[] parameterValues) {
-        return ExpressionSqlCompiler.compileSelect(select, parameterValues, DbmsSqlSyntaxOptions.POSTGRES_SYNTAX, true, true, compilerDomainModelReader);
+        return ExpressionSqlCompiler.compileSelect(select, parameterValues, PostgresSyntax.get(), true, true, compilerDomainModelReader);
     }
 }
