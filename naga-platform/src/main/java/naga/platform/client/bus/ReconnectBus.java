@@ -17,6 +17,7 @@
  */
 package naga.platform.client.bus;
 
+import naga.platform.bus.Bus;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.BusOptions;
@@ -91,6 +92,12 @@ public class ReconnectBus extends WebSocketBus {
                 return hook;
             }
         });
+    }
+
+    @Override
+    public Bus setHook(BusHook hook) {
+        this.hook = hook;
+        return this;
     }
 
     private void reconnect() {

@@ -31,19 +31,19 @@ public interface BusHook {
     /**
      * Called when the bus is opened
      */
-    void handleOpened();
+    default void handleOpened() {}
 
     /**
      * Called when the bus is closed
      */
-    void handlePostClose();
+    default void handlePostClose() {};
 
     /**
      * Called before close the bus
      *
      * @return true to close the bus, false to reject it
      */
-    boolean handlePreClose();
+    default boolean handlePreClose() { return true; };
 
     /**
      * Called before register a handler
@@ -53,7 +53,7 @@ public interface BusHook {
      * @return true to let the registration occur, false otherwise
      */
     @SuppressWarnings("rawtypes")
-    boolean handlePreSubscribe(String topic, Handler<? extends Message> handler);
+    default boolean handlePreSubscribe(String topic, Handler<? extends Message> handler) { return true; }
 
     /**
      * Called when a message is received
@@ -61,7 +61,7 @@ public interface BusHook {
      * @param message The message
      * @return true To allow the message to deliver, false otherwise
      */
-    boolean handleReceiveMessage(Message<?> message);
+    default boolean handleReceiveMessage(Message<?> message) { return true; }
 
     /**
      * Called when sending or publishing on the bus
@@ -72,7 +72,9 @@ public interface BusHook {
      * @param replyHandler Reply handler will be called when any reply from the recipient is received
      * @return true To allow the send/publish to occur, false otherwise
      */
-    <T> boolean handleSendOrPub(boolean send, String topic, Object msg, Handler<Message<T>> replyHandler);
+    default <T> boolean handleSendOrPub(boolean send, String topic, Object msg, Handler<Message<T>> replyHandler) {
+        return true;
+    }
 
     /**
      * Called when unregistering a handler
@@ -80,5 +82,5 @@ public interface BusHook {
      * @param topic The topic
      * @return true to let the unregistration occur, false otherwise
      */
-    boolean handleUnsubscribe(String topic);
+    default boolean handleUnsubscribe(String topic) { return true; }
 }

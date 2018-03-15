@@ -31,44 +31,40 @@ import naga.util.async.Handler;
 public abstract class BusHookProxy implements BusHook {
     @Override
     public void handleOpened() {
-        if (delegate() != null) {
+        if (delegate() != null)
             delegate().handleOpened();
-        }
     }
 
     @Override
     public void handlePostClose() {
-        if (delegate() != null) {
+        if (delegate() != null)
             delegate().handlePostClose();
-        }
     }
 
     @Override
     public boolean handlePreClose() {
-        return delegate() == null ? true : delegate().handlePreClose();
+        return delegate() == null || delegate().handlePreClose();
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     public boolean handlePreSubscribe(String topic, Handler<? extends Message> handler) {
-        return delegate() == null ? true : delegate().handlePreSubscribe(topic, handler);
+        return delegate() == null || delegate().handlePreSubscribe(topic, handler);
     }
 
     @Override
     public boolean handleReceiveMessage(Message<?> message) {
-        return delegate() == null ? true : delegate().handleReceiveMessage(message);
+        return delegate() == null || delegate().handleReceiveMessage(message);
     }
 
     @Override
-    public <T> boolean handleSendOrPub(boolean send, String topic, Object msg,
-                                       Handler<Message<T>> replyHandler) {
-        return delegate() == null ? true : delegate().handleSendOrPub(send, topic, msg,
-                replyHandler);
+    public <T> boolean handleSendOrPub(boolean send, String topic, Object msg, Handler<Message<T>> replyHandler) {
+        return delegate() == null || delegate().handleSendOrPub(send, topic, msg, replyHandler);
     }
 
     @Override
     public boolean handleUnsubscribe(String topic) {
-        return delegate() == null ? true : delegate().handleUnsubscribe(topic);
+        return delegate() == null || delegate().handleUnsubscribe(topic);
     }
 
     protected abstract BusHook delegate();
