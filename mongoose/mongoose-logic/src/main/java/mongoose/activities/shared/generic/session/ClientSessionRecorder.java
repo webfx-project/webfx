@@ -110,7 +110,7 @@ public class ClientSessionRecorder {
 
     private void recordSessionConnectionEnd() {
         if (sessionConnection != null) {
-            touchSessionEntityEnd(sessionConnection);
+            touchSessionEntityEnd(store.updateEntity(sessionConnection));
             executeUpdate();
         }
     }
@@ -150,8 +150,9 @@ public class ClientSessionRecorder {
         return entity;
     }
 
-    private static Entity chainSessionEntities(Entity previousEntity, Entity nextEntity) {
+    private Entity chainSessionEntities(Entity previousEntity, Entity nextEntity) {
         if (previousEntity != null && nextEntity != null) {
+            previousEntity = store.updateEntity(previousEntity);
             previousEntity.setForeignField("next", nextEntity);
             nextEntity.setForeignField("previous", previousEntity);
             touchSessionEntityEnd(previousEntity);
