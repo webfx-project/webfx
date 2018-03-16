@@ -31,6 +31,16 @@
             <version>HEAD-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-dom</artifactId>
+        </dependency>
+
     </dependencies>
 
     <properties>
