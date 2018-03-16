@@ -8,6 +8,7 @@ import naga.framework.orm.entity.UpdateStore;
 import naga.fx.spi.Toolkit;
 import naga.platform.bus.BusHook;
 import naga.platform.services.log.spi.Logger;
+import naga.platform.services.shutdown.spi.Shutdown;
 import naga.platform.spi.Platform;
 
 import java.time.Instant;
@@ -35,6 +36,7 @@ public class ClientSessionRecorder {
                 get().recordSessionConnectionEnd();
             }
         });
+        Shutdown.addShutdownHook(get()::recordSessionProcessEnd);
         Logger.log("User Agent = " + getUserAgent());
         Logger.log("application.name = " + getApplicationName());
         Logger.log("application.version = " + getApplicationVersion());
@@ -45,10 +47,8 @@ public class ClientSessionRecorder {
 
     private final UpdateStore store = UpdateStore.create(DomainModelSnapshotLoader.getDataSourceModel());
     private Entity sessionAgent, sessionApplication, sessionProcess, sessionConnection, sessionUser;
-    //private Property<Object> userPrincipalProperty;
 
     public void setUserPrincipalProperty(Property<Object> userPrincipalProperty) {
-        //this.userPrincipalProperty = userPrincipalProperty;
         userPrincipalProperty.addListener((observable, oldValue, userPrincipal) -> {
             if (userPrincipal instanceof MongooseUserPrincipal)
                 recordNewSessionUser(((MongooseUserPrincipal) userPrincipal).getUserPersonId());
@@ -111,6 +111,17 @@ public class ClientSessionRecorder {
     private void recordSessionConnectionEnd() {
         if (sessionConnection != null) {
             touchSessionEntityEnd(store.updateEntity(sessionConnection));
+            executeUpdate();
+        }
+    }
+
+    private void recordSessionProcessEnd() {
+        if (sessionProcess != null) {
+            touchSessionEntityEnd(store.updateEntity(sessionProcess));
+            if (sessionConnection != null)
+                touchSessionEntityEnd(store.updateEntity(sessionConnection));
+            if (sessionUser != null)
+                touchSessionEntityEnd(store.updateEntity(sessionUser));
             executeUpdate();
         }
     }
@@ -202,5 +213,4 @@ public class ClientSessionRecorder {
             return null;
         }
     }
-
 }
