@@ -66,15 +66,11 @@ class FuzzingBackOffGenerator {
      * @param randomizationFactor between 0 and 1 to control the range of randomness.
      */
     FuzzingBackOffGenerator(int initialBackOff, int maxBackOff, double randomizationFactor) {
-        if (randomizationFactor < 0 || randomizationFactor > 1) {
-            throw new IllegalArgumentException("randomizationFactor must be between 0 and 1. actual "
-                    + randomizationFactor);
-        }
+        if (randomizationFactor < 0 || randomizationFactor > 1)
+            throw new IllegalArgumentException("randomizationFactor must be between 0 and 1. actual " + randomizationFactor);
 
-        if (initialBackOff <= 0) {
-            throw new IllegalArgumentException("initialBackOff must be between 0 and 1. actual "
-                    + initialBackOff);
-        }
+        if (initialBackOff <= 0)
+            throw new IllegalArgumentException("initialBackOff must be between 0 and 1. actual " + initialBackOff);
 
         this.randomizationFactor = randomizationFactor;
         this.initialBackOff = initialBackOff;
@@ -89,12 +85,11 @@ class FuzzingBackOffGenerator {
     public BackOffParameters next() {
         int ret = Math.min(nextBackOffTime, maxBackOff);
         nextBackOffTime += backOffTime;
-        if (nextBackOffTime <= 0) {
+        if (nextBackOffTime <= 0)
             nextBackOffTime = Integer.MAX_VALUE;
-        }
         backOffTime = ret;
 
-        int randomizeTime = (int) (backOffTime * (1.0 + (/* J2ME CLDC Math.random() * */ randomizationFactor)));
+        int randomizeTime = (int) (backOffTime * (Math.random() *  randomizationFactor));
         int minAllowedTime = (int) Math.round(randomizeTime - backOffTime * randomizationFactor);
 
         return new BackOffParameters(randomizeTime, minAllowedTime);
