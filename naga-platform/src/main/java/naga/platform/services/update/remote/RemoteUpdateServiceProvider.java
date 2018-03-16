@@ -26,7 +26,10 @@ public class RemoteUpdateServiceProvider implements UpdateServiceProvider {
 
     @Override
     public Future<Batch<UpdateResult>> executeUpdateBatch(Batch<UpdateArgument> batch) {
-        Object dataSourceId = batch.getArray()[0].getDataSourceId();
+        UpdateArgument[] batchArray = batch.getArray();
+        if (batchArray.length == 0)
+            return Future.succeededFuture(new Batch<>(new UpdateResult[0]));
+        Object dataSourceId = batchArray[0].getDataSourceId();
         UpdateServiceProvider localUpdateServiceProvider = getConnectedLocalUpdateService(dataSourceId);
         if (localUpdateServiceProvider != null)
             return localUpdateServiceProvider.executeUpdateBatch(batch);
