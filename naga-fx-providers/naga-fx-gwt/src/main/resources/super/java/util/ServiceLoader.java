@@ -8,8 +8,12 @@ package java.util;
 
 import naga.platform.json.spi.JsonProvider;
 import naga.platform.services.shutdown.spi.ShutdownProvider;
+import naga.platform.services.storage.spi.LocalStorageProvider;
+import naga.platform.services.storage.spi.SessionStorageProvider;
 import naga.providers.platform.client.gwt.json.GwtJsonObject;
 import naga.providers.platform.client.gwt.services.shutdown.GwtShutdownProvider;
+import naga.providers.platform.client.gwt.services.storage.GwtLocalStorageProvider;
+import naga.providers.platform.client.gwt.services.storage.GwtSessionStorageProvider;
 import naga.scheduler.SchedulerProvider;
 import naga.providers.platform.client.gwt.scheduler.GwtSchedulerProvider;
 import naga.platform.services.resource.spi.ResourceServiceProvider;
@@ -55,6 +59,10 @@ public class ServiceLoader<S> {
             return new ServiceLoader<>(new StandardPlatformNumbers());
         if (serviceClass.equals(ShutdownProvider.class))
             return new ServiceLoader<>(new GwtShutdownProvider());
+        if (serviceClass.equals(LocalStorageProvider.class))
+            return new ServiceLoader<>(new GwtLocalStorageProvider());
+        if (serviceClass.equals(SessionStorageProvider.class))
+            return new ServiceLoader<>(new GwtSessionStorageProvider());
         return new ServiceLoader<>(ServiceLoaderHelper.instantiateDefaultService(serviceClass));
     }
 
