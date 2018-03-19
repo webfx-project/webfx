@@ -4,11 +4,13 @@ import javafx.beans.property.Property;
 import mongoose.authn.MongooseUserPrincipal;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.UpdateStore;
 import naga.fx.spi.Toolkit;
 import naga.platform.bus.BusHook;
 import naga.platform.services.log.spi.Logger;
 import naga.platform.services.shutdown.spi.Shutdown;
+import naga.platform.services.storage.spi.LocalStorage;
 import naga.platform.spi.Platform;
 
 import java.time.Instant;
@@ -25,24 +27,27 @@ public class ClientSessionRecorder {
     }
 
     static {
-        Platform.bus().setHook(new BusHook() {
-            @Override
-            public void handleOpened() {
-                get().recordSessionConnectionStart();
-            }
-
-            @Override
-            public void handlePostClose() {
-                get().recordSessionConnectionEnd();
-            }
-        });
-        Shutdown.addShutdownHook(get()::recordSessionProcessEnd);
         Logger.log("User Agent = " + getUserAgent());
         Logger.log("application.name = " + getApplicationName());
         Logger.log("application.version = " + getApplicationVersion());
         Logger.log("application.build.tool = " + getApplicationBuildTool());
         Logger.log("application.build.timestamp = " + getApplicationBuildTimestampString());
         Logger.log("application.build.number = " + getApplicationBuildNumberString());
+    }
+
+    public ClientSessionRecorder() {
+        Platform.bus().setHook(new BusHook() {
+            @Override
+            public void handleOpened() {
+                recordSessionConnectionStart();
+            }
+
+            @Override
+            public void handlePostClose() {
+                recordSessionConnectionEnd();
+            }
+        });
+        Shutdown.addShutdownHook(this::recordSessionProcessEnd);
     }
 
     private final UpdateStore store = UpdateStore.create(DomainModelSnapshotLoader.getDataSourceModel());
@@ -57,54 +62,71 @@ public class ClientSessionRecorder {
 
     private Entity getSessionAgent() {
         if (sessionAgent == null)
-            createNewSessionAgent();
+            loadOrInsertSessionAgent();
         return sessionAgent;
     }
 
-    private void createNewSessionAgent() {
-        sessionAgent = createSessionEntity("SessionAgent", sessionAgent);
+    private void loadOrInsertSessionAgent() {
         String agentString = getUserAgent();
         if (agentString.length() > 1024)
             agentString = agentString.substring(0, 1024);
-        sessionAgent.setFieldValue("agentString", agentString);
+        if (agentString.equals(LocalStorage.getItem("sessionAgent.agentString")))
+            sessionAgent = recreateSessionEntityFromLocalStorage("SessionAgent", "sessionAgent.id");
+        else {
+            sessionAgent = insertSessionEntity("SessionAgent", sessionAgent);
+            sessionAgent.setFieldValue("agentString", agentString);
+        }
     }
 
     private Entity getSessionApplication() {
         if (sessionApplication == null)
-            createNewSessionApplication();
+            loadOrInsertSessionApplication();
         return sessionApplication;
     }
 
-    private void createNewSessionApplication() {
-        sessionApplication = createSessionEntity("SessionApplication", sessionApplication);
-        sessionApplication.setForeignField("agent", getSessionAgent());
-        sessionApplication.setFieldValue("name", getApplicationName());
-        sessionApplication.setFieldValue("version", getApplicationVersion());
-        sessionApplication.setFieldValue("buildTool", getApplicationBuildTool());
-        sessionApplication.setFieldValue("buildNumberString", getApplicationBuildNumberString());
-        sessionApplication.setFieldValue("buildNumber", getApplicationBuildNumber());
-        sessionApplication.setFieldValue("buildTimestampString", getApplicationBuildTimestampString());
-        sessionApplication.setFieldValue("buildTimestamp", getApplicationBuildTimestamp());
+    private void loadOrInsertSessionApplication() {
+        String applicationName = getApplicationName();
+        String applicationVersion = getApplicationVersion();
+        String applicationBuildTool = getApplicationBuildTool();
+        String applicationBuildNumberString = getApplicationBuildNumberString();
+        String applicationBuildTimestampString = getApplicationBuildTimestampString();
+        if (applicationName.equals(LocalStorage.getItem("sessionApplication.name"))
+                && applicationVersion.equals(LocalStorage.getItem("sessionApplication.version"))
+                && applicationBuildTool.equals(LocalStorage.getItem("sessionApplication.buildTool"))
+                && applicationBuildNumberString.equals(LocalStorage.getItem("sessionApplication.buildNumberString"))
+                && applicationBuildTimestampString.equals(LocalStorage.getItem("sessionApplication.buildTimestampString")))
+            sessionApplication = recreateSessionEntityFromLocalStorage("SessionApplication", "sessionApplication.id");
+        else {
+            sessionApplication = insertSessionEntity("SessionApplication", sessionApplication);
+            sessionApplication.setForeignField("agent", getSessionAgent());
+            sessionApplication.setFieldValue("name", applicationName);
+            sessionApplication.setFieldValue("version", applicationVersion);
+            sessionApplication.setFieldValue("buildTool", applicationBuildTool);
+            sessionApplication.setFieldValue("buildNumberString", applicationBuildNumberString);
+            sessionApplication.setFieldValue("buildNumber", getApplicationBuildNumber());
+            sessionApplication.setFieldValue("buildTimestampString", applicationBuildTimestampString);
+            sessionApplication.setFieldValue("buildTimestamp", getApplicationBuildTimestamp());
+        }
     }
 
     private Entity getSessionProcess() {
         if (sessionProcess == null)
-            createNewSessionProcess();
+            insertSessionProcess();
         return sessionProcess;
     }
 
-    private void createNewSessionProcess() {
-        sessionProcess = createSessionEntity("SessionProcess", sessionProcess);
+    private void insertSessionProcess() {
+        sessionProcess = insertSessionEntity("SessionProcess", sessionProcess);
         sessionProcess.setForeignField("application", getSessionApplication());
     }
 
     private void recordSessionConnectionStart() {
-        createNewSessionConnection();
+        insertSessionConnection();
         executeUpdate();
     }
 
-    private void createNewSessionConnection() {
-        sessionConnection = createSessionEntity("SessionConnection", sessionConnection);
+    private void insertSessionConnection() {
+        sessionConnection = insertSessionEntity("SessionConnection", sessionConnection);
         sessionConnection.setForeignField("process", getSessionProcess());
     }
 
@@ -132,20 +154,42 @@ public class ClientSessionRecorder {
     }
 
     private void createNewSessionUser(Object userId) {
-        sessionUser = createSessionEntity("SessionUser", sessionUser);
+        sessionUser = insertSessionEntity("SessionUser", sessionUser);
         sessionUser.setForeignField("process", getSessionProcess());
         sessionUser.setForeignField("user", userId);
     }
 
     private void executeUpdate() {
+        boolean newSessionAgent = sessionAgent != null && sessionAgent.isNew();
+        boolean newSessionApplication = sessionApplication != null && sessionApplication.isNew();
         store.executeUpdate().setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
+            else {
+                if (newSessionAgent)
+                    storeEntityToLocalStorage(sessionAgent, "sessionAgent", "agentString");
+                if (newSessionApplication)
+                    storeEntityToLocalStorage(sessionApplication, "sessionApplication", "name", "version", "buildTool", "buildNumberString", "buildTimestampString");
+            }
         });
     }
 
-    private Entity createSessionEntity(Object domainClassId, Entity previousEntity) {
+    private Entity insertSessionEntity(Object domainClassId, Entity previousEntity) {
         return chainSessionEntities(previousEntity, touchSessionEntityStart(store.insertEntity(domainClassId)));
+    }
+
+    private Entity recreateSessionEntityFromLocalStorage(Object domainClassId, String idKey) {
+        return store.createEntity(EntityId.create(store.getDomainClass(domainClassId), Integer.parseInt(LocalStorage.getItem(idKey))));
+    }
+
+    private void storeEntityToLocalStorage(Entity entity, String entityName, Object... fields) {
+        storeEntityFieldToLocalStorage(entityName, "id", entity.getPrimaryKey());
+        for (Object field : fields)
+            storeEntityFieldToLocalStorage(entityName, field, entity.getFieldValue(field));
+    }
+
+    private void storeEntityFieldToLocalStorage(String entityName, Object field, Object value) {
+        LocalStorage.setItem(entityName + "." + field, value.toString());
     }
 
     private static Entity touchSessionEntityStart(Entity entity) {
