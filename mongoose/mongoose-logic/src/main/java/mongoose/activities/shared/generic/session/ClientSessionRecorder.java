@@ -7,7 +7,9 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.UpdateStore;
 import naga.fx.spi.Toolkit;
+import naga.platform.bus.Bus;
 import naga.platform.bus.BusHook;
+import naga.platform.bus.Registration;
 import naga.platform.services.log.spi.Logger;
 import naga.platform.services.shutdown.spi.Shutdown;
 import naga.platform.services.storage.spi.LocalStorage;
@@ -35,16 +37,24 @@ public class ClientSessionRecorder {
         Logger.log("application.build.number = " + getApplicationBuildNumberString());
     }
 
+    private final Bus bus;
+    private Registration clientRegistrationForServerPush;
+
     public ClientSessionRecorder() {
-        Platform.bus().setHook(new BusHook() {
+        this(Platform.bus());
+    }
+
+    public ClientSessionRecorder(Bus bus) {
+        this.bus = bus;
+        bus.setHook(new BusHook() {
             @Override
             public void handleOpened() {
-                recordSessionConnectionStart();
+                onConnectionOpened();
             }
 
             @Override
             public void handlePostClose() {
-                recordSessionConnectionEnd();
+                onConnectionClosed();
             }
         });
         Shutdown.addShutdownHook(this::recordSessionProcessEnd);
@@ -120,21 +130,23 @@ public class ClientSessionRecorder {
         sessionProcess.setForeignField("application", getSessionApplication());
     }
 
-    private void recordSessionConnectionStart() {
+    private void onConnectionOpened() {
         insertSessionConnection();
         executeUpdate();
+    }
+
+    private void onConnectionClosed() {
+        if (sessionConnection != null) {
+            touchSessionEntityEnd(store.updateEntity(sessionConnection));
+            executeUpdate();
+        }
+        if (clientRegistrationForServerPush != null)
+            clientRegistrationForServerPush.unregister();
     }
 
     private void insertSessionConnection() {
         sessionConnection = insertSessionEntity("SessionConnection", sessionConnection);
         sessionConnection.setForeignField("process", getSessionProcess());
-    }
-
-    private void recordSessionConnectionEnd() {
-        if (sessionConnection != null) {
-            touchSessionEntityEnd(store.updateEntity(sessionConnection));
-            executeUpdate();
-        }
     }
 
     private void recordSessionProcessEnd() {
@@ -170,6 +182,14 @@ public class ClientSessionRecorder {
                     storeEntityToLocalStorage(sessionAgent, "sessionAgent", "agentString");
                 if (newSessionApplication)
                     storeEntityToLocalStorage(sessionApplication, "sessionApplication", "name", "version", "buildTool", "buildNumberString", "buildTimestampString");
+                if (clientRegistrationForServerPush == null) {
+                    String clientAddress = "client/" + sessionProcess.getPrimaryKey();
+                    Logger.log("Subscribing " + clientAddress);
+                    clientRegistrationForServerPush = bus.subscribe(clientAddress, message -> {
+                        Logger.log(message.body());
+                        message.reply("OK");
+                    });
+                }
             }
         });
     }
