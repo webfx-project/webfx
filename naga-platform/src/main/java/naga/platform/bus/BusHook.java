@@ -17,6 +17,7 @@
  */
 package naga.platform.bus;
 
+import naga.util.async.AsyncResult;
 import naga.util.async.Handler;
 
 /**
@@ -72,7 +73,7 @@ public interface BusHook {
      * @param replyHandler Reply handler will be called when any reply from the recipient is received
      * @return true To allow the send/publish to occur, false otherwise
      */
-    default <T> boolean handleSendOrPub(boolean send, String topic, Object msg, Handler<Message<T>> replyHandler) {
+    default <T> boolean handleSendOrPub(boolean send, String topic, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
         return true;
     }
 

@@ -27,6 +27,7 @@ import naga.platform.client.websocket.spi.WebSocketListener;
 import naga.platform.services.log.spi.Logger;
 import naga.scheduler.Scheduled;
 import naga.scheduler.Scheduler;
+import naga.util.async.AsyncResult;
 import naga.util.async.Handler;
 
 import java.util.HashMap;
@@ -187,7 +188,7 @@ public class WebSocketBus extends SimpleClientBus {
     }
 
     @Override
-    protected <T> void doSendOrPub(boolean local, boolean send, String topic, Object msg, Handler<Message<T>> replyHandler) {
+    protected <T> void doSendOrPub(boolean local, boolean send, String topic, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
         checkNotNull(TOPIC, topic);
         if (local) {
             super.doSendOrPub(local, send, topic, msg, replyHandler);
@@ -224,6 +225,7 @@ public class WebSocketBus extends SimpleClientBus {
         webSocket.send(data);
     }
 
+/*
     protected void sendLogin() {
         WritableJsonObject msg = Json.createObject().set(SESSION, sessionId);
         if (username != null) {
@@ -239,6 +241,7 @@ public class WebSocketBus extends SimpleClientBus {
             }
         });
     }
+*/
 
     protected void sendPing() {
         send(Json.createObject().set(TYPE, "ping"));

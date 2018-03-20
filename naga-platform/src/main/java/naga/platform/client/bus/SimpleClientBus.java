@@ -24,6 +24,8 @@ import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
 import naga.platform.services.log.spi.Logger;
 import naga.scheduler.Scheduler;
+import naga.util.async.AsyncResult;
+import naga.util.async.Future;
 import naga.util.async.Handler;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class SimpleClientBus implements Bus {
     }
 
     private Map<String, List<Handler<Message>>> handlerMap = new HashMap<>();
-    final Map<String, Handler<Message>> replyHandlers = new HashMap<>();
+    final Map<String, Handler<AsyncResult<Message>>> replyHandlers = new HashMap<>();
     final IdGenerator idGenerator = new IdGenerator();
     BusHook hook;
 
@@ -64,33 +66,33 @@ public class SimpleClientBus implements Bus {
     }
 
     @Override
-    public Bus publish(String topic, Object msg) {
-        return internalHandleSendOrPub(false, false, topic, msg, null);
+    public Bus publish(String address, Object msg) {
+        return internalHandleSendOrPub(false, false, address, msg, null);
     }
 
     @Override
-    public Bus publishLocal(String topic, Object msg) {
-        return internalHandleSendOrPub(true, false, topic, msg, null);
+    public Bus publishLocal(String address, Object msg) {
+        return internalHandleSendOrPub(true, false, address, msg, null);
     }
 
     @Override
-    public <T> Registration subscribe(String topic, Handler<Message<T>> handler) {
-        return subscribeImpl(false, topic, handler);
+    public <T> Registration subscribe(String address, Handler<Message<T>> handler) {
+        return subscribeImpl(false, address, handler);
     }
 
     @Override
-    public <T> Registration subscribeLocal(String topic, Handler<Message<T>> handler) {
-        return subscribeImpl(true, topic, handler);
+    public <T> Registration subscribeLocal(String address, Handler<Message<T>> handler) {
+        return subscribeImpl(true, address, handler);
     }
 
     @Override
-    public <T> Bus send(String topic, Object msg, Handler<Message<T>> replyHandler) {
-        return internalHandleSendOrPub(false, true, topic, msg, replyHandler);
+    public <T> Bus send(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        return internalHandleSendOrPub(false, true, address, msg, replyHandler);
     }
 
     @Override
-    public <T> Bus sendLocal(String topic, Object msg, Handler<Message<T>> replyHandler) {
-        return internalHandleSendOrPub(true, true, topic, msg, replyHandler);
+    public <T> Bus sendLocal(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        return internalHandleSendOrPub(true, true, address, msg, replyHandler);
     }
 
     @Override
@@ -119,7 +121,7 @@ public class SimpleClientBus implements Bus {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> void doSendOrPub(boolean local, boolean send, String topic, Object msg, Handler<Message<T>> replyHandler) {
+    protected <T> void doSendOrPub(boolean local, boolean send, String topic, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
         checkNotNull("topic", topic);
         String replyTopic = null;
         if (replyHandler != null) {
@@ -157,7 +159,7 @@ public class SimpleClientBus implements Bus {
         return false;
     }
 
-    <T> Bus internalHandleSendOrPub(boolean local, boolean send, String topic, Object msg, Handler<Message<T>> replyHandler) {
+    <T> Bus internalHandleSendOrPub(boolean local, boolean send, String topic, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
         if (local || hook == null || hook.handleSendOrPub(send, topic, msg, replyHandler))
             doSendOrPub(local, send, topic, msg, replyHandler);
         return this;
@@ -179,18 +181,18 @@ public class SimpleClientBus implements Bus {
                 scheduleHandle(topic, handler, message);
         } else {
             // Might be a reply message
-            Handler<Message> handler = replyHandlers.get(topic);
+            Handler<AsyncResult<Message>> handler = replyHandlers.get(topic);
             if (handler != null) {
                 replyHandlers.remove(topic);
-                scheduleHandle(topic, handler, message);
+                scheduleHandleAsync(topic, handler, message);
             }
         }
     }
 
-    private void handle(String topic, Handler<Message> handler, Message message) {
+    private void handle(String topic, Handler<AsyncResult<Message>> handler, Message message) {
         //Platform.log("handle(), topic = " + topic + ", handler = " + handler + ", message = " + message);
         try {
-            handler.handle(message);
+            handler.handle(Future.succeededFuture(message));
         } catch (Throwable e) {
             Logger.log("Failed to handle on topic: " + topic, e);
             publishLocal(WebSocketBus.ON_ERROR, Json.createObject().set("topic", topic).set("message", message).set("cause", e));
@@ -198,13 +200,20 @@ public class SimpleClientBus implements Bus {
     }
 
     private void scheduleHandle(String topic, Handler<Message> handler, Message message) {
+        scheduleHandleAsync(topic, ar -> {
+            if (ar.failed())
+                Logger.log(ar.cause());
+            else
+                handler.handle(ar.result());
+        }, message);
+    }
+
+    private void scheduleHandleAsync(String topic, Handler<AsyncResult<Message>> handler, Message message) {
         //Platform.log("scheduleHandle(), topic = " + topic + ", handler = " + handler + ", message = " + message);
         if (message.isLocal())
             handle(topic, handler, message);
-        else {
-            Runnable runnable = () -> SimpleClientBus.this.handle(topic, handler, message);
-            Scheduler.scheduleDeferred(runnable);
-        }
+        else
+            Scheduler.scheduleDeferred(() -> handle(topic, handler, message));
     }
 
     private Registration subscribeImpl(boolean local, String topic, Handler<? extends Message> handler) {

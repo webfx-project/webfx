@@ -3,7 +3,9 @@ package naga.platform.bus.call;
 import naga.platform.bus.Bus;
 import naga.platform.bus.Message;
 import naga.platform.json.codec.JsonCodecManager;
+import naga.platform.services.log.spi.Logger;
 import naga.util.async.AsyncFunction;
+import naga.util.async.AsyncResult;
 import naga.util.async.Future;
 import naga.util.async.Handler;
 import naga.util.function.BiConsumer;
@@ -44,9 +46,9 @@ public class BusCallService {
                     ENTRY_CALL_SERVICE_ADDRESS, // the address that receives the BusCallArgument objects
                     (busCallArgument, callerMessage) -> // great, a BusCallArgument has been received
                         // Forwarding the target argument to the target address (kind of local call) and waiting for the result
-                        sendJavaObjectAndWaitJsonReply(busCallArgument.getTargetAddress(), busCallArgument.getJsonEncodedTargetArgument(), targetJsonReplyMessage -> {
+                        sendJavaObjectAndWaitJsonReply(busCallArgument.getTargetAddress(), busCallArgument.getJsonEncodedTargetArgument(), ar -> {
                             // Wrapping the result into a BusCallResult and sending it back to the initial BusCallService counterpart
-                            sendJavaReply(new BusCallResult(busCallArgument.getCallNumber(), targetJsonReplyMessage.body()), callerMessage);
+                            sendJavaReply(new BusCallResult(busCallArgument.getCallNumber(), ar.succeeded() ? ar.result().body() : ar.cause()), callerMessage);
                         }),
                     false); // not local so it is public and visible for the whole event bus (including clients)
     }
@@ -63,17 +65,22 @@ public class BusCallService {
      * @param <J> The java class expected by the java reply handler
      */
     private static <J> void sendJavaObjectAndWaitJavaReply(String address, Object javaObject, Handler<J> javaReplyHandler) {
-        // Transforming the java reply handler into a json reply handler that takes care of the json  reply
-        Handler<Message<Object>> jsonReplyMessageHandler = javaHandlerToJsonMessageHandler(javaReplyHandler);
+        // Transforming the java reply handler into a json reply handler that takes care of the json reply
+        Handler<AsyncResult<Message<Object>>> jsonReplyMessageHandler = ar -> {
+            if (ar.failed())
+                Logger.log(ar.cause());
+            else
+                javaHandlerToJsonMessageHandler(javaReplyHandler).handle(ar.result());
+        };
         // Delegating the rest of the job to sendJavaObjectAndWaitJsonReply()
-        sendJavaObjectAndWaitJsonReply(address, javaObject,jsonReplyMessageHandler);
+        sendJavaObjectAndWaitJsonReply(address, javaObject, jsonReplyMessageHandler);
     }
 
     /**
      * Method to send a java object over the event bus. The java object is first serialized into json format assuming
      * there is a json codec registered for that java class. The reply handler will be called back on reply reception.
      */
-    private static <T> void sendJavaObjectAndWaitJsonReply(String address, Object javaObject, Handler<Message<T>> jsonReplyMessageHandler) {
+    private static <T> void sendJavaObjectAndWaitJsonReply(String address, Object javaObject, Handler<AsyncResult<Message<T>>> jsonReplyMessageHandler) {
         // Serializing the java object into json format (a json object most of the time but may also be a simple string or number)
         Object jsonObject = JsonCodecManager.encodeToJson(javaObject);
         // Sending that json object over the json event bus

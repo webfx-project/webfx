@@ -20,6 +20,7 @@ package naga.platform.client.bus;
 
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Message;
+import naga.util.async.AsyncResult;
 import naga.util.async.Handler;
 
 /*
@@ -58,7 +59,7 @@ public abstract class BusHookProxy implements BusHook {
     }
 
     @Override
-    public <T> boolean handleSendOrPub(boolean send, String topic, Object msg, Handler<Message<T>> replyHandler) {
+    public <T> boolean handleSendOrPub(boolean send, String topic, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
         return delegate() == null || delegate().handleSendOrPub(send, topic, msg, replyHandler);
     }
 

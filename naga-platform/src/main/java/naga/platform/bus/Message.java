@@ -17,6 +17,7 @@
  */
 package naga.platform.bus;
 
+import naga.util.async.AsyncResult;
 import naga.util.async.Handler;
 
 /**
@@ -61,7 +62,7 @@ public interface Message<T> {
      * receive the reply to the reply.
      */
     @SuppressWarnings("hiding")
-    <T> void reply(Object msg, Handler<Message<T>> replyHandler);
+    <T> void reply(Object msg, Handler<AsyncResult<Message<T>>> replyHandler);
 
     /**
      * The reply topic (if any)

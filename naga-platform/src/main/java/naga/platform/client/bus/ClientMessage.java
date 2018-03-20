@@ -20,6 +20,7 @@ package naga.platform.client.bus;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.bus.Bus;
 import naga.platform.bus.Message;
+import naga.util.async.AsyncResult;
 import naga.util.async.Handler;
 
 /*
@@ -71,7 +72,7 @@ class ClientMessage<U> implements Message<U> {
     }
 
     @Override
-    public <T> void reply(Object msg, Handler<Message<T>> replyHandler) {
+    public <T> void reply(Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
         sendReply(msg, replyHandler);
     }
 
@@ -85,7 +86,7 @@ class ClientMessage<U> implements Message<U> {
         return body == null ? "null" : body instanceof JsonObject ? ((JsonObject) body).toJsonString() : body.toString();
     }
 
-    private <T> void sendReply(Object msg, Handler<Message<T>> replyHandler) {
+    private <T> void sendReply(Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
         if (bus != null && replyTopic != null) {
             // Send back reply
             if (local) {

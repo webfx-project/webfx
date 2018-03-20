@@ -18,6 +18,7 @@
 
 package naga.platform.bus;
 
+import naga.util.async.AsyncResult;
 import naga.util.async.Handler;
 
 /**
@@ -52,36 +53,36 @@ public interface Bus {
     /**
      * Publish a message
      *
-     * @param topic The topic to publish it to
+     * @param address The address to publish it to
      * @param msg   The message
      */
-    Bus publish(String topic, Object msg);
+    Bus publish(String address, Object msg);
 
     /**
      * Publish a local message
      *
-     * @param topic The topic to publish it to
+     * @param address The address to publish it to
      * @param msg   The message
      */
-    Bus publishLocal(String topic, Object msg);
+    Bus publishLocal(String address, Object msg);
 
     /**
      * Send a message
      *
-     * @param topic        The topic to send it to
+     * @param address      The address to send it to
      * @param msg          The message
      * @param replyHandler Reply handler will be called when any reply from the recipient is received
      */
-    <T> Bus send(String topic, Object msg, Handler<Message<T>> replyHandler);
+    <T> Bus send(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler);
 
     /**
      * Send a local message
      *
-     * @param topic        The topic to send it to
+     * @param address      The address to send it to
      * @param msg          The message
      * @param replyHandler Reply handler will be called when any reply from the recipient is received
      */
-    <T> Bus sendLocal(String topic, Object msg, Handler<Message<T>> replyHandler);
+    <T> Bus sendLocal(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler);
 
     /**
      * Set a BusHook on the Bus
@@ -91,24 +92,24 @@ public interface Bus {
     Bus setHook(BusHook hook);
 
     /**
-     * Registers a handler against the specified topic
+     * Registers a handler against the specified address
      *
-     * @param topic   The topic to register it at
+     * @param address The address to register it at
      * @param handler The handler
      * @return the handler registration, can be stored in order to unregister the handler later
      */
     @SuppressWarnings("rawtypes")
-    <T> Registration subscribe(String topic, Handler<Message<T>> handler);
+    <T> Registration subscribe(String address, Handler<Message<T>> handler);
 
     /**
-     * Registers a local handler against the specified topic. The handler info won't be propagated
+     * Registers a local handler against the specified address. The handler info won't be propagated
      * across the cluster
      *
-     * @param topic   The topic to register it at
+     * @param address The address to register it at
      * @param handler The handler
      */
     @SuppressWarnings("rawtypes")
-    <T> Registration subscribeLocal(String topic, Handler<Message<T>> handler);
+    <T> Registration subscribeLocal(String address, Handler<Message<T>> handler);
 
     /**
      * Close the Bus and release all resources.

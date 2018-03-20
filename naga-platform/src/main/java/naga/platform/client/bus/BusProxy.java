@@ -22,6 +22,7 @@ import naga.platform.bus.Bus;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
+import naga.util.async.AsyncResult;
 import naga.util.async.Handler;
 
 /*
@@ -49,35 +50,35 @@ public abstract class BusProxy implements Bus {
     }
 
     @Override
-    public Bus publish(String topic, Object msg) {
-        return delegate.publish(topic, msg);
+    public Bus publish(String address, Object msg) {
+        return delegate.publish(address, msg);
     }
 
     @Override
-    public Bus publishLocal(String topic, Object msg) {
-        return delegate.publishLocal(topic, msg);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public <T> Registration subscribe(String topic, Handler<Message<T>> handler) {
-        return delegate.subscribe(topic, handler);
+    public Bus publishLocal(String address, Object msg) {
+        return delegate.publishLocal(address, msg);
     }
 
     @SuppressWarnings("rawtypes")
     @Override
-    public <T> Registration subscribeLocal(String topic, Handler<Message<T>> handler) {
-        return delegate.subscribeLocal(topic, handler);
+    public <T> Registration subscribe(String address, Handler<Message<T>> handler) {
+        return delegate.subscribe(address, handler);
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public <T> Registration subscribeLocal(String address, Handler<Message<T>> handler) {
+        return delegate.subscribeLocal(address, handler);
     }
 
     @Override
-    public <T> Bus send(String topic, Object msg, Handler<Message<T>> replyHandler) {
-        return delegate.send(topic, msg, replyHandler);
+    public <T> Bus send(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        return delegate.send(address, msg, replyHandler);
     }
 
     @Override
-    public <T> Bus sendLocal(String topic, Object msg, Handler<Message<T>> replyHandler) {
-        return delegate.sendLocal(topic, msg, replyHandler);
+    public <T> Bus sendLocal(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        return delegate.sendLocal(address, msg, replyHandler);
     }
 
     @Override
