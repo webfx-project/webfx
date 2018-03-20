@@ -12,10 +12,10 @@ import naga.platform.services.update.spi.UpdateService;
 public class BusCallServerActivity implements Activity {
 
     public static final String VERSION_ADDRESS = "version";
-    public static final String QUERY_SERVICE_ADDRESS = "query.read";
-    public static final String QUERY_BATCH_SERVICE_ADDRESS = "query.read.batch";
-    public static final String UPDATE_SERVICE_ADDRESS = "query.write";
-    public static final String UPDATE_BATCH_SERVICE_ADDRESS = "query.write.batch";
+    public static final String QUERY_SERVICE_ADDRESS = "service/query";
+    public static final String QUERY_BATCH_SERVICE_ADDRESS = "service/query/batch";
+    public static final String UPDATE_SERVICE_ADDRESS = "service/update";
+    public static final String UPDATE_BATCH_SERVICE_ADDRESS = "service/update/batch";
 
     public String getVersion() {
         return "Naga prototype version 0.1.0-SNAPSHOT";
