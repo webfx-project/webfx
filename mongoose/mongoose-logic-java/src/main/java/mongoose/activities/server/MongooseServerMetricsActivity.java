@@ -22,7 +22,7 @@ import java.time.temporal.ChronoUnit;
 /**
  * @author Bruno Salmon
  */
-public class MongooseMetricsServerActivity implements Activity<DomainActivityContext>, DomainActivityContextMixin {
+public class MongooseServerMetricsActivity implements Activity<DomainActivityContext>, DomainActivityContextMixin {
 
     private DomainActivityContext activityContext;
     private Scheduled metricsCapturePeriodicTimer;
@@ -44,14 +44,14 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
 
         // Stopping the activity if there is actually no metrics service for this platform
         if (metricsService == null) {
-            Logger.log("MongooseMetricsServerActivity will not start as no MetricsService is registered for this platform");
+            Logger.log("MongooseServerMetricsActivity will not start as no MetricsService is registered for this platform");
             getActivityManager().destroy(); // Asking the activity manager to stop and destroy this activity
             return;
         }
 
         Logger.log("Starting Mongoose metrics server activity...");
         // Starting a periodic timer to capture metrics every seconds and store it in the database
-        Runnable runnable1 = () -> {
+        metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, () -> {
             // Creating an update store for metrics entity
             UpdateStore store = UpdateStore.create(getDataSourceModel());
             // Instantiating a Metrics entity to be inserted in the database
@@ -63,17 +63,15 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
                 if (asyncResult.failed())
                     Logger.log("Inserting metrics in database failed!", asyncResult.cause());
             });
-        };
-        metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, runnable1);
+        });
 
-        Runnable runnable = () ->
+        metricsCleaningPeriodicTimer = Scheduler.schedulePeriodic(12 * 3600 * 1000, () ->
                 UpdateService.executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, false, getDataSourceModel().getId())).setHandler(asyncResult -> {
                 if (asyncResult.failed())
                     Logger.log("Deleting metrics in database failed!", asyncResult.cause());
                 else
                     Logger.log("" + asyncResult.result().getRowCount() + " metrics records have been deleted from the database");
-            });
-        metricsCleaningPeriodicTimer = Scheduler.schedulePeriodic(24 * 3600 * 1000, runnable);
+            }));
     }
 
     @Override
@@ -90,16 +88,16 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
     // Static method helper to start this activity
 
     public static void startActivity() {
-        startActivity(new MongooseMetricsServerActivity());
+        startActivity(new MongooseServerMetricsActivity());
     }
 
-    private static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity) {
+    private static void startActivity(MongooseServerMetricsActivity mongooseServerMetricsActivity) {
         DataSourceModel dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
-        startActivity(mongooseMetricsServerActivity, dataSourceModel);
+        startActivity(mongooseServerMetricsActivity, dataSourceModel);
     }
 
-    private static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity, DataSourceModel dataSourceModel) {
-        ActivityManager.startServerActivity(mongooseMetricsServerActivity, DomainActivityContext.createDomainActivityContext(dataSourceModel));
+    private static void startActivity(MongooseServerMetricsActivity mongooseServerMetricsActivity, DataSourceModel dataSourceModel) {
+        ActivityManager.startServerActivity(mongooseServerMetricsActivity, DomainActivityContext.createDomainActivityContext(dataSourceModel));
     }
 
 }

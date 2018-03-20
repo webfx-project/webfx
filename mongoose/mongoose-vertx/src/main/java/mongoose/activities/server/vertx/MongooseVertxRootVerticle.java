@@ -1,6 +1,7 @@
 package mongoose.activities.server.vertx;
 
-import mongoose.activities.server.MongooseMetricsServerActivity;
+import mongoose.activities.server.MongooseServerMetricsActivity;
+import mongoose.activities.server.MongooseServerPushActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.json.Json;
@@ -24,7 +25,7 @@ public class MongooseVertxRootVerticle extends RootVerticle {
     public void start() throws Exception {
         super.start();
         registerMongooseLocalDataSource();
-        MongooseMetricsServerActivity.startActivity();
+        MongooseServerMetricsActivity.startActivity();
     }
 
     private static void registerMongooseLocalDataSource() {
