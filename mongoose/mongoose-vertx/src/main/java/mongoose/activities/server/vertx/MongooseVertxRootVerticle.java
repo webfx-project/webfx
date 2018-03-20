@@ -26,6 +26,7 @@ public class MongooseVertxRootVerticle extends RootVerticle {
         super.start();
         registerMongooseLocalDataSource();
         MongooseServerMetricsActivity.startActivity();
+        MongooseServerPushActivity.startActivity();
     }
 
     private static void registerMongooseLocalDataSource() {
