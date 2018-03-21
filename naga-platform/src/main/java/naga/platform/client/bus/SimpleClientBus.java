@@ -66,33 +66,18 @@ public class SimpleClientBus implements Bus {
     }
 
     @Override
-    public Bus publish(String address, Object msg) {
-        return internalHandleSendOrPub(false, false, address, msg, null);
+    public Bus publish(boolean local, String address, Object msg) {
+        return internalHandleSendOrPub(local, false, address, msg, null);
     }
 
     @Override
-    public Bus publishLocal(String address, Object msg) {
-        return internalHandleSendOrPub(true, false, address, msg, null);
+    public <T> Registration subscribe(boolean local, String address, Handler<Message<T>> handler) {
+        return subscribeImpl(local, address, handler);
     }
 
     @Override
-    public <T> Registration subscribe(String address, Handler<Message<T>> handler) {
-        return subscribeImpl(false, address, handler);
-    }
-
-    @Override
-    public <T> Registration subscribeLocal(String address, Handler<Message<T>> handler) {
-        return subscribeImpl(true, address, handler);
-    }
-
-    @Override
-    public <T> Bus send(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        return internalHandleSendOrPub(false, true, address, msg, replyHandler);
-    }
-
-    @Override
-    public <T> Bus sendLocal(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        return internalHandleSendOrPub(true, true, address, msg, replyHandler);
+    public <T> Bus send(boolean local, String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        return internalHandleSendOrPub(local, true, address, msg, replyHandler);
     }
 
     @Override

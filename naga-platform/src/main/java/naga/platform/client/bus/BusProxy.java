@@ -59,16 +59,24 @@ public abstract class BusProxy implements Bus {
         return delegate.publishLocal(address, msg);
     }
 
-    @SuppressWarnings("rawtypes")
+    @Override
+    public Bus publish(boolean local, String address, Object msg) {
+        return delegate.publish(local, address, msg);
+    }
+
     @Override
     public <T> Registration subscribe(String address, Handler<Message<T>> handler) {
         return delegate.subscribe(address, handler);
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public <T> Registration subscribeLocal(String address, Handler<Message<T>> handler) {
         return delegate.subscribeLocal(address, handler);
+    }
+
+    @Override
+    public <T> Registration subscribe(boolean local, String address, Handler<Message<T>> handler) {
+        return delegate.subscribe(local, address, handler);
     }
 
     @Override
@@ -79,6 +87,11 @@ public abstract class BusProxy implements Bus {
     @Override
     public <T> Bus sendLocal(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
         return delegate.sendLocal(address, msg, replyHandler);
+    }
+
+    @Override
+    public <T> Bus send(boolean local, String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        return delegate.send(local, address, msg, replyHandler);
     }
 
     @Override

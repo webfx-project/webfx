@@ -29,26 +29,13 @@ public final class VertxBus implements Bus {
     }
 
     @Override
-    public Bus publish(String address, Object msg) {
+    public Bus publish(boolean local, String address, Object msg) {
         eventBus.publish(address, genericToVertxObject(msg));
         return this;
     }
 
-    @Override
-    public Bus publishLocal(String address, Object msg) {
-        eventBus.publish(address, genericToVertxObject(msg));
-        return this;
-    }
-
-    @Override
-    public <T> Bus send(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        eventBus.<T>send(address, genericToVertxObject(msg), ar -> replyHandler.handle(vertxToGenericMessageAsyncResult(ar, false)));
-        return this;
-    }
-
-    @Override
-    public <T> Bus sendLocal(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        eventBus.<T>send(address, genericToVertxObject(msg), ar -> replyHandler.handle(vertxToGenericMessageAsyncResult(ar, true)));
+    public <T> Bus send(boolean local, String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        eventBus.<T>send(address, genericToVertxObject(msg), ar -> replyHandler.handle(vertxToGenericMessageAsyncResult(ar, local)));
         return this;
     }
 
@@ -57,17 +44,9 @@ public final class VertxBus implements Bus {
         throw new UnsupportedOperationException(); // not yet implemented
     }
 
-    @Override
-    public <T> Registration subscribe(String address, Handler<Message<T>> handler) {
+    public <T> Registration subscribe(boolean local, String address, Handler<Message<T>> handler) {
         MessageConsumer<T> consumer = eventBus.consumer(address);
-        consumer.handler(message -> handler.handle(vertxToGenericMessage(message, false)));
-        return consumer::unregister;
-    }
-
-    @Override
-    public <T> Registration subscribeLocal(String address, Handler<Message<T>> handler) {
-        MessageConsumer<T> consumer = eventBus.consumer(address);
-        consumer.handler(message -> handler.handle(vertxToGenericMessage(message, true)));
+        consumer.handler(message -> handler.handle(vertxToGenericMessage(message, local)));
         return consumer::unregister;
     }
 

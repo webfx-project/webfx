@@ -87,13 +87,7 @@ class ClientMessage<U> implements Message<U> {
     }
 
     private <T> void sendReply(Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        if (bus != null && replyTopic != null) {
-            // Send back reply
-            if (local) {
-                bus.sendLocal(replyTopic, msg, replyHandler);
-            } else {
-                bus.send(replyTopic, msg, replyHandler);
-            }
-        }
+        if (bus != null && replyTopic != null)
+            bus.send(local, replyTopic, msg, replyHandler); // Send back reply
     }
 }

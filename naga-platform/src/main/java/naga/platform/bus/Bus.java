@@ -54,17 +54,30 @@ public interface Bus {
      * Publish a message
      *
      * @param address The address to publish it to
-     * @param msg   The message
+     * @param msg     The message
      */
-    Bus publish(String address, Object msg);
+    default Bus publish(String address, Object msg) {
+        return publish(false, address, msg);
+    }
 
     /**
      * Publish a local message
      *
      * @param address The address to publish it to
-     * @param msg   The message
+     * @param msg     The message
      */
-    Bus publishLocal(String address, Object msg);
+    default Bus publishLocal(String address, Object msg) {
+        return publish(true, address, msg);
+    }
+
+    /**
+     * Publish a message, either locally or remotely
+     *
+     * @param local   Indicates if the message is published locally or remotely
+     * @param address The address to publish it to
+     * @param msg     The message
+     */
+    Bus publish(boolean local, String address, Object msg);
 
     /**
      * Send a message
@@ -73,7 +86,9 @@ public interface Bus {
      * @param msg          The message
      * @param replyHandler Reply handler will be called when any reply from the recipient is received
      */
-    <T> Bus send(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler);
+    default <T> Bus send(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        return send(false, address, msg, replyHandler);
+    }
 
     /**
      * Send a local message
@@ -82,14 +97,19 @@ public interface Bus {
      * @param msg          The message
      * @param replyHandler Reply handler will be called when any reply from the recipient is received
      */
-    <T> Bus sendLocal(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler);
+    default <T> Bus sendLocal(String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        return send(true, address, msg, replyHandler);
+    }
 
     /**
-     * Set a BusHook on the Bus
+     * Send a message, either locally or remotely
      *
-     * @param hook The hook
+     * @param local        Indicates if the message is sent locally or remotely
+     * @param address      The address to send it to
+     * @param msg          The message
+     * @param replyHandler Reply handler will be called when any reply from the recipient is received
      */
-    Bus setHook(BusHook hook);
+    <T> Bus send(boolean local, String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler);
 
     /**
      * Registers a handler against the specified address
@@ -98,8 +118,9 @@ public interface Bus {
      * @param handler The handler
      * @return the handler registration, can be stored in order to unregister the handler later
      */
-    @SuppressWarnings("rawtypes")
-    <T> Registration subscribe(String address, Handler<Message<T>> handler);
+    default <T> Registration subscribe(String address, Handler<Message<T>> handler) {
+        return subscribe(false, address, handler);
+    }
 
     /**
      * Registers a local handler against the specified address. The handler info won't be propagated
@@ -108,11 +129,29 @@ public interface Bus {
      * @param address The address to register it at
      * @param handler The handler
      */
-    @SuppressWarnings("rawtypes")
-    <T> Registration subscribeLocal(String address, Handler<Message<T>> handler);
+    default <T> Registration subscribeLocal(String address, Handler<Message<T>> handler) {
+        return subscribe(true, address, handler);
+    }
+
+    /**
+     * Registers a handler against the specified address
+     *
+     * @param local   Indicates if the address is local or propagated across the cluster
+     * @param address The address to register it at
+     * @param handler The handler
+     * @return the handler registration, can be stored in order to unregister the handler later
+     */
+    <T> Registration subscribe(boolean local, String address, Handler<Message<T>> handler);
 
     /**
      * Close the Bus and release all resources.
      */
     void close();
+
+    /**
+     * Set a BusHook on the Bus
+     *
+     * @param hook The hook
+     */
+    Bus setHook(BusHook hook);
 }
