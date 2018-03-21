@@ -6,6 +6,7 @@ import naga.framework.activity.domain.DomainActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
+import naga.platform.bus.call.BusCallService;
 import naga.platform.services.log.spi.Logger;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
@@ -26,6 +27,8 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
 
     private DomainActivityContext activityContext;
     private Scheduled serverPushPeriodicTimer;
+    private ServerPushPass runningServerPushPass;
+    private boolean pulseOccurred;
 
     @Override
     public void onCreate(DomainActivityContext context) {
@@ -41,7 +44,7 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
     public void onStart() {
         Logger.log("Starting Mongoose server push activity...");
         // Starting a periodic timer to
-        serverPushPeriodicTimer = Scheduler.schedulePeriodic(SERVER_PUSH_PULSE_PERIOD_MS, this::runServerPushPass);
+        serverPushPeriodicTimer = Scheduler.schedulePeriodic(SERVER_PUSH_PULSE_PERIOD_MS, this::pulse);
     }
 
     @Override
@@ -52,12 +55,24 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
         }
     }
 
-    private void runServerPushPass() {
-        new ServerPushPass().run();
+    private synchronized void pulse() {
+        if (runningServerPushPass != null)
+            pulseOccurred = true;
+        else {
+            pulseOccurred = false;
+            runningServerPushPass = new ServerPushPass();
+            runningServerPushPass.run();
+        }
+    }
+
+    private synchronized void onServerPushPassEnd() {
+        runningServerPushPass = null;
+        if (pulseOccurred)
+            pulse();
     }
 
     private class ServerPushPass implements Runnable {
-        private QueryResultSet rs;
+        QueryResultSet rs;
         int rowCount;
         int replyCount;
         boolean[] replyReceived;
@@ -77,14 +92,17 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
 
         private void sendServerPush() {
             rowCount = rs.getRowCount();
-            if (rowCount > 0) {
+            if (rowCount <= 0)
+                onServerPushPassEnd();
+            else {
                 replyReceived = new boolean[rowCount];
                 for (int row = 0; row < rowCount; row++) {
                     Object processId = rs.getValue(row, 1);
                     final int r = row;
                     String clientAddress = "client/" + processId;
-                    Platform.bus().send(clientAddress, "Server push pulse for " + clientAddress, ar2 -> {
-                        replyReceived[r] = ar2.succeeded();
+                    Logger.log("Calling " + clientAddress);
+                    BusCallService.call(clientAddress, "server/push/client/listener", "Server push pulse for " + clientAddress, Platform.bus()).setHandler(ar -> {
+                        replyReceived[r] = ar.succeeded();
                         if (++replyCount == rowCount && scheduled != null) {
                             scheduled.cancel();
                             recordConnectionEnds();
@@ -110,11 +128,13 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
                 if (sb != null) {
                     sb.append(")");
                     Logger.log(sb);
-                    UpdateService.executeUpdate(new UpdateArgument(sb.toString(), getDataSourceId())).setHandler(ar2 -> {
-                        if (ar2.failed())
-                            Logger.log(ar2.cause());
+                    UpdateService.executeUpdate(new UpdateArgument(sb.toString(), getDataSourceId())).setHandler(ar -> {
+                        if (ar.failed())
+                            Logger.log(ar.cause());
+                        onServerPushPassEnd();
                     });
-                }
+                } else
+                    onServerPushPassEnd();
             }
         }
     }

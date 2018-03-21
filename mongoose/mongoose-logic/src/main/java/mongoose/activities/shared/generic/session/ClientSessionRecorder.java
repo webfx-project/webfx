@@ -10,6 +10,7 @@ import naga.fx.spi.Toolkit;
 import naga.platform.bus.Bus;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Registration;
+import naga.platform.bus.call.BusCallService;
 import naga.platform.services.log.spi.Logger;
 import naga.platform.services.shutdown.spi.Shutdown;
 import naga.platform.services.storage.spi.LocalStorage;
@@ -38,7 +39,7 @@ public class ClientSessionRecorder {
     }
 
     private final Bus bus;
-    private Registration clientRegistrationForServerPush;
+    private Registration serverPushClientRegistration;
 
     public ClientSessionRecorder() {
         this(Platform.bus());
@@ -50,6 +51,12 @@ public class ClientSessionRecorder {
             @Override
             public void handleOpened() {
                 onConnectionOpened();
+            }
+
+            @Override
+            public boolean handlePreClose() {
+                onConnectionClosed();
+                return true;
             }
 
             @Override
@@ -140,8 +147,8 @@ public class ClientSessionRecorder {
             touchSessionEntityEnd(store.updateEntity(sessionConnection));
             executeUpdate();
         }
-        if (clientRegistrationForServerPush != null)
-            clientRegistrationForServerPush.unregister();
+        if (serverPushClientRegistration != null)
+            serverPushClientRegistration.unregister();
     }
 
     private void insertSessionConnection() {
@@ -182,16 +189,21 @@ public class ClientSessionRecorder {
                     storeEntityToLocalStorage(sessionAgent, "sessionAgent", "agentString");
                 if (newSessionApplication)
                     storeEntityToLocalStorage(sessionApplication, "sessionApplication", "name", "version", "buildTool", "buildNumberString", "buildTimestampString");
-                if (clientRegistrationForServerPush == null) {
-                    String clientAddress = "client/" + sessionProcess.getPrimaryKey();
-                    Logger.log("Subscribing " + clientAddress);
-                    clientRegistrationForServerPush = bus.subscribe(clientAddress, message -> {
-                        Logger.log(message.body());
-                        message.reply("OK");
-                    });
-                }
+                checkServerPushClientRegistration();
             }
         });
+    }
+
+    private void checkServerPushClientRegistration() {
+        if (serverPushClientRegistration == null) {
+            serverPushClientRegistration = BusCallService.registerJavaFunctionAsCallableService("server/push/client/listener", s -> {
+                Logger.log(s);
+                return "OK";
+            });
+            String clientAddress = "client/" + sessionProcess.getPrimaryKey();
+            Logger.log("Subscribing " + clientAddress);
+            BusCallService.listenBusEntryCalls(clientAddress);
+        }
     }
 
     private Entity insertSessionEntity(Object domainClassId, Entity previousEntity) {
