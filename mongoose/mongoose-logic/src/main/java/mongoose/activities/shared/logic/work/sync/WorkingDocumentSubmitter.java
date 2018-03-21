@@ -84,7 +84,7 @@ public class WorkingDocumentSubmitter {
                 if (wd.findSameWorkingDocumentLine(lastWdl) == null)
                     removeLine(wd, lastWdl.getDocumentLine());
             }
-        return store.executeUpdate(new UpdateArgument[]{new UpdateArgument("select set_transaction_parameters(false)", null, false, store.getDataSourceModel().getId())})
+        return store.executeUpdate(new UpdateArgument[]{new UpdateArgument("select set_transaction_parameters(false)", store.getDataSourceId())})
                 .map(batch -> du);
     }
 

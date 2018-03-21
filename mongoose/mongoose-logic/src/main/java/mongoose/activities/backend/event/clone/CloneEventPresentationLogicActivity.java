@@ -36,7 +36,7 @@ public class CloneEventPresentationLogicActivity extends EventDependentPresentat
 
         pm.setOnSubmit(event -> {
             LocalDate startDate = pm.getDate();
-            UpdateService.executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceModel().getId())).setHandler(ar -> {
+            UpdateService.executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceId())).setHandler(ar -> {
                 if (ar.succeeded())
                     Toolkit.get().scheduler().runInUiThread(() ->
                         new BookingsRoutingRequest(ar.result().getGeneratedKeys()[0], getHistory()).execute()

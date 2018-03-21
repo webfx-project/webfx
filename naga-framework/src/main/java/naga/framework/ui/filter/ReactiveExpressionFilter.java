@@ -387,7 +387,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                     // We increment and capture the sequence to check if the request is still the latest one when receiving the result
                     int sequence = querySequence.incrementAndGet();
                     // Then we ask the query service to execute the sql query
-                    lastEntityListObservable = RxFuture.from(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceModel().getId())))
+                    lastEntityListObservable = RxFuture.from(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceId())))
                             // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
                             // Otherwise transforming the QueryResultSet into an EntityList
                             .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));

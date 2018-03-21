@@ -142,7 +142,7 @@ class EditableOptionsViewActivity extends OptionsViewActivity {
     private void onOkAddOptionDialog() {
         Option selectedOption = addOptionDialogFilter.getSelectedEntity();
         if (selectedOption != null) {
-            UpdateService.executeUpdate(new UpdateArgument("select copy_option(null,?::int,?::int,null)", new Object[]{selectedOption.getPrimaryKey(), getEventId()}, true, getDataSourceModel().getId())).setHandler(ar -> {
+            UpdateService.executeUpdate(new UpdateArgument("select copy_option(null,?::int,?::int,null)", new Object[]{selectedOption.getPrimaryKey(), getEventId()}, true, getDataSourceId())).setHandler(ar -> {
                 if (ar.failed())
                     addOptionDialogCallback.showException(ar.cause());
                 else {

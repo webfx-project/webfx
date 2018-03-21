@@ -11,4 +11,8 @@ public interface HasDataSourceModel extends HasDomainModel {
     default DomainModel getDomainModel() {
         return getDataSourceModel().getDomainModel();
     }
+
+    default Object getDataSourceId() {
+        return getDataSourceModel().getId();
+    }
 }

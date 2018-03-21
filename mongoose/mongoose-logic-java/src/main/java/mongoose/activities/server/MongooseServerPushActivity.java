@@ -21,6 +21,9 @@ import naga.scheduler.Scheduler;
  */
 public class MongooseServerPushActivity implements Activity<DomainActivityContext>, DomainActivityContextMixin {
 
+    private static long SERVER_PUSH_PULSE_PERIOD_MS = 10_000;
+    private static long CLIENT_REPLY_TIMEOUT_MS = 30_000; // Same as BridgeOptions.DEFAULT_REPLY_TIMEOUT
+
     private DomainActivityContext activityContext;
     private Scheduled serverPushPeriodicTimer;
 
@@ -38,7 +41,7 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
     public void onStart() {
         Logger.log("Starting Mongoose server push activity...");
         // Starting a periodic timer to
-        serverPushPeriodicTimer = Scheduler.schedulePeriodic(10_000, this::runServerPushPass);
+        serverPushPeriodicTimer = Scheduler.schedulePeriodic(SERVER_PUSH_PULSE_PERIOD_MS, this::runServerPushPass);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
 
         @Override
         public void run() {
-            QueryService.executeQuery(new QueryArgument("select id,process_id from session_connection where \"end\" is null", getDataSourceModel().getId())).setHandler(ar -> {
+            QueryService.executeQuery(new QueryArgument("select id,process_id from session_connection where \"end\" is null", getDataSourceId())).setHandler(ar -> {
                 if (ar.failed())
                     Logger.log(ar.cause());
                 else {
@@ -70,7 +73,6 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
                     sendServerPush();
                 }
             });
-
         }
 
         private void sendServerPush() {
@@ -89,7 +91,7 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
                         }
                     });
                 }
-                scheduled = Scheduler.scheduleDelay(30_000 /* Same as BridgeOptions.DEFAULT_REPLY_TIMEOUT */, this::recordConnectionEnds);
+                scheduled = Scheduler.scheduleDelay(CLIENT_REPLY_TIMEOUT_MS, this::recordConnectionEnds);
             }
         }
 
@@ -97,7 +99,7 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
             if (scheduled != null) {
                 scheduled = null;
                 StringBuilder sb = null;
-                for (int row = 0; row < rowCount; row++) {
+                for (int row = 0; row < rowCount; row++)
                     if (!replyReceived[row]) {
                         if (sb == null)
                             sb = new StringBuilder("update session_connection set \"end\"=now() where id in (");
@@ -105,11 +107,10 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
                             sb.append(", ");
                         sb.append(rs.<Object>getValue(row, 0));
                     }
-                }
                 if (sb != null) {
                     sb.append(")");
                     Logger.log(sb);
-                    UpdateService.executeUpdate(new UpdateArgument(sb.toString(), null, false, getDataSourceModel().getId())).setHandler(ar2 -> {
+                    UpdateService.executeUpdate(new UpdateArgument(sb.toString(), getDataSourceId())).setHandler(ar2 -> {
                         if (ar2.failed())
                             Logger.log(ar2.cause());
                     });
@@ -132,5 +133,4 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
     private static void startActivity(MongooseServerPushActivity mongooseServerPushActivity, DataSourceModel dataSourceModel) {
         ActivityManager.startServerActivity(mongooseServerPushActivity, DomainActivityContext.createDomainActivityContext(dataSourceModel));
     }
-
 }

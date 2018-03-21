@@ -248,7 +248,7 @@ class EventServiceImpl implements EventService {
                     // for others, we group by site and item (=> dates disappears => simpler and less data to transfer to browser) and keep the min values for availability all over the event time range
                     " (select min(row_number), min(site_id) as site, min(item_id) as item, null as date, min(max - current) as available, min(i.ord) as ord from ra join item i on i.id=item_id where not exists(select * from pda where site_id=ra.site_id and (item_id=ra.item_id or item_id is null and item_family_id=i.family_id)) group by site_id,item_id)" +
                     // finally we order this query union by site, item and date
-                    " order by site,ord,date", new Object[]{eventId, eventId}, getDataSourceModel().getId()))
+                    " order by site,ord,date", new Object[]{eventId, eventId}, getDataSourceId()))
                     .map(rs -> eventAvailabilities = rs));
         return eventAvailabilitiesFutureBroadcaster.newClient();
     }

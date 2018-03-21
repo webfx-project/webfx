@@ -35,7 +35,7 @@ public abstract class MongooseDomainPresentationLogicActivityBase<PM>
         // Loading the parameters from the requested activity state
         Object[] parameter = {activityStateId};
         SqlCompiled sqlCompiled = getDomainModel().compileSelect("select parameters from ActivityState where id=?", parameter);
-        QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameter, getDataSourceModel().getId())).setHandler(ar -> {
+        QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameter, getDataSourceId())).setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
             else {
