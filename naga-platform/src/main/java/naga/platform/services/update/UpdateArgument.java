@@ -16,6 +16,14 @@ public class UpdateArgument {
     private final boolean returnGeneratedKeys;
     private final Object dataSourceId;
 
+    public UpdateArgument(String updateString, Object dataSourceId) {
+        this(updateString, null, dataSourceId);
+    }
+
+    public UpdateArgument(String updateString, Object[] parameters, Object dataSourceId) {
+        this(updateString, parameters, false, dataSourceId);
+    }
+
     public UpdateArgument(String updateString, Object[] parameters, boolean returnGeneratedKeys, Object dataSourceId) {
         this.updateString = updateString;
         this.parameters = parameters;

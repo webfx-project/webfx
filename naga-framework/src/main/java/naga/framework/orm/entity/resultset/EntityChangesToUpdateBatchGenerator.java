@@ -210,7 +210,7 @@ public class EntityChangesToUpdateBatchGenerator {
         }
 
         void addToBatch(SqlCompiled sqlcompiled, Object[] parameterValues) {
-            updateArguments.add(new UpdateArgument(sqlcompiled.getSql(), parameterValues, false, dataSourceId));
+            updateArguments.add(new UpdateArgument(sqlcompiled.getSql(), parameterValues, dataSourceId));
         }
     }
 }
