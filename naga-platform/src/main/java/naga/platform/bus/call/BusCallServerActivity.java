@@ -24,14 +24,14 @@ public class BusCallServerActivity implements Activity {
     @Override
     public void onStart() {
         // Registering java services so they can be called through the BusCallService
-        BusCallService.registerCallableJavaService(VERSION_ADDRESS, this::getVersion);
-        BusCallService.registerAsyncFunctionJavaService(QUERY_SERVICE_ADDRESS, QueryService::executeQuery);
-        BusCallService.registerAsyncFunctionJavaService(UPDATE_SERVICE_ADDRESS, UpdateService::executeUpdate);
-        BusCallService.registerAsyncFunctionJavaService(QUERY_BATCH_SERVICE_ADDRESS, QueryService::executeQueryBatch);
-        BusCallService.registerAsyncFunctionJavaService(UPDATE_BATCH_SERVICE_ADDRESS, UpdateService::executeUpdateBatch);
+        BusCallService.registerJavaCallableAsCallableService(VERSION_ADDRESS, this::getVersion);
+        BusCallService.registerJavaAsyncFunctionAsCallableService(QUERY_SERVICE_ADDRESS, QueryService::executeQuery);
+        BusCallService.registerJavaAsyncFunctionAsCallableService(UPDATE_SERVICE_ADDRESS, UpdateService::executeUpdate);
+        BusCallService.registerJavaAsyncFunctionAsCallableService(QUERY_BATCH_SERVICE_ADDRESS, QueryService::executeQueryBatch);
+        BusCallService.registerJavaAsyncFunctionAsCallableService(UPDATE_BATCH_SERVICE_ADDRESS, UpdateService::executeUpdateBatch);
 
         // Starting the BusCallService by listening entry calls
-        BusCallService.listenEntryCalls();
+        BusCallService.listenBusEntryCalls();
     }
 
     public static void startServerActivity() {
