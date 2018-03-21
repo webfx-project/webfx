@@ -25,14 +25,14 @@ public class PendingBusCall<T> extends FutureImpl<T> {
         updatePendingCalls(true);
     }
 
-    void onBusCallResult(BusCallResult<T> busCallResult) {
+    void onBusCallResult(AsyncResult<BusCallResult<T>> busCallAsyncResult) {
         // Getting the result of the bus call that needs to be returned back to the initial caller
-        Object result = busCallResult.getTargetResult();
+        Object result = busCallAsyncResult.succeeded() ? busCallAsyncResult.result().getTargetResult() : busCallAsyncResult.cause();
         // Does it come from an asynchronous operation? (which returns an AsyncResult instance)
         if (result instanceof AsyncResult) { // if yes
-            AsyncResult<T> asyncResult = (AsyncResult<T>) result;
+            AsyncResult<T> ar = (AsyncResult<T>) result;
             // What needs to be returned is the successful result (if succeeded) or the exception (if failed)
-            result = asyncResult.succeeded() ? asyncResult.result() : asyncResult.cause();
+            result = ar.succeeded() ? ar.result() : ar.cause();
         }
         // Now the result object is either the successful result or the exception whatever the nature of the operation (asynchronous or synchronous)
         if (result instanceof Throwable) // if it is an exception
