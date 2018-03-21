@@ -17,6 +17,7 @@ public final class VertxBus implements Bus {
 
     private final EventBus eventBus;
     private BusOptions options;
+    private boolean open;
 
     public VertxBus(EventBus eventBus, BusOptions options) {
         this.eventBus = eventBus;
@@ -25,7 +26,12 @@ public final class VertxBus implements Bus {
 
     @Override
     public void close() {
-        eventBus.close(event -> {});
+        eventBus.close(event -> open = false);
+    }
+
+    @Override
+    public boolean isOpen() {
+        return open;
     }
 
     @Override
@@ -97,12 +103,12 @@ public final class VertxBus implements Bus {
             }
 
             @Override
-            public String replyTopic() {
+            public String replyAddress() {
                 return vertxMessage.replyAddress();
             }
 
             @Override
-            public String topic() {
+            public String address() {
                 return vertxMessage.address();
             }
         };

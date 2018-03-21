@@ -51,8 +51,8 @@ public class WebSocketBus extends SimpleClientBus {
     private static final String TOPIC_LOGIN = "vertx.basicauthmanager.login";
 
     private static final String BODY = "body";
-    private static final String TOPIC = "address";
-    private static final String REPLY_TOPIC = "replyAddress";
+    private static final String ADDRESS = "address";
+    private static final String REPLY_ADDRESS = "replyAddress";
     protected static final String TYPE = "type";
 
     private final WebSocketListener internalWebSocketHandler;
@@ -100,7 +100,7 @@ public class WebSocketBus extends SimpleClientBus {
                     webSocketListener.onMessage(msg);
                 JsonObject json = Json.parseObject(msg);
                 @SuppressWarnings({"unchecked"})
-                ClientMessage message = new ClientMessage(false, false, WebSocketBus.this, json.getString(TOPIC), json.getString(REPLY_TOPIC), json.get(BODY));
+                ClientMessage message = new ClientMessage(false, false, WebSocketBus.this, json.getString(ADDRESS), json.getString(REPLY_ADDRESS), json.get(BODY));
                 internalHandleReceiveMessage(message);
             }
 
@@ -160,6 +160,11 @@ public class WebSocketBus extends SimpleClientBus {
     }
 
     @Override
+    public boolean isOpen() {
+        return getReadyState() == WebSocket.State.OPEN;
+    }
+
+    @Override
     public String getSessionId() {
         return sessionId;
     }
@@ -174,44 +179,44 @@ public class WebSocketBus extends SimpleClientBus {
     }
 
     @Override
-    protected boolean doSubscribe(boolean local, String topic, Handler<? extends Message> handler) {
-        boolean subscribed = super.doSubscribe(local, topic, handler);
-        if (local || !subscribed || (hook != null && !hook.handlePreSubscribe(topic, handler)))
+    protected boolean doSubscribe(boolean local, String address, Handler<? extends Message> handler) {
+        boolean subscribed = super.doSubscribe(local, address, handler);
+        if (local || !subscribed || (hook != null && !hook.handlePreSubscribe(address, handler)))
             return false;
-        if (handlerCount.containsKey(topic)) {
-            handlerCount.put(topic, handlerCount.get(topic) + 1);
+        if (handlerCount.containsKey(address)) {
+            handlerCount.put(address, handlerCount.get(address) + 1);
             return false;
         }
-        handlerCount.put(topic, 1);
-        sendSubscribe(topic);
+        handlerCount.put(address, 1);
+        sendSubscribe(address);
         return true;
     }
 
     @Override
-    protected <T> void doSendOrPub(boolean local, boolean send, String topic, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        checkNotNull(TOPIC, topic);
+    protected <T> void doSendOrPub(boolean local, boolean send, String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        checkNotNull(ADDRESS, address);
         if (local) {
-            super.doSendOrPub(local, send, topic, msg, replyHandler);
+            super.doSendOrPub(local, send, address, msg, replyHandler);
             return;
         }
-        WritableJsonObject envelope = Json.createObject().set(TYPE, send ? "send" : "publish").set(TOPIC, topic).set(BODY, msg);
+        WritableJsonObject envelope = Json.createObject().set(TYPE, send ? "send" : "publish").set(ADDRESS, address).set(BODY, msg);
         if (replyHandler != null) {
             String replyTopic = makeUUID();
-            envelope.set(REPLY_TOPIC, replyTopic);
+            envelope.set(REPLY_ADDRESS, replyTopic);
             replyHandlers.put(replyTopic, (Handler) replyHandler);
         }
         send(envelope);
     }
 
     @Override
-    protected boolean doUnsubscribe(boolean local, String topic, Handler<? extends Message> handler) {
-        boolean unsubscribed = super.doUnsubscribe(local, topic, handler);
-        if (local || !unsubscribed || (hook != null && !hook.handleUnsubscribe(topic)))
+    protected <T> boolean doUnsubscribe(boolean local, String address, Handler<Message<T>> handler) {
+        boolean unsubscribed = super.doUnsubscribe(local, address, handler);
+        if (local || !unsubscribed || (hook != null && !hook.handleUnsubscribe(address)))
             return false;
-        handlerCount.put(topic, handlerCount.get(topic) - 1);
-        if (handlerCount.get(topic) == 0) {
-            handlerCount.remove(topic);
-            sendUnsubscribe(topic);
+        handlerCount.put(address, handlerCount.get(address) - 1);
+        if (handlerCount.get(address) == 0) {
+            handlerCount.remove(address);
+            sendUnsubscribe(address);
             return true;
         }
         return false;
@@ -248,17 +253,17 @@ public class WebSocketBus extends SimpleClientBus {
     }
 
     /*
-     * First handler for this topic so we should register the connection
+     * First handler for this address so we should register the connection
      */
-    protected void sendSubscribe(String topic) {
-        //assert topic != null : "topic shouldn't be null";
-        send(Json.createObject().set(TYPE, "register").set(TOPIC, topic));
+    protected void sendSubscribe(String address) {
+        //assert address != null : "address shouldn't be null";
+        send(Json.createObject().set(TYPE, "register").set(ADDRESS, address));
     }
 
     /*
      * No more handlers so we should unregister the connection
      */
-    protected void sendUnsubscribe(String topic) {
-        send(Json.createObject().set(TYPE, "unregister").set(TOPIC, topic));
+    protected void sendUnsubscribe(String address) {
+        send(Json.createObject().set(TYPE, "unregister").set(ADDRESS, address));
     }
 }

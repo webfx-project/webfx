@@ -51,6 +51,7 @@ public class SimpleClientBus implements Bus {
     final Map<String, Handler<AsyncResult<Message>>> replyHandlers = new HashMap<>();
     final IdGenerator idGenerator = new IdGenerator();
     BusHook hook;
+    private boolean open = true;
 
     public SimpleClientBus() {
     }
@@ -59,6 +60,11 @@ public class SimpleClientBus implements Bus {
     public void close() {
         if (hook == null || hook.handlePreClose())
             doClose();
+    }
+
+    @Override
+    public boolean isOpen() {
+        return open;
     }
 
     public String getSessionId() {
@@ -89,44 +95,45 @@ public class SimpleClientBus implements Bus {
     protected void doClose() {
         publishLocal(WebSocketBus.ON_CLOSE, null);
         clearHandlers();
+        open = false;
         if (hook != null)
             hook.handlePostClose();
     }
 
-    protected boolean doSubscribe(boolean local, String topic, Handler<? extends Message> handler) {
-        checkNotNull("topic", topic);
+    protected boolean doSubscribe(boolean local, String address, Handler<? extends Message> handler) {
+        checkNotNull("address", address);
         checkNotNull("handler", handler);
-        List<Handler<Message>> handlers = handlerMap.get(topic);
+        List<Handler<Message>> handlers = handlerMap.get(address);
         if (handlers != null && handlers.contains(handler))
             return false;
         if (handlers == null)
-            handlerMap.put(topic, handlers = new ArrayList<>());
+            handlerMap.put(address, handlers = new ArrayList<>());
         handlers.add((Handler) handler);
         return true;
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> void doSendOrPub(boolean local, boolean send, String topic, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        checkNotNull("topic", topic);
-        String replyTopic = null;
+    protected <T> void doSendOrPub(boolean local, boolean send, String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        checkNotNull("address", address);
+        String replyAddress = null;
         if (replyHandler != null) {
-            replyTopic = makeUUID();
-            replyHandlers.put(replyTopic, (Handler) replyHandler);
+            replyAddress = makeUUID();
+            replyHandlers.put(replyAddress, (Handler) replyHandler);
         }
-        ClientMessage message = new ClientMessage(local, send, this, topic, replyTopic, msg);
-        if (!internalHandleReceiveMessage(message) && replyTopic != null)
-            replyHandlers.remove(replyTopic);
+        ClientMessage message = new ClientMessage(local, send, this, address, replyAddress, msg);
+        if (!internalHandleReceiveMessage(message) && replyAddress != null)
+            replyHandlers.remove(replyAddress);
     }
 
-    protected boolean doUnsubscribe(boolean local, String topic, Handler<? extends Message> handler) {
-        checkNotNull("topic", topic);
+    protected <T> boolean doUnsubscribe(boolean local, String address, Handler<Message<T>> handler) {
+        checkNotNull("address", address);
         checkNotNull("handler", handler);
-        List<Handler<Message>> handlers = handlerMap.get(topic);
+        List<Handler<Message>> handlers = handlerMap.get(address);
         if (handlers == null)
             return false;
         boolean removed = handlers.remove(handler);
         if (handlers.isEmpty())
-            handlerMap.remove(topic);
+            handlerMap.remove(address);
         return removed;
     }
 
@@ -144,9 +151,9 @@ public class SimpleClientBus implements Bus {
         return false;
     }
 
-    <T> Bus internalHandleSendOrPub(boolean local, boolean send, String topic, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        if (local || hook == null || hook.handleSendOrPub(send, topic, msg, replyHandler))
-            doSendOrPub(local, send, topic, msg, replyHandler);
+    <T> Bus internalHandleSendOrPub(boolean local, boolean send, String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
+        if (local || hook == null || hook.handleSendOrPub(send, address, msg, replyHandler))
+            doSendOrPub(local, send, address, msg, replyHandler);
         return this;
     }
 
@@ -155,37 +162,37 @@ public class SimpleClientBus implements Bus {
     }
 
     private void doReceiveMessage(Message message) {
-        String topic = message.topic();
-        List<Handler<Message>> handlers = handlerMap.get(topic);
+        String address = message.address();
+        List<Handler<Message>> handlers = handlerMap.get(address);
         if (handlers != null) {
             // We make a copy since the handler might get unregistered from within the handler itself,
             // which would screw up our iteration
             List<Handler<Message>> copy = new ArrayList<>(handlers);
             // Drain any messages that came in while the channel was not open.
             for (Handler<Message> handler : copy)
-                scheduleHandle(topic, handler, message);
+                scheduleHandle(address, handler, message);
         } else {
             // Might be a reply message
-            Handler<AsyncResult<Message>> handler = replyHandlers.get(topic);
+            Handler<AsyncResult<Message>> handler = replyHandlers.get(address);
             if (handler != null) {
-                replyHandlers.remove(topic);
-                scheduleHandleAsync(topic, handler, message);
+                replyHandlers.remove(address);
+                scheduleHandleAsync(address, handler, message);
             }
         }
     }
 
-    private void handle(String topic, Handler<AsyncResult<Message>> handler, Message message) {
-        //Platform.log("handle(), topic = " + topic + ", handler = " + handler + ", message = " + message);
+    private void handle(String address, Handler<AsyncResult<Message>> handler, Message message) {
+        //Platform.log("handle(), address = " + address + ", handler = " + handler + ", message = " + message);
         try {
             handler.handle(Future.succeededFuture(message));
         } catch (Throwable e) {
-            Logger.log("Failed to handle on topic: " + topic, e);
-            publishLocal(WebSocketBus.ON_ERROR, Json.createObject().set("topic", topic).set("message", message).set("cause", e));
+            Logger.log("Failed to handle on address: " + address, e);
+            publishLocal(WebSocketBus.ON_ERROR, Json.createObject().set("address", address).set("message", message).set("cause", e));
         }
     }
 
-    private void scheduleHandle(String topic, Handler<Message> handler, Message message) {
-        scheduleHandleAsync(topic, ar -> {
+    private void scheduleHandle(String address, Handler<Message> handler, Message message) {
+        scheduleHandleAsync(address, ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
             else
@@ -193,16 +200,16 @@ public class SimpleClientBus implements Bus {
         }, message);
     }
 
-    private void scheduleHandleAsync(String topic, Handler<AsyncResult<Message>> handler, Message message) {
-        //Platform.log("scheduleHandle(), topic = " + topic + ", handler = " + handler + ", message = " + message);
+    private void scheduleHandleAsync(String address, Handler<AsyncResult<Message>> handler, Message message) {
+        //Platform.log("scheduleHandle(), address = " + address + ", handler = " + handler + ", message = " + message);
         if (message.isLocal())
-            handle(topic, handler, message);
+            handle(address, handler, message);
         else
-            Scheduler.scheduleDeferred(() -> handle(topic, handler, message));
+            Scheduler.scheduleDeferred(() -> handle(address, handler, message));
     }
 
-    private Registration subscribeImpl(boolean local, String topic, Handler<? extends Message> handler) {
-        doSubscribe(local, topic, handler);
-        return () -> doUnsubscribe(local, topic, handler);
+    private <T> Registration subscribeImpl(boolean local, String address, Handler<Message<T>> handler) {
+        doSubscribe(local, address, handler);
+        return () -> doUnsubscribe(local, address, handler);
     }
 }

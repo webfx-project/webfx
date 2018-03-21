@@ -32,23 +32,23 @@ import naga.util.async.Handler;
 class ClientMessage<U> implements Message<U> {
     protected U body;
     protected Bus bus;
-    protected String topic;
-    protected String replyTopic;
+    protected String address;
+    protected String replyAddress;
     protected boolean send; // Is it a send or a publish?
     protected boolean local;
 
-    public ClientMessage(boolean local, boolean send, Bus bus, String topic, String replyTopic, U body) {
+    public ClientMessage(boolean local, boolean send, Bus bus, String address, String replyAddress, U body) {
         this.local = local;
         this.send = send;
         this.bus = bus;
-        this.topic = topic;
-        this.replyTopic = replyTopic;
+        this.address = address;
+        this.replyAddress = replyAddress;
         this.body = body;
     }
 
     @Override
-    public String topic() {
-        return topic;
+    public String address() {
+        return address;
     }
 
     @Override
@@ -77,8 +77,8 @@ class ClientMessage<U> implements Message<U> {
     }
 
     @Override
-    public String replyTopic() {
-        return replyTopic;
+    public String replyAddress() {
+        return replyAddress;
     }
 
     @Override
@@ -87,7 +87,7 @@ class ClientMessage<U> implements Message<U> {
     }
 
     private <T> void sendReply(Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        if (bus != null && replyTopic != null)
-            bus.send(local, replyTopic, msg, replyHandler); // Send back reply
+        if (bus != null && replyAddress != null)
+            bus.send(local, replyAddress, msg, replyHandler); // Send back reply
     }
 }

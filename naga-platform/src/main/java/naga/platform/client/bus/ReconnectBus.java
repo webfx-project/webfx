@@ -59,10 +59,10 @@ public class ReconnectBus extends WebSocketBus {
                 backOffGenerator.reset();
 
                 for (Map.Entry<String, Integer> entry : handlerCount.entrySet()) {
-                    String topic = entry.getKey();
-                    //assert entry.getValue() > 0 : "Handlers registered on " + topic + " shouldn't be empty";
-                    sendUnsubscribe(topic);
-                    sendSubscribe(topic);
+                    String address = entry.getKey();
+                    //assert entry.getValue() > 0 : "Handlers registered on " + address + " shouldn't be empty";
+                    sendUnsubscribe(address);
+                    sendSubscribe(address);
                 }
 
                 if (queuedMessages.size() > 0) {

@@ -65,12 +65,12 @@ public interface Message<T> {
     <T> void reply(Object msg, Handler<AsyncResult<Message<T>>> replyHandler);
 
     /**
-     * The reply topic (if any)
+     * The reply address (if any)
      */
-    String replyTopic();
+    String replyAddress();
 
     /**
-     * The topic the message was sent to
+     * The address the message was sent to
      */
-    String topic();
+    String address();
 }
