@@ -64,6 +64,8 @@ public class ClientSessionRecorder {
                 onConnectionClosed();
             }
         });
+        if (bus.isOpen())
+            onConnectionOpened();
         Shutdown.addShutdownHook(this::onConnectionClosed);
     }
 
