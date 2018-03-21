@@ -99,9 +99,9 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
                 for (int row = 0; row < rowCount; row++) {
                     Object processId = rs.getValue(row, 1);
                     final int r = row;
-                    String clientAddress = "client/" + processId;
-                    Logger.log("Calling " + clientAddress);
-                    BusCallService.call(clientAddress, "server/push/client/listener", "Server push pulse for " + clientAddress, Platform.bus()).setHandler(ar -> {
+                    String clientBusCallServiceAddress = "busCallService/client/" + processId;
+                    Logger.log("Calling " + clientBusCallServiceAddress);
+                    BusCallService.call(clientBusCallServiceAddress, "serverPushClientListener", "Server push pulse for " + clientBusCallServiceAddress, Platform.bus()).setHandler(ar -> {
                         replyReceived[r] = ar.succeeded();
                         if (++replyCount == rowCount && scheduled != null) {
                             scheduled.cancel();

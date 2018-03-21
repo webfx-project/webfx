@@ -64,7 +64,7 @@ public class ClientSessionRecorder {
                 onConnectionClosed();
             }
         });
-        Shutdown.addShutdownHook(this::recordSessionProcessEnd);
+        Shutdown.addShutdownHook(this::onConnectionClosed);
     }
 
     private final UpdateStore store = UpdateStore.create(DomainModelSnapshotLoader.getDataSourceModel());
@@ -196,13 +196,13 @@ public class ClientSessionRecorder {
 
     private void checkServerPushClientRegistration() {
         if (serverPushClientRegistration == null) {
-            serverPushClientRegistration = BusCallService.registerJavaFunctionAsCallableService("server/push/client/listener", s -> {
+            serverPushClientRegistration = BusCallService.registerJavaFunctionAsCallableService("serverPushClientListener", s -> {
                 Logger.log(s);
                 return "OK";
             });
-            String clientAddress = "client/" + sessionProcess.getPrimaryKey();
-            Logger.log("Subscribing " + clientAddress);
-            BusCallService.listenBusEntryCalls(clientAddress);
+            String clientBusCallServiceAddress = "busCallService/client/" + sessionProcess.getPrimaryKey();
+            Logger.log("Subscribing " + clientBusCallServiceAddress);
+            BusCallService.listenBusEntryCalls(clientBusCallServiceAddress);
         }
     }
 
