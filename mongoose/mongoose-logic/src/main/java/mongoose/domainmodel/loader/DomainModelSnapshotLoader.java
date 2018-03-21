@@ -44,7 +44,7 @@ public class DomainModelSnapshotLoader {
         }
     };
 
-    public static DomainModel getOrLoadDomainModel() {
+    public static synchronized DomainModel getOrLoadDomainModel() {
         if (domainModel == null)
             domainModel = loadDomainModelFromSnapshot();
         return domainModel;
