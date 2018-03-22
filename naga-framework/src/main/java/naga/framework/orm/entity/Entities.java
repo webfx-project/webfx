@@ -17,6 +17,14 @@ import java.util.List;
  */
 public class Entities {
 
+    public static boolean isNew(Entity entity) {
+        return entity != null && entity.isNew();
+    }
+
+    public static boolean isNotNew(Entity entity) {
+        return entity != null && !entity.isNew();
+    }
+
     public static boolean sameId(Entity e1, Entity e2) {
         return e1 == e2 || e1 != null && e2 != null && e1.getId().equals(e2.getId());
     }
