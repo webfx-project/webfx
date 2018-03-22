@@ -3,6 +3,7 @@ package mongoose.activities.shared.generic.session;
 import javafx.beans.property.Property;
 import mongoose.authn.MongooseUserPrincipal;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
+import naga.framework.orm.entity.Entities;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.UpdateStore;
@@ -36,10 +37,24 @@ public class ClientSessionRecorder {
         Logger.log("application.build.tool = " + getApplicationBuildTool());
         Logger.log("application.build.timestamp = " + getApplicationBuildTimestampString());
         Logger.log("application.build.number = " + getApplicationBuildNumberString());
+        // Registering the server push client listener. This registration is private (ie just done locally on the client
+        // event bus) so not directly visible on the server event bus but the server can reach that listener by running:
+        // BusCallService.call(clientBusCallServiceAddress, "serverPushClientListener", arg, ...)
+        // because the client bus call service will finally pass the arg to that listener over the local client bus.
+        // But of course to make this work, the client bus call service must listen server calls by running:
+        // BusCallService.listenBusEntryCalls(clientBusCallServiceAddress)
+        // This registration is public (so visible on the server event bus) but it will be done later by the method
+        // listenServerPushCallsIfReady() because clientBusCallServiceAddress is computed from client process id which
+        // is not yet known at this stage (the purpose is to have a unique address for each client that can be easily
+        // computed by the server as well from the process id read from session tables).
+        BusCallService.registerJavaFunctionAsCallableService("serverPushClientListener", arg -> {
+            Logger.log(arg);
+            return "OK";
+        });
     }
 
     private final Bus bus;
-    private Registration serverPushClientRegistration;
+    private Registration serverPushCallsRegistration;
 
     public ClientSessionRecorder() {
         this(Platform.bus());
@@ -66,7 +81,7 @@ public class ClientSessionRecorder {
         });
         if (bus.isOpen())
             onConnectionOpened();
-        Shutdown.addShutdownHook(this::onConnectionClosed);
+        Shutdown.addShutdownHook(this::onShutdown);
     }
 
     private final UpdateStore store = UpdateStore.create(DomainModelSnapshotLoader.getDataSourceModel());
@@ -139,26 +154,27 @@ public class ClientSessionRecorder {
         sessionProcess.setForeignField("application", getSessionApplication());
     }
 
-    private void onConnectionOpened() {
-        insertSessionConnection();
-        executeUpdate();
-    }
-
-    private void onConnectionClosed() {
-        if (sessionConnection != null) {
-            touchSessionEntityEnd(store.updateEntity(sessionConnection));
-            executeUpdate();
-        }
-        if (serverPushClientRegistration != null)
-            serverPushClientRegistration.unregister();
-    }
-
     private void insertSessionConnection() {
         sessionConnection = insertSessionEntity("SessionConnection", sessionConnection);
         sessionConnection.setForeignField("process", getSessionProcess());
     }
 
-    private void recordSessionProcessEnd() {
+    private void onConnectionOpened() {
+        listenServerPushCallsIfReady();
+        insertSessionConnection();
+        executeUpdate();
+    }
+
+    private void onConnectionClosed() {
+        stopListeningServerPushCalls();
+        if (sessionConnection != null) {
+            touchSessionEntityEnd(store.updateEntity(sessionConnection));
+            executeUpdate();
+        }
+    }
+
+    private void onShutdown() {
+        stopListeningServerPushCalls();
         if (sessionProcess != null) {
             touchSessionEntityEnd(store.updateEntity(sessionProcess));
             if (sessionConnection != null)
@@ -181,8 +197,8 @@ public class ClientSessionRecorder {
     }
 
     private void executeUpdate() {
-        boolean newSessionAgent = sessionAgent != null && sessionAgent.isNew();
-        boolean newSessionApplication = sessionApplication != null && sessionApplication.isNew();
+        boolean newSessionAgent = Entities.isNew(sessionAgent);
+        boolean newSessionApplication =  Entities.isNew(sessionApplication);
         store.executeUpdate().setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
@@ -191,21 +207,23 @@ public class ClientSessionRecorder {
                     storeEntityToLocalStorage(sessionAgent, "sessionAgent", "agentString");
                 if (newSessionApplication)
                     storeEntityToLocalStorage(sessionApplication, "sessionApplication", "name", "version", "buildTool", "buildNumberString", "buildTimestampString");
-                checkServerPushClientRegistration();
+                listenServerPushCallsIfReady();
             }
         });
     }
 
-    private void checkServerPushClientRegistration() {
-        if (serverPushClientRegistration == null) {
-            serverPushClientRegistration = BusCallService.registerJavaFunctionAsCallableService("serverPushClientListener", s -> {
-                Logger.log(s);
-                return "OK";
-            });
+    private void listenServerPushCallsIfReady() {
+        if (serverPushCallsRegistration == null && Entities.isNotNew(sessionProcess)) {
             String clientBusCallServiceAddress = "busCallService/client/" + sessionProcess.getPrimaryKey();
             Logger.log("Subscribing " + clientBusCallServiceAddress);
-            BusCallService.listenBusEntryCalls(clientBusCallServiceAddress);
+            serverPushCallsRegistration = BusCallService.listenBusEntryCalls(clientBusCallServiceAddress);
         }
+    }
+
+    private void stopListeningServerPushCalls() {
+        if (bus.isOpen())
+            serverPushCallsRegistration.unregister();
+        serverPushCallsRegistration = null;
     }
 
     private Entity insertSessionEntity(Object domainClassId, Entity previousEntity) {
