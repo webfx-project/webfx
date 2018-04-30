@@ -1,9 +1,6 @@
 package naga.framework.ui.filter;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import naga.framework.activity.activeproperty.HasActiveProperty;
 import naga.framework.expression.Expression;
@@ -28,9 +25,12 @@ import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplaySelection;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
+import naga.platform.services.push.client.spi.PushClientService;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.querypush.QueryPushArgument;
+import naga.platform.services.querypush.spi.QueryPushService;
 import naga.scheduler.Scheduler;
 import naga.type.PrimType;
 import naga.util.Booleans;
@@ -55,6 +55,8 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private StringFilter lastStringFilter;
     private Object[] lastParameterValues;
+    private boolean lastPush;
+    private Object lastPushClientId;
     private Observable<EntityList<E>> lastEntityListObservable;
     private final BehaviorSubject<StringFilter> lastStringFilterReEmitter = BehaviorSubject.create();
     private List<E> restrictedFilterList;
@@ -73,10 +75,14 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     private List<FilterDisplay> filterDisplays = new ArrayList<>();
     private ReferenceResolver rootAliasReferenceResolver;
     private final BooleanProperty activeProperty = new SimpleBooleanProperty(true);
+    private final BooleanProperty pushProperty = new SimpleBooleanProperty(false);
+    private final ObjectProperty<Object> pushClientIdProperty = new SimpleObjectProperty();
+    private Object queryStreamId;
     private ObservableValue<Boolean> boundActiveProperty;
     private boolean started;
 
     public ReactiveExpressionFilter() {
+        bindPushClientIdPropertyTo(PushClientService.pushClientIdPropertyProperty());
     }
 
     public Object getDomainClassId() {
@@ -88,6 +94,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     }
 
     public ReactiveExpressionFilter(Object jsonOrClass) {
+        this();
         combine(new StringFilterBuilder(jsonOrClass));
     }
 
@@ -158,6 +165,38 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     public ReactiveExpressionFilter<E> bindActivePropertyTo(ObservableValue<Boolean> activeProperty) {
         if (activeProperty != null)
             this.activeProperty.bind(boundActiveProperty = activeProperty);
+        return this;
+    }
+
+    public ObservableValue<Boolean> pushProperty() {
+        return pushProperty;
+    }
+
+    public ReactiveExpressionFilter<E> setPush(boolean push) {
+        pushProperty.setValue(push);
+        return this;
+    }
+
+    public boolean isPush() {
+        return pushProperty.getValue();
+    }
+
+    public ObservableValue pushClientIdProperty() {
+        return pushClientIdProperty;
+    }
+
+    public ReactiveExpressionFilter<E> setPushClientId(Object pushClientId) {
+        pushClientIdProperty.setValue(pushClientId);
+        return this;
+    }
+
+    public Object getPushClientId() {
+        return pushClientIdProperty.getValue();
+    }
+
+    public ReactiveExpressionFilter<E> bindPushClientIdPropertyTo(ObservableValue pushClientIdProperty) {
+        if (pushClientIdProperty != null)
+            this.pushClientIdProperty.bind(pushClientIdProperty);
         return this;
     }
 
@@ -336,6 +375,8 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
 
     public ReactiveExpressionFilter<E> start() {
         combine(activeProperty, "{}");
+        combine(pushProperty, "{}");
+        combine(pushClientIdProperty, p -> "{}");
         // if autoRefresh is set, we combine the filter with a 5s tic tac property
         if (autoRefresh) {
             Property<Boolean> ticTacProperty = new SimpleObjectProperty<>(true);
@@ -371,6 +412,8 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         resultingStringFilterObservable = resultingStringFilterObservable.mergeWith(lastStringFilterReEmitter);
         Observable<EntityList<E>> entityListObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
             Object[] parameterValues = null;
+            boolean push = isPush();
+            Object pushClientId = getPushClientId();
             // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
             if ("false".equals(stringFilter.getWhere()) || "0".equals(stringFilter.getLimit()))
                 lastEntityListObservable = Observable.just(emptyFutureList());
@@ -383,17 +426,28 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                 SqlCompiled sqlCompiled = getDomainModel().compileSelect(stringFilter.toStringSelect());
                 ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
                 parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
-                if (autoRefresh || isDifferentFromLastQuery(stringFilter, parameterValues)) {
-                    // We increment and capture the sequence to check if the request is still the latest one when receiving the result
-                    int sequence = querySequence.incrementAndGet();
-                    // Then we ask the query service to execute the sql query
-                    lastEntityListObservable = RxFuture.from(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceId())))
-                            // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
-                            // Otherwise transforming the QueryResultSet into an EntityList
-                            .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
+                if (autoRefresh || isDifferentFromLastQuery(stringFilter, parameterValues, push, pushClientId)) {
+                    QueryArgument queryArgument = new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceId());
+                    if (!push || pushClientId == null) {
+                        // We increment and capture the sequence to check if the request is still the latest one when receiving the result
+                        int sequence = querySequence.incrementAndGet();
+                        // Then we ask the query service to execute the sql query
+                        lastEntityListObservable = RxFuture.from(QueryService.executeQuery(queryArgument))
+                                // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
+                                // Otherwise transforming the QueryResultSet into an EntityList
+                                .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
+                    } else {
+                        BehaviorSubject<EntityList<E>> entityListPushEmitter = BehaviorSubject.create();
+                        lastEntityListObservable = entityListPushEmitter;
+                        QueryPushService.executeQueryPush(
+                                queryStreamId == null
+                                ? QueryPushArgument.openStreamArgument(pushClientId, queryArgument, queryResultSet -> entityListPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled)))
+                                : QueryPushArgument.updateStreamArgument(queryStreamId, queryArgument)
+                        ).setHandler(ar -> queryStreamId = ar.result());
+                    }
                 }
             }
-            memorizeAsLastQuery(stringFilter, parameterValues);
+            memorizeAsLastQuery(stringFilter, parameterValues, push, pushClientId);
             return lastEntityListObservable;
         });
         if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultSetProperty != null)
@@ -411,13 +465,19 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return started;
     }
 
-    private boolean isDifferentFromLastQuery(StringFilter stringFilter, Object[] parameterValues) {
-        return !Objects.equals(stringFilter, lastStringFilter) || !Arrays.equals(parameterValues, lastParameterValues);
+    private boolean isDifferentFromLastQuery(StringFilter stringFilter, Object[] parameterValues, boolean push, Object pushClientId) {
+        return  !Objects.equals(stringFilter, lastStringFilter)
+                || !Arrays.equals(parameterValues, lastParameterValues)
+                || push != lastPush
+                || !Objects.equals(pushClientId, lastPushClientId)
+                ;
     }
 
-    private void memorizeAsLastQuery(StringFilter stringFilter, Object[] parameterValues) {
+    private void memorizeAsLastQuery(StringFilter stringFilter, Object[] parameterValues, boolean push, Object pushClientId) {
         lastStringFilter = stringFilter;
         lastParameterValues = parameterValues;
+        lastPush = push;
+        lastPushClientId = pushClientId;
     }
 
     private EntityList<E> emptyFutureList() {

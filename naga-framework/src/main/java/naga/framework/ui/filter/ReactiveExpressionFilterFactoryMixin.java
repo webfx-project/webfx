@@ -11,11 +11,11 @@ import naga.framework.ui.i18n.HasI18n;
 public interface ReactiveExpressionFilterFactoryMixin extends HasI18n, HasDataSourceModel, HasActiveProperty {
 
     default <E extends Entity> ReactiveExpressionFilter<E> createReactiveExpressionFilter() {
-        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter<E>());
+        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter<>());
     }
 
     default <E extends Entity> ReactiveExpressionFilter<E> createReactiveExpressionFilter(Object jsonOrClass) {
-        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter<E>(jsonOrClass));
+        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter<>(jsonOrClass));
     }
 
     default <E extends Entity> ReactiveExpressionFilter<E> initializeReactiveExpressionFilter(ReactiveExpressionFilter<E> reactiveExpressionFilter) {
