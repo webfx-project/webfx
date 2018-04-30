@@ -13,6 +13,8 @@ import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
 import naga.platform.services.log.spi.Logger;
+import naga.platform.services.querypush.PulseArgument;
+import naga.platform.services.querypush.spi.QueryPushService;
 import naga.util.Arrays;
 import naga.util.async.Batch;
 import naga.util.async.Future;
@@ -36,11 +38,11 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class VertxConnectedServiceProviderProvider implements QueryServiceProvider, UpdateServiceProvider {
+public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServiceProvider, UpdateServiceProvider {
 
     private final AsyncSQLClient sqlClient;
 
-    public VertxConnectedServiceProviderProvider(Vertx vertx, ConnectionDetails connectionDetails) {
+    public VertxLocalConnectedQueryUpdateServiceProvider(Vertx vertx, ConnectionDetails connectionDetails) {
         // Generating the Vertx Sql config from the connection details
         JsonObject sqlConfig = new JsonObject()
                 // common config with JDBCClient
@@ -89,7 +91,8 @@ public class VertxConnectedServiceProviderProvider implements QueryServiceProvid
         return connectAndExecute(true, (connection, future) -> executeQueryOnConnection(queryArgument, connection, future));
     }
 
-    protected void executeQueryOnConnection(QueryArgument queryArgument, SQLConnection connection, Future<QueryResultSet> future) {
+    private void executeQueryOnConnection(QueryArgument queryArgument, SQLConnection connection, Future<QueryResultSet> future) {
+        // long t0 = System.currentTimeMillis();
         executeQueryOnConnection(queryArgument.getQueryString(), queryArgument.getParameters(), connection, res -> {
             if (res.failed()) // Sql error
                 future.fail(res.cause());
@@ -106,6 +109,7 @@ public class VertxConnectedServiceProviderProvider implements QueryServiceProvid
                     for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                         rsb.setValue(rowIndex, columnIndex, jsonArray.getValue(columnIndex));
                 }
+                // Logger.log("Sql executed in " + (System.currentTimeMillis() - t0) + " ms: " + queryArgument);
                 // Building and returning the final QueryResultSet
                 future.complete(rsb.build());
             }
@@ -150,6 +154,7 @@ public class VertxConnectedServiceProviderProvider implements QueryServiceProvid
                 }
                 // Returning the final QueryResultSet
                 future.complete(new UpdateResult(vertxUpdateResult.getUpdated(), generatedKeys));
+                QueryPushService.executePulse(new PulseArgument(updateArgument.getDataSourceId()));
             }
             // Closing the connection so it can go back to the pool
             if (close)
@@ -175,6 +180,7 @@ public class VertxConnectedServiceProviderProvider implements QueryServiceProvid
                 ResultSet resultSet = res.result();
                 Object[] generatedKeys = resultSet.getResults().get(0).stream().toArray();
                 future.complete(new UpdateResult(resultSet.getNumRows(), generatedKeys));
+                QueryPushService.executePulse(new PulseArgument(updateArgument.getDataSourceId()));
             }
             // Closing the connection so it can go back to the pool
             if (close)
