@@ -11,8 +11,8 @@ import naga.fx.spi.Toolkit;
 import naga.platform.bus.Bus;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Registration;
-import naga.platform.bus.call.BusCallService;
 import naga.platform.services.log.spi.Logger;
+import naga.platform.services.push.client.spi.PushClientService;
 import naga.platform.services.shutdown.spi.Shutdown;
 import naga.platform.services.storage.spi.LocalStorage;
 import naga.platform.spi.Platform;
@@ -47,14 +47,14 @@ public class ClientSessionRecorder {
         // listenServerPushCallsIfReady() because clientBusCallServiceAddress is computed from client process id which
         // is not yet known at this stage (the purpose is to have a unique address for each client that can be easily
         // computed by the server as well from the process id read from session tables).
-        BusCallService.registerJavaFunctionAsCallableService("serverPushClientListener", arg -> {
+        PushClientService.registerPushFunction("serverPushClientListener", arg -> {
             Logger.log(arg);
             return "OK";
         });
     }
 
     private final Bus bus;
-    private Registration serverPushCallsRegistration;
+    private Registration pushClientRegistration;
 
     public ClientSessionRecorder() {
         this(Platform.bus());
@@ -213,17 +213,14 @@ public class ClientSessionRecorder {
     }
 
     private void listenServerPushCallsIfReady() {
-        if (serverPushCallsRegistration == null && Entities.isNotNew(sessionProcess)) {
-            String clientBusCallServiceAddress = "busCallService/client/" + sessionProcess.getPrimaryKey();
-            Logger.log("Subscribing " + clientBusCallServiceAddress);
-            serverPushCallsRegistration = BusCallService.listenBusEntryCalls(clientBusCallServiceAddress);
-        }
+        if (pushClientRegistration == null && Entities.isNotNew(sessionProcess))
+            pushClientRegistration = PushClientService.listenServerPushCalls(sessionProcess.getPrimaryKey());
     }
 
     private void stopListeningServerPushCalls() {
         if (bus.isOpen())
-            serverPushCallsRegistration.unregister();
-        serverPushCallsRegistration = null;
+            pushClientRegistration.unregister();
+        pushClientRegistration = null;
     }
 
     private Entity insertSessionEntity(Object domainClassId, Entity previousEntity) {
