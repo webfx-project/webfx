@@ -8,6 +8,8 @@ import naga.platform.activity.ActivityManager;
 import naga.platform.bus.BusFactory;
 import naga.platform.json.Json;
 import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.querypush.impl.QueryPushServiceProviderBase;
+import naga.platform.services.querypush.spi.QueryPushService;
 import naga.platform.services.update.spi.UpdateService;
 import naga.platform.spi.Platform;
 import naga.platform.spi.server.ServerPlatform;
@@ -30,12 +32,13 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
         Json.registerProvider(new VertxJsonObject());
         QueryService.registerProvider(new VertxQueryServiceProvider(vertx));
         UpdateService.registerProvider(new VertxUpdateServiceProvider(vertx));
+        QueryPushService.registerProvider(new QueryPushServiceProviderBase());
     }
 
     private final BusFactory vertxBusFactory;
     private final Vertx vertx;
 
-    public VertxPlatform(Vertx vertx) {
+    private VertxPlatform(Vertx vertx) {
         vertxBusFactory = new VertxBusFactory(vertx.eventBus());
         this.vertx = vertx;
     }
@@ -58,12 +61,12 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
             }
 
             @Override
-            public void start(Future<Void> future) throws Exception {
+            public void start(Future<Void> future) {
                 serverActivityManager.run();
             }
 
             @Override
-            public void stop(Future<Void> future) throws Exception {
+            public void stop(Future<Void> future) {
                 serverActivityManager.destroy();
             }
         });

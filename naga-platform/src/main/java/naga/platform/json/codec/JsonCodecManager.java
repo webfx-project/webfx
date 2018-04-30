@@ -1,8 +1,5 @@
 package naga.platform.json.codec;
 
-import naga.util.Dates;
-import naga.util.Numbers;
-import naga.util.async.Batch;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
@@ -11,9 +8,14 @@ import naga.platform.json.spi.WritableJsonArray;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.querypush.QueryPushArgument;
+import naga.platform.services.querypush.QueryPushResult;
 import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
+import naga.util.Dates;
+import naga.util.Numbers;
+import naga.util.async.Batch;
 
 import java.lang.reflect.Array;
 import java.time.Instant;
@@ -197,6 +199,8 @@ public class JsonCodecManager {
         BusCallService.registerJsonCodecs();
         QueryArgument.registerJsonCodec();
         QueryResultSet.registerJsonCodec();
+        QueryPushArgument.registerJsonCodec();
+        QueryPushResult.registerJsonCodec();
         UpdateArgument.registerJsonCodec();
         GeneratedKeyBatchIndex.registerJsonCodec();
         UpdateResult.registerJsonCodec();
