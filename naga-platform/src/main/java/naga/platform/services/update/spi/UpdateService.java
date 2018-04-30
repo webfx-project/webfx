@@ -2,6 +2,7 @@ package naga.platform.services.update.spi;
 
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
+import naga.platform.services.update.remote.RemoteUpdateServiceProvider;
 import naga.util.async.Batch;
 import naga.util.async.Future;
 import naga.util.serviceloader.ServiceLoaderHelper;
@@ -11,16 +12,16 @@ import naga.util.serviceloader.ServiceLoaderHelper;
  */
 public class UpdateService {
 
-    private static UpdateServiceProvider PROVIDER;
+    static {
+        ServiceLoaderHelper.registerDefaultServiceFactory(UpdateServiceProvider.class, RemoteUpdateServiceProvider::new);
+    }
 
     public static UpdateServiceProvider getProvider() {
-        if (PROVIDER == null)
-            registerProvider(ServiceLoaderHelper.loadService(UpdateServiceProvider.class));
-        return PROVIDER;
+        return ServiceLoaderHelper.loadService(UpdateServiceProvider.class);
     }
 
     public static void registerProvider(UpdateServiceProvider provider) {
-        PROVIDER = provider;
+        ServiceLoaderHelper.cacheServiceInstance(UpdateServiceProvider.class, provider);
     }
 
     public static Future<UpdateResult> executeUpdate(UpdateArgument argument) {

@@ -18,10 +18,6 @@ import naga.scheduler.SchedulerProvider;
 import naga.providers.platform.client.gwt.scheduler.GwtSchedulerProvider;
 import naga.platform.services.resource.spi.ResourceServiceProvider;
 import naga.providers.platform.client.gwt.services.resource.GwtResourceServiceProvider;
-import naga.platform.services.query.spi.QueryServiceProvider;
-import naga.platform.services.query.remote.RemoteQueryServiceProvider;
-import naga.platform.services.update.spi.UpdateServiceProvider;
-import naga.platform.services.update.remote.RemoteUpdateServiceProvider;
 import naga.platform.services.log.spi.LoggerProvider;
 import naga.providers.platform.client.gwt.services.log.GwtLoggerProvider;
 import naga.platform.client.websocket.spi.WebSocketFactoryProvider;
@@ -45,10 +41,6 @@ public class ServiceLoader<S> {
             return new ServiceLoader<>(GwtJsonObject.create());
         if (serviceClass.equals(ResourceServiceProvider.class))
             return new ServiceLoader<>(new GwtResourceServiceProvider());
-        if (serviceClass.equals(QueryServiceProvider.class))
-            return new ServiceLoader<>(new RemoteQueryServiceProvider());
-        if (serviceClass.equals(UpdateServiceProvider.class))
-            return new ServiceLoader<>(new RemoteUpdateServiceProvider());
         if (serviceClass.equals(LoggerProvider.class))
             return new ServiceLoader<>(new GwtLoggerProvider());
         if (serviceClass.equals(WebSocketFactoryProvider.class))

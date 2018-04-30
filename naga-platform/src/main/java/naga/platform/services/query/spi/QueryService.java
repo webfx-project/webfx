@@ -2,6 +2,7 @@ package naga.platform.services.query.spi;
 
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.remote.RemoteQueryServiceProvider;
 import naga.util.async.Batch;
 import naga.util.async.Future;
 import naga.util.serviceloader.ServiceLoaderHelper;
@@ -11,16 +12,16 @@ import naga.util.serviceloader.ServiceLoaderHelper;
  */
 public class QueryService {
 
-    private static QueryServiceProvider PROVIDER;
+    static {
+        ServiceLoaderHelper.registerDefaultServiceFactory(QueryServiceProvider.class, RemoteQueryServiceProvider::new);
+    }
 
     public static QueryServiceProvider getProvider() {
-        if (PROVIDER == null)
-            registerProvider(ServiceLoaderHelper.loadService(QueryServiceProvider.class));
-        return PROVIDER;
+        return ServiceLoaderHelper.loadService(QueryServiceProvider.class);
     }
 
     public static void registerProvider(QueryServiceProvider provider) {
-        PROVIDER = provider;
+        ServiceLoaderHelper.cacheServiceInstance(QueryServiceProvider.class, provider);
     }
 
     public static Future<QueryResultSet> executeQuery(QueryArgument argument) {
