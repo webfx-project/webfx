@@ -65,7 +65,7 @@ class SerializableAsyncResult<T> implements AsyncResult<T> {
                 if (result.cause() != null)
                     json.set(ERROR_KEY, result.cause().getMessage());
                 if (result.result() != null)
-                    json.set(RESULT_KEY, JsonCodecManager.encodeToJsonObject(result.result()));
+                    json.set(RESULT_KEY, JsonCodecManager.encodeToJson(result.result()));
             }
 
             @Override
@@ -73,7 +73,7 @@ class SerializableAsyncResult<T> implements AsyncResult<T> {
                 String errorMessage = json.getString(ERROR_KEY);
                 Exception error = errorMessage == null ? null : new Exception(errorMessage);
                 return new SerializableAsyncResult<>(
-                        JsonCodecManager.decodeFromJsonObject(json.getObject(RESULT_KEY)),
+                        JsonCodecManager.decodeFromJson(json.get(RESULT_KEY)),
                         error
                 );
             }
