@@ -95,7 +95,7 @@ public interface Future<T> extends AsyncResult<T> {
             return succeededFuture();
         } catch (Throwable t) {
             // temporary tracing the exception while exception handling mechanism is not finished
-            System.out.println("Exception raised in Future.runAsync(): " + t.getMessage());
+            System.out.println("Exception raised in Future.consumeAsync(): " + t.getMessage());
             t.printStackTrace();
             return failedFuture(t);
         }
