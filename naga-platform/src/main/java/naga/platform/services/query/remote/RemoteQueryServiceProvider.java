@@ -7,10 +7,11 @@ import naga.platform.bus.call.BusCallServerActivity;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.LocalDataSourceRegistry;
-import naga.platform.services.query.LocalQueryServiceRegistry;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.util.async.Future;
+
+import static naga.platform.services.query.remote.LocalConnectedQueryServiceProviderRegistry.*;
 
 /**
  * @author Bruno Salmon
@@ -21,26 +22,26 @@ public class RemoteQueryServiceProvider implements QueryServiceProvider {
     public Future<QueryResultSet> executeQuery(QueryArgument argument) {
         String message = "Query: " + argument.getQueryString() + (argument.getParameters() == null ? "" : "\nParameters: " + Arrays.toString(argument.getParameters()));
         Logger.log(message);
-        QueryServiceProvider localQueryServiceProvider = getConnectedLocalQueryService(argument.getDataSourceId());
-        if (localQueryServiceProvider != null)
-            return localQueryServiceProvider.executeQuery(argument);
+        QueryServiceProvider localConnectedProvider = getOrCreateLocalConnectedProvider(argument.getDataSourceId());
+        if (localConnectedProvider != null)
+            return localConnectedProvider.executeQuery(argument);
         return executeRemoteQuery(argument);
     }
 
-    protected QueryServiceProvider getConnectedLocalQueryService(Object dataSourceId) {
-        QueryServiceProvider connectedQueryServiceProvider = LocalQueryServiceRegistry.getLocalConnectedQueryService(dataSourceId);
-        if (connectedQueryServiceProvider == null) {
+    protected QueryServiceProvider getOrCreateLocalConnectedProvider(Object dataSourceId) {
+        QueryServiceProvider localConnectedProvider = getLocalConnectedProvider(dataSourceId);
+        if (localConnectedProvider == null) {
             ConnectionDetails connectionDetails = LocalDataSourceRegistry.getLocalDataSourceConnectionDetails(dataSourceId);
             if (connectionDetails != null) {
-                connectedQueryServiceProvider = createConnectedQueryService(connectionDetails);
-                LocalQueryServiceRegistry.registerLocalConnectedQueryService(dataSourceId, connectedQueryServiceProvider);
+                localConnectedProvider = createLocalConnectedProvider(connectionDetails);
+                registerLocalConnectedProvider(dataSourceId, localConnectedProvider);
             }
         }
-        return connectedQueryServiceProvider;
+        return localConnectedProvider;
     }
 
-    protected QueryServiceProvider createConnectedQueryService(ConnectionDetails connectionDetails) {
-        throw new UnsupportedOperationException("This platform doesn't support local query service");
+    protected QueryServiceProvider createLocalConnectedProvider(ConnectionDetails connectionDetails) {
+        throw new UnsupportedOperationException("This platform doesn't provide local QueryServiceProvider");
     }
 
     protected <T> Future<T> executeRemoteQuery(QueryArgument argument) {

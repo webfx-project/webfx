@@ -11,7 +11,7 @@ import naga.providers.platform.abstr.java.services.JdbcConnectedServiceProviderP
 public class JdbcQueryServiceProvider extends RemoteQueryServiceProvider {
 
     @Override
-    protected QueryServiceProvider createConnectedQueryService(ConnectionDetails connectionDetails) {
+    protected QueryServiceProvider createLocalConnectedProvider(ConnectionDetails connectionDetails) {
         return new JdbcConnectedServiceProviderProvider(connectionDetails);
     }
 

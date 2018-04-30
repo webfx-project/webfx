@@ -18,7 +18,7 @@ public class VertxQueryServiceProvider extends RemoteQueryServiceProvider {
     }
 
     @Override
-    protected QueryServiceProvider createConnectedQueryService(ConnectionDetails connectionDetails) {
+    protected QueryServiceProvider createLocalConnectedProvider(ConnectionDetails connectionDetails) {
         return new VertxConnectedServiceProviderProvider(vertx, connectionDetails);
     }
 
