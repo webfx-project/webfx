@@ -23,7 +23,8 @@ class MonitorPresentationLogicActivity
                 .setExpressionColumns("['0 + id','systemLoadAverage','processCpuLoad']")
                 //.combine("{columns: '0 + id,systemLoadAverage,processCpuLoad'}")
                 .displayResultSetInto(pm.cpuDisplayResultSetProperty())
-                .setAutoRefresh(true)
+                //.setAutoRefresh(true)
+                .setPush(true)
                 .start();
     }
 }
