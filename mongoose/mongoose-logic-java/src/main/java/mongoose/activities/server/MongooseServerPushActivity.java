@@ -6,8 +6,8 @@ import naga.framework.activity.domain.DomainActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
-import naga.platform.bus.call.BusCallService;
 import naga.platform.services.log.spi.Logger;
+import naga.platform.services.push.server.spi.PushServerService;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.spi.QueryService;
@@ -28,7 +28,7 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
     private DomainActivityContext activityContext;
     private Scheduled serverPushPeriodicTimer;
     private ServerPushPass runningServerPushPass;
-    private boolean pulseOccurred;
+    private boolean pulseOccurredDuringLastPass;
 
     @Override
     public void onCreate(DomainActivityContext context) {
@@ -56,10 +56,8 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
     }
 
     private synchronized void pulse() {
-        if (runningServerPushPass != null)
-            pulseOccurred = true;
-        else {
-            pulseOccurred = false;
+        pulseOccurredDuringLastPass = runningServerPushPass != null;
+        if (!pulseOccurredDuringLastPass) {
             runningServerPushPass = new ServerPushPass();
             runningServerPushPass.run();
         }
@@ -67,7 +65,7 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
 
     private synchronized void onServerPushPassEnd() {
         runningServerPushPass = null;
-        if (pulseOccurred)
+        if (pulseOccurredDuringLastPass)
             pulse();
     }
 
@@ -99,9 +97,7 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
                 for (int row = 0; row < rowCount; row++) {
                     Object processId = rs.getValue(row, 1);
                     final int r = row;
-                    String clientBusCallServiceAddress = "busCallService/client/" + processId;
-                    Logger.log("Calling " + clientBusCallServiceAddress);
-                    BusCallService.call(clientBusCallServiceAddress, "serverPushClientListener", "Server push pulse for " + clientBusCallServiceAddress, Platform.bus()).setHandler(ar -> {
+                    PushServerService.callClientService("serverPushClientListener", "Server push pulse for client process " + processId, Platform.bus(), processId).setHandler(ar -> {
                         replyReceived[r] = ar.succeeded();
                         if (++replyCount == rowCount && scheduled != null) {
                             scheduled.cancel();
