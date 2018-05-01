@@ -1,7 +1,7 @@
 package naga.framework.orm.domainmodel.loader;
 
-import naga.platform.services.log.spi.Logger;
-import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.log.Logger;
+import naga.platform.services.query.QueryService;
 import naga.type.DerivedType;
 import naga.type.PrimType;
 import naga.type.Type;

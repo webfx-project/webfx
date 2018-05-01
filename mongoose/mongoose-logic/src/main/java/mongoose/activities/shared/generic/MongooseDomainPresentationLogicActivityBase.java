@@ -5,9 +5,9 @@ import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.query.QueryService;
 import naga.util.function.Factory;
 
 /**

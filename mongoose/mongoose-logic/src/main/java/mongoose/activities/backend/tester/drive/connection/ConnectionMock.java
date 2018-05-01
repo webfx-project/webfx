@@ -4,7 +4,7 @@ package mongoose.activities.backend.tester.drive.connection;
 import mongoose.activities.backend.monitor.listener.ConnectionEvent;
 import mongoose.activities.backend.monitor.listener.EventType;
 import mongoose.activities.backend.tester.drive.command.Command;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.scheduler.Scheduler;
 
 /**

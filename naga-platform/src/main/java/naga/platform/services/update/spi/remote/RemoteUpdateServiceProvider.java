@@ -1,4 +1,4 @@
-package naga.platform.services.update.remote;
+package naga.platform.services.update.spi.remote;
 
 import naga.platform.services.update.spi.UpdateServiceProvider;
 import naga.util.async.Batch;

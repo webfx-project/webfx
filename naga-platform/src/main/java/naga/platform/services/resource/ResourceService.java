@@ -1,5 +1,6 @@
-package naga.platform.services.resource.spi;
+package naga.platform.services.resource;
 
+import naga.platform.services.resource.spi.ResourceServiceProvider;
 import naga.util.async.Future;
 import naga.util.serviceloader.ServiceLoaderHelper;
 

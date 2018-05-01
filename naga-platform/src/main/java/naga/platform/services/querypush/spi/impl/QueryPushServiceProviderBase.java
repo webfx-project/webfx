@@ -1,9 +1,9 @@
-package naga.platform.services.querypush.impl;
+package naga.platform.services.querypush.spi.impl;
 
-import naga.platform.services.log.spi.Logger;
-import naga.platform.services.push.server.spi.PushServerService;
+import naga.platform.services.log.Logger;
+import naga.platform.services.push.server.PushServerService;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.query.QueryService;
 import naga.platform.services.querypush.PulseArgument;
 import naga.platform.services.querypush.QueryPushArgument;
 import naga.platform.services.querypush.QueryPushResult;

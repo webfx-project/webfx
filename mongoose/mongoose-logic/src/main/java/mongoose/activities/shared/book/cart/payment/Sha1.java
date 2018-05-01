@@ -8,7 +8,7 @@ package mongoose.activities.shared.book.cart.payment;
  * details.
  */
 
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 
 /**
  * @author Bruno Salmon

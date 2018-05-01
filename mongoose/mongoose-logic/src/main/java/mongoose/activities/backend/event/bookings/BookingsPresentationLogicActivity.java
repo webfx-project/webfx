@@ -8,7 +8,7 @@ import mongoose.entities.Document;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.util.Booleans;
 import naga.util.Objects;
 import naga.util.Strings;

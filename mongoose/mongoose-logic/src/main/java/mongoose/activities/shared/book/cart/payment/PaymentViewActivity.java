@@ -25,7 +25,7 @@ import naga.fx.spi.Toolkit;
 import naga.fxdata.control.HtmlText;
 import naga.platform.client.bus.WebSocketBus;
 import naga.platform.client.url.location.WindowLocation;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.platform.spi.Platform;
 import naga.platform.spi.client.ClientPlatform;
 import naga.util.Dates;

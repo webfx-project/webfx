@@ -9,7 +9,7 @@ import naga.framework.router.auth.authz.RoutingAuthorizationRule;
 import naga.framework.router.auth.authz.RoutingAuthorizationRuleParser;
 import naga.framework.spi.authz.impl.inmemory.AuthorizationRuleType;
 import naga.framework.spi.authz.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.util.Strings;
 
 /**

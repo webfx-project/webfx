@@ -1,10 +1,11 @@
-package naga.platform.services.push.client.spi;
+package naga.platform.services.push.client;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.platform.bus.Registration;
 import naga.platform.bus.call.BusCallService;
-import naga.platform.services.push.client.impl.PushClientServiceProviderImpl;
+import naga.platform.services.push.client.spi.impl.PushClientServiceProviderImpl;
+import naga.platform.services.push.client.spi.PushClientServiceProvider;
 import naga.util.function.Function;
 import naga.util.serviceloader.ServiceLoaderHelper;
 

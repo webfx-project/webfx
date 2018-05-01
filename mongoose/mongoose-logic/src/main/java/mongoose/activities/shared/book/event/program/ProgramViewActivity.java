@@ -7,7 +7,7 @@ import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import naga.framework.ui.layouts.LayoutUtil;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 
 /**
  * @author Bruno Salmon

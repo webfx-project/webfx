@@ -3,7 +3,7 @@ package naga.framework.ui.router;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.HistoryLocation;
 import naga.framework.router.Router;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.util.async.Handler;
 
 /**

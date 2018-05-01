@@ -1,5 +1,6 @@
-package naga.platform.services.storage.spi;
+package naga.platform.services.storage;
 
+import naga.platform.services.storage.spi.SessionStorageProvider;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
 import java.util.Iterator;

@@ -21,7 +21,7 @@ import mongoose.util.PerformanceLogger;
 import naga.framework.orm.entity.Entities;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 
 import java.util.concurrent.TimeUnit;
 

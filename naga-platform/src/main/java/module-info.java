@@ -37,11 +37,11 @@ module naga.platform {
     exports naga.platform.services.log.spi;
     exports naga.platform.services.query;
     exports naga.platform.services.auth.remote;
-    exports naga.platform.services.query.remote;
+    exports naga.platform.services.query.spi.remote;
     exports naga.platform.services.query.spi;
     exports naga.platform.services.resource.spi;
     exports naga.platform.services.update;
-    exports naga.platform.services.update.remote;
+    exports naga.platform.services.update.spi.remote;
     exports naga.platform.services.update.spi;
     exports naga.platform.spi;
     exports naga.platform.spi.client;

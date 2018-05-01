@@ -1,8 +1,7 @@
-package naga.platform.services.querypush.spi;
+package naga.platform.services.querypush;
 
-import naga.platform.services.querypush.PulseArgument;
-import naga.platform.services.querypush.QueryPushArgument;
-import naga.platform.services.querypush.remote.RemoteQueryPushServiceProvider;
+import naga.platform.services.querypush.spi.remote.RemoteQueryPushServiceProvider;
+import naga.platform.services.querypush.spi.QueryPushServiceProvider;
 import naga.util.async.Future;
 import naga.util.serviceloader.ServiceLoaderHelper;
 

@@ -11,10 +11,10 @@ import naga.fx.spi.Toolkit;
 import naga.platform.bus.Bus;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Registration;
-import naga.platform.services.log.spi.Logger;
-import naga.platform.services.push.client.spi.PushClientService;
-import naga.platform.services.shutdown.spi.Shutdown;
-import naga.platform.services.storage.spi.LocalStorage;
+import naga.platform.services.log.Logger;
+import naga.platform.services.push.client.PushClientService;
+import naga.platform.services.shutdown.Shutdown;
+import naga.platform.services.storage.LocalStorage;
 import naga.platform.spi.Platform;
 
 import java.time.Instant;

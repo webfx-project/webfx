@@ -1,7 +1,7 @@
 package mongoose.activities.backend.monitor.listener;
 
 import mongoose.activities.backend.monitor.metrics.model.MemData;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 
 /**
  * @author Jean-Pierre Alonso.

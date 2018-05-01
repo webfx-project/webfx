@@ -18,7 +18,7 @@
 package naga.providers.platform.abstr.java.scheduler;
 
 
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.scheduler.Scheduled;
 import naga.scheduler.SchedulerProvider;
 

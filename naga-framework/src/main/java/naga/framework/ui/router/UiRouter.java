@@ -26,7 +26,7 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.util.async.Handler;
 import naga.util.function.Converter;
 import naga.util.function.Factory;

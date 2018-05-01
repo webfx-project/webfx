@@ -1,8 +1,7 @@
-package naga.platform.services.query.spi;
+package naga.platform.services.query;
 
-import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
-import naga.platform.services.query.remote.RemoteQueryServiceProvider;
+import naga.platform.services.query.spi.remote.RemoteQueryServiceProvider;
+import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.util.async.Batch;
 import naga.util.async.Future;
 import naga.util.serviceloader.ServiceLoaderHelper;

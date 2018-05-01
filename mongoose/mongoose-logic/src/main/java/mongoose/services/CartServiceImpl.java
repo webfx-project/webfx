@@ -9,7 +9,7 @@ import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.EntityStoreQuery;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.util.Strings;
 import naga.util.async.Future;
 import naga.util.collection.Collections;

@@ -4,7 +4,7 @@ import naga.platform.bus.Bus;
 import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
 import naga.platform.json.codec.JsonCodecManager;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.platform.spi.Platform;
 import naga.util.async.AsyncFunction;
 import naga.util.async.AsyncResult;

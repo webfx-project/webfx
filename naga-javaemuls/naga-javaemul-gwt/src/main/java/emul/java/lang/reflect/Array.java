@@ -1,6 +1,6 @@
 package emul.java.lang.reflect;
 
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.update.UpdateResult;
 

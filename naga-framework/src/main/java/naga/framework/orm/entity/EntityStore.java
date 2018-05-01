@@ -9,7 +9,7 @@ import naga.framework.orm.entity.impl.DynamicEntity;
 import naga.framework.orm.entity.impl.EntityStoreImpl;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.query.QueryService;
 import naga.util.Arrays;
 import naga.util.async.Batch;
 import naga.util.async.Future;

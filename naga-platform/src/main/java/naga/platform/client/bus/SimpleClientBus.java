@@ -22,7 +22,7 @@ import naga.platform.bus.Bus;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.scheduler.Scheduler;
 import naga.util.async.AsyncResult;
 import naga.util.async.Future;

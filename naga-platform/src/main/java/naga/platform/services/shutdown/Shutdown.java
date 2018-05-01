@@ -1,5 +1,6 @@
-package naga.platform.services.shutdown.spi;
+package naga.platform.services.shutdown;
 
+import naga.platform.services.shutdown.spi.ShutdownProvider;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**

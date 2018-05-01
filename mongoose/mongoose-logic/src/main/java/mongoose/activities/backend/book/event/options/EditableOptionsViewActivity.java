@@ -27,7 +27,7 @@ import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
 import naga.platform.services.update.UpdateArgument;
-import naga.platform.services.update.spi.UpdateService;
+import naga.platform.services.update.UpdateService;
 
 import java.util.ArrayList;
 import java.util.Collections;

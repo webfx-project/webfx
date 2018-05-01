@@ -7,7 +7,7 @@ import naga.platform.bus.call.BusCallService;
 import naga.platform.client.bus.WebSocketBus;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.client.websocket.spi.WebSocketListener;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.platform.spi.Platform;
 
 /**

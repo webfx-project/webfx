@@ -3,7 +3,7 @@ package naga.fx.spi.gwt.html.peer;
 import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.util.Objects;
 import naga.util.Strings;
 import naga.fx.scene.SceneRequester;

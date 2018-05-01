@@ -1,7 +1,7 @@
 package naga.framework.orm.entity.impl;
 
-import naga.platform.services.log.spi.Logger;
-import naga.platform.services.update.spi.UpdateService;
+import naga.platform.services.log.Logger;
+import naga.platform.services.update.UpdateService;
 import naga.util.Arrays;
 import naga.util.Objects;
 import naga.util.async.Batch;

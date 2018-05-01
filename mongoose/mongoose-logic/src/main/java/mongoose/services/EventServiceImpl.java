@@ -13,7 +13,7 @@ import naga.framework.orm.entity.*;
 import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
-import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.query.QueryService;
 import naga.platform.spi.Platform;
 import naga.util.Numbers;
 import naga.util.Objects;

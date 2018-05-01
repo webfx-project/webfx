@@ -1,4 +1,4 @@
-package naga.platform.services.querypush.remote;
+package naga.platform.services.querypush.spi.remote;
 
 import naga.platform.services.querypush.spi.QueryPushServiceProvider;
 

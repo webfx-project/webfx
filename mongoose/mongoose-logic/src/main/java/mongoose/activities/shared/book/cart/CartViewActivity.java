@@ -38,7 +38,7 @@ import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplaySelection;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.type.PrimType;
 import naga.util.Strings;
 import naga.util.collection.Collections;

@@ -8,7 +8,7 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.LocalDataSourceRegistry;
-import naga.platform.services.resource.spi.ResourceService;
+import naga.platform.services.resource.ResourceService;
 import naga.providers.platform.server.vertx.util.VertxRunner;
 import naga.providers.platform.server.vertx.verticles.RootVerticle;
 

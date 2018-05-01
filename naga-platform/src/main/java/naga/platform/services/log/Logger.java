@@ -1,5 +1,6 @@
-package naga.platform.services.log.spi;
+package naga.platform.services.log;
 
+import naga.platform.services.log.spi.LoggerProvider;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**

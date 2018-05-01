@@ -4,7 +4,7 @@ import naga.platform.json.spi.JsonObject;
 import naga.framework.router.Route;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.util.async.Handler;
 
 import java.util.ArrayList;

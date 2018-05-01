@@ -1,6 +1,6 @@
 package mongoose.activities.backend.monitor.metrics.model;
 
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 
 import java.time.Instant;
 

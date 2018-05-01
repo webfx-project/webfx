@@ -16,7 +16,7 @@ import mongoose.entities.LtTestSetEntity;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.UpdateStore;
 import naga.platform.bus.call.BusCallService;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.fx.spi.Toolkit;
 import naga.scheduler.Scheduler;
 

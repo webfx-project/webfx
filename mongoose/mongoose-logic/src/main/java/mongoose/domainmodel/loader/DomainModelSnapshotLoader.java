@@ -17,7 +17,7 @@ import naga.platform.json.Json;
 import naga.platform.json.codec.JsonCodecManager;
 import naga.platform.json.spi.JsonElement;
 import naga.platform.services.query.QueryResultSet;
-import naga.platform.services.resource.spi.ResourceService;
+import naga.platform.services.resource.ResourceService;
 import naga.type.PrimType;
 import naga.type.Type;
 import naga.util.async.Batch;

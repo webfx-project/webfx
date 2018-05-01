@@ -2,7 +2,7 @@ package naga.framework.router.impl;
 
 import naga.framework.router.Route;
 import naga.framework.router.RoutingContext;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.util.Strings;
 import naga.util.async.Handler;
 

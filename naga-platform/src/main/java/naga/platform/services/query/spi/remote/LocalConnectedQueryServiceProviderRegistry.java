@@ -1,4 +1,4 @@
-package naga.platform.services.query.remote;
+package naga.platform.services.query.spi.remote;
 
 import naga.platform.services.query.spi.QueryServiceProvider;
 

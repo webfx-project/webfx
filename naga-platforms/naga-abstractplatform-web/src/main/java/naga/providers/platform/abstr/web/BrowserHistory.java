@@ -6,7 +6,7 @@ import naga.platform.client.url.history.baseimpl.HistoryLocationImpl;
 import naga.platform.client.url.history.memory.MemoryHistory;
 import naga.platform.client.url.location.PathStateLocation;
 import naga.platform.client.url.location.WindowLocation;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.platform.spi.Platform;
 import naga.scheduler.Scheduler;
 import naga.util.Objects;

@@ -1,9 +1,9 @@
-package naga.platform.services.push.server.impl;
+package naga.platform.services.push.server.spi.impl;
 
 import naga.platform.bus.Bus;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.bus.call.PendingBusCall;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.platform.services.push.DefaultClientBusCallAddressComputer;
 import naga.platform.services.push.server.spi.PushServerServiceProvider;
 

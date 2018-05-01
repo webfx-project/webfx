@@ -1,6 +1,6 @@
 package mongoose.util;
 
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 
 /**
  * @author Bruno Salmon

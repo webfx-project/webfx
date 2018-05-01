@@ -6,7 +6,7 @@ import mongoose.entities.Event;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.platform.services.update.UpdateArgument;
-import naga.platform.services.update.spi.UpdateService;
+import naga.platform.services.update.UpdateService;
 
 import java.time.LocalDate;
 

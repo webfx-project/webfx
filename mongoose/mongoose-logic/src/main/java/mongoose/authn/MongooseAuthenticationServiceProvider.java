@@ -7,7 +7,7 @@ import naga.framework.orm.domainmodel.HasDataSourceModel;
 import naga.framework.spi.authn.AuthenticationServiceProvider;
 import naga.framework.spi.authn.UsernamePasswordCredentials;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.query.QueryService;
 import naga.util.async.Future;
 
 /**

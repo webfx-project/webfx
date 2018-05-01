@@ -5,7 +5,7 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 
 import java.util.HashMap;
 import java.util.Map;

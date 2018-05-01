@@ -34,7 +34,7 @@ import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.util.function.Consumer;
 import naga.util.function.Factory;
 import naga.util.serviceloader.ServiceLoaderHelper;

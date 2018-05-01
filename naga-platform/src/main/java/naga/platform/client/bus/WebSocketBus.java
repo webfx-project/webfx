@@ -24,7 +24,7 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.client.websocket.spi.WebSocket;
 import naga.platform.client.websocket.spi.WebSocketListener;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.scheduler.Scheduled;
 import naga.scheduler.Scheduler;
 import naga.util.async.AsyncResult;

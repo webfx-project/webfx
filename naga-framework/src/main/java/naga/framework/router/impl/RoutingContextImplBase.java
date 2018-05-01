@@ -6,7 +6,7 @@ import naga.framework.session.Session;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 
 import java.util.Collection;
 import java.util.Iterator;

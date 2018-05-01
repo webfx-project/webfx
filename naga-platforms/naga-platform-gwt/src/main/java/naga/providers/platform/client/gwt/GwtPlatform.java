@@ -1,6 +1,6 @@
 package naga.providers.platform.client.gwt;
 
-import naga.platform.services.resource.spi.ResourceService;
+import naga.platform.services.resource.ResourceService;
 import naga.platform.spi.Platform;
 import naga.providers.platform.abstr.web.WebPlatform;
 import naga.providers.platform.client.gwt.services.resource.GwtBundle;

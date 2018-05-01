@@ -1,7 +1,7 @@
 package naga.framework.ui.i18n.impl;
 
 import naga.framework.ui.i18n.Dictionary;
-import naga.platform.services.resource.spi.ResourceService;
+import naga.platform.services.resource.ResourceService;
 import naga.util.Strings;
 import naga.util.async.Future;
 

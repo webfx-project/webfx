@@ -1,8 +1,7 @@
-package naga.platform.services.update.spi;
+package naga.platform.services.update;
 
-import naga.platform.services.update.UpdateArgument;
-import naga.platform.services.update.UpdateResult;
-import naga.platform.services.update.remote.RemoteUpdateServiceProvider;
+import naga.platform.services.update.spi.remote.RemoteUpdateServiceProvider;
+import naga.platform.services.update.spi.UpdateServiceProvider;
 import naga.util.async.Batch;
 import naga.util.async.Future;
 import naga.util.serviceloader.ServiceLoaderHelper;

@@ -1,6 +1,6 @@
-package naga.platform.services.query.remote;
+package naga.platform.services.query.spi.remote;
 
-import naga.platform.services.log.spi.Logger;
+import naga.platform.services.log.Logger;
 import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.util.Arrays;
 import naga.platform.bus.call.BusCallServerActivity;
@@ -11,7 +11,7 @@ import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.util.async.Future;
 
-import static naga.platform.services.query.remote.LocalConnectedQueryServiceProviderRegistry.*;
+import static naga.platform.services.query.spi.remote.LocalConnectedQueryServiceProviderRegistry.*;
 
 /**
  * @author Bruno Salmon

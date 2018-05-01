@@ -24,7 +24,7 @@ import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.client.url.location.WindowLocation;
 import naga.platform.client.url.location.impl.WindowLocationImpl;
 import naga.platform.json.Json;
-import naga.platform.services.resource.spi.ResourceService;
+import naga.platform.services.resource.ResourceService;
 import naga.platform.spi.client.ClientPlatform;
 import naga.providers.platform.abstr.java.JavaPlatform;
 

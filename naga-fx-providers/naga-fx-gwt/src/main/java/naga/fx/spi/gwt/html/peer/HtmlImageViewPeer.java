@@ -12,7 +12,7 @@ import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.ImageViewPeerBase;
 import naga.fx.spi.peer.base.ImageViewPeerMixin;
-import naga.platform.services.resource.spi.ResourceService;
+import naga.platform.services.resource.ResourceService;
 import naga.util.Numbers;
 import naga.util.Strings;
 
