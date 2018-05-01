@@ -11,18 +11,16 @@ import naga.platform.services.querypush.spi.QueryPushServiceProvider;
 import naga.platform.spi.Platform;
 import naga.util.async.Future;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Bruno Salmon
  */
 public class QueryPushServiceProviderBase implements QueryPushServiceProvider {
 
-    private final Map<Object, StreamInfo> streamInfos = new HashMap<>();
     private static int queryStreamIdSeq;
+    private final Map<Object /* queryStreamId */, StreamInfo> streamInfos = new HashMap<>();
+    private final Map<QueryArgument, QueryInfo> queryInfos = new HashMap<>();
 
     @Override
     public Future<Object> executeQueryPush(QueryPushArgument argument) {
@@ -41,21 +39,21 @@ public class QueryPushServiceProviderBase implements QueryPushServiceProvider {
     @Override
     public Future<Integer> executePulse(PulseArgument argument) {
         Future<Integer> future = Future.future();
-        Collection<StreamInfo> collection = streamInfos.values();
+        Collection<QueryInfo> collection = queryInfos.values();
         iteratePulse(collection.iterator(), collection.size(), System.currentTimeMillis(), future);
         return future;
     }
 
     private Future<Object> openStream(QueryPushArgument argument) {
         StreamInfo streamInfo = getStreamInfo(argument);
-        pushQueryResult(streamInfo);
+        pushQueryResult(streamInfo.queryInfo);
         return Future.succeededFuture(streamInfo.queryStreamId);
     }
 
     private Future<Object> updateStream(QueryPushArgument argument) {
         StreamInfo streamInfo = getStreamInfo(argument);
-        streamInfo.queryArgument = argument.getQueryArgument();
-        pushQueryResult(streamInfo);
+        streamInfo.setQueryArgument(argument.getQueryArgument());
+        pushQueryResult(streamInfo.queryInfo);
         return Future.succeededFuture(streamInfo.queryStreamId);
     }
 
@@ -80,7 +78,7 @@ public class QueryPushServiceProviderBase implements QueryPushServiceProvider {
         return streamInfo;
     }
 
-    private void iteratePulse(Iterator<StreamInfo> it, int size, long startTime, Future<Integer> future) {
+    private void iteratePulse(Iterator<QueryInfo> it, int size, long startTime, Future<Integer> future) {
         if (!it.hasNext()) {
             Logger.log("Pulse finished (" + size +" streams in " + (System.currentTimeMillis() - startTime) + "ms)");
             future.complete(size);
@@ -88,33 +86,60 @@ public class QueryPushServiceProviderBase implements QueryPushServiceProvider {
             pushQueryResult(it.next()).setHandler(ar -> iteratePulse(it, size, startTime, future));
     }
 
-    private Future<QueryPushResult> pushQueryResult(StreamInfo streamInfo) {
-        return QueryService.executeQuery(streamInfo.queryArgument).map(rs -> {
-            QueryPushResult queryPushResult = new QueryPushResult(streamInfo.queryStreamId, rs);
-            PushServerService.callClientService("QueryPushResultClientListener", queryPushResult, Platform.bus(), streamInfo.pushClientId)
-            .setHandler(ar -> {
-                if (ar.failed())
-                    streamInfos.remove(streamInfo.queryStreamId);
-            });
-            return queryPushResult;
+    private Future<Void> pushQueryResult(QueryInfo queryInfo) {
+        return QueryService.executeQuery(queryInfo.queryArgument).map(rs -> {
+            for (StreamInfo streamInfo : new ArrayList<>(queryInfo.streamInfos)) {
+                QueryPushResult queryPushResult = new QueryPushResult(streamInfo.queryStreamId, rs);
+                PushServerService.callClientService("QueryPushResultClientListener", queryPushResult, Platform.bus(), streamInfo.pushClientId)
+                    .setHandler(ar -> {
+                        if (ar.failed())
+                            streamInfo.remove();
+                    });
+            }
+            return null;
         });
     }
 
-    private static class StreamInfo {
+    private class StreamInfo {
         private Object queryStreamId;
         private Object pushClientId;
-        private QueryArgument queryArgument;
-        private Object dataSourceId;
         private Boolean active;
         private Boolean close;
+        private QueryInfo queryInfo;
 
         StreamInfo(QueryPushArgument arg) {
             queryStreamId = arg.getQueryStreamId();
             pushClientId = arg.getPushClientId();
-            queryArgument = arg.getQueryArgument();
-            dataSourceId = arg.getDataSourceId();
             active = arg.getActive();
             close = arg.getClose();
+            setQueryArgument(arg.getQueryArgument());
+        }
+
+        void setQueryArgument(QueryArgument queryArgument) {
+            if (queryInfo != null)
+                queryInfo.streamInfos.remove(this);
+            queryInfo = queryInfos.get(queryArgument);
+            if (queryInfo == null)
+                queryInfos.put(queryArgument, queryInfo = new QueryInfo(queryArgument));
+            queryInfo.streamInfos.add(this);
+        }
+
+        void remove() {
+            streamInfos.remove(queryStreamId);
+            if (queryInfo != null) {
+                queryInfo.streamInfos.remove(this);
+                if (queryInfo.streamInfos.isEmpty())
+                    queryInfos.remove(queryInfo.queryArgument);
+            }
+        }
+    }
+
+    private static class QueryInfo {
+        private QueryArgument queryArgument;
+        private List<StreamInfo> streamInfos = new ArrayList<>();
+
+        QueryInfo(QueryArgument queryArgument) {
+            this.queryArgument = queryArgument;
         }
     }
 }
