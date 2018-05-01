@@ -32,7 +32,7 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
     }
 
     @Override
-    public abstract Future<Integer> executePulse(PulseArgument argument);
+    public abstract void requestPulse(PulseArgument argument);
 
     protected abstract Future<Object> openStream(QueryPushArgument argument);
 

@@ -26,8 +26,8 @@ public class QueryPushService {
         return getProvider().executeQueryPush(argument);
     }
 
-    public static Future<Integer> executePulse(PulseArgument argument) {
-        return getProvider().executePulse(argument);
+    public static void executePulse(PulseArgument argument) {
+        getProvider().requestPulse(argument);
     }
 
 }

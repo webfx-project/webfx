@@ -34,11 +34,11 @@ public class RemoteQueryPushServiceProvider implements QueryPushServiceProvider 
     }
 
     @Override
-    public Future<Integer> executePulse(PulseArgument argument) {
+    public void requestPulse(PulseArgument argument) {
         QueryPushServiceProvider localConnectedProvider = getOrCreateLocalConnectedProvider(argument.getDataSourceId());
-        if (localConnectedProvider != null)
-            return localConnectedProvider.executePulse(argument);
-        return Future.failedFuture("executePulse() shouldn't be called on this RemoteQueryPushServiceProvider");
+        if (localConnectedProvider == null)
+            throw new UnsupportedOperationException("requestPulse() shouldn't be called on this RemoteQueryPushServiceProvider");
+        localConnectedProvider.requestPulse(argument);
     }
 
     protected QueryPushServiceProvider getOrCreateLocalConnectedProvider(Object dataSourceId) {

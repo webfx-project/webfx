@@ -58,19 +58,16 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
     }
 
     @Override
-    public Future<Integer> executePulse(PulseArgument argument) {
-        Future<Integer> future = Future.future();
+    public void requestPulse(PulseArgument argument) {
         Collection<QueryInfo> collection = queryInfos.values();
-        iteratePulse(collection.iterator(), collection.size(), System.currentTimeMillis(), future);
-        return future;
+        iteratePulse(collection.iterator(), collection.size(), System.currentTimeMillis());
     }
 
-    private void iteratePulse(Iterator<QueryInfo> it, int size, long startTime, Future<Integer> future) {
-        if (!it.hasNext()) {
+    private void iteratePulse(Iterator<QueryInfo> it, int size, long startTime) {
+        if (!it.hasNext())
             Logger.log("Pulse finished (" + size +" streams in " + (System.currentTimeMillis() - startTime) + "ms)");
-            future.complete(size);
-        } else
-            pushQueryResult(it.next()).setHandler(ar -> iteratePulse(it, size, startTime, future));
+        else
+            pushQueryResult(it.next()).setHandler(ar -> iteratePulse(it, size, startTime));
     }
 
     @Override

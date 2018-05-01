@@ -154,7 +154,7 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
                 }
                 // Returning the final QueryResultSet
                 future.complete(new UpdateResult(vertxUpdateResult.getUpdated(), generatedKeys));
-                QueryPushService.executePulse(new PulseArgument(updateArgument.getDataSourceId()));
+                onSuccessfulUpdate(updateArgument);
             }
             // Closing the connection so it can go back to the pool
             if (close)
@@ -180,7 +180,7 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
                 ResultSet resultSet = res.result();
                 Object[] generatedKeys = resultSet.getResults().get(0).stream().toArray();
                 future.complete(new UpdateResult(resultSet.getNumRows(), generatedKeys));
-                QueryPushService.executePulse(new PulseArgument(updateArgument.getDataSourceId()));
+                onSuccessfulUpdate(updateArgument);
             }
             // Closing the connection so it can go back to the pool
             if (close)
@@ -271,6 +271,10 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
                 future.complete(result);
             closeConnection(connection);
         });
+    }
+
+    private static void onSuccessfulUpdate(UpdateArgument updateArgument) {
+        QueryPushService.executePulse(new PulseArgument(updateArgument.getDataSourceId()));
     }
 
     private static JsonArray toJsonParameters(Object[] parameters) {
