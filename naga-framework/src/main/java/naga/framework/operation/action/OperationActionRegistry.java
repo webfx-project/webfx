@@ -6,7 +6,7 @@ import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import naga.framework.operation.HasOperationCode;
-import naga.framework.spi.authz.mixin.AuthorizationUtil;
+import naga.framework.services.authz.mixin.AuthorizationUtil;
 import naga.framework.ui.action.Action;
 import naga.fx.spi.Toolkit;
 import naga.util.async.AsyncFunction;

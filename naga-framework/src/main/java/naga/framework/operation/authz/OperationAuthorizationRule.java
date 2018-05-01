@@ -1,8 +1,8 @@
 package naga.framework.operation.authz;
 
 import naga.framework.operation.HasOperationCode;
-import naga.framework.spi.authz.impl.inmemory.AuthorizationRuleType;
-import naga.framework.spi.authz.impl.inmemory.SimpleInMemoryAuthorizationRuleBase;
+import naga.framework.services.authz.spi.impl.inmemory.AuthorizationRuleType;
+import naga.framework.services.authz.spi.impl.inmemory.SimpleInMemoryAuthorizationRuleBase;
 
 /**
  * @author Bruno Salmon

@@ -3,7 +3,7 @@ package naga.framework.operation;
 import naga.framework.operation.action.ChainedActionOperationExecutor;
 import naga.framework.operation.action.OperationActionRegistry;
 import naga.framework.operation.authz.AuthorizableOperationExecutor;
-import naga.framework.spi.authz.mixin.HasUserPrincipal;
+import naga.framework.services.authz.mixin.HasUserPrincipal;
 import naga.util.async.AsyncFunction;
 import naga.util.async.Future;
 

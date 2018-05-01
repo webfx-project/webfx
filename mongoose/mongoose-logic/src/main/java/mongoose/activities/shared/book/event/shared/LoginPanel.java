@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
-import naga.framework.spi.authn.AuthenticationRequest;
+import naga.framework.services.authn.AuthenticationRequest;
 import naga.framework.ui.anim.Animations;
 import naga.framework.ui.graphic.controls.button.ButtonUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
@@ -23,7 +23,7 @@ import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
-import naga.framework.spi.authn.UsernamePasswordCredentials;
+import naga.framework.services.authn.UsernamePasswordCredentials;
 
 
 /**

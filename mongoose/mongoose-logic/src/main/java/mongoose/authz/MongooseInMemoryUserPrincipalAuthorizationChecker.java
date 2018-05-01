@@ -7,8 +7,8 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.router.auth.authz.RoutingAuthorizationRule;
 import naga.framework.router.auth.authz.RoutingAuthorizationRuleParser;
-import naga.framework.spi.authz.impl.inmemory.AuthorizationRuleType;
-import naga.framework.spi.authz.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
+import naga.framework.services.authz.spi.impl.inmemory.AuthorizationRuleType;
+import naga.framework.services.authz.spi.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
 import naga.platform.services.log.Logger;
 import naga.util.Strings;
 

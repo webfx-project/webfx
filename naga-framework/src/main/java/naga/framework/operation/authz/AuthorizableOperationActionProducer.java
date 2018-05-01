@@ -3,8 +3,8 @@ package naga.framework.operation.authz;
 import naga.framework.operation.OperationExecutorRegistry;
 import naga.framework.operation.OperationExecutorUtil;
 import naga.framework.operation.action.OperationActionProducer;
-import naga.framework.spi.authz.mixin.AuthorizationFactoryMixin;
-import naga.framework.spi.authz.mixin.HasUserPrincipal;
+import naga.framework.services.authz.mixin.AuthorizationFactoryMixin;
+import naga.framework.services.authz.mixin.HasUserPrincipal;
 import naga.util.async.AsyncFunction;
 
 import java.util.HashMap;

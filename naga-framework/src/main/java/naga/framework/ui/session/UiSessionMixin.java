@@ -2,8 +2,8 @@ package naga.framework.ui.session;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
-import naga.framework.spi.authz.mixin.ObservableUserAuthorizationFactory;
-import naga.framework.spi.authz.mixin.ObservableUserAuthorizationFactoryMixin;
+import naga.framework.services.authz.mixin.ObservableUserAuthorizationFactory;
+import naga.framework.services.authz.mixin.ObservableUserAuthorizationFactoryMixin;
 
 /**
  * @author Bruno Salmon

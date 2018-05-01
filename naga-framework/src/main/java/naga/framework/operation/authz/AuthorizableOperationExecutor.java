@@ -1,8 +1,8 @@
 package naga.framework.operation.authz;
 
 import naga.framework.operation.ChainedOperationExecutor;
-import naga.framework.spi.authz.AuthorizationRequest;
-import naga.framework.spi.authz.mixin.HasUserPrincipal;
+import naga.framework.services.authz.AuthorizationRequest;
+import naga.framework.services.authz.mixin.HasUserPrincipal;
 import naga.util.async.AsyncFunction;
 import naga.util.async.Future;
 
