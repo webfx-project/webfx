@@ -8,8 +8,8 @@ import naga.platform.activity.ActivityManager;
 import naga.platform.bus.BusFactory;
 import naga.platform.json.Json;
 import naga.platform.services.query.QueryService;
-import naga.platform.services.querypush.spi.impl.QueryPushServiceProviderBase;
 import naga.platform.services.querypush.QueryPushService;
+import naga.platform.services.querypush.spi.impl.InMemoryQueryPushServiceProvider;
 import naga.platform.services.update.UpdateService;
 import naga.platform.spi.Platform;
 import naga.platform.spi.server.ServerPlatform;
@@ -32,7 +32,7 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
         Json.registerProvider(new VertxJsonObject());
         QueryService.registerProvider(new VertxQueryServiceProvider(vertx));
         UpdateService.registerProvider(new VertxUpdateServiceProvider(vertx));
-        QueryPushService.registerProvider(new QueryPushServiceProviderBase());
+        QueryPushService.registerProvider(new InMemoryQueryPushServiceProvider());
     }
 
     private final BusFactory vertxBusFactory;
