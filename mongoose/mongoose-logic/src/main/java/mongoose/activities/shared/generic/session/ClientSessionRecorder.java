@@ -218,7 +218,7 @@ public class ClientSessionRecorder {
     }
 
     private void stopListeningServerPushCalls() {
-        if (bus.isOpen())
+        if (pushClientRegistration != null && bus.isOpen())
             pushClientRegistration.unregister();
         pushClientRegistration = null;
     }
