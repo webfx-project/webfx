@@ -1,5 +1,6 @@
 package naga.platform.services.querypush.spi.impl;
 
+import naga.platform.services.log.Logger;
 import naga.platform.services.push.server.PushServerService;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryService;
@@ -16,6 +17,7 @@ import java.util.*;
  * @author Bruno Salmon
  */
 public abstract class QueryPushServiceProviderBase implements QueryPushServiceProvider {
+    private PulsePass pulsePass;
 
     @Override
     public Future<Object> executeQueryPush(QueryPushArgument argument) {
@@ -31,9 +33,6 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
         return Future.failedFuture(new IllegalArgumentException());
     }
 
-    @Override
-    public abstract void requestPulse(PulseArgument argument);
-
     protected abstract Future<Object> openStream(QueryPushArgument argument);
 
     protected abstract Future<Object> updateStream(QueryPushArgument argument);
@@ -42,7 +41,17 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
 
     protected abstract Future<Object> closeStream(QueryPushArgument argument);
 
-    Future<Void> pushQueryResult(QueryInfo queryInfo) {
+    @Override
+    public void requestPulse(PulseArgument argument) {
+        if (pulsePass == null || pulsePass.isFinished())
+            pulsePass = createPulsePass(argument);
+        else
+            pulsePass.applyPulseArgument(argument);
+    }
+
+    abstract PulsePass createPulsePass(PulseArgument argument);
+
+    Future<Void> executeQueryAndPushResult(QueryInfo queryInfo) {
         return QueryService.executeQuery(queryInfo.queryArgument).map(rs -> {
             for (StreamInfo streamInfo : new ArrayList<>(queryInfo.streamInfos)) {
                 QueryPushResult queryPushResult = new QueryPushResult(streamInfo.queryStreamId, rs);
@@ -84,4 +93,34 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
             this.queryArgument = queryArgument;
         }
     }
+
+    abstract class PulsePass {
+        final long startTime = System.currentTimeMillis();
+        int queries;
+
+        PulsePass(PulseArgument argument) {
+            applyPulseArgument(argument);
+            iterate();
+        }
+
+        abstract void applyPulseArgument(PulseArgument argument);
+
+        void iterate() {
+            QueryInfo hottestQueryInfo = getNextHottestQuery();
+            if (hottestQueryInfo != null) {
+                queries++;
+                executeQueryAndPushResult(hottestQueryInfo).setHandler(ar -> iterate());
+            } else
+                onFinished();
+        }
+
+        abstract QueryInfo getNextHottestQuery();
+
+        abstract boolean isFinished();
+
+        void onFinished() {
+            Logger.log("Pulse finished (" + queries + " queries in " + (System.currentTimeMillis() - startTime) + "ms)");
+        }
+    }
+
 }

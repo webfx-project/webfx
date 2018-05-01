@@ -1,12 +1,10 @@
 package naga.platform.services.querypush.spi.impl;
 
-import naga.platform.services.log.Logger;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.querypush.PulseArgument;
 import naga.platform.services.querypush.QueryPushArgument;
 import naga.util.async.Future;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,7 +20,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
     @Override
     protected Future<Object> openStream(QueryPushArgument argument) {
         StreamInfo streamInfo = getStreamInfo(argument);
-        pushQueryResult(streamInfo.queryInfo);
+        executeQueryAndPushResult(streamInfo.queryInfo);
         return Future.succeededFuture(streamInfo.queryStreamId);
     }
 
@@ -30,7 +28,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
     protected Future<Object> updateStream(QueryPushArgument argument) {
         StreamInfo streamInfo = getStreamInfo(argument);
         setStreamQueryArgument(streamInfo, argument.getQueryArgument());
-        pushQueryResult(streamInfo.queryInfo);
+        executeQueryAndPushResult(streamInfo.queryInfo);
         return Future.succeededFuture(streamInfo.queryStreamId);
     }
 
@@ -58,19 +56,6 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
     }
 
     @Override
-    public void requestPulse(PulseArgument argument) {
-        Collection<QueryInfo> collection = queryInfos.values();
-        iteratePulse(collection.iterator(), collection.size(), System.currentTimeMillis());
-    }
-
-    private void iteratePulse(Iterator<QueryInfo> it, int size, long startTime) {
-        if (!it.hasNext())
-            Logger.log("Pulse finished (" + size +" streams in " + (System.currentTimeMillis() - startTime) + "ms)");
-        else
-            pushQueryResult(it.next()).setHandler(ar -> iteratePulse(it, size, startTime));
-    }
-
-    @Override
     protected void setStreamQueryArgument(StreamInfo streamInfo, QueryArgument queryArgument) {
         QueryInfo queryInfo = streamInfo.queryInfo;
         if (queryInfo != null)
@@ -89,6 +74,38 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
             queryInfo.streamInfos.remove(streamInfo);
             if (queryInfo.streamInfos.isEmpty())
                 queryInfos.remove(queryInfo.queryArgument);
+        }
+    }
+
+    PulsePass createPulsePass(PulseArgument argument) {
+        return new InMemoryPulsePass(argument);
+    }
+
+    class InMemoryPulsePass extends PulsePass {
+        Iterator<QueryInfo> it;
+
+        InMemoryPulsePass(PulseArgument argument) {
+            super(argument);
+        }
+
+        Iterator<QueryInfo> getIterator() {
+            if (it == null)
+                it = queryInfos.values().iterator();
+            return it;
+        }
+
+        @Override
+        void applyPulseArgument(PulseArgument argument) {
+        }
+
+        @Override
+        QueryInfo getNextHottestQuery() {
+            return isFinished() ? null : getIterator().next();
+        }
+
+        @Override
+        boolean isFinished() {
+            return !getIterator().hasNext();
         }
     }
 }
