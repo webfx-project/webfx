@@ -37,6 +37,27 @@ public class QueryArgument {
         return dataSourceId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        QueryArgument that = (QueryArgument) o;
+
+        if (!queryString.equals(that.queryString)) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!java.util.Arrays.equals(parameters, that.parameters)) return false;
+        return dataSourceId.equals(that.dataSourceId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = queryString.hashCode();
+        result = 31 * result + java.util.Arrays.hashCode(parameters);
+        result = 31 * result + dataSourceId.hashCode();
+        return result;
+    }
+
     /****************************************************
      *                    Json Codec                    *
      * *************************************************/
