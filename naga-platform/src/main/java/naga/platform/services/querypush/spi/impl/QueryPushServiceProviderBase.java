@@ -26,8 +26,6 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
             return openStream(argument);
         if (argument.isUpdateStreamArgument())
             return updateStream(argument);
-        if (argument.isActivateStreamArgument())
-            return activateStream(argument);
         if (argument.isCloseStreamArgument())
             return closeStream(argument);
         return Future.failedFuture(new IllegalArgumentException());
@@ -36,8 +34,6 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
     protected abstract Future<Object> openStream(QueryPushArgument argument);
 
     protected abstract Future<Object> updateStream(QueryPushArgument argument);
-
-    protected abstract Future<Object> activateStream(QueryPushArgument argument);
 
     protected abstract Future<Object> closeStream(QueryPushArgument argument);
 
@@ -82,11 +78,23 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
             close = arg.getClose();
             setStreamQueryArgument(this, arg.getQueryArgument());
         }
+
+        void setActive(boolean active) {
+            if (this.active != active) {
+                this.active = active;
+                queryInfo.updateActiveStreamCount(active);
+            }
+        }
+
+        public boolean isActive() {
+            return active != null && active;
+        }
     }
 
-    static class QueryInfo {
+    public static class QueryInfo {
         final QueryArgument queryArgument;
         final List<StreamInfo> streamInfos = new ArrayList<>();
+        int activeStreamCount;
         long lastQueryExecutionTime;
         long lastPossibleChangeTime;
 
@@ -110,12 +118,29 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
         long dirtyTime() {
             return lastPossibleChangeTime - lastQueryExecutionTime;
         }
+
+        void addStreamInfo(StreamInfo streamInfo) {
+            streamInfos.add(streamInfo);
+            if (streamInfo.active)
+                activeStreamCount++;
+        }
+
+        void removeStreamInfo(StreamInfo streamInfo) {
+            streamInfos.remove(streamInfo);
+            if (streamInfo.active)
+                activeStreamCount--;
+        }
+
+        void updateActiveStreamCount(boolean increment) {
+            activeStreamCount += increment ? 1 : -1;
+        }
     }
 
     abstract class PulsePass {
         final long startTime = now();
         int queries;
         QueryInfo nextHottestQueryNotYetReturned;
+        boolean finished;
 
         PulsePass(PulseArgument argument) {
             applyPulseArgument(argument);
@@ -148,7 +173,8 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
         abstract QueryInfo fetchNextHottestQuery();
 
         boolean isFinished() {
-            return getNextHottestQueryNotYetReturned() == null;
+            finished |= getNextHottestQueryNotYetReturned() == null;
+            return finished;
         }
 
         void onFinished() {

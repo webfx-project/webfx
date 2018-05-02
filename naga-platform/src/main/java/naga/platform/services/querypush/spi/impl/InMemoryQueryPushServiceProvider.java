@@ -19,23 +19,20 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
 
     @Override
     protected Future<Object> openStream(QueryPushArgument argument) {
-        StreamInfo streamInfo = getStreamInfo(argument);
-        executeQueryAndPushResult(streamInfo.queryInfo);
-        return Future.succeededFuture(streamInfo.queryStreamId);
+        return updateStream(argument);
     }
 
     @Override
     protected Future<Object> updateStream(QueryPushArgument argument) {
         StreamInfo streamInfo = getStreamInfo(argument);
-        setStreamQueryArgument(streamInfo, argument.getQueryArgument());
-        executeQueryAndPushResult(streamInfo.queryInfo);
-        return Future.succeededFuture(streamInfo.queryStreamId);
-    }
-
-    @Override
-    protected Future<Object> activateStream(QueryPushArgument argument) {
-        StreamInfo streamInfo = getStreamInfo(argument);
-        streamInfo.active = argument.getActive();
+        QueryArgument queryArgument = argument.getQueryArgument();
+        if (queryArgument != null)
+            setStreamQueryArgument(streamInfo, queryArgument);
+        Boolean active = argument.getActive();
+        if (active != null)
+            streamInfo.setActive(active);
+        if (streamInfo.isActive())
+            requestPulse(new PulseArgument(streamInfo.queryInfo));
         return Future.succeededFuture(streamInfo.queryStreamId);
     }
 
@@ -46,7 +43,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
         return Future.succeededFuture(streamInfo.queryStreamId);
     }
 
-    private StreamInfo getStreamInfo(QueryPushArgument argument) {
+    private synchronized StreamInfo getStreamInfo(QueryPushArgument argument) {
         Object queryStreamId = argument.getQueryStreamId();
         if (queryStreamId != null)
             return streamInfos.get(queryStreamId);
@@ -56,14 +53,18 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
     }
 
     @Override
-    protected void setStreamQueryArgument(StreamInfo streamInfo, QueryArgument queryArgument) {
+    protected synchronized void setStreamQueryArgument(StreamInfo streamInfo, QueryArgument queryArgument) {
         QueryInfo queryInfo = streamInfo.queryInfo;
-        if (queryInfo != null)
-            queryInfo.streamInfos.remove(streamInfo);
+        if (queryInfo != null) {
+            if (Objects.areEquals(queryArgument, queryInfo.queryArgument))
+                return;
+            queryInfo.removeStreamInfo(streamInfo);
+        }
         queryInfo = queryInfos.get(queryArgument);
         if (queryInfo == null)
-            queryInfos.put(queryArgument, streamInfo.queryInfo = queryInfo = new QueryInfo(queryArgument));
-        queryInfo.streamInfos.add(streamInfo);
+            queryInfos.put(queryArgument, queryInfo = new QueryInfo(queryArgument));
+        queryInfo.addStreamInfo(streamInfo);
+        streamInfo.queryInfo = queryInfo;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
         streamInfos.remove(streamInfo.queryStreamId);
         QueryInfo queryInfo = streamInfo.queryInfo;
         if (queryInfo != null) {
-            queryInfo.streamInfos.remove(streamInfo);
+            queryInfo.removeStreamInfo(streamInfo);
             if (queryInfo.streamInfos.isEmpty())
                 queryInfos.remove(queryInfo.queryArgument);
         }
@@ -89,22 +90,27 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
 
         @Override
         void applyPulseArgument(PulseArgument argument) {
-            Object dataSourceId = argument.getDataSourceId();
-            for (QueryInfo queryInfo : queryInfos.values())
-                if (Objects.areEquals(queryInfo.queryArgument.getDataSourceId(), dataSourceId))
-                    queryInfo.markAsDirty();
+            if (argument.getQueryInfo() != null)
+                argument.getQueryInfo().markAsDirty();
+            else {
+                Object dataSourceId = argument.getDataSourceId();
+                for (QueryInfo queryInfo : queryInfos.values())
+                    if (Objects.areEquals(queryInfo.queryArgument.getDataSourceId(), dataSourceId))
+                        queryInfo.markAsDirty();
+            }
+            nextHottestQueryNotYetReturned = null;
         }
 
         @Override
         QueryInfo fetchNextHottestQuery() {
             QueryInfo hottestQuery = null;
             for (QueryInfo queryInfo : queryInfos.values())
-                hottestQuery = hottest(queryInfo, hottestQuery);
+                hottestQuery = hottestQuery(queryInfo, hottestQuery);
             return hottestQuery;
         }
 
-        QueryInfo hottest(QueryInfo q1, QueryInfo q2) {
-            if (!q1.isDirty())
+        QueryInfo hottestQuery(QueryInfo q1, QueryInfo q2) {
+            if (!q1.isDirty() || q1.activeStreamCount == 0)
                 return q2;
             if (q2 == null)
                 return q1;

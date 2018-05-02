@@ -68,11 +68,7 @@ public class QueryPushArgument {
     }
 
     public boolean isUpdateStreamArgument() {
-        return queryStreamId != null && queryArgument != null;
-    }
-
-    public boolean isActivateStreamArgument() {
-        return queryStreamId != null && active != null;
+        return queryStreamId != null && close == null;
     }
 
     public boolean isCloseStreamArgument() {
@@ -84,11 +80,19 @@ public class QueryPushArgument {
     }
 
     public static QueryPushArgument updateStreamArgument(Object queryStreamId, QueryArgument queryArgument) {
-        return new QueryPushArgument(queryStreamId, null, queryArgument, null, null, null);
+        return updateStreamArgument(queryStreamId, queryArgument, null);
     }
 
-    public static QueryPushArgument activateStreamArgument(Object queryStreamId, Object dataSourceId, boolean active) {
-        return new QueryPushArgument(queryStreamId, null, null, null, dataSourceId, active, null);
+    public static QueryPushArgument updateStreamArgument(Object queryStreamId, QueryArgument queryArgument, Boolean active) {
+        return updateStreamArgument(queryStreamId, queryArgument, queryArgument.getDataSourceId(), active);
+    }
+
+    public static QueryPushArgument updateStreamArgument(Object queryStreamId, Object dataSourceId, Boolean active) {
+        return updateStreamArgument(queryStreamId, null, dataSourceId, active);
+    }
+
+    public static QueryPushArgument updateStreamArgument(Object queryStreamId, QueryArgument queryArgument, Object dataSourceId, Boolean active) {
+        return new QueryPushArgument(queryStreamId, null, queryArgument, null, dataSourceId, active, null);
     }
 
     public static QueryPushArgument closeStreamArgument(Object queryStreamId, Object dataSourceId) {
