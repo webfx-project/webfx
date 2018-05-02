@@ -55,10 +55,12 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private StringFilter lastStringFilter;
     private Object[] lastParameterValues;
+    private boolean lastActive;
     private boolean lastPush;
     private Object lastPushClientId;
     private Observable<EntityList<E>> lastEntityListObservable;
     private final BehaviorSubject<StringFilter> lastStringFilterReEmitter = BehaviorSubject.create();
+    private final BehaviorSubject<EntityList<E>> entityListQueryPushEmitter = BehaviorSubject.create();
     private List<E> restrictedFilterList;
     private DataSourceModel dataSourceModel;
     private I18n i18n;
@@ -380,8 +382,10 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         // if autoRefresh is set, we combine the filter with a 5s tic tac property
         if (autoRefresh) {
             Property<Boolean> ticTacProperty = new SimpleObjectProperty<>(true);
-            Runnable runnable = () -> {if (isActive()) ticTacProperty.setValue(!ticTacProperty.getValue());};
-            Scheduler.schedulePeriodic(5000, runnable);
+            Scheduler.schedulePeriodic(5000, () -> {
+                if (isActive())
+                    ticTacProperty.setValue(!ticTacProperty.getValue());
+            });
             combine(ticTacProperty, "{}");
         }
         // The following call is to set stringFilterObservableLastIndex on the latest filterDisplay
@@ -393,6 +397,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         if (i18n != null)
             Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
                 private boolean dictionaryChanged;
+
                 @Override
                 public void accept(ObservableValue p) {
                     dictionaryChanged |= p == i18n.dictionaryProperty();
@@ -407,54 +412,53 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                 }
             }, i18n.dictionaryProperty(), activeProperty);
         AtomicInteger querySequence = new AtomicInteger(); // Used for skipping possible too old query results
-        Observable<StringFilter> resultingStringFilterObservable = Observable
-                .combineLatest(stringFilterObservables, this::mergeStringFilters);
-        resultingStringFilterObservable = resultingStringFilterObservable.mergeWith(lastStringFilterReEmitter);
-        Observable<EntityList<E>> entityListObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
-            Object[] parameterValues = null;
-            boolean push = isPush();
-            Object pushClientId = getPushClientId();
-            // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
-            if ("false".equals(stringFilter.getWhere()) || "0".equals(stringFilter.getLimit()))
-                lastEntityListObservable = Observable.just(emptyFutureList());
-            else if (restrictedFilterList != null) {
-                EntityList<E> filteredList = emptyCurrentList();
-                filteredList.addAll(Entities.select(restrictedFilterList, stringFilter.toStringSelect()));
-                lastEntityListObservable = Observable.just(filteredList);
-            } else {
-                // Otherwise we compile the final string filter into sql
-                SqlCompiled sqlCompiled = getDomainModel().compileSelect(stringFilter.toStringSelect());
-                ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
-                parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
-                if (autoRefresh || isDifferentFromLastQuery(stringFilter, parameterValues, push, pushClientId)) {
-                    QueryArgument queryArgument = new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceId());
-                    if (!push || pushClientId == null) {
-                        // We increment and capture the sequence to check if the request is still the latest one when receiving the result
-                        int sequence = querySequence.incrementAndGet();
-                        // Then we ask the query service to execute the sql query
-                        lastEntityListObservable = RxFuture.from(QueryService.executeQuery(queryArgument))
-                                // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
-                                // Otherwise transforming the QueryResultSet into an EntityList
-                                .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
+        Observable<EntityList<E>> entityListObservable = Observable
+                .combineLatest(stringFilterObservables, this::mergeStringFilters)
+                .mergeWith(lastStringFilterReEmitter)
+                .switchMap(stringFilter -> {
+                    boolean active = isActive();
+                    boolean push = isPush();
+                    Object pushClientId = getPushClientId();
+                    Object[] parameterValues = null;
+                    // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
+                    if ("false".equals(stringFilter.getWhere()) || "0".equals(stringFilter.getLimit()))
+                        lastEntityListObservable = Observable.just(emptyFutureList());
+                    else if (restrictedFilterList != null) {
+                        EntityList<E> filteredList = emptyCurrentList();
+                        filteredList.addAll(Entities.select(restrictedFilterList, stringFilter.toStringSelect()));
+                        lastEntityListObservable = Observable.just(filteredList);
                     } else {
-                        BehaviorSubject<EntityList<E>> entityListPushEmitter = BehaviorSubject.create();
-                        lastEntityListObservable = entityListPushEmitter;
-                        QueryPushService.executeQueryPush(
-                                queryStreamId == null
-                                ? QueryPushArgument.openStreamArgument(pushClientId, queryArgument, queryResultSet -> entityListPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled)))
-                                : QueryPushArgument.updateStreamArgument(queryStreamId, queryArgument)
-                        ).setHandler(ar -> queryStreamId = ar.result());
+                        // Otherwise we compile the final string filter into sql
+                        SqlCompiled sqlCompiled = getDomainModel().compileSelect(stringFilter.toStringSelect());
+                        ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
+                        parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
+                        if (autoRefresh || isDifferentFromLastQuery(stringFilter, parameterValues, active, push, pushClientId)) {
+                            QueryArgument queryArgument = new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceId());
+                            if (!push || pushClientId == null) {
+                                // We increment and capture the sequence to check if the request is still the latest one when receiving the result
+                                int sequence = querySequence.incrementAndGet();
+                                // Then we ask the query service to execute the sql query
+                                lastEntityListObservable = RxFuture.from(QueryService.executeQuery(queryArgument))
+                                        // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
+                                        // Otherwise transforming the QueryResultSet into an EntityList
+                                        .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
+                            } else {
+                                lastEntityListObservable = entityListQueryPushEmitter;
+                                QueryPushService.executeQueryPush(
+                                        queryStreamId == null ? QueryPushArgument.openStreamArgument(pushClientId, queryArgument, queryResultSet -> entityListQueryPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled)))
+                                        : QueryPushArgument.updateStreamArgument(queryStreamId, queryArgument, getDataSourceId(), active)
+                                ).setHandler(ar -> queryStreamId = ar.result());
+                            }
+                        }
                     }
-                }
-            }
-            memorizeAsLastQuery(stringFilter, parameterValues, push, pushClientId);
-            return lastEntityListObservable;
-        });
+                    memorizeAsLastQuery(stringFilter, parameterValues, active, push, pushClientId);
+                    return lastEntityListObservable;
+                });
         if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultSetProperty != null)
             entityListObservable
-                // Finally transforming the EntityList into a DisplayResultSet
-                .map(this::entitiesToDisplayResultSets) // also calls entitiesHandler
-                .subscribe(this::applyDisplayResultSets);
+                    // Finally transforming the EntityList into a DisplayResultSet
+                    .map(this::entitiesToDisplayResultSets) // also calls entitiesHandler
+                    .subscribe(this::applyDisplayResultSets);
         else if (entitiesHandler != null)
             entityListObservable.subscribe(entitiesHandler::handle);
         started = true;
@@ -465,17 +469,19 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return started;
     }
 
-    private boolean isDifferentFromLastQuery(StringFilter stringFilter, Object[] parameterValues, boolean push, Object pushClientId) {
-        return  !Objects.equals(stringFilter, lastStringFilter)
+    private boolean isDifferentFromLastQuery(StringFilter stringFilter, Object[] parameterValues, boolean active, boolean push, Object pushClientId) {
+        return !Objects.equals(stringFilter, lastStringFilter)
                 || !Arrays.equals(parameterValues, lastParameterValues)
                 || push != lastPush
+                || queryStreamId != null && active != lastActive
                 || !Objects.equals(pushClientId, lastPushClientId)
                 ;
     }
 
-    private void memorizeAsLastQuery(StringFilter stringFilter, Object[] parameterValues, boolean push, Object pushClientId) {
+    private void memorizeAsLastQuery(StringFilter stringFilter, Object[] parameterValues, boolean active, boolean push, Object pushClientId) {
         lastStringFilter = stringFilter;
         lastParameterValues = parameterValues;
+        lastActive = active;
         lastPush = push;
         lastPushClientId = pushClientId;
     }
@@ -508,7 +514,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     }
 
     private void refreshNow() {
-        StringFilter stringFilter = this.lastStringFilter;
+        StringFilter stringFilter = lastStringFilter;
         if (stringFilter != null) {
             lastStringFilter = null;
             lastStringFilterReEmitter.onNext(stringFilter);
