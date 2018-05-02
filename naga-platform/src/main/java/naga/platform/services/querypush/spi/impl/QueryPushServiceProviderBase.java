@@ -52,6 +52,7 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
     abstract PulsePass createPulsePass(PulseArgument argument);
 
     Future<Void> executeQueryAndPushResult(QueryInfo queryInfo) {
+        queryInfo.touch();
         return QueryService.executeQuery(queryInfo.queryArgument).map(rs -> {
             for (StreamInfo streamInfo : new ArrayList<>(queryInfo.streamInfos))
                 QueryPushService.pushQueryResultToClient(new QueryPushResult(streamInfo.queryStreamId, rs), streamInfo.pushClientId)
@@ -86,15 +87,35 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
     static class QueryInfo {
         final QueryArgument queryArgument;
         final List<StreamInfo> streamInfos = new ArrayList<>();
+        long lastQueryExecutionTime;
+        long lastPossibleChangeTime;
 
         QueryInfo(QueryArgument queryArgument) {
             this.queryArgument = queryArgument;
         }
+
+        void touch() {
+            lastQueryExecutionTime = now();
+            lastPossibleChangeTime = 0;
+        }
+
+        void markAsDirty() {
+            lastPossibleChangeTime = now();
+        }
+
+        boolean isDirty() {
+            return dirtyTime() >= 0;
+        }
+
+        long dirtyTime() {
+            return lastPossibleChangeTime - lastQueryExecutionTime;
+        }
     }
 
     abstract class PulsePass {
-        final long startTime = System.currentTimeMillis();
+        final long startTime = now();
         int queries;
+        QueryInfo nextHottestQueryNotYetReturned;
 
         PulsePass(PulseArgument argument) {
             applyPulseArgument(argument);
@@ -104,21 +125,39 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
         abstract void applyPulseArgument(PulseArgument argument);
 
         void iterate() {
-            QueryInfo hottestQueryInfo = getNextHottestQuery();
-            if (hottestQueryInfo != null) {
-                queries++;
-                executeQueryAndPushResult(hottestQueryInfo).setHandler(ar -> iterate());
-            } else
+            if (isFinished())
                 onFinished();
+            else {
+                queries++;
+                executeQueryAndPushResult(getNextHottestQuery()).setHandler(ar -> iterate());
+            }
         }
 
-        abstract QueryInfo getNextHottestQuery();
+        QueryInfo getNextHottestQuery() {
+            QueryInfo nextHottestQuery = getNextHottestQueryNotYetReturned();
+            nextHottestQueryNotYetReturned = null;
+            return nextHottestQuery;
+        }
 
-        abstract boolean isFinished();
+        QueryInfo getNextHottestQueryNotYetReturned() {
+            if (nextHottestQueryNotYetReturned == null)
+                nextHottestQueryNotYetReturned = fetchNextHottestQuery();
+            return nextHottestQueryNotYetReturned;
+        }
+
+        abstract QueryInfo fetchNextHottestQuery();
+
+        boolean isFinished() {
+            return getNextHottestQueryNotYetReturned() == null;
+        }
 
         void onFinished() {
-            Logger.log("Pulse finished (" + queries + " queries in " + (System.currentTimeMillis() - startTime) + "ms)");
+            Logger.log("Pulse finished (" + queries + " queries in " + (now() - startTime) + "ms)");
         }
+    }
+
+    private static long now() {
+        return System.currentTimeMillis();
     }
 
 }

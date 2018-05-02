@@ -3,10 +3,10 @@ package naga.platform.services.querypush.spi.impl;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.querypush.PulseArgument;
 import naga.platform.services.querypush.QueryPushArgument;
+import naga.util.Objects;
 import naga.util.async.Future;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -82,30 +82,33 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
     }
 
     class InMemoryPulsePass extends PulsePass {
-        Iterator<QueryInfo> it;
 
         InMemoryPulsePass(PulseArgument argument) {
             super(argument);
         }
 
-        Iterator<QueryInfo> getIterator() {
-            if (it == null)
-                it = queryInfos.values().iterator();
-            return it;
-        }
-
         @Override
         void applyPulseArgument(PulseArgument argument) {
+            Object dataSourceId = argument.getDataSourceId();
+            for (QueryInfo queryInfo : queryInfos.values())
+                if (Objects.areEquals(queryInfo.queryArgument.getDataSourceId(), dataSourceId))
+                    queryInfo.markAsDirty();
         }
 
         @Override
-        QueryInfo getNextHottestQuery() {
-            return isFinished() ? null : getIterator().next();
+        QueryInfo fetchNextHottestQuery() {
+            QueryInfo hottestQuery = null;
+            for (QueryInfo queryInfo : queryInfos.values())
+                hottestQuery = hottest(queryInfo, hottestQuery);
+            return hottestQuery;
         }
 
-        @Override
-        boolean isFinished() {
-            return !getIterator().hasNext();
+        QueryInfo hottest(QueryInfo q1, QueryInfo q2) {
+            if (!q1.isDirty())
+                return q2;
+            if (q2 == null)
+                return q1;
+            return q1.dirtyTime() > q2.dirtyTime() ? q1 : q2;
         }
     }
 }
