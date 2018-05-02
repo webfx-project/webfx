@@ -20,7 +20,7 @@ public class PushClientService {
         ServiceLoaderHelper.registerDefaultServiceFactory(PushClientServiceProvider.class, PushClientServiceProviderImpl::new);
     }
 
-    public static Object getPushClientIdProperty() {
+    public static Object getPushClientId() {
         return pushClientIdProperty.get();
     }
 

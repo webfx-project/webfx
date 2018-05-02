@@ -1,17 +1,17 @@
 package naga.platform.services.querypush.spi.impl;
 
 import naga.platform.services.log.Logger;
-import naga.platform.services.push.server.PushServerService;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryService;
 import naga.platform.services.querypush.PulseArgument;
 import naga.platform.services.querypush.QueryPushArgument;
 import naga.platform.services.querypush.QueryPushResult;
+import naga.platform.services.querypush.QueryPushService;
 import naga.platform.services.querypush.spi.QueryPushServiceProvider;
-import naga.platform.spi.Platform;
 import naga.util.async.Future;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -53,14 +53,12 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
 
     Future<Void> executeQueryAndPushResult(QueryInfo queryInfo) {
         return QueryService.executeQuery(queryInfo.queryArgument).map(rs -> {
-            for (StreamInfo streamInfo : new ArrayList<>(queryInfo.streamInfos)) {
-                QueryPushResult queryPushResult = new QueryPushResult(streamInfo.queryStreamId, rs);
-                PushServerService.callClientService("QueryPushResultClientListener", queryPushResult, Platform.bus(), streamInfo.pushClientId)
+            for (StreamInfo streamInfo : new ArrayList<>(queryInfo.streamInfos))
+                QueryPushService.pushQueryResultToClient(new QueryPushResult(streamInfo.queryStreamId, rs), streamInfo.pushClientId)
                     .setHandler(ar -> {
                         if (ar.failed())
                             removeStream(streamInfo);
                     });
-            }
             return null;
         });
     }

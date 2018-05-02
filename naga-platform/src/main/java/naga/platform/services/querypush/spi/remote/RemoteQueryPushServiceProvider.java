@@ -5,11 +5,10 @@ import naga.platform.bus.call.BusCallService;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.LocalDataSourceRegistry;
 import naga.platform.services.log.Logger;
-import naga.platform.services.push.client.PushClientService;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.querypush.PulseArgument;
 import naga.platform.services.querypush.QueryPushArgument;
-import naga.platform.services.querypush.QueryPushResult;
+import naga.platform.services.querypush.QueryPushService;
 import naga.platform.services.querypush.spi.QueryPushServiceProvider;
 import naga.util.async.Future;
 import naga.util.function.Consumer;
@@ -70,13 +69,12 @@ public class RemoteQueryPushServiceProvider implements QueryPushServiceProvider 
     private final static Map<Object, Consumer<QueryResultSet>> queryResultConsumers = new HashMap<>();
 
     static {
-        PushClientService.registerPushFunction("QueryPushResultClientListener", (QueryPushResult qpr) -> {
+        QueryPushService.registerQueryPushClientConsumer(qpr -> {
             Consumer<QueryResultSet> queryResultSetConsumer = queryResultConsumers.get(qpr.getQueryStreamId());
             if (queryResultSetConsumer != null)
                 queryResultSetConsumer.accept(qpr.getQueryResultSet());
             else
-                Logger.log("QueryPushResultClientListener called with undeclared queryStreamId = " + qpr.getQueryStreamId());
-            return null;
+                Logger.log("QueryPushResult received with undeclared queryStreamId = " + qpr.getQueryStreamId());
         });
     }
 }
