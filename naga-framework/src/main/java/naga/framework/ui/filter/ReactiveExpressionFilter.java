@@ -25,6 +25,7 @@ import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplaySelection;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
+import naga.platform.services.log.Logger;
 import naga.platform.services.push.client.PushClientService;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
@@ -439,15 +440,24 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                 int sequence = querySequence.incrementAndGet();
                                 // Then we ask the query service to execute the sql query
                                 lastEntityListObservable = RxFuture.from(QueryService.executeQuery(queryArgument))
+                                    .map(queryResultSet ->
                                         // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
+                                        sequence != querySequence.get() ? null
                                         // Otherwise transforming the QueryResultSet into an EntityList
-                                        .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
+                                        : queryResultSetToEntities(queryResultSet, sqlCompiled));
                             } else {
                                 lastEntityListObservable = entityListQueryPushEmitter;
                                 QueryPushService.executeQueryPush(
                                         queryStreamId == null ? QueryPushArgument.openStreamArgument(pushClientId, queryArgument, queryResultSet -> entityListQueryPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled)))
                                         : QueryPushArgument.updateStreamArgument(queryStreamId, queryArgument, getDataSourceId(), active)
-                                ).setHandler(ar -> queryStreamId = ar.result());
+                                ).setHandler(ar -> {
+                                    queryStreamId = ar.result(); // queryStreamId returned by server (or null if failed)
+                                    if (ar.failed()) { // May happen if queryStreamId is not registered on the server anymore (ex: after server restart with non persistent query push provider such as the in-memory default one)
+                                        // In this case we will refresh the filter when active
+                                        Logger.log("Refreshing filter " + listId + " after query push update failure");
+                                        refreshWhenActive(); // this will open a new query stream as queryStreamId is now null
+                                    }
+                                });
                             }
                         }
                     }
