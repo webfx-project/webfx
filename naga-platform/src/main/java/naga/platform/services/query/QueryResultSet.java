@@ -9,6 +9,8 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonArray;
 import naga.platform.json.spi.WritableJsonObject;
 
+import java.util.Arrays;
+
 /**
  * @author Bruno Salmon
  */
@@ -116,6 +118,30 @@ public class QueryResultSet {
     public boolean getBoolean(int rowIndex, int columnIndex, boolean defaultValue) {
         Object value = getValue(rowIndex, columnIndex);
         return value == null ? defaultValue : value instanceof Boolean ? (Boolean) value : Boolean.valueOf(value.toString());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        QueryResultSet that = (QueryResultSet) o;
+
+        if (rowCount != that.rowCount) return false;
+        if (columnCount != that.columnCount) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(values, that.values)) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(columnNames, that.columnNames);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = rowCount;
+        result = 31 * result + columnCount;
+        result = 31 * result + Arrays.hashCode(values);
+        result = 31 * result + Arrays.hashCode(columnNames);
+        return result;
     }
 
     /****************************************************

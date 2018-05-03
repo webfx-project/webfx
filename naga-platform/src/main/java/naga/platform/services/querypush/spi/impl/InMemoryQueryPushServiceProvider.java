@@ -43,7 +43,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
         return Future.succeededFuture(streamInfo.queryStreamId);
     }
 
-    private synchronized StreamInfo getStreamInfo(QueryPushArgument argument) {
+    private StreamInfo getStreamInfo(QueryPushArgument argument) {
         Object queryStreamId = argument.getQueryStreamId();
         if (queryStreamId != null)
             return streamInfos.get(queryStreamId);
@@ -53,7 +53,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
     }
 
     @Override
-    protected synchronized void setStreamQueryArgument(StreamInfo streamInfo, QueryArgument queryArgument) {
+    protected void setStreamQueryArgument(StreamInfo streamInfo, QueryArgument queryArgument) {
         QueryInfo queryInfo = streamInfo.queryInfo;
         if (queryInfo != null) {
             if (Objects.areEquals(queryArgument, queryInfo.queryArgument))
@@ -73,7 +73,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
         QueryInfo queryInfo = streamInfo.queryInfo;
         if (queryInfo != null) {
             queryInfo.removeStreamInfo(streamInfo);
-            if (queryInfo.streamInfos.isEmpty())
+            if (queryInfo.hasNoMoreStreams())
                 queryInfos.remove(queryInfo.queryArgument);
         }
     }
@@ -98,23 +98,27 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
                     if (Objects.areEquals(queryInfo.queryArgument.getDataSourceId(), dataSourceId))
                         queryInfo.markAsDirty();
             }
-            nextHottestQueryNotYetReturned = null;
+            nextMostUrgentQueryNotYetExecuted = null;
         }
 
         @Override
-        QueryInfo fetchNextHottestQuery() {
-            QueryInfo hottestQuery = null;
+        QueryInfo fetchNextMostUrgentQuery() {
+            QueryInfo mostUrgentQuery = null;
             for (QueryInfo queryInfo : queryInfos.values())
-                hottestQuery = hottestQuery(queryInfo, hottestQuery);
-            return hottestQuery;
+                mostUrgentQuery = mostUrgentQuery(queryInfo, mostUrgentQuery);
+            return mostUrgentQuery;
         }
 
-        QueryInfo hottestQuery(QueryInfo q1, QueryInfo q2) {
+        QueryInfo mostUrgentQuery(QueryInfo q1, QueryInfo q2) {
             if (!q1.isDirty() || q1.activeStreamCount == 0)
                 return q2;
             if (q2 == null)
                 return q1;
-            return q1.dirtyTime() > q2.dirtyTime() ? q1 : q2;
+            if (q1.getBlankStreamsCount() > q2.getBlankStreamsCount())
+                return q1;
+            if (q1.dirtyTime() > q2.dirtyTime())
+                return q1;
+            return q2;
         }
     }
 }
