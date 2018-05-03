@@ -25,6 +25,8 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
     @Override
     protected Future<Object> updateStream(QueryPushArgument argument) {
         StreamInfo streamInfo = getStreamInfo(argument);
+        if (streamInfo == null)
+            return Future.failedFuture(new IllegalArgumentException("Stream update request with unregistered queryStreamId=" + argument.getQueryStreamId()));
         QueryArgument queryArgument = argument.getQueryArgument();
         if (queryArgument != null)
             setStreamQueryArgument(streamInfo, queryArgument);
@@ -110,13 +112,11 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
         }
 
         QueryInfo mostUrgentQuery(QueryInfo q1, QueryInfo q2) {
-            if (!q1.isDirty() || q1.activeStreamCount == 0)
-                return q2;
-            if (q2 == null)
-                return q1;
-            if (q1.getBlankStreamsCount() > q2.getBlankStreamsCount())
-                return q1;
-            if (q1.dirtyTime() > q2.dirtyTime())
+            if (q1.isDirty() && q1.activeStreamCount > 0 && (
+                    q2 == null
+                    || q1.getBlankStreamsCount() > q2.getBlankStreamsCount()
+                    || q1.dirtyTime() > q2.dirtyTime()
+                ))
                 return q1;
             return q2;
         }
