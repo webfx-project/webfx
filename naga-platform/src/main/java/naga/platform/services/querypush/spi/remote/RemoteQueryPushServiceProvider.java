@@ -8,12 +8,15 @@ import naga.platform.services.log.Logger;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.querypush.PulseArgument;
 import naga.platform.services.querypush.QueryPushArgument;
+import naga.platform.services.querypush.QueryPushResult;
 import naga.platform.services.querypush.QueryPushService;
 import naga.platform.services.querypush.spi.QueryPushServiceProvider;
 import naga.util.async.Future;
 import naga.util.function.Consumer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static naga.platform.services.querypush.spi.remote.LocalQueryPushServiceProviderRegistry.getLocalConnectedProvider;
@@ -57,24 +60,44 @@ public class RemoteQueryPushServiceProvider implements QueryPushServiceProvider 
     }
 
     protected <T> Future<T> executeRemoteQueryPush(QueryPushArgument argument) {
+        boolean isConsumerRegistrationPendingCall = argument.getQueryResultSetConsumer() != null;
+        if (isConsumerRegistrationPendingCall)
+            consumerRegistrationPendingCalls++;
         Future<T> call = BusCallService.call(BusCallServerActivity.QUERY_PUSH_SERVICE_ADDRESS, argument);
-        if (argument.getQueryResultSetConsumer() != null)
+        if (isConsumerRegistrationPendingCall)
             call = call.map(queryStreamId -> {
-                queryResultConsumers.put(queryStreamId, argument.getQueryResultSetConsumer());
-                return queryStreamId;
+                synchronized (queryResultConsumers) {
+                    // Registering the consumer along the returned queryStreamId
+                    queryResultConsumers.put(queryStreamId, argument.getQueryResultSetConsumer());
+                    consumerRegistrationPendingCalls--; // Decreasing the pending calls now that the consumer is registered
+                    // Retrying sending results with no consumer if any
+                    for (QueryPushResult qpr : withNoConsumerReceivedResults)
+                        onQueryPushResultReceived(qpr);
+                    withNoConsumerReceivedResults.clear();
+                    return queryStreamId;
+                }
             });
         return call;
     }
 
     private final static Map<Object, Consumer<QueryResultSet>> queryResultConsumers = new HashMap<>();
+    private static int consumerRegistrationPendingCalls;
+    private final static List<QueryPushResult> withNoConsumerReceivedResults = new ArrayList<>();
 
-    static {
-        QueryPushService.registerQueryPushClientConsumer(qpr -> {
+    private static void onQueryPushResultReceived(QueryPushResult qpr) {
+        synchronized (queryResultConsumers) {
             Consumer<QueryResultSet> queryResultSetConsumer = queryResultConsumers.get(qpr.getQueryStreamId());
             if (queryResultSetConsumer != null)
                 queryResultSetConsumer.accept(qpr.getQueryResultSet());
-            else
-                Logger.log("QueryPushResult received with undeclared queryStreamId = " + qpr.getQueryStreamId());
-        });
+            else if (consumerRegistrationPendingCalls > 0) // Consumer not found but this may be because this result has been received before the registration call returns
+                withNoConsumerReceivedResults.add(qpr); // we will retry on next registration call return (see executeRemoteQueryPush)
+            else // Definitely no consumer registered along that queryStreamId
+                Logger.log("QueryPushResult received with unregistered queryStreamId = " + qpr.getQueryStreamId());
+        }
     }
+
+    static {
+        QueryPushService.registerQueryPushClientConsumer(RemoteQueryPushServiceProvider::onQueryPushResultReceived);
+    }
+
 }
