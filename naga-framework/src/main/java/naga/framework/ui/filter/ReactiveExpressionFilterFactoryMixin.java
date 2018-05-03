@@ -23,6 +23,7 @@ public interface ReactiveExpressionFilterFactoryMixin extends HasI18n, HasDataSo
                 .setDataSourceModel(getDataSourceModel())
                 .setI18n(getI18n())
                 .bindActivePropertyTo(activeProperty())
+                .setPush(true) // Making server push notifications on by default
                 ;
     }
 
