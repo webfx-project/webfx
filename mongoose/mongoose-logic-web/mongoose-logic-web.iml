@@ -7,6 +7,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/${project.build.directory}/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/${project.build.directory}/test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -26,6 +28,10 @@
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" scope="PROVIDED" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.elemental2:elemental2-core:1.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.jsinterop:base:1.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.elemental2:elemental2-dom:1.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.elemental2:elemental2-promise:1.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:sources:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
