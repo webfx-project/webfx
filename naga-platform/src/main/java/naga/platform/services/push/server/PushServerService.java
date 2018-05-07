@@ -1,9 +1,9 @@
 package naga.platform.services.push.server;
 
 import naga.platform.bus.Bus;
-import naga.platform.bus.call.PendingBusCall;
-import naga.platform.services.push.server.spi.impl.PushServerServiceProviderImpl;
 import naga.platform.services.push.server.spi.PushServerServiceProvider;
+import naga.platform.services.push.server.spi.impl.PushServerServiceProviderImpl;
+import naga.util.async.Future;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
@@ -19,8 +19,19 @@ public class PushServerService {
         return ServiceLoaderHelper.loadService(PushServerServiceProvider.class);
     }
 
-    public static <T> PendingBusCall<T> callClientService(String serviceAddress, Object javaArgument, Bus bus, Object pushClientId) {
+    public static <T> Future<T> callClientService(String serviceAddress, Object javaArgument, Bus bus, Object pushClientId) {
         return getProvider().callClientService(serviceAddress, javaArgument, bus, pushClientId);
     }
 
+    public static Future pingPushClient(Bus bus, Object pushClientId) {
+        return getProvider().pingPushClient(bus, pushClientId);
+    }
+
+    public static void addPushClientDisconnectListener(PushClientDisconnectListener listener) {
+        getProvider().addPushClientDisconnectListener(listener);
+    }
+
+    public static void removePushClientDisconnectListener(PushClientDisconnectListener listener) {
+        getProvider().removePushClientDisconnectListener(listener);
+    }
 }
