@@ -53,9 +53,6 @@ public class SimpleClientBus implements Bus {
     BusHook hook;
     private boolean open = true;
 
-    public SimpleClientBus() {
-    }
-
     @Override
     public void close() {
         if (hook == null || hook.handlePreClose())
@@ -182,7 +179,7 @@ public class SimpleClientBus implements Bus {
     }
 
     private void handle(String address, Handler<AsyncResult<Message>> handler, Message message) {
-        //Platform.log("handle(), address = " + address + ", handler = " + handler + ", message = " + message);
+        //Logger.log("handle(), address = " + address + ", handler = " + handler + ", message = " + message);
         try {
             handler.handle(Future.succeededFuture(message));
         } catch (Throwable e) {
@@ -201,7 +198,7 @@ public class SimpleClientBus implements Bus {
     }
 
     private void scheduleHandleAsync(String address, Handler<AsyncResult<Message>> handler, Message message) {
-        //Platform.log("scheduleHandle(), address = " + address + ", handler = " + handler + ", message = " + message);
+        //Logger.log("scheduleHandle(), address = " + address + ", handler = " + handler + ", message = " + message);
         if (message.isLocal())
             handle(address, handler, message);
         else

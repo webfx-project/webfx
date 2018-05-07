@@ -18,12 +18,12 @@
 package naga.platform.client.bus;
 
 import naga.platform.bus.Message;
+import naga.platform.client.websocket.spi.WebSocket;
 import naga.platform.client.websocket.spi.WebSocketFactory;
+import naga.platform.client.websocket.spi.WebSocketListener;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.client.websocket.spi.WebSocket;
-import naga.platform.client.websocket.spi.WebSocketListener;
 import naga.platform.services.log.Logger;
 import naga.scheduler.Scheduled;
 import naga.scheduler.Scheduler;
@@ -41,19 +41,14 @@ import java.util.Map;
  */
 @SuppressWarnings("rawtypes")
 public class WebSocketBus extends SimpleClientBus {
-    private static final String ON_OPEN = "@realtime/bus/onOpen";
-    static final String ON_CLOSE = "@realtime/bus/onClose";
-    static final String ON_ERROR = "@realtime/bus/onError";
-
-    private static final String SESSION = "_session";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String TOPIC_LOGIN = "vertx.basicauthmanager.login";
+    private static final String ON_OPEN = "bus/onOpen";
+    static final String ON_CLOSE = "bus/onClose";
+    static final String ON_ERROR = "bus/onError";
 
     private static final String BODY = "body";
     private static final String ADDRESS = "address";
     private static final String REPLY_ADDRESS = "replyAddress";
-    protected static final String TYPE = "type";
+    static final String TYPE = "type";
 
     private final WebSocketListener internalWebSocketHandler;
     String serverUri;
@@ -61,13 +56,11 @@ public class WebSocketBus extends SimpleClientBus {
     private int pingInterval;
     private Scheduled pingScheduled;
     private String sessionId;
-    private String username;
-    private String password;
     final Map<String, Integer> handlerCount = new HashMap<>();
     // Possible external web socket listener to observe web socket connection state
     private WebSocketListener webSocketListener;
 
-    public WebSocketBus(WebSocketBusOptions options) {
+    WebSocketBus(WebSocketBusOptions options) {
         options.turnUnsetPropertiesToDefault(); // should be already done by the platform but just in case
         String serverUri =
                 (options.getProtocol() == WebSocketBusOptions.Protocol.WS ? "ws" : "http")
@@ -85,9 +78,7 @@ public class WebSocketBus extends SimpleClientBus {
                     Logger.log("Connection open");
                 // sendLogin(); // Disabling the auto logic mechanism
                 // Send the first ping then send a ping every 5 seconds
-                sendPing();
-                cancelPingTimer();
-                pingScheduled = Scheduler.schedulePeriodic(pingInterval, WebSocketBus.this::sendPing);
+                touchMessageReceived(); // in order to schedule the next ping
                 if (hook != null)
                     hook.handleOpened();
                 publishLocal(ON_OPEN, null);
@@ -95,7 +86,8 @@ public class WebSocketBus extends SimpleClientBus {
 
             @Override
             public void onMessage(String msg) {
-                //Platform.log("Received message = " + msg);
+                //Logger.log("Received message = " + msg);
+                touchMessageReceived();
                 if (webSocketListener != null)
                     webSocketListener.onMessage(msg);
                 JsonObject json = Json.parseObject(msg);
@@ -133,20 +125,12 @@ public class WebSocketBus extends SimpleClientBus {
         this.webSocketListener = webSocketListener;
     }
 
-    private void cancelPingTimer() {
-        if (pingScheduled != null)
-            pingScheduled.cancel();
-        pingScheduled = null;
-    }
-
-    public void connect(String serverUri, WebSocketBusOptions options) {
+    void connect(String serverUri, WebSocketBusOptions options) {
         this.serverUri = serverUri;
         pingInterval = options.getPingInterval();
         sessionId = options.getSessionId();
         if (sessionId == null)
             sessionId = idGenerator.next(23);
-        username = options.getUsername();
-        password = options.getPassword();
 
         if (webSocketListener == null)
             Logger.log("Connecting to " + serverUri);
@@ -155,7 +139,7 @@ public class WebSocketBus extends SimpleClientBus {
         webSocket.setListener(internalWebSocketHandler);
     }
 
-    public WebSocket.State getReadyState() {
+    WebSocket.State getReadyState() {
         return webSocket.getReadyState();
     }
 
@@ -226,7 +210,7 @@ public class WebSocketBus extends SimpleClientBus {
         if (getReadyState() != WebSocket.State.OPEN)
             throw new IllegalStateException("INVALID_STATE_ERR");
         String data = msg.toJsonString();
-        //Platform.log("Sending data: " + data);
+        //Logger.log("Sending data: " + data);
         webSocket.send(data);
     }
 
@@ -248,14 +232,31 @@ public class WebSocketBus extends SimpleClientBus {
     }
 */
 
-    protected void sendPing() {
+    private void sendPing() {
+        Logger.log("Sending client ping over web socket");
         send(Json.createObject().set(TYPE, "ping"));
+        touchMessageReceived(); // in order to schedule the next ping
+    }
+
+    private void touchMessageReceived() {
+        // Since we just received a message, we are sure the bus is connected so we can reschedule the next ping for
+        // another new ping interval. In this way we can reduce the bus traffic (especially when there are lots of
+        // clients). And if there is a server ping (such as the one provided by the push server service), this can
+        // actually completely remove the client ping traffic.
+        cancelPingTimer();
+        pingScheduled = Scheduler.scheduleDelay(pingInterval, this::sendPing);
+    }
+
+    private void cancelPingTimer() {
+        if (pingScheduled != null)
+            pingScheduled.cancel();
+        pingScheduled = null;
     }
 
     /*
      * First handler for this address so we should register the connection
      */
-    protected void sendSubscribe(String address) {
+    void sendSubscribe(String address) {
         //assert address != null : "address shouldn't be null";
         send(Json.createObject().set(TYPE, "register").set(ADDRESS, address));
     }
@@ -263,7 +264,7 @@ public class WebSocketBus extends SimpleClientBus {
     /*
      * No more handlers so we should unregister the connection
      */
-    protected void sendUnsubscribe(String address) {
+    void sendUnsubscribe(String address) {
         send(Json.createObject().set(TYPE, "unregister").set(ADDRESS, address));
     }
 }
