@@ -1,14 +1,21 @@
 package mongoose.activities.server.vertx;
 
 import mongoose.activities.server.MongooseServerMetricsActivity;
-import mongoose.activities.server.MongooseServerPushActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.LocalDataSourceRegistry;
+import naga.platform.services.log.Logger;
+import naga.platform.services.push.server.PushServerService;
+import naga.platform.services.query.QueryArgument;
+import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryService;
 import naga.platform.services.resource.ResourceService;
+import naga.platform.services.update.UpdateArgument;
+import naga.platform.services.update.UpdateService;
+import naga.platform.spi.Platform;
 import naga.providers.platform.server.vertx.util.VertxRunner;
 import naga.providers.platform.server.vertx.verticles.RootVerticle;
 
@@ -26,7 +33,7 @@ public class MongooseVertxRootVerticle extends RootVerticle {
         super.start();
         registerMongooseLocalDataSource();
         MongooseServerMetricsActivity.startActivity();
-        MongooseServerPushActivity.startActivity();
+        //MongooseServerPushActivity.startActivity();
     }
 
     private static void registerMongooseLocalDataSource() {
