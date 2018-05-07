@@ -53,9 +53,9 @@ class SerializableAsyncResult<T> implements AsyncResult<T> {
      *                    Json Codec                    *
      * *************************************************/
 
-    private static String CODEC_ID = "asyncRes";
-    private static String RESULT_KEY = "res";
-    private static String ERROR_KEY = "err";
+    private final static String CODEC_ID = "AsyncResult";
+    private final static String RESULT_KEY = "result";
+    private final static String ERROR_KEY = "error";
 
     public static void registerJsonCodec() {
         new AbstractJsonCodec<SerializableAsyncResult>(SerializableAsyncResult.class, CODEC_ID) {
@@ -71,10 +71,9 @@ class SerializableAsyncResult<T> implements AsyncResult<T> {
             @Override
             public SerializableAsyncResult decodeFromJson(JsonObject json) {
                 String errorMessage = json.getString(ERROR_KEY);
-                Exception error = errorMessage == null ? null : new Exception(errorMessage);
                 return new SerializableAsyncResult<>(
                         JsonCodecManager.decodeFromJson(json.get(RESULT_KEY)),
-                        error
+                        errorMessage == null ? null : new Exception(errorMessage)
                 );
             }
         };
