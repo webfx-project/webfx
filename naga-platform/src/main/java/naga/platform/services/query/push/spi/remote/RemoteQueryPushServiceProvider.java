@@ -1,4 +1,4 @@
-package naga.platform.services.querypush.spi.remote;
+package naga.platform.services.query.push.spi.remote;
 
 import naga.platform.bus.call.BusCallServerActivity;
 import naga.platform.bus.call.BusCallService;
@@ -6,11 +6,11 @@ import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.LocalDataSourceRegistry;
 import naga.platform.services.log.Logger;
 import naga.platform.services.query.QueryResultSet;
-import naga.platform.services.querypush.PulseArgument;
-import naga.platform.services.querypush.QueryPushArgument;
-import naga.platform.services.querypush.QueryPushResult;
-import naga.platform.services.querypush.QueryPushService;
-import naga.platform.services.querypush.spi.QueryPushServiceProvider;
+import naga.platform.services.query.push.PulseArgument;
+import naga.platform.services.query.push.QueryPushArgument;
+import naga.platform.services.query.push.QueryPushResult;
+import naga.platform.services.query.push.QueryPushService;
+import naga.platform.services.query.push.spi.QueryPushServiceProvider;
 import naga.util.async.Future;
 import naga.util.function.Consumer;
 
@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static naga.platform.services.querypush.spi.remote.LocalQueryPushServiceProviderRegistry.getLocalConnectedProvider;
-import static naga.platform.services.querypush.spi.remote.LocalQueryPushServiceProviderRegistry.registerLocalConnectedProvider;
+import static naga.platform.services.query.push.spi.remote.LocalQueryPushServiceProviderRegistry.getLocalConnectedProvider;
+import static naga.platform.services.query.push.spi.remote.LocalQueryPushServiceProviderRegistry.registerLocalConnectedProvider;
 
 /**
  * @author Bruno Salmon

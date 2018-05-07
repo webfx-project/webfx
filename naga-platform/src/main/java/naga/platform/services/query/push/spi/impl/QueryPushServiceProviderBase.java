@@ -1,14 +1,14 @@
-package naga.platform.services.querypush.spi.impl;
+package naga.platform.services.query.push.spi.impl;
 
 import naga.platform.services.log.Logger;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.QueryService;
-import naga.platform.services.querypush.PulseArgument;
-import naga.platform.services.querypush.QueryPushArgument;
-import naga.platform.services.querypush.QueryPushResult;
-import naga.platform.services.querypush.QueryPushService;
-import naga.platform.services.querypush.spi.QueryPushServiceProvider;
+import naga.platform.services.query.push.PulseArgument;
+import naga.platform.services.query.push.QueryPushArgument;
+import naga.platform.services.query.push.QueryPushResult;
+import naga.platform.services.query.push.QueryPushService;
+import naga.platform.services.query.push.spi.QueryPushServiceProvider;
 import naga.util.async.Future;
 
 import java.util.ArrayList;

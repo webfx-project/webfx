@@ -1,4 +1,4 @@
-package naga.platform.services.querypush;
+package naga.platform.services.query.push;
 
 import naga.platform.json.codec.AbstractJsonCodec;
 import naga.platform.json.codec.JsonCodecManager;

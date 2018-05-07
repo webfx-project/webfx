@@ -1,8 +1,8 @@
-package naga.platform.services.querypush.spi.impl;
+package naga.platform.services.query.push.spi.impl;
 
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.querypush.PulseArgument;
-import naga.platform.services.querypush.QueryPushArgument;
+import naga.platform.services.query.push.PulseArgument;
+import naga.platform.services.query.push.QueryPushArgument;
 import naga.util.Objects;
 import naga.util.async.Future;
 

@@ -7,7 +7,7 @@ package naga.platform.bus.call;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.services.query.QueryService;
-import naga.platform.services.querypush.QueryPushService;
+import naga.platform.services.query.push.QueryPushService;
 import naga.platform.services.update.UpdateService;
 
 public class BusCallServerActivity implements Activity {

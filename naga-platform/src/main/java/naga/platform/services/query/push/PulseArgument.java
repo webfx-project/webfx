@@ -1,6 +1,6 @@
-package naga.platform.services.querypush;
+package naga.platform.services.query.push;
 
-import naga.platform.services.querypush.spi.impl.QueryPushServiceProviderBase;
+import naga.platform.services.query.push.spi.impl.QueryPushServiceProviderBase;
 
 /**
  * @author Bruno Salmon

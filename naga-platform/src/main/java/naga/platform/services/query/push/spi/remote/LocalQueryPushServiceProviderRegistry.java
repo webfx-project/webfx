@@ -1,6 +1,6 @@
-package naga.platform.services.querypush.spi.remote;
+package naga.platform.services.query.push.spi.remote;
 
-import naga.platform.services.querypush.spi.QueryPushServiceProvider;
+import naga.platform.services.query.push.spi.QueryPushServiceProvider;
 
 import java.util.HashMap;
 import java.util.Map;

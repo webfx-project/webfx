@@ -1,11 +1,11 @@
-package naga.platform.services.querypush;
+package naga.platform.services.query.push;
 
 import naga.platform.bus.Registration;
 import naga.platform.bus.call.PendingBusCall;
 import naga.platform.services.push.client.PushClientService;
 import naga.platform.services.push.server.PushServerService;
-import naga.platform.services.querypush.spi.QueryPushServiceProvider;
-import naga.platform.services.querypush.spi.remote.RemoteQueryPushServiceProvider;
+import naga.platform.services.query.push.spi.QueryPushServiceProvider;
+import naga.platform.services.query.push.spi.remote.RemoteQueryPushServiceProvider;
 import naga.platform.spi.Platform;
 import naga.util.async.Future;
 import naga.util.function.Consumer;
