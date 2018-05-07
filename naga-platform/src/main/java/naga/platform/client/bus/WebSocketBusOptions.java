@@ -33,7 +33,7 @@ public class WebSocketBusOptions extends BusOptions {
         serverSSL = Objects.coalesce(serverSSL, Boolean.FALSE);
         serverHost = Objects.coalesce(serverHost, "localhost");
         serverPort = Objects.coalesce(serverPort, "80");
-        pingInterval = Objects.coalesce(pingInterval, 5 * 1000);
+        pingInterval = Objects.coalesce(pingInterval, 30_000);
         super.turnUnsetPropertiesToDefault();
         return this;
     }

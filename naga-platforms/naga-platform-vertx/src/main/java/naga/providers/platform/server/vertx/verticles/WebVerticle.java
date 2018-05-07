@@ -62,7 +62,7 @@ public class WebVerticle extends AbstractVerticle {
         });
 
         // Serving static files under the webroot folder
-        router.route("/*").handler(StaticHandler.create());
+        router.route("/*").handler(StaticHandler.create()); // Default one day MAX_AGE is ok except for root index page (how to fix that?)
 
         // Binding the web port
         server.requestHandler(router::accept).listen();
