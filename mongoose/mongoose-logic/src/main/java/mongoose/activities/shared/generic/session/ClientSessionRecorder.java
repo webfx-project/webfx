@@ -37,30 +37,16 @@ public class ClientSessionRecorder {
         Logger.log("application.build.tool = " + getApplicationBuildTool());
         Logger.log("application.build.timestamp = " + getApplicationBuildTimestampString());
         Logger.log("application.build.number = " + getApplicationBuildNumberString());
-        // Registering the server push client listener. This registration is private (ie just done locally on the client
-        // event bus) so not directly visible on the server event bus but the server can reach that listener by running:
-        // BusCallService.call(clientBusCallServiceAddress, "serverPushClientListener", arg, ...)
-        // because the client bus call service will finally pass the arg to that listener over the local client bus.
-        // But of course to make this work, the client bus call service must listen server calls by running:
-        // BusCallService.listenBusEntryCalls(clientBusCallServiceAddress)
-        // This registration is public (so visible on the server event bus) but it will be done later by the method
-        // listenServerPushCallsIfReady() because clientBusCallServiceAddress is computed from client process id which
-        // is not yet known at this stage (the purpose is to have a unique address for each client that can be easily
-        // computed by the server as well from the process id read from session tables).
-        PushClientService.registerPushFunction("serverPushClientListener", arg -> {
-            Logger.log(arg);
-            return "OK";
-        });
     }
 
     private final Bus bus;
     private Registration pushClientRegistration;
 
-    public ClientSessionRecorder() {
+    private ClientSessionRecorder() {
         this(Platform.bus());
     }
 
-    public ClientSessionRecorder(Bus bus) {
+    private ClientSessionRecorder(Bus bus) {
         this.bus = bus;
         bus.setHook(new BusHook() {
             @Override
@@ -185,7 +171,7 @@ public class ClientSessionRecorder {
         }
     }
 
-    public void recordNewSessionUser(Object userId) {
+    private void recordNewSessionUser(Object userId) {
         createNewSessionUser(userId);
         executeUpdate();
     }
