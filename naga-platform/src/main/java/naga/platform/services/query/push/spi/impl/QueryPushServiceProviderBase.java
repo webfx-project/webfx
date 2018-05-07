@@ -1,6 +1,7 @@
 package naga.platform.services.query.push.spi.impl;
 
 import naga.platform.services.log.Logger;
+import naga.platform.services.push.server.PushServerService;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.QueryService;
@@ -20,6 +21,10 @@ import java.util.Objects;
  */
 public abstract class QueryPushServiceProviderBase implements QueryPushServiceProvider {
     private PulsePass pulsePass;
+
+    protected QueryPushServiceProviderBase() {
+        PushServerService.addPushClientDisconnectListener(this::removePushClientStreams);
+    }
 
     @Override
     public Future<Object> executeQueryPush(QueryPushArgument argument) {
@@ -52,6 +57,8 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
     protected abstract void setStreamQueryArgument(StreamInfo streamInfo, QueryArgument queryArgument);
 
     protected abstract void removeStream(StreamInfo streamInfo);
+
+    protected abstract void removePushClientStreams(Object pushClientId);
 
     class StreamInfo {
         Object queryStreamId;
@@ -93,7 +100,7 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
             this.queryArgument = queryArgument;
         }
 
-        void touch() {
+        void touchExecuted() {
             lastQueryExecutionTime = now();
             lastPossibleChangeTime = 0;
         }
@@ -181,7 +188,7 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
 
         Future<Void> executeQueryAndPushResultToRelevantClients(QueryInfo queryInfo) {
             executedQueries++;
-            queryInfo.touch();
+            queryInfo.touchExecuted();
             return QueryService.executeQuery(queryInfo.queryArgument).map(queryResult -> {
                 // Merging the new clients (the blank streams that haven't received any result yet) into the existing ones (those that already received at least 1 result)
                 List<StreamInfo> relevantStreamInfos = queryInfo.markBlankStreamsAsFilled(); // The relevant clients are first set to these new clients (they are relevant if the result hasn't changed)

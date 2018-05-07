@@ -1,7 +1,6 @@
 package naga.platform.services.query.push;
 
 import naga.platform.bus.Registration;
-import naga.platform.bus.call.PendingBusCall;
 import naga.platform.services.push.client.PushClientService;
 import naga.platform.services.push.server.PushServerService;
 import naga.platform.services.query.push.spi.QueryPushServiceProvider;
@@ -49,7 +48,7 @@ public class QueryPushService {
     }
 
     // Server side (sending a query push result to a specific client)
-    public static <T> PendingBusCall<T> pushQueryResultToClient(QueryPushResult queryPushResult, Object pushClientId) {
+    public static <T> Future<T> pushQueryResultToClient(QueryPushResult queryPushResult, Object pushClientId) {
         return PushServerService.callClientService(QUERY_PUSH_RESULT_LISTENER_CLIENT_SERVICE_ADDRESS, queryPushResult, Platform.bus(), pushClientId);
     }
 

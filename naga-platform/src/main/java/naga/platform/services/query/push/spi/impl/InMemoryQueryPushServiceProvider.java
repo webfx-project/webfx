@@ -5,6 +5,7 @@ import naga.platform.services.query.push.PulseArgument;
 import naga.platform.services.query.push.QueryPushArgument;
 import naga.util.Objects;
 import naga.util.async.Future;
+import naga.util.collection.Collections;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +79,11 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
             if (queryInfo.hasNoMoreStreams())
                 queryInfos.remove(queryInfo.queryArgument);
         }
+    }
+
+    @Override
+    protected void removePushClientStreams(Object pushClientId) {
+        Collections.forEach(Collections.filter(streamInfos.values(), si -> Objects.areEquals(si.pushClientId, pushClientId)), this::removeStream);
     }
 
     PulsePass createPulsePass(PulseArgument argument) {
