@@ -34,18 +34,17 @@ public class JavaSchedulerProvider implements SchedulerProvider {
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
     public JavaSchedulerProvider() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                // shutdown our thread pool
-                try {
-                    executor.shutdown();
-                    executor.awaitTermination(1, TimeUnit.SECONDS);
-                } catch (InterruptedException ie) {
-                    // nothing to do here except go ahead and exit
-                }
+/* Commented as this scheduler may still be used by other shutdown tasks (avoiding a RejectedExecutionException)
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // shutdown our thread pool
+            try {
+                executor.shutdown();
+                executor.awaitTermination(1, TimeUnit.SECONDS);
+            } catch (InterruptedException ie) {
+                // nothing to do here except go ahead and exit
             }
-        });
+        }));
+*/
     }
 
     @Override
