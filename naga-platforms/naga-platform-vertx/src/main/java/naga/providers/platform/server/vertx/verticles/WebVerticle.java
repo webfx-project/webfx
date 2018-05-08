@@ -49,6 +49,7 @@ public class WebVerticle extends AbstractVerticle {
         // SockJS event bus bridge
         router.route("/eventbus/*").handler(SockJSHandler.create(vertx)
                 .bridge(new BridgeOptions()
+                        .setPingTimeout(40_000) // Should be higher than client WebSocketBusOptions.pingInterval (which is set to 30_000 at the time of writing this code)
                         .addInboundPermitted(new PermittedOptions(new JsonObject()))
                         .addOutboundPermitted(new PermittedOptions(new JsonObject()))
                         // Uncomment to watch events on the bridge , event -> System.out.println(event.type())
