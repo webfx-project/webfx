@@ -17,7 +17,7 @@ import static naga.platform.services.push.SharedClientServerPushInfo.PUSH_PING_C
  */
 public class PushClientService {
 
-    private final static ObjectProperty pushClientIdProperty = new SimpleObjectProperty();
+    private final static ObjectProperty<Object> pushClientIdProperty = new SimpleObjectProperty<>();
 
     static {
         // Registering the default push client service provider (can be overridden using the service loader mechanism)
@@ -38,7 +38,7 @@ public class PushClientService {
         return pushClientIdProperty.get();
     }
 
-    public static ObjectProperty pushClientIdPropertyProperty() {
+    public static ObjectProperty<Object> pushClientIdProperty() {
         return pushClientIdProperty;
     }
 
