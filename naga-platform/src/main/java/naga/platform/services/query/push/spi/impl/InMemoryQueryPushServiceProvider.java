@@ -61,7 +61,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
         if (queryInfo != null) {
             if (Objects.areEquals(queryArgument, queryInfo.queryArgument))
                 return;
-            queryInfo.removeStreamInfo(streamInfo);
+            removeStreamFromQueryInfo(streamInfo, queryInfo);
         }
         queryInfo = queryInfos.get(queryArgument);
         if (queryInfo == null)
@@ -73,7 +73,10 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
     @Override
     protected void removeStream(StreamInfo streamInfo) {
         streamInfos.remove(streamInfo.queryStreamId);
-        QueryInfo queryInfo = streamInfo.queryInfo;
+        removeStreamFromQueryInfo(streamInfo, streamInfo.queryInfo);
+    }
+
+    private void removeStreamFromQueryInfo(StreamInfo streamInfo, QueryInfo queryInfo) {
         if (queryInfo != null) {
             queryInfo.removeStreamInfo(streamInfo);
             if (queryInfo.hasNoMoreStreams())
@@ -125,6 +128,11 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
                 ))
                 return q1;
             return q2;
+        }
+
+        @Override
+        String finishedStringStart() {
+            return super.finishedStringStart() + "(/" + queryInfos.size() + ")";
         }
     }
 }

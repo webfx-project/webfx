@@ -230,7 +230,7 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
         }
 
         void onFinished() {
-            StringBuilder sb = new StringBuilder("Pulse finished in " + (now() - startTime) + "ms - executed queries: " + executedQueries);
+            StringBuilder sb = new StringBuilder(finishedStringStart());
             if (executedQueries > 0) {
                 sb.append(", changed: ").append(changedQueries);
                 if (pushedToClients > 0) {
@@ -240,6 +240,10 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
                 }
             }
             Logger.log(sb);
+        }
+
+        String finishedStringStart() {
+            return "Pulse finished in " + (now() - startTime) + "ms - executed queries: " + executedQueries;
         }
     }
 
