@@ -72,13 +72,11 @@ public class WebSocketBus extends SimpleClientBus {
         internalWebSocketHandler = new WebSocketListener() {
             @Override
             public void onOpen() {
+                Logger.log("Connection open");
+                scheduleNextPing();
                 if (webSocketListener != null)
                     webSocketListener.onOpen();
-                else
-                    Logger.log("Connection open");
                 // sendLogin(); // Disabling the auto logic mechanism
-                // Send the first ping then send a ping every 5 seconds
-                touchMessageReceived(); // in order to schedule the next ping
                 if (hook != null)
                     hook.handleOpened();
                 publishLocal(ON_OPEN, null);
@@ -233,16 +231,12 @@ public class WebSocketBus extends SimpleClientBus {
 */
 
     private void sendPing() {
-        Logger.log("Sending client ping over web socket");
+        Logger.log("Sending client ping to server");
         send(Json.createObject().set(TYPE, "ping"));
-        touchMessageReceived(); // in order to schedule the next ping
+        scheduleNextPing(); // in order to schedule the next ping
     }
 
-    private void touchMessageReceived() {
-        // Since we just received a message, we are sure the bus is connected so we can reschedule the next ping for
-        // another new ping interval. In this way we can reduce the bus traffic (especially when there are lots of
-        // clients). And if there is a server ping (such as the one provided by the push server service), this can
-        // actually completely remove the client ping traffic.
+    private void scheduleNextPing() {
         cancelPingTimer();
         pingScheduled = Scheduler.scheduleDelay(pingInterval, this::sendPing);
     }
@@ -253,6 +247,14 @@ public class WebSocketBus extends SimpleClientBus {
         pingScheduled = null;
     }
 
+    private void touchMessageReceived() {
+        // Since we just received a message, we are sure the bus is connected so we can reschedule the next ping for
+        // another new ping interval. In this way we can reduce the bus traffic (especially when there are lots of
+        // clients). And if there is a server ping (such as the one provided by the push server service), this can
+        // actually completely remove the client ping traffic.
+        // FINALLY COMMENTED BECAUSE VERT.X (EVENT BUS BRIDGE) REQUIRES PING EVEN WHILE WEB SOCKET TRAFFIC
+        // scheduleNextPing();
+    }
     /*
      * First handler for this address so we should register the connection
      */
