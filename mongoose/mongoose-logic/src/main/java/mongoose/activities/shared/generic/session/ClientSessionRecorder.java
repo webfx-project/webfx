@@ -207,6 +207,10 @@ public class ClientSessionRecorder {
         if (pushClientRegistration != null && bus.isOpen())
             pushClientRegistration.unregister();
         pushClientRegistration = null;
+        // Resetting the push client id property to null (will be reassigned when connected again). The purpose is to
+        // make the reactive expression filters in push mode react when the connection is open again (this property
+        // change should make them send the query push info sent to the server again).
+        PushClientService.pushClientIdProperty().setValue(null);
     }
 
     private Entity insertSessionEntity(Object domainClassId, Entity previousEntity) {
