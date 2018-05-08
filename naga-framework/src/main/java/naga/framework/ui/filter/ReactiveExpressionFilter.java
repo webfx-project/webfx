@@ -42,11 +42,11 @@ import naga.util.collection.Collections;
 import naga.util.function.Callable;
 import naga.util.function.Consumer;
 import naga.util.function.Converter;
+import naga.util.tuples.Unit;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Bruno Salmon
@@ -79,13 +79,18 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     private ReferenceResolver rootAliasReferenceResolver;
     private final BooleanProperty activeProperty = new SimpleBooleanProperty(true);
     private final BooleanProperty pushProperty = new SimpleBooleanProperty(false);
-    private final ObjectProperty<Object> pushClientIdProperty = new SimpleObjectProperty();
+    private final ObjectProperty<Object> pushClientIdProperty = new SimpleObjectProperty<>();
     private Object queryStreamId;
     private ObservableValue<Boolean> boundActiveProperty;
     private boolean started;
 
     public ReactiveExpressionFilter() {
-        bindPushClientIdPropertyTo(PushClientService.pushClientIdPropertyProperty());
+        bindPushClientIdPropertyTo(PushClientService.pushClientIdProperty());
+    }
+
+    public ReactiveExpressionFilter(Object jsonOrClass) {
+        this();
+        combine(new StringFilterBuilder(jsonOrClass));
     }
 
     public Object getDomainClassId() {
@@ -94,11 +99,6 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
 
     public DomainClass getDomainClass() {
         return getDomainModel().getClass(domainClassId);
-    }
-
-    public ReactiveExpressionFilter(Object jsonOrClass) {
-        this();
-        combine(new StringFilterBuilder(jsonOrClass));
     }
 
     public ReactiveExpressionFilter<E> setDataSourceModel(DataSourceModel dataSourceModel) {
@@ -412,7 +412,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                         refreshNow();
                 }
             }, i18n.dictionaryProperty(), activeProperty);
-        AtomicInteger querySequence = new AtomicInteger(); // Used for skipping possible too old query results
+        Unit<QueryArgument> queryArgumentHolder = new Unit<>(); // Used for skipping possible too old query results
         Observable<EntityList<E>> entityListObservable = Observable
                 .combineLatest(stringFilterObservables, this::mergeStringFilters)
                 .mergeWith(lastStringFilterReEmitter)
@@ -435,29 +435,30 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                         parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
                         if (autoRefresh || isDifferentFromLastQuery(stringFilter, parameterValues, active, push, pushClientId)) {
                             QueryArgument queryArgument = new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceId());
-                            if (!push || pushClientId == null) {
-                                // We increment and capture the sequence to check if the request is still the latest one when receiving the result
-                                int sequence = querySequence.incrementAndGet();
+                            queryArgumentHolder.set(queryArgument);
+                            if (!push) {
                                 // Then we ask the query service to execute the sql query
                                 lastEntityListObservable = RxFuture.from(QueryService.executeQuery(queryArgument))
                                     .map(queryResultSet ->
                                         // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
-                                        sequence != querySequence.get() ? null
+                                        !queryArgument.equals(queryArgumentHolder.get()) ? null
                                         // Otherwise transforming the QueryResultSet into an EntityList
                                         : queryResultSetToEntities(queryResultSet, sqlCompiled));
-                            } else {
+                            } else if (pushClientId != null) {
                                 lastEntityListObservable = entityListQueryPushEmitter;
-                                QueryPushService.executeQueryPush(
-                                        queryStreamId == null ? QueryPushArgument.openStreamArgument(pushClientId, queryArgument, queryResultSet -> entityListQueryPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled)))
-                                        : QueryPushArgument.updateStreamArgument(queryStreamId, queryArgument, getDataSourceId(), active)
-                                ).setHandler(ar -> {
-                                    queryStreamId = ar.result(); // queryStreamId returned by server (or null if failed)
-                                    if (ar.failed()) { // May happen if queryStreamId is not registered on the server anymore (ex: after server restart with non persistent query push provider such as the in-memory default one)
-                                        // In this case we will refresh the filter when active
-                                        Logger.log("Refreshing filter " + listId + " after query push update failure");
-                                        refreshWhenActive(); // this will open a new query stream as queryStreamId is now null
-                                    }
-                                });
+                                if (queryStreamId != null || active) {
+                                    QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, queryArgument, queryResultSet -> {
+                                        if (queryArgument.equals(queryArgumentHolder.get()))
+                                            entityListQueryPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled));
+                                    }, getDataSourceId(), active, null)).setHandler(ar -> {
+                                        queryStreamId = ar.result(); // queryStreamId returned by server (or null if failed)
+                                        if (ar.failed()) { // May happen if queryStreamId is not registered on the server anymore (ex: after server restart with non persistent query push provider such as the in-memory default one)
+                                            // In this case we will refresh the filter when active
+                                            Logger.log("Refreshing filter " + listId + " after query push update failure");
+                                            refreshWhenActive(); // this will open a new query stream as queryStreamId is now null
+                                        }
+                                    });
+                                }
                             }
                         }
                     }
@@ -483,7 +484,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return !Objects.equals(stringFilter, lastStringFilter)
                 || !Arrays.equals(parameterValues, lastParameterValues)
                 || push != lastPush
-                || queryStreamId != null && active != lastActive
+                || active != lastActive
                 || !Objects.equals(pushClientId, lastPushClientId)
                 ;
     }
