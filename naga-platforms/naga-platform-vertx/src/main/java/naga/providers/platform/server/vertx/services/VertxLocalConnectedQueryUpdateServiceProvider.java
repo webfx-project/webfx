@@ -203,21 +203,21 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
     private void executeUpdateBatchOnConnection(Batch<UpdateArgument> batch, SQLConnection connection, Future<Batch<UpdateResult>> batchFuture) {
         List<Object> batchIndexGeneratedKeys = new ArrayList<>(Collections.nCopies(batch.getArray().length, null));
         Unit<Integer> batchIndex = new Unit<>(0);
-        batch.executeSerial(batchFuture, UpdateResult[]::new, arg -> {
+        batch.executeSerial(batchFuture, UpdateResult[]::new, updateArgument -> {
             Future<UpdateResult> statementFuture = Future.future();
             // Replacing GeneratedKeyBatchIndex parameters with their actual generated keys
-            Object[] parameters = arg.getParameters();
+            Object[] parameters = updateArgument.getParameters();
             for (int i = 0, length = Arrays.length(parameters); i < length; i++) {
                 Object value = parameters[i];
                 if (value instanceof GeneratedKeyBatchIndex)
                     parameters[i] = batchIndexGeneratedKeys.get(((GeneratedKeyBatchIndex) value).getBatchIndex());
             }
-            executeUpdateOnConnection(arg, connection, false, Future.future()).setHandler(res -> {
-                if (res.failed()) { // Sql error
-                    statementFuture.fail(res.cause());
+            executeUpdateOnConnection(updateArgument, connection, false, Future.future()).setHandler(ar -> {
+                if (ar.failed()) { // Sql error
+                    statementFuture.fail(ar.cause());
                     connection.rollback(event -> closeConnection(connection));
                 } else { // Sql succeeded
-                    UpdateResult updateResult = res.result();
+                    UpdateResult updateResult = ar.result();
                     Object[] generatedKeys = updateResult.getGeneratedKeys();
                     if (!Arrays.isEmpty(generatedKeys))
                         batchIndexGeneratedKeys.set(batchIndex.get(), generatedKeys[0]);
@@ -225,7 +225,14 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
                     if (batchIndex.get() < batch.getArray().length)
                         statementFuture.complete(updateResult);
                     else
-                        commitCompleteAndClose(statementFuture, connection, updateResult);
+                        connection.commit(ar2 -> {
+                            if (ar2.failed())
+                                statementFuture.fail(ar2.cause());
+                            else
+                                statementFuture.complete(updateResult);
+                            closeConnection(connection);
+                            onSuccessfulUpdate(batch);
+                        });
                 }
             });
             return statementFuture;
@@ -263,18 +270,12 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
         //Platform.log("open = " + --open);
     }
 
-    private <T> void commitCompleteAndClose(Future<T> future, SQLConnection connection, T result) {
-        connection.commit(asyncResult -> {
-            if (asyncResult.failed())
-                future.fail(asyncResult.cause());
-            else
-                future.complete(result);
-            closeConnection(connection);
-        });
-    }
-
     private static void onSuccessfulUpdate(UpdateArgument updateArgument) {
         QueryPushService.executePulse(new PulseArgument(updateArgument.getDataSourceId()));
+    }
+
+    private static void onSuccessfulUpdate(Batch<UpdateArgument> batch) {
+        onSuccessfulUpdate(batch.getArray()[0]);
     }
 
     private static JsonArray toJsonParameters(Object[] parameters) {
