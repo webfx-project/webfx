@@ -58,6 +58,15 @@ public class QueryArgument {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "QueryArgument{" +
+                "queryString='" + queryString + '\'' +
+                ", parameters=" + java.util.Arrays.toString(parameters) +
+                ", dataSourceId=" + dataSourceId +
+                '}';
+    }
+
     /****************************************************
      *                    Json Codec                    *
      * *************************************************/
