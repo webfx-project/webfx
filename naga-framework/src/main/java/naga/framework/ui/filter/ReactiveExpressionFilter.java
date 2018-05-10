@@ -83,6 +83,8 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     private Object queryStreamId;
     private ObservableValue<Boolean> boundActiveProperty;
     private boolean started;
+    private boolean waitingQueryStreamId;
+    private boolean queryHasChangeWhileWaitingQueryStreamId;
 
     public ReactiveExpressionFilter() {
         bindPushClientIdPropertyTo(PushClientService.pushClientIdProperty());
@@ -431,33 +433,51 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                     } else {
                         // Otherwise we compile the final string filter into sql
                         SqlCompiled sqlCompiled = getDomainModel().compileSelect(stringFilter.toStringSelect());
+                        // And extract the possible parameters
                         ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
                         parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
+                        // Skipping the server call if there is no difference in the parameters compared to the last call (unless it is in autoRefresh mode)
                         if (autoRefresh || isDifferentFromLastQuery(stringFilter, parameterValues, active, push, pushClientId)) {
+                            // Generating the query argument
                             QueryArgument queryArgument = new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceId());
-                            queryArgumentHolder.set(queryArgument);
-                            if (!push) {
-                                // Then we ask the query service to execute the sql query
+                            if (!push) { // Standard mode (and not push mode) with only 1 result expected from the server
+                                // Holding the query argument passed to the server for double check when receiving the result
+                                queryArgumentHolder.set(queryArgument);
+                                // Calling the query service (probably on server)
                                 lastEntityListObservable = RxFuture.from(QueryService.executeQuery(queryArgument))
                                     .map(queryResultSet ->
-                                        // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
-                                        !queryArgument.equals(queryArgumentHolder.get()) ? null
-                                        // Otherwise transforming the QueryResultSet into an EntityList
-                                        : queryResultSetToEntities(queryResultSet, sqlCompiled));
-                            } else if (pushClientId != null) {
+                                        // Double checking the query argument is still the latest and if ok, transforming the QueryResultSet into entities
+                                        queryArgument.equals(queryArgumentHolder.get()) ? queryResultSetToEntities(queryResultSet, sqlCompiled)
+                                        // If not ok, this means the result is too old (another newer request has been sent meanwhile)
+                                        : null); // se we just return null in this case (will be ignored)
+                            } else /* push mode -> possible multiple results pushed by the server */ if (pushClientId != null) { // pushClientId is null when the client is not yet connected to the server (so waiting the pushClientId before calling the server)
                                 lastEntityListObservable = entityListQueryPushEmitter;
-                                if (queryStreamId != null || active) {
-                                    QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, queryArgument, queryResultSet -> {
-                                        if (queryArgument.equals(queryArgumentHolder.get()))
-                                            entityListQueryPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled));
-                                    }, getDataSourceId(), active, null)).setHandler(ar -> {
-                                        queryStreamId = ar.result(); // queryStreamId returned by server (or null if failed)
-                                        if (ar.failed()) { // May happen if queryStreamId is not registered on the server anymore (ex: after server restart with non persistent query push provider such as the in-memory default one)
-                                            // In this case we will refresh the filter when active
-                                            Logger.log("Refreshing filter " + listId + " after query push update failure");
-                                            refreshWhenActive(); // this will open a new query stream as queryStreamId is now null
-                                        }
-                                    });
+                                if (queryStreamId != null || active) { // Skipping new stream not yet active (waiting it becomes active before calling the server)
+                                    QueryArgument lastQueryArgument = queryArgumentHolder.get();
+                                    if (waitingQueryStreamId) // If we already wait the queryStreamId, we won't make a new call now (we can't update the stream without its id)
+                                        queryHasChangeWhileWaitingQueryStreamId |= !queryArgument.equals(lastQueryArgument); // but we mark this flag in order to update the stream (if modified) when receiving its id
+                                    else { // All conditions are gathered (different query, client connected and no pending call) to make a query push server call
+                                        // Network optimization: not necessary to send the query argument again if it has already been sent and hasn't change (the server kept a copy of it)
+                                        QueryArgument transmittedQueryArgument = queryStreamId != null && queryArgument.equals(lastQueryArgument) ? null : queryArgument;
+                                        waitingQueryStreamId = queryStreamId == null; // Setting the waitingQueryStreamId flag to true when queryStreamId is not yet known
+                                        queryArgumentHolder.set(queryArgument); // Holding the query argument passed to the server for double check when receiving the result
+                                        Logger.log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", queryArgument=" + transmittedQueryArgument);
+                                        QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, queryResultSet -> { // This consumer is called for each result pushed by the server
+                                            // Double checking the query argument is still the latest and if ok, transforming the QueryResultSet into entities
+                                            if (queryArgument.equals(queryArgumentHolder.get()))
+                                                entityListQueryPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled));
+                                        }, getDataSourceId(), active, null)).setHandler(ar -> { // This handler is called only once when the query push service call returns
+                                            queryStreamId = ar.result(); // the result is the queryStreamId returned by server (or null if failed)
+                                            waitingQueryStreamId = false; // Resetting the waitingQueryStreamId flag to false
+                                            // Cases where we need to trigger a new query push service call:
+                                            if (ar.failed() // 1) on failure (this may happen if queryStreamId is not registered on the server anymore, for ex after server restart with a non persistent query push provider such as the in-memory default one)
+                                                    || queryHasChangeWhileWaitingQueryStreamId) { // 2) when the query has changed while we were waiting for the query stream id
+                                                Logger.log((active ? "Refreshing filter " + listId : "Filter " + listId + " will be refreshed when active") + (queryHasChangeWhileWaitingQueryStreamId ? " because the query has changed while waiting the queryStreamId" : " because a failure occurred while updating the query (may be an unrecognized queryStreamId after server restart)"));
+                                                queryHasChangeWhileWaitingQueryStreamId = false; // Resetting the flag
+                                                refreshWhenActive(); // This will trigger an new pass (when active) leading to a new call to the query push service
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -467,8 +487,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                 });
         if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultSetProperty != null)
             entityListObservable
-                    // Finally transforming the EntityList into a DisplayResultSet
-                    .map(this::entitiesToDisplayResultSets) // also calls entitiesHandler
+                    .map(this::entitiesToDisplayResultSets) // Finally transforming the EntityList into a DisplayResultSet also calls entitiesHandler
                     .subscribe(this::applyDisplayResultSets);
         else if (entitiesHandler != null)
             entityListObservable.subscribe(entitiesHandler::handle);
@@ -485,7 +504,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                 || !Arrays.equals(parameterValues, lastParameterValues)
                 || push != lastPush
                 || active != lastActive
-                || !Objects.equals(pushClientId, lastPushClientId)
+                || !Objects.equals(pushClientId, lastPushClientId) && active
                 ;
     }
 
