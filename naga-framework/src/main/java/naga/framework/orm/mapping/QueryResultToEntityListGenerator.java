@@ -11,7 +11,7 @@ import naga.platform.services.query.QueryResult;
 /**
  * @author Bruno Salmon
  */
-public class QueryResultSetToEntityListGenerator {
+public class QueryResultToEntityListGenerator {
 
     public static <E extends Entity> EntityList<E> createEntityList(QueryResult rs, QueryRowToEntityMapping rowMapping, EntityStore store, Object listId) {
         //Platform.log("createEntityList()");

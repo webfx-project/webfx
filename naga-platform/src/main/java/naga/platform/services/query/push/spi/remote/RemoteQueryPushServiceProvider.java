@@ -86,9 +86,9 @@ public class RemoteQueryPushServiceProvider implements QueryPushServiceProvider 
 
     private static void onQueryPushResultReceived(QueryPushResult qpr) {
         synchronized (queryResultConsumers) {
-            Consumer<QueryResult> queryResultSetConsumer = queryResultConsumers.get(qpr.getQueryStreamId());
-            if (queryResultSetConsumer != null)
-                queryResultSetConsumer.accept(qpr.getQueryResult());
+            Consumer<QueryResult> queryResultConsumer = queryResultConsumers.get(qpr.getQueryStreamId());
+            if (queryResultConsumer != null)
+                queryResultConsumer.accept(qpr.getQueryResult());
             else if (consumerRegistrationPendingCalls > 0) // Consumer not found but this may be because this result has been received before the registration call returns
                 withNoConsumerReceivedResults.add(qpr); // we will retry on next registration call return (see executeRemoteQueryPush)
             else // Definitely no consumer registered along that queryStreamId

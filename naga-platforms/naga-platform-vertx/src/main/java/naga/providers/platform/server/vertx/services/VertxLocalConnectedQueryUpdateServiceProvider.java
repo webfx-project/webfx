@@ -93,12 +93,12 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
 
     private void executeQueryOnConnection(QueryArgument queryArgument, SQLConnection connection, Future<QueryResult> future) {
         // long t0 = System.currentTimeMillis();
-        executeQueryOnConnection(queryArgument.getQueryString(), queryArgument.getParameters(), connection, res -> {
-            if (res.failed()) // Sql error
-                future.fail(res.cause());
+        executeQueryOnConnection(queryArgument.getQueryString(), queryArgument.getParameters(), connection, ar -> {
+            if (ar.failed()) // Sql error
+                future.fail(ar.cause());
             else { // Sql succeeded
                 // Transforming the result set into columnNames and values arrays
-                ResultSet resultSet = res.result();
+                ResultSet resultSet = ar.result();
                 int columnCount = resultSet.getNumColumns();
                 int rowCount = resultSet.getNumRows();
                 QueryResultBuilder rsb = QueryResultBuilder.create(rowCount, columnCount);

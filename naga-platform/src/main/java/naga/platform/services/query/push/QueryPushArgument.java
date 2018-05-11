@@ -75,8 +75,8 @@ public class QueryPushArgument {
         return queryStreamId != null && close != null;
     }
 
-    public static QueryPushArgument openStreamArgument(Object pushClientId, QueryArgument queryArgument, Consumer<QueryResult> queryResultSetConsumer) {
-        return new QueryPushArgument(null, pushClientId, queryArgument, queryResultSetConsumer, true, null);
+    public static QueryPushArgument openStreamArgument(Object pushClientId, QueryArgument queryArgument, Consumer<QueryResult> queryResultConsumer) {
+        return new QueryPushArgument(null, pushClientId, queryArgument, queryResultConsumer, true, null);
     }
 
     public static QueryPushArgument updateStreamArgument(Object queryStreamId, QueryArgument queryArgument) {

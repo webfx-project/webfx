@@ -70,15 +70,15 @@ public class DomainModelLoader {
 
     public DomainModel generateDomainModel(Batch<QueryResult> batchResult) {
         long t0 = System.currentTimeMillis();
-        QueryResult[] resultSets = batchResult.getArray();
+        QueryResult[] results = batchResult.getArray();
 
         // 1) Building labels
-        QueryResult rs = resultSets[0];
+        QueryResult rs = results[0];
         for (int row = 0; row < rs.getRowCount(); row++)
             labelMap.put(rs.getValue(row, 0 /*"id"*/), new Label(rs.getValue(row, 1 /*"code"*/), rs.getValue(row, 2 /*"text"*/), rs.getValue(row, 3 /*"icon"*/)));
 
         // 2) Building types
-        rs = resultSets[1];
+        rs = results[1];
         for (int row = 0; row < rs.getRowCount(); row++) {
             Object typeId = rs.getValue(row, 0 /*"id"*/);
             Type superType = getTypeFromId(rs.getValue(row, 2 /*"super_type_id"*/));
@@ -89,7 +89,7 @@ public class DomainModelLoader {
         }
 
         // 3) Building classes
-        rs = resultSets[2];
+        rs = results[2];
         for (int row = 0; row < rs.getRowCount(); row++) {
             Object classId = rs.getValue(row, 0 /*"id"*/);
             final DomainClassBuilder classBuilder = dmb.newClassBuilder(rs.getValue(row, 1 /*"name"*/), true);
@@ -104,7 +104,7 @@ public class DomainModelLoader {
         }
 
         // 4) Style classes loading
-        rs = resultSets[3];
+        rs = results[3];
         StringBuilder allDefinitions = null;
         String currentDefinition = null;
         String folderName = null;
@@ -140,7 +140,7 @@ public class DomainModelLoader {
             recordStyleClassesExpressionArrayDefinition(classes.get(lastClassId), allDefinitions, currentDefinition);
 
         // 5) Building fields
-        rs = resultSets[4];
+        rs = results[4];
         for (int row = 0; row < rs.getRowCount(); row++) {
             Object typeId = rs.getValue(row, 3 /*"type_id"*/);
             Type type = getTypeFromId(typeId);
@@ -168,13 +168,13 @@ public class DomainModelLoader {
         }
 
         // 6) Building fields groups
-        rs = resultSets[5];
+        rs = results[5];
         for (int row = 0; row < rs.getRowCount(); row++) {
             DomainClassBuilder classBuilder = classes.get(rs.getValue(row, 1 /*"class_id"*/));
             DomainFieldsGroupBuilder groupBuilder = classBuilder.newFieldsGroupBuilder(rs.getValue(row, 0 /*"name"*/), true);
             groupBuilder.fieldsDefinition = rs.getValue(row, 2 /*"fields"*/);
         }
-        Logger.log("Domain model loaded: " + resultSets[2].getRowCount() + " classes, " + resultSets[4].getRowCount() + " fields, " + resultSets[5].getRowCount() + " fields groups and " + resultSets[0].getRowCount() + " labels in " + (System.currentTimeMillis() - t0) + " ms");
+        Logger.log("Domain model loaded: " + results[2].getRowCount() + " classes, " + results[4].getRowCount() + " fields, " + results[5].getRowCount() + " fields groups and " + results[0].getRowCount() + " labels in " + (System.currentTimeMillis() - t0) + " ms");
         // Building and returning final domain model
         return dmb.build();
     }

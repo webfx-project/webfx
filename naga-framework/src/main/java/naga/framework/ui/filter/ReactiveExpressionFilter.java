@@ -14,7 +14,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.*;
-import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
+import naga.framework.orm.mapping.QueryResultToEntityListGenerator;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
 import naga.framework.ui.rx.RxFuture;
@@ -445,9 +445,9 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                 queryArgumentHolder.set(queryArgument);
                                 // Calling the query service (probably on server)
                                 lastEntityListObservable = RxFuture.from(QueryService.executeQuery(queryArgument))
-                                    .map(queryResultSet ->
+                                    .map(queryResult ->
                                         // Double checking the query argument is still the latest and if ok, transforming the QueryResult into entities
-                                        queryArgument.equals(queryArgumentHolder.get()) ? queryResultToEntities(queryResultSet, sqlCompiled)
+                                        queryArgument.equals(queryArgumentHolder.get()) ? queryResultToEntities(queryResult, sqlCompiled)
                                         // If not ok, this means the result is too old (another newer request has been sent meanwhile)
                                         : null); // se we just return null in this case (will be ignored)
                             } else /* push mode -> possible multiple results pushed by the server */ if (pushClientId != null) { // pushClientId is null when the client is not yet connected to the server (so waiting the pushClientId before calling the server)
@@ -462,10 +462,10 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                         waitingQueryStreamId = queryStreamId == null; // Setting the waitingQueryStreamId flag to true when queryStreamId is not yet known
                                         queryArgumentHolder.set(queryArgument); // Holding the query argument passed to the server for double check when receiving the result
                                         Logger.log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", queryArgument=" + transmittedQueryArgument);
-                                        QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, queryResultSet -> { // This consumer is called for each result pushed by the server
+                                        QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, queryResult -> { // This consumer is called for each result pushed by the server
                                             // Double checking the query argument is still the latest and if ok, transforming the QueryResult into entities
                                             if (queryArgument.equals(queryArgumentHolder.get()))
-                                                entityListQueryPushEmitter.onNext(queryResultToEntities(queryResultSet, sqlCompiled));
+                                                entityListQueryPushEmitter.onNext(queryResultToEntities(queryResult, sqlCompiled));
                                         }, getDataSourceId(), active, null)).setHandler(ar -> { // This handler is called only once when the query push service call returns
                                             queryStreamId = ar.result(); // the result is the queryStreamId returned by server (or null if failed)
                                             waitingQueryStreamId = false; // Resetting the waitingQueryStreamId flag to false
@@ -589,7 +589,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         if (rs == lastRsInput)
             return lastEntitiesOutput;
         // Otherwise really generates the entity list (the content will changed but not the instance of the returned list)
-        EntityList<E> entities = QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), getStore(), listId);
+        EntityList<E> entities = QueryResultToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), getStore(), listId);
         // Caching and returning the result
         lastRsInput = rs;
         if (entities == lastEntitiesOutput) // It's also important to make sure the output instance is not the same
@@ -597,14 +597,14 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return lastEntitiesOutput = entities;
     }
 
-    // Cache fields used in entitiesToDisplayResultSets() method
+    // Cache fields used in entitiesToDisplayResults() method
     private EntityList lastEntitiesInput;
     private DisplayResult[] lastDisplayResultsOutput;
 
     private DisplayResult[] entitiesToDisplayResults(EntityList<E> entities) {
         // Returning the cached output if input didn't change (ex: the same entity list instance is emitted again on active property change)
         if (entities == lastEntitiesInput)
-            return lastDisplayResultsOutput; // Returning the same instance will avoid triggering the resultSets changeListeners (high cpu consuming in UI)
+            return lastDisplayResultsOutput; // Returning the same instance will avoid triggering the results changeListeners (high cpu consuming in UI)
         // Calling the entities handler now we are sure there is a real change
         if (entitiesHandler != null)
             entitiesHandler.handle(entities);
