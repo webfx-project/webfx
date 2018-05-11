@@ -608,7 +608,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         // Calling the entities handler now we are sure there is a real change
         if (entitiesHandler != null)
             entitiesHandler.handle(entities);
-        // Transforming the entities into displayResultSets (entity to display mapping)
+        // Transforming the entities into displayResults (entity to display mapping)
         int n = filterDisplays.size();
         DisplayResult[] results = new DisplayResult[n];
         for (int i = 0; i < n; i++)

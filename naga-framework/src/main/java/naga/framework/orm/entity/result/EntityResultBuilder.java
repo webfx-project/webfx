@@ -1,7 +1,7 @@
-package naga.framework.orm.entity.resultset;
+package naga.framework.orm.entity.result;
 
 import naga.framework.orm.entity.EntityId;
-import naga.framework.orm.entity.resultset.impl.EntityResultSetImpl;
+import naga.framework.orm.entity.result.impl.EntityResultImpl;
 import naga.util.collection.HashList;
 
 import java.util.ArrayList;
@@ -12,12 +12,12 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class EntityResultSetBuilder {
+public class EntityResultBuilder {
 
     private final List<EntityId> entityIds = new HashList<>();
     private final List<Map> entityFieldsMaps = new ArrayList<>();
 
-    private EntityResultSetBuilder() {
+    private EntityResultBuilder() {
     }
 
     public boolean setFieldValue(EntityId id, Object fieldId, Object fieldValue) {
@@ -27,7 +27,7 @@ public class EntityResultSetBuilder {
         return firstFieldValueSet;
     }
 
-    EntityResultSetBuilder unsetFieldValue(EntityId id, Object fieldId) {
+    EntityResultBuilder unsetFieldValue(EntityId id, Object fieldId) {
         entityFieldMap(id).remove(fieldId);
         return this;
     }
@@ -48,11 +48,11 @@ public class EntityResultSetBuilder {
         return entityFieldsMap;
     }
 
-    public EntityResultSet build() {
-        return new EntityResultSetImpl(entityIds, entityFieldsMaps);
+    public EntityResult build() {
+        return new EntityResultImpl(entityIds, entityFieldsMaps);
     }
 
-    public static EntityResultSetBuilder create() {
-        return new EntityResultSetBuilder();
+    public static EntityResultBuilder create() {
+        return new EntityResultBuilder();
     }
 }

@@ -1,8 +1,8 @@
-package naga.framework.orm.entity.resultset.impl;
+package naga.framework.orm.entity.result.impl;
 
 import naga.framework.orm.entity.EntityId;
-import naga.framework.orm.entity.resultset.EntityChanges;
-import naga.framework.orm.entity.resultset.EntityResultSet;
+import naga.framework.orm.entity.result.EntityChanges;
+import naga.framework.orm.entity.result.EntityResult;
 
 import java.util.Collection;
 
@@ -11,16 +11,16 @@ import java.util.Collection;
  */
 public class EntityChangesImpl implements EntityChanges {
 
-    private final EntityResultSet insertedUpdatedEntities;
+    private final EntityResult insertedUpdatedEntities;
     private final Collection<EntityId> deletedEntities;
 
-    public EntityChangesImpl(EntityResultSet insertedUpdatedEntities, Collection<EntityId> deletedEntities) {
+    public EntityChangesImpl(EntityResult insertedUpdatedEntities, Collection<EntityId> deletedEntities) {
         this.insertedUpdatedEntities = insertedUpdatedEntities;
         this.deletedEntities = deletedEntities;
     }
 
     @Override
-    public EntityResultSet getInsertedUpdatedEntityResultSet() {
+    public EntityResult getInsertedUpdatedEntityResult() {
         return insertedUpdatedEntities;
     }
 

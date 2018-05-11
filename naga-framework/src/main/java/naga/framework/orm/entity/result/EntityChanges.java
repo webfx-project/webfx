@@ -1,4 +1,4 @@
-package naga.framework.orm.entity.resultset;
+package naga.framework.orm.entity.result;
 
 import naga.framework.orm.entity.EntityId;
 
@@ -9,7 +9,7 @@ import java.util.Collection;
  */
 public interface EntityChanges {
 
-    EntityResultSet getInsertedUpdatedEntityResultSet();
+    EntityResult getInsertedUpdatedEntityResult();
 
     Collection<EntityId> getDeletedEntityIds();
 

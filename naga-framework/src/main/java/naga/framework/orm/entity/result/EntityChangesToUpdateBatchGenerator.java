@@ -1,4 +1,4 @@
-package naga.framework.orm.entity.resultset;
+package naga.framework.orm.entity.result;
 
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.CompilerDomainModelReader;
@@ -171,7 +171,7 @@ public class EntityChangesToUpdateBatchGenerator {
         }
 
         void generateInsertUpdates() {
-            EntityResultSet rs = changes.getInsertedUpdatedEntityResultSet();
+            EntityResult rs = changes.getInsertedUpdatedEntityResult();
             if (rs != null) {
                 for (EntityId id : rs.getEntityIds()) {
                     List<Equals> assignments = new ArrayList<>();

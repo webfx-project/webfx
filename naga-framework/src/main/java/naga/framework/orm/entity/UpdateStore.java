@@ -5,7 +5,7 @@ import naga.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.impl.UpdateStoreImpl;
-import naga.framework.orm.entity.resultset.EntityChanges;
+import naga.framework.orm.entity.result.EntityChanges;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 

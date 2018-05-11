@@ -1,4 +1,4 @@
-package naga.framework.orm.entity.resultset;
+package naga.framework.orm.entity.result;
 
 import naga.framework.orm.entity.EntityId;
 
@@ -7,7 +7,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public interface EntityResultSet {
+public interface EntityResult {
 
     Collection<EntityId> getEntityIds();
 

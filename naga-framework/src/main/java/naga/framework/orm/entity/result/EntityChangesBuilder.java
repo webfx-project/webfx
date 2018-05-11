@@ -1,7 +1,7 @@
-package naga.framework.orm.entity.resultset;
+package naga.framework.orm.entity.result;
 
 import naga.framework.orm.entity.EntityId;
-import naga.framework.orm.entity.resultset.impl.EntityChangesImpl;
+import naga.framework.orm.entity.result.impl.EntityChangesImpl;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import java.util.HashSet;
  */
 public class EntityChangesBuilder {
 
-    private EntityResultSetBuilder rsb;
+    private EntityResultBuilder rsb;
     private Collection<EntityId> deletedEntities;
     private boolean hasFieldChanges;
 
@@ -61,9 +61,9 @@ public class EntityChangesBuilder {
         return !hasFieldChanges && deletedEntities == null;
     }
 
-    private EntityResultSetBuilder rsb() {
+    private EntityResultBuilder rsb() {
         if (rsb == null)
-            rsb = EntityResultSetBuilder.create();
+            rsb = EntityResultBuilder.create();
         return rsb;
     }
 

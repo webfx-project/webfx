@@ -1,7 +1,7 @@
-package naga.framework.orm.entity.resultset.impl;
+package naga.framework.orm.entity.result.impl;
 
 import naga.framework.orm.entity.EntityId;
-import naga.framework.orm.entity.resultset.EntityResultSet;
+import naga.framework.orm.entity.result.EntityResult;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -11,12 +11,12 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class EntityResultSetImpl implements EntityResultSet {
+public class EntityResultImpl implements EntityResult {
 
     private final List<EntityId> entityIds;
     private final List<Map> entityFieldsMaps;
 
-    public EntityResultSetImpl(List<EntityId> entityIds, List<Map> entityFieldsMaps) {
+    public EntityResultImpl(List<EntityId> entityIds, List<Map> entityFieldsMaps) {
         if (entityIds.size() != entityFieldsMaps.size())
             throw new IllegalArgumentException("entityIds and entityFieldsMaps must have the same size");
         this.entityIds = entityIds;

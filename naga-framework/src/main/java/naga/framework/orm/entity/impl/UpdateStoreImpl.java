@@ -12,7 +12,7 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
-import naga.framework.orm.entity.resultset.*;
+import naga.framework.orm.entity.result.*;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 
@@ -22,7 +22,7 @@ import naga.platform.services.update.UpdateResult;
 public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
 
     private final EntityChangesBuilder changesBuilder = EntityChangesBuilder.create();
-    private EntityResultSetBuilder previousValues;
+    private EntityResultBuilder previousValues;
 
     public UpdateStoreImpl(DataSourceModel dataSourceModel) {
         super(dataSourceModel);
@@ -66,13 +66,13 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
 
     void rememberPreviousEntityFieldValue(EntityId id, Object domainFieldId, Object value) {
         if (previousValues == null)
-            previousValues = EntityResultSetBuilder.create();
+            previousValues = EntityResultBuilder.create();
         previousValues.setFieldValue(id, domainFieldId, value);
     }
 
     void restorePreviousValues() {
         if (previousValues != null) {
-            EntityResultSet rs = previousValues.build();
+            EntityResult rs = previousValues.build();
             for (EntityId id : rs.getEntityIds()) {
                 Entity entity = getEntity(id);
                 for (Object fieldId : rs.getFieldIds(id))

@@ -1,4 +1,4 @@
-package naga.framework.orm.entity.resultset;
+package naga.framework.orm.entity.result;
 
 import naga.framework.expression.lci.mocks.CompilerDomainModelReaderMock;
 import naga.framework.expression.lci.mocks.ParserDomainModelReaderMock;
