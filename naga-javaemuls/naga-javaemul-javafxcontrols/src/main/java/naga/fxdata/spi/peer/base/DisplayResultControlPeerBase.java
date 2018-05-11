@@ -3,13 +3,13 @@ package naga.fxdata.spi.peer.base;
 import emul.javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
 import naga.fx.spi.peer.base.ControlPeerBase;
-import naga.fxdata.control.DisplayResultSetControl;
+import naga.fxdata.control.DisplayResultControl;
 
 /**
  * @author Bruno Salmon
  */
-public class DisplayResultSetControlPeerBase
-        <C, N extends DisplayResultSetControl, NB extends DisplayResultSetControlPeerBase<C, N, NB, NM>, NM extends DisplayResultSetControlPeerMixin<C, N, NB, NM>>
+public class DisplayResultControlPeerBase
+        <C, N extends DisplayResultControl, NB extends DisplayResultControlPeerBase<C, N, NB, NM>, NM extends DisplayResultControlPeerMixin<C, N, NB, NM>>
 
         extends ControlPeerBase<N, NB, NM> {
 
@@ -17,14 +17,14 @@ public class DisplayResultSetControlPeerBase
     public void bind(N shape, SceneRequester sceneRequester) {
         super.bind(shape, sceneRequester);
         requestUpdateOnPropertiesChange(sceneRequester
-                , node.displayResultSetProperty()
+                , node.displayResultProperty()
         );
     }
 
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
-                || updateProperty(node.displayResultSetProperty(), changedProperty, mixin::updateResultSet)
+                || updateProperty(node.displayResultProperty(), changedProperty, mixin::updateResult)
                 ;
     }
 

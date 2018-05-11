@@ -3,7 +3,7 @@ package naga.fxdata.displaydata;
 /**
  * @author Bruno Salmon
  */
-public interface DisplayResultSet {
+public interface DisplayResult {
 
     /**
      * @return the number of rows in this display result

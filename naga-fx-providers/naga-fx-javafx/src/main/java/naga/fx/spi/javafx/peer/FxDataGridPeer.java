@@ -123,10 +123,10 @@ public class FxDataGridPeer
     private List<TableColumn<Integer, ?>> currentColumns, newColumns;
 
     @Override
-    public void updateResultSet(DisplayResultSet rs) {
+    public void updateResult(DisplayResult rs) {
         if (rs == null)
             return;
-        rs = transformDisplayResultSetValuesToProperties(rs);
+        rs = transformDisplayResultValuesToProperties(rs);
         TableView<Integer> tableView = getFxNode();
         synchronized (this) {
             currentColumns = tableView.getColumns();
@@ -149,8 +149,8 @@ public class FxDataGridPeer
         }
     }
 
-    private static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet rs) {
-        return DisplayResultSetBuilder.convertDisplayResultSet(rs, SimpleObjectProperty::new);
+    private static DisplayResult transformDisplayResultValuesToProperties(DisplayResult rs) {
+        return DisplayResultBuilder.convertDisplayResult(rs, SimpleObjectProperty::new);
     }
 
     @Override
@@ -211,7 +211,7 @@ public class FxDataGridPeer
 
     private Object[] getRowStyleClasses(int rowIndex) {
         NB base = getNodePeerBase();
-        Object value = base.getRowStyleResultSetValue(rowIndex);
+        Object value = base.getRowStyleResultValue(rowIndex);
         if (value instanceof ObservableValue)
             value = ((ObservableValue) value).getValue();
         return base.getRowStyleClasses(value);
@@ -219,7 +219,7 @@ public class FxDataGridPeer
 
     private Paint getRowBackground(int rowIndex) {
         NB base = getNodePeerBase();
-        Object value = base.getRowBackgroundResultSetValue(rowIndex);
+        Object value = base.getRowBackgroundResultValue(rowIndex);
         if (value instanceof ObservableValue)
             value = ((ObservableValue) value).getValue();
         return base.getRowBackground(value);

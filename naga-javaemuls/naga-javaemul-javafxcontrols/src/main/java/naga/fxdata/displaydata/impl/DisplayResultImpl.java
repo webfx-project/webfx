@@ -1,12 +1,12 @@
 package naga.fxdata.displaydata.impl;
 
 import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 
 /**
  * @author Bruno Salmon
  */
-public class DisplayResultSetImpl implements DisplayResultSet {
+public class DisplayResultImpl implements DisplayResult {
 
     private final int rowCount;
     private final int columnCount;
@@ -17,7 +17,7 @@ public class DisplayResultSetImpl implements DisplayResultSet {
      */
     private final Object[] values;
 
-    public DisplayResultSetImpl(int rowCount, Object[] values, DisplayColumn[] columns) {
+    public DisplayResultImpl(int rowCount, Object[] values, DisplayColumn[] columns) {
         this.rowCount = rowCount;
         this.values = values;
         this.columns = columns;

@@ -4,7 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.DisplaySelection;
 
 /**
@@ -25,7 +25,7 @@ public class GenericTablePresentationModel {
 
     // Display output
 
-    private final Property<DisplayResultSet> genericDisplayResultSetProperty = new SimpleObjectProperty<>();
-    public Property<DisplayResultSet> genericDisplayResultSetProperty() { return genericDisplayResultSetProperty; }
+    private final Property<DisplayResult> genericDisplayResultProperty = new SimpleObjectProperty<>();
+    public Property<DisplayResult> genericDisplayResultProperty() { return genericDisplayResultProperty; }
 
 }

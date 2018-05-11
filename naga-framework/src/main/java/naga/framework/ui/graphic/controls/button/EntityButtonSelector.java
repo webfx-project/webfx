@@ -23,7 +23,7 @@ import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.cell.renderer.ValueRendererFactory;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.SkinnedDataGrid;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.util.Arrays;
 import naga.util.Strings;
 import naga.util.collection.Collections;
@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
 
-    private final ObjectProperty<DisplayResultSet> deferredDisplayResultSet = new SimpleObjectProperty<>();
+    private final ObjectProperty<DisplayResult> deferredDisplayResult = new SimpleObjectProperty<>();
     private Object jsonOrClass;
     private final DataSourceModel dataSourceModel;
     private Expression<E> renderingExpression;
@@ -62,7 +62,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         super(buttonFactory, parentGetter, parent);
         this.dataSourceModel = dataSourceModel;
         setJsonOrClass(jsonOrClass);
-        setLoadedContentProperty(deferredDisplayResultSet);
+        setLoadedContentProperty(deferredDisplayResult);
     }
 
     public List<E> getRestrictedFilterList() {
@@ -109,7 +109,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             dialogDataGrid.setHeaderVisible(false);
             dialogDataGrid.setCursor(Cursor.HAND);
             BorderPane.setAlignment(dialogDataGrid, Pos.TOP_LEFT);
-            dialogDataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResultSet.setValue(newValue)));
+            dialogDataGrid.displayResultProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResult.setValue(newValue)));
             EntityStore filterStore = loadingStore != null ? loadingStore : getSelectedItem() != null ? getSelectedItem().getStore() : null;
             entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass)
                     .setDataSourceModel(dataSourceModel)
@@ -117,7 +117,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
                     .setStore(filterStore)
                     .setRestrictedFilterList(restrictedFilterList)
                     .setExpressionColumns(ExpressionColumn.create(renderingExpression))
-                    .displayResultSetInto(dialogDataGrid.displayResultSetProperty())
+                    .displayResultInto(dialogDataGrid.displayResultProperty())
                     .setDisplaySelectionProperty(dialogDataGrid.displaySelectionProperty())
                     .setSelectedEntityHandler(dialogDataGrid.displaySelectionProperty(), e -> {if (e != null) onDialogOk();})
             ;

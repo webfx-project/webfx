@@ -16,12 +16,12 @@ import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.*;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.ui.i18n.I18n;
-import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
+import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
 import naga.framework.ui.rx.RxFuture;
 import naga.framework.ui.rx.RxUi;
 import naga.fx.properties.Properties;
 import naga.fxdata.displaydata.DisplayColumnBuilder;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.DisplaySelection;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
@@ -271,12 +271,12 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     }
 
     public ReactiveExpressionFilter<E> nextDisplay() {
-        goToNextFilterDisplayIfDisplayResultSetPropertyIsSet();
+        goToNextFilterDisplayIfDisplayResultPropertyIsSet();
         return this;
     }
 
-    private void goToNextFilterDisplayIfDisplayResultSetPropertyIsSet() {
-        if (filterDisplay != null && filterDisplay.displayResultSetProperty != null) {
+    private void goToNextFilterDisplayIfDisplayResultPropertyIsSet() {
+        if (filterDisplay != null && filterDisplay.displayResultProperty != null) {
             filterDisplay.stringFilterObservableLastIndex = stringFilterObservables.size() - 1;
             filterDisplay = null;
         }
@@ -340,8 +340,8 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return this;
     }
 
-    public ReactiveExpressionFilter<E> displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
-        getFilterDisplay().setDisplayResultSetProperty(displayResultSetProperty);
+    public ReactiveExpressionFilter<E> displayResultInto(Property<DisplayResult> displayResultProperty) {
+        getFilterDisplay().setDisplayResultProperty(displayResultProperty);
         return this;
     }
 
@@ -392,10 +392,10 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
             combine(ticTacProperty, "{}");
         }
         // The following call is to set stringFilterObservableLastIndex on the latest filterDisplay
-        goToNextFilterDisplayIfDisplayResultSetPropertyIsSet();
+        goToNextFilterDisplayIfDisplayResultPropertyIsSet();
         // Initializing the display with empty results (no rows but columns) so the component (probably a table) display the columns before calling the server
         if (startsWithEmptyResult)
-            resetAllDisplayResultSets(true);
+            resetAllDisplayResults(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         if (i18n != null)
             Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
@@ -407,7 +407,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                     if (dictionaryChanged) {
                         lastEntitiesInput = null; // Clearing the cache to have a fresh display result set next time it is active
                         if (isActive()) {
-                            resetAllDisplayResultSets(false);
+                            resetAllDisplayResults(false);
                             dictionaryChanged = false;
                         }
                     } else if (requestRefreshOnActive && isActive())
@@ -447,7 +447,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                 lastEntityListObservable = RxFuture.from(QueryService.executeQuery(queryArgument))
                                     .map(queryResultSet ->
                                         // Double checking the query argument is still the latest and if ok, transforming the QueryResult into entities
-                                        queryArgument.equals(queryArgumentHolder.get()) ? queryResultSetToEntities(queryResultSet, sqlCompiled)
+                                        queryArgument.equals(queryArgumentHolder.get()) ? queryResultToEntities(queryResultSet, sqlCompiled)
                                         // If not ok, this means the result is too old (another newer request has been sent meanwhile)
                                         : null); // se we just return null in this case (will be ignored)
                             } else /* push mode -> possible multiple results pushed by the server */ if (pushClientId != null) { // pushClientId is null when the client is not yet connected to the server (so waiting the pushClientId before calling the server)
@@ -465,7 +465,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                         QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, queryResultSet -> { // This consumer is called for each result pushed by the server
                                             // Double checking the query argument is still the latest and if ok, transforming the QueryResult into entities
                                             if (queryArgument.equals(queryArgumentHolder.get()))
-                                                entityListQueryPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled));
+                                                entityListQueryPushEmitter.onNext(queryResultToEntities(queryResultSet, sqlCompiled));
                                         }, getDataSourceId(), active, null)).setHandler(ar -> { // This handler is called only once when the query push service call returns
                                             queryStreamId = ar.result(); // the result is the queryStreamId returned by server (or null if failed)
                                             waitingQueryStreamId = false; // Resetting the waitingQueryStreamId flag to false
@@ -485,10 +485,10 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                     memorizeAsLastQuery(stringFilter, parameterValues, active, push, pushClientId);
                     return lastEntityListObservable;
                 });
-        if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultSetProperty != null)
+        if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultProperty != null)
             entityListObservable
-                    .map(this::entitiesToDisplayResultSets) // Finally transforming the EntityList into a DisplayResultSet also calls entitiesHandler
-                    .subscribe(this::applyDisplayResultSets);
+                    .map(this::entitiesToDisplayResults) // Finally transforming the EntityList into a DisplayResult also calls entitiesHandler
+                    .subscribe(this::applyDisplayResults);
         else if (entitiesHandler != null)
             entityListObservable.subscribe(entitiesHandler::handle);
         started = true;
@@ -575,16 +575,16 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return mergeBuilder.build();
     }
 
-    private void resetAllDisplayResultSets(boolean empty) {
+    private void resetAllDisplayResults(boolean empty) {
         for (FilterDisplay filterDisplay : filterDisplays)
-            filterDisplay.resetDisplayResultSet(empty);
+            filterDisplay.resetDisplayResult(empty);
     }
 
-    // Cache fields used in queryResultSetToEntities() method
+    // Cache fields used in queryResultToEntities() method
     private QueryResult lastRsInput;
     private EntityList lastEntitiesOutput;
 
-    private EntityList queryResultSetToEntities(QueryResult rs, SqlCompiled sqlCompiled) {
+    private EntityList queryResultToEntities(QueryResult rs, SqlCompiled sqlCompiled) {
         // Returning the cached output if input didn't change (ex: the same result set instance is emitted again on active property change)
         if (rs == lastRsInput)
             return lastEntitiesOutput;
@@ -593,34 +593,34 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         // Caching and returning the result
         lastRsInput = rs;
         if (entities == lastEntitiesOutput) // It's also important to make sure the output instance is not the same
-            entities = new EntityListWrapper<>(entities); // by wrapping the list (for entitiesToDisplayResultSets() cache system)
+            entities = new EntityListWrapper<>(entities); // by wrapping the list (for entitiesToDisplayResults() cache system)
         return lastEntitiesOutput = entities;
     }
 
     // Cache fields used in entitiesToDisplayResultSets() method
     private EntityList lastEntitiesInput;
-    private DisplayResultSet[] lastDisplayResultSetsOutput;
+    private DisplayResult[] lastDisplayResultsOutput;
 
-    private DisplayResultSet[] entitiesToDisplayResultSets(EntityList<E> entities) {
+    private DisplayResult[] entitiesToDisplayResults(EntityList<E> entities) {
         // Returning the cached output if input didn't change (ex: the same entity list instance is emitted again on active property change)
         if (entities == lastEntitiesInput)
-            return lastDisplayResultSetsOutput; // Returning the same instance will avoid triggering the resultSets changeListeners (high cpu consuming in UI)
+            return lastDisplayResultsOutput; // Returning the same instance will avoid triggering the resultSets changeListeners (high cpu consuming in UI)
         // Calling the entities handler now we are sure there is a real change
         if (entitiesHandler != null)
             entitiesHandler.handle(entities);
         // Transforming the entities into displayResultSets (entity to display mapping)
         int n = filterDisplays.size();
-        DisplayResultSet[] resultSets = new DisplayResultSet[n];
+        DisplayResult[] results = new DisplayResult[n];
         for (int i = 0; i < n; i++)
-            resultSets[i] = filterDisplays.get(i).entitiesListToDisplayResultSet(entities);
+            results[i] = filterDisplays.get(i).entitiesListToDisplayResult(entities);
         // Caching and returning the result
         lastEntitiesInput = entities;
-        return lastDisplayResultSetsOutput = resultSets;
+        return lastDisplayResultsOutput = results;
     }
 
-    private void applyDisplayResultSets(DisplayResultSet[] displayResultSets) {
-        for (int i = 0, n = displayResultSets.length; i < n; i++)
-            filterDisplays.get(i).setDisplayResultSet(displayResultSets[i]);
+    private void applyDisplayResults(DisplayResult[] displayResults) {
+        for (int i = 0, n = displayResults.length; i < n; i++)
+            filterDisplays.get(i).setDisplayResult(displayResults[i]);
     }
 
     private ReferenceResolver getRootAliasReferenceResolver() {
@@ -660,7 +660,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
 
     private class FilterDisplay {
         ExpressionColumn[] expressionColumns;
-        Property<DisplayResultSet> displayResultSetProperty;
+        Property<DisplayResult> displayResultProperty;
         Property<DisplaySelection> displaySelectionProperty;
         boolean selectFirstRowOnFirstDisplay;
         int stringFilterObservableLastIndex = -1;
@@ -675,8 +675,8 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
             this.displaySelectionProperty = displaySelectionProperty;
         }
 
-        Property<DisplayResultSet> getDisplayResultSetProperty() {
-            return displayResultSetProperty;
+        Property<DisplayResult> getDisplayResultProperty() {
+            return displayResultProperty;
         }
 
         void setSelectedEntityHandler(Handler<E> entityHandler) {
@@ -762,36 +762,36 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
             appliedDomainModelRowStyle = true;
         }
 
-        void setDisplayResultSetProperty(Property<DisplayResultSet> displayResultSetProperty) {
-            this.displayResultSetProperty = displayResultSetProperty;
+        void setDisplayResultProperty(Property<DisplayResult> displayResultProperty) {
+            this.displayResultProperty = displayResultProperty;
         }
 
-        void setDisplayResultSet(DisplayResultSet rs) {
-            displayResultSetProperty.setValue(rs);
+        void setDisplayResult(DisplayResult rs) {
+            displayResultProperty.setValue(rs);
             if (selectFirstRowOnFirstDisplay && rs.getRowCount() > 0) {
                 selectFirstRowOnFirstDisplay = false;
                 displaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(0));
             }
         }
 
-        void resetDisplayResultSet(boolean empty) {
+        void resetDisplayResult(boolean empty) {
             if (empty)
-                setEmptyDisplayResultSet();
+                setEmptyDisplayResult();
             else
-                displayResultSetProperty.setValue(entitiesListToDisplayResultSet(getCurrentEntityList()));
+                displayResultProperty.setValue(entitiesListToDisplayResult(getCurrentEntityList()));
         }
 
-        void setEmptyDisplayResultSet() {
-            displayResultSetProperty.setValue(emptyDisplayResultSet());
+        void setEmptyDisplayResult() {
+            displayResultProperty.setValue(emptyDisplayResult());
         }
 
-        DisplayResultSet entitiesListToDisplayResultSet(List<E> entities) {
+        DisplayResult entitiesListToDisplayResult(List<E> entities) {
             collectColumnsPersistentTerms();
-            return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, expressionColumns, i18n);
+            return EntityListToDisplayResultGenerator.createDisplayResult(entities, expressionColumns, i18n);
         }
 
-        DisplayResultSet emptyDisplayResultSet() {
-            return entitiesListToDisplayResultSet(emptyFutureList());
+        DisplayResult emptyDisplayResult() {
+            return entitiesListToDisplayResult(emptyFutureList());
         }
 
         @SuppressWarnings("unchecked")

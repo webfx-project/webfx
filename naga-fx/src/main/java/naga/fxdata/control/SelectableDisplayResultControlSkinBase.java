@@ -1,16 +1,16 @@
 package naga.fxdata.control;
 
 import javafx.scene.Node;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.DisplaySelection;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class SelectableDisplayResultSetControlSkinBase<C extends SelectableDisplayResultSetControl, ROW extends Node, CELL extends Node>
-        extends DisplayResultSetControlSkinBase<C, ROW, CELL> {
+public abstract class SelectableDisplayResultControlSkinBase<C extends SelectableDisplayResultControl, ROW extends Node, CELL extends Node>
+        extends DisplayResultControlSkinBase<C, ROW, CELL> {
 
-    public SelectableDisplayResultSetControlSkinBase(C control, boolean hasSpecialRenderingForImageAndText) {
+    public SelectableDisplayResultControlSkinBase(C control, boolean hasSpecialRenderingForImageAndText) {
         super(control, hasSpecialRenderingForImageAndText);
     }
 
@@ -29,9 +29,9 @@ public abstract class SelectableDisplayResultSetControlSkinBase<C extends Select
     }
 
     @Override
-    protected void updateResultSet(DisplayResultSet rs) {
+    protected void updateResult(DisplayResult rs) {
         getSkinnable().setDisplaySelection(null);
-        super.updateResultSet(rs);
+        super.updateResult(rs);
     }
 
     @Override

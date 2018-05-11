@@ -15,11 +15,11 @@ import naga.framework.expression.terms.function.AggregateFunction;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.i18n.I18n;
-import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
+import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.SkinnedDataGrid;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.SelectionMode;
 import naga.type.PrimType;
 import naga.util.collection.Collections;
@@ -82,13 +82,13 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
 
     private void updateGrid() {
         if (lineEntities != null) {
-            DisplayResultSet rs = generateGroupedLinesResultSet();
-            dataGrid.setDisplayResultSet(rs);
+            DisplayResult rs = generateGroupedLinesResult();
+            dataGrid.setDisplayResult(rs);
         }
     }
 
-    private DisplayResultSet generateDetailedLinesResultSet() {
-        return EntityListToDisplayResultSetGenerator.select(lineEntities,
+    private DisplayResult generateDetailedLinesResult() {
+        return EntityListToDisplayResultGenerator.select(lineEntities,
                 "select [" +
                         "'item.icon'," +
                         "'translate(item)'," +
@@ -97,8 +97,8 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
                         "] from DocumentLine where dates<>'' order by item.family.ord,item.name", i18n);
     }
 
-    private DisplayResultSet generateGroupedLinesResultSet() {
-        return EntityListToDisplayResultSetGenerator.select(lineEntities,
+    private DisplayResult generateGroupedLinesResult() {
+        return EntityListToDisplayResultGenerator.select(lineEntities,
                 "select [" +
                         "'item.family.icon," +
                         "translate(item.family) + (item.family.code in (`teach`, `meals`) ? `` : `: ` + string_agg(translate(item), `, ` order by item.name))'," +

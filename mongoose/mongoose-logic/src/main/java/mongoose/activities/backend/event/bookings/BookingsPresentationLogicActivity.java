@@ -94,7 +94,7 @@ class BookingsPresentationLogicActivity
             // Limit clause
             .combineIfPositive(pm.limitProperty(), l -> "{limit: `" + l + "`}")
             .applyDomainModelRowStyle()
-            .displayResultSetInto(pm.genericDisplayResultSetProperty())
+            .displayResultInto(pm.genericDisplayResultProperty())
             .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> {
                 if (document != null)
                     WorkingDocumentLoader.load(getEventService(), document.getPrimaryKey()).setHandler(ar -> {

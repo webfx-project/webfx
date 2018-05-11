@@ -2,15 +2,15 @@ package naga.fxdata.spi.peer.base;
 
 import emul.javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fxdata.control.SelectableDisplayResultSetControl;
+import naga.fxdata.control.SelectableDisplayResultControl;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class SelectableDisplayResultSetControlPeerBase
-        <C, N extends SelectableDisplayResultSetControl, NB extends SelectableDisplayResultSetControlPeerBase<C, N, NB, NM>, NM extends SelectableDisplayResultSetControlPeerMixin<C, N, NB, NM>>
+public abstract class SelectableDisplayResultControlPeerBase
+        <C, N extends SelectableDisplayResultControl, NB extends SelectableDisplayResultControlPeerBase<C, N, NB, NM>, NM extends SelectableDisplayResultControlPeerMixin<C, N, NB, NM>>
 
-        extends DisplayResultSetControlPeerBase<C, N, NB, NM> {
+        extends DisplayResultControlPeerBase<C, N, NB, NM> {
 
     @Override
     public void bind(N shape, SceneRequester sceneRequester) {

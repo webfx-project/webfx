@@ -6,8 +6,8 @@ import mongoose.activities.backend.monitor.listener.EventListener;
 import mongoose.activities.backend.monitor.listener.EventListenerImpl;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.fxdata.displaydata.DisplayResult;
+import naga.fxdata.displaydata.DisplayResultBuilder;
 import naga.scheduler.Scheduler;
 import naga.type.PrimType;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class ConnectionChartGenerator {
 
     private List<ConnectionsChartData> connectionList = new ArrayList<>();
-    private ObjectProperty<DisplayResultSet> connectionListProperty = new SimpleObjectProperty<>();
+    private ObjectProperty<DisplayResult> connectionListProperty = new SimpleObjectProperty<>();
 
     public void start() {
         Scheduler.schedulePeriodic(1000, this::readTask);
@@ -30,11 +30,11 @@ public class ConnectionChartGenerator {
         connectionList.clear();
     }
 
-    public DisplayResultSet createDisplayResultSet (){
-//        Platform.log("createDisplayResultSet(Connections)");
+    public DisplayResult createDisplayResult(){
+//        Platform.log("createDisplayResult(Connections)");
         int rowCount = connectionList.size();
-        // Building the DisplayResultSet for the chart using column format (First column = X, other columns = series Ys)
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, new DisplayColumn[]{
+        // Building the DisplayResult for the chart using column format (First column = X, other columns = series Ys)
+        DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, new DisplayColumn[]{
                 DisplayColumn.create("Time", PrimType.INTEGER),
                 DisplayColumn.create("Requested", PrimType.INTEGER),
                 DisplayColumn.create("Started", PrimType.INTEGER),
@@ -46,8 +46,8 @@ public class ConnectionChartGenerator {
             rsb.setValue(rowIndex, 2, data.getStarted());
             rsb.setValue(rowIndex, 3, data.getConnected());
         }
-        DisplayResultSet displayResultSet = rsb.build();
-//        Platform.log("Ok: " + displayResultSet);
+        DisplayResult displayResult = rsb.build();
+//        Platform.log("Ok: " + displayResult);
 /*
         Platform.log("Chart - [" + rowCount
                     +", "+ connectionList.get(rowCount-1).getRequested()
@@ -55,8 +55,8 @@ public class ConnectionChartGenerator {
                     +", "+ connectionList.get(rowCount-1).getConnected()
                     +" ]");
 */
-        Toolkit.get().scheduler().scheduleDeferred(() -> connectionListProperty.set(displayResultSet));
-        return displayResultSet;
+        Toolkit.get().scheduler().scheduleDeferred(() -> connectionListProperty.set(displayResult));
+        return displayResult;
     }
 
     private void readTask () {
@@ -67,14 +67,14 @@ public class ConnectionChartGenerator {
         data.startedProperty().setValue(listener.getStarted());
         data.connectedProperty().setValue(listener.getConnected());
         connectionList.add(data);
-        createDisplayResultSet();
+        createDisplayResult();
     }
 
-    public DisplayResultSet getConnectionList() {
+    public DisplayResult getConnectionList() {
         return connectionListProperty.get();
     }
 
-    public ObjectProperty<DisplayResultSet> connectionListProperty() {
+    public ObjectProperty<DisplayResult> connectionListProperty() {
         return connectionListProperty;
     }
 }

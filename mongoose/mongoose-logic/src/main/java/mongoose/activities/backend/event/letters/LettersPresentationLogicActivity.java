@@ -30,7 +30,7 @@ class LettersPresentationLogicActivity
                     "'type'" +
                     "]")
             .applyDomainModelRowStyle()
-            .displayResultSetInto(pm.genericDisplayResultSetProperty())
+            .displayResultInto(pm.genericDisplayResultProperty())
             .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), letter -> new EditLetterRoutingRequest(letter, getHistory()).execute() )
             .start()
         ;

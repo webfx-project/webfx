@@ -8,7 +8,7 @@ import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fxdata.chart.Chart;
 import naga.fxdata.chart.PieChart;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.DisplaySelection;
 import naga.fxdata.displaydata.SelectionMode;
 import naga.fxdata.spi.peer.base.ChartPeerBase;
@@ -48,7 +48,7 @@ abstract class HtmlChartPeer
 
     private void onNodeAndWidgetReady() {
         N node = getNode();
-        updateResultSet(node.getDisplayResultSet());
+        updateResult(node.getDisplayResult());
         Properties.runNowAndOnPropertiesChange(p -> {
             chartWidget.setWidth(toPx(node.getWidth()));
             chartWidget.setHeight(toPx(node.getHeight()));
@@ -95,9 +95,9 @@ abstract class HtmlChartPeer
     }
 
     @Override
-    public void updateResultSet(DisplayResultSet rs) {
+    public void updateResult(DisplayResult rs) {
         if (chartWidget != null)
-            getNodePeerBase().updateResultSet(rs);
+            getNodePeerBase().updateResult(rs);
     }
 
     private boolean isPieChart;

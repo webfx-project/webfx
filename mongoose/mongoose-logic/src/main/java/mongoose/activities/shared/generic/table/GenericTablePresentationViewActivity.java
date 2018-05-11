@@ -44,7 +44,7 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
         //pm.limitProperty().bind(limitCheckBox.selectedProperty());
         pm.genericDisplaySelectionProperty().bind(table.displaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
-        table.displayResultSetProperty().bind(pm.genericDisplayResultSetProperty());
+        table.displayResultProperty().bind(pm.genericDisplayResultProperty());
     }
 
     @Override

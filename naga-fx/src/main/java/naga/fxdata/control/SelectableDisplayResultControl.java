@@ -1,7 +1,7 @@
 package naga.fxdata.control;
 
-import emul.javafx.beans.property.Property;
-import emul.javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.fxdata.displaydata.DisplaySelection;
 import naga.fxdata.displaydata.HasDisplaySelectionProperty;
 import naga.fxdata.displaydata.HasSelectionModeProperty;
@@ -12,7 +12,7 @@ import static naga.fxdata.displaydata.SelectionMode.SINGLE;
 /**
  * @author Bruno Salmon
  */
-public abstract class SelectableDisplayResultSetControl extends DisplayResultSetControl implements
+public abstract class SelectableDisplayResultControl extends DisplayResultControl implements
         HasDisplaySelectionProperty,
         HasSelectionModeProperty {
 

@@ -79,12 +79,12 @@ public class FeesGroup {
         return Labels.instantTranslateLabel(label, language);
     }
 
-    public DisplayResultSet generateDisplayResultSet(MongooseButtonFactoryMixin buttonFactory, EventService eventService, Handler<OptionsPreselection> bookHandler, ColumnWidthCumulator[] cumulators) {
+    public DisplayResult generateDisplayResult(MongooseButtonFactoryMixin buttonFactory, EventService eventService, Handler<OptionsPreselection> bookHandler, ColumnWidthCumulator[] cumulators) {
         boolean showBadges = Objects.areEquals(eventService.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
         I18n i18n = buttonFactory.getI18n();
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(optionsCount, new DisplayColumn[]{
+        DisplayResultBuilder rsb = DisplayResultBuilder.create(optionsCount, new DisplayColumn[]{
                 DisplayColumnBuilder.create(i18n.instantTranslate(singleOption ? (isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
                 DisplayColumnBuilder.create(i18n.instantTranslate("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
                 DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])

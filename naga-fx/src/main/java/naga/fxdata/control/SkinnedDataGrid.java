@@ -1,7 +1,7 @@
 package naga.fxdata.control;
 
 import javafx.scene.control.Skin;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 
 /**
  * @author Bruno Salmon
@@ -11,7 +11,7 @@ public class SkinnedDataGrid extends DataGrid {
     public SkinnedDataGrid() {
     }
 
-    public SkinnedDataGrid(DisplayResultSet rs) {
+    public SkinnedDataGrid(DisplayResult rs) {
         super(rs);
     }
 

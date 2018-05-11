@@ -2,6 +2,7 @@ package naga.fxdata.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.*;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.util.Strings;
 import naga.fx.scene.SceneRequester;
 import naga.fxdata.cell.renderer.ImageTextRenderer;
@@ -9,7 +10,6 @@ import naga.fxdata.cell.renderer.TextRenderer;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
 
 /**
  * @author Bruno Salmon
@@ -17,12 +17,12 @@ import naga.fxdata.displaydata.DisplayResultSet;
 public class DataGridPeerBase
         <C, N extends DataGrid, NB extends DataGridPeerBase<C, N, NB, NM>, NM extends DataGridPeerMixin<C, N, NB, NM>>
 
-        extends SelectableDisplayResultSetControlPeerBase<C, N, NB, NM> {
+        extends SelectableDisplayResultControlPeerBase<C, N, NB, NM> {
 
     private int rowStyleColumnIndex;
     private int rowBackgroundColumnIndex;
     private int gridColumnCount;
-    private DisplayResultSet rs;
+    private DisplayResult rs;
     private DataGridPeerImageTextMixin<C, N, NB, NM> imageTextMixin;
 
     @Override
@@ -47,7 +47,7 @@ public class DataGridPeerBase
         return gridColumnCount;
     }
 
-    public DisplayResultSet getRs() {
+    public DisplayResult getRs() {
         return rs;
     }
 
@@ -57,12 +57,12 @@ public class DataGridPeerBase
         imageTextMixin = mixin instanceof DataGridPeerImageTextMixin ? (DataGridPeerImageTextMixin<C, N, NB, NM>) mixin : null;
     }
 
-    public void initGrid(DisplayResultSet rs) {
+    public void initGrid(DisplayResult rs) {
         this.rs = rs;
         fillGrid(true);
     }
 
-    public void fillGrid(DisplayResultSet rs) {
+    public void fillGrid(DisplayResult rs) {
         this.rs = rs;
         fillGrid(false);
     }
@@ -131,19 +131,19 @@ public class DataGridPeerBase
         return columnIndex != rowStyleColumnIndex && columnIndex != rowBackgroundColumnIndex;
     }
 
-    public int gridColumnIndexToResultSetColumnIndex(int gridColumnIndex, int rowStyleColumnIndex) {
+    public int gridColumnIndexToResultColumnIndex(int gridColumnIndex, int rowStyleColumnIndex) {
         int rsColumnIndex = gridColumnIndex;
         if (rowStyleColumnIndex == 0 && gridColumnIndex >= rowStyleColumnIndex)
             rsColumnIndex++;
         return rsColumnIndex;
     }
 
-    public Object getRowStyleResultSetValue(int rowIndex) {
-        return getSafeResultSetValue(rowIndex, rowStyleColumnIndex);
+    public Object getRowStyleResultValue(int rowIndex) {
+        return getSafeResultValue(rowIndex, rowStyleColumnIndex);
     }
 
-    public Object getRowBackgroundResultSetValue(int rowIndex) {
-        return getSafeResultSetValue(rowIndex, rowBackgroundColumnIndex);
+    public Object getRowBackgroundResultValue(int rowIndex) {
+        return getSafeResultValue(rowIndex, rowBackgroundColumnIndex);
     }
 
     public Paint getRowBackground(Object value) {
@@ -159,17 +159,17 @@ public class DataGridPeerBase
     }
 
     public Paint getRowBackground(int rowIndex) {
-        return getRowBackground(getRowBackgroundResultSetValue(rowIndex));
+        return getRowBackground(getRowBackgroundResultValue(rowIndex));
     }
 
-    private Object getSafeResultSetValue(int rowIndex, int columnIndex) {
+    private Object getSafeResultValue(int rowIndex, int columnIndex) {
         if (rs == null || rowIndex < 0 || columnIndex < 0 || rowIndex >= rs.getRowCount() || columnIndex >= rs.getColumnCount())
             return null;
         return rs.getValue(rowIndex, columnIndex);
     }
 
     public Object[] getRowStyleClasses(int rowIndex) {
-        return getRowStyleClasses(getRowStyleResultSetValue(rowIndex));
+        return getRowStyleClasses(getRowStyleResultValue(rowIndex));
     }
 
     public Object[] getRowStyleClasses(Object value) {

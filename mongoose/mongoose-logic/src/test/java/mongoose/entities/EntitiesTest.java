@@ -2,6 +2,7 @@ package mongoose.entities;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.entity.UpdateStore;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,13 +21,11 @@ public class EntitiesTest {
 
     @Test
     public void test() throws Throwable {
-/*
         UpdateStore store = UpdateStore.create(dataSourceModel);
         Document d = store.insertEntity(Document.class);
         d.setEvent(116);
         d.setFirstName("test");
         d.setLastName("TEST");
-*/
 /*
         CountDownLatch latch = new CountDownLatch(1);
         Unit<Throwable> error = new Unit<>();

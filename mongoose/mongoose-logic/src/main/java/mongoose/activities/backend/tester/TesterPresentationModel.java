@@ -5,7 +5,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 
 /**
  * @author Bruno Salmon
@@ -18,8 +18,8 @@ class TesterPresentationModel {
     private final Property<Integer> startedConnectionsProperty = new SimpleObjectProperty<>(0);
     Property<Integer> startedConnectionsProperty() { return startedConnectionsProperty; }
 
-    private final Property<DisplayResultSet> chartDisplayResultSetProperty = new SimpleObjectProperty<>();
-    Property<DisplayResultSet> chartDisplayResultSetProperty() { return chartDisplayResultSetProperty; }
+    private final Property<DisplayResult> chartDisplayResultProperty = new SimpleObjectProperty<>();
+    Property<DisplayResult> chartDisplayResultProperty() { return chartDisplayResultProperty; }
 
     private final ObjectProperty<EventHandler<ActionEvent>> onSaveTest = new SimpleObjectProperty<>();
     public final ObjectProperty<EventHandler<ActionEvent>> onSaveTestProperty() { return onSaveTest; }

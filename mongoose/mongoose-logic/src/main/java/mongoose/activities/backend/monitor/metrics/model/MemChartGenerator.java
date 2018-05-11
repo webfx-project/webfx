@@ -3,12 +3,12 @@ package mongoose.activities.backend.monitor.metrics.model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.backend.monitor.metrics.Metrics;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.platform.services.log.Logger;
 import naga.scheduler.Scheduler;
 import naga.type.PrimType;
 import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.fxdata.displaydata.DisplayResultBuilder;
 import naga.fx.spi.Toolkit;
 
 import java.util.ArrayList;
@@ -20,17 +20,17 @@ import java.util.List;
 public class MemChartGenerator {
 
     private List<MemData> memList = new ArrayList<>();
-    private ObjectProperty<DisplayResultSet> memListProperty = new SimpleObjectProperty<>();
+    private ObjectProperty<DisplayResult> memListProperty = new SimpleObjectProperty<>();
 
     public void start() {
         Scheduler.schedulePeriodic(1000, this::readTask);
     }
 
-    public DisplayResultSet createDisplayResultSet (){
-//        Platform.log("createDisplayResultSet(System)");
+    public DisplayResult createDisplayResult(){
+//        Platform.log("createDisplayResult(System)");
         int rowCount = memList.size();
-        // Building the DisplayResultSet for the chart using column format (First column = X, other columns = series Ys)
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, new DisplayColumn[]{
+        // Building the DisplayResult for the chart using column format (First column = X, other columns = series Ys)
+        DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, new DisplayColumn[]{
                 DisplayColumn.create("Time", PrimType.INTEGER),
                 DisplayColumn.create("Total", PrimType.INTEGER),
                 DisplayColumn.create("Free", PrimType.INTEGER),
@@ -42,28 +42,28 @@ public class MemChartGenerator {
             rsb.setValue(rowIndex, 2, data.freeMemProperty().getValue());
             rsb.setValue(rowIndex, 3, data.freePhMemProperty().getValue());
         }
-        DisplayResultSet displayResultSet = rsb.build();
-//        Platform.log("Ok: " + displayResultSet);
+        DisplayResult displayResult = rsb.build();
+//        Platform.log("Ok: " + displayResult);
         Logger.log("Chart - [" + rowCount
                     +", "+ memList.get(rowCount-1).totalMemProperty().getValue()
                     +", "+ memList.get(rowCount-1).freeMemProperty().getValue()
                     +", "+ memList.get(rowCount-1).freePhMemProperty().getValue()
                     +" ]");
-        Toolkit.get().scheduler().scheduleDeferred(() -> memListProperty.set(displayResultSet));
-        return displayResultSet;
+        Toolkit.get().scheduler().scheduleDeferred(() -> memListProperty.set(displayResult));
+        return displayResult;
     }
 
     private void readTask () {
 //        System.out.println("readTask() called in " + Thread.currentThread().getName());
         memList.add(Metrics.getInstance().getMemData());
-        createDisplayResultSet();
+        createDisplayResult();
     }
 
-    public DisplayResultSet getMemList() {
+    public DisplayResult getMemList() {
         return memListProperty.get();
     }
 
-    public ObjectProperty<DisplayResultSet> memListProperty() {
+    public ObjectProperty<DisplayResult> memListProperty() {
         return memListProperty;
     }
 }

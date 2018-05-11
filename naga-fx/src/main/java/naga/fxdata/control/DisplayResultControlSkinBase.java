@@ -1,9 +1,8 @@
 package naga.fxdata.control;
 
-import emul.javafx.scene.Node;
-import emul.javafx.scene.control.SkinBase;
-import emul.javafx.scene.paint.*;
-import naga.util.Strings;
+import javafx.scene.Node;
+import javafx.scene.control.SkinBase;
+import javafx.scene.paint.*;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.cell.renderer.ImageRenderer;
@@ -11,31 +10,31 @@ import naga.fxdata.cell.renderer.ImageTextRenderer;
 import naga.fxdata.cell.renderer.TextRenderer;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.Label;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class DisplayResultSetControlSkinBase<C extends DisplayResultSetControl, ROW extends Node, CELL extends Node> extends SkinBase<C> {
+public abstract class DisplayResultControlSkinBase<C extends DisplayResultControl, ROW extends Node, CELL extends Node> extends SkinBase<C> {
 
     private final boolean hasSpecialRenderingForImageAndText;
 
-    public DisplayResultSetControlSkinBase(C control, boolean hasSpecialRenderingForImageAndText) {
+    public DisplayResultControlSkinBase(C control, boolean hasSpecialRenderingForImageAndText) {
         super(control);
         this.hasSpecialRenderingForImageAndText = hasSpecialRenderingForImageAndText;
     }
 
-    private DisplayResultSet rs;
+    private DisplayResult rs;
     private int gridColumnCount;
     private int rowStyleColumnIndex;
     private int rowBackgroundColumnIndex;
 
     protected void start() {
-        Properties.runNowAndOnPropertiesChange(p -> updateResultSet(getSkinnable().getDisplayResultSet()), getSkinnable().displayResultSetProperty());
+        Properties.runNowAndOnPropertiesChange(() -> updateResult(getSkinnable().getDisplayResult()), getSkinnable().displayResultProperty());
     }
 
-    protected void updateResultSet(DisplayResultSet rs) {
+    protected void updateResult(DisplayResult rs) {
         this.rs = rs;
         Toolkit.get().scheduler().runInUiThread(this::buildGrid);
     }
@@ -116,7 +115,7 @@ public abstract class DisplayResultSetControlSkinBase<C extends DisplayResultSet
         return gridColumnCount;
     }
 
-    public DisplayResultSet getRs() {
+    public DisplayResult getRs() {
         return rs;
     }
 
@@ -167,11 +166,11 @@ public abstract class DisplayResultSetControlSkinBase<C extends DisplayResultSet
             return;
         if (hasSpecialRenderingForImageAndText) {
             if (valueRenderer == TextRenderer.SINGLETON) {
-                setCellTextContent(cell, Strings.toString(cellValue), displayColumn);
+                //setCellTextContent(cell, Strings.toString(cellValue), displayColumn);
                 return;
             }
             if (valueRenderer == ImageRenderer.SINGLETON) {
-                setCellImageContent(cell, valueRenderer.renderCellValue(cellValue), displayColumn);
+                //setCellImageContent(cell, valueRenderer.renderCellValue(cellValue), displayColumn);
                 return;
             }
             if (valueRenderer == ImageTextRenderer.SINGLETON) {
@@ -197,19 +196,19 @@ public abstract class DisplayResultSetControlSkinBase<C extends DisplayResultSet
         return columnIndex != rowStyleColumnIndex && columnIndex != rowBackgroundColumnIndex;
     }
 
-    public int gridColumnIndexToResultSetColumnIndex(int gridColumnIndex, int rowStyleColumnIndex) {
+    public int gridColumnIndexToResultColumnIndex(int gridColumnIndex, int rowStyleColumnIndex) {
         int rsColumnIndex = gridColumnIndex;
         if (rowStyleColumnIndex == 0 && gridColumnIndex >= rowStyleColumnIndex)
             rsColumnIndex++;
         return rsColumnIndex;
     }
 
-    public Object getRowStyleResultSetValue(int rowIndex) {
-        return getSafeResultSetValue(rowIndex, rowStyleColumnIndex);
+    public Object getRowStyleResultValue(int rowIndex) {
+        return getSafeResultValue(rowIndex, rowStyleColumnIndex);
     }
 
-    public Object getRowBackgroundResultSetValue(int rowIndex) {
-        return getSafeResultSetValue(rowIndex, rowBackgroundColumnIndex);
+    public Object getRowBackgroundResultValue(int rowIndex) {
+        return getSafeResultValue(rowIndex, rowBackgroundColumnIndex);
     }
 
     public Paint getRowBackground(Object value) {
@@ -225,17 +224,17 @@ public abstract class DisplayResultSetControlSkinBase<C extends DisplayResultSet
     }
 
     public Paint getRowBackground(Integer rowIndex) {
-        return getRowBackground(getRowBackgroundResultSetValue(rowIndex));
+        return getRowBackground(getRowBackgroundResultValue(rowIndex));
     }
 
-    private Object getSafeResultSetValue(int rowIndex, int columnIndex) {
+    private Object getSafeResultValue(int rowIndex, int columnIndex) {
         if (rs == null || rowIndex < 0 || columnIndex < 0 || rowIndex >= rs.getRowCount() || columnIndex >= rs.getColumnCount())
             return null;
         return rs.getValue(rowIndex, columnIndex);
     }
 
     public Object[] getRowStyleClasses(Integer rowIndex) {
-        return getRowStyleClasses(getRowStyleResultSetValue(rowIndex));
+        return getRowStyleClasses(getRowStyleResultValue(rowIndex));
     }
 
     public Object[] getRowStyleClasses(Object value) {

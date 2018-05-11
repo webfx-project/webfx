@@ -90,7 +90,7 @@ public class HtmlDataGridPeer
                 applyVisualSelectionRange(rowIndex, rowIndex, true);
                 lastUnselectedRowIndex.set(rowIndex + 1);
             });
-        DisplayResultSet rs = node.getDisplayResultSet();
+        DisplayResult rs = node.getDisplayResult();
         if (rs != null)
             applyVisualSelectionRange(lastUnselectedRowIndex.get(), rs.getRowCount(), false);
     }
@@ -103,7 +103,7 @@ public class HtmlDataGridPeer
     }
 
     @Override
-    public void updateResultSet(DisplayResultSet rs) {
+    public void updateResult(DisplayResult rs) {
         DataGrid node = getNode();
         node.setDisplaySelection(null);
         NB base = getNodePeerBase();

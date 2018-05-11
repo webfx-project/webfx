@@ -1,6 +1,6 @@
 package naga.fxdata.chart;
 
-import naga.fxdata.control.SelectableDisplayResultSetControl;
+import naga.fxdata.control.SelectableDisplayResultControl;
 
 /**
  *
@@ -8,7 +8,7 @@ import naga.fxdata.control.SelectableDisplayResultSetControl;
  * each point is defined by 2 values: one for the X axis (major axis) and one for the Y axis (minor axis).
  * For pie charts that don't have 2 axis, each point is defines by 1 single value.
  * <p>
- * The chart uses the DisplayResultSet to read the data (series names and points). The format depends on the type of
+ * The chart uses the DisplayResult to read the data (series names and points). The format depends on the type of
  * chart. And for each type of chart, there are 2 possible formats: the column format where series are stored in
  * columns and the row format where series are stored in rows (formats are just transposed - they both produce the same
  * visual result).
@@ -90,5 +90,5 @@ import naga.fxdata.control.SelectableDisplayResultSetControl;
  * @author Bruno Salmon
  */
 
-public abstract class Chart extends SelectableDisplayResultSetControl {
+public abstract class Chart extends SelectableDisplayResultControl {
 }

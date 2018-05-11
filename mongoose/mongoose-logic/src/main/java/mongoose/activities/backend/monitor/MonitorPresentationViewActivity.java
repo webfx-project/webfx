@@ -21,8 +21,8 @@ class MonitorPresentationViewActivity extends PresentationViewActivityImpl<Monit
         memoryChart = setVGrowable(new LineChart());
         cpuChart = setVGrowable(new LineChart());
 
-        memoryChart.displayResultSetProperty().bind(pm.memoryDisplayResultSetProperty());
-        cpuChart.displayResultSetProperty().bind(pm.cpuDisplayResultSetProperty());
+        memoryChart.displayResultProperty().bind(pm.memoryDisplayResultProperty());
+        cpuChart.displayResultProperty().bind(pm.cpuDisplayResultProperty());
     }
 
     @Override

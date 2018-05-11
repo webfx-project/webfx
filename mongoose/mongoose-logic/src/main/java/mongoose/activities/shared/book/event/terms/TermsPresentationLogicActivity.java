@@ -20,7 +20,7 @@ class TermsPresentationLogicActivity
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combine(pm.eventIdProperty(), e -> "{where: 'event=" + e + "'}")
                 .combine(getI18n().languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
-                .displayResultSetInto(pm.termsLetterDisplayResultSetProperty())
+                .displayResultInto(pm.termsLetterDisplayResultProperty())
                 .start();
     }
 }

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<DataGrid, Pane, Pane> {
+public class DataGridSkin extends SelectableDisplayResultControlSkinBase<DataGrid, Pane, Pane> {
 
     private final GridHead gridHead = new GridHead();
     private final GridBody gridBody = new GridBody();
@@ -103,7 +103,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
             gridBody.endBuildingGrid();
         } else
             Toolkit.get().scheduler().schedulePeriodicInAnimationFrame(new Consumer<Scheduled>() {
-                final DisplayResultSet rs = getRs();
+                final DisplayResult rs = getRs();
                 int rowIndex = 0;
                 @Override
                 public void accept(Scheduled scheduled) {

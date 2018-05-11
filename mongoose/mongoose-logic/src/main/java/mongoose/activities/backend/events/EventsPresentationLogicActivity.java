@@ -44,7 +44,7 @@ class EventsPresentationLogicActivity
                         "'type'," +
                         "{role: 'background', expression: 'type.background'}" +
                         "]")
-                .displayResultSetInto(pm.genericDisplayResultSetProperty())
+                .displayResultInto(pm.genericDisplayResultProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> new BookingsRoutingRequest(event, getHistory()).execute())
                 .start();
     }

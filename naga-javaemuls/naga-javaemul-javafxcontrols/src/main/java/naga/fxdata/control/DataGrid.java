@@ -2,18 +2,18 @@ package naga.fxdata.control;
 
 import emul.javafx.beans.property.BooleanProperty;
 import emul.javafx.beans.property.SimpleBooleanProperty;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 
 /**
  * @author Bruno Salmon
  */
-public class DataGrid extends SelectableDisplayResultSetControl {
+public class DataGrid extends SelectableDisplayResultControl {
 
     public DataGrid() {
     }
 
-    public DataGrid(DisplayResultSet rs) {
-        setDisplayResultSet(rs);
+    public DataGrid(DisplayResult rs) {
+        setDisplayResult(rs);
     }
 
     private final BooleanProperty headerVisibleProperty = new SimpleBooleanProperty(true);

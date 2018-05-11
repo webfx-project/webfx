@@ -15,8 +15,8 @@ import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.format.Formatter;
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.fxdata.displaydata.DisplayResult;
+import naga.fxdata.displaydata.DisplayResultBuilder;
 import naga.fxdata.displaydata.Label;
 import naga.util.Arrays;
 
@@ -27,25 +27,25 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class EntityListToDisplayResultSetGenerator {
+public class EntityListToDisplayResultGenerator {
 
-    public static DisplayResultSet select(EntityList<? extends Entity> entityList, String select, I18n i18n) {
+    public static DisplayResult select(EntityList<? extends Entity> entityList, String select, I18n i18n) {
         int fromIndex = select.indexOf(" from ");
         String columnsDefinition = select.substring(select.indexOf("select") + 6, fromIndex).trim();
         select = "select " + select.substring(fromIndex + 6);
         return select(entityList, select, columnsDefinition, i18n);
     }
 
-    public static DisplayResultSet select(EntityList<? extends Entity> entityList, String select, String columnsDefinition, I18n i18n) {
+    public static DisplayResult select(EntityList<? extends Entity> entityList, String select, String columnsDefinition, I18n i18n) {
         return select(entityList, entityList.getDomainModel().parseSelect(select), columnsDefinition, i18n);
     }
 
-    public static <E extends Entity> DisplayResultSet select(EntityList<E> entityList, Select<E> select, String columnsDefinition, I18n i18n) {
+    public static <E extends Entity> DisplayResult select(EntityList<E> entityList, Select<E> select, String columnsDefinition, I18n i18n) {
         EntityStore store = entityList.getStore();
         Expression<E> where = select.getWhere();
         if (where != null)
             entityList = EntityList.create(entityList.getListId() + "-filtered", store, entityList.filter(where));
-        ExpressionArray groupBy = select.getGroupBy();
+        ExpressionArray<E> groupBy = select.getGroupBy();
         if (groupBy != null) {
             DomainClass domainClass = (DomainClass) select.getDomainClass();
             Map<GroupValue, E> groupEntities = new HashMap<>();
@@ -70,23 +70,23 @@ public class EntityListToDisplayResultSetGenerator {
         }
         ExpressionArray<E> orderBy = select.getOrderBy();
         if (orderBy != null)
-            entityList.orderBy(orderBy);
-        return createDisplayResultSet(entityList, columnsDefinition, select.getDomainClass(), i18n);
+            entityList.orderBy(orderBy.getExpressions());
+        return createDisplayResult(entityList, columnsDefinition, select.getDomainClass(), i18n);
     }
 
-    public static DisplayResultSet createDisplayResultSet(EntityList<? extends Entity> entityList, String columnsDefinition, Object classId, I18n i18n) {
-        return createDisplayResultSet(entityList, columnsDefinition, entityList.getDomainModel(), classId, i18n);
+    public static DisplayResult createDisplayResult(EntityList<? extends Entity> entityList, String columnsDefinition, Object classId, I18n i18n) {
+        return createDisplayResult(entityList, columnsDefinition, entityList.getDomainModel(), classId, i18n);
     }
 
-    public static DisplayResultSet createDisplayResultSet(List<? extends Entity> entityList, String columnsDefinition, DomainModel domainModel, Object classId, I18n i18n) {
+    public static DisplayResult createDisplayResult(List<? extends Entity> entityList, String columnsDefinition, DomainModel domainModel, Object classId, I18n i18n) {
         ExpressionColumn[] columns = ExpressionColumn.fromJsonArray(columnsDefinition, domainModel, classId);
-        return createDisplayResultSet(entityList, columns, i18n);
+        return createDisplayResult(entityList, columns, i18n);
     }
 
-    public static <E extends Entity> DisplayResultSet createDisplayResultSet(List<E> entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
+    public static <E extends Entity> DisplayResult createDisplayResult(List<E> entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
         int rowCount = entityList == null ? 0 : entityList.size();
         int columnCount = Arrays.length(expressionColumns);
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, columnCount);
+        DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, columnCount);
         if (expressionColumns != null) {
             int columnIndex = 0;
             int inlineIndex = 0;

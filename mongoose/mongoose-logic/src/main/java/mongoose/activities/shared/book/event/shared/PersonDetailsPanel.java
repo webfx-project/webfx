@@ -33,7 +33,7 @@ import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.fxdata.displaydata.DisplayResultBuilder;
 import naga.fxdata.displaydata.DisplayStyle;
 import naga.fxdata.displaydata.SelectionMode;
 import naga.type.PrimType;
@@ -247,7 +247,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     private Node createPersonDataGrid() {
         DisplayColumn keyColumn = DisplayColumn.create(null, PrimType.STRING, DisplayStyle.RIGHT_STYLE);
         DisplayColumn valueColumn = DisplayColumn.create(null, PrimType.STRING);
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(6, new DisplayColumn[]{keyColumn, valueColumn, keyColumn, valueColumn});
+        DisplayResultBuilder rsb = DisplayResultBuilder.create(6, new DisplayColumn[]{keyColumn, valueColumn, keyColumn, valueColumn});
         Organization organization = model.getOrganization();
         rsb.setValue(0, 0, i18n.instantTranslate("FirstName:"));
         rsb.setValue(0, 1, model.getFirstName());

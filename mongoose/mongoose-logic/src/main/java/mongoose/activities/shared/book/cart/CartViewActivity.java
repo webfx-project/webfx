@@ -33,10 +33,10 @@ import naga.framework.ui.graphic.controls.dialog.DialogCallback;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import naga.framework.ui.layouts.LayoutUtil;
-import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
+import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.DisplaySelection;
 import naga.platform.services.log.Logger;
 import naga.type.PrimType;
@@ -52,8 +52,8 @@ import static naga.framework.ui.format.FormatterRegistry.registerFormatter;
  */
 class CartViewActivity extends CartBasedViewActivity {
 
-    private final Property<DisplayResultSet> documentDisplayResultSetProperty = new SimpleObjectProperty<>();
-    private final Property<DisplayResultSet> paymentDisplayResultSetProperty = new SimpleObjectProperty<>();
+    private final Property<DisplayResult> documentDisplayResultProperty = new SimpleObjectProperty<>();
+    private final Property<DisplayResult> paymentDisplayResultProperty = new SimpleObjectProperty<>();
     // Display input & output
     private final Property<DisplaySelection> documentDisplaySelectionProperty = new SimpleObjectProperty<>();
 
@@ -106,8 +106,8 @@ class CartViewActivity extends CartBasedViewActivity {
         // User inputs: the UI state changes are transferred in the presentation model
         documentTable.displaySelectionProperty().bindBidirectional(documentDisplaySelectionProperty);
         // User outputs: the presentation model changes are transferred in the UI
-        documentTable.displayResultSetProperty().bind(documentDisplayResultSetProperty);
-        paymentTable.displayResultSetProperty().bind(paymentDisplayResultSetProperty);
+        documentTable.displayResultProperty().bind(documentDisplayResultProperty);
+        paymentTable.displayResultProperty().bind(paymentDisplayResultProperty);
 
         syncBookingOptionsPanelIfReady();
 
@@ -173,7 +173,7 @@ class CartViewActivity extends CartBasedViewActivity {
                         "{expression: 'price_balance', format: 'priceWithCurrency'}," +
                         "{expression: 'documentStatus(this)', label: 'Status', textAlign: 'center'}" +
                         "]"
-                , "Document", documentDisplayResultSetProperty);
+                , "Document", documentDisplayResultProperty);
         displayEntities(cartService.getCartPayments(), "[" +
                         "{expression: 'date', format: 'dateTime'}," +
                         "{expression: 'document.ref', label: 'Booking ref'}," +
@@ -181,7 +181,7 @@ class CartViewActivity extends CartBasedViewActivity {
                         "{expression: 'amount', format: 'priceWithCurrency'}," +
                         "{expression: 'translate(pending ? `PendingStatus` : successful ? `SuccessfulStatus` : `FailedStatus`)', label: 'Status', textAlign: 'center'}" +
                         "]"
-                , "MoneyTransfer", paymentDisplayResultSetProperty);
+                , "MoneyTransfer", paymentDisplayResultProperty);
         autoSelectWorkingDocument();
     }
 
@@ -191,8 +191,8 @@ class CartViewActivity extends CartBasedViewActivity {
         return Collections.indexOf(cartService().getCartWorkingDocuments(), wd -> Entities.sameId(wd.getDocument(), workingDocument.getDocument()));
     }
 
-    private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<DisplayResultSet> displayResultSetProperty) {
-        displayResultSetProperty.setValue(EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, columnsDefinition
+    private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<DisplayResult> displayResultProperty) {
+        displayResultProperty.setValue(EntityListToDisplayResultGenerator.createDisplayResult(entities, columnsDefinition
                 , getDataSourceModel().getDomainModel(), classId, getI18n()));
     }
 

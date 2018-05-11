@@ -5,7 +5,7 @@ import naga.type.Type;
 import naga.util.Strings;
 import naga.fxdata.chart.Chart;
 import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 
 /**
  * @author Bruno Salmon
@@ -13,11 +13,11 @@ import naga.fxdata.displaydata.DisplayResultSet;
 public abstract class ChartPeerBase
         <C, N extends Chart, NB extends ChartPeerBase<C, N, NB, NM>, NM extends ChartPeerMixin<C, N, NB, NM>>
 
-        extends SelectableDisplayResultSetControlPeerBase<C, N, NB, NM> {
+        extends SelectableDisplayResultControlPeerBase<C, N, NB, NM> {
 
     private final boolean isPieChart = this instanceof PieChartPeerBase;
 
-    public void updateResultSet(DisplayResultSet rs) {
+    public void updateResult(DisplayResult rs) {
         if (rs == null)
             return;
         int rowCount = rs.getRowCount();

@@ -22,7 +22,7 @@ class TermsPresentationViewActivity extends BookingProcessPresentationViewActivi
         termsPanel = createSectionPanel(MongooseIcons.certificateMonoSvg16JsonUrl, "TermsAndConditions");
         termsPanel.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(termsLetterCollator));
 
-        termsLetterCollator.displayResultSetProperty().bind(pm.termsLetterDisplayResultSetProperty());
+        termsLetterCollator.displayResultProperty().bind(pm.termsLetterDisplayResultProperty());
     }
 
     @Override

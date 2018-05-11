@@ -35,7 +35,7 @@ class TesterPresentationViewActivity extends PresentationViewActivityImpl<Tester
         // Data binding
         pm.requestedConnectionsProperty().bind(ConvertedProperty.doubleToIntegerProperty((Property) requestedSlider.valueProperty()));
         startedSlider.valueProperty().bind(ConvertedProperty.integerToDoubleProperty(pm.startedConnectionsProperty()));
-        connectionsChart.displayResultSetProperty().bind(pm.chartDisplayResultSetProperty());
+        connectionsChart.displayResultProperty().bind(pm.chartDisplayResultProperty());
     }
 
     @Override

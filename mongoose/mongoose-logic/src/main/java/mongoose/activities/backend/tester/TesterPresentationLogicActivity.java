@@ -22,7 +22,7 @@ class TesterPresentationLogicActivity extends MongooseDomainPresentationLogicAct
 
         ConnectionChartGenerator connectionChartGenerator = new ConnectionChartGenerator();
         connectionChartGenerator.start();
-        pm.chartDisplayResultSetProperty().bind(connectionChartGenerator.connectionListProperty());
+        pm.chartDisplayResultProperty().bind(connectionChartGenerator.connectionListProperty());
 
         pm.setOnSaveTest(e -> {
             getHistory().push("/saveTest");

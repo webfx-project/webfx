@@ -53,7 +53,7 @@ class FeesViewActivity extends BookingProcessViewActivity {
         feesGroupsCollator = new GridCollator(this::toFeesGroupPanel, nodes -> new VBox(20, nodes));
         verticalStack.getChildren().setAll(feesGroupsCollator, LayoutUtil.setMaxWidthToInfinite(backButton));
 
-        feesGroupsCollator.displayResultSetProperty().bind(rsProperty);
+        feesGroupsCollator.displayResultProperty().bind(rsProperty);
     }
 
     private Node toFeesGroupPanel(Node... nodes) {
@@ -110,7 +110,7 @@ class FeesViewActivity extends BookingProcessViewActivity {
         });
     }
 
-    private final Property<DisplayResultSet> rsProperty = new SimpleObjectProperty<>();
+    private final Property<DisplayResult> rsProperty = new SimpleObjectProperty<>();
     private FeesGroup[] feesGroups;
 
     private void displayFeesGroupsAndRefreshAvailabilities(FeesGroup[] feesGroups) {
@@ -131,9 +131,9 @@ class FeesViewActivity extends BookingProcessViewActivity {
 
     private void displayFeesGroupsNow() {
         int n = feesGroups.length;
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(n, new DisplayColumn[]{
+        DisplayResultBuilder rsb = DisplayResultBuilder.create(n, new DisplayColumn[]{
                 DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value)),
-                DisplayColumn.create(value -> renderFeesGroupBody((DisplayResultSet) value)),
+                DisplayColumn.create(value -> renderFeesGroupBody((DisplayResult) value)),
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
         I18n i18n = getI18n();
         WritableJsonObject jsonImage = Json.parseObject(MongooseIcons.priceTagColorSvg16JsonUrl);
@@ -141,11 +141,11 @@ class FeesViewActivity extends BookingProcessViewActivity {
         for (int i = 0; i < n; i++) {
             FeesGroup feesGroup = feesGroups[i];
             rsb.setValue(i, 0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
-            rsb.setValue(i, 1, feesGroup.generateDisplayResultSet(this, this, this::onBookButtonPressed, cumulators));
+            rsb.setValue(i, 1, feesGroup.generateDisplayResult(this, this, this::onBookButtonPressed, cumulators));
             if (i == n - 1) // Showing the fees bottom text only on the last fees group
                 rsb.setValue(i, 2, feesGroup.getFeesBottomText(i18n));
         }
-        DisplayResultSet rs = rsb.build();
+        DisplayResult rs = rsb.build();
         rsProperty.setValue(rs);
     }
 
@@ -194,7 +194,7 @@ class FeesViewActivity extends BookingProcessViewActivity {
         return header;
     }
 
-    private Node renderFeesGroupBody(DisplayResultSet rs) {
+    private Node renderFeesGroupBody(DisplayResult rs) {
         DataGrid dataGrid = new SkinnedDataGrid(rs); //LayoutUtil.setMinMaxHeightToPref(new DataGrid(rs));
         dataGrid.setFullHeight(true);
         dataGrid.setSelectionMode(SelectionMode.DISABLED);

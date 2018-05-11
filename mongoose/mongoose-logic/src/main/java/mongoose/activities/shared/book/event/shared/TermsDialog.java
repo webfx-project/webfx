@@ -63,7 +63,7 @@ public class TermsDialog implements ButtonFactoryMixin, ReactiveExpressionFilter
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combine("{where: 'event=" + eventId + "'}")
                 .combine(i18n.languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
-                .displayResultSetInto(termsLetterCollator.displayResultSetProperty())
+                .displayResultInto(termsLetterCollator.displayResultProperty())
                 .start();
         HBox hBox = new HBox(20, createHGrowable(), newOkButton(this::closeTermsDialog), createHGrowable());
         hBox.setPadding(new Insets(20, 0, 0, 0));

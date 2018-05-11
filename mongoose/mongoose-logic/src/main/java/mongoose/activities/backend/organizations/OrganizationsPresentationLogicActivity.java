@@ -35,7 +35,7 @@ class OrganizationsPresentationLogicActivity
                         "{label: 'Country', expression: '[country.icon, country.(name + ` (` + continent.name + `)`)]'}" +
                         "]")
                 .applyDomainModelRowStyle()
-                .displayResultSetInto(pm.genericDisplayResultSetProperty())
+                .displayResultInto(pm.genericDisplayResultProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> new EventsRoutingRequest(organization, getHistory()).execute() )
                 .start();
     }

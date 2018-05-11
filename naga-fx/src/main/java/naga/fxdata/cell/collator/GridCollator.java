@@ -16,7 +16,7 @@ import naga.fxdata.cell.renderer.ArrayRenderer;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.DisplaySelection;
 import naga.fxdata.displaydata.SelectionMode;
 import naga.fxdata.spi.peer.base.DataGridPeerBase;
@@ -135,7 +135,7 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
-        public void updateResultSet(DisplayResultSet rs) {
+        public void updateResult(DisplayResult rs) {
             if (rs == null)
                 return;
             int columnCount = rs.getColumnCount();

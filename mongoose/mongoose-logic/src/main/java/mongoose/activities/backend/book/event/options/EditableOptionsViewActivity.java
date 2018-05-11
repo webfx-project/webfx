@@ -126,7 +126,7 @@ class EditableOptionsViewActivity extends OptionsViewActivity {
                             "{label: 'Event', expression: 'event.(icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate))'}," +
                             "{label: 'Event type', expression: 'event.type'}" +
                             "]")
-                    .displayResultSetInto(dataGrid.displayResultSetProperty())
+                    .displayResultInto(dataGrid.displayResultProperty())
                     .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
                     //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> closeAddOptionDialog(true))
                     .start();
