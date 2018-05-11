@@ -1,6 +1,7 @@
 package naga.framework.orm.domainmodel.loader;
 
 import naga.platform.services.log.Logger;
+import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.QueryService;
 import naga.type.DerivedType;
 import naga.type.PrimType;
@@ -15,7 +16,6 @@ import naga.framework.orm.domainmodel.builder.DomainFieldsGroupBuilder;
 import naga.framework.orm.domainmodel.builder.DomainModelBuilder;
 import naga.fxdata.displaydata.Label;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,12 +68,12 @@ public class DomainModelLoader {
         return new QueryArgument(queryString, new Object[]{id}, dataSourceId);
     }
 
-    public DomainModel generateDomainModel(Batch<QueryResultSet> batchResult) {
+    public DomainModel generateDomainModel(Batch<QueryResult> batchResult) {
         long t0 = System.currentTimeMillis();
-        QueryResultSet[] resultSets = batchResult.getArray();
+        QueryResult[] resultSets = batchResult.getArray();
 
         // 1) Building labels
-        QueryResultSet rs = resultSets[0];
+        QueryResult rs = resultSets[0];
         for (int row = 0; row < rs.getRowCount(); row++)
             labelMap.put(rs.getValue(row, 0 /*"id"*/), new Label(rs.getValue(row, 1 /*"code"*/), rs.getValue(row, 2 /*"text"*/), rs.getValue(row, 3 /*"icon"*/)));
 

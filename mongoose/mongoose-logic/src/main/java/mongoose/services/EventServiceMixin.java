@@ -7,7 +7,7 @@ import mongoose.entities.*;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 import naga.util.async.Future;
 import naga.util.function.Predicate;
 
@@ -154,7 +154,7 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
-    default Future<QueryResultSet> onEventAvailabilities() {
+    default Future<QueryResult> onEventAvailabilities() {
         return getEventService().onEventAvailabilities();
     }
 
@@ -164,7 +164,7 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
-    default QueryResultSet getEventAvailabilities() {
+    default QueryResult getEventAvailabilities() {
         return getEventService().getEventAvailabilities();
     }
 

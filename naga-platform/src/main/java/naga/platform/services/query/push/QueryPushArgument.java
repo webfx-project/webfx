@@ -5,7 +5,7 @@ import naga.platform.json.codec.JsonCodecManager;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 import naga.util.function.Consumer;
 
 /**
@@ -16,20 +16,20 @@ public class QueryPushArgument {
     private final Object queryStreamId;
     private final Object pushClientId;
     private final QueryArgument queryArgument;
-    private final Consumer<QueryResultSet> queryResultSetConsumer;
+    private final Consumer<QueryResult> queryResultConsumer;
     private final Object dataSourceId;
     private final Boolean active;
     private final Boolean close;
 
-    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryResultSet> queryResultSetConsumer, Boolean active, Boolean close) {
-        this(queryStreamId, pushClientId, queryArgument, queryResultSetConsumer, queryArgument.getDataSourceId(), active, close);
+    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryResult> queryResultConsumer, Boolean active, Boolean close) {
+        this(queryStreamId, pushClientId, queryArgument, queryResultConsumer, queryArgument.getDataSourceId(), active, close);
     }
 
-    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryResultSet> queryResultSetConsumer, Object dataSourceId, Boolean active, Boolean close) {
+    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryResult> queryResultConsumer, Object dataSourceId, Boolean active, Boolean close) {
         this.queryStreamId = queryStreamId;
         this.pushClientId = pushClientId;
         this.queryArgument = queryArgument;
-        this.queryResultSetConsumer = queryResultSetConsumer;
+        this.queryResultConsumer = queryResultConsumer;
         this.dataSourceId = dataSourceId;
         this.active = active;
         this.close = close;
@@ -47,8 +47,8 @@ public class QueryPushArgument {
         return queryArgument;
     }
 
-    public Consumer<QueryResultSet> getQueryResultSetConsumer() {
-        return queryResultSetConsumer;
+    public Consumer<QueryResult> getQueryResultConsumer() {
+        return queryResultConsumer;
     }
 
     public Object getDataSourceId() {
@@ -75,7 +75,7 @@ public class QueryPushArgument {
         return queryStreamId != null && close != null;
     }
 
-    public static QueryPushArgument openStreamArgument(Object pushClientId, QueryArgument queryArgument, Consumer<QueryResultSet> queryResultSetConsumer) {
+    public static QueryPushArgument openStreamArgument(Object pushClientId, QueryArgument queryArgument, Consumer<QueryResult> queryResultSetConsumer) {
         return new QueryPushArgument(null, pushClientId, queryArgument, queryResultSetConsumer, true, null);
     }
 
@@ -103,11 +103,11 @@ public class QueryPushArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static final String CODEC_ID = "QueryPushArg";
+    public static final String CODEC_ID = "QueryPushArgument";
     private static final String QUERY_STREAM_ID_KEY = "queryStreamId";
     private static final String CLIENT_PUSH_ID_KEY = "pushClientId";
-    private static final String QUERY_ARGUMENT_KEY = "queryArg";
-    private static final String DATA_SOURCE_ID_KEY = "dsId";
+    private static final String QUERY_ARGUMENT_KEY = "queryArgument";
+    private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
     private static final String ACTIVE_KEY = "active";
     private static final String CLOSE_KEY = "close";
 

@@ -16,7 +16,7 @@ import naga.framework.orm.domainmodel.loader.DomainModelLoader;
 import naga.platform.json.Json;
 import naga.platform.json.codec.JsonCodecManager;
 import naga.platform.json.spi.JsonElement;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 import naga.platform.services.resource.ResourceService;
 import naga.type.PrimType;
 import naga.type.Type;
@@ -87,7 +87,7 @@ public class DomainModelSnapshotLoader {
             Future<String> text = ResourceService.getText("mongoose/domainmodel/DomainModelSnapshot.json");
             String jsonString = text.result(); // LZString.decompressFromBase64(text.result());
             JsonElement json = Json.parseObject(jsonString);
-            Batch<QueryResultSet> snapshotBatch = JsonCodecManager.decodeFromJson(json);
+            Batch<QueryResult> snapshotBatch = JsonCodecManager.decodeFromJson(json);
             DomainModel domainModel = new DomainModelLoader(1).generateDomainModel(snapshotBatch);
             // Registering functions
             new AbcNames().register();

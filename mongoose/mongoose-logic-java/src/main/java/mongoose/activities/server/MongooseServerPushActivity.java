@@ -9,7 +9,7 @@ import naga.platform.activity.ActivityManager;
 import naga.platform.services.log.Logger;
 import naga.platform.services.push.server.PushServerService;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.QueryService;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateService;
@@ -70,7 +70,7 @@ public class MongooseServerPushActivity implements Activity<DomainActivityContex
     }
 
     private class ServerPushPass implements Runnable {
-        QueryResultSet rs;
+        QueryResult rs;
         int rowCount;
         int replyCount;
         boolean[] replyReceived;

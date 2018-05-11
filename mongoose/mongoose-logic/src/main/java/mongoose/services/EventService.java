@@ -5,6 +5,7 @@ import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
 import naga.framework.orm.domainmodel.HasDataSourceModel;
+import naga.platform.services.query.QueryResult;
 import naga.util.async.Future;
 import naga.util.collection.Collections;
 import naga.util.function.Predicate;
@@ -12,7 +13,6 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.platform.services.query.QueryResultSet;
 
 import java.util.List;
 
@@ -125,7 +125,7 @@ public interface EventService extends HasDataSourceModel {
 
     // Event availability loading method
 
-    Future<QueryResultSet> onEventAvailabilities();
+    Future<QueryResult> onEventAvailabilities();
 
     // Event availability accessor
 
@@ -133,7 +133,7 @@ public interface EventService extends HasDataSourceModel {
         return getEventAvailabilities() != null;
     }
 
-    QueryResultSet getEventAvailabilities();
+    QueryResult getEventAvailabilities();
 
     // Setter and getter to store the booking process working document
 

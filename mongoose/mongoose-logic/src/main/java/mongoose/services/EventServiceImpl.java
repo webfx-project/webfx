@@ -12,7 +12,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.*;
 import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.QueryService;
 import naga.platform.spi.Platform;
 import naga.util.Numbers;
@@ -233,10 +233,10 @@ class EventServiceImpl implements EventService {
     }
 
     // Event availability loading method
-    private FutureBroadcaster<QueryResultSet> eventAvailabilitiesFutureBroadcaster;
+    private FutureBroadcaster<QueryResult> eventAvailabilitiesFutureBroadcaster;
 
     @Override
-    public Future<QueryResultSet> onEventAvailabilities() {
+    public Future<QueryResult> onEventAvailabilities() {
         if (eventAvailabilitiesFutureBroadcaster == null)
             eventAvailabilitiesFutureBroadcaster = new FutureBroadcaster<>(() -> QueryService.executeQuery(new QueryArgument(
                     "with ra as (select * from resource_availability_by_event_items(?) where max>0)," + // resources with max(=max_online)=0 (like private rooms) are not displayed in the frontend
@@ -255,9 +255,9 @@ class EventServiceImpl implements EventService {
 
     // Event availability accessor
 
-    private QueryResultSet eventAvailabilities;
+    private QueryResult eventAvailabilities;
     @Override
-    public QueryResultSet getEventAvailabilities() {
+    public QueryResult getEventAvailabilities() {
         return eventAvailabilities;
     }
 

@@ -23,13 +23,13 @@ public class QueryService {
         ServiceLoaderHelper.cacheServiceInstance(QueryServiceProvider.class, provider);
     }
 
-    public static Future<QueryResultSet> executeQuery(QueryArgument argument) {
+    public static Future<QueryResult> executeQuery(QueryArgument argument) {
         return getProvider().executeQuery(argument);
     }
 
     // Batch support
 
-    public static Future<Batch<QueryResultSet>> executeQueryBatch(Batch<QueryArgument> batch) {
+    public static Future<Batch<QueryResult>> executeQueryBatch(Batch<QueryArgument> batch) {
         return getProvider().executeQueryBatch(batch);
     }
 

@@ -3,7 +3,7 @@ package naga.platform.services.query.push.spi.impl;
 import naga.platform.services.log.Logger;
 import naga.platform.services.push.server.PushServerService;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.QueryService;
 import naga.platform.services.query.push.PulseArgument;
 import naga.platform.services.query.push.QueryPushArgument;
@@ -94,7 +94,7 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
         int activeStreamCount;
         private long lastQueryExecutionTime;
         private long lastPossibleChangeTime;
-        private QueryResultSet lastQueryResult;
+        private QueryResult lastQueryResult;
 
         QueryInfo(QueryArgument queryArgument) {
             this.queryArgument = queryArgument;
@@ -105,7 +105,7 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
             lastPossibleChangeTime = 0;
         }
 
-        boolean hasQueryResultChanged(QueryResultSet newQueryResult) {
+        boolean hasQueryResultChanged(QueryResult newQueryResult) {
             if (Objects.equals(newQueryResult, lastQueryResult))
                 return false;
             lastQueryResult = newQueryResult;

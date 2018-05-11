@@ -28,7 +28,7 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.services.log.Logger;
 import naga.platform.services.push.client.PushClientService;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.QueryService;
 import naga.platform.services.query.push.QueryPushArgument;
 import naga.platform.services.query.push.QueryPushService;
@@ -446,7 +446,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                 // Calling the query service (probably on server)
                                 lastEntityListObservable = RxFuture.from(QueryService.executeQuery(queryArgument))
                                     .map(queryResultSet ->
-                                        // Double checking the query argument is still the latest and if ok, transforming the QueryResultSet into entities
+                                        // Double checking the query argument is still the latest and if ok, transforming the QueryResult into entities
                                         queryArgument.equals(queryArgumentHolder.get()) ? queryResultSetToEntities(queryResultSet, sqlCompiled)
                                         // If not ok, this means the result is too old (another newer request has been sent meanwhile)
                                         : null); // se we just return null in this case (will be ignored)
@@ -463,7 +463,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                         queryArgumentHolder.set(queryArgument); // Holding the query argument passed to the server for double check when receiving the result
                                         Logger.log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", queryArgument=" + transmittedQueryArgument);
                                         QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, queryResultSet -> { // This consumer is called for each result pushed by the server
-                                            // Double checking the query argument is still the latest and if ok, transforming the QueryResultSet into entities
+                                            // Double checking the query argument is still the latest and if ok, transforming the QueryResult into entities
                                             if (queryArgument.equals(queryArgumentHolder.get()))
                                                 entityListQueryPushEmitter.onNext(queryResultSetToEntities(queryResultSet, sqlCompiled));
                                         }, getDataSourceId(), active, null)).setHandler(ar -> { // This handler is called only once when the query push service call returns
@@ -581,10 +581,10 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     }
 
     // Cache fields used in queryResultSetToEntities() method
-    private QueryResultSet lastRsInput;
+    private QueryResult lastRsInput;
     private EntityList lastEntitiesOutput;
 
-    private EntityList queryResultSetToEntities(QueryResultSet rs, SqlCompiled sqlCompiled) {
+    private EntityList queryResultSetToEntities(QueryResult rs, SqlCompiled sqlCompiled) {
         // Returning the cached output if input didn't change (ex: the same result set instance is emitted again on active property change)
         if (rs == lastRsInput)
             return lastEntitiesOutput;

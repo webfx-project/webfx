@@ -6,14 +6,14 @@ import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 
 /**
  * @author Bruno Salmon
  */
 public class QueryResultSetToEntityListGenerator {
 
-    public static <E extends Entity> EntityList<E> createEntityList(QueryResultSet rs, QueryRowToEntityMapping rowMapping, EntityStore store, Object listId) {
+    public static <E extends Entity> EntityList<E> createEntityList(QueryResult rs, QueryRowToEntityMapping rowMapping, EntityStore store, Object listId) {
         //Platform.log("createEntityList()");
         // Creating an empty entity list in the store
         EntityList entityList = store.getOrCreateEntityList(listId);

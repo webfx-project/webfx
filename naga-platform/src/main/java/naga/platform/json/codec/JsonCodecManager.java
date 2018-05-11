@@ -7,7 +7,7 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonArray;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.push.QueryPushArgument;
 import naga.platform.services.query.push.QueryPushResult;
 import naga.platform.services.update.GeneratedKeyBatchIndex;
@@ -175,8 +175,8 @@ public class JsonCodecManager {
                 Class contentClass = Object.class;
                 if (array.size() > 0) {
                     switch (array.getObject(0).getString(JsonCodecManager.CODEC_ID_KEY)) {
-                        case QueryResultSet.CODEC_ID:
-                            contentClass = QueryResultSet.class;
+                        case QueryResult.CODEC_ID:
+                            contentClass = QueryResult.class;
                             break;
                         case QueryArgument.CODEC_ID:
                             contentClass = QueryArgument.class;
@@ -198,7 +198,7 @@ public class JsonCodecManager {
         // Registering all required json codecs (especially for network bus calls)
         BusCallService.registerJsonCodecs();
         QueryArgument.registerJsonCodec();
-        QueryResultSet.registerJsonCodec();
+        QueryResult.registerJsonCodec();
         QueryPushArgument.registerJsonCodec();
         QueryPushResult.registerJsonCodec();
         UpdateArgument.registerJsonCodec();

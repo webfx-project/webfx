@@ -4,7 +4,7 @@ import naga.platform.json.codec.AbstractJsonCodec;
 import naga.platform.json.codec.JsonCodecManager;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 
 /**
  * @author Bruno Salmon
@@ -12,28 +12,28 @@ import naga.platform.services.query.QueryResultSet;
 public class QueryPushResult {
 
     private final Object queryStreamId;
-    private final QueryResultSet queryResultSet;
+    private final QueryResult queryResult;
 
-    public QueryPushResult(Object queryStreamId, QueryResultSet queryResultSet) {
+    public QueryPushResult(Object queryStreamId, QueryResult queryResult) {
         this.queryStreamId = queryStreamId;
-        this.queryResultSet = queryResultSet;
+        this.queryResult = queryResult;
     }
 
     public Object getQueryStreamId() {
         return queryStreamId;
     }
 
-    public QueryResultSet getQueryResultSet() {
-        return queryResultSet;
+    public QueryResult getQueryResult() {
+        return queryResult;
     }
 
     /****************************************************
      *                    Json Codec                    *
      * *************************************************/
 
-    public static final String CODEC_ID = "QueryPushRes";
+    public static final String CODEC_ID = "QueryPushResult";
     private static final String QUERY_STREAM_ID_KEY = "queryStreamId";
-    private static final String QUERY_RESULT_KEY = "queryRes";
+    private static final String QUERY_RESULT_KEY = "queryResult";
 
     public static void registerJsonCodec() {
         new AbstractJsonCodec<QueryPushResult>(QueryPushResult.class, CODEC_ID) {
@@ -41,7 +41,7 @@ public class QueryPushResult {
             @Override
             public void encodeToJson(QueryPushResult arg, WritableJsonObject json) {
                 encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
-                encodeKeyIfNotNull(QUERY_RESULT_KEY, arg.getQueryResultSet(), json);
+                encodeKeyIfNotNull(QUERY_RESULT_KEY, arg.getQueryResult(), json);
             }
 
             @Override

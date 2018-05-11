@@ -2,8 +2,8 @@ package naga.providers.platform.abstr.java.services;
 
 import com.zaxxer.hikari.HikariDataSource;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
-import naga.platform.services.query.QueryResultSetBuilder;
+import naga.platform.services.query.QueryResult;
+import naga.platform.services.query.QueryResultBuilder;
 import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.update.UpdateArgument;
@@ -34,8 +34,8 @@ public class JdbcConnectedServiceProviderProvider implements QueryServiceProvide
     }
 
     @Override
-    public Future<QueryResultSet> executeQuery(QueryArgument arg) {
-        Future<QueryResultSet> future = Future.future();
+    public Future<QueryResult> executeQuery(QueryArgument arg) {
+        Future<QueryResult> future = Future.future();
 
         String sql = arg.getQueryString();
         try (
@@ -46,7 +46,7 @@ public class JdbcConnectedServiceProviderProvider implements QueryServiceProvide
             // Reading column names
             ResultSetMetaData metaData = resultSet.getMetaData();
             int columnCount = metaData.getColumnCount();
-            QueryResultSetBuilder rsb = QueryResultSetBuilder.createUnknownRowCount(columnCount);
+            QueryResultBuilder rsb = QueryResultBuilder.createUnknownRowCount(columnCount);
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                 rsb.setColumnName(columnIndex, metaData.getColumnName(columnIndex + 1)); // JDBC index starts with 1 (not 0)
             // Reading data through iterating the result set into a temporary growing list of rows (as we don't know yet the rows count)

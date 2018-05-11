@@ -14,7 +14,7 @@ import java.util.Arrays;
 /**
  * @author Bruno Salmon
  */
-public class QueryResultSet {
+public class QueryResult {
 
     /**
      * The number of rows in this result set.
@@ -40,24 +40,24 @@ public class QueryResultSet {
     private final String[] columnNames;
 
 
-    public QueryResultSet(int rowCount, int columnCount, Object[] values, String[] columnNames) {
+    public QueryResult(int rowCount, int columnCount, Object[] values, String[] columnNames) {
         if (values.length != columnCount * rowCount || columnNames != null && columnNames.length != columnCount)
-            throw new IllegalArgumentException("Incoherent sizes in QueryResultSet initialization");
+            throw new IllegalArgumentException("Incoherent sizes in QueryResult initialization");
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.columnNames = columnNames;
         this.values = values;
     }
 
-    public QueryResultSet(int columnCount, Object[] values) {
+    public QueryResult(int columnCount, Object[] values) {
         this(columnCount, values, null);
     }
 
-    public QueryResultSet(int columnCount, Object[] values, String[] columnNames) {
+    public QueryResult(int columnCount, Object[] values, String[] columnNames) {
         this(values.length / columnCount, columnCount, values, columnNames);
     }
 
-    public QueryResultSet(Object[] values, String[] columnNames) {
+    public QueryResult(Object[] values, String[] columnNames) {
         this(values.length / columnNames.length, columnNames.length, values, columnNames);
     }
 
@@ -125,7 +125,7 @@ public class QueryResultSet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        QueryResultSet that = (QueryResultSet) o;
+        QueryResult that = (QueryResult) o;
 
         if (rowCount != that.rowCount) return false;
         if (columnCount != that.columnCount) return false;
@@ -148,19 +148,19 @@ public class QueryResultSet {
      *                    Json Codec                    *
      * *************************************************/
 
-    public final static String CODEC_ID = "QueryResultSet";
-    private final static String COLUMN_NAMES_KEY = "names";
-    private final static String COLUMN_COUNT_KEY = "colCount";
+    public final static String CODEC_ID = "QueryResult";
+    private final static String COLUMN_NAMES_KEY = "columnNames";
+    private final static String COLUMN_COUNT_KEY = "columnCount";
     private final static String VALUES_KEY = "values";
     private final static String COMPRESSED_VALUES_KEY = "cvalues";
 
     public static boolean COMPRESSION = true;
 
     public static void registerJsonCodec() {
-        new AbstractJsonCodec<QueryResultSet>(QueryResultSet.class, CODEC_ID) {
+        new AbstractJsonCodec<QueryResult>(QueryResult.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(QueryResultSet result, WritableJsonObject json) {
+            public void encodeToJson(QueryResult result, WritableJsonObject json) {
                 try {
                     int columnCount = result.getColumnCount();
                     // Column names serialization
@@ -184,7 +184,7 @@ public class QueryResultSet {
             }
 
             @Override
-            public QueryResultSet decodeFromJson(JsonObject json) {
+            public QueryResult decodeFromJson(JsonObject json) {
                 //Platform.log("Decoding json result set: " + json);
                 Integer columnCount = json.getInteger(COLUMN_COUNT_KEY);
                 // Column names deserialization
@@ -204,7 +204,7 @@ public class QueryResultSet {
                 else
                     inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray(json.getArray(COMPRESSED_VALUES_KEY)));
                 // returning the result as a snapshot
-                return new QueryResultSet(columnCount, inlineValues, names);
+                return new QueryResult(columnCount, inlineValues, names);
             }
         };
     }

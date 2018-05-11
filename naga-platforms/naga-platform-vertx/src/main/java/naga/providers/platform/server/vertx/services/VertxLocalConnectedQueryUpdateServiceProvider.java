@@ -13,6 +13,7 @@ import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
 import naga.platform.services.log.Logger;
+import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.push.PulseArgument;
 import naga.platform.services.query.push.QueryPushService;
 import naga.util.Arrays;
@@ -23,8 +24,7 @@ import naga.util.tuples.Unit;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.DBMS;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResultSet;
-import naga.platform.services.query.QueryResultSetBuilder;
+import naga.platform.services.query.QueryResultBuilder;
 import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
@@ -87,11 +87,11 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
     }
 
     @Override
-    public Future<QueryResultSet> executeQuery(QueryArgument queryArgument) {
+    public Future<QueryResult> executeQuery(QueryArgument queryArgument) {
         return connectAndExecute(true, (connection, future) -> executeQueryOnConnection(queryArgument, connection, future));
     }
 
-    private void executeQueryOnConnection(QueryArgument queryArgument, SQLConnection connection, Future<QueryResultSet> future) {
+    private void executeQueryOnConnection(QueryArgument queryArgument, SQLConnection connection, Future<QueryResult> future) {
         // long t0 = System.currentTimeMillis();
         executeQueryOnConnection(queryArgument.getQueryString(), queryArgument.getParameters(), connection, res -> {
             if (res.failed()) // Sql error
@@ -101,7 +101,7 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
                 ResultSet resultSet = res.result();
                 int columnCount = resultSet.getNumColumns();
                 int rowCount = resultSet.getNumRows();
-                QueryResultSetBuilder rsb = QueryResultSetBuilder.create(rowCount, columnCount);
+                QueryResultBuilder rsb = QueryResultBuilder.create(rowCount, columnCount);
                 // deactivated column names serialization - rsb.setColumnNames(resultSet.getColumnNames().toArray(new String[columnCount]));
                 List<JsonArray> results = resultSet.getResults();
                 for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -110,7 +110,7 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
                         rsb.setValue(rowIndex, columnIndex, jsonArray.getValue(columnIndex));
                 }
                 // Logger.log("Sql executed in " + (System.currentTimeMillis() - t0) + " ms: " + queryArgument);
-                // Building and returning the final QueryResultSet
+                // Building and returning the final QueryResult
                 future.complete(rsb.build());
             }
             // Closing the connection so it can go back to the pool
@@ -152,7 +152,7 @@ public class VertxLocalConnectedQueryUpdateServiceProvider implements QueryServi
                     for (int i = 0; i < length; i++)
                         generatedKeys[i] = keys.getValue(i);
                 }
-                // Returning the final QueryResultSet
+                // Returning the final QueryResult
                 future.complete(new UpdateResult(vertxUpdateResult.getUpdated(), generatedKeys));
                 onSuccessfulUpdate(updateArgument);
             }

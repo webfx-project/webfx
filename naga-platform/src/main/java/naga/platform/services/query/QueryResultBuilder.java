@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class QueryResultSetBuilder {
+public class QueryResultBuilder {
 
     private int rowCount;
     private final int columnCount;
@@ -16,18 +16,18 @@ public class QueryResultSetBuilder {
     private List<Object[]> growingRows;
     private Object[] currentRowValues;
 
-    private QueryResultSetBuilder(int rowCount, int columnCount) {
+    private QueryResultBuilder(int rowCount, int columnCount) {
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.values = new Object[rowCount * columnCount];
     }
 
-    private QueryResultSetBuilder(int rowCount, String[] columnNames) {
+    private QueryResultBuilder(int rowCount, String[] columnNames) {
         this(rowCount, columnNames.length);
         this.columnNames = columnNames;
     }
 
-    private QueryResultSetBuilder(int columnCount) {
+    private QueryResultBuilder(int columnCount) {
         this.columnCount = columnCount;
         this.growingRows = new ArrayList<>(100); // Default capacity = 100 (as default limit is often 100).
     }
@@ -42,7 +42,7 @@ public class QueryResultSetBuilder {
         columnNames[columnIndex] = columnName;
     }
 
-    public QueryResultSetBuilder setValue(int rowIndex, int columnIndex, Object value) {
+    public QueryResultBuilder setValue(int rowIndex, int columnIndex, Object value) {
         values[rowIndex + columnIndex * rowCount] = value;
         return this;
     }
@@ -55,7 +55,7 @@ public class QueryResultSetBuilder {
         currentRowValues[columnIndex] = value;
     }
 
-    public QueryResultSet build() {
+    public QueryResult build() {
         if (values == null) {
             rowCount = growingRows.size();
             values = new Object[rowCount * columnCount];
@@ -63,18 +63,18 @@ public class QueryResultSetBuilder {
                 for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                     values[rowIndex + columnIndex * rowCount] = growingRows.get(rowIndex)[columnIndex];
         }
-        return new QueryResultSet(rowCount, columnCount, values, columnNames);
+        return new QueryResult(rowCount, columnCount, values, columnNames);
     }
 
-    public static QueryResultSetBuilder create(int rowCount, int columnCount) {
-        return new QueryResultSetBuilder(rowCount, columnCount);
+    public static QueryResultBuilder create(int rowCount, int columnCount) {
+        return new QueryResultBuilder(rowCount, columnCount);
     }
 
-    public static QueryResultSetBuilder create(int rowCount, String[] columnNames) {
-        return new QueryResultSetBuilder(rowCount, columnNames);
+    public static QueryResultBuilder create(int rowCount, String[] columnNames) {
+        return new QueryResultBuilder(rowCount, columnNames);
     }
 
-    public static QueryResultSetBuilder createUnknownRowCount(int columnCount) {
-        return new QueryResultSetBuilder(columnCount);
+    public static QueryResultBuilder createUnknownRowCount(int columnCount) {
+        return new QueryResultBuilder(columnCount);
     }
 }

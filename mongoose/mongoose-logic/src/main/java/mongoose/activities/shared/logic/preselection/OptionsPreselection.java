@@ -11,7 +11,7 @@ import mongoose.util.Labels;
 import naga.util.Booleans;
 import naga.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
-import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResult;
 
 import java.util.List;
 
@@ -99,7 +99,7 @@ public class OptionsPreselection {
     }
 
     public Object getDisplayAvailability(EventService eventService) {
-        QueryResultSet rs = eventService.getEventAvailabilities();
+        QueryResult rs = eventService.getEventAvailabilities();
         if (rs != null) {
             WorkingDocumentLine accommodationLine = getWorkingDocument().getAccommodationLine();
             if (accommodationLine != null) {

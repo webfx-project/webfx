@@ -53,7 +53,7 @@ public class MongooseVertxRootVerticle extends RootVerticle {
                 if (ar.failed())
                     Logger.log(ar.cause());
                 else {
-                    QueryResultSet rs = ar.result();
+                    QueryResult rs = ar.result();
                     for (int i = 0, n = rs.getRowCount(); i < n; i++)
                         PushServerService.pingPushClient(Platform.bus(), rs.getValue(i, 0));
                 }
