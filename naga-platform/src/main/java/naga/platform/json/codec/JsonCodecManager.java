@@ -10,6 +10,7 @@ import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.push.QueryPushArgument;
 import naga.platform.services.query.push.QueryPushResult;
+import naga.platform.services.query.push.diff.impl.QueryResultTranslation;
 import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
@@ -201,6 +202,7 @@ public class JsonCodecManager {
         QueryResult.registerJsonCodec();
         QueryPushArgument.registerJsonCodec();
         QueryPushResult.registerJsonCodec();
+        QueryResultTranslation.registerJsonCodec();
         UpdateArgument.registerJsonCodec();
         GeneratedKeyBatchIndex.registerJsonCodec();
         UpdateResult.registerJsonCodec();
