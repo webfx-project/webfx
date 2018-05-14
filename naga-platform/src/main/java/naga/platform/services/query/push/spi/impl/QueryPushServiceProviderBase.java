@@ -10,6 +10,8 @@ import naga.platform.services.query.push.QueryPushArgument;
 import naga.platform.services.query.push.QueryPushResult;
 import naga.platform.services.query.push.QueryPushService;
 import naga.platform.services.query.push.spi.QueryPushServiceProvider;
+import naga.platform.services.query.push.diff.QueryResultComparator;
+import naga.platform.services.query.push.diff.QueryResultDiff;
 import naga.util.async.Future;
 
 import java.util.ArrayList;
@@ -192,14 +194,17 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
             return QueryService.executeQuery(queryInfo.queryArgument).map(queryResult -> {
                 // Merging the new clients (the blank streams that haven't received any result yet) into the existing ones (those that already received at least 1 result)
                 List<StreamInfo> relevantStreamInfos = queryInfo.markBlankStreamsAsFilled(); // The relevant clients are first set to these new clients (they are relevant if the result hasn't changed)
+                QueryResult lastQueryResult = queryInfo.lastQueryResult;
+                QueryResultDiff queryResultDiff = null;
                 if (queryInfo.hasQueryResultChanged(queryResult)) { // But if the result has changed, we need to push this result to all clients (and not only the new ones)
                     changedQueries++;
                     relevantStreamInfos = new ArrayList<>(queryInfo.filledStreamInfos); // all clients - making a safe copy to avoid concurrent modification exception when calling removeStream()
+                    queryResultDiff = QueryResultComparator.computeDiff(lastQueryResult, queryResult);
                 }
                 // Now pushing the result to all relevant clients
                 for (StreamInfo streamInfo : relevantStreamInfos) {
                     pushedToClients++;
-                    QueryPushService.pushQueryResultToClient(new QueryPushResult(streamInfo.queryStreamId, queryResult), streamInfo.pushClientId)
+                    QueryPushService.pushQueryResultToClient(new QueryPushResult(streamInfo.queryStreamId, queryResult, queryResultDiff), streamInfo.pushClientId)
                         .setHandler(ar -> {
                             if (ar.failed()) { // Handling push call failure
                                 pushedFailed++;
