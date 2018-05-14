@@ -415,6 +415,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                 }
             }, i18n.dictionaryProperty(), activeProperty);
         Unit<QueryArgument> queryArgumentHolder = new Unit<>(); // Used for skipping possible too old query results
+        Unit<QueryResult> queryResultHolder = new Unit<>(); // Used for
         Observable<EntityList<E>> entityListObservable = Observable
                 .combineLatest(stringFilterObservables, this::mergeStringFilters)
                 .mergeWith(lastStringFilterReEmitter)
@@ -462,10 +463,15 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                         waitingQueryStreamId = queryStreamId == null; // Setting the waitingQueryStreamId flag to true when queryStreamId is not yet known
                                         queryArgumentHolder.set(queryArgument); // Holding the query argument passed to the server for double check when receiving the result
                                         Logger.log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", queryArgument=" + transmittedQueryArgument);
-                                        QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, queryResult -> { // This consumer is called for each result pushed by the server
+                                        QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, queryPushResult -> { // This consumer is called for each result pushed by the server
                                             // Double checking the query argument is still the latest and if ok, transforming the QueryResult into entities
-                                            if (queryArgument.equals(queryArgumentHolder.get()))
+                                            if (queryArgument.equals(queryArgumentHolder.get())) {
+                                                QueryResult queryResult = queryPushResult.getQueryResult();
+                                                if (queryResult == null)
+                                                    queryResult = queryPushResult.getQueryResultDiff().applyTo(queryResultHolder.get());
+                                                queryResultHolder.set(queryResult);
                                                 entityListQueryPushEmitter.onNext(queryResultToEntities(queryResult, sqlCompiled));
+                                            }
                                         }, getDataSourceId(), active, null)).setHandler(ar -> { // This handler is called only once when the query push service call returns
                                             queryStreamId = ar.result(); // the result is the queryStreamId returned by server (or null if failed)
                                             waitingQueryStreamId = false; // Resetting the waitingQueryStreamId flag to false

@@ -5,7 +5,6 @@ import naga.platform.json.codec.JsonCodecManager;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryResult;
 import naga.util.function.Consumer;
 
 /**
@@ -16,20 +15,20 @@ public class QueryPushArgument {
     private final Object queryStreamId;
     private final Object pushClientId;
     private final QueryArgument queryArgument;
-    private final Consumer<QueryResult> queryResultConsumer;
+    private final Consumer<QueryPushResult> queryPushResultConsumer;
     private final Object dataSourceId;
     private final Boolean active;
     private final Boolean close;
 
-    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryResult> queryResultConsumer, Boolean active, Boolean close) {
-        this(queryStreamId, pushClientId, queryArgument, queryResultConsumer, queryArgument.getDataSourceId(), active, close);
+    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryPushResult> queryPushResultConsumer, Boolean active, Boolean close) {
+        this(queryStreamId, pushClientId, queryArgument, queryPushResultConsumer, queryArgument.getDataSourceId(), active, close);
     }
 
-    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryResult> queryResultConsumer, Object dataSourceId, Boolean active, Boolean close) {
+    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryPushResult> queryPushResultConsumer, Object dataSourceId, Boolean active, Boolean close) {
         this.queryStreamId = queryStreamId;
         this.pushClientId = pushClientId;
         this.queryArgument = queryArgument;
-        this.queryResultConsumer = queryResultConsumer;
+        this.queryPushResultConsumer = queryPushResultConsumer;
         this.dataSourceId = dataSourceId;
         this.active = active;
         this.close = close;
@@ -47,8 +46,8 @@ public class QueryPushArgument {
         return queryArgument;
     }
 
-    public Consumer<QueryResult> getQueryResultConsumer() {
-        return queryResultConsumer;
+    public Consumer<QueryPushResult> getQueryPushResultConsumer() {
+        return queryPushResultConsumer;
     }
 
     public Object getDataSourceId() {
@@ -75,7 +74,7 @@ public class QueryPushArgument {
         return queryStreamId != null && close != null;
     }
 
-    public static QueryPushArgument openStreamArgument(Object pushClientId, QueryArgument queryArgument, Consumer<QueryResult> queryResultConsumer) {
+    public static QueryPushArgument openStreamArgument(Object pushClientId, QueryArgument queryArgument, Consumer<QueryPushResult> queryResultConsumer) {
         return new QueryPushArgument(null, pushClientId, queryArgument, queryResultConsumer, true, null);
     }
 
