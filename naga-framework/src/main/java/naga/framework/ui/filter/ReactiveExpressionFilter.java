@@ -32,6 +32,7 @@ import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.QueryService;
 import naga.platform.services.query.push.QueryPushArgument;
 import naga.platform.services.query.push.QueryPushService;
+import naga.platform.services.query.push.diff.QueryResultDiff;
 import naga.scheduler.Scheduler;
 import naga.type.PrimType;
 import naga.util.Booleans;
@@ -467,8 +468,19 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                             // Double checking the query argument is still the latest and if ok, transforming the QueryResult into entities
                                             if (queryArgument.equals(queryArgumentHolder.get())) {
                                                 QueryResult queryResult = queryPushResult.getQueryResult();
-                                                if (queryResult == null)
-                                                    queryResult = queryPushResult.getQueryResultDiff().applyTo(queryResultHolder.get());
+                                                // Rebuilding the query result in case only a diff has been sent
+                                                QueryResultDiff diff = queryPushResult.getQueryResultDiff();
+                                                if (queryResult == null && diff != null) {
+                                                    // Checking the version number is correct
+                                                    QueryResult lastQueryResult = queryResultHolder.get();
+                                                    if (lastQueryResult != null && diff.getPreviousQueryResultVersionNumber() == lastQueryResult.getVersionNumber())
+                                                        queryResult = diff.applyTo(lastQueryResult); // if correct, applying the diff to the last result to get the new result
+                                                    else { // If not correct (the version numbers don't match)
+                                                        Logger.log("Wrong version number between QueryResultDiff (" + diff.getPreviousQueryResultVersionNumber() + ") and last QueryResult (" + lastQueryResult.getVersionNumber() + ")");
+                                                        // TODO: ask the server to resend the whole query result
+                                                        return;
+                                                    }
+                                                }
                                                 queryResultHolder.set(queryResult);
                                                 entityListQueryPushEmitter.onNext(queryResultToEntities(queryResult, sqlCompiled));
                                             }
