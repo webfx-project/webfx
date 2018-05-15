@@ -60,6 +60,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     private boolean lastActive;
     private boolean lastPush;
     private Object lastPushClientId;
+    private boolean resend;
     private Observable<EntityList<E>> lastEntityListObservable;
     private final BehaviorSubject<StringFilter> lastStringFilterReEmitter = BehaviorSubject.create();
     private final BehaviorSubject<EntityList<E>> entityListQueryPushEmitter = BehaviorSubject.create();
@@ -463,28 +464,31 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                         QueryArgument transmittedQueryArgument = queryStreamId != null && queryArgument.equals(lastQueryArgument) ? null : queryArgument;
                                         waitingQueryStreamId = queryStreamId == null; // Setting the waitingQueryStreamId flag to true when queryStreamId is not yet known
                                         queryArgumentHolder.set(queryArgument); // Holding the query argument passed to the server for double check when receiving the result
-                                        Logger.log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", queryArgument=" + transmittedQueryArgument);
-                                        QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, queryPushResult -> { // This consumer is called for each result pushed by the server
-                                            // Double checking the query argument is still the latest and if ok, transforming the QueryResult into entities
+                                        Logger.log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", resend=" + resend + ", queryArgument=" + transmittedQueryArgument);
+                                        QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, getDataSourceId(), active, resend, null, queryPushResult -> { // This consumer is called for each result pushed by the server
+                                            // Double checking if the query argument is still the latest
                                             if (queryArgument.equals(queryArgumentHolder.get())) {
                                                 QueryResult queryResult = queryPushResult.getQueryResult();
                                                 // Rebuilding the query result in case only a diff has been sent
                                                 QueryResultDiff diff = queryPushResult.getQueryResultDiff();
                                                 if (queryResult == null && diff != null) {
-                                                    // Checking the version number is correct
+                                                    // Checking that the version number is correct
                                                     QueryResult lastQueryResult = queryResultHolder.get();
                                                     if (lastQueryResult != null && diff.getPreviousQueryResultVersionNumber() == lastQueryResult.getVersionNumber())
-                                                        queryResult = diff.applyTo(lastQueryResult); // if correct, applying the diff to the last result to get the new result
-                                                    else { // If not correct (the version numbers don't match)
-                                                        Logger.log("Wrong version number between QueryResultDiff (" + diff.getPreviousQueryResultVersionNumber() + ") and last QueryResult (" + lastQueryResult.getVersionNumber() + ")");
-                                                        // TODO: ask the server to resend the whole query result
+                                                        queryResult = diff.applyTo(lastQueryResult); // if correct, getting the new result by applying the diff to the last result
+                                                    else { // If not correct (the version numbers don't match - this may be due to a connection interruption)
+                                                        Logger.log("Refreshing filter " + listId + " because of a received QueryResultDiff expecting another version number (" + diff.getPreviousQueryResultVersionNumber() + ") than the last QueryResult (" + lastQueryResult.getVersionNumber() + ")");
+                                                        resend = true; // Setting this flag to true will tell the server to resend the whole result and not only the diff on next push
+                                                        refreshWhenActive();
                                                         return;
                                                     }
                                                 }
+                                                // Keeping a reference to the query result (now considered as the last result)
                                                 queryResultHolder.set(queryResult);
+                                                // Transforming the QueryResult into entities and emit them
                                                 entityListQueryPushEmitter.onNext(queryResultToEntities(queryResult, sqlCompiled));
                                             }
-                                        }, getDataSourceId(), active, null)).setHandler(ar -> { // This handler is called only once when the query push service call returns
+                                        })).setHandler(ar -> { // This handler is called only once when the query push service call returns
                                             queryStreamId = ar.result(); // the result is the queryStreamId returned by server (or null if failed)
                                             waitingQueryStreamId = false; // Resetting the waitingQueryStreamId flag to false
                                             // Cases where we need to trigger a new query push service call:
@@ -495,6 +499,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                                 refreshWhenActive(); // This will trigger an new pass (when active) leading to a new call to the query push service
                                             }
                                         });
+                                        resend = false;
                                     }
                                 }
                             }

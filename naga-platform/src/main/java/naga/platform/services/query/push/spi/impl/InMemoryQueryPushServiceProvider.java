@@ -34,6 +34,9 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
         Boolean active = argument.getActive();
         if (active != null)
             streamInfo.setActive(active);
+        Boolean resend = argument.getResend();
+        if (resend != null && resend)
+            streamInfo.markAsResend();
         if (streamInfo.isActive())
             requestPulse(new PulseArgument(streamInfo.queryInfo));
         return Future.succeededFuture(streamInfo.queryStreamId);

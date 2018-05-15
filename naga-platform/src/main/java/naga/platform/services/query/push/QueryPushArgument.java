@@ -18,19 +18,21 @@ public class QueryPushArgument {
     private final Consumer<QueryPushResult> queryPushResultConsumer;
     private final Object dataSourceId;
     private final Boolean active;
+    private final Boolean resend;
     private final Boolean close;
 
-    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryPushResult> queryPushResultConsumer, Boolean active, Boolean close) {
-        this(queryStreamId, pushClientId, queryArgument, queryPushResultConsumer, queryArgument.getDataSourceId(), active, close);
+    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Boolean active, Boolean resend, Boolean close, Consumer<QueryPushResult> queryPushResultConsumer) {
+        this(queryStreamId, pushClientId, queryArgument, queryArgument.getDataSourceId(), active, resend, close, queryPushResultConsumer);
     }
 
-    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryPushResult> queryPushResultConsumer, Object dataSourceId, Boolean active, Boolean close) {
+    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Object dataSourceId, Boolean active, Boolean resend, Boolean close, Consumer<QueryPushResult> queryPushResultConsumer) {
         this.queryStreamId = queryStreamId;
         this.pushClientId = pushClientId;
         this.queryArgument = queryArgument;
         this.queryPushResultConsumer = queryPushResultConsumer;
         this.dataSourceId = dataSourceId;
         this.active = active;
+        this.resend = resend;
         this.close = close;
     }
 
@@ -58,6 +60,10 @@ public class QueryPushArgument {
         return active;
     }
 
+    public Boolean getResend() {
+        return resend;
+    }
+
     public Boolean getClose() {
         return close;
     }
@@ -75,7 +81,7 @@ public class QueryPushArgument {
     }
 
     public static QueryPushArgument openStreamArgument(Object pushClientId, QueryArgument queryArgument, Consumer<QueryPushResult> queryResultConsumer) {
-        return new QueryPushArgument(null, pushClientId, queryArgument, queryResultConsumer, true, null);
+        return new QueryPushArgument(null, pushClientId, queryArgument, true, null, null, queryResultConsumer);
     }
 
     public static QueryPushArgument updateStreamArgument(Object queryStreamId, QueryArgument queryArgument) {
@@ -91,11 +97,11 @@ public class QueryPushArgument {
     }
 
     public static QueryPushArgument updateStreamArgument(Object queryStreamId, QueryArgument queryArgument, Object dataSourceId, Boolean active) {
-        return new QueryPushArgument(queryStreamId, null, queryArgument, null, dataSourceId, active, null);
+        return new QueryPushArgument(queryStreamId, null, queryArgument, dataSourceId, active, null,null, null);
     }
 
     public static QueryPushArgument closeStreamArgument(Object queryStreamId, Object dataSourceId) {
-        return new QueryPushArgument(queryStreamId, null, null, null, dataSourceId, null, true);
+        return new QueryPushArgument(queryStreamId, null, null, dataSourceId, null,null, true, null);
     }
 
     /****************************************************
@@ -108,6 +114,7 @@ public class QueryPushArgument {
     private static final String QUERY_ARGUMENT_KEY = "queryArgument";
     private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
     private static final String ACTIVE_KEY = "active";
+    private static final String RESEND_KEY = "resend";
     private static final String CLOSE_KEY = "close";
 
     public static void registerJsonCodec() {
@@ -120,6 +127,7 @@ public class QueryPushArgument {
                 encodeKeyIfNotNull(QUERY_ARGUMENT_KEY, arg.getQueryArgument(), json);
                 encodeKey(DATA_SOURCE_ID_KEY, arg.getDataSourceId(), json);
                 encodeKeyIfNotNull(ACTIVE_KEY, arg.getActive(), json);
+                encodeKeyIfNotNull(RESEND_KEY, arg.getResend(), json);
                 encodeKeyIfNotNull(CLOSE_KEY, arg.getClose(), json);
             }
 
@@ -129,10 +137,11 @@ public class QueryPushArgument {
                         json.get(QUERY_STREAM_ID_KEY),
                         json.get(CLIENT_PUSH_ID_KEY),
                         JsonCodecManager.decodeFromJson(json.get(QUERY_ARGUMENT_KEY)),
-                        null,
                         json.get(DATA_SOURCE_ID_KEY),
                         json.getBoolean(ACTIVE_KEY),
-                        json.getBoolean(CLOSE_KEY)
+                        json.getBoolean(RESEND_KEY),
+                        json.getBoolean(CLOSE_KEY),
+                        null
                 );
             }
         };

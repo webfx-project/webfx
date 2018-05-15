@@ -15,6 +15,7 @@ import naga.platform.services.query.push.spi.QueryPushServiceProvider;
 import naga.util.async.Future;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -84,14 +85,20 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
             }
         }
 
-        public boolean isActive() {
+        boolean isActive() {
             return active != null && active;
+        }
+
+        void markAsResend() {
+            // To resend the whole query result, we can just move this stream to the blank ones (as new clients always receive the whole result on first push)
+            queryInfo.removeStreamInfo(this); // This will remove it from the filled streams list
+            queryInfo.addStreamInfo(this); // This will add it to the blank streams list
         }
     }
 
     public static class QueryInfo {
         final QueryArgument queryArgument;
-        private List<StreamInfo> blankStreamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
+        private final List<StreamInfo> blankStreamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
         private final List<StreamInfo> filledStreamInfos = new ArrayList<>(); // Contains client streams that already received at least 1 result
         int activeStreamCount;
         private long lastQueryExecutionTime;
@@ -147,15 +154,11 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
             return blankStreamInfos.size();
         }
 
-        List<StreamInfo> markBlankStreamsAsFilled() {
+        void markBlankStreamsAsFilled() {
             synchronized (this) {
-                // Keeping a reference to the current blank streams list (will be returned) before clearing it
-                List<StreamInfo> streamInfos = blankStreamInfos;
                 // Moving the blank streams into the filled ones
-                filledStreamInfos.addAll(streamInfos);
-                blankStreamInfos = new ArrayList<>();
-                // Returning the previous blank streams that are now marked as filled
-                return streamInfos;
+                filledStreamInfos.addAll(blankStreamInfos);
+                blankStreamInfos.clear();
             }
         }
 
@@ -189,33 +192,54 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
         }
 
         Future<Void> executeQueryAndPushResultToRelevantClients(QueryInfo queryInfo) {
-            executedQueries++;
-            queryInfo.touchExecuted();
-            return QueryService.executeQuery(queryInfo.queryArgument).map(queryResult -> {
-                // Merging the new clients (the blank streams that haven't received any result yet) into the existing ones (those that already received at least 1 result)
-                List<StreamInfo> relevantStreamInfos = queryInfo.markBlankStreamsAsFilled(); // The relevant clients are set to these new clients for now (relevant only if the result hasn't changed)
-                QueryResult lastQueryResult = queryInfo.lastQueryResult;
-                boolean hasChanged = queryInfo.hasQueryResultChanged(queryResult);
-                if (hasChanged) { // But if the result has changed, we need to push this result to all clients (and not only the new ones)
-                    changedQueries++;
-                    relevantStreamInfos = new ArrayList<>(queryInfo.filledStreamInfos); // all clients - making a safe copy to avoid concurrent modification exception when calling removeStream()
-                }
-                if (lastQueryResult != null)
-                    queryResult.setVersionNumber(lastQueryResult.getVersionNumber() + (hasChanged ? 1 : 0));
-                QueryResultDiff queryResultDiff = hasChanged ? QueryResultComparator.computeDiff(lastQueryResult, queryResult) : null;
-                // Now pushing the result to all relevant clients
-                for (StreamInfo streamInfo : relevantStreamInfos) {
-                    pushedToClients++;
-                    QueryPushService.pushQueryResultToClient(new QueryPushResult(streamInfo.queryStreamId, queryResult, queryResultDiff), streamInfo.pushClientId)
-                        .setHandler(ar -> {
-                            if (ar.failed()) { // Handling push call failure
-                                pushedFailed++;
-                                removeStream(streamInfo);
-                            }
-                        });
-                }
+            Future<QueryResult> resultFuture;
+            // Immediately reusing the last result if present and the query is not marked as dirty
+            if (queryInfo.lastQueryResult != null && !queryInfo.isDirty())
+                resultFuture = Future.succeededFuture(queryInfo.lastQueryResult);
+            else { // Otherwise asking the query service to execute the query
+                executedQueries++;
+                queryInfo.touchExecuted();
+                resultFuture = QueryService.executeQuery(queryInfo.queryArgument);
+            }
+            // Calling the pushResultToRelevantClients() method when the result is ready
+            return resultFuture.map(queryResult -> {
+                pushResultToRelevantClients(queryInfo, queryResult);
                 return null;
             });
+        }
+
+        void pushResultToRelevantClients(QueryInfo queryInfo, QueryResult queryResult) {
+            // Retrieving the last result
+            QueryResult lastQueryResult = queryInfo.lastQueryResult;
+            // Checking if there are changes compared to the last result - false if there are no "old" clients (that have already received the last result)
+            boolean hasChanged = !queryInfo.filledStreamInfos.isEmpty() && queryInfo.hasQueryResultChanged(queryResult);
+            if (hasChanged) // Increasing the changed queries counter in this case
+                changedQueries++;
+            // Setting the version number (same if no change or +1 if changed)
+            if (lastQueryResult != null)
+                queryResult.setVersionNumber(lastQueryResult.getVersionNumber() + (hasChanged ? 1 : 0));
+            // Computing the diff in case of changes
+            QueryResultDiff queryResultDiff = hasChanged ? QueryResultComparator.computeDiff(lastQueryResult, queryResult) : null;
+            // Sending the whole query result to new clients (the blank streams that haven't received any result yet)
+            pushResultToClients(queryInfo.blankStreamInfos, queryResult, null);
+            // Sending only the diff to old clients (or sending the whole result if the comparator couldn't compute a diff)
+            if (hasChanged)
+                pushResultToClients(queryInfo.filledStreamInfos, queryResult, queryResultDiff);
+            // Finally moving new clients to old clients
+            queryInfo.markBlankStreamsAsFilled();
+        }
+
+        void pushResultToClients(Collection<StreamInfo> streamInfos, QueryResult queryResult, QueryResultDiff queryResultDiff) {
+            for (StreamInfo streamInfo : new ArrayList<>(streamInfos)) { // Iterating on a copy to avoid concurrent modification exceptions
+                pushedToClients++;
+                QueryPushService.pushQueryResultToClient(new QueryPushResult(streamInfo.queryStreamId, queryResult, queryResultDiff), streamInfo.pushClientId)
+                    .setHandler(ar -> {
+                        if (ar.failed()) { // Handling push call failure
+                            pushedFailed++;
+                            removeStream(streamInfo);
+                        }
+                    });
+            }
         }
 
         QueryInfo getNextMostUrgentQuery() {
