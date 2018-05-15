@@ -27,7 +27,8 @@ public class QueryResultComparator {
                         return new QueryResultTranslation(
                                 copyRows(rs2, 0, rowIndex - 1),
                                 rowStart, rowEnd,
-                                copyRows(rs2, rowIndex + rowEnd + 1, rowCount2 - 1)
+                                copyRows(rs2, rowIndex + rowEnd + 1, rowCount2 - 1),
+                                rs1.getVersionNumber(), rs2.getVersionNumber()
                         );
 
                     } else if (rowIndex != 0 && compareRow(columnCount, rs1, rowIndex, rs2, 0)) {
@@ -38,7 +39,8 @@ public class QueryResultComparator {
                         return new QueryResultTranslation(
                                 null,
                                 rowStart, rowEnd,
-                                copyRows(rs2, rowEnd + 1 - rowIndex, rowCount2 - 1)
+                                copyRows(rs2, rowEnd + 1 - rowIndex, rowCount2 - 1),
+                                rs1.getVersionNumber(), rs2.getVersionNumber()
                         );
                     }
                 }

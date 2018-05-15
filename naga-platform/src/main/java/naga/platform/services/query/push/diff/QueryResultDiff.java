@@ -7,6 +7,10 @@ import naga.platform.services.query.QueryResult;
  */
 public interface QueryResultDiff {
 
+    int getPreviousQueryResultVersionNumber();
+
+    int getFinalQueryResultVersionNumber();
+
     QueryResult applyTo(QueryResult queryResult);
 
 }

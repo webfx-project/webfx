@@ -18,12 +18,16 @@ public class QueryResultTranslation implements QueryResultDiff {
     private final int rowStart;
     private final int rowEnd;
     private final QueryResult rowsAfter;
+    private final int previousQueryResultVersionNumber;
+    private final int finalQueryResultVersionNumber;
 
-    public QueryResultTranslation(QueryResult rowsBefore, int rowStart, int rowEnd, QueryResult rowsAfter) {
+    public QueryResultTranslation(QueryResult rowsBefore, int rowStart, int rowEnd, QueryResult rowsAfter, int previousQueryResultVersionNumber, int finalQueryResultVersionNumber) {
         this.rowsBefore = rowsBefore;
         this.rowStart = rowStart;
         this.rowEnd = rowEnd;
         this.rowsAfter = rowsAfter;
+        this.previousQueryResultVersionNumber = previousQueryResultVersionNumber;
+        this.finalQueryResultVersionNumber = finalQueryResultVersionNumber;
     }
 
     public QueryResult getRowsBefore() {
@@ -43,6 +47,16 @@ public class QueryResultTranslation implements QueryResultDiff {
     }
 
     @Override
+    public int getPreviousQueryResultVersionNumber() {
+        return previousQueryResultVersionNumber;
+    }
+
+    @Override
+    public int getFinalQueryResultVersionNumber() {
+        return finalQueryResultVersionNumber;
+    }
+
+    @Override
     public QueryResult applyTo(QueryResult queryResult) {
         int beforeCount = rowsBefore == null ? 0 : rowsBefore.getRowCount();
         int translationCount = rowEnd - rowStart + 1;
@@ -53,18 +67,22 @@ public class QueryResultTranslation implements QueryResultDiff {
         QueryResultComparator.copyRows(rowsBefore, 0, beforeCount - 1, rsb, 0);
         QueryResultComparator.copyRows(queryResult, rowStart, rowEnd, rsb, beforeCount);
         QueryResultComparator.copyRows(rowsAfter, 0, afterCount - 1, rsb, beforeCount + translationCount);
-        return rsb.build();
+        QueryResult rs = rsb.build();
+        rs.setVersionNumber(finalQueryResultVersionNumber);
+        return rs;
     }
 
     /****************************************************
      *                    Json Codec                    *
      * *************************************************/
 
-    public static final String CODEC_ID = "QueryResultTranslation";
+    private static final String CODEC_ID = "QueryResultTranslation";
     private static final String ROWS_BEFORE_KEY = "rowsBefore";
     private static final String ROW_START_KEY = "rowStart";
     private static final String ROW_END_KEY = "rowEnd";
     private static final String ROWS_AFTER_KEY = "rowsAfter";
+    private static final String PREVIOUS_VERSION_KEY = "previousVersion";
+    private static final String FINAL_VERSION_KEY = "finalVersion";
 
     public static void registerJsonCodec() {
         new AbstractJsonCodec<QueryResultTranslation>(QueryResultTranslation.class, CODEC_ID) {
@@ -75,6 +93,8 @@ public class QueryResultTranslation implements QueryResultDiff {
                 encodeKey(ROW_START_KEY, arg.getRowStart(), json);
                 encodeKey(ROW_END_KEY, arg.getRowEnd(), json);
                 encodeKeyIfNotNull(ROWS_AFTER_KEY, arg.getRowsAfter(), json);
+                encodeKey(PREVIOUS_VERSION_KEY, arg.getPreviousQueryResultVersionNumber(), json);
+                encodeKey(FINAL_VERSION_KEY, arg.getFinalQueryResultVersionNumber(), json);
             }
 
             @Override
@@ -83,7 +103,9 @@ public class QueryResultTranslation implements QueryResultDiff {
                         JsonCodecManager.decodeFromJson(json.get(ROWS_BEFORE_KEY)),
                         json.getInteger(ROW_START_KEY),
                         json.getInteger(ROW_END_KEY),
-                        JsonCodecManager.decodeFromJson(json.get(ROWS_AFTER_KEY))
+                        JsonCodecManager.decodeFromJson(json.get(ROWS_AFTER_KEY)),
+                        json.getInteger(PREVIOUS_VERSION_KEY),
+                        json.getInteger(FINAL_VERSION_KEY)
                 );
             }
         };
