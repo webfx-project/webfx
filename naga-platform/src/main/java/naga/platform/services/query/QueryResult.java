@@ -39,6 +39,12 @@ public class QueryResult {
      */
     private final String[] columnNames;
 
+    /**
+     * The version number (optional). This information is mainly designed for the query push service when sending a
+     * QueryResultDiff: the receiver should check that the version number expected by the diff matches the last result
+     * before applying that diff.
+     */
+    private int versionNumber;
 
     public QueryResult(int rowCount, int columnCount, Object[] values, String[] columnNames) {
         if (values.length != columnCount * rowCount || columnNames != null && columnNames.length != columnCount)
@@ -75,6 +81,14 @@ public class QueryResult {
 
     public <T> T getValue(int rowIndex, int columnIndex) {
         return (T) values[rowIndex + columnIndex * rowCount];
+    }
+
+    public int getVersionNumber() {
+        return versionNumber;
+    }
+
+    public void setVersionNumber(int versionNumber) {
+        this.versionNumber = versionNumber;
     }
 
     /*******************************************************************************************
@@ -153,6 +167,7 @@ public class QueryResult {
     private final static String COLUMN_COUNT_KEY = "columnCount";
     private final static String VALUES_KEY = "values";
     private final static String COMPRESSED_VALUES_KEY = "cvalues";
+    private final static String VERSION_KEY = "version";
 
     public static boolean COMPRESSION = true;
 
@@ -160,12 +175,12 @@ public class QueryResult {
         new AbstractJsonCodec<QueryResult>(QueryResult.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(QueryResult result, WritableJsonObject json) {
+            public void encodeToJson(QueryResult rs, WritableJsonObject json) {
                 try {
-                    int columnCount = result.getColumnCount();
+                    int columnCount = rs.getColumnCount();
                     // Column names serialization
                     WritableJsonArray namesArray = json.createJsonArray();
-                    String[] columnNames = result.getColumnNames();
+                    String[] columnNames = rs.getColumnNames();
                     if (columnNames != null) {
                         for (String name : columnNames)
                             namesArray.push(name);
@@ -175,9 +190,10 @@ public class QueryResult {
                     json.set(COLUMN_COUNT_KEY, columnCount);
                     // values packing and serialization
                     if (COMPRESSION)
-                        json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
+                        json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(rs.values)));
                     else
-                        json.set(VALUES_KEY, Json.fromJavaArray(result.values));
+                        json.set(VALUES_KEY, Json.fromJavaArray(rs.values));
+                    encodeKey(VERSION_KEY, rs.getVersionNumber(), json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -203,8 +219,10 @@ public class QueryResult {
                     inlineValues = Json.toJavaArray(valuesArray);
                 else
                     inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray(json.getArray(COMPRESSED_VALUES_KEY)));
-                // returning the result as a snapshot
-                return new QueryResult(columnCount, inlineValues, names);
+                // returning the query result with its version number (if provided)
+                QueryResult rs = new QueryResult(columnCount, inlineValues, names);
+                rs.setVersionNumber(json.getInteger(VERSION_KEY, 0));
+                return rs;
             }
         };
     }
