@@ -6,7 +6,10 @@ package naga.platform.services.log.spi;
 public interface LoggerProvider {
 
     default void log(Object message) {
-        log(message == null ? "null" : message.toString());
+        if (message instanceof Throwable)
+            log(null, (Throwable) message);
+        else
+            log(message == null ? "null" : message.toString());
     }
 
     default void log(String message) {
