@@ -41,9 +41,6 @@ import java.util.Map;
  */
 @SuppressWarnings("rawtypes")
 public class WebSocketBus extends SimpleClientBus {
-    private static final String ON_OPEN = "bus/onOpen";
-    static final String ON_CLOSE = "bus/onClose";
-    static final String ON_ERROR = "bus/onError";
 
     private static final String BODY = "body";
     private static final String ADDRESS = "address";
@@ -61,6 +58,7 @@ public class WebSocketBus extends SimpleClientBus {
     private WebSocketListener webSocketListener;
 
     WebSocketBus(WebSocketBusOptions options) {
+        super(false);
         options.turnUnsetPropertiesToDefault(); // should be already done by the platform but just in case
         String serverUri =
                 (options.getProtocol() == WebSocketBusOptions.Protocol.WS ? "ws" : "http")
@@ -72,47 +70,32 @@ public class WebSocketBus extends SimpleClientBus {
         internalWebSocketHandler = new WebSocketListener() {
             @Override
             public void onOpen() {
-                Logger.log("Connection open");
-                scheduleNextPing();
+                publishOnOpen();
                 if (webSocketListener != null)
                     webSocketListener.onOpen();
-                // sendLogin(); // Disabling the auto logic mechanism
-                if (hook != null)
-                    hook.handleOpened();
-                publishLocal(ON_OPEN, null);
             }
 
             @Override
             public void onMessage(String msg) {
                 //Logger.log("Received message = " + msg);
-                touchMessageReceived();
+                JsonObject json = Json.parseObject(msg);
+                WebSocketBus.this.onMessage(json.getString(ADDRESS), json.getString(REPLY_ADDRESS), json.get(BODY));
                 if (webSocketListener != null)
                     webSocketListener.onMessage(msg);
-                JsonObject json = Json.parseObject(msg);
-                @SuppressWarnings({"unchecked"})
-                ClientMessage message = new ClientMessage(false, false, WebSocketBus.this, json.getString(ADDRESS), json.getString(REPLY_ADDRESS), json.get(BODY));
-                internalHandleReceiveMessage(message);
             }
 
             @Override
             public void onError(String error) {
+                publishOnError(Json.createObject().set("message", error));
                 if (webSocketListener != null)
                     webSocketListener.onError(error);
-                else
-                    Logger.log("Connection error = " + error);
-                publishLocal(ON_ERROR, Json.createObject().set("message", error));
             }
 
             @Override
             public void onClose(JsonObject reason) {
+                publishOnClose(reason);
                 if (webSocketListener != null)
                     webSocketListener.onClose(reason);
-                else
-                    Logger.log("Connection closed, reason = " + reason);
-                cancelPingTimer();
-                publishLocal(ON_CLOSE, reason);
-                if (hook != null)
-                    hook.handlePostClose();
             }
         };
 
@@ -131,7 +114,7 @@ public class WebSocketBus extends SimpleClientBus {
             sessionId = idGenerator.next(23);
 
         if (webSocketListener == null)
-            Logger.log("Connecting to " + serverUri);
+            Logger.log("Connecting bus to " + serverUri);
 
         webSocket = WebSocketFactory.createWebSocket(serverUri, options.getSocketOptions());
         webSocket.setListener(internalWebSocketHandler);
@@ -153,11 +136,27 @@ public class WebSocketBus extends SimpleClientBus {
 
     @Override
     protected void doClose() {
-        subscribeLocal(ON_CLOSE, event -> {
-            clearHandlers();
-            handlerCount.clear();
-        });
         webSocket.close();
+    }
+
+    @Override
+    protected void onOpen() {
+        scheduleNextPing();
+        super.onOpen();
+        // sendLogin(); // Disabling the auto logic mechanism
+    }
+
+    @Override
+    protected void onMessage(String address, String replyAddress, Object body) {
+        touchMessageReceived();
+        super.onMessage(address, replyAddress, body);
+    }
+
+    @Override
+    protected void onClose(Object reason) {
+        super.onClose(reason);
+        cancelPingTimer();
+        handlerCount.clear();
     }
 
     @Override

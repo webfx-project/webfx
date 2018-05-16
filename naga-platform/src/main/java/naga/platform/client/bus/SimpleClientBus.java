@@ -17,11 +17,11 @@
  */
 package naga.platform.client.bus;
 
-import naga.platform.json.Json;
 import naga.platform.bus.Bus;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
+import naga.platform.json.Json;
 import naga.platform.services.log.Logger;
 import naga.scheduler.Scheduler;
 import naga.util.async.AsyncResult;
@@ -42,16 +42,44 @@ import java.util.Map;
 @SuppressWarnings("rawtypes")
 public class SimpleClientBus implements Bus {
 
-    static void checkNotNull(String paramName, Object param) {
-        if (param == null)
-            throw new IllegalArgumentException("Parameter " + paramName + " must be specified");
-    }
+    private static final String ON_OPEN = "bus/onOpen";
+    private static final String ON_CLOSE = "bus/onClose";
+    private static final String ON_ERROR = "bus/onError";
 
-    private Map<String, List<Handler<Message>>> handlerMap = new HashMap<>();
+    private final Map<String, List<Handler<Message>>> localHandlerMap = new HashMap<>();
+    private final Map<String, List<Handler<Message>>> remoteHandlerMap = new HashMap<>();
     final Map<String, Handler<AsyncResult<Message>>> replyHandlers = new HashMap<>();
     final IdGenerator idGenerator = new IdGenerator();
     BusHook hook;
-    private boolean open = true;
+    private boolean open;
+
+    public SimpleClientBus() {
+        this(true);
+    }
+
+    public SimpleClientBus(boolean alreadyOpen) {
+        registerBusStateLocalHandlers();
+        if (alreadyOpen)
+            onOpen();
+    }
+
+    private void registerBusStateLocalHandlers() {
+        subscribeLocal(ON_OPEN, msg -> onOpen());
+        subscribeLocal(ON_CLOSE, msg -> onClose(msg.body()));
+        subscribeLocal(ON_ERROR, msg -> onError(msg.body()));
+    }
+
+    protected void publishOnOpen() {
+        publishLocal(ON_OPEN, null);
+    }
+
+    protected void publishOnClose(Object reason) {
+        publishLocal(ON_CLOSE, reason);
+    }
+
+    protected void publishOnError(Object error) {
+        publishLocal(ON_ERROR, error);
+    }
 
     @Override
     public void close() {
@@ -66,6 +94,10 @@ public class SimpleClientBus implements Bus {
 
     public String getSessionId() {
         return "@";
+    }
+
+    public Map<String, List<Handler<Message>>> getHandlerMap(boolean local) {
+        return local ? localHandlerMap : remoteHandlerMap;
     }
 
     @Override
@@ -90,16 +122,36 @@ public class SimpleClientBus implements Bus {
     }
 
     protected void doClose() {
-        publishLocal(WebSocketBus.ON_CLOSE, null);
-        clearHandlers();
+        publishLocal(ON_CLOSE, null);
+    }
+
+    protected void onOpen() {
+        open = true;
+        Logger.log("Bus open");
+        if (hook != null)
+            hook.handleOpened();
+    }
+
+    protected void onMessage(String address, String replyAddress, Object body) {
+        ClientMessage message = new ClientMessage<>(false, false, this, address, replyAddress, body);
+        internalHandleReceiveMessage(message);
+    }
+
+    protected void onClose(Object reason) {
+        Logger.log("Bus closed, reason = " + reason);
         open = false;
+        clearHandlers();
         if (hook != null)
             hook.handlePostClose();
+    }
+
+    protected void onError(Object reason) {
     }
 
     protected boolean doSubscribe(boolean local, String address, Handler<? extends Message> handler) {
         checkNotNull("address", address);
         checkNotNull("handler", handler);
+        Map<String, List<Handler<Message>>> handlerMap = getHandlerMap(local);
         List<Handler<Message>> handlers = handlerMap.get(address);
         if (handlers != null && handlers.contains(handler))
             return false;
@@ -125,6 +177,7 @@ public class SimpleClientBus implements Bus {
     protected <T> boolean doUnsubscribe(boolean local, String address, Handler<Message<T>> handler) {
         checkNotNull("address", address);
         checkNotNull("handler", handler);
+        Map<String, List<Handler<Message>>> handlerMap = getHandlerMap(local);
         List<Handler<Message>> handlers = handlerMap.get(address);
         if (handlers == null)
             return false;
@@ -135,9 +188,11 @@ public class SimpleClientBus implements Bus {
     }
 
     void clearHandlers() {
+        Future<Message> busClosedFailure = Future.failedFuture(new Exception("Bus closed"));
+        for (Handler<AsyncResult<Message>> replyHandler : replyHandlers.values())
+            replyHandler.handle(busClosedFailure);
         replyHandlers.clear();
-        handlerMap.clear();
-        handlerMap = null;
+        getHandlerMap(false).clear();
     }
 
     boolean internalHandleReceiveMessage(Message message) {
@@ -160,7 +215,9 @@ public class SimpleClientBus implements Bus {
 
     private void doReceiveMessage(Message message) {
         String address = message.address();
-        List<Handler<Message>> handlers = handlerMap.get(address);
+        List<Handler<Message>> handlers = getHandlerMap(true).get(address);
+        if (handlers == null)
+            handlers = getHandlerMap(false).get(address);
         if (handlers != null) {
             // We make a copy since the handler might get unregistered from within the handler itself,
             // which would screw up our iteration
@@ -174,7 +231,8 @@ public class SimpleClientBus implements Bus {
             if (handler != null) {
                 replyHandlers.remove(address);
                 scheduleHandleAsync(address, handler, message);
-            }
+            } else
+                Logger.log("Unknown message address: " + address);
         }
     }
 
@@ -184,7 +242,7 @@ public class SimpleClientBus implements Bus {
             handler.handle(Future.succeededFuture(message));
         } catch (Throwable e) {
             Logger.log("Failed to handle on address: " + address, e);
-            publishLocal(WebSocketBus.ON_ERROR, Json.createObject().set("address", address).set("message", message).set("cause", e));
+            publishLocal(ON_ERROR, Json.createObject().set("address", address).set("message", message).set("cause", e));
         }
     }
 
@@ -209,4 +267,10 @@ public class SimpleClientBus implements Bus {
         doSubscribe(local, address, handler);
         return () -> doUnsubscribe(local, address, handler);
     }
+
+    static void checkNotNull(String paramName, Object param) {
+        if (param == null)
+            throw new IllegalArgumentException("Parameter " + paramName + " must be specified");
+    }
+
 }
