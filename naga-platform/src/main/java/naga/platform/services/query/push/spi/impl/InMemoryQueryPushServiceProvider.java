@@ -60,17 +60,22 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
 
     @Override
     protected void setStreamQueryArgument(StreamInfo streamInfo, QueryArgument queryArgument) {
-        QueryInfo queryInfo = streamInfo.queryInfo;
-        if (queryInfo != null) {
-            if (Objects.areEquals(queryArgument, queryInfo.queryArgument))
-                return;
-            removeStreamFromQueryInfo(streamInfo, queryInfo);
+        // Getting the previous queryInfo associated with this stream info
+        QueryInfo previousQueryInfo = streamInfo.queryInfo;
+        if (previousQueryInfo != null) { // If set
+            // and has the same query argument
+            if (Objects.areEquals(queryArgument, previousQueryInfo.queryArgument))
+                return; // No change is needed
+            // otherwise (ie the query argument has changed), this streamInfo shouldn't be associated with that previous queryInfo anymore
+            removeStreamFromQueryInfo(streamInfo, previousQueryInfo);
         }
-        queryInfo = queryInfos.get(queryArgument);
-        if (queryInfo == null)
-            queryInfos.put(queryArgument, queryInfo = new QueryInfo(queryArgument));
-        queryInfo.addStreamInfo(streamInfo);
-        streamInfo.queryInfo = queryInfo;
+        // Getting the requested query info (may already exist if associated with some other streams)
+        QueryInfo requestedQueryInfo = queryInfos.get(queryArgument);
+        if (requestedQueryInfo == null) // creating it (and register it) if it doesn't exist
+            queryInfos.put(queryArgument, requestedQueryInfo = new QueryInfo(queryArgument));
+        // Associating this streamInfo to this requested queryInfo
+        requestedQueryInfo.addStreamInfo(streamInfo);
+        streamInfo.queryInfo = requestedQueryInfo;
     }
 
     @Override
@@ -112,7 +117,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
                     if (Objects.areEquals(queryInfo.queryArgument.getDataSourceId(), dataSourceId))
                         queryInfo.markAsDirty();
             }
-            nextMostUrgentQueryNotYetExecuted = null;
+            nextMostUrgentQueryNotYetRefreshed = null;
         }
 
         @Override
@@ -126,7 +131,7 @@ public class InMemoryQueryPushServiceProvider extends QueryPushServiceProviderBa
         QueryInfo mostUrgentQuery(QueryInfo q1, QueryInfo q2) {
             if (q1.isDirty() && q1.activeStreamCount > 0 && (
                     q2 == null
-                    || q1.getBlankStreamsCount() > q2.getBlankStreamsCount()
+                    || q1.getActiveNewStreamCount() > q2.getActiveNewStreamCount()
                     || q1.dirtyTime() > q2.dirtyTime()
                 ))
                 return q1;
