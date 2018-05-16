@@ -467,19 +467,26 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                         Logger.log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", resend=" + resend + ", queryArgument=" + transmittedQueryArgument);
                                         QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, getDataSourceId(), active, resend, null, queryPushResult -> { // This consumer is called for each result pushed by the server
                                             // Double checking if the query argument is still the latest
-                                            if (queryArgument.equals(queryArgumentHolder.get())) {
+                                            if (!queryArgument.equals(queryArgumentHolder.get()))
+                                                Logger.log("Ignoring a received result coming from an old query");
+                                            else {
                                                 QueryResult queryResult = queryPushResult.getQueryResult();
                                                 // Rebuilding the query result in case only a diff has been sent
                                                 QueryResultDiff diff = queryPushResult.getQueryResultDiff();
                                                 if (queryResult == null && diff != null) {
+                                                    //Logger.log("Received diff " + diff.getPreviousQueryResultVersionNumber() + " -> " + diff.getFinalQueryResultVersionNumber());
                                                     // Checking that the version number is correct
                                                     QueryResult lastQueryResult = queryResultHolder.get();
                                                     if (lastQueryResult != null && diff.getPreviousQueryResultVersionNumber() == lastQueryResult.getVersionNumber())
                                                         queryResult = diff.applyTo(lastQueryResult); // if correct, getting the new result by applying the diff to the last result
                                                     else { // If not correct (the version numbers don't match - this may be due to a connection interruption)
-                                                        Logger.log("Refreshing filter " + listId + " because of a received QueryResultDiff expecting another version number (" + diff.getPreviousQueryResultVersionNumber() + ") than the last QueryResult (" + lastQueryResult.getVersionNumber() + ")");
-                                                        resend = true; // Setting this flag to true will tell the server to resend the whole result and not only the diff on next push
-                                                        refreshWhenActive();
+                                                        if (lastQueryResult != null && diff.getPreviousQueryResultVersionNumber() < lastQueryResult.getVersionNumber())
+                                                            Logger.log("Ignoring an old received diff");
+                                                        else if (!resend) {
+                                                            Logger.log("Refreshing filter " + listId + " because of a received QueryResultDiff expecting another version number (" + diff.getPreviousQueryResultVersionNumber() + ") than the last QueryResult (" + (lastQueryResult == null ? "null" : lastQueryResult.getVersionNumber()) + ")");
+                                                            resend = true; // Setting this flag to true will tell the server to resend the whole result and not only the diff on next push
+                                                            refreshWhenActive();
+                                                        }
                                                         return;
                                                     }
                                                 }
@@ -497,9 +504,9 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                                                 Logger.log((active ? "Refreshing filter " + listId : "Filter " + listId + " will be refreshed when active") + (queryHasChangeWhileWaitingQueryStreamId ? " because the query has changed while waiting the queryStreamId" : " because a failure occurred while updating the query (may be an unrecognized queryStreamId after server restart)"));
                                                 queryHasChangeWhileWaitingQueryStreamId = false; // Resetting the flag
                                                 refreshWhenActive(); // This will trigger an new pass (when active) leading to a new call to the query push service
-                                            }
+                                            } else
+                                                resend = false;
                                         });
-                                        resend = false;
                                     }
                                 }
                             }
