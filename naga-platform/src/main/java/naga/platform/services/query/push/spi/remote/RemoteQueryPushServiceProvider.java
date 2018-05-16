@@ -59,21 +59,25 @@ public class RemoteQueryPushServiceProvider implements QueryPushServiceProvider 
     }
 
     protected <T> Future<T> executeRemoteQueryPush(QueryPushArgument argument) {
-        boolean isConsumerRegistrationPendingCall = argument.getQueryPushResultConsumer() != null;
+        Consumer<QueryPushResult> queryPushResultConsumer = argument.getQueryPushResultConsumer();
+        Object queryStreamId = argument.getQueryStreamId();
+        boolean isConsumerRegistrationPendingCall = queryStreamId == null && queryPushResultConsumer != null;
         if (isConsumerRegistrationPendingCall)
             consumerRegistrationPendingCalls++;
+        else if (queryStreamId != null && queryPushResultConsumer != null)
+            queryPushResultConsumers.put(queryStreamId, queryPushResultConsumer);
         Future<T> call = BusCallService.call(BusCallServerActivity.QUERY_PUSH_SERVICE_ADDRESS, argument);
         if (isConsumerRegistrationPendingCall)
-            call = call.map(queryStreamId -> {
+            call = call.map(newQueryStreamId -> {
                 synchronized (queryPushResultConsumers) {
                     // Registering the consumer along the returned queryStreamId
-                    queryPushResultConsumers.put(queryStreamId, argument.getQueryPushResultConsumer());
+                    queryPushResultConsumers.put(newQueryStreamId, queryPushResultConsumer);
                     consumerRegistrationPendingCalls--; // Decreasing the pending calls now that the consumer is registered
                     // Retrying sending results with no consumer if any
                     for (QueryPushResult qpr : withNoConsumerReceivedResults)
                         onQueryPushResultReceived(qpr);
                     withNoConsumerReceivedResults.clear();
-                    return queryStreamId;
+                    return newQueryStreamId;
                 }
             });
         return call;
@@ -84,6 +88,7 @@ public class RemoteQueryPushServiceProvider implements QueryPushServiceProvider 
     private final static List<QueryPushResult> withNoConsumerReceivedResults = new ArrayList<>();
 
     private static void onQueryPushResultReceived(QueryPushResult qpr) {
+        //Logger.log("Received qpr");
         synchronized (queryPushResultConsumers) {
             Consumer<QueryPushResult> consumer = queryPushResultConsumers.get(qpr.getQueryStreamId());
             if (consumer != null)
