@@ -19,7 +19,7 @@ public class BookingsRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.createRegex(PathBuilder.toRegexPath(ANY_PATH)
                 ,true
-                , BookingsPresentationActivity::new
+                , BookingsActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

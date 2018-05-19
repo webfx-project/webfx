@@ -14,7 +14,7 @@ public class StartBookingRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , StartBookingViewActivity::new
+                , StartBookingActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }

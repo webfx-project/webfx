@@ -18,7 +18,7 @@ public class EventsRouting {
         return UiRoute.createRegex(
                 PathBuilder.toRegexPath(ANY_PATH)
                 , false
-                , EventsPresentationActivity::new
+                , EventsActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

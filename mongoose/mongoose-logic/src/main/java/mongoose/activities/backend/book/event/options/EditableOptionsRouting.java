@@ -12,7 +12,7 @@ public class EditableOptionsRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(OptionsRouting.getPath()
                 , false
-                , EditableOptionsViewActivity::new
+                , EditableOptionsActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }

@@ -5,9 +5,9 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
 /**
  * @author Bruno Salmon
  */
-class TesterPresentationActivity extends DomainPresentationActivityImpl<TesterPresentationModel> {
+class TesterActivity extends DomainPresentationActivityImpl<TesterPresentationModel> {
 
-    TesterPresentationActivity() {
+    TesterActivity() {
         super(TesterPresentationViewActivity::new, TesterPresentationLogicActivity::new);
     }
 }

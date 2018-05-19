@@ -15,7 +15,7 @@ import mongoose.actions.MongooseActions;
 import mongoose.activities.shared.book.event.fees.FeesRoutingRequest;
 import mongoose.activities.shared.book.event.options.OptionsRoutingRequest;
 import mongoose.activities.shared.book.event.program.ProgramRoutingRequest;
-import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.event.terms.TermsRoutingRequest;
 import mongoose.util.Labels;
 import naga.framework.ui.anim.Animations;
@@ -27,7 +27,7 @@ import naga.fx.util.ImageStore;
 /**
  * @author Bruno Salmon
  */
-class StartBookingViewActivity extends BookingProcessViewActivity {
+class StartBookingActivity extends BookingProcessActivity {
 
     private ImageView eventImageView;
     private BorderPane eventImageViewContainer;

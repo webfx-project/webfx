@@ -14,7 +14,7 @@ public class PersonRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , PersonViewActivity::new
+                , PersonActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }

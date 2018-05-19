@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.event.shared.LoginPanel;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.summary.SummaryRoutingRequest;
@@ -29,7 +29,7 @@ import naga.util.Numbers;
 /**
  * @author Bruno Salmon
  */
-class PersonViewActivity extends BookingProcessViewActivity {
+class PersonActivity extends BookingProcessActivity {
 
     private PersonDetailsPanel personDetailsPanel;
 

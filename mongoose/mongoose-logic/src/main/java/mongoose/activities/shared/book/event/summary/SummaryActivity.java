@@ -15,7 +15,7 @@ import javafx.scene.layout.FlowPane;
 import mongoose.activities.shared.book.cart.CartRoutingRequest;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
-import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.terms.TermsRoutingRequest;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
@@ -30,7 +30,7 @@ import naga.util.Strings;
 /**
  * @author Bruno Salmon
  */
-class SummaryViewActivity extends BookingProcessViewActivity {
+class SummaryActivity extends BookingProcessActivity {
 
     private BookingOptionsPanel bookingOptionsPanel;
     private Node bookingCalendarSection;

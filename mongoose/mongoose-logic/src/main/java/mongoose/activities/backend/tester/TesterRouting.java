@@ -13,7 +13,7 @@ public class TesterRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , TesterPresentationActivity::new
+                , TesterActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

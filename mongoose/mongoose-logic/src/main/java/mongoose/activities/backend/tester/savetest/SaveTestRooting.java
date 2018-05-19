@@ -14,7 +14,7 @@ public class SaveTestRooting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , SaveTestPresentationActivity::new
+                , SaveTestActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

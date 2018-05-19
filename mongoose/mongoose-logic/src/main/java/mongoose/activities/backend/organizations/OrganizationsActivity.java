@@ -5,9 +5,9 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
 /**
  * @author Bruno Salmon
  */
-class OrganizationsPresentationActivity extends DomainPresentationActivityImpl<OrganizationsPresentationModel> {
+class OrganizationsActivity extends DomainPresentationActivityImpl<OrganizationsPresentationModel> {
 
-    OrganizationsPresentationActivity() {
+    OrganizationsActivity() {
         super(OrganizationsPresentationViewActivity::new, OrganizationsPresentationLogicActivity::new);
     }
 }

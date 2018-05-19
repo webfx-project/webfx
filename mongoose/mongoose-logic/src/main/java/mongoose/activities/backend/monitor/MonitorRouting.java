@@ -13,7 +13,7 @@ public class MonitorRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , true
-                , MonitorPresentationActivity::new
+                , MonitorActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

@@ -17,7 +17,7 @@ import naga.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public abstract class BookingProcessViewActivity
+public abstract class BookingProcessActivity
         extends EventDependentViewDomainActivity
         implements MongooseSectionFactoryMixin {
 

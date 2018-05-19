@@ -3,7 +3,7 @@ package mongoose.activities.shared.book.event.program;
 import javafx.scene.layout.BorderPane;
 import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
-import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import naga.framework.ui.layouts.LayoutUtil;
@@ -12,7 +12,7 @@ import naga.platform.services.log.Logger;
 /**
  * @author Bruno Salmon
  */
-class ProgramViewActivity extends BookingProcessViewActivity {
+class ProgramActivity extends BookingProcessActivity {
 
     private BookingCalendar bookingCalendar;
     private OptionsPreselection noAccommodationOptionsPreselection;

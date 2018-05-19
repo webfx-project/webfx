@@ -13,7 +13,7 @@ public class OrganizationsRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , OrganizationsPresentationActivity::new
+                , OrganizationsActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

@@ -20,13 +20,13 @@ import java.util.Map;
  */
 public class OptionTree {
 
-    private final OptionsViewActivity activity;
+    private final OptionsActivity activity;
     private Event event;
     private List<Option> topLevelOptions;
     private WorkingDocumentTransaction workingDocumentTransaction;
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
-    OptionTree(OptionsViewActivity activity) {
+    OptionTree(OptionsActivity activity) {
         this.activity = activity;
         new TranslateFunction<Option>("translateOption", activity) {
             @Override
@@ -40,7 +40,7 @@ public class OptionTree {
         }.register();
     }
 
-    OptionsViewActivity getActivity() {
+    OptionsActivity getActivity() {
         return activity;
     }
 

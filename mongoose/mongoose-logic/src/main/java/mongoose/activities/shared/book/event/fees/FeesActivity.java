@@ -12,7 +12,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.book.event.options.OptionsRoutingRequest;
-import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
@@ -43,7 +43,7 @@ import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
 /**
  * @author Bruno Salmon
  */
-class FeesViewActivity extends BookingProcessViewActivity {
+class FeesActivity extends BookingProcessActivity {
 
     private GridCollator feesGroupsCollator;
 

@@ -14,7 +14,7 @@ public class SummaryRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , SummaryViewActivity::new
+                , SummaryActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }

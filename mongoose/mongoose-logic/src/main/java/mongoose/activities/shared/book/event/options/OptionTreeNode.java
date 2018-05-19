@@ -227,7 +227,7 @@ class OptionTreeNode {
         List<Option> childrenOptions = getChildrenOptions(option);
         if (!Collections.isEmpty(childrenOptions)) {
             if ("select".equals(option.getLayout())) {
-                OptionsViewActivity activity = tree.getActivity();
+                OptionsActivity activity = tree.getActivity();
                 childrenOptionSelector = new EntityButtonSelector<>(
                         // Note: translationOption() expression function has been registered in OptionTree constructor
                         "{class: 'Option', columns: ['translateOption(this)'], where: 'parent=" + option.getPrimaryKey() + "'}",

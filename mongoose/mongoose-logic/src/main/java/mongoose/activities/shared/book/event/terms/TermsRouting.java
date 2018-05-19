@@ -14,7 +14,7 @@ public class TermsRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , TermsPresentationActivity::new
+                , TermsActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

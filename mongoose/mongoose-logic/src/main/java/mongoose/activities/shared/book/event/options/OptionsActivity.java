@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.book.event.person.PersonRoutingRequest;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
-import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
@@ -29,7 +29,7 @@ import static naga.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
 /**
  * @author Bruno Salmon
  */
-public class OptionsViewActivity extends BookingProcessViewActivity {
+public class OptionsActivity extends BookingProcessActivity {
 
     private FlexBox topLevelOptionButtonsContainer;
     private Node bookingCalendarSection;

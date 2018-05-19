@@ -14,7 +14,7 @@ public class CloneEventRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , CloneEventPresentationActivity::new
+                , CloneEventActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

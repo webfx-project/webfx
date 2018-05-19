@@ -14,7 +14,7 @@ public class OptionsRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , OptionsViewActivity::new
+                , OptionsActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }

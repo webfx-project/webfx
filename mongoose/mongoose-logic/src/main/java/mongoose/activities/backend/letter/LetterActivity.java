@@ -10,7 +10,7 @@ import naga.fx.properties.Properties;
 /**
  * @author Bruno Salmon
  */
-class LetterViewActivity extends ViewActivityImpl {
+class LetterActivity extends ViewActivityImpl {
 
     private final Property<Object> routeLetterIdProperty = new SimpleObjectProperty<>();
 

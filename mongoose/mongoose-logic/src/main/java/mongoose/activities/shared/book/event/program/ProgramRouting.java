@@ -14,7 +14,7 @@ public class ProgramRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , ProgramViewActivity::new
+                , ProgramActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }

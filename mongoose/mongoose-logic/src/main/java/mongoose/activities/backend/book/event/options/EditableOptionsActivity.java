@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import mongoose.actions.MongooseActions;
 import mongoose.activities.backend.book.event.shared.EditableBookingCalendar;
 import mongoose.activities.backend.util.MultiLanguageEditor;
-import mongoose.activities.shared.book.event.options.OptionsViewActivity;
+import mongoose.activities.shared.book.event.options.OptionsActivity;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
@@ -38,7 +38,7 @@ import static naga.framework.ui.layouts.LayoutUtil.*;
 /**
  * @author Bruno Salmon
  */
-class EditableOptionsViewActivity extends OptionsViewActivity {
+class EditableOptionsActivity extends OptionsActivity {
 
     private ObservableValue<Boolean> editModeProperty;
 

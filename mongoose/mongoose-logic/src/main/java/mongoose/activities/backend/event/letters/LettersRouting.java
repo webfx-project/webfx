@@ -17,7 +17,7 @@ public class LettersRouting {
         return UiRoute.createRegex(
                 PathBuilder.toRegexPath(ANY_PATH)
                 , false
-                , LettersPresentationActivity::new
+                , LettersActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

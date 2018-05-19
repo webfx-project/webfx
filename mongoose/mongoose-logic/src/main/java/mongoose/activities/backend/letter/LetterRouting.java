@@ -14,7 +14,7 @@ public class LetterRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , LetterViewActivity::new
+                , LetterActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }
