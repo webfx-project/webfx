@@ -18,15 +18,15 @@ public class CloneEventPresentationModel extends EventDependentPresentationModel
     private final Property<LocalDate> dateProperty = new SimpleObjectProperty<>();
     private final ObjectProperty<EventHandler<ActionEvent>> onSubmit = new SimpleObjectProperty<>();
 
-    public Property<String> nameProperty() {
+    Property<String> nameProperty() {
         return nameProperty;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         nameProperty.setValue(name);
     }
 
-    public String getName() {
+    String getName() {
         return nameProperty.getValue();
     }
 
@@ -34,16 +34,16 @@ public class CloneEventPresentationModel extends EventDependentPresentationModel
         return dateProperty;
     }
 
-    public void setDate(LocalDate date) {
+    void setDate(LocalDate date) {
         dateProperty.setValue(date);
     }
 
-    public LocalDate getDate() {
+    LocalDate getDate() {
         return dateProperty.getValue();
     }
 
-    public final ObjectProperty<EventHandler<ActionEvent>> onSubmitProperty() { return onSubmit; }
-    public final void setOnSubmit(EventHandler<ActionEvent> value) { onSubmitProperty().set(value); }
-    public final EventHandler<ActionEvent> getOnSubmit() { return onSubmitProperty().get(); }
+    final ObjectProperty<EventHandler<ActionEvent>> onSubmitProperty() { return onSubmit; }
+    final void setOnSubmit(EventHandler<ActionEvent> value) { onSubmitProperty().set(value); }
+    final EventHandler<ActionEvent> getOnSubmit() { return onSubmitProperty().get(); }
 
 }

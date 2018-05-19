@@ -10,7 +10,7 @@ import naga.util.async.AsyncFunction;
 /**
  * @author Bruno Salmon
  */
-public class NewBackendBookingRoutingRequest
+class NewBackendBookingRoutingRequest
         implements HasOperationExecutor<NewBackendBookingRoutingRequest, Void>
         , HasOperationCode {
 
@@ -19,7 +19,7 @@ public class NewBackendBookingRoutingRequest
     private Object eventId;
     private History history;
 
-    public NewBackendBookingRoutingRequest(Object eventId, History history) {
+    NewBackendBookingRoutingRequest(Object eventId, History history) {
         this.eventId = eventId;
         this.history = history;
     }
@@ -49,10 +49,6 @@ public class NewBackendBookingRoutingRequest
 
     @Override
     public AsyncFunction<NewBackendBookingRoutingRequest, Void> getOperationExecutor() {
-        return executor();
-    }
-
-    public static AsyncFunction<NewBackendBookingRoutingRequest, Void> executor() {
         return request -> {
             // When made in the backend, we don't want to add the new booking to the last visited booking cart (as
             // opposed to the frontend), so we clear the reference to the current booking cart (if set) before routing

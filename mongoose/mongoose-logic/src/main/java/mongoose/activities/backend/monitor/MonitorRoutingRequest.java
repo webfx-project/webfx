@@ -12,7 +12,7 @@ public class MonitorRoutingRequest extends PushRoutingRequest implements HasOper
     private final static String OPERATION_CODE = "MONITOR_ROUTING";
 
     public MonitorRoutingRequest(History history) {
-        super(MonitorRouting.PATH, history);
+        super(MonitorRouting.getPath(), history);
     }
 
     @Override

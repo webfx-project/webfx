@@ -1,7 +1,6 @@
 package mongoose.activities.backend.monitor;
 
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
-import naga.framework.router.auth.authz.RoutingRequest;
 import naga.framework.ui.router.UiRoute;
 
 /**
@@ -9,7 +8,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class MonitorRouting {
 
-    final static String PATH = "/monitor";
+    private final static String PATH = "/monitor";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -19,8 +18,8 @@ public class MonitorRouting {
         );
     }
 
-    public static RoutingRequest routingRequest() {
-        return new RoutingRequest(PATH);
+    public static String getPath() {
+        return PATH;
     }
 
 }

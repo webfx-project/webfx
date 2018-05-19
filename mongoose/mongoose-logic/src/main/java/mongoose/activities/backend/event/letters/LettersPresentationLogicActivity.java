@@ -11,7 +11,7 @@ class LettersPresentationLogicActivity
         extends EventDependentPresentationLogicActivity<LettersPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 
-    public LettersPresentationLogicActivity() {
+    LettersPresentationLogicActivity() {
         super(LettersPresentationModel::new);
     }
 

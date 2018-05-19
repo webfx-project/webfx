@@ -10,7 +10,7 @@ import naga.framework.ui.router.UiRoute;
 public class EditableOptionsRouting {
 
     public static UiRoute<?> uiRoute() {
-        return UiRoute.create(OptionsRouting.PATH
+        return UiRoute.create(OptionsRouting.getPath()
                 , false
                 , EditableOptionsViewActivity::new
                 , ViewDomainActivityContextFinal::new

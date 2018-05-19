@@ -7,7 +7,7 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
  */
 class BookingsPresentationActivity extends DomainPresentationActivityImpl<BookingsPresentationModel> {
 
-    public BookingsPresentationActivity() {
+    BookingsPresentationActivity() {
         super(BookingsPresentationViewActivity::new, BookingsPresentationLogicActivity::new);
     }
 }

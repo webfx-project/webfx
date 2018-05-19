@@ -1,5 +1,6 @@
 package mongoose.activities.backend.event.letters;
 
+import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.router.util.PathBuilder;
 import naga.framework.ui.router.UiRoute;
@@ -10,7 +11,7 @@ import naga.framework.ui.router.UiRoute;
 public class LettersRouting {
 
     private static final String ANY_PATH = "/letters(/organization/:organizationId)?(/eventId/:eventId)?";
-    static final String EVENT_PATH = "/letters/eventId/:eventId";
+    private static final String EVENT_PATH = "/letters/eventId/:eventId";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.createRegex(
@@ -21,4 +22,7 @@ public class LettersRouting {
         );
     }
 
+    static String getEventLettersPath(Object eventId) {
+        return MongooseRoutingUtil.interpolateEventIdInPath(eventId, EVENT_PATH);
+    }
 }

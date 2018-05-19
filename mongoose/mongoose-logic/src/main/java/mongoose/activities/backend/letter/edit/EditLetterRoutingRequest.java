@@ -1,6 +1,5 @@
 package mongoose.activities.backend.letter.edit;
 
-import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.ui.router.PushRoutingRequest;
 import naga.platform.client.url.history.History;
 
@@ -10,7 +9,7 @@ import naga.platform.client.url.history.History;
 public class EditLetterRoutingRequest extends PushRoutingRequest {
 
     public EditLetterRoutingRequest(Object letterId, History history) {
-        super(MongooseRoutingUtil.interpolateLetterIdInPath(letterId, EditLetterRouting.PATH), history);
+        super(EditLetterRouting.getEditLetterPath(letterId), history);
     }
 
 }

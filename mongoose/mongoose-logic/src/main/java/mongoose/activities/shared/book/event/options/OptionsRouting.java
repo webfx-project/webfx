@@ -1,5 +1,6 @@
 package mongoose.activities.shared.book.event.options;
 
+import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 
@@ -8,7 +9,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class OptionsRouting {
 
-    public static final String PATH = "/book/event/:eventId/options";
+    private static final String PATH = "/book/event/:eventId/options";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -16,5 +17,13 @@ public class OptionsRouting {
                 , OptionsViewActivity::new
                 , ViewDomainActivityContextFinal::new
         );
+    }
+
+    public static String getPath() {
+        return PATH;
+    }
+
+    static String getEventOptionsPath(Object eventId) {
+        return MongooseRoutingUtil.interpolateEventIdInPath(eventId, getPath());
     }
 }

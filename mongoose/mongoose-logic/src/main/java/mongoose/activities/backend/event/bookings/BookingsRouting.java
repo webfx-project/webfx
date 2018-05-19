@@ -24,11 +24,11 @@ public class BookingsRouting {
         );
     }
 
-    public static String getEventIdRoutePath(Object eventId) {
+    static String getEventBookingsPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, EVENT_PATH);
     }
 
-    public static LocalDate parseDayParam(String parameterValue) {
+    static LocalDate parseDayParam(String parameterValue) {
         if (parameterValue == null)
             return null;
         switch (parameterValue) {

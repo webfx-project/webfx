@@ -25,7 +25,7 @@ import naga.util.function.Factory;
 public class BackendMongooseApplication extends SharedMongooseApplication {
 
     public BackendMongooseApplication() {
-        super(OrganizationsRouting.PATH);
+        super(OrganizationsRouting.getPath());
     }
 
     @Override

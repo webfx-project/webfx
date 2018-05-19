@@ -1,7 +1,6 @@
 package mongoose.activities.backend.tester;
 
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
-import naga.framework.router.auth.authz.RoutingRequest;
 import naga.framework.ui.router.UiRoute;
 
 /**
@@ -9,7 +8,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class TesterRouting {
 
-    final static String PATH = "/tester";
+    private final static String PATH = "/tester";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -19,8 +18,7 @@ public class TesterRouting {
         );
     }
 
-    public static RoutingRequest routingRequest() {
-        return new RoutingRequest(PATH);
+    public static String getPath() {
+        return PATH;
     }
-
 }

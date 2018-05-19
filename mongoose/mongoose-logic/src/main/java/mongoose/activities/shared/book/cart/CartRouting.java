@@ -1,7 +1,8 @@
 package mongoose.activities.shared.book.cart;
 
+import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
+import mongoose.entities.Document;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.framework.orm.entity.Entity;
 import naga.framework.ui.router.UiRoute;
 
 /**
@@ -9,7 +10,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class CartRouting {
 
-    public final static String PATH = "/book/cart/:cartUuid";
+    private final static String PATH = "/book/cart/:cartUuid";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -19,8 +20,17 @@ public class CartRouting {
         );
     }
 
-    public static Object getCartUuidFromDocument(Entity document) {
-        return document == null ? null : document.evaluate("cart.uuid");
+    public static String getPath() {
+        return PATH;
     }
 
+    static String getCartPath(Object cartUuidOrDocument) {
+        return MongooseRoutingUtil.interpolateCartUuidInPath(getCartUuid(cartUuidOrDocument), getPath());
+    }
+
+    public static Object getCartUuid(Object cartUuidOrDocument) {
+        if (cartUuidOrDocument instanceof Document)
+            return ((Document) cartUuidOrDocument).evaluate("cart.uuid");
+        return cartUuidOrDocument;
+    }
 }

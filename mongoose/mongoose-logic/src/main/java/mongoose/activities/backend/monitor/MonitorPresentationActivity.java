@@ -7,7 +7,7 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
  */
 class MonitorPresentationActivity extends DomainPresentationActivityImpl<MonitorPresentationModel> {
 
-    public MonitorPresentationActivity() {
+    MonitorPresentationActivity() {
         super(MonitorPresentationViewActivity::new, MonitorPresentationLogicActivity::new);
     }
 }

@@ -10,7 +10,7 @@ class TermsPresentationLogicActivity
         extends BookingProcessPresentationLogicActivity<TermsPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 
-    public TermsPresentationLogicActivity() {
+    TermsPresentationLogicActivity() {
         super(TermsPresentationModel::new);
     }
 

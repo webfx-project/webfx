@@ -10,7 +10,7 @@ class MonitorPresentationLogicActivity
         extends MongooseDomainPresentationLogicActivityBase<MonitorPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 
-    public MonitorPresentationLogicActivity() {
+    MonitorPresentationLogicActivity() {
         super(MonitorPresentationModel::new);
     }
 

@@ -12,7 +12,7 @@ public class TesterRoutingRequest extends PushRoutingRequest implements HasOpera
     private final static String OPERATION_CODE = "TESTER_ROUTING";
 
     public TesterRoutingRequest(History history) {
-        super(TesterRouting.PATH, history);
+        super(TesterRouting.getPath(), history);
     }
 
     @Override

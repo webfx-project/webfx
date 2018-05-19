@@ -8,7 +8,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class OrganizationsRouting {
 
-    public final static String PATH = "/organizations";
+    private final static String PATH = "/organizations";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -18,4 +18,7 @@ public class OrganizationsRouting {
         );
     }
 
+    public static String getPath() {
+        return PATH;
+    }
 }

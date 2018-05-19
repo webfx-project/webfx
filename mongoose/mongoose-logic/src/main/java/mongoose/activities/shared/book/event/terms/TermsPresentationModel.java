@@ -13,6 +13,6 @@ class TermsPresentationModel extends BookingProcessPresentationModel {
     // Display output
 
     private final Property<DisplayResult> termsLetterDisplayResultProperty = new SimpleObjectProperty<>();
-    public Property<DisplayResult> termsLetterDisplayResultProperty() { return termsLetterDisplayResultProperty; }
+    Property<DisplayResult> termsLetterDisplayResultProperty() { return termsLetterDisplayResultProperty; }
 
 }

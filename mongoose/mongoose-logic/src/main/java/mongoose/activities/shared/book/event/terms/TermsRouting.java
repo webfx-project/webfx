@@ -1,5 +1,6 @@
 package mongoose.activities.shared.book.event.terms;
 
+import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 
@@ -8,7 +9,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class TermsRouting {
 
-    final static String PATH = "/book/event/:eventId/terms";
+    private final static String PATH = "/book/event/:eventId/terms";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -18,4 +19,7 @@ public class TermsRouting {
         );
     }
 
+    static String getTermsPath(Object eventId) {
+        return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
+    }
 }

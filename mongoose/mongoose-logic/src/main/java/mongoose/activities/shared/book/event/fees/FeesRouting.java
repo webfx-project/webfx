@@ -1,5 +1,6 @@
 package mongoose.activities.shared.book.event.fees;
 
+import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 
@@ -8,7 +9,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class FeesRouting {
 
-    final static String PATH = "/book/event/:eventId/fees";
+    private final static String PATH = "/book/event/:eventId/fees";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -16,5 +17,9 @@ public class FeesRouting {
                 , FeesViewActivity::new
                 , ViewDomainActivityContextFinal::new
         );
+    }
+
+    static String getFeesPath(Object eventId) {
+        return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
     }
 }

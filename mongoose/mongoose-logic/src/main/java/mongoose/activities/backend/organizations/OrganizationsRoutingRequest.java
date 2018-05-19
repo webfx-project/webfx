@@ -13,7 +13,7 @@ public class OrganizationsRoutingRequest extends PushRoutingRequest implements H
     private final static String OPERATION_CODE = "ORGANIZATIONS_ROUTING";
 
     public OrganizationsRoutingRequest(History history) {
-        super(OrganizationsRouting.PATH, history);
+        super(OrganizationsRouting.getPath(), history);
     }
 
     @Override

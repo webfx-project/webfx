@@ -1,5 +1,6 @@
 package mongoose.activities.shared.book.event.start;
 
+import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 
@@ -8,7 +9,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class StartBookingRouting {
 
-    final static String PATH = "/book/event/:eventId/start";
+    private final static String PATH = "/book/event/:eventId/start";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -18,4 +19,7 @@ public class StartBookingRouting {
         );
     }
 
+    static String getStartBookingPath(Object eventId) {
+        return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
+    }
 }

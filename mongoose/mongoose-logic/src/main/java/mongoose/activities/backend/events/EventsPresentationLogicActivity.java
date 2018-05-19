@@ -13,7 +13,7 @@ class EventsPresentationLogicActivity
         extends MongooseDomainPresentationLogicActivityBase<EventsPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 
-    public EventsPresentationLogicActivity() {
+    EventsPresentationLogicActivity() {
         this(EventsPresentationModel::new);
     }
 

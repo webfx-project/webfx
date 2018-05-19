@@ -7,7 +7,7 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
  */
 class TermsPresentationActivity extends DomainPresentationActivityImpl<TermsPresentationModel> {
 
-    public TermsPresentationActivity() {
+    TermsPresentationActivity() {
         super(TermsPresentationViewActivity::new, TermsPresentationLogicActivity::new);
     }
 }

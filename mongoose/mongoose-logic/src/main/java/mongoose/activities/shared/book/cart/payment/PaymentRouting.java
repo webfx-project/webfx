@@ -1,6 +1,7 @@
 package mongoose.activities.shared.book.cart.payment;
 
 import mongoose.activities.shared.book.cart.CartRouting;
+import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 
@@ -9,7 +10,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class PaymentRouting {
 
-    final static String PATH = CartRouting.PATH + "/payment";
+    private final static String PATH = CartRouting.getPath() + "/payment";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -19,4 +20,11 @@ public class PaymentRouting {
         );
     }
 
+    public static String getPath() {
+        return PATH;
+    }
+
+    static String getPaymentPath(Object cartUuidOrDocument) {
+        return MongooseRoutingUtil.interpolateCartUuidInPath(CartRouting.getCartUuid(cartUuidOrDocument), getPath());
+    }
 }

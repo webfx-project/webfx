@@ -10,7 +10,7 @@ import naga.framework.ui.router.UiRoute;
 public class FxCloneEventRouting {
 
     public static UiRoute<?> uiRoute() {
-        return UiRoute.create(CloneEventRouting.PATH
+        return UiRoute.create(CloneEventRouting.getPath()
                 , false
                 , FxCloneEventPresentationActivity::new
                 , DomainPresentationActivityContextFinal::new

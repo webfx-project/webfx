@@ -1,5 +1,6 @@
 package mongoose.activities.backend.letter.edit;
 
+import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 
@@ -8,7 +9,7 @@ import naga.framework.ui.router.UiRoute;
  */
 public class EditLetterRouting {
 
-    final static String PATH = "/letter/:letterId/edit";
+    private final static String PATH = "/letter/:letterId/edit";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
@@ -18,4 +19,7 @@ public class EditLetterRouting {
         );
     }
 
+    static String getEditLetterPath(Object letterId) {
+        return MongooseRoutingUtil.interpolateLetterIdInPath(letterId, PATH);
+    }
 }

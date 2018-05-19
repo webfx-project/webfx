@@ -12,7 +12,7 @@ public class BookingsRoutingRequest extends PushRoutingRequest implements HasOpe
     private final static String OPERATION_CODE = "BOOKINGS_ROUTING";
 
     public BookingsRoutingRequest(Object eventId, History history) {
-        super(BookingsRouting.getEventIdRoutePath(eventId), history);
+        super(BookingsRouting.getEventBookingsPath(eventId), history);
     }
 
     @Override

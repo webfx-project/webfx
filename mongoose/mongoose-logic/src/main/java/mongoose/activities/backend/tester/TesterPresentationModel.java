@@ -22,7 +22,7 @@ class TesterPresentationModel {
     Property<DisplayResult> chartDisplayResultProperty() { return chartDisplayResultProperty; }
 
     private final ObjectProperty<EventHandler<ActionEvent>> onSaveTest = new SimpleObjectProperty<>();
-    public final ObjectProperty<EventHandler<ActionEvent>> onSaveTestProperty() { return onSaveTest; }
-    public final void setOnSaveTest(EventHandler<ActionEvent> value) { onSaveTestProperty().set(value); }
-    public final EventHandler<ActionEvent> getOnSaveTest() { return onSaveTestProperty().get(); }
+    final ObjectProperty<EventHandler<ActionEvent>> onSaveTestProperty() { return onSaveTest; }
+    final void setOnSaveTest(EventHandler<ActionEvent> value) { onSaveTestProperty().set(value); }
+    final EventHandler<ActionEvent> getOnSaveTest() { return onSaveTestProperty().get(); }
 }

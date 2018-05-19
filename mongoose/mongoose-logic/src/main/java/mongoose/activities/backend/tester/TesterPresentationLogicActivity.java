@@ -9,7 +9,7 @@ import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivit
  */
 class TesterPresentationLogicActivity extends MongooseDomainPresentationLogicActivityBase<TesterPresentationModel> {
 
-    public TesterPresentationLogicActivity() {
+    TesterPresentationLogicActivity() {
         super(TesterPresentationModel::new);
     }
 
