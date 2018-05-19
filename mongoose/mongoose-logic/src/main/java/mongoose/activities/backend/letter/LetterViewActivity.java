@@ -1,4 +1,4 @@
-package mongoose.activities.backend.letter.edit;
+package mongoose.activities.backend.letter;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -10,7 +10,7 @@ import naga.fx.properties.Properties;
 /**
  * @author Bruno Salmon
  */
-class EditLetterViewActivity extends ViewActivityImpl {
+class LetterViewActivity extends ViewActivityImpl {
 
     private final Property<Object> routeLetterIdProperty = new SimpleObjectProperty<>();
 

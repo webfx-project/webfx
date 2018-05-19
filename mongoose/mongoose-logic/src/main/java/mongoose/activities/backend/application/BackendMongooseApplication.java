@@ -6,7 +6,7 @@ import mongoose.activities.backend.event.bookings.BookingsRouting;
 import mongoose.activities.backend.event.clone.CloneEventRouting;
 import mongoose.activities.backend.event.letters.LettersRouting;
 import mongoose.activities.backend.events.EventsRouting;
-import mongoose.activities.backend.letter.edit.EditLetterRouting;
+import mongoose.activities.backend.letter.LetterRouting;
 import mongoose.activities.backend.monitor.MonitorRouting;
 import mongoose.activities.backend.organizations.OrganizationsRouting;
 import mongoose.activities.backend.tester.TesterRouting;
@@ -45,7 +45,7 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
                 .route(BookingsRouting.uiRoute())
                 .route(LettersRouting.uiRoute())
                 .route(CloneEventRouting.uiRoute())
-                .route(EditLetterRouting.uiRoute())
+                .route(LetterRouting.uiRoute())
                 .route(MonitorRouting.uiRoute())
                 .route(TesterRouting.uiRoute())
                 .route(SaveTestRooting.uiRoute())
