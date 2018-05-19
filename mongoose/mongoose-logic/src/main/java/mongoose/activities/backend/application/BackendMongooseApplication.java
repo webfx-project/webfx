@@ -36,19 +36,21 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
     @Override
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return super.setupContainedRouter(containedRouter
+                // Authentication and authorization settings
                 .setRedirectAuthHandler(LoginRouting.getPath(), UnauthorizedRouting.getPath())
-                .route(LoginRouting.uiRoute())
-                .route(UnauthorizedRouting.uiRoute())
-                .route(EditableOptionsRouting.uiRoute())
-                .route(OrganizationsRouting.uiRoute())
-                .route(EventsRouting.uiRoute())
+                .route(LoginRouting.uiRoute()) // The login page to display when authentication is required before viewing the requested page
+                .route(UnauthorizedRouting.uiRoute()) // The unauthorized page to display when the user can't view the requested page
+                // Actual pages (listed in alphabetic order)
                 .route(BookingsRouting.uiRoute())
-                .route(LettersRouting.uiRoute())
                 .route(CloneEventRouting.uiRoute())
+                .route(EditableOptionsRouting.uiRoute())
+                .route(EventsRouting.uiRoute())
                 .route(LetterRouting.uiRoute())
+                .route(LettersRouting.uiRoute())
                 .route(MonitorRouting.uiRoute())
-                .route(TesterRouting.uiRoute())
+                .route(OrganizationsRouting.uiRoute())
                 .route(SaveTestRooting.uiRoute())
+                .route(TesterRouting.uiRoute())
         );
     }
 

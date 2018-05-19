@@ -71,15 +71,16 @@ public abstract class SharedMongooseApplication
 
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return containedRouter
-                .route(StartBookingRouting.uiRoute())
-                .route(FeesRouting.uiRoute())
-                .route(TermsRouting.uiRoute())
-                .route(ProgramRouting.uiRoute())
-                .route(OptionsRouting.uiRoute())
-                .route(PersonRouting.uiRoute())
-                .route(SummaryRouting.uiRoute())
+                // Pages shared by both back-end and font-end (listed in alphabetic order)
                 .route(CartRouting.uiRoute())
+                .route(FeesRouting.uiRoute())
+                .route(OptionsRouting.uiRoute())
                 .route(PaymentRouting.uiRoute())
+                .route(PersonRouting.uiRoute())
+                .route(ProgramRouting.uiRoute())
+                .route(StartBookingRouting.uiRoute())
+                .route(SummaryRouting.uiRoute())
+                .route(TermsRouting.uiRoute())
                 ;
     }
 
