@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import naga.framework.operation.HasOperationCode;
 import naga.framework.services.authz.mixin.AuthorizationUtil;
 import naga.framework.ui.action.Action;
+import naga.framework.ui.action.ActionBinder;
 import naga.fx.spi.Toolkit;
 import naga.util.async.AsyncFunction;
 import naga.util.async.Future;
@@ -24,6 +25,8 @@ import java.util.Map;
 public class OperationActionRegistry {
 
     private static OperationActionRegistry INSTANCE;
+
+    private final Map<Object /* key = request class or operation code */, Action> operationActions = new HashMap<>();
     private Collection<OperationAction> notYetBoundOperationActions;
     private Map<Object, ObjectProperty<OperationAction>> operationActionProperties;
     private Runnable pendingBindRunnable;
@@ -33,8 +36,6 @@ public class OperationActionRegistry {
             INSTANCE = new OperationActionRegistry();
         return INSTANCE;
     }
-
-    private final Map<Object, Action> operationActions = new HashMap<>();
 
     public <A> OperationActionRegistry registerOperationAction(Class<A> operationRequestClass, Action operationAction) {
         operationActions.put(operationRequestClass, operationAction);
@@ -123,7 +124,9 @@ public class OperationActionRegistry {
     }
 
     private <A, R> boolean bindOperationActionNow(OperationAction<A, R> operationAction) {
+        // The binding is possible only if an operation action has been registered
         Action registeredOperationAction = getOperationActionFromRequest(newOperationActionRequest(operationAction));
+        // If this is not the case, we return false (can't do the binding now)
         if (registeredOperationAction == null)
             return false;
         if (operationActionProperties != null) {
@@ -136,10 +139,7 @@ public class OperationActionRegistry {
                     operationActionProperties = null;
             }
         }
-        operationAction.bindableTextProperty().bind(registeredOperationAction.textProperty());
-        operationAction.bindableGraphicProperty().bind(registeredOperationAction.graphicProperty());
-        operationAction.bindableDisabledProperty().bind(registeredOperationAction.disabledProperty());
-        operationAction.bindableVisibleProperty().bind(registeredOperationAction.visibleProperty());
+        ActionBinder.bindWritableActionToAction(operationAction, registeredOperationAction);
         return true;
     }
 

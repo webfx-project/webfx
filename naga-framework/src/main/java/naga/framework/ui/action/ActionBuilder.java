@@ -40,7 +40,7 @@ public class ActionBuilder {
 
     private EventHandler<ActionEvent> actionHandler;
 
-    private ActionRegistry actionRegistry;
+    private ActionBuilderRegistry registry;
 
     public ActionBuilder() {
     }
@@ -179,13 +179,13 @@ public class ActionBuilder {
         return setActionHandler(e -> actionHandler.run());
     }
 
-    public ActionBuilder setActionRegistry(ActionRegistry actionRegistry) {
-        this.actionRegistry = actionRegistry;
+    public ActionBuilder setRegistry(ActionBuilderRegistry registry) {
+        this.registry = registry;
         return this;
     }
 
     public ActionBuilder register() {
-        (actionRegistry != null ? actionRegistry : ActionRegistry.get()).registerActionBuilder(this);
+        (registry != null ? registry : ActionBuilderRegistry.get()).registerActionBuilder(this);
         return this;
     }
 
@@ -224,17 +224,30 @@ public class ActionBuilder {
     }
 
     void completePropertiesForBuild() {
+        completeTextProperty();
+        completeGraphicProperty();
+        completeDisabledProperty();
+        completeVisibleProperty();
+    }
+
+    private void completeTextProperty() {
         if (textProperty == null) {
             if (i18nKey != null && i18n != null)
                 textProperty = i18n.translationProperty(i18nKey);
             else
                 textProperty = new SimpleStringProperty(text);
         }
+    }
+
+    private void completeGraphicProperty() {
         if (graphicProperty == null) {
             if (graphic == null && graphicUrlOrJson != null)
                 graphic = JsonImageViews.createImageView(graphicUrlOrJson);
             graphicProperty = new SimpleObjectProperty<>(graphic);
         }
+    }
+
+    private void completeDisabledProperty() {
         if (disabledProperty == null) {
             if (authorizedProperty != null) {
                 disabledProperty = BooleanExpression.booleanExpression(authorizedProperty).not();
@@ -243,6 +256,9 @@ public class ActionBuilder {
             } else
                 disabledProperty = new SimpleBooleanProperty(authRequired);
         }
+    }
+
+    private void completeVisibleProperty() {
         if (visibleProperty == null) {
             if (hiddenWhenDisabled)
                 visibleProperty = BooleanExpression.booleanExpression(disabledProperty).not();

@@ -9,11 +9,13 @@ import javafx.scene.Node;
 import naga.framework.ui.action.Action;
 
 /**
+ * A read-only action where properties are observable values.
+ *
  * @author Bruno Salmon
  */
-public class ActionImpl implements Action {
+public class ReadOnlyAction implements Action {
 
-    public ActionImpl(ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
+    public ReadOnlyAction(ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
         this.textProperty = textProperty;
         this.graphicProperty = graphicProperty;
         this.disabledProperty = disabledProperty;

@@ -27,7 +27,7 @@ public class AuthorizableOperationExecutor extends ChainedOperationExecutor {
         return new AuthorizationRequest<>()
                 .setOperationRequest(operationRequest)
                 .setUserPrincipal(userPrincipalFetcher.getUserPrincipal())
-                .onAuthorizedExecute(() -> super.apply(operationRequest))
+                .onAuthorizedExecute(() -> executeRequestWithNextOperationExecutor(operationRequest))
                 .executeAsync();
     }
 }

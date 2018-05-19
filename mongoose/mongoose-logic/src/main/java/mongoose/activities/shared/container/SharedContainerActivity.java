@@ -9,11 +9,9 @@ import mongoose.i18n.FrenchLanguageRequest;
 import naga.framework.activity.view.impl.ViewActivityImpl;
 import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.ui.action.Action;
-import naga.framework.ui.action.ActionGroup;
-import naga.framework.ui.action.ActionGroupBuilder;
+import naga.framework.ui.action.ActionBinder;
 import naga.framework.ui.router.BackwardRoutingRequest;
 import naga.framework.ui.router.ForwardRoutingRequest;
-import naga.fx.properties.ObservableLists;
 import naga.util.collection.Collections;
 
 import java.util.Collection;
@@ -32,11 +30,8 @@ public class SharedContainerActivity extends ViewActivityImpl
 
     @Override
     public Node buildUi() {
-        FlowPane navigationFlowPane = new FlowPane();
-        ActionGroup navigationActionGroup = new ActionGroupBuilder().setActions(navigationActions()).build();
-        ObservableLists.bindConverted(navigationFlowPane.getChildren(), navigationActionGroup.getVisibleActions(), this::newButton);
         BorderPane borderPane = new BorderPane();
-        borderPane.setTop(navigationFlowPane);
+        borderPane.setTop(ActionBinder.bindChildrenToVisibleActions(new FlowPane(), navigationActions(), this::newButton));
         borderPane.centerProperty().bind(mountNodeProperty());
         return borderPane;
     }

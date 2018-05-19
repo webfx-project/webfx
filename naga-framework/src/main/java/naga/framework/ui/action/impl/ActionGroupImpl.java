@@ -19,7 +19,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class ActionGroupImpl extends ActionImpl implements ActionGroup {
+public class ActionGroupImpl extends ReadOnlyAction implements ActionGroup {
 
     private final Collection<Action> actions;
     private ObservableList<Action> visibleActions = FXCollections.observableArrayList();

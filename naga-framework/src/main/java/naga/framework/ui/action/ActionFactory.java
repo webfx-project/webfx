@@ -7,7 +7,7 @@ import javafx.event.EventHandler;
 /**
  * @author Bruno Salmon
  */
-public interface ActionProducer extends StandardActionKeys {
+public interface ActionFactory extends StandardActionKeys {
 
     ActionBuilder newActionBuilder(Object actionKey);
 
@@ -15,12 +15,12 @@ public interface ActionProducer extends StandardActionKeys {
         return newAction(actionKey, (EventHandler<ActionEvent>) null);
     }
 
-    default Action newAuthAction(Object actionKey, ObservableBooleanValue authorizedProperty) {
-        return newAuthAction(actionKey, (EventHandler<ActionEvent>) null, authorizedProperty);
-    }
-
     default Action newAction(Object actionKey, EventHandler<ActionEvent> actionHandler) {
         return newAuthAction(actionKey, actionHandler, null);
+    }
+
+    default Action newAuthAction(Object actionKey, ObservableBooleanValue authorizedProperty) {
+        return newAuthAction(actionKey, (EventHandler<ActionEvent>) null, authorizedProperty);
     }
 
     default Action newAuthAction(Object actionKey, EventHandler<ActionEvent> actionHandler, ObservableBooleanValue authorizedProperty) {
@@ -36,6 +36,8 @@ public interface ActionProducer extends StandardActionKeys {
     default Action newAuthAction(Object actionKey, Runnable actionHandler, ObservableBooleanValue authorizedProperty) {
         return newAuthAction(actionKey, e -> actionHandler.run(), authorizedProperty);
     }
+
+    // Standard actions factories
 
     default Action newOkAction(Runnable handler) {
         return newAction(OK_ACTION_KEY, handler);

@@ -15,7 +15,7 @@ public class MongooseActions {
     private final static Object ADD_OPTION_ACTION_KEY = "AddOption";
 
     public static void registerActions(I18n i18n) {
-        ActionRegistry.get().setI18n(i18n);
+        ActionBuilderRegistry.get().setI18n(i18n);
         registerAction(StandardActionKeys.ADD_ACTION_KEY, "Add", MongooseIcons.addIcon16JsonUrl);
         registerAction(StandardActionKeys.REMOVE_ACTION_KEY, "Remove", MongooseIcons.removeIcon16JsonUrl);
         registerAction(VISIT_BOOK_ACTION_KEY, VISIT_BOOK_ACTION_KEY, null);
@@ -30,22 +30,22 @@ public class MongooseActions {
     }
 
     public static Action newVisitTermsAndConditionsAction(Runnable handler) {
-        return ActionRegistry.get().newAction(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, handler);
+        return ActionBuilderRegistry.get().newAction(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, handler);
     }
 
     public static Action newVisitProgramAction(Runnable handler) {
-        return ActionRegistry.get().newAction(VISIT_PROGRAM_ACTION_KEY, handler);
+        return ActionBuilderRegistry.get().newAction(VISIT_PROGRAM_ACTION_KEY, handler);
     }
 
     public static Action newVisitFeesAction(Runnable handler) {
-        return ActionRegistry.get().newAction(VISIT_FEES_ACTION_KEY, handler);
+        return ActionBuilderRegistry.get().newAction(VISIT_FEES_ACTION_KEY, handler);
     }
 
     public static Action newVisitBookAction(Runnable handler) {
-        return ActionRegistry.get().newAction(VISIT_BOOK_ACTION_KEY, handler);
+        return ActionBuilderRegistry.get().newAction(VISIT_BOOK_ACTION_KEY, handler);
     }
 
     public static Action newAddOptionAction(Runnable handler) {
-        return ActionRegistry.get().newAction(ADD_OPTION_ACTION_KEY, handler);
+        return ActionBuilderRegistry.get().newAction(ADD_OPTION_ACTION_KEY, handler);
     }
 }

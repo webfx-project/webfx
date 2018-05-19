@@ -19,7 +19,7 @@ public class BackendContainerActivity extends SharedContainerActivity {
 
     @Override
     protected Collection<Action> navigationActions() {
-        super.navigationActions();
+        super.navigationActions(); // Ignoring result but this call is required to instantiate parent actions
         return Collections.listOf(
                   backAction
                 , forwardAction

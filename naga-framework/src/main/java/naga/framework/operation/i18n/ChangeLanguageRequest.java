@@ -3,6 +3,7 @@ package naga.framework.operation.i18n;
 import naga.framework.operation.HasOperationExecutor;
 import naga.framework.ui.i18n.I18n;
 import naga.util.async.AsyncFunction;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
@@ -19,9 +20,11 @@ public class ChangeLanguageRequest implements HasOperationExecutor<ChangeLanguag
 
     @Override
     public AsyncFunction<ChangeLanguageRequest, Void> getOperationExecutor() {
-        return request -> {
-            request.i18n.setLanguage(request.language);
-            return null;
-        };
+        return ChangeLanguageRequest::executeChangeLanguageRequest;
+    }
+
+    private static Future<Void> executeChangeLanguageRequest(ChangeLanguageRequest request) {
+        request.i18n.setLanguage(request.language);
+        return null;
     }
 }

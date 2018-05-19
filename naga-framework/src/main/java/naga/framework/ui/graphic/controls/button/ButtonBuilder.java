@@ -8,6 +8,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.paint.Paint;
 import naga.framework.ui.action.Action;
+import naga.framework.ui.action.ActionBinder;
 import naga.framework.ui.graphic.background.BackgroundBuilder;
 import naga.framework.ui.graphic.border.BorderBuilder;
 import naga.framework.ui.graphic.image.JsonImageViews;
@@ -156,12 +157,9 @@ public class ButtonBuilder {
     public Button build() {
         if (button == null) {
             button = new Button();
-            if (action != null) {
-                button.textProperty().bind(action.textProperty());
-                button.graphicProperty().bind(action.graphicProperty());
-                button.disableProperty().bind(action.disabledProperty());
-                button.visibleProperty().bind(action.visibleProperty());
-            } else {
+            if (action != null)
+                ActionBinder.bindButtonToAction(button, action);
+            else {
                 if (i18n != null && i18nKey != null)
                     i18n.translateText(button, i18nKey);
                 if (icon == null && iconUrlOrJson != null)

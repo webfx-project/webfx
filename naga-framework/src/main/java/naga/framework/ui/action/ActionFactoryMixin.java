@@ -5,14 +5,14 @@ import naga.framework.ui.i18n.HasI18n;
 /**
  * @author Bruno Salmon
  */
-public interface ActionFactoryMixin extends ActionProducer, HasI18n {
-
-    default ActionRegistry getActionRegistry() {
-        return ActionRegistry.get();
-    }
+public interface ActionFactoryMixin extends ActionFactory, HasI18n {
 
     default ActionBuilder newActionBuilder(Object actionKey) {
-        return getActionRegistry().newActionBuilder(actionKey).setI18n(getI18n());
+        return getActionFactory().newActionBuilder(actionKey).setI18n(getI18n());
+    }
+
+    default ActionFactory getActionFactory() {
+        return ActionBuilderRegistry.get();
     }
 
 }

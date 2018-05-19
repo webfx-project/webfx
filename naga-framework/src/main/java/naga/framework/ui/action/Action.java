@@ -6,9 +6,13 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import naga.framework.ui.action.impl.ActionImpl;
+import naga.framework.ui.action.impl.ReadOnlyAction;
 
 /**
+ * An action compatible with standard JavaFx API (ex: can be passed to Button.setOnAction()) but enriched with graphical
+ * properties (ie text, graphic, disabled and visible properties). The ActionBinder utility class can be used to help
+ * binding graphical components (such as buttons) to actions. The ActionBuilder utility class can be used to
+ *
  * @author Bruno Salmon
  */
 public interface Action extends EventHandler<ActionEvent> {
@@ -34,6 +38,6 @@ public interface Action extends EventHandler<ActionEvent> {
     }
 
     static Action create(ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
-        return new ActionImpl(textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);
+        return new ReadOnlyAction(textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);
     }
 }

@@ -40,6 +40,8 @@ public class ActionGroupBuilder extends ActionBuilder {
         return ActionGroup.create(actions, getTextProperty(), getGraphicProperty(), getDisabledProperty(), getVisibleProperty(), getActionHandler());
     }
 
+    // --- Overriding fluent API methods to return ActionGroupBuilder instead of ActionBuilder ---
+
     @Override
     public ActionGroupBuilder setActionKey(Object actionKey) {
         return (ActionGroupBuilder) super.setActionKey(actionKey);

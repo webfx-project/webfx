@@ -9,47 +9,50 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 
 /**
+ * An writable action where properties (text, graphic, disabled, visible) can be set later (ie after constructor call)
+ * either by calling the setters or by binding these properties (ex: writableTextProperty().bind(myTextProperty))
+ *
  * @author Bruno Salmon
  */
-public class BindableAction extends ActionImpl {
+public class WritableAction extends ReadOnlyAction {
 
-    public BindableAction(EventHandler<ActionEvent> actionHandler) {
+    public WritableAction(EventHandler<ActionEvent> actionHandler) {
         this(new SimpleStringProperty(), new SimpleObjectProperty<>(), new SimpleBooleanProperty(true /* disabled until it is bound */), new SimpleBooleanProperty(false /* invisible until it is bound */), actionHandler);
     }
 
-    public BindableAction(ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
+    public WritableAction(ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
         super(textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);
     }
 
-    public StringProperty bindableTextProperty() {
+    public StringProperty writableTextProperty() {
         return (StringProperty) textProperty();
     }
 
     public void setText(String text) {
-        bindableTextProperty().set(text);
+        writableTextProperty().set(text);
     }
 
-    public ObjectProperty<Node> bindableGraphicProperty() {
+    public ObjectProperty<Node> writableGraphicProperty() {
         return (ObjectProperty<Node>) graphicProperty();
     }
 
     public void setGraphic(Node graphic) {
-        bindableGraphicProperty().set(graphic);
+        writableGraphicProperty().set(graphic);
     }
 
-    public BooleanProperty bindableDisabledProperty() {
+    public BooleanProperty writableDisabledProperty() {
         return (BooleanProperty) disabledProperty();
     }
 
     public void setDisabled(boolean disabled) {
-        bindableDisabledProperty().set(disabled);
+        writableDisabledProperty().set(disabled);
     }
 
-    public BooleanProperty bindableVisibleProperty() {
+    public BooleanProperty writableVisibleProperty() {
         return (BooleanProperty) visibleProperty();
     }
 
     public void setVisible(boolean visible) {
-        bindableVisibleProperty().set(visible);
+        writableVisibleProperty().set(visible);
     }
 }

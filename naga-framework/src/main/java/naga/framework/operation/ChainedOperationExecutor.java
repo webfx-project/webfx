@@ -20,6 +20,10 @@ public class ChainedOperationExecutor implements AsyncFunction {
 
     @Override
     public Future apply(Object operationRequest) {
+        return executeRequestWithNextOperationExecutor(operationRequest);
+    }
+
+    protected Future executeRequestWithNextOperationExecutor(Object operationRequest) {
         return OperationExecutorUtil.executeOperation(operationRequest, nextOperationExecutor);
     }
 }

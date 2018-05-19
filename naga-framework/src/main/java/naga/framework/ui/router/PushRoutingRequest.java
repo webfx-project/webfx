@@ -3,6 +3,7 @@ package naga.framework.ui.router;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
 import naga.util.async.AsyncFunction;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
@@ -31,11 +32,13 @@ public class PushRoutingRequest extends UiRoutingRequest<PushRoutingRequest> {
 
     @Override
     public AsyncFunction<PushRoutingRequest, Void> getOperationExecutor() {
-        return request -> {
-            String routePath = request.getRoutePath();
-            if (routePath != null)
-                getHistory().push(routePath, state);
-            return null;
-        };
+        return PushRoutingRequest::executePushRoutingRequest;
+    }
+
+    private static Future<Void> executePushRoutingRequest(PushRoutingRequest request) {
+        String routePath = request.getRoutePath();
+        if (routePath != null)
+            request.getHistory().push(routePath, request.getState());
+        return null;
     }
 }
