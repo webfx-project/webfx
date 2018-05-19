@@ -4,7 +4,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import mongoose.actions.MongooseIcons;
-import mongoose.activities.shared.book.event.shared.BookingCalendar;
+import mongoose.activities.shared.book.shared.BookingCalendar;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18nMixin;
 

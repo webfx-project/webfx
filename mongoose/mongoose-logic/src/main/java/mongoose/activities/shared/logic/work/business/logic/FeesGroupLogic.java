@@ -1,7 +1,7 @@
 package mongoose.activities.shared.logic.work.business.logic;
 
-import mongoose.activities.shared.book.event.shared.FeesGroup;
-import mongoose.activities.shared.book.event.shared.FeesGroupBuilder;
+import mongoose.activities.shared.book.shared.FeesGroup;
+import mongoose.activities.shared.book.shared.FeesGroupBuilder;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Option;
 import mongoose.entities.Site;

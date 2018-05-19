@@ -1,6 +1,6 @@
 package mongoose.activities.backend.javafx.event.clone;
 
-import mongoose.activities.backend.event.clone.CloneEventRouting;
+import mongoose.activities.backend.cloneevent.CloneEventRouting;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 

@@ -1,12 +1,12 @@
 package mongoose.activities.backend.application;
 
-import mongoose.activities.backend.book.event.options.EditableOptionsRouting;
-import mongoose.activities.backend.container.BackendContainerViewActivity;
-import mongoose.activities.backend.event.bookings.BookingsRouting;
-import mongoose.activities.backend.event.clone.CloneEventRouting;
-import mongoose.activities.backend.event.letters.LettersRouting;
+import mongoose.activities.backend.book.options.EditableOptionsRouting;
+import mongoose.activities.backend.bookings.BookingsRouting;
+import mongoose.activities.backend.cloneevent.CloneEventRouting;
+import mongoose.activities.backend.container.BackendContainerActivity;
 import mongoose.activities.backend.events.EventsRouting;
 import mongoose.activities.backend.letter.LetterRouting;
+import mongoose.activities.backend.letters.LettersRouting;
 import mongoose.activities.backend.monitor.MonitorRouting;
 import mongoose.activities.backend.organizations.OrganizationsRouting;
 import mongoose.activities.backend.tester.TesterRouting;
@@ -30,7 +30,7 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
 
     @Override
     protected Factory<Activity<ViewDomainActivityContextFinal>> getContainerActivityFactory() {
-        return BackendContainerViewActivity::new;
+        return BackendContainerActivity::new;
     }
 
     @Override

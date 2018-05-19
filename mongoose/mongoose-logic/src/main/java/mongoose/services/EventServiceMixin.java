@@ -1,6 +1,6 @@
 package mongoose.services;
 
-import mongoose.activities.shared.book.event.shared.FeesGroup;
+import mongoose.activities.shared.book.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;

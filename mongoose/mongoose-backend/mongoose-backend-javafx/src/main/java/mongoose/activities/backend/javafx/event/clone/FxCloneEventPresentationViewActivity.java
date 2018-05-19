@@ -1,8 +1,8 @@
 package mongoose.activities.backend.javafx.event.clone;
 
 import javafx.scene.control.DatePicker;
-import mongoose.activities.backend.event.clone.CloneEventPresentationModel;
-import mongoose.activities.backend.event.clone.CloneEventPresentationViewActivity;
+import mongoose.activities.backend.cloneevent.CloneEventPresentationModel;
+import mongoose.activities.backend.cloneevent.CloneEventPresentationViewActivity;
 import mongoose.domainmodel.format.DateFormatter;
 
 /**

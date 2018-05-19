@@ -3,7 +3,7 @@ package mongoose.activities.shared.logic.work;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import mongoose.activities.shared.book.event.options.OptionTree;
+import mongoose.activities.shared.book.options.OptionTree;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.work.business.BusinessLines;
 import mongoose.activities.shared.logic.work.business.BusinessType;

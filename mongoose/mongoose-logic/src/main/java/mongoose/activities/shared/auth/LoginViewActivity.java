@@ -1,7 +1,7 @@
 package mongoose.activities.shared.auth;
 
 import javafx.scene.Node;
-import mongoose.activities.shared.book.event.shared.LoginPanel;
+import mongoose.activities.shared.book.shared.LoginPanel;
 import naga.framework.activity.view.impl.ViewActivityImpl;
 
 /**

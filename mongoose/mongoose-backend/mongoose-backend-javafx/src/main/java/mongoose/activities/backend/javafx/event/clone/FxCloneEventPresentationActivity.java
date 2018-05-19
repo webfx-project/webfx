@@ -1,7 +1,7 @@
 package mongoose.activities.backend.javafx.event.clone;
 
-import mongoose.activities.backend.event.clone.CloneEventPresentationLogicActivity;
-import mongoose.activities.backend.event.clone.CloneEventPresentationModel;
+import mongoose.activities.backend.cloneevent.CloneEventPresentationLogicActivity;
+import mongoose.activities.backend.cloneevent.CloneEventPresentationModel;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
 
 /**

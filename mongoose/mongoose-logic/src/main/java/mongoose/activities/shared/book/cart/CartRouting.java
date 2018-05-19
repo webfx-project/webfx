@@ -15,7 +15,7 @@ public class CartRouting {
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , CartViewActivity::new
+                , CartActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }
