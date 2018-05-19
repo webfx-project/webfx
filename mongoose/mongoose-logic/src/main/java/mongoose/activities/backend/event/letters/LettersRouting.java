@@ -10,8 +10,8 @@ import naga.framework.ui.router.UiRoute;
  */
 public class LettersRouting {
 
-    private static final String ANY_PATH = "/letters(/organization/:organizationId)?(/eventId/:eventId)?";
-    private static final String EVENT_PATH = "/letters/eventId/:eventId";
+    private static final String ANY_PATH = "/letters(/organization/:organizationId)?(/event/:eventId)?";
+    private static final String EVENT_PATH = "/letters/event/:eventId";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.createRegex(
