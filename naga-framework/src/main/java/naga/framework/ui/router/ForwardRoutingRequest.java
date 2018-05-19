@@ -13,9 +13,6 @@ public final class ForwardRoutingRequest
 
     private static final String OPERATION_CODE = "FORWARD";
 
-    public ForwardRoutingRequest() {
-    }
-
     public ForwardRoutingRequest(History history) {
         super(history);
     }

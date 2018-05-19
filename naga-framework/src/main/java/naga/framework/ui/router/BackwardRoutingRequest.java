@@ -13,9 +13,6 @@ public final class BackwardRoutingRequest
 
     private static final String OPERATION_CODE = "BACKWARD";
 
-    public BackwardRoutingRequest() {
-    }
-
     public BackwardRoutingRequest(History history) {
         super(history);
     }

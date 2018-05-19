@@ -11,9 +11,6 @@ public class PushRoutingRequest extends UiRoutingRequest<PushRoutingRequest> {
 
     private JsonObject state;
 
-    public PushRoutingRequest() {
-    }
-
     public PushRoutingRequest(String routePath, History history) {
         this(routePath, history, null);
     }

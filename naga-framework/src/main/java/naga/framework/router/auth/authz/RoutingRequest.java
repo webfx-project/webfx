@@ -5,10 +5,7 @@ package naga.framework.router.auth.authz;
  */
 public class RoutingRequest {
 
-    private String routePath;
-
-    public RoutingRequest() {
-    }
+    private final String routePath;
 
     public RoutingRequest(String routePath) {
         this.routePath = routePath;
@@ -18,8 +15,4 @@ public class RoutingRequest {
         return routePath;
     }
 
-    public RoutingRequest setRoutePath(String routePath) {
-        this.routePath = routePath;
-        return this;
-    }
 }

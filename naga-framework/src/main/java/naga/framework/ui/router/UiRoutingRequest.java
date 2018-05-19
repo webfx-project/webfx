@@ -8,18 +8,17 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public abstract class UiRoutingRequest<THIS extends UiRoutingRequest<THIS>> extends RoutingRequest implements HasOperationExecutor<THIS, Void> {
+public abstract class UiRoutingRequest<THIS extends UiRoutingRequest<THIS>>
+        extends RoutingRequest
+        implements HasOperationExecutor<THIS, Void> {
 
     private History history;
 
-    public UiRoutingRequest() {
-    }
-
-    public UiRoutingRequest(History history) {
+    protected UiRoutingRequest(History history) {
         this(null, history);
     }
 
-    public UiRoutingRequest(String routePath, History history) {
+    protected UiRoutingRequest(String routePath, History history) {
         super(routePath);
         this.history = history;
     }
