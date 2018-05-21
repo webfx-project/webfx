@@ -1,4 +1,4 @@
-package naga.framework.operation.i18n;
+package naga.framework.operations.i18n;
 
 import naga.framework.operation.HasOperationExecutor;
 import naga.framework.ui.i18n.I18n;

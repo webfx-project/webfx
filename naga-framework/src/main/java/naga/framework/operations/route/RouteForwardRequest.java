@@ -1,4 +1,4 @@
-package naga.framework.ui.router;
+package naga.framework.operations.route;
 
 import naga.framework.operation.HasOperationCode;
 import naga.platform.client.url.history.History;
@@ -7,13 +7,13 @@ import naga.util.async.AsyncFunction;
 /**
  * @author Bruno Salmon
  */
-public final class RouteBackwardRequest
-        extends UiRouteRequest<RouteBackwardRequest>
+public final class RouteForwardRequest
+        extends UiRouteRequest<RouteForwardRequest>
         implements HasOperationCode {
 
-    private static final String OPERATION_CODE = "BACKWARD";
+    private static final String OPERATION_CODE = "FORWARD";
 
-    public RouteBackwardRequest(History history) {
+    public RouteForwardRequest(History history) {
         super(history);
     }
 
@@ -23,9 +23,9 @@ public final class RouteBackwardRequest
     }
 
     @Override
-    public AsyncFunction<RouteBackwardRequest, Void> getOperationExecutor() {
+    public AsyncFunction<RouteForwardRequest, Void> getOperationExecutor() {
         return request -> {
-            request.getHistory().goBack();
+            request.getHistory().goForward();
             return null;
         };
     }

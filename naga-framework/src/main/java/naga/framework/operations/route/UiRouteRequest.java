@@ -1,4 +1,4 @@
-package naga.framework.ui.router;
+package naga.framework.operations.route;
 
 import naga.framework.operation.HasOperationExecutor;
 import naga.framework.router.auth.authz.RouteRequest;

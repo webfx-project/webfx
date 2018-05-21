@@ -1,4 +1,4 @@
-package naga.framework.ui.router;
+package naga.framework.operations.route;
 
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
