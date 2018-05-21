@@ -7,11 +7,11 @@ import naga.framework.ui.i18n.I18n;
 /**
  * @author Bruno Salmon
  */
-public final class FrenchLanguageRequest extends ChangeLanguageRequest implements HasOperationCode {
+public final class ChangeLanguageToFrenchRequest extends ChangeLanguageRequest implements HasOperationCode {
 
     private static final String OPERATION_CODE = "FRENCH";
 
-    public FrenchLanguageRequest(I18n i18n) {
+    public ChangeLanguageToFrenchRequest(I18n i18n) {
         super("fr", i18n);
     }
 

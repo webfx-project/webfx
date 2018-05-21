@@ -4,8 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
-import mongoose.i18n.EnglishLanguageRequest;
-import mongoose.i18n.FrenchLanguageRequest;
+import mongoose.i18n.ChangeLanguageToEnglishRequest;
+import mongoose.i18n.ChangeLanguageToFrenchRequest;
 import naga.framework.activity.view.impl.ViewActivityImpl;
 import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.ui.action.Action;
@@ -40,8 +40,8 @@ public class SharedContainerActivity extends ViewActivityImpl
         return Collections.listOf(
                    backAction    = newAction(() -> new RouteBackwardRequest(getHistory()))
                 ,  forwardAction = newAction(() -> new RouteForwardRequest(getHistory()))
-                ,  englishAction = newAction(() -> new EnglishLanguageRequest(getI18n()))
-                ,  frenchAction  = newAction(() -> new FrenchLanguageRequest(getI18n()))
+                ,  englishAction = newAction(() -> new ChangeLanguageToEnglishRequest(getI18n()))
+                ,  frenchAction  = newAction(() -> new ChangeLanguageToFrenchRequest(getI18n()))
         );
     }
 }
