@@ -1,6 +1,6 @@
 package mongoose.activities.backend.cloneevent;
 
-import mongoose.activities.backend.bookings.BookingsRoutingRequest;
+import mongoose.activities.backend.bookings.RouteToBookingsRequest;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.entities.Event;
 import naga.fx.properties.Properties;
@@ -39,7 +39,7 @@ public class CloneEventPresentationLogicActivity extends EventDependentPresentat
             UpdateService.executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceId())).setHandler(ar -> {
                 if (ar.succeeded())
                     Toolkit.get().scheduler().runInUiThread(() ->
-                        new BookingsRoutingRequest(ar.result().getGeneratedKeys()[0], getHistory()).execute()
+                        new RouteToBookingsRequest(ar.result().getGeneratedKeys()[0], getHistory()).execute()
                 );
             });
         });

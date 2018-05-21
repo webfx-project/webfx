@@ -12,12 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import mongoose.activities.shared.book.cart.CartRoutingRequest;
+import mongoose.activities.shared.book.cart.RouteToCartRequest;
 import mongoose.activities.shared.book.shared.BookingCalendar;
 import mongoose.activities.shared.book.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.shared.PersonDetailsPanel;
-import mongoose.activities.shared.book.terms.TermsRoutingRequest;
+import mongoose.activities.shared.book.terms.RouteToTermsRequest;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentSubmitter;
@@ -97,7 +97,7 @@ class SummaryActivity extends BookingProcessActivity {
 
     private void showTermsDialog() {
         //new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), pageContainer).setOnClose(() -> termsCheckBox.setSelected(true)).show();
-        new TermsRoutingRequest(getEventId(), getHistory()).execute();
+        new RouteToTermsRequest(getEventId(), getHistory()).execute();
     }
 
     private void syncUiFromModel() {
@@ -143,7 +143,7 @@ class SummaryActivity extends BookingProcessActivity {
                         document = workingDocument.getDocument();
                         cart = document.getCart();
                     }
-                    new CartRoutingRequest(cart.getUuid(), getHistory()).execute();
+                    new RouteToCartRequest(cart.getUuid(), getHistory()).execute();
                 }
             });
     }

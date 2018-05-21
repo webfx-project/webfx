@@ -1,14 +1,14 @@
 package mongoose.activities.backend.letter;
 
-import naga.framework.ui.router.PushRoutingRequest;
+import naga.framework.ui.router.PushRouteRequest;
 import naga.platform.client.url.history.History;
 
 /**
  * @author Bruno Salmon
  */
-public class LetterRoutingRequest extends PushRoutingRequest {
+public class RouteToLetterRequest extends PushRouteRequest {
 
-    public LetterRoutingRequest(Object letterId, History history) {
+    public RouteToLetterRequest(Object letterId, History history) {
         super(LetterRouting.getEditLetterPath(letterId), history);
     }
 

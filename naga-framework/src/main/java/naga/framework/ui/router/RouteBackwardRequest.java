@@ -7,13 +7,13 @@ import naga.util.async.AsyncFunction;
 /**
  * @author Bruno Salmon
  */
-public final class ForwardRoutingRequest
-        extends UiRoutingRequest<ForwardRoutingRequest>
+public final class RouteBackwardRequest
+        extends UiRouteRequest<RouteBackwardRequest>
         implements HasOperationCode {
 
-    private static final String OPERATION_CODE = "FORWARD";
+    private static final String OPERATION_CODE = "BACKWARD";
 
-    public ForwardRoutingRequest(History history) {
+    public RouteBackwardRequest(History history) {
         super(history);
     }
 
@@ -23,9 +23,9 @@ public final class ForwardRoutingRequest
     }
 
     @Override
-    public AsyncFunction<ForwardRoutingRequest, Void> getOperationExecutor() {
+    public AsyncFunction<RouteBackwardRequest, Void> getOperationExecutor() {
         return request -> {
-            request.getHistory().goForward();
+            request.getHistory().goBack();
             return null;
         };
     }

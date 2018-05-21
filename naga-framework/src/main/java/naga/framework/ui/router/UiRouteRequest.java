@@ -1,24 +1,24 @@
 package naga.framework.ui.router;
 
 import naga.framework.operation.HasOperationExecutor;
-import naga.framework.router.auth.authz.RoutingRequest;
+import naga.framework.router.auth.authz.RouteRequest;
 import naga.platform.client.url.history.History;
 import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class UiRoutingRequest<THIS extends UiRoutingRequest<THIS>>
-        extends RoutingRequest
+public abstract class UiRouteRequest<THIS extends UiRouteRequest<THIS>>
+        extends RouteRequest
         implements HasOperationExecutor<THIS, Void> {
 
     private History history;
 
-    protected UiRoutingRequest(History history) {
+    protected UiRouteRequest(History history) {
         this(null, history);
     }
 
-    protected UiRoutingRequest(String routePath, History history) {
+    protected UiRouteRequest(String routePath, History history) {
         super(routePath);
         this.history = history;
     }

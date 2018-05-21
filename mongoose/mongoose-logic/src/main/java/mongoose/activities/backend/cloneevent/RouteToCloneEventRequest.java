@@ -1,17 +1,17 @@
 package mongoose.activities.backend.cloneevent;
 
 import naga.framework.operation.HasOperationCode;
-import naga.framework.ui.router.PushRoutingRequest;
+import naga.framework.ui.router.PushRouteRequest;
 import naga.platform.client.url.history.History;
 
 /**
  * @author Bruno Salmon
  */
-public class CloneEventRoutingRequest extends PushRoutingRequest implements HasOperationCode {
+public class RouteToCloneEventRequest extends PushRouteRequest implements HasOperationCode {
 
     private final static String OPERATION_CODE = "CLONE_EVENT";
 
-    public CloneEventRoutingRequest(Object eventId, History history) {
+    public RouteToCloneEventRequest(Object eventId, History history) {
         super(CloneEventRouting.getCloneEventPath(eventId), history);
     }
 

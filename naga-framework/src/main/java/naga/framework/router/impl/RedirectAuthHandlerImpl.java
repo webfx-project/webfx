@@ -2,7 +2,7 @@ package naga.framework.router.impl;
 
 import naga.framework.router.RoutingContext;
 import naga.framework.router.auth.RedirectAuthHandler;
-import naga.framework.router.auth.authz.RoutingRequest;
+import naga.framework.router.auth.authz.RouteRequest;
 import naga.framework.services.authz.AuthorizationRequest;
 
 /**
@@ -26,7 +26,7 @@ public class RedirectAuthHandlerImpl implements RedirectAuthHandler {
         else // Otherwise continuing the route only if the user is authorized, otherwise redirecting to auth page (login or unauthorized)
             new AuthorizationRequest<>()
                     .setUserPrincipal(context.userPrincipal())
-                    .setOperationRequest(new RoutingRequest(requestedPath))
+                    .setOperationRequest(new RouteRequest(requestedPath))
                     .onAuthorizedExecute(context::next)
                     .onUnauthorizedExecute(() -> redirectToAuth(context))
                     .executeAsync();

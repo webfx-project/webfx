@@ -3,27 +3,27 @@ package mongoose.activities.shared.book.options;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.services.EventService;
-import naga.framework.ui.router.PushRoutingRequest;
+import naga.framework.ui.router.PushRouteRequest;
 import naga.platform.client.url.history.History;
 
 /**
  * @author Bruno Salmon
  */
-public class OptionsRoutingRequest extends PushRoutingRequest {
+public class RouteToOptionsRequest extends PushRouteRequest {
 
-    public OptionsRoutingRequest(Object eventId, History history) {
+    public RouteToOptionsRequest(Object eventId, History history) {
         super(OptionsRouting.getEventOptionsPath(eventId), history);
     }
 
-    public OptionsRoutingRequest(WorkingDocument workingDocument, History history) {
+    public RouteToOptionsRequest(WorkingDocument workingDocument, History history) {
         this(workingDocument, null, history);
     }
 
-    public OptionsRoutingRequest(OptionsPreselection optionsPreselection, History history) {
+    public RouteToOptionsRequest(OptionsPreselection optionsPreselection, History history) {
         this(optionsPreselection.getWorkingDocument(), optionsPreselection, history);
     }
 
-    public OptionsRoutingRequest(WorkingDocument workingDocument, OptionsPreselection optionsPreselection, History history) {
+    public RouteToOptionsRequest(WorkingDocument workingDocument, OptionsPreselection optionsPreselection, History history) {
         this(prepareEventServiceAndReturnEventId(workingDocument, optionsPreselection), history);
     }
 

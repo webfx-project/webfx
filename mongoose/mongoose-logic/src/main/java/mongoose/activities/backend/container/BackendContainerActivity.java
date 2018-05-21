@@ -1,11 +1,12 @@
 package mongoose.activities.backend.container;
 
-import mongoose.activities.backend.bookings.BookingsRoutingRequest;
-import mongoose.activities.backend.events.EventsRoutingRequest;
-import mongoose.activities.backend.letters.LettersRoutingRequest;
-import mongoose.activities.backend.monitor.MonitorRoutingRequest;
-import mongoose.activities.backend.organizations.OrganizationsRoutingRequest;
-import mongoose.activities.backend.tester.TesterRoutingRequest;
+import mongoose.activities.backend.bookings.RouteToBookingsRequest;
+import mongoose.activities.backend.events.RouteToEventsRequest;
+import mongoose.activities.backend.letters.RouteToLettersRequest;
+import mongoose.activities.backend.monitor.RouteToMonitorRequest;
+import mongoose.activities.backend.organizations.RouteToOrganizationsRequest;
+import mongoose.activities.backend.tester.RouteToTesterRequest;
+import mongoose.activities.backend.users.RouteToUsersRequest;
 import mongoose.activities.shared.container.SharedContainerActivity;
 import naga.framework.ui.action.Action;
 import naga.util.collection.Collections;
@@ -23,12 +24,13 @@ public class BackendContainerActivity extends SharedContainerActivity {
         return Collections.listOf(
                   backAction
                 , forwardAction
-                , newAction(() -> new OrganizationsRoutingRequest(getHistory()))
-                , newAction(() -> new EventsRoutingRequest(getHistory()))
-                , newAction(() -> new BookingsRoutingRequest(getParameter("eventId"), getHistory()))
-                , newAction(() -> new LettersRoutingRequest(getParameter("eventId"), getHistory()))
-                , newAction(() -> new MonitorRoutingRequest(getHistory()))
-                , newAction(() -> new TesterRoutingRequest(getHistory()))
+                , newAction(() -> new RouteToOrganizationsRequest(getHistory()))
+                , newAction(() -> new RouteToEventsRequest(getHistory()))
+                , newAction(() -> new RouteToBookingsRequest(getParameter("eventId"), getHistory()))
+                , newAction(() -> new RouteToLettersRequest(getParameter("eventId"), getHistory()))
+                , newAction(() -> new RouteToMonitorRequest(getHistory()))
+                , newAction(() -> new RouteToTesterRequest(getHistory()))
+                , newAction(() -> new RouteToUsersRequest(getHistory()))
                 , englishAction
                 , frenchAction
         );

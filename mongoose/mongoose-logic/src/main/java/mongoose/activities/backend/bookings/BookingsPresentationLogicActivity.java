@@ -1,6 +1,6 @@
 package mongoose.activities.backend.bookings;
 
-import mongoose.activities.shared.book.options.OptionsRoutingRequest;
+import mongoose.activities.shared.book.options.RouteToOptionsRequest;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
 import mongoose.domainmodel.functions.AbcNames;
@@ -101,7 +101,7 @@ class BookingsPresentationLogicActivity
                         if (ar.failed())
                             Logger.log("Error loading document", ar.cause());
                         else
-                            new OptionsRoutingRequest(ar.result(), getHistory()).execute();
+                            new RouteToOptionsRequest(ar.result(), getHistory()).execute();
                     });
             })
             .start();

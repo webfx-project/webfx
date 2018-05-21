@@ -17,7 +17,7 @@ import javafx.scene.text.TextFlow;
 import mongoose.activities.shared.book.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.shared.LoginPanel;
 import mongoose.activities.shared.book.shared.PersonDetailsPanel;
-import mongoose.activities.shared.book.summary.SummaryRoutingRequest;
+import mongoose.activities.shared.book.summary.RouteToSummaryRequest;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
@@ -95,7 +95,7 @@ class PersonActivity extends BookingProcessActivity {
     @Override
     protected void onNextButtonPressed(ActionEvent event) {
         if (personDetailsPanel.isValid())
-            new SummaryRoutingRequest(getEventId(), getHistory()).execute();
+            new RouteToSummaryRequest(getEventId(), getHistory()).execute();
     }
 
     @Override

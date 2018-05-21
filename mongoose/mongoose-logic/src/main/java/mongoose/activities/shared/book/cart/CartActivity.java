@@ -11,9 +11,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import mongoose.activities.shared.book.payment.PaymentRoutingRequest;
-import mongoose.activities.shared.book.fees.FeesRoutingRequest;
-import mongoose.activities.shared.book.options.OptionsRoutingRequest;
+import mongoose.activities.shared.book.payment.RouteToPaymentRequest;
+import mongoose.activities.shared.book.fees.RouteToFeesRequest;
+import mongoose.activities.shared.book.options.RouteToOptionsRequest;
 import mongoose.activities.shared.book.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.shared.TermsDialog;
 import mongoose.activities.shared.book.shared.TranslateFunction;
@@ -250,7 +250,7 @@ class CartActivity extends CartBasedActivity {
     }
 
     private void modifyBooking() {
-        new OptionsRoutingRequest(selectedWorkingDocument, getHistory()).execute();
+        new RouteToOptionsRequest(selectedWorkingDocument, getHistory()).execute();
         setSelectedWorkingDocument(null);
     }
 
@@ -324,7 +324,7 @@ class CartActivity extends CartBasedActivity {
     }
 
     private void addBooking() {
-        new FeesRoutingRequest(getEventId(), getHistory()).execute();
+        new RouteToFeesRequest(getEventId(), getHistory()).execute();
     }
 
     private void showPayments() {
@@ -333,6 +333,6 @@ class CartActivity extends CartBasedActivity {
     }
 
     private void makePayment() {
-        new PaymentRoutingRequest(getCartUuid(), getHistory()).execute();
+        new RouteToPaymentRequest(getCartUuid(), getHistory()).execute();
     }
 }

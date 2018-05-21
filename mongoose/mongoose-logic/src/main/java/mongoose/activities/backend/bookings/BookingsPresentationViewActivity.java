@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import mongoose.activities.backend.cloneevent.CloneEventRoutingRequest;
+import mongoose.activities.backend.cloneevent.RouteToCloneEventRequest;
 import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
 import naga.framework.operation.action.OperationActionProducer;
 
@@ -22,8 +22,8 @@ class BookingsPresentationViewActivity extends GenericTablePresentationViewActiv
     protected void createViewNodes(BookingsPresentationModel pm) {
         super.createViewNodes(pm);
 
-        Button newBookingButton = newButton(newAction(() -> new NewBackendBookingRoutingRequest(pm.getEventId(), getHistory())));
-        Button cloneEventButton = newButton(newAction(() -> new CloneEventRoutingRequest(pm.getEventId(), getHistory())));
+        Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(pm.getEventId(), getHistory())));
+        Button cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(pm.getEventId(), getHistory())));
 
         hBox = new HBox(setUnmanagedWhenInvisible(newBookingButton), setHGrowable(searchBox), setUnmanagedWhenInvisible(cloneEventButton));
         }

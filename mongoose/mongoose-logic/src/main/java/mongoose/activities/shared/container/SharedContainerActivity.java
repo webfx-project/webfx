@@ -10,8 +10,8 @@ import naga.framework.activity.view.impl.ViewActivityImpl;
 import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.action.ActionBinder;
-import naga.framework.ui.router.BackwardRoutingRequest;
-import naga.framework.ui.router.ForwardRoutingRequest;
+import naga.framework.ui.router.RouteBackwardRequest;
+import naga.framework.ui.router.RouteForwardRequest;
 import naga.util.collection.Collections;
 
 import java.util.Collection;
@@ -38,8 +38,8 @@ public class SharedContainerActivity extends ViewActivityImpl
 
     protected Collection<Action> navigationActions() {
         return Collections.listOf(
-                   backAction    = newAction(() -> new BackwardRoutingRequest(getHistory()))
-                ,  forwardAction = newAction(() -> new ForwardRoutingRequest(getHistory()))
+                   backAction    = newAction(() -> new RouteBackwardRequest(getHistory()))
+                ,  forwardAction = newAction(() -> new RouteForwardRequest(getHistory()))
                 ,  englishAction = newAction(() -> new EnglishLanguageRequest(getI18n()))
                 ,  frenchAction  = newAction(() -> new FrenchLanguageRequest(getI18n()))
         );

@@ -8,15 +8,15 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public class PushRoutingRequest extends UiRoutingRequest<PushRoutingRequest> {
+public class PushRouteRequest extends UiRouteRequest<PushRouteRequest> {
 
     private JsonObject state;
 
-    public PushRoutingRequest(String routePath, History history) {
+    public PushRouteRequest(String routePath, History history) {
         this(routePath, history, null);
     }
 
-    public PushRoutingRequest(String routePath, History history, JsonObject state) {
+    public PushRouteRequest(String routePath, History history, JsonObject state) {
         super(routePath, history);
         this.state = state;
     }
@@ -25,17 +25,17 @@ public class PushRoutingRequest extends UiRoutingRequest<PushRoutingRequest> {
         return state;
     }
 
-    public PushRoutingRequest setState(JsonObject state) {
+    public PushRouteRequest setState(JsonObject state) {
         this.state = state;
         return this;
     }
 
     @Override
-    public AsyncFunction<PushRoutingRequest, Void> getOperationExecutor() {
-        return PushRoutingRequest::executePushRoutingRequest;
+    public AsyncFunction<PushRouteRequest, Void> getOperationExecutor() {
+        return PushRouteRequest::executePushRouteRequest;
     }
 
-    private static Future<Void> executePushRoutingRequest(PushRoutingRequest request) {
+    private static Future<Void> executePushRouteRequest(PushRouteRequest request) {
         String routePath = request.getRoutePath();
         if (routePath != null)
             request.getHistory().push(routePath, request.getState());

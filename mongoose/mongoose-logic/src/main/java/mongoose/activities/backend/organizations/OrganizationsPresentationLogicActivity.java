@@ -1,6 +1,6 @@
 package mongoose.activities.backend.organizations;
 
-import mongoose.activities.backend.events.EventsRoutingRequest;
+import mongoose.activities.backend.events.RouteToEventsRequest;
 import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
 import mongoose.entities.Organization;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
@@ -36,7 +36,7 @@ class OrganizationsPresentationLogicActivity
                         "]")
                 .applyDomainModelRowStyle()
                 .displayResultInto(pm.genericDisplayResultProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> new EventsRoutingRequest(organization, getHistory()).execute() )
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> new RouteToEventsRequest(organization, getHistory()).execute() )
                 .start();
     }
 }

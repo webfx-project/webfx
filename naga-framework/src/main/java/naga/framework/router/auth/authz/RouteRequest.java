@@ -3,11 +3,11 @@ package naga.framework.router.auth.authz;
 /**
  * @author Bruno Salmon
  */
-public class RoutingRequest {
+public class RouteRequest {
 
     private final String routePath;
 
-    public RoutingRequest(String routePath) {
+    public RouteRequest(String routePath) {
         this.routePath = routePath;
     }
 

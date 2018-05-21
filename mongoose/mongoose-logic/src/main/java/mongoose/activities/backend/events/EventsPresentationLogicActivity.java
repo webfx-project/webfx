@@ -1,6 +1,6 @@
 package mongoose.activities.backend.events;
 
-import mongoose.activities.backend.bookings.BookingsRoutingRequest;
+import mongoose.activities.backend.bookings.RouteToBookingsRequest;
 import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
 import mongoose.entities.Event;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
@@ -45,7 +45,7 @@ class EventsPresentationLogicActivity
                         "{role: 'background', expression: 'type.background'}" +
                         "]")
                 .displayResultInto(pm.genericDisplayResultProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> new BookingsRoutingRequest(event, getHistory()).execute())
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> new RouteToBookingsRequest(event, getHistory()).execute())
                 .start();
     }
 }

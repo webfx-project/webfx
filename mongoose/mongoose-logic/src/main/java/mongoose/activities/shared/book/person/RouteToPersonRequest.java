@@ -1,14 +1,14 @@
 package mongoose.activities.shared.book.person;
 
-import naga.framework.ui.router.PushRoutingRequest;
+import naga.framework.ui.router.PushRouteRequest;
 import naga.platform.client.url.history.History;
 
 /**
  * @author Bruno Salmon
  */
-public class PersonRoutingRequest extends PushRoutingRequest {
+public class RouteToPersonRequest extends PushRouteRequest {
 
-    public PersonRoutingRequest(Object eventId, History history) {
+    public RouteToPersonRequest(Object eventId, History history) {
         super(PersonRouting.getPersonPath(eventId), history);
     }
 
