@@ -1,6 +1,6 @@
 package mongoose.activities.backend.events;
 
-import mongoose.activities.backend.bookings.RouteToBookingsRequest;
+import mongoose.operations.shared.route.RouteToBookingsRequest;
 import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
 import mongoose.entities.Event;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;

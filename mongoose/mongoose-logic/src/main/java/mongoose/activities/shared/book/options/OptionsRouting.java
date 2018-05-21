@@ -23,7 +23,7 @@ public class OptionsRouting {
         return PATH;
     }
 
-    static String getEventOptionsPath(Object eventId) {
+    public static String getEventOptionsPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, getPath());
     }
 }

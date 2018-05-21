@@ -1,6 +1,7 @@
-package mongoose.activities.shared.book.cart;
+package mongoose.operations.shared.route;
 
-import naga.framework.ui.router.PushRouteRequest;
+import mongoose.activities.shared.book.cart.CartRouting;
+import naga.framework.operations.route.PushRouteRequest;
 import naga.platform.client.url.history.History;
 import naga.platform.json.Json;
 

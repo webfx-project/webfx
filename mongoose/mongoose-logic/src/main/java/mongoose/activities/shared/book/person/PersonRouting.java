@@ -19,7 +19,7 @@ public class PersonRouting {
         );
     }
 
-    static String getPersonPath(Object eventId) {
+    public static String getPersonPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
     }
 }

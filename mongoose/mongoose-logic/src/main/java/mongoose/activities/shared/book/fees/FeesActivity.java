@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import mongoose.actions.MongooseIcons;
-import mongoose.activities.shared.book.options.RouteToOptionsRequest;
+import mongoose.operations.shared.route.RouteToOptionsRequest;
 import mongoose.activities.shared.book.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;

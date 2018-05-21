@@ -19,7 +19,7 @@ public class SummaryRouting {
         );
     }
 
-    static String getSummaryPath(Object eventId) {
+    public static String getSummaryPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
     }
 }

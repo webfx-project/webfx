@@ -24,7 +24,7 @@ public class PaymentRouting {
         return PATH;
     }
 
-    static String getPaymentPath(Object cartUuidOrDocument) {
+    public static String getPaymentPath(Object cartUuidOrDocument) {
         return MongooseRoutingUtil.interpolateCartUuidInPath(CartRouting.getCartUuid(cartUuidOrDocument), getPath());
     }
 }

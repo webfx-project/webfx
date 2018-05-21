@@ -23,11 +23,11 @@ public class EventsRouting {
         );
     }
 
-    static String getAllEventsPath() {
+    public static String getAllEventsPath() {
         return ALL_EVENTS_PATH;
     }
 
-    static String getOrganizationEventsPath(Object organizationId) {
+    public static String getOrganizationEventsPath(Object organizationId) {
         return MongooseRoutingUtil.interpolateOrganizationIdInPath(organizationId, ORGANIZATION_PATH);
     }
 }

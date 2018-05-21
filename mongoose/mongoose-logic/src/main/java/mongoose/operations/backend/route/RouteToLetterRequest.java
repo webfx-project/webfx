@@ -1,6 +1,7 @@
-package mongoose.activities.backend.letter;
+package mongoose.operations.backend.route;
 
-import naga.framework.ui.router.PushRouteRequest;
+import mongoose.activities.backend.letter.LetterRouting;
+import naga.framework.operations.route.PushRouteRequest;
 import naga.platform.client.url.history.History;
 
 /**

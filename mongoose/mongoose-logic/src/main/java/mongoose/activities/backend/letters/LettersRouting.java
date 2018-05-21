@@ -22,7 +22,7 @@ public class LettersRouting {
         );
     }
 
-    static String getEventLettersPath(Object eventId) {
+    public static String getEventLettersPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, EVENT_PATH);
     }
 }

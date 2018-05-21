@@ -19,7 +19,7 @@ public class TermsRouting {
         );
     }
 
-    static String getTermsPath(Object eventId) {
+    public static String getTermsPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
     }
 }

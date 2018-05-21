@@ -7,7 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import mongoose.actions.MongooseIcons;
-import mongoose.activities.shared.book.person.RouteToPersonRequest;
+import mongoose.operations.shared.route.RouteToPersonRequest;
 import mongoose.activities.shared.book.shared.BookingCalendar;
 import mongoose.activities.shared.book.shared.BookingProcessActivity;
 import mongoose.activities.shared.book.shared.FeesGroup;

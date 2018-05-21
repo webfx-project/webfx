@@ -1,12 +1,12 @@
 package mongoose.activities.backend.container;
 
-import mongoose.activities.backend.bookings.RouteToBookingsRequest;
-import mongoose.activities.backend.events.RouteToEventsRequest;
-import mongoose.activities.backend.letters.RouteToLettersRequest;
-import mongoose.activities.backend.monitor.RouteToMonitorRequest;
-import mongoose.activities.backend.organizations.RouteToOrganizationsRequest;
-import mongoose.activities.backend.tester.RouteToTesterRequest;
-import mongoose.activities.backend.users.RouteToUsersRequest;
+import mongoose.operations.shared.route.RouteToBookingsRequest;
+import mongoose.operations.backend.route.RouteToEventsRequest;
+import mongoose.operations.backend.route.RouteToLettersRequest;
+import mongoose.operations.backend.route.RouteToMonitorRequest;
+import mongoose.operations.backend.route.RouteToOrganizationsRequest;
+import mongoose.operations.backend.route.RouteToTesterRequest;
+import mongoose.operations.backend.route.RouteToUsersRequest;
 import mongoose.activities.shared.container.SharedContainerActivity;
 import naga.framework.ui.action.Action;
 import naga.util.collection.Collections;

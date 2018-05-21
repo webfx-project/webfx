@@ -23,7 +23,7 @@ public class CloneEventRouting {
         return PATH;
     }
 
-    static String getCloneEventPath(Object eventId) {
+    public static String getCloneEventPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, getPath());
     }
 }

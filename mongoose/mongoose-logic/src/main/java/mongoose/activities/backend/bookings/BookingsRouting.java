@@ -24,7 +24,7 @@ public class BookingsRouting {
         );
     }
 
-    static String getEventBookingsPath(Object eventId) {
+    public static String getEventBookingsPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, EVENT_PATH);
     }
 

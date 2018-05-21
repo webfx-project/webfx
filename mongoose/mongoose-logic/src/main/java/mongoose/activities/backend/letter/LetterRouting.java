@@ -19,7 +19,7 @@ public class LetterRouting {
         );
     }
 
-    static String getEditLetterPath(Object letterId) {
+    public static String getEditLetterPath(Object letterId) {
         return MongooseRoutingUtil.interpolateLetterIdInPath(letterId, PATH);
     }
 }

@@ -4,8 +4,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import mongoose.activities.backend.cloneevent.RouteToCloneEventRequest;
+import mongoose.operations.backend.route.RouteToCloneEventRequest;
 import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
+import mongoose.operations.backend.route.RouteToNewBackendBookingRequest;
 import naga.framework.operation.action.OperationActionProducer;
 
 import static naga.framework.ui.layouts.LayoutUtil.setHGrowable;

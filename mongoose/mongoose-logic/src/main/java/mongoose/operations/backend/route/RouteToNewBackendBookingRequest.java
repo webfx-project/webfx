@@ -1,6 +1,6 @@
-package mongoose.activities.backend.bookings;
+package mongoose.operations.backend.route;
 
-import mongoose.activities.shared.book.fees.RouteToFeesRequest;
+import mongoose.operations.shared.route.RouteToFeesRequest;
 import mongoose.services.EventService;
 import naga.framework.operation.HasOperationCode;
 import naga.framework.operation.HasOperationExecutor;
@@ -10,7 +10,7 @@ import naga.util.async.AsyncFunction;
 /**
  * @author Bruno Salmon
  */
-class RouteToNewBackendBookingRequest
+public class RouteToNewBackendBookingRequest
         implements HasOperationExecutor<RouteToNewBackendBookingRequest, Void>
         , HasOperationCode {
 
@@ -19,7 +19,7 @@ class RouteToNewBackendBookingRequest
     private Object eventId;
     private History history;
 
-    RouteToNewBackendBookingRequest(Object eventId, History history) {
+    public RouteToNewBackendBookingRequest(Object eventId, History history) {
         this.eventId = eventId;
         this.history = history;
     }

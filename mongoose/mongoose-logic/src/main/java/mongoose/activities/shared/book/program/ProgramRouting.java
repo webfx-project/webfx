@@ -19,7 +19,7 @@ public class ProgramRouting {
         );
     }
 
-    static String getProgramPath(Object eventId) {
+    public static String getProgramPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
     }
 }

@@ -4,14 +4,14 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
-import mongoose.i18n.ChangeLanguageToEnglishRequest;
-import mongoose.i18n.ChangeLanguageToFrenchRequest;
+import mongoose.operations.shared.i18n.ChangeLanguageToEnglishRequest;
+import mongoose.operations.shared.i18n.ChangeLanguageToFrenchRequest;
 import naga.framework.activity.view.impl.ViewActivityImpl;
 import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.action.ActionBinder;
-import naga.framework.ui.router.RouteBackwardRequest;
-import naga.framework.ui.router.RouteForwardRequest;
+import naga.framework.operations.route.RouteBackwardRequest;
+import naga.framework.operations.route.RouteForwardRequest;
 import naga.util.collection.Collections;
 
 import java.util.Collection;

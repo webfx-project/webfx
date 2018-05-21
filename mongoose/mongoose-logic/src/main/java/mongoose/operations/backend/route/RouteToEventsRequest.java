@@ -1,7 +1,8 @@
-package mongoose.activities.backend.events;
+package mongoose.operations.backend.route;
 
+import mongoose.activities.backend.events.EventsRouting;
 import naga.framework.operation.HasOperationCode;
-import naga.framework.ui.router.PushRouteRequest;
+import naga.framework.operations.route.PushRouteRequest;
 import naga.platform.client.url.history.History;
 
 /**

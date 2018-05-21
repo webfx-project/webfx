@@ -1,6 +1,6 @@
 package mongoose.activities.backend.bookings;
 
-import mongoose.activities.shared.book.options.RouteToOptionsRequest;
+import mongoose.operations.shared.route.RouteToOptionsRequest;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
 import mongoose.domainmodel.functions.AbcNames;

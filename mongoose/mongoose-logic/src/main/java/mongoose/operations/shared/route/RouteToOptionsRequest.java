@@ -1,9 +1,10 @@
-package mongoose.activities.shared.book.options;
+package mongoose.operations.shared.route;
 
+import mongoose.activities.shared.book.options.OptionsRouting;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.services.EventService;
-import naga.framework.ui.router.PushRouteRequest;
+import naga.framework.operations.route.PushRouteRequest;
 import naga.platform.client.url.history.History;
 
 /**

@@ -19,7 +19,7 @@ public class FeesRouting {
         );
     }
 
-    static String getFeesPath(Object eventId) {
+    public static String getFeesPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
     }
 }

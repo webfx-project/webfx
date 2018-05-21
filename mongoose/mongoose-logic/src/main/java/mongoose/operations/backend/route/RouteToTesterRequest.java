@@ -1,7 +1,8 @@
-package mongoose.activities.backend.tester;
+package mongoose.operations.backend.route;
 
+import mongoose.activities.backend.tester.TesterRouting;
 import naga.framework.operation.HasOperationCode;
-import naga.framework.ui.router.PushRouteRequest;
+import naga.framework.operations.route.PushRouteRequest;
 import naga.platform.client.url.history.History;
 
 /**

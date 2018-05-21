@@ -19,7 +19,7 @@ public class StartBookingRouting {
         );
     }
 
-    static String getStartBookingPath(Object eventId) {
+    public static String getStartBookingPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
     }
 }
