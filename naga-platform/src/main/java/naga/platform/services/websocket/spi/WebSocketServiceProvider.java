@@ -15,14 +15,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.platform.client.websocket.spi;
+package naga.platform.services.websocket.spi;
 
 import naga.platform.json.spi.JsonObject;
+import naga.platform.services.websocket.WebSocket;
 
 /*
  * @author Bruno Salmon
  */
-public interface WebSocketFactoryProvider {
+public interface WebSocketServiceProvider {
 
     WebSocket createWebSocket(String url, JsonObject options);
 

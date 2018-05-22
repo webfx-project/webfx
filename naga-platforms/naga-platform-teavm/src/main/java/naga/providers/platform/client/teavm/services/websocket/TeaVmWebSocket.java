@@ -1,10 +1,10 @@
-package naga.providers.platform.client.teavm.websocket;
+package naga.providers.platform.client.teavm.services.websocket;
 
-import naga.platform.json.spi.JsonObject;
-import naga.platform.client.websocket.spi.WebSocket;
-import naga.platform.client.websocket.spi.WebSocketListener;
-import naga.providers.platform.client.teavm.json.TeaVmJsonElement;
-import naga.providers.platform.client.teavm.json.TeaVmJsonObject;
+import naga.platform.services.json.JsonObject;
+import naga.platform.services.websocket.WebSocket;
+import naga.platform.services.websocket.WebSocketListener;
+import naga.providers.platform.client.teavm.services.json.TeaVmJsonElement;
+import naga.providers.platform.client.teavm.services.json.TeaVmJsonObject;
 import org.teavm.jso.JSBody;
 import org.teavm.jso.JSObject;
 

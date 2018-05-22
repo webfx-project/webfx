@@ -15,12 +15,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.providers.platform.abstr.java.client.websocket;
+package naga.providers.platform.abstr.java.services.websocket;
 
-import naga.platform.client.websocket.spi.WebSocket;
-import naga.platform.client.websocket.spi.WebSocketListener;
-import naga.platform.json.Json;
-import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.services.websocket.WebSocket;
+import naga.platform.services.websocket.WebSocketListener;
+import naga.platform.services.json.Json;
+import naga.platform.services.json.WritableJsonObject;
 import naga.platform.services.log.Logger;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;

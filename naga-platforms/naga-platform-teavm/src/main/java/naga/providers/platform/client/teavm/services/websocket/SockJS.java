@@ -1,4 +1,4 @@
-package naga.providers.platform.client.teavm.websocket;
+package naga.providers.platform.client.teavm.services.websocket;
 
 import org.teavm.jso.JSFunctor;
 import org.teavm.jso.JSObject;

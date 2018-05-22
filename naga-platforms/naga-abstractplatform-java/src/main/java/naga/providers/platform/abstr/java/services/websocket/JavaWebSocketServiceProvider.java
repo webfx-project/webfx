@@ -15,19 +15,16 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.providers.platform.abstr.java.client.websocket;
+package naga.providers.platform.abstr.java.services.websocket;
 
-import naga.platform.client.websocket.spi.WebSocketFactoryProvider;
-import naga.platform.json.spi.JsonObject;
-import naga.platform.client.websocket.spi.WebSocket;
+import naga.platform.services.websocket.spi.WebSocketServiceProvider;
+import naga.platform.services.json.JsonObject;
+import naga.platform.services.websocket.WebSocket;
 
 /*
- * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
- * @author Bruno Salmon - fork, refactor & update for the naga project
- *
- * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
+ * @author Bruno Salmon
  */
-public final class JavaWebSocketFactoryProvider implements WebSocketFactoryProvider {
+public final class JavaWebSocketServiceProvider implements WebSocketServiceProvider {
 
     @Override
     public WebSocket createWebSocket(String url, JsonObject options) {

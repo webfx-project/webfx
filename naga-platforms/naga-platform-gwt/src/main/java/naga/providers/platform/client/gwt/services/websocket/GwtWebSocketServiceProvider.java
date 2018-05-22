@@ -1,12 +1,12 @@
-package naga.providers.platform.client.gwt.websocket;
+package naga.providers.platform.client.gwt.services.websocket;
 
-import naga.platform.json.spi.JsonObject;
-import naga.platform.client.websocket.spi.WebSocketFactoryProvider;
+import naga.platform.services.json.JsonObject;
+import naga.platform.services.websocket.spi.WebSocketServiceProvider;
 
 /**
  * @author Bruno Salmon
  */
-public final class GwtWebSocketFactoryProvider implements WebSocketFactoryProvider {
+public final class GwtWebSocketServiceProvider implements WebSocketServiceProvider {
 
     @Override
     public native GwtWebSocket createWebSocket(String url, JsonObject options) /*-{

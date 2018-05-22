@@ -18,9 +18,9 @@
 package naga.platform.client.bus;
 
 import naga.platform.bus.Message;
-import naga.platform.client.websocket.spi.WebSocket;
-import naga.platform.client.websocket.spi.WebSocketFactory;
-import naga.platform.client.websocket.spi.WebSocketListener;
+import naga.platform.services.websocket.WebSocket;
+import naga.platform.services.websocket.WebSocketService;
+import naga.platform.services.websocket.WebSocketListener;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
@@ -116,7 +116,7 @@ public class WebSocketBus extends SimpleClientBus {
         if (webSocketListener == null)
             Logger.log("Connecting bus to " + serverUri);
 
-        webSocket = WebSocketFactory.createWebSocket(serverUri, options.getSocketOptions());
+        webSocket = WebSocketService.createWebSocket(serverUri, options.getSocketOptions());
         webSocket.setListener(internalWebSocketHandler);
     }
 

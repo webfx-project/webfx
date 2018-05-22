@@ -20,8 +20,8 @@ import naga.platform.services.resource.spi.ResourceServiceProvider;
 import naga.providers.platform.client.gwt.services.resource.GwtResourceServiceProvider;
 import naga.platform.services.log.spi.LoggerProvider;
 import naga.providers.platform.client.gwt.services.log.GwtLoggerProvider;
-import naga.platform.client.websocket.spi.WebSocketFactoryProvider;
-import naga.providers.platform.client.gwt.websocket.GwtWebSocketFactoryProvider;
+import naga.platform.services.websocket.spi.WebSocketServiceProvider;
+import naga.providers.platform.client.gwt.services.websocket.GwtWebSocketServiceProvider;
 import naga.util.numbers.spi.NumbersProvider;
 import naga.util.numbers.providers.StandardPlatformNumbers;
 import naga.platform.spi.Platform;
@@ -43,8 +43,8 @@ public class ServiceLoader<S> {
             return new ServiceLoader<>(new GwtResourceServiceProvider());
         if (serviceClass.equals(LoggerProvider.class))
             return new ServiceLoader<>(new GwtLoggerProvider());
-        if (serviceClass.equals(WebSocketFactoryProvider.class))
-            return new ServiceLoader<>(new GwtWebSocketFactoryProvider());
+        if (serviceClass.equals(WebSocketServiceProvider.class))
+            return new ServiceLoader<>(new GwtWebSocketServiceProvider());
         if (serviceClass.equals(Toolkit.class))
             return new ServiceLoader<>(new GwtToolkit());
         if (serviceClass.equals(NumbersProvider.class))

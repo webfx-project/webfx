@@ -21,7 +21,7 @@ import naga.platform.bus.Bus;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.BusOptions;
-import naga.platform.client.websocket.spi.WebSocket;
+import naga.platform.services.websocket.WebSocket;
 import naga.scheduler.Scheduler;
 
 import java.util.ArrayList;
