@@ -1,7 +1,7 @@
 package naga.framework.ui.filter;
 
-import naga.framework.ui.format.Formatter;
-import naga.framework.ui.format.FormatterRegistry;
+import naga.framework.ui.formatter.Formatter;
+import naga.framework.ui.formatter.FormatterRegistry;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;

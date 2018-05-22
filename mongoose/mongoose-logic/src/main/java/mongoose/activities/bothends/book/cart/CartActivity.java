@@ -45,7 +45,7 @@ import naga.util.collection.Collections;
 
 import java.util.List;
 
-import static naga.framework.ui.format.FormatterRegistry.registerFormatter;
+import static naga.framework.ui.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon

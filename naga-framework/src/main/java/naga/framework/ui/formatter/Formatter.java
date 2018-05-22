@@ -1,4 +1,4 @@
-package naga.framework.ui.format;
+package naga.framework.ui.formatter;
 
 import naga.type.Type;
 

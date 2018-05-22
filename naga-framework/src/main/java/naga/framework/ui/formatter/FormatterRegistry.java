@@ -1,4 +1,4 @@
-package naga.framework.ui.format;
+package naga.framework.ui.formatter;
 
 import java.util.HashMap;
 import java.util.Map;

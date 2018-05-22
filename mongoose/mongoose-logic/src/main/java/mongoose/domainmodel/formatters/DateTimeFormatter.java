@@ -3,7 +3,7 @@ package mongoose.domainmodel.formatters;
 import naga.type.PrimType;
 import naga.type.Type;
 import naga.util.Dates;
-import naga.framework.ui.format.Formatter;
+import naga.framework.ui.formatter.Formatter;
 
 
 /**

@@ -24,7 +24,7 @@ import naga.util.async.Batch;
 import naga.util.async.Future;
 
 import static naga.framework.orm.entity.EntityFactoryRegistry.registerEntityFactory;
-import static naga.framework.ui.format.FormatterRegistry.registerFormatter;
+import static naga.framework.ui.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon

@@ -8,7 +8,7 @@ import naga.framework.expression.terms.Dot;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
-import naga.framework.ui.format.Formatter;
+import naga.framework.ui.formatter.Formatter;
 import naga.platform.json.spi.JsonObject;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayColumnBuilder;

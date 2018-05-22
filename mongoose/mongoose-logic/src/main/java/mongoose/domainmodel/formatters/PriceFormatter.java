@@ -5,7 +5,7 @@ import naga.type.PrimType;
 import naga.type.Type;
 import naga.util.Numbers;
 import naga.framework.orm.entity.EntityId;
-import naga.framework.ui.format.Formatter;
+import naga.framework.ui.formatter.Formatter;
 
 /**
  * @author Bruno Salmon

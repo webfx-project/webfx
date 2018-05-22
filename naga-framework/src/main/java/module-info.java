@@ -60,7 +60,7 @@ module naga.framework {
     exports naga.framework.ui.auth;
     exports naga.framework.ui.graphic.border;
     exports naga.framework.ui.filter;
-    exports naga.framework.ui.format;
+    exports naga.framework.ui.formatter;
     exports naga.framework.ui.i18n;
     exports naga.framework.ui.mapping;
     exports naga.framework.ui.router;

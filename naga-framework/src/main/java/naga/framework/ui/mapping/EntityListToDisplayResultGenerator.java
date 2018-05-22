@@ -12,7 +12,7 @@ import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.impl.DynamicEntity;
 import naga.framework.ui.filter.ExpressionColumn;
-import naga.framework.ui.format.Formatter;
+import naga.framework.ui.formatter.Formatter;
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResult;
