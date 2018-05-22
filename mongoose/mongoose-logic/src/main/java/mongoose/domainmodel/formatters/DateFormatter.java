@@ -1,4 +1,4 @@
-package mongoose.domainmodel.format;
+package mongoose.domainmodel.formatters;
 
 import javafx.util.StringConverter;
 import naga.type.PrimType;

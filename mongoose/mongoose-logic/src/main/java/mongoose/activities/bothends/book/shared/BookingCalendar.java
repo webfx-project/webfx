@@ -15,7 +15,7 @@ import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarGraphic;
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.activities.bothends.logic.work.merge.WorkingDocumentMerger;
-import mongoose.domainmodel.format.PriceFormatter;
+import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.services.EventService;
 import mongoose.util.PerformanceLogger;
 import naga.framework.orm.entity.Entities;

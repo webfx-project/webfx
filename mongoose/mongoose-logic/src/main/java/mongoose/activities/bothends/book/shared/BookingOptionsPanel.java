@@ -6,7 +6,7 @@ import mongoose.activities.bothends.logic.time.DaysArray;
 import mongoose.activities.bothends.logic.time.DaysArrayBuilder;
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
-import mongoose.domainmodel.format.PriceFormatter;
+import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.entities.DocumentLine;
 import mongoose.entities.Item;
 import naga.framework.expression.Expression;

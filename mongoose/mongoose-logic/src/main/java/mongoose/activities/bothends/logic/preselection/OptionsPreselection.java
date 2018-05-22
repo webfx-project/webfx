@@ -3,7 +3,7 @@ package mongoose.activities.bothends.logic.preselection;
 import mongoose.activities.bothends.logic.time.DateTimeRange;
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
-import mongoose.domainmodel.format.PriceFormatter;
+import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.services.EventService;

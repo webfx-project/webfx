@@ -19,7 +19,7 @@ import mongoose.activities.bothends.book.shared.TermsDialog;
 import mongoose.activities.bothends.book.shared.TranslateFunction;
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.bothends.logic.work.WorkingDocument;
-import mongoose.domainmodel.format.PriceFormatter;
+import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.entities.Document;
 import mongoose.entities.History;
 import mongoose.entities.Mail;

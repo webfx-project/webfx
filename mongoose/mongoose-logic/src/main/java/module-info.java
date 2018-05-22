@@ -21,7 +21,7 @@ module mongoose.logic {
     exports mongoose.activities.bothends.application;
     exports mongoose.activities.backend.cloneevent;
     exports mongoose.domainmodel.loader;
-    exports mongoose.domainmodel.format;
+    exports mongoose.domainmodel.formatters;
     exports mongoose.entities;
     exports mongoose.spi.metrics;
 }

@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import mongoose.activities.bothends.logic.ui.theme.Theme;
-import mongoose.domainmodel.format.DateFormatter;
+import mongoose.domainmodel.formatters.DateFormatter;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 

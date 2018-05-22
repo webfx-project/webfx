@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.bothends.book.cart.CartBasedActivity;
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.HighLevelComponents;
-import mongoose.domainmodel.format.PriceFormatter;
+import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.entities.*;
 import mongoose.entities.markers.EntityHasName;
 import mongoose.util.Labels;

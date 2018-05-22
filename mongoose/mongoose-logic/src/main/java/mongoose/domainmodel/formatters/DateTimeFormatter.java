@@ -1,4 +1,4 @@
-package mongoose.domainmodel.format;
+package mongoose.domainmodel.formatters;
 
 import naga.type.PrimType;
 import naga.type.Type;

@@ -1,8 +1,8 @@
 package mongoose.domainmodel.loader;
 
-import mongoose.domainmodel.format.DateFormatter;
-import mongoose.domainmodel.format.DateTimeFormatter;
-import mongoose.domainmodel.format.PriceFormatter;
+import mongoose.domainmodel.formatters.DateFormatter;
+import mongoose.domainmodel.formatters.DateTimeFormatter;
+import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.domainmodel.functions.AbcNames;
 import mongoose.domainmodel.functions.DateIntervalFormat;
 import mongoose.entities.*;
