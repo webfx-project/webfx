@@ -4,13 +4,13 @@ import mongoose.activities.shared.book.options.OptionsRouting;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.services.EventService;
-import naga.framework.operations.route.PushRouteRequest;
+import naga.framework.operations.route.RoutePushRequest;
 import naga.platform.client.url.history.History;
 
 /**
  * @author Bruno Salmon
  */
-public class RouteToOptionsRequest extends PushRouteRequest {
+public class RouteToOptionsRequest extends RoutePushRequest {
 
     public RouteToOptionsRequest(Object eventId, History history) {
         super(OptionsRouting.getEventOptionsPath(eventId), history);

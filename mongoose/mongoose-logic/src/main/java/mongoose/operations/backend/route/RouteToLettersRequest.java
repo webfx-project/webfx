@@ -2,13 +2,13 @@ package mongoose.operations.backend.route;
 
 import mongoose.activities.backend.letters.LettersRouting;
 import naga.framework.operation.HasOperationCode;
-import naga.framework.operations.route.PushRouteRequest;
+import naga.framework.operations.route.RoutePushRequest;
 import naga.platform.client.url.history.History;
 
 /**
  * @author Bruno Salmon
  */
-public class RouteToLettersRequest extends PushRouteRequest implements HasOperationCode {
+public class RouteToLettersRequest extends RoutePushRequest implements HasOperationCode {
 
     private final static String OPERATION_CODE = "LETTERS_ROUTING";
 

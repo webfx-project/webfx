@@ -1,27 +1,23 @@
 package mongoose.operations.backend.route;
 
-import mongoose.operations.shared.route.RouteToFeesRequest;
-import mongoose.services.EventService;
 import naga.framework.operation.HasOperationCode;
-import naga.framework.operation.HasOperationExecutor;
+import naga.framework.operations.route.RouteHistoryRequest;
 import naga.platform.client.url.history.History;
 import naga.util.async.AsyncFunction;
 
 /**
  * @author Bruno Salmon
  */
-public class RouteToNewBackendBookingRequest
-        implements HasOperationExecutor<RouteToNewBackendBookingRequest, Void>
-        , HasOperationCode {
+public class RouteToNewBackendBookingRequest extends RouteHistoryRequest<RouteToNewBackendBookingRequest>
+        implements HasOperationCode {
 
     private final static String OPERATION_CODE = "NEW_BACKEND_BOOKING";
 
     private Object eventId;
-    private History history;
 
     public RouteToNewBackendBookingRequest(Object eventId, History history) {
+        super(history);
         this.eventId = eventId;
-        this.history = history;
     }
 
     @Override
@@ -38,26 +34,9 @@ public class RouteToNewBackendBookingRequest
         return this;
     }
 
-    public History getHistory() {
-        return history;
-    }
-
-    public RouteToNewBackendBookingRequest setHistory(History history) {
-        this.history = history;
-        return this;
-    }
-
     @Override
     public AsyncFunction<RouteToNewBackendBookingRequest, Void> getOperationExecutor() {
-        return request -> {
-            // When made in the backend, we don't want to add the new booking to the last visited booking cart (as
-            // opposed to the frontend), so we clear the reference to the current booking cart (if set) before routing
-            EventService eventService = EventService.get(request.getEventId());
-            if (eventService != null)
-                eventService.setCurrentCart(null);
-            // Now that the current cart reference is cleared, we can route to the fees page
-            new RouteToFeesRequest(request.getEventId(), request.getHistory()).execute();
-            return null;
-        };
+        return RouteToNewBackendBookingExecutor::executeRequest;
     }
+
 }
