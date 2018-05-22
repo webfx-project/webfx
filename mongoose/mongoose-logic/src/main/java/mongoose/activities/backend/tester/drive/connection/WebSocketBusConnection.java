@@ -5,7 +5,7 @@ import mongoose.activities.backend.monitor.listener.ConnectionEvent;
 import mongoose.activities.backend.monitor.listener.EventType;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.client.bus.WebSocketBus;
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.platform.services.websocket.WebSocketListener;
 import naga.platform.services.log.Logger;
 import naga.platform.spi.Platform;

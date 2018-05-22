@@ -3,8 +3,8 @@ package naga.framework.ui.graphic.image;
 import javafx.scene.image.ImageView;
 import naga.util.Strings;
 import naga.fx.util.ImageStore;
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.Json;
+import naga.platform.services.json.JsonObject;
 
 /**
  * @author Bruno Salmon

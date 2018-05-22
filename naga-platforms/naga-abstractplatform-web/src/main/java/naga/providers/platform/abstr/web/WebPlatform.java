@@ -6,7 +6,7 @@ import naga.platform.client.bus.ReconnectBus;
 import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.location.WindowLocation;
-import naga.platform.json.Json;
+import naga.platform.services.json.Json;
 import naga.platform.services.resource.ResourceService;
 import naga.platform.spi.Platform;
 import naga.platform.spi.client.ClientPlatform;

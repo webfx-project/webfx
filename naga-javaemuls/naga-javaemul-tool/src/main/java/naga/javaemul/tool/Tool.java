@@ -1,8 +1,8 @@
 package naga.javaemul.tool;
 
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonArray;
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.Json;
+import naga.platform.services.json.JsonArray;
+import naga.platform.services.json.JsonObject;
 
 import java.io.IOException;
 import java.io.InputStream;

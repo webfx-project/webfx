@@ -6,7 +6,7 @@ import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.BusFactory;
-import naga.platform.json.Json;
+import naga.platform.services.json.Json;
 import naga.platform.services.query.QueryService;
 import naga.platform.services.query.push.QueryPushService;
 import naga.platform.services.query.push.spi.impl.InMemoryQueryPushServiceProvider;

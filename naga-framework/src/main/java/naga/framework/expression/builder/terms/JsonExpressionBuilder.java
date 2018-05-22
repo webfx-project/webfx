@@ -2,8 +2,8 @@ package naga.framework.expression.builder.terms;
 
 import naga.noreflect.IndexedArray;
 import naga.framework.expression.terms.JsonExpression;
-import naga.platform.json.Json;
-import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.services.json.Json;
+import naga.platform.services.json.WritableJsonObject;
 
 /**
  * @author Bruno Salmon

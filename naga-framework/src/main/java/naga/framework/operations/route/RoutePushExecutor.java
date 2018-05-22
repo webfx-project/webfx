@@ -1,7 +1,7 @@
 package naga.framework.operations.route;
 
 import naga.platform.client.url.history.History;
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.util.async.Future;
 
 /**

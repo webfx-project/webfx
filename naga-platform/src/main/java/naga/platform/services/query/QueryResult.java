@@ -2,12 +2,12 @@ package naga.platform.services.query;
 
 import naga.util.Numbers;
 import naga.platform.compression.values.repeat.RepeatedValuesCompressor;
-import naga.platform.json.Json;
-import naga.platform.json.codec.AbstractJsonCodec;
-import naga.platform.json.spi.JsonArray;
-import naga.platform.json.spi.JsonObject;
-import naga.platform.json.spi.WritableJsonArray;
-import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.services.json.Json;
+import naga.platform.services.json.codec.AbstractJsonCodec;
+import naga.platform.services.json.JsonArray;
+import naga.platform.services.json.JsonObject;
+import naga.platform.services.json.WritableJsonArray;
+import naga.platform.services.json.WritableJsonObject;
 
 import java.util.Arrays;
 

@@ -6,9 +6,9 @@ import naga.type.Type;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 // TODO: remove platform dependency
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonObject;
-import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.services.json.Json;
+import naga.platform.services.json.JsonObject;
+import naga.platform.services.json.WritableJsonObject;
 
 import java.util.Collection;
 

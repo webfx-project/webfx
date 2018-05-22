@@ -17,7 +17,7 @@
  */
 package naga.platform.client.bus;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.platform.bus.Bus;
 import naga.platform.bus.Message;
 import naga.util.async.AsyncResult;

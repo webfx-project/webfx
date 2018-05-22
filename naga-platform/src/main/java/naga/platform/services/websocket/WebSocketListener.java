@@ -1,6 +1,6 @@
 package naga.platform.services.websocket;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 
 /**
  * Listens for events on a {@link WebSocket}.

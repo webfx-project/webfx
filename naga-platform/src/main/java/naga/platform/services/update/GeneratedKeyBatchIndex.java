@@ -1,8 +1,8 @@
 package naga.platform.services.update;
 
-import naga.platform.json.codec.AbstractJsonCodec;
-import naga.platform.json.spi.JsonObject;
-import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.services.json.codec.AbstractJsonCodec;
+import naga.platform.services.json.JsonObject;
+import naga.platform.services.json.WritableJsonObject;
 
 /**
  * @author Bruno Salmon

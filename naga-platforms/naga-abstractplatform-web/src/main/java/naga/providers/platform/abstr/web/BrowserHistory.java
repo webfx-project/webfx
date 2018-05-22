@@ -1,6 +1,6 @@
 package naga.providers.platform.abstr.web;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.platform.client.url.history.HistoryEvent;
 import naga.platform.client.url.history.baseimpl.HistoryLocationImpl;
 import naga.platform.client.url.history.memory.MemoryHistory;

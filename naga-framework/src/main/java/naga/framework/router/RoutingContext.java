@@ -1,7 +1,7 @@
 package naga.framework.router;
 
 import naga.framework.session.Session;
-import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.services.json.WritableJsonObject;
 
 /**
  * @author Bruno Salmon

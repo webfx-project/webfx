@@ -26,11 +26,11 @@ module naga.platform {
     exports naga.platform.services.websocket.spi;
     exports naga.platform.compression.values;
     exports naga.platform.compression.values.repeat;
-    exports naga.platform.json;
-    exports naga.platform.json.codec;
-    exports naga.platform.json.listmap;
-    exports naga.platform.json.parser;
-    exports naga.platform.json.spi;
+    exports naga.platform.services.json;
+    exports naga.platform.services.json.codec;
+    exports naga.platform.services.json.spi.impl.listmap;
+    exports naga.platform.services.json.parser;
+    exports naga.platform.services.json.spi;
     exports naga.platform.services.auth;
     exports naga.platform.services.auth.spi;
     exports naga.platform.services.datasource;

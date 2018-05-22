@@ -3,7 +3,7 @@ package naga.platform.bus.call;
 import naga.platform.bus.Bus;
 import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
-import naga.platform.json.codec.JsonCodecManager;
+import naga.platform.services.json.codec.JsonCodecManager;
 import naga.platform.services.log.Logger;
 import naga.platform.spi.Platform;
 import naga.util.async.AsyncFunction;

@@ -21,7 +21,7 @@ import naga.platform.bus.Bus;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
-import naga.platform.json.Json;
+import naga.platform.services.json.Json;
 import naga.platform.services.log.Logger;
 import naga.scheduler.Scheduler;
 import naga.util.async.AsyncResult;

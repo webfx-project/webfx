@@ -1,6 +1,6 @@
 package naga.platform.client.url.history;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.platform.client.url.location.PathStateLocation;
 import naga.util.async.Future;
 import naga.util.async.Handler;

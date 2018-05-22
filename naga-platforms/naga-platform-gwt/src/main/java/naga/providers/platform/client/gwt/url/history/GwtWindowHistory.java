@@ -1,11 +1,11 @@
 package naga.providers.platform.client.gwt.url.history;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.providers.platform.abstr.web.WindowHistory;
 import naga.providers.platform.client.gwt.jsinterop.Window;
 import naga.util.async.Handler;
 import naga.util.function.Function;
-import naga.providers.platform.client.gwt.json.GwtJsonObject;
+import naga.providers.platform.client.gwt.services.json.GwtJsonObject;
 
 /**
  * @author Bruno Salmon

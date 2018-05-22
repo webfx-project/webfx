@@ -1,6 +1,6 @@
 package naga.platform.client.url.location.impl;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.platform.client.url.location.PathLocation;
 import naga.platform.client.url.location.WindowLocation;
 

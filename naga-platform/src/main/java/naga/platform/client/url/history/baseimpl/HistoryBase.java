@@ -1,6 +1,6 @@
 package naga.platform.client.url.history.baseimpl;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.HistoryEvent;
 import naga.platform.client.url.history.HistoryLocation;

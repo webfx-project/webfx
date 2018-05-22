@@ -1,6 +1,6 @@
 package naga.platform.client.url.location;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 
 /**
  * A location descriptor is the pushable analogue of a location.

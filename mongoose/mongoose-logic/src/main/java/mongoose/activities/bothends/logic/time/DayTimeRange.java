@@ -1,9 +1,9 @@
 package mongoose.activities.bothends.logic.time;
 
 import naga.util.collection.Collections;
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonArray;
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.Json;
+import naga.platform.services.json.JsonArray;
+import naga.platform.services.json.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;

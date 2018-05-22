@@ -1,6 +1,6 @@
 package naga.platform.services.datasource;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 
 /**
  * @author Bruno Salmon

@@ -1,6 +1,6 @@
 package naga.framework.router.impl;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 
 import java.util.Collection;
 

@@ -1,9 +1,9 @@
 package naga.platform.bus.call;
 
-import naga.platform.json.spi.JsonObject;
-import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.json.codec.AbstractJsonCodec;
-import naga.platform.json.codec.JsonCodecManager;
+import naga.platform.services.json.JsonObject;
+import naga.platform.services.json.WritableJsonObject;
+import naga.platform.services.json.codec.AbstractJsonCodec;
+import naga.platform.services.json.codec.JsonCodecManager;
 
 /**
  * @author Bruno Salmon

@@ -6,11 +6,11 @@
 
 package java.util;
 
-import naga.platform.json.spi.JsonProvider;
+import naga.platform.services.json.spi.JsonProvider;
 import naga.platform.services.shutdown.spi.ShutdownProvider;
 import naga.platform.services.storage.spi.LocalStorageProvider;
 import naga.platform.services.storage.spi.SessionStorageProvider;
-import naga.providers.platform.client.gwt.json.GwtJsonObject;
+import naga.providers.platform.client.gwt.services.json.GwtJsonObject;
 import naga.providers.platform.client.gwt.services.shutdown.GwtShutdownProvider;
 import naga.providers.platform.client.gwt.services.storage.GwtLocalStorageProvider;
 import naga.providers.platform.client.gwt.services.storage.GwtSessionStorageProvider;

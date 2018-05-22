@@ -1,6 +1,6 @@
 package naga.framework.router;
 
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.framework.router.impl.RouterImpl;
 import naga.util.async.Handler;
 

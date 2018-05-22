@@ -18,7 +18,7 @@
 package naga.platform.client.bus;
 
 import naga.platform.bus.Bus;
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.JsonObject;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.BusOptions;
 import naga.platform.services.websocket.WebSocket;

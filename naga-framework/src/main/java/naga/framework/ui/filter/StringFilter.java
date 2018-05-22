@@ -1,7 +1,7 @@
 package naga.framework.ui.filter;
 
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonObject;
+import naga.platform.services.json.Json;
+import naga.platform.services.json.JsonObject;
 
 /**
  * @author Bruno Salmon
