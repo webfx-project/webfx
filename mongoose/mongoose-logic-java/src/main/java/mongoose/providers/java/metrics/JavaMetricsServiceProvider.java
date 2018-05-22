@@ -1,15 +1,15 @@
 package mongoose.providers.java.metrics;
 
 import com.sun.management.OperatingSystemMXBean;
-import mongoose.spi.metrics.Metrics;
-import mongoose.spi.metrics.MetricsService;
+import mongoose.services.metrics.Metrics;
+import mongoose.services.metrics.spi.MetricsServiceProvider;
 
 import java.lang.management.ManagementFactory;
 
 /**
  * @author Bruno Salmon
  */
-public class JavaMetricsService implements MetricsService {
+public class JavaMetricsServiceProvider implements MetricsServiceProvider {
 
     @Override
     public void takeMetricsSnapshot(Metrics metrics) {
@@ -21,6 +21,5 @@ public class JavaMetricsService implements MetricsService {
         OperatingSystemMXBean osMXBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
         metrics.setSystemLoadAverage(osMXBean.getSystemLoadAverage());
         metrics.setProcessCpuLoad(osMXBean.getProcessCpuLoad());
-
     }
 }

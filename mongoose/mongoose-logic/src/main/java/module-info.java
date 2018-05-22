@@ -23,5 +23,5 @@ module mongoose.logic {
     exports mongoose.domainmodel.loader;
     exports mongoose.domainmodel.formatters;
     exports mongoose.entities;
-    exports mongoose.spi.metrics;
+    exports mongoose.services.metrics;
 }

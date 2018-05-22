@@ -2,8 +2,9 @@ package mongoose.activities.server;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.MetricsEntity;
-import mongoose.spi.metrics.Metrics;
-import mongoose.spi.metrics.MetricsService;
+import mongoose.services.metrics.Metrics;
+import mongoose.services.metrics.MetricsService;
+import mongoose.services.metrics.spi.MetricsServiceProvider;
 import naga.platform.services.log.Logger;
 import naga.platform.services.update.UpdateService;
 import naga.scheduler.Scheduled;
@@ -40,11 +41,11 @@ public class MongooseServerMetricsActivity implements Activity<DomainActivityCon
     @Override
     public void onStart() {
         // Getting the metrics service for this platform
-        MetricsService metricsService = MetricsService.get();
+        MetricsServiceProvider metricsServiceProvider = MetricsService.getProvider();
 
         // Stopping the activity if there is actually no metrics service for this platform
-        if (metricsService == null) {
-            Logger.log("MongooseServerMetricsActivity will not start as no MetricsService is registered for this platform");
+        if (metricsServiceProvider == null) {
+            Logger.log("MongooseServerMetricsActivity will not start as no MetricsServiceProvider is registered for this platform");
             getActivityManager().destroy(); // Asking the activity manager to stop and destroy this activity
             return;
         }
@@ -57,7 +58,7 @@ public class MongooseServerMetricsActivity implements Activity<DomainActivityCon
             // Instantiating a Metrics entity to be inserted in the database
             Metrics m = store.insertEntity(MetricsEntity.class);
             // Asking the metrics service to take a snapshot and store all values in the entity
-            metricsService.takeMetricsSnapshot(m);
+            metricsServiceProvider.takeMetricsSnapshot(m);
             // Asking the update store to record this in the database
             store.executeUpdate().setHandler(asyncResult -> {
                 if (asyncResult.failed())
