@@ -7,7 +7,7 @@ import mongoose.entities.Attendance;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
 import mongoose.entities.DocumentLine;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import naga.framework.orm.entity.UpdateStore;
 import naga.platform.services.update.UpdateArgument;
 import naga.util.async.Future;
@@ -24,15 +24,15 @@ public class WorkingDocumentSubmitter {
 
     public static Future<Document> submit(WorkingDocument wd, String comment) {
         UpdateStore store = wd.getUpdateStore();
-        EventService eventService = wd.getEventService();
+        EventAggregate eventAggregate = wd.getEventAggregate();
         WorkingDocument loadedWorkingDocument = wd.getLoadedWorkingDocument();
         Document du;
         if (loadedWorkingDocument != null)
             du = store.updateEntity(loadedWorkingDocument.getDocument());
         else {
             du = store.insertEntity(Document.class);
-            du.setEvent(eventService.getEvent());
-            Cart cart = eventService.getCurrentCart();
+            du.setEvent(eventAggregate.getEvent());
+            Cart cart = eventAggregate.getCurrentCart();
             if (cart == null) {
                 cart = store.insertEntity(Cart.class);
                 cart.setUuid(Uuid.randomUuid());

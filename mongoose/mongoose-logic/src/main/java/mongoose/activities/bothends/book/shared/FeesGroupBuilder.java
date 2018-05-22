@@ -7,7 +7,7 @@ import mongoose.entities.DateInfo;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import naga.util.collection.Collections;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class FeesGroupBuilder {
 
-    private final EventService eventService;
+    private final EventAggregate eventAggregate;
     private DateInfo dateInfo;
     private Object id;
     private Label label;
@@ -31,8 +31,8 @@ public class FeesGroupBuilder {
     private Iterable<Option> accommodationOptions;
     private boolean addNoAccommodationOption;
 
-    public FeesGroupBuilder(EventService eventService) {
-        this.eventService = eventService;
+    public FeesGroupBuilder(EventAggregate eventAggregate) {
+        this.eventAggregate = eventAggregate;
     }
 
     public FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
@@ -58,7 +58,7 @@ public class FeesGroupBuilder {
     }
 
     private Event getEvent() {
-        return eventService.getEvent();
+        return eventAggregate.getEvent();
     }
 
     public FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
@@ -93,7 +93,7 @@ public class FeesGroupBuilder {
     }
 
     private void addOptionsPreselection(Option accommodationOption, DateTimeRange dateTimeRange, List<OptionsPreselection> optionsPreselections) {
-        Collections.addIfNotNull(new OptionsPreselectionBuilder(eventService, dateTimeRange)
+        Collections.addIfNotNull(new OptionsPreselectionBuilder(eventAggregate, dateTimeRange)
                 .addDefaultOptions(defaultOptions)
                 .addAccommodationOption(accommodationOption)
                 .build(), optionsPreselections);

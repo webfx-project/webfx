@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.bothends.generic.MongooseSectionFactoryMixin;
 import mongoose.entities.Event;
-import mongoose.services.CartService;
+import mongoose.aggregates.CartAggregate;
 import naga.framework.activity.view.impl.ViewActivityImpl;
 import naga.fx.properties.Properties;
 
@@ -61,12 +61,12 @@ public abstract class CartBasedActivity
 
     protected abstract void onCartLoaded();
 
-    protected CartService cartService() {
-        return CartService.getOrCreate(getCartUuid(), getDataSourceModel());
+    protected CartAggregate cartService() {
+        return CartAggregate.getOrCreate(getCartUuid(), getDataSourceModel());
     }
 
     protected Event getEvent() {
-        return cartService().getEventService().getEvent();
+        return cartService().getEventAggregate().getEvent();
     }
 
     protected Object getEventId() {

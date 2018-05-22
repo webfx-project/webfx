@@ -36,7 +36,7 @@ public class WorkingDocumentMerger {
             }
             syncLinesInfo(thisLine, line);
         }
-        return new WorkingDocument(wd.getEventService(), wd, lines).applyBusinessRules();
+        return new WorkingDocument(wd.getEventAggregate(), wd, lines).applyBusinessRules();
     }
 
     private static void syncLinesInfo(WorkingDocumentLine wdlSrc, WorkingDocumentLine wdlDst) {

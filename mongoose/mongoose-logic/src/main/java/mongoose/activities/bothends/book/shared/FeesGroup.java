@@ -10,7 +10,7 @@ import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import mongoose.util.Labels;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.util.ImageStore;
@@ -79,8 +79,8 @@ public class FeesGroup {
         return Labels.instantTranslateLabel(label, language);
     }
 
-    public DisplayResult generateDisplayResult(MongooseButtonFactoryMixin buttonFactory, EventService eventService, Handler<OptionsPreselection> bookHandler, ColumnWidthCumulator[] cumulators) {
-        boolean showBadges = Objects.areEquals(eventService.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
+    public DisplayResult generateDisplayResult(MongooseButtonFactoryMixin buttonFactory, EventAggregate eventAggregate, Handler<OptionsPreselection> bookHandler, ColumnWidthCumulator[] cumulators) {
+        boolean showBadges = Objects.areEquals(eventAggregate.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
         I18n i18n = buttonFactory.getI18n();
@@ -90,7 +90,7 @@ public class FeesGroup {
                 DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
                         .setValueRenderer(p -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
-                            if (pair == null || !eventService.areEventAvailabilitiesLoaded())
+                            if (pair == null || !eventAggregate.areEventAvailabilitiesLoaded())
                                 return new ImageView(ImageStore.getOrCreateImage(MongooseIcons.spinnerIcon16Url, 16, 16));
                             Object availability = pair.get1();
                             OptionsPreselection optionsPreselection = pair.get2();
@@ -114,7 +114,7 @@ public class FeesGroup {
         for (OptionsPreselection optionsPreselection : optionsPreselections) {
             rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Objects.coalesce(label, Labels.bestLabelOrName(event)), i18n) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName(i18n));
             rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice());
-            rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventService), optionsPreselection));
+            rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventAggregate), optionsPreselection));
         }
         return rsb.build();
     }

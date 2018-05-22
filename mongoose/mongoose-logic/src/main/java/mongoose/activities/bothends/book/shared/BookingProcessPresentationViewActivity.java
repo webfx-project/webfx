@@ -10,7 +10,7 @@ import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.bothends.generic.MongooseSectionFactoryMixin;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.Event;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 
@@ -42,7 +42,7 @@ public abstract class BookingProcessPresentationViewActivity<PM extends BookingP
     @Override
     protected Node styleUi(Node uiNode, PM pm) {
         if (uiNode instanceof Region) {
-            EventService.getOrCreate(pm.getEventId(), DomainModelSnapshotLoader.getDataSourceModel()).onEvent().setHandler(ar -> {
+            EventAggregate.getOrCreate(pm.getEventId(), DomainModelSnapshotLoader.getDataSourceModel()).onEvent().setHandler(ar -> {
                 if (ar.succeeded()) {
                     Event event = ar.result();
                     String css = event.getStringFieldValue("cssClass");

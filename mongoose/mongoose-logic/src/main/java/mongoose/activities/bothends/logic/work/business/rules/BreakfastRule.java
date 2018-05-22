@@ -6,7 +6,7 @@ import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.activities.bothends.logic.work.business.BusinessType;
 import mongoose.activities.bothends.logic.work.business.logic.OptionLogic;
 import mongoose.entities.Option;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import naga.util.collection.Collections;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class BreakfastRule extends BusinessRule {
             wd.removeBreakfast();
         else {
             // Getting the breakfast option
-            Option breakfastOption = getBreakfastOption(wd.getEventService());
+            Option breakfastOption = getBreakfastOption(wd.getEventAggregate());
             if (breakfastOption != null) {
                 // Fetching the existing meals and accommodation lines
                 List<WorkingDocumentLine>
@@ -65,10 +65,10 @@ public class BreakfastRule extends BusinessRule {
         }
     }
 
-    private static Option getBreakfastOption(EventService eventService) {
-        Option breakfastOption = eventService.getBreakfastOption();
+    private static Option getBreakfastOption(EventAggregate eventAggregate) {
+        Option breakfastOption = eventAggregate.getBreakfastOption();
         if (breakfastOption == null)
-            eventService.setBreakfastOption(breakfastOption = eventService.findFirstConcreteOption(OptionLogic::isBreakfastOption));
+            eventAggregate.setBreakfastOption(breakfastOption = eventAggregate.findFirstConcreteOption(OptionLogic::isBreakfastOption));
         return breakfastOption;
     }
 }

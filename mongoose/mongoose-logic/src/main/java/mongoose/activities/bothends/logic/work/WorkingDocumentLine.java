@@ -8,7 +8,7 @@ import mongoose.activities.bothends.logic.time.DaysArrayBuilder;
 import mongoose.activities.bothends.logic.work.business.logic.OptionLogic;
 import mongoose.entities.*;
 import mongoose.entities.markers.HasItemFamilyType;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import naga.framework.orm.entity.Entities;
 import naga.util.collection.Collections;
 
@@ -67,11 +67,11 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         setWorkingDocument(workingDocument);
     }
 
-    public WorkingDocumentLine(DocumentLine documentLine, List<Attendance> attendances, EventService eventService) {
+    public WorkingDocumentLine(DocumentLine documentLine, List<Attendance> attendances, EventAggregate eventAggregate) {
         this.documentLine = documentLine;
         this.attendances = attendances;
         optionPreselection = null;
-        option = findDocumentLineOption(eventService);
+        option = findDocumentLineOption(eventAggregate);
         site = documentLine.getSite();
         arrivalSite = documentLine.getArrivalSite();
         item = documentLine.getItem();
@@ -112,11 +112,11 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         return DateTimeRange.cropDateTimeRangeWithDayTime(dateTimeRangeToCrop, dayTimeRange);
     }
 
-    private Option findDocumentLineOption(EventService eventService) {
+    private Option findDocumentLineOption(EventAggregate eventAggregate) {
         Site site = documentLine.getSite();
         Item item = documentLine.getItem();
         if (site != null && item != null)
-            for (Option o : eventService.getEventOptions())
+            for (Option o : eventAggregate.getEventOptions())
                 if (Entities.sameId(o.getSite(), site) && Entities.sameId(o.getItem(), item))
                     return o;
         return null;

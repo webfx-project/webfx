@@ -23,7 +23,7 @@ import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.entities.Document;
 import mongoose.entities.History;
 import mongoose.entities.Mail;
-import mongoose.services.CartService;
+import mongoose.aggregates.CartAggregate;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.Function;
 import naga.framework.orm.entity.Entities;
@@ -145,9 +145,9 @@ class CartActivity extends CartBasedActivity {
     private void autoSelectWorkingDocument() {
         Toolkit.get().scheduler().runInUiThread(() -> {
             int selectedIndex = indexOfWorkingDocument(selectedWorkingDocument);
-            CartService cartService = cartService();
-            if (selectedIndex == -1 && cartService.getEventService() != null)
-                selectedIndex = indexOfWorkingDocument(cartService.getEventService().getWorkingDocument());
+            CartAggregate cartAggregate = cartService();
+            if (selectedIndex == -1 && cartAggregate.getEventAggregate() != null)
+                selectedIndex = indexOfWorkingDocument(cartAggregate.getEventAggregate().getWorkingDocument());
             documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
             updatePaymentsVisibility();
         });
@@ -161,10 +161,10 @@ class CartActivity extends CartBasedActivity {
 
     @Override
     protected void onCartLoaded() {
-        CartService cartService = cartService();
-        if (cartService.getEventService() != null)
+        CartAggregate cartAggregate = cartService();
+        if (cartAggregate.getEventAggregate() != null)
             registerFormatter("priceWithCurrency", new PriceFormatter(getEvent()));
-        displayEntities(cartService.getCartDocuments(), "[" +
+        displayEntities(cartAggregate.getCartDocuments(), "[" +
                         "'ref'," +
                         "'person_firstName'," +
                         "'person_lastName'," +
@@ -174,7 +174,7 @@ class CartActivity extends CartBasedActivity {
                         "{expression: 'documentStatus(this)', label: 'Status', textAlign: 'center'}" +
                         "]"
                 , "Document", documentDisplayResultProperty);
-        displayEntities(cartService.getCartPayments(), "[" +
+        displayEntities(cartAggregate.getCartPayments(), "[" +
                         "{expression: 'date', format: 'dateTime'}," +
                         "{expression: 'document.ref', label: 'Booking ref'}," +
                         "{expression: 'translate(method)', label: 'Method', textAlign: 'center'}," +

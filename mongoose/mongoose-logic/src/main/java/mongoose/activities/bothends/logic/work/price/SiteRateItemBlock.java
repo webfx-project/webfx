@@ -50,7 +50,7 @@ class SiteRateItemBlock {
             resetBlockWorkingDocumentLinesPrice();
         LocalDate firstDay = attendanceBlocks.get(0).getDate();
         LocalDate lastDay = attendanceBlocks.get(blockLength - 1).getDate();
-        List<Rate> rates = workingDocument.getEventService().selectRates(
+        List<Rate> rates = workingDocument.getEventAggregate().selectRates(
                 r -> Entities.sameId(r.getSite(), site) && Entities.sameId(r.getItem(), rateItem) && rateMatchesDocument(r) &&
                         dateNullOrBefore(r.getStartDate(), lastDay) && dateNullOrAfter(r.getEndDate(), firstDay));
         if (!rates.isEmpty()) {

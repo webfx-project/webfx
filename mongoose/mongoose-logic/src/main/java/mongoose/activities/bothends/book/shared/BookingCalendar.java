@@ -16,7 +16,7 @@ import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.activities.bothends.logic.work.merge.WorkingDocumentMerger;
 import mongoose.domainmodel.formatters.PriceFormatter;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import mongoose.util.PerformanceLogger;
 import naga.framework.orm.entity.Entities;
 import naga.framework.ui.i18n.I18n;
@@ -103,11 +103,11 @@ public class BookingCalendar {
     }
 
     protected WorkingDocument createNewMaxDateTimeRangeWorkingDocument() {
-        return createNewDateTimeRangeWorkingDocument(workingDocument.getEventService().getEvent().computeMaxDateTimeRange(), true);
+        return createNewDateTimeRangeWorkingDocument(workingDocument.getEventAggregate().getEvent().computeMaxDateTimeRange(), true);
     }
 
     protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange, boolean applyBusinessRules) {
-        OptionsPreselection selectedOptionsPreselection = workingDocument.getEventService().getSelectedOptionsPreselection();
+        OptionsPreselection selectedOptionsPreselection = workingDocument.getEventAggregate().getSelectedOptionsPreselection();
         if (selectedOptionsPreselection == null)
             selectedOptionsPreselection = findWorkingDocumentOptionsPreselection();
         WorkingDocument newWorkingDocument = selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange);
@@ -117,7 +117,7 @@ public class BookingCalendar {
     }
 
     private OptionsPreselection findWorkingDocumentOptionsPreselection() {
-        for (FeesGroup feesGroup : workingDocument.getEventService().getFeesGroups()) {
+        for (FeesGroup feesGroup : workingDocument.getEventAggregate().getFeesGroups()) {
             for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
                 if (workingDocumentMatchesOptionsPreselection(optionsPreselection))
                     return optionsPreselection;
@@ -183,20 +183,20 @@ public class BookingCalendar {
     }
 
     private void updateCalendarWorkingDocumentInterval(TimeInterval newRequestedDocumentInterval) {
-        EventService eventService = workingDocument.getEventService();
-        DateTimeRange newWorkingDocumentDateTimeRange = eventService.getEvent().computeMaxDateTimeRange().intersect(newRequestedDocumentInterval.toSeries());
+        EventAggregate eventAggregate = workingDocument.getEventAggregate();
+        DateTimeRange newWorkingDocumentDateTimeRange = eventAggregate.getEvent().computeMaxDateTimeRange().intersect(newRequestedDocumentInterval.toSeries());
         //Logger.log("newWorkingDocumentDateTimeRange: " + newWorkingDocumentDateTimeRange.getText());
         WorkingDocument newCalendarWorkingDocument = createNewDateTimeRangeWorkingDocument(newWorkingDocumentDateTimeRange, false);
         //Logger.log("newCalendarWorkingDocument: " + newCalendarWorkingDocument.getDateTimeRange().getText());
         WorkingDocument newWorkingDocument = WorkingDocumentMerger.mergeWorkingDocuments(workingDocument, newCalendarWorkingDocument, newWorkingDocumentDateTimeRange);
         //Logger.log("newWorkingDocument: " + newWorkingDocument.getDateTimeRange().getText());
-        eventService.setWorkingDocument(workingDocument = newWorkingDocument);
+        eventAggregate.setWorkingDocument(workingDocument = newWorkingDocument);
     }
 
     private void displayWorkingTotalPrice() {
         int documentPrice = workingDocument.getComputedPrice();
         bookingPrice.setValue(documentPrice);
-        formattedBookingPrice.setValue(PriceFormatter.formatWithCurrency(documentPrice, workingDocument.getEventService().getEvent()));
+        formattedBookingPrice.setValue(PriceFormatter.formatWithCurrency(documentPrice, workingDocument.getEventAggregate().getEvent()));
     }
 
 }

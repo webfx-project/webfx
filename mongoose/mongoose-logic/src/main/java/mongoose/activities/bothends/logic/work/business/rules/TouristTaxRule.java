@@ -15,7 +15,7 @@ public class TouristTaxRule extends BusinessRule {
         if (!wd.hasAccommodation())
             wd.removeTouristTax();
         else if (!wd.hasTouristTax()) {
-            Option touristTaxOption = wd.getEventService().findFirstOption(o -> isTouristTaxOption(o) && (o.hasNoParent() || wd.getAccommodationLine() != null && o.getParent().getItem() == wd.getAccommodationLine().getItem()));
+            Option touristTaxOption = wd.getEventAggregate().findFirstOption(o -> isTouristTaxOption(o) && (o.hasNoParent() || wd.getAccommodationLine() != null && o.getParent().getItem() == wd.getAccommodationLine().getItem()));
             if (touristTaxOption != null)
                 addNewDependentLine(wd, touristTaxOption, wd.getAccommodationLine(), 0);
         }

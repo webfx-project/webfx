@@ -6,7 +6,7 @@ import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import mongoose.util.Labels;
 import naga.util.Booleans;
 import naga.util.collection.Collections;
@@ -20,13 +20,13 @@ import java.util.List;
  */
 public class OptionsPreselection {
 
-    private final EventService eventService;
+    private final EventAggregate eventAggregate;
     private final Label label;
     private final String i18nKey; // alternative i18n key if label is null
     private final List<OptionPreselection> optionPreselections;
 
-    public OptionsPreselection(EventService eventService, Label label, String i18nKey, List<OptionPreselection> optionPreselections) {
-        this.eventService = eventService;
+    public OptionsPreselection(EventAggregate eventAggregate, Label label, String i18nKey, List<OptionPreselection> optionPreselections) {
+        this.eventAggregate = eventAggregate;
         this.label = label;
         this.i18nKey = i18nKey;
         this.optionPreselections = optionPreselections;
@@ -45,7 +45,7 @@ public class OptionsPreselection {
         if (workingDocument == null)
             workingDocument = createNewWorkingDocument(null);
         else
-            workingDocument.syncPersonDetails(eventService.getPersonService().getPreselectionProfilePerson());
+            workingDocument.syncPersonDetails(eventAggregate.getPersonAggregate().getPreselectionProfilePerson());
         return workingDocument;
     }
 
@@ -56,7 +56,7 @@ public class OptionsPreselection {
     }
 
     public WorkingDocument createNewWorkingDocument(DateTimeRange workingDocumentDateTimeRange) {
-        return new WorkingDocument(eventService, Collections.map(optionPreselections, optionPreselection -> new WorkingDocumentLine(optionPreselection, workingDocumentDateTimeRange)));
+        return new WorkingDocument(eventAggregate, Collections.map(optionPreselections, optionPreselection -> new WorkingDocumentLine(optionPreselection, workingDocumentDateTimeRange)));
     }
 
     public WorkingDocumentLine getAccommodationLine() {
@@ -95,11 +95,11 @@ public class OptionsPreselection {
     }
 
     public Object getDisplayPrice() {
-        return PriceFormatter.formatWithCurrency(computePrice(), eventService.getEvent());
+        return PriceFormatter.formatWithCurrency(computePrice(), eventAggregate.getEvent());
     }
 
-    public Object getDisplayAvailability(EventService eventService) {
-        QueryResult rs = eventService.getEventAvailabilities();
+    public Object getDisplayAvailability(EventAggregate eventAggregate) {
+        QueryResult rs = eventAggregate.getEventAvailabilities();
         if (rs != null) {
             WorkingDocumentLine accommodationLine = getWorkingDocument().getAccommodationLine();
             if (accommodationLine != null) {

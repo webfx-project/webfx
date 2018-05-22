@@ -5,7 +5,7 @@ import mongoose.activities.bothends.logic.time.TimeInterval;
 import mongoose.entities.Event;
 import mongoose.entities.Option;
 import mongoose.entities.Site;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import naga.util.Numbers;
 
 import java.util.List;
@@ -27,23 +27,23 @@ public class OptionLogic {
                 || o.isTranslation();
     }
 
-    static List<Option> selectDefaultOptions(EventService eventService) {
-        return eventService.selectOptions(o -> isOptionIncludedByDefault(o, eventService));
+    static List<Option> selectDefaultOptions(EventAggregate eventAggregate) {
+        return eventAggregate.selectOptions(o -> isOptionIncludedByDefault(o, eventAggregate));
     }
 
-    public static boolean areMealsIncludedByDefault(EventService eventService) {
+    public static boolean areMealsIncludedByDefault(EventAggregate eventAggregate) {
         // Answer: yes except for day courses, public talks and International Festivals
-        Event event = eventService.getEvent();
+        Event event = eventAggregate.getEvent();
         String eventName = event.getName();
         return !eventName.contains("Day Course")
                 && !eventName.contains("Public Talk")
                 && Numbers.toInteger(event.getOrganizationId().getPrimaryKey()) != 1;
     }
 
-    private static boolean isOptionIncludedByDefault(Option o, EventService eventService) {
+    private static boolean isOptionIncludedByDefault(Option o, EventAggregate eventAggregate) {
         return (o.isConcrete() || o.hasItem() && o.hasTimeRange()/* Ex: Prayers -> to include in the working document so it is displayed in the calendar*/ )
                 && !isOptionManagedByBusinessRules(o)
-                && (o.isTeaching() || (o.isMeals() ? areMealsIncludedByDefault(eventService) : o.isObligatory() && (o.hasNoParent() || isOptionIncludedByDefault(o.getParent(), eventService))))
+                && (o.isTeaching() || (o.isMeals() ? areMealsIncludedByDefault(eventAggregate) : o.isObligatory() && (o.hasNoParent() || isOptionIncludedByDefault(o.getParent(), eventAggregate))))
                 ;
     }
 

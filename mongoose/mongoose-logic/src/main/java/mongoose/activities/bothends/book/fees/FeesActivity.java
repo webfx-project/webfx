@@ -156,7 +156,7 @@ class FeesActivity extends BookingProcessActivity {
         RadioButton noDiscountRadio  = hasDiscountRates   ? instantTranslateText(new RadioButton(), "NoDiscount") : null;
         RadioButton unemployedRadio  = hasUnemployedRate  ? instantTranslateText(new RadioButton(), "UnemployedDiscount") : null;
         RadioButton facilityFeeRadio = hasFacilityFeeRate ? instantTranslateText(new RadioButton(), "FacilityFeeDiscount") : null;
-        Person person = getPersonService().getPreselectionProfilePerson();
+        Person person = getPersonAggregate().getPreselectionProfilePerson();
         if (unemployedRadio != null) {
             unemployedRadio.setSelected(Booleans.isTrue(person.isUnemployed()));
             unemployedRadio.selectedProperty().addListener((observable, oldValue, unemployed) -> {

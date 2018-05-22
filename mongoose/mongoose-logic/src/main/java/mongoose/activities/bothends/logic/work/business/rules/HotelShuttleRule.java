@@ -25,7 +25,7 @@ public class HotelShuttleRule extends BusinessRule {
             wd.removeHotelShuttle();
         else {
             List<Option> selectedHotelShuttleOptions = wd.getOptionTree() == null ? null : // null if the working document is not from the options activity
-                    wd.getEventService().selectOptions(o -> OptionLogic.isHotelShuttleOption(o) && wd.getOptionTree().isOptionSelected(o));
+                    wd.getEventAggregate().selectOptions(o -> OptionLogic.isHotelShuttleOption(o) && wd.getOptionTree().isOptionSelected(o));
             // Fetching the existing hotel shuttle
             List<WorkingDocumentLine> hotelShuttleLines = wd.getBusinessLines(BusinessType.HOTEL_SHUTTLE).getBusinessWorkingDocumentLines();
             // Adding or updating these lines (unless there are no options nor lines)

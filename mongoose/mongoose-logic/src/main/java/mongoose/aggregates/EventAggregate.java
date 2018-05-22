@@ -1,4 +1,4 @@
-package mongoose.services;
+package mongoose.aggregates;
 
 import mongoose.activities.bothends.book.shared.FeesGroup;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public interface EventService extends HasDataSourceModel {
+public interface EventAggregate extends HasDataSourceModel {
 
     // Entity lists ids used to store event options
     Object EVENTS_LIST_ID = "events";
@@ -28,25 +28,25 @@ public interface EventService extends HasDataSourceModel {
     Object RATES_LIST_ID = "rates";
     Object DATE_INFOS_LIST_ID = "dateInfos";
 
-    static EventService get(Object eventId) {
-        return EventServiceImpl.get(eventId);
+    static EventAggregate get(Object eventId) {
+        return EventAggregateImpl.get(eventId);
     }
 
-    static EventService getOrCreate(Object eventId, DataSourceModel dataSourceModel) {
-        return EventServiceImpl.getOrCreate(eventId, dataSourceModel);
+    static EventAggregate getOrCreate(Object eventId, DataSourceModel dataSourceModel) {
+        return EventAggregateImpl.getOrCreate(eventId, dataSourceModel);
     }
 
-    static EventService getOrCreate(Object eventId, EntityStore store) {
-        return EventServiceImpl.getOrCreate(eventId, store);
+    static EventAggregate getOrCreate(Object eventId, EntityStore store) {
+        return EventAggregateImpl.getOrCreate(eventId, store);
     }
 
-    static EventService getOrCreateFromDocument(Document document) {
+    static EventAggregate getOrCreateFromDocument(Document document) {
         return getOrCreate(document.getEventId(), document.getStore());
     }
 
     EntityStore getEventStore();
 
-    PersonService getPersonService();
+    PersonAggregate getPersonAggregate();
 
     // Event loading method
 

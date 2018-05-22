@@ -1,4 +1,4 @@
-package mongoose.services;
+package mongoose.aggregates;
 
 import mongoose.entities.Person;
 import naga.framework.orm.entity.EntityStore;
@@ -9,25 +9,25 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-class PersonServiceImpl implements PersonService {
+class PersonAggregateImpl implements PersonAggregate {
 
-    private static Map<Object, PersonService> services = new IdentityHashMap<>();
+    private static Map<Object, PersonAggregate> aggregates = new IdentityHashMap<>();
 
-    static PersonService get(EntityStore store) {
-        return services.get(store);
+    static PersonAggregate get(EntityStore store) {
+        return aggregates.get(store);
     }
 
-    static PersonService getOrCreate(EntityStore store) {
-        PersonService service = get(store);
+    static PersonAggregate getOrCreate(EntityStore store) {
+        PersonAggregate service = get(store);
         if (service == null)
-            services.put(store, service = new PersonServiceImpl(store));
+            aggregates.put(store, service = new PersonAggregateImpl(store));
         return service;
     }
 
     private final EntityStore store;
     private Person preselectionProfilePerson;
 
-    public PersonServiceImpl(EntityStore store) {
+    public PersonAggregateImpl(EntityStore store) {
         this.store = store;
         preselectionProfilePerson = store.createEntity(Person.class);
     }

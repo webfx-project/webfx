@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.generic.eventdependent;
 
-import mongoose.services.EventService;
-import mongoose.services.EventServiceMixin;
+import mongoose.aggregates.EventAggregate;
+import mongoose.aggregates.EventAggregateMixin;
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.domain.DomainActivityContextMixin;
 import naga.framework.activity.uiroute.UiRouteActivityContext;
@@ -15,12 +15,12 @@ public interface EventDependentActivityMixin
 
         extends UiRouteActivityContextMixin<C>,
         DomainActivityContextMixin<C>,
-        EventServiceMixin,
+        EventAggregateMixin,
         EventDependentPresentationModelMixin
 {
 
-    default EventService getEventService() {
-        return EventService.getOrCreate(getEventId(), getDataSourceModel());
+    default EventAggregate getEventService() {
+        return EventAggregate.getOrCreate(getEventId(), getDataSourceModel());
     }
 
     default void updateEventDependentPresentationModelFromContextParameters() {

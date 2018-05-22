@@ -13,7 +13,7 @@ import mongoose.entities.Document;
 import mongoose.entities.Person;
 import mongoose.entities.markers.EntityHasPersonDetails;
 import mongoose.entities.markers.HasPersonDetails;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import naga.framework.orm.entity.Entities;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class WorkingDocument {
 
-    private final EventService eventService;
+    private final EventAggregate eventAggregate;
     private final Document document;
     private final ObservableList<WorkingDocumentLine> workingDocumentLines;
     private Integer computedPrice;
@@ -39,21 +39,21 @@ public class WorkingDocument {
     private boolean changedSinceLastApplyBusinessRules = true;
     private OptionTree optionTree;
 
-    public WorkingDocument(EventService eventService, List<WorkingDocumentLine> workingDocumentLines) {
-        this(eventService, eventService.getPersonService().getPreselectionProfilePerson(), workingDocumentLines);
+    public WorkingDocument(EventAggregate eventAggregate, List<WorkingDocumentLine> workingDocumentLines) {
+        this(eventAggregate, eventAggregate.getPersonAggregate().getPreselectionProfilePerson(), workingDocumentLines);
     }
 
-    public WorkingDocument(EventService eventService, WorkingDocument wd, List<WorkingDocumentLine> workingDocumentLines) {
-        this(eventService, createDocument(wd.getDocument()), workingDocumentLines);
+    public WorkingDocument(EventAggregate eventAggregate, WorkingDocument wd, List<WorkingDocumentLine> workingDocumentLines) {
+        this(eventAggregate, createDocument(wd.getDocument()), workingDocumentLines);
         loadedWorkingDocument = wd.loadedWorkingDocument;
     }
 
-    public WorkingDocument(EventService eventService, Person person, List<WorkingDocumentLine> workingDocumentLines) {
-        this(eventService, createDocument(person), workingDocumentLines);
+    public WorkingDocument(EventAggregate eventAggregate, Person person, List<WorkingDocumentLine> workingDocumentLines) {
+        this(eventAggregate, createDocument(person), workingDocumentLines);
     }
 
-    public WorkingDocument(EventService eventService, Document document, List<WorkingDocumentLine> lines) {
-        this.eventService = eventService;
+    public WorkingDocument(EventAggregate eventAggregate, Document document, List<WorkingDocumentLine> lines) {
+        this.eventAggregate = eventAggregate;
         this.document = document;
         workingDocumentLines = FXCollections.observableArrayList(lines);
         Collections.forEach(workingDocumentLines, wdl -> wdl.setWorkingDocument(this));
@@ -68,12 +68,12 @@ public class WorkingDocument {
     // Constructor used to make a copy (that can be changed) of a loaded working document (that shouldn't be changed).
     // When submitting this copy, some decisions are made by comparison with the original loaded document.
     public WorkingDocument(WorkingDocument loadedWorkingDocument) {
-        this(loadedWorkingDocument.getEventService(), createDocument(loadedWorkingDocument.getDocument()), new ArrayList<>(loadedWorkingDocument.getWorkingDocumentLines()));
+        this(loadedWorkingDocument.getEventAggregate(), createDocument(loadedWorkingDocument.getDocument()), new ArrayList<>(loadedWorkingDocument.getWorkingDocumentLines()));
         this.loadedWorkingDocument = loadedWorkingDocument;
     }
 
-    public EventService getEventService() {
-        return eventService;
+    public EventAggregate getEventAggregate() {
+        return eventAggregate;
     }
 
     public WorkingDocument getLoadedWorkingDocument() {

@@ -1,4 +1,4 @@
-package mongoose.services;
+package mongoose.aggregates;
 
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
@@ -22,9 +22,9 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-class CartServiceImpl implements CartService {
+class CartAggregateImpl implements CartAggregate {
 
-    private final static Map<Object, CartService> services = new HashMap<>();
+    private final static Map<Object, CartAggregate> aggregates = new HashMap<>();
 
     private final EntityStore store;
     private Object id;
@@ -33,38 +33,38 @@ class CartServiceImpl implements CartService {
     private List<Document> cartDocuments;
     private List<WorkingDocument> cartWorkingDocuments;
     private EntityList<MoneyTransfer> cartPayments;
-    private EventService eventService;
+    private EventAggregate eventAggregate;
     private boolean loading;
 
-    public CartServiceImpl(Object cartIdOrUuid, EntityStore store) {
+    public CartAggregateImpl(Object cartIdOrUuid, EntityStore store) {
         id = cartIdOrUuid instanceof String ? null : cartIdOrUuid;
         uuid = cartIdOrUuid instanceof String ? (String) cartIdOrUuid : null;
         this.store = store;
     }
 
-    static CartService get(Object cartIdOrUuid) {
-        return services.get(toKey(cartIdOrUuid));
+    static CartAggregate get(Object cartIdOrUuid) {
+        return aggregates.get(toKey(cartIdOrUuid));
     }
 
-    static CartService getOrCreate(Object cartIdOrUuid, EntityStore store) {
+    static CartAggregate getOrCreate(Object cartIdOrUuid, EntityStore store) {
         cartIdOrUuid = toKey(cartIdOrUuid);
-        CartService cartService = get(cartIdOrUuid);
-        if (cartService == null)
-            services.put(cartIdOrUuid, cartService = new CartServiceImpl(cartIdOrUuid, store));
-        return cartService;
+        CartAggregate cartAggregate = get(cartIdOrUuid);
+        if (cartAggregate == null)
+            aggregates.put(cartIdOrUuid, cartAggregate = new CartAggregateImpl(cartIdOrUuid, store));
+        return cartAggregate;
     }
 
-    static CartService getOrCreate(Object cartIdOrUuid, DataSourceModel dataSourceModel) {
+    static CartAggregate getOrCreate(Object cartIdOrUuid, DataSourceModel dataSourceModel) {
         return getOrCreate(cartIdOrUuid, EntityStore.create(dataSourceModel));
     }
 
-    static CartService getOrCreateFromCart(Cart cart) {
-        CartService service = getOrCreate(cart.getId(), cart.getStore());
-        ((CartServiceImpl) service).setCart(cart);
+    static CartAggregate getOrCreateFromCart(Cart cart) {
+        CartAggregate service = getOrCreate(cart.getId(), cart.getStore());
+        ((CartAggregateImpl) service).setCart(cart);
         return service;
     }
 
-    static CartService getOrCreateFromDocument(Document document) {
+    static CartAggregate getOrCreateFromDocument(Document document) {
         return getOrCreateFromCart(document.getCart());
     }
 
@@ -77,11 +77,11 @@ class CartServiceImpl implements CartService {
     public void setCart(Cart cart) {
         this.cart = cart;
         if (id == null)
-            services.put(id = toKey(cart.getId()), this);
+            aggregates.put(id = toKey(cart.getId()), this);
         if (uuid == null)
-            services.put(uuid = cart.getUuid(), this);
-        if (eventService != null)
-            eventService.setCurrentCart(cart);
+            aggregates.put(uuid = cart.getUuid(), this);
+        if (eventAggregate != null)
+            eventAggregate.setCurrentCart(cart);
     }
 
     @Override
@@ -141,10 +141,10 @@ class CartServiceImpl implements CartService {
                 loading = false;
                 future.complete();
             }
-            eventService = EventService.getOrCreateFromDocument(dls.get(0).getDocument());
-            eventService.onEventOptions().setHandler(ar -> {
+            eventAggregate = EventAggregate.getOrCreateFromDocument(dls.get(0).getDocument());
+            eventAggregate.onEventOptions().setHandler(ar -> {
                 if (!cartDocuments.isEmpty()) {
-                    Logger.log("Warning: CartService.onCart() has been called again before the first call is finished");
+                    Logger.log("Warning: CartAggregate.onCart() has been called again before the first call is finished");
                     cartDocuments.clear();
                     cartWorkingDocuments.clear();
                 }
@@ -158,7 +158,7 @@ class CartServiceImpl implements CartService {
                         cartDocuments.add(currentDocument = document);
                         wdls = new ArrayList<>();
                     }
-                    wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventService));
+                    wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventAggregate));
                 }
                 addWorkingDocument(currentDocument, wdls);
                 setCart(cartDocuments.get(0).getCart());
@@ -169,7 +169,7 @@ class CartServiceImpl implements CartService {
     }
 
     private void addWorkingDocument(Document document, List<WorkingDocumentLine> wdls) {
-        cartWorkingDocuments.add(new WorkingDocument(new WorkingDocument(eventService, document, wdls)));
+        cartWorkingDocuments.add(new WorkingDocument(new WorkingDocument(eventAggregate, document, wdls)));
     }
 
     @Override
@@ -188,7 +188,7 @@ class CartServiceImpl implements CartService {
     }
 
     @Override
-    public EventService getEventService() {
-        return eventService;
+    public EventAggregate getEventAggregate() {
+        return eventAggregate;
     }
 }

@@ -3,7 +3,7 @@ package mongoose.operations.bothends.route;
 import mongoose.activities.bothends.book.options.OptionsRouting;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
 import mongoose.activities.bothends.logic.work.WorkingDocument;
-import mongoose.services.EventService;
+import mongoose.aggregates.EventAggregate;
 import naga.framework.operations.route.RoutePushRequest;
 import naga.platform.client.url.history.History;
 
@@ -29,12 +29,12 @@ public class RouteToOptionsRequest extends RoutePushRequest {
     }
 
     private static Object prepareEventServiceAndReturnEventId(WorkingDocument workingDocument, OptionsPreselection optionsPreselection) {
-        EventService eventService = workingDocument.getEventService();
-        eventService.setSelectedOptionsPreselection(optionsPreselection);
-        eventService.setWorkingDocument(optionsPreselection == null ? workingDocument : null);
+        EventAggregate eventAggregate = workingDocument.getEventAggregate();
+        eventAggregate.setSelectedOptionsPreselection(optionsPreselection);
+        eventAggregate.setWorkingDocument(optionsPreselection == null ? workingDocument : null);
         Object eventId = workingDocument.getDocument().getEventId();
         if (eventId == null)
-            eventId = eventService.getEvent().getId();
+            eventId = eventAggregate.getEvent().getId();
         return eventId;
     }
 

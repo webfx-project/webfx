@@ -1,4 +1,4 @@
-package mongoose.services;
+package mongoose.aggregates;
 
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
@@ -13,22 +13,22 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public interface CartService {
+public interface CartAggregate {
 
-    static CartService get(Object cartIdOrUuid) {
-        return CartServiceImpl.get(cartIdOrUuid);
+    static CartAggregate get(Object cartIdOrUuid) {
+        return CartAggregateImpl.get(cartIdOrUuid);
     }
 
-    static CartService getOrCreate(Object cartIdOrUuid, DataSourceModel dataSourceModel) {
-        return CartServiceImpl.getOrCreate(cartIdOrUuid, dataSourceModel);
+    static CartAggregate getOrCreate(Object cartIdOrUuid, DataSourceModel dataSourceModel) {
+        return CartAggregateImpl.getOrCreate(cartIdOrUuid, dataSourceModel);
     }
 
-    static CartService getOrCreateFromCart(Cart cart) {
-        return CartServiceImpl.getOrCreateFromCart(cart);
+    static CartAggregate getOrCreateFromCart(Cart cart) {
+        return CartAggregateImpl.getOrCreateFromCart(cart);
     }
 
-    static CartService getOrCreateFromDocument(Document document) {
-        return CartServiceImpl.getOrCreateFromDocument(document);
+    static CartAggregate getOrCreateFromDocument(Document document) {
+        return CartAggregateImpl.getOrCreateFromDocument(document);
     }
 
     Future<Cart> onCart();
@@ -53,6 +53,6 @@ public interface CartService {
 
     boolean isLoaded();
 
-    EventService getEventService();
+    EventAggregate getEventAggregate();
 
 }

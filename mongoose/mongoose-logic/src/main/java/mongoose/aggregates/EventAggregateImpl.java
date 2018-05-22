@@ -1,4 +1,4 @@
-package mongoose.services;
+package mongoose.aggregates;
 
 import mongoose.activities.bothends.book.shared.FeesGroup;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
@@ -29,25 +29,25 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-class EventServiceImpl implements EventService {
+class EventAggregateImpl implements EventAggregate {
 
-    private final static Map<Object, EventService> services = new HashMap<>();
+    private final static Map<Object, EventAggregate> aggregates = new HashMap<>();
 
-    static EventService get(Object eventId) {
-        return services.get(toKey(eventId));
+    static EventAggregate get(Object eventId) {
+        return aggregates.get(toKey(eventId));
     }
 
-    static EventService getOrCreate(Object eventId, EntityStore store) {
-        EventService service = get(eventId);
+    static EventAggregate getOrCreate(Object eventId, EntityStore store) {
+        EventAggregate service = get(eventId);
         if (service == null) {
             eventId = toKey(eventId);
-            services.put(eventId, service = new EventServiceImpl(eventId, store));
+            aggregates.put(eventId, service = new EventAggregateImpl(eventId, store));
         }
         return service;
     }
 
-    static EventService getOrCreate(Object eventId, DataSourceModel dataSourceModel) {
-        EventService service = get(eventId);
+    static EventAggregate getOrCreate(Object eventId, DataSourceModel dataSourceModel) {
+        EventAggregate service = get(eventId);
         if (service == null)
             service = getOrCreate(eventId, EntityStore.create(dataSourceModel));
         return service;
@@ -65,9 +65,9 @@ class EventServiceImpl implements EventService {
     private final EntityStore store;
     private Event event;
     private Cart currentCart;
-    private PersonService personService;
+    private PersonAggregate personAggregate;
 
-    private EventServiceImpl(Object eventId, EntityStore store) {
+    private EventAggregateImpl(Object eventId, EntityStore store) {
         this.eventId = eventId;
         this.store = store;
     }
@@ -83,10 +83,10 @@ class EventServiceImpl implements EventService {
     }
 
     @Override
-    public PersonService getPersonService() {
-        if (personService == null)
-            personService = PersonService.getOrCreate(store);
-        return personService;
+    public PersonAggregate getPersonAggregate() {
+        if (personAggregate == null)
+            personAggregate = PersonAggregate.getOrCreate(store);
+        return personAggregate;
     }
 
     private FutureBroadcaster<Event> eventFutureBroadcaster;

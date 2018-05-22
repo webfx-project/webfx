@@ -1,4 +1,4 @@
-package mongoose.services;
+package mongoose.aggregates;
 
 import mongoose.activities.bothends.book.shared.FeesGroup;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
@@ -16,14 +16,14 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public interface EventServiceMixin extends EventService {
+public interface EventAggregateMixin extends EventAggregate {
 
-    EventService getEventService();
+    EventAggregate getEventService();
 
 /* Commented to avoid clash with DomainActivityContextMixin
     @Override
     default DataSourceModel getDataSourceModel() {
-        return getEventService().getDataSourceModel();
+        return getEventAggregate().getDataSourceModel();
     }
 */
 
@@ -33,8 +33,8 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
-    default PersonService getPersonService() {
-        return getEventService().getPersonService();
+    default PersonAggregate getPersonAggregate() {
+        return getEventService().getPersonAggregate();
     }
 
     @Override
