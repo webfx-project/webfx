@@ -1,7 +1,7 @@
 package mongoose.activities.frontend.application.web;
 
 import mongoose.activities.frontend.application.FrontendMongooseApplication;
-import mongoose.activities.shared.application.web.WebMongooseApplication;
+import mongoose.activities.bothends.application.web.WebMongooseApplication;
 
 /**
  * @author Bruno Salmon

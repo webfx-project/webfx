@@ -1,8 +1,8 @@
 package mongoose.activities.backend.bookings;
 
-import mongoose.operations.shared.route.RouteToOptionsRequest;
-import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
-import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
+import mongoose.operations.bothends.route.RouteToOptionsRequest;
+import mongoose.activities.bothends.generic.eventdependent.EventDependentPresentationLogicActivity;
+import mongoose.activities.bothends.logic.work.sync.WorkingDocumentLoader;
 import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Document;
 import naga.framework.ui.filter.ReactiveExpressionFilter;

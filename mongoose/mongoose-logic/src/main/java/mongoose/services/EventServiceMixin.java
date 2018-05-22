@@ -1,8 +1,8 @@
 package mongoose.services;
 
-import mongoose.activities.shared.book.shared.FeesGroup;
-import mongoose.activities.shared.logic.preselection.OptionsPreselection;
-import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.bothends.book.shared.FeesGroup;
+import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
+import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.entities.*;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;

@@ -1,6 +1,6 @@
 package mongoose.activities.backend.book.options;
 
-import mongoose.activities.shared.book.options.OptionsRouting;
+import mongoose.activities.bothends.book.options.OptionsRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 

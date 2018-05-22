@@ -1,7 +1,7 @@
 package mongoose.activities.backend.cloneevent;
 
-import mongoose.operations.shared.route.RouteToBookingsRequest;
-import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
+import mongoose.operations.bothends.route.RouteToBookingsRequest;
+import mongoose.activities.bothends.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.entities.Event;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;

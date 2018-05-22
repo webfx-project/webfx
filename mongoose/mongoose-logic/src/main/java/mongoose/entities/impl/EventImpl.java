@@ -1,6 +1,6 @@
 package mongoose.entities.impl;
 
-import mongoose.activities.shared.logic.time.DateTimeRange;
+import mongoose.activities.bothends.logic.time.DateTimeRange;
 import mongoose.entities.Event;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;

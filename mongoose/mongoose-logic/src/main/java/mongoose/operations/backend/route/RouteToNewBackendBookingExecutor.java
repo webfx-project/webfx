@@ -1,6 +1,6 @@
 package mongoose.operations.backend.route;
 
-import mongoose.operations.shared.route.RouteToFeesRequest;
+import mongoose.operations.bothends.route.RouteToFeesRequest;
 import mongoose.services.EventService;
 import naga.platform.client.url.history.History;
 import naga.util.async.Future;

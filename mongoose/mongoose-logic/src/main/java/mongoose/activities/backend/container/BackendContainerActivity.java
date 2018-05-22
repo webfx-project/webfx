@@ -1,13 +1,13 @@
 package mongoose.activities.backend.container;
 
-import mongoose.operations.shared.route.RouteToBookingsRequest;
+import mongoose.operations.bothends.route.RouteToBookingsRequest;
 import mongoose.operations.backend.route.RouteToEventsRequest;
 import mongoose.operations.backend.route.RouteToLettersRequest;
 import mongoose.operations.backend.route.RouteToMonitorRequest;
 import mongoose.operations.backend.route.RouteToOrganizationsRequest;
 import mongoose.operations.backend.route.RouteToTesterRequest;
-import mongoose.operations.backend.route.RouteToUsersRequest;
-import mongoose.activities.shared.container.SharedContainerActivity;
+import mongoose.operations.backend.route.RouteToOperationsRequest;
+import mongoose.activities.bothends.container.SharedContainerActivity;
 import naga.framework.ui.action.Action;
 import naga.util.collection.Collections;
 
@@ -30,7 +30,7 @@ public class BackendContainerActivity extends SharedContainerActivity {
                 , newAction(() -> new RouteToLettersRequest(getParameter("eventId"), getHistory()))
                 , newAction(() -> new RouteToMonitorRequest(getHistory()))
                 , newAction(() -> new RouteToTesterRequest(getHistory()))
-                , newAction(() -> new RouteToUsersRequest(getHistory()))
+                , newAction(() -> new RouteToOperationsRequest(getHistory()))
                 , englishAction
                 , frenchAction
         );

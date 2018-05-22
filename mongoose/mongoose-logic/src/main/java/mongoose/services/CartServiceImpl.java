@@ -1,8 +1,8 @@
 package mongoose.services;
 
-import mongoose.activities.shared.logic.work.WorkingDocument;
-import mongoose.activities.shared.logic.work.WorkingDocumentLine;
-import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
+import mongoose.activities.bothends.logic.work.WorkingDocument;
+import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
+import mongoose.activities.bothends.logic.work.sync.WorkingDocumentLoader;
 import mongoose.entities.*;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.EntityId;

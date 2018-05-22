@@ -1,6 +1,6 @@
 package mongoose.activities.frontend.container;
 
-import mongoose.activities.shared.container.SharedContainerActivity;
+import mongoose.activities.bothends.container.SharedContainerActivity;
 
 /**
  * @author Bruno Salmon

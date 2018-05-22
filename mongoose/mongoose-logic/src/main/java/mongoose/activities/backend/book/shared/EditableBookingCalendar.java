@@ -1,10 +1,10 @@
 package mongoose.activities.backend.book.shared;
 
 import javafx.scene.Node;
-import mongoose.activities.shared.book.shared.BookingCalendar;
-import mongoose.activities.shared.logic.calendar.CalendarTimeline;
-import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
-import mongoose.activities.shared.logic.work.WorkingDocumentLine;
+import mongoose.activities.bothends.book.shared.BookingCalendar;
+import mongoose.activities.bothends.logic.calendar.CalendarTimeline;
+import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarClickEvent;
+import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.entities.Option;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.ui.i18n.I18n;

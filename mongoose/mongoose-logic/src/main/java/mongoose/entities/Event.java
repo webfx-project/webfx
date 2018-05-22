@@ -1,6 +1,6 @@
 package mongoose.entities;
 
-import mongoose.activities.shared.logic.time.DateTimeRange;
+import mongoose.activities.bothends.logic.time.DateTimeRange;
 import mongoose.entities.markers.*;
 import naga.util.Objects;
 import naga.framework.orm.entity.Entity;

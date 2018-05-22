@@ -1,7 +1,7 @@
 package mongoose.activities.backend.organizations;
 
 import mongoose.operations.backend.route.RouteToEventsRequest;
-import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
+import mongoose.activities.bothends.generic.MongooseDomainPresentationLogicActivityBase;
 import mongoose.entities.Organization;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.util.function.Factory;

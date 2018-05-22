@@ -1,6 +1,6 @@
 package mongoose.activities.backend.letters;
 
-import mongoose.activities.shared.generic.eventdependent.EventDependentGenericTablePresentationModel;
+import mongoose.activities.bothends.generic.eventdependent.EventDependentGenericTablePresentationModel;
 
 /**
  * @author Bruno Salmon

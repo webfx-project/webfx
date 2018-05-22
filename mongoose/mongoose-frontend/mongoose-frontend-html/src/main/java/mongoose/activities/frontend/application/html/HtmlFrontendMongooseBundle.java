@@ -2,7 +2,7 @@ package mongoose.activities.frontend.application.html;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.TextResource;
-import mongoose.activities.shared.application.web.WebMongooseBundle;
+import mongoose.activities.bothends.application.web.WebMongooseBundle;
 
 /**
  * @author Bruno Salmon

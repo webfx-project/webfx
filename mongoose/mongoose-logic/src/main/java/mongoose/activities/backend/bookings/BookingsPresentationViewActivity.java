@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.operations.backend.route.RouteToCloneEventRequest;
-import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
+import mongoose.activities.bothends.generic.table.GenericTablePresentationViewActivity;
 import mongoose.operations.backend.route.RouteToNewBackendBookingRequest;
 import naga.framework.operation.action.OperationActionProducer;
 

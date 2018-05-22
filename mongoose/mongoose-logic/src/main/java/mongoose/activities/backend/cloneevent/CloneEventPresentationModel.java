@@ -5,7 +5,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationModelImpl;
+import mongoose.activities.bothends.generic.eventdependent.EventDependentPresentationModelImpl;
 
 import java.time.LocalDate;
 

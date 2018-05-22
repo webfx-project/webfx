@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
+import mongoose.activities.bothends.generic.table.GenericTablePresentationViewActivity;
 
 /**
  * @author Bruno Salmon

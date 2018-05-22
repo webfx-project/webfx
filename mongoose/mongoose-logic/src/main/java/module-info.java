@@ -18,7 +18,7 @@ module mongoose.logic {
     exports mongoose.actions;
     exports mongoose.activities.backend.application;
     exports mongoose.activities.frontend.application;
-    exports mongoose.activities.shared.application;
+    exports mongoose.activities.bothends.application;
     exports mongoose.activities.backend.cloneevent;
     exports mongoose.domainmodel.loader;
     exports mongoose.domainmodel.format;

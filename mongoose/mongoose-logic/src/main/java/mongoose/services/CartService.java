@@ -1,6 +1,6 @@
 package mongoose.services;
 
-import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
 import mongoose.entities.MoneyTransfer;
