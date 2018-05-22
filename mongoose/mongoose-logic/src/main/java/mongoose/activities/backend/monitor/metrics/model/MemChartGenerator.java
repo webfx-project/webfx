@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.backend.monitor.metrics.Metrics;
 import naga.fxdata.displaydata.DisplayResult;
 import naga.platform.services.log.Logger;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduler;
 import naga.type.PrimType;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultBuilder;

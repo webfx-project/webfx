@@ -8,7 +8,7 @@ import naga.fx.spi.Toolkit;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.DisplayResultBuilder;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduler;
 import naga.type.PrimType;
 
 import java.util.ArrayList;

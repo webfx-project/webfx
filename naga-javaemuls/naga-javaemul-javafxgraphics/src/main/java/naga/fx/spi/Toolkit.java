@@ -4,7 +4,7 @@ import emul.javafx.scene.Scene;
 import emul.javafx.stage.Screen;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
-import naga.uischeduler.UiScheduler;
+import naga.platform.services.uischeduler.spi.UiSchedulerProvider;
 import naga.util.serviceloader.ServiceLoaderHelper;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.peer.StagePeer;
@@ -15,11 +15,11 @@ import naga.fx.spi.peer.WindowPeer;
  */
 public abstract class Toolkit {
 
-    private final UiScheduler uiScheduler;
+    private final UiSchedulerProvider uiSchedulerProvider;
     private Stage primaryStage;
 
-    public Toolkit(UiScheduler uiScheduler) {
-        this.uiScheduler = uiScheduler;
+    public Toolkit(UiSchedulerProvider uiSchedulerProvider) {
+        this.uiSchedulerProvider = uiSchedulerProvider;
     }
 
     public abstract String getUserAgent();
@@ -48,8 +48,8 @@ public abstract class Toolkit {
         get().scheduler().runInUiThread(runnable);
     }
 
-    public UiScheduler scheduler() {
-        return uiScheduler;
+    public UiSchedulerProvider scheduler() {
+        return uiSchedulerProvider;
     }
 
     public static boolean isUiThread() {

@@ -6,7 +6,7 @@ import mongoose.activities.backend.monitor.metrics.controller.SystemLookupMock;
 import mongoose.activities.backend.monitor.metrics.model.MemData;
 import mongoose.activities.backend.monitor.metrics.model.SysBean;
 import naga.fx.spi.Toolkit;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduler;
 
 
 /**

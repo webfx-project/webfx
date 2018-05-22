@@ -1,15 +1,15 @@
-package naga.providers.platform.client.gwt.scheduler;
+package naga.providers.platform.client.gwt.services.scheduler;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
 import naga.platform.services.log.Logger;
-import naga.uischeduler.impl.UiSchedulerBase;
+import naga.platform.services.uischeduler.spi.impl.UiSchedulerProviderBase;
 
 
 /**
  * @author Bruno Salmon
  */
-public final class GwtSchedulerProvider extends UiSchedulerBase {
+public final class GwtSchedulerProvider extends UiSchedulerProviderBase {
 
     private static long MILLIS_IN_NANO = 1_000_000;
     private static long START_NANO = System.currentTimeMillis() * MILLIS_IN_NANO - performanceNano();

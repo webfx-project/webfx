@@ -1,4 +1,4 @@
-package naga.scheduler;
+package naga.platform.services.scheduler;
 
 /**
  * @author Bruno Salmon

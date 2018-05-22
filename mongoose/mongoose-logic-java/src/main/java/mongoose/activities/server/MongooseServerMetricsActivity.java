@@ -7,7 +7,7 @@ import mongoose.services.metrics.MetricsService;
 import mongoose.services.metrics.spi.MetricsServiceProvider;
 import naga.platform.services.log.Logger;
 import naga.platform.services.update.UpdateService;
-import naga.scheduler.Scheduled;
+import naga.platform.services.scheduler.Scheduled;
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.domain.DomainActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
@@ -15,7 +15,7 @@ import naga.framework.orm.entity.UpdateStore;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.services.update.UpdateArgument;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduler;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

@@ -34,9 +34,9 @@ import naga.fx.spi.Toolkit;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.peer.StagePeer;
-import naga.scheduler.Scheduled;
-import naga.uischeduler.AnimationFramePass;
-import naga.uischeduler.UiScheduler;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.uischeduler.spi.AnimationFramePass;
+import naga.platform.services.uischeduler.spi.UiSchedulerProvider;
 import naga.util.collection.Collections;
 
 import java.util.*;
@@ -541,7 +541,7 @@ public class Scene implements EventTarget,
 
 
     private final SceneRequester sceneRequester = new SceneRequester() {
-        private final UiScheduler uiScheduler = Toolkit.get().scheduler();
+        private final UiSchedulerProvider uiSchedulerProvider = Toolkit.get().scheduler();
 
         @Override
         public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
@@ -550,17 +550,17 @@ public class Scene implements EventTarget,
 
         @Override
         public void requestNodePeerListUpdate(Node node, ObservableList changedList, ListChangeListener.Change change) {
-            if (change != null && !uiScheduler.isAnimationFrameNow())
+            if (change != null && !uiSchedulerProvider.isAnimationFrameNow())
                 change = new SnapshotChange(change);
             ListChangeListener.Change finalChange = change;
             executePropertyChange(() -> updateViewList(node, changedList, finalChange));
         }
 
         private void executePropertyChange(Runnable runnable) {
-            if (uiScheduler.isAnimationFrameNow())
+            if (uiSchedulerProvider.isAnimationFrameNow())
                 runnable.run();
             else
-                uiScheduler.schedulePropertyChangeInNextAnimationFrame(runnable);
+                uiSchedulerProvider.schedulePropertyChangeInNextAnimationFrame(runnable);
         }
     };
 

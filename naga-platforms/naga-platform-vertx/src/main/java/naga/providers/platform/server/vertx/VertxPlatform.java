@@ -15,11 +15,11 @@ import naga.platform.spi.Platform;
 import naga.platform.spi.server.ServerPlatform;
 import naga.providers.platform.abstr.java.JavaPlatform;
 import naga.providers.platform.server.vertx.bus.VertxBusFactory;
-import naga.providers.platform.server.vertx.json.VertxJsonObject;
-import naga.providers.platform.server.vertx.scheduler.VertxSchedulerProvider;
+import naga.providers.platform.server.vertx.services.json.VertxJsonObject;
+import naga.providers.platform.server.vertx.services.scheduler.VertxSchedulerProvider;
 import naga.providers.platform.server.vertx.services.query.VertxQueryServiceProvider;
 import naga.providers.platform.server.vertx.services.update.VertxUpdateServiceProvider;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduler;
 
 /**
  * @author Bruno Salmon

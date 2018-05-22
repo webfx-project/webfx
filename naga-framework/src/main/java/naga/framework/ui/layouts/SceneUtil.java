@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableMap;
 import javafx.geometry.Bounds;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -18,8 +19,8 @@ import naga.fx.properties.Properties;
 import naga.fx.properties.Unregisterable;
 import naga.fx.properties.UnregisterableListener;
 import naga.fx.spi.Toolkit;
-import naga.scheduler.Scheduled;
-import naga.uischeduler.AnimationFramePass;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.uischeduler.spi.AnimationFramePass;
 import naga.util.Booleans;
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;
@@ -48,7 +49,10 @@ public class SceneUtil {
             double viewportHeight = scrollPane.getViewportBounds().getHeight();
             double nodeHeight = node.getLayoutBounds().getHeight();
             double sceneHeight = node.getScene().getHeight();
-            double wishedSceneNodeTop = sceneHeight / 2 - nodeHeight / 2;
+            VPos wishedPosition = getVerticalScrollNodeWishedPosition(node);
+            double wishedSceneNodeTop = wishedPosition == VPos.TOP ? 0
+                    : wishedPosition == VPos.BOTTOM ? sceneHeight - nodeHeight
+                    : sceneHeight / 2 - nodeHeight / 2;
             double currentScrollPaneSceneTop = scrollPane.localToScene(0, 0).getY();
             wishedSceneNodeTop = LayoutUtil.boundedSize(wishedSceneNodeTop, currentScrollPaneSceneTop, currentScrollPaneSceneTop + viewportHeight);
             double currentNodeSceneTop = node.localToScene(0, 0).getY();
@@ -63,6 +67,15 @@ public class SceneUtil {
             return true;
         }
         return false;
+    }
+
+    public static void setVerticalScrollNodeWishedPosition(Node node, VPos wishedPosition) {
+        node.getProperties().put("verticalScrollNodeWishedPosition", wishedPosition);
+    }
+
+    public static VPos getVerticalScrollNodeWishedPosition(Node node) {
+        Object wishedPosition = node.getProperties().get("verticalScrollNodeWishedPosition");
+        return wishedPosition instanceof VPos ? (VPos) wishedPosition : VPos.CENTER;
     }
 
     public static void autoFocusIfEnabled(Node node) {

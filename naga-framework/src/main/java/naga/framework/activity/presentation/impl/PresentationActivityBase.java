@@ -1,6 +1,6 @@
 package naga.framework.activity.presentation.impl;
 
-import naga.uischeduler.UiScheduler;
+import naga.platform.services.uischeduler.spi.UiSchedulerProvider;
 import naga.util.async.Future;
 import naga.util.function.Callable;
 import naga.util.function.Factory;
@@ -47,14 +47,14 @@ public class PresentationActivityBase
         return future;
     }
 
-    // Temporary code while naga-common can't access to UiScheduler - TODO: move this management into naga-platform
+    // Temporary code while naga-common can't access to UiSchedulerProvider - TODO: move this management into naga-platform
     @Override
     protected Future<Void> executeBoth(Callable<Future<Void>> callable1, Callable<Future<Void>> callable2) {
         Future<Void> future2 = Future.future();
-        UiScheduler uiScheduler = Toolkit.get().scheduler();
-        uiScheduler.runOutUiThread(() -> callable2.call().setHandler(future2.completer()));
+        UiSchedulerProvider uiSchedulerProvider = Toolkit.get().scheduler();
+        uiSchedulerProvider.runOutUiThread(() -> callable2.call().setHandler(future2.completer()));
         Future<Void> future1 = Future.future();
-        uiScheduler.runInUiThread(() -> callable1.call().setHandler(future1.completer()));
+        uiSchedulerProvider.runInUiThread(() -> callable1.call().setHandler(future1.completer()));
         return Future.allOf(future1, future2);
     }
 }

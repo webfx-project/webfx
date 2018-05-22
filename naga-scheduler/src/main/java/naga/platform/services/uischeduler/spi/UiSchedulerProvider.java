@@ -1,16 +1,16 @@
-package naga.uischeduler;
+package naga.platform.services.uischeduler.spi;
 
-import naga.scheduler.Scheduled;
-import naga.scheduler.SchedulerProvider;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.scheduler.spi.SchedulerProvider;
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;
 
-import static naga.uischeduler.AnimationFramePass.*;
+import static naga.platform.services.uischeduler.spi.AnimationFramePass.*;
 
 /**
  * @author Bruno Salmon
  */
-public interface UiScheduler extends SchedulerProvider {
+public interface UiSchedulerProvider extends SchedulerProvider {
 
     boolean isUiThread();
 

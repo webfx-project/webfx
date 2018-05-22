@@ -18,7 +18,7 @@ import naga.framework.orm.entity.UpdateStore;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.log.Logger;
 import naga.fx.spi.Toolkit;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduler;
 
 import java.util.ArrayList;
 import java.util.List;

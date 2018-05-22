@@ -7,8 +7,8 @@ import naga.platform.services.push.SharedClientServerPushInfo;
 import naga.platform.services.push.server.PushClientDisconnectListener;
 import naga.platform.services.push.server.spi.PushServerServiceProvider;
 import naga.platform.spi.Platform;
-import naga.scheduler.Scheduled;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.scheduler.Scheduler;
 import naga.util.async.AsyncResult;
 import naga.util.async.Future;
 

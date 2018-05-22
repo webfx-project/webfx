@@ -33,7 +33,7 @@ import naga.platform.services.query.QueryService;
 import naga.platform.services.query.push.QueryPushArgument;
 import naga.platform.services.query.push.QueryPushService;
 import naga.platform.services.query.push.diff.QueryResultDiff;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduler;
 import naga.type.PrimType;
 import naga.util.Booleans;
 import naga.util.Numbers;

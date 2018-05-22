@@ -5,8 +5,8 @@ module naga.scheduler {
 
     requires naga.util;
 
-    exports naga.scheduler;
-    exports naga.uischeduler;
-    exports naga.uischeduler.impl;
+    exports naga.platform.services.scheduler;
+    exports naga.platform.services.uischeduler;
+    exports naga.platform.services.uischeduler.spi.impl;
 
 }

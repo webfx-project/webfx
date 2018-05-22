@@ -1,3 +1,5 @@
+import naga.platform.services.scheduler.spi.SchedulerProvider;
+
 /**
  * @author Bruno Salmon
  */
@@ -15,5 +17,5 @@ module naga.abstractplatform.java {
     exports naga.providers.platform.abstr.java;
     exports naga.providers.platform.abstr.java.client;
 
-    provides naga.scheduler.SchedulerProvider with naga.providers.platform.abstr.java.scheduler.JavaSchedulerProvider;
+    provides SchedulerProvider with naga.providers.platform.abstr.java.services.scheduler.JavaSchedulerProvider;
 }

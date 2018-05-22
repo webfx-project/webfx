@@ -12,7 +12,7 @@ import naga.platform.services.query.push.QueryPushService;
 import naga.platform.services.query.push.diff.QueryResultComparator;
 import naga.platform.services.query.push.diff.QueryResultDiff;
 import naga.platform.services.query.push.spi.QueryPushServiceProvider;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduler;
 import naga.util.async.Future;
 import naga.util.collection.Collections;
 

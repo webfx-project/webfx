@@ -14,8 +14,8 @@ import naga.platform.services.query.QueryService;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateService;
 import naga.platform.spi.Platform;
-import naga.scheduler.Scheduled;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.scheduler.Scheduler;
 
 /**
  * @author Bruno Salmon

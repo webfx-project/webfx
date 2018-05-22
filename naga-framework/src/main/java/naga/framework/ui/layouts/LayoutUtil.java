@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
-import naga.uischeduler.AnimationFramePass;
+import naga.platform.services.uischeduler.spi.AnimationFramePass;
 import naga.util.Numbers;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;

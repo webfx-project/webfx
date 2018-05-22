@@ -22,7 +22,7 @@ import naga.platform.services.json.JsonObject;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.BusOptions;
 import naga.platform.services.websocket.WebSocket;
-import naga.scheduler.Scheduler;
+import naga.platform.services.scheduler.Scheduler;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package naga.uischeduler;
+package naga.platform.services.uischeduler.spi;
 
 /**
  * @author Bruno Salmon

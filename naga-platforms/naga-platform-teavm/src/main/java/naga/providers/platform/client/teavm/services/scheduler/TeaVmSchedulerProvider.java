@@ -1,7 +1,7 @@
-package naga.providers.platform.client.teavm.scheduler;
+package naga.providers.platform.client.teavm.services.scheduler;
 
-import naga.scheduler.Scheduled;
-import naga.scheduler.SchedulerProvider;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.scheduler.spi.SchedulerProvider;
 import naga.util.tuples.Unit;
 import org.teavm.platform.Platform;
 import org.teavm.platform.PlatformRunnable;

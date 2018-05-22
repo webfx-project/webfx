@@ -18,8 +18,8 @@ import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
-import naga.scheduler.Scheduled;
-import naga.uischeduler.AnimationFramePass;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.uischeduler.spi.AnimationFramePass;
 import naga.util.function.Callable;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;

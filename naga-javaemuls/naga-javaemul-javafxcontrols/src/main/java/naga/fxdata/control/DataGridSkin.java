@@ -15,8 +15,8 @@ import emul.javafx.scene.shape.Rectangle;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.displaydata.*;
-import naga.scheduler.Scheduled;
-import naga.uischeduler.AnimationFramePass;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.uischeduler.spi.AnimationFramePass;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;
 

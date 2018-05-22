@@ -11,8 +11,8 @@ import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.peer.StagePeer;
 import naga.fx.spi.peer.WindowPeer;
-import naga.scheduler.Scheduler;
-import naga.uischeduler.UiScheduler;
+import naga.platform.services.scheduler.Scheduler;
+import naga.platform.services.uischeduler.spi.UiSchedulerProvider;
 
 
 /**
@@ -21,7 +21,7 @@ import naga.uischeduler.UiScheduler;
 public class GwtToolkit extends Toolkit {
 
     public GwtToolkit() {
-        super((UiScheduler) Scheduler.getProvider());
+        super((UiSchedulerProvider) Scheduler.getProvider());
     }
 
     @Override

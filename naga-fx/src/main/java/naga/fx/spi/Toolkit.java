@@ -2,7 +2,7 @@ package naga.fx.spi;
 
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import naga.uischeduler.UiScheduler;
+import naga.platform.services.uischeduler.spi.UiSchedulerProvider;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
@@ -10,15 +10,15 @@ import naga.util.serviceloader.ServiceLoaderHelper;
  */
 public abstract class Toolkit {
 
-    private final UiScheduler uiScheduler;
+    private final UiSchedulerProvider uiSchedulerProvider;
     private Stage primaryStage;
 
-    public Toolkit(UiScheduler uiScheduler) {
-        this(uiScheduler, null);
+    public Toolkit(UiSchedulerProvider uiSchedulerProvider) {
+        this(uiSchedulerProvider, null);
     }
 
-    public Toolkit(UiScheduler uiScheduler, Stage primaryStage) {
-        this.uiScheduler = uiScheduler;
+    public Toolkit(UiSchedulerProvider uiSchedulerProvider, Stage primaryStage) {
+        this.uiSchedulerProvider = uiSchedulerProvider;
         this.primaryStage = primaryStage;
     }
 
@@ -50,8 +50,8 @@ public abstract class Toolkit {
         get().scheduler().runInUiThread(runnable);
     }
 
-    public UiScheduler scheduler() {
-        return uiScheduler;
+    public UiSchedulerProvider scheduler() {
+        return uiSchedulerProvider;
     }
 
     public static boolean isUiThread() {

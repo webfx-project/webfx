@@ -17,7 +17,7 @@ import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.base.ScenePeerBase;
 import naga.fxdata.control.HtmlText;
-import naga.uischeduler.AnimationFramePass;
+import naga.platform.services.uischeduler.spi.AnimationFramePass;
 import naga.util.collection.Collections;
 
 import static elemental2.dom.DomGlobal.document;

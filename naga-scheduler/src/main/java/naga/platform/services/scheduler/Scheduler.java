@@ -1,5 +1,6 @@
-package naga.scheduler;
+package naga.platform.services.scheduler;
 
+import naga.platform.services.scheduler.spi.SchedulerProvider;
 import naga.util.function.Consumer;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
@@ -8,15 +9,13 @@ import naga.util.serviceloader.ServiceLoaderHelper;
  */
 public class Scheduler {
 
-    private static SchedulerProvider PROVIDER;
     public static SchedulerProvider getProvider() {
-        if (PROVIDER == null)
-            registerProvider(ServiceLoaderHelper.loadService(SchedulerProvider.class));
-        return PROVIDER;
+        return ServiceLoaderHelper.loadService(SchedulerProvider.class);
     }
 
     public static void registerProvider(SchedulerProvider provider) {
-        PROVIDER = provider;
+        ServiceLoaderHelper.cacheServiceInstance(SchedulerProvider.class, provider);
+
     }
 
     /**

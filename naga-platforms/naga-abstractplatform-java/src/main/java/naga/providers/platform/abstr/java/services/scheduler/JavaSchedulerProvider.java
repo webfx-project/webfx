@@ -15,12 +15,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.providers.platform.abstr.java.scheduler;
+package naga.providers.platform.abstr.java.services.scheduler;
 
 
 import naga.platform.services.log.Logger;
-import naga.scheduler.Scheduled;
-import naga.scheduler.SchedulerProvider;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.scheduler.spi.SchedulerProvider;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

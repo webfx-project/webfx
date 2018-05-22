@@ -1,8 +1,8 @@
-package naga.providers.platform.server.vertx.scheduler;
+package naga.providers.platform.server.vertx.services.scheduler;
 
 import io.vertx.core.Vertx;
-import naga.scheduler.Scheduled;
-import naga.scheduler.SchedulerProvider;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.scheduler.spi.SchedulerProvider;
 
 /**
  * @author Bruno Salmon

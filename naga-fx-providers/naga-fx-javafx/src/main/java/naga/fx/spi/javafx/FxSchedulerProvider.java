@@ -4,8 +4,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import naga.uischeduler.impl.UiSchedulerBase;
 import naga.fx.spi.Toolkit;
+import naga.platform.services.uischeduler.spi.impl.UiSchedulerProviderBase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 /**
  * @author Bruno Salmon
  */
-class FxSchedulerProvider extends UiSchedulerBase {
+class FxSchedulerProvider extends UiSchedulerProviderBase {
 
     static FxSchedulerProvider SINGLETON = new FxSchedulerProvider();
     private final ExecutorService executor = Executors.newCachedThreadPool();

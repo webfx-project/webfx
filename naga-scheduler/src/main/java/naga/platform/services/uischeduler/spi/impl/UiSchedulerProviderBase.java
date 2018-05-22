@@ -1,8 +1,8 @@
-package naga.uischeduler.impl;
+package naga.platform.services.uischeduler.spi.impl;
 
-import naga.uischeduler.AnimationFramePass;
-import naga.scheduler.Scheduled;
-import naga.uischeduler.UiScheduler;
+import naga.platform.services.uischeduler.spi.AnimationFramePass;
+import naga.platform.services.scheduler.Scheduled;
+import naga.platform.services.uischeduler.spi.UiSchedulerProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public abstract class UiSchedulerBase implements UiScheduler {
+public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
 
     @Override
     public void scheduleDeferred(Runnable runnable) {
