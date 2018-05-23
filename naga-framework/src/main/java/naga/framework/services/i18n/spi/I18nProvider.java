@@ -7,7 +7,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
 import naga.framework.services.i18n.Dictionary;
 import naga.framework.services.i18n.spi.impl.I18nProviderImpl;
-import naga.framework.services.i18n.spi.impl.ResourceDictionaryLoader;
+import naga.framework.services.i18n.spi.impl.ResourceJsonDictionaryLoader;
 import naga.util.Strings;
 
 /**
@@ -105,8 +105,8 @@ public interface I18nProvider {
         return textInputControl;
     }
 
-    static I18nProvider create(String langResourcePathPattern) {
-        return new I18nProviderImpl(new ResourceDictionaryLoader(langResourcePathPattern));
+    static I18nProvider createFromJsonResources(String resourcePathWithLangPattern) {
+        return new I18nProviderImpl(new ResourceJsonDictionaryLoader(resourcePathWithLangPattern));
     }
 
 }

@@ -118,7 +118,8 @@ public abstract class MongooseApplicationSharedByBothEnds
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProvider::new);
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProvider::new);
-        I18n.registerProvider(I18nProvider.create("mongoose/dictionaries/{lang}.json"));
+        // Registering i18n service provider based on json resources
+        I18n.registerProvider(I18nProvider.createFromJsonResources("mongoose/dictionaries/{lang}.json"));
         // Activating focus owner auto scroll
         SceneUtil.installPrimarySceneFocusOwnerAutoScroll();
     }

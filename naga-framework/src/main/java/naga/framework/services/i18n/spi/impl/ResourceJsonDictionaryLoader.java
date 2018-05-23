@@ -10,16 +10,16 @@ import java.util.Set;
 /**
  * @author Bruno Salmon
  */
-public class ResourceDictionaryLoader implements DictionaryLoader {
+public class ResourceJsonDictionaryLoader implements DictionaryLoader {
 
-    private final String pathPattern;
+    private final String jsonResourcePathWithLangPattern;
 
-    public ResourceDictionaryLoader(String pathPattern) {
-        this.pathPattern = pathPattern;
+    public ResourceJsonDictionaryLoader(String jsonResourcePathWithLangPattern) {
+        this.jsonResourcePathWithLangPattern = jsonResourcePathWithLangPattern;
     }
 
     private String getDictionaryResourcePath(Object lang) {
-        return Strings.replaceAll(pathPattern, "{lang}", Strings.toString(lang));
+        return Strings.replaceAll(jsonResourcePathWithLangPattern, "{lang}", Strings.toString(lang));
     }
 
     @Override
