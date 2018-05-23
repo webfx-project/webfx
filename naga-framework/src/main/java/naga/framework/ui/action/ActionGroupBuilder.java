@@ -6,7 +6,6 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.util.collection.Collections;
 
 import java.util.Collection;
@@ -60,11 +59,6 @@ public class ActionGroupBuilder extends ActionBuilder {
     @Override
     public ActionGroupBuilder setI18nKey(Object i18nKey) {
         return (ActionGroupBuilder) super.setI18nKey(i18nKey);
-    }
-
-    @Override
-    public ActionGroupBuilder setI18n(I18nProvider i18n) {
-        return (ActionGroupBuilder) super.setI18n(i18n);
     }
 
     @Override

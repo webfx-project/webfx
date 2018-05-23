@@ -23,6 +23,7 @@ import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.sync.WorkingDocumentSubmitter;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
+import naga.framework.services.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.platform.services.log.Logger;
 import naga.util.Strings;
@@ -44,8 +45,8 @@ class SummaryActivity extends BookingProcessActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        bookingOptionsPanel = new BookingOptionsPanel(getI18n());
-        bookingCalendar = new BookingCalendar(false, getI18n());
+        bookingOptionsPanel = new BookingOptionsPanel();
+        bookingCalendar = new BookingCalendar(false);
         bookingCalendarSection = createBookingCalendarSection(bookingCalendar);
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer);
         personDetailsPanel.setEditable(false);
@@ -57,7 +58,7 @@ class SummaryActivity extends BookingProcessActivity {
         termsPanel.setCenter(termsCheckBox = new CheckBox());
         BorderPane.setAlignment(termsCheckBox, Pos.CENTER_LEFT);
         BorderPane.setMargin(termsCheckBox, new Insets(10));
-        agreeTCTranslationProperty = translationProperty("AgreeTC");
+        agreeTCTranslationProperty = I18n.translationProperty("AgreeTC");
         Properties.runNowAndOnPropertiesChange(p -> setTermsCheckBoxText(Strings.toSafeString(p.getValue())), agreeTCTranslationProperty);
 
         verticalStack.getChildren().setAll(

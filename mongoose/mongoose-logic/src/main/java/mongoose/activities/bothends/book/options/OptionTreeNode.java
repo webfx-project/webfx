@@ -12,7 +12,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import mongoose.actions.MongooseIcons;
 import mongoose.activities.bothends.logic.time.DateTimeRange;
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.HighLevelComponents;
@@ -22,8 +25,8 @@ import mongoose.activities.bothends.logic.work.transaction.WorkingDocumentTransa
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fx.util.ImageStore;
@@ -95,10 +98,6 @@ class OptionTreeNode {
 
     private ToggleGroup getChildrenToggleGroup() {
         return childrenToggleGroup;
-    }
-
-    protected I18nProvider getI18n() {
-        return tree.getI18n();
     }
 
     private WorkingDocumentTransaction getWorkingDocumentTransaction() {
@@ -190,7 +189,7 @@ class OptionTreeNode {
 
     private BorderPane createTopLevelOptionSection(boolean detailed) {
         BorderPane sectionPanel = HighLevelComponents.createSectionPanel(null, Collections.toArray(
-                createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
+                createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option)))
                 , Node[]::new));
         createOptionButtonAndSelectedProperty();
         if (detailed) {
@@ -235,10 +234,10 @@ class OptionTreeNode {
                         () -> (Pane) activity.getNode(), // passing the parent getter for a future access because it is not immediately available (since we haven't yet finished building the activity UI)
                         activity.getDataSourceModel());
                 childrenOptionSelector.setRestrictedFilterList(new ArrayList<>());
-                Node selectNode = childrenOptionSelector.toMaterialButton(null, Labels.translateLabel(option.getChildrenPromptLabel(), activity));
+                Node selectNode = childrenOptionSelector.toMaterialButton(null, Labels.translateLabel(option.getChildrenPromptLabel()));
                 optionBodyChildren.add(selectNode);
                 bindToVisibleProperty(selectNode);
-                Properties.runOnPropertiesChange(childrenOptionSelector::updateButtonContentOnNewSelectedItem, getI18n().languageProperty());
+                Properties.runOnPropertiesChange(childrenOptionSelector::updateButtonContentOnNewSelectedItem, I18n.languageProperty());
                 tree.getValidationSupport().addRequiredInput(childrenOptionSelector.selectedItemProperty(), childrenOptionSelector.getButton());
             } else if (option.isChildrenRadio())
                 childrenToggleGroup = new ToggleGroup();
@@ -298,7 +297,7 @@ class OptionTreeNode {
             if (optionButton != null) {
                 Label promptLabel = option.getPromptLabel();
                 Label buttonLabel = promptLabel != null ? promptLabel : Labels.bestLabelOrName(option);
-                Labels.translateLabel(optionButton, buttonLabel, getI18n());
+                Labels.translateLabel(optionButton, buttonLabel);
             }
         }
         Properties.runOnPropertiesChange(this::onUiOptionButtonChanged, optionButtonSelectedProperty);

@@ -15,22 +15,21 @@ import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.bothends.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.bothends.logic.ui.validation.MongooseValidationSupport;
 import naga.framework.services.authn.AuthenticationRequest;
+import naga.framework.services.authn.UsernamePasswordCredentials;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.anim.Animations;
 import naga.framework.ui.graphic.controls.button.ButtonUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
-import naga.framework.services.authn.UsernamePasswordCredentials;
 
 
 /**
  * @author Bruno Salmon
  */
 public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
-    private final I18nProvider i18n;
     private final Node node;
     private final TextField usernameField;
     private final PasswordField passwordField;
@@ -38,13 +37,12 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
     private final Property<Boolean> signInMode = new SimpleObjectProperty<>(true);
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
-    public LoginPanel(UiSession uiSession, I18nProvider i18n) {
-        this.i18n = i18n;
+    public LoginPanel(UiSession uiSession) {
         BorderPane loginWindow = createSectionPanel("SignInWindowTitle");
         Hyperlink hyperLink = newHyperlink("ForgotPassword?", e -> signInMode.setValue(!signInMode.getValue()));
         GridPane gridPane;
         loginWindow.setCenter(
-                gridPane = new GridPaneBuilder(i18n)
+                gridPane = new GridPaneBuilder()
                         .addNodeFillingRow(usernameField = newMaterialTextField("Email", "EmailPlaceholder"))
                         .addNodeFillingRow(passwordField = newMaterialPasswordField("Password", "PasswordPlaceholder"))
                         .addNewRow(hyperLink)
@@ -56,7 +54,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
         hyperLink.setOnAction(e -> signInMode.setValue(!signInMode.getValue()));
         LayoutUtil.setUnmanagedWhenInvisible(passwordField, signInMode);
         Properties.runNowAndOnPropertiesChange(() ->
-            i18n.translateText(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
+            I18n.translateText(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
         , signInMode);
         node = LayoutUtil.createGoldLayout(loginWindow);
         initValidation();
@@ -79,18 +77,11 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
         validationSupport.addRequiredInput(passwordField, "Password is required");
     }
 
-    @Override
-    public I18nProvider getI18n() {
-        return i18n;
-    }
-
     public Node getNode() {
         return node;
     }
 
     public void prepareShowing() {
-        usernameField.setText("bruno.salmon1@gmail.com");
-        passwordField.setText("ultraboa");
         // Resetting the default button (required for JavaFx if displayed a second time)
         ButtonUtil.resetDefaultButton(button);
         SceneUtil.autoFocusIfEnabled(usernameField);

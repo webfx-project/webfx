@@ -113,7 +113,6 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             EntityStore filterStore = loadingStore != null ? loadingStore : getSelectedItem() != null ? getSelectedItem().getStore() : null;
             entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass)
                     .setDataSourceModel(dataSourceModel)
-                    .setI18n(getButtonFactory().getI18n())
                     .setStore(filterStore)
                     .setRestrictedFilterList(restrictedFilterList)
                     .setExpressionColumns(ExpressionColumn.create(renderingExpression))

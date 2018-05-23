@@ -69,7 +69,7 @@ class StartBookingActivity extends BookingProcessActivity {
             Toolkit.get().scheduler().runInUiThread(() -> {
                 String imageUrl = null;
                 if (ar.succeeded()) {
-                    Labels.translateLabel(eventTitle, Labels.bestLabelOrName(ar.result()), getI18n());
+                    Labels.translateLabel(eventTitle, Labels.bestLabelOrName(ar.result()));
                     imageUrl = (String) ar.result().evaluate("buddha.image.url");
                 }
                 if (imageUrl == null)

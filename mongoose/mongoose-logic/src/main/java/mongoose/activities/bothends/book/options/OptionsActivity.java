@@ -95,7 +95,7 @@ public class OptionsActivity extends BookingProcessActivity {
     }
 
     protected BookingCalendar createBookingCalendar() {
-        return new BookingCalendar(true, getI18n());
+        return new BookingCalendar(true);
     }
 
     protected BookingCalendar bookingCalendar;
@@ -138,7 +138,7 @@ public class OptionsActivity extends BookingProcessActivity {
     private Map<mongoose.entities.Label, Property<String>> labelTexts = new HashMap<>();
 
     private void bindTextWithLabel(Property<String> textProperty, mongoose.entities.Label label) {
-        textProperty.bind(Labels.translateLabel(label, getI18n()));
+        textProperty.bind(Labels.translateLabel(label));
         labelTexts.put(label, textProperty);
     }
 

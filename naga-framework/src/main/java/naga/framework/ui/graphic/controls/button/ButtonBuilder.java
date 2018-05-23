@@ -7,13 +7,13 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.paint.Paint;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.action.ActionBinder;
 import naga.framework.ui.graphic.background.BackgroundBuilder;
 import naga.framework.ui.graphic.border.BorderBuilder;
 import naga.framework.ui.graphic.image.JsonImageViews;
 import naga.framework.ui.graphic.paint.PaintBuilder;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.util.function.Function;
@@ -26,7 +26,6 @@ public class ButtonBuilder {
     private Object iconUrlOrJson;
     private Node icon;
 
-    private I18nProvider i18n;
     private Object i18nKey;
 
     private Action action;
@@ -61,11 +60,6 @@ public class ButtonBuilder {
 
     public ButtonBuilder setIcon(Node icon) {
         this.icon = icon;
-        return this;
-    }
-
-    public ButtonBuilder setI18n(I18nProvider i18n) {
-        this.i18n = i18n;
         return this;
     }
 
@@ -160,8 +154,8 @@ public class ButtonBuilder {
             if (action != null)
                 ActionBinder.bindButtonToAction(button, action);
             else {
-                if (i18n != null && i18nKey != null)
-                    i18n.translateText(button, i18nKey);
+                if (i18nKey != null)
+                    I18n.translateText(button, i18nKey);
                 if (icon == null && iconUrlOrJson != null)
                     icon = JsonImageViews.createImageView(iconUrlOrJson);
                 if (icon != null)

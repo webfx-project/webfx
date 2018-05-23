@@ -15,7 +15,7 @@ import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.*;
 import naga.framework.orm.mapping.QueryResultToEntityListGenerator;
-import naga.framework.services.i18n.spi.I18nProvider;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
 import naga.framework.ui.rx.RxFuture;
 import naga.framework.ui.rx.RxUi;
@@ -66,7 +66,6 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     private final BehaviorSubject<EntityList<E>> entityListQueryPushEmitter = BehaviorSubject.create();
     private List<E> restrictedFilterList;
     private DataSourceModel dataSourceModel;
-    private I18nProvider i18n;
     private EntityStore store;
     private static int filterCount = 0;
     private Object listId = "filter-" + ++filterCount;
@@ -108,11 +107,6 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     public ReactiveExpressionFilter<E> setDataSourceModel(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
         dataSourceModel.getDomainModel(); // Ensuring the data model is loaded with formats registered before expression columns are set
-        return this;
-    }
-
-    public ReactiveExpressionFilter<E> setI18n(I18nProvider i18n) {
-        this.i18n = i18n;
         return this;
     }
 
@@ -399,23 +393,22 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         if (startsWithEmptyResult)
             resetAllDisplayResults(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
-        if (i18n != null)
-            Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
-                private boolean dictionaryChanged;
+        Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
+            private boolean dictionaryChanged;
 
-                @Override
-                public void accept(ObservableValue p) {
-                    dictionaryChanged |= p == i18n.dictionaryProperty();
-                    if (dictionaryChanged) {
-                        lastEntitiesInput = null; // Clearing the cache to have a fresh display result set next time it is active
-                        if (isActive()) {
-                            resetAllDisplayResults(false);
-                            dictionaryChanged = false;
-                        }
-                    } else if (requestRefreshOnActive && isActive())
-                        refreshNow();
-                }
-            }, i18n.dictionaryProperty(), activeProperty);
+            @Override
+            public void accept(ObservableValue p) {
+                dictionaryChanged |= p == I18n.dictionaryProperty();
+                if (dictionaryChanged) {
+                    lastEntitiesInput = null; // Clearing the cache to have a fresh display result set next time it is active
+                    if (isActive()) {
+                        resetAllDisplayResults(false);
+                        dictionaryChanged = false;
+                    }
+                } else if (requestRefreshOnActive && isActive())
+                    refreshNow();
+            }
+        }, I18n.dictionaryProperty(), activeProperty);
         Unit<QueryArgument> queryArgumentHolder = new Unit<>(); // Used for skipping possible too old query results
         Unit<QueryResult> queryResultHolder = new Unit<>(); // Used for
         Observable<EntityList<E>> entityListObservable = Observable
@@ -817,7 +810,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
 
         DisplayResult entitiesListToDisplayResult(List<E> entities) {
             collectColumnsPersistentTerms();
-            return EntityListToDisplayResultGenerator.createDisplayResult(entities, expressionColumns, i18n);
+            return EntityListToDisplayResultGenerator.createDisplayResult(entities, expressionColumns);
         }
 
         DisplayResult emptyDisplayResult() {

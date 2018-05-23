@@ -4,11 +4,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 
 import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
@@ -20,8 +21,8 @@ public interface HighLevelComponentsFactory {
 
     BorderPane createSectionPanel(SectionPanelStyleOptions options);
 
-    default BorderPane createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18nProvider i18n) {
-        return createSectionPanel(options, createImageView(iconImageUrl), i18n.translateText(new Label(), translationKey));
+    default BorderPane createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey) {
+        return createSectionPanel(options, createImageView(iconImageUrl), I18n.translateText(new Label(), translationKey));
     }
 
     default BorderPane createSectionPanel(SectionPanelStyleOptions options, Node... headerNodes) {

@@ -21,7 +21,7 @@ import mongoose.entities.Option;
 import mongoose.entities.Person;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.services.i18n.Dictionary;
-import naga.framework.services.i18n.spi.I18nProvider;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
@@ -80,8 +80,8 @@ class FeesActivity extends BookingProcessActivity {
         // Load and display fees groups now but also on event change
         Properties.runNowAndOnPropertiesChange(this::loadAndDisplayFeesGroups, eventIdProperty());
 
-        lastDictionary = getDictionary();
-        Properties.consume(Properties.filter(Properties.combine(dictionaryProperty(), activeProperty(),
+        lastDictionary = I18n.getDictionary();
+        Properties.consume(Properties.filter(Properties.combine(I18n.dictionaryProperty(), activeProperty(),
                 Pair::new), // combine function
                 pair -> pair.get2()), // filter function (GWT doesn't compile method reference in this case)
                 pair -> refreshOnDictionaryChanged());
@@ -90,7 +90,7 @@ class FeesActivity extends BookingProcessActivity {
     private Dictionary lastDictionary;
 
     private void refreshOnDictionaryChanged() {
-        Dictionary newDictionary = getDictionary();
+        Dictionary newDictionary = I18n.getDictionary();
         if (lastDictionary != newDictionary) {
             lastDictionary = newDictionary;
             displayFeesGroups();
@@ -135,15 +135,14 @@ class FeesActivity extends BookingProcessActivity {
                 DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value)),
                 DisplayColumn.create(value -> renderFeesGroupBody((DisplayResult) value)),
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
-        I18nProvider i18n = getI18n();
         WritableJsonObject jsonImage = Json.parseObject(MongooseIcons.priceTagColorSvg16JsonUrl);
         ColumnWidthCumulator[] cumulators = {new ColumnWidthCumulator(), new ColumnWidthCumulator(), new ColumnWidthCumulator()};
         for (int i = 0; i < n; i++) {
             FeesGroup feesGroup = feesGroups[i];
-            rsb.setValue(i, 0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
+            rsb.setValue(i, 0, new Pair<>(jsonImage, feesGroup.getDisplayName()));
             rsb.setValue(i, 1, feesGroup.generateDisplayResult(this, this, this::onBookButtonPressed, cumulators));
             if (i == n - 1) // Showing the fees bottom text only on the last fees group
-                rsb.setValue(i, 2, feesGroup.getFeesBottomText(i18n));
+                rsb.setValue(i, 2, feesGroup.getFeesBottomText());
         }
         DisplayResult rs = rsb.build();
         rsProperty.setValue(rs);
@@ -153,9 +152,9 @@ class FeesActivity extends BookingProcessActivity {
         boolean hasUnemployedRate = hasUnemployedRate();
         boolean hasFacilityFeeRate = hasFacilityFeeRate();
         boolean hasDiscountRates = hasUnemployedRate || hasFacilityFeeRate;
-        RadioButton noDiscountRadio  = hasDiscountRates   ? instantTranslateText(new RadioButton(), "NoDiscount") : null;
-        RadioButton unemployedRadio  = hasUnemployedRate  ? instantTranslateText(new RadioButton(), "UnemployedDiscount") : null;
-        RadioButton facilityFeeRadio = hasFacilityFeeRate ? instantTranslateText(new RadioButton(), "FacilityFeeDiscount") : null;
+        RadioButton noDiscountRadio  = hasDiscountRates   ? I18n.instantTranslateText(new RadioButton(), "NoDiscount") : null;
+        RadioButton unemployedRadio  = hasUnemployedRate  ? I18n.instantTranslateText(new RadioButton(), "UnemployedDiscount") : null;
+        RadioButton facilityFeeRadio = hasFacilityFeeRate ? I18n.instantTranslateText(new RadioButton(), "FacilityFeeDiscount") : null;
         Person person = getPersonAggregate().getPreselectionProfilePerson();
         if (unemployedRadio != null) {
             unemployedRadio.setSelected(Booleans.isTrue(person.isUnemployed()));

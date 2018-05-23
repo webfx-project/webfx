@@ -8,8 +8,8 @@ import mongoose.entities.impl.LabelImpl;
 import mongoose.entities.markers.HasItem;
 import mongoose.entities.markers.HasLabel;
 import mongoose.entities.markers.HasName;
+import naga.framework.services.i18n.I18n;
 import naga.util.Objects;
-import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
@@ -47,31 +47,31 @@ public class Labels {
         return label;
     }
 
-    public static Property<String> translateLabel(Label label, I18nProvider i18n) {
-        Property<String> translation = new SimpleObjectProperty<>(instantTranslateLabel(label, i18n));
-        i18n.languageProperty().addListener((observable, oldValue, newValue) -> translation.setValue(instantTranslateLabel(label, i18n)));
+    public static Property<String> translateLabel(Label label) {
+        Property<String> translation = new SimpleObjectProperty<>(instantTranslateLabel(label));
+        I18n.languageProperty().addListener((observable, oldValue, newValue) -> translation.setValue(instantTranslateLabel(label)));
         return translation;
     }
 
-    public static <T extends Labeled> T translateLabel(T labeled, Label label, I18nProvider i18n) {
-        labeled.textProperty().bind(translateLabel(label, i18n));
+    public static <T extends Labeled> T translateLabel(T labeled, Label label) {
+        labeled.textProperty().bind(translateLabel(label));
         return labeled;
     }
 
-    public static String instantTranslate(Object o, I18nProvider i18n) {
-        return instantTranslateLabel(bestLabelOrName(o), i18n);
+    public static String instantTranslate(Object o) {
+        return instantTranslateLabel(bestLabelOrName(o));
     }
 
-    public static String instantTranslateLabel(Label label, I18nProvider i18n) {
-        return instantTranslateLabel(label, i18n, null);
+    public static String instantTranslateLabel(Label label) {
+        return instantTranslateLabel(label, null);
     }
 
     public static String instantTranslateLabel(Label label, Object language) {
         return instantTranslateLabel(label, language, null);
     }
 
-    public static String instantTranslateLabel(Label label, I18nProvider i18n, String keyIfNull) {
-        return instantTranslateLabel(label, i18n.getLanguage(), i18n.instantTranslate(keyIfNull));
+    public static String instantTranslateLabel(Label label, String keyIfNull) {
+        return instantTranslateLabel(label, I18n.getLanguage(), I18n.instantTranslate(keyIfNull));
     }
 
     public static String instantTranslateLabel(Label label, Object language, String translationIfNull) {

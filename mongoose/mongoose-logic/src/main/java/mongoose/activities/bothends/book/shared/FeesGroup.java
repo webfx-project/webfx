@@ -8,11 +8,11 @@ import mongoose.actions.MongooseIcons;
 import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.HighLevelComponents;
+import mongoose.aggregates.EventAggregate;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
-import mongoose.aggregates.EventAggregate;
 import mongoose.util.Labels;
-import naga.framework.services.i18n.spi.I18nProvider;
+import naga.framework.services.i18n.I18n;
 import naga.fx.util.ImageStore;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 import naga.fxdata.cell.renderer.TextRenderer;
@@ -71,8 +71,8 @@ public class FeesGroup {
         return optionsPreselections;
     }
 
-    public String getDisplayName(I18nProvider i18n) {
-        return Labels.instantTranslateLabel(label, i18n, i18nKey);
+    public String getDisplayName() {
+        return Labels.instantTranslateLabel(label, i18nKey);
     }
 
     public String getDisplayName(Object language) {
@@ -83,11 +83,10 @@ public class FeesGroup {
         boolean showBadges = Objects.areEquals(eventAggregate.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
-        I18nProvider i18n = buttonFactory.getI18n();
         DisplayResultBuilder rsb = DisplayResultBuilder.create(optionsCount, new DisplayColumn[]{
-                DisplayColumnBuilder.create(i18n.instantTranslate(singleOption ? (isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
-                DisplayColumnBuilder.create(i18n.instantTranslate("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
-                DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
+                DisplayColumnBuilder.create(I18n.instantTranslate(singleOption ? (isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
+                DisplayColumnBuilder.create(I18n.instantTranslate("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
+                DisplayColumnBuilder.create(I18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
                         .setValueRenderer(p -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventAggregate.areEventAvailabilitiesLoaded())
@@ -112,18 +111,18 @@ public class FeesGroup {
                         }).build()});
         int rowIndex = 0;
         for (OptionsPreselection optionsPreselection : optionsPreselections) {
-            rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Objects.coalesce(label, Labels.bestLabelOrName(event)), i18n) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName(i18n));
+            rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Objects.coalesce(label, Labels.bestLabelOrName(event))) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName());
             rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice());
             rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventAggregate), optionsPreselection));
         }
         return rsb.build();
     }
 
-    public String getFeesBottomText(I18nProvider i18n) {
+    public String getFeesBottomText() {
         if (isInternationalFestival())
             return null;
         Label feesBottomLabel = Objects.coalesce(getFeesBottomLabel(), event.getFeesBottomLabel());
-        return Labels.instantTranslateLabel(feesBottomLabel, i18n, "FeesExplanation");
+        return Labels.instantTranslateLabel(feesBottomLabel, "FeesExplanation");
     }
 
     private boolean isFestival() {

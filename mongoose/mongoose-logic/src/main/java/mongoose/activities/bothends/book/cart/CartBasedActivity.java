@@ -4,9 +4,10 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.bothends.generic.MongooseSectionFactoryMixin;
-import mongoose.entities.Event;
 import mongoose.aggregates.CartAggregate;
+import mongoose.entities.Event;
 import naga.framework.activity.view.impl.ViewActivityImpl;
+import naga.framework.services.i18n.I18n;
 import naga.fx.properties.Properties;
 
 /**
@@ -35,7 +36,7 @@ public abstract class CartBasedActivity
 
     protected void startLogic() {
         Properties.runOnPropertiesChange(this::onCartUuidChange, cartUuidProperty);
-        Properties.runOnPropertiesChange(this::onDictionaryChange, dictionaryProperty());
+        Properties.runOnPropertiesChange(this::onDictionaryChange, I18n.dictionaryProperty());
     }
 
     protected void onCartUuidChange() {

@@ -22,7 +22,6 @@ import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarGraphic;
 import naga.util.async.Handler;
 import naga.util.collection.Collections;
 import naga.util.tuples.Unit;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fx.properties.Properties;
 
 import java.util.List;
@@ -36,12 +35,10 @@ import static naga.framework.ui.layouts.LayoutUtil.setMinSizeToZeroAndPrefSizeTo
 public class CalendarGraphicImpl implements CalendarGraphic {
 
     private Calendar calendar;
-    private final I18nProvider i18n;
     private Pane rootNode;
     private long firstEpochDay;
 
-    public CalendarGraphicImpl(Calendar calendar, I18nProvider i18n) {
-        this.i18n = i18n;
+    public CalendarGraphicImpl(Calendar calendar) {
         setCalendar(calendar);
     }
 
@@ -147,11 +144,11 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         for (long displayedEpochDay = horizontalDayPositioner.getFirstDisplayedEpochDay(); displayedEpochDay <= horizontalDayPositioner.getLastDisplayedEpochDay(); displayedEpochDay++) {
             HorizontalDayPositioned hdp = horizontalDayPositioner.getHorizontalDayPositioned(index++);
             if (hdp instanceof DayColumnHeaderViewModel)
-                ((DayColumnHeaderViewModel) hdp).init(displayedEpochDay, i18n);
+                ((DayColumnHeaderViewModel) hdp).init(displayedEpochDay);
             else {
                 if (hdp != null)
                     horizontalDayPositioner.removeHorizontalDayPositioned(hdp);
-                DayColumnHeaderViewModel model = new DayColumnHeaderViewModel(displayedEpochDay, i18n);
+                DayColumnHeaderViewModel model = new DayColumnHeaderViewModel(displayedEpochDay);
                 horizontalDayPositioner.addHorizontalDayPositioned(index, model);
                 headersGroup.getChildren().add(model.getNode());
             }

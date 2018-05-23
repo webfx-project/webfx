@@ -6,12 +6,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
+import naga.framework.services.i18n.I18n;
+import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.framework.ui.graphic.background.BackgroundUtil;
+import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import naga.framework.ui.graphic.controls.dialog.DialogCallback;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
-import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fxdata.cell.collator.GridCollator;
 
@@ -24,26 +24,19 @@ public class TermsDialog implements ButtonFactoryMixin, ReactiveExpressionFilter
 
     private final Object eventId;
     private final DataSourceModel dataSourceModel;
-    private final I18nProvider i18n;
     private final Pane parent;
     private Runnable onClose;
     private DialogCallback termsDialogCallback;
 
-    public TermsDialog(Object eventId, DataSourceModel dataSourceModel, I18nProvider i18n, Pane parent) {
+    public TermsDialog(Object eventId, DataSourceModel dataSourceModel, Pane parent) {
         this.eventId = eventId;
         this.dataSourceModel = dataSourceModel;
-        this.i18n = i18n;
         this.parent = parent;
     }
 
     public TermsDialog setOnClose(Runnable onClose) {
         this.onClose = onClose;
         return this;
-    }
-
-    @Override
-    public I18nProvider getI18n() {
-        return i18n;
     }
 
     @Override
@@ -62,7 +55,7 @@ public class TermsDialog implements ButtonFactoryMixin, ReactiveExpressionFilter
         BorderPane entityDialogPane = new BorderPane(LayoutUtil.setMaxPrefSizeToInfinite(LayoutUtil.createVerticalScrollPaneWithPadding(termsLetterCollator)));
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combine("{where: 'event=" + eventId + "'}")
-                .combine(i18n.languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
+                .combine(I18n.languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
                 .displayResultInto(termsLetterCollator.displayResultProperty())
                 .start();
         HBox hBox = new HBox(20, createHGrowable(), newOkButton(this::closeTermsDialog), createHGrowable());

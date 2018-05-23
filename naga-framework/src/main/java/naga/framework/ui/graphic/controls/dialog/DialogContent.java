@@ -2,7 +2,6 @@ package naga.framework.ui.graphic.controls.dialog;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
-import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
@@ -14,24 +13,18 @@ public class DialogContent implements DialogBuilder {
     private String contentText;
     private String okText = "Ok";
     private String cancelText = "Cancel";
-    private I18nProvider i18n;
 
     private Button okButton = new Button();
     private Button cancelButton = new Button();
 
     private DialogCallback dialogCallback;
 
-    public static DialogContent createConfirmationDialog(String headerText, String contentText, I18nProvider i18n) {
-        return createConfirmationDialog("Confirmation", headerText, contentText, i18n);
+    public static DialogContent createConfirmationDialog(String headerText, String contentText) {
+        return createConfirmationDialog("Confirmation", headerText, contentText);
     }
 
-    public static DialogContent createConfirmationDialog(String title, String headerText, String contentText, I18nProvider i18n) {
-        return new DialogContent().setTitle(title).setHeaderText(headerText).setContentText(contentText).setI18n(i18n).setYesNo();
-    }
-
-    @Override
-    public I18nProvider getI18n() {
-        return i18n;
+    public static DialogContent createConfirmationDialog(String title, String headerText, String contentText) {
+        return new DialogContent().setTitle(title).setHeaderText(headerText).setContentText(contentText).setYesNo();
     }
 
     @Override
@@ -56,11 +49,6 @@ public class DialogContent implements DialogBuilder {
 
     public DialogContent setContentText(String contentText) {
         this.contentText = contentText;
-        return this;
-    }
-
-    public DialogContent setI18n(I18nProvider i18n) {
-        this.i18n = i18n;
         return this;
     }
 
@@ -91,7 +79,7 @@ public class DialogContent implements DialogBuilder {
 
     @Override
     public Region build() {
-        return new GridPaneBuilder(i18n)
+        return new GridPaneBuilder()
                 .addTextRow(headerText)
                 .addTextRow(contentText)
                 .addButtons(okText, okButton, cancelText, cancelButton)

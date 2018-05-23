@@ -19,6 +19,7 @@ import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.EntityStoreQuery;
 import naga.framework.orm.entity.UpdateStore;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.spi.Toolkit;
@@ -129,7 +130,7 @@ class PaymentActivity extends CartBasedActivity {
 
         Node getNode() {
             if (node == null) {
-                String title = document.getFullName() + " - " + instantTranslate("Booking") + " " + document.getRef() + "   " + instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit());
+                String title = document.getFullName() + " - " + I18n.instantTranslate("Booking") + " " + document.getRef() + "   " + I18n.instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + I18n.instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + I18n.instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit());
                 BorderPane bp = HighLevelComponents.createSectionPanel(null, new Label(title), LayoutUtil.createHGrowable(), newLabel("PaymentAmount"));
                 hBox = new HBox(20);
                 hBox.setAlignment(Pos.CENTER_LEFT);
@@ -164,7 +165,7 @@ class PaymentActivity extends CartBasedActivity {
         }
 
         private RadioButton addRadioButton(int price, Object translationKey) {
-            RadioButton rb = new RadioButton(formatCurrency(price) + (translationKey == null ? "" : " (" + instantTranslate(translationKey) + ")"));
+            RadioButton rb = new RadioButton(formatCurrency(price) + (translationKey == null ? "" : " (" + I18n.instantTranslate(translationKey) + ")"));
             rb.setToggleGroup(radioGroup);
             rb.setOnAction(e -> updateAmount(price, true));
             addNode(rb);
@@ -297,7 +298,7 @@ class PaymentActivity extends CartBasedActivity {
         value = Strings.replaceAllSafe(value, "[bref]", doc.getRef().toString());
         value = Strings.replaceAllSafe(value, "[amount]", PriceFormatter.INSTANCE.format(lastPayment.getAmount(), true).toString());
         value = Strings.replaceAllSafe(value, "[amount_int]", lastPayment.getAmount().toString());
-        value = Strings.replaceAllSafe(value, "[event]", Labels.instantTranslate(event, getI18n()));
+        value = Strings.replaceAllSafe(value, "[event]", Labels.instantTranslate(event));
         value = Strings.replaceAllSafe(value, "[eventid]", event.getPrimaryKey().toString());
         value = Strings.replaceAllSafe(value, "[eventid5]", digits(event.getPrimaryKey().toString(), 5, true));
         value = Strings.replaceAllSafe(value, "[firstName]", doc.getFirstName());
@@ -320,7 +321,7 @@ class PaymentActivity extends CartBasedActivity {
         String cartUrl = Strings.removeSuffix(currentLocation.getHref(), "/payment");
         value = Strings.replaceAllSafe(value, "[cartUrl]", cartUrl);
         value = Strings.replaceAllSafe(value, "[session]", ((WebSocketBus) Platform.bus()).getSessionId());
-        value = Strings.replaceAllSafe(value, "[lang]", getLanguage().toString());
+        value = Strings.replaceAllSafe(value, "[lang]", I18n.getLanguage().toString());
         value = Strings.replaceAllSafe(value, "[paymentId]", lastPayment.getPrimaryKey().toString());
         value = Strings.replaceAllSafe(value, "[paymentId6]", digits(lastPayment.getPrimaryKey().toString(), 6, false));
         value = Strings.replaceAllSafe(value, "[date]", Dates.format(lastPayment.getDate(), "yyyyMMddHHmmss"));

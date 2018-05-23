@@ -4,6 +4,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.controls.ControlFactoryMixin;
 import naga.framework.ui.graphic.design.material.textfield.MaterialTextField;
 import naga.framework.ui.graphic.design.material.textfield.MaterialTextFieldPane;
@@ -40,8 +41,8 @@ public interface MaterialFactoryMixin extends ControlFactoryMixin {
     }
 
     default <T extends MaterialTextField> T setMaterialLabelAndPlaceholder(T materialTextField, Object labelKey, Object placeholderKey) {
-        translateString(materialTextField.labelTextProperty(), labelKey);
-        translateString(materialTextField.placeholderTextProperty(), placeholderKey);
+        I18n.translateString(materialTextField.labelTextProperty(), labelKey);
+        I18n.translateString(materialTextField.placeholderTextProperty(), placeholderKey);
         return materialTextField;
     }
 

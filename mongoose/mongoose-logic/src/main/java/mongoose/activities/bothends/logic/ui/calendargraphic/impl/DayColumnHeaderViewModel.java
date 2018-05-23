@@ -8,8 +8,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.background.BackgroundUtil;
-import naga.framework.services.i18n.spi.I18nProvider;
 
 import java.time.LocalDate;
 
@@ -59,13 +59,13 @@ public class DayColumnHeaderViewModel implements HorizontalDayPositioned {
         });
     }
 
-    public DayColumnHeaderViewModel(long epochDay, I18nProvider i18n) {
-        init(epochDay, i18n);
+    public DayColumnHeaderViewModel(long epochDay) {
+        init(epochDay);
     }
 
-    void init(long epochDay, I18nProvider i18n) {
+    void init(long epochDay) {
         this.epochDay = epochDay;
-        setDate(LocalDate.ofEpochDay(epochDay), i18n);
+        setDate(LocalDate.ofEpochDay(epochDay));
         setHeight(dayColumnHeaderHeight);
     }
 
@@ -78,10 +78,10 @@ public class DayColumnHeaderViewModel implements HorizontalDayPositioned {
         return rootPane;
     }
 
-    private void setDate(LocalDate date, I18nProvider i18n) {
-        i18n.translateText(dayOfWeekText, date.getDayOfWeek().name());
+    private void setDate(LocalDate date) {
+        I18n.translateText(dayOfWeekText, date.getDayOfWeek().name());
         dayOfMonthText.setText("" + date.getDayOfMonth());
-        i18n.translateText(monthText, date.getMonth().name());
+        I18n.translateText(monthText, date.getMonth().name());
     }
 
 

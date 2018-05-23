@@ -64,7 +64,7 @@ class EditableOptionsActivity extends OptionsActivity {
 
     @Override
     protected BookingCalendar createBookingCalendar() {
-        return new EditableBookingCalendar(true, getI18n(), pageContainer);
+        return new EditableBookingCalendar(true, pageContainer);
     }
 
     @Override
@@ -88,8 +88,7 @@ class EditableOptionsActivity extends OptionsActivity {
         DialogUtil.showDialog(
                 DialogContent.createConfirmationDialog(
                         "Removing an option",
-                        "Do you really want to remove this option?",
-                        getI18n()),
+                        "Do you really want to remove this option?"),
                 dialogCallback -> {
                     // Creating an update store
                     UpdateStore store = UpdateStore.create(getDataSourceModel());
@@ -119,7 +118,7 @@ class EditableOptionsActivity extends OptionsActivity {
         if (addOptionDialogPane == null) {
             DataGrid dataGrid = new DataGrid();
             addOptionDialogPane = new BorderPane(setMaxPrefSizeToInfinite(dataGrid));
-            addOptionDialogFilter = new ReactiveExpressionFilter<Option>("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel()).setI18n(getI18n())
+            addOptionDialogFilter = new ReactiveExpressionFilter<Option>("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel())
                     .combine(eventIdProperty(), e -> "{where: 'event.organization=" + getEvent().getOrganization().getPrimaryKey() + "'}")
                     .setExpressionColumns("[" +
                             "{label: 'Option', expression: 'coalesce(itemFamily.icon,item.family.icon),coalesce(name, item.name)'}," +

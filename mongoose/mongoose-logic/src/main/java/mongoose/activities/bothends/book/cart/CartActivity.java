@@ -29,6 +29,7 @@ import naga.framework.expression.terms.function.Function;
 import naga.framework.orm.entity.Entities;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.UpdateStore;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.controls.dialog.DialogCallback;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
@@ -75,7 +76,7 @@ class CartActivity extends CartBasedActivity {
         documentTable.setFullHeight(true);
         bookingsPanel.setCenter(documentTable);
         optionsPanel = HighLevelComponents.createSectionPanel(null, bookingLabel = new Label());
-        bookingOptionsPanel = new BookingOptionsPanel(getI18n());
+        bookingOptionsPanel = new BookingOptionsPanel();
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
         paymentsPanel = createSectionPanel("YourPayments");
         DataGrid paymentTable = new DataGrid();
@@ -117,11 +118,11 @@ class CartActivity extends CartBasedActivity {
     @Override
     protected void startLogic() {
         super.startLogic();
-        new TranslateFunction(getI18n()).register();
+        new TranslateFunction().register();
         new Function<Document>("documentStatus", null, null, PrimType.STRING, true) {
             @Override
             public Object evaluate(Document document, DataReader<Document> dataReader) {
-                return instantTranslate(getDocumentStatus(document));
+                return I18n.instantTranslate(getDocumentStatus(document));
             }
         }.register();
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
@@ -193,14 +194,14 @@ class CartActivity extends CartBasedActivity {
 
     private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<DisplayResult> displayResultProperty) {
         displayResultProperty.setValue(EntityListToDisplayResultGenerator.createDisplayResult(entities, columnsDefinition
-                , getDataSourceModel().getDomainModel(), classId, getI18n()));
+                , getDataSourceModel().getDomainModel(), classId));
     }
 
     private void syncBookingOptionsPanelIfReady() {
         if (bookingOptionsPanel != null && selectedWorkingDocument != null) {
             bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
             Document selectedDocument = selectedWorkingDocument.getDocument();
-            bookingLabel.setText(selectedDocument.getFullName() + " - " + getI18n().instantTranslate("Status:") + " " + getI18n().instantTranslate(getDocumentStatus(selectedDocument)));
+            bookingLabel.setText(selectedDocument.getFullName() + " - " + I18n.instantTranslate("Status:") + " " + I18n.instantTranslate(getDocumentStatus(selectedDocument)));
             disableCancelModifyButton(selectedDocument.isCancelled());
             updatePaymentsVisibility();
         }
@@ -255,7 +256,7 @@ class CartActivity extends CartBasedActivity {
     }
 
     private void cancelBooking() {
-        DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder(getI18n())
+        DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder()
                         .addNodeFillingRow(newLabel("BookingCancellation"))
                         .addNodeFillingRow(newLabel("ConfirmBookingCancellation"))
                         .addButtons("YesBookingCancellation", dialogCallback -> {
@@ -278,7 +279,7 @@ class CartActivity extends CartBasedActivity {
     private void contactUs() {
         TextField subjectTextField = newTextFieldWithPrompt("SubjectPlaceholder");
         TextArea bodyTextArea = newTextAreaWithPrompt("YourMessagePlaceholder");
-        DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder(getI18n())
+        DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder()
                         .addNodeFillingRow(createSectionPanel("Subject", subjectTextField))
                         .addNodeFillingRowAndHeight(createSectionPanel("YourMessage", bodyTextArea))
                         .addButtons("Send", dialogCallback -> {
@@ -320,7 +321,7 @@ class CartActivity extends CartBasedActivity {
     }
 
     private void readTerms() {
-        new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), (Pane) getNode()).show();
+        new TermsDialog(getEventId(), getDataSourceModel(), (Pane) getNode()).show();
     }
 
     private void addBooking() {

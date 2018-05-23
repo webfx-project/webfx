@@ -3,12 +3,12 @@ package naga.framework.activity.uiroute.impl;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import naga.framework.activity.i18n.impl.I18nActivityContextBase;
 import naga.framework.activity.uiroute.UiRouteActivityContext;
 import naga.framework.session.Session;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;
+import naga.platform.activity.impl.ActivityContextBase;
 import naga.platform.services.json.Json;
 import naga.platform.services.json.JsonObject;
 
@@ -18,7 +18,7 @@ import naga.platform.services.json.JsonObject;
 public class UiRouteActivityContextBase
         <THIS extends UiRouteActivityContextBase<THIS>>
 
-        extends I18nActivityContextBase<THIS>
+        extends ActivityContextBase<THIS>
         implements UiRouteActivityContext<THIS> {
 
     private UiRouter uiRouter;

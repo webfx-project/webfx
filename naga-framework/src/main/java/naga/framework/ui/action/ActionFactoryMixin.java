@@ -1,14 +1,12 @@
 package naga.framework.ui.action;
 
-import naga.framework.services.i18n.spi.HasI18nProvider;
-
 /**
  * @author Bruno Salmon
  */
-public interface ActionFactoryMixin extends ActionFactory, HasI18nProvider {
+public interface ActionFactoryMixin extends ActionFactory {
 
     default ActionBuilder newActionBuilder(Object actionKey) {
-        return getActionFactory().newActionBuilder(actionKey).setI18n(getI18n());
+        return getActionFactory().newActionBuilder(actionKey);
     }
 
     default ActionFactory getActionFactory() {

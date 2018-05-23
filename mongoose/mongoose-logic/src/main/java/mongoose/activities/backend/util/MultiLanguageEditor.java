@@ -7,6 +7,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
@@ -91,7 +92,7 @@ public class MultiLanguageEditor {
     public BorderPane getUiNode() {
         if (toggleGroup.getSelectedToggle() == null) {
             Properties.runOnPropertiesChange(this::onEntityChanged, toggleGroup.selectedToggleProperty());
-            toggleGroup.selectToggle(languageButtons.get(buttonFactory.getLanguage()));
+            toggleGroup.selectToggle(languageButtons.get(I18n.getLanguage()));
         }
         return borderPane;
     }
@@ -120,7 +121,7 @@ public class MultiLanguageEditor {
         if (entityId == null)
             return null;
         Toggle selectedLanguageButton = toggleGroup.getSelectedToggle();
-        Object language = selectedLanguageButton != null ? selectedLanguageButton.getUserData() : buttonFactory.getLanguage();
+        Object language = selectedLanguageButton != null ? selectedLanguageButton.getUserData() : I18n.getLanguage();
         Pair<Object, Object> pair = new Pair<>(entityId, language);
         MonoLanguageEditor monoLanguageEditor = monoLanguageEditors.get(pair);
         if (monoLanguageEditor == null)

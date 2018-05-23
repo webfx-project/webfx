@@ -22,11 +22,11 @@ import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import naga.framework.ui.graphic.design.material.textfield.MaterialTextFieldPane;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
@@ -49,7 +49,6 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     private static final int CHILD_MAX_AGE = 17;
 
     private final Event event;
-    private final I18nProvider i18n;
     private final TextField firstNameTextField, lastNameTextField, carer1NameTextField, carer2NameTextField, emailTextField, phoneTextField, streetTextField, postCodeTextField, cityNameTextField;
     private final RadioButton maleRadioButton, femaleRadioButton, childRadioButton, adultRadioButton;
     private final HBox genderBox, ageBox;
@@ -69,7 +68,6 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
 
     public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent, UiSession uiSession) {
         this.event = event;
-        i18n = viewActivityContextMixin.getI18n();
         sectionPanel = createSectionPanel("YourPersonalDetails");
 
         firstNameTextField = newMaterialTextField("FirstName", "FirstNamePlaceholder");
@@ -145,11 +143,6 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         };
     }
 
-    @Override
-    public I18nProvider getI18n() {
-        return i18n;
-    }
-
     public void setLoadingStore(EntityStore store) {
         countrySelector.setLoadingStore(store);
         organizationSelector.setLoadingStore(store);
@@ -194,7 +187,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     }
 
     private GridPane createPersonGridPane() {
-        GridPaneBuilder gridPaneBuilder = new GridPaneBuilder(i18n)
+        GridPaneBuilder gridPaneBuilder = new GridPaneBuilder()
                 .addLabelNodeRow("PersonToBook:", personButton)
                 .addLabelTextInputRow("FirstName:", firstNameTextField)
                 .addLabelTextInputRow("LastName:", lastNameTextField)
@@ -249,29 +242,29 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         DisplayColumn valueColumn = DisplayColumn.create(null, PrimType.STRING);
         DisplayResultBuilder rsb = DisplayResultBuilder.create(6, new DisplayColumn[]{keyColumn, valueColumn, keyColumn, valueColumn});
         Organization organization = model.getOrganization();
-        rsb.setValue(0, 0, i18n.instantTranslate("FirstName:"));
+        rsb.setValue(0, 0, I18n.instantTranslate("FirstName:"));
         rsb.setValue(0, 1, model.getFirstName());
-        rsb.setValue(1, 0, i18n.instantTranslate("LastName:"));
+        rsb.setValue(1, 0, I18n.instantTranslate("LastName:"));
         rsb.setValue(1, 1, model.getLastName());
-        rsb.setValue(2, 0, i18n.instantTranslate("Gender:"));
-        rsb.setValue(2, 1, i18n.instantTranslate(Booleans.isTrue(model.isMale()) ? "Male" : "Female"));
-        rsb.setValue(3, 0, i18n.instantTranslate("Age:"));
-        rsb.setValue(3, 1, i18n.instantTranslate(model.getAge() == null ? "Adult" : model.getAge()));
-        rsb.setValue(4, 0, i18n.instantTranslate("Email:"));
+        rsb.setValue(2, 0, I18n.instantTranslate("Gender:"));
+        rsb.setValue(2, 1, I18n.instantTranslate(Booleans.isTrue(model.isMale()) ? "Male" : "Female"));
+        rsb.setValue(3, 0, I18n.instantTranslate("Age:"));
+        rsb.setValue(3, 1, I18n.instantTranslate(model.getAge() == null ? "Adult" : model.getAge()));
+        rsb.setValue(4, 0, I18n.instantTranslate("Email:"));
         rsb.setValue(4, 1, model.getEmail());
-        rsb.setValue(5, 0, i18n.instantTranslate("Phone:"));
+        rsb.setValue(5, 0, I18n.instantTranslate("Phone:"));
         rsb.setValue(5, 1, model.getPhone());
-        rsb.setValue(0, 2, i18n.instantTranslate("Centre:"));
-        rsb.setValue(0, 3, organization == null ? i18n.instantTranslate("NoCentre") : organization.getName());
-        rsb.setValue(1, 2, i18n.instantTranslate("Street:"));
+        rsb.setValue(0, 2, I18n.instantTranslate("Centre:"));
+        rsb.setValue(0, 3, organization == null ? I18n.instantTranslate("NoCentre") : organization.getName());
+        rsb.setValue(1, 2, I18n.instantTranslate("Street:"));
         rsb.setValue(1, 3, model.getStreet());
-        rsb.setValue(2, 2, i18n.instantTranslate("Postcode:"));
+        rsb.setValue(2, 2, I18n.instantTranslate("Postcode:"));
         rsb.setValue(2, 3, model.getPostCode());
-        rsb.setValue(3, 2, i18n.instantTranslate("City:"));
+        rsb.setValue(3, 2, I18n.instantTranslate("City:"));
         rsb.setValue(3, 3, model.getCityName());
-        rsb.setValue(4, 2, i18n.instantTranslate("State:"));
+        rsb.setValue(4, 2, I18n.instantTranslate("State:"));
         //rsb.setValue(5, 1, model.getPostCode());
-        rsb.setValue(5, 2, i18n.instantTranslate("Country:"));
+        rsb.setValue(5, 2, I18n.instantTranslate("Country:"));
         rsb.setValue(5, 3, model.getCountryName());
         DataGrid dataGrid = new DataGrid(rsb.build()); // LayoutUtil.setMinMaxHeightToPref(new DataGrid(rsb.build()));
         dataGrid.setHeaderVisible(false);
@@ -309,7 +302,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         countrySelector.setSelectedItem(p.getCountry());
         updateUiEditable();
         if (sectionPanel.getCenter() == null)
-            Properties.runNowAndOnPropertiesChange(this::updatePanelBody, childRadioButton.selectedProperty(), i18n.dictionaryProperty());
+            Properties.runNowAndOnPropertiesChange(this::updatePanelBody, childRadioButton.selectedProperty(), I18n.dictionaryProperty());
         if (!editable)
             Toolkit.get().scheduler().runInUiThread(this::updatePanelBody);
     }

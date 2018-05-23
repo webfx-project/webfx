@@ -19,7 +19,6 @@ import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.aggregates.EventAggregate;
 import mongoose.util.PerformanceLogger;
 import naga.framework.orm.entity.Entities;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fx.spi.Toolkit;
 import naga.platform.services.log.Logger;
 
@@ -35,14 +34,12 @@ public class BookingCalendar {
     private final Property<Integer> bookingPrice = new SimpleObjectProperty<>();
     private final Property<String> formattedBookingPrice = new SimpleObjectProperty<>();
     private final boolean amendable;
-    protected final I18nProvider i18n;
     protected WorkingDocument workingDocument;
     private CalendarGraphic calendarGraphic;
     private Runnable onAttendanceChangedRunnable;
 
-    public BookingCalendar(boolean amendable, I18nProvider i18n) {
+    public BookingCalendar(boolean amendable) {
         this.amendable = amendable;
-        this.i18n = i18n;
     }
 
     public Node getCalendarNode() {
@@ -85,7 +82,7 @@ public class BookingCalendar {
             perf.log("Calendar creation");
             Toolkit.get().scheduler().runInUiThread(() -> {
                 if (calendarGraphic == null) {
-                    calendarGraphic = CalendarGraphic.create(calendar, i18n);
+                    calendarGraphic = CalendarGraphic.create(calendar);
                     calendarGraphic.setCalendarClickHandler(this::onCalendarClick);
                 } else
                     calendarGraphic.setCalendar(calendar);
@@ -99,7 +96,7 @@ public class BookingCalendar {
     }
 
     private Calendar createCalendarFromWorkingDocument() {
-        return CalendarExtractor.createFromWorkingDocument(workingDocument, createNewMaxDateTimeRangeWorkingDocument(), i18n);
+        return CalendarExtractor.createFromWorkingDocument(workingDocument, createNewMaxDateTimeRangeWorkingDocument());
     }
 
     protected WorkingDocument createNewMaxDateTimeRangeWorkingDocument() {

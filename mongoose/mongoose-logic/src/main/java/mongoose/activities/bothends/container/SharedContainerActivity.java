@@ -40,8 +40,8 @@ public class SharedContainerActivity extends ViewActivityImpl
         return Collections.listOf(
                    backAction    = newAction(() -> new RouteBackwardRequest(getHistory()))
                 ,  forwardAction = newAction(() -> new RouteForwardRequest(getHistory()))
-                ,  englishAction = newAction(() -> new ChangeLanguageToEnglishRequest(getI18n()))
-                ,  frenchAction  = newAction(() -> new ChangeLanguageToFrenchRequest(getI18n()))
+                ,  englishAction = newAction(() -> new ChangeLanguageToEnglishRequest())
+                ,  frenchAction  = newAction(() -> new ChangeLanguageToFrenchRequest())
         );
     }
 }

@@ -4,7 +4,6 @@ import naga.framework.activity.combinations.viewapplication.ViewApplicationConte
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext;
 import naga.framework.activity.combinations.viewdomainapplication.impl.ViewDomainApplicationContextFinal;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
@@ -19,10 +18,8 @@ public interface ViewDomainApplicationContext
         return new ViewDomainApplicationContextFinal(mainArgs, ViewDomainActivityContext::create);
     }
 
-    static ViewDomainApplicationContextFinal createViewDomainApplicationContext(DataSourceModel dataSourceModel, I18nProvider i18n, String[] mainArgs) {
-        ViewDomainApplicationContextFinal context = createViewDomainApplicationContext(mainArgs).setDataSourceModel(dataSourceModel);
-        context.setI18n(i18n);
-        return context;
+    static ViewDomainApplicationContextFinal createViewDomainApplicationContext(DataSourceModel dataSourceModel, String[] mainArgs) {
+        return createViewDomainApplicationContext(mainArgs).setDataSourceModel(dataSourceModel);
     }
 
 }

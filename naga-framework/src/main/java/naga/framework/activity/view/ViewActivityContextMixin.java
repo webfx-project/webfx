@@ -4,7 +4,6 @@ import javafx.beans.property.Property;
 import javafx.scene.Node;
 import naga.framework.activity.uiroute.UiRouteActivityContextMixin;
 import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
@@ -21,8 +20,5 @@ public interface ViewActivityContextMixin
 
     @Override
     default Property<Node> mountNodeProperty() { return getActivityContext().mountNodeProperty(); }
-
-    @Override
-    default I18nProvider getI18n() { return getActivityContext().getI18n(); }
 
 }

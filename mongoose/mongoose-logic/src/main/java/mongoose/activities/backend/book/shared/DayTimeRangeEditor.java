@@ -13,18 +13,17 @@ import naga.util.function.BiConsumer;
 import naga.framework.ui.graphic.controls.dialog.DialogCallback;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
-import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
  */
 class DayTimeRangeEditor {
 
-    static void showDayTimeRangeEditorDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner, I18nProvider i18n) {
-        showDayTimeRangeInternDialog(dayTimeRange, epochDay, timeline, okConsumer, parentOwner, i18n);
+    static void showDayTimeRangeEditorDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner) {
+        showDayTimeRangeInternDialog(dayTimeRange, epochDay, timeline, okConsumer, parentOwner);
     }
 
-    private static void showDayTimeRangeInternDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner, I18nProvider i18n) {
+    private static void showDayTimeRangeInternDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner) {
         DayTimeRange.TimeRangeRule generalRule = dayTimeRange.getGeneralRule();
         DayTimeRange.TimeRangeRule ruleForDay = dayTimeRange.getRuleForDay(epochDay);
 
@@ -40,10 +39,10 @@ class DayTimeRangeEditor {
         boolean hasException = !exceptionText.equals(generalText);
         exceptionCheckBox.setSelected(hasException);
 
-        DialogCallback dialogCallback = DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder(i18n)
+        DialogCallback dialogCallback = DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder()
                         .addNodeFillingRow(new DayColumnBodyBlockViewModel(null, epochDay, generalRule.getDayTimeInterval(), timeline, true).getNode(), 2)
                         .addLabelTextInputRow("Hours", generalTextField)
-                        .addNodeFillingRow(20, new DayColumnHeaderViewModel(epochDay, i18n).getNode())
+                        .addNodeFillingRow(20, new DayColumnHeaderViewModel(epochDay).getNode())
                         .addCheckBoxTextInputRow("Exception", exceptionCheckBox, exceptionTextField)
                         .addButtons("Ok", okButton, "Cancel", cancelButton)
                         .build(),

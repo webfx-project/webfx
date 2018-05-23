@@ -1,10 +1,9 @@
 package naga.framework.activity.uiroute;
 
 import naga.framework.activity.activeproperty.ActivePropertyActivityContext;
-import naga.framework.activity.i18n.I18nActivityContext;
 import naga.framework.session.Session;
-import naga.framework.ui.session.UiSession;
 import naga.framework.ui.router.UiRouter;
+import naga.framework.ui.session.UiSession;
 import naga.platform.client.url.history.History;
 import naga.platform.services.json.JsonObject;
 
@@ -14,8 +13,7 @@ import naga.platform.services.json.JsonObject;
 public interface UiRouteActivityContext
         <THIS extends UiRouteActivityContext<THIS>>
 
-        extends ActivePropertyActivityContext<THIS>,
-        I18nActivityContext<THIS> {
+        extends ActivePropertyActivityContext<THIS> {
 
     UiRouter getUiRouter();
 

@@ -6,15 +6,14 @@ import javafx.scene.layout.BorderPane;
 import mongoose.actions.MongooseIcons;
 import mongoose.activities.bothends.book.shared.BookingCalendar;
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.HighLevelComponents;
-import naga.framework.services.i18n.spi.I18nProviderMixin;
 
 /**
  * @author Bruno Salmon
  */
-public interface MongooseSectionFactoryMixin extends I18nProviderMixin {
+public interface MongooseSectionFactoryMixin {
 
     default BorderPane createSectionPanel(String i18nKey) {
-        return HighLevelComponents.createSectionPanel(null, null, i18nKey, getI18n());
+        return HighLevelComponents.createSectionPanel(null, null, i18nKey);
     }
 
     default Node createSectionPanel(String iconImageUrl, String i18nKey, ObservableValue<Node> centerProperty) {
@@ -30,7 +29,7 @@ public interface MongooseSectionFactoryMixin extends I18nProviderMixin {
     }
 
     default BorderPane createSectionPanel(String iconImageUrl, String i18nKey) {
-        return HighLevelComponents.createSectionPanel(null, iconImageUrl, i18nKey, getI18n());
+        return HighLevelComponents.createSectionPanel(null, iconImageUrl, i18nKey);
     }
 
     default Node createBookingCalendarSection(BookingCalendar bookingCalendar) {

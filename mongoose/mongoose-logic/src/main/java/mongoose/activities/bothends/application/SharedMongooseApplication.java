@@ -94,7 +94,7 @@ public abstract class SharedMongooseApplication
     }
 
     protected void registerActions() {
-        MongooseActions.registerActions(getI18n());
+        MongooseActions.registerActions();
         EntityStore.create(getDataSourceModel()).executeQuery("select operationCode,i18nCode,public from Operation").setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
@@ -118,17 +118,16 @@ public abstract class SharedMongooseApplication
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProvider::new);
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProvider::new);
+        I18n.registerProvider(I18nProvider.create("mongoose/dictionaries/{lang}.json"));
         // Activating focus owner auto scroll
         SceneUtil.installPrimarySceneFocusOwnerAutoScroll();
     }
 
     protected static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
-        I18n.registerProvider(I18nProvider.create("mongoose/dictionaries/{lang}.json"));
         ActivityManager.launchApplication(
                 mongooseApplication,
                 ViewDomainApplicationContext.createViewDomainApplicationContext(
                         DomainModelSnapshotLoader.getDataSourceModel(),
-                        I18n.getProvider(),
                         args
                 )
         );

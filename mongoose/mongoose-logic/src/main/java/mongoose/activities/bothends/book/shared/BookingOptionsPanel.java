@@ -14,7 +14,7 @@ import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.AggregateFunction;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.services.i18n.spi.I18nProvider;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
@@ -33,13 +33,11 @@ import static naga.framework.ui.formatter.FormatterRegistry.registerFormatter;
  */
 public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
 
-    private final I18nProvider i18n;
     private final DataGrid dataGrid;
     private BorderPane optionsPanel;
     private EntityList<DocumentLine> lineEntities;
 
-    public BookingOptionsPanel(I18nProvider i18n) {
-        this.i18n = i18n;
+    public BookingOptionsPanel() {
         dataGrid = new SkinnedDataGrid(); // LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         dataGrid.setHeaderVisible(false);
         dataGrid.setFullHeight(true);
@@ -55,13 +53,8 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
                 return daysArrayBuilder.build().toSeries().toText("dd/MM");
             }
         }.register();
-        new TranslateFunction(i18n).register();
-        Properties.runOnPropertiesChange(this::updateGrid, i18n.dictionaryProperty());
-    }
-
-    @Override
-    public I18nProvider getI18n() {
-        return i18n;
+        new TranslateFunction().register();
+        Properties.runOnPropertiesChange(this::updateGrid, I18n.dictionaryProperty());
     }
 
     public void syncUiFromModel(WorkingDocument workingDocument) {
@@ -94,7 +87,7 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
                         "'translate(item)'," +
                         "{expression: 'dates', textAlign: 'center'}," +
                         "{expression: 'price_net', format: 'priceWithCurrency'}" +
-                        "] from DocumentLine where dates<>'' order by item.family.ord,item.name", i18n);
+                        "] from DocumentLine where dates<>'' order by item.family.ord,item.name");
     }
 
     private DisplayResult generateGroupedLinesResult() {
@@ -104,7 +97,7 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
                         "translate(item.family) + (item.family.code in (`teach`, `meals`) ? `` : `: ` + string_agg(translate(item), `, ` order by item.name))'," +
                         "{expression: 'days_agg()', textAlign: 'center'}," +
                         "{expression: 'sum(price_net)', format: 'priceWithCurrency'}" +
-                        "] from DocumentLine where dates<>'' group by item.family order by item.family.ord", i18n);
+                        "] from DocumentLine where dates<>'' group by item.family order by item.family.ord");
     }
 
     public DataGrid getGrid() {

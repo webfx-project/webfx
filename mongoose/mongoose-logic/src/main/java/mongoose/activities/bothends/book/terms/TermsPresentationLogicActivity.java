@@ -1,6 +1,7 @@
 package mongoose.activities.bothends.book.terms;
 
 import mongoose.activities.bothends.book.shared.BookingProcessPresentationLogicActivity;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
 /**
@@ -19,7 +20,7 @@ class TermsPresentationLogicActivity
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combine(pm.eventIdProperty(), e -> "{where: 'event=" + e + "'}")
-                .combine(getI18n().languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
+                .combine(I18n.languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
                 .displayResultInto(pm.termsLetterDisplayResultProperty())
                 .start();
     }

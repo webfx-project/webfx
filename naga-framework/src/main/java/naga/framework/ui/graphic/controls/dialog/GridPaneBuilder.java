@@ -12,10 +12,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
+import naga.framework.services.i18n.I18n;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;
 import naga.util.tuples.Pair;
-import naga.framework.services.i18n.spi.I18nProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,6 @@ public class GridPaneBuilder implements DialogBuilder {
 
     private final GridPane gridPane = new GridPane();
     private final Font font = Font.getDefault();
-    private final I18nProvider i18n;
     private int rowCount;
     private int colCount;
     private List<Pair<Property, Object>> watchedUserProperties = new ArrayList<>();
@@ -39,15 +38,9 @@ public class GridPaneBuilder implements DialogBuilder {
             noChangesProperty.setValue(Collections.hasNoOneMatching(watchedUserProperties, pair -> !Objects.equals(pair.get1().getValue(), pair.get2())));
     private DialogCallback dialogCallback;
 
-    public GridPaneBuilder(I18nProvider i18n) {
-        this.i18n = i18n;
+    public GridPaneBuilder() {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
-    }
-
-    @Override
-    public I18nProvider getI18n() {
-        return i18n;
     }
 
     public void setDialogCallback(DialogCallback dialogCallback) {
@@ -120,7 +113,7 @@ public class GridPaneBuilder implements DialogBuilder {
     }
 
     public GridPaneBuilder addButton(String buttonKey, Button button) {
-        i18n.translateText(button, buttonKey).setFont(font);
+        I18n.translateText(button, buttonKey).setFont(font);
         GridPane.setHalignment(button, HPos.RIGHT);
         gridPane.add(button, 0, rowCount++, colCount, 1);
         return this;
@@ -145,7 +138,7 @@ public class GridPaneBuilder implements DialogBuilder {
     private HBox createButtonBar(String button1Key, Button button1, String button2Key, Button button2) {
         if ("Ok".equals(button1Key) && !watchedUserProperties.isEmpty())
             button1.disableProperty().bind(noChangesProperty);
-        return createButtonBar(translateText(button1, button1Key), translateText(button2, button2Key));
+        return createButtonBar(I18n.translateText(button1, button1Key), I18n.translateText(button2, button2Key));
     }
 
     private HBox createButtonBar(Button... buttons) {
@@ -168,7 +161,7 @@ public class GridPaneBuilder implements DialogBuilder {
     }
 
     private <T extends Labeled> T setUpLabeled(T labeled, String labelKey) {
-        i18n.translateText(labeled, labelKey).setFont(font);
+        I18n.translateText(labeled, labelKey).setFont(font);
         //label.textFillProperty().bind(Theme.dialogTextFillProperty());
         GridPane.setHalignment(labeled, HPos.RIGHT);
         if (labeled instanceof CheckBox)

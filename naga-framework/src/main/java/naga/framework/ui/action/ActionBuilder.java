@@ -10,8 +10,8 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.image.JsonImageViews;
-import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
@@ -23,7 +23,6 @@ public class ActionBuilder {
     private ObservableStringValue textProperty;
     private String text;
     private Object i18nKey;
-    private I18nProvider i18n;
 
     private ObservableObjectValue<Node> graphicProperty;
     private Node graphic;
@@ -82,15 +81,6 @@ public class ActionBuilder {
 
     public ActionBuilder setI18nKey(Object i18nKey) {
         this.i18nKey = i18nKey;
-        return this;
-    }
-
-    public I18nProvider getI18n() {
-        return i18n;
-    }
-
-    public ActionBuilder setI18n(I18nProvider i18n) {
-        this.i18n = i18n;
         return this;
     }
 
@@ -194,7 +184,6 @@ public class ActionBuilder {
                 .setTextProperty(textProperty)
                 .setText(text)
                 .setI18nKey(i18nKey)
-                .setI18n(i18n)
                 .setGraphicProperty(graphicProperty)
                 .setGraphic(graphic)
                 .setGraphicUrlOrJson(graphicUrlOrJson)
@@ -232,8 +221,8 @@ public class ActionBuilder {
 
     private void completeTextProperty() {
         if (textProperty == null) {
-            if (i18nKey != null && i18n != null)
-                textProperty = i18n.translationProperty(i18nKey);
+            if (i18nKey != null)
+                textProperty = I18n.translationProperty(i18nKey);
             else
                 textProperty = new SimpleStringProperty(text);
         }

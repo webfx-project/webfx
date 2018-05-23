@@ -7,7 +7,6 @@ import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.transaction.WorkingDocumentTransaction;
 import mongoose.entities.Event;
 import mongoose.entities.Option;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fx.spi.Toolkit;
 import naga.util.collection.Collections;
 
@@ -28,7 +27,7 @@ public class OptionTree {
 
     OptionTree(OptionsActivity activity) {
         this.activity = activity;
-        new TranslateFunction<Option>("translateOption", activity) {
+        new TranslateFunction<Option>("translateOption") {
             @Override
             protected String translate(Option option) {
                 String optionTranslation = bestTranslationOrName(option);
@@ -54,10 +53,6 @@ public class OptionTree {
         if (workingDocumentTransaction == null || workingDocumentTransaction.getWorkingDocument() != workingDocument)
             workingDocumentTransaction = new WorkingDocumentTransaction(workingDocument);
         return workingDocumentTransaction;
-    }
-
-    I18nProvider getI18n() {
-        return activity.getI18n();
     }
 
     MongooseValidationSupport getValidationSupport() {

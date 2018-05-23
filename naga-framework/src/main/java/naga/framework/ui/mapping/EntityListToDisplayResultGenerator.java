@@ -11,9 +11,9 @@ import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.impl.DynamicEntity;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.formatter.Formatter;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.DisplayResultBuilder;
@@ -29,18 +29,18 @@ import java.util.Map;
  */
 public class EntityListToDisplayResultGenerator {
 
-    public static DisplayResult select(EntityList<? extends Entity> entityList, String select, I18nProvider i18n) {
+    public static DisplayResult select(EntityList<? extends Entity> entityList, String select) {
         int fromIndex = select.indexOf(" from ");
         String columnsDefinition = select.substring(select.indexOf("select") + 6, fromIndex).trim();
         select = "select " + select.substring(fromIndex + 6);
-        return select(entityList, select, columnsDefinition, i18n);
+        return select(entityList, select, columnsDefinition);
     }
 
-    public static DisplayResult select(EntityList<? extends Entity> entityList, String select, String columnsDefinition, I18nProvider i18n) {
-        return select(entityList, entityList.getDomainModel().parseSelect(select), columnsDefinition, i18n);
+    public static DisplayResult select(EntityList<? extends Entity> entityList, String select, String columnsDefinition) {
+        return select(entityList, entityList.getDomainModel().parseSelect(select), columnsDefinition);
     }
 
-    public static <E extends Entity> DisplayResult select(EntityList<E> entityList, Select<E> select, String columnsDefinition, I18nProvider i18n) {
+    public static <E extends Entity> DisplayResult select(EntityList<E> entityList, Select<E> select, String columnsDefinition) {
         EntityStore store = entityList.getStore();
         Expression<E> where = select.getWhere();
         if (where != null)
@@ -71,19 +71,19 @@ public class EntityListToDisplayResultGenerator {
         ExpressionArray<E> orderBy = select.getOrderBy();
         if (orderBy != null)
             entityList.orderBy(orderBy.getExpressions());
-        return createDisplayResult(entityList, columnsDefinition, select.getDomainClass(), i18n);
+        return createDisplayResult(entityList, columnsDefinition, select.getDomainClass());
     }
 
-    public static DisplayResult createDisplayResult(EntityList<? extends Entity> entityList, String columnsDefinition, Object classId, I18nProvider i18n) {
-        return createDisplayResult(entityList, columnsDefinition, entityList.getDomainModel(), classId, i18n);
+    public static DisplayResult createDisplayResult(EntityList<? extends Entity> entityList, String columnsDefinition, Object classId) {
+        return createDisplayResult(entityList, columnsDefinition, entityList.getDomainModel(), classId);
     }
 
-    public static DisplayResult createDisplayResult(List<? extends Entity> entityList, String columnsDefinition, DomainModel domainModel, Object classId, I18nProvider i18n) {
+    public static DisplayResult createDisplayResult(List<? extends Entity> entityList, String columnsDefinition, DomainModel domainModel, Object classId) {
         ExpressionColumn[] columns = ExpressionColumn.fromJsonArray(columnsDefinition, domainModel, classId);
-        return createDisplayResult(entityList, columns, i18n);
+        return createDisplayResult(entityList, columns);
     }
 
-    public static <E extends Entity> DisplayResult createDisplayResult(List<E> entityList, ExpressionColumn[] expressionColumns, I18nProvider i18n) {
+    public static <E extends Entity> DisplayResult createDisplayResult(List<E> entityList, ExpressionColumn[] expressionColumns) {
         int rowCount = entityList == null ? 0 : entityList.size();
         int columnCount = Arrays.length(expressionColumns);
         DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, columnCount);
@@ -93,12 +93,11 @@ public class EntityListToDisplayResultGenerator {
             for (ExpressionColumn expressionColumn : expressionColumns) {
                 // First setting the display column
                 DisplayColumn displayColumn = expressionColumn.getDisplayColumn();
-                if (i18n != null) { // translating the label if i18n is provided
-                    Label label = displayColumn.getLabel();
-                    String translationKey = label.getCode(); // the code used as translation key for i18n
-                    if (translationKey != null)
-                        label.setText(i18n.instantTranslate(translationKey));
-                }
+                // Translating the label if i18n is provided
+                Label label = displayColumn.getLabel();
+                String translationKey = label.getCode(); // the code used as translation key for i18n
+                if (translationKey != null)
+                    label.setText(I18n.instantTranslate(translationKey));
                 rsb.setDisplayColumn(columnIndex++, displayColumn);
                 // Then setting the column values (including possible formatting)
                 Expression<E> expression = expressionColumn.getExpression();

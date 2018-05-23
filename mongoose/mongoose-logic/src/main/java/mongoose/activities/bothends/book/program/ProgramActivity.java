@@ -20,7 +20,7 @@ class ProgramActivity extends BookingProcessActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        bookingCalendar = new BookingCalendar(false, getI18n());
+        bookingCalendar = new BookingCalendar(false);
         BorderPane calendarSection = createSectionPanel(MongooseIcons.calendarMonoSvg16JsonUrl, "Timetable");
         calendarSection.centerProperty().bind(bookingCalendar.calendarNodeProperty());
         verticalStack.getChildren().setAll(calendarSection, LayoutUtil.setMaxWidthToInfinite(backButton));

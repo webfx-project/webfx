@@ -13,7 +13,7 @@ class LoginViewActivity extends ViewActivityImpl {
 
     @Override
     public Node buildUi() {
-        loginPanel = new LoginPanel(getUiSession(), getI18n());
+        loginPanel = new LoginPanel(getUiSession());
         return loginPanel.getNode();
     }
 

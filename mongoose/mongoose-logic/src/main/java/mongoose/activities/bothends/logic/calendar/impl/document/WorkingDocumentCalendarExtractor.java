@@ -18,7 +18,6 @@ import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.util.Labels;
-import naga.framework.services.i18n.spi.I18nProvider;
 import naga.util.Objects;
 
 import java.util.*;
@@ -76,11 +75,11 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
                 workingDocumentLines.add(wdl);
         }
 
-        void addToCalendarTimelines(Collection<CalendarTimeline> timelines, I18nProvider i18n, DateTimeRange calendarDateTimeRange) {
+        void addToCalendarTimelines(Collection<CalendarTimeline> timelines, DateTimeRange calendarDateTimeRange) {
             DayTimeRange dayTimeRange = option.getParsedTimeRangeOrParent();
             //timelines.add(new CalendarTimelineImpl(calendarDateTimeRange, dayTimeRange, null, NOTHING_FILL));
             Label label = Labels.bestLabelOrName(!option.isAccommodation() ? option : option.getParent() /* normally: night */);
-            Property<String> displayNameProperty = Labels.translateLabel(label, i18n);
+            Property<String> displayNameProperty = Labels.translateLabel(label);
             addWorkingDocumentLineToCalendarTimelines(timelines, maxWorkingDocumentLine, dayTimeRange, displayNameProperty);
             for (WorkingDocumentLine workingDocumentLine : workingDocumentLines)
                 addWorkingDocumentLineToCalendarTimelines(timelines, workingDocumentLine, dayTimeRange, displayNameProperty);
@@ -98,11 +97,11 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
     }
 
     @Override
-    public Calendar extractCalendar(WorkingDocument wd, I18nProvider i18n) {
-        return extractCalendar(wd, null, i18n);
+    public Calendar extractCalendar(WorkingDocument wd) {
+        return extractCalendar(wd, null);
     }
 
-    public Calendar extractCalendar(WorkingDocument wd, WorkingDocument maxWd, I18nProvider i18n) {
+    public Calendar extractCalendar(WorkingDocument wd, WorkingDocument maxWd) {
         Map<Object, OptionTimeline> optionTimelines = new HashMap<>();
         // Gathering options coming from document lines
         addWorkingDocumentIntoOptionTimelines(wd, false, optionTimelines);
@@ -114,7 +113,7 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
         for (OptionTimeline ot : optionTimelines.values())
             timelines.add(new CalendarTimelineImpl(calendarDateTimeRange, ot.option.getParsedTimeRangeOrParent(), null, NOTHING_FILL, ot.option));
         for (OptionTimeline ot : optionTimelines.values())
-            ot.addToCalendarTimelines(timelines, i18n, calendarDateTimeRange);
+            ot.addToCalendarTimelines(timelines, calendarDateTimeRange);
         return new CalendarImpl(calendarDateTimeRange.getInterval(), timelines);
     }
 
