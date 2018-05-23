@@ -1,7 +1,6 @@
-package mongoose.activities.backend.application;
+package mongoose.activities.backend;
 
 import mongoose.activities.backend.book.options.EditableOptionsRouting;
-import mongoose.activities.backend.container.BackendContainerActivity;
 import mongoose.activities.backend.bookings.BookingsRouting;
 import mongoose.activities.backend.cloneevent.CloneEventRouting;
 import mongoose.activities.backend.letters.LettersRouting;
@@ -12,7 +11,7 @@ import mongoose.activities.backend.organizations.OrganizationsRouting;
 import mongoose.activities.backend.tester.TesterRouting;
 import mongoose.activities.backend.tester.savetest.SaveTestRooting;
 import mongoose.activities.backend.operations.OperationsRouting;
-import mongoose.activities.bothends.application.MongooseApplicationSharedByBothEnds;
+import mongoose.activities.bothends.MongooseApplicationSharedByBothEnds;
 import mongoose.activities.bothends.auth.LoginRouting;
 import mongoose.activities.bothends.auth.UnauthorizedRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
@@ -25,8 +24,10 @@ import naga.util.function.Factory;
  */
 public class BackendMongooseApplication extends MongooseApplicationSharedByBothEnds {
 
+    private static final String DEFAULT_START_PATH = OrganizationsRouting.getPath();
+
     public BackendMongooseApplication() {
-        super(OrganizationsRouting.getPath());
+        super(DEFAULT_START_PATH);
     }
 
     @Override

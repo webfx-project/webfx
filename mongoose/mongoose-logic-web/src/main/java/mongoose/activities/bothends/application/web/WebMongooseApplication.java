@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.application.web;
 
 import com.google.gwt.core.client.EntryPoint;
-import mongoose.activities.bothends.application.MongooseApplicationSharedByBothEnds;
+import mongoose.activities.bothends.MongooseApplicationSharedByBothEnds;
 import naga.providers.platform.client.gwt.GwtPlatform;
 
 /**

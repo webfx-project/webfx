@@ -1,6 +1,6 @@
 package mongoose.activities.backend.application.web;
 
-import mongoose.activities.backend.application.BackendMongooseApplication;
+import mongoose.activities.backend.BackendMongooseApplication;
 import mongoose.activities.bothends.application.web.WebMongooseApplication;
 
 /**

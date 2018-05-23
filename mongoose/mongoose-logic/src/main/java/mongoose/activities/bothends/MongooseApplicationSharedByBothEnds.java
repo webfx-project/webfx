@@ -1,4 +1,4 @@
-package mongoose.activities.bothends.application;
+package mongoose.activities.bothends;
 
 import mongoose.actions.MongooseActions;
 import mongoose.activities.bothends.book.cart.CartRouting;

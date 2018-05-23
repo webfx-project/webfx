@@ -1,4 +1,4 @@
-package mongoose.activities.bothends.container;
+package mongoose.activities.bothends;
 
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;

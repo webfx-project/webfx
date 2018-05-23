@@ -1,7 +1,7 @@
-package mongoose.activities.frontend.application;
+package mongoose.activities.frontend;
 
-import mongoose.activities.frontend.container.FrontendContainerActivity;
-import mongoose.activities.bothends.application.MongooseApplicationSharedByBothEnds;
+import mongoose.activities.bothends.MongooseApplicationSharedByBothEnds;
+import mongoose.activities.bothends.book.fees.FeesRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.platform.activity.Activity;
 import naga.util.function.Factory;
@@ -11,8 +11,11 @@ import naga.util.function.Factory;
  */
 public class FrontendMongooseApplication extends MongooseApplicationSharedByBothEnds {
 
-    public FrontendMongooseApplication() {
-        super("/book/event/125/fees");
+    private static final int TESTING_EVENT_ID = 125;
+    private static final String DEFAULT_START_PATH = FeesRouting.getFeesPath(TESTING_EVENT_ID);
+
+    private FrontendMongooseApplication() {
+        super(DEFAULT_START_PATH);
     }
 
     @Override
