@@ -12,7 +12,7 @@ import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.aggregates.EventAggregate;
 import mongoose.util.Labels;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fx.util.ImageStore;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 import naga.fxdata.cell.renderer.TextRenderer;
@@ -71,7 +71,7 @@ public class FeesGroup {
         return optionsPreselections;
     }
 
-    public String getDisplayName(I18n i18n) {
+    public String getDisplayName(I18nProvider i18n) {
         return Labels.instantTranslateLabel(label, i18n, i18nKey);
     }
 
@@ -83,7 +83,7 @@ public class FeesGroup {
         boolean showBadges = Objects.areEquals(eventAggregate.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
-        I18n i18n = buttonFactory.getI18n();
+        I18nProvider i18n = buttonFactory.getI18n();
         DisplayResultBuilder rsb = DisplayResultBuilder.create(optionsCount, new DisplayColumn[]{
                 DisplayColumnBuilder.create(i18n.instantTranslate(singleOption ? (isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
                 DisplayColumnBuilder.create(i18n.instantTranslate("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
@@ -119,7 +119,7 @@ public class FeesGroup {
         return rsb.build();
     }
 
-    public String getFeesBottomText(I18n i18n) {
+    public String getFeesBottomText(I18nProvider i18n) {
         if (isInternationalFestival())
             return null;
         Label feesBottomLabel = Objects.coalesce(getFeesBottomLabel(), event.getFeesBottomLabel());

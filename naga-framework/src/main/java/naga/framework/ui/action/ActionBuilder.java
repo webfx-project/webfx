@@ -11,7 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import naga.framework.ui.graphic.image.JsonImageViews;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
@@ -23,7 +23,7 @@ public class ActionBuilder {
     private ObservableStringValue textProperty;
     private String text;
     private Object i18nKey;
-    private I18n i18n;
+    private I18nProvider i18n;
 
     private ObservableObjectValue<Node> graphicProperty;
     private Node graphic;
@@ -85,11 +85,11 @@ public class ActionBuilder {
         return this;
     }
 
-    public I18n getI18n() {
+    public I18nProvider getI18n() {
         return i18n;
     }
 
-    public ActionBuilder setI18n(I18n i18n) {
+    public ActionBuilder setI18n(I18nProvider i18n) {
         this.i18n = i18n;
         return this;
     }

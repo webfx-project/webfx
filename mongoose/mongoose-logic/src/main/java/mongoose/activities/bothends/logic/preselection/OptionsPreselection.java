@@ -10,7 +10,7 @@ import mongoose.aggregates.EventAggregate;
 import mongoose.util.Labels;
 import naga.util.Booleans;
 import naga.util.collection.Collections;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.platform.services.query.QueryResult;
 
 import java.util.List;
@@ -86,7 +86,7 @@ public class OptionsPreselection {
         return initializeNewWorkingDocument().applyBusinessRules().computePrice();
     }
 
-    public String getDisplayName(I18n i18n) {
+    public String getDisplayName(I18nProvider i18n) {
         return Labels.instantTranslateLabel(label, i18n, i18nKey);
     }
 

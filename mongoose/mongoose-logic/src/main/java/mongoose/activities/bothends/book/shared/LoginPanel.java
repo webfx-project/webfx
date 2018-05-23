@@ -18,7 +18,7 @@ import naga.framework.services.authn.AuthenticationRequest;
 import naga.framework.ui.anim.Animations;
 import naga.framework.ui.graphic.controls.button.ButtonUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.session.UiSession;
@@ -30,7 +30,7 @@ import naga.framework.services.authn.UsernamePasswordCredentials;
  * @author Bruno Salmon
  */
 public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
-    private final I18n i18n;
+    private final I18nProvider i18n;
     private final Node node;
     private final TextField usernameField;
     private final PasswordField passwordField;
@@ -38,7 +38,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
     private final Property<Boolean> signInMode = new SimpleObjectProperty<>(true);
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
-    public LoginPanel(UiSession uiSession, I18n i18n) {
+    public LoginPanel(UiSession uiSession, I18nProvider i18n) {
         this.i18n = i18n;
         BorderPane loginWindow = createSectionPanel("SignInWindowTitle");
         Hyperlink hyperLink = newHyperlink("ForgotPassword?", e -> signInMode.setValue(!signInMode.getValue()));
@@ -80,7 +80,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
     }
 
     @Override
-    public I18n getI18n() {
+    public I18nProvider getI18n() {
         return i18n;
     }
 

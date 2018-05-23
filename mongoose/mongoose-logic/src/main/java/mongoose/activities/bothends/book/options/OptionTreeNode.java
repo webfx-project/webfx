@@ -23,7 +23,7 @@ import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
 import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fx.util.ImageStore;
@@ -97,7 +97,7 @@ class OptionTreeNode {
         return childrenToggleGroup;
     }
 
-    protected I18n getI18n() {
+    protected I18nProvider getI18n() {
         return tree.getI18n();
     }
 

@@ -3,12 +3,12 @@ package naga.framework.ui.filter;
 import naga.framework.activity.activeproperty.HasActiveProperty;
 import naga.framework.orm.domainmodel.HasDataSourceModel;
 import naga.framework.orm.entity.Entity;
-import naga.framework.ui.i18n.HasI18n;
+import naga.framework.services.i18n.spi.HasI18nProvider;
 
 /**
  * @author Bruno Salmon
  */
-public interface ReactiveExpressionFilterFactoryMixin extends HasI18n, HasDataSourceModel, HasActiveProperty {
+public interface ReactiveExpressionFilterFactoryMixin extends HasI18nProvider, HasDataSourceModel, HasActiveProperty {
 
     default <E extends Entity> ReactiveExpressionFilter<E> createReactiveExpressionFilter() {
         return initializeReactiveExpressionFilter(new ReactiveExpressionFilter<>());

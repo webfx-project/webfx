@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.logic.ui.highlevelcomponents;
 
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.impl.HighLevelComponentsFactoryImpl;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -27,7 +27,7 @@ public class HighLevelComponents {
         return getBuilder().createSectionPanel(options);
     }
 
-    public static BorderPane createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18n i18n) {
+    public static BorderPane createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18nProvider i18n) {
         return getBuilder().createSectionPanel(options, iconImageUrl, translationKey, i18n);
     }
 

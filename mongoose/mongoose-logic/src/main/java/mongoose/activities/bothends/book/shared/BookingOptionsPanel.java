@@ -14,7 +14,7 @@ import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.AggregateFunction;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
@@ -33,12 +33,12 @@ import static naga.framework.ui.formatter.FormatterRegistry.registerFormatter;
  */
 public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
 
-    private final I18n i18n;
+    private final I18nProvider i18n;
     private final DataGrid dataGrid;
     private BorderPane optionsPanel;
     private EntityList<DocumentLine> lineEntities;
 
-    public BookingOptionsPanel(I18n i18n) {
+    public BookingOptionsPanel(I18nProvider i18n) {
         this.i18n = i18n;
         dataGrid = new SkinnedDataGrid(); // LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         dataGrid.setHeaderVisible(false);
@@ -60,7 +60,7 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
     }
 
     @Override
-    public I18n getI18n() {
+    public I18nProvider getI18n() {
         return i18n;
     }
 

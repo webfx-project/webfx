@@ -1,4 +1,4 @@
-package naga.framework.ui.i18n;
+package naga.framework.services.i18n;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package mongoose.actions;
 
 import naga.framework.ui.action.*;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
@@ -14,7 +14,7 @@ public class MongooseActions {
     private final static Object VISIT_PROGRAM_ACTION_KEY = "Program>>";
     private final static Object ADD_OPTION_ACTION_KEY = "AddOption";
 
-    public static void registerActions(I18n i18n) {
+    public static void registerActions(I18nProvider i18n) {
         ActionBuilderRegistry.get().setI18n(i18n);
         registerAction(StandardActionKeys.ADD_ACTION_KEY, "Add", MongooseIcons.addIcon16JsonUrl);
         registerAction(StandardActionKeys.REMOVE_ACTION_KEY, "Remove", MongooseIcons.removeIcon16JsonUrl);

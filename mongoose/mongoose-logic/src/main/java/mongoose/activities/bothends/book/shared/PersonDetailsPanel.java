@@ -26,7 +26,7 @@ import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import naga.framework.ui.graphic.design.material.textfield.MaterialTextFieldPane;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
@@ -49,7 +49,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     private static final int CHILD_MAX_AGE = 17;
 
     private final Event event;
-    private final I18n i18n;
+    private final I18nProvider i18n;
     private final TextField firstNameTextField, lastNameTextField, carer1NameTextField, carer2NameTextField, emailTextField, phoneTextField, streetTextField, postCodeTextField, cityNameTextField;
     private final RadioButton maleRadioButton, femaleRadioButton, childRadioButton, adultRadioButton;
     private final HBox genderBox, ageBox;
@@ -146,7 +146,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     }
 
     @Override
-    public I18n getI18n() {
+    public I18nProvider getI18n() {
         return i18n;
     }
 

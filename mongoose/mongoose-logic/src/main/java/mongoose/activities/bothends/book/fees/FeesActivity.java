@@ -20,8 +20,8 @@ import mongoose.activities.bothends.logic.ui.highlevelcomponents.SectionPanelSty
 import mongoose.entities.Option;
 import mongoose.entities.Person;
 import naga.framework.orm.entity.EntityList;
-import naga.framework.ui.i18n.Dictionary;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.Dictionary;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
@@ -135,7 +135,7 @@ class FeesActivity extends BookingProcessActivity {
                 DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value)),
                 DisplayColumn.create(value -> renderFeesGroupBody((DisplayResult) value)),
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
-        I18n i18n = getI18n();
+        I18nProvider i18n = getI18n();
         WritableJsonObject jsonImage = Json.parseObject(MongooseIcons.priceTagColorSvg16JsonUrl);
         ColumnWidthCumulator[] cumulators = {new ColumnWidthCumulator(), new ColumnWidthCumulator(), new ColumnWidthCumulator()};
         for (int i = 0; i < n; i++) {

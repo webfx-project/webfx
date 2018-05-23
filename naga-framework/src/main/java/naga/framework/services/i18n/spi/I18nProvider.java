@@ -1,18 +1,19 @@
-package naga.framework.ui.i18n;
+package naga.framework.services.i18n.spi;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableStringValue;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
-import naga.framework.ui.i18n.impl.I18nImpl;
-import naga.framework.ui.i18n.impl.ResourceDictionaryLoader;
+import naga.framework.services.i18n.Dictionary;
+import naga.framework.services.i18n.spi.impl.I18nProviderImpl;
+import naga.framework.services.i18n.spi.impl.ResourceDictionaryLoader;
 import naga.util.Strings;
 
 /**
  * @author Bruno Salmon
  */
-public interface I18n {
+public interface I18nProvider {
 
     Property<Object> languageProperty();
     default Object getLanguage() { return languageProperty().getValue(); }
@@ -76,12 +77,12 @@ public interface I18n {
         return Strings.toString(key);
     }
 
-    default I18n translateString(Property<String> stringProperty, Object key) {
+    default I18nProvider translateString(Property<String> stringProperty, Object key) {
         stringProperty.bind(translationProperty(key));
         return this;
     }
 
-    default I18n translateTextFluent(Labeled labeled, Object key) {
+    default I18nProvider translateTextFluent(Labeled labeled, Object key) {
         return translateString(labeled.textProperty(), key);
     }
 
@@ -95,7 +96,7 @@ public interface I18n {
         return labeled;
     }
 
-    default I18n translatePromptTextFluent(TextInputControl textInputControl, Object key) {
+    default I18nProvider translatePromptTextFluent(TextInputControl textInputControl, Object key) {
         return translateString(textInputControl.promptTextProperty(), key);
     }
 
@@ -104,8 +105,8 @@ public interface I18n {
         return textInputControl;
     }
 
-    static I18n create(String langResourcePathPattern) {
-        return new I18nImpl(new ResourceDictionaryLoader(langResourcePathPattern));
+    static I18nProvider create(String langResourcePathPattern) {
+        return new I18nProviderImpl(new ResourceDictionaryLoader(langResourcePathPattern));
     }
 
 }

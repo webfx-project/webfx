@@ -25,8 +25,9 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.services.authn.spi.AuthenticationServiceProvider;
 import naga.framework.services.authz.spi.AuthorizationServiceProvider;
+import naga.framework.services.i18n.I18n;
 import naga.framework.ui.action.Action;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.router.UiRouter;
 import naga.fx.properties.Properties;
@@ -122,11 +123,12 @@ public abstract class SharedMongooseApplication
     }
 
     protected static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
+        I18n.registerProvider(I18nProvider.create("mongoose/dictionaries/{lang}.json"));
         ActivityManager.launchApplication(
                 mongooseApplication,
                 ViewDomainApplicationContext.createViewDomainApplicationContext(
                         DomainModelSnapshotLoader.getDataSourceModel(),
-                        I18n.create("mongoose/dictionaries/{lang}.json"),
+                        I18n.getProvider(),
                         args
                 )
         );

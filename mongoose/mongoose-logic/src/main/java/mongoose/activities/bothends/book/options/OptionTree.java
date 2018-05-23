@@ -7,7 +7,7 @@ import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.transaction.WorkingDocumentTransaction;
 import mongoose.entities.Event;
 import mongoose.entities.Option;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fx.spi.Toolkit;
 import naga.util.collection.Collections;
 
@@ -56,7 +56,7 @@ public class OptionTree {
         return workingDocumentTransaction;
     }
 
-    I18n getI18n() {
+    I18nProvider getI18n() {
         return activity.getI18n();
     }
 

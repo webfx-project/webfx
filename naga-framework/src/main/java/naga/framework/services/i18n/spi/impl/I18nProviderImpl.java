@@ -1,12 +1,12 @@
-package naga.framework.ui.i18n.impl;
+package naga.framework.services.i18n.spi.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableStringValue;
-import naga.framework.ui.i18n.Dictionary;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.Dictionary;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fx.spi.Toolkit;
 
 import java.lang.ref.Reference;
@@ -16,18 +16,18 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-public class I18nImpl implements I18n {
+public class I18nProviderImpl implements I18nProvider {
 
     private final Map<Object, Reference<StringProperty>> translations = new HashMap<>();
     private boolean dictionaryLoadRequired;
     private DictionaryLoader dictionaryLoader;
     private Set<Object> unloadedKeys;
 
-    public I18nImpl(DictionaryLoader dictionaryLoader) {
+    public I18nProviderImpl(DictionaryLoader dictionaryLoader) {
         this(dictionaryLoader, "en");
     }
 
-    public I18nImpl(DictionaryLoader dictionaryLoader, Object initialLanguage) {
+    public I18nProviderImpl(DictionaryLoader dictionaryLoader, Object initialLanguage) {
         this.dictionaryLoader = dictionaryLoader;
         languageProperty.addListener((observable, oldValue, newValue) -> onLanguageChanged());
         setLanguage(initialLanguage);

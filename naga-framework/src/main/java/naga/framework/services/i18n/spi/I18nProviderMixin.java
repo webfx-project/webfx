@@ -1,15 +1,16 @@
-package naga.framework.ui.i18n;
+package naga.framework.services.i18n.spi;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableStringValue;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
+import naga.framework.services.i18n.Dictionary;
 
 /**
  * @author Bruno Salmon
  */
-public interface I18nMixin extends HasI18n, I18n {
+public interface I18nProviderMixin extends HasI18nProvider, I18nProvider {
 
     default Property<Object> languageProperty() {
         return getI18n().languageProperty();
@@ -42,11 +43,11 @@ public interface I18nMixin extends HasI18n, I18n {
         return getI18n().notFoundTranslation(key);
     }
 
-    default I18n translateString(Property<String> stringProperty, Object key) {
+    default I18nProvider translateString(Property<String> stringProperty, Object key) {
         return getI18n().translateString(stringProperty, key);
     }
 
-    default I18n translateTextFluent(Labeled labeled, Object key) {
+    default I18nProvider translateTextFluent(Labeled labeled, Object key) {
         return translateString(labeled.textProperty(), key);
     }
 
@@ -58,7 +59,7 @@ public interface I18nMixin extends HasI18n, I18n {
         return getI18n().translateText(labeled, key);
     }
 
-    default I18n translatePromptTextFluent(TextInputControl textInputControl, Object key) {
+    default I18nProvider translatePromptTextFluent(TextInputControl textInputControl, Object key) {
         return getI18n().translatePromptTextFluent(textInputControl, key);
     }
 

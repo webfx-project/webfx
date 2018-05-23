@@ -9,7 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.graphic.controls.Controls;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fx.properties.Properties;
 import naga.fx.util.ImageStore;
 import org.controlsfx.control.decoration.GraphicDecoration;
@@ -19,27 +19,27 @@ import org.controlsfx.control.decoration.GraphicDecoration;
  */
 public class ButtonUtil {
 
-    public static Button newButton(Action action, I18n i18n) {
+    public static Button newButton(Action action, I18nProvider i18n) {
         return newButtonBuilder(action, i18n).build();
     }
 
-    public static ButtonBuilder newButtonBuilder(Action action, I18n i18n) {
+    public static ButtonBuilder newButtonBuilder(Action action, I18nProvider i18n) {
         return new ButtonBuilder().setAction(action).setI18n(i18n);
     }
 
-    public static Button newButton(Object iconUrlOrJson, Object translationKey, I18n i18n, EventHandler<ActionEvent> onAction) {
+    public static Button newButton(Object iconUrlOrJson, Object translationKey, I18nProvider i18n, EventHandler<ActionEvent> onAction) {
         return newButtonBuilder(iconUrlOrJson, translationKey, i18n, onAction).build();
     }
 
-    public static ButtonBuilder newButtonBuilder(Object iconUrlOrJson, Object translationKey, I18n i18n, EventHandler<ActionEvent> onAction) {
+    public static ButtonBuilder newButtonBuilder(Object iconUrlOrJson, Object translationKey, I18nProvider i18n, EventHandler<ActionEvent> onAction) {
         return new ButtonBuilder().setIconUrlOrJson(iconUrlOrJson).setI18n(i18n).setI18nKey(translationKey).setOnAction(onAction);
     }
 
-    public static Button newButton(Node graphic, Object translationKey, I18n i18n, EventHandler<ActionEvent> onAction) {
+    public static Button newButton(Node graphic, Object translationKey, I18nProvider i18n, EventHandler<ActionEvent> onAction) {
         return newButtonBuilder(graphic, translationKey, i18n, onAction).build();
     }
 
-    public static ButtonBuilder newButtonBuilder(Node graphic, Object translationKey, I18n i18n, EventHandler<ActionEvent> onAction) {
+    public static ButtonBuilder newButtonBuilder(Node graphic, Object translationKey, I18nProvider i18n, EventHandler<ActionEvent> onAction) {
         return new ButtonBuilder().setIcon(graphic).setI18n(i18n).setI18nKey(translationKey).setOnAction(onAction);
     }
 

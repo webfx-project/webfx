@@ -1,6 +1,6 @@
 package naga.framework.activity.i18n;
 
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.platform.activity.ActivityContextMixin;
 
 /**
@@ -13,12 +13,12 @@ public interface I18nActivityContextMixin
         I18nActivityContext<C> {
 
     @Override
-    default I18n getI18n() {
+    default I18nProvider getI18n() {
         return getActivityContext().getI18n();
     }
 
     @Override
-    default void setI18n(I18n i18n) {
+    default void setI18n(I18nProvider i18n) {
         getActivityContext().setI18n(i18n);
     }
 }

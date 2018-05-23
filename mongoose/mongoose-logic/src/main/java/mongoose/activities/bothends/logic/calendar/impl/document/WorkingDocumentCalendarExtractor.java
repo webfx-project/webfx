@@ -18,7 +18,7 @@ import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.util.Labels;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.util.Objects;
 
 import java.util.*;
@@ -76,7 +76,7 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
                 workingDocumentLines.add(wdl);
         }
 
-        void addToCalendarTimelines(Collection<CalendarTimeline> timelines, I18n i18n, DateTimeRange calendarDateTimeRange) {
+        void addToCalendarTimelines(Collection<CalendarTimeline> timelines, I18nProvider i18n, DateTimeRange calendarDateTimeRange) {
             DayTimeRange dayTimeRange = option.getParsedTimeRangeOrParent();
             //timelines.add(new CalendarTimelineImpl(calendarDateTimeRange, dayTimeRange, null, NOTHING_FILL));
             Label label = Labels.bestLabelOrName(!option.isAccommodation() ? option : option.getParent() /* normally: night */);
@@ -98,11 +98,11 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
     }
 
     @Override
-    public Calendar extractCalendar(WorkingDocument wd, I18n i18n) {
+    public Calendar extractCalendar(WorkingDocument wd, I18nProvider i18n) {
         return extractCalendar(wd, null, i18n);
     }
 
-    public Calendar extractCalendar(WorkingDocument wd, WorkingDocument maxWd, I18n i18n) {
+    public Calendar extractCalendar(WorkingDocument wd, WorkingDocument maxWd, I18nProvider i18n) {
         Map<Object, OptionTimeline> optionTimelines = new HashMap<>();
         // Gathering options coming from document lines
         addWorkingDocumentIntoOptionTimelines(wd, false, optionTimelines);

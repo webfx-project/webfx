@@ -13,7 +13,7 @@ import naga.framework.ui.graphic.background.BackgroundBuilder;
 import naga.framework.ui.graphic.border.BorderBuilder;
 import naga.framework.ui.graphic.image.JsonImageViews;
 import naga.framework.ui.graphic.paint.PaintBuilder;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.util.function.Function;
@@ -26,7 +26,7 @@ public class ButtonBuilder {
     private Object iconUrlOrJson;
     private Node icon;
 
-    private I18n i18n;
+    private I18nProvider i18n;
     private Object i18nKey;
 
     private Action action;
@@ -64,7 +64,7 @@ public class ButtonBuilder {
         return this;
     }
 
-    public ButtonBuilder setI18n(I18n i18n) {
+    public ButtonBuilder setI18n(I18nProvider i18n) {
         this.i18n = i18n;
         return this;
     }

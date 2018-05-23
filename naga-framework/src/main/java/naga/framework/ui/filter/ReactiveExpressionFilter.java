@@ -15,7 +15,7 @@ import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.*;
 import naga.framework.orm.mapping.QueryResultToEntityListGenerator;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
 import naga.framework.ui.rx.RxFuture;
 import naga.framework.ui.rx.RxUi;
@@ -66,7 +66,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     private final BehaviorSubject<EntityList<E>> entityListQueryPushEmitter = BehaviorSubject.create();
     private List<E> restrictedFilterList;
     private DataSourceModel dataSourceModel;
-    private I18n i18n;
+    private I18nProvider i18n;
     private EntityStore store;
     private static int filterCount = 0;
     private Object listId = "filter-" + ++filterCount;
@@ -111,7 +111,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return this;
     }
 
-    public ReactiveExpressionFilter<E> setI18n(I18n i18n) {
+    public ReactiveExpressionFilter<E> setI18n(I18nProvider i18n) {
         this.i18n = i18n;
         return this;
     }

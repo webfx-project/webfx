@@ -1,7 +1,7 @@
 package naga.framework.operations.i18n;
 
 import naga.framework.operation.HasOperationExecutor;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.util.async.AsyncFunction;
 
 /**
@@ -10,9 +10,9 @@ import naga.util.async.AsyncFunction;
 public class ChangeLanguageRequest implements HasOperationExecutor<ChangeLanguageRequest, Void> {
 
     final Object language;
-    final I18n i18n;
+    final I18nProvider i18n;
 
-    public ChangeLanguageRequest(Object language, I18n i18n) {
+    public ChangeLanguageRequest(Object language, I18nProvider i18n) {
         this.language = language;
         this.i18n = i18n;
     }

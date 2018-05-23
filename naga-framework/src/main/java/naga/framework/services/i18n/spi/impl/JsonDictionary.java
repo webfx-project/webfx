@@ -1,7 +1,7 @@
-package naga.framework.ui.i18n.impl;
+package naga.framework.services.i18n.spi.impl;
 
 import naga.util.Strings;
-import naga.framework.ui.i18n.Dictionary;
+import naga.framework.services.i18n.Dictionary;
 import naga.platform.services.json.Json;
 import naga.platform.services.json.JsonObject;
 

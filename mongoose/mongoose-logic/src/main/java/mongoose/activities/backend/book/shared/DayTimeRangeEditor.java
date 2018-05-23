@@ -13,18 +13,18 @@ import naga.util.function.BiConsumer;
 import naga.framework.ui.graphic.controls.dialog.DialogCallback;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
  */
 class DayTimeRangeEditor {
 
-    static void showDayTimeRangeEditorDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
+    static void showDayTimeRangeEditorDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner, I18nProvider i18n) {
         showDayTimeRangeInternDialog(dayTimeRange, epochDay, timeline, okConsumer, parentOwner, i18n);
     }
 
-    private static void showDayTimeRangeInternDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
+    private static void showDayTimeRangeInternDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner, I18nProvider i18n) {
         DayTimeRange.TimeRangeRule generalRule = dayTimeRange.getGeneralRule();
         DayTimeRange.TimeRangeRule ruleForDay = dayTimeRange.getRuleForDay(epochDay);
 

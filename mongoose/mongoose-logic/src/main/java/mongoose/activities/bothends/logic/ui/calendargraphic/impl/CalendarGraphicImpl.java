@@ -22,7 +22,7 @@ import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarGraphic;
 import naga.util.async.Handler;
 import naga.util.collection.Collections;
 import naga.util.tuples.Unit;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fx.properties.Properties;
 
 import java.util.List;
@@ -36,11 +36,11 @@ import static naga.framework.ui.layouts.LayoutUtil.setMinSizeToZeroAndPrefSizeTo
 public class CalendarGraphicImpl implements CalendarGraphic {
 
     private Calendar calendar;
-    private final I18n i18n;
+    private final I18nProvider i18n;
     private Pane rootNode;
     private long firstEpochDay;
 
-    public CalendarGraphicImpl(Calendar calendar, I18n i18n) {
+    public CalendarGraphicImpl(Calendar calendar, I18nProvider i18n) {
         this.i18n = i18n;
         setCalendar(calendar);
     }

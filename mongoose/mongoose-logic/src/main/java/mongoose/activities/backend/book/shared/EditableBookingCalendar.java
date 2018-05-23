@@ -7,7 +7,7 @@ import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.entities.Option;
 import naga.framework.orm.entity.UpdateStore;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
@@ -17,7 +17,7 @@ public class EditableBookingCalendar extends BookingCalendar {
     private final Node parentOwner;
     private boolean editMode;
 
-    public EditableBookingCalendar(boolean amendable, I18n i18n, Node parentOwner) {
+    public EditableBookingCalendar(boolean amendable, I18nProvider i18n, Node parentOwner) {
         super(amendable, i18n);
         this.parentOwner = parentOwner;
     }

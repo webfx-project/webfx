@@ -8,7 +8,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 
 import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
@@ -20,7 +20,7 @@ public interface HighLevelComponentsFactory {
 
     BorderPane createSectionPanel(SectionPanelStyleOptions options);
 
-    default BorderPane createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18n i18n) {
+    default BorderPane createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18nProvider i18n) {
         return createSectionPanel(options, createImageView(iconImageUrl), i18n.translateText(new Label(), translationKey));
     }
 

@@ -15,7 +15,7 @@ import javafx.scene.text.Font;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;
 import naga.util.tuples.Pair;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class GridPaneBuilder implements DialogBuilder {
 
     private final GridPane gridPane = new GridPane();
     private final Font font = Font.getDefault();
-    private final I18n i18n;
+    private final I18nProvider i18n;
     private int rowCount;
     private int colCount;
     private List<Pair<Property, Object>> watchedUserProperties = new ArrayList<>();
@@ -39,14 +39,14 @@ public class GridPaneBuilder implements DialogBuilder {
             noChangesProperty.setValue(Collections.hasNoOneMatching(watchedUserProperties, pair -> !Objects.equals(pair.get1().getValue(), pair.get2())));
     private DialogCallback dialogCallback;
 
-    public GridPaneBuilder(I18n i18n) {
+    public GridPaneBuilder(I18nProvider i18n) {
         this.i18n = i18n;
         gridPane.setHgap(10);
         gridPane.setVgap(10);
     }
 
     @Override
-    public I18n getI18n() {
+    public I18nProvider getI18n() {
         return i18n;
     }
 

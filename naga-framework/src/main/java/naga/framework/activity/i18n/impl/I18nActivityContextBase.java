@@ -1,7 +1,7 @@
 package naga.framework.activity.i18n.impl;
 
 import naga.framework.activity.i18n.I18nActivityContext;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;
 import naga.platform.activity.impl.ActivityContextBase;
@@ -15,19 +15,19 @@ public class I18nActivityContextBase
         extends ActivityContextBase<THIS>
         implements I18nActivityContext<THIS> {
 
-    private I18n i18n;
+    private I18nProvider i18n;
 
     protected I18nActivityContextBase(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
         super(parentContext, contextFactory);
     }
 
     @Override
-    public void setI18n(I18n i18n) {
+    public void setI18n(I18nProvider i18n) {
         this.i18n = i18n;
     }
 
     @Override
-    public I18n getI18n() {
+    public I18nProvider getI18n() {
         if (i18n != null)
             return i18n;
         ActivityContext parentContext = getParentContext();

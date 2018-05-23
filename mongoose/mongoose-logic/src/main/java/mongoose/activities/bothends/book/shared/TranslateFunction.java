@@ -4,20 +4,20 @@ import mongoose.util.Labels;
 import naga.type.PrimType;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.Function;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 
 /**
  * @author Bruno Salmon
  */
 public class TranslateFunction<T> extends Function<T> {
 
-    private final I18n i18n;
+    private final I18nProvider i18n;
 
-    public TranslateFunction(I18n i18n) {
+    public TranslateFunction(I18nProvider i18n) {
         this("translate", i18n);
     }
 
-    public TranslateFunction(String name, I18n i18n) {
+    public TranslateFunction(String name, I18nProvider i18n) {
         super(name, null, null, PrimType.STRING, true);
         this.i18n = i18n;
     }

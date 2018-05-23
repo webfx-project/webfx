@@ -6,12 +6,12 @@ import javafx.scene.layout.BorderPane;
 import mongoose.actions.MongooseIcons;
 import mongoose.activities.bothends.book.shared.BookingCalendar;
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.HighLevelComponents;
-import naga.framework.ui.i18n.I18nMixin;
+import naga.framework.services.i18n.spi.I18nProviderMixin;
 
 /**
  * @author Bruno Salmon
  */
-public interface MongooseSectionFactoryMixin extends I18nMixin {
+public interface MongooseSectionFactoryMixin extends I18nProviderMixin {
 
     default BorderPane createSectionPanel(String i18nKey) {
         return HighLevelComponents.createSectionPanel(null, null, i18nKey, getI18n());

@@ -11,7 +11,7 @@ import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.controls.dialog.DialogCallback;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fxdata.cell.collator.GridCollator;
 
@@ -24,12 +24,12 @@ public class TermsDialog implements ButtonFactoryMixin, ReactiveExpressionFilter
 
     private final Object eventId;
     private final DataSourceModel dataSourceModel;
-    private final I18n i18n;
+    private final I18nProvider i18n;
     private final Pane parent;
     private Runnable onClose;
     private DialogCallback termsDialogCallback;
 
-    public TermsDialog(Object eventId, DataSourceModel dataSourceModel, I18n i18n, Pane parent) {
+    public TermsDialog(Object eventId, DataSourceModel dataSourceModel, I18nProvider i18n, Pane parent) {
         this.eventId = eventId;
         this.dataSourceModel = dataSourceModel;
         this.i18n = i18n;
@@ -42,7 +42,7 @@ public class TermsDialog implements ButtonFactoryMixin, ReactiveExpressionFilter
     }
 
     @Override
-    public I18n getI18n() {
+    public I18nProvider getI18n() {
         return i18n;
     }
 
