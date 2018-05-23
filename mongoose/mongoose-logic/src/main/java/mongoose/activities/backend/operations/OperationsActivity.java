@@ -1,20 +1,13 @@
 package mongoose.activities.backend.operations;
 
-import javafx.scene.Node;
-import javafx.scene.text.Text;
-import naga.framework.activity.view.impl.ViewActivityImpl;
+import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
 
 /**
  * @author Bruno Salmon
  */
-class OperationsActivity extends ViewActivityImpl {
+class OperationsActivity extends DomainPresentationActivityImpl<OperationsPresentationModel> {
 
-    @Override
-    public void onStart() {
-    }
-
-    @Override
-    public Node buildUi() {
-        return new Text("Hello operations");
+    OperationsActivity() {
+        super(OperationsPresentationViewActivity::new, OperationsPresentationLogicActivity::new);
     }
 }

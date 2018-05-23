@@ -1,6 +1,6 @@
 package mongoose.activities.backend.operations;
 
-import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 
 /**
@@ -14,7 +14,7 @@ public class OperationsRouting {
         return UiRoute.create(PATH
                 , true
                 , OperationsActivity::new
-                , ViewDomainActivityContextFinal::new
+                , DomainPresentationActivityContextFinal::new
         );
     }
 
