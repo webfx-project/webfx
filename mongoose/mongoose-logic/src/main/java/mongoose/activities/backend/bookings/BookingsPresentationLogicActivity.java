@@ -83,7 +83,7 @@ class BookingsPresentationLogicActivity
             .combineIfNotNull(pm.minDayProperty(),   minDay -> "{where:  `exists(select Attendance where documentLine.document=d and date>=" + toSqlDate(minDay) + ")`}")
             .combineIfNotNull(pm.maxDayProperty(),   maxDay -> "{where:  `exists(select Attendance where documentLine.document=d and date<=" + toSqlDate(maxDay) + ")`}")
             // Search box condition
-            .combineTrimIfNotEmpty(pm.searchTextProperty(), s ->
+            .combineIfNotEmptyTrim(pm.searchTextProperty(), s ->
                 Character.isDigit(s.charAt(0)) ? "{where: `ref = " + s + "`}"
                 : s.contains("@") ? "{where: `lower(person_email) like '%" + s.toLowerCase() + "%'`}"
                 : "{where: `person_abcNames like '" + AbcNames.evaluate(s, true) + "'`}")

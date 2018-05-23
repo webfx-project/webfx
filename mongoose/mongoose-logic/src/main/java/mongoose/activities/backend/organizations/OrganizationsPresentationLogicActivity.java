@@ -26,7 +26,7 @@ class OrganizationsPresentationLogicActivity
         // Loading the domain model and setting up the reactive filter
         this.<Organization>createReactiveExpressionFilter("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'name'}")
                 // Search box condition
-                .combineTrimIfNotEmpty(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+                .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
                 .combine(pm.withEventsProperty(), "{where: 'exists(select Event where organization=o)', orderBy: 'id'}")

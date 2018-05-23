@@ -242,7 +242,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return combine(property, s -> Strings.isEmpty(s) ? null : toJsonFilterConverter.convert(s));
     }
 
-    public ReactiveExpressionFilter<E> combineTrimIfNotEmpty(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
+    public ReactiveExpressionFilter<E> combineIfNotEmptyTrim(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
         return combineIfNotEmpty(property, s -> toJsonFilterConverter.convert(Strings.trim(s)));
     }
 

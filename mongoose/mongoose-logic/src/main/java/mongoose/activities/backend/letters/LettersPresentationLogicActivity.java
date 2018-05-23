@@ -22,7 +22,7 @@ class LettersPresentationLogicActivity
             // Condition
             .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where: 'event=" + eventId + "'}")
             // Search box condition
-            .combineTrimIfNotEmpty(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+            .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
             // Limit condition
             .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
             .setExpressionColumns("[" +

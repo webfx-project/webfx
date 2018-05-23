@@ -31,7 +31,7 @@ class EventsPresentationLogicActivity
         // Loading the domain model and setting up the reactive filter
         this.<Event>createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields2: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where2: 'active', orderBy: 'startDate desc,id desc'}")
                 // Search box condition
-                .combineTrimIfNotEmpty(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+                .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 .combineIfNotNull(pm.organizationIdProperty(), o -> "{where: 'organization=" + o + "'}")
                 // Limit condition
                 .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")

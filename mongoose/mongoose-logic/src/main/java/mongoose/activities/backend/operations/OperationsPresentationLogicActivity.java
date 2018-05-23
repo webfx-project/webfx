@@ -24,7 +24,7 @@ class OperationsPresentationLogicActivity
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Operation', alias: 'o'}")
                 // Search box condition
-                .combineTrimIfNotEmpty(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+                .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
                 .setExpressionColumns("['name','operationCode','i18nCode','backend','frontend','public']")
