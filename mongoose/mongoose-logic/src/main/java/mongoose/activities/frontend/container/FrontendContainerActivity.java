@@ -1,9 +1,9 @@
 package mongoose.activities.frontend.container;
 
-import mongoose.activities.bothends.container.SharedContainerActivity;
+import mongoose.activities.bothends.container.ContainerActivitySharedByBothEnds;
 
 /**
  * @author Bruno Salmon
  */
-public class FrontendContainerActivity extends SharedContainerActivity {
+public class FrontendContainerActivity extends ContainerActivitySharedByBothEnds {
 }

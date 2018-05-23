@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import mongoose.activities.backend.application.BackendMongooseApplication;
 import mongoose.activities.backend.javafx.event.clone.FxCloneEventRouting;
-import mongoose.activities.bothends.application.SharedMongooseApplication;
+import mongoose.activities.bothends.application.MongooseApplicationSharedByBothEnds;
 import naga.framework.ui.router.UiRouter;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.javafx.JavaFxToolkit;
@@ -26,7 +26,7 @@ public class JavaFxBackendMongooseApplication extends BackendMongooseApplication
         launchJavaFxMongooseApplication(new JavaFxBackendMongooseApplication(), args);
     }
 
-    public static void launchJavaFxMongooseApplication(SharedMongooseApplication mongooseApplication, String[] args) {
+    public static void launchJavaFxMongooseApplication(MongooseApplicationSharedByBothEnds mongooseApplication, String[] args) {
         installJavaFxHooks();
         // Once hooks are set, we can start the application
         launchApplication(mongooseApplication, args);

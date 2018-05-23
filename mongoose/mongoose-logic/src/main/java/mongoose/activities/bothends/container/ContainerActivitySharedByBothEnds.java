@@ -19,7 +19,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class SharedContainerActivity extends ViewActivityImpl
+public class ContainerActivitySharedByBothEnds extends ViewActivityImpl
         implements MongooseButtonFactoryMixin
         , OperationActionProducer {
 
@@ -40,8 +40,8 @@ public class SharedContainerActivity extends ViewActivityImpl
         return Collections.listOf(
                    backAction    = newAction(() -> new RouteBackwardRequest(getHistory()))
                 ,  forwardAction = newAction(() -> new RouteForwardRequest(getHistory()))
-                ,  englishAction = newAction(() -> new ChangeLanguageToEnglishRequest())
-                ,  frenchAction  = newAction(() -> new ChangeLanguageToFrenchRequest())
+                ,  englishAction = newAction(ChangeLanguageToEnglishRequest::new)
+                ,  frenchAction  = newAction(ChangeLanguageToFrenchRequest::new)
         );
     }
 }

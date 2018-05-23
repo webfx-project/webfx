@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.application.web;
 
 import com.google.gwt.core.client.EntryPoint;
-import mongoose.activities.bothends.application.SharedMongooseApplication;
+import mongoose.activities.bothends.application.MongooseApplicationSharedByBothEnds;
 import naga.providers.platform.client.gwt.GwtPlatform;
 
 /**
@@ -16,7 +16,7 @@ public abstract class WebMongooseApplication implements EntryPoint {
         registerResourceBundles();
         registerCustomViewBuilders();
         startMongooseApplicationLogic();
-        SharedMongooseApplication.setLoadingSpinnerVisibleConsumer(WebMongooseApplication::setLoadingSpinnerVisible);
+        MongooseApplicationSharedByBothEnds.setLoadingSpinnerVisibleConsumer(WebMongooseApplication::setLoadingSpinnerVisible);
     }
 
     protected abstract void startMongooseApplicationLogic();

@@ -12,7 +12,7 @@ import mongoose.activities.backend.organizations.OrganizationsRouting;
 import mongoose.activities.backend.tester.TesterRouting;
 import mongoose.activities.backend.tester.savetest.SaveTestRooting;
 import mongoose.activities.backend.operations.OperationsRouting;
-import mongoose.activities.bothends.application.SharedMongooseApplication;
+import mongoose.activities.bothends.application.MongooseApplicationSharedByBothEnds;
 import mongoose.activities.bothends.auth.LoginRouting;
 import mongoose.activities.bothends.auth.UnauthorizedRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
@@ -23,7 +23,7 @@ import naga.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public class BackendMongooseApplication extends SharedMongooseApplication {
+public class BackendMongooseApplication extends MongooseApplicationSharedByBothEnds {
 
     public BackendMongooseApplication() {
         super(OrganizationsRouting.getPath());

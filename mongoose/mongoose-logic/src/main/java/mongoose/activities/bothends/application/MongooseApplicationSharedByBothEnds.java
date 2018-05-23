@@ -43,7 +43,7 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 /**
  * @author Bruno Salmon
  */
-public abstract class SharedMongooseApplication
+public abstract class MongooseApplicationSharedByBothEnds
         implements Activity<ViewDomainActivityContext>
         , ViewDomainActivityContextMixin
         , OperationActionProducer {
@@ -51,7 +51,7 @@ public abstract class SharedMongooseApplication
     private final String defaultInitialHistoryPath;
     private ViewDomainActivityContext context;
 
-    public SharedMongooseApplication(String defaultInitialHistoryPath) {
+    public MongooseApplicationSharedByBothEnds(String defaultInitialHistoryPath) {
         this.defaultInitialHistoryPath = defaultInitialHistoryPath;
     }
 
@@ -123,7 +123,7 @@ public abstract class SharedMongooseApplication
         SceneUtil.installPrimarySceneFocusOwnerAutoScroll();
     }
 
-    protected static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
+    protected static void launchApplication(MongooseApplicationSharedByBothEnds mongooseApplication, String[] args) {
         ActivityManager.launchApplication(
                 mongooseApplication,
                 ViewDomainApplicationContext.createViewDomainApplicationContext(

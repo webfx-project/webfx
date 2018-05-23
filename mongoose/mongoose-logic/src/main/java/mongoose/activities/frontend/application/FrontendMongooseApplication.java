@@ -1,7 +1,7 @@
 package mongoose.activities.frontend.application;
 
 import mongoose.activities.frontend.container.FrontendContainerActivity;
-import mongoose.activities.bothends.application.SharedMongooseApplication;
+import mongoose.activities.bothends.application.MongooseApplicationSharedByBothEnds;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.platform.activity.Activity;
 import naga.util.function.Factory;
@@ -9,7 +9,7 @@ import naga.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public class FrontendMongooseApplication extends SharedMongooseApplication {
+public class FrontendMongooseApplication extends MongooseApplicationSharedByBothEnds {
 
     public FrontendMongooseApplication() {
         super("/book/event/125/fees");
