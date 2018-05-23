@@ -10,7 +10,7 @@ import naga.platform.services.push.client.spi.PushClientServiceProvider;
 import naga.util.function.Function;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
-import static naga.platform.services.push.SharedClientServerPushInfo.PUSH_PING_CLIENT_LISTENER_SERVICE_ADDRESS;
+import static naga.platform.services.push.ClientPushBusAddressesSharedByBothClientAndServer.PUSH_PING_CLIENT_LISTENER_SERVICE_ADDRESS;
 
 /**
  * @author Bruno Salmon

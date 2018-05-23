@@ -4,7 +4,7 @@ import naga.platform.bus.Bus;
 import naga.platform.services.push.server.PushClientDisconnectListener;
 import naga.util.async.Future;
 
-import static naga.platform.services.push.SharedClientServerPushInfo.PUSH_PING_CLIENT_LISTENER_SERVICE_ADDRESS;
+import static naga.platform.services.push.ClientPushBusAddressesSharedByBothClientAndServer.PUSH_PING_CLIENT_LISTENER_SERVICE_ADDRESS;
 
 /**
  * @author Bruno Salmon

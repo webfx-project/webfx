@@ -3,7 +3,7 @@ package naga.platform.services.push;
 /**
  * @author Bruno Salmon
  */
-public class SharedClientServerPushInfo {
+public class ClientPushBusAddressesSharedByBothClientAndServer {
 
     public final static String PUSH_PING_CLIENT_LISTENER_SERVICE_ADDRESS = "pushPingClientListener";
 

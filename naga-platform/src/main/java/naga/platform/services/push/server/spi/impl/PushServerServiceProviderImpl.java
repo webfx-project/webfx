@@ -3,7 +3,7 @@ package naga.platform.services.push.server.spi.impl;
 import naga.platform.bus.Bus;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.log.Logger;
-import naga.platform.services.push.SharedClientServerPushInfo;
+import naga.platform.services.push.ClientPushBusAddressesSharedByBothClientAndServer;
 import naga.platform.services.push.server.PushClientDisconnectListener;
 import naga.platform.services.push.server.spi.PushServerServiceProvider;
 import naga.platform.spi.Platform;
@@ -31,7 +31,7 @@ public class PushServerServiceProviderImpl implements PushServerServiceProvider 
     public <T> Future<T> callClientService(String serviceAddress, Object javaArgument, Bus bus, Object pushClientId) {
         Future<T> future = Future.future();
         PushClientInfo pushClientInfo = getOrCreatePushClientInfo(pushClientId);
-        String clientBusCallServiceAddress = SharedClientServerPushInfo.computeClientBusCallServiceAddress(pushClientId);
+        String clientBusCallServiceAddress = ClientPushBusAddressesSharedByBothClientAndServer.computeClientBusCallServiceAddress(pushClientId);
         Logger.log("Pushing " + clientBusCallServiceAddress + " -> " + serviceAddress);
         pushClientInfo.touchCalled();
         BusCallService.call(clientBusCallServiceAddress, serviceAddress, javaArgument, bus).setHandler(ar -> {
