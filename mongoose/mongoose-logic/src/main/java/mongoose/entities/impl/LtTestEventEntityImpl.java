@@ -1,6 +1,6 @@
 package mongoose.entities.impl;
 
-import mongoose.activities.backend.monitor.listener.EventType;
+import mongoose.activities.backend.loadtester.drive.listener.EventType;
 import mongoose.entities.LtTestEventEntity;
 import mongoose.entities.LtTestSet;
 import naga.framework.orm.entity.EntityId;

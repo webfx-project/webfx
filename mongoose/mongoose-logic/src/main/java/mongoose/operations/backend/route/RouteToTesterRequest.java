@@ -1,6 +1,6 @@
 package mongoose.operations.backend.route;
 
-import mongoose.activities.backend.tester.TesterRouting;
+import mongoose.activities.backend.loadtester.LoadTesterRouting;
 import naga.framework.operation.HasOperationCode;
 import naga.framework.operations.route.RoutePushRequest;
 import naga.platform.client.url.history.History;
@@ -13,7 +13,7 @@ public class RouteToTesterRequest extends RoutePushRequest implements HasOperati
     private final static String OPERATION_CODE = "TESTER_ROUTING";
 
     public RouteToTesterRequest(History history) {
-        super(TesterRouting.getPath(), history);
+        super(LoadTesterRouting.getPath(), history);
     }
 
     @Override

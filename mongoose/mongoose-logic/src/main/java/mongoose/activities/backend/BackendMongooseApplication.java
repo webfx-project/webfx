@@ -3,14 +3,12 @@ package mongoose.activities.backend;
 import mongoose.activities.backend.book.options.EditableOptionsRouting;
 import mongoose.activities.backend.bookings.BookingsRouting;
 import mongoose.activities.backend.cloneevent.CloneEventRouting;
-import mongoose.activities.backend.letters.LettersRouting;
 import mongoose.activities.backend.events.EventsRouting;
 import mongoose.activities.backend.letter.LetterRouting;
+import mongoose.activities.backend.letters.LettersRouting;
 import mongoose.activities.backend.monitor.MonitorRouting;
-import mongoose.activities.backend.organizations.OrganizationsRouting;
-import mongoose.activities.backend.tester.TesterRouting;
-import mongoose.activities.backend.tester.savetest.SaveTestRooting;
 import mongoose.activities.backend.operations.OperationsRouting;
+import mongoose.activities.backend.organizations.OrganizationsRouting;
 import mongoose.activities.bothends.MongooseApplicationSharedByBothEnds;
 import mongoose.activities.bothends.auth.LoginRouting;
 import mongoose.activities.bothends.auth.UnauthorizedRouting;
@@ -52,8 +50,10 @@ public class BackendMongooseApplication extends MongooseApplicationSharedByBothE
                 .route(MonitorRouting.uiRoute())
                 .route(OperationsRouting.uiRoute())
                 .route(OrganizationsRouting.uiRoute())
-                .route(SaveTestRooting.uiRoute())
-                .route(TesterRouting.uiRoute())
+/* Load testing commented for now (to lighten the application)
+                .route(LoadTesterRouting.uiRoute())
+                .route(SaveLoadTestRooting.uiRoute())
+*/
         );
     }
 

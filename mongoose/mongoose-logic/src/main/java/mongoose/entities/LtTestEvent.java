@@ -1,6 +1,6 @@
 package mongoose.entities;
 
-import mongoose.activities.backend.monitor.listener.EventType;
+import mongoose.activities.backend.loadtester.drive.listener.EventType;
 
 import java.time.Instant;
 
