@@ -70,8 +70,10 @@ class ExpressionColumnImpl implements ExpressionColumn {
                 role = json.getString("role");
                 json = null;
             }
-            if (textAlign == null)
-                textAlign = Types.isNumberType(getExpression().getType()) ? "right" : null;
+            if (textAlign == null) {
+                Type type = getExpression().getType();
+                textAlign = Types.isNumberType(type) ? "right" : Types.isBooleanType(type) ? "center" : null;
+            }
             displayColumn = DisplayColumnBuilder.create(label, displayType)
                     .setStyle(DisplayStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
                     .setRole(role)
