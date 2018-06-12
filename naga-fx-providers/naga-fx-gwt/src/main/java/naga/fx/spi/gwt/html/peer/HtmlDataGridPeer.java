@@ -3,10 +3,9 @@ package naga.fx.spi.gwt.html.peer;
 import elemental2.dom.*;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
+import emul.javafx.scene.control.CheckBox;
 import emul.javafx.scene.layout.HBox;
 import emul.javafx.scene.layout.Region;
-import naga.util.Strings;
-import naga.util.tuples.Unit;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
@@ -15,6 +14,8 @@ import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.*;
 import naga.fxdata.spi.peer.base.DataGridPeerBase;
 import naga.fxdata.spi.peer.base.DataGridPeerMixin;
+import naga.util.Strings;
+import naga.util.tuples.Unit;
 
 import static naga.fx.spi.gwt.util.HtmlUtil.*;
 
@@ -165,19 +166,9 @@ public class HtmlDataGridPeer
             setStyleAttribute(contentElement, "position", "relative");
             //setStyleAttribute(contentElement, "width", null);
             //setStyleAttribute(contentElement, "height", null);
-            if (content instanceof HBox) { // temporary code for HBox, especially for table headers
+            if (content instanceof HBox || content instanceof CheckBox) { // temporary code for HBox, especially for table headers
                 double spacing = content instanceof HBox ? ((HBox) content).getSpacing() : 0;
-                for (int i = 0, n = (int) contentElement.childElementCount; i < n; i++) {
-                    elemental2.dom.Node childNode = contentElement.childNodes.item(i);
-                    if (childNode instanceof HTMLImageElement && Strings.isEmpty(((HTMLImageElement) childNode).src)) {
-                        contentElement.removeChild(childNode);
-                        i--; n--;
-                    } else {
-                        setStyleAttribute(childNode, "position", "relative");
-                        if (spacing > 0 && i < n - 1)
-                            setStyleAttribute(childNode, "margin-right", toPx(spacing));
-                    }
-                }
+                resetChildrenPositionToRelative(contentElement, spacing);
             } else if (content instanceof Parent) {
                 if (content instanceof Region) {
                     Region region = (Region) content;
@@ -190,6 +181,22 @@ public class HtmlDataGridPeer
                 ((Parent) content).layout();
             }
             cell.appendChild(contentElement);
+        }
+    }
+
+    private void resetChildrenPositionToRelative(Element contentElement, double spacing) {
+        for (int i = 0, n = (int) contentElement.childElementCount; i < n; i++) {
+            elemental2.dom.Node childNode = contentElement.childNodes.item(i);
+            if (childNode instanceof HTMLImageElement && Strings.isEmpty(((HTMLImageElement) childNode).src)) {
+                contentElement.removeChild(childNode);
+                i--; n--;
+            } else {
+                setStyleAttribute(childNode, "position", "relative");
+                if (spacing > 0 && i < n - 1)
+                    setStyleAttribute(childNode, "margin-right", toPx(spacing));
+                if (childNode instanceof Element) // Added, required in case of JavaFx CheckBox to have the image centered
+                    resetChildrenPositionToRelative((Element) childNode, 0);
+            }
         }
     }
 
