@@ -11,11 +11,6 @@
 
     <artifactId>naga-platform-vertx</artifactId>
 
-    <properties>
-        <!-- Using compiler version 3.6.1 because version 3.7.0 can't find vertx.web module for any reason -->
-        <plugin.compiler.version>3.6.1</plugin.compiler.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
