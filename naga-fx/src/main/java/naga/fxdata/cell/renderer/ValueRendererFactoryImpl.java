@@ -30,7 +30,9 @@ class ValueRendererFactoryImpl implements ValueRendererFactory {
                 renderers[i] = createCellRenderer(types[i]);
             return new ArrayRenderer(renderers, getNodeCollator());
         }
-        //
+        if (Types.isBooleanType(type))
+            return BooleanRenderer.SINGLETON;
+        // Text renderer is the default one
         return TextRenderer.SINGLETON;
     }
 
