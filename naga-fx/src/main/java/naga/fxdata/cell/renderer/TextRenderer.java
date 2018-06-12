@@ -13,7 +13,7 @@ public class TextRenderer implements ValueRenderer {
     private TextRenderer() {}
 
     @Override
-    public Text renderCellValue(Object value) {
+    public Text renderValue(Object value) {
         return new Text(Strings.toSafeString(value));
     }
 }

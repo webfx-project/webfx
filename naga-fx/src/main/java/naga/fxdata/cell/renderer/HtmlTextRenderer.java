@@ -14,7 +14,7 @@ public class HtmlTextRenderer implements ValueRenderer {
     private HtmlTextRenderer() {}
 
     @Override
-    public Node renderCellValue(Object value) {
+    public Node renderValue(Object value) {
         return new HtmlText(Strings.toString(value));
     }
 }

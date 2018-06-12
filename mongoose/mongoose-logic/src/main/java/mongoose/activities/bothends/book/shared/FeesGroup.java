@@ -105,7 +105,7 @@ public class FeesGroup {
                             button.setOnAction(e -> bookHandler.handle(optionsPreselection));
                             if (availability == null || !showBadges)
                                 return button;
-                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(availability)), button);
+                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderValue(availability)), button);
                             hBox.setAlignment(Pos.CENTER);
                             return hBox;
                         }).build()});

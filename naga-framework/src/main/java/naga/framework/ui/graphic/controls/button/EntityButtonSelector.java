@@ -99,7 +99,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     protected Node getOrCreateButtonContentFromSelectedItem() {
         E entity = getSelectedItem();
         Object renderedValue = entity == null ? null : entity.evaluate(renderingExpression);
-        return entityRenderer.renderCellValue(renderedValue);
+        return entityRenderer.renderValue(renderedValue);
     }
 
     @Override

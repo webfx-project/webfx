@@ -116,7 +116,7 @@ public class DataGridPeerBase
                 return;
             }
         }
-        mixin.setCellContent(cell, valueRenderer.renderCellValue(cellValue), displayColumn);
+        mixin.setCellContent(cell, valueRenderer.renderValue(cellValue), displayColumn);
     }
 
     public int getRowStyleColumnIndex() {

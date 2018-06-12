@@ -18,7 +18,7 @@ public class BooleanRenderer implements ValueRenderer {
     private BooleanRenderer() {}
 
     @Override
-    public CheckBox renderCellValue(Object value) {
+    public CheckBox renderValue(Object value) {
         CheckBox checkBox = new CheckBox();
         //checkBox.setSelected(Booleans.isTrue(value));
         //checkBox.setDisable(true); // The problem with that is the checkbox is grayed

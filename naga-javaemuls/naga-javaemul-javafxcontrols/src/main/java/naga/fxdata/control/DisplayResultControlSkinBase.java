@@ -171,7 +171,7 @@ public abstract class DisplayResultControlSkinBase<C extends DisplayResultContro
                 return;
             }
             if (valueRenderer == ImageRenderer.SINGLETON) {
-                setCellImageContent(cell, valueRenderer.renderCellValue(cellValue), displayColumn);
+                setCellImageContent(cell, valueRenderer.renderValue(cellValue), displayColumn);
                 return;
             }
             if (valueRenderer == ImageTextRenderer.SINGLETON) {
@@ -181,7 +181,7 @@ public abstract class DisplayResultControlSkinBase<C extends DisplayResultContro
                 return;
             }
         }
-        setCellContent(cell, valueRenderer.renderCellValue(cellValue), displayColumn);
+        setCellContent(cell, valueRenderer.renderValue(cellValue), displayColumn);
     }
 
 

@@ -10,7 +10,7 @@ import javafx.scene.Node;
  */
 public interface ValueRenderer {
 
-    Node renderCellValue(Object value);
+    Node renderValue(Object value);
 
     static ValueRenderer create(Type type) {
         return ValueRendererFactory.getDefault().createCellRenderer(type);

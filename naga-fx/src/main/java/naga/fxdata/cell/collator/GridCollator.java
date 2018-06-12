@@ -149,7 +149,7 @@ public class GridCollator extends DataGrid {
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
                 for (int gridColumnIndex = 0; gridColumnIndex < getGridColumnCount(); gridColumnIndex++)
                     columnValues[gridColumnIndex] = rs.getValue(rowIndex, rsColumnIndexes[gridColumnIndex]);
-                rowNodes[rowIndex] = ArrayRenderer.renderCellValue(columnValues, renderers, gridCollator.columnCollator);
+                rowNodes[rowIndex] = ArrayRenderer.renderValue(columnValues, renderers, gridCollator.columnCollator);
             }
             Node finalNode = gridCollator.rowCollator.collateNodes(rowNodes);
             gridCollator.container.setCenter(finalNode);
