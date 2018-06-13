@@ -1,5 +1,6 @@
 package naga.framework.ui.graphic.controls.dialog;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 
@@ -14,6 +15,7 @@ public class DialogContent implements DialogBuilder {
     private String okText = "Ok";
     private String cancelText = "Cancel";
 
+    private Node content;
     private Button okButton = new Button();
     private Button cancelButton = new Button();
 
@@ -52,12 +54,16 @@ public class DialogContent implements DialogBuilder {
         return this;
     }
 
+    public DialogContent setContent(Node content) {
+        this.content = content;
+        return this;
+    }
+
     public DialogContent setYesNo() {
         okText = "Yes";
         cancelText = "No";
         return this;
     }
-
 
     public Button getOkButton() {
         return okButton;
@@ -79,9 +85,14 @@ public class DialogContent implements DialogBuilder {
 
     @Override
     public Region build() {
-        return new GridPaneBuilder()
-                .addTextRow(headerText)
-                .addTextRow(contentText)
+        GridPaneBuilder builder = new GridPaneBuilder();
+        if (headerText != null)
+            builder.addTextRow(headerText);
+        if (contentText != null)
+            builder.addTextRow(contentText);
+        if (content != null)
+            builder.addNodeFillingRow(content);
+        return builder
                 .addButtons(okText, okButton, cancelText, cancelButton)
                 .build();
     }
