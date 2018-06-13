@@ -41,7 +41,6 @@ public class DialogUtil {
         return dialogBorderProperty;
     }
 
-
     public static DialogCallback showModalNodeInGoldLayout(Region modalNode, Pane parent) {
         return showModalNodeInGoldLayout(modalNode, parent, 0, 0);
     }
@@ -97,9 +96,13 @@ public class DialogUtil {
     }
 
     public static void showDialog(DialogContent dialogContent, Consumer<DialogCallback> okConsumer, Pane parent) {
-        DialogCallback dialogCallback = showModalNodeInGoldLayout(dialogContent.build(), parent);
-        dialogContent.getCancelButton().setOnAction(event -> dialogCallback.closeDialog());
-        dialogContent.getOkButton().setOnAction(event -> okConsumer.accept(dialogCallback));
+        showModalNodeInGoldLayout(dialogContent.build(), parent);
+        armDialogContentButtons(dialogContent, okConsumer);
+    }
+
+    public static void armDialogContentButtons(DialogContent dialogContent, Consumer<DialogCallback> okConsumer) {
+        dialogContent.getCancelButton().setOnAction(event -> dialogContent.getDialogCallback().closeDialog());
+        dialogContent.getOkButton().setOnAction(event -> okConsumer.accept(dialogContent.getDialogCallback()));
     }
 
     public static DialogCallback showDropUpOrDownDialog(Region dialogNode, Region buttonNode, Pane parent, ObservableValue resizeProperty, boolean up) {
