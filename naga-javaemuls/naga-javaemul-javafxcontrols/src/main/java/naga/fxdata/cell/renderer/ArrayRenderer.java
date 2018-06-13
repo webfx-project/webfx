@@ -24,18 +24,22 @@ public class ArrayRenderer implements ValueRenderer {
     }
 
     @Override
-    public Node renderValue(Object value) {
-        return renderValue(value, valueRenderers, collator);
+    public Node renderValue(Object value, ValueRenderingContext context) {
+        return renderValue(value, valueRenderers, collator, context);
     }
 
     public static Node renderValue(Object value, ValueRenderer[] valueRenderers, NodeCollator collator) {
+        return renderValue(value, valueRenderers, collator, ValueRenderingContext.DEFAULT_READONLY_CONTEXT);
+    }
+
+    public static Node renderValue(Object value, ValueRenderer[] valueRenderers, NodeCollator collator, ValueRenderingContext context) {
         Node[] nodes = null;
         if (value instanceof Object[]) {
             Object[] array = (Object[]) value;
             int n = Math.min(Arrays.length(array), Arrays.length(valueRenderers));
             nodes = new Node[n];
             for (int i = 0; i < n; i++) {
-                Node node = nodes[i] = valueRenderers[i].renderValue(array[i]);
+                Node node = nodes[i] = valueRenderers[i].renderValue(array[i], context);
                 if (node != null)
                     HBox.setHgrow(maximizeNode(node), Priority.ALWAYS);
             }

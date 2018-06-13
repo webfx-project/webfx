@@ -15,7 +15,7 @@ class ValueRendererFactoryImpl implements ValueRendererFactory {
     static ValueRendererFactoryImpl INSTANCE = new ValueRendererFactoryImpl();
 
     @Override
-    public ValueRenderer createCellRenderer(Type type) {
+    public ValueRenderer createValueRenderer(Type type) {
         if (Types.isImageType(type)) // Case: image type
             return ImageRenderer.SINGLETON;
         if (Types.isHtmlType(type)) // Case: html type
@@ -27,7 +27,7 @@ class ValueRendererFactoryImpl implements ValueRendererFactory {
             // Case: any other array type
             ValueRenderer[] renderers = new ValueRenderer[types.length];
             for (int i = 0; i < types.length; i++)
-                renderers[i] = createCellRenderer(types[i]);
+                renderers[i] = createValueRenderer(types[i]);
             return new ArrayRenderer(renderers, getNodeCollator());
         }
         if (Types.isBooleanType(type))

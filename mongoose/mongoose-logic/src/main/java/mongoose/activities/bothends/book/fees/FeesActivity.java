@@ -11,7 +11,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import mongoose.actions.MongooseIcons;
-import mongoose.operations.bothends.route.RouteToOptionsRequest;
 import mongoose.activities.bothends.book.shared.BookingProcessActivity;
 import mongoose.activities.bothends.book.shared.FeesGroup;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
@@ -19,6 +18,7 @@ import mongoose.activities.bothends.logic.ui.highlevelcomponents.HighLevelCompon
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.SectionPanelStyleOptions;
 import mongoose.entities.Option;
 import mongoose.entities.Person;
+import mongoose.operations.bothends.route.RouteToOptionsRequest;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.services.i18n.Dictionary;
 import naga.framework.services.i18n.I18n;
@@ -132,8 +132,8 @@ class FeesActivity extends BookingProcessActivity {
     private void displayFeesGroupsNow() {
         int n = feesGroups.length;
         DisplayResultBuilder rsb = DisplayResultBuilder.create(n, new DisplayColumn[]{
-                DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value)),
-                DisplayColumn.create(value -> renderFeesGroupBody((DisplayResult) value)),
+                DisplayColumn.create((value, context) -> renderFeesGroupHeader((Pair<JsonObject, String>) value)),
+                DisplayColumn.create((value, context) -> renderFeesGroupBody((DisplayResult) value)),
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
         WritableJsonObject jsonImage = Json.parseObject(MongooseIcons.priceTagColorSvg16JsonUrl);
         ColumnWidthCumulator[] cumulators = {new ColumnWidthCumulator(), new ColumnWidthCumulator(), new ColumnWidthCumulator()};

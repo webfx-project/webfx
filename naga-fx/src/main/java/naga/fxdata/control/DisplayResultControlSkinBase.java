@@ -5,10 +5,7 @@ import javafx.scene.control.SkinBase;
 import javafx.scene.paint.*;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
-import naga.fxdata.cell.renderer.ImageRenderer;
-import naga.fxdata.cell.renderer.ImageTextRenderer;
-import naga.fxdata.cell.renderer.TextRenderer;
-import naga.fxdata.cell.renderer.ValueRenderer;
+import naga.fxdata.cell.renderer.*;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResult;
 import naga.fxdata.displaydata.Label;
@@ -170,7 +167,7 @@ public abstract class DisplayResultControlSkinBase<C extends DisplayResultContro
                 return;
             }
             if (valueRenderer == ImageRenderer.SINGLETON) {
-                //setCellImageContent(cell, valueRenderer.renderCellValue(cellValue), displayColumn);
+                //setCellImageContent(cell, valueRenderer.renderCellValue(cellValue, ValueRenderingContext.DEFAULT_READONLY_CONTEXT), displayColumn);
                 return;
             }
             if (valueRenderer == ImageTextRenderer.SINGLETON) {
@@ -180,7 +177,7 @@ public abstract class DisplayResultControlSkinBase<C extends DisplayResultContro
                 return;
             }
         }
-        setCellContent(cell, valueRenderer.renderValue(cellValue), displayColumn);
+        setCellContent(cell, valueRenderer.renderValue(cellValue, ValueRenderingContext.DEFAULT_READONLY_CONTEXT), displayColumn);
     }
 
 

@@ -21,6 +21,7 @@ import naga.framework.ui.filter.StringFilter;
 import naga.framework.ui.filter.StringFilterBuilder;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.cell.renderer.ValueRendererFactory;
+import naga.fxdata.cell.renderer.ValueRenderingContext;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.SkinnedDataGrid;
 import naga.fxdata.displaydata.DisplayResult;
@@ -87,7 +88,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             else
                 renderingExpression = entityClass.getForeignFields();
         }
-        entityRenderer = renderingExpression == null ? null : ValueRendererFactory.getDefault().createCellRenderer(renderingExpression.getType());
+        entityRenderer = renderingExpression == null ? null : ValueRendererFactory.getDefault().createValueRenderer(renderingExpression.getType());
         forceDialogRebuiltOnNextShow();
     }
 
@@ -99,7 +100,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     protected Node getOrCreateButtonContentFromSelectedItem() {
         E entity = getSelectedItem();
         Object renderedValue = entity == null ? null : entity.evaluate(renderingExpression);
-        return entityRenderer.renderValue(renderedValue);
+        return entityRenderer.renderValue(renderedValue, ValueRenderingContext.DEFAULT_READONLY_CONTEXT);
     }
 
     @Override

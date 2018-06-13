@@ -2,6 +2,7 @@ package naga.fxdata.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.*;
+import naga.fxdata.cell.renderer.ValueRenderingContext;
 import naga.fxdata.displaydata.DisplayResult;
 import naga.util.Strings;
 import naga.fx.scene.SceneRequester;
@@ -116,7 +117,7 @@ public class DataGridPeerBase
                 return;
             }
         }
-        mixin.setCellContent(cell, valueRenderer.renderValue(cellValue), displayColumn);
+        mixin.setCellContent(cell, valueRenderer.renderValue(cellValue, ValueRenderingContext.DEFAULT_READONLY_CONTEXT), displayColumn);
     }
 
     public int getRowStyleColumnIndex() {

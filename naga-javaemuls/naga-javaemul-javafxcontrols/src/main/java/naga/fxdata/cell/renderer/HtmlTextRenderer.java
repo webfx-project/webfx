@@ -1,8 +1,7 @@
 package naga.fxdata.cell.renderer;
 
-import emul.javafx.scene.Node;
-import naga.util.Strings;
 import naga.fxdata.control.HtmlText;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -14,7 +13,7 @@ public class HtmlTextRenderer implements ValueRenderer {
     private HtmlTextRenderer() {}
 
     @Override
-    public Node renderValue(Object value) {
+    public HtmlText renderValue(Object value, ValueRenderingContext context) {
         return new HtmlText(Strings.toString(value));
     }
 }

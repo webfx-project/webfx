@@ -14,7 +14,7 @@ public class ImageRenderer implements ValueRenderer {
     private ImageRenderer() {}
 
     @Override
-    public ImageView renderValue(Object value) {
+    public ImageView renderValue(Object value, ValueRenderingContext context) {
         return ImageStore.createImageView(Strings.toString(value));
     }
 }

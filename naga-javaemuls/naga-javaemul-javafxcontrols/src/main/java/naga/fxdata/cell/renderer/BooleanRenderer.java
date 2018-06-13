@@ -18,11 +18,17 @@ public class BooleanRenderer implements ValueRenderer {
     private BooleanRenderer() {}
 
     @Override
-    public CheckBox renderValue(Object value) {
+    public CheckBox renderValue(Object value, ValueRenderingContext context) {
         CheckBox checkBox = new CheckBox();
-        //checkBox.setSelected(Booleans.isTrue(value));
-        //checkBox.setDisable(true); // The problem with that is the checkbox is grayed
-        checkBox.selectedProperty().bind(Booleans.isTrue(value) ? trueProperty : falseProperty);
+        boolean booleanValue = Booleans.isTrue(value);
+        if (context.isReadOnly()) {
+            //checkBox.setSelected(booleanValue);
+            //checkBox.setDisable(true); // The problem with that is the checkbox is grayed
+            checkBox.selectedProperty().bind(booleanValue ? trueProperty : falseProperty);
+        } else {
+            checkBox.setSelected(booleanValue);
+            context.setRenderedValueProperty(checkBox.selectedProperty());
+        }
         return checkBox;
     }
 }

@@ -10,10 +10,10 @@ import javafx.scene.Node;
  */
 public interface ValueRenderer {
 
-    Node renderValue(Object value);
+    Node renderValue(Object value, ValueRenderingContext context);
 
     static ValueRenderer create(Type type) {
-        return ValueRendererFactory.getDefault().createCellRenderer(type);
+        return ValueRendererFactory.getDefault().createValueRenderer(type);
     }
 
     static ValueRenderer create(Type type, String collator) {
@@ -26,5 +26,4 @@ public interface ValueRenderer {
             ((ArrayRenderer) renderer).setCollator(collator);
         return renderer;
     }
-
 }

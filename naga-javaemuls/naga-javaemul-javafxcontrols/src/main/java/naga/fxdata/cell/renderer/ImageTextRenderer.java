@@ -16,7 +16,7 @@ public class ImageTextRenderer implements ValueRenderer {
     private ImageTextRenderer() {}
 
     @Override
-    public Node renderValue(Object value) {
+    public Node renderValue(Object value, ValueRenderingContext context) {
         Object[] array = getAndCheckArray(value);
         return array == null ? null : NodeCollatorRegistry.hBoxCollator().collateNodes(getImage(array), getTextNode(array));
     }
@@ -37,7 +37,7 @@ public class ImageTextRenderer implements ValueRenderer {
 
     public ImageView getImage(Object[] array) {
         String imageUrl = getImageUrl(array);
-        return ImageRenderer.SINGLETON.renderValue(imageUrl);
+        return ImageRenderer.SINGLETON.renderValue(imageUrl, null);
     }
 
     public String getText(Object[] array) {
@@ -46,6 +46,6 @@ public class ImageTextRenderer implements ValueRenderer {
 
     private Text getTextNode(Object[] array) {
         String text = getText(array);
-        return TextRenderer.SINGLETON.renderValue(text);
+        return (Text) TextRenderer.SINGLETON.renderValue(text, ValueRenderingContext.DEFAULT_READONLY_CONTEXT);
     }
 }

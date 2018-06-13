@@ -87,7 +87,7 @@ public class FeesGroup {
                 DisplayColumnBuilder.create(I18n.instantTranslate(singleOption ? (isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
                 DisplayColumnBuilder.create(I18n.instantTranslate("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
                 DisplayColumnBuilder.create(I18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
-                        .setValueRenderer(p -> {
+                        .setValueRenderer((p, context) -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventAggregate.areEventAvailabilitiesLoaded())
                                 return new ImageView(ImageStore.getOrCreateImage(MongooseIcons.spinnerIcon16Url, 16, 16));
@@ -105,7 +105,7 @@ public class FeesGroup {
                             button.setOnAction(e -> bookHandler.handle(optionsPreselection));
                             if (availability == null || !showBadges)
                                 return button;
-                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderValue(availability)), button);
+                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderValue(availability, null)), button);
                             hBox.setAlignment(Pos.CENTER);
                             return hBox;
                         }).build()});
