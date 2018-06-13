@@ -103,4 +103,10 @@ public interface ExpressionColumn {
     static ExpressionColumn[] fromExpressionsDefinition(String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
         return fromExpressions(domainModel.parseExpressionArray(columnExpressionsDefinition, classId).getExpressions());
     }
+
+    static ExpressionColumn[] fromJsonArrayOrExpressionsDefinition(String jsonOrDef, DomainModel domainModel, Object classId) {
+        return (jsonOrDef.startsWith("[")) ?
+            fromJsonArray(jsonOrDef, domainModel, classId)
+            : fromExpressionsDefinition(jsonOrDef, domainModel, classId);
+    }
 }
