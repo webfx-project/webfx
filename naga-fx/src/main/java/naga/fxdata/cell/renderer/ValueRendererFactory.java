@@ -7,7 +7,7 @@ import naga.type.Type;
  */
 public interface ValueRendererFactory {
 
-    ValueRenderer createCellRenderer(Type type);
+    ValueRenderer createValueRenderer(Type type);
 
     static ValueRendererFactory getDefault() {
         return ValueRendererFactoryImpl.INSTANCE;
