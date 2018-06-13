@@ -53,7 +53,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
             }
             Type displayType;
             if (expressionFormatter != null)
-                displayType = expressionFormatter.getExpectedFormattedType();
+                displayType = expressionFormatter.getOutputType();
             else {
                 if (getExpression() != expression)
                     topRightExpression = getTopRightExpression(displayExpression);

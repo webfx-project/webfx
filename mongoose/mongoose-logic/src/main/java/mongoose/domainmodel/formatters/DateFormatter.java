@@ -37,8 +37,8 @@ public class DateFormatter implements Formatter {
     }
 
     @Override
-    public Type getExpectedFormattedType() {
-        return PrimType.DATE;
+    public Type getOutputType() {
+        return PrimType.STRING;
     }
 
     @Override

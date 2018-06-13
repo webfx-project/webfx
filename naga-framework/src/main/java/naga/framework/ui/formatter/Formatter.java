@@ -7,7 +7,7 @@ import naga.type.Type;
  */
 public interface Formatter {
 
-    Type getExpectedFormattedType();
+    Type getOutputType();
 
     Object format(Object value);
 }

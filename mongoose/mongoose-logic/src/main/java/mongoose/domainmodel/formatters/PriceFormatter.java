@@ -29,7 +29,7 @@ public class PriceFormatter implements Formatter {
     }
 
     @Override
-    public Type getExpectedFormattedType() {
+    public Type getOutputType() {
         return PrimType.STRING;
     }
 
