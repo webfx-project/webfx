@@ -120,4 +120,8 @@ public interface Entity {
     default <E extends Entity> Object evaluate(Expression<E> expression) {
         return getStore().evaluateEntityExpression((E) this, expression);
     }
+
+    default <E extends Entity> void setExpressionValue(Expression<E> expression, Object value) {
+        getStore().setEntityExpressionValue((E) this, expression, value);
+    }
 }

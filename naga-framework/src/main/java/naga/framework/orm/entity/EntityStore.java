@@ -139,6 +139,8 @@ public interface EntityStore extends HasDataSourceModel {
 
     <E extends Entity> Object evaluateEntityExpression(E entity, Expression<E> expression);
 
+    <E extends Entity> void setEntityExpressionValue(E entity, Expression<E> expression, Object value);
+
     void setParameterValue(String parameterName, Object parameterValue);
 
     Object getParameterValue(String parameterName);

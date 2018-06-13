@@ -97,6 +97,11 @@ public class EntityStoreImpl implements EntityStore {
         return expression.evaluate(entity, entityDataWriter);
     }
 
+    @Override
+    public <E extends Entity> void setEntityExpressionValue(E entity, Expression<E> expression, Object value) {
+        expression.setValue(entity, value, entityDataWriter);
+    }
+
     private Map<String, Object> parameterValues;
 
     @Override
