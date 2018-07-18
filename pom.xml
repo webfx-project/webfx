@@ -45,7 +45,7 @@
         <lib.gwt.version>2.8.2</lib.gwt.version> <!-- For Java 9 compilation -->
         <lib.elemental2.version>1.0.0-RC1</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
-        <lib.vertx.version>3.5.2</lib.vertx.version>
+        <lib.vertx.version>3.5.3</lib.vertx.version>
         <lib.javawebsocket.version>1.3.7</lib.javawebsocket.version>
 
          <!--
