@@ -1,14 +1,14 @@
 package naga.fx.properties.markers;
 
-import emul.javafx.beans.property.Property;
+import emul.javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasMinProperty {
 
-    Property<Double> minProperty();
-    default void setMin(Double value) { minProperty().setValue(value); }
+    DoubleProperty minProperty();
+    default void setMin(Number value) { minProperty().setValue(value); }
     default Double getMin() { return minProperty().getValue(); }
 
 }

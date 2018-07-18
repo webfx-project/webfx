@@ -1,7 +1,7 @@
 package emul.javafx.scene.control;
 
-import emul.javafx.beans.property.Property;
-import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.property.DoubleProperty;
+import emul.javafx.beans.property.SimpleDoubleProperty;
 import naga.fx.properties.markers.HasMaxProperty;
 import naga.fx.properties.markers.HasMinProperty;
 import naga.fx.properties.markers.HasValueProperty;
@@ -30,21 +30,21 @@ public class Slider extends Control implements
         //adjustValues();
         //initialize();
     }
-    private final Property<Double> maxProperty = new SimpleObjectProperty<>(100d);
+    private final DoubleProperty maxProperty = new SimpleDoubleProperty(100d);
     @Override
-    public Property<Double> maxProperty() {
+    public DoubleProperty maxProperty() {
         return maxProperty;
     }
 
-    private final Property<Double> minProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty minProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> minProperty() {
+    public DoubleProperty minProperty() {
         return minProperty;
     }
 
-    private final Property<Double> valueProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty valueProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> valueProperty() {
+    public DoubleProperty valueProperty() {
         return valueProperty;
     }
 }

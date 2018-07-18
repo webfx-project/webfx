@@ -32,19 +32,19 @@ public class HtmlSliderPeer
     }
 
     @Override
-    public void updateMin(Double min) {
+    public void updateMin(Number min) {
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
         inputElement.min = Strings.toString(min);
     }
 
     @Override
-    public void updateMax(Double max) {
+    public void updateMax(Number max) {
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
         inputElement.max = Strings.toString(max);
     }
 
     @Override
-    public void updateValue(Double value) {
+    public void updateValue(Number value) {
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
         inputElement.value = Strings.toString(value);
     }

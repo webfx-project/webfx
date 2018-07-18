@@ -1,14 +1,14 @@
 package naga.fx.properties.markers;
 
-import emul.javafx.beans.property.Property;
+import emul.javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasMaxProperty {
 
-    Property<Double> maxProperty();
-    default void setMax(Double value) { maxProperty().setValue(value); }
+    DoubleProperty maxProperty();
+    default void setMax(Number value) { maxProperty().setValue(value); }
     default Double getMax() { return maxProperty().getValue(); }
 
 }

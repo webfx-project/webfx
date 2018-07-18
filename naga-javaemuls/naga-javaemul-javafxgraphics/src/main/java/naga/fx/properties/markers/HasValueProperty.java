@@ -1,14 +1,14 @@
 package naga.fx.properties.markers;
 
-import emul.javafx.beans.property.Property;
+import emul.javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasValueProperty {
 
-    Property<Double> valueProperty();
-    default void setValue(Double value) { valueProperty().setValue(value); }
+    DoubleProperty valueProperty();
+    default void setValue(Number value) { valueProperty().setValue(value); }
     default Double getValue() { return valueProperty().getValue(); }
 
 }
