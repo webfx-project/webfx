@@ -1,8 +1,9 @@
 package emul.javafx.scene.transform;
 
 import emul.com.sun.javafx.geom.Point2D;
+import emul.javafx.beans.property.DoubleProperty;
 import emul.javafx.beans.property.Property;
-import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.property.SimpleDoubleProperty;
 import emul.javafx.geometry.GeometryUtil;
 import naga.fx.properties.markers.HasAngleProperty;
 
@@ -20,9 +21,9 @@ public class Rotate extends PivotTransform implements
         setAngle(angle);
     }
 
-    private final Property<Double> angleProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty angleProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> angleProperty() {
+    public DoubleProperty angleProperty() {
         return angleProperty;
     }
 
