@@ -1,6 +1,6 @@
 package naga.platform.services.query.push;
 
-import naga.platform.services.query.push.spi.impl.QueryPushServiceProviderBase;
+import naga.platform.services.query.push.spi.impl.QueryPushServiceProviderImplBase;
 
 /**
  * @author Bruno Salmon
@@ -8,14 +8,14 @@ import naga.platform.services.query.push.spi.impl.QueryPushServiceProviderBase;
 public class PulseArgument {
 
     private final Object dataSourceId;
-    private final QueryPushServiceProviderBase.QueryInfo queryInfo;
+    private final QueryPushServiceProviderImplBase.QueryInfo queryInfo;
 
     public PulseArgument(Object dataSourceId) {
         this.dataSourceId = dataSourceId;
         queryInfo = null;
     }
 
-    public PulseArgument(QueryPushServiceProviderBase.QueryInfo queryInfo) {
+    public PulseArgument(QueryPushServiceProviderImplBase.QueryInfo queryInfo) {
         this.queryInfo = queryInfo;
         dataSourceId = null;
     }
@@ -24,7 +24,7 @@ public class PulseArgument {
         return dataSourceId;
     }
 
-    public QueryPushServiceProviderBase.QueryInfo getQueryInfo() {
+    public QueryPushServiceProviderImplBase.QueryInfo getQueryInfo() {
         return queryInfo;
     }
 }

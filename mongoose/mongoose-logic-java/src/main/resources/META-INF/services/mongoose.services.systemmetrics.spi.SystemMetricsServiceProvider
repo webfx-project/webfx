@@ -1,1 +1,1 @@
-mongoose.providers.java.systemmetrics.JavaSystemMetricsServiceProvider
+mongoose.providers.java.systemmetrics.JavaSystemMetricsServiceProviderImpl

@@ -4,7 +4,7 @@ import naga.platform.bus.Registration;
 import naga.platform.services.push.client.PushClientService;
 import naga.platform.services.push.server.PushServerService;
 import naga.platform.services.query.push.spi.QueryPushServiceProvider;
-import naga.platform.services.query.push.spi.remote.RemoteQueryPushServiceProvider;
+import naga.platform.services.query.push.spi.remote.RemoteQueryPushServiceProviderImpl;
 import naga.platform.spi.Platform;
 import naga.util.async.Future;
 import naga.util.function.Consumer;
@@ -16,7 +16,7 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 public class QueryPushService {
 
     static {
-        ServiceLoaderHelper.registerDefaultServiceFactory(QueryPushServiceProvider.class, RemoteQueryPushServiceProvider::new);
+        ServiceLoaderHelper.registerDefaultServiceFactory(QueryPushServiceProvider.class, RemoteQueryPushServiceProviderImpl::new);
     }
 
     public static QueryPushServiceProvider getProvider() {

@@ -1,1 +1,1 @@
-naga.providers.platform.abstr.java.services.shutdown.JavaShutdownProvider
+naga.providers.platform.abstr.java.services.shutdown.JavaShutdownProviderImpl

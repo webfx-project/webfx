@@ -11,8 +11,8 @@ import mongoose.activities.bothends.book.start.StartBookingRouting;
 import mongoose.activities.bothends.book.summary.SummaryRouting;
 import mongoose.activities.bothends.book.terms.TermsRouting;
 import mongoose.activities.bothends.generic.session.ClientSessionRecorder;
-import mongoose.services.authn.MongooseAuthenticationServiceProvider;
-import mongoose.services.authz.MongooseAuthorizationServiceProvider;
+import mongoose.services.authn.MongooseAuthenticationServiceProviderImpl;
+import mongoose.services.authz.MongooseAuthorizationServiceProviderImpl;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext;
@@ -116,8 +116,8 @@ public abstract class MongooseApplicationSharedByBothEnds
         // Platform.bus(); // Commented and replaced by the following code:
         ClientSessionRecorder.get(); // The static constructor instantiate the platform bus and set the bus hook for client session recording
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
-        ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProvider::new);
-        ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProvider::new);
+        ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProviderImpl::new);
+        ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProviderImpl::new);
         // Registering i18n service provider based on json resources
         I18n.registerProvider(I18nProvider.createFromJsonResources("mongoose/dictionaries/{lang}.json"));
         // Activating focus owner auto scroll

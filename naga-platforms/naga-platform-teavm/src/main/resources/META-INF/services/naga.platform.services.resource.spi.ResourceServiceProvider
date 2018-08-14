@@ -1,1 +1,1 @@
-naga.providers.platform.client.teavm.services.resource.TeaVmResourceServiceProvider
+naga.providers.platform.client.teavm.services.resource.TeaVmResourceServiceProviderImpl

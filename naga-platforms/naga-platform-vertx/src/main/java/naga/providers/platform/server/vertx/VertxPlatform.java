@@ -9,16 +9,16 @@ import naga.platform.bus.BusFactory;
 import naga.platform.services.json.Json;
 import naga.platform.services.query.QueryService;
 import naga.platform.services.query.push.QueryPushService;
-import naga.platform.services.query.push.spi.impl.InMemoryQueryPushServiceProvider;
+import naga.platform.services.query.push.spi.impl.InMemoryQueryPushServiceProviderImpl;
 import naga.platform.services.update.UpdateService;
 import naga.platform.spi.Platform;
 import naga.platform.spi.server.ServerPlatform;
 import naga.providers.platform.abstr.java.JavaPlatform;
 import naga.providers.platform.server.vertx.bus.VertxBusFactory;
 import naga.providers.platform.server.vertx.services.json.VertxJsonObject;
-import naga.providers.platform.server.vertx.services.scheduler.VertxSchedulerProvider;
-import naga.providers.platform.server.vertx.services.query.VertxQueryServiceProvider;
-import naga.providers.platform.server.vertx.services.update.VertxUpdateServiceProvider;
+import naga.providers.platform.server.vertx.services.scheduler.VertxSchedulerProviderImpl;
+import naga.providers.platform.server.vertx.services.query.VertxQueryServiceProviderImpl;
+import naga.providers.platform.server.vertx.services.update.VertxUpdateServiceProviderImpl;
 import naga.platform.services.scheduler.Scheduler;
 
 /**
@@ -28,11 +28,11 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
 
     public static void register(Vertx vertx) {
         Platform.register(new VertxPlatform(vertx));
-        Scheduler.registerProvider(new VertxSchedulerProvider(vertx));
+        Scheduler.registerProvider(new VertxSchedulerProviderImpl(vertx));
         Json.registerProvider(new VertxJsonObject());
-        QueryService.registerProvider(new VertxQueryServiceProvider(vertx));
-        UpdateService.registerProvider(new VertxUpdateServiceProvider(vertx));
-        QueryPushService.registerProvider(new InMemoryQueryPushServiceProvider());
+        QueryService.registerProvider(new VertxQueryServiceProviderImpl(vertx));
+        UpdateService.registerProvider(new VertxUpdateServiceProviderImpl(vertx));
+        QueryPushService.registerProvider(new InMemoryQueryPushServiceProviderImpl());
     }
 
     private final BusFactory vertxBusFactory;

@@ -1,1 +1,1 @@
-naga.providers.platform.client.gwt.services.scheduler.GwtSchedulerProvider
+naga.providers.platform.client.gwt.services.scheduler.GwtSchedulerProviderImpl

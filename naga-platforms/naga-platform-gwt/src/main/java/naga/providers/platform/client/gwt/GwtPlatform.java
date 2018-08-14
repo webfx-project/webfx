@@ -4,7 +4,7 @@ import naga.platform.services.resource.ResourceService;
 import naga.platform.spi.Platform;
 import naga.providers.platform.abstr.web.WebPlatform;
 import naga.providers.platform.client.gwt.services.resource.GwtBundle;
-import naga.providers.platform.client.gwt.services.resource.GwtResourceServiceProvider;
+import naga.providers.platform.client.gwt.services.resource.GwtResourceServiceProviderImpl;
 import naga.providers.platform.client.gwt.url.history.GwtWindowHistory;
 import naga.providers.platform.client.gwt.url.location.GwtWindowLocation;
 
@@ -28,6 +28,6 @@ public final class GwtPlatform extends WebPlatform {
     }
 
     public static void registerBundle(GwtBundle bundle) {
-        ((GwtResourceServiceProvider) ResourceService.getProvider()).register(bundle);
+        ((GwtResourceServiceProviderImpl) ResourceService.getProvider()).register(bundle);
     }
 }

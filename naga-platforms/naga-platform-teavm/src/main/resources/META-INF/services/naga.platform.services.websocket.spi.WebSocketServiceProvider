@@ -1,1 +1,1 @@
-naga.providers.platform.client.teavm.services.websocket.TeaVmWebSocketServiceProvider
+naga.providers.platform.client.teavm.services.websocket.TeaVmWebSocketServiceProviderImpl
