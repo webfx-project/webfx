@@ -1,6 +1,6 @@
-package mongoose.authz;
+package mongoose.services.authz;
 
-import mongoose.authn.MongooseUserPrincipal;
+import mongoose.services.authn.MongooseUserPrincipal;
 import naga.framework.operation.authz.OperationAuthorizationRuleParser;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;

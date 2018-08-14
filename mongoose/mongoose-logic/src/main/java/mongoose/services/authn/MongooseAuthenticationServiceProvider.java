@@ -1,4 +1,4 @@
-package mongoose.authn;
+package mongoose.services.authn;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;

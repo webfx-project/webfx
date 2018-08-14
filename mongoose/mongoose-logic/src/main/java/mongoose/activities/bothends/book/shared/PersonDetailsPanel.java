@@ -10,7 +10,7 @@ import javafx.scene.layout.*;
 import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.bothends.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.bothends.logic.ui.validation.MongooseValidationSupport;
-import mongoose.authn.MongooseUserPrincipal;
+import mongoose.services.authn.MongooseUserPrincipal;
 import mongoose.domainmodel.formatters.DateFormatter;
 import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Country;

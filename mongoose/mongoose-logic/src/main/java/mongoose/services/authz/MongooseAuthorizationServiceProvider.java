@@ -1,4 +1,4 @@
-package mongoose.authz;
+package mongoose.services.authz;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.orm.domainmodel.DataSourceModel;

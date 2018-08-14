@@ -1,4 +1,4 @@
-package mongoose.authn;
+package mongoose.services.authn;
 
 /**
  * @author Bruno Salmon

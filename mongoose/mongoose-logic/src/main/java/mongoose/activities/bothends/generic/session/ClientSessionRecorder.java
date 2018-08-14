@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.generic.session;
 
 import javafx.beans.property.Property;
-import mongoose.authn.MongooseUserPrincipal;
+import mongoose.services.authn.MongooseUserPrincipal;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.orm.entity.Entities;
 import naga.framework.orm.entity.Entity;
