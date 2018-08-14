@@ -2,7 +2,6 @@ package mongoose.activities.server;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.SystemMetricsEntity;
-import mongoose.services.systemmetrics.SystemMetrics;
 import mongoose.services.systemmetrics.SystemMetricsService;
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.domain.DomainActivityContextMixin;
@@ -50,10 +49,8 @@ public class SystemMetricsRecorderActivity implements Activity<DomainActivityCon
         metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, () -> {
             // Creating an update store for metrics entity
             UpdateStore store = UpdateStore.create(getDataSourceModel());
-            // Instantiating a Metrics entity to be inserted in the database
-            SystemMetrics sm = store.insertEntity(SystemMetricsEntity.class);
-            // Asking the metrics service to take a snapshot and store all values in the entity
-            SystemMetricsService.takeSystemMetricsSnapshot(sm);
+            // Instantiating a new system metrics entity and asking the system metrics service to fill that entity
+            SystemMetricsService.takeSystemMetricsSnapshot(store.insertEntity(SystemMetricsEntity.class));
             // Asking the update store to record this in the database
             store.executeUpdate().setHandler(asyncResult -> {
                 if (asyncResult.failed())
@@ -84,8 +81,8 @@ public class SystemMetricsRecorderActivity implements Activity<DomainActivityCon
 
     // Static method helper to start this activity
 
-    public static void startOnServer() {
-        ActivityManager.startServerActivity(new SystemMetricsRecorderActivity(), DomainActivityContext.createDomainActivityContext(DomainModelSnapshotLoader.getDataSourceModel()));
+    public static void startAsServerActivity() {
+        ActivityManager.startAsServerActivity(new SystemMetricsRecorderActivity(), DomainActivityContext.createDomainActivityContext(DomainModelSnapshotLoader.getDataSourceModel()));
     }
 
 }

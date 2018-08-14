@@ -49,7 +49,7 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
     }
 
     @Override
-    public void startServerActivity(ActivityManager serverActivityManager) {
+    public void makeActivityManagerDrivenByServer(ActivityManager activityManager) {
         vertx.deployVerticle(new Verticle() {
             @Override
             public Vertx getVertx() {
@@ -62,12 +62,21 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
 
             @Override
             public void start(Future<Void> future) {
-                serverActivityManager.run();
+                completeFuture(activityManager.run(), future);
             }
 
             @Override
             public void stop(Future<Void> future) {
-                serverActivityManager.destroy();
+                completeFuture(activityManager.destroy(), future);
+            }
+
+            private void completeFuture(naga.util.async.Future<Void> nagaFuture, Future<Void> vertxFuture) {
+                nagaFuture.setHandler(ar -> {
+                    if (ar.failed())
+                        vertxFuture.fail(nagaFuture.cause());
+                    else
+                        vertxFuture.complete();
+                });
             }
         });
     }

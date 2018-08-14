@@ -28,7 +28,7 @@ public class MongooseVertxRootVerticle extends RootVerticle {
     public void start() throws Exception {
         super.start();
         registerMongooseLocalDataSource();
-        SystemMetricsRecorderActivity.startOnServer();
+        SystemMetricsRecorderActivity.startAsServerActivity();
     }
 
     private static void registerMongooseLocalDataSource() {

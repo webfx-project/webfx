@@ -8,7 +8,7 @@ import naga.platform.spi.Platform;
  */
 public interface ServerPlatform {
 
-    void startServerActivity(ActivityManager serverActivityManager);
+    void makeActivityManagerDrivenByServer(ActivityManager activityManager);
 
     /*** Static access ***/
 

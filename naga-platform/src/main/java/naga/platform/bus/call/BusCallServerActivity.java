@@ -37,8 +37,8 @@ public class BusCallServerActivity implements Activity {
         BusCallService.listenBusEntryCalls();
     }
 
-    public static void startServerActivity() {
-        ActivityManager.startServerActivity(new BusCallServerActivity(), null);
+    public static void startAsServerActivity() {
+        ActivityManager.startAsServerActivity(new BusCallServerActivity(), null);
     }
 
 }

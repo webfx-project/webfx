@@ -25,6 +25,6 @@ public class RootVerticle extends AbstractVerticle {
         // We can't use the automatic platform registration mechanism provided by the ServiceLoader here
         // because we need to pass the vertx instance (there is no default constructor for VertxPlatform)
         VertxPlatform.register(vertx); // So we use the explicit registration mechanism instead
-        BusCallServerActivity.startServerActivity();
+        BusCallServerActivity.startAsServerActivity();
     }
 }

@@ -205,8 +205,8 @@ public class ActivityManager<C extends ActivityContext<C>> {
         runActivity(activity, context);
     }
 
-    public static <C extends ActivityContext> void startServerActivity(Activity<C> activity, C context) {
-        ServerPlatform.get().startServerActivity(from(activity, context));
+    public static <C extends ActivityContext> void startAsServerActivity(Activity<C> activity, C context) {
+        ServerPlatform.get().makeActivityManagerDrivenByServer(from(activity, context));
     }
 
     public static <C extends ActivityContext> void runActivity(Activity<C> activity, C context) {
