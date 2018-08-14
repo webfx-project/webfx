@@ -13,12 +13,12 @@ import naga.util.function.Function;
  */
 public interface AuthorizationFactory extends HasUserPrincipal {
 
-    default <O, R> AuthorizationRequest<O, R> newAuthorizationRequest() {
-        return new AuthorizationRequest<O, R>().setUserPrincipal(getUserPrincipal());
+    default <Rq, Rs> AuthorizationRequest<Rq, Rs> newAuthorizationRequest() {
+        return new AuthorizationRequest<Rq, Rs>().setUserPrincipal(getUserPrincipal());
     }
 
-    default <O, R> AuthorizationRequest<O, R> newAuthorizationRequest(O operationRequest) {
-        return this.<O, R>newAuthorizationRequest().setOperationRequest(operationRequest);
+    default <Rq, Rs> AuthorizationRequest<Rq, Rs> newAuthorizationRequest(Rq operationRequest) {
+        return this.<Rq, Rs>newAuthorizationRequest().setOperationRequest(operationRequest);
     }
 
     default Future<Boolean> isAuthorized(Object operationRequest) {
@@ -33,7 +33,7 @@ public interface AuthorizationFactory extends HasUserPrincipal {
         return authorizedOperationProperty(new SimpleObjectProperty<>(), ignored -> operationRequestFactory.create());
     }
 
-    default <T> ObservableBooleanValue authorizedOperationProperty(ObservableValue<T> observableContext, Function<T, ?> operationRequestFactory ) {
+    default <C> ObservableBooleanValue authorizedOperationProperty(ObservableValue<C> observableContext, Function<C, ?> operationRequestFactory ) {
         return AuthorizationUtil.authorizedOperationProperty(operationRequestFactory, this::isAuthorized, observableContext, this instanceof HasUserPrincipalProperty ? ((HasUserPrincipalProperty) this).userPrincipalProperty() : null);
     }
 

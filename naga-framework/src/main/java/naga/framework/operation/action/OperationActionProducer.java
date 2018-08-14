@@ -19,19 +19,19 @@ public interface OperationActionProducer extends HasOperationExecutor {
         return OperationActionRegistry.getInstance();
     }
 
-    default <O, R> OperationAction newAction(Factory<O> operationRequestFactory) {
+    default <Rq, Rs> OperationAction newAction(Factory<Rq> operationRequestFactory) {
         return newAction(operationRequestFactory, getOperationExecutor());
     }
 
-    default <O, R> OperationAction newAction(Factory<O> operationRequestFactory, AsyncFunction<O, R> topOperationExecutor) {
+    default <Rq, Rs> OperationAction newAction(Factory<Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
         return initOperationAction(new OperationAction<>(operationRequestFactory, topOperationExecutor));
     }
 
-    default <O, R> OperationAction newAction(Function<ActionEvent, O> operationRequestFactory) {
+    default <Rq, Rs> OperationAction newAction(Function<ActionEvent, Rq> operationRequestFactory) {
         return newAction(operationRequestFactory, getOperationExecutor());
     }
 
-    default <O, R> OperationAction newAction(Function<ActionEvent, O> operationRequestFactory, AsyncFunction<O, R> topOperationExecutor) {
+    default <Rq, Rs> OperationAction newAction(Function<ActionEvent, Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
         return initOperationAction(new OperationAction<>(operationRequestFactory, topOperationExecutor));
     }
 

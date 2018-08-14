@@ -12,7 +12,7 @@ import naga.util.async.Future;
  */
 public class OperationExecutorUtil {
 
-    public static <O, R> Future<R> executeOperation(O operationRequest, AsyncFunction<O, R> operationExecutor) {
+    public static <Rq, Rs> Future<Rs> executeOperation(Rq operationRequest, AsyncFunction<Rq, Rs> operationExecutor) {
         if (operationExecutor == null && operationRequest instanceof HasOperationExecutor)
             operationExecutor = ((HasOperationExecutor) operationRequest).getOperationExecutor();
         if (operationExecutor != null)

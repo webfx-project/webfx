@@ -11,18 +11,18 @@ import naga.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public class OperationAction<O, R> extends WritableAction {
+public class OperationAction<Rq, Rs> extends WritableAction {
 
-    private final Function<ActionEvent, O> operationRequestFactory;
+    private final Function<ActionEvent, Rq> operationRequestFactory;
     private OperationActionRegistry operationActionRegistry;
 
-    public OperationAction(Factory<O> operationRequestFactory, AsyncFunction<O, R> topOperationExecutor) {
+    public OperationAction(Factory<Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
         this(actionEvent -> operationRequestFactory.create(), topOperationExecutor);
     }
 
-    public OperationAction(Function<ActionEvent, O> operationRequestFactory, AsyncFunction<O, R> topOperationExecutor) {
+    public OperationAction(Function<ActionEvent, Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
         super(actionEvent -> {
-            O operationRequest = operationRequestFactory.apply(actionEvent);
+            Rq operationRequest = operationRequestFactory.apply(actionEvent);
             OperationExecutorUtil.executeOperation(operationRequest, topOperationExecutor);
         });
         this.operationRequestFactory = operationRequestFactory;
@@ -34,7 +34,7 @@ public class OperationAction<O, R> extends WritableAction {
         registry.bindOperationAction(this);
     }
 
-    public OperationActionRegistry getOperationActionRegistry(AsyncFunction<O, R> operationExecutor) {
+    public OperationActionRegistry getOperationActionRegistry(AsyncFunction<Rq, Rs> operationExecutor) {
         if (operationExecutor instanceof ChainedActionOperationExecutor)
             return ((ChainedActionOperationExecutor) operationExecutor).getRegistry();
         if (operationExecutor instanceof ChainedOperationExecutor)
@@ -50,7 +50,7 @@ public class OperationAction<O, R> extends WritableAction {
         this.operationActionRegistry = operationActionRegistry;
     }
 
-    public Function<ActionEvent, O> getOperationRequestFactory() {
+    public Function<ActionEvent, Rq> getOperationRequestFactory() {
         return operationRequestFactory;
     }
 }

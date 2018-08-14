@@ -12,7 +12,7 @@ import naga.util.function.Function;
  */
 public class AuthorizationUtil {
 
-    public static <C, O> ObservableBooleanValue authorizedOperationProperty(Function<C, O> operationRequestFactory, AsyncFunction<O, Boolean> authorizationFunction, ObservableValue<C> contextProperty, ObservableValue userPrincipalProperty) {
+    public static <C, Rq> ObservableBooleanValue authorizedOperationProperty(Function<C, Rq> operationRequestFactory, AsyncFunction<Rq, Boolean> authorizationFunction, ObservableValue<C> contextProperty, ObservableValue userPrincipalProperty) {
         return new BooleanBinding() {
             C context;
             Object userPrincipal;

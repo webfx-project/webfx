@@ -20,12 +20,12 @@ public interface AuthorizationFactoryMixin extends AuthorizationFactory {
     }
 
     @Override
-    default <O, R> AuthorizationRequest<O, R> newAuthorizationRequest() {
+    default <Rq, Rs> AuthorizationRequest<Rq, Rs> newAuthorizationRequest() {
         return getAuthorizationFactory().newAuthorizationRequest();
     }
 
     @Override
-    default <O, R> AuthorizationRequest<O, R> newAuthorizationRequest(O operationRequest) {
+    default <Rq, Rs> AuthorizationRequest<Rq, Rs> newAuthorizationRequest(Rq operationRequest) {
         return getAuthorizationFactory().newAuthorizationRequest(operationRequest);
     }
 

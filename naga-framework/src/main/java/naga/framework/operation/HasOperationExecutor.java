@@ -5,8 +5,8 @@ import naga.util.async.AsyncFunction;
 /**
  * @author Bruno Salmon
  */
-public interface HasOperationExecutor<O, R> {
+public interface HasOperationExecutor<Rq, Rs> {
 
-    AsyncFunction<O, R> getOperationExecutor();
+    AsyncFunction<Rq, Rs> getOperationExecutor();
 
 }

@@ -20,7 +20,7 @@ public class OperationExecutorRegistry {
 
     private final Map<Object, AsyncFunction> operationExecutors = new HashMap<>();
     
-    public <O> void registerOperationExecutor(Class<O> operationRequestClass, AsyncFunction<O, ?> operationExecutor) {
+    public <Rq> void registerOperationExecutor(Class<Rq> operationRequestClass, AsyncFunction<Rq, ?> operationExecutor) {
         operationExecutors.put(operationRequestClass, operationExecutor);
     }
     
@@ -28,16 +28,16 @@ public class OperationExecutorRegistry {
         operationExecutors.put(operationCode, operationExecutor);
     }
     
-    public <O, R> AsyncFunction<O, R> getOperationExecutorFromClass(Class<O> operationRequestClass) {
-        return (AsyncFunction<O, R>) operationExecutors.get(operationRequestClass);
+    public <Rq, Rs> AsyncFunction<Rq, Rs> getOperationExecutorFromClass(Class<Rq> operationRequestClass) {
+        return (AsyncFunction<Rq, Rs>) operationExecutors.get(operationRequestClass);
     }
 
-    public <O, R> AsyncFunction<O, R> getOperationExecutorFromCode(Object operationCode) {
-        return (AsyncFunction<O, R>) operationExecutors.get(operationCode);
+    public <Rq, Rs> AsyncFunction<Rq, Rs> getOperationExecutorFromCode(Object operationCode) {
+        return (AsyncFunction<Rq, Rs>) operationExecutors.get(operationCode);
     }
 
-    public <O, R> AsyncFunction<O, R> getOperationExecutorFromRequest(O operationRequest) {
-        AsyncFunction<O, R> operationExecutor = getOperationExecutorFromClass((Class<O>) operationRequest.getClass());
+    public <Rq, Rs> AsyncFunction<Rq, Rs> getOperationExecutorFromRequest(Rq operationRequest) {
+        AsyncFunction<Rq, Rs> operationExecutor = getOperationExecutorFromClass((Class<Rq>) operationRequest.getClass());
         if (operationExecutor == null && operationRequest instanceof HasOperationCode)
             operationExecutor = getOperationExecutorFromCode(((HasOperationCode) operationRequest).getOperationCode());
         return operationExecutor;
