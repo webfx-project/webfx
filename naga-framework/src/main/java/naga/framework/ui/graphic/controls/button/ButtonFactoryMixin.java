@@ -5,7 +5,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import naga.framework.ui.action.Action;
-import naga.framework.ui.action.ActionFactoryMixin;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
 import naga.framework.ui.graphic.controls.ControlFactoryMixin;

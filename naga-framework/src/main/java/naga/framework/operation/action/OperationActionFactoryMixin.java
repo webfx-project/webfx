@@ -9,7 +9,7 @@ import naga.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public interface OperationActionProducer extends HasOperationExecutor {
+public interface OperationActionFactoryMixin extends HasOperationExecutor {
 
     default AsyncFunction getOperationExecutor() {
         return null;

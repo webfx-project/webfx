@@ -7,7 +7,7 @@ import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.operations.bothends.i18n.ChangeLanguageToEnglishRequest;
 import mongoose.operations.bothends.i18n.ChangeLanguageToFrenchRequest;
 import naga.framework.activity.view.impl.ViewActivityImpl;
-import naga.framework.operation.action.OperationActionProducer;
+import naga.framework.operation.action.OperationActionFactoryMixin;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.action.ActionBinder;
 import naga.framework.operations.route.RouteBackwardRequest;
@@ -21,7 +21,7 @@ import java.util.Collection;
  */
 public class ContainerActivitySharedByBothEnds extends ViewActivityImpl
         implements MongooseButtonFactoryMixin
-        , OperationActionProducer {
+        , OperationActionFactoryMixin {
 
     protected Action backAction;
     protected Action forwardAction;

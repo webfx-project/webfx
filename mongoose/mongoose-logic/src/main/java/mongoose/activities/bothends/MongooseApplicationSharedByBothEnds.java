@@ -19,7 +19,7 @@ import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContextMixin;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.activity.combinations.viewdomainapplication.ViewDomainApplicationContext;
-import naga.framework.operation.action.OperationActionProducer;
+import naga.framework.operation.action.OperationActionFactoryMixin;
 import naga.framework.operation.action.OperationActionRegistry;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
@@ -46,7 +46,7 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 public abstract class MongooseApplicationSharedByBothEnds
         implements Activity<ViewDomainActivityContext>
         , ViewDomainActivityContextMixin
-        , OperationActionProducer {
+        , OperationActionFactoryMixin {
 
     private final String defaultInitialHistoryPath;
     private ViewDomainActivityContext context;

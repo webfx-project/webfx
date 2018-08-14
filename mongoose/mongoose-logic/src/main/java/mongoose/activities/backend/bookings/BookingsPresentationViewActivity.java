@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import mongoose.operations.backend.route.RouteToCloneEventRequest;
 import mongoose.activities.bothends.generic.table.GenericTablePresentationViewActivity;
 import mongoose.operations.backend.route.RouteToNewBackendBookingRequest;
-import naga.framework.operation.action.OperationActionProducer;
+import naga.framework.operation.action.OperationActionFactoryMixin;
 
 import static naga.framework.ui.layouts.LayoutUtil.setHGrowable;
 import static naga.framework.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
@@ -15,7 +15,7 @@ import static naga.framework.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 /**
  * @author Bruno Salmon
  */
-class BookingsPresentationViewActivity extends GenericTablePresentationViewActivity<BookingsPresentationModel> implements OperationActionProducer {
+class BookingsPresentationViewActivity extends GenericTablePresentationViewActivity<BookingsPresentationModel> implements OperationActionFactoryMixin {
 
     private HBox hBox;
 
