@@ -1,11 +1,11 @@
-package mongoose.services.metrics;
+package mongoose.services.systemmetrics;
 
 import java.time.Instant;
 
 /**
  * @author Bruno Salmon
  */
-public interface Metrics {
+public interface SystemMetrics {
 
     void setDate(Instant date);
 

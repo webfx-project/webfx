@@ -1,21 +1,19 @@
 package mongoose.activities.server;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
-import mongoose.entities.MetricsEntity;
-import mongoose.services.metrics.Metrics;
-import mongoose.services.metrics.MetricsService;
-import mongoose.services.metrics.spi.MetricsServiceProvider;
-import naga.platform.services.log.Logger;
-import naga.platform.services.update.UpdateService;
-import naga.platform.services.scheduler.Scheduled;
+import mongoose.entities.SystemMetricsEntity;
+import mongoose.services.systemmetrics.SystemMetrics;
+import mongoose.services.systemmetrics.SystemMetricsService;
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.domain.DomainActivityContextMixin;
-import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.UpdateStore;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
-import naga.platform.services.update.UpdateArgument;
+import naga.platform.services.log.Logger;
+import naga.platform.services.scheduler.Scheduled;
 import naga.platform.services.scheduler.Scheduler;
+import naga.platform.services.update.UpdateArgument;
+import naga.platform.services.update.UpdateService;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -23,7 +21,7 @@ import java.time.temporal.ChronoUnit;
 /**
  * @author Bruno Salmon
  */
-public class MongooseServerMetricsActivity implements Activity<DomainActivityContext>, DomainActivityContextMixin {
+public class SystemMetricsRecorderActivity implements Activity<DomainActivityContext>, DomainActivityContextMixin {
 
     private DomainActivityContext activityContext;
     private Scheduled metricsCapturePeriodicTimer;
@@ -40,25 +38,22 @@ public class MongooseServerMetricsActivity implements Activity<DomainActivityCon
 
     @Override
     public void onStart() {
-        // Getting the metrics service for this platform
-        MetricsServiceProvider metricsServiceProvider = MetricsService.getProvider();
-
-        // Stopping the activity if there is actually no metrics service for this platform
-        if (metricsServiceProvider == null) {
-            Logger.log("MongooseServerMetricsActivity will not start as no MetricsServiceProvider is registered for this platform");
+        // Stopping the activity if there is actually no metrics service registered for this platform
+        if (SystemMetricsService.getProvider() == null) {
+            Logger.log("SystemMetricsRecorderActivity will not start as no SystemMetricsServiceProvider is registered for this platform");
             getActivityManager().destroy(); // Asking the activity manager to stop and destroy this activity
             return;
         }
 
-        Logger.log("Starting Mongoose metrics server activity...");
-        // Starting a periodic timer to capture metrics every seconds and store it in the database
+        Logger.log("Starting system metrics recorder activity...");
+        // Starting a periodic timer to capture metrics every seconds and record it in the database
         metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, () -> {
             // Creating an update store for metrics entity
             UpdateStore store = UpdateStore.create(getDataSourceModel());
             // Instantiating a Metrics entity to be inserted in the database
-            Metrics m = store.insertEntity(MetricsEntity.class);
+            SystemMetrics sm = store.insertEntity(SystemMetricsEntity.class);
             // Asking the metrics service to take a snapshot and store all values in the entity
-            metricsServiceProvider.takeMetricsSnapshot(m);
+            SystemMetricsService.takeSystemMetricsSnapshot(sm);
             // Asking the update store to record this in the database
             store.executeUpdate().setHandler(asyncResult -> {
                 if (asyncResult.failed())
@@ -66,6 +61,7 @@ public class MongooseServerMetricsActivity implements Activity<DomainActivityCon
             });
         });
 
+        // Deleting old metrics records (older than 1 day) regularly (every 12h)
         metricsCleaningPeriodicTimer = Scheduler.schedulePeriodic(12 * 3600 * 1000, () ->
             UpdateService.executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, getDataSourceId())).setHandler(ar -> {
                 if (ar.failed())
@@ -78,7 +74,7 @@ public class MongooseServerMetricsActivity implements Activity<DomainActivityCon
     @Override
     public void onStop() {
         if (metricsCapturePeriodicTimer != null) {
-            Logger.log("Stopping Mongoose metrics server activity...");
+            Logger.log("Stopping system metrics recorder activity...");
             metricsCapturePeriodicTimer.cancel();
             metricsCapturePeriodicTimer = null;
             metricsCleaningPeriodicTimer.cancel();
@@ -88,17 +84,8 @@ public class MongooseServerMetricsActivity implements Activity<DomainActivityCon
 
     // Static method helper to start this activity
 
-    public static void startActivity() {
-        startActivity(new MongooseServerMetricsActivity());
-    }
-
-    private static void startActivity(MongooseServerMetricsActivity mongooseServerMetricsActivity) {
-        DataSourceModel dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
-        startActivity(mongooseServerMetricsActivity, dataSourceModel);
-    }
-
-    private static void startActivity(MongooseServerMetricsActivity mongooseServerMetricsActivity, DataSourceModel dataSourceModel) {
-        ActivityManager.startServerActivity(mongooseServerMetricsActivity, DomainActivityContext.createDomainActivityContext(dataSourceModel));
+    public static void startOnServer() {
+        ActivityManager.startServerActivity(new SystemMetricsRecorderActivity(), DomainActivityContext.createDomainActivityContext(DomainModelSnapshotLoader.getDataSourceModel()));
     }
 
 }
