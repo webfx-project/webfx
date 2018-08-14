@@ -6,7 +6,7 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public class OperationExecutorUtil {
+public class OperationUtil {
 
     public static <Rq, Rs> Future<Rs> executeOperation(Rq operationRequest, AsyncFunction<Rq, Rs> operationExecutor) {
         if (operationExecutor == null && operationRequest instanceof HasOperationExecutor)

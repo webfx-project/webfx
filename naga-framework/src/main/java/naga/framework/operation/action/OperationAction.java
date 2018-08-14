@@ -1,7 +1,7 @@
 package naga.framework.operation.action;
 
 import javafx.event.ActionEvent;
-import naga.framework.operation.OperationExecutorUtil;
+import naga.framework.operation.OperationUtil;
 import naga.framework.ui.action.impl.WritableAction;
 import naga.util.async.AsyncFunction;
 import naga.util.function.Factory;
@@ -22,7 +22,7 @@ public class OperationAction<Rq, Rs> extends WritableAction {
     public OperationAction(Function<ActionEvent, Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
         super(actionEvent -> {
             Rq operationRequest = operationRequestFactory.apply(actionEvent);
-            OperationExecutorUtil.executeOperation(operationRequest, topOperationExecutor);
+            OperationUtil.executeOperation(operationRequest, topOperationExecutor);
         });
         this.operationRequestFactory = operationRequestFactory;
         OperationActionRegistry registry = getOperationActionRegistry();
