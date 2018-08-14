@@ -63,6 +63,6 @@ module naga.framework {
     exports naga.framework.ui.formatter;
     exports naga.framework.services.i18n;
     exports naga.framework.ui.mapping;
-    exports naga.framework.ui.router;
+    exports naga.framework.ui.uirouter;
     exports naga.framework.ui.rx;
 }

@@ -9,7 +9,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import naga.framework.activity.view.impl.ViewActivityContextBase;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
-import naga.framework.ui.router.UiRouter;
+import naga.framework.ui.uirouter.UiRouter;
 import naga.fx.spi.Toolkit;
 import naga.platform.activity.ActivityContextFactory;
 import naga.platform.activity.application.ApplicationContext;

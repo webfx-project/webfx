@@ -1,9 +1,9 @@
-package naga.framework.ui.router;
+package naga.framework.ui.uirouter;
 
 import naga.framework.activity.uiroute.UiRouteActivityContext;
 import naga.framework.router.RoutingContext;
 import naga.framework.router.util.PathBuilder;
-import naga.framework.ui.router.impl.UiRouteImpl;
+import naga.framework.ui.uirouter.impl.UiRouteImpl;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContextFactory;
 import naga.util.function.Converter;

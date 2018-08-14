@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.auth;
 
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.framework.ui.router.UiRoute;
+import naga.framework.ui.uirouter.UiRoute;
 
 /**
  * @author Bruno Salmon

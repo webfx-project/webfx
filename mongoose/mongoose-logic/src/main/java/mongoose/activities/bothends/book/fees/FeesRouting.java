@@ -2,7 +2,7 @@ package mongoose.activities.bothends.book.fees;
 
 import mongoose.activities.bothends.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.framework.ui.router.UiRoute;
+import naga.framework.ui.uirouter.UiRoute;
 
 /**
  * @author Bruno Salmon

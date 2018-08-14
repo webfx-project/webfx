@@ -2,7 +2,7 @@ package naga.framework.activity.uiroute;
 
 import naga.framework.activity.activeproperty.ActivePropertyActivityContextMixin;
 import naga.framework.session.Session;
-import naga.framework.ui.router.UiRouter;
+import naga.framework.ui.uirouter.UiRouter;
 import naga.framework.ui.session.UiSession;
 import naga.framework.ui.session.UiSessionMixin;
 import naga.platform.client.url.history.History;

@@ -29,7 +29,7 @@ import naga.framework.services.i18n.I18n;
 import naga.framework.ui.action.Action;
 import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.SceneUtil;
-import naga.framework.ui.router.UiRouter;
+import naga.framework.ui.uirouter.UiRouter;
 import naga.fx.properties.Properties;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContext;

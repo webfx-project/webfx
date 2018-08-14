@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 import mongoose.activities.backend.BackendMongooseApplication;
 import mongoose.activities.backend.javafx.event.clone.FxCloneEventRouting;
 import mongoose.activities.bothends.MongooseApplicationSharedByBothEnds;
-import naga.framework.ui.router.UiRouter;
+import naga.framework.ui.uirouter.UiRouter;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.javafx.JavaFxToolkit;
 import naga.fx.util.ImageStore;
