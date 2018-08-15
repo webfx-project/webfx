@@ -2,8 +2,8 @@ package naga.framework.activity.presentation.logic.impl;
 
 import naga.framework.activity.presentation.logic.PresentationLogicActivityContext;
 import naga.framework.activity.uiroute.impl.UiRouteActivityContextBase;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextFactory;
 
 /**
  * @author Bruno Salmon

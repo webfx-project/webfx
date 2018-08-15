@@ -1,8 +1,4 @@
-package naga.platform.activity.impl;
-
-import naga.platform.activity.Activity;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextMixin;
+package naga.framework.activity;
 
 /**
  * @author Bruno Salmon

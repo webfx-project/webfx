@@ -1,6 +1,6 @@
 package naga.platform.services.query.push.spi.remote;
 
-import naga.platform.bus.call.BusCallServerActivity;
+import naga.platform.bus.call.BusCallServerModule;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.LocalDataSourceRegistry;
@@ -66,7 +66,7 @@ public class RemoteQueryPushServiceProviderImpl implements QueryPushServiceProvi
             consumerRegistrationPendingCalls++;
         else if (queryStreamId != null && queryPushResultConsumer != null)
             queryPushResultConsumers.put(queryStreamId, queryPushResultConsumer);
-        Future<T> call = BusCallService.call(BusCallServerActivity.QUERY_PUSH_SERVICE_ADDRESS, argument);
+        Future<T> call = BusCallService.call(BusCallServerModule.QUERY_PUSH_SERVICE_ADDRESS, argument);
         if (isConsumerRegistrationPendingCall)
             call = call.map(newQueryStreamId -> {
                 synchronized (queryPushResultConsumers) {

@@ -3,7 +3,7 @@ package mongoose.activities.frontend;
 import mongoose.activities.bothends.MongooseApplicationSharedByBothEnds;
 import mongoose.activities.bothends.book.fees.FeesRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.platform.activity.Activity;
+import naga.framework.activity.Activity;
 import naga.util.function.Factory;
 
 /**

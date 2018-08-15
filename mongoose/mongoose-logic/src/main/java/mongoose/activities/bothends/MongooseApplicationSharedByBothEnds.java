@@ -31,9 +31,9 @@ import naga.framework.services.i18n.spi.I18nProvider;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.uirouter.UiRouter;
 import naga.fx.properties.Properties;
-import naga.platform.activity.Activity;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityManager;
+import naga.framework.activity.Activity;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
 import naga.platform.services.log.Logger;
 import naga.util.function.Consumer;
@@ -125,7 +125,7 @@ public abstract class MongooseApplicationSharedByBothEnds
     }
 
     protected static void launchApplication(MongooseApplicationSharedByBothEnds mongooseApplication, String[] args) {
-        ActivityManager.launchApplication(
+        ActivityManager.runActivity(
                 mongooseApplication,
                 ViewDomainApplicationContext.createViewDomainApplicationContext(
                         DomainModelSnapshotLoader.getDataSourceModel(),

@@ -1,9 +1,9 @@
-package naga.platform.activity.composition.impl;
+package naga.framework.activity.composition.impl;
 
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.impl.ActivityContextBase;
-import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.composition.ComposedActivityContext;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextBase;
+import naga.framework.activity.ActivityContextFactory;
+import naga.framework.activity.composition.ComposedActivityContext;
 
 /**
  * @author Bruno Salmon

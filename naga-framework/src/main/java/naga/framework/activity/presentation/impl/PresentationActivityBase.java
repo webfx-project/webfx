@@ -11,10 +11,10 @@ import naga.framework.activity.presentation.logic.PresentationLogicActivityConte
 import naga.framework.activity.presentation.view.PresentationViewActivityContext;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityBase;
 import naga.fx.spi.Toolkit;
-import naga.platform.activity.Activity;
-import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.ActivityManager;
-import naga.platform.activity.composition.impl.ComposedActivityBase;
+import naga.framework.activity.Activity;
+import naga.framework.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityManager;
+import naga.framework.activity.composition.impl.ComposedActivityBase;
 
 /**
  * @author Bruno Salmon

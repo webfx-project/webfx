@@ -1,4 +1,4 @@
-package naga.platform.activity;
+package naga.framework.activity;
 
 /**
  * @author Bruno Salmon

@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import naga.framework.activity.activeproperty.ActivePropertyActivity;
 import naga.framework.activity.activeproperty.ActivePropertyActivityContext;
 import naga.framework.activity.activeproperty.ActivePropertyActivityContextMixin;
-import naga.platform.activity.impl.ActivityBase;
+import naga.framework.activity.ActivityBase;
 
 /**
  * @author Bruno Salmon

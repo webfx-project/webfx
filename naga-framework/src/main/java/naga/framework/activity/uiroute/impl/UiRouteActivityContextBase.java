@@ -6,9 +6,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import naga.framework.activity.uiroute.UiRouteActivityContext;
 import naga.framework.session.Session;
 import naga.framework.ui.uirouter.UiRouter;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.impl.ActivityContextBase;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContextBase;
 import naga.platform.services.json.Json;
 import naga.platform.services.json.JsonObject;
 

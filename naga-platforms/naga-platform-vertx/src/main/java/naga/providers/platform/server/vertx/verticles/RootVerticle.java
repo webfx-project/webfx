@@ -1,7 +1,7 @@
 package naga.providers.platform.server.vertx.verticles;
 
 import io.vertx.core.AbstractVerticle;
-import naga.platform.bus.call.BusCallServerActivity;
+import naga.platform.bus.call.BusCallServerModule;
 import naga.providers.platform.server.vertx.VertxPlatform;
 import naga.providers.platform.server.vertx.util.VertxRunner;
 
@@ -25,6 +25,7 @@ public class RootVerticle extends AbstractVerticle {
         // We can't use the automatic platform registration mechanism provided by the ServiceLoader here
         // because we need to pass the vertx instance (there is no default constructor for VertxPlatform)
         VertxPlatform.register(vertx); // So we use the explicit registration mechanism instead
-        BusCallServerActivity.startAsServerActivity();
+        // Starting the server module that listen the bus calls so clients can communicate with the server
+        BusCallServerModule.start();
     }
 }

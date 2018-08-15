@@ -1,7 +1,7 @@
-package naga.platform.activity.composition;
+package naga.framework.activity.composition;
 
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityManager;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityManager;
 
 /**
  * @author Bruno Salmon

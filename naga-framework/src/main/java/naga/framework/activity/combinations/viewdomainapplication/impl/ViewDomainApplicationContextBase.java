@@ -3,7 +3,7 @@ package naga.framework.activity.combinations.viewdomainapplication.impl;
 import naga.framework.activity.combinations.viewapplication.impl.ViewApplicationContextBase;
 import naga.framework.activity.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContextFactory;
 
 /**
  * @author Bruno Salmon

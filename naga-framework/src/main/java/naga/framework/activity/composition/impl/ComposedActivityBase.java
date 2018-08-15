@@ -1,13 +1,12 @@
-package naga.platform.activity.composition.impl;
+package naga.framework.activity.composition.impl;
 
+import naga.framework.activity.*;
 import naga.util.async.Future;
 import naga.util.function.Callable;
 import naga.util.function.Factory;
-import naga.platform.activity.*;
-import naga.platform.activity.composition.ComposedActivity;
-import naga.platform.activity.composition.ComposedActivityContext;
-import naga.platform.activity.composition.ComposedActivityContextMixin;
-import naga.platform.activity.impl.ActivityBase;
+import naga.framework.activity.composition.ComposedActivity;
+import naga.framework.activity.composition.ComposedActivityContext;
+import naga.framework.activity.composition.ComposedActivityContextMixin;
 
 /**
  * @author Bruno Salmon

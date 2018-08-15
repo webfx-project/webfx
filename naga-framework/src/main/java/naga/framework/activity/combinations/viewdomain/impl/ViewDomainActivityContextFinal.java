@@ -1,6 +1,6 @@
 package naga.framework.activity.combinations.viewdomain.impl;
 
-import naga.platform.activity.ActivityContext;
+import naga.framework.activity.ActivityContext;
 
 /**
  * @author Bruno Salmon

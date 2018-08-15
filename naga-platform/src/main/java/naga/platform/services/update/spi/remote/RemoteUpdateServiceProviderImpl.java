@@ -2,7 +2,7 @@ package naga.platform.services.update.spi.remote;
 
 import naga.platform.services.update.spi.UpdateServiceProvider;
 import naga.util.async.Batch;
-import naga.platform.bus.call.BusCallServerActivity;
+import naga.platform.bus.call.BusCallServerModule;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.LocalDataSourceRegistry;
@@ -53,11 +53,11 @@ public class RemoteUpdateServiceProviderImpl implements UpdateServiceProvider {
     }
 
     protected Future<UpdateResult> executeRemoteUpdate(UpdateArgument argument) {
-        return BusCallService.call(BusCallServerActivity.UPDATE_SERVICE_ADDRESS, argument);
+        return BusCallService.call(BusCallServerModule.UPDATE_SERVICE_ADDRESS, argument);
     }
 
     protected Future<Batch<UpdateResult>> executeRemoteUpdateBatch(Batch<UpdateArgument> batch) {
-        return BusCallService.call(BusCallServerActivity.UPDATE_BATCH_SERVICE_ADDRESS, batch);
+        return BusCallService.call(BusCallServerModule.UPDATE_BATCH_SERVICE_ADDRESS, batch);
     }
 
 }

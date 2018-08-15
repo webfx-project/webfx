@@ -4,13 +4,14 @@ package naga.platform.bus.call;
  * @author Bruno Salmon
  */
 
-import naga.platform.activity.Activity;
-import naga.platform.activity.ActivityManager;
 import naga.platform.services.query.QueryService;
 import naga.platform.services.query.push.QueryPushService;
 import naga.platform.services.update.UpdateService;
+import naga.platform.spi.server.ServerModule;
+import naga.platform.spi.server.ServerPlatform;
+import naga.util.async.Future;
 
-public class BusCallServerActivity implements Activity {
+public class BusCallServerModule implements ServerModule {
 
     public static final String VERSION_ADDRESS = "version";
     public static final String QUERY_SERVICE_ADDRESS = "service/query";
@@ -24,7 +25,7 @@ public class BusCallServerActivity implements Activity {
     }
 
     @Override
-    public void onStart() {
+    public Future<Void> onStart() {
         // Registering java services so they can be called through the BusCallService
         BusCallService.registerJavaCallableAsCallableService(VERSION_ADDRESS, this::getVersion);
         BusCallService.registerJavaAsyncFunctionAsCallableService(QUERY_SERVICE_ADDRESS, QueryService::executeQuery);
@@ -35,10 +36,12 @@ public class BusCallServerActivity implements Activity {
 
         // Starting the BusCallService by listening entry calls
         BusCallService.listenBusEntryCalls();
+        return Future.succeededFuture();
     }
 
-    public static void startAsServerActivity() {
-        ActivityManager.startAsServerActivity(new BusCallServerActivity(), null);
+    // Static helper method to start this module on the server
+    public static void start() {
+        ServerPlatform.get().startServerModule(new BusCallServerModule());
     }
 
 }

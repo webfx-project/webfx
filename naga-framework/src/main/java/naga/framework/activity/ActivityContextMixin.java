@@ -1,4 +1,4 @@
-package naga.platform.activity;
+package naga.framework.activity;
 
 /**
  * Mixin interface that can be used to have a direct access to the ActivityContext methods on any class implementing

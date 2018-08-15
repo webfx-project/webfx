@@ -4,9 +4,9 @@ import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.framework.activity.activeproperty.ActivePropertyActivityContext;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.impl.ActivityContextBase;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContextBase;
 
 /**
  * @author Bruno Salmon

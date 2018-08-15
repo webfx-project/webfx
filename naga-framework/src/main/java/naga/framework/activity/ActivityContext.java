@@ -1,6 +1,4 @@
-package naga.platform.activity;
-
-import naga.platform.activity.impl.ActivityContextFinal;
+package naga.framework.activity;
 
 /**
  * @author Bruno Salmon

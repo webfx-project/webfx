@@ -4,7 +4,7 @@ import naga.util.function.Factory;
 import naga.framework.activity.presentation.impl.PresentationActivityBase;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityContextFinal;
-import naga.platform.activity.Activity;
+import naga.framework.activity.Activity;
 
 /**
  * @author Bruno Salmon

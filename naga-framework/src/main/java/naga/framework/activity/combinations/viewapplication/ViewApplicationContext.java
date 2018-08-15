@@ -3,7 +3,7 @@ package naga.framework.activity.combinations.viewapplication;
 import javafx.beans.property.Property;
 import naga.framework.activity.view.ViewActivityContext;
 import naga.framework.activity.combinations.viewapplication.impl.ViewApplicationContextFinal;
-import naga.platform.activity.application.ApplicationContext;
+import naga.framework.activity.application.ApplicationContext;
 
 /**
  * @author Bruno Salmon

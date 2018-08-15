@@ -1,6 +1,6 @@
 package naga.framework.activity.presentation.view;
 
-import naga.platform.activity.ActivityContextMixin;
+import naga.framework.activity.ActivityContextMixin;
 
 /**
  * @author Bruno Salmon

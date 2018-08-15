@@ -3,7 +3,7 @@ package naga.framework.activity.presentation;
 import naga.framework.activity.presentation.logic.PresentationLogicActivityContext;
 import naga.framework.activity.view.ViewActivityContext;
 import naga.framework.activity.presentation.view.PresentationViewActivityContext;
-import naga.platform.activity.composition.ComposedActivityContext;
+import naga.framework.activity.composition.ComposedActivityContext;
 
 /**
  * @author Bruno Salmon

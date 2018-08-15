@@ -11,9 +11,9 @@ import naga.framework.activity.view.impl.ViewActivityContextBase;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.ui.uirouter.UiRouter;
 import naga.fx.spi.Toolkit;
-import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.application.ApplicationContext;
-import naga.platform.activity.application.impl.ApplicationContextBase;
+import naga.framework.activity.ActivityContextFactory;
+import naga.framework.activity.application.ApplicationContext;
+import naga.framework.activity.application.impl.ApplicationContextBase;
 import naga.platform.client.url.history.History;
 import naga.platform.spi.Platform;
 

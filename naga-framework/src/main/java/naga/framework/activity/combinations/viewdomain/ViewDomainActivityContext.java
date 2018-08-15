@@ -3,7 +3,7 @@ package naga.framework.activity.combinations.viewdomain;
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.view.ViewActivityContext;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.platform.activity.ActivityContext;
+import naga.framework.activity.ActivityContext;
 
 /**
  * @author Bruno Salmon

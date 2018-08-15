@@ -3,7 +3,7 @@ package naga.framework.activity.domain;
 import naga.framework.activity.domain.impl.DomainActivityContextFinal;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.HasDataSourceModel;
-import naga.platform.activity.ActivityContext;
+import naga.framework.activity.ActivityContext;
 
 /**
  * @author Bruno Salmon

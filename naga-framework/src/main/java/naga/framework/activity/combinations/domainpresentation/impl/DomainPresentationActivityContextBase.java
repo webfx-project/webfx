@@ -6,8 +6,8 @@ import naga.framework.activity.presentation.impl.PresentationActivityContextBase
 import naga.framework.activity.presentation.logic.PresentationLogicActivityContext;
 import naga.framework.activity.presentation.view.PresentationViewActivityContext;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextFactory;
 
 /**
  * @author Bruno Salmon

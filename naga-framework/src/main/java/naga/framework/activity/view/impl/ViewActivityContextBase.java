@@ -5,8 +5,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import naga.framework.activity.uiroute.impl.UiRouteActivityContextBase;
 import naga.framework.activity.view.ViewActivityContext;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextFactory;
 
 /**
  * @author Bruno Salmon

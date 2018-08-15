@@ -1,10 +1,6 @@
-package naga.platform.activity.impl;
+package naga.framework.activity;
 
 import naga.util.function.Predicate;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.ActivityManager;
-import naga.platform.activity.HasActivityContext;
 
 /**
  * @author Bruno Salmon

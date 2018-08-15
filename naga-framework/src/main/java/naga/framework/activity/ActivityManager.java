@@ -1,10 +1,10 @@
-package naga.platform.activity;
+package naga.framework.activity;
 
+import naga.platform.spi.server.ServerModule;
 import naga.util.async.AsyncResult;
 import naga.util.async.Future;
 import naga.util.async.Handler;
 import naga.util.function.Factory;
-import naga.platform.activity.impl.ActivityContextBase;
 import naga.platform.spi.server.ServerPlatform;
 
 /**
@@ -201,20 +201,23 @@ public class ActivityManager<C extends ActivityContext<C>> {
         return Future.failedFuture("Unknown state"); // Should never occur
     }
 
-    public static <C extends ActivityContext> void launchApplication(Activity<C> activity, C context) {
-        runActivity(activity, context);
-    }
-
-    public static <C extends ActivityContext> void startAsServerActivity(Activity<C> activity, C context) {
-        ServerPlatform.get().makeActivityManagerDrivenByServer(from(activity, context));
-    }
-
     public static <C extends ActivityContext> void runActivity(Activity<C> activity, C context) {
-        from(activity, context).run();
+        new ActivityManager(activity, context).run();
     }
 
-    public static <C extends ActivityContext<C>> ActivityManager<C> from(Activity<C> activity, C context) {
-        return new ActivityManager<>(activity, context);
+    public static <C extends ActivityContext> void runActivityAsServerModule(Activity<C> activity, C context) {
+        ActivityManager<?> activityManager = new ActivityManager(activity, context);
+        ServerPlatform.get().startServerModule(new ServerModule() {
+            @Override
+            public Future<Void> onStart() {
+                return activityManager.run();
+            }
+
+            @Override
+            public Future<Void> onStop() {
+                return activityManager.destroy();
+            }
+        });
     }
 
     public static <C extends ActivityContext<C>> Factory<ActivityManager<C>> factory(Factory<Activity<C>> activityFactory, ActivityContextFactory<C> contextFactory) {

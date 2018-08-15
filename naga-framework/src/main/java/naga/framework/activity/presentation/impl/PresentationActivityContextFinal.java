@@ -2,8 +2,8 @@ package naga.framework.activity.presentation.impl;
 
 import naga.framework.activity.presentation.logic.impl.PresentationLogicActivityContextFinal;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityContextFinal;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextFactory;
 
 /**
  * @author Bruno Salmon

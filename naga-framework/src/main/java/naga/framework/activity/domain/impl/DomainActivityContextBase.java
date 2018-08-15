@@ -2,9 +2,9 @@ package naga.framework.activity.domain.impl;
 
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.impl.ActivityContextBase;
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextBase;
+import naga.framework.activity.ActivityContextFactory;
 
 /**
  * @author Bruno Salmon

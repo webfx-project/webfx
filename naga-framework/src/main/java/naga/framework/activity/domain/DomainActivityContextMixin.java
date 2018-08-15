@@ -2,7 +2,7 @@ package naga.framework.activity.domain;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.HasDataSourceModel;
-import naga.platform.activity.ActivityContextMixin;
+import naga.framework.activity.ActivityContextMixin;
 
 /**
  * @author Bruno Salmon

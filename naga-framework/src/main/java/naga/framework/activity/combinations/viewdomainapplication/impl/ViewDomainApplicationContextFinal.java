@@ -1,6 +1,6 @@
 package naga.framework.activity.combinations.viewdomainapplication.impl;
 
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContextFactory;
 
 /**
  * @author Bruno Salmon

@@ -2,8 +2,8 @@ package naga.framework.activity.presentation.view.impl;
 
 import naga.framework.activity.view.impl.ViewActivityContextBase;
 import naga.framework.activity.presentation.view.PresentationViewActivityContext;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextFactory;
 
 /**
  * @author Bruno Salmon

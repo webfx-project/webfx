@@ -1,6 +1,5 @@
 package naga.platform.spi.server;
 
-import naga.platform.activity.ActivityManager;
 import naga.platform.spi.Platform;
 
 /**
@@ -8,7 +7,7 @@ import naga.platform.spi.Platform;
  */
 public interface ServerPlatform {
 
-    void makeActivityManagerDrivenByServer(ActivityManager activityManager);
+    void startServerModule(ServerModule serverModule);
 
     /*** Static access ***/
 

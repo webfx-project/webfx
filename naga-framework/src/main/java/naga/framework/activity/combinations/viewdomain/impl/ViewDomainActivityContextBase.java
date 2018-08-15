@@ -4,8 +4,8 @@ import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.view.impl.ViewActivityContextBase;
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.activity.ActivityContext;
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextFactory;
 
 /**
  * @author Bruno Salmon

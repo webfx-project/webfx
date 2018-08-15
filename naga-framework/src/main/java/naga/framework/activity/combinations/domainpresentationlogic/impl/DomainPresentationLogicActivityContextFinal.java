@@ -3,7 +3,7 @@ package naga.framework.activity.combinations.domainpresentationlogic.impl;
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.presentation.logic.impl.PresentationLogicActivityContextBase;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.activity.ActivityContext;
+import naga.framework.activity.ActivityContext;
 
 /**
  * @author Bruno Salmon

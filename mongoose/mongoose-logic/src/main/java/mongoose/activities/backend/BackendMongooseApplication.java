@@ -14,7 +14,7 @@ import mongoose.activities.bothends.auth.LoginRouting;
 import mongoose.activities.bothends.auth.UnauthorizedRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.uirouter.UiRouter;
-import naga.platform.activity.Activity;
+import naga.framework.activity.Activity;
 import naga.util.function.Factory;
 
 /**

@@ -4,8 +4,8 @@ import naga.framework.activity.uiroute.UiRouteActivityContext;
 import naga.framework.router.RoutingContext;
 import naga.framework.router.util.PathBuilder;
 import naga.framework.ui.uirouter.impl.UiRouteImpl;
-import naga.platform.activity.Activity;
-import naga.platform.activity.ActivityContextFactory;
+import naga.framework.activity.Activity;
+import naga.framework.activity.ActivityContextFactory;
 import naga.util.function.Converter;
 import naga.util.function.Factory;
 

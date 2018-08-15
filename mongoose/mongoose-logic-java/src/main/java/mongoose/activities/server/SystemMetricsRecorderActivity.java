@@ -6,8 +6,8 @@ import mongoose.services.systemmetrics.SystemMetricsService;
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.domain.DomainActivityContextMixin;
 import naga.framework.orm.entity.UpdateStore;
-import naga.platform.activity.Activity;
-import naga.platform.activity.ActivityManager;
+import naga.framework.activity.Activity;
+import naga.framework.activity.ActivityManager;
 import naga.platform.services.log.Logger;
 import naga.platform.services.scheduler.Scheduled;
 import naga.platform.services.scheduler.Scheduler;
@@ -82,7 +82,7 @@ public class SystemMetricsRecorderActivity implements Activity<DomainActivityCon
     // Static method helper to start this activity
 
     public static void startAsServerActivity() {
-        ActivityManager.startAsServerActivity(new SystemMetricsRecorderActivity(), DomainActivityContext.createDomainActivityContext(DomainModelSnapshotLoader.getDataSourceModel()));
+        ActivityManager.runActivityAsServerModule(new SystemMetricsRecorderActivity(), DomainActivityContext.createDomainActivityContext(DomainModelSnapshotLoader.getDataSourceModel()));
     }
 
 }

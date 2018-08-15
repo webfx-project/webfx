@@ -1,7 +1,7 @@
 package naga.framework.activity.activeproperty;
 
 import javafx.beans.value.ObservableValue;
-import naga.platform.activity.ActivityContextMixin;
+import naga.framework.activity.ActivityContextMixin;
 
 /**
  * @author Bruno Salmon

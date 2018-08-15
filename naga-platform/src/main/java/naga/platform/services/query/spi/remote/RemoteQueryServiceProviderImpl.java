@@ -4,7 +4,7 @@ import naga.platform.services.log.Logger;
 import naga.platform.services.query.QueryResult;
 import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.util.Arrays;
-import naga.platform.bus.call.BusCallServerActivity;
+import naga.platform.bus.call.BusCallServerModule;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.LocalDataSourceRegistry;
@@ -45,6 +45,6 @@ public class RemoteQueryServiceProviderImpl implements QueryServiceProvider {
     }
 
     protected <T> Future<T> executeRemoteQuery(QueryArgument argument) {
-        return BusCallService.call(BusCallServerActivity.QUERY_SERVICE_ADDRESS, argument);
+        return BusCallService.call(BusCallServerModule.QUERY_SERVICE_ADDRESS, argument);
     }
 }

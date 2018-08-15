@@ -1,8 +1,8 @@
-package naga.platform.activity.application.impl;
+package naga.framework.activity.application.impl;
 
-import naga.platform.activity.impl.ActivityContextBase;
-import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.application.ApplicationContext;
+import naga.framework.activity.ActivityContextBase;
+import naga.framework.activity.ActivityContextFactory;
+import naga.framework.activity.application.ApplicationContext;
 
 /**
  * @author Bruno Salmon

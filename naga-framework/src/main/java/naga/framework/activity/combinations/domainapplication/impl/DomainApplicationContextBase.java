@@ -2,8 +2,8 @@ package naga.framework.activity.combinations.domainapplication.impl;
 
 import naga.framework.activity.combinations.domainapplication.DomainApplicationContext;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.application.impl.ApplicationContextBase;
+import naga.framework.activity.ActivityContextFactory;
+import naga.framework.activity.application.impl.ApplicationContextBase;
 
 /**
  * @author Bruno Salmon

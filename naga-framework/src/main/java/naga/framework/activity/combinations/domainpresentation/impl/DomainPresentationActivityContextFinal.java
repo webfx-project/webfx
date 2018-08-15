@@ -2,7 +2,7 @@ package naga.framework.activity.combinations.domainpresentation.impl;
 
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityContextFinal;
-import naga.platform.activity.ActivityContext;
+import naga.framework.activity.ActivityContext;
 
 /**
  * @author Bruno Salmon
