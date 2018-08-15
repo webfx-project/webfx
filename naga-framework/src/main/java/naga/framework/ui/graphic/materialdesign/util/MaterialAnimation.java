@@ -1,4 +1,4 @@
-package naga.framework.ui.graphic.design.material.util;
+package naga.framework.ui.graphic.materialdesign.util;
 
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;

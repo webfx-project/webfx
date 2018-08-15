@@ -1,4 +1,4 @@
-package naga.framework.ui.graphic.design.material.util;
+package naga.framework.ui.graphic.materialdesign.util;
 
 /**
  * @author Bruno Salmon

@@ -1,4 +1,4 @@
-package naga.framework.ui.graphic.design.material;
+package naga.framework.ui.graphic.materialdesign;
 
 import javafx.scene.control.Control;
 import javafx.scene.control.PasswordField;
@@ -6,9 +6,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import naga.framework.services.i18n.I18n;
 import naga.framework.ui.graphic.controls.ControlFactoryMixin;
-import naga.framework.ui.graphic.design.material.textfield.MaterialTextField;
-import naga.framework.ui.graphic.design.material.textfield.MaterialTextFieldPane;
-import naga.framework.ui.graphic.design.material.util.MaterialUtil;
+import naga.framework.ui.graphic.materialdesign.textfield.MaterialTextField;
+import naga.framework.ui.graphic.materialdesign.textfield.MaterialTextFieldPane;
+import naga.framework.ui.graphic.materialdesign.util.MaterialUtil;
 
 /**
  * @author Bruno Salmon

@@ -1,10 +1,10 @@
-package naga.framework.ui.graphic.design.material.util;
+package naga.framework.ui.graphic.materialdesign.util;
 
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
-import naga.framework.ui.graphic.design.material.textfield.MaterialTextField;
-import naga.framework.ui.graphic.design.material.textfield.MaterialTextFieldSkin;
+import naga.framework.ui.graphic.materialdesign.textfield.MaterialTextField;
+import naga.framework.ui.graphic.materialdesign.textfield.MaterialTextFieldSkin;
 
 /**
  * @author Bruno Salmon

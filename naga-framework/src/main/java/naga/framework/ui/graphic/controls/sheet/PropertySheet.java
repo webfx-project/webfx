@@ -10,7 +10,7 @@ import naga.framework.orm.entity.UpdateStore;
 import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.graphic.controls.dialog.DialogContent;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
-import naga.framework.ui.graphic.design.material.MaterialFactoryMixin;
+import naga.framework.ui.graphic.materialdesign.MaterialFactoryMixin;
 import naga.fxdata.cell.renderer.TextRenderer;
 import naga.fxdata.cell.renderer.ValueRenderingContext;
 import naga.util.Arrays;

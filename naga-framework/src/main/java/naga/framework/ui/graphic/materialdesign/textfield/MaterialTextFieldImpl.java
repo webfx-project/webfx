@@ -1,4 +1,4 @@
-package naga.framework.ui.graphic.design.material.textfield;
+package naga.framework.ui.graphic.materialdesign.textfield;
 
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
@@ -13,10 +13,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import naga.framework.ui.graphic.background.BackgroundUtil;
-import naga.framework.ui.graphic.design.material.util.ComputeBaselineOffsetWithInsetsFunction;
-import naga.framework.ui.graphic.design.material.util.ComputeHeightWithInsetsFunction;
-import naga.framework.ui.graphic.design.material.util.LayoutChildrenFunction;
-import naga.framework.ui.graphic.design.material.util.MaterialAnimation;
+import naga.framework.ui.graphic.materialdesign.util.ComputeBaselineOffsetWithInsetsFunction;
+import naga.framework.ui.graphic.materialdesign.util.ComputeHeightWithInsetsFunction;
+import naga.framework.ui.graphic.materialdesign.util.LayoutChildrenFunction;
+import naga.framework.ui.graphic.materialdesign.util.MaterialAnimation;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Unregisterable;

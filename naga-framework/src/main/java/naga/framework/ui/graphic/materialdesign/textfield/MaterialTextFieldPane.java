@@ -1,4 +1,4 @@
-package naga.framework.ui.graphic.design.material.textfield;
+package naga.framework.ui.graphic.materialdesign.textfield;
 
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;

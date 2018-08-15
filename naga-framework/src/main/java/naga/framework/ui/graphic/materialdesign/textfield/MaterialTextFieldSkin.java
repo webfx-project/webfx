@@ -1,4 +1,4 @@
-package naga.framework.ui.graphic.design.material.textfield;
+package naga.framework.ui.graphic.materialdesign.textfield;
 
 import com.sun.javafx.scene.control.skin.TextFieldSkin;
 import com.sun.javafx.scene.text.HitInfo;
