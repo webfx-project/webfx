@@ -1,4 +1,4 @@
-package naga.framework.ui.rx;
+package naga.framework.ui.filter.rx;
 
 import naga.util.async.Future;
 import rx.Observable;

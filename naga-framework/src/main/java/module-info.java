@@ -64,5 +64,5 @@ module naga.framework {
     exports naga.framework.services.i18n;
     exports naga.framework.ui.mapping;
     exports naga.framework.ui.uirouter;
-    exports naga.framework.ui.rx;
+    exports naga.framework.ui.filter.rx;
 }

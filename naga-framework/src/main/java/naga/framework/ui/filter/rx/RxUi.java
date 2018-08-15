@@ -1,4 +1,4 @@
-package naga.framework.ui.rx;
+package naga.framework.ui.filter.rx;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;

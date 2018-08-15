@@ -1,4 +1,4 @@
-package naga.framework.ui.rx;
+package naga.framework.ui.filter.rx;
 
 import naga.fx.spi.Toolkit;
 import naga.platform.services.scheduler.Scheduled;
