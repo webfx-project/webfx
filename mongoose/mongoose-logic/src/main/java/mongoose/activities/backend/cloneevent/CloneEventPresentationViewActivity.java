@@ -10,7 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import mongoose.activities.bothends.logic.ui.theme.Theme;
 import mongoose.domainmodel.formatters.DateFormatter;
-import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
+import naga.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;

@@ -1,7 +1,7 @@
 package mongoose.activities.backend.letter;
 
 import mongoose.activities.bothends.generic.routing.MongooseRoutingUtil;
-import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import naga.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.uirouter.UiRoute;
 
 /**

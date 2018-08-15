@@ -6,7 +6,7 @@ import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.bothends.generic.MongooseSectionFactoryMixin;
 import mongoose.aggregates.CartAggregate;
 import mongoose.entities.Event;
-import naga.framework.activity.view.impl.ViewActivityImpl;
+import naga.framework.activity.base.elementals.view.impl.ViewActivityImpl;
 import naga.framework.services.i18n.I18n;
 import naga.fx.properties.Properties;
 

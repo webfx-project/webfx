@@ -2,7 +2,7 @@ package mongoose.activities.bothends.auth;
 
 import javafx.scene.Node;
 import mongoose.activities.bothends.book.shared.LoginPanel;
-import naga.framework.activity.view.impl.ViewActivityImpl;
+import naga.framework.activity.base.elementals.view.impl.ViewActivityImpl;
 
 /**
  * @author Bruno Salmon

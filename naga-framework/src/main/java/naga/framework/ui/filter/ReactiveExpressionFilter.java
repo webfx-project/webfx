@@ -2,7 +2,7 @@ package naga.framework.ui.filter;
 
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
-import naga.framework.activity.activeproperty.HasActiveProperty;
+import naga.framework.activity.base.elementals.activeproperty.HasActiveProperty;
 import naga.framework.expression.Expression;
 import naga.framework.expression.builder.ReferenceResolver;
 import naga.framework.expression.builder.ThreadLocalReferenceResolver;

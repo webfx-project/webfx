@@ -1,6 +1,6 @@
 package naga.framework.ui.filter;
 
-import naga.framework.activity.activeproperty.HasActiveProperty;
+import naga.framework.activity.base.elementals.activeproperty.HasActiveProperty;
 import naga.framework.orm.domainmodel.HasDataSourceModel;
 import naga.framework.orm.entity.Entity;
 

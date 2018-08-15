@@ -1,6 +1,6 @@
 package mongoose.activities.backend.monitor;
 
-import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
+import naga.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.uirouter.UiRoute;
 
 /**

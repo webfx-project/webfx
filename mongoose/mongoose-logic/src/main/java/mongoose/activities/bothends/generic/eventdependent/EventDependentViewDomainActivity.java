@@ -1,8 +1,8 @@
 package mongoose.activities.bothends.generic.eventdependent;
 
 import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
-import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.framework.activity.view.impl.ViewActivityImpl;
+import naga.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import naga.framework.activity.base.elementals.view.impl.ViewActivityImpl;
 
 /**
  * @author Bruno Salmon

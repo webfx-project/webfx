@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
+import naga.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import naga.framework.ui.layouts.SceneUtil;
 
 /**

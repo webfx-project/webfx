@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
+import naga.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import naga.fx.properties.conversion.ConvertedProperty;
 import naga.fxdata.chart.LineChart;
 

@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.generic.eventdependent;
 
 import mongoose.activities.bothends.generic.MongooseDomainPresentationLogicActivityBase;
-import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
+import naga.framework.activity.base.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
 import naga.util.function.Factory;
 
 /**

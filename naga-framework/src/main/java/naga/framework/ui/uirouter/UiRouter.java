@@ -1,8 +1,8 @@
 package naga.framework.ui.uirouter;
 
-import naga.framework.activity.uiroute.UiRouteActivityContext;
-import naga.framework.activity.uiroute.impl.UiRouteActivityContextBase;
-import naga.framework.activity.view.HasMountNodeProperty;
+import naga.framework.activity.base.elementals.uiroute.UiRouteActivityContext;
+import naga.framework.activity.base.elementals.uiroute.impl.UiRouteActivityContextBase;
+import naga.framework.activity.base.elementals.view.HasMountNodeProperty;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
 import naga.framework.router.auth.RedirectAuthHandler;
@@ -19,7 +19,7 @@ import naga.framework.activity.Activity;
 import naga.framework.activity.ActivityContext;
 import naga.framework.activity.ActivityContextFactory;
 import naga.framework.activity.ActivityManager;
-import naga.framework.activity.application.ApplicationContext;
+import naga.framework.activity.base.elementals.application.ApplicationContext;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.baseimpl.SubHistory;
 import naga.platform.services.json.Json;

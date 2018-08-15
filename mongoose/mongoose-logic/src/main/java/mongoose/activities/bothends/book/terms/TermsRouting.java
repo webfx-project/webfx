@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.book.terms;
 
 import mongoose.activities.bothends.generic.routing.MongooseRoutingUtil;
-import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
+import naga.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.uirouter.UiRoute;
 
 /**

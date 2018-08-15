@@ -18,7 +18,7 @@ import mongoose.entities.Event;
 import mongoose.entities.Organization;
 import mongoose.entities.Person;
 import mongoose.entities.markers.HasPersonDetails;
-import naga.framework.activity.view.ViewActivityContextMixin;
+import naga.framework.activity.base.elementals.view.ViewActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;

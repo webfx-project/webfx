@@ -1,6 +1,6 @@
 package naga.framework.ui.uirouter.impl;
 
-import naga.framework.activity.uiroute.UiRouteActivityContext;
+import naga.framework.activity.base.elementals.uiroute.UiRouteActivityContext;
 import naga.framework.router.RoutingContext;
 import naga.framework.ui.uirouter.UiRoute;
 import naga.framework.activity.Activity;

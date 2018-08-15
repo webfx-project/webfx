@@ -1,6 +1,6 @@
 package mongoose.activities.backend.operations;
 
-import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
+import naga.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
 
 /**
  * @author Bruno Salmon

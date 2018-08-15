@@ -10,11 +10,11 @@ module naga.platform {
     requires static javafx.base;
 
     exports naga.platform.activity;
-    exports naga.framework.activity.impl;
-    exports naga.framework.activity.application;
-    exports naga.framework.activity.application.impl;
-    exports naga.framework.activity.composition;
-    exports naga.framework.activity.composition.impl;
+    exports naga.framework.activity.base;
+    exports naga.framework.activity.base.elementals.application;
+    exports naga.framework.activity.base.elementals.application.impl;
+    exports naga.framework.activity.base.composition;
+    exports naga.framework.activity.base.composition.impl;
     exports naga.platform.bus;
     exports naga.platform.bus.call;
     exports naga.platform.client.bus;

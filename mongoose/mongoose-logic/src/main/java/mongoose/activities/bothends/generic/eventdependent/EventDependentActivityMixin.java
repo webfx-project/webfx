@@ -2,10 +2,10 @@ package mongoose.activities.bothends.generic.eventdependent;
 
 import mongoose.aggregates.EventAggregate;
 import mongoose.aggregates.EventAggregateMixin;
-import naga.framework.activity.domain.DomainActivityContext;
-import naga.framework.activity.domain.DomainActivityContextMixin;
-import naga.framework.activity.uiroute.UiRouteActivityContext;
-import naga.framework.activity.uiroute.UiRouteActivityContextMixin;
+import naga.framework.activity.base.elementals.domain.DomainActivityContext;
+import naga.framework.activity.base.elementals.domain.DomainActivityContextMixin;
+import naga.framework.activity.base.elementals.uiroute.UiRouteActivityContext;
+import naga.framework.activity.base.elementals.uiroute.UiRouteActivityContextMixin;
 
 /**
  * @author Bruno Salmon

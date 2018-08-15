@@ -2,7 +2,7 @@ package mongoose.activities.backend.monitor;
 
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
+import naga.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import naga.fxdata.chart.Chart;
 import naga.fxdata.chart.LineChart;
 

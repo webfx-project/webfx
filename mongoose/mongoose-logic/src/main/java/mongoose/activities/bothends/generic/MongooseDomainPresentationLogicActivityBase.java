@@ -1,6 +1,6 @@
 package mongoose.activities.bothends.generic;
 
-import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import naga.framework.activity.base.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.platform.services.json.Json;
 import naga.platform.services.json.JsonObject;

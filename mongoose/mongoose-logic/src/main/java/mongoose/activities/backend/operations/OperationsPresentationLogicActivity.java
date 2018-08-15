@@ -2,7 +2,7 @@ package mongoose.activities.backend.operations;
 
 import javafx.scene.layout.Pane;
 import mongoose.activities.bothends.generic.MongooseDomainPresentationLogicActivityBase;
-import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
+import naga.framework.activity.base.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.orm.entity.Entity;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.framework.ui.graphic.controls.sheet.PropertySheet;

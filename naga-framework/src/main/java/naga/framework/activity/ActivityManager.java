@@ -1,5 +1,6 @@
 package naga.framework.activity;
 
+import naga.framework.activity.base.ActivityContextBase;
 import naga.platform.spi.server.ServerModule;
 import naga.util.async.AsyncResult;
 import naga.util.async.Future;

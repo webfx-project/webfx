@@ -2,7 +2,7 @@ package mongoose.activities.bothends.book.cart;
 
 import mongoose.activities.bothends.generic.routing.MongooseRoutingUtil;
 import mongoose.entities.Document;
-import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import naga.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.uirouter.UiRoute;
 
 /**

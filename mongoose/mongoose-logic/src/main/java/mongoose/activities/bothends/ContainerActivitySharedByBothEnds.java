@@ -6,7 +6,7 @@ import javafx.scene.layout.FlowPane;
 import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.operations.bothends.i18n.ChangeLanguageToEnglishRequest;
 import mongoose.operations.bothends.i18n.ChangeLanguageToFrenchRequest;
-import naga.framework.activity.view.impl.ViewActivityImpl;
+import naga.framework.activity.base.elementals.view.impl.ViewActivityImpl;
 import naga.framework.operation.action.OperationActionFactoryMixin;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.action.ActionBinder;
