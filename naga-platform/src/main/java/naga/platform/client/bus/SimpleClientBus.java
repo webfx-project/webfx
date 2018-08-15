@@ -188,10 +188,12 @@ public class SimpleClientBus implements Bus {
     }
 
     void clearHandlers() {
-        Future<Message> busClosedFailure = Future.failedFuture(new Exception("Bus closed"));
-        for (Handler<AsyncResult<Message>> replyHandler : replyHandlers.values())
-            replyHandler.handle(busClosedFailure);
-        replyHandlers.clear();
+        if (!replyHandlers.isEmpty()) {
+            Future<Message> busClosedFailure = Future.failedFuture(new Exception("Bus closed"));
+            for (Handler<AsyncResult<Message>> replyHandler : replyHandlers.values())
+                replyHandler.handle(busClosedFailure);
+            replyHandlers.clear();
+        }
         getHandlerMap(false).clear();
     }
 

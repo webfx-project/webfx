@@ -2,18 +2,21 @@ package mongoose.activities.bothends;
 
 import mongoose.actions.MongooseActions;
 import mongoose.activities.bothends.book.cart.CartRouting;
-import mongoose.activities.bothends.book.payment.PaymentRouting;
 import mongoose.activities.bothends.book.fees.FeesRouting;
 import mongoose.activities.bothends.book.options.OptionsRouting;
+import mongoose.activities.bothends.book.payment.PaymentRouting;
 import mongoose.activities.bothends.book.person.PersonRouting;
 import mongoose.activities.bothends.book.program.ProgramRouting;
 import mongoose.activities.bothends.book.start.StartBookingRouting;
 import mongoose.activities.bothends.book.summary.SummaryRouting;
 import mongoose.activities.bothends.book.terms.TermsRouting;
 import mongoose.activities.bothends.generic.session.ClientSessionRecorder;
+import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.services.authn.MongooseAuthenticationServiceProviderImpl;
 import mongoose.services.authz.MongooseAuthorizationServiceProviderImpl;
-import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
+import naga.framework.activity.Activity;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityManager;
 import naga.framework.activity.base.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.activity.base.combinations.viewdomain.ViewDomainActivityContext;
 import naga.framework.activity.base.combinations.viewdomain.ViewDomainActivityContextMixin;
@@ -26,16 +29,14 @@ import naga.framework.orm.entity.EntityStore;
 import naga.framework.services.authn.spi.AuthenticationServiceProvider;
 import naga.framework.services.authz.spi.AuthorizationServiceProvider;
 import naga.framework.services.i18n.I18n;
-import naga.framework.ui.action.Action;
 import naga.framework.services.i18n.spi.I18nProvider;
+import naga.framework.ui.action.Action;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.uirouter.UiRouter;
 import naga.fx.properties.Properties;
-import naga.framework.activity.Activity;
-import naga.framework.activity.ActivityContext;
-import naga.framework.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
 import naga.platform.services.log.Logger;
+import naga.platform.spi.Platform;
 import naga.util.function.Consumer;
 import naga.util.function.Factory;
 import naga.util.serviceloader.ServiceLoaderHelper;
@@ -63,7 +64,7 @@ public abstract class MongooseApplicationSharedByBothEnds
     @Override
     public void onCreate(ViewDomainActivityContext context) {
         this.context = context;
-        context.getUiRouter().routeAndMount("/", getContainerActivityFactory(), setupContainedRouter(UiRouter.createSubRouter(context)));
+        getUiRouter().routeAndMount("/", getContainerActivityFactory(), setupContainedRouter(UiRouter.createSubRouter(context)));
         // Also passing the userPrincipal property to the client session recorder so it can react to user changes
         ClientSessionRecorder.get().setUserPrincipalProperty(getUiSession().userPrincipalProperty());
     }
@@ -113,8 +114,7 @@ public abstract class MongooseApplicationSharedByBothEnds
 
     static {
         // Instantiating the platform bus as soon as possible to open the connection while the application is initializing
-        // Platform.bus(); // Commented and replaced by the following code:
-        ClientSessionRecorder.get(); // The static constructor instantiate the platform bus and set the bus hook for client session recording
+        Platform.bus();
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProviderImpl::new);
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProviderImpl::new);

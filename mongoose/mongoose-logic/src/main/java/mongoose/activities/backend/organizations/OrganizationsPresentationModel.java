@@ -11,7 +11,7 @@ class OrganizationsPresentationModel extends GenericTablePresentationModel {
 
     // Display input
 
-    private final Property<Boolean> withEventsProperty = new SimpleObjectProperty<>(true); // Limit initially set to true
+    private final Property<Boolean> withEventsProperty = new SimpleObjectProperty<>(true); // Initially set to true
     Property<Boolean> withEventsProperty() { return withEventsProperty; }
 
 }

@@ -1,7 +1,6 @@
 package emul.com.sun.javafx.scene.control.skin;
 
 import emul.com.sun.javafx.scene.control.behaviour.BehaviorBase;
-import emul.javafx.beans.InvalidationListener;
 import emul.javafx.geometry.HPos;
 import emul.javafx.geometry.Orientation;
 import emul.javafx.geometry.Pos;
@@ -64,10 +63,12 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
      *
      * This is package private ONLY FOR THE SAKE OF TESTING
      */
+/*
     final InvalidationListener graphicPropertyChangedListener = valueModel -> {
         invalidText = true;
         getSkinnable().requestLayout();
     };
+*/
 
     private Rectangle textClip;
     private double wrapWidth;
