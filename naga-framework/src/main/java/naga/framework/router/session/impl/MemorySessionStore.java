@@ -1,8 +1,8 @@
-package naga.framework.session.impl;
+package naga.framework.router.session.impl;
 
+import naga.framework.router.session.Session;
+import naga.framework.router.session.SessionStore;
 import naga.util.async.Future;
-import naga.framework.session.Session;
-import naga.framework.session.SessionStore;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package naga.framework.router.session;
 
-import naga.framework.router.impl.UserSessionHandlerImpl;
+import naga.framework.router.session.impl.UserSessionHandlerImpl;
 import naga.util.async.Handler;
 import naga.framework.router.RoutingContext;
 

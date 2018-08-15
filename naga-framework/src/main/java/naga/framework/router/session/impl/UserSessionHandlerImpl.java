@@ -1,8 +1,8 @@
-package naga.framework.router.impl;
+package naga.framework.router.session.impl;
 
 import naga.framework.router.RoutingContext;
 import naga.framework.router.session.UserSessionHandler;
-import naga.framework.session.Session;
+import naga.framework.router.session.Session;
 
 /**
  * @author Bruno Salmon

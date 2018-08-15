@@ -3,6 +3,7 @@ package naga.framework.ui.uirouter;
 import naga.framework.activity.base.elementals.uiroute.UiRouteActivityContext;
 import naga.framework.activity.base.elementals.uiroute.impl.UiRouteActivityContextBase;
 import naga.framework.activity.base.elementals.view.HasMountNodeProperty;
+import naga.framework.router.Route;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
 import naga.framework.router.auth.RedirectAuthHandler;
@@ -138,19 +139,14 @@ public class UiRouter extends HistoryRouter {
         return uiSession;
     }
 
-    public UiRouter authRoute(String path) {
-        checkRedirectAuthHandler();
-        router.route(path).handler(redirectAuthHandler);
+    private UiRouter addAuthRouteCheck(String authPath, boolean regex) {
+        checkRedirectAuthHandlerIsSet();
+        Route route = regex ? router.routeWithRegex(authPath) : router.route(authPath);
+        route.handler(redirectAuthHandler);
         return this;
     }
 
-    public UiRouter authRouteWithRegex(String path) {
-        checkRedirectAuthHandler();
-        router.routeWithRegex(path).handler(redirectAuthHandler);
-        return this;
-    }
-
-    private void checkRedirectAuthHandler() {
+    private void checkRedirectAuthHandlerIsSet() {
         if (redirectAuthHandler == null)
             throw new IllegalStateException("setRedirectAuthHandler() must be called on this router before calling authRoute()");
     }
@@ -208,12 +204,8 @@ public class UiRouter extends HistoryRouter {
     }
 
     private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, boolean regex, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
-        if (auth) {
-            if (regex)
-                authRouteWithRegex(path);
-            else
-                authRoute(path);
-        }
+        if (auth)
+            addAuthRouteCheck(path, regex);
         ActivityRoutingHandler<C> handler = new ActivityRoutingHandler<>(ActivityManager.factory(activityFactory, activityContextFactory), contextConverter);
         if (regex)
             router.routeWithRegex(path, handler);

@@ -1,7 +1,7 @@
 package naga.framework.router.impl;
 
 import naga.framework.router.RoutingContext;
-import naga.framework.session.Session;
+import naga.framework.router.session.Session;
 import naga.platform.services.json.WritableJsonObject;
 
 import java.util.Collection;

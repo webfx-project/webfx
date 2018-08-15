@@ -4,7 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import naga.framework.activity.base.elementals.uiroute.UiRouteActivityContext;
-import naga.framework.session.Session;
+import naga.framework.router.session.Session;
 import naga.framework.ui.uirouter.UiRouter;
 import naga.framework.activity.ActivityContext;
 import naga.framework.activity.ActivityContextFactory;

@@ -2,7 +2,7 @@ package naga.framework.router.impl;
 
 import naga.framework.router.Route;
 import naga.framework.router.RoutingContext;
-import naga.framework.session.Session;
+import naga.framework.router.session.Session;
 import naga.platform.services.json.Json;
 import naga.platform.services.json.JsonObject;
 import naga.platform.services.json.WritableJsonObject;
@@ -14,7 +14,7 @@ import java.util.Iterator;
 /**
  * @author Bruno Salmon
  */
-abstract class RoutingContextImplBase implements RoutingContext {
+public abstract class RoutingContextImplBase implements RoutingContext {
 
     protected final String mountPoint;
     protected final String path;
@@ -137,4 +137,17 @@ abstract class RoutingContextImplBase implements RoutingContext {
     public void clearUser() {
         setUserPrincipal(null);
     }
+
+    public static RoutingContext newRedirectedContext(RoutingContext context, String redirectPath) {
+        if (context instanceof RoutingContextImpl) {
+            RoutingContextImpl ctx = (RoutingContextImpl) context;
+            return new RoutingContextImpl(ctx.mountPoint(), ctx.router(), redirectPath, ctx.routes, ctx.getParams());
+        }
+        if (context instanceof SubRoutingContext) {
+            SubRoutingContext ctx = (SubRoutingContext) context;
+            return new SubRoutingContext(ctx.mountPoint(), redirectPath, ctx.routes, ctx.inner);
+        }
+        return null; // Shouldn't happen
+    }
+
 }

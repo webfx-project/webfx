@@ -1,4 +1,4 @@
-package naga.framework.session;
+package naga.framework.router.session;
 
 /**
  * @author Bruno Salmon

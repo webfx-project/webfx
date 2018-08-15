@@ -1,7 +1,7 @@
-package naga.framework.session.impl;
+package naga.framework.router.session.impl;
 
+import naga.framework.router.session.Session;
 import naga.util.uuid.Uuid;
-import naga.framework.session.Session;
 
 import java.util.HashMap;
 import java.util.Map;
