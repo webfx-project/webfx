@@ -1,8 +1,6 @@
 package naga.framework.services.authn;
 
-import naga.framework.services.authn.spi.AuthenticationServiceProvider;
 import naga.util.async.Future;
-import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon
@@ -10,7 +8,6 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 public class AuthenticationRequest {
 
     private Object userCredentials;
-    private AuthenticationServiceProvider provider;
 
     public Object getUserCredentials() {
         return userCredentials;
@@ -21,23 +18,8 @@ public class AuthenticationRequest {
         return this;
     }
 
-    public AuthenticationServiceProvider getProvider() {
-        return provider;
-    }
-
-    public AuthenticationRequest setProvider(AuthenticationServiceProvider provider) {
-        this.provider = provider;
-        return this;
-    }
-
-    public AuthenticationRequest complete() {
-        if (provider == null)
-            setProvider(ServiceLoaderHelper.loadService(AuthenticationServiceProvider.class));
-        return this;
-    }
-
     public Future<?> executeAsync() {
-        return complete().getProvider().authenticate(getUserCredentials());
+        return AuthenticationService.authenticate(getUserCredentials());
     }
 
 }

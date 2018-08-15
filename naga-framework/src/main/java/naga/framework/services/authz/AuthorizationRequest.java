@@ -1,11 +1,9 @@
 package naga.framework.services.authz;
 
-import naga.framework.services.authz.spi.AuthorizationServiceProvider;
 import naga.util.async.AsyncFunction;
 import naga.util.async.Future;
 import naga.util.function.Consumer;
 import naga.util.function.Function;
-import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon
@@ -15,8 +13,7 @@ public final class AuthorizationRequest<Rq, Rs> {
     private Object userPrincipal;
     private Rq operationRequest;
     private AsyncFunction<Rq, Rs> authorizedOperationAsyncExecutor;
-    private AsyncFunction<Throwable, ?> unauthorizedOperationAsyncExecutor;
-    private AuthorizationServiceProvider provider;
+    private AsyncFunction<Throwable, ?> unauthorizedOperationAsyncExecutor = o -> Future.failedFuture(new UnauthorizedOperationException());
 
     public Object getUserPrincipal() {
         return userPrincipal;
@@ -74,25 +71,8 @@ public final class AuthorizationRequest<Rq, Rs> {
         return onUnauthorizedExecuteAsync(o -> Future.runAsync(authorizedExecutor));
     }
 
-    public AuthorizationServiceProvider getProvider() {
-        return provider;
-    }
-
-    public AuthorizationRequest<Rq, Rs> setProvider(AuthorizationServiceProvider provider) {
-        this.provider = provider;
-        return this;
-    }
-
-    public AuthorizationRequest<Rq, Rs> complete() {
-        if (unauthorizedOperationAsyncExecutor == null)
-            unauthorizedOperationAsyncExecutor = o -> Future.failedFuture(new UnauthorizedOperationException());
-        if (provider == null)
-            setProvider(ServiceLoaderHelper.loadService(AuthorizationServiceProvider.class));
-        return this;
-    }
-
     public Future<Boolean> isAuthorizedAsync() {
-        return complete().getProvider().isAuthorized(getOperationRequest(), getUserPrincipal());
+        return AuthorizationService.isAuthorized(getOperationRequest(), getUserPrincipal());
     }
 
     public Future<Rs> executeAsync() {
