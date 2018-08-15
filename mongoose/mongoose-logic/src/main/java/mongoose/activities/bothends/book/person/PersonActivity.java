@@ -22,7 +22,7 @@ import mongoose.activities.bothends.logic.work.WorkingDocument;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
 import naga.framework.ui.layouts.LayoutUtil;
-import naga.framework.ui.session.UiSession;
+import naga.framework.ui.uisession.UiSession;
 import naga.fx.properties.Properties;
 import naga.util.Numbers;
 

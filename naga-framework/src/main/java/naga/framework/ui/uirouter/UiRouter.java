@@ -12,7 +12,7 @@ import naga.framework.router.impl.UserSessionHandlerImpl;
 import naga.framework.router.session.UserSessionHandler;
 import naga.framework.session.SessionStore;
 import naga.framework.session.impl.MemorySessionStore;
-import naga.framework.ui.session.UiSession;
+import naga.framework.ui.uisession.UiSession;
 import naga.fx.properties.markers.HasNodeProperty;
 import naga.fx.spi.Toolkit;
 import naga.framework.activity.Activity;

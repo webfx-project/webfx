@@ -3,8 +3,8 @@ package naga.framework.activity.base.elementals.uiroute;
 import naga.framework.activity.base.elementals.activeproperty.ActivePropertyActivityContextMixin;
 import naga.framework.session.Session;
 import naga.framework.ui.uirouter.UiRouter;
-import naga.framework.ui.session.UiSession;
-import naga.framework.ui.session.UiSessionMixin;
+import naga.framework.ui.uisession.UiSession;
+import naga.framework.ui.uisession.UiSessionMixin;
 import naga.platform.client.url.history.History;
 import naga.platform.services.json.JsonObject;
 

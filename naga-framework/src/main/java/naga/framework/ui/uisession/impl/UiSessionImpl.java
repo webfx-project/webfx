@@ -1,14 +1,11 @@
-package naga.framework.ui.session.impl;
+package naga.framework.ui.uisession.impl;
 
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableBooleanValue;
-import javafx.beans.value.ObservableValue;
-import naga.framework.ui.session.UiSession;
+import naga.framework.ui.uisession.UiSession;
 import naga.fx.properties.Properties;
-import naga.fx.spi.Toolkit;
 import naga.util.Objects;
 
 

@@ -1,4 +1,4 @@
-package naga.framework.ui.session;
+package naga.framework.ui.uisession;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
