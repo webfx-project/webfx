@@ -24,8 +24,8 @@ module naga.platform {
     exports naga.platform.client.url.location;
     exports naga.platform.client.url.location.impl;
     exports naga.platform.services.websocket.spi;
-    exports naga.platform.compression.values;
-    exports naga.platform.compression.values.repeat;
+    exports naga.platform.services.query.compression.values;
+    exports naga.platform.services.query.compression.repeat;
     exports naga.platform.services.json;
     exports naga.platform.services.json.codec;
     exports naga.platform.services.json.spi.impl.listmap;

@@ -1,7 +1,7 @@
-package naga.platform.compression.values.repeat;
+package naga.platform.services.query.compression.repeat;
 
 import naga.util.Numbers;
-import naga.platform.compression.values.ValuesCompressor;
+import naga.platform.services.query.compression.ValuesCompressor;
 
 import java.util.*;
 

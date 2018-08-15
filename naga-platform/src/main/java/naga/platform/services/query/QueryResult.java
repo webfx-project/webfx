@@ -1,7 +1,7 @@
 package naga.platform.services.query;
 
 import naga.util.Numbers;
-import naga.platform.compression.values.repeat.RepeatedValuesCompressor;
+import naga.platform.services.query.compression.repeat.RepeatedValuesCompressor;
 import naga.platform.services.json.Json;
 import naga.platform.services.json.codec.AbstractJsonCodec;
 import naga.platform.services.json.JsonArray;

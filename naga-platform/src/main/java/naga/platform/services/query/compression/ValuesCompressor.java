@@ -1,4 +1,4 @@
-package naga.platform.compression.values;
+package naga.platform.services.query.compression;
 
 /**
  * @author Bruno Salmon
