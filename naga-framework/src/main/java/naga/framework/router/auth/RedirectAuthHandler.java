@@ -1,7 +1,7 @@
 package naga.framework.router.auth;
 
 import naga.framework.router.RoutingContext;
-import naga.framework.router.impl.RedirectAuthHandlerImpl;
+import naga.framework.router.auth.impl.RedirectAuthHandlerImpl;
 import naga.util.async.Handler;
 
 /**

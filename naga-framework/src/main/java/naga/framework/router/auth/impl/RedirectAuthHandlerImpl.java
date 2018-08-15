@@ -1,8 +1,9 @@
-package naga.framework.router.impl;
+package naga.framework.router.auth.impl;
 
 import naga.framework.router.RoutingContext;
 import naga.framework.router.auth.RedirectAuthHandler;
 import naga.framework.router.auth.authz.RouteRequest;
+import naga.framework.router.impl.RoutingContextImplBase;
 import naga.framework.services.authz.AuthorizationRequest;
 
 /**
@@ -33,18 +34,7 @@ public class RedirectAuthHandlerImpl implements RedirectAuthHandler {
     }
 
     private void redirectToAuth(RoutingContext context) {
-        newRedirectedContext(context, context.userPrincipal() == null ? loginPath : unauthorizedPath).next();
-    }
-
-    private static RoutingContext newRedirectedContext(RoutingContext context, String redirectPath) {
-        if (context instanceof RoutingContextImpl) {
-            RoutingContextImpl ctx = (RoutingContextImpl) context;
-            return new RoutingContextImpl(ctx.mountPoint(), ctx.router(), redirectPath, ctx.routes, ctx.getParams());
-        }
-        if (context instanceof SubRoutingContext) {
-            SubRoutingContext ctx = (SubRoutingContext) context;
-            return new SubRoutingContext(ctx.mountPoint(), redirectPath, ctx.routes, ctx.inner);
-        }
-        return null;
+        RoutingContext authContext = RoutingContextImplBase.newRedirectedContext(context, context.userPrincipal() == null ? loginPath : unauthorizedPath);
+        authContext.next();
     }
 }
