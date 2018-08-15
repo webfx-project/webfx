@@ -1,5 +1,10 @@
 package naga.framework.ui.uirouter;
 
+import naga.framework.activity.Activity;
+import naga.framework.activity.ActivityContext;
+import naga.framework.activity.ActivityContextFactory;
+import naga.framework.activity.ActivityManager;
+import naga.framework.activity.base.elementals.application.ApplicationContext;
 import naga.framework.activity.base.elementals.uiroute.UiRouteActivityContext;
 import naga.framework.activity.base.elementals.uiroute.impl.UiRouteActivityContextBase;
 import naga.framework.activity.base.elementals.view.HasMountNodeProperty;
@@ -7,20 +12,15 @@ import naga.framework.router.Route;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
 import naga.framework.router.auth.RedirectAuthHandler;
-import naga.framework.router.impl.SessionHandlerImplBase;
-import naga.framework.router.impl.UserHolder;
-import naga.framework.router.impl.UserSessionHandlerImpl;
+import naga.framework.router.session.SessionHandler;
+import naga.framework.router.session.SessionStore;
 import naga.framework.router.session.UserSessionHandler;
-import naga.framework.session.SessionStore;
-import naga.framework.session.impl.MemorySessionStore;
+import naga.framework.router.session.impl.MemorySessionStore;
+import naga.framework.router.session.impl.UserHolder;
+import naga.framework.router.session.impl.UserSessionHandlerImpl;
 import naga.framework.ui.uisession.UiSession;
 import naga.fx.properties.markers.HasNodeProperty;
 import naga.fx.spi.Toolkit;
-import naga.framework.activity.Activity;
-import naga.framework.activity.ActivityContext;
-import naga.framework.activity.ActivityContextFactory;
-import naga.framework.activity.ActivityManager;
-import naga.framework.activity.base.elementals.application.ApplicationContext;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.baseimpl.SubHistory;
 import naga.platform.services.json.Json;
@@ -92,6 +92,12 @@ public class UiRouter extends HistoryRouter {
         UiRouteActivityContextBase hostingUiRouterActivityContext = UiRouteActivityContextBase.toUiRouterActivityContextBase(hostingContext);
         if (hostingUiRouterActivityContext != null) // can be null if the hosting context is the application context
             hostingUiRouterActivityContext.setUiRouter(this);
+        setRouterSessionAndUserHandlers();
+    }
+
+    private void setRouterSessionAndUserHandlers() {
+        router.route().handler(SessionHandler.create(this::getSessionStore, () -> sessionId, id -> sessionId = id));
+        router.route().handler(UserSessionHandler.create());
     }
 
     @Override
@@ -107,11 +113,16 @@ public class UiRouter extends HistoryRouter {
     }
 
     public UiRouter setRedirectAuthHandler(RedirectAuthHandler redirectAuthHandler) {
-        //router.route().handler(SessionHandler.create(MemorySessionStore.create()));
-        router.route().handler(context -> sessionId = SessionHandlerImplBase.handle(context, sessionId, getSessionStore()));
-        router.route().handler(UserSessionHandler.create());
-        this.redirectAuthHandler = redirectAuthHandler;
+        // The redirectAuthHandler is not added now but will be added on each route that needs to be secured using addAuthorizationRouteCheck()
+        this.redirectAuthHandler = redirectAuthHandler; // So just keeping the reference for now
         return this;
+    }
+
+    private void addAuthorizationRouteCheck(String authPath, boolean regex) {
+        if (redirectAuthHandler == null)
+            throw new IllegalStateException("setRedirectAuthHandler() must be called on this router before calling authRoute()");
+        Route route = regex ? router.routeWithRegex(authPath) : router.route(authPath);
+        route.handler(redirectAuthHandler);
     }
 
     private SessionStore getSessionStore() {
@@ -137,18 +148,6 @@ public class UiRouter extends HistoryRouter {
             }));
         }
         return uiSession;
-    }
-
-    private UiRouter addAuthRouteCheck(String authPath, boolean regex) {
-        checkRedirectAuthHandlerIsSet();
-        Route route = regex ? router.routeWithRegex(authPath) : router.route(authPath);
-        route.handler(redirectAuthHandler);
-        return this;
-    }
-
-    private void checkRedirectAuthHandlerIsSet() {
-        if (redirectAuthHandler == null)
-            throw new IllegalStateException("setRedirectAuthHandler() must be called on this router before calling authRoute()");
     }
 
     public <C extends UiRouteActivityContext<C>> UiRouter routeAuth(String path, Factory<Activity<C>> activityFactory) {
@@ -205,7 +204,7 @@ public class UiRouter extends HistoryRouter {
 
     private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, boolean regex, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
         if (auth)
-            addAuthRouteCheck(path, regex);
+            addAuthorizationRouteCheck(path, regex);
         ActivityRoutingHandler<C> handler = new ActivityRoutingHandler<>(ActivityManager.factory(activityFactory, activityContextFactory), contextConverter);
         if (regex)
             router.routeWithRegex(path, handler);

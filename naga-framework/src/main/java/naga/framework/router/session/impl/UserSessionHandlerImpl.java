@@ -1,8 +1,8 @@
 package naga.framework.router.session.impl;
 
 import naga.framework.router.RoutingContext;
-import naga.framework.router.session.UserSessionHandler;
 import naga.framework.router.session.Session;
+import naga.framework.router.session.UserSessionHandler;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +13,7 @@ public class UserSessionHandlerImpl implements UserSessionHandler {
 
     @Override
     public void handle(RoutingContext context) {
-        Session session = context.session();
+        Session session = context.session(); // Should be previously set by the SessionHandler
         if (session != null) {
             Object userPrincipal = null;
             UserHolder userHolder = session.get(SESSION_USER_HOLDER_KEY);
