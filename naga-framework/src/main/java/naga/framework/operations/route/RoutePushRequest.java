@@ -7,7 +7,7 @@ import naga.util.async.AsyncFunction;
 /**
  * @author Bruno Salmon
  */
-public class RoutePushRequest extends RouteHistoryRequest<RoutePushRequest> {
+public class RoutePushRequest extends RouteRequestBase<RoutePushRequest> {
 
     private JsonObject state;
 

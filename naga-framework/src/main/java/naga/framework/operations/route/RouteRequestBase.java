@@ -8,17 +8,17 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public abstract class RouteHistoryRequest<THIS extends RouteHistoryRequest<THIS>>
+public abstract class RouteRequestBase<THIS extends RouteRequestBase<THIS>>
         extends RouteRequest
         implements HasOperationExecutor<THIS, Void> {
 
     private History history;
 
-    protected RouteHistoryRequest(History history) {
+    protected RouteRequestBase(History history) {
         this(null, history);
     }
 
-    protected RouteHistoryRequest(String routePath, History history) {
+    protected RouteRequestBase(String routePath, History history) {
         super(routePath);
         this.history = history;
     }

@@ -1,14 +1,14 @@
 package mongoose.operations.backend.route;
 
 import naga.framework.operation.HasOperationCode;
-import naga.framework.operations.route.RouteHistoryRequest;
+import naga.framework.operations.route.RouteRequestBase;
 import naga.platform.client.url.history.History;
 import naga.util.async.AsyncFunction;
 
 /**
  * @author Bruno Salmon
  */
-public class RouteToNewBackendBookingRequest extends RouteHistoryRequest<RouteToNewBackendBookingRequest>
+public class RouteToNewBackendBookingRequest extends RouteRequestBase<RouteToNewBackendBookingRequest>
         implements HasOperationCode {
 
     private final static String OPERATION_CODE = "NEW_BACKEND_BOOKING";

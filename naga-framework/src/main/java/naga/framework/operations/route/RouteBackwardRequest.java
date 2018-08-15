@@ -8,7 +8,7 @@ import naga.util.async.AsyncFunction;
  * @author Bruno Salmon
  */
 public final class RouteBackwardRequest
-        extends RouteHistoryRequest<RouteBackwardRequest>
+        extends RouteRequestBase<RouteBackwardRequest>
         implements HasOperationCode {
 
     private static final String OPERATION_CODE = "BACKWARD";

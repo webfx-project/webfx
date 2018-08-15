@@ -8,7 +8,7 @@ import naga.util.async.AsyncFunction;
  * @author Bruno Salmon
  */
 public final class RouteForwardRequest
-        extends RouteHistoryRequest<RouteForwardRequest>
+        extends RouteRequestBase<RouteForwardRequest>
         implements HasOperationCode {
 
     private static final String OPERATION_CODE = "FORWARD";
