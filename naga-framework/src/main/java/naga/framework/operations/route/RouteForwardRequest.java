@@ -11,7 +11,7 @@ public final class RouteForwardRequest
         extends RouteRequestBase<RouteForwardRequest>
         implements HasOperationCode {
 
-    private static final String OPERATION_CODE = "FORWARD";
+    private static final String OPERATION_CODE = "RouteForward";
 
     public RouteForwardRequest(History history) {
         super(history);

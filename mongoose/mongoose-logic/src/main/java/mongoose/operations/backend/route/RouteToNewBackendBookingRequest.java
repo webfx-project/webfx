@@ -11,7 +11,7 @@ import naga.util.async.AsyncFunction;
 public class RouteToNewBackendBookingRequest extends RouteRequestBase<RouteToNewBackendBookingRequest>
         implements HasOperationCode {
 
-    private final static String OPERATION_CODE = "NEW_BACKEND_BOOKING";
+    private final static String OPERATION_CODE = "RouteToNewBackendBooking";
 
     private Object eventId;
 

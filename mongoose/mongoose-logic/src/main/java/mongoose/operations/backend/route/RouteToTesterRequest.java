@@ -10,7 +10,7 @@ import naga.platform.client.url.history.History;
  */
 public class RouteToTesterRequest extends RoutePushRequest implements HasOperationCode {
 
-    private final static String OPERATION_CODE = "TESTER_ROUTING";
+    private final static String OPERATION_CODE = "RouteToTester";
 
     public RouteToTesterRequest(History history) {
         super(LoadTesterRouting.getPath(), history);

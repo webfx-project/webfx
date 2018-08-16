@@ -10,7 +10,7 @@ import naga.platform.client.url.history.History;
  */
 public class RouteToBookingsRequest extends RoutePushRequest implements HasOperationCode {
 
-    private final static String OPERATION_CODE = "BOOKINGS_ROUTING";
+    private final static String OPERATION_CODE = "RouteToBookings";
 
     public RouteToBookingsRequest(Object eventId, History history) {
         super(BookingsRouting.getEventBookingsPath(eventId), history);

@@ -10,7 +10,7 @@ import naga.platform.client.url.history.History;
  */
 public class RouteToLettersRequest extends RoutePushRequest implements HasOperationCode {
 
-    private final static String OPERATION_CODE = "LETTERS_ROUTING";
+    private final static String OPERATION_CODE = "RouteToLetters";
 
     public RouteToLettersRequest(Object eventId, History history) {
         super(LettersRouting.getEventLettersPath(eventId), history);

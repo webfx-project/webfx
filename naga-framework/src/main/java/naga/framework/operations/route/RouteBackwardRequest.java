@@ -11,7 +11,7 @@ public final class RouteBackwardRequest
         extends RouteRequestBase<RouteBackwardRequest>
         implements HasOperationCode {
 
-    private static final String OPERATION_CODE = "BACKWARD";
+    private static final String OPERATION_CODE = "RouteBackward";
 
     public RouteBackwardRequest(History history) {
         super(history);

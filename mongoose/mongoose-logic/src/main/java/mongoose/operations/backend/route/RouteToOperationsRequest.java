@@ -11,7 +11,7 @@ import naga.platform.client.url.history.History;
  */
 public class RouteToOperationsRequest extends RoutePushRequest implements HasOperationCode {
 
-    private final static String OPERATION_CODE = "OPERATIONS_ROUTING";
+    private final static String OPERATION_CODE = "RouteToOperations";
 
     public RouteToOperationsRequest(History history) {
         super(OperationsRouting.getPath(), history);

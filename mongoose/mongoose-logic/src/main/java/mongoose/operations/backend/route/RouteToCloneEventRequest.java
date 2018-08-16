@@ -10,7 +10,7 @@ import naga.platform.client.url.history.History;
  */
 public class RouteToCloneEventRequest extends RoutePushRequest implements HasOperationCode {
 
-    private final static String OPERATION_CODE = "CLONE_EVENT";
+    private final static String OPERATION_CODE = "RouteToCloneEvent";
 
     public RouteToCloneEventRequest(Object eventId, History history) {
         super(CloneEventRouting.getCloneEventPath(eventId), history);

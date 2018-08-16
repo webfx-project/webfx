@@ -8,7 +8,7 @@ import naga.framework.operations.i18n.ChangeLanguageRequest;
  */
 public final class ChangeLanguageToFrenchRequest extends ChangeLanguageRequest implements HasOperationCode {
 
-    private static final String OPERATION_CODE = "FRENCH";
+    private static final String OPERATION_CODE = "ChangeLanguageToFrench";
 
     public ChangeLanguageToFrenchRequest() {
         super("fr");

@@ -10,7 +10,7 @@ import naga.platform.client.url.history.History;
  */
 public class RouteToEventsRequest extends RoutePushRequest implements HasOperationCode {
 
-    private final static String OPERATION_CODE = "EVENTS_ROUTING";
+    private final static String OPERATION_CODE = "RouteToEvents";
 
     public RouteToEventsRequest(History history) {
         super(EventsRouting.getAllEventsPath(), history);

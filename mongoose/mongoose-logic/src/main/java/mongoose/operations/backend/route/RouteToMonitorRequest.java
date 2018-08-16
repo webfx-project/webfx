@@ -10,7 +10,7 @@ import naga.platform.client.url.history.History;
  */
 public class RouteToMonitorRequest extends RoutePushRequest implements HasOperationCode {
 
-    private final static String OPERATION_CODE = "MONITOR_ROUTING";
+    private final static String OPERATION_CODE = "RouteToMonitor";
 
     public RouteToMonitorRequest(History history) {
         super(MonitorRouting.getPath(), history);
