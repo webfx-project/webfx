@@ -17,6 +17,14 @@ import java.util.List;
  */
 public class Entities {
 
+    public static EntityId getId(Entity entity) {
+        return entity == null ? null : entity.getId();
+    }
+
+    public static Object getPrimaryKey(Entity entity) {
+        return entity == null ? null : entity.getPrimaryKey();
+    }
+
     public static boolean isNew(Entity entity) {
         return entity != null && entity.isNew();
     }
