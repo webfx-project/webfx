@@ -316,8 +316,8 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return this;
     }
 
-    public ReactiveExpressionFilter<E> setExpressionColumns(String jsonArrayDisplayColumns) {
-        getFilterDisplay().setExpressionColumns(jsonArrayDisplayColumns);
+    public ReactiveExpressionFilter<E> setExpressionColumns(String jsonArrayOrExpressionDefinition) {
+        getFilterDisplay().setExpressionColumns(jsonArrayOrExpressionDefinition);
         return this;
     }
 
@@ -749,8 +749,8 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
             return getStore().getOrCreateEntityList(listId);
         }
 
-        void setExpressionColumns(String jsonArrayDisplayColumns) {
-            setExpressionColumns(ExpressionColumn.fromJsonArray(jsonArrayDisplayColumns));
+        void setExpressionColumns(String jsonArrayOrExpressionDefinition) {
+            setExpressionColumns(ExpressionColumn.fromJsonArrayOrExpressionsDefinition(jsonArrayOrExpressionDefinition, getDomainModel(), getDomainClassId()));
         }
 
         void setExpressionColumns(JsonArray array) {
