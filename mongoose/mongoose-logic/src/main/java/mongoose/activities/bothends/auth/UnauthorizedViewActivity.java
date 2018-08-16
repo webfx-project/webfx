@@ -2,12 +2,12 @@ package mongoose.activities.bothends.auth;
 
 import javafx.scene.Node;
 import javafx.scene.text.Text;
-import naga.framework.activity.base.elementals.view.impl.ViewActivityImpl;
+import naga.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
 
 /**
  * @author Bruno Salmon
  */
-class UnauthorizedViewActivity extends ViewActivityImpl {
+class UnauthorizedViewActivity extends ViewDomainActivityBase {
 
     @Override
     public Node buildUi() {

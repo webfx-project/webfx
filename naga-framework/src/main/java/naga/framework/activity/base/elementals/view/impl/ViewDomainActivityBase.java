@@ -6,6 +6,6 @@ import naga.framework.activity.base.combinations.viewdomain.impl.ViewDomainActiv
 /**
  * @author Bruno Salmon
  */
-public abstract class ViewActivityImpl extends ViewActivityBase<ViewDomainActivityContextFinal>
+public abstract class ViewDomainActivityBase extends ViewActivityBase<ViewDomainActivityContextFinal>
     implements ViewDomainActivityContextMixin<ViewDomainActivityContextFinal> {
 }

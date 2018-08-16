@@ -6,7 +6,7 @@ import javafx.scene.layout.FlowPane;
 import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.operations.bothends.i18n.ChangeLanguageToEnglishRequest;
 import mongoose.operations.bothends.i18n.ChangeLanguageToFrenchRequest;
-import naga.framework.activity.base.elementals.view.impl.ViewActivityImpl;
+import naga.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
 import naga.framework.operation.action.OperationActionFactoryMixin;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.action.ActionBinder;
@@ -19,7 +19,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class ContainerActivitySharedByBothEnds extends ViewActivityImpl
+public class ContainerActivitySharedByBothEnds extends ViewDomainActivityBase
         implements MongooseButtonFactoryMixin
         , OperationActionFactoryMixin {
 

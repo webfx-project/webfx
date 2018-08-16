@@ -4,13 +4,13 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import mongoose.activities.backend.util.MultiLanguageEditor;
-import naga.framework.activity.base.elementals.view.impl.ViewActivityImpl;
+import naga.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
 import naga.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon
  */
-class LetterActivity extends ViewActivityImpl {
+class LetterActivity extends ViewDomainActivityBase {
 
     private final Property<Object> routeLetterIdProperty = new SimpleObjectProperty<>();
 
