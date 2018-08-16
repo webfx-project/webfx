@@ -19,8 +19,6 @@ public interface Activity<C extends ActivityContext> {
 
     default Future<Void> onStopAsync() { return Future.runAsync(this::onStop); }
 
-    default Future<Void> onRestartAsync() { return Future.runAsync(this::onRestart); }
-
     default Future<Void> onDestroyAsync() { return Future.runAsync(this::onDestroy); }
 
 
@@ -35,8 +33,6 @@ public interface Activity<C extends ActivityContext> {
     default void onPause() {}
 
     default void onStop() {}
-
-    default void onRestart() {}
 
     default void onDestroy() {}
 }

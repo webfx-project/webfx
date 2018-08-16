@@ -66,11 +66,6 @@ public class ComposedActivityBase
     }
 
     @Override
-    public Future<Void> onRestartAsync() {
-        return executeBoth(getActivityManager1()::restart, getActivityManager2()::restart);
-    }
-
-    @Override
     public Future<Void> onDestroyAsync() {
         return executeBoth(getActivityManager1()::destroy, getActivityManager2()::destroy);
     }
