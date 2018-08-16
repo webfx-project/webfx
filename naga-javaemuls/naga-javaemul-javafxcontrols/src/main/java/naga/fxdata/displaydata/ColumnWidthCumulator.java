@@ -21,7 +21,7 @@ public class ColumnWidthCumulator {
     public void registerColumnNodes(ObservableList<Node> columnNodes) {
         if (severalColumnNodes == null)
             severalColumnNodes = new ArrayList<>();
-        if (Collections.hasNoOneMatching(severalColumnNodes, cn -> cn == columnNodes)) {
+        if (Collections.noneMatch(severalColumnNodes, cn -> cn == columnNodes)) {
             severalColumnNodes.add(columnNodes);
             columnNodes.addListener(columnNodesListener);
         }

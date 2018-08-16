@@ -45,7 +45,7 @@ public class WorkingDocumentTransaction {
     }
 
     public boolean isOptionBooked(Option option) {
-        return Collections.hasAtLeastOneMatching(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
+        return Collections.anyMatch(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
     }
 
     private static boolean isOptionBookedInWorkingDocumentLine(WorkingDocumentLine wdl, Option option) {

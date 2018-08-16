@@ -52,7 +52,7 @@ public class BreakfastRule extends BusinessRule {
             return;
         DaysArray breakfastDays = accommodationDays.shift(1); // same attendance as accommodation but +1 day
         // Third check: breakfast is not added if there is no lunch and supper over that period
-        if (Collections.hasNoOneMatching(supperLines, wdl -> wdl.getDaysArray().overlaps(accommodationDays)) && Collections.hasNoOneMatching(lunchLines, wdl -> wdl.getDaysArray().overlaps(breakfastDays)))
+        if (Collections.noneMatch(supperLines, wdl -> wdl.getDaysArray().overlaps(accommodationDays)) && Collections.noneMatch(lunchLines, wdl -> wdl.getDaysArray().overlaps(breakfastDays)))
             return;
         // All checks passed, so we need to add breakfast!
         // Trying to update an existing breakfast line (it must be the one overlapping that period if several)

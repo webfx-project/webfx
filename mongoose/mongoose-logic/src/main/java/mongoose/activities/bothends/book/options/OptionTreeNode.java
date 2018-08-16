@@ -392,7 +392,7 @@ class OptionTreeNode {
 
     boolean isOptionSelectedInModel() {
         return getWorkingDocumentTransaction().isOptionBooked(option)
-               || Collections.hasAtLeastOneMatching(childrenOptionTreeNodes, OptionTreeNode::isOptionSelectedInModel);
+               || Collections.anyMatch(childrenOptionTreeNodes, OptionTreeNode::isOptionSelectedInModel);
     }
 
     private void syncUiOptionButtonSelected(boolean modelSelected) {
@@ -412,7 +412,7 @@ class OptionTreeNode {
         visibleProperty.set(visible);
         // Also hiding checkbox if it is the only one applicable whereas the booker already pressed the top level option button
         if (visible && parent != null && parent.topLevelOptionButton != null && optionButton instanceof CheckBox)
-            optionButton.setVisible(Collections.hasAtLeastOneMatching(parent.childrenOptionTreeNodes, this::isSiblingWithVisibleCheckbox));
+            optionButton.setVisible(Collections.anyMatch(parent.childrenOptionTreeNodes, this::isSiblingWithVisibleCheckbox));
     }
 
     private boolean isSiblingWithVisibleCheckbox(OptionTreeNode sibling) {
@@ -432,7 +432,7 @@ class OptionTreeNode {
 
     private boolean hasVisibleOptionBody() {
         return hasPaneVisibleContent(optionBodyPane)
-            || Collections.hasAtLeastOneMatching(childrenOptionTreeNodes, OptionTreeNode::isVisibleAndHasVisibleOptionBody);
+            || Collections.anyMatch(childrenOptionTreeNodes, OptionTreeNode::isVisibleAndHasVisibleOptionBody);
     }
 
     private boolean isVisibleAndHasVisibleOptionBody() {
@@ -440,7 +440,7 @@ class OptionTreeNode {
     }
 
     private boolean hasPaneVisibleContent(Pane pane) {
-        return pane != null && Collections.hasAtLeastOneMatching(pane.getChildren(), this::isNodeVisibleAndHasVisibleContent);
+        return pane != null && Collections.anyMatch(pane.getChildren(), this::isNodeVisibleAndHasVisibleContent);
     }
 
     private boolean isNodeVisibleAndHasVisibleContent(Node node) {

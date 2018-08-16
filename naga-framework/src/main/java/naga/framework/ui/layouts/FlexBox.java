@@ -154,7 +154,7 @@ public class FlexBox extends Pane {
          */
         List<FlexBoxItem> flexBoxItems = Collections.filterMap(getManagedChildren(), Node::isVisible, FlexBoxItem::new);
 
-        if (Collections.hasAtLeastOneMatching(flexBoxItems, item -> item.order != 0))
+        if (Collections.anyMatch(flexBoxItems, item -> item.order != 0))
             flexBoxItems.sort(Collections.comparingInt(item -> item.order));
 
         /*

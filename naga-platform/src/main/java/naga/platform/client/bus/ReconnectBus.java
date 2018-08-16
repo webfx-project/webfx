@@ -135,6 +135,6 @@ public class ReconnectBus extends WebSocketBus {
     boolean shouldClearReplyHandlerNow(String replyAddress) {
         // if it is a reply handler from a queued message, it should'nt be cleared now because the message has not been
         // sent yet! It will be sent as soon as the bus will open and the reply handler should be called at the time
-        return Collections.hasNoOneMatching(queuedMessages, msg -> replyAddress.equals(msg.getString(REPLY_ADDRESS)));
+        return Collections.noneMatch(queuedMessages, msg -> replyAddress.equals(msg.getString(REPLY_ADDRESS)));
     }
 }

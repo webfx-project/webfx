@@ -247,7 +247,7 @@ class CartActivity extends CartBasedActivity {
     }
 
     private boolean hasPendingPayment(Document document) {
-        return Collections.hasAtLeastOneMatching(cartService().getCartPayments(), mt -> mt.getDocument() == document && mt.isPending());
+        return Collections.anyMatch(cartService().getCartPayments(), mt -> mt.getDocument() == document && mt.isPending());
     }
 
     private void modifyBooking() {

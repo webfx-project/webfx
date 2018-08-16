@@ -93,11 +93,11 @@ public class Collections {
         return null;
     }
 
-    public static <T> boolean hasNoOneMatching(Iterable<T> iterable, Predicate<? super T> predicate) {
-        return !hasAtLeastOneMatching(iterable, predicate);
+    public static <T> boolean noneMatch(Iterable<T> iterable, Predicate<? super T> predicate) {
+        return !anyMatch(iterable, predicate);
     }
 
-    public static <T> boolean hasAtLeastOneMatching(Iterable<T> iterable, Predicate<? super T> predicate) {
+    public static <T> boolean anyMatch(Iterable<T> iterable, Predicate<? super T> predicate) {
         return findFirst(iterable, predicate) != null;
     }
 

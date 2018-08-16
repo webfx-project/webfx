@@ -35,7 +35,7 @@ public class GridPaneBuilder implements DialogBuilder {
     private List<Pair<Property, Object>> watchedUserProperties = new ArrayList<>();
     private Property<Boolean> noChangesProperty = new SimpleObjectProperty<>(true);
     private final ChangeListener watchedUserPropertyListener = (observable, oldValue, newValue) ->
-            noChangesProperty.setValue(Collections.hasNoOneMatching(watchedUserProperties, pair -> !Objects.equals(pair.get1().getValue(), pair.get2())));
+            noChangesProperty.setValue(Collections.noneMatch(watchedUserProperties, pair -> !Objects.equals(pair.get1().getValue(), pair.get2())));
     private DialogCallback dialogCallback;
 
     public GridPaneBuilder() {
