@@ -506,6 +506,8 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                         }
                     }
                     memorizeAsLastQuery(stringFilter, parameterValues, active, push, pushClientId);
+                    if (lastEntityListObservable == null)
+                        lastEntityListObservable = Observable.empty();
                     return lastEntityListObservable;
                 });
         if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultProperty != null)
