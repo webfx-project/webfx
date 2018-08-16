@@ -1,13 +1,8 @@
 package mongoose.activities.backend;
 
-import mongoose.operations.bothends.route.RouteToBookingsRequest;
-import mongoose.operations.backend.route.RouteToEventsRequest;
-import mongoose.operations.backend.route.RouteToLettersRequest;
-import mongoose.operations.backend.route.RouteToMonitorRequest;
-import mongoose.operations.backend.route.RouteToOrganizationsRequest;
-import mongoose.operations.backend.route.RouteToTesterRequest;
-import mongoose.operations.backend.route.RouteToOperationsRequest;
 import mongoose.activities.bothends.ContainerActivitySharedByBothEnds;
+import mongoose.operations.backend.route.*;
+import mongoose.operations.bothends.route.RouteToBookingsRequest;
 import naga.framework.ui.action.Action;
 import naga.util.collection.Collections;
 
@@ -31,6 +26,7 @@ class BackendContainerActivity extends ContainerActivitySharedByBothEnds {
                 , newAction(() -> new RouteToMonitorRequest(getHistory()))
                 , newAction(() -> new RouteToTesterRequest(getHistory()))
                 , newAction(() -> new RouteToOperationsRequest(getHistory()))
+                , newAction(() -> new RouteToAuthorizationsRequest(getHistory()))
                 , englishAction
                 , frenchAction
         );

@@ -1,5 +1,6 @@
 package mongoose.activities.backend;
 
+import mongoose.activities.backend.authorizations.AuthorizationsRouting;
 import mongoose.activities.backend.book.options.EditableOptionsRouting;
 import mongoose.activities.backend.bookings.BookingsRouting;
 import mongoose.activities.backend.cloneevent.CloneEventRouting;
@@ -12,9 +13,9 @@ import mongoose.activities.backend.organizations.OrganizationsRouting;
 import mongoose.activities.bothends.MongooseApplicationSharedByBothEnds;
 import mongoose.activities.bothends.auth.LoginRouting;
 import mongoose.activities.bothends.auth.UnauthorizedRouting;
+import naga.framework.activity.Activity;
 import naga.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.uirouter.UiRouter;
-import naga.framework.activity.Activity;
 import naga.util.function.Factory;
 
 /**
@@ -41,6 +42,7 @@ public class BackendMongooseApplication extends MongooseApplicationSharedByBothE
                 .route(LoginRouting.uiRoute()) // The login page to display when authentication is required before viewing the requested page
                 .route(UnauthorizedRouting.uiRoute()) // The unauthorized page to display when the user can't view the requested page
                 // Actual pages (listed in alphabetic order)
+                .route(AuthorizationsRouting.uiRoute())
                 .route(BookingsRouting.uiRoute())
                 .route(CloneEventRouting.uiRoute())
                 .route(EditableOptionsRouting.uiRoute())
