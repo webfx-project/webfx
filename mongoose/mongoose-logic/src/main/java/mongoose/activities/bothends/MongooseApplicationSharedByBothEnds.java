@@ -98,7 +98,7 @@ public abstract class MongooseApplicationSharedByBothEnds
         MongooseActions.registerActions();
         EntityStore.create(getDataSourceModel()).executeQuery("select operationCode,i18nCode,public from Operation").setHandler(ar -> {
             if (ar.failed())
-                Logger.log(ar.cause());
+                Logger.log("Failed loading operations", ar.cause());
             else {
                 OperationActionRegistry registry = getOperationActionRegistry();
                 for (Entity operation : ar.result()) {
