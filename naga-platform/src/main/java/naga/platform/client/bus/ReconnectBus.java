@@ -23,6 +23,7 @@ import naga.platform.bus.BusHook;
 import naga.platform.bus.BusOptions;
 import naga.platform.services.websocket.WebSocket;
 import naga.platform.services.scheduler.Scheduler;
+import naga.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,5 +129,12 @@ public class ReconnectBus extends WebSocketBus {
         if ("ping".equals(type) || "register".equals(type))
             return;
         queuedMessages.add(msg);
+    }
+
+    @Override
+    boolean shouldClearReplyHandlerNow(String replyAddress) {
+        // if it is a reply handler from a queued message, it should'nt be cleared now because the message has not been
+        // sent yet! It will be sent as soon as the bus will open and the reply handler should be called at the time
+        return Collections.hasNoOneMatching(queuedMessages, msg -> replyAddress.equals(msg.getString(REPLY_ADDRESS)));
     }
 }

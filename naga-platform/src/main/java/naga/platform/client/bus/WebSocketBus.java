@@ -44,7 +44,7 @@ public class WebSocketBus extends SimpleClientBus {
 
     private static final String BODY = "body";
     private static final String ADDRESS = "address";
-    private static final String REPLY_ADDRESS = "replyAddress";
+    static final String REPLY_ADDRESS = "replyAddress";
     static final String TYPE = "type";
 
     private final WebSocketListener internalWebSocketHandler;

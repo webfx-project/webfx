@@ -28,10 +28,7 @@ import naga.util.async.AsyncResult;
 import naga.util.async.Future;
 import naga.util.async.Handler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
@@ -188,13 +185,23 @@ public class SimpleClientBus implements Bus {
     }
 
     void clearHandlers() {
-        if (!replyHandlers.isEmpty()) {
-            Future<Message> busClosedFailure = Future.failedFuture(new Exception("Bus closed"));
-            for (Handler<AsyncResult<Message>> replyHandler : replyHandlers.values())
-                replyHandler.handle(busClosedFailure);
-            replyHandlers.clear();
-        }
+        clearReplyHandlers();
         getHandlerMap(false).clear();
+    }
+
+    void clearReplyHandlers() {
+        Iterator<Map.Entry<String, Handler<AsyncResult<Message>>>> it = replyHandlers.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Handler<AsyncResult<Message>>> entry = it.next();
+            if (shouldClearReplyHandlerNow(entry.getKey())) {
+                entry.getValue().handle(Future.failedFuture(new Exception("Bus closed")));
+                it.remove();
+            }
+        }
+    }
+
+    boolean shouldClearReplyHandlerNow(String replyAddress) {
+        return true;
     }
 
     boolean internalHandleReceiveMessage(Message message) {
