@@ -197,7 +197,6 @@
   "Error": "Une erreur s'est produite",
   "SoldoutTitle": "Option épuisée",
   "SoldoutMessage": "Désolé, cette option vient juste d'être épuisée.\nMerci de bien vouloir en choisir une autre.",
-  "": "",
   "Organizations": "Organisations",
   "Event": "Évènement",
   "Events": "Évènements",
@@ -241,5 +240,8 @@
   ":" : " :",
   "?" : " ?",
   ">>" : " »",
-  "<<" : "« "
+  "<<" : "« ",
+  "Operations": "Opérations",
+  "Authorizations": "Autorisations",
+  "": ""
 }

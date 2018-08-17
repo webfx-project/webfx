@@ -197,7 +197,6 @@
   "Error": "An error occured",
   "SoldoutTitle": "Option soldout",
   "SoldoutMessage": "Sorry, this option is just soldout.\nPlease select another available option.",
-  "": "",
   "WithEvents": "With events",
   "WithBookings": "With bookings",
   "NewBooking": "New booking",
@@ -231,5 +230,8 @@
   "Clone": "Clone",
   "EditMode": "Edit mode",
   ">>" : " »",
-  "<<" : "« "
+  "<<" : "« ",
+  "Operations": "Operations",
+  "Authorizations": "Authorizations",
+  "": ""
 }
