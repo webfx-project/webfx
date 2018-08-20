@@ -1,6 +1,6 @@
 package naga.util.uuid;
 
-public class Uuid {
+public final class Uuid {
 
     public static String randomUuid() {
         // return Uuid.randomUUID().toString(); // Doesn't compile with GWT

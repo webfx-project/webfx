@@ -10,7 +10,7 @@ import rx.subscriptions.Subscriptions;
 /**
  * @author Bruno Salmon
  */
-public class RxFuture {
+public final class RxFuture {
 
     public static <T> Observable<T> from(Future<T> future) {
         return Observable.create(OnSubscribeToObservableFuture.toObservableFuture(future));

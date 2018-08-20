@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class BorderBuilder {
+public final class BorderBuilder {
 
     private List<BorderStrokeBuilder> strokeBuilders;
     private List<BorderStroke> strokes;

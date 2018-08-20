@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-public class Collections {
+public final class Collections {
 
     public static <T> List<T> newList() {
         return new ArrayList<>();

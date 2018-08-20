@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class EntityListToDisplayResultGenerator {
+public final class EntityListToDisplayResultGenerator {
 
     public static DisplayResult select(EntityList<? extends Entity> entityList, String select) {
         int fromIndex = select.indexOf(" from ");

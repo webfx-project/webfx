@@ -20,7 +20,7 @@ import java.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class MaterialAnimation {
+public final class MaterialAnimation {
 
     private final static Duration MATERIAL_ANIMATION_DURATION = Duration.millis(400);
 

@@ -7,7 +7,7 @@ import javafx.scene.layout.Region;
 /**
  * @author Bruno Salmon
  */
-public class DialogContent implements DialogBuilder {
+public final class DialogContent implements DialogBuilder {
 
     private String title;
     private String headerText;

@@ -9,7 +9,7 @@ import naga.framework.ui.graphic.paint.PaintBuilder;
 /**
  * @author Bruno Salmon
  */
-public class BackgroundFillBuilder {
+public final class BackgroundFillBuilder {
 
     private PaintBuilder fillBuilder;
     private Paint fill;

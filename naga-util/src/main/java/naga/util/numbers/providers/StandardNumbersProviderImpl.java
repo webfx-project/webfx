@@ -9,7 +9,7 @@ import naga.util.numbers.spi.NumbersProvider;
 
  * @author Bruno Salmon
  */
-public class StandardNumbersProviderImpl implements NumbersProvider {
+public final class StandardNumbersProviderImpl implements NumbersProvider {
 
     @Override
     public boolean isNumber(Object value) {

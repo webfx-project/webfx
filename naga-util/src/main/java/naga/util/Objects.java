@@ -3,7 +3,7 @@ package naga.util;
 /**
  * @author Bruno Salmon
  */
-public class Objects {
+public final class Objects {
 
     public static <T> T coalesce(T... ts) {
         for (T t : ts)

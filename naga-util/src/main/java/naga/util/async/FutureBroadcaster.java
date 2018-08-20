@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class FutureBroadcaster<T> {
+public final class FutureBroadcaster<T> {
 
     private final Callable<Future<T>> sourceProducer;
     private Future<T> source;

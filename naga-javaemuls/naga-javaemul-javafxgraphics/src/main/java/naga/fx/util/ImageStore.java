@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class ImageStore {
+public final class ImageStore {
 
     private final static Map<String, Image> imagesCache = new HashMap<>(); // WeakHashMap() is not emulated in GWT
 

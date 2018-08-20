@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @author Bruno Salmon
  */
-public class ResourceJsonDictionaryLoader implements DictionaryLoader {
+public final class ResourceJsonDictionaryLoader implements DictionaryLoader {
 
     private final String jsonResourcePathWithLangPattern;
 

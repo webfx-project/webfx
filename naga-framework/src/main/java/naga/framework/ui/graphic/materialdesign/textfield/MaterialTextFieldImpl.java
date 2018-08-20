@@ -25,7 +25,7 @@ import naga.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public class MaterialTextFieldImpl implements MaterialTextField {
+public final class MaterialTextFieldImpl implements MaterialTextField {
 
     private final static double BOTTOM_PADDING_BELOW_FLOATING_LABEL = 8;
     private final static double BOTTOM_PADDING_BELOW_INPUT = 8;

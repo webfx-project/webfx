@@ -3,7 +3,7 @@ package naga.framework.services.authn;
 /**
  * @author Bruno Salmon
  */
-public class UsernamePasswordCredentials {
+public final class UsernamePasswordCredentials {
     private final String username;
     private final String password;
 

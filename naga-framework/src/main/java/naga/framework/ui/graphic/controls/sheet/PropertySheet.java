@@ -21,7 +21,7 @@ import naga.util.Arrays;
 /**
  * @author Bruno Salmon
  */
-public class PropertySheet implements MaterialFactoryMixin, ButtonFactoryMixin {
+public final class PropertySheet implements MaterialFactoryMixin, ButtonFactoryMixin {
 
     private final ExpressionColumn[] expressionColumns;
     private final ValueRenderingContext[] valueRenderingContexts;

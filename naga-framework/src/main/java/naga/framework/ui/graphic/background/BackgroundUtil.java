@@ -8,7 +8,7 @@ import naga.framework.ui.graphic.paint.PaintBuilder;
 /**
  * @author Bruno Salmon
  */
-public class BackgroundUtil {
+public final class BackgroundUtil {
 
     public final static Background TRANSPARENT_BACKGROUND = newBackground(Color.TRANSPARENT);
     public final static Background WHITE_BACKGROUND = newBackground(Color.WHITE);

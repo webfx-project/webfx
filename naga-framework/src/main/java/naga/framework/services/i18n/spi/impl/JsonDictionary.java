@@ -8,7 +8,7 @@ import naga.platform.services.json.JsonObject;
 /**
  * @author Bruno Salmon
  */
-class JsonDictionary implements Dictionary {
+final class JsonDictionary implements Dictionary {
 
     private final JsonObject json;
 

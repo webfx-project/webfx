@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class ActionBinder {
+public final class ActionBinder {
 
     public static void bindButtonToAction(Button button, Action action) {
         bindLabeledToAction(button, action);

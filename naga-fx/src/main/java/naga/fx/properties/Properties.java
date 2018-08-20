@@ -16,7 +16,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class Properties {
+public final class Properties {
 
     public static Unregisterable runOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
         return new UnregisterableListener(consumer, properties);

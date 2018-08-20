@@ -12,7 +12,7 @@ import naga.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class UiSessionImpl implements UiSession {
+public final class UiSessionImpl implements UiSession {
 
     private final Property<Object> userPrincipalProperty = new SimpleObjectProperty<>();
     private final ObservableBooleanValue loggedInProperty = BooleanExpression.booleanExpression(Properties.compute(userPrincipalProperty, Objects::nonNull));

@@ -11,7 +11,7 @@ import naga.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public class UiRouteImpl<C extends UiRouteActivityContext<C>> implements UiRoute<C> {
+public final class UiRouteImpl<C extends UiRouteActivityContext<C>> implements UiRoute<C> {
 
     private final String path;
     private final boolean regex;

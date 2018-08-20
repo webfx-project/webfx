@@ -29,7 +29,7 @@ import static naga.framework.ui.layouts.LayoutUtil.setMaxSizeToPref;
 /**
  * @author Bruno Salmon
  */
-public class DialogUtil {
+public final class DialogUtil {
 
     private final static Property<Background> dialogBackgroundProperty = new SimpleObjectProperty<>();
     public static Property<Background> dialogBackgroundProperty() {

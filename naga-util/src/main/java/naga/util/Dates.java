@@ -8,7 +8,7 @@ import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
 /**
  * @author Bruno Salmon
  */
-public class Dates {
+public final class Dates {
 
     public static Instant asInstant(Object value) {
         return value == null || !(value instanceof Instant) ? null : (Instant) value;

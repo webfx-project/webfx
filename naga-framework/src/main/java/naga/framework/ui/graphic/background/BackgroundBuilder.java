@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class BackgroundBuilder {
+public final class BackgroundBuilder {
 
     private List<BackgroundFillBuilder> fillBuilders;
     private List<BackgroundFill> fills;

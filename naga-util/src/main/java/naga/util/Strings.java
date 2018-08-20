@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class Strings {
+public final class Strings {
 
     public static String asString(Object value) {
         return value instanceof String ? (String) value : null;

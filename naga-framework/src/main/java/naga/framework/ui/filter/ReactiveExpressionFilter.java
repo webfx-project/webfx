@@ -52,7 +52,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProperty, HasEntityStore {
+public final class ReactiveExpressionFilter<E extends Entity> implements HasActiveProperty, HasEntityStore {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private StringFilter lastStringFilter;

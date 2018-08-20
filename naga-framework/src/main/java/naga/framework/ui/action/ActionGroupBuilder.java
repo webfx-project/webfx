@@ -13,7 +13,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class ActionGroupBuilder extends ActionBuilder {
+public final class ActionGroupBuilder extends ActionBuilder {
 
     private Collection<Action> actions;
 

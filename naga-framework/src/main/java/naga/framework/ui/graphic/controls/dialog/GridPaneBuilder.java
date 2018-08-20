@@ -26,7 +26,7 @@ import static naga.framework.ui.layouts.LayoutUtil.createHGrowable;
 /**
  * @author Bruno Salmon
  */
-public class GridPaneBuilder implements DialogBuilder {
+public final class GridPaneBuilder implements DialogBuilder {
 
     private final GridPane gridPane = new GridPane();
     private final Font font = Font.getDefault();

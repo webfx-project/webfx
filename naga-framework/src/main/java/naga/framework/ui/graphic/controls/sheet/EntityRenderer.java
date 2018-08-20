@@ -13,7 +13,7 @@ import naga.fxdata.cell.renderer.ValueRenderingContext;
 /**
  * @author Bruno Salmon
  */
-public class EntityRenderer implements ValueRenderer {
+public final class EntityRenderer implements ValueRenderer {
 
     public final static EntityRenderer SINGLETON = new EntityRenderer();
 

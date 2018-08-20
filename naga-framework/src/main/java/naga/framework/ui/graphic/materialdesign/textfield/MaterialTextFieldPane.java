@@ -9,7 +9,7 @@ import javafx.scene.layout.Region;
 /**
  * @author Bruno Salmon
  */
-public class MaterialTextFieldPane extends Pane implements MaterialTextFieldMixin {
+public final class MaterialTextFieldPane extends Pane implements MaterialTextFieldMixin {
 
     private MaterialTextFieldImpl materialTextField;
 

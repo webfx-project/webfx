@@ -12,7 +12,7 @@ import static naga.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
 /**
  * @author Bruno Salmon
  */
-public class AlertUtil {
+public final class AlertUtil {
 
     public static void showExceptionAlert(Throwable e, Window owner) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

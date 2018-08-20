@@ -7,7 +7,7 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 /**
  * @author Bruno Salmon
  */
-public class AuthorizationService {
+public final class AuthorizationService {
 
     public static Future<Boolean> isAuthorized(Object operationAuthorizationRequest, Object userPrincipal) {
         return getProvider().isAuthorized(operationAuthorizationRequest, userPrincipal);

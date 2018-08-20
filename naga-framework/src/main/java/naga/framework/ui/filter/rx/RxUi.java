@@ -13,7 +13,7 @@ import rx.subscriptions.Subscriptions;
 /**
  * @author Bruno Salmon
  */
-public class RxUi {
+public final class RxUi {
 
     public static <T> Observable<T> observe(ObservableValue<T> observableValue) {
         return Observable.create(subscriber -> {

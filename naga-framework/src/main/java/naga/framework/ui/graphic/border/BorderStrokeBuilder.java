@@ -10,7 +10,7 @@ import naga.framework.ui.graphic.paint.PaintBuilder;
 /**
  * @author Bruno Salmon
  */
-public class BorderStrokeBuilder {
+public final class BorderStrokeBuilder {
 
     private PaintBuilder strokeBuilder;
     private Paint stroke;

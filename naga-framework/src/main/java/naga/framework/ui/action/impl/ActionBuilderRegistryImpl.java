@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class ActionBuilderRegistryImpl implements ActionBuilderRegistry {
+public final class ActionBuilderRegistryImpl implements ActionBuilderRegistry {
 
     private final static ActionBuilderRegistryImpl INSTANCE = new ActionBuilderRegistryImpl();
 

@@ -7,7 +7,7 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 /**
  * @author Bruno Salmon
  */
-public class AuthenticationService {
+public final class AuthenticationService {
 
     public static Future<?> authenticate(Object userCredentials) {
         return getProvider().authenticate(userCredentials);

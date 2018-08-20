@@ -10,7 +10,7 @@ import naga.fx.properties.ObservableLists;
 /**
  * @author Bruno Salmon
  */
-public class ConvertedObservableList {
+public final class ConvertedObservableList {
 
     public static <A, B> ObservableList<B> create(ObservableList<A> aList, Converter<A, B> aToBConverter, Converter<B, A> bToAConverter) {
         if (aList == null)

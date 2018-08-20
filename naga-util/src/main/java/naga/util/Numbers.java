@@ -11,7 +11,7 @@ import naga.util.serviceloader.ServiceLoaderHelper;
  *
  * @author Bruno Salmon
  */
-public class Numbers {
+public final class Numbers {
 
     private static NumbersProvider provider;
 

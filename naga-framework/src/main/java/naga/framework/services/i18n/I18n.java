@@ -11,7 +11,7 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 /**
  * @author Bruno Salmon
  */
-public class I18n {
+public final class I18n {
 
     public static I18nProvider getProvider() {
         return ServiceLoaderHelper.loadService(I18nProvider.class);

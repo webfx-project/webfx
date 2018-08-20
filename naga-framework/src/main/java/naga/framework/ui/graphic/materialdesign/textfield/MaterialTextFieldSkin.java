@@ -13,7 +13,7 @@ import naga.util.collection.Collections;
 /**
  * @author Bruno Salmon
  */
-public class MaterialTextFieldSkin extends TextFieldSkin implements MaterialTextFieldMixin {
+public final class MaterialTextFieldSkin extends TextFieldSkin implements MaterialTextFieldMixin {
 
     private final MaterialTextFieldImpl materialTextField;
 

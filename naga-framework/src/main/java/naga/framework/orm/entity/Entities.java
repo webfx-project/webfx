@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class Entities {
+public final class Entities {
 
     public static EntityId getId(Entity entity) {
         return entity == null ? null : entity.getId();

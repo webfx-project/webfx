@@ -5,7 +5,7 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public class AuthenticationRequest {
+public final class AuthenticationRequest {
 
     private Object userCredentials;
 

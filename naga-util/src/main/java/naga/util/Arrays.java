@@ -14,7 +14,7 @@ import java.util.function.BiFunction;
  * @author Bruno Salmon
  */
 
-public class Arrays {
+public final class Arrays {
 
     private Arrays() {
     }

@@ -6,7 +6,7 @@ import naga.util.tuples.Unit;
 /**
  * @author Bruno Salmon
  */
-public class Batch<A> {
+public final class Batch<A> {
 
     private final A[] array;
 

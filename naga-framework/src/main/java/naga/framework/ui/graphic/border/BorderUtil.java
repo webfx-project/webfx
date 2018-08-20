@@ -7,7 +7,7 @@ import javafx.scene.paint.Paint;
 /**
  * @author Bruno Salmon
  */
-public class BorderUtil {
+public final class BorderUtil {
 
     public static Border transparentBorder() {
         return newBorder(Color.TRANSPARENT);

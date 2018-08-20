@@ -5,7 +5,7 @@ import java.util.AbstractList;
 /**
  * @author Bruno Salmon
  */
-public class IdentityList extends AbstractList<Integer> {
+public final class IdentityList extends AbstractList<Integer> {
 
     private int size;
 

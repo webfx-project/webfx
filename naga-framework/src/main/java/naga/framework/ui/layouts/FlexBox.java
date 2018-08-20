@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class FlexBox extends Pane {
+public final class FlexBox extends Pane {
     private static final String ORDER_CONSTRAINT = "flexbox-order";
     private static final String GROW_CONSTRAINT = "flexbox-grow";
     private final DoubleProperty horizontalSpace = new SimpleDoubleProperty(0);

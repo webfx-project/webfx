@@ -8,7 +8,7 @@ import naga.util.numbers.spi.NumbersProvider;
  *
  * @author Bruno Salmon
  */
-public class CldcPlatformNumbers implements NumbersProvider {
+public final class CldcPlatformNumbers implements NumbersProvider {
 
     @Override
     public boolean isNumber(Object value) {

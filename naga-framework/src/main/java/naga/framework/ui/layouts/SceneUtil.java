@@ -28,7 +28,7 @@ import naga.util.tuples.Unit;
 /**
  * @author Bruno Salmon
  */
-public class SceneUtil {
+public final class SceneUtil {
 
     public static boolean isNodeVerticallyVisibleOnScene(Node node) {
         Bounds layoutBounds = node.getLayoutBounds();

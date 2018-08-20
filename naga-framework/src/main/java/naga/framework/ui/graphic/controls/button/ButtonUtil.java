@@ -16,7 +16,7 @@ import org.controlsfx.control.decoration.GraphicDecoration;
 /**
  * @author Bruno Salmon
  */
-public class ButtonUtil {
+public final class ButtonUtil {
 
     public static Button newButton(Action action) {
         return newButtonBuilder(action).build();

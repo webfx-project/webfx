@@ -8,9 +8,9 @@ import java.util.Map;
  *
  * @author Bruno Salmon
  */
-public class FormatterRegistry {
+public final class FormatterRegistry {
 
-    private static Map<String, Formatter> formatters = new HashMap<>();
+    private final static Map<String, Formatter> formatters = new HashMap<>();
 
     public static void registerFormatter(String formatName, Formatter formatter) {
         formatters.put(formatName, formatter);

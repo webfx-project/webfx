@@ -9,7 +9,7 @@ import naga.framework.ui.graphic.materialdesign.textfield.MaterialTextFieldSkin;
 /**
  * @author Bruno Salmon
  */
-public class MaterialUtil {
+public final class MaterialUtil {
 
     public static <T extends TextField> T makeMaterial(T textField) {
         return makeMaterial(textField, new MaterialTextFieldSkin(textField));

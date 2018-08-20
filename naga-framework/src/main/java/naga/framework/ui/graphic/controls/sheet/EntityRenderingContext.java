@@ -10,7 +10,7 @@ import naga.util.function.Callable;
 /**
  * @author Bruno Salmon
  */
-public class EntityRenderingContext extends ValueRenderingContext {
+public final class EntityRenderingContext extends ValueRenderingContext {
 
     private final DomainClass entityClass;
     private final Callable<EntityStore> entityStoreGetter;

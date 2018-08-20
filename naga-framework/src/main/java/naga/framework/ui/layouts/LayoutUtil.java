@@ -19,7 +19,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
 /**
  * @author Bruno Salmon
  */
-public class LayoutUtil {
+public final class LayoutUtil {
 
     public static GridPane createGoldLayout(Region child) {
         return createGoldLayout(child, 0, 0);

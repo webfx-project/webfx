@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-public class I18nProviderImpl implements I18nProvider {
+public final class I18nProviderImpl implements I18nProvider {
 
     private final Map<Object, Reference<StringProperty>> translations = new HashMap<>();
     private boolean dictionaryLoadRequired;

@@ -7,7 +7,7 @@ import naga.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public class StringFilterBuilder {
+public final class StringFilterBuilder {
     private final Object domainClassId;
     private String alias;
     private String fields;

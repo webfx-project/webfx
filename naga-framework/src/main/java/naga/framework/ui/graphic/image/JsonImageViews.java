@@ -9,7 +9,7 @@ import naga.platform.services.json.JsonObject;
 /**
  * @author Bruno Salmon
  */
-public class JsonImageViews {
+public final class JsonImageViews {
 
     public static ImageView createImageView(Object urlOrJson) {
         if (urlOrJson == null)

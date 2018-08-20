@@ -13,7 +13,7 @@ import naga.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class Animations {
+public final class Animations {
 
     // Better ease out interpolator than the one proposed in JavaFx (ie Interpolator.EASE_OUT)
     public final static Interpolator EASE_OUT_INTERPOLATOR = Interpolator.SPLINE(0, .75, .25, 1);

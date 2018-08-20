@@ -21,7 +21,7 @@ import naga.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public class ButtonBuilder {
+public final class ButtonBuilder {
 
     private Object iconUrlOrJson;
     private Node icon;

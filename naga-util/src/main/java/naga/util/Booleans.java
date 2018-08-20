@@ -3,7 +3,7 @@ package naga.util;
 /**
  * @author Bruno Salmon
  */
-public class Booleans {
+public final class Booleans {
 
     public static boolean isTrue(Object value) {
         return Boolean.TRUE.equals(value);

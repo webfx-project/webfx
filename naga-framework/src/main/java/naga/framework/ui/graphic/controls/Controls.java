@@ -8,7 +8,7 @@ import naga.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-public class Controls {
+public final class Controls {
 
     public static void onSkinReady(Control control, Runnable runnable) {
         onSkinReady(control, skin -> runnable.run());
