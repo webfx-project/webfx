@@ -9,7 +9,7 @@ import naga.platform.client.url.history.History;
 /**
  * @author Bruno Salmon
  */
-public class RouteToAuthorizationsRequest extends RoutePushRequest implements HasOperationCode {
+public final class RouteToAuthorizationsRequest extends RoutePushRequest implements HasOperationCode {
 
     private final static String OPERATION_CODE = "RouteToAuthorizations";
 

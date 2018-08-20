@@ -7,7 +7,7 @@ import naga.platform.client.url.history.History;
 /**
  * @author Bruno Salmon
  */
-public class RouteToStartBookingRequest extends RoutePushRequest {
+public final class RouteToStartBookingRequest extends RoutePushRequest {
 
     public RouteToStartBookingRequest(Object eventId, History history) {
         super(StartBookingRouting.getStartBookingPath(eventId), history);

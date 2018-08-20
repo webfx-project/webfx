@@ -7,7 +7,7 @@ import naga.platform.client.url.history.History;
 /**
  * @author Bruno Salmon
  */
-public class RouteToProgramRequest extends RoutePushRequest {
+public final class RouteToProgramRequest extends RoutePushRequest {
 
     public RouteToProgramRequest(Object eventId, History history) {
         super(ProgramRouting.getProgramPath(eventId), history);

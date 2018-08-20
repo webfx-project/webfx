@@ -8,7 +8,7 @@ import naga.platform.client.url.history.History;
 /**
  * @author Bruno Salmon
  */
-public class RouteToEventsRequest extends RoutePushRequest implements HasOperationCode {
+public final class RouteToEventsRequest extends RoutePushRequest implements HasOperationCode {
 
     private final static String OPERATION_CODE = "RouteToEvents";
 

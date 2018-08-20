@@ -10,7 +10,7 @@ import naga.platform.client.url.history.History;
 /**
  * @author Bruno Salmon
  */
-public class RouteToOptionsRequest extends RoutePushRequest {
+public final class RouteToOptionsRequest extends RoutePushRequest {
 
     public RouteToOptionsRequest(Object eventId, History history) {
         super(OptionsRouting.getEventOptionsPath(eventId), history);

@@ -6,7 +6,7 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-class ChangeLanguageExecutor {
+final class ChangeLanguageExecutor {
 
     static Future<Void> executeRequest(ChangeLanguageRequest rq) {
         return execute(rq.language);

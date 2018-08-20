@@ -10,7 +10,7 @@ import java.time.Instant;
 /**
  * @author Bruno Salmon
  */
-public class RouteToCartRequest extends RoutePushRequest {
+public final class RouteToCartRequest extends RoutePushRequest {
 
     public RouteToCartRequest(Object cartUuidOrDocument, History history) {
         super(CartRouting.getCartPath(cartUuidOrDocument), history, Json.createObject().set("refresh", Instant.now()));

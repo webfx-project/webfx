@@ -8,7 +8,7 @@ import naga.util.async.AsyncFunction;
 /**
  * @author Bruno Salmon
  */
-public class RouteToNewBackendBookingRequest extends RouteRequestBase<RouteToNewBackendBookingRequest>
+public final class RouteToNewBackendBookingRequest extends RouteRequestBase<RouteToNewBackendBookingRequest>
         implements HasOperationCode {
 
     private final static String OPERATION_CODE = "RouteToNewBackendBooking";

@@ -7,7 +7,7 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-class RoutePushExecutor {
+final class RoutePushExecutor {
 
     static Future<Void> executePushRouteRequest(RoutePushRequest rq) {
         return execute(rq.getRoutePath(), rq.getHistory(), rq.getState());

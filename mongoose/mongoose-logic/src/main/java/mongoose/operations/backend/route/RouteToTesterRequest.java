@@ -8,7 +8,7 @@ import naga.platform.client.url.history.History;
 /**
  * @author Bruno Salmon
  */
-public class RouteToTesterRequest extends RoutePushRequest implements HasOperationCode {
+public final class RouteToTesterRequest extends RoutePushRequest implements HasOperationCode {
 
     private final static String OPERATION_CODE = "RouteToTester";
 

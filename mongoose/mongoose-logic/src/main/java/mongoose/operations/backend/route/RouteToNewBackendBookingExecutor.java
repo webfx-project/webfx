@@ -8,7 +8,7 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-class RouteToNewBackendBookingExecutor {
+final class RouteToNewBackendBookingExecutor {
 
     static Future<Void> executeRequest(RouteToNewBackendBookingRequest rq) {
         return execute(rq.getEventId(), rq.getHistory());

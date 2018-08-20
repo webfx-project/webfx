@@ -7,7 +7,7 @@ import naga.platform.client.url.history.History;
 /**
  * @author Bruno Salmon
  */
-public class RouteToFeesRequest extends RoutePushRequest {
+public final class RouteToFeesRequest extends RoutePushRequest {
 
     public RouteToFeesRequest(Object eventId, History history) {
         super(FeesRouting.getFeesPath(eventId), history);
