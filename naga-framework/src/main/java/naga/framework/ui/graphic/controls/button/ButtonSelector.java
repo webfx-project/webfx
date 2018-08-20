@@ -361,7 +361,7 @@ public abstract class ButtonSelector<T> {
     }
 
     private boolean isLoadedContentLayoutInDialog() {
-        return dialogPane.isVisible() || dialogPane.getCenter().prefHeight(-1) > 5;
+        return dialogPane != null && (dialogPane.isVisible() || dialogPane.getCenter().prefHeight(-1) > 5);
     }
 
     private void applyNewDecidedShowModeNow() {
