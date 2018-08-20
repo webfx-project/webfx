@@ -36,14 +36,14 @@ class AuthorizationsViewActivity extends ViewDomainActivityBase
 
 
     protected void startLogic() {
-        createReactiveExpressionFilter("{class: 'AuthorizationManagement'}")
-                .combine(userPrincipalProperty(), principal -> "{where: 'manager = " + (principal instanceof MongooseUserPrincipal ? ((MongooseUserPrincipal) principal).getUserPersonId() : null) + "'}")
+        createReactiveExpressionFilter("{class: 'AuthorizationManagement', orderBy: 'id'}")
+                .combine(userPrincipalProperty(), principal -> "{where: 'manager = " + MongooseUserPrincipal.getUserPersonId(principal) + "'}")
                 .setExpressionColumns(manageeColumns)
                 .displayResultInto(usersDataGrid.displayResultProperty())
                 .setSelectedEntityHandler(usersDataGrid.displaySelectionProperty(), selectedManagementProperty::setValue)
                 .start();
 
-        createReactiveExpressionFilter("{class: 'AuthorizationAssignment'}")
+        createReactiveExpressionFilter("{class: 'AuthorizationAssignment', orderBy: 'id'}")
                 .combine(selectedManagementProperty, management -> "{where: 'management = " + Entities.getPrimaryKey(management) + "'}")
                 .setExpressionColumns(assignmentColumns)
                 .displayResultInto(assignmentsDataGrid.displayResultProperty())
