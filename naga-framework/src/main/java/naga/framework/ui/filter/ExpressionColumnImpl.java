@@ -23,16 +23,16 @@ class ExpressionColumnImpl implements ExpressionColumn {
     private final String expressionDefinition;
     private Expression  expression;
     private Expression displayExpression;
-    private final Formatter expressionFormatter;
+    private final Formatter displayFormatter;
     private Object label;
     private DisplayColumn displayColumn;
     private JsonObject json;
 
-    ExpressionColumnImpl(String expressionDefinition, Expression expression, Object label, Formatter expressionFormatter, DisplayColumn displayColumn, JsonObject json) {
+    ExpressionColumnImpl(String expressionDefinition, Expression expression, Object label, Formatter displayFormatter, DisplayColumn displayColumn, JsonObject json) {
         this.expressionDefinition = expressionDefinition;
         this.expression = expression;
         this.label = label;
-        this.expressionFormatter = expressionFormatter;
+        this.displayFormatter = displayFormatter;
         this.displayColumn = displayColumn;
         this.json = json;
     }
@@ -52,10 +52,10 @@ class ExpressionColumnImpl implements ExpressionColumn {
                     prefWidth = (double) fieldPrefWidth;
             }
             Type displayType;
-            if (expressionFormatter != null)
-                displayType = expressionFormatter.getOutputType();
+            if (displayFormatter != null)
+                displayType = displayFormatter.getOutputType();
             else {
-                if (getExpression() != expression)
+                if (getDisplayExpression() != expression)
                     topRightExpression = getTopRightExpression(displayExpression);
                 displayType = topRightExpression.getType();
             }
@@ -71,7 +71,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
                 json = null;
             }
             if (textAlign == null) {
-                Type type = getExpression().getType();
+                Type type = getDisplayExpression().getType();
                 textAlign = Types.isNumberType(type) ? "right" : Types.isBooleanType(type) ? "center" : null;
             }
             displayColumn = DisplayColumnBuilder.create(label, displayType)
@@ -94,24 +94,34 @@ class ExpressionColumnImpl implements ExpressionColumn {
 
     @Override
     public Expression getExpression() {
+        return expression;
+    }
+
+    @Override
+    public DomainClass getForeignClass() {
+        Expression topRightExpression = getTopRightExpression(expression);
+        if (topRightExpression instanceof DomainField)
+            return ((DomainField) topRightExpression).getForeignClass();
+        return null;
+    }
+
+    @Override
+    public Expression getDisplayExpression() {
         if (displayExpression == null) {
             displayExpression = expression;
-            Expression topRightExpression = getTopRightExpression(expression);
-            if (topRightExpression instanceof DomainField) {
-                DomainClass foreignClass = ((DomainField) topRightExpression).getForeignClass();
-                if (foreignClass != null) {
-                    Expression foreignFields = foreignClass.getForeignFields();
-                    if (foreignFields != null)
-                        displayExpression = new Dot(expression, foreignFields);
-                }
+            DomainClass foreignClass = getForeignClass();
+            if (foreignClass != null) {
+                Expression foreignFields = foreignClass.getForeignFields();
+                if (foreignFields != null)
+                    displayExpression = new Dot(expression, foreignFields);
             }
         }
         return displayExpression;
     }
 
     @Override
-    public Formatter getExpressionFormatter() {
-        return expressionFormatter;
+    public Formatter getDisplayFormatter() {
+        return displayFormatter;
     }
 
     @Override

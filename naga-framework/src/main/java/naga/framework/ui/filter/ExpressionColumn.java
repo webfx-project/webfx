@@ -1,5 +1,6 @@
 package naga.framework.ui.filter;
 
+import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.ui.formatter.Formatter;
 import naga.framework.ui.formatter.FormatterRegistry;
 import naga.platform.services.json.Json;
@@ -15,14 +16,26 @@ import naga.fxdata.displaydata.DisplayColumn;
 public interface ExpressionColumn {
 
     /**
-     * @return the expression to be used to evaluate all values of the display result set for that column.
+     * @return the original expression set for that column (might express a foreign object or just a value).
      */
     Expression getExpression();
 
     /**
+     * @return the foreign class if the original expression expresses a foreign object or null if it expresses just a value
+     */
+    DomainClass getForeignClass();
+
+    /**
+     * @return the expression to be used to evaluate all values of the display result set for that column. It is the
+     * same original expression if it expresses just a value but if it expresses a foreign object, the foreign fields
+     * declared in the foreign class to display such an entity will be used instead.
+     */
+    Expression getDisplayExpression();
+
+    /**
      * @return the formatter to apply after the expression has been evaluated.
      */
-    Formatter getExpressionFormatter();
+    Formatter getDisplayFormatter();
 
     /**
      * @return the associated display column.

@@ -100,8 +100,8 @@ public class EntityListToDisplayResultGenerator {
                     label.setText(I18n.instantTranslate(translationKey));
                 rsb.setDisplayColumn(columnIndex++, displayColumn);
                 // Then setting the column values (including possible formatting)
-                Expression<E> expression = expressionColumn.getExpression();
-                Formatter formatter = expressionColumn.getExpressionFormatter();
+                Expression<E> expression = expressionColumn.getDisplayExpression();
+                Formatter formatter = expressionColumn.getDisplayFormatter();
                 if (entityList != null)
                     for (Entity entity : entityList) {
                         Object value = entity.evaluate(expression);

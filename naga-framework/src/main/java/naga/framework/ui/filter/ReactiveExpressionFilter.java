@@ -830,7 +830,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                         // Now that the ReferenceResolver is ready, we can parse the expression columns
                         for (ExpressionColumn expressionColumn : expressionColumns) {
                             expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId);
-                            expressionColumn.getExpression().collectPersistentTerms(columnsPersistentTerms);
+                            expressionColumn.getDisplayExpression().collectPersistentTerms(columnsPersistentTerms);
                         }
                     } finally {
                         ThreadLocalReferenceResolver.popReferenceResolver();

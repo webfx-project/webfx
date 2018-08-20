@@ -82,7 +82,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             DomainClass entityClass = dataSourceModel.getDomainModel().getClass(stringFilter.getDomainClassId());
             if (stringFilter.getColumns() != null) {
                 ExpressionColumn[] expressionColumns = ExpressionColumn.fromJsonArray(stringFilter.getColumns());
-                renderingExpression = new ExpressionArray<>(Arrays.map(expressionColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(dataSourceModel.getDomainModel(), stringFilter.getDomainClassId()).getExpression(), Expression[]::new));
+                renderingExpression = new ExpressionArray<>(Arrays.map(expressionColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(dataSourceModel.getDomainModel(), stringFilter.getDomainClassId()).getDisplayExpression(), Expression[]::new));
             } else if (stringFilter.getFields() != null)
                 renderingExpression = entityClass.parseExpression(stringFilter.getFields());
             else
