@@ -10,7 +10,7 @@ import naga.util.Booleans;
  */
 public class BooleanRenderer implements ValueRenderer {
 
-    public static BooleanRenderer SINGLETON = new BooleanRenderer();
+    public final static BooleanRenderer SINGLETON = new BooleanRenderer();
 
     private final BooleanProperty trueProperty = new SimpleBooleanProperty(true);
     private final BooleanProperty falseProperty = new SimpleBooleanProperty(false);
@@ -27,7 +27,7 @@ public class BooleanRenderer implements ValueRenderer {
             checkBox.selectedProperty().bind(booleanValue ? trueProperty : falseProperty);
         } else {
             checkBox.setSelected(booleanValue);
-            context.setRenderedValueProperty(checkBox.selectedProperty());
+            context.setEditedValueProperty(checkBox.selectedProperty());
         }
         return checkBox;
     }

@@ -11,7 +11,7 @@ import naga.fxdata.cell.collator.NodeCollatorRegistry;
  */
 public class ImageTextRenderer implements ValueRenderer {
 
-    public static ImageTextRenderer SINGLETON = new ImageTextRenderer();
+    public final static ImageTextRenderer SINGLETON = new ImageTextRenderer();
 
     private ImageTextRenderer() {}
 

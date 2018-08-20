@@ -1,6 +1,6 @@
 package naga.fxdata.cell.renderer;
 
-import emul.javafx.beans.property.Property;
+import emul.javafx.beans.value.ObservableValue;
 
 /**
  * @author Bruno Salmon
@@ -12,7 +12,7 @@ public class ValueRenderingContext {
     private final boolean readOnly;
     private final Object labelKey;
     private final Object placeholderKey;
-    private Property renderedValueProperty;
+    private ObservableValue editedValueProperty;
 
     public ValueRenderingContext(boolean readOnly, Object labelKey, Object placeholderKey) {
         this.readOnly = readOnly;
@@ -32,11 +32,11 @@ public class ValueRenderingContext {
         return placeholderKey;
     }
 
-    public Property getRenderedValueProperty() {
-        return renderedValueProperty;
+    public ObservableValue getEditedValueProperty() {
+        return editedValueProperty;
     }
 
-    public void setRenderedValueProperty(Property renderedValueProperty) {
-        this.renderedValueProperty = renderedValueProperty;
+    public void setEditedValueProperty(ObservableValue editedValueProperty) {
+        this.editedValueProperty = editedValueProperty;
     }
 }

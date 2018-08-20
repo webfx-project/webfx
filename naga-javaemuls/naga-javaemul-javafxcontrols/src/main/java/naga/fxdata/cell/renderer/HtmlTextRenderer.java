@@ -8,7 +8,7 @@ import naga.util.Strings;
  */
 public class HtmlTextRenderer implements ValueRenderer {
 
-    public static HtmlTextRenderer SINGLETON = new HtmlTextRenderer();
+    public final static HtmlTextRenderer SINGLETON = new HtmlTextRenderer();
 
     private HtmlTextRenderer() {}
 

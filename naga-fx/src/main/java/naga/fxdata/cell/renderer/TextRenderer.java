@@ -11,7 +11,7 @@ import naga.util.function.Func2;
  */
 public class TextRenderer implements ValueRenderer {
 
-    public static TextRenderer SINGLETON = new TextRenderer();
+    public final static TextRenderer SINGLETON = new TextRenderer();
 
     private Func2<Object, Object, TextField> textFieldFactory = (labelKey, placeholderKey) -> new TextField();
 
@@ -28,7 +28,7 @@ public class TextRenderer implements ValueRenderer {
             return new Text(stringValue);
         TextField textField = textFieldFactory.call(context.getLabelKey(), context.getPlaceholderKey());
         textField.setText(Strings.stringValue(value));
-        context.setRenderedValueProperty(textField.textProperty());
+        context.setEditedValueProperty(textField.textProperty());
         return textField;
     }
 }

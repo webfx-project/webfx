@@ -12,7 +12,7 @@ import naga.fxdata.cell.collator.NodeCollatorRegistry;
  */
 class ValueRendererFactoryImpl implements ValueRendererFactory {
 
-    static ValueRendererFactoryImpl INSTANCE = new ValueRendererFactoryImpl();
+    final static ValueRendererFactoryImpl INSTANCE = new ValueRendererFactoryImpl();
 
     @Override
     public ValueRenderer createValueRenderer(Type type) {
