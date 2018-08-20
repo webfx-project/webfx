@@ -40,7 +40,7 @@ public abstract class ButtonSelector<T> {
     private final Callable<Pane> parentGetter;
     private final Pane parent;
     private final ButtonFactoryMixin buttonFactory;
-    private boolean searchEnabled = false;
+    private boolean searchEnabled = true;
     private ObservableValue<?> loadedContentProperty;
     private BorderPane dialogPane;
     private TextField searchTextField;

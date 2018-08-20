@@ -47,6 +47,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     private ReactiveExpressionFilter<E> entityDialogFilter;
     private List<E> restrictedFilterList;
     private DataGrid dialogDataGrid;
+    private String searchCondition;
 
     // Good to put a limit especially for low-end mobiles
     private int adaptiveLimit = 6; // starting with 6 entries (fit with drop down/up) but can be increased in modal in dependence of the available height
@@ -87,6 +88,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
                 renderingExpression = entityClass.parseExpression(stringFilter.getFields());
             else
                 renderingExpression = entityClass.getForeignFields();
+            searchCondition = entityClass.getSearchCondition();
         }
         entityRenderer = renderingExpression == null ? null : ValueRendererFactory.getDefault().createValueRenderer(renderingExpression.getType());
         forceDialogRebuiltOnNextShow();
@@ -121,8 +123,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
                     .setDisplaySelectionProperty(dialogDataGrid.displaySelectionProperty())
                     .setSelectedEntityHandler(dialogDataGrid.displaySelectionProperty(), e -> {if (e != null) onDialogOk();})
             ;
-            String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
-            if (searchCondition != null && isSearchEnabled())
+            if (isSearchEnabled())
                 entityDialogFilter
                     .combine(searchTextProperty(), s -> {
                         if (Strings.isEmpty(s))
@@ -141,6 +142,11 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         if (maxNumberOfVisibleEntries > adaptiveLimit)
             adaptiveLimit = maxNumberOfVisibleEntries + (getDecidedShowMode() == ShowMode.MODAL_DIALOG ? 6 : 0); // extra 6 to avoid repetitive requests when resizing window
         return adaptiveLimit;
+    }
+
+    @Override
+    public boolean isSearchEnabled() {
+        return super.isSearchEnabled() && searchCondition != null;
     }
 
     protected void setSearchParameters(String search, EntityStore store) {
