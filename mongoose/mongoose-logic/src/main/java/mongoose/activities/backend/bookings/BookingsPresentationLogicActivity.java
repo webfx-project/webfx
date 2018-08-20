@@ -21,7 +21,7 @@ import static naga.framework.expression.sqlcompiler.terms.ConstantSqlCompiler.to
 /**
  * @author Bruno Salmon
  */
-class BookingsPresentationLogicActivity
+final class BookingsPresentationLogicActivity
         extends EventDependentPresentationLogicActivity<BookingsPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 

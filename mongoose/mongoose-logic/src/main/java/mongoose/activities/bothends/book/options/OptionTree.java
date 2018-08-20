@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class OptionTree {
+public final class OptionTree {
 
     private final OptionsActivity activity;
     private Event event;

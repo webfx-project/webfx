@@ -6,7 +6,7 @@ import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 /**
  * @author Bruno Salmon
  */
-class MonitorPresentationLogicActivity
+final class MonitorPresentationLogicActivity
         extends MongooseDomainPresentationLogicActivityBase<MonitorPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 

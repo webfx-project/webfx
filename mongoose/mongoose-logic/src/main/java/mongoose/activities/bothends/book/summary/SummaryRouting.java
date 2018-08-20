@@ -7,7 +7,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class SummaryRouting {
+public final class SummaryRouting {
 
     private final static String PATH = "/book/event/:eventId/summary";
 

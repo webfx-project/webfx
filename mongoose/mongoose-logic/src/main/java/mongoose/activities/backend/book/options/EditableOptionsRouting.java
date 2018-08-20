@@ -7,7 +7,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class EditableOptionsRouting {
+public final class EditableOptionsRouting {
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(OptionsRouting.getPath()

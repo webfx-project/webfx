@@ -7,7 +7,7 @@ import mongoose.activities.bothends.generic.organizationdependent.OrganizationDe
 /**
  * @author Bruno Salmon
  */
-class EventsPresentationModel extends OrganizationDependentGenericTablePresentationModel {
+final class EventsPresentationModel extends OrganizationDependentGenericTablePresentationModel {
 
     // Display input
 

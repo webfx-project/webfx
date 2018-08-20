@@ -6,7 +6,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class MonitorRouting {
+public final class MonitorRouting {
 
     private final static String PATH = "/monitor";
 

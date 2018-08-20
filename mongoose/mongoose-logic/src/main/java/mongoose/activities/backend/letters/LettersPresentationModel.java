@@ -5,6 +5,6 @@ import mongoose.activities.bothends.generic.eventdependent.EventDependentGeneric
 /**
  * @author Bruno Salmon
  */
-class LettersPresentationModel extends EventDependentGenericTablePresentationModel {
+final class LettersPresentationModel extends EventDependentGenericTablePresentationModel {
 
 }

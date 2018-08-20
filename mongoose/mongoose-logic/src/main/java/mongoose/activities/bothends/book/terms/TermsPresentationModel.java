@@ -8,7 +8,7 @@ import naga.fxdata.displaydata.DisplayResult;
 /**
  * @author Bruno Salmon
  */
-class TermsPresentationModel extends BookingProcessPresentationModel {
+final class TermsPresentationModel extends BookingProcessPresentationModel {
 
     // Display output
 

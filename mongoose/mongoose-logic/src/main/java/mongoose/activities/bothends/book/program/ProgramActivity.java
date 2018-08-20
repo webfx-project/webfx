@@ -12,7 +12,7 @@ import naga.platform.services.log.Logger;
 /**
  * @author Bruno Salmon
  */
-class ProgramActivity extends BookingProcessActivity {
+final class ProgramActivity extends BookingProcessActivity {
 
     private BookingCalendar bookingCalendar;
     private OptionsPreselection noAccommodationOptionsPreselection;

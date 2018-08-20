@@ -12,7 +12,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public class CloneEventPresentationModel extends EventDependentPresentationModelImpl {
+public final class CloneEventPresentationModel extends EventDependentPresentationModelImpl {
 
     private final Property<String> nameProperty = new SimpleObjectProperty<>();
     private final Property<LocalDate> dateProperty = new SimpleObjectProperty<>();

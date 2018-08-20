@@ -5,6 +5,6 @@ import mongoose.activities.bothends.generic.table.GenericTablePresentationViewAc
 /**
  * @author Bruno Salmon
  */
-class LettersPresentationViewActivity extends GenericTablePresentationViewActivity<LettersPresentationModel> {
+final class LettersPresentationViewActivity extends GenericTablePresentationViewActivity<LettersPresentationModel> {
 
 }

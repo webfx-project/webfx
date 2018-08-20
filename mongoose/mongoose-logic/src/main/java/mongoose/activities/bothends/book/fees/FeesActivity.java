@@ -43,7 +43,7 @@ import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
 /**
  * @author Bruno Salmon
  */
-class FeesActivity extends BookingProcessActivity {
+final class FeesActivity extends BookingProcessActivity {
 
     private GridCollator feesGroupsCollator;
 

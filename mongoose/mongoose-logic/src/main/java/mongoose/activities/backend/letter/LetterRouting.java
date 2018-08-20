@@ -7,7 +7,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class LetterRouting {
+public final class LetterRouting {
 
     private final static String PATH = "/letter/:letterId";
 

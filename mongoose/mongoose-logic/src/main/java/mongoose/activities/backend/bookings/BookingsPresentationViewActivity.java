@@ -15,7 +15,7 @@ import static naga.framework.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 /**
  * @author Bruno Salmon
  */
-class BookingsPresentationViewActivity extends GenericTablePresentationViewActivity<BookingsPresentationModel> implements OperationActionFactoryMixin {
+final class BookingsPresentationViewActivity extends GenericTablePresentationViewActivity<BookingsPresentationModel> implements OperationActionFactoryMixin {
 
     private HBox hBox;
 

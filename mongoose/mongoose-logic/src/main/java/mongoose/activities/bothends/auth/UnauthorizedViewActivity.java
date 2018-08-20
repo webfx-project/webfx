@@ -7,7 +7,7 @@ import naga.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
 /**
  * @author Bruno Salmon
  */
-class UnauthorizedViewActivity extends ViewDomainActivityBase {
+final class UnauthorizedViewActivity extends ViewDomainActivityBase {
 
     @Override
     public Node buildUi() {

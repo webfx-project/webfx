@@ -8,7 +8,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class EventsRouting {
+public final class EventsRouting {
 
     private final static String ANY_PATH = "/events(/organization/:organizationId)?";
     private final static String ALL_EVENTS_PATH = "/events";

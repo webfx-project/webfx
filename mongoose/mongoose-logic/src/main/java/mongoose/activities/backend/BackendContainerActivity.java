@@ -11,7 +11,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-class BackendContainerActivity extends ContainerActivitySharedByBothEnds {
+final class BackendContainerActivity extends ContainerActivitySharedByBothEnds {
 
     @Override
     protected Collection<Action> navigationActions() {

@@ -6,7 +6,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class UnauthorizedRouting {
+public final class UnauthorizedRouting {
 
     private static String PATH = "/unauthorized";
 

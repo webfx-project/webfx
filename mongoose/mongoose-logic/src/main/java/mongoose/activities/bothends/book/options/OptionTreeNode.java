@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-class OptionTreeNode {
+final class OptionTreeNode {
 
     private final Option option;
     private final OptionTree tree;

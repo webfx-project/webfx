@@ -5,6 +5,6 @@ import mongoose.activities.bothends.generic.table.GenericTablePresentationViewAc
 /**
  * @author Bruno Salmon
  */
-class EventsPresentationViewActivity extends GenericTablePresentationViewActivity<EventsPresentationModel> {
+final class EventsPresentationViewActivity extends GenericTablePresentationViewActivity<EventsPresentationModel> {
 
 }

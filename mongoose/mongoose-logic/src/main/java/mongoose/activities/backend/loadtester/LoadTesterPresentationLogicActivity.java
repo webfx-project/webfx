@@ -7,7 +7,7 @@ import mongoose.activities.bothends.generic.MongooseDomainPresentationLogicActiv
 /**
  * @author Bruno Salmon
  */
-class LoadTesterPresentationLogicActivity extends MongooseDomainPresentationLogicActivityBase<LoadTesterPresentationModel> {
+final class LoadTesterPresentationLogicActivity extends MongooseDomainPresentationLogicActivityBase<LoadTesterPresentationModel> {
 
     LoadTesterPresentationLogicActivity() {
         super(LoadTesterPresentationModel::new);

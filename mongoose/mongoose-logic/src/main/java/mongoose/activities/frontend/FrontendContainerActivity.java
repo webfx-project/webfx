@@ -5,5 +5,5 @@ import mongoose.activities.bothends.ContainerActivitySharedByBothEnds;
 /**
  * @author Bruno Salmon
  */
-class FrontendContainerActivity extends ContainerActivitySharedByBothEnds {
+final class FrontendContainerActivity extends ContainerActivitySharedByBothEnds {
 }

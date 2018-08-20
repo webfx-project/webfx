@@ -29,7 +29,7 @@ import naga.util.Numbers;
 /**
  * @author Bruno Salmon
  */
-class PersonActivity extends BookingProcessActivity {
+final class PersonActivity extends BookingProcessActivity {
 
     private PersonDetailsPanel personDetailsPanel;
 

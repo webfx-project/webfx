@@ -31,7 +31,7 @@ import naga.util.Strings;
 /**
  * @author Bruno Salmon
  */
-class SummaryActivity extends BookingProcessActivity {
+final class SummaryActivity extends BookingProcessActivity {
 
     private BookingOptionsPanel bookingOptionsPanel;
     private Node bookingCalendarSection;

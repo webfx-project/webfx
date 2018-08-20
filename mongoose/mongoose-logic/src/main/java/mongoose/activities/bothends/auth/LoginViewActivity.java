@@ -7,7 +7,7 @@ import naga.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
 /**
  * @author Bruno Salmon
  */
-class LoginViewActivity extends ViewDomainActivityBase {
+final class LoginViewActivity extends ViewDomainActivityBase {
 
     private LoginPanel loginPanel;
 

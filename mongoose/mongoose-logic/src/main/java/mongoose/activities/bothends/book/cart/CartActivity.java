@@ -51,7 +51,7 @@ import static naga.framework.ui.formatter.FormatterRegistry.registerFormatter;
 /**
  * @author Bruno Salmon
  */
-class CartActivity extends CartBasedActivity {
+final class CartActivity extends CartBasedActivity {
 
     private final Property<DisplayResult> documentDisplayResultProperty = new SimpleObjectProperty<>();
     private final Property<DisplayResult> paymentDisplayResultProperty = new SimpleObjectProperty<>();

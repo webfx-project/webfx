@@ -13,7 +13,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public class CloneEventPresentationLogicActivity extends EventDependentPresentationLogicActivity<CloneEventPresentationModel> {
+public final class CloneEventPresentationLogicActivity extends EventDependentPresentationLogicActivity<CloneEventPresentationModel> {
 
     public CloneEventPresentationLogicActivity() {
         super(CloneEventPresentationModel::new);

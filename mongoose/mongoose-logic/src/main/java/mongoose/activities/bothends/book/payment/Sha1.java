@@ -13,7 +13,7 @@ import naga.platform.services.log.Logger;
 /**
  * @author Bruno Salmon
  */
-class Sha1 {
+final class Sha1 {
 
     static String hash(String msg) {
         try {

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-class BookingsPresentationModel extends EventDependentGenericTablePresentationModel {
+final class BookingsPresentationModel extends EventDependentGenericTablePresentationModel {
 
     private final StringProperty columnsProperty = new SimpleStringProperty();
     final StringProperty columnsProperty() { return columnsProperty; }

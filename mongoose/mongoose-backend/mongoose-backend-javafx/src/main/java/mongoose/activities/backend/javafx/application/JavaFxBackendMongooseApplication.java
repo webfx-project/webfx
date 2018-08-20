@@ -16,7 +16,7 @@ import naga.fx.util.ImageStore;
 /**
  * @author Bruno Salmon
  */
-public class JavaFxBackendMongooseApplication extends BackendMongooseApplication {
+public final class JavaFxBackendMongooseApplication extends BackendMongooseApplication {
 
     public static void main(String[] args) {
         launchJavaFxBackendMongooseApplication(args);

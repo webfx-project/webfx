@@ -16,7 +16,7 @@ import naga.fxdata.control.DataGrid;
 /**
  * @author Bruno Salmon
  */
-class AuthorizationsViewActivity extends ViewDomainActivityBase
+final class AuthorizationsViewActivity extends ViewDomainActivityBase
         implements ReactiveExpressionFilterFactoryMixin {
 
     private final String manageeColumns = "[{label: 'Managee', expression: 'active,user.genderIcon,user.firstName,user.lastName'}]";

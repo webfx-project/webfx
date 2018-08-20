@@ -11,7 +11,7 @@ import naga.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-class OperationsPresentationLogicActivity
+final class OperationsPresentationLogicActivity
         extends MongooseDomainPresentationLogicActivityBase<OperationsPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 

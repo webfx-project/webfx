@@ -8,7 +8,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class CartRouting {
+public final class CartRouting {
 
     private final static String PATH = "/book/cart/:cartUuid";
 

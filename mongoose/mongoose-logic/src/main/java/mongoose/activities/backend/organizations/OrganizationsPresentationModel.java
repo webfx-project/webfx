@@ -7,7 +7,7 @@ import mongoose.activities.bothends.generic.table.GenericTablePresentationModel;
 /**
  * @author Bruno Salmon
  */
-class OrganizationsPresentationModel extends GenericTablePresentationModel {
+final class OrganizationsPresentationModel extends GenericTablePresentationModel {
 
     // Display input
 

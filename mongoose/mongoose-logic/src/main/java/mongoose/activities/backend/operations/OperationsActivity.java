@@ -5,7 +5,7 @@ import naga.framework.activity.base.combinations.domainpresentation.impl.DomainP
 /**
  * @author Bruno Salmon
  */
-class OperationsActivity extends DomainPresentationActivityImpl<OperationsPresentationModel> {
+final class OperationsActivity extends DomainPresentationActivityImpl<OperationsPresentationModel> {
 
     OperationsActivity() {
         super(OperationsPresentationViewActivity::new, OperationsPresentationLogicActivity::new);

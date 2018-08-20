@@ -8,7 +8,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class PaymentRouting {
+public final class PaymentRouting {
 
     private final static String PATH = CartRouting.getPath() + "/payment";
 

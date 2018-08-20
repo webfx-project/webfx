@@ -38,7 +38,7 @@ import static naga.framework.ui.layouts.LayoutUtil.*;
 /**
  * @author Bruno Salmon
  */
-class EditableOptionsActivity extends OptionsActivity {
+final class EditableOptionsActivity extends OptionsActivity {
 
     private ObservableValue<Boolean> editModeProperty;
 

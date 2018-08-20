@@ -6,7 +6,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class LoadTesterRouting {
+public final class LoadTesterRouting {
 
     private final static String PATH = "/load-tester";
 

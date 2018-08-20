@@ -7,7 +7,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class CloneEventRouting {
+public final class CloneEventRouting {
 
     private static final String PATH = "/event/:eventId/clone";
 

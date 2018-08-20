@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-class PaymentActivity extends CartBasedActivity {
+final class PaymentActivity extends CartBasedActivity {
 
     private VBox paymentsVBox;
     private List<DocumentPayment> documentPayments;

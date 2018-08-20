@@ -6,7 +6,7 @@ import naga.framework.ui.uirouter.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class AuthorizationsRouting {
+public final class AuthorizationsRouting {
 
     private static String PATH = "/authorizations";
 

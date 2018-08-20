@@ -5,6 +5,6 @@ import mongoose.activities.bothends.generic.table.GenericTablePresentationModel;
 /**
  * @author Bruno Salmon
  */
-class OperationsPresentationModel extends GenericTablePresentationModel {
+final class OperationsPresentationModel extends GenericTablePresentationModel {
 
 }

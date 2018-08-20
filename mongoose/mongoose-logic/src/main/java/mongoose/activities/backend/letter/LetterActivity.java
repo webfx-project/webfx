@@ -10,7 +10,7 @@ import naga.fx.properties.Properties;
 /**
  * @author Bruno Salmon
  */
-class LetterActivity extends ViewDomainActivityBase {
+final class LetterActivity extends ViewDomainActivityBase {
 
     private final Property<Object> routeLetterIdProperty = new SimpleObjectProperty<>();
 

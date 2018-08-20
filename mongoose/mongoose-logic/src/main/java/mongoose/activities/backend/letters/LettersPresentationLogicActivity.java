@@ -7,7 +7,7 @@ import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 /**
  * @author Bruno Salmon
  */
-class LettersPresentationLogicActivity
+final class LettersPresentationLogicActivity
         extends EventDependentPresentationLogicActivity<LettersPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 

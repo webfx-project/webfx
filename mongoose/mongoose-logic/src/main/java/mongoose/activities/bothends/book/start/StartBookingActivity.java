@@ -27,7 +27,7 @@ import naga.fx.util.ImageStore;
 /**
  * @author Bruno Salmon
  */
-class StartBookingActivity extends BookingProcessActivity {
+final class StartBookingActivity extends BookingProcessActivity {
 
     private ImageView eventImageView;
     private BorderPane eventImageViewContainer;

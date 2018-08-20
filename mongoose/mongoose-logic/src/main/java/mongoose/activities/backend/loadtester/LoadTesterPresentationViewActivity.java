@@ -13,7 +13,7 @@ import naga.fxdata.chart.LineChart;
 /**
  * @author Bruno Salmon
  */
-class LoadTesterPresentationViewActivity extends PresentationViewActivityImpl<LoadTesterPresentationModel> {
+final class LoadTesterPresentationViewActivity extends PresentationViewActivityImpl<LoadTesterPresentationModel> {
 
     private LineChart connectionsChart;
     private Button saveTest;

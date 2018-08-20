@@ -10,7 +10,7 @@ import naga.fxdata.displaydata.DisplayResult;
 /**
  * @author Bruno Salmon
  */
-class LoadTesterPresentationModel {
+final class LoadTesterPresentationModel {
 
     private final Property<Integer> requestedConnectionsProperty = new SimpleObjectProperty<>(0);
     Property<Integer> requestedConnectionsProperty() { return requestedConnectionsProperty; }

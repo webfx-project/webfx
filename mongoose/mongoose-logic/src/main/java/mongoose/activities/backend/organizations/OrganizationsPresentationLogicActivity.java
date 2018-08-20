@@ -9,7 +9,7 @@ import naga.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-class OrganizationsPresentationLogicActivity
+final class OrganizationsPresentationLogicActivity
         extends MongooseDomainPresentationLogicActivityBase<OrganizationsPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 

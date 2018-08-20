@@ -10,7 +10,7 @@ import naga.framework.services.i18n.I18n;
 /**
  * @author Bruno Salmon
  */
-class OrganizationsPresentationViewActivity extends GenericTablePresentationViewActivity<OrganizationsPresentationModel> {
+final class OrganizationsPresentationViewActivity extends GenericTablePresentationViewActivity<OrganizationsPresentationModel> {
 
     private CheckBox withEventsCheckBox;
 
