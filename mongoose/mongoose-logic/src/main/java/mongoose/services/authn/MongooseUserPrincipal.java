@@ -21,4 +21,14 @@ public class MongooseUserPrincipal {
         return userAccountId;
     }
 
+    // Static methods helpers
+
+    public static Object getUserPersonId(Object principal) {
+        return principal instanceof MongooseUserPrincipal ? ((MongooseUserPrincipal) principal).getUserPersonId() : null;
+    }
+
+    public static Object getUserAccountId(Object principal) {
+        return principal instanceof MongooseUserPrincipal ? ((MongooseUserPrincipal) principal).getUserAccountId() : null;
+    }
+
 }
