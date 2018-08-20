@@ -8,7 +8,7 @@ import naga.framework.orm.entity.impl.DynamicEntity;
 /**
  * @author Bruno Salmon
  */
-public class DocumentImpl extends DynamicEntity implements Document {
+public final class DocumentImpl extends DynamicEntity implements Document {
 
     public DocumentImpl(EntityId id, EntityStore store) {
         super(id, store);

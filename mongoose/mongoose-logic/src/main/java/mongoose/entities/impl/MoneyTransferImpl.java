@@ -8,7 +8,7 @@ import naga.framework.orm.entity.impl.DynamicEntity;
 /**
  * @author Bruno Salmon
  */
-public class MoneyTransferImpl extends DynamicEntity implements MoneyTransfer {
+public final class MoneyTransferImpl extends DynamicEntity implements MoneyTransfer {
 
     public MoneyTransferImpl(EntityId id, EntityStore store) {
         super(id, store);

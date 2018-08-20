@@ -10,7 +10,7 @@ import naga.framework.orm.entity.impl.DynamicEntity;
 /**
  * @author Bruno Salmon
  */
-public class DateInfoImpl extends DynamicEntity implements DateInfo {
+public final class DateInfoImpl extends DynamicEntity implements DateInfo {
 
     public DateInfoImpl(EntityId id, EntityStore store) {
         super(id, store);

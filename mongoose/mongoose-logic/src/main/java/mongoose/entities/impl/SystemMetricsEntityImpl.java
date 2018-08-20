@@ -10,7 +10,7 @@ import java.time.Instant;
 /**
  * @author Bruno Salmon
  */
-public class SystemMetricsEntityImpl extends DynamicEntity implements SystemMetricsEntity {
+public final class SystemMetricsEntityImpl extends DynamicEntity implements SystemMetricsEntity {
 
     public SystemMetricsEntityImpl(EntityId id, EntityStore store) {
         super(id, store);

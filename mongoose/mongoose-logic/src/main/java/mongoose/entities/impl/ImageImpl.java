@@ -8,7 +8,7 @@ import naga.framework.orm.entity.impl.DynamicEntity;
 /**
  * @author Bruno Salmon
  */
-public class ImageImpl extends DynamicEntity implements Image {
+public final class ImageImpl extends DynamicEntity implements Image {
 
     public ImageImpl(EntityId id, EntityStore store) {
         super(id, store);

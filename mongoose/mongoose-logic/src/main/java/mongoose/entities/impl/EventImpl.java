@@ -9,7 +9,7 @@ import naga.framework.orm.entity.impl.DynamicEntity;
 /**
  * @author Bruno Salmon
  */
-public class EventImpl extends DynamicEntity implements Event {
+public final class EventImpl extends DynamicEntity implements Event {
 
     public EventImpl(EntityId id, EntityStore store) {
         super(id, store);

@@ -8,7 +8,7 @@ import naga.framework.orm.entity.impl.DynamicEntity;
 /**
  * @author Bruno Salmon
  */
-public class LabelImpl extends DynamicEntity implements Label {
+public final class LabelImpl extends DynamicEntity implements Label {
 
     public LabelImpl(EntityId id, EntityStore store) {
         super(id, store);

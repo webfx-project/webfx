@@ -12,7 +12,7 @@ import java.time.Instant;
 /**
  * @author Jean-Pierre Alonso.
  */
-public class LtTestEventEntityImpl extends DynamicEntity implements LtTestEventEntity {
+public final class LtTestEventEntityImpl extends DynamicEntity implements LtTestEventEntity {
 
     public LtTestEventEntityImpl(EntityId id, EntityStore store) {
         super(id, store);
