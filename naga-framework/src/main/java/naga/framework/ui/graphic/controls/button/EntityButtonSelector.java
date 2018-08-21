@@ -13,6 +13,7 @@ import naga.framework.expression.Expression;
 import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
+import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.filter.ExpressionColumn;
@@ -80,10 +81,12 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         renderingExpression = null;
         if (jsonOrClass != null) {
             StringFilter stringFilter = new StringFilterBuilder(jsonOrClass).build();
-            DomainClass entityClass = dataSourceModel.getDomainModel().getClass(stringFilter.getDomainClassId());
+            DomainModel domainModel = dataSourceModel.getDomainModel();
+            Object domainClassId = stringFilter.getDomainClassId();
+            DomainClass entityClass = domainModel.getClass(domainClassId);
             if (stringFilter.getColumns() != null) {
-                ExpressionColumn[] expressionColumns = ExpressionColumn.fromJsonArray(stringFilter.getColumns());
-                renderingExpression = new ExpressionArray<>(Arrays.map(expressionColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(dataSourceModel.getDomainModel(), stringFilter.getDomainClassId()).getDisplayExpression(), Expression[]::new));
+                ExpressionColumn[] expressionColumns = ExpressionColumn.fromJsonArrayOrExpressionsDefinition(stringFilter.getColumns(), domainModel, domainClassId);
+                renderingExpression = new ExpressionArray<>(Arrays.map(expressionColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId).getDisplayExpression(), Expression[]::new));
             } else if (stringFilter.getFields() != null)
                 renderingExpression = entityClass.parseExpression(stringFilter.getFields());
             else
