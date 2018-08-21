@@ -30,6 +30,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
     private Boolean isForeignObject;
     private DomainClass foreignClass;
     private Expression foreignFields;
+    private String foreignSearchCondition;
 
     ExpressionColumnImpl(String expressionDefinition, Expression expression, Object label, Formatter displayFormatter, DisplayColumn displayColumn, JsonObject json) {
         this.expressionDefinition = expressionDefinition;
@@ -71,7 +72,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
                 if (collator != null)
                     fxValueRenderer = ValueRenderer.create(displayType, collator);
                 role = json.getString("role");
-                json = null;
+                //json = null;
             }
             if (textAlign == null) {
                 Type type = getDisplayExpression().getType();
@@ -118,6 +119,15 @@ class ExpressionColumnImpl implements ExpressionColumn {
             foreignFields = localDef == null ? foreignClass.getForeignFields() : foreignClass.parseExpression(localDef);
         }
         return foreignFields;
+    }
+
+    @Override
+    public String getForeignSearchCondition() {
+        if (foreignSearchCondition == null && getForeignClass() != null) {
+            String localDef = json == null ? null : json.getString("foreignSearchCondition");
+            foreignSearchCondition = localDef == null ? foreignClass.getSearchCondition() : localDef;
+        }
+        return foreignSearchCondition;
     }
 
     @Override

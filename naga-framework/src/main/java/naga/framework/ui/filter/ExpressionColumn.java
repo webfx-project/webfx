@@ -33,6 +33,13 @@ public interface ExpressionColumn {
     Expression getForeignFields();
 
     /**
+     * @return the foreign search condition to be used when selecting a new foreign object or null the original expression is just a value.
+     * This search condition is generally the one defined in the domain class, but it's possible to override it when the column
+     * is parsed from json using the "foreignFields" key. Ex: {expression: 'myEntity', foreignSearchCondition: 'name like ?searchLike'}
+     */
+    String getForeignSearchCondition();
+
+    /**
      * @return the expression to be used to evaluate all values of the display result set for that column. It is the
      * same original expression if it expresses just a value but if it expresses a foreign object, the foreign fields
      * declared in the foreign class to display such an entity will be used instead.
