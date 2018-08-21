@@ -33,8 +33,10 @@ public final class EntityRenderer implements ValueRenderer {
         Object jsonOrClass = foreignFieldColumn == null ? domainClassId // just the class id if there is no foreign field column defined
             : Json.createObject() // Json object otherwise (most of the case) with both "class" and "columns" set
                 .set("class", domainClassId)
-                // We prefix the columns definition with "expr:=" to prevent ExpressionColumns.fromJsonArrayOrExpressionsDefinition() to be confused when foreign fields is an expression array (ex: "[icon,name]"), it must not be considered as a json array (the correct definition for a json array would be "['icon','name'] instead)
-                .set("columns", "expr:=" + foreignFieldColumn.getForeignFields());
+                // We prefix the columns definition with "expr:=" to ensure that the parsing - done by ExpressionColumns.fromJsonArrayOrExpressionsDefinition() - will work when foreign fields is an expression array (ex: "[icon,name]"), because in that case the string is an expression definition and not a json array despite of the brackets (the correct json array string would be ['icon','name'] instead). So the prefix will remove that possible confusion.
+                .set("columns", "expr:=" + foreignFieldColumn.getForeignFields())
+                .set("where", foreignFieldColumn.getForeignCondition())
+                ;
         // Creating the entity button selector and setting the initial entity
         EntityButtonSelector<Entity> selector = new EntityButtonSelector<>(jsonOrClass, erc.getButtonFactory(), erc.getParentGetter(), store.getDataSourceModel());
         if (foreignFieldColumn != null) {
