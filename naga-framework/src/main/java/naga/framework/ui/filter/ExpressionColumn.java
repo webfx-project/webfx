@@ -26,6 +26,13 @@ public interface ExpressionColumn {
     DomainClass getForeignClass();
 
     /**
+     * @return the foreign fields to be used to display the foreign object or null the original expression is just a value.
+     * These fields are generally those defined in the domain class, but it's possible to override them when the column
+     * is parsed from json using the "foreignFields" key. Ex: {expression: 'myEntity', foreignFields: '[icon,name]'}
+     */
+    Expression getForeignFields();
+
+    /**
      * @return the expression to be used to evaluate all values of the display result set for that column. It is the
      * same original expression if it expresses just a value but if it expresses a foreign object, the foreign fields
      * declared in the foreign class to display such an entity will be used instead.

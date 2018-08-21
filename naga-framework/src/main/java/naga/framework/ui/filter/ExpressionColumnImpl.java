@@ -27,6 +27,9 @@ class ExpressionColumnImpl implements ExpressionColumn {
     private Object label;
     private DisplayColumn displayColumn;
     private JsonObject json;
+    private Boolean isForeignObject;
+    private DomainClass foreignClass;
+    private Expression foreignFields;
 
     ExpressionColumnImpl(String expressionDefinition, Expression expression, Object label, Formatter displayFormatter, DisplayColumn displayColumn, JsonObject json) {
         this.expressionDefinition = expressionDefinition;
@@ -99,23 +102,28 @@ class ExpressionColumnImpl implements ExpressionColumn {
 
     @Override
     public DomainClass getForeignClass() {
-        Expression topRightExpression = getTopRightExpression(expression);
-        if (topRightExpression instanceof DomainField)
-            return ((DomainField) topRightExpression).getForeignClass();
-        return null;
+        if (isForeignObject == null) {
+            Expression topRightExpression = getTopRightExpression(expression);
+            if (topRightExpression instanceof DomainField)
+                foreignClass = ((DomainField) topRightExpression).getForeignClass();
+            isForeignObject = foreignClass != null;
+        }
+        return foreignClass;
+    }
+
+    @Override
+    public Expression getForeignFields() {
+        if (foreignFields == null && getForeignClass() != null) {
+            String localDef = json == null ? null : json.getString("foreignFields");
+            foreignFields = localDef == null ? foreignClass.getForeignFields() : foreignClass.parseExpression(localDef);
+        }
+        return foreignFields;
     }
 
     @Override
     public Expression getDisplayExpression() {
-        if (displayExpression == null) {
-            displayExpression = expression;
-            DomainClass foreignClass = getForeignClass();
-            if (foreignClass != null) {
-                Expression foreignFields = foreignClass.getForeignFields();
-                if (foreignFields != null)
-                    displayExpression = new Dot(expression, foreignFields);
-            }
-        }
+        if (displayExpression == null)
+            displayExpression = getForeignFields() == null ? expression : new Dot(expression, foreignFields);
         return displayExpression;
     }
 
