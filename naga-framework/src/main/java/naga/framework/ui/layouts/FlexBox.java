@@ -23,14 +23,15 @@ public final class FlexBox extends Pane {
     private double computedMinHeight;
     private boolean performingLayout;
 
-    public FlexBox() {
+    public FlexBox(Node... children) {
+        getChildren().setAll(children);
         // This is necessary to clear the previous computed min/pref/max height cached value memorized in Region.min/pref/maxHeight()
         widthProperty().addListener(observable -> clearSizeCache());
         getChildren().addListener((InvalidationListener) observable -> clearSizeCache());
     }
 
-    public FlexBox(double horizontalSpace, double verticalSpace) {
-        this();
+    public FlexBox(double horizontalSpace, double verticalSpace, Node... children) {
+        this(children);
         setHorizontalSpace(horizontalSpace);
         setVerticalSpace(verticalSpace);
     }
