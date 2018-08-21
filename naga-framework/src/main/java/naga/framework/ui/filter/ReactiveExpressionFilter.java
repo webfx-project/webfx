@@ -764,8 +764,8 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             refreshNowIfActiveAndFilterChanged();
         }
 
-        void setExpressionColumnsPrivate(String jsonArrayDisplayColumns) {
-            setExpressionColumnsPrivate(ExpressionColumn.fromJsonArray(jsonArrayDisplayColumns));
+        void setExpressionColumnsPrivate(String jsonOrDefColumns) {
+            setExpressionColumnsPrivate(ExpressionColumn.fromJsonArrayOrExpressionsDefinition(jsonOrDefColumns, getDomainModel(), getDomainClassId()));
             if (appliedDomainModelRowStyle)
                 applyDomainModelRowStyle();
         }
