@@ -50,11 +50,6 @@ public class ExpressionArray<T> extends AbstractExpression<T> implements ParentE
     }
 
     @Override
-    public String toString() {
-        return toString(new StringBuilder()).toString();
-    }
-
-    @Override
     public StringBuilder toString(StringBuilder sb) {
         for (int i = 0; i < expressions.length; i++) {
             if (i != 0)

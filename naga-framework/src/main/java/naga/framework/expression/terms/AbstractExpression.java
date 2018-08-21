@@ -26,4 +26,8 @@ public abstract class AbstractExpression<T> implements Expression<T> {
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
     }
 
+    @Override
+    public String toString() {
+        return toString(new StringBuilder()).toString();
+    }
 }

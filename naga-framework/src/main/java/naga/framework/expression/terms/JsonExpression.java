@@ -42,11 +42,6 @@ public class JsonExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public String toString() {
-        return toString(new StringBuilder()).toString();
-    }
-
-    @Override
     public StringBuilder toString(StringBuilder sb) {
         sb.append('{');
         IndexedArray keys = jsonExpressions.keys();
