@@ -76,12 +76,12 @@ terminal Boolean  BOOLEAN;
 terminal String   STRING, IDENTIFIER;
 
 /* Non terminals used in the grammar section.*/
-non terminal Object                 parser_start;
-non terminal SelectBuilder          select_query, select_start, select_distinct, select_class, select_where, select_group, select_order, select_limit;
-non terminal ExpressionBuilder      expr, expr_list_token, expr_or_list, left_dot, list_dot, list_dot_right, field_dot, field_dot_right, expr_dot, expr_dot_right, field, fields_group, val, constant, parameter, ordered, ordered_nulls;
-non terminal ExpressionArrayBuilder expr_list, expr2_list, val_list, order_list;
-non terminal JsonExpressionBuilder  json_token_list;
-non terminal Boolean dot_op;
+non terminal Object                       parser_start;
+non terminal SelectBuilder                select_query, select_start, select_distinct, select_class, select_where, select_group, select_order, select_limit;
+non terminal ExpressionBuilder            expr, expr_list_token, expr_or_list, left_dot, list_dot, list_dot_right, field_dot, field_dot_right, expr_dot, expr_dot_right, field, fields_group, val, constant, parameter, ordered, ordered_nulls;
+non terminal ExpressionArrayBuilder       expr_list, expr2_list, val_list, order_list;
+non terminal JsonObjectExpressionBuilder  json_token_list;
+non terminal Boolean                      dot_op;
 
 /* -------------Precedence and Associatively of Terminals Section----------- */
    
@@ -262,7 +262,7 @@ expr      ::= expr:left OR expr:right
             | IDENTIFIER:name LPAREN expr_or_list:arg ORDER_BY order_list:ol RPAREN
               {: RESULT = new CallBuilder(name, arg, ol); :}
             | LCURLY RCURLY
-              {: RESULT = new JsonExpressionBuilder(); :}
+              {: RESULT = new JsonObjectExpressionBuilder(); :}
             | LCURLY json_token_list:list RCURLY
               {: RESULT = list; :}
             | field:f
@@ -322,7 +322,7 @@ constant ::= NUMBER:n
 json_token_list ::= json_token_list:list COMMA IDENTIFIER:key COLON expr:e
               {: RESULT = list; RESULT.add(key, e); :}
             | IDENTIFIER:key COLON expr:e
-              {: RESULT = new JsonExpressionBuilder(key, e); :}
+              {: RESULT = new JsonObjectExpressionBuilder(key, e); :}
             ;
 
 order_list ::= order_list:list COMMA ordered_nulls:o

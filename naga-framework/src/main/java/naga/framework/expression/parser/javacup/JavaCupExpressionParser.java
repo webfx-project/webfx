@@ -7,6 +7,7 @@ package naga.framework.expression.parser.javacup;
 
 import naga.framework.expression.builder.terms.*;
 import naga.util.Numbers;
+import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
   */
@@ -1890,7 +1891,7 @@ class CUP$JavaCupExpressionParser$actions {
           case 66: // expr ::= LCURLY RCURLY 
             {
               ExpressionBuilder RESULT =null;
-		 RESULT = new JsonExpressionBuilder(); 
+		 RESULT = new JsonObjectExpressionBuilder(); 
               CUP$JavaCupExpressionParser$result = parser.getSymbolFactory().newSymbol("expr",9, ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-1)), ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.peek()), RESULT);
             }
           return CUP$JavaCupExpressionParser$result;
@@ -1901,7 +1902,7 @@ class CUP$JavaCupExpressionParser$actions {
               ExpressionBuilder RESULT =null;
 		int listleft = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-1)).left;
 		int listright = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-1)).right;
-		JsonExpressionBuilder list = (JsonExpressionBuilder)((java_cup.runtime.Symbol) CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-1)).value;
+		JsonObjectExpressionBuilder list = (JsonObjectExpressionBuilder)((java_cup.runtime.Symbol) CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-1)).value;
 		 RESULT = list; 
               CUP$JavaCupExpressionParser$result = parser.getSymbolFactory().newSymbol("expr",9, ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-2)), ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.peek()), RESULT);
             }
@@ -2162,10 +2163,10 @@ class CUP$JavaCupExpressionParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 89: // json_token_list ::= json_token_list COMMA IDENTIFIER COLON expr 
             {
-              JsonExpressionBuilder RESULT =null;
+              JsonObjectExpressionBuilder RESULT =null;
 		int listleft = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-4)).left;
 		int listright = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-4)).right;
-		JsonExpressionBuilder list = (JsonExpressionBuilder)((java_cup.runtime.Symbol) CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-4)).value;
+		JsonObjectExpressionBuilder list = (JsonObjectExpressionBuilder)((java_cup.runtime.Symbol) CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-4)).value;
 		int keyleft = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-2)).left;
 		int keyright = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-2)).right;
 		String key = (String)((java_cup.runtime.Symbol) CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-2)).value;
@@ -2180,14 +2181,14 @@ class CUP$JavaCupExpressionParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 90: // json_token_list ::= IDENTIFIER COLON expr 
             {
-              JsonExpressionBuilder RESULT =null;
+              JsonObjectExpressionBuilder RESULT =null;
 		int keyleft = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-2)).left;
 		int keyright = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-2)).right;
 		String key = (String)((java_cup.runtime.Symbol) CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-2)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.peek()).right;
 		ExpressionBuilder e = (ExpressionBuilder)((java_cup.runtime.Symbol) CUP$JavaCupExpressionParser$stack.peek()).value;
-		 RESULT = new JsonExpressionBuilder(key, e); 
+		 RESULT = new JsonObjectExpressionBuilder(key, e); 
               CUP$JavaCupExpressionParser$result = parser.getSymbolFactory().newSymbol("json_token_list",30, ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.elementAt(CUP$JavaCupExpressionParser$top-2)), ((java_cup.runtime.Symbol)CUP$JavaCupExpressionParser$stack.peek()), RESULT);
             }
           return CUP$JavaCupExpressionParser$result;

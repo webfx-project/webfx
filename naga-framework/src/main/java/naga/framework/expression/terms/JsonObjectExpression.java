@@ -15,13 +15,13 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class JsonExpression<T> extends AbstractExpression<T> {
+public class JsonObjectExpression<T> extends AbstractExpression<T> {
 
-    protected final KeyObject jsonExpressions;
+    private final KeyObject jsonObjectExpressions;
 
-    public JsonExpression(KeyObject jsonExpressions) {
+    public JsonObjectExpression(KeyObject jsonObjectExpressions) {
         super(1);
-        this.jsonExpressions = jsonExpressions;
+        this.jsonObjectExpressions = jsonObjectExpressions;
     }
 
     @Override
@@ -32,10 +32,10 @@ public class JsonExpression<T> extends AbstractExpression<T> {
     @Override
     public JsonObject evaluate(T domainObject, DataReader<T> dataReader) {
         WritableJsonObject json = Json.createObject();
-        IndexedArray keys = jsonExpressions.keys();
+        IndexedArray keys = jsonObjectExpressions.keys();
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.getString(i);
-            Expression<T> expression = jsonExpressions.get(key);
+            Expression<T> expression = jsonObjectExpressions.get(key);
             json.set(key, expression.evaluate(domainObject, dataReader));
         }
         return json;
@@ -44,13 +44,13 @@ public class JsonExpression<T> extends AbstractExpression<T> {
     @Override
     public StringBuilder toString(StringBuilder sb) {
         sb.append('{');
-        IndexedArray keys = jsonExpressions.keys();
+        IndexedArray keys = jsonObjectExpressions.keys();
         for (int i = 0; i < keys.size(); i++) {
             if (i != 0)
                 sb.append(", ");
             String key = keys.getString(i);
             sb.append(key).append(": ");
-            Expression<T> expression = jsonExpressions.get(key);
+            Expression<T> expression = jsonObjectExpressions.get(key);
             expression.toString(sb);
         }
         return sb.append('}');
@@ -58,10 +58,10 @@ public class JsonExpression<T> extends AbstractExpression<T> {
 
     @Override
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        IndexedArray keys = jsonExpressions.keys();
+        IndexedArray keys = jsonObjectExpressions.keys();
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.getString(i);
-            Expression<T> expression = jsonExpressions.get(key);
+            Expression<T> expression = jsonObjectExpressions.get(key);
             expression.collectPersistentTerms(persistentTerms);
         }
     }
