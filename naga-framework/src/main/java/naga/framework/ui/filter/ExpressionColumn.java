@@ -26,14 +26,21 @@ public interface ExpressionColumn {
     DomainClass getForeignClass();
 
     /**
-     * @return the foreign fields to be used to display the foreign object or null the original expression is just a value.
+     * @return the foreign fields to be used to display the foreign object, or null if the original expression is just a value.
      * These fields are generally those defined in the domain class, but it's possible to override them when the column
      * is parsed from json using the "foreignFields" key. Ex: {expression: 'myEntity', foreignFields: '[icon,name]'}
      */
     Expression getForeignFields();
 
     /**
-     * @return the foreign search condition to be used when selecting a new foreign object or null the original expression is just a value.
+     * @return the foreign condition to be used when selecting a new foreign object, or null if the original expression is just a value.
+     * This condition is generally the one defined in the foreign field, but it's possible to override it when the column
+     * is parsed from json using the "foreignCondition" key. Ex: {expression: 'myEntity', foreignCondition: '!cancelled'}
+     */
+    String getForeignCondition();
+
+    /**
+     * @return the foreign search condition to be used when selecting a new foreign object, or null if the original expression is just a value.
      * This search condition is generally the one defined in the domain class, but it's possible to override it when the column
      * is parsed from json using the "foreignFields" key. Ex: {expression: 'myEntity', foreignSearchCondition: 'name like ?searchLike'}
      */
