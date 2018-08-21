@@ -5,6 +5,7 @@ import naga.framework.orm.entity.Entities;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
+import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
 import naga.fx.properties.Properties;
 import naga.fxdata.cell.renderer.ValueRenderer;
@@ -28,13 +29,19 @@ public final class EntityRenderer implements ValueRenderer {
         EntityStore store = erc.getEntityStore();
         Object domainClassId = erc.getEntityClass().getModelId();
         // Defining the json or class object to be passed to the entity button selector
-        Object jsonOrClass = erc.getForeignFieldColumn() == null ? domainClassId // just the class id if there is no foreign field column defined
+        ExpressionColumn foreignFieldColumn = erc.getForeignFieldColumn();
+        Object jsonOrClass = foreignFieldColumn == null ? domainClassId // just the class id if there is no foreign field column defined
             : Json.createObject() // Json object otherwise (most of the case) with both "class" and "columns" set
                 .set("class", domainClassId)
                 // We prefix the columns definition with "expr:=" to prevent ExpressionColumns.fromJsonArrayOrExpressionsDefinition() to be confused when foreign fields is an expression array (ex: "[icon,name]"), it must not be considered as a json array (the correct definition for a json array would be "['icon','name'] instead)
-                .set("columns", "expr:=" + erc.getForeignFieldColumn().getForeignFields());
+                .set("columns", "expr:=" + foreignFieldColumn.getForeignFields());
         // Creating the entity button selector and setting the initial entity
         EntityButtonSelector<Entity> selector = new EntityButtonSelector<>(jsonOrClass, erc.getButtonFactory(), erc.getParentGetter(), store.getDataSourceModel());
+        if (foreignFieldColumn != null) {
+            String searchCondition = foreignFieldColumn.getForeignSearchCondition();
+            if (searchCondition != null)
+                selector.setSearchCondition(searchCondition);
+        }
         Entity entity = store.getEntity(entityId);
         selector.setSelectedItem(entity);
         // Also setting the edited value property in the rendering context to be the id of the entity selected in the button selector

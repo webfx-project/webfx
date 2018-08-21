@@ -97,6 +97,10 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         forceDialogRebuiltOnNextShow();
     }
 
+    public void setSearchCondition(String searchCondition) {
+        this.searchCondition = searchCondition;
+    }
+
     public void setLoadingStore(EntityStore loadingStore) {
         this.loadingStore = loadingStore;
     }
