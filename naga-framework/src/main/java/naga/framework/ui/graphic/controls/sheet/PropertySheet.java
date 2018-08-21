@@ -49,7 +49,7 @@ public final class PropertySheet implements MaterialFactoryMixin, ButtonFactoryM
         if (foreignClass == null)
             return new ValueRenderingContext(false, labelKey, null);
         // Returning a EntityRenderingContext otherwise (in case of a foreign entity) which will be used by the EntityRenderer
-        return new EntityRenderingContext(false, labelKey, null, foreignClass, () -> entity.getStore(), () -> dialogParent, this);
+        return new EntityRenderingContext(false, labelKey, null, expressionColumn, () -> entity.getStore(), () -> dialogParent, this);
     }
 
     public Object getEntity() {
