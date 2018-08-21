@@ -25,17 +25,17 @@ public final class StringFilterBuilder {
 
     public StringFilterBuilder(Object jsonOrClass) {
         String s = jsonOrClass instanceof String ? (String) jsonOrClass : null;
-        if (s == null || s.indexOf('{') == -1)
-            this.domainClassId = jsonOrClass;
+        if ((s == null || s.indexOf('{') == -1) && !(jsonOrClass instanceof JsonObject))
+            domainClassId = jsonOrClass;
         else {
-            JsonObject json = Json.parseObject(s);
-            this.domainClassId = json.get("class");
+            JsonObject json = s != null ? Json.parseObject(s) : (JsonObject) jsonOrClass;
+            domainClassId = json.get("class");
             applyJson(json);
         }
     }
 
     public StringFilterBuilder(JsonObject json) {
-        this.domainClassId = json.get("class");
+        domainClassId = json.get("class");
         applyJson(json);
     }
 
