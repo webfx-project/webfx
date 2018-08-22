@@ -5,11 +5,11 @@ module mongoose.backend.javafx {
 
     requires mongoose.logic;
     requires mongoose.logic.java;
-    requires naga.framework;
+    requires webfx.framework;
     requires naga.platform;
     requires naga.platform.jre;
     requires naga.fx;
-    requires naga.fx.javafx;
+    requires webfx.javafxport.javafx;
     requires naga.util;
 
     requires javafx.controls;

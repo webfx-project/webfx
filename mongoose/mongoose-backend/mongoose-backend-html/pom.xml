@@ -44,14 +44,14 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-framework</artifactId>
+            <artifactId>webfx-framework</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
         </dependency>
 
         <dependency>
-            <artifactId>naga-fx-gwt</artifactId>
+            <artifactId>webfx-javafxport-gwt</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>shaded-sources</classifier>

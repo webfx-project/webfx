@@ -6,7 +6,7 @@ module mongoose.vertx {
     requires mongoose.logic.java;
     requires mongoose.logic;
 
-    requires naga.framework;
+    requires webfx.framework;
 
     requires naga.platform.vertx;
     requires naga.platform;

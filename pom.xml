@@ -19,10 +19,10 @@
         <module>naga-scheduler</module>
         <module>naga-platform</module>
         <module>naga-fx</module>
-        <module>naga-framework</module>
+        <module>webfx-framework</module>
         <module>naga-javaemuls</module>
         <module>naga-platforms</module>
-        <module>naga-fx-providers</module>
+        <module>webfx-javafxports</module>
 
         <module>mongoose</module>
     </modules>
@@ -59,8 +59,6 @@
 
         <lib.junit.version>4.12</lib.junit.version>
 
-        <lib.teavm.version>0.5.1</lib.teavm.version>
-
         <!-- plugins versions -->
         <plugin.compiler.version>3.7.0</plugin.compiler.version>
         <plugin.jar.version>3.0.2</plugin.jar.version>
@@ -73,8 +71,6 @@
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
         <plugin.retrolambda.version>2.1.0</plugin.retrolambda.version>
         <plugin.gwt.version>1.0-rc-9</plugin.gwt.version> <!-- For Java 9 compilation -->
-
-        <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
 
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
         <plugin.compiler.param.exclude></plugin.compiler.param.exclude>
@@ -92,10 +88,6 @@
         <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
-
-        <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
-        <plugin.teavm.minifying>true</plugin.teavm.minifying>
-        <plugin.teavm.debug>false</plugin.teavm.debug>
 
         <application.name>${project.name}</application.name>
         <application.version>${project.version}</application.version>
@@ -215,29 +207,6 @@
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-jdbc-client</artifactId>
                 <version>${lib.vertx.version}</version>
-            </dependency>
-
-
-            <!--
-             *******************************************************************
-             * Libraries required for the TeaVM Platform (naga-platform-teavm) *
-             *******************************************************************
-             -->
-
-            <!-- Emulator of Java class library for TeaVM -->
-            <dependency>
-                <groupId>org.teavm</groupId>
-                <artifactId>teavm-classlib</artifactId>
-                <version>${lib.teavm.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <!-- JavaScriptObjects (JSO) - a JavaScript binding for TeaVM -->
-            <dependency>
-                <groupId>org.teavm</groupId>
-                <artifactId>teavm-jso</artifactId>
-                <version>${lib.teavm.version}</version>
-                <scope>provided</scope>
             </dependency>
 
 
@@ -596,63 +565,6 @@
                         </jvmArgs>
                         <!--<localWorkers>1</localWorkers>-->
                     </configuration>
-                </plugin>
-
-                <!--
-                 ******************************
-                 * TeaVM plugin configuration *
-                 ******************************
-                 -->
-                <plugin>
-                    <groupId>org.teavm</groupId>
-                    <artifactId>teavm-maven-plugin</artifactId>
-                    <version>${plugin.teavm.version}</version>
-                    <dependencies>
-                        <!-- Adding naga-javaemul-teavm before teavm-classlib so it can override TeaVM classes to extend them (see naga-javaemul-teavm pom case 2) -->
-                        <dependency>
-                            <artifactId>naga-javaemul-teavm</artifactId>
-                            <groupId>${naga.groupId}</groupId>
-                            <version>${naga.version}</version>
-                        </dependency>
-                        <dependency>
-                            <artifactId>naga-javaemul-javafxbase</artifactId>
-                            <groupId>${naga.groupId}</groupId>
-                            <version>${naga.version}</version>
-                            <classifier>shaded</classifier>
-                        </dependency>
-                        <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
-                        <dependency>
-                            <groupId>org.teavm</groupId>
-                            <artifactId>teavm-classlib</artifactId>
-                            <version>${lib.teavm.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>compile</goal>
-                            </goals>
-                            <phase>process-classes</phase>
-                            <configuration>
-                                <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
-                                <targetDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/js</targetDirectory>
-
-                                <!-- Main class, containing static void main(String[]) -->
-                                <mainClass>${plugin.teavm.param.mainClass}</mainClass>
-
-                                <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
-                                <runtime>SEPARATE</runtime>
-                                <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
-                                <minifying>${plugin.teavm.minifying}</minifying>
-                                <!-- Whether TeaVM should produce debug information for its built-in debugger -->
-                                <debugInformationGenerated>${plugin.teavm.debug}</debugInformationGenerated>
-                                <!-- Whether TeaVM should produce source maps file -->
-                                <sourceMapsGenerated>${plugin.teavm.debug}</sourceMapsGenerated>
-                                <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
-                                <sourceFilesCopied>${plugin.teavm.debug}</sourceFilesCopied>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
 
                 <!--

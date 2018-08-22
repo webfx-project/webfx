@@ -8,7 +8,7 @@ module mongoose.logic {
     requires naga.type;
     requires naga.platform;
     requires naga.fx;
-    requires naga.framework;
+    requires webfx.framework;
     requires naga.javalib.rxjava;
     requires naga.javalib.controlsfx.validation;
     requires naga.javalib.mvvmfx.validation;

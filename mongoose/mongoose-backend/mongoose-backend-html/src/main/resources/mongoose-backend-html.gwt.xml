@@ -1,8 +1,8 @@
 <module rename-to="mongoose_backend_html">
   <inherits name="mongoose-logic-web"/>
   <inherits name="mongoose-logic"/>
-  <inherits name="naga-framework"/>
-  <inherits name="naga-fx-gwt"/>
+  <inherits name="webfx-framework"/>
+  <inherits name="webfx-javafxport-gwt"/>
   <entry-point class="mongoose.activities.backend.application.web.WebBackendMongooseApplication"/>
   <source path="client"/>
   <source path="shared"/>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-framework</artifactId>
+    <artifactId>webfx-framework</artifactId>
 
     <dependencies>
 
@@ -92,6 +92,35 @@
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- Relocating the java_cup package to avoid a version conflict that makes TeaVM compilation fail (TeaVM has a dependency on xalan which includes an incompatible version of java_cup) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>teavm</shadedClassifierName>
+                            <createSourcesJar>true</createSourcesJar>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <!-- 1) TeaVM has a dependency on xalan that uses an incompatible version of java_cup
+                                        so we relocate our version to avoid a compilation error -->
+                                <relocation>
+                                    <pattern>java_cup</pattern>
+                                    <shadedPattern>java_cub_11b</shadedPattern>
+                                </relocation>
+
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

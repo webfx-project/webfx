@@ -1,7 +1,7 @@
 /**
  * @author Bruno Salmon
  */
-module naga.framework {
+module webfx.framework {
 
     requires naga.scheduler;
     requires naga.util;
