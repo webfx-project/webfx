@@ -595,7 +595,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         for (FilterDisplay filterDisplay : filterDisplays) {
             List<Expression> columnsPersistentTerms = filterDisplay.collectColumnsPersistentTerms();
             if (!columnsPersistentTerms.isEmpty())
-                mergeBuilder.mergeFields(new ExpressionArray<>(columnsPersistentTerms).toString());
+                mergeBuilder.mergeFields(new ExpressionArray(columnsPersistentTerms).toString());
         }
         return mergeBuilder.build();
     }

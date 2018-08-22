@@ -15,10 +15,11 @@ public class ExpressionArray<T> extends AbstractExpression<T> implements ParentE
 
     protected final Expression<T>[] expressions;
 
-    public ExpressionArray(Collection<Expression> expressions) {
+    public ExpressionArray(Collection<Expression<T>> expressions) {
         this(expressions.toArray(new Expression[expressions.size()]));
     }
 
+    @SafeVarargs
     public ExpressionArray(Expression<T>... expressions) {
         super(1);
         this.expressions = expressions;
