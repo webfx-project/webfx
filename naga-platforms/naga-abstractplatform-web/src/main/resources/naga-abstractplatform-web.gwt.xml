@@ -1,8 +1,0 @@
-<module rename-to="naga_abstractplatform_web">
-    <inherits name="naga-platform"/>
-
-    <!-- Specify the paths for translatable code                    -->
-    <source path="naga/providers/platform/abstr/web"/>                 <!-- source path to rxjava library (naga-javalib-rxjava) -->
-
-    <public path="public" />
-</module>

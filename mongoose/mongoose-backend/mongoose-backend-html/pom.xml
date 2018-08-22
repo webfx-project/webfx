@@ -79,7 +79,7 @@
         <plugin.gwt.param.optimize>0</plugin.gwt.param.optimize>
         <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
         <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
-        <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplatform-web -->
+        <!-- But unpacking webroot resources coming from dependencies such as webfx-platformports-web -->
         <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
         <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>

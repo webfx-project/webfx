@@ -31,7 +31,7 @@
 
         <!-- TODO: remove this dependency -->
         <dependency>
-            <artifactId>naga-platform-gwt</artifactId>
+            <artifactId>webfx-platformport-gwt</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>

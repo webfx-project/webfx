@@ -38,7 +38,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-platform-jre</artifactId>
+            <artifactId>webfx-platformport-jre</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <scope>test</scope>
