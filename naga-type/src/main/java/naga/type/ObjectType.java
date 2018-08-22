@@ -23,7 +23,7 @@ public class ObjectType implements Type {
     }
 
     public static ObjectType fromObject(Object o) {
-        return fromClass(o.getClass());
+        return o == null ? null : fromClass(o.getClass());
     }
 
 }
