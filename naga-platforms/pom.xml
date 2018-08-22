@@ -17,31 +17,7 @@
         <module>naga-platform-jre</module>
         <module>naga-platform-vertx</module>
         <module>naga-abstractplatform-web</module>
+        <module>naga-platform-gwt</module>
     </modules>
-
-    <profiles>
-
-        <!-- Web profiles (GWT, TeaVM) -->
-        <profile>
-            <id>naga-platform-gwt</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>naga-platform-gwt</module>
-            </modules>
-        </profile>
-
-        <profile>
-            <id>naga-platform-teavm</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>naga-platform-teavm</module>
-            </modules>
-        </profile>
-
-    </profiles>
 
 </project>
