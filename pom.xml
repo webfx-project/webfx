@@ -19,10 +19,15 @@
         <module>naga-scheduler</module>
         <module>naga-platform</module>
         <module>naga-fx</module>
-        <module>webfx-framework</module>
         <module>naga-javaemuls</module>
+
+        <module>webfx-platformportable</module>
         <module>webfx-platformports</module>
+
+        <module>webfx-javafxportable</module>
         <module>webfx-javafxports</module>
+
+        <module>webfx-framework</module>
 
         <module>mongoose</module>
     </modules>
