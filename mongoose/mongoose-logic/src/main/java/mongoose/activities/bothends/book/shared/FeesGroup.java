@@ -16,6 +16,7 @@ import naga.framework.services.i18n.I18n;
 import naga.fx.util.ImageStore;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 import naga.fxdata.cell.renderer.TextRenderer;
+import naga.fxdata.cell.renderer.ValueRenderingContext;
 import naga.fxdata.displaydata.*;
 import naga.type.PrimType;
 import naga.util.Numbers;
@@ -105,7 +106,7 @@ public class FeesGroup {
                             button.setOnAction(e -> bookHandler.handle(optionsPreselection));
                             if (availability == null || !showBadges)
                                 return button;
-                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderValue(availability, null)), button);
+                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderValue(availability, ValueRenderingContext.DEFAULT_READONLY_CONTEXT)), button);
                             hBox.setAlignment(Pos.CENTER);
                             return hBox;
                         }).build()});
