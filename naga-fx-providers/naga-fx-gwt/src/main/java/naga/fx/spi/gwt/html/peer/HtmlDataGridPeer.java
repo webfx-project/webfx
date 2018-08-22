@@ -119,10 +119,10 @@ public class HtmlDataGridPeer
                 int finalRowIndex = rowIndex;
                 tBodyRow.onmouseup = a -> { // was onclick but changed to onmouseup so it is done before JavaFx click is generated
                     DisplaySelection displaySelection = node.getDisplaySelection();
-                    if (node.getSelectionMode() != SelectionMode.DISABLED && (displaySelection == null || displaySelection.getSelectedRow() != finalRowIndex))
-                        displaySelection = DisplaySelection.createSingleRowSelection(finalRowIndex);
-                    else
+                    if (node.getSelectionMode() == SelectionMode.DISABLED)
                         displaySelection = null;
+                    else if (displaySelection == null || displaySelection.getSelectedRow() != finalRowIndex)
+                        displaySelection = DisplaySelection.createSingleRowSelection(finalRowIndex);
                     node.setDisplaySelection(displaySelection);
                     return null;
                 };
