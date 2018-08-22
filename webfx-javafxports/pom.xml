@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-fx-providers</artifactId>
+    <artifactId>webfx-javafxports</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>naga-fx-javafx</module>
-        <module>naga-fx-gwt</module>
+        <module>webfx-javafxport-javafx</module>
+        <module>webfx-javafxport-gwt</module>
 <!--
         <module>naga-fx-jfoenix</module>
 -->

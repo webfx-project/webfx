@@ -1,13 +1,14 @@
 package naga.fx.spi.javafx.peer;
 
+import com.sun.javafx.scene.control.skin.TableViewSkin;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import naga.fx.properties.Properties;
@@ -47,12 +49,70 @@ public class FxDataGridPeer
         super((NB) new DataGridPeerBase());
     }
 
+    static final String DEFER_TO_PARENT_PREF_WIDTH = "deferToParentPrefWidth";
+
     @Override
     protected TableView<Integer> createFxNode() {
         TableView<Integer> tableView = new TableView<>();
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.setRowFactory(createRowFactory());
         tableView.getSelectionModel().getSelectedIndices().addListener((ListChangeListener<Integer>) c -> updateNodeDisplaySelection());
+        tableView.setSkin(new TableViewSkin<Integer>(tableView) {
+
+            @Override
+            protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+                double pw = leftInset + rightInset;
+                for (TableColumn<Integer, ?> tc : getVisibleLeafColumns()) {
+                    if (!tc.isResizable())
+                        pw += tc.getWidth();
+                    else {
+                        List<?> items = itemsProperty().get();
+                        if (items == null || items.isEmpty()) continue;
+
+                        Callback/*<TableColumn<T, ?>, TableCell<T,?>>*/ cellFactory = tc.getCellFactory();
+                        if (cellFactory == null) continue;
+
+                        TableCell<Integer,?> cell = (TableCell<Integer, ?>) cellFactory.call(tc);
+                        if (cell == null) continue;
+
+                        // set this property to tell the TableCell we want to know its actual
+                        // preferred width, not the width of the associated TableColumnBase
+                        cell.getProperties().put(DEFER_TO_PARENT_PREF_WIDTH, Boolean.TRUE);
+
+                        // determine cell padding
+                        double padding = 10;
+                        Node n = cell.getSkin() == null ? null : cell.getSkin().getNode();
+                        if (n instanceof Region) {
+                            Region r = (Region) n;
+                            padding = r.snappedLeftInset() + r.snappedRightInset();
+                        }
+
+                        int rows = items.size(); //maxRows == -1 ? items.size() : Math.min(items.size(), maxRows);
+                        double maxWidth = 0;
+                        for (int row = 0; row < rows; row++) {
+                            cell.updateTableColumn(tc);
+                            cell.updateTableView(tableView);
+                            cell.updateIndex(row);
+
+                            if ((cell.getText() != null && !cell.getText().isEmpty()) || cell.getGraphic() != null) {
+                                getChildren().add(cell);
+                                cell.applyCss();
+                                double prefWidth = cell.prefWidth(-1);
+                                maxWidth = Math.max(maxWidth, prefWidth);
+                                getChildren().remove(cell);
+                                System.out.println("prefWidth = " + prefWidth + " for " + cell.getText() + ", font = " + cell.getFont());
+                            }
+                        }
+
+                        // dispose of the cell to prevent it retaining listeners (see RT-31015)
+                        cell.updateIndex(-1);
+
+                        pw += maxWidth + padding;
+                    }
+                }
+                return pw;
+            }
+        });
         return tableView;
     }
 
@@ -128,25 +188,28 @@ public class FxDataGridPeer
             return;
         rs = transformDisplayResultValuesToProperties(rs);
         TableView<Integer> tableView = getFxNode();
+        N dataGrid = getNode();
         synchronized (this) {
             currentColumns = tableView.getColumns();
             newColumns = new ArrayList<>();
             // Clearing the columns to completely rebuild them when table was empty (as the columns widths were not considering the content)
-            if (tableView.getItems().isEmpty() && rs.getRowCount() > 0)
+            int rowCount = rs.getRowCount();
+            if (tableView.getItems().isEmpty() && rowCount > 0)
                 currentColumns.clear();
             getNodePeerBase().fillGrid(rs);
             tableView.getSelectionModel().clearSelection(); // To avoid internal java 8 API call on Android
             tableView.getColumns().setAll(newColumns);
             currentColumns = newColumns = null;
             tableView.getSelectionModel().clearSelection(); // Clearing selection otherwise an undesired selection event is triggered on new items
-            tableView.getItems().setAll(new IdentityList(rs.getRowCount()));
-            if (rs.getRowCount() > 0) { // Workaround for the JavaFx wrong resize columns problem when vertical scroll bar appears
+            tableView.getItems().setAll(new IdentityList(rowCount));
+            if (rowCount > 0) { // Workaround for the JavaFx wrong resize columns problem when vertical scroll bar appears
                 tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
                 Toolkit.get().scheduler().scheduleDelay(100, () -> tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
             }
-            if (getNode().isFullHeight())
-                fitHeightToContent(tableView, getNode());
+            if (dataGrid.isFullHeight())
+                fitHeightToContent(tableView, dataGrid);
         }
+        dataGrid.requestLayout(); // this is essentially to clear the cached sized values (prefWith, etc...)
     }
 
     private static DisplayResult transformDisplayResultValuesToProperties(DisplayResult rs) {
@@ -225,25 +288,17 @@ public class FxDataGridPeer
         return base.getRowBackground(value);
     }
 
-    private static void fitHeightToContent(final Control control, DataGrid dataGrid) {
+    private static void fitHeightToContent(Control control, DataGrid dataGrid) {
         // Quick ugly hacked code to make the table height fit with the content
-        Skin<?> skin = control.getSkin();
-        if (skin == null)
-            control.skinProperty().addListener(new ChangeListener<Skin<?>>() {
-                @Override
-                public void changed(ObservableValue<? extends Skin<?>> observableValue, Skin<?> skin, Skin<?> skin2) {
-                    control.skinProperty().removeListener(this);
-                    fitHeightToContent(control, dataGrid);
-                }
-            });
-        else {
+        Properties.onPropertySet(control.skinProperty(), skin -> {
             ObservableList<javafx.scene.Node> children = null;
             if (skin instanceof Parent) // happens in java 7
                 children = ((Parent) skin).getChildrenUnmodifiable();
             else if (skin instanceof SkinBase) // happens in java 8
                 children = ((SkinBase) skin).getChildren();
             if (children != null) {
-                double h = 2; // border
+                Insets insets = control.getInsets();
+                double h = insets.getTop() + insets.getBottom();
                 for (javafx.scene.Node node : new ArrayList<>(children)) {
                     double nodePrefHeight = 0;
                     // Note: not compatible with Java 9 (VirtualFlow made inaccessible)
@@ -266,6 +321,6 @@ public class FxDataGridPeer
                 }
                 Properties.setIfNotBound(dataGrid.prefHeightProperty(), h);
             }
-        }
+        });
     }
 }

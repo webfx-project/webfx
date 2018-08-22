@@ -1,7 +1,7 @@
 /**
  * @author Bruno Salmon
  */
-module naga.fx.javafx {
+module webfx.javafxport.javafx {
     requires naga.scheduler;
     requires naga.util;
     requires naga.type;
