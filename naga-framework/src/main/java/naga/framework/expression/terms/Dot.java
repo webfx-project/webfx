@@ -61,11 +61,13 @@ public class Dot<T> extends BinaryExpression<T> {
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
         List<Expression<T>> rightPersistentTerms = new HashList<>();
         right.collectPersistentTerms(rightPersistentTerms);
-        if (rightPersistentTerms.size() != 1)
-            persistentTerms.add(new Dot(left, new ExpressionArray(rightPersistentTerms), outerJoin));
-        else if (rightPersistentTerms.get(0) == right)
-            persistentTerms.add(this);
-        else
-            persistentTerms.add(new Dot(left, rightPersistentTerms.get(0), outerJoin));
+        if (!rightPersistentTerms.isEmpty()) {
+            if (rightPersistentTerms.size() != 1)
+                persistentTerms.add(new Dot<>(left, new ExpressionArray<>(rightPersistentTerms), outerJoin));
+            else if (rightPersistentTerms.get(0) == right)
+                persistentTerms.add(this);
+            else
+                persistentTerms.add(new Dot<>(left, rightPersistentTerms.get(0), outerJoin));
+        }
     }
 }
