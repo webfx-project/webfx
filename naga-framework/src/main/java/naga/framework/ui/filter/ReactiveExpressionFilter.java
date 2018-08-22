@@ -734,7 +734,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         }
 
         E getSelectedEntity() {
-            return getSelectedEntity(displaySelectionProperty.getValue());
+            return getSelectedEntity(displaySelectionProperty == null ? null :displaySelectionProperty.getValue());
         }
 
         E getSelectedEntity(DisplaySelection selection) {
