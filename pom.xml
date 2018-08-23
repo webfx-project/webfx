@@ -17,7 +17,6 @@
         <module>naga-type</module>
         <module>naga-noreflect</module>
         <module>naga-scheduler</module>
-        <module>naga-platform</module>
         <module>naga-fx</module>
         <module>naga-javaemuls</module>
 
