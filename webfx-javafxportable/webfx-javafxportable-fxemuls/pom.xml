@@ -16,6 +16,7 @@
         <module>naga-javaemul-javafxbase</module>
         <module>naga-javaemul-javafxgraphics</module>
         <module>naga-javaemul-javafxcontrols</module>
+        <module>naga-javaemul-tool</module>
     </modules>
 
 </project>
