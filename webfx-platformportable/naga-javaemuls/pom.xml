@@ -16,7 +16,6 @@
         <module>naga-javaemul-gwt</module>
         <module>naga-javaemul-javatime</module>
         <module>naga-javaemul-tool</module>
-        <module>naga-javaemul-javafxbase</module>
         <module>naga-javaemul-javafxgraphics</module>
         <module>naga-javaemul-javafxcontrols</module>
     </modules>
