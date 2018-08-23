@@ -13,6 +13,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <!-- Java CUP parser runtime module (forked to make it compilable with transpilers) -->
+        <module>naga-javalib-javacupruntime</module>
     </modules>
 
 </project>
