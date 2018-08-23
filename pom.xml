@@ -12,8 +12,6 @@
 
     <modules>
         <!-- Naga modules -->
-        <module>naga-noreflect</module>
-        <module>naga-scheduler</module>
 
         <module>webfx-platformportable</module>
         <module>naga-javaemuls</module>
