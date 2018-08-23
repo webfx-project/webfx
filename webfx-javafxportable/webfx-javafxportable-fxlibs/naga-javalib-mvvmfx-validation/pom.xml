@@ -3,13 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>naga-javalibs</artifactId>
+        <artifactId>webfx-javafxportable-fxlibs</artifactId>
         <groupId>naga</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-javalib-controlsfx-validation</artifactId>
+    <artifactId>naga-javalib-mvvmfx-validation</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>naga-javalib-controlsfx-validation</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+    </dependencies>
 
     <build>
         <plugins>

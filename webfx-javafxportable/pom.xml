@@ -14,7 +14,7 @@
 
     <modules>
         <module>naga-fx</module>
-        <module>naga-javalibs</module>
+        <module>webfx-javafxportable-fxlibs</module>
     </modules>
 
 

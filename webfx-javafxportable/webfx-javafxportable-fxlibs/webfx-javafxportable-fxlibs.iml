@@ -7,7 +7,9 @@
       <excludeFolder url="file://$MODULE_DIR$/../../naga-javalibs/${project.build.directory}/classes" />
       <excludeFolder url="file://$MODULE_DIR$/../../naga-javalibs/${project.build.directory}/test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/../../naga-javalibs/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../naga-javalibs/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../webfx-javafxportable-libs/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
