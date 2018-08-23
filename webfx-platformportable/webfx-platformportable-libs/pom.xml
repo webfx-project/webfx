@@ -3,23 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>naga</artifactId>
+        <artifactId>webfx-platformportable</artifactId>
         <groupId>naga</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webfx-platformportable</artifactId>
+    <artifactId>webfx-platformportable-libs</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>naga-util</module>
-        <module>naga-type</module>
-        <module>naga-noreflect</module>
-        <module>naga-scheduler</module>
-        <module>naga-platform</module>
-        <module>naga-javaemuls</module>
-        <module>webfx-platformportable-libs</module>
     </modules>
 
 </project>
