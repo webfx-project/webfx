@@ -25,8 +25,8 @@
       <file url="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-web/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-gwt/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-web/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-util/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-type/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-util/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-type/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/naga-noreflect/src/main/java/module-info.java" />
     </excludeFromCompile>
     <annotationProcessing>

@@ -44,8 +44,22 @@
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-teavm" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-vertx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-scheduler" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-type" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-javafxportable" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-javafxportable/naga-fx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-javafxports" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-javafxports/webfx-javafxport-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-javafxports/webfx-javafxport-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformportable" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-platform" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-type" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformports" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformport-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformport-jre" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformport-vertx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformports-java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformports-web" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

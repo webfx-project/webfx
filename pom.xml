@@ -13,7 +13,6 @@
     <modules>
         <!-- Naga modules -->
         <module>naga-javalibs</module>
-        <module>naga-type</module>
         <module>naga-noreflect</module>
         <module>naga-scheduler</module>
 
