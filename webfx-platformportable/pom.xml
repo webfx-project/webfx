@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>naga-util</module>
         <module>naga-platform</module>
     </modules>
 
