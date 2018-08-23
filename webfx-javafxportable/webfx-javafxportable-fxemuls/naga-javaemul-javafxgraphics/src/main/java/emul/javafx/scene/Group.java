@@ -3,6 +3,7 @@ package emul.javafx.scene;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.geometry.Bounds;
+import emul.javafx.scene.layout.LayoutFlags;
 import naga.fx.properties.markers.HasAutoSizeChildrenProperty;
 
 /**
@@ -93,4 +94,11 @@ public class Group extends Parent implements
             super.layoutChildren();
     }
 
+    @Override
+    public void layout() { // Non standard JavaFx optimization : layout is disabled on groups with autoSizeChildren = false
+        if (isAutoSizeChildren())
+            super.layout();
+        else
+            setLayoutFlag(LayoutFlags.CLEAN);
+    }
 }
