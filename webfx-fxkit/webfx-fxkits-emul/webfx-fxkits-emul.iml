@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-fxkits-emul/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxlibs/webfx-javafxportable-fxemuls/target" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/src/main/java">
+      <sourceFolder url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/src/main/java" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/src/main/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/src/main/resources" type="java-resource" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/src/test/java">
+      <sourceFolder url="file://$MODULE_DIR$/../../webfx-javafxportable/webfx-javafxportable-fxemuls/src/test/java" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

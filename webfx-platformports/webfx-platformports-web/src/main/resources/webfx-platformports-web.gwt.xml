@@ -1,8 +1,0 @@
-<module rename-to="webfx_platformports_web">
-    <inherits name="naga-platform"/>
-
-    <!-- Specify the paths for translatable code                    -->
-    <source path="naga/providers/platform/abstr/web"/>
-
-    <public path="public" />
-</module>

@@ -1,0 +1,11 @@
+<module rename-to="mongooses_core">
+
+    <inherits name="webfx-lib-mvvmfx-validation"/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="mongoose"/>   <!-- code is under mongoose package -->
+    <resource path="mongoose"/> <!-- for mongoose/domainmodel/DomainModelSnapshot.json -->
+
+    <public path="" includes="images/"/>
+
+</module>

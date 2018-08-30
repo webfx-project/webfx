@@ -12,12 +12,11 @@
 
     <modules>
         <!-- Naga modules -->
+        <module>webfx-libs</module>
 
-        <module>webfx-platformportable</module>
-        <module>webfx-platformports</module>
+        <module>webfx-platform</module>
 
-        <module>webfx-javafxportable</module>
-        <module>webfx-javafxports</module>
+        <module>webfx-fxkit</module>
 
         <module>webfx-framework</module>
 
@@ -144,7 +143,7 @@
              * Libraries required for the Naga Core (naga-core) *
              ****************************************************
              Note that java-cup-runtime and rxjava can't be transpiled as is, so they are replaced with forked and
-             minimized versions (naga-javalib-javacupruntime and naga-javalib-rxjava) in webfx-platformports-web (see pom).
+             minimized versions (webfx-lib-javacupruntime and webfx-lib-rxjava) in webfx-platforms-web (see pom).
              -->
             <dependency>
                 <artifactId>java-cup-runtime</artifactId>
@@ -174,7 +173,7 @@
 
             <!--
              ********************************************************************
-             * Libraries required for the Vert.x Platform (webfx-platformport-vertx) *
+             * Libraries required for the Vert.x Platform (webfx-platform-vertx) *
              ********************************************************************
              -->
 
@@ -209,7 +208,7 @@
 
             <!--
              ***************************************************************
-             * Libraries required for the GWT Platform (webfx-platformport-gwt) *
+             * Libraries required for the GWT Platform (webfx-platform-gwt) *
              ***************************************************************
              -->
 

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>naga</groupId>
+        <artifactId>mongoose-backend</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongoose-backend-fxkit-javafx</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>mongooses-java</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-jre</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkit-javafx</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <!-- Making the jar file executable with its associated lib directory -->
+
+    <properties>
+        <plugins.param.jre.mainClass>mongoose.activities.backend.javafx.application.JavaFxBackendMongooseApplication</plugins.param.jre.mainClass>
+        <!-- disabling classes-dependencies unpack to avoid including them again in the jar -->
+        <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Setting the main class and classpath in the manifest file to make it executable (with java -jar) -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${plugins.param.jre.mainClass}</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Unpacking all dependent libraries in the lib folder -->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <profiles>
+
+        <!-- profile to make a fat standalone executable jar with all dependent libraries included inside -->
+        <profile>
+            <id>mongoose-backend-fxkit-javafx-fat</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+
+                    <!-- Calling Shade with the configuration defined in the parent pom -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <configuration>
+                            <!-- Also relocating java_cup package to avoid version mismatch (with xalan library) when installing this application on Android with the Gluon plugin -->
+                            <relocations>
+                                <relocation>
+                                    <pattern>java_cup</pattern>
+                                    <shadedPattern>java_cub_11b</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Profile to minimize and obfuscate the jar file with Proguard -->
+        <profile>
+            <id>mongoose-backend-fxkit-javafx-min</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+
+                    <!-- Calling Proguard with the configuration defined in the parent pom -->
+                    <plugin>
+                        <groupId>com.github.wvengen</groupId>
+                        <artifactId>proguard-maven-plugin</artifactId>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+</project>

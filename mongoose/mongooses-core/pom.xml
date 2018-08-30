@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>naga</groupId>
+        <artifactId>mongoose</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongooses-core</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>webfx-framework</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-lib-rxjava</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-lib-mvvmfx-validation</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-jre</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <!-- Not skipping the artifact installation when the profile is activated -->
+        <!--plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
+        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase-->
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- Commented as not working on Android for now
+            <!- - Unpacking dependencies before calling retrolambda - ->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <includeScope>runtime</includeScope> <!- - to avoid unpacking android dependency - ->
+                </configuration>
+            </plugin>
+
+            <!- - Calling retrolambda (for android project) - ->
+            <plugin>
+                <groupId>net.orfjackal.retrolambda</groupId>
+                <artifactId>retrolambda-maven-plugin</artifactId>
+            </plugin>
+            -->
+
+        </plugins>
+    </build>
+
+</project>

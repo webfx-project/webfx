@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module rename-to='webfx_fxkit_gwt'>
+
+    <inherits name="elemental2.core.Core"/>
+    <inherits name="elemental2.dom.Dom"/>
+    <inherits name="com.googlecode.gwt.charts.Charts" />
+
+    <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
+    <inherits name="webfx-platform-gwt"/> <!-- refers to webfx-platform-gwt.gwt.xml in webfx-platform-gwt -->
+    <inherits name="naga-type"/>
+
+    <inherits name="webfx-fxkits-emul-javafxbase"/>
+    <inherits name="webfx-fxkits-emul-javafxgraphics"/>
+    <inherits name="webfx-fxkits-emul-javafxcontrols"/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="naga/fx/spi/gwt"/>               <!-- source path to webfx-fxkit-gwt -->
+    <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
+</module>

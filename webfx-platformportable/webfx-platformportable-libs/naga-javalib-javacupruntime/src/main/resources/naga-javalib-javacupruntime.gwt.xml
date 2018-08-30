@@ -1,4 +1,0 @@
-<module rename-to="naga_javalib_javacupruntime">
-    <!-- Specify the paths for translatable code                    -->
-    <source path="java_cup/runtime"/>   <!-- source path to javacup-runtime library (naga-javalib-javacupruntime) -->
-</module>

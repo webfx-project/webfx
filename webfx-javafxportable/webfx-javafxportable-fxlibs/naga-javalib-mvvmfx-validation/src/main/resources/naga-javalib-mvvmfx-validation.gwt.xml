@@ -1,8 +1,0 @@
-<module rename-to="naga_javalib_mvvmfx_validation">
-
-    <inherits name="naga-javalib-controlsfx-validation"/>
-
-    <!-- Specify the paths for translatable code                    -->
-    <source path="de/saxsys/mvvmfx/utils/validation"/>   <!-- source path to javacup-runtime library (naga-javalib-javacupruntime) -->
-
-</module>

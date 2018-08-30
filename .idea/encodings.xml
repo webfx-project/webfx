@@ -4,62 +4,51 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-fxkit-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-fxkit-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-web" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-vertx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-framework" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-fx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-fx-providers" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-gwt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-javafx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxbase" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxcontrols" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxgraphics" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javatime" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm/src/main/java/emul/java/util/Stack.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-tool" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-flexboxfx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-mvvmfx-validation" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-noreflect" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platform" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-web" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-gwt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-jre" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-teavm" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-vertx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-scheduler" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-fxkit-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-fxkit-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongooses-java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongooses-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxbase" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxcontrols" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxgraphics" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-tool" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-javafxportable" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-javafxportable/naga-fx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-javafxports" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-javafxports/webfx-javafxport-gwt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-javafxports/webfx-javafxport-javafx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformportable" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-platform" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-type" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-util" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformports" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformport-gwt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformport-jre" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformport-vertx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformports-java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platformports/webfx-platformports-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-javafxportable/webfx-javafxportable-fxlibs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-libs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-flexboxfx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-javacupruntime" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-javafastpfor" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-mvvmfx-validation" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-rxjava" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-jre" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-vertx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-javatime" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-noreflect" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-platform" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-scheduler" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-type" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

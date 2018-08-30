@@ -2,32 +2,32 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <excludeFromCompile>
-      <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-java/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/mongoose/mongoose-vertx/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-scheduler/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-framework/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-fx/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-javafx/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-mvvmfx-validation/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-platform/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-java/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-jre/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-vertx/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxbase/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxgraphics/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javatime/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-web/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-gwt/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-web/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-util/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/webfx-platformportable/naga-type/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-noreflect/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-fxkit-javafx/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/mongoose/mongooses-java/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-scheduler/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-framework/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-javafx/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-javacupruntime/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-mvvmfx-validation/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-rxjava/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-platform/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-jre/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-vertx/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-gwt/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxbase/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxgraphics/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-javatime/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-gwt/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/mongoose/mongooses-web/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-util/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-type/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-noreflect/src/main/java/module-info.java" />
     </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
@@ -58,29 +58,23 @@
         <module name="jreport-niobuffer" />
         <module name="mongoose-backend-android" />
         <module name="mongoose-backend-cn1" />
+        <module name="mongoose-backend-fxkit-gwt" />
+        <module name="mongoose-backend-fxkit-javafx" />
         <module name="mongoose-backend-gwt" />
-        <module name="mongoose-backend-html" />
-        <module name="mongoose-backend-javafx" />
         <module name="mongoose-backend-pivot" />
         <module name="mongoose-backend-teavm" />
+        <module name="mongoose-frontend-fxkit-gwt" />
+        <module name="mongoose-frontend-fxkit-javafx" />
         <module name="mongoose-frontend-gwt" />
-        <module name="mongoose-frontend-html" />
-        <module name="mongoose-frontend-javafx" />
-        <module name="mongoose-logic" />
-        <module name="mongoose-logic-java" />
-        <module name="mongoose-logic-web" />
-        <module name="mongoose-vertx" />
+        <module name="mongoose-server-platform-vertx" />
+        <module name="mongooses-core" />
+        <module name="mongooses-java" />
+        <module name="mongooses-web" />
         <module name="naga-abstractplat-java" />
         <module name="naga-abstractplat-web" />
-        <module name="naga-abstractplatform-java" />
-        <module name="naga-abstractplatform-web" />
         <module name="naga-abstrplat-java" />
         <module name="naga-android" />
         <module name="naga-commons" />
-        <module name="naga-framework" />
-        <module name="naga-fx" />
-        <module name="naga-fx-gwt" />
-        <module name="naga-fx-javafx" />
         <module name="naga-gui-gwt" />
         <module name="naga-gui-gwtmaterial" />
         <module name="naga-gui-gwtpolymer" />
@@ -95,24 +89,13 @@
         <module name="naga-javaemul-gwt" />
         <module name="naga-javaemul-gwt-cldc" />
         <module name="naga-javaemul-gwt-cn1" />
-        <module name="naga-javaemul-javafxbase" />
-        <module name="naga-javaemul-javafxcontrols" />
-        <module name="naga-javaemul-javafxgraphics" />
         <module name="naga-javaemul-javatime" />
         <module name="naga-javaemul-shared" />
-        <module name="naga-javaemul-teavm" />
         <module name="naga-javaemul-teavm-gwt-cldc" />
         <module name="naga-javaemul-teavm-gwt-cn1" />
-        <module name="naga-javaemul-tool" />
-        <module name="naga-javalib-controlsfx-validation" />
         <module name="naga-javalib-flexbox" />
-        <module name="naga-javalib-flexboxfx" />
-        <module name="naga-javalib-javacupruntime" />
-        <module name="naga-javalib-javafastpfor" />
         <module name="naga-javalib-javafxbindings" />
         <module name="naga-javalib-javafxproperties" />
-        <module name="naga-javalib-mvvmfx-validation" />
-        <module name="naga-javalib-rxjava" />
         <module name="naga-javaplat" />
         <module name="naga-jre" />
         <module name="naga-noreflect" />
@@ -124,10 +107,6 @@
         <module name="naga-plat-vertx" />
         <module name="naga-platform" />
         <module name="naga-platform-codenameone" />
-        <module name="naga-platform-gwt" />
-        <module name="naga-platform-jre" />
-        <module name="naga-platform-teavm" />
-        <module name="naga-platform-vertx" />
         <module name="naga-scheduler" />
         <module name="naga-teavm" />
         <module name="naga-toolkit" />
@@ -142,127 +121,77 @@
         <module name="naga-util" />
         <module name="naga-vertx" />
         <module name="naga-webplat" />
+        <module name="webfx-framework" />
+        <module name="webfx-fxkit-gwt" />
+        <module name="webfx-fxkit-javafx" />
+        <module name="webfx-fxkits-core" />
+        <module name="webfx-fxkits-emul-javafxbase" />
+        <module name="webfx-fxkits-emul-javafxcontrols" />
+        <module name="webfx-fxkits-emul-javafxgraphics" />
+        <module name="webfx-fxkits-emul-tool" />
+        <module name="webfx-lib-controlsfx-validation" />
+        <module name="webfx-lib-flexboxfx" />
+        <module name="webfx-lib-javacupruntime" />
+        <module name="webfx-lib-javafastpfor" />
+        <module name="webfx-lib-mvvmfx-validation" />
+        <module name="webfx-lib-rxjava" />
+        <module name="webfx-platform-gwt" />
+        <module name="webfx-platform-jre" />
+        <module name="webfx-platform-vertx" />
+        <module name="webfx-platforms-java" />
+        <module name="webfx-platforms-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="hellonaga" target="1.8" />
-      <module name="hellonaga-android" target="1.8" />
-      <module name="hellonaga-gwt" target="1.8" />
-      <module name="hellonaga-j2objc" target="1.8" />
-      <module name="hellonaga-jre" target="1.8" />
-      <module name="hellonaga-logic" target="1.8" />
-      <module name="hellonaga-retrolambda" target="1.8" />
-      <module name="hellonaga-teavm" target="1.8" />
-      <module name="helloworld" target="1.8" />
-      <module name="helloworld-android" target="1.7" />
-      <module name="helloworld-gwt" target="1.8" />
-      <module name="helloworld-j2objc" target="1.8" />
-      <module name="helloworld-jre" target="1.8" />
-      <module name="helloworld-logic" target="1.7" />
-      <module name="helloworld-teavm" target="1.8" />
       <module name="mongoose" target="1.8" />
       <module name="mongoose-backend" target="1.8" />
-      <module name="mongoose-backend-android" target="1.8" />
-      <module name="mongoose-backend-cn1" target="1.8" />
-      <module name="mongoose-backend-codenameone" target="1.8" />
-      <module name="mongoose-backend-gwt" target="1.8" />
-      <module name="mongoose-backend-html" target="1.8" />
-      <module name="mongoose-backend-javafx" target="1.8" />
-      <module name="mongoose-backend-jre" target="1.8" />
-      <module name="mongoose-backend-pivot" target="1.8" />
-      <module name="mongoose-backend-retrolambda" target="1.8" />
-      <module name="mongoose-backend-swing" target="1.8" />
-      <module name="mongoose-backend-teavm" target="1.8" />
+      <module name="mongoose-backend-fxkit-gwt" target="1.8" />
+      <module name="mongoose-backend-fxkit-javafx" target="1.8" />
+      <module name="mongoose-core" target="1.8" />
       <module name="mongoose-frontend" target="1.8" />
-      <module name="mongoose-frontend-gwt" target="1.8" />
-      <module name="mongoose-frontend-html" target="1.8" />
-      <module name="mongoose-frontend-javafx" target="1.8" />
-      <module name="mongoose-jre" target="1.8" />
-      <module name="mongoose-logic" target="1.8" />
-      <module name="mongoose-logic-java" target="1.8" />
-      <module name="mongoose-logic-web" target="1.8" />
-      <module name="mongoose-vertx" target="1.8" />
+      <module name="mongoose-frontend-fxkit-gwt" target="1.8" />
+      <module name="mongoose-frontend-fxkit-javafx" target="1.8" />
+      <module name="mongoose-server" target="1.8" />
+      <module name="mongoose-server-platform-vertx" target="1.8" />
+      <module name="mongooses-core" target="1.8" />
+      <module name="mongooses-java" target="1.8" />
+      <module name="mongooses-test" target="1.8" />
+      <module name="mongooses-web" target="1.8" />
       <module name="naga" target="1.8" />
-      <module name="naga-abstractplat-java" target="1.8" />
-      <module name="naga-abstractplat-web" target="1.8" />
-      <module name="naga-abstractplatform-java" target="1.8" />
-      <module name="naga-abstractplatform-web" target="1.8" />
-      <module name="naga-application-examples" target="1.8" />
-      <module name="naga-commons" target="1.9" />
-      <module name="naga-core" target="1.8" />
-      <module name="naga-framework" target="1.8" />
-      <module name="naga-fx" target="1.8" />
-      <module name="naga-fx-gwt" target="1.8" />
-      <module name="naga-fx-javafx" target="1.8" />
-      <module name="naga-fx-providers" target="1.8" />
-      <module name="naga-fx-swing" target="9" />
-      <module name="naga-gui-gwt" target="1.8" />
-      <module name="naga-gui-gwtmaterial" target="1.8" />
-      <module name="naga-gui-gwtpolymer" target="1.8" />
-      <module name="naga-gui-javafx" target="1.8" />
-      <module name="naga-gui-javafx-jfoenix" target="1.8" />
-      <module name="naga-gui-jfoenix" target="1.8" />
-      <module name="naga-gui-pivot" target="1.8" />
-      <module name="naga-gui-swing" target="1.8" />
-      <module name="naga-gui-toolkits" target="1.8" />
-      <module name="naga-guis" target="1.8" />
-      <module name="naga-javaemul-cldc" target="9" />
-      <module name="naga-javaemul-cn1" target="1.8" />
       <module name="naga-javaemul-gwt" target="1.8" />
-      <module name="naga-javaemul-gwt-cldc" target="1.8" />
-      <module name="naga-javaemul-gwt-cn1" target="1.8" />
-      <module name="naga-javaemul-javafxbase" target="1.8" />
-      <module name="naga-javaemul-javafxcontrols" target="1.8" />
-      <module name="naga-javaemul-javafxgraphics" target="1.8" />
       <module name="naga-javaemul-javatime" target="1.8" />
-      <module name="naga-javaemul-shared" target="1.8" />
-      <module name="naga-javaemul-teavm" target="1.8" />
-      <module name="naga-javaemul-teavm-gwt-cldc" target="1.8" />
-      <module name="naga-javaemul-teavm-gwt-cn1" target="1.8" />
-      <module name="naga-javaemul-tool" target="1.8" />
       <module name="naga-javaemuls" target="1.8" />
-      <module name="naga-javaemuls-teavm-gwt-cn1" target="1.8" />
-      <module name="naga-javalib-controlsfx-validation" target="1.8" />
-      <module name="naga-javalib-controlsfx-validation-decoration" target="1.8" />
-      <module name="naga-javalib-flexbox" target="1.8" />
-      <module name="naga-javalib-flexboxfx" target="1.8" />
-      <module name="naga-javalib-javacupruntime" target="1.8" />
-      <module name="naga-javalib-javafastpfor" target="1.8" />
-      <module name="naga-javalib-javafxbindings" target="1.8" />
-      <module name="naga-javalib-javafxproperties" target="1.8" />
-      <module name="naga-javalib-mvvmfx-validation" target="1.8" />
-      <module name="naga-javalib-rxjava" target="1.8" />
-      <module name="naga-javalibs" target="1.8" />
       <module name="naga-noreflect" target="1.8" />
-      <module name="naga-plat-android" target="1.8" />
-      <module name="naga-plat-gwt" target="1.8" />
-      <module name="naga-plat-j2objc" target="1.8" />
-      <module name="naga-plat-jre" target="1.8" />
-      <module name="naga-plat-teavm" target="1.8" />
-      <module name="naga-plat-vertx" target="1.8" />
       <module name="naga-platform" target="1.8" />
-      <module name="naga-platform-android" target="1.8" />
-      <module name="naga-platform-cn1" target="1.8" />
-      <module name="naga-platform-codenameone" target="1.8" />
-      <module name="naga-platform-gwt" target="1.8" />
-      <module name="naga-platform-j2objc" target="1.8" />
-      <module name="naga-platform-jre" target="1.8" />
-      <module name="naga-platform-teavm" target="1.8" />
-      <module name="naga-platform-vertx" target="1.8" />
-      <module name="naga-platforms" target="1.8" />
       <module name="naga-scheduler" target="1.8" />
-      <module name="naga-toolkit" target="1.8" />
-      <module name="naga-toolkit-gwt" target="1.8" />
-      <module name="naga-toolkit-gwtmaterial" target="1.8" />
-      <module name="naga-toolkit-gwtpolymer" target="1.8" />
-      <module name="naga-toolkit-javafx" target="1.8" />
-      <module name="naga-toolkit-jfoenix" target="1.8" />
-      <module name="naga-toolkit-pivot" target="1.8" />
-      <module name="naga-toolkit-swing" target="1.8" />
-      <module name="naga-toolkits" target="1.8" />
       <module name="naga-type" target="1.8" />
       <module name="naga-util" target="1.8" />
-      <module name="nagajavalibcontrolsfxvalidation" target="1.8" />
+      <module name="webfx-framework" target="1.8" />
+      <module name="webfx-fxkit" target="1.8" />
+      <module name="webfx-fxkit-gwt" target="1.8" />
+      <module name="webfx-fxkit-javafx" target="1.8" />
+      <module name="webfx-fxkits-core" target="1.8" />
+      <module name="webfx-fxkits-emul" target="1.8" />
+      <module name="webfx-fxkits-emul-javafxbase" target="1.8" />
+      <module name="webfx-fxkits-emul-javafxcontrols" target="1.8" />
+      <module name="webfx-fxkits-emul-javafxgraphics" target="1.8" />
+      <module name="webfx-fxkits-emul-tool" target="1.8" />
+      <module name="webfx-javafxportable" target="1.8" />
+      <module name="webfx-javafxportable-fxlibs" target="1.8" />
+      <module name="webfx-lib-controlsfx-validation" target="1.8" />
+      <module name="webfx-lib-flexboxfx" target="1.8" />
+      <module name="webfx-lib-javacupruntime" target="1.8" />
+      <module name="webfx-lib-javafastpfor" target="1.8" />
+      <module name="webfx-lib-mvvmfx-validation" target="1.8" />
+      <module name="webfx-lib-rxjava" target="1.8" />
+      <module name="webfx-libs" target="1.8" />
+      <module name="webfx-platform" target="1.8" />
+      <module name="webfx-platform-gwt" target="1.8" />
+      <module name="webfx-platform-jre" target="1.8" />
+      <module name="webfx-platform-vertx" target="1.8" />
+      <module name="webfx-platforms-core" target="1.8" />
+      <module name="webfx-platforms-java" target="1.8" />
+      <module name="webfx-platforms-web" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

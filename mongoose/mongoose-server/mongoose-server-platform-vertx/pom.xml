@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>naga</groupId>
+        <artifactId>mongoose-server</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongoose-server-platform-vertx</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>mongooses-core</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongooses-java</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-vertx</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <!-- Mongoose backend - ->
+
+        <dependency>
+            <artifactId>mongoose-backend-gwt</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-backend-teavm</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-backend-fxkit-javafx</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>web</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-backend-swing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>web</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-backend-pivot</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>web</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-backend-android</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>web</classifier>
+        </dependency>
+
+        <!- - Mongoose frontend - ->
+
+        <dependency>
+            <artifactId>mongoose-frontend-gwt</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-frontend-fxkit-javafx</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>web</classifier>
+        </dependency>
+        -->
+
+    </dependencies>
+
+    <!-- Making the jar file executable with its associated lib directory -->
+
+    <properties>
+        <plugins.param.jre.mainClass>mongoose.activities.server.vertx.MongooseVertxRootVerticle</plugins.param.jre.mainClass>
+        <!-- disabling classes and sources dependencies unpack to avoid including them again in the jar -->
+        <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
+        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Setting the main class and classpath in the manifest file to make it executable (with java -jar) -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${plugins.param.jre.mainClass}</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Unpacking all dependent libraries in the lib folder -->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>io.vertx.core.Launcher</Main-Class>
+                                        <Main-Verticle>${plugins.param.jre.mainClass}</Main-Verticle>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

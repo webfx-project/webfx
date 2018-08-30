@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../../naga-javaemuls/naga-javaemul-gwt/${project.build.directory}/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../../naga-javaemuls/naga-javaemul-gwt/${project.build.directory}/test-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="naga-platform" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-scheduler" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-util" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-noreflect" scope="PROVIDED" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-user:2.8.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.jsinterop:jsinterop-annotations:sources:1.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.w3c.css:sac:1.3" level="project" />
+  </component>
+</module>

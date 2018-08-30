@@ -1,4 +1,0 @@
-<module rename-to="naga_javalib_rxjava">
-    <!-- Specify the paths for translatable code                    -->
-    <source path="rx"/>                 <!-- source path to rxjava library (naga-javalib-rxjava) -->
-</module>

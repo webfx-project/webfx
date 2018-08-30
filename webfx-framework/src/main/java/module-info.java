@@ -8,10 +8,10 @@ module webfx.framework {
     requires naga.type;
     requires naga.noreflect;
     requires naga.platform;
-    requires naga.fx;
-    requires naga.javalib.javacupruntime;
-    requires naga.javalib.rxjava;
-    requires naga.javalib.controlsfx.validation;
+    requires webfx.fxkits.core;
+    requires webfx.lib.javacupruntime;
+    requires webfx.lib.rxjava;
+    requires webfx.lib.controlsfx.validation;
 
     requires static javafx.controls;
 

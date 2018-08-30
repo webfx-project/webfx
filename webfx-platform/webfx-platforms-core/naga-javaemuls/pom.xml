@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>naga</groupId>
+        <artifactId>webfx-platforms-core</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>naga-javaemuls</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>naga-javaemul-gwt</module>
+        <module>naga-javaemul-javatime</module>
+    </modules>
+
+    <properties>
+        <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
+        <plugin.shade.param.fat.phase>none</plugin.shade.param.fat.phase>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Relocating the emul.java package to java for both classes and sources -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <shadedArtifactAttached>true</shadedArtifactAttached>
+                                <relocations>
+                                    <relocation>
+                                        <pattern>emul.java</pattern>
+                                        <shadedPattern>java</shadedPattern>
+                                    </relocation>
+                                    <relocation>
+                                        <pattern>emul.javafx</pattern>
+                                        <shadedPattern>javafx</shadedPattern>
+                                    </relocation>
+                                    <relocation>
+                                        <pattern>emul.com.sun</pattern>
+                                        <shadedPattern>com.sun</shadedPattern>
+                                    </relocation>
+                                </relocations>
+                                <createSourcesJar>true</createSourcesJar>
+                                <shadeSourcesContent>true</shadeSourcesContent>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

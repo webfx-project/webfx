@@ -20,20 +20,20 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-fx</artifactId>
+            <artifactId>webfx-fxkits-core</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>naga-javalib-javacupruntime</artifactId>
+            <artifactId>webfx-lib-javacupruntime</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <artifactId>naga-javalib-rxjava</artifactId>
+            <artifactId>webfx-lib-rxjava</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <scope>provided</scope>
@@ -41,7 +41,7 @@
 
         <!-- Dependency used for drop down button decoration (only) -->
         <dependency>
-            <artifactId>naga-javalib-controlsfx-validation</artifactId>
+            <artifactId>webfx-lib-controlsfx-validation</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>

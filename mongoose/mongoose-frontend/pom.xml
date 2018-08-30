@@ -13,24 +13,24 @@
     <packaging>pom</packaging>
 
     <profiles>
-        <!-- JRE profiles (JavaFx, Swing, Pivot) -->
+        <!-- JRE profiles (JavaFx) -->
         <profile>
-            <id>mongoose-frontend-javafx</id>
+            <id>mongoose-frontend-fxkit-javafx</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>mongoose-frontend-javafx</module>
+                <module>mongoose-frontend-fxkit-javafx</module>
             </modules>
         </profile>
 
         <profile>
-            <id>mongoose-frontend-html</id>
+            <id>mongoose-frontend-fxkit-gwt</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>mongoose-frontend-html</module>
+                <module>mongoose-frontend-fxkit-gwt</module>
             </modules>
         </profile>
 

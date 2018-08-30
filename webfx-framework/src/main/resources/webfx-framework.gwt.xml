@@ -1,7 +1,7 @@
 <module>
     <inherits name="naga-platform"/>
-    <inherits name="naga-javaemul-javafxbase"/>
-    <inherits name="naga-javalib-rxjava"/>
+    <inherits name="webfx-fxkits-emul-javafxbase"/>
+    <inherits name="webfx-lib-rxjava"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/framework"/>   <!-- code -->

@@ -4,46 +4,49 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose.iml" filepath="$PROJECT_DIR$/mongoose/mongoose.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-html/mongoose-backend-html.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-html/mongoose-backend-html.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx/mongoose-backend-javafx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx/mongoose-backend-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-fxkit-gwt/mongoose-backend-fxkit-gwt.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-fxkit-gwt/mongoose-backend-fxkit-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-fxkit-javafx/mongoose-backend-fxkit-javafx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-fxkit-javafx/mongoose-backend-fxkit-javafx.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-html/mongoose-frontend-html.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-html/mongoose-frontend-html.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx/mongoose-frontend-javafx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx/mongoose-frontend-javafx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-logic/mongoose-logic.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-logic/mongoose-logic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-logic-java/mongoose-logic-java.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-logic-java/mongoose-logic-java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-logic-web/mongoose-logic-web.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-logic-web/mongoose-logic-web.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-vertx/mongoose-vertx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-vertx/mongoose-vertx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-fxkit-gwt/mongoose-frontend-fxkit-gwt.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-fxkit-gwt/mongoose-frontend-fxkit-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-fxkit-javafx/mongoose-frontend-fxkit-javafx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-fxkit-javafx/mongoose-frontend-fxkit-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx/mongoose-server-platform-vertx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx/mongoose-server-platform-vertx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga.iml" filepath="$PROJECT_DIR$/naga.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-java/naga-abstractplatform-java.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-abstractplatform-java/naga-abstractplatform-java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-web/naga-abstractplatform-web.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-abstractplatform-web/naga-abstractplatform-web.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-fx/naga-fx.iml" filepath="$PROJECT_DIR$/naga-fx/naga-fx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt/naga-javaemul-gwt.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt/naga-javaemul-gwt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxbase/naga-javaemul-javafxbase.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxbase/naga-javaemul-javafxbase.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxcontrols/naga-javaemul-javafxcontrols.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxcontrols/naga-javaemul-javafxcontrols.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxgraphics/naga-javaemul-javafxgraphics.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxgraphics/naga-javaemul-javafxgraphics.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javatime/naga-javaemul-javatime.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javatime/naga-javaemul-javatime.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-tool/naga-javaemul-tool.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-tool/naga-javaemul-tool.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemuls.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemuls.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation/naga-javalib-controlsfx-validation.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation/naga-javalib-controlsfx-validation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-flexboxfx/naga-javalib-flexboxfx.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-flexboxfx/naga-javalib-flexboxfx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime/naga-javalib-javacupruntime.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime/naga-javalib-javacupruntime.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor/naga-javalib-javafastpfor.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor/naga-javalib-javafastpfor.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-mvvmfx-validation/naga-javalib-mvvmfx-validation.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-mvvmfx-validation/naga-javalib-mvvmfx-validation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava/naga-javalib-rxjava.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava/naga-javalib-rxjava.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalibs.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalibs.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-noreflect/naga-noreflect.iml" filepath="$PROJECT_DIR$/naga-noreflect/naga-noreflect.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platform/naga-platform.iml" filepath="$PROJECT_DIR$/naga-platform/naga-platform.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-gwt/naga-platform-gwt.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-gwt/naga-platform-gwt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-jre/naga-platform-jre.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-jre/naga-platform-jre.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-vertx/naga-platform-vertx.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-vertx/naga-platform-vertx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platforms.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platforms.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-scheduler/naga-scheduler.iml" filepath="$PROJECT_DIR$/naga-scheduler/naga-scheduler.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-type/naga-type.iml" filepath="$PROJECT_DIR$/naga-type/naga-type.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-util/naga-util.iml" filepath="$PROJECT_DIR$/naga-util/naga-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-gwt/naga-javaemul-gwt.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-gwt/naga-javaemul-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-javatime/naga-javaemul-javatime.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-javatime/naga-javaemul-javatime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemuls.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemuls.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-noreflect/naga-noreflect.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-noreflect/naga-noreflect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-platform/naga-platform.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-platform/naga-platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-scheduler/naga-scheduler.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-scheduler/naga-scheduler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-type/naga-type.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-type/naga-type.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-util/naga-util.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-util/naga-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-framework/webfx-framework.iml" filepath="$PROJECT_DIR$/webfx-framework/webfx-framework.iml" />
-      <module fileurl="file://$PROJECT_DIR$/webfx-javafxports/webfx-javafxport-gwt/webfx-javafxport-gwt.iml" filepath="$PROJECT_DIR$/webfx-javafxports/webfx-javafxport-gwt/webfx-javafxport-gwt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/webfx-javafxports/webfx-javafxport-javafx/webfx-javafxport-javafx.iml" filepath="$PROJECT_DIR$/webfx-javafxports/webfx-javafxport-javafx/webfx-javafxport-javafx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/webfx-javafxports/webfx-javafxports.iml" filepath="$PROJECT_DIR$/webfx-javafxports/webfx-javafxports.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt/webfx-fxkit-gwt.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt/webfx-fxkit-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-javafx/webfx-fxkit-javafx.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-javafx/webfx-fxkit-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxbase/webfx-fxkits-emul-javafxbase.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxbase/webfx-fxkits-emul-javafxbase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxcontrols/webfx-fxkits-emul-javafxcontrols.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxcontrols/webfx-fxkits-emul-javafxcontrols.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxgraphics/webfx-fxkits-emul-javafxgraphics.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxgraphics/webfx-fxkits-emul-javafxgraphics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-tool/webfx-fxkits-emul-tool.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-tool/webfx-fxkits-emul-tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation/webfx-lib-controlsfx-validation.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation/webfx-lib-controlsfx-validation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-lib-flexboxfx/webfx-lib-flexboxfx.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-lib-flexboxfx/webfx-lib-flexboxfx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-lib-javacupruntime/webfx-lib-javacupruntime.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-lib-javacupruntime/webfx-lib-javacupruntime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-lib-javafastpfor/webfx-lib-javafastpfor.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-lib-javafastpfor/webfx-lib-javafastpfor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-lib-mvvmfx-validation/webfx-lib-mvvmfx-validation.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-lib-mvvmfx-validation/webfx-lib-mvvmfx-validation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-lib-rxjava/webfx-lib-rxjava.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-lib-rxjava/webfx-lib-rxjava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-libs.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-libs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platform.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platform-gwt/webfx-platform-gwt.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platform-gwt/webfx-platform-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platform-jre/webfx-platform-jre.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platform-jre/webfx-platform-jre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platform-vertx/webfx-platform-vertx.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platform-vertx/webfx-platform-vertx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web.iml" />
     </modules>
   </component>
 </project>

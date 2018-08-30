@@ -1,0 +1,8 @@
+<module rename-to="webfx_fxkits_emul_javafxcontrols">
+    <inherits name="webfx-fxkits-emul-javafxgraphics" />
+    <!-- Specify the paths for translatable code                    -->
+    <source path="com/sun/javafx"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
+    <source path="javafx"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
+    <source path="naga/fx"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
+    <source path="naga/fxdata"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
+</module>
