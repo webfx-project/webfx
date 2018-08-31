@@ -1,0 +1,7 @@
+<module rename-to="webfx_platforms_core_noreflect">
+
+    <inherits name="webfx-platforms-core-util"/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="naga/noreflect"/>
+</module>

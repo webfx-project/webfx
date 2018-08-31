@@ -16,12 +16,12 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongooses-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-platform" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-scheduler" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-util" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-noreflect" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-monolith" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-noreflect" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-type" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-type" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt" scope="PROVIDED" />

@@ -4,29 +4,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>naga</groupId>
-    <artifactId>naga</artifactId>
+    <groupId>org.webfx</groupId>
+    <artifactId>webfx-root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
     <modules>
-        <!-- Naga modules -->
+        <!-- Webfx modules -->
         <module>webfx-libs</module>
-
         <module>webfx-platform</module>
-
         <module>webfx-fxkit</module>
-
         <module>webfx-framework</module>
-
         <module>mongoose</module>
     </modules>
 
     <properties>
-        <!-- Naga groupId & version -->
-        <naga.groupId>naga</naga.groupId>
-        <naga.version>0.1.0-SNAPSHOT</naga.version>
+        <!-- Webfx groupId & version -->
+        <webfx.groupId>org.webfx</webfx.groupId>
+        <webfx.version>0.1.0-SNAPSHOT</webfx.version>
 
         <!-- java version -->
         <java.version>9</java.version>
@@ -139,28 +135,35 @@
             </dependency>
 
             <!--
-             ****************************************************
-             * Libraries required for the Naga Core (naga-core) *
-             ****************************************************
-             Note that java-cup-runtime and rxjava can't be transpiled as is, so they are replaced with forked and
-             minimized versions (webfx-lib-javacupruntime and webfx-lib-rxjava) in webfx-platforms-web (see pom).
+             *********************************************
+             * Libraries required for the Webfx platform *
+             *********************************************
+             Note that java-cup-runtime can't be transpiled as is, so it is replaced with forked and
+             minimized version (webfx-lib-javacupruntime) in webfx-platforms-web (see pom).
              -->
             <dependency>
-                <artifactId>java-cup-runtime</artifactId>
                 <groupId>com.github.vbmacher</groupId>
+                <artifactId>java-cup-runtime</artifactId>
                 <version>${lib.javacuprutime.version}</version>
             </dependency>
 
+            <!--
+             **********************************************
+             * Libraries required for the Webfx framework *
+             **********************************************
+             Note that rxjava can't be transpiled as is, so it is replaced with forked and
+             minimized version (webfx-lib-rxjava) in webfx-platforms-web (see pom).
+             -->
             <dependency>
-                <artifactId>rxjava</artifactId>
                 <groupId>io.reactivex</groupId>
+                <artifactId>rxjava</artifactId>
                 <version>${lib.rxjava.version}</version>
             </dependency>
 
             <!--
-             *********************************************************************
-             * Libraries required for the Java Platform (naga-abstractplat-java) *
-             *********************************************************************
+             *******************************************************************
+             * Libraries required for the Java Platform (webfx-platforms-java) *
+             *******************************************************************
              -->
 
             <!-- JavaWebsocket -->

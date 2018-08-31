@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>naga</artifactId>
-        <groupId>naga</groupId>
+        <artifactId>webfx-root</artifactId>
+        <groupId>org.webfx</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,36 +14,36 @@
     <dependencies>
 
         <dependency>
-            <artifactId>naga-platform</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <artifactId>webfx-platforms-core-monolith</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
             <artifactId>webfx-fxkits-core</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
             <artifactId>webfx-lib-javacupruntime</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <artifactId>webfx-lib-rxjava</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <!-- Dependency used for drop down button decoration (only) -->
         <dependency>
             <artifactId>webfx-lib-controlsfx-validation</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
 
         <dependency>

@@ -97,7 +97,7 @@ public final class JavaWebSocket implements WebSocket {
             @Override
             public void onClose(int code, String reason, boolean remote) {
                 if (listener != null) {
-                    // listener.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote)); // Doesn't compile in Maven since naga-noreflect is a separate module for any strange reason
+                    // listener.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote)); // Doesn't compile in Maven since webfx-platforms-core-noreflect is a separate module for any strange reason
                     WritableJsonObject jsonObject = Json.createObject();
                     jsonObject.set("code", code);
                     jsonObject.set("reason", reason);

@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>naga</artifactId>
-        <groupId>naga</groupId>
+        <artifactId>webfx-root</artifactId>
+        <groupId>org.webfx</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -16,6 +16,7 @@
         <module>webfx-platforms-core</module>
         <module>webfx-platforms-java</module>
         <module>webfx-platforms-web</module>
+        <module>webfx-platforms-emul</module>
 
         <module>webfx-platform-jre</module>
         <module>webfx-platform-vertx</module>

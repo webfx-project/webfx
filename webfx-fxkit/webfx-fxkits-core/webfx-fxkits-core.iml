@@ -13,8 +13,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-util" />
-    <orderEntry type="module" module-name="naga-type" />
-    <orderEntry type="module" module-name="naga-scheduler" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="webfx-platforms-core-type" />
+    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
   </component>
 </module>

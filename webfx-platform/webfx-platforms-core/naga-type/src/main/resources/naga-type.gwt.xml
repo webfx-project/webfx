@@ -1,4 +1,0 @@
-<module rename-to="naga_type">
-    <!-- Specify the paths for translatable code                    -->
-    <source path="naga/type"/>
-</module>

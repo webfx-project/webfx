@@ -13,12 +13,12 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongooses-core" />
     <orderEntry type="module" module-name="webfx-framework" />
-    <orderEntry type="module" module-name="naga-platform" />
-    <orderEntry type="module" module-name="naga-scheduler" />
-    <orderEntry type="module" module-name="naga-util" />
-    <orderEntry type="module" module-name="naga-noreflect" />
+    <orderEntry type="module" module-name="webfx-platforms-core-monolith" />
+    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="webfx-platforms-core-noreflect" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
-    <orderEntry type="module" module-name="naga-type" />
+    <orderEntry type="module" module-name="webfx-platforms-core-type" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="mongooses-java" />

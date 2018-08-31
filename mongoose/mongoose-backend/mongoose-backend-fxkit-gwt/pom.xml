@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>naga</groupId>
+        <groupId>org.webfx</groupId>
         <artifactId>mongoose-backend</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
@@ -31,29 +31,29 @@
 
         <dependency>
             <artifactId>webfx-lib-mvvmfx-validation</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
             <classifier>sources</classifier>
         </dependency>
 
         <dependency>
             <artifactId>webfx-lib-controlsfx-validation</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
             <classifier>sources</classifier>
         </dependency>
 
         <dependency>
             <artifactId>webfx-framework</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
             <classifier>sources</classifier>
         </dependency>
 
         <dependency>
             <artifactId>webfx-fxkit-gwt</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
             <classifier>shaded-sources</classifier>
         </dependency>
 

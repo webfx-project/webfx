@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>naga</artifactId>
-        <groupId>naga</groupId>
+        <artifactId>webfx-root</artifactId>
+        <groupId>org.webfx</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
@@ -23,9 +23,9 @@
     </modules>
 
     <properties>
-        <!-- Mongoose groupId & version (same as naga for now) -->
-        <mongoose.groupId>${naga.groupId}</mongoose.groupId>
-        <mongoose.version>${naga.version}</mongoose.version>
+        <!-- Mongoose groupId & version (same as WebFx for now) -->
+        <mongoose.groupId>${webfx.groupId}</mongoose.groupId>
+        <mongoose.version>${webfx.version}</mongoose.version>
     </properties>
 
 </project>

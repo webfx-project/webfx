@@ -1,9 +1,0 @@
-<module rename-to="naga_platform">
-    <inherits name="naga-scheduler"/>
-    <inherits name="naga-noreflect"/>
-    <inherits name="webfx-lib-javacupruntime"/>
-    <inherits name="webfx-fxkits-emul-javafxbase"/>
-    <!-- Specify the paths for translatable code                    -->
-    <source path="naga/platform"/>                 <!-- source path to rxjava library (webfx-lib-rxjava) -->
-    <resource path="naga/platform/client/bus/conf"/>     <!-- for naga/platform/client/bus/conf/BusOptions.json -->
-</module>

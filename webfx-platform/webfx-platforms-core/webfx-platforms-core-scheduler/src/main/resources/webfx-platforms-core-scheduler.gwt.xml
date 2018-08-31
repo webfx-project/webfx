@@ -1,0 +1,8 @@
+<module rename-to="webfx_platforms_core_scheduler">
+
+    <inherits name="webfx-platforms-core-util"/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="naga/scheduler"/>
+    <source path="naga/uischeduler"/>
+</module>

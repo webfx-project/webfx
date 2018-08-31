@@ -47,7 +47,6 @@ public class PresentationActivityBase
         return future;
     }
 
-    // Temporary code while naga-common can't access to UiSchedulerProvider - TODO: move this management into naga-platform
     @Override
     protected Future<Void> executeBoth(Callable<Future<Void>> callable1, Callable<Future<Void>> callable2) {
         Future<Void> future2 = Future.future();

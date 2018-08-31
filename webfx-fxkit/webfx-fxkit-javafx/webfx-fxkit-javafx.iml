@@ -14,9 +14,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
-    <orderEntry type="module" module-name="naga-util" />
-    <orderEntry type="module" module-name="naga-type" />
-    <orderEntry type="module" module-name="naga-scheduler" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="webfx-platforms-core-type" />
+    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="library" name="Maven: de.codecentric.centerdevice:javafxsvg:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlgraphics:batik-transcoder:1.8" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlgraphics:batik-anim:1.8" level="project" />

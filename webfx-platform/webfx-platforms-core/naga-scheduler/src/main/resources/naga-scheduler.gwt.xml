@@ -1,8 +1,0 @@
-<module rename-to="naga_scheduler">
-
-    <inherits name="naga-util"/>
-
-    <!-- Specify the paths for translatable code                    -->
-    <source path="naga/scheduler"/>
-    <source path="naga/uischeduler"/>
-</module>

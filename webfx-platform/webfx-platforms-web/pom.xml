@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>naga</groupId>
+        <groupId>org.webfx</groupId>
         <artifactId>webfx-platform</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
@@ -14,14 +14,14 @@
     <dependencies>
 
         <!--
-        This module depends on naga-core which depends on java-cup-runtime and rxjava libraries. However these
+        This module depends on webfx-platforms-core which depends on java-cup-runtime and rxjava libraries. However these
         libraries can't be transpiled as is so we exclude them and replace them with forked and minimized versions
         (webfx-lib-javacupruntime and webfx-lib-rxjava) that can be transpiled.
         -->
         <dependency>
-            <artifactId>naga-platform</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <artifactId>webfx-platforms-core-monolith</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
             <!--exclusions>
                 <exclusion>
                     <artifactId>java-cup-runtime</artifactId>
@@ -37,15 +37,15 @@
         <!-- webfx-lib-javacupruntime that replaces java-cup-runtime library -->
         <dependency>
             <artifactId>webfx-lib-javacupruntime</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
 
         <!-- webfx-lib-rxjava that replaces rxjava library -->
         <dependency>
             <artifactId>webfx-lib-rxjava</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
 
     </dependencies>

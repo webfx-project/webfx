@@ -6,9 +6,9 @@
     <inherits name="elemental2.dom.Dom"/>
     <inherits name="com.googlecode.gwt.charts.Charts" />
 
-    <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
+    <!-- Inherit the WebFx modules  -->
     <inherits name="webfx-platform-gwt"/> <!-- refers to webfx-platform-gwt.gwt.xml in webfx-platform-gwt -->
-    <inherits name="naga-type"/>
+    <inherits name="webfx-platforms-core-type"/>
 
     <inherits name="webfx-fxkits-emul-javafxbase"/>
     <inherits name="webfx-fxkits-emul-javafxgraphics"/>

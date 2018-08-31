@@ -102,19 +102,6 @@ node_modules/
 bower_components/
 
 
-
-### Codename One
-**/cn1/build/
-**/cn1/dist/README.txt
-**/cn1/lib/impl/
-**/cn1/native/
-**/naga-platform-cn1/cn1/src/
-**/mongoose-backend-cn1/cn1/dist/
-**/mongoose-backend-cn1/cn1/lib/*.cn1lib
-/naga-platforms/naga-platform-cn1/cn1/dist/
-
-
-
 ### Mongoose
 /mongoose/mongooses-java/src/main/resources/naga/platform/client/bus/conf/BusOptions.json
 /mongoose/mongooses-web/src/main/resources/naga/platform/client/bus/conf/BusOptions.json

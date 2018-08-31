@@ -1,5 +1,5 @@
 <module>
-    <inherits name="naga-platform"/>
+    <inherits name="webfx-platforms-core-monolith"/>
     <inherits name="webfx-fxkits-emul-javafxbase"/>
     <inherits name="webfx-lib-rxjava"/>
 

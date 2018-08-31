@@ -1,6 +1,6 @@
 <module rename-to="webfx_platforms_web">
 
-    <inherits name="naga-platform"/>
+    <inherits name="webfx-platforms-core-monolith"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/providers/platform/abstr/web"/>

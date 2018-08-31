@@ -1,14 +1,14 @@
 {
   "variables": {
     "jdk9-src": "C:/Program Files/Java/jdk-9/src.zip",
-    "naga-javaemuls-dir": "C:/dev/git-repos/naga/naga-javaemuls"
+    "webfx-platforms-emul-dir": "C:/dev/git-repos/naga/webfx-platforms-emul"
   },
   "modules": {
     "javaemul-javafxbase": {
       "jdk-src": "${jdk9-src}",
       "jdk-module": "javafx.base",
       "naga-module": "webfx-fxkits-emul-javafxbase",
-      "naga-src": "${naga-javaemuls-dir}/${naga-module}/src/main/java",
+      "naga-src": "${webfx-platforms-emul-dir}/${naga-module}/src/main/java",
       "relocations": {
         "javafx": "emul.javafx",
         "com.sun": "emul.com.sun",
@@ -105,7 +105,7 @@
       "jdk-src": "${jdk9-src}",
       "jdk-module": "javafx.graphics",
       "naga-module": "webfx-fxkits-emul-javafxgraphics",
-      "naga-src": "${naga-javaemuls-dir}/${naga-module}/src/main/java",
+      "naga-src": "${webfx-platforms-emul-dir}/${naga-module}/src/main/java",
       "relocations": {
         "javafx": "emul.javafx",
         "com.sun": "emul.com.sun"

@@ -6,28 +6,28 @@
       <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/mongoose/mongooses-java/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-scheduler/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-scheduler/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-framework/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-javafx/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-javacupruntime/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-mvvmfx-validation/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-rxjava/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-platform/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-monolith/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-jre/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-vertx/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-gwt/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-emul/webfx-platforms-emul-javabase/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxbase/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxgraphics/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-javaemuls/naga-javaemul-javatime/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-emul/webfx-platforms-emul-javatime/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-gwt/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/mongoose/mongooses-web/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-util/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-type/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/naga-noreflect/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-util/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-type/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-noreflect/src/main/java/module-info.java" />
     </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
@@ -86,10 +86,8 @@
         <module name="naga-gwt" />
         <module name="naga-j2objc" />
         <module name="naga-javaemul-cn1" />
-        <module name="naga-javaemul-gwt" />
         <module name="naga-javaemul-gwt-cldc" />
         <module name="naga-javaemul-gwt-cn1" />
-        <module name="naga-javaemul-javatime" />
         <module name="naga-javaemul-shared" />
         <module name="naga-javaemul-teavm-gwt-cldc" />
         <module name="naga-javaemul-teavm-gwt-cn1" />
@@ -98,16 +96,13 @@
         <module name="naga-javalib-javafxproperties" />
         <module name="naga-javaplat" />
         <module name="naga-jre" />
-        <module name="naga-noreflect" />
         <module name="naga-plat-android" />
         <module name="naga-plat-gwt" />
         <module name="naga-plat-j2objc" />
         <module name="naga-plat-jre" />
         <module name="naga-plat-teavm" />
         <module name="naga-plat-vertx" />
-        <module name="naga-platform" />
         <module name="naga-platform-codenameone" />
-        <module name="naga-scheduler" />
         <module name="naga-teavm" />
         <module name="naga-toolkit" />
         <module name="naga-toolkit-gwt" />
@@ -117,8 +112,6 @@
         <module name="naga-toolkit-jfoenix" />
         <module name="naga-toolkit-pivot" />
         <module name="naga-toolkit-swing" />
-        <module name="naga-type" />
-        <module name="naga-util" />
         <module name="naga-vertx" />
         <module name="naga-webplat" />
         <module name="webfx-framework" />
@@ -138,6 +131,13 @@
         <module name="webfx-platform-gwt" />
         <module name="webfx-platform-jre" />
         <module name="webfx-platform-vertx" />
+        <module name="webfx-platforms-core-monolith" />
+        <module name="webfx-platforms-core-noreflect" />
+        <module name="webfx-platforms-core-scheduler" />
+        <module name="webfx-platforms-core-type" />
+        <module name="webfx-platforms-core-util" />
+        <module name="webfx-platforms-emul-javabase" />
+        <module name="webfx-platforms-emul-javatime" />
         <module name="webfx-platforms-java" />
         <module name="webfx-platforms-web" />
       </profile>
@@ -158,14 +158,6 @@
       <module name="mongooses-test" target="1.8" />
       <module name="mongooses-web" target="1.8" />
       <module name="naga" target="1.8" />
-      <module name="naga-javaemul-gwt" target="1.8" />
-      <module name="naga-javaemul-javatime" target="1.8" />
-      <module name="naga-javaemuls" target="1.8" />
-      <module name="naga-noreflect" target="1.8" />
-      <module name="naga-platform" target="1.8" />
-      <module name="naga-scheduler" target="1.8" />
-      <module name="naga-type" target="1.8" />
-      <module name="naga-util" target="1.8" />
       <module name="webfx-framework" target="1.8" />
       <module name="webfx-fxkit" target="1.8" />
       <module name="webfx-fxkit-gwt" target="1.8" />
@@ -190,6 +182,14 @@
       <module name="webfx-platform-jre" target="1.8" />
       <module name="webfx-platform-vertx" target="1.8" />
       <module name="webfx-platforms-core" target="1.8" />
+      <module name="webfx-platforms-core-monolith" target="1.8" />
+      <module name="webfx-platforms-core-noreflect" target="1.8" />
+      <module name="webfx-platforms-core-scheduler" target="1.8" />
+      <module name="webfx-platforms-core-type" target="1.8" />
+      <module name="webfx-platforms-core-util" target="1.8" />
+      <module name="webfx-platforms-emul" target="1.8" />
+      <module name="webfx-platforms-emul-javabase" target="1.8" />
+      <module name="webfx-platforms-emul-javatime" target="1.8" />
       <module name="webfx-platforms-java" target="1.8" />
       <module name="webfx-platforms-web" target="1.8" />
     </bytecodeTargetLevel>
