@@ -157,7 +157,7 @@
       <module name="mongooses-java" target="1.8" />
       <module name="mongooses-test" target="1.8" />
       <module name="mongooses-web" target="1.8" />
-      <module name="naga" target="1.8" />
+      <module name="webfx" target="1.8" />
       <module name="webfx-framework" target="1.8" />
       <module name="webfx-fxkit" target="1.8" />
       <module name="webfx-fxkit-gwt" target="1.8" />
