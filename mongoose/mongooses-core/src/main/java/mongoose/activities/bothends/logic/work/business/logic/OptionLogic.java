@@ -6,7 +6,7 @@ import mongoose.entities.Event;
 import mongoose.entities.Option;
 import mongoose.entities.Site;
 import mongoose.aggregates.EventAggregate;
-import naga.util.Numbers;
+import webfx.util.Numbers;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

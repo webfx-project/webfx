@@ -19,26 +19,26 @@ import mongoose.activities.bothends.logic.ui.highlevelcomponents.SectionPanelSty
 import mongoose.entities.Option;
 import mongoose.entities.Person;
 import mongoose.operations.bothends.route.RouteToOptionsRequest;
-import naga.framework.orm.entity.EntityList;
-import naga.framework.services.i18n.Dictionary;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.fx.properties.Properties;
-import naga.fx.spi.Toolkit;
-import naga.fxdata.cell.collator.GridCollator;
-import naga.fxdata.control.DataGrid;
-import naga.fxdata.control.SkinnedDataGrid;
-import naga.fxdata.displaydata.*;
-import naga.platform.services.json.Json;
-import naga.platform.services.json.JsonObject;
-import naga.platform.services.json.WritableJsonObject;
-import naga.platform.services.log.Logger;
-import naga.type.SpecializedTextType;
-import naga.util.Arrays;
-import naga.util.Booleans;
-import naga.util.tuples.Pair;
+import webfx.framework.orm.entity.EntityList;
+import webfx.framework.services.i18n.Dictionary;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.fx.properties.Properties;
+import webfx.fx.spi.Toolkit;
+import webfx.fxdata.cell.collator.GridCollator;
+import webfx.fxdata.control.DataGrid;
+import webfx.fxdata.control.SkinnedDataGrid;
+import webfx.fxdata.displaydata.*;
+import webfx.platform.services.json.Json;
+import webfx.platform.services.json.JsonObject;
+import webfx.platform.services.json.WritableJsonObject;
+import webfx.platform.services.log.Logger;
+import webfx.type.SpecializedTextType;
+import webfx.util.Arrays;
+import webfx.util.Booleans;
+import webfx.util.tuples.Pair;
 
-import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
+import static webfx.framework.ui.graphic.image.JsonImageViews.createImageView;
 
 /**
  * @author Bruno Salmon

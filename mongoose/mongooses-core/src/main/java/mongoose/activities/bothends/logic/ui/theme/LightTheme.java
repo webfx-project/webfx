@@ -1,8 +1,8 @@
 package mongoose.activities.bothends.logic.ui.theme;
 
 import javafx.scene.paint.Color;
-import naga.framework.ui.graphic.background.BackgroundUtil;
-import naga.framework.ui.graphic.border.BorderUtil;
+import webfx.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.ui.graphic.border.BorderUtil;
 
 /**
  * @author Bruno Salmon

@@ -472,8 +472,8 @@
                                 void
                                 main(java.lang.String[]); }</option>
                             <!-- keeping Platform and subclasses as they are referenced in META-INF/services -->
-                            <option>-keep public public class naga.core.spi.platform.Platform</option>
-                            <option>-keep public public class * extends naga.core.spi.platform.Platform</option>
+                            <option>-keep public public class webfx.core.spi.platform.Platform</option>
+                            <option>-keep public public class * extends webfx.core.spi.platform.Platform</option>
                             <!-- ignoring jackson missing warnings as it is an optional library -->
                             <option>-dontwarn com.fasterxml.jackson.**</option>
                             <!-- ignoring hikari missing warnings as it is an optional library -->

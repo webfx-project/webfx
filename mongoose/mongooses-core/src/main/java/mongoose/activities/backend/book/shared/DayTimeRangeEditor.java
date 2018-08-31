@@ -9,10 +9,10 @@ import mongoose.activities.bothends.logic.calendar.CalendarTimeline;
 import mongoose.activities.bothends.logic.time.DayTimeRange;
 import mongoose.activities.bothends.logic.ui.calendargraphic.impl.DayColumnBodyBlockViewModel;
 import mongoose.activities.bothends.logic.ui.calendargraphic.impl.DayColumnHeaderViewModel;
-import naga.util.function.BiConsumer;
-import naga.framework.ui.graphic.controls.dialog.DialogCallback;
-import naga.framework.ui.graphic.controls.dialog.DialogUtil;
-import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
+import webfx.util.function.BiConsumer;
+import webfx.framework.ui.graphic.controls.dialog.DialogCallback;
+import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
+import webfx.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 
 /**
  * @author Bruno Salmon

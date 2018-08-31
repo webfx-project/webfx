@@ -7,24 +7,24 @@ import mongoose.domainmodel.functions.AbcNames;
 import mongoose.domainmodel.functions.DateIntervalFormat;
 import mongoose.entities.*;
 import mongoose.entities.impl.*;
-import naga.framework.expression.terms.function.DomainClassType;
-import naga.framework.expression.terms.function.Function;
-import naga.framework.expression.terms.function.InlineFunction;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.domainmodel.DomainModel;
-import naga.framework.orm.domainmodel.loader.DomainModelLoader;
-import naga.platform.services.json.Json;
-import naga.platform.services.json.codec.JsonCodecManager;
-import naga.platform.services.json.JsonElement;
-import naga.platform.services.query.QueryResult;
-import naga.platform.services.resource.ResourceService;
-import naga.type.PrimType;
-import naga.type.Type;
-import naga.util.async.Batch;
-import naga.util.async.Future;
+import webfx.framework.expression.terms.function.DomainClassType;
+import webfx.framework.expression.terms.function.Function;
+import webfx.framework.expression.terms.function.InlineFunction;
+import webfx.framework.orm.domainmodel.DataSourceModel;
+import webfx.framework.orm.domainmodel.DomainModel;
+import webfx.framework.orm.domainmodel.loader.DomainModelLoader;
+import webfx.platform.services.json.Json;
+import webfx.platform.services.json.codec.JsonCodecManager;
+import webfx.platform.services.json.JsonElement;
+import webfx.platform.services.query.QueryResult;
+import webfx.platform.services.resource.ResourceService;
+import webfx.type.PrimType;
+import webfx.type.Type;
+import webfx.util.async.Batch;
+import webfx.util.async.Future;
 
-import static naga.framework.orm.entity.EntityFactoryRegistry.registerEntityFactory;
-import static naga.framework.ui.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.orm.entity.EntityFactoryRegistry.registerEntityFactory;
+import static webfx.framework.ui.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon

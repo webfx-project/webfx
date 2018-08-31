@@ -5,8 +5,8 @@ module webfx.fxkits.emul.javafxgraphics {
 
     requires webfx.fxkits.emul.javafxbase;
 
-    requires naga.scheduler;
-    requires naga.util;
-    requires naga.type;
+    requires webfx.scheduler;
+    requires webfx.util;
+    requires webfx.type;
 
 }

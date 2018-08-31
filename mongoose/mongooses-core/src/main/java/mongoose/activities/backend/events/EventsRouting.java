@@ -1,9 +1,9 @@
 package mongoose.activities.backend.events;
 
 import mongoose.activities.bothends.generic.routing.MongooseRoutingUtil;
-import naga.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
-import naga.framework.router.util.PathBuilder;
-import naga.framework.ui.uirouter.UiRoute;
+import webfx.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
+import webfx.framework.router.util.PathBuilder;
+import webfx.framework.ui.uirouter.UiRoute;
 
 /**
  * @author Bruno Salmon

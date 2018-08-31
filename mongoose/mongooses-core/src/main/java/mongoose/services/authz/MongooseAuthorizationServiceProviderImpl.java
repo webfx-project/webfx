@@ -1,9 +1,9 @@
 package mongoose.services.authz;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.services.authz.spi.impl.AuthorizationServiceProviderImplBase;
-import naga.framework.services.authz.spi.impl.UserPrincipalAuthorizationChecker;
+import webfx.framework.orm.domainmodel.DataSourceModel;
+import webfx.framework.services.authz.spi.impl.AuthorizationServiceProviderImplBase;
+import webfx.framework.services.authz.spi.impl.UserPrincipalAuthorizationChecker;
 
 /**
  * @author Bruno Salmon

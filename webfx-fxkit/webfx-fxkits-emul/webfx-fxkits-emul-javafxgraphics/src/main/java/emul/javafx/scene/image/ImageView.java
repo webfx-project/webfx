@@ -4,7 +4,7 @@ import emul.com.sun.javafx.geom.BaseBounds;
 import emul.com.sun.javafx.geom.transform.BaseTransform;
 import emul.javafx.beans.property.*;
 import emul.javafx.scene.Node;
-import naga.fx.properties.markers.*;
+import webfx.fx.properties.markers.*;
 
 /**
  * @author Bruno Salmon

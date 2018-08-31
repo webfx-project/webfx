@@ -6,8 +6,8 @@ import mongoose.activities.bothends.book.shared.BookingCalendar;
 import mongoose.activities.bothends.book.shared.BookingProcessActivity;
 import mongoose.activities.bothends.book.shared.FeesGroup;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.platform.services.log.Logger;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.platform.services.log.Logger;
 
 /**
  * @author Bruno Salmon

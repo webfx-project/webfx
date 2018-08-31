@@ -9,8 +9,8 @@ module mongoose.server.platform.vertx {
     requires webfx.framework;
 
     requires webfx.platform.vertx;
-    requires naga.platform;
+    requires webfx.platform;
 
-    requires naga.util;
+    requires webfx.util;
 
 }

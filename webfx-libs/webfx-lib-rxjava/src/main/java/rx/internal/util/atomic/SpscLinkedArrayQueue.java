@@ -21,8 +21,8 @@ import rx.internal.util.unsafe.Pow2;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
-// NAGA import java.util.concurrent.atomic.AtomicLongFieldUpdater;
-// NAGA import java.util.concurrent.atomic.AtomicReferenceArray;
+// WEBFX import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+// WEBFX import java.util.concurrent.atomic.AtomicReferenceArray;
 
 
 /*
@@ -35,19 +35,19 @@ import java.util.Queue;
  * than the producer.
  */
 public final class SpscLinkedArrayQueue<T> implements Queue<T> {
-    static final int MAX_LOOK_AHEAD_STEP = 4096; // NAGA Integer.getInteger("jctools.spsc.max.lookahead.step", 4096);
+    static final int MAX_LOOK_AHEAD_STEP = 4096; // WEBFX Integer.getInteger("jctools.spsc.max.lookahead.step", 4096);
     protected volatile long producerIndex;
-    /*NAGA @SuppressWarnings("rawtypes")
+    /*WEBFX @SuppressWarnings("rawtypes")
     static final AtomicLongFieldUpdater<SpscLinkedArrayQueue> PRODUCER_INDEX =
             AtomicLongFieldUpdater.newUpdater(SpscLinkedArrayQueue.class, "producerIndex");*/
     protected int producerLookAheadStep;
     protected long producerLookAhead;
     protected int producerMask;
-    protected /* NAGA AtomicReferenceArray<Object>*/ Object[] producerBuffer;
+    protected /* WEBFX AtomicReferenceArray<Object>*/ Object[] producerBuffer;
     protected int consumerMask;
-    protected /* NAGA AtomicReferenceArray<Object>*/ Object[] consumerBuffer;
+    protected /* WEBFX AtomicReferenceArray<Object>*/ Object[] consumerBuffer;
     protected volatile long consumerIndex;
-    /*NAGA @SuppressWarnings("rawtypes")
+    /*WEBFX @SuppressWarnings("rawtypes")
     static final AtomicLongFieldUpdater<SpscLinkedArrayQueue> CONSUMER_INDEX =
             AtomicLongFieldUpdater.newUpdater(SpscLinkedArrayQueue.class, "consumerIndex");*/
     private static final Object HAS_NEXT = new Object();
@@ -55,7 +55,7 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
     public SpscLinkedArrayQueue(final int bufferSize) {
         int p2capacity = Pow2.roundToPowerOfTwo(bufferSize);
         int mask = p2capacity - 1;
-        /* NAGA AtomicReferenceArray<Object>*/ Object[] buffer = new /* NAGA AtomicReferenceArray<Object>*/ Object[p2capacity + 1];
+        /* WEBFX AtomicReferenceArray<Object>*/ Object[] buffer = new /* WEBFX AtomicReferenceArray<Object>*/ Object[p2capacity + 1];
         producerBuffer = buffer;
         producerMask = mask;
         adjustLookAheadStep(p2capacity);
@@ -73,7 +73,7 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
     @Override
     public final boolean offer(final T e) {
         // local load of field to avoid repeated loads after volatile reads
-        final /* NAGA AtomicReferenceArray<Object>*/ Object[] buffer = producerBuffer;
+        final /* WEBFX AtomicReferenceArray<Object>*/ Object[] buffer = producerBuffer;
         final long index = lpProducerIndex();
         final int mask = producerMask;
         final int offset = calcWrappedOffset(index, mask);
@@ -95,16 +95,16 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
         }
     }
 
-    private boolean writeToQueue(final /* NAGA AtomicReferenceArray<Object>*/ Object[] buffer, final T e, final long index, final int offset) {
+    private boolean writeToQueue(final /* WEBFX AtomicReferenceArray<Object>*/ Object[] buffer, final T e, final long index, final int offset) {
         soProducerIndex(index + 1);// this ensures atomic write of long on 32bit platforms
         soElement(buffer, offset, e);// StoreStore
         return true;
     }
 
-    private void resize(final /* NAGA AtomicReferenceArray<Object>*/ Object[] oldBuffer, final long currIndex, final int offset, final T e,
+    private void resize(final /* WEBFX AtomicReferenceArray<Object>*/ Object[] oldBuffer, final long currIndex, final int offset, final T e,
             final long mask) {
         final int capacity = oldBuffer.length;
-        final /* NAGA AtomicReferenceArray<Object>*/ Object[] newBuffer = new /* NAGA AtomicReferenceArray<Object>*/ Object[capacity];
+        final /* WEBFX AtomicReferenceArray<Object>*/ Object[] newBuffer = new /* WEBFX AtomicReferenceArray<Object>*/ Object[capacity];
         producerBuffer = newBuffer;
         producerLookAhead = currIndex + mask - 1;
         soProducerIndex(currIndex + 1);// this ensures correctness on 32bit platforms
@@ -114,12 +114,12 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
                                                                  // inserted
     }
 
-    private void soNext(/* NAGA AtomicReferenceArray<Object>*/ Object[] curr, /* NAGA AtomicReferenceArray<Object>*/ Object[] next) {
+    private void soNext(/* WEBFX AtomicReferenceArray<Object>*/ Object[] curr, /* WEBFX AtomicReferenceArray<Object>*/ Object[] next) {
         soElement(curr, calcDirectOffset(curr.length - 1), next);
     }
     @SuppressWarnings("unchecked")
-    private /* NAGA AtomicReferenceArray<Object>*/ Object[] lvNext(/* NAGA AtomicReferenceArray<Object>*/ Object[] curr) {
-        return (/* NAGA AtomicReferenceArray<Object>*/ Object[])lvElement(curr, calcDirectOffset(curr.length - 1));
+    private /* WEBFX AtomicReferenceArray<Object>*/ Object[] lvNext(/* WEBFX AtomicReferenceArray<Object>*/ Object[] curr) {
+        return (/* WEBFX AtomicReferenceArray<Object>*/ Object[])lvElement(curr, calcDirectOffset(curr.length - 1));
     }
     /**
      * {@inheritDoc}
@@ -130,7 +130,7 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
     @Override
     public final T poll() {
         // local load of field to avoid repeated loads after volatile reads
-        final /* NAGA AtomicReferenceArray<Object>*/ Object[] buffer = consumerBuffer;
+        final /* WEBFX AtomicReferenceArray<Object>*/ Object[] buffer = consumerBuffer;
         final long index = lpConsumerIndex();
         final int mask = consumerMask;
         final int offset = calcWrappedOffset(index, mask);
@@ -148,7 +148,7 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private T newBufferPoll(/* NAGA AtomicReferenceArray<Object>*/ Object[] nextBuffer, final long index, final int mask) {
+    private T newBufferPoll(/* WEBFX AtomicReferenceArray<Object>*/ Object[] nextBuffer, final long index, final int mask) {
         consumerBuffer = nextBuffer;
         final int offsetInNew = calcWrappedOffset(index, mask);
         final T n = (T) lvElement(nextBuffer, offsetInNew);// LoadLoad
@@ -169,7 +169,7 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
     @SuppressWarnings("unchecked")
     @Override
     public final T peek() {
-        final /* NAGA AtomicReferenceArray<Object>*/ Object[] buffer = consumerBuffer;
+        final /* WEBFX AtomicReferenceArray<Object>*/ Object[] buffer = consumerBuffer;
         final long index = lpConsumerIndex();
         final int mask = consumerMask;
         final int offset = calcWrappedOffset(index, mask);
@@ -187,7 +187,7 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private T newBufferPeek(/* NAGA AtomicReferenceArray<Object>*/ Object[] nextBuffer, final long index, final int mask) {
+    private T newBufferPeek(/* WEBFX AtomicReferenceArray<Object>*/ Object[] nextBuffer, final long index, final int mask) {
         consumerBuffer = nextBuffer;
         final int offsetInNew = calcWrappedOffset(index, mask);
         return (T) lvElement(nextBuffer, offsetInNew);// LoadLoad
@@ -238,11 +238,11 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
     }
 
     private void soProducerIndex(long v) {
-        producerIndex = v; // NAGA PRODUCER_INDEX.lazySet(this, v);
+        producerIndex = v; // WEBFX PRODUCER_INDEX.lazySet(this, v);
     }
 
     private void soConsumerIndex(long v) {
-        consumerIndex = v; // NAGA CONSUMER_INDEX.lazySet(this, v);
+        consumerIndex = v; // WEBFX CONSUMER_INDEX.lazySet(this, v);
     }
 
     private static int calcWrappedOffset(long index, int mask) {
@@ -251,12 +251,12 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
     private static int calcDirectOffset(int index) {
         return index;
     }
-    private static void soElement(/* NAGA AtomicReferenceArray<Object>*/ Object[] buffer, int offset, Object e) {
-        buffer[offset] = e; // NAGA buffer.lazySet(offset, e);
+    private static void soElement(/* WEBFX AtomicReferenceArray<Object>*/ Object[] buffer, int offset, Object e) {
+        buffer[offset] = e; // WEBFX buffer.lazySet(offset, e);
     }
 
-    private static <E> Object lvElement(/* NAGA AtomicReferenceArray<Object>*/ Object[] buffer, int offset) {
-        return buffer[offset]; // NAGA buffer.get(offset);
+    private static <E> Object lvElement(/* WEBFX AtomicReferenceArray<Object>*/ Object[] buffer, int offset) {
+        return buffer[offset]; // WEBFX buffer.get(offset);
     }
 
     @Override
@@ -327,7 +327,7 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
      * @return
      */
     public boolean offer(T first, T second) {
-        final /* NAGA AtomicReferenceArray<Object>*/ Object[] buffer = producerBuffer;
+        final /* WEBFX AtomicReferenceArray<Object>*/ Object[] buffer = producerBuffer;
         final long p = producerIndex;
         final int m = producerMask;
         
@@ -340,7 +340,7 @@ public final class SpscLinkedArrayQueue<T> implements Queue<T> {
             soElement(buffer, pi, first);
         } else {
             final int capacity = buffer.length;
-            final /* NAGA AtomicReferenceArray<Object>*/ Object[] newBuffer = new /* NAGA AtomicReferenceArray<Object>*/ Object[capacity];
+            final /* WEBFX AtomicReferenceArray<Object>*/ Object[] newBuffer = new /* WEBFX AtomicReferenceArray<Object>*/ Object[capacity];
             producerBuffer = newBuffer;
             
             pi = calcWrappedOffset(p, m);

@@ -3,10 +3,10 @@ package emul.javafx.stage;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.beans.value.ObservableValue;
-import naga.fx.spi.peer.StagePeer;
-import naga.fx.properties.markers.HasTitleProperty;
+import webfx.fx.spi.peer.StagePeer;
+import webfx.fx.properties.markers.HasTitleProperty;
 import emul.javafx.scene.Scene;
-import naga.fx.spi.Toolkit;
+import webfx.fx.spi.Toolkit;
 import emul.com.sun.javafx.tk.StagePeerListener;
 
 /**

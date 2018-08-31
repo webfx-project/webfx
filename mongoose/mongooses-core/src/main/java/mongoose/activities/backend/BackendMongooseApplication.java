@@ -13,10 +13,10 @@ import mongoose.activities.backend.organizations.OrganizationsRouting;
 import mongoose.activities.bothends.MongooseApplicationSharedByBothEnds;
 import mongoose.activities.bothends.auth.LoginRouting;
 import mongoose.activities.bothends.auth.UnauthorizedRouting;
-import naga.framework.activity.Activity;
-import naga.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.framework.ui.uirouter.UiRouter;
-import naga.util.function.Factory;
+import webfx.framework.activity.Activity;
+import webfx.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.ui.uirouter.UiRouter;
+import webfx.util.function.Factory;
 
 /**
  * @author Bruno Salmon

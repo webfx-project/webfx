@@ -3,8 +3,8 @@
  */
 module webfx.platform.jre {
 
-    requires naga.platform;
+    requires webfx.platform;
     requires webfx.platforms.java;
 
-    provides naga.providers.platform.abstr.java.JavaPlatform with naga.providers.platform.client.jre.JrePlatform;
+    provides webfx.providers.platform.abstr.java.JavaPlatform with webfx.providers.platform.client.jre.JrePlatform;
 }

@@ -49,7 +49,7 @@ public class RxJavaPlugins {
 
     private final AtomicReference<RxJavaErrorHandler> errorHandler = new AtomicReference<RxJavaErrorHandler>();
     private final AtomicReference<RxJavaObservableExecutionHook> observableExecutionHook = new AtomicReference<RxJavaObservableExecutionHook>();
-    // NAGA private final AtomicReference<RxJavaSchedulersHook> schedulersHook = new AtomicReference<RxJavaSchedulersHook>();
+    // WEBFX private final AtomicReference<RxJavaSchedulersHook> schedulersHook = new AtomicReference<RxJavaSchedulersHook>();
 
     /**
      * Retrieves the single {@code RxJavaPlugins} instance.
@@ -67,7 +67,7 @@ public class RxJavaPlugins {
     /* package accessible for unit tests */void reset() {
         INSTANCE.errorHandler.set(null);
         INSTANCE.observableExecutionHook.set(null);
-        // NAGA INSTANCE.schedulersHook.set(null);
+        // WEBFX INSTANCE.schedulersHook.set(null);
     }
 
     static final RxJavaErrorHandler DEFAULT_ERROR_HANDLER = new RxJavaErrorHandler() {
@@ -84,7 +84,7 @@ public class RxJavaPlugins {
     public RxJavaErrorHandler getErrorHandler() {
         if (errorHandler.get() == null) {
             // check for an implementation from System.getProperty first
-            Object impl = null; // NAGA // getPluginImplementationViaProperty(RxJavaErrorHandler.class, System.getProperties());
+            Object impl = null; // WEBFX // getPluginImplementationViaProperty(RxJavaErrorHandler.class, System.getProperties());
             if (impl == null) {
                 // nothing set via properties so initialize with default 
                 errorHandler.compareAndSet(null, DEFAULT_ERROR_HANDLER);
@@ -126,7 +126,7 @@ public class RxJavaPlugins {
     public RxJavaObservableExecutionHook getObservableExecutionHook() {
         if (observableExecutionHook.get() == null) {
             // check for an implementation from System.getProperty first
-            Object impl = null; // NAGA // getPluginImplementationViaProperty(RxJavaObservableExecutionHook.class, System.getProperties());
+            Object impl = null; // WEBFX // getPluginImplementationViaProperty(RxJavaObservableExecutionHook.class, System.getProperties());
             if (impl == null) {
                 // nothing set via properties so initialize with default 
                 observableExecutionHook.compareAndSet(null, RxJavaObservableExecutionHookDefault.getInstance());
@@ -155,7 +155,7 @@ public class RxJavaPlugins {
         }
     }
 
-    /* test */ /* NAGA static Object getPluginImplementationViaProperty(Class<?> pluginClass, Properties props) {
+    /* test */ /* WEBFX static Object getPluginImplementationViaProperty(Class<?> pluginClass, Properties props) {
         final String classSimpleName = pluginClass.getSimpleName();
         //
          * Check system properties for plugin class.
@@ -225,10 +225,10 @@ public class RxJavaPlugins {
      *
      * @return the {@link RxJavaSchedulersHook} implementation in use
      */
-    /* NAGA public RxJavaSchedulersHook getSchedulersHook() {
+    /* WEBFX public RxJavaSchedulersHook getSchedulersHook() {
         if (schedulersHook.get() == null) {
             // check for an implementation from System.getProperty first
-            Object impl = null; // NAGA // getPluginImplementationViaProperty(RxJavaSchedulersHook.class, System.getProperties());
+            Object impl = null; // WEBFX // getPluginImplementationViaProperty(RxJavaSchedulersHook.class, System.getProperties());
             if (impl == null) {
                 // nothing set via properties so initialize with default
                 schedulersHook.compareAndSet(null, RxJavaSchedulersHook.getDefaultInstance());
@@ -251,7 +251,7 @@ public class RxJavaPlugins {
      *             if called more than once or after the default was initialized (if usage occurs before trying
      *             to register)
      */
-    /* NAGA public void registerSchedulersHook(RxJavaSchedulersHook impl) {
+    /* WEBFX public void registerSchedulersHook(RxJavaSchedulersHook impl) {
         if (!schedulersHook.compareAndSet(null, impl)) {
             throw new IllegalStateException("Another strategy was already registered: " + schedulersHook.get());
         }

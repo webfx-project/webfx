@@ -6,11 +6,11 @@ import mongoose.entities.Attendance;
 import mongoose.entities.Document;
 import mongoose.entities.DocumentLine;
 import mongoose.aggregates.EventAggregate;
-import naga.framework.orm.entity.EntityList;
-import naga.framework.orm.entity.EntityStore;
-import naga.framework.orm.entity.EntityStoreQuery;
-import naga.util.async.Future;
-import naga.util.collection.Collections;
+import webfx.framework.orm.entity.EntityList;
+import webfx.framework.orm.entity.EntityStore;
+import webfx.framework.orm.entity.EntityStoreQuery;
+import webfx.util.async.Future;
+import webfx.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

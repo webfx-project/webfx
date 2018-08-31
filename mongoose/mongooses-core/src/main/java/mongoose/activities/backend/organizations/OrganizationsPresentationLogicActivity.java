@@ -3,8 +3,8 @@ package mongoose.activities.backend.organizations;
 import mongoose.operations.backend.route.RouteToEventsRequest;
 import mongoose.activities.bothends.generic.MongooseDomainPresentationLogicActivityBase;
 import mongoose.entities.Organization;
-import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import naga.util.function.Factory;
+import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.util.function.Factory;
 
 /**
  * @author Bruno Salmon

@@ -1,9 +1,9 @@
 package mongoose.domainmodel.formatters;
 
-import naga.type.PrimType;
-import naga.type.Type;
-import naga.util.Dates;
-import naga.framework.ui.formatter.Formatter;
+import webfx.type.PrimType;
+import webfx.type.Type;
+import webfx.util.Dates;
+import webfx.framework.ui.formatter.Formatter;
 
 
 /**

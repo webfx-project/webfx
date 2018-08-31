@@ -8,11 +8,11 @@ import mongoose.entities.Cart;
 import mongoose.entities.Document;
 import mongoose.entities.DocumentLine;
 import mongoose.aggregates.EventAggregate;
-import naga.framework.orm.entity.UpdateStore;
-import naga.platform.services.update.UpdateArgument;
-import naga.util.async.Future;
-import naga.util.collection.Collections;
-import naga.util.uuid.Uuid;
+import webfx.framework.orm.entity.UpdateStore;
+import webfx.platform.services.update.UpdateArgument;
+import webfx.util.async.Future;
+import webfx.util.collection.Collections;
+import webfx.util.uuid.Uuid;
 
 import java.time.LocalDate;
 import java.util.List;

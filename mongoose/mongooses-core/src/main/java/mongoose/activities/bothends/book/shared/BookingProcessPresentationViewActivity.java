@@ -11,8 +11,8 @@ import mongoose.activities.bothends.generic.MongooseSectionFactoryMixin;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.Event;
 import mongoose.aggregates.EventAggregate;
-import naga.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import naga.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.ui.graphic.background.BackgroundUtil;
 
 /**
  * @author Bruno Salmon

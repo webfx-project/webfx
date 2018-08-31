@@ -1,0 +1,5 @@
+{
+  "serverHost": "kadampabookings.org",
+  "serverPort": 9090,
+  "serverSSL": false
+}

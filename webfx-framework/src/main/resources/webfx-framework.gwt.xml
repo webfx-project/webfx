@@ -4,7 +4,7 @@
     <inherits name="webfx-lib-rxjava"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga/framework"/>   <!-- code -->
+    <source path="webfx/framework"/>   <!-- code -->
 
     <public path="" includes="images/"/> <!-- images -->
 

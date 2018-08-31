@@ -3,10 +3,10 @@
  */
 module webfx.platforms.core.scheduler {
 
-    requires naga.util;
+    requires webfx.util;
 
-    exports naga.platform.services.scheduler;
-    exports naga.platform.services.uischeduler;
-    exports naga.platform.services.uischeduler.spi.impl;
+    exports webfx.platform.services.scheduler;
+    exports webfx.platform.services.uischeduler;
+    exports webfx.platform.services.uischeduler.spi.impl;
 
 }

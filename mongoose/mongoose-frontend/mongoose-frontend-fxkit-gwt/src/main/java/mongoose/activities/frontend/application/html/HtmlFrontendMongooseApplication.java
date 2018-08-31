@@ -1,7 +1,7 @@
 package mongoose.activities.frontend.application.html;
 
 import mongoose.activities.frontend.application.web.WebFrontendMongooseApplication;
-import naga.providers.platform.client.gwt.GwtPlatform;
+import webfx.providers.platform.client.gwt.GwtPlatform;
 
 /**
  * @author Bruno Salmon

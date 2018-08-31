@@ -1,7 +1,7 @@
 package mongoose.operations.bothends.i18n;
 
-import naga.framework.operation.HasOperationCode;
-import naga.framework.operations.i18n.ChangeLanguageRequest;
+import webfx.framework.operation.HasOperationCode;
+import webfx.framework.operations.i18n.ChangeLanguageRequest;
 
 /**
  * @author Bruno Salmon

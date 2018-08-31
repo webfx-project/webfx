@@ -1,10 +1,10 @@
 package mongoose.domainmodel.functions;
 
-import naga.type.PrimType;
-import naga.type.Type;
-import naga.util.Dates;
-import naga.framework.expression.lci.DataReader;
-import naga.framework.expression.terms.function.Function;
+import webfx.type.PrimType;
+import webfx.type.Type;
+import webfx.util.Dates;
+import webfx.framework.expression.lci.DataReader;
+import webfx.framework.expression.terms.function.Function;
 
 import java.time.LocalDate;
 import java.time.Month;

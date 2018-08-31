@@ -1,8 +1,8 @@
 package mongoose.activities.bothends.generic.table;
 
 import javafx.beans.property.*;
-import naga.fxdata.displaydata.DisplayResult;
-import naga.fxdata.displaydata.DisplaySelection;
+import webfx.fxdata.displaydata.DisplayResult;
+import webfx.fxdata.displaydata.DisplaySelection;
 
 /**
  * @author Bruno Salmon

@@ -1,8 +1,8 @@
 package mongoose.entities;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.entity.UpdateStore;
+import webfx.framework.orm.domainmodel.DataSourceModel;
+import webfx.framework.orm.entity.UpdateStore;
 import org.junit.Before;
 import org.junit.Test;
 

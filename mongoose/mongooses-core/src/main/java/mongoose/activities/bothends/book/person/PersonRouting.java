@@ -1,8 +1,8 @@
 package mongoose.activities.bothends.book.person;
 
 import mongoose.activities.bothends.generic.routing.MongooseRoutingUtil;
-import naga.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.framework.ui.uirouter.UiRoute;
+import webfx.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.ui.uirouter.UiRoute;
 
 /**
  * @author Bruno Salmon

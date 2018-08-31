@@ -1,6 +1,6 @@
 package emul.javafx.application;
 
-import naga.fx.spi.Toolkit;
+import webfx.fx.spi.Toolkit;
 
 /**
  * Application platform support class.

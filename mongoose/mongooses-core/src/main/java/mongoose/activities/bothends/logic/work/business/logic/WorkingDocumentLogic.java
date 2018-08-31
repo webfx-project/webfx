@@ -2,7 +2,7 @@ package mongoose.activities.bothends.logic.work.business.logic;
 
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.business.rules.*;
-import naga.util.Arrays;
+import webfx.util.Arrays;
 
 /**
  * @author Bruno Salmon

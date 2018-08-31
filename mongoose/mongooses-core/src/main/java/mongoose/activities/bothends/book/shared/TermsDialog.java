@@ -5,17 +5,17 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import naga.framework.ui.graphic.background.BackgroundUtil;
-import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import naga.framework.ui.graphic.controls.dialog.DialogCallback;
-import naga.framework.ui.graphic.controls.dialog.DialogUtil;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.fxdata.cell.collator.GridCollator;
+import webfx.framework.orm.domainmodel.DataSourceModel;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.ui.graphic.controls.button.ButtonFactoryMixin;
+import webfx.framework.ui.graphic.controls.dialog.DialogCallback;
+import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.fxdata.cell.collator.GridCollator;
 
-import static naga.framework.ui.layouts.LayoutUtil.createHGrowable;
+import static webfx.framework.ui.layouts.LayoutUtil.createHGrowable;
 
 /**
  * @author Bruno Salmon

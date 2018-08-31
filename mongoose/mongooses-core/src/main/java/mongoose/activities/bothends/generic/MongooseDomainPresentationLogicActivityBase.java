@@ -1,14 +1,14 @@
 package mongoose.activities.bothends.generic;
 
-import naga.framework.activity.base.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
-import naga.platform.services.json.Json;
-import naga.platform.services.json.JsonObject;
-import naga.platform.services.json.WritableJsonObject;
-import naga.platform.services.log.Logger;
-import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryService;
-import naga.util.function.Factory;
+import webfx.framework.activity.base.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import webfx.framework.expression.sqlcompiler.sql.SqlCompiled;
+import webfx.platform.services.json.Json;
+import webfx.platform.services.json.JsonObject;
+import webfx.platform.services.json.WritableJsonObject;
+import webfx.platform.services.log.Logger;
+import webfx.platform.services.query.QueryArgument;
+import webfx.platform.services.query.QueryService;
+import webfx.util.function.Factory;
 
 /**
  * @author Bruno Salmon

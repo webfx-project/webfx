@@ -1,8 +1,8 @@
 package mongoose.activities.bothends.generic.routing;
 
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityId;
-import naga.util.Strings;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.EntityId;
+import webfx.util.Strings;
 
 /**
  * @author Bruno Salmon

@@ -3,7 +3,7 @@ package emul.com.sun.javafx.util;
 import emul.javafx.geometry.*;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
-import naga.fx.spi.Toolkit;
+import webfx.fx.spi.Toolkit;
 import emul.javafx.stage.Screen;
 import emul.javafx.stage.Window;
 

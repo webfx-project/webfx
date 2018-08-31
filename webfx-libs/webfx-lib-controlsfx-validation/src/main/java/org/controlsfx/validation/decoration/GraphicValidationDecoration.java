@@ -89,7 +89,7 @@ public class GraphicValidationDecoration extends AbstractValidationDecoration {
     protected Node createDecorationNode(ValidationMessage message) {
         Node graphic = Severity.ERROR == message.getSeverity() ? createErrorNode() : createWarningNode();
         //graphic.setStyle(SHADOW_EFFECT);
-        return graphic; // Naga change (to allow the size change detection on html image load)
+        return graphic; // Webfx change (to allow the size change detection on html image load)
 /*
         Label label = new Label();
         label.setGraphic(graphic);

@@ -8565,7 +8565,7 @@ public class Observable<T> {
          * to user code from within an Observer"
          */
         // if not already wrapped
-        /* NAGA if (!(subscriber instanceof SafeSubscriber)) {
+        /* WEBFX if (!(subscriber instanceof SafeSubscriber)) {
             // assign to `observer` so we return the protected version
             subscriber = new SafeSubscriber<T>(subscriber);
         }*/

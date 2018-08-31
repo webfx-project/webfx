@@ -25,9 +25,9 @@ import emul.javafx.scene.input.MouseEvent;
 import emul.javafx.scene.layout.LayoutFlags;
 import emul.javafx.scene.transform.Transform;
 import emul.javafx.scene.transform.Translate;
-import naga.fx.properties.markers.*;
-import naga.fx.spi.Toolkit;
-import naga.fx.spi.peer.NodePeer;
+import webfx.fx.properties.markers.*;
+import webfx.fx.spi.Toolkit;
+import webfx.fx.spi.peer.NodePeer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1312,7 +1312,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      * <p>
      * The layoutBounds will never be null.
      *
-     * Naga note: this property is set only when the target toolkit reports a change by calling
+     * Webfx note: this property is set only when the target toolkit reports a change by calling
      * the SizeChangedCallback set on the LayoutMeasurable (ex: once an image is loaded so we
      * now know the size of the image). So layoutBoundsProperty() should be used only to listen
      * such changes.

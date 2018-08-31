@@ -5,8 +5,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import mongoose.actions.MongooseIcons;
 import mongoose.activities.bothends.book.shared.BookingProcessPresentationViewActivity;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.fxdata.cell.collator.GridCollator;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.fxdata.cell.collator.GridCollator;
 
 /**
  * @author Bruno Salmon

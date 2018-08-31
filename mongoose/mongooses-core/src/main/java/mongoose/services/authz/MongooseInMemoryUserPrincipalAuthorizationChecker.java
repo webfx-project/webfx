@@ -1,16 +1,16 @@
 package mongoose.services.authz;
 
 import mongoose.services.authn.MongooseUserPrincipal;
-import naga.framework.operation.authz.OperationAuthorizationRuleParser;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityStore;
-import naga.framework.router.auth.authz.RoutingAuthorizationRule;
-import naga.framework.router.auth.authz.RoutingAuthorizationRuleParser;
-import naga.framework.services.authz.spi.impl.inmemory.AuthorizationRuleType;
-import naga.framework.services.authz.spi.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
-import naga.platform.services.log.Logger;
-import naga.util.Strings;
+import webfx.framework.operation.authz.OperationAuthorizationRuleParser;
+import webfx.framework.orm.domainmodel.DataSourceModel;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.EntityStore;
+import webfx.framework.router.auth.authz.RoutingAuthorizationRule;
+import webfx.framework.router.auth.authz.RoutingAuthorizationRuleParser;
+import webfx.framework.services.authz.spi.impl.inmemory.AuthorizationRuleType;
+import webfx.framework.services.authz.spi.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
+import webfx.platform.services.log.Logger;
+import webfx.util.Strings;
 
 /**
  * @author Bruno Salmon

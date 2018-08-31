@@ -15,16 +15,16 @@ import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.framework.ui.layouts.FlexBox;
-import naga.fx.spi.Toolkit;
-import naga.platform.services.log.Logger;
-import naga.util.Arrays;
+import webfx.framework.ui.layouts.FlexBox;
+import webfx.fx.spi.Toolkit;
+import webfx.platform.services.log.Logger;
+import webfx.util.Arrays;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static naga.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
+import static webfx.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
 
 /**
  * @author Bruno Salmon

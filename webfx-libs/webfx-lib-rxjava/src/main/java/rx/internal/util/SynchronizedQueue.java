@@ -148,7 +148,7 @@ public class SynchronizedQueue<T> implements Queue<T> {
         return list.offer(e);
     }
 
-    /* NAGA (GWT PB) @Override
+    /* WEBFX (GWT PB) @Override
     public synchronized Object clone() {
         SynchronizedQueue<T> q = new SynchronizedQueue<T>(size);
         q.addAll(list);

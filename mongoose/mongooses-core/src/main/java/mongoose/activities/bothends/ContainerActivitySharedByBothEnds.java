@@ -6,13 +6,13 @@ import javafx.scene.layout.FlowPane;
 import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.operations.bothends.i18n.ChangeLanguageToEnglishRequest;
 import mongoose.operations.bothends.i18n.ChangeLanguageToFrenchRequest;
-import naga.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
-import naga.framework.operation.action.OperationActionFactoryMixin;
-import naga.framework.ui.action.Action;
-import naga.framework.ui.action.ActionBinder;
-import naga.framework.operations.route.RouteBackwardRequest;
-import naga.framework.operations.route.RouteForwardRequest;
-import naga.util.collection.Collections;
+import webfx.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
+import webfx.framework.operation.action.OperationActionFactoryMixin;
+import webfx.framework.ui.action.Action;
+import webfx.framework.ui.action.ActionBinder;
+import webfx.framework.operations.route.RouteBackwardRequest;
+import webfx.framework.operations.route.RouteForwardRequest;
+import webfx.util.collection.Collections;
 
 import java.util.Collection;
 

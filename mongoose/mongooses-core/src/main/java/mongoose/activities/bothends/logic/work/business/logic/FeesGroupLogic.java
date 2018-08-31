@@ -7,8 +7,8 @@ import mongoose.entities.Option;
 import mongoose.entities.Site;
 import mongoose.aggregates.EventAggregate;
 import mongoose.util.Labels;
-import naga.framework.orm.entity.EntityList;
-import naga.util.collection.Collections;
+import webfx.framework.orm.entity.EntityList;
+import webfx.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

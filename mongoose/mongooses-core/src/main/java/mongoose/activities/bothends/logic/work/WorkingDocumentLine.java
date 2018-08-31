@@ -9,8 +9,8 @@ import mongoose.activities.bothends.logic.work.business.logic.OptionLogic;
 import mongoose.entities.*;
 import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.aggregates.EventAggregate;
-import naga.framework.orm.entity.Entities;
-import naga.util.collection.Collections;
+import webfx.framework.orm.entity.Entities;
+import webfx.util.collection.Collections;
 
 import java.time.LocalDate;
 import java.util.List;

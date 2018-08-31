@@ -2,7 +2,7 @@ package mongoose.activities.bothends.book.shared;
 
 import javafx.event.ActionEvent;
 import mongoose.activities.bothends.generic.eventdependent.EventDependentPresentationLogicActivity;
-import naga.util.function.Factory;
+import webfx.util.function.Factory;
 
 /**
  * @author Bruno Salmon

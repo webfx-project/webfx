@@ -3,6 +3,6 @@
     <!-- Specify the paths for translatable code                    -->
     <source path="com/sun/javafx"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
     <source path="javafx"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
-    <source path="naga/fx"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
-    <source path="naga/fxdata"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
+    <source path="webfx/fx"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
+    <source path="webfx/fxdata"/>     <!-- source path to javafx properties library (webfx-lib-javafxbindings) -->
 </module>

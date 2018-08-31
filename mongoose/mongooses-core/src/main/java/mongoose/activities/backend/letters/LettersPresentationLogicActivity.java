@@ -2,7 +2,7 @@ package mongoose.activities.backend.letters;
 
 import mongoose.operations.backend.route.RouteToLetterRequest;
 import mongoose.activities.bothends.generic.eventdependent.EventDependentPresentationLogicActivity;
-import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
 /**
  * @author Bruno Salmon

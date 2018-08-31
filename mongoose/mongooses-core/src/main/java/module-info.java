@@ -3,10 +3,10 @@
  */
 module mongooses.core {
 
-    requires naga.scheduler;
-    requires naga.util;
-    requires naga.type;
-    requires naga.platform;
+    requires webfx.scheduler;
+    requires webfx.util;
+    requires webfx.type;
+    requires webfx.platform;
     requires webfx.fxkits.core;
     requires webfx.framework;
     requires webfx.lib.rxjava;

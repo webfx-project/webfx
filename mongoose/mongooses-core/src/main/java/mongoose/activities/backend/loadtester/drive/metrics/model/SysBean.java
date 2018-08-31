@@ -1,6 +1,6 @@
 package mongoose.activities.backend.loadtester.drive.metrics.model;
 
-import naga.platform.services.log.Logger;
+import webfx.platform.services.log.Logger;
 
 import java.time.Instant;
 

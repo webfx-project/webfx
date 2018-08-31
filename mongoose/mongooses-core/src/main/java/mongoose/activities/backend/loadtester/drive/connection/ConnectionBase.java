@@ -4,7 +4,7 @@ package mongoose.activities.backend.loadtester.drive.connection;
 import mongoose.activities.backend.loadtester.drive.listener.ConnectionEvent;
 import mongoose.activities.backend.loadtester.drive.listener.EventListener;
 import mongoose.activities.backend.loadtester.drive.listener.EventListenerImpl;
-import naga.platform.services.log.Logger;
+import webfx.platform.services.log.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

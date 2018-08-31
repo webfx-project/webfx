@@ -3,28 +3,28 @@ package mongoose.activities.backend.util;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityStore;
-import naga.framework.orm.entity.UpdateStore;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.fx.properties.Properties;
-import naga.fxdata.control.HtmlTextEditor;
-import naga.util.Objects;
-import naga.util.Strings;
-import naga.util.async.Handler;
-import naga.util.function.Callable;
-import naga.util.function.Function;
-import naga.util.tuples.Pair;
+import webfx.framework.orm.domainmodel.DataSourceModel;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.EntityStore;
+import webfx.framework.orm.entity.UpdateStore;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.graphic.controls.button.ButtonFactoryMixin;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.fx.properties.Properties;
+import webfx.fxdata.control.HtmlTextEditor;
+import webfx.util.Objects;
+import webfx.util.Strings;
+import webfx.util.async.Handler;
+import webfx.util.function.Callable;
+import webfx.util.function.Function;
+import webfx.util.tuples.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static mongoose.actions.MongooseIcons.getLanguageIcon32;
-import static naga.framework.ui.action.StandardActionKeys.*;
-import static naga.framework.ui.layouts.LayoutUtil.setMaxPrefSizeToInfinite;
+import static webfx.framework.ui.action.StandardActionKeys.*;
+import static webfx.framework.ui.layouts.LayoutUtil.setMaxPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon

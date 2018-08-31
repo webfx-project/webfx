@@ -6,9 +6,9 @@ import mongoose.entities.Document;
 import mongoose.entities.Item;
 import mongoose.entities.Rate;
 import mongoose.entities.Site;
-import naga.framework.orm.entity.Entities;
-import naga.util.Booleans;
-import naga.util.Objects;
+import webfx.framework.orm.entity.Entities;
+import webfx.util.Booleans;
+import webfx.util.Objects;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

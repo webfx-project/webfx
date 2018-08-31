@@ -7,12 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.graphic.background.BackgroundUtil;
-import naga.framework.ui.graphic.border.BorderUtil;
-import naga.fxdata.cell.collator.NodeCollatorRegistry;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.ui.graphic.border.BorderUtil;
+import webfx.fxdata.cell.collator.NodeCollatorRegistry;
 
-import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
+import static webfx.framework.ui.graphic.image.JsonImageViews.createImageView;
 
 /**
  * @author Bruno Salmon

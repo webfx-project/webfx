@@ -2,7 +2,7 @@ package mongoose.actions;
 
 import javafx.scene.image.ImageView;
 import mongoose.entities.Option;
-import naga.fx.util.ImageStore;
+import webfx.fx.util.ImageStore;
 
 /**
  * @author Bruno Salmon

@@ -4,8 +4,8 @@ import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.activities.bothends.logic.work.business.logic.OptionLogic;
 import mongoose.entities.Option;
-import naga.util.collection.Collections;
-import naga.util.function.Predicate;
+import webfx.util.collection.Collections;
+import webfx.util.function.Predicate;
 
 import java.util.Collection;
 import java.util.List;

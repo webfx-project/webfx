@@ -1,11 +1,11 @@
 package mongoose.domainmodel.formatters;
 
 import mongoose.entities.Event;
-import naga.type.PrimType;
-import naga.type.Type;
-import naga.util.Numbers;
-import naga.framework.orm.entity.EntityId;
-import naga.framework.ui.formatter.Formatter;
+import webfx.type.PrimType;
+import webfx.type.Type;
+import webfx.util.Numbers;
+import webfx.framework.orm.entity.EntityId;
+import webfx.framework.ui.formatter.Formatter;
 
 /**
  * @author Bruno Salmon

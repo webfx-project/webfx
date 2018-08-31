@@ -54,7 +54,7 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
      * @return the created Producer
      */
     static <T> Producer createProducer(Subscriber<? super T> s, T v) {
-        /* NAGA if (STRONG_MODE) {
+        /* WEBFX if (STRONG_MODE) {
             return new SingleProducer<T>(s, v);
         }*/
         return new WeakSingleProducer<T>(s, v);
@@ -102,7 +102,7 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
      */
     public Observable<T> scalarScheduleOn(final Scheduler scheduler) {
         final Func1<Action0, Subscription> onSchedule;
-        /* NAGA if (scheduler instanceof EventLoopsScheduler) {
+        /* WEBFX if (scheduler instanceof EventLoopsScheduler) {
             final EventLoopsScheduler els = (EventLoopsScheduler) scheduler;
             onSchedule = new Func1<Action0, Subscription>() {
                 @Override

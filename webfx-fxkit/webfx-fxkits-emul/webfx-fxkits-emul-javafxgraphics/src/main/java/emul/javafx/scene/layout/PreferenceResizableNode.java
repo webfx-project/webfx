@@ -1,7 +1,7 @@
 package emul.javafx.scene.layout;
 
 import emul.javafx.scene.INode;
-import naga.fx.properties.markers.*;
+import webfx.fx.properties.markers.*;
 
 /**
  * @author Bruno Salmon

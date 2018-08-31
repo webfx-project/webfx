@@ -1,7 +1,7 @@
 package emul.javafx.animation;
 
-import naga.platform.services.uischeduler.spi.AnimationFramePass;
-import naga.fx.spi.Toolkit;
+import webfx.platform.services.uischeduler.spi.AnimationFramePass;
+import webfx.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon

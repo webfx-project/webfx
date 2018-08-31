@@ -4,7 +4,7 @@ import emul.javafx.geometry.Insets;
 import emul.javafx.scene.control.Skin;
 import emul.javafx.scene.control.TextField;
 import emul.javafx.scene.layout.Background;
-import naga.fx.properties.ObservableLists;
+import webfx.fx.properties.ObservableLists;
 
 /**
  * @author Bruno Salmon

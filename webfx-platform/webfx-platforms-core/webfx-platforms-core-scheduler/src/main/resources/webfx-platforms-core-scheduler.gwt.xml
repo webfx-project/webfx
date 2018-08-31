@@ -3,6 +3,6 @@
     <inherits name="webfx-platforms-core-util"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga/scheduler"/>
-    <source path="naga/uischeduler"/>
+    <source path="webfx/scheduler"/>
+    <source path="webfx/uischeduler"/>
 </module>

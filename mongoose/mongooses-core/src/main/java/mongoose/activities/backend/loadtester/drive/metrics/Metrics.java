@@ -5,8 +5,8 @@ import mongoose.activities.backend.loadtester.drive.metrics.controller.SystemLoo
 import mongoose.activities.backend.loadtester.drive.metrics.controller.SystemLookupMock;
 import mongoose.activities.backend.loadtester.drive.metrics.model.MemData;
 import mongoose.activities.backend.loadtester.drive.metrics.model.SysBean;
-import naga.fx.spi.Toolkit;
-import naga.platform.services.scheduler.Scheduler;
+import webfx.fx.spi.Toolkit;
+import webfx.platform.services.scheduler.Scheduler;
 
 
 /**

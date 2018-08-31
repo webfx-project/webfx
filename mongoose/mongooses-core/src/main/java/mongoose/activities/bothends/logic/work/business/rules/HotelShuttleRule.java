@@ -7,7 +7,7 @@ import mongoose.activities.bothends.logic.work.business.BusinessType;
 import mongoose.activities.bothends.logic.work.business.logic.OptionLogic;
 import mongoose.entities.Option;
 import mongoose.entities.Site;
-import naga.util.collection.Collections;
+import webfx.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

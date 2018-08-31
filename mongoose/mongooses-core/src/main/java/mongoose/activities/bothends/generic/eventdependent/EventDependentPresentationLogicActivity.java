@@ -1,8 +1,8 @@
 package mongoose.activities.bothends.generic.eventdependent;
 
 import mongoose.activities.bothends.generic.MongooseDomainPresentationLogicActivityBase;
-import naga.framework.activity.base.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
-import naga.util.function.Factory;
+import webfx.framework.activity.base.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
+import webfx.util.function.Factory;
 
 /**
  * @author Bruno Salmon

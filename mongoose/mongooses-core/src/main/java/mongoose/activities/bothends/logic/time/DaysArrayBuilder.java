@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.logic.time;
 
-import naga.util.collection.Collections;
-import naga.util.collection.HashList;
+import webfx.util.collection.Collections;
+import webfx.util.collection.HashList;
 
 import java.time.LocalDate;
 import java.util.Arrays;

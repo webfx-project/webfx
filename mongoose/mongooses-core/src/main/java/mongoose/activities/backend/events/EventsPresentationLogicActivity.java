@@ -3,8 +3,8 @@ package mongoose.activities.backend.events;
 import mongoose.operations.bothends.route.RouteToBookingsRequest;
 import mongoose.activities.bothends.generic.MongooseDomainPresentationLogicActivityBase;
 import mongoose.entities.Event;
-import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import naga.util.function.Factory;
+import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.util.function.Factory;
 
 /**
  * @author Bruno Salmon

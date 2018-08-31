@@ -6,11 +6,11 @@ module mongoose.backend.fxkit.javafx {
     requires mongooses.core;
     requires mongooses.java;
     requires webfx.framework;
-    requires naga.platform;
+    requires webfx.platform;
     requires webfx.platform.jre;
     requires webfx.fxkits.core;
     requires webfx.javafxport.javafx;
-    requires naga.util;
+    requires webfx.util;
 
     requires javafx.controls;
 }

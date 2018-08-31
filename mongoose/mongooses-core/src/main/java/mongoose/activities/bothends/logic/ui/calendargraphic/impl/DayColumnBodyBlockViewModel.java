@@ -16,7 +16,7 @@ import mongoose.activities.bothends.logic.time.TimeInterval;
 import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarCell;
 import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarGraphic;
-import naga.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.ui.graphic.background.BackgroundUtil;
 
 import java.util.concurrent.TimeUnit;
 

@@ -1,7 +1,7 @@
 package mongoose.activities.backend.authorizations;
 
-import naga.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.framework.ui.uirouter.UiRoute;
+import webfx.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.ui.uirouter.UiRoute;
 
 /**
  * @author Bruno Salmon

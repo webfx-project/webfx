@@ -1205,7 +1205,7 @@ public class DialogPane extends Pane {
     }
 
     {
-        // Hardcoded style for Naga (while css is not yet implemented)
+        // Hardcoded style for Webfx (while css is not yet implemented)
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
     }
 }

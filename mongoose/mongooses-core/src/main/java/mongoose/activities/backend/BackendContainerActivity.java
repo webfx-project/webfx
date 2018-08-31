@@ -3,8 +3,8 @@ package mongoose.activities.backend;
 import mongoose.activities.bothends.ContainerActivitySharedByBothEnds;
 import mongoose.operations.backend.route.*;
 import mongoose.operations.bothends.route.RouteToBookingsRequest;
-import naga.framework.ui.action.Action;
-import naga.util.collection.Collections;
+import webfx.framework.ui.action.Action;
+import webfx.util.collection.Collections;
 
 import java.util.Collection;
 

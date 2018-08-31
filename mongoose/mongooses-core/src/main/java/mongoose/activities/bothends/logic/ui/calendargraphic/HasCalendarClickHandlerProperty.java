@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.logic.ui.calendargraphic;
 
 import javafx.beans.property.Property;
-import naga.util.async.Handler;
+import webfx.util.async.Handler;
 
 /**
  * @author Bruno Salmon

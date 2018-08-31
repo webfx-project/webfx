@@ -5,18 +5,18 @@ import mongoose.activities.bothends.generic.eventdependent.EventDependentPresent
 import mongoose.activities.bothends.logic.work.sync.WorkingDocumentLoader;
 import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Document;
-import naga.framework.ui.filter.ReactiveExpressionFilter;
-import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import naga.platform.services.json.WritableJsonObject;
-import naga.platform.services.log.Logger;
-import naga.util.Booleans;
-import naga.util.Objects;
-import naga.util.Strings;
+import webfx.framework.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.platform.services.json.WritableJsonObject;
+import webfx.platform.services.log.Logger;
+import webfx.util.Booleans;
+import webfx.util.Objects;
+import webfx.util.Strings;
 
 import java.time.LocalDate;
 
 import static mongoose.activities.backend.bookings.BookingsRouting.parseDayParam;
-import static naga.framework.expression.sqlcompiler.terms.ConstantSqlCompiler.toSqlDate;
+import static webfx.framework.expression.sqlcompiler.terms.ConstantSqlCompiler.toSqlDate;
 
 /**
  * @author Bruno Salmon

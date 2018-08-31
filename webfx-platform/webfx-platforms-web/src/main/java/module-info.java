@@ -3,10 +3,10 @@
  */
 module webfx.platforms.web {
 
-    requires naga.scheduler;
-    requires naga.util;
-    requires naga.platform;
+    requires webfx.scheduler;
+    requires webfx.util;
+    requires webfx.platform;
 
-    exports naga.providers.platform.abstr.web;
+    exports webfx.providers.platform.abstr.web;
 
 }

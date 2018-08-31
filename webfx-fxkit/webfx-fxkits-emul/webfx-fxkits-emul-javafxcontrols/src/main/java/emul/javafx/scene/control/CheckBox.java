@@ -5,7 +5,7 @@ import emul.javafx.beans.property.BooleanProperty;
 import emul.javafx.beans.property.SimpleBooleanProperty;
 import emul.javafx.event.ActionEvent;
 import emul.javafx.scene.Cursor;
-import naga.fx.properties.markers.HasSelectedProperty;
+import webfx.fx.properties.markers.HasSelectedProperty;
 
 /**
  * @author Bruno Salmon

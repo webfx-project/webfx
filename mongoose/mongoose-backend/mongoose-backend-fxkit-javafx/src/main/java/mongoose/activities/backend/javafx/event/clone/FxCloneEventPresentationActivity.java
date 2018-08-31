@@ -2,7 +2,7 @@ package mongoose.activities.backend.javafx.event.clone;
 
 import mongoose.activities.backend.cloneevent.CloneEventPresentationLogicActivity;
 import mongoose.activities.backend.cloneevent.CloneEventPresentationModel;
-import naga.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
+import webfx.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
 
 /**
  * @author Bruno Salmon

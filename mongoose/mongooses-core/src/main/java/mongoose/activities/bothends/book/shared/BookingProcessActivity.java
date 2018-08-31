@@ -10,9 +10,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import mongoose.activities.bothends.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.bothends.generic.eventdependent.EventDependentViewDomainActivity;
-import naga.framework.ui.graphic.background.BackgroundUtil;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.util.Strings;
+import webfx.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.util.Strings;
 
 /**
  * @author Bruno Salmon

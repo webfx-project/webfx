@@ -4,8 +4,8 @@ import mongoose.entities.markers.EntityHasCancelled;
 import mongoose.entities.markers.EntityHasEvent;
 import mongoose.entities.markers.EntityHasPerson;
 import mongoose.entities.markers.EntityHasPersonDetailsCopy;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityId;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon

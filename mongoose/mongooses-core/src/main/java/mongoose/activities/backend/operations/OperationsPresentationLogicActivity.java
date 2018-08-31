@@ -2,11 +2,11 @@ package mongoose.activities.backend.operations;
 
 import javafx.scene.layout.Pane;
 import mongoose.activities.bothends.generic.MongooseDomainPresentationLogicActivityBase;
-import naga.framework.activity.base.combinations.viewapplication.ViewApplicationContext;
-import naga.framework.orm.entity.Entity;
-import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import naga.framework.ui.graphic.controls.sheet.PropertySheet;
-import naga.util.function.Factory;
+import webfx.framework.activity.base.combinations.viewapplication.ViewApplicationContext;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.ui.graphic.controls.sheet.PropertySheet;
+import webfx.util.function.Factory;
 
 /**
  * @author Bruno Salmon

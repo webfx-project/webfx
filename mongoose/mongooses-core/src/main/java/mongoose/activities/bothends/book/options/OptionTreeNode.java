@@ -25,14 +25,14 @@ import mongoose.activities.bothends.logic.work.transaction.WorkingDocumentTransa
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.fx.properties.Properties;
-import naga.fx.util.ImageStore;
-import naga.util.Booleans;
-import naga.util.Objects;
-import naga.util.collection.Collections;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.graphic.controls.button.EntityButtonSelector;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.fx.properties.Properties;
+import webfx.fx.util.ImageStore;
+import webfx.util.Booleans;
+import webfx.util.Objects;
+import webfx.util.collection.Collections;
 
 import java.io.Closeable;
 import java.util.ArrayList;

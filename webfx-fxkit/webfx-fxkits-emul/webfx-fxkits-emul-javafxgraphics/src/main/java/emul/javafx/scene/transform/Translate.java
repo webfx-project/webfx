@@ -3,8 +3,8 @@ package emul.javafx.scene.transform;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.com.sun.javafx.geom.Point2D;
-import naga.fx.properties.markers.HasXProperty;
-import naga.fx.properties.markers.HasYProperty;
+import webfx.fx.properties.markers.HasXProperty;
+import webfx.fx.properties.markers.HasYProperty;
 
 /**
  * @author Bruno Salmon

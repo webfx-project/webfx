@@ -1,6 +1,6 @@
 package mongoose.entities.markers;
 
-import naga.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.Entity;
 
 /**
  * @author Bruno Salmon

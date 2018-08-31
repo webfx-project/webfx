@@ -4,7 +4,7 @@ import emul.javafx.geometry.Pos;
 import emul.javafx.scene.layout.GridPane;
 import emul.javafx.scene.layout.Priority;
 import emul.javafx.scene.layout.Region;
-import naga.fx.spi.Toolkit;
+import webfx.fx.spi.Toolkit;
 
 /**
  * A dialog that shows a text input control to the user.

@@ -3,5 +3,5 @@
     <inherits name="webfx-platforms-core-util"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga/noreflect"/>
+    <source path="webfx/noreflect"/>
 </module>

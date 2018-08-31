@@ -19,9 +19,9 @@ import rx.Observer;
 import rx.Subscription;
 import rx.exceptions.MissingBackpressureException;
 import rx.internal.operators.NotificationLite;
-// NAGA import rx.internal.util.unsafe.SpmcArrayQueue;
-// NAGA import rx.internal.util.unsafe.SpscArrayQueue;
-// NAGA import rx.internal.util.unsafe.UnsafeAccess;
+// WEBFX import rx.internal.util.unsafe.SpmcArrayQueue;
+// WEBFX import rx.internal.util.unsafe.SpscArrayQueue;
+// WEBFX import rx.internal.util.unsafe.UnsafeAccess;
 
 import java.util.Queue;
 
@@ -33,7 +33,7 @@ import java.util.Queue;
 public class RxRingBuffer implements Subscription {
 
     public static RxRingBuffer getSpscInstance() {
-        /* NAGA if (UnsafeAccess.isUnsafeAvailable()) {
+        /* WEBFX if (UnsafeAccess.isUnsafeAvailable()) {
             return new RxRingBuffer(SPSC_POOL, SIZE);
         } else */ {
             return new RxRingBuffer();
@@ -41,7 +41,7 @@ public class RxRingBuffer implements Subscription {
     }
 
     public static RxRingBuffer getSpmcInstance() {
-        /* NAGA if (UnsafeAccess.isUnsafeAvailable()) {
+        /* WEBFX if (UnsafeAccess.isUnsafeAvailable()) {
             return new RxRingBuffer(SPMC_POOL, SIZE);
         } else */ {
             return new RxRingBuffer();
@@ -146,7 +146,7 @@ public class RxRingBuffer implements Subscription {
     private Queue<Object> queue;
 
     private final int size;
-    // NAGA private final ObjectPool<Queue<Object>> pool;
+    // WEBFX private final ObjectPool<Queue<Object>> pool;
 
     /**
      * We store the terminal state separately so it doesn't count against the size.
@@ -258,9 +258,9 @@ public class RxRingBuffer implements Subscription {
      * } </pre>
      */
     static int _size = 128;
-    /* NAGA static {
+    /* WEBFX static {
         // lower default for Android (https://github.com/ReactiveX/RxJava/issues/1820)
-        NAGA if (PlatformDependent.isAndroid()) {
+        WEBFX if (PlatformDependent.isAndroid()) {
             _size = 16;
         }
 
@@ -277,7 +277,7 @@ public class RxRingBuffer implements Subscription {
     public static final int SIZE = _size;
 
     /* Public so Schedulers can manage the lifecycle of the inner worker. */
-    /* NAGA public static ObjectPool<Queue<Object>> SPSC_POOL = new ObjectPool<Queue<Object>>() {
+    /* WEBFX public static ObjectPool<Queue<Object>> SPSC_POOL = new ObjectPool<Queue<Object>>() {
 
         @Override
         protected SpscArrayQueue<Object> createObject() {
@@ -287,7 +287,7 @@ public class RxRingBuffer implements Subscription {
     };*/
 
     /* Public so Schedulers can manage the lifecycle of the inner worker. */
-    /* NAGA public static ObjectPool<Queue<Object>> SPMC_POOL = new ObjectPool<Queue<Object>>() {
+    /* WEBFX public static ObjectPool<Queue<Object>> SPMC_POOL = new ObjectPool<Queue<Object>>() {
 
         @Override
         protected SpmcArrayQueue<Object> createObject() {
@@ -298,18 +298,18 @@ public class RxRingBuffer implements Subscription {
     
     private RxRingBuffer(Queue<Object> queue, int size) {
         this.queue = queue;
-        // NAGA this.pool = null;
+        // WEBFX this.pool = null;
         this.size = size;
     }
 
-    /* NAGA private RxRingBuffer(ObjectPool<Queue<Object>> pool, int size) {
+    /* WEBFX private RxRingBuffer(ObjectPool<Queue<Object>> pool, int size) {
         this.pool = pool;
         this.queue = pool.borrowObject();
         this.size = size;
     }*/
 
     public synchronized void release() {
-        /* NAGA Queue<Object> q = queue;
+        /* WEBFX Queue<Object> q = queue;
         ObjectPool<Queue<Object>> p = pool;
         if (p != null && q != null) {
             q.clear();

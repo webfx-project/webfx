@@ -9,24 +9,24 @@ import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.entities.DocumentLine;
 import mongoose.entities.Item;
-import naga.framework.expression.Expression;
-import naga.framework.expression.lci.DataReader;
-import naga.framework.expression.terms.function.AggregateFunction;
-import naga.framework.orm.entity.EntityList;
-import naga.framework.orm.entity.EntityStore;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
-import naga.fx.properties.Properties;
-import naga.fxdata.control.DataGrid;
-import naga.fxdata.control.SkinnedDataGrid;
-import naga.fxdata.displaydata.DisplayResult;
-import naga.fxdata.displaydata.SelectionMode;
-import naga.type.PrimType;
-import naga.util.collection.Collections;
+import webfx.framework.expression.Expression;
+import webfx.framework.expression.lci.DataReader;
+import webfx.framework.expression.terms.function.AggregateFunction;
+import webfx.framework.orm.entity.EntityList;
+import webfx.framework.orm.entity.EntityStore;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.mapping.EntityListToDisplayResultGenerator;
+import webfx.fx.properties.Properties;
+import webfx.fxdata.control.DataGrid;
+import webfx.fxdata.control.SkinnedDataGrid;
+import webfx.fxdata.displaydata.DisplayResult;
+import webfx.fxdata.displaydata.SelectionMode;
+import webfx.type.PrimType;
+import webfx.util.collection.Collections;
 
 import java.util.List;
 
-import static naga.framework.ui.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.ui.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon
@@ -61,7 +61,7 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
         registerFormatter("priceWithCurrency", new PriceFormatter(workingDocument.getEventAggregate().getEvent()));
         workingDocument.getComputedPrice(); // ensuring the price has been computed
         //Doesn't work on Android: syncUiFromModel(workingDocument.getWorkingDocumentLines().stream().map(BookingOptionsPanel::createDocumentLine).filter(Objects::nonNull).collect(Collectors.toList()), workingDocument.getDocument().getStore());
-        syncUiFromModel(Collections.mapFilter(workingDocument.getWorkingDocumentLines(), BookingOptionsPanel::createDocumentLine, naga.util.Objects::nonNull), workingDocument.getDocument().getStore());
+        syncUiFromModel(Collections.mapFilter(workingDocument.getWorkingDocumentLines(), BookingOptionsPanel::createDocumentLine, webfx.util.Objects::nonNull), workingDocument.getDocument().getStore());
     }
 
     public void syncUiFromModel(List<DocumentLine> documentLines, EntityStore entityStore) {

@@ -1,7 +1,7 @@
 package mongoose.activities.bothends.logic.time;
 
-import naga.util.Dates;
-import naga.util.Numbers;
+import webfx.util.Dates;
+import webfx.util.Numbers;
 
 import java.time.LocalDateTime;
 import java.time.Month;

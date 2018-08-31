@@ -24,29 +24,29 @@ import mongoose.entities.Document;
 import mongoose.entities.History;
 import mongoose.entities.Mail;
 import mongoose.aggregates.CartAggregate;
-import naga.framework.expression.lci.DataReader;
-import naga.framework.expression.terms.function.Function;
-import naga.framework.orm.entity.Entities;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.UpdateStore;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.graphic.controls.dialog.DialogCallback;
-import naga.framework.ui.graphic.controls.dialog.DialogUtil;
-import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.framework.ui.mapping.EntityListToDisplayResultGenerator;
-import naga.fx.spi.Toolkit;
-import naga.fxdata.control.DataGrid;
-import naga.fxdata.displaydata.DisplayResult;
-import naga.fxdata.displaydata.DisplaySelection;
-import naga.platform.services.log.Logger;
-import naga.type.PrimType;
-import naga.util.Strings;
-import naga.util.collection.Collections;
+import webfx.framework.expression.lci.DataReader;
+import webfx.framework.expression.terms.function.Function;
+import webfx.framework.orm.entity.Entities;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.UpdateStore;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.graphic.controls.dialog.DialogCallback;
+import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
+import webfx.framework.ui.graphic.controls.dialog.GridPaneBuilder;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.framework.ui.mapping.EntityListToDisplayResultGenerator;
+import webfx.fx.spi.Toolkit;
+import webfx.fxdata.control.DataGrid;
+import webfx.fxdata.displaydata.DisplayResult;
+import webfx.fxdata.displaydata.DisplaySelection;
+import webfx.platform.services.log.Logger;
+import webfx.type.PrimType;
+import webfx.util.Strings;
+import webfx.util.collection.Collections;
 
 import java.util.List;
 
-import static naga.framework.ui.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.ui.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon

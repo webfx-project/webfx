@@ -6,29 +6,29 @@
 
 package java.util;
 
-import naga.platform.services.json.spi.JsonProvider;
-import naga.platform.services.shutdown.spi.ShutdownProvider;
-import naga.platform.services.storage.spi.LocalStorageProvider;
-import naga.platform.services.storage.spi.SessionStorageProvider;
-import naga.providers.platform.client.gwt.services.json.GwtJsonObject;
-import naga.providers.platform.client.gwt.services.shutdown.GwtShutdownProviderImpl;
-import naga.providers.platform.client.gwt.services.storage.GwtLocalStorageProviderImpl;
-import naga.providers.platform.client.gwt.services.storage.GwtSessionStorageProviderImpl;
-import naga.platform.services.scheduler.spi.SchedulerProvider;
-import naga.providers.platform.client.gwt.services.scheduler.GwtSchedulerProviderImpl;
-import naga.platform.services.resource.spi.ResourceServiceProvider;
-import naga.providers.platform.client.gwt.services.resource.GwtResourceServiceProviderImpl;
-import naga.platform.services.log.spi.LoggerProvider;
-import naga.providers.platform.client.gwt.services.log.GwtLoggerProviderImpl;
-import naga.platform.services.websocket.spi.WebSocketServiceProvider;
-import naga.providers.platform.client.gwt.services.websocket.GwtWebSocketServiceProviderImpl;
-import naga.util.numbers.providers.StandardNumbersProviderImpl;
-import naga.util.numbers.spi.NumbersProvider;
-import naga.platform.spi.Platform;
-import naga.providers.platform.client.gwt.GwtPlatform;
-import naga.fx.spi.Toolkit;
-import naga.fx.spi.gwt.GwtToolkit;
-import naga.util.serviceloader.ServiceLoaderHelper;
+import webfx.platform.services.json.spi.JsonProvider;
+import webfx.platform.services.shutdown.spi.ShutdownProvider;
+import webfx.platform.services.storage.spi.LocalStorageProvider;
+import webfx.platform.services.storage.spi.SessionStorageProvider;
+import webfx.providers.platform.client.gwt.services.json.GwtJsonObject;
+import webfx.providers.platform.client.gwt.services.shutdown.GwtShutdownProviderImpl;
+import webfx.providers.platform.client.gwt.services.storage.GwtLocalStorageProviderImpl;
+import webfx.providers.platform.client.gwt.services.storage.GwtSessionStorageProviderImpl;
+import webfx.platform.services.scheduler.spi.SchedulerProvider;
+import webfx.providers.platform.client.gwt.services.scheduler.GwtSchedulerProviderImpl;
+import webfx.platform.services.resource.spi.ResourceServiceProvider;
+import webfx.providers.platform.client.gwt.services.resource.GwtResourceServiceProviderImpl;
+import webfx.platform.services.log.spi.LoggerProvider;
+import webfx.providers.platform.client.gwt.services.log.GwtLoggerProviderImpl;
+import webfx.platform.services.websocket.spi.WebSocketServiceProvider;
+import webfx.providers.platform.client.gwt.services.websocket.GwtWebSocketServiceProviderImpl;
+import webfx.util.numbers.providers.StandardNumbersProviderImpl;
+import webfx.util.numbers.spi.NumbersProvider;
+import webfx.platform.spi.Platform;
+import webfx.providers.platform.client.gwt.GwtPlatform;
+import webfx.fx.spi.Toolkit;
+import webfx.fx.spi.gwt.GwtToolkit;
+import webfx.util.serviceloader.ServiceLoaderHelper;
 
 public class ServiceLoader<S> {
 

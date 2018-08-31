@@ -1,5 +1,5 @@
 DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
-    -fx-skin: "naga.fx.spi.javafx.skin.FxControlPeerSkin";
+    -fx-skin: "webfx.fx.spi.javafx.skin.FxControlPeerSkin";
 }
 
 @font-face {

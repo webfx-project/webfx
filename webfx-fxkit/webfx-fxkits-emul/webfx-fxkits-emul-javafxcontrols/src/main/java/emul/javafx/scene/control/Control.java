@@ -6,7 +6,7 @@ import emul.javafx.collections.ObservableList;
 import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.layout.Region;
-import naga.fx.spi.peer.NodePeer;
+import webfx.fx.spi.peer.NodePeer;
 
 /**
  * @author Bruno Salmon

@@ -2,9 +2,9 @@ package mongoose.entities;
 
 import mongoose.activities.bothends.logic.time.DateTimeRange;
 import mongoose.entities.markers.*;
-import naga.util.Objects;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityId;
+import webfx.util.Objects;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.EntityId;
 
 import java.time.LocalDate;
 

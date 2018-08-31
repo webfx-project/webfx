@@ -196,9 +196,9 @@ public class Decorator {
                     currentlyInstallingScenes.add(scene);
                     _pane = new DecorationPane();
                     Node oldRoot = scene.getRoot();
-                    // Naga added code (because injection of the decoration pane as root pane is a trouble maker for the
-                    // naga layout so we just add it to the present root pane instead)
-                    if (oldRoot instanceof Pane) { // This should be the case in naga
+                    // Webfx added code (because injection of the decoration pane as root pane is a trouble maker for the
+                    // webfx layout so we just add it to the present root pane instead)
+                    if (oldRoot instanceof Pane) { // This should be the case in webfx
                         Pane rootPane = (Pane) oldRoot;
                         rootPane.setMaxWidth(Double.MAX_VALUE);
                         rootPane.setMaxHeight(Double.MAX_VALUE);

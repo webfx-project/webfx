@@ -2,18 +2,18 @@ package mongoose.activities.server.vertx;
 
 import mongoose.activities.server.SystemMetricsRecorderActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.services.json.Json;
-import naga.platform.services.json.JsonObject;
-import naga.platform.services.datasource.ConnectionDetails;
-import naga.platform.services.datasource.LocalDataSourceRegistry;
-import naga.platform.services.log.Logger;
-import naga.platform.services.push.server.PushServerService;
-import naga.platform.services.resource.ResourceService;
-import naga.platform.services.update.UpdateArgument;
-import naga.platform.services.update.UpdateService;
-import naga.providers.platform.server.vertx.util.VertxRunner;
-import naga.providers.platform.server.vertx.verticles.RootVerticle;
+import webfx.framework.orm.domainmodel.DataSourceModel;
+import webfx.platform.services.json.Json;
+import webfx.platform.services.json.JsonObject;
+import webfx.platform.services.datasource.ConnectionDetails;
+import webfx.platform.services.datasource.LocalDataSourceRegistry;
+import webfx.platform.services.log.Logger;
+import webfx.platform.services.push.server.PushServerService;
+import webfx.platform.services.resource.ResourceService;
+import webfx.platform.services.update.UpdateArgument;
+import webfx.platform.services.update.UpdateService;
+import webfx.providers.platform.server.vertx.util.VertxRunner;
+import webfx.providers.platform.server.vertx.verticles.RootVerticle;
 
 /**
  * @author Bruno Salmon

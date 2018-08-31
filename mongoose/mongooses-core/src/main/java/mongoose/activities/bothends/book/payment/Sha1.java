@@ -8,7 +8,7 @@ package mongoose.activities.bothends.book.payment;
  * details.
  */
 
-import naga.platform.services.log.Logger;
+import webfx.platform.services.log.Logger;
 
 /**
  * @author Bruno Salmon

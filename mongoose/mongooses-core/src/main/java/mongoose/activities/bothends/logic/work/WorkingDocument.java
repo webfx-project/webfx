@@ -14,11 +14,11 @@ import mongoose.entities.Person;
 import mongoose.entities.markers.EntityHasPersonDetails;
 import mongoose.entities.markers.HasPersonDetails;
 import mongoose.aggregates.EventAggregate;
-import naga.framework.orm.entity.Entities;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityStore;
-import naga.framework.orm.entity.UpdateStore;
-import naga.util.collection.Collections;
+import webfx.framework.orm.entity.Entities;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.EntityStore;
+import webfx.framework.orm.entity.UpdateStore;
+import webfx.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.HashMap;

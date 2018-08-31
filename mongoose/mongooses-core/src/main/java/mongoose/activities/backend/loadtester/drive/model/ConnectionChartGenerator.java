@@ -4,12 +4,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.backend.loadtester.drive.listener.EventListener;
 import mongoose.activities.backend.loadtester.drive.listener.EventListenerImpl;
-import naga.fx.spi.Toolkit;
-import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResult;
-import naga.fxdata.displaydata.DisplayResultBuilder;
-import naga.platform.services.scheduler.Scheduler;
-import naga.type.PrimType;
+import webfx.fx.spi.Toolkit;
+import webfx.fxdata.displaydata.DisplayColumn;
+import webfx.fxdata.displaydata.DisplayResult;
+import webfx.fxdata.displaydata.DisplayResultBuilder;
+import webfx.platform.services.scheduler.Scheduler;
+import webfx.type.PrimType;
 
 import java.util.ArrayList;
 import java.util.List;

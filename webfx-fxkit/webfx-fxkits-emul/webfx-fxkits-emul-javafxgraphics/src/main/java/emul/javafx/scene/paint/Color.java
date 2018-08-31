@@ -1,6 +1,6 @@
 package emul.javafx.scene.paint;
 
-import naga.util.Numbers;
+import webfx.util.Numbers;
 import emul.javafx.animation.Interpolatable;
 
 import java.util.HashMap;

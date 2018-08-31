@@ -18,7 +18,7 @@ import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.util.Labels;
-import naga.util.Objects;
+import webfx.util.Objects;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;

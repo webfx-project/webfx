@@ -14,16 +14,16 @@ import javafx.scene.layout.GridPane;
 import mongoose.activities.bothends.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.bothends.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.bothends.logic.ui.validation.MongooseValidationSupport;
-import naga.framework.services.authn.AuthenticationRequest;
-import naga.framework.services.authn.UsernamePasswordCredentials;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.anim.Animations;
-import naga.framework.ui.graphic.controls.button.ButtonUtil;
-import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.framework.ui.layouts.SceneUtil;
-import naga.framework.ui.uisession.UiSession;
-import naga.fx.properties.Properties;
+import webfx.framework.services.authn.AuthenticationRequest;
+import webfx.framework.services.authn.UsernamePasswordCredentials;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.anim.Animations;
+import webfx.framework.ui.graphic.controls.button.ButtonUtil;
+import webfx.framework.ui.graphic.controls.dialog.GridPaneBuilder;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.framework.ui.layouts.SceneUtil;
+import webfx.framework.ui.uisession.UiSession;
+import webfx.fx.properties.Properties;
 
 
 /**

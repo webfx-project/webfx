@@ -8,9 +8,9 @@ import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.aggregates.EventAggregate;
 import mongoose.util.Labels;
-import naga.util.Booleans;
-import naga.util.collection.Collections;
-import naga.platform.services.query.QueryResult;
+import webfx.util.Booleans;
+import webfx.util.collection.Collections;
+import webfx.platform.services.query.QueryResult;
 
 import java.util.List;
 

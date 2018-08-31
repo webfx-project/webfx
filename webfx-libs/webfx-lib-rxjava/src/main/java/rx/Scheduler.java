@@ -51,7 +51,7 @@ public abstract class Scheduler {
     static final long CLOCK_DRIFT_TOLERANCE_NANOS;
     static {
         CLOCK_DRIFT_TOLERANCE_NANOS = TimeUnit.MINUTES.toNanos(
-                /*NAGA Long.getLong("rx.scheduler.drift-tolerance", 15)*/ 15);
+                /*WEBFX Long.getLong("rx.scheduler.drift-tolerance", 15)*/ 15);
     }
 
     /**

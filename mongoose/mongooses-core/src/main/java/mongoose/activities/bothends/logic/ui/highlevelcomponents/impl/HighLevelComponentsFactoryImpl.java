@@ -7,8 +7,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.HighLevelComponentsFactory;
 import mongoose.activities.bothends.logic.ui.highlevelcomponents.SectionPanelStyleOptions;
-import naga.framework.ui.graphic.background.BackgroundUtil;
-import naga.framework.ui.graphic.border.BorderUtil;
+import webfx.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.ui.graphic.border.BorderUtil;
 
 /**
  * @author Bruno Salmon

@@ -1,6 +1,6 @@
 package mongoose.actions;
 
-import naga.framework.ui.action.*;
+import webfx.framework.ui.action.*;
 
 /**
  * @author Bruno Salmon

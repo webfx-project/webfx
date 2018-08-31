@@ -3,8 +3,8 @@
  */
 module webfx.platforms.core.noreflect {
 
-    requires naga.util;
+    requires webfx.util;
 
-    exports naga.noreflect;
+    exports webfx.noreflect;
 
 }

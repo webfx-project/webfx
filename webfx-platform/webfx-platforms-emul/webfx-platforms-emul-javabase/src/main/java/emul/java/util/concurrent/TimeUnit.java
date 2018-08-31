@@ -325,7 +325,7 @@ public enum TimeUnit {
      * or equal to zero, do not wait at all.
      * @throws InterruptedException if interrupted while waiting
      */
-    /* NAGA public void timedWait(Object obj, long timeout)
+    /* WEBFX public void timedWait(Object obj, long timeout)
             throws InterruptedException {
         if (timeout > 0) {
             long ms = toMillis(timeout);
@@ -345,7 +345,7 @@ public enum TimeUnit {
      * or equal to zero, do not wait at all.
      * @throws InterruptedException if interrupted while waiting
      */
-    /* NAGA public void timedJoin(Thread thread, long timeout)
+    /* WEBFX public void timedJoin(Thread thread, long timeout)
             throws InterruptedException {
         if (timeout > 0) {
             long ms = toMillis(timeout);
@@ -364,7 +364,7 @@ public enum TimeUnit {
      * or equal to zero, do not sleep at all.
      * @throws InterruptedException if interrupted while sleeping
      */
-    /* NAGA public void sleep(long timeout) throws InterruptedException {
+    /* WEBFX public void sleep(long timeout) throws InterruptedException {
         if (timeout > 0) {
             long ms = toMillis(timeout);
             int ns = excessNanos(timeout, ms);

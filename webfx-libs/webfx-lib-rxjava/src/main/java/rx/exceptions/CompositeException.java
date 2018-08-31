@@ -144,7 +144,7 @@ public final class CompositeException extends RuntimeException {
         printStackTrace(new WrappedPrintStream(s));
     } */
 
-    /* NAGA @Override
+    /* WEBFX @Override
     public void printStackTrace(PrintWriter s) {
         printStackTrace(new WrappedPrintWriter(s));
     }*/
@@ -213,7 +213,7 @@ public final class CompositeException extends RuntimeException {
         }
     }
 
-    /* NAGA private static class WrappedPrintWriter extends PrintStreamOrWriter {
+    /* WEBFX private static class WrappedPrintWriter extends PrintStreamOrWriter {
         private final PrintWriter printWriter;
 
         WrappedPrintWriter(PrintWriter printWriter) {

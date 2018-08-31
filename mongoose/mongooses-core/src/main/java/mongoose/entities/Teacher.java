@@ -1,7 +1,7 @@
 package mongoose.entities;
 
 import mongoose.entities.markers.EntityHasName;
-import naga.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.Entity;
 
 /**
  * @author Bruno Salmon

@@ -4,12 +4,12 @@ import mongoose.activities.bothends.book.shared.FeesGroup;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.entities.*;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityList;
-import naga.framework.orm.entity.EntityStore;
-import naga.platform.services.query.QueryResult;
-import naga.util.async.Future;
-import naga.util.function.Predicate;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.EntityList;
+import webfx.framework.orm.entity.EntityStore;
+import webfx.platform.services.query.QueryResult;
+import webfx.util.async.Future;
+import webfx.util.function.Predicate;
 
 import java.util.List;
 

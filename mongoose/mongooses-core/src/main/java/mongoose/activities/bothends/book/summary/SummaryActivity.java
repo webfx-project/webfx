@@ -23,10 +23,10 @@ import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.sync.WorkingDocumentSubmitter;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
-import naga.framework.services.i18n.I18n;
-import naga.fx.properties.Properties;
-import naga.platform.services.log.Logger;
-import naga.util.Strings;
+import webfx.framework.services.i18n.I18n;
+import webfx.fx.properties.Properties;
+import webfx.platform.services.log.Logger;
+import webfx.util.Strings;
 
 /**
  * @author Bruno Salmon

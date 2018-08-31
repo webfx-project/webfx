@@ -36,7 +36,7 @@ public final class Subscribers {
      *
      * @return an inert {@code Observer}
      */
-    /* NAGA public static <T> Subscriber<T> empty() {
+    /* WEBFX public static <T> Subscriber<T> empty() {
         return from(Observers.empty());
     }*/
 

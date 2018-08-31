@@ -4,8 +4,8 @@ package mongoose.activities.backend.loadtester.drive.connection;
 import mongoose.activities.backend.loadtester.drive.listener.ConnectionEvent;
 import mongoose.activities.backend.loadtester.drive.listener.EventType;
 import mongoose.activities.backend.loadtester.drive.command.Command;
-import naga.platform.services.log.Logger;
-import naga.platform.services.scheduler.Scheduler;
+import webfx.platform.services.log.Logger;
+import webfx.platform.services.scheduler.Scheduler;
 
 /**
  * @author Jean-Pierre Alonso.

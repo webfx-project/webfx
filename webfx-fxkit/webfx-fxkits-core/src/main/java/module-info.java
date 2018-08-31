@@ -2,26 +2,26 @@
  * @author Bruno Salmon
  */
 module webfx.fxkits.core {
-    requires naga.scheduler;
-    requires naga.util;
-    requires naga.type;
+    requires webfx.scheduler;
+    requires webfx.util;
+    requires webfx.type;
 
     requires static javafx.controls;
 
-    exports naga.fx.properties;
-    exports naga.fx.properties.conversion;
-    exports naga.fx.properties.markers;
-    exports naga.fx.scene;
-    exports naga.fx.spi;
-    exports naga.fx.spi.peer;
-    exports naga.fx.spi.peer.base;
-    exports naga.fx.util;
-    exports naga.fxdata.cell.collator;
-    exports naga.fxdata.cell.renderer;
-    exports naga.fxdata.cell.rowstyle;
-    exports naga.fxdata.chart;
-    exports naga.fxdata.control;
-    exports naga.fxdata.displaydata;
-    exports naga.fxdata.spi.peer.base;
+    exports webfx.fx.properties;
+    exports webfx.fx.properties.conversion;
+    exports webfx.fx.properties.markers;
+    exports webfx.fx.scene;
+    exports webfx.fx.spi;
+    exports webfx.fx.spi.peer;
+    exports webfx.fx.spi.peer.base;
+    exports webfx.fx.util;
+    exports webfx.fxdata.cell.collator;
+    exports webfx.fxdata.cell.renderer;
+    exports webfx.fxdata.cell.rowstyle;
+    exports webfx.fxdata.chart;
+    exports webfx.fxdata.control;
+    exports webfx.fxdata.displaydata;
+    exports webfx.fxdata.spi.peer.base;
 
 }

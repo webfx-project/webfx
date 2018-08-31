@@ -2,7 +2,7 @@ package mongoose.activities.bothends.auth;
 
 import javafx.scene.Node;
 import javafx.scene.text.Text;
-import naga.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
+import webfx.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
 
 /**
  * @author Bruno Salmon

@@ -5,14 +5,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import mongoose.services.authn.MongooseUserPrincipal;
-import naga.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
-import naga.framework.orm.entity.Entities;
-import naga.framework.orm.entity.Entity;
-import naga.framework.ui.filter.ReactiveExpressionFilter;
-import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import naga.framework.ui.graphic.controls.sheet.PropertySheet;
-import naga.framework.ui.layouts.FlexBox;
-import naga.fxdata.control.DataGrid;
+import webfx.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
+import webfx.framework.orm.entity.Entities;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.ui.graphic.controls.sheet.PropertySheet;
+import webfx.framework.ui.layouts.FlexBox;
+import webfx.fxdata.control.DataGrid;
 
 /**
  * @author Bruno Salmon

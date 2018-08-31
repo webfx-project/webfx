@@ -18,11 +18,11 @@ import mongoose.operations.bothends.route.RouteToProgramRequest;
 import mongoose.activities.bothends.book.shared.BookingProcessActivity;
 import mongoose.operations.bothends.route.RouteToTermsRequest;
 import mongoose.util.Labels;
-import naga.framework.ui.anim.Animations;
-import naga.framework.ui.layouts.LayoutUtil;
-import naga.fx.properties.Properties;
-import naga.fx.spi.Toolkit;
-import naga.fx.util.ImageStore;
+import webfx.framework.ui.anim.Animations;
+import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.fx.properties.Properties;
+import webfx.fx.spi.Toolkit;
+import webfx.fx.util.ImageStore;
 
 /**
  * @author Bruno Salmon

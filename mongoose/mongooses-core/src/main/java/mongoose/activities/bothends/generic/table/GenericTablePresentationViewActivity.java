@@ -6,10 +6,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import mongoose.activities.bothends.logic.ui.theme.Theme;
-import naga.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import naga.framework.ui.layouts.SceneUtil;
-import naga.fx.properties.Properties;
-import naga.fxdata.control.DataGrid;
+import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.ui.layouts.SceneUtil;
+import webfx.fx.properties.Properties;
+import webfx.fxdata.control.DataGrid;
 
 /**
  * @author Bruno Salmon

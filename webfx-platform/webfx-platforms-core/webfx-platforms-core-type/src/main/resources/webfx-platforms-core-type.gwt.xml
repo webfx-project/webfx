@@ -1,4 +1,4 @@
 <module rename-to="webfx_platforms_core_type">
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga/type"/>
+    <source path="webfx/type"/>
 </module>

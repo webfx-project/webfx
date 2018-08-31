@@ -3,7 +3,7 @@ package emul.javafx.scene.transform;
 import emul.javafx.beans.property.Property;
 import emul.com.sun.javafx.geom.Point2D;
 import emul.javafx.beans.value.ObservableValue;
-import naga.fx.properties.Properties;
+import webfx.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon

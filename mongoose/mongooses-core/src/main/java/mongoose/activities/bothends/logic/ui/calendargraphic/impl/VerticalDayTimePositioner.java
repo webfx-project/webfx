@@ -3,8 +3,8 @@ package mongoose.activities.bothends.logic.ui.calendargraphic.impl;
 import javafx.beans.property.Property;
 import javafx.scene.text.Font;
 import mongoose.activities.bothends.logic.time.TimeInterval;
-import naga.util.collection.Collections;
-import naga.util.collection.HashList;
+import webfx.util.collection.Collections;
+import webfx.util.collection.HashList;
 
 import java.util.*;
 

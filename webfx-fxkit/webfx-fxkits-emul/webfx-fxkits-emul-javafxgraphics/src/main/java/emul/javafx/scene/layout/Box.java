@@ -7,8 +7,8 @@ import emul.javafx.geometry.Insets;
 import emul.javafx.geometry.Orientation;
 import emul.javafx.geometry.Pos;
 import emul.javafx.scene.Node;
-import naga.fx.properties.markers.HasAlignmentProperty;
-import naga.fx.properties.markers.HasSpacingProperty;
+import webfx.fx.properties.markers.HasAlignmentProperty;
+import webfx.fx.properties.markers.HasSpacingProperty;
 
 import java.util.List;
 

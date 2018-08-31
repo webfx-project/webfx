@@ -19,15 +19,15 @@ import mongoose.activities.bothends.logic.time.DayTimeRange;
 import mongoose.activities.bothends.logic.time.TimeInterval;
 import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarGraphic;
-import naga.util.async.Handler;
-import naga.util.collection.Collections;
-import naga.util.tuples.Unit;
-import naga.fx.properties.Properties;
+import webfx.util.async.Handler;
+import webfx.util.collection.Collections;
+import webfx.util.tuples.Unit;
+import webfx.fx.properties.Properties;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static naga.framework.ui.layouts.LayoutUtil.setMinSizeToZeroAndPrefSizeToInfinite;
+import static webfx.framework.ui.layouts.LayoutUtil.setMinSizeToZeroAndPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon

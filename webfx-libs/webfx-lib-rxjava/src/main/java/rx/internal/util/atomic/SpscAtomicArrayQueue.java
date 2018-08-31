@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  * @param <E>
  */
 public final class SpscAtomicArrayQueue<E> extends AtomicReferenceArrayQueue<E> {
-    private static final Integer MAX_LOOK_AHEAD_STEP = 4096; // NAGA Integer.getInteger("jctools.spsc.max.lookahead.step", 4096);
+    private static final Integer MAX_LOOK_AHEAD_STEP = 4096; // WEBFX Integer.getInteger("jctools.spsc.max.lookahead.step", 4096);
     final AtomicLong producerIndex;
     protected long producerLookAhead;
     final AtomicLong consumerIndex;

@@ -1,5 +1,5 @@
-import naga.platform.services.scheduler.spi.SchedulerProvider;
-import naga.providers.platform.client.gwt.services.scheduler.GwtSchedulerProviderImpl;
+import webfx.platform.services.scheduler.spi.SchedulerProvider;
+import webfx.providers.platform.client.gwt.services.scheduler.GwtSchedulerProviderImpl;
 
 /**
  * @author Bruno Salmon
@@ -7,17 +7,17 @@ import naga.providers.platform.client.gwt.services.scheduler.GwtSchedulerProvide
 module webfx.platform.gwt {
 
     requires webfx.platforms.web;
-    requires naga.platform;
-    requires naga.scheduler;
-    requires naga.util;
+    requires webfx.platform;
+    requires webfx.scheduler;
+    requires webfx.util;
 
     requires gwt.user;
     requires jsinterop.annotations.HEAD.SNAPSHOT;
 
-    exports naga.providers.platform.client.gwt;
-    exports naga.providers.platform.client.gwt.services.resource;
+    exports webfx.providers.platform.client.gwt;
+    exports webfx.providers.platform.client.gwt.services.resource;
 
-    provides naga.providers.platform.abstr.web.WebPlatform with naga.providers.platform.client.gwt.GwtPlatform;
+    provides webfx.providers.platform.abstr.web.WebPlatform with webfx.providers.platform.client.gwt.GwtPlatform;
     provides SchedulerProvider with GwtSchedulerProviderImpl;
-    //provides naga.platform.json.spi.JsonProvider with naga.providers.platform.client.gwt.json.GwtJsonObject; // protected constructor
+    //provides webfx.platform.json.spi.JsonProvider with webfx.providers.platform.client.gwt.json.GwtJsonObject; // protected constructor
 }

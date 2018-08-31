@@ -8,8 +8,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.graphic.background.BackgroundUtil;
 
 import java.time.LocalDate;
 

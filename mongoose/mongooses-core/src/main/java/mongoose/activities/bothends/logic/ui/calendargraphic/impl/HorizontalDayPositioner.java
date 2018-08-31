@@ -2,7 +2,7 @@ package mongoose.activities.bothends.logic.ui.calendargraphic.impl;
 
 import mongoose.activities.bothends.logic.calendar.Calendar;
 import mongoose.activities.bothends.logic.time.TimeInterval;
-import naga.util.collection.Collections;
+import webfx.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

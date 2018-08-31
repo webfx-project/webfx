@@ -1,6 +1,6 @@
 package mongoose.activities.backend.loadtester;
 
-import naga.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
+import webfx.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
 
 /**
  * @author Bruno Salmon

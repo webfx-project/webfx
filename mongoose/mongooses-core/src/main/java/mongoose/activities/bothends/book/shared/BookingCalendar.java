@@ -18,9 +18,9 @@ import mongoose.activities.bothends.logic.work.merge.WorkingDocumentMerger;
 import mongoose.domainmodel.formatters.PriceFormatter;
 import mongoose.aggregates.EventAggregate;
 import mongoose.util.PerformanceLogger;
-import naga.framework.orm.entity.Entities;
-import naga.fx.spi.Toolkit;
-import naga.platform.services.log.Logger;
+import webfx.framework.orm.entity.Entities;
+import webfx.fx.spi.Toolkit;
+import webfx.platform.services.log.Logger;
 
 import java.util.concurrent.TimeUnit;
 

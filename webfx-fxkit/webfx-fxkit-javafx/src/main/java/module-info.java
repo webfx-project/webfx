@@ -2,16 +2,16 @@
  * @author Bruno Salmon
  */
 module webfx.fxkit.javafx {
-    requires naga.scheduler;
-    requires naga.util;
-    requires naga.type;
+    requires webfx.scheduler;
+    requires webfx.util;
+    requires webfx.type;
     requires webfx.fxkits.core;
 
     requires javafx.controls;
     requires javafx.web;
     requires jdk.jsobject;
 
-    exports naga.fx.spi.javafx;
+    exports webfx.fx.spi.javafx;
 
-    provides naga.fx.spi.Toolkit with naga.fx.spi.javafx.JavaFxToolkit;
+    provides webfx.fx.spi.Toolkit with webfx.fx.spi.javafx.JavaFxToolkit;
 }

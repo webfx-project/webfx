@@ -1,10 +1,10 @@
 package mongoose.activities.bothends.book.shared;
 
 import mongoose.util.Labels;
-import naga.framework.expression.lci.DataReader;
-import naga.framework.expression.terms.function.Function;
-import naga.framework.services.i18n.I18n;
-import naga.type.PrimType;
+import webfx.framework.expression.lci.DataReader;
+import webfx.framework.expression.terms.function.Function;
+import webfx.framework.services.i18n.I18n;
+import webfx.type.PrimType;
 
 /**
  * @author Bruno Salmon

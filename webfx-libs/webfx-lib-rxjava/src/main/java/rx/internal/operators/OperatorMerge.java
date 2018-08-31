@@ -22,16 +22,16 @@ import rx.Subscriber;
 import rx.exceptions.CompositeException;
 import rx.exceptions.Exceptions;
 import rx.exceptions.MissingBackpressureException;
-// NAGA import rx.exceptions.OnErrorThrowable;
+// WEBFX import rx.exceptions.OnErrorThrowable;
 import rx.internal.util.RxRingBuffer;
 import rx.internal.util.ScalarSynchronousObservable;
-// NAGA import rx.internal.util.unsafe.Pow2;
+// WEBFX import rx.internal.util.unsafe.Pow2;
 import rx.subscriptions.CompositeSubscription;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import java.util.ArrayDeque; // NAGA import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.ArrayDeque; // WEBFX import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -160,7 +160,7 @@ public final class OperatorMerge<T> implements Operator<T, Observable<? extends 
         /** Tracks the active subscriptions to sources. */
         volatile CompositeSubscription subscriptions;
         /** Due to the emission loop, we need to store errors somewhere if !delayErrors. */
-        volatile /* NAGA ConcurrentLinkedQueue<Throwable>*/ ArrayDeque<Throwable> errors;
+        volatile /* WEBFX ConcurrentLinkedQueue<Throwable>*/ ArrayDeque<Throwable> errors;
         
         final NotificationLite<T> nl;
         
@@ -207,12 +207,12 @@ public final class OperatorMerge<T> implements Operator<T, Observable<? extends 
         }
         
         Queue<Throwable> getOrCreateErrorQueue() {
-            /* NAGA ConcurrentLinkedQueue<Throwable>*/ ArrayDeque<Throwable> q = errors;
+            /* WEBFX ConcurrentLinkedQueue<Throwable>*/ ArrayDeque<Throwable> q = errors;
             if (q == null) {
                 synchronized (this) {
                     q = errors;
                     if (q == null) {
-                        q = new /* NAGA ConcurrentLinkedQueue<Throwable>*/ ArrayDeque<Throwable>();
+                        q = new /* WEBFX ConcurrentLinkedQueue<Throwable>*/ ArrayDeque<Throwable>();
                         errors = q;
                     }
                 }
@@ -463,7 +463,7 @@ public final class OperatorMerge<T> implements Operator<T, Observable<? extends 
              * due to lack of requests or an ongoing emission,
              * enqueue the value and try the slow emission path.
              */
-            /* NAGA Queue<Object> q = this.queue;
+            /* WEBFX Queue<Object> q = this.queue;
             if (q == null) {
                 int mc = maxConcurrent;
                 if (mc == Integer.MAX_VALUE) {

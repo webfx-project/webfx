@@ -3,9 +3,9 @@
  */
 module mongooses.java {
 
-    requires naga.scheduler;
-    requires naga.util;
-    requires naga.platform;
+    requires webfx.scheduler;
+    requires webfx.util;
+    requires webfx.platform;
     requires webfx.framework;
     requires mongooses.core;
 

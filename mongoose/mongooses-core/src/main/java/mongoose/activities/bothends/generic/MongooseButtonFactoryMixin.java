@@ -2,9 +2,9 @@ package mongoose.activities.bothends.generic;
 
 import javafx.scene.control.Button;
 import mongoose.activities.bothends.logic.ui.theme.Theme;
-import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import naga.framework.ui.graphic.controls.button.ButtonBuilder;
-import naga.framework.ui.graphic.materialdesign.MaterialFactoryMixin;
+import webfx.framework.ui.graphic.controls.button.ButtonFactoryMixin;
+import webfx.framework.ui.graphic.controls.button.ButtonBuilder;
+import webfx.framework.ui.graphic.materialdesign.MaterialFactoryMixin;
 
 /**
  * @author Bruno Salmon

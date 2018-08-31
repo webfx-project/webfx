@@ -3,12 +3,12 @@ package mongoose.activities.backend.loadtester.drive.connection;
 import mongoose.activities.backend.loadtester.drive.command.Command;
 import mongoose.activities.backend.loadtester.drive.listener.ConnectionEvent;
 import mongoose.activities.backend.loadtester.drive.listener.EventType;
-import naga.platform.bus.call.BusCallService;
-import naga.platform.client.bus.WebSocketBus;
-import naga.platform.services.json.JsonObject;
-import naga.platform.services.websocket.WebSocketListener;
-import naga.platform.services.log.Logger;
-import naga.platform.spi.Platform;
+import webfx.platform.bus.call.BusCallService;
+import webfx.platform.client.bus.WebSocketBus;
+import webfx.platform.services.json.JsonObject;
+import webfx.platform.services.websocket.WebSocketListener;
+import webfx.platform.services.log.Logger;
+import webfx.platform.spi.Platform;
 
 /**
  * @author Jean-Pierre Alonso.

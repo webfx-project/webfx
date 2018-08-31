@@ -8,8 +8,8 @@ import emul.javafx.collections.ObservableList;
 import emul.com.sun.javafx.geom.BaseBounds;
 import emul.com.sun.javafx.geom.RectBounds;
 import emul.com.sun.javafx.geom.transform.BaseTransform;
-import naga.fx.properties.ObservableLists;
-import naga.fx.properties.markers.HasManagedProperty;
+import webfx.fx.properties.ObservableLists;
+import webfx.fx.properties.markers.HasManagedProperty;
 import emul.javafx.scene.layout.LayoutFlags;
 import emul.javafx.scene.layout.PreferenceResizableNode;
 
@@ -374,7 +374,7 @@ public class Parent extends Node {
                     break;
                 }
                 performingLayout = true;
-                // Temporary naga code to automatically bind the height to the preferred height
+                // Temporary webfx code to automatically bind the height to the preferred height
                 if (bindHeightToPrefHeight) {
                     PreferenceResizableNode resizableNode = (PreferenceResizableNode) this;
                     double prefHeight = resizableNode.getPrefHeight();
@@ -400,7 +400,7 @@ public class Parent extends Node {
         }
     }
 
-    // Temporary naga field to automatically bind the height to the preferred height
+    // Temporary webfx field to automatically bind the height to the preferred height
     private boolean bindHeightToPrefHeight;
 
     public void setBindHeightToPrefHeight(boolean bindHeightToPrefHeight) {

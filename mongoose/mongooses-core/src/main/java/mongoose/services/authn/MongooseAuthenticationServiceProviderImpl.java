@@ -1,14 +1,14 @@
 package mongoose.services.authn;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.domainmodel.HasDataSourceModel;
-import naga.framework.services.authn.spi.AuthenticationServiceProvider;
-import naga.framework.services.authn.UsernamePasswordCredentials;
-import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.QueryService;
-import naga.util.async.Future;
+import webfx.framework.expression.sqlcompiler.sql.SqlCompiled;
+import webfx.framework.orm.domainmodel.DataSourceModel;
+import webfx.framework.orm.domainmodel.HasDataSourceModel;
+import webfx.framework.services.authn.spi.AuthenticationServiceProvider;
+import webfx.framework.services.authn.UsernamePasswordCredentials;
+import webfx.platform.services.query.QueryArgument;
+import webfx.platform.services.query.QueryService;
+import webfx.util.async.Future;
 
 /**
  * @author Bruno Salmon

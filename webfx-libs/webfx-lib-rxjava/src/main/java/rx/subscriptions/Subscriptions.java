@@ -80,7 +80,7 @@ public final class Subscriptions {
      *            the {@link Future} to convert
      * @return a {@link Subscription} that wraps {@code f}
      */
-    /* NAGA public static Subscription from(final Future<?> f) {
+    /* WEBFX public static Subscription from(final Future<?> f) {
         return new FutureSubscription(f);
     }
 

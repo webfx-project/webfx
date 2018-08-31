@@ -4,8 +4,8 @@ import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.entities.Item;
 import mongoose.entities.Site;
-import naga.util.Objects;
-import naga.util.collection.HashList;
+import webfx.util.Objects;
+import webfx.util.collection.HashList;
 
 /**
  * @author Bruno Salmon

@@ -39,7 +39,7 @@ public final class BackpressureUtils {
      *            the number of requests to add to the requested count
      * @return requested value just prior to successful addition
      */
-    /* NAGA public static <T> long getAndAddRequest(AtomicLongFieldUpdater<T> requested, T object, long n) {
+    /* WEBFX public static <T> long getAndAddRequest(AtomicLongFieldUpdater<T> requested, T object, long n) {
         // add n to field but check for overflow
         while (true) {
             long current = requested.get(object);
@@ -78,7 +78,7 @@ public final class BackpressureUtils {
      * @param b the second value
      * @return the capped product of a and b
      */
-    /* NAGA public static long multiplyCap(long a, long b) {
+    /* WEBFX public static long multiplyCap(long a, long b) {
         long u = a * b;
         if (((a | b) >>> 31) != 0) {
             if (b != 0L && (u / b != a)) {

@@ -1,7 +1,7 @@
 package mongoose.services.systemmetrics;
 
 import mongoose.services.systemmetrics.spi.SystemMetricsServiceProvider;
-import naga.util.serviceloader.ServiceLoaderHelper;
+import webfx.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon

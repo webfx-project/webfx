@@ -3,7 +3,7 @@
     <inherits name="webfx-platforms-core-monolith"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga/providers/platform/abstr/web"/>
+    <source path="webfx/providers/platform/abstr/web"/>
 
     <public path="public" />
 </module>

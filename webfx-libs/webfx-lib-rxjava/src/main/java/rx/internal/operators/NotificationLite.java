@@ -15,7 +15,7 @@
  */
 package rx.internal.operators;
 
-// NAGA import rx.Notification.Kind;
+// WEBFX import rx.Notification.Kind;
 import rx.Observer;
 
 import java.io.Serializable;
@@ -205,7 +205,7 @@ public final class NotificationLite<T> {
      * @return the {@link Kind} of lite notification {@code n} is: either {@code Kind.OnCompleted},
      *         {@code Kind.OnError}, or {@code Kind.OnNext}
      */
-    /* NAGA public Kind kind(Object n) {
+    /* WEBFX public Kind kind(Object n) {
         if (n == null)
             throw new IllegalArgumentException("The lite notification can not be null");
         else if (n == ON_COMPLETED_SENTINEL)

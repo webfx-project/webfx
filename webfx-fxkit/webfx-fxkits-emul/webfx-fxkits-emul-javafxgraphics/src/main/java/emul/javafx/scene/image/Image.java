@@ -2,8 +2,8 @@ package emul.javafx.scene.image;
 
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
-import naga.fx.properties.markers.HasHeightProperty;
-import naga.fx.properties.markers.HasWidthProperty;
+import webfx.fx.properties.markers.HasHeightProperty;
+import webfx.fx.properties.markers.HasWidthProperty;
 
 /**
  * The {@code Image} class represents graphical images and is used for loading

@@ -4,8 +4,8 @@ import mongoose.activities.bothends.book.options.OptionsRouting;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.aggregates.EventAggregate;
-import naga.framework.operations.route.RoutePushRequest;
-import naga.platform.client.url.history.History;
+import webfx.framework.operations.route.RoutePushRequest;
+import webfx.platform.client.url.history.History;
 
 /**
  * @author Bruno Salmon

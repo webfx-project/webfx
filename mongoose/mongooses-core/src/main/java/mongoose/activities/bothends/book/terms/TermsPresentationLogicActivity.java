@@ -1,8 +1,8 @@
 package mongoose.activities.bothends.book.terms;
 
 import mongoose.activities.bothends.book.shared.BookingProcessPresentationLogicActivity;
-import naga.framework.services.i18n.I18n;
-import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.services.i18n.I18n;
+import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
 /**
  * @author Bruno Salmon

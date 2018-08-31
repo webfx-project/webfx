@@ -67,11 +67,11 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <cupDefinition>src/main/java/naga/framework/expression/parser/javacup/ExpressionParser.cup</cupDefinition>
+                            <cupDefinition>src/main/java/webfx/framework/expression/parser/javacup/ExpressionParser.cup</cupDefinition>
                             <outputDirectory>src/main/java/</outputDirectory>
                             <className>JavaCupExpressionParser</className>
                             <symbolsName>ExpressionSymbols</symbolsName>
-                            <packageName>naga.framework.expression.parser.javacup</packageName>
+                            <packageName>webfx.framework.expression.parser.javacup</packageName>
                         </configuration>
                     </execution>
                 </executions>
@@ -84,7 +84,7 @@
                 <configuration>
                     <outputDirectory>src/main/java</outputDirectory>
                     <lexDefinitions>
-                        <lexDefinition>src/main/java/naga/framework/expression/parser/jflex/ExpressionLexer.flex</lexDefinition>
+                        <lexDefinition>src/main/java/webfx/framework/expression/parser/jflex/ExpressionLexer.flex</lexDefinition>
                     </lexDefinitions>
                 </configuration>
             </plugin>

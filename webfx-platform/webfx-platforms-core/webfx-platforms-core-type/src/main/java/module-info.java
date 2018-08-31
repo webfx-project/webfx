@@ -3,6 +3,6 @@
  */
 module webfx.platforms.core.type {
 
-    exports naga.type;
+    exports webfx.type;
 
 }

@@ -131,7 +131,7 @@ public class Button extends ButtonBase {
         }
     }
 
-    // Naga default hardcoded Style to match JavaFx default theme
+    // Webfx default hardcoded Style to match JavaFx default theme
 
     @Override
     protected Skin<?> createDefaultSkin() {

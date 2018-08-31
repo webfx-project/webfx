@@ -2,11 +2,11 @@ package mongoose.activities.backend.monitor;
 
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import naga.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import naga.fxdata.chart.Chart;
-import naga.fxdata.chart.LineChart;
+import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.fxdata.chart.Chart;
+import webfx.fxdata.chart.LineChart;
 
-import static naga.framework.ui.layouts.LayoutUtil.setVGrowable;
+import static webfx.framework.ui.layouts.LayoutUtil.setVGrowable;
 
 /**
  * @author Bruno Salmon

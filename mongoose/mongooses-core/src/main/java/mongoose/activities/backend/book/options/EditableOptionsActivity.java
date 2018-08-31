@@ -18,22 +18,22 @@ import mongoose.activities.bothends.book.shared.FeesGroup;
 import mongoose.activities.bothends.logic.preselection.OptionsPreselection;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.UpdateStore;
-import naga.framework.ui.graphic.controls.dialog.DialogCallback;
-import naga.framework.ui.graphic.controls.dialog.DialogContent;
-import naga.framework.ui.graphic.controls.dialog.DialogUtil;
-import naga.framework.ui.filter.ReactiveExpressionFilter;
-import naga.fx.properties.Properties;
-import naga.fxdata.control.DataGrid;
-import naga.platform.services.update.UpdateArgument;
-import naga.platform.services.update.UpdateService;
+import webfx.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.UpdateStore;
+import webfx.framework.ui.graphic.controls.dialog.DialogCallback;
+import webfx.framework.ui.graphic.controls.dialog.DialogContent;
+import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
+import webfx.framework.ui.filter.ReactiveExpressionFilter;
+import webfx.fx.properties.Properties;
+import webfx.fxdata.control.DataGrid;
+import webfx.platform.services.update.UpdateArgument;
+import webfx.platform.services.update.UpdateService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static naga.framework.ui.layouts.LayoutUtil.*;
+import static webfx.framework.ui.layouts.LayoutUtil.*;
 
 /**
  * @author Bruno Salmon

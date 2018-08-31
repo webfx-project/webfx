@@ -6,7 +6,7 @@ import mongoose.activities.bothends.logic.calendar.CalendarTimeline;
 import mongoose.activities.bothends.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.entities.Option;
-import naga.framework.orm.entity.UpdateStore;
+import webfx.framework.orm.entity.UpdateStore;
 
 /**
  * @author Bruno Salmon

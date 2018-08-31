@@ -1,7 +1,7 @@
 package mongoose.entities.markers;
 
 import mongoose.activities.bothends.logic.time.DateTimeRange;
-import naga.framework.orm.entity.Entity;
+import webfx.framework.orm.entity.Entity;
 
 /**
  * @author Bruno Salmon

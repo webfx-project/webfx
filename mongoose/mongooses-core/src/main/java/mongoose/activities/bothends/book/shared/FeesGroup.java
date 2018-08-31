@@ -12,17 +12,17 @@ import mongoose.aggregates.EventAggregate;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.util.Labels;
-import naga.framework.services.i18n.I18n;
-import naga.fx.util.ImageStore;
-import naga.fxdata.cell.collator.NodeCollatorRegistry;
-import naga.fxdata.cell.renderer.TextRenderer;
-import naga.fxdata.cell.renderer.ValueRenderingContext;
-import naga.fxdata.displaydata.*;
-import naga.type.PrimType;
-import naga.util.Numbers;
-import naga.util.Objects;
-import naga.util.async.Handler;
-import naga.util.tuples.Pair;
+import webfx.framework.services.i18n.I18n;
+import webfx.fx.util.ImageStore;
+import webfx.fxdata.cell.collator.NodeCollatorRegistry;
+import webfx.fxdata.cell.renderer.TextRenderer;
+import webfx.fxdata.cell.renderer.ValueRenderingContext;
+import webfx.fxdata.displaydata.*;
+import webfx.type.PrimType;
+import webfx.util.Numbers;
+import webfx.util.Objects;
+import webfx.util.async.Handler;
+import webfx.util.tuples.Pair;
 
 /**
  * @author Bruno Salmon

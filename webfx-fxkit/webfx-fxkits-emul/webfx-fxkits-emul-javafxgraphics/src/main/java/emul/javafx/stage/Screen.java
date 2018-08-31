@@ -1,7 +1,7 @@
 package emul.javafx.stage;
 
 import emul.javafx.geometry.Rectangle2D;
-import naga.fx.spi.Toolkit;
+import webfx.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon

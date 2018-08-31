@@ -7,8 +7,8 @@ import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.transaction.WorkingDocumentTransaction;
 import mongoose.entities.Event;
 import mongoose.entities.Option;
-import naga.fx.spi.Toolkit;
-import naga.util.collection.Collections;
+import webfx.fx.spi.Toolkit;
+import webfx.util.collection.Collections;
 
 import java.util.HashMap;
 import java.util.List;

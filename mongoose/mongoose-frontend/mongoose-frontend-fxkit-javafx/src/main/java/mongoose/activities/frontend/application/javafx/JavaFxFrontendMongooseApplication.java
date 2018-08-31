@@ -5,9 +5,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import mongoose.activities.frontend.FrontendMongooseApplication;
-import naga.fx.spi.Toolkit;
-import naga.fx.spi.javafx.JavaFxToolkit;
-import naga.fx.util.ImageStore;
+import webfx.fx.spi.Toolkit;
+import webfx.fx.spi.javafx.JavaFxToolkit;
+import webfx.fx.util.ImageStore;
 
 /**
  * @author Bruno Salmon

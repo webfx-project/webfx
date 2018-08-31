@@ -3,6 +3,6 @@
  */
 module webfx.platforms.emul.javabase {
 
-    requires naga.platform;
+    requires webfx.platform;
 
 }

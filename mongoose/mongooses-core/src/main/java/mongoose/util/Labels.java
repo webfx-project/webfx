@@ -8,8 +8,8 @@ import mongoose.entities.impl.LabelImpl;
 import mongoose.entities.markers.HasItem;
 import mongoose.entities.markers.HasLabel;
 import mongoose.entities.markers.HasName;
-import naga.framework.services.i18n.I18n;
-import naga.util.Objects;
+import webfx.framework.services.i18n.I18n;
+import webfx.util.Objects;
 
 /**
  * @author Bruno Salmon

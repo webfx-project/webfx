@@ -5,7 +5,7 @@ import mongoose.activities.bothends.logic.time.TimeInterval;
 import mongoose.activities.bothends.logic.work.WorkingDocument;
 import mongoose.activities.bothends.logic.work.WorkingDocumentLine;
 import mongoose.entities.Option;
-import naga.util.collection.Collections;
+import webfx.util.collection.Collections;
 
 /**
  * A transaction for a working document to be used for a very short time such as reacting to a click in the booking form.

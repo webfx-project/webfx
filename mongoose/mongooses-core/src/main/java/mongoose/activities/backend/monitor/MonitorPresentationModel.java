@@ -2,7 +2,7 @@ package mongoose.activities.backend.monitor;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fxdata.displaydata.DisplayResult;
+import webfx.fxdata.displaydata.DisplayResult;
 
 /**
  * @author Bruno Salmon
