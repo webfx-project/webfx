@@ -1,7 +1,7 @@
 {
   "variables": {
     "jdk9-src": "C:/Program Files/Java/jdk-9/src.zip",
-    "webfx-platforms-emul-dir": "C:/dev/git-repos/naga/webfx-platform/webfx-platforms-emul"
+    "webfx-platforms-emul-dir": "C:/dev/git-repos/webfx/webfx-platform/webfx-platforms-emul"
   },
   "modules": {
     "javaemul-javafxbase": {
