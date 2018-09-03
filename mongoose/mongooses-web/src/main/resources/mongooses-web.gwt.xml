@@ -1,9 +1,9 @@
 <module rename-to="mongooses_web">
 
-    <!-- Specifying the paths for translatable code                    -->
-    <source path="mongoose/activities/backend/application/web"/>
-    <source path="mongoose/activities/frontend/application/web"/>
-    <source path="mongoose/activities/shared/application/web"/>
+    <inherits name="mongooses-core"/>
+
+    <!-- Specifying the paths for translatable code -->
+    <source path="mongooses/web/activities"/>
 
     <resource path="images"/>
 

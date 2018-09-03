@@ -3,10 +3,10 @@ package webfx.framework.router.impl;
 import webfx.framework.router.Route;
 import webfx.framework.router.RoutingContext;
 import webfx.framework.router.session.Session;
-import webfx.platform.services.json.Json;
-import webfx.platform.services.json.JsonObject;
-import webfx.platform.services.json.WritableJsonObject;
-import webfx.platform.services.log.Logger;
+import webfx.platforms.core.services.json.Json;
+import webfx.platforms.core.services.json.JsonObject;
+import webfx.platforms.core.services.json.WritableJsonObject;
+import webfx.platforms.core.services.log.Logger;
 
 import java.util.Collection;
 import java.util.Iterator;

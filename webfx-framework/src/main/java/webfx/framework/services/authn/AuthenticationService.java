@@ -1,8 +1,8 @@
 package webfx.framework.services.authn;
 
 import webfx.framework.services.authn.spi.AuthenticationServiceProvider;
-import webfx.util.async.Future;
-import webfx.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.async.Future;
+import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon

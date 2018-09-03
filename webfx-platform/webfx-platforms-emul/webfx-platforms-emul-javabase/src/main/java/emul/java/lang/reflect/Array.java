@@ -1,8 +1,8 @@
 package emul.java.lang.reflect;
 
-import webfx.platform.services.log.Logger;
-import webfx.platform.services.query.QueryResult;
-import webfx.platform.services.update.UpdateResult;
+import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.query.QueryResult;
+import webfx.platforms.core.services.update.UpdateResult;
 
 public final class Array {
 

@@ -1,6 +1,6 @@
 package emul.javafx.animation;
 
-import webfx.fx.spi.Toolkit;
+import webfx.fxkits.core.spi.FxKit;
 
 import java.util.Arrays;
 
@@ -103,7 +103,7 @@ abstract class AbstractMasterTimer {
     }
 
     private long systemNanoTime() {
-        return Toolkit.get().scheduler().nanoTime();
+        return FxKit.get().scheduler().nanoTime();
     }
 
     public boolean isFullspeed() {
@@ -140,7 +140,7 @@ abstract class AbstractMasterTimer {
 
     public void removePulseReceiver(PulseReceiver target) {
         if (receiversLocked) {
-            receivers = webfx.util.Arrays.clone(receivers, PulseReceiver[]::new);
+            receivers = webfx.platforms.core.util.Arrays.clone(receivers, PulseReceiver[]::new);
             receiversLocked = false;
         }
         for (int i = 0; i < receiversLength; ++i) {
@@ -172,7 +172,7 @@ abstract class AbstractMasterTimer {
 
     public void removeAnimationTimer(TimerReceiver timer) {
         if (animationTimersLocked) {
-            animationTimers = webfx.util.Arrays.clone(animationTimers, TimerReceiver[]::new);
+            animationTimers = webfx.platforms.core.util.Arrays.clone(animationTimers, TimerReceiver[]::new);
             animationTimersLocked = false;
         }
         for (int i = 0; i < animationTimersLength; ++i) {

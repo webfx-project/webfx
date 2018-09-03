@@ -1,6 +1,6 @@
 package webfx.framework.orm.entity;
 
-import webfx.util.collection.ListMixin;
+import webfx.platforms.core.util.collection.ListMixin;
 import webfx.framework.expression.Expression;
 
 /**

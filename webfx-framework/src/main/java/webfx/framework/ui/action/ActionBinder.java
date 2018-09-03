@@ -6,8 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
 import javafx.scene.layout.Pane;
 import webfx.framework.ui.action.impl.WritableAction;
-import webfx.fx.properties.ObservableLists;
-import webfx.util.function.Converter;
+import webfx.fxkits.core.properties.ObservableLists;
+import webfx.platforms.core.util.function.Converter;
 
 import java.util.Collection;
 

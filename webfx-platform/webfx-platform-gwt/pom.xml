@@ -91,6 +91,13 @@
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
+
+            <!-- Relocating the emul.java package to java for both classes and sources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+
         </plugins>
     </build>
 

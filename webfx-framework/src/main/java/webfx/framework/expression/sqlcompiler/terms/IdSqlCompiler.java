@@ -1,7 +1,7 @@
 package webfx.framework.expression.sqlcompiler.terms;
 
 import webfx.framework.expression.terms.IdExpression;
-import webfx.type.Types;
+import webfx.fxkits.extra.type.Types;
 
 /**
  * @author Bruno Salmon

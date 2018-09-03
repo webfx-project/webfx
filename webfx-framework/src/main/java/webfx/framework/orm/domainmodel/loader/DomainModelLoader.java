@@ -1,21 +1,21 @@
 package webfx.framework.orm.domainmodel.loader;
 
-import webfx.platform.services.log.Logger;
-import webfx.platform.services.query.QueryResult;
-import webfx.platform.services.query.QueryService;
-import webfx.type.DerivedType;
-import webfx.type.PrimType;
-import webfx.type.Type;
-import webfx.util.Numbers;
-import webfx.util.async.Batch;
-import webfx.util.async.Future;
+import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.query.QueryResult;
+import webfx.platforms.core.services.query.QueryService;
+import webfx.fxkits.extra.type.DerivedType;
+import webfx.fxkits.extra.type.PrimType;
+import webfx.fxkits.extra.type.Type;
+import webfx.platforms.core.util.Numbers;
+import webfx.platforms.core.util.async.Batch;
+import webfx.platforms.core.util.async.Future;
 import webfx.framework.orm.domainmodel.DomainModel;
 import webfx.framework.orm.domainmodel.builder.DomainClassBuilder;
 import webfx.framework.orm.domainmodel.builder.DomainFieldBuilder;
 import webfx.framework.orm.domainmodel.builder.DomainFieldsGroupBuilder;
 import webfx.framework.orm.domainmodel.builder.DomainModelBuilder;
-import webfx.fxdata.displaydata.Label;
-import webfx.platform.services.query.QueryArgument;
+import webfx.fxkits.extra.displaydata.Label;
+import webfx.platforms.core.services.query.QueryArgument;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -3,7 +3,7 @@ package webfx.framework.orm.entity;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.terms.Select;
 import webfx.framework.orm.entity.impl.EntityListImpl;
-import webfx.util.function.Predicate;
+import webfx.platforms.core.util.function.Predicate;
 
 import java.util.Collection;
 import java.util.List;

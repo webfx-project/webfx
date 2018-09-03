@@ -13,11 +13,11 @@ import emul.javafx.geometry.*;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.util.Callback;
-import webfx.fx.properties.markers.HasBackgroundProperty;
-import webfx.fx.properties.markers.HasBorderProperty;
-import webfx.fx.properties.markers.HasPaddingProperty;
-import webfx.fx.properties.markers.HasSnapToPixelProperty;
-import webfx.util.function.Function;
+import webfx.fxkits.core.properties.markers.HasBackgroundProperty;
+import webfx.fxkits.core.properties.markers.HasBorderProperty;
+import webfx.fxkits.core.properties.markers.HasPaddingProperty;
+import webfx.fxkits.core.properties.markers.HasSnapToPixelProperty;
+import webfx.platforms.core.util.function.Function;
 
 import java.util.List;
 

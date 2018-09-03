@@ -2,9 +2,9 @@ package webfx.framework.operation.action;
 
 import javafx.event.ActionEvent;
 import webfx.framework.operation.HasOperationExecutor;
-import webfx.util.async.AsyncFunction;
-import webfx.util.function.Factory;
-import webfx.util.function.Function;
+import webfx.platforms.core.util.async.AsyncFunction;
+import webfx.platforms.core.util.function.Factory;
+import webfx.platforms.core.util.function.Function;
 
 /**
  * @author Bruno Salmon

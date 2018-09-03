@@ -5,9 +5,9 @@ import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.beans.property.SimpleStringProperty;
 import emul.javafx.beans.property.StringProperty;
 import emul.javafx.scene.text.Font;
-import webfx.fx.properties.markers.HasFontProperty;
-import webfx.fx.properties.markers.HasPromptTextProperty;
-import webfx.fx.properties.markers.HasTextProperty;
+import webfx.fxkits.core.properties.markers.HasFontProperty;
+import webfx.fxkits.core.properties.markers.HasPromptTextProperty;
+import webfx.fxkits.core.properties.markers.HasTextProperty;
 
 /**
  * @author Bruno Salmon

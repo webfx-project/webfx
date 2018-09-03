@@ -19,4 +19,45 @@
         <module>webfx-fxkit-gwt</module>
     </modules>
 
+    <properties>
+        <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
+        <plugin.shade.param.fat.phase>none</plugin.shade.param.fat.phase>
+    </properties>
+
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Relocating the emul.javafx package to javafx for both classes and sources -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <shadedArtifactAttached>true</shadedArtifactAttached>
+                                <relocations>
+                                    <relocation>
+                                        <pattern>emul.javafx</pattern>
+                                        <shadedPattern>javafx</shadedPattern>
+                                    </relocation>
+                                    <relocation>
+                                        <pattern>emul.com.sun</pattern>
+                                        <shadedPattern>com.sun</shadedPattern>
+                                    </relocation>
+                                </relocations>
+                                <createSourcesJar>true</createSourcesJar>
+                                <shadeSourcesContent>true</shadeSourcesContent>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>

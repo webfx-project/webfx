@@ -2,8 +2,8 @@ package webfx.framework.operations.route;
 
 import webfx.framework.operation.HasOperationExecutor;
 import webfx.framework.router.auth.authz.RouteRequest;
-import webfx.platform.client.url.history.History;
-import webfx.util.async.Future;
+import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.util.async.Future;
 
 /**
  * @author Bruno Salmon

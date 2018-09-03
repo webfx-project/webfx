@@ -446,7 +446,7 @@ public abstract class PopupWindow extends Window {
         super.impl_visibleChanging(visible);
         //PerformanceTracker.logEvent("PopupWindow.storeVisible for [PopupWindow]");
 
-        //Toolkit toolkit = Toolkit.getToolkit();
+        //FxKit toolkit = FxKit.getToolkit();
         if (visible && (impl_peer == null)) {
             // Setup the peer
             StageStyle popupStyle = StageStyle.TRANSPARENT;

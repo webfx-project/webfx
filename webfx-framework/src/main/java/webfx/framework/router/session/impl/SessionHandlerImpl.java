@@ -4,8 +4,8 @@ import webfx.framework.router.RoutingContext;
 import webfx.framework.router.session.Session;
 import webfx.framework.router.session.SessionHandler;
 import webfx.framework.router.session.SessionStore;
-import webfx.util.function.Callable;
-import webfx.util.function.Consumer;
+import webfx.platforms.core.util.function.Callable;
+import webfx.platforms.core.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

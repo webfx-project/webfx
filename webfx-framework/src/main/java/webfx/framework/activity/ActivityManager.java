@@ -1,12 +1,12 @@
 package webfx.framework.activity;
 
 import webfx.framework.activity.base.ActivityContextBase;
-import webfx.platform.spi.server.ServerModule;
-import webfx.util.async.AsyncResult;
-import webfx.util.async.Future;
-import webfx.util.async.Handler;
-import webfx.util.function.Factory;
-import webfx.platform.spi.server.ServerPlatform;
+import webfx.platforms.core.spi.server.ServerModule;
+import webfx.platforms.core.util.async.AsyncResult;
+import webfx.platforms.core.util.async.Future;
+import webfx.platforms.core.util.async.Handler;
+import webfx.platforms.core.util.function.Factory;
+import webfx.platforms.core.spi.server.ServerPlatform;
 
 /**
  * @author Bruno Salmon

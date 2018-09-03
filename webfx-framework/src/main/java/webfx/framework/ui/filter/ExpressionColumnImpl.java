@@ -1,7 +1,7 @@
 package webfx.framework.ui.filter;
 
-import webfx.type.Type;
-import webfx.type.Types;
+import webfx.fxkits.extra.type.Type;
+import webfx.fxkits.extra.type.Types;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.terms.As;
 import webfx.framework.expression.terms.Dot;
@@ -9,11 +9,11 @@ import webfx.framework.orm.domainmodel.DomainClass;
 import webfx.framework.orm.domainmodel.DomainField;
 import webfx.framework.orm.domainmodel.DomainModel;
 import webfx.framework.ui.formatter.Formatter;
-import webfx.platform.services.json.JsonObject;
-import webfx.fxdata.displaydata.DisplayColumn;
-import webfx.fxdata.displaydata.DisplayColumnBuilder;
-import webfx.fxdata.displaydata.DisplayStyleBuilder;
-import webfx.fxdata.cell.renderer.ValueRenderer;
+import webfx.platforms.core.services.json.JsonObject;
+import webfx.fxkits.extra.displaydata.DisplayColumn;
+import webfx.fxkits.extra.displaydata.DisplayColumnBuilder;
+import webfx.fxkits.extra.displaydata.DisplayStyleBuilder;
+import webfx.fxkits.extra.cell.renderer.ValueRenderer;
 
 /**
  * @author Bruno Salmon

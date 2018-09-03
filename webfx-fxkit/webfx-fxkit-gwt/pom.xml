@@ -29,7 +29,7 @@
             <artifactId>elemental2-dom</artifactId>
         </dependency>
 
-        <!-- TODO: remove this dependency -->
+        <!-- TODO: remove this dependency (using only ResourceService in HtmlImageViewPeer ) -->
         <dependency>
             <artifactId>webfx-platform-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
@@ -48,57 +48,26 @@
 
     </dependencies>
 
+    <properties>
+        <!-- Disabling the default behaviour defined in the parent pom for the dependency plugin -->
+        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
+        <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
+        <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
+    </properties>
+
     <build>
-
-        <pluginManagement>
-            <plugins>
-                <!-- Relocating the emul.java package to java for both classes and sources -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>shade</goal>
-                            </goals>
-                            <configuration>
-                                <shadedArtifactAttached>true</shadedArtifactAttached>
-                                <relocations>
-                                    <relocation>
-                                        <pattern>emul.java</pattern>
-                                        <shadedPattern>java</shadedPattern>
-                                    </relocation>
-                                    <relocation>
-                                        <pattern>emul.javafx</pattern>
-                                        <shadedPattern>javafx</shadedPattern>
-                                    </relocation>
-                                    <relocation>
-                                        <pattern>emul.com.sun</pattern>
-                                        <shadedPattern>com.sun</shadedPattern>
-                                    </relocation>
-                                </relocations>
-                                <createSourcesJar>true</createSourcesJar>
-                                <shadeSourcesContent>true</shadeSourcesContent>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
+
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
-            <!-- Relocating the emul.java package to java for both classes and sources -->
+            <!-- Relocating the emul.javafx package to java for both classes and sources -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
             </plugin>
-
         </plugins>
     </build>
 

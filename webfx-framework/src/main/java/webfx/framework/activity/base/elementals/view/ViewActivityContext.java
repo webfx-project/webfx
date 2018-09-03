@@ -2,7 +2,7 @@ package webfx.framework.activity.base.elementals.view;
 
 import webfx.framework.activity.base.elementals.uiroute.UiRouteActivityContext;
 import webfx.framework.activity.base.elementals.view.impl.ViewActivityContextFinal;
-import webfx.fx.properties.markers.HasNodeProperty;
+import webfx.fxkits.core.properties.markers.HasNodeProperty;
 import webfx.framework.activity.ActivityContext;
 
 /**

@@ -1,14 +1,14 @@
 package webfx.framework.expression.terms;
 
-import webfx.noreflect.IndexedArray;
-import webfx.noreflect.KeyObject;
-import webfx.type.Type;
+import webfx.platforms.core.noreflect.IndexedArray;
+import webfx.platforms.core.noreflect.KeyObject;
+import webfx.fxkits.extra.type.Type;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.lci.DataReader;
 // TODO: remove platform dependency
-import webfx.platform.services.json.Json;
-import webfx.platform.services.json.JsonObject;
-import webfx.platform.services.json.WritableJsonObject;
+import webfx.platforms.core.services.json.Json;
+import webfx.platforms.core.services.json.JsonObject;
+import webfx.platforms.core.services.json.WritableJsonObject;
 
 import java.util.Collection;
 

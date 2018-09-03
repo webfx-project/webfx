@@ -6,8 +6,8 @@ import webfx.framework.router.util.PathBuilder;
 import webfx.framework.ui.uirouter.impl.UiRouteImpl;
 import webfx.framework.activity.Activity;
 import webfx.framework.activity.ActivityContextFactory;
-import webfx.util.function.Converter;
-import webfx.util.function.Factory;
+import webfx.platforms.core.util.function.Converter;
+import webfx.platforms.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon

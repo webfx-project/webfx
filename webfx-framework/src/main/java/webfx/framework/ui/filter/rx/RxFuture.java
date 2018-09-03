@@ -1,6 +1,6 @@
 package webfx.framework.ui.filter.rx;
 
-import webfx.util.async.Future;
+import webfx.platforms.core.util.async.Future;
 import rx.Observable;
 import rx.Subscriber;
 import rx.exceptions.Exceptions;

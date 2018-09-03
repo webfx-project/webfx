@@ -6,7 +6,7 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import webfx.util.collection.Collections;
+import webfx.platforms.core.util.collection.Collections;
 
 import java.util.Collection;
 

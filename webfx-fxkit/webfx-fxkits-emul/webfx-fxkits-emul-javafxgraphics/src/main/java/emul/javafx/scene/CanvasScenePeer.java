@@ -4,9 +4,9 @@ import emul.com.sun.javafx.geom.Point2D;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.scene.input.PickResult;
 import emul.javafx.scene.transform.Transform;
-import webfx.fx.spi.peer.CanvasNodePeer;
-import webfx.fx.spi.peer.NodePeerFactory;
-import webfx.fx.spi.peer.base.ScenePeerBase;
+import webfx.fxkits.core.spi.peer.CanvasNodePeer;
+import webfx.fxkits.core.spi.peer.NodePeerFactory;
+import webfx.fxkits.core.spi.peer.base.ScenePeerBase;
 
 import java.util.Collection;
 import java.util.List;

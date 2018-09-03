@@ -6,7 +6,7 @@
 package webfx.framework.expression.parser.javacup;
 
 import webfx.framework.expression.builder.terms.*;
-import webfx.util.Numbers;
+import webfx.platforms.core.util.Numbers;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.

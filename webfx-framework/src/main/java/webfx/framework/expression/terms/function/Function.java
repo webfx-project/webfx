@@ -1,8 +1,8 @@
 package webfx.framework.expression.terms.function;
 
-import webfx.type.PrimType;
-import webfx.type.SpecializedTextType;
-import webfx.type.Type;
+import webfx.fxkits.extra.type.PrimType;
+import webfx.fxkits.extra.type.SpecializedTextType;
+import webfx.fxkits.extra.type.Type;
 import webfx.framework.expression.lci.DataReader;
 import webfx.framework.expression.terms.function.java.*;
 

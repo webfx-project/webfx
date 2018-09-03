@@ -1,6 +1,6 @@
 package webfx.framework.services.authn;
 
-import webfx.util.async.Future;
+import webfx.platforms.core.util.async.Future;
 
 /**
  * @author Bruno Salmon

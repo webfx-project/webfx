@@ -1,16 +1,16 @@
 package webfx.framework.activity.base.elementals.presentation.impl;
 
-import webfx.platform.services.uischeduler.spi.UiSchedulerProvider;
-import webfx.util.async.Future;
-import webfx.util.function.Callable;
-import webfx.util.function.Factory;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider;
+import webfx.platforms.core.util.async.Future;
+import webfx.platforms.core.util.function.Callable;
+import webfx.platforms.core.util.function.Factory;
 import webfx.framework.activity.base.elementals.presentation.PresentationActivity;
 import webfx.framework.activity.base.elementals.presentation.PresentationActivityContext;
 import webfx.framework.activity.base.elementals.presentation.PresentationActivityContextMixin;
 import webfx.framework.activity.base.elementals.presentation.logic.PresentationLogicActivityContext;
 import webfx.framework.activity.base.elementals.presentation.view.PresentationViewActivityContext;
 import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityBase;
-import webfx.fx.spi.Toolkit;
 import webfx.framework.activity.Activity;
 import webfx.framework.activity.ActivityContextFactory;
 import webfx.framework.activity.ActivityManager;
@@ -50,7 +50,7 @@ public class PresentationActivityBase
     @Override
     protected Future<Void> executeBoth(Callable<Future<Void>> callable1, Callable<Future<Void>> callable2) {
         Future<Void> future2 = Future.future();
-        UiSchedulerProvider uiSchedulerProvider = Toolkit.get().scheduler();
+        UiSchedulerProvider uiSchedulerProvider = FxKit.get().scheduler();
         uiSchedulerProvider.runOutUiThread(() -> callable2.call().setHandler(future2.completer()));
         Future<Void> future1 = Future.future();
         uiSchedulerProvider.runInUiThread(() -> callable1.call().setHandler(future1.completer()));

@@ -3,5 +3,5 @@
     <inherits name="webfx-platforms-core-util"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="webfx/noreflect"/>
+    <source path="webfx/platforms/core/noreflect"/>
 </module>

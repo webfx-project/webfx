@@ -1,7 +1,7 @@
 package webfx.framework.expression.builder;
 
 import webfx.framework.expression.lci.ParserDomainModelReader;
-import webfx.util.function.Callable;
+import webfx.platforms.core.util.function.Callable;
 
 /**
  * @author Bruno Salmon

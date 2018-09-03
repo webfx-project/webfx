@@ -15,15 +15,15 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Window;
 import webfx.framework.ui.anim.Animations;
-import webfx.fx.properties.Properties;
-import webfx.fx.properties.Unregisterable;
-import webfx.fx.properties.UnregisterableListener;
-import webfx.fx.spi.Toolkit;
-import webfx.platform.services.scheduler.Scheduled;
-import webfx.platform.services.uischeduler.spi.AnimationFramePass;
-import webfx.util.Booleans;
-import webfx.util.function.Consumer;
-import webfx.util.tuples.Unit;
+import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.properties.Unregisterable;
+import webfx.fxkits.core.properties.UnregisterableListener;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.scheduler.Scheduled;
+import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.util.Booleans;
+import webfx.platforms.core.util.function.Consumer;
+import webfx.platforms.core.util.tuples.Unit;
 
 /**
  * @author Bruno Salmon
@@ -121,7 +121,7 @@ public final class SceneUtil {
     }
 
     public static void installPrimarySceneFocusOwnerAutoScroll() {
-        Toolkit.get().onReady(() -> onSceneReady(Toolkit.get().getPrimaryStage(), SceneUtil::installSceneFocusOwnerAutoScroll));
+        FxKit.get().onReady(() -> onSceneReady(FxKit.get().getPrimaryStage(), SceneUtil::installSceneFocusOwnerAutoScroll));
     }
 
     public static boolean isVirtualKeyboardShowing(Scene scene) {
@@ -206,7 +206,7 @@ public final class SceneUtil {
                 }
                 virtualKeyboardShowingProperty.setValue(showing);
                 // Also keeping focused text input control visible on screen when changing height
-                Toolkit.get().scheduler().scheduleInFutureAnimationFrame(2, () -> {
+                FxKit.get().scheduler().scheduleInFutureAnimationFrame(2, () -> {
                     Node focusOwner = scene.getFocusOwner();
                     if (focusOwner instanceof TextInputControl)
                         scrollNodeToBeVerticallyVisibleOnScene(focusOwner, true, true);
@@ -218,7 +218,7 @@ public final class SceneUtil {
             lastTextInputFocusTime = System.currentTimeMillis();
             cancelLastNoVirtualKeyboardDetection();
             if (!isVirtualKeyboardShowing())
-                noVirtualKeyboardDetectionScheduled = Toolkit.get().scheduler().scheduleDelay(MAX_DELAY_MILLIS_BETWEEN_FOCUS_AND_VIRTUAL_KEYBOARD, () -> virtualKeyboardDetected = false);
+                noVirtualKeyboardDetectionScheduled = FxKit.get().scheduler().scheduleDelay(MAX_DELAY_MILLIS_BETWEEN_FOCUS_AND_VIRTUAL_KEYBOARD, () -> virtualKeyboardDetected = false);
         }
 
         public boolean isVirtualKeyboardShowing() {

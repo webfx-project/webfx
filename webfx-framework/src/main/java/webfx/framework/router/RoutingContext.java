@@ -1,7 +1,7 @@
 package webfx.framework.router;
 
 import webfx.framework.router.session.Session;
-import webfx.platform.services.json.WritableJsonObject;
+import webfx.platforms.core.services.json.WritableJsonObject;
 
 /**
  * @author Bruno Salmon

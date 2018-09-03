@@ -3,9 +3,9 @@ package webfx.framework.services.authz.mixin;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
-import webfx.fx.spi.Toolkit;
-import webfx.util.async.AsyncFunction;
-import webfx.util.function.Function;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.util.async.AsyncFunction;
+import webfx.platforms.core.util.function.Function;
 
 /**
  * @author Bruno Salmon
@@ -29,7 +29,7 @@ public class AuthorizationUtil {
                         this.context = context;
                         this.userPrincipal = userPrincipal;
                         if (ar.succeeded())
-                            Toolkit.get().scheduler().runInUiThread(() -> {
+                            FxKit.get().scheduler().runInUiThread(() -> {
                                 value = ar.result();
                                 invalidate();
                             });

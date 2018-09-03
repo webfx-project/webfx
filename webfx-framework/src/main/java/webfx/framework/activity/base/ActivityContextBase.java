@@ -4,7 +4,7 @@ import webfx.framework.activity.ActivityContext;
 import webfx.framework.activity.ActivityContextFactory;
 import webfx.framework.activity.ActivityManager;
 import webfx.framework.activity.HasActivityContext;
-import webfx.util.function.Predicate;
+import webfx.platforms.core.util.function.Predicate;
 
 /**
  * @author Bruno Salmon

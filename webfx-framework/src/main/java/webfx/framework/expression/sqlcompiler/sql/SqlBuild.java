@@ -7,8 +7,8 @@ import webfx.framework.expression.sqlcompiler.sql.dbms.HsqlSyntax;
 import webfx.framework.expression.sqlcompiler.terms.Options;
 import webfx.framework.expression.sqlcompiler.mapping.QueryColumnToEntityFieldMapping;
 import webfx.framework.expression.sqlcompiler.mapping.QueryRowToEntityMapping;
-import webfx.util.Numbers;
-import webfx.util.Strings;
+import webfx.platforms.core.util.Numbers;
+import webfx.platforms.core.util.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;

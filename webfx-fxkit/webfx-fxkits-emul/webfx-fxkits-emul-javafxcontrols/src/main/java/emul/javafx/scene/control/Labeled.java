@@ -3,8 +3,7 @@ package emul.javafx.scene.control;
 import emul.javafx.beans.property.*;
 import emul.javafx.geometry.Insets;
 import emul.javafx.geometry.Pos;
-import webfx.fx.properties.Properties;
-import webfx.fx.properties.markers.*;
+import webfx.fxkits.core.properties.Properties;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.scene.Scene;
@@ -13,6 +12,7 @@ import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.TextAlignment;
+import webfx.fxkits.core.properties.markers.*;
 
 /**
  * @author Bruno Salmon

@@ -4,8 +4,6 @@
     <set-property name="user.agent" value="safari"/> <!-- to make only 1 permutation for testing with Chrome -->
 
     <!-- Specify the app entry point class.                         -->
-    <entry-point class='mongoose.activities.frontend.application.html.HtmlFrontendMongooseApplication'/>
-
-    <source path="mongoose/html/frontend"/>
+    <entry-point class='mongooses.web.activities.frontend.MongooseFrontendWebApplication'/>
 
 </module>

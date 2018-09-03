@@ -25,9 +25,9 @@ import emul.javafx.scene.input.MouseEvent;
 import emul.javafx.scene.layout.LayoutFlags;
 import emul.javafx.scene.transform.Transform;
 import emul.javafx.scene.transform.Translate;
-import webfx.fx.properties.markers.*;
-import webfx.fx.spi.Toolkit;
-import webfx.fx.spi.peer.NodePeer;
+import webfx.fxkits.core.properties.markers.*;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.spi.peer.NodePeer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -644,7 +644,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
     void requestNextPulse() {
-        Toolkit.get().scheduler().requestNextScenePulse();
+        FxKit.get().scheduler().requestNextScenePulse();
 /*
         if (getSubScene() != null) {
             getSubScene().setDirtyLayout(p);
@@ -1192,7 +1192,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
             private LayoutMeasurable acceptedLayoutMeasurable = nodePeer instanceof LayoutMeasurable && shouldUseLayoutMeasurable() ? (LayoutMeasurable) nodePeer : null;
             {
                 if (nodePeer instanceof HasSizeChangedCallback)
-                    Toolkit.get().scheduler().scheduleDeferred(() ->
+                    FxKit.get().scheduler().scheduleDeferred(() ->
                             ((HasSizeChangedCallback) nodePeer).setSizeChangedCallback(() -> onPeerSizeChanged())
                     );
             }

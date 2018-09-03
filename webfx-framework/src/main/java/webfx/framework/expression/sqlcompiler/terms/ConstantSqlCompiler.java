@@ -1,8 +1,8 @@
 package webfx.framework.expression.sqlcompiler.terms;
 
 import webfx.framework.expression.terms.Constant;
-import webfx.util.Dates;
-import webfx.util.Strings;
+import webfx.platforms.core.util.Dates;
+import webfx.platforms.core.util.Strings;
 
 import java.time.LocalDate;
 

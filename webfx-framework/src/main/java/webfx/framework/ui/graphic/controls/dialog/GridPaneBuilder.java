@@ -13,9 +13,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import webfx.framework.services.i18n.I18n;
-import webfx.util.collection.Collections;
-import webfx.util.function.Consumer;
-import webfx.util.tuples.Pair;
+import webfx.platforms.core.util.collection.Collections;
+import webfx.platforms.core.util.function.Consumer;
+import webfx.platforms.core.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

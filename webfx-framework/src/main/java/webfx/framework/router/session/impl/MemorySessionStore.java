@@ -2,7 +2,7 @@ package webfx.framework.router.session.impl;
 
 import webfx.framework.router.session.Session;
 import webfx.framework.router.session.SessionStore;
-import webfx.util.async.Future;
+import webfx.platforms.core.util.async.Future;
 
 import java.util.HashMap;
 import java.util.Map;

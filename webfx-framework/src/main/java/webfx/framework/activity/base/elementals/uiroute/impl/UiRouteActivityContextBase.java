@@ -9,8 +9,8 @@ import webfx.framework.ui.uirouter.UiRouter;
 import webfx.framework.activity.ActivityContext;
 import webfx.framework.activity.ActivityContextFactory;
 import webfx.framework.activity.base.ActivityContextBase;
-import webfx.platform.services.json.Json;
-import webfx.platform.services.json.JsonObject;
+import webfx.platforms.core.services.json.Json;
+import webfx.platforms.core.services.json.JsonObject;
 
 /**
  * @author Bruno Salmon

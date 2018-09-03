@@ -6,7 +6,7 @@
     <inherits name="webfx-platforms-web"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="webfx/providers/platform/client/gwt"/>
+    <source path="webfx/platform/gwt"/>
     <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
 
 </module>

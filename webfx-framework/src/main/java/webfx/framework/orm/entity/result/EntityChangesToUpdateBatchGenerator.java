@@ -13,11 +13,11 @@ import webfx.framework.orm.domainmodel.DomainField;
 import webfx.framework.orm.domainmodel.DomainModel;
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.EntityStore;
-import webfx.platform.services.update.GeneratedKeyBatchIndex;
-import webfx.platform.services.update.UpdateArgument;
-import webfx.platform.services.update.UpdateResult;
-import webfx.util.Arrays;
-import webfx.util.async.Batch;
+import webfx.platforms.core.services.update.GeneratedKeyBatchIndex;
+import webfx.platforms.core.services.update.UpdateArgument;
+import webfx.platforms.core.services.update.UpdateResult;
+import webfx.platforms.core.util.Arrays;
+import webfx.platforms.core.util.async.Batch;
 
 import java.io.Serializable;
 import java.util.*;

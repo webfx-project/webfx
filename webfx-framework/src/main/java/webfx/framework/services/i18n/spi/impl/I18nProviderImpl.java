@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableStringValue;
 import webfx.framework.services.i18n.Dictionary;
 import webfx.framework.services.i18n.spi.I18nProvider;
-import webfx.fx.spi.Toolkit;
+import webfx.fxkits.core.spi.FxKit;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -90,7 +90,7 @@ public final class I18nProviderImpl implements I18nProvider {
             else {
                 unloadedKeys = new HashSet<>();
                 unloadedKeys.add(key);
-                Toolkit.get().scheduler().scheduleDeferred(() -> {
+                FxKit.get().scheduler().scheduleDeferred(() -> {
                     dictionaryLoader.loadDictionary(getLanguage(), unloadedKeys).setHandler(asyncResult -> {
                         dictionaryProperty.setValue(asyncResult.result());
                         dictionaryLoadRequired = false;

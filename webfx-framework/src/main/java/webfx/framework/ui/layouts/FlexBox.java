@@ -5,7 +5,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import webfx.util.collection.Collections;
+import webfx.platforms.core.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.HashMap;

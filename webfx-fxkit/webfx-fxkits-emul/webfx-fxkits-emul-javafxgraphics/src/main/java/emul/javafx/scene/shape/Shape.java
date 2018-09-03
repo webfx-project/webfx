@@ -7,7 +7,7 @@ import emul.javafx.collections.ObservableList;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.paint.Paint;
-import webfx.fx.properties.markers.*;
+import webfx.fxkits.core.properties.markers.*;
 
 /**
  * @author Bruno Salmon

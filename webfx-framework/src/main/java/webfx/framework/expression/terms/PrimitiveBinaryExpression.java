@@ -1,12 +1,12 @@
 package webfx.framework.expression.terms;
 
-import webfx.type.PrimType;
-import webfx.type.Type;
-import webfx.type.Types;
-import webfx.util.Booleans;
-import webfx.util.Dates;
-import webfx.util.Numbers;
-import webfx.util.Strings;
+import webfx.fxkits.extra.type.PrimType;
+import webfx.fxkits.extra.type.Type;
+import webfx.fxkits.extra.type.Types;
+import webfx.platforms.core.util.Booleans;
+import webfx.platforms.core.util.Dates;
+import webfx.platforms.core.util.Numbers;
+import webfx.platforms.core.util.Strings;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.lci.DataReader;
 

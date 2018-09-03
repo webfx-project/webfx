@@ -1,10 +1,10 @@
 package webfx.framework.ui.graphic.image;
 
 import javafx.scene.image.ImageView;
-import webfx.util.Strings;
-import webfx.fx.util.ImageStore;
-import webfx.platform.services.json.Json;
-import webfx.platform.services.json.JsonObject;
+import webfx.platforms.core.util.Strings;
+import webfx.fxkits.core.util.ImageStore;
+import webfx.platforms.core.services.json.Json;
+import webfx.platforms.core.services.json.JsonObject;
 
 /**
  * @author Bruno Salmon

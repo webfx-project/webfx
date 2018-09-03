@@ -15,13 +15,13 @@ module mongooses.core {
 
     requires static javafx.controls;
 
-    exports mongoose.actions;
-    exports mongoose.activities.backend.application;
-    exports mongoose.activities.frontend.application;
-    exports mongoose.activities.bothends.application;
-    exports mongoose.activities.backend.cloneevent;
-    exports mongoose.domainmodel.loader;
-    exports mongoose.domainmodel.formatters;
-    exports mongoose.entities;
-    exports mongoose.services.systemmetrics;
+    exports mongooses.core.actions;
+    exports mongooses.core.activities.backend.application;
+    exports mongooses.core.activities.frontend.application;
+    exports mongooses.core.activities.sharedends.application;
+    exports mongooses.core.activities.backend.cloneevent;
+    exports mongooses.core.domainmodel.loader;
+    exports mongooses.core.domainmodel.formatters;
+    exports mongooses.core.entities;
+    exports mongooses.core.services.systemmetrics;
 }

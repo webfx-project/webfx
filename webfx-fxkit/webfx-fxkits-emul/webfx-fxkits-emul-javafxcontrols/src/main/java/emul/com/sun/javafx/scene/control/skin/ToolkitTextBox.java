@@ -4,7 +4,7 @@ import emul.javafx.geometry.Insets;
 import emul.javafx.scene.control.Skin;
 import emul.javafx.scene.control.TextField;
 import emul.javafx.scene.layout.Background;
-import webfx.fx.properties.ObservableLists;
+import webfx.fxkits.core.properties.ObservableLists;
 
 /**
  * @author Bruno Salmon

@@ -1,5 +1,5 @@
-import webfx.platform.services.scheduler.spi.SchedulerProvider;
-import webfx.providers.platform.abstr.java.services.scheduler.JavaSchedulerProviderImpl;
+import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
+import webfx.platforms.java.services.scheduler.JavaSchedulerProviderImpl;
 
 /**
  * @author Bruno Salmon

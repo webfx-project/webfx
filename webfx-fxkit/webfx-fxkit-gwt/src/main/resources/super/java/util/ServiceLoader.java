@@ -6,29 +6,29 @@
 
 package java.util;
 
-import webfx.platform.services.json.spi.JsonProvider;
-import webfx.platform.services.shutdown.spi.ShutdownProvider;
-import webfx.platform.services.storage.spi.LocalStorageProvider;
-import webfx.platform.services.storage.spi.SessionStorageProvider;
-import webfx.providers.platform.client.gwt.services.json.GwtJsonObject;
-import webfx.providers.platform.client.gwt.services.shutdown.GwtShutdownProviderImpl;
-import webfx.providers.platform.client.gwt.services.storage.GwtLocalStorageProviderImpl;
-import webfx.providers.platform.client.gwt.services.storage.GwtSessionStorageProviderImpl;
-import webfx.platform.services.scheduler.spi.SchedulerProvider;
-import webfx.providers.platform.client.gwt.services.scheduler.GwtSchedulerProviderImpl;
-import webfx.platform.services.resource.spi.ResourceServiceProvider;
-import webfx.providers.platform.client.gwt.services.resource.GwtResourceServiceProviderImpl;
-import webfx.platform.services.log.spi.LoggerProvider;
-import webfx.providers.platform.client.gwt.services.log.GwtLoggerProviderImpl;
-import webfx.platform.services.websocket.spi.WebSocketServiceProvider;
-import webfx.providers.platform.client.gwt.services.websocket.GwtWebSocketServiceProviderImpl;
-import webfx.util.numbers.providers.StandardNumbersProviderImpl;
-import webfx.util.numbers.spi.NumbersProvider;
-import webfx.platform.spi.Platform;
-import webfx.providers.platform.client.gwt.GwtPlatform;
-import webfx.fx.spi.Toolkit;
-import webfx.fx.spi.gwt.GwtToolkit;
-import webfx.util.serviceloader.ServiceLoaderHelper;
+import webfx.fxkit.gwt.GwtFxKit;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.json.spi.JsonProvider;
+import webfx.platforms.core.services.shutdown.spi.ShutdownProvider;
+import webfx.platforms.core.services.storage.spi.LocalStorageProvider;
+import webfx.platforms.core.services.storage.spi.SessionStorageProvider;
+import webfx.platform.gwt.services.json.GwtJsonObject;
+import webfx.platform.gwt.services.shutdown.GwtShutdownProviderImpl;
+import webfx.platform.gwt.services.storage.GwtLocalStorageProviderImpl;
+import webfx.platform.gwt.services.storage.GwtSessionStorageProviderImpl;
+import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
+import webfx.platform.gwt.services.scheduler.GwtSchedulerProviderImpl;
+import webfx.platforms.core.services.resource.spi.ResourceServiceProvider;
+import webfx.platform.gwt.services.resource.GwtResourceServiceProviderImpl;
+import webfx.platforms.core.services.log.spi.LoggerProvider;
+import webfx.platform.gwt.services.log.GwtLoggerProviderImpl;
+import webfx.platforms.core.services.websocket.spi.WebSocketServiceProvider;
+import webfx.platform.gwt.services.websocket.GwtWebSocketServiceProviderImpl;
+import webfx.platforms.core.util.numbers.providers.StandardNumbersProviderImpl;
+import webfx.platforms.core.util.numbers.spi.NumbersProvider;
+import webfx.platforms.core.spi.Platform;
+import webfx.platform.gwt.GwtPlatform;
+import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 
 public class ServiceLoader<S> {
 
@@ -45,8 +45,8 @@ public class ServiceLoader<S> {
             return new ServiceLoader<>(new GwtLoggerProviderImpl());
         if (serviceClass.equals(WebSocketServiceProvider.class))
             return new ServiceLoader<>(new GwtWebSocketServiceProviderImpl());
-        if (serviceClass.equals(Toolkit.class))
-            return new ServiceLoader<>(new GwtToolkit());
+        if (serviceClass.equals(FxKit.class))
+            return new ServiceLoader<>(new GwtFxKit());
         if (serviceClass.equals(NumbersProvider.class))
             return new ServiceLoader<>(new StandardNumbersProviderImpl());
         if (serviceClass.equals(ShutdownProvider.class))

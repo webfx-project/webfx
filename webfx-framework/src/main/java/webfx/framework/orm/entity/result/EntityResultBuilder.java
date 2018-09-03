@@ -2,7 +2,7 @@ package webfx.framework.orm.entity.result;
 
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.result.impl.EntityResultImpl;
-import webfx.util.collection.HashList;
+import webfx.platforms.core.util.collection.HashList;
 
 import java.util.ArrayList;
 import java.util.HashMap;

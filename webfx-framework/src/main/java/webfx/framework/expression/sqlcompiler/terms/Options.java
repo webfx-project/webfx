@@ -3,7 +3,7 @@ package webfx.framework.expression.sqlcompiler.terms;
 import webfx.framework.expression.lci.CompilerDomainModelReader;
 import webfx.framework.expression.sqlcompiler.sql.SqlBuild;
 import webfx.framework.expression.sqlcompiler.sql.SqlClause;
-import webfx.util.Objects;
+import webfx.platforms.core.util.Objects;
 
 /**
  * @author Bruno Salmon

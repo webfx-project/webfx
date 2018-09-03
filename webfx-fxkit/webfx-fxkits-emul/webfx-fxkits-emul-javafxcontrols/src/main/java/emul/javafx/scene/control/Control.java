@@ -6,7 +6,7 @@ import emul.javafx.collections.ObservableList;
 import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.layout.Region;
-import webfx.fx.spi.peer.NodePeer;
+import webfx.fxkits.core.spi.peer.NodePeer;
 
 /**
  * @author Bruno Salmon
@@ -418,6 +418,6 @@ public abstract class Control extends Region implements Skinnable {
 
     {
         // Simulating skin mechanism (normally done during css pass - not yet implemented)
-        //Toolkit.get().scheduler().scheduleDelay(5000, () -> setSkin(createDefaultSkin()));
+        //FxKit.get().scheduler().scheduleDelay(5000, () -> setSkin(createDefaultSkin()));
     }
 }

@@ -1,6 +1,6 @@
 package webfx.framework.expression.terms;
 
-import webfx.type.Type;
+import webfx.fxkits.extra.type.Type;
 import webfx.framework.expression.lci.DataReader;
 
 /**

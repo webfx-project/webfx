@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 import webfx.framework.expression.terms.Dot;
 import webfx.framework.expression.terms.Symbol;
 import webfx.framework.expression.sqlcompiler.sql.SqlClause;
-import webfx.type.Types;
+import webfx.fxkits.extra.type.Types;
 import webfx.framework.orm.domainmodel.FieldsGroup;
 
 /**

@@ -1,7 +1,7 @@
 package webfx.framework.orm.entity.impl;
 
 import webfx.framework.orm.entity.Entities;
-import webfx.util.collection.Collections;
+import webfx.platforms.core.util.collection.Collections;
 import webfx.framework.expression.Expression;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityList;

@@ -1,6 +1,6 @@
 package webfx.framework.expression.sqlcompiler.mapping;
 
-import webfx.util.Arrays;
+import webfx.platforms.core.util.Arrays;
 
 /**
  * Mapping between the query row and an entity

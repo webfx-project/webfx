@@ -20,16 +20,16 @@ import webfx.framework.ui.filter.ExpressionColumn;
 import webfx.framework.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.ui.filter.StringFilter;
 import webfx.framework.ui.filter.StringFilterBuilder;
-import webfx.fxdata.cell.renderer.ValueRenderer;
-import webfx.fxdata.cell.renderer.ValueRendererFactory;
-import webfx.fxdata.cell.renderer.ValueRenderingContext;
-import webfx.fxdata.control.DataGrid;
-import webfx.fxdata.control.SkinnedDataGrid;
-import webfx.fxdata.displaydata.DisplayResult;
-import webfx.util.Arrays;
-import webfx.util.Strings;
-import webfx.util.collection.Collections;
-import webfx.util.function.Callable;
+import webfx.fxkits.extra.cell.renderer.ValueRenderer;
+import webfx.fxkits.extra.cell.renderer.ValueRendererFactory;
+import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;
+import webfx.fxkits.extra.control.DataGrid;
+import webfx.fxkits.extra.control.SkinnedDataGrid;
+import webfx.fxkits.extra.displaydata.DisplayResult;
+import webfx.platforms.core.util.Arrays;
+import webfx.platforms.core.util.Strings;
+import webfx.platforms.core.util.collection.Collections;
+import webfx.platforms.core.util.function.Callable;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import emul.javafx.beans.property.DoubleProperty;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleDoubleProperty;
 import emul.javafx.geometry.GeometryUtil;
-import webfx.fx.properties.markers.HasAngleProperty;
+import webfx.fxkits.core.properties.markers.HasAngleProperty;
 
 /**
  * @author Bruno Salmon

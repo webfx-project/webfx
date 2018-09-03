@@ -3,7 +3,7 @@ package emul.com.sun.javafx.util;
 import emul.javafx.geometry.*;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
-import webfx.fx.spi.Toolkit;
+import webfx.fxkits.core.spi.FxKit;
 import emul.javafx.stage.Screen;
 import emul.javafx.stage.Window;
 
@@ -142,7 +142,7 @@ public class Utils {
      * multiple monitor support.
      */
     public static Screen getScreen(Object obj) {
-        return Toolkit.get().getPrimaryScreen();
+        return FxKit.get().getPrimaryScreen();
     }
 
     /*

@@ -14,11 +14,11 @@ import webfx.framework.orm.entity.impl.DynamicEntity;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.filter.ExpressionColumn;
 import webfx.framework.ui.formatter.Formatter;
-import webfx.fxdata.displaydata.DisplayColumn;
-import webfx.fxdata.displaydata.DisplayResult;
-import webfx.fxdata.displaydata.DisplayResultBuilder;
-import webfx.fxdata.displaydata.Label;
-import webfx.util.Arrays;
+import webfx.fxkits.extra.displaydata.DisplayColumn;
+import webfx.fxkits.extra.displaydata.DisplayResult;
+import webfx.fxkits.extra.displaydata.DisplayResultBuilder;
+import webfx.fxkits.extra.displaydata.Label;
+import webfx.platforms.core.util.Arrays;
 
 import java.util.HashMap;
 import java.util.List;

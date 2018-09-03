@@ -1,6 +1,6 @@
 package webfx.framework.expression.sqlcompiler.terms;
 
-import webfx.type.Types;
+import webfx.fxkits.extra.type.Types;
 import webfx.framework.expression.terms.*;
 
 /**

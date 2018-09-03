@@ -1,7 +1,7 @@
 package webfx.framework.operation;
 
-import webfx.util.async.AsyncFunction;
-import webfx.util.async.Future;
+import webfx.platforms.core.util.async.AsyncFunction;
+import webfx.platforms.core.util.async.Future;
 
 /**
  * @author Bruno Salmon

@@ -9,10 +9,10 @@ import webfx.framework.operation.HasOperationCode;
 import webfx.framework.services.authz.mixin.AuthorizationUtil;
 import webfx.framework.ui.action.Action;
 import webfx.framework.ui.action.ActionBinder;
-import webfx.fx.spi.Toolkit;
-import webfx.util.async.AsyncFunction;
-import webfx.util.async.Future;
-import webfx.util.function.Function;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.util.async.AsyncFunction;
+import webfx.platforms.core.util.async.Future;
+import webfx.platforms.core.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +49,7 @@ public class OperationActionRegistry {
 
     private OperationActionRegistry checkPendingOperationBindings() {
         if (notYetBoundOperationActions != null && pendingBindRunnable == null) {
-            Toolkit.get().scheduler().scheduleDeferred(pendingBindRunnable = () -> {
+            FxKit.get().scheduler().scheduleDeferred(pendingBindRunnable = () -> {
                 Collection<OperationAction> actions =  notYetBoundOperationActions;
                 pendingBindRunnable = null;
                 notYetBoundOperationActions = null;

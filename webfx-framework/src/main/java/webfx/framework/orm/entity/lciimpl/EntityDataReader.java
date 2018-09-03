@@ -5,7 +5,7 @@ import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.expression.lci.DataReader;
-import webfx.type.PrimType;
+import webfx.fxkits.extra.type.PrimType;
 
 /**
  * @author Bruno Salmon

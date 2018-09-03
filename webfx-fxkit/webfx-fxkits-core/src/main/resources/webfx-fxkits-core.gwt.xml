@@ -1,6 +1,6 @@
 <module rename-to="webfx_fxkits_core">
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="webfx/fx"/>               <!-- source path to webfx-fxkits-core -->
-    <source path="webfx/fxdata"/>           <!-- source path to webfx-fxkits-coredata -->
+    <source path="webfx/fxkits/core"/>      <!-- source path to webfx-fxkits-core -->
+    <source path="webfx/fxkits/extra"/>     <!-- source path to webfx-fxkits-extra -->
 </module>

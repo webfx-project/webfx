@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 import webfx.framework.services.i18n.Dictionary;
 import webfx.framework.services.i18n.spi.impl.I18nProviderImpl;
 import webfx.framework.services.i18n.spi.impl.ResourceJsonDictionaryLoader;
-import webfx.util.Strings;
+import webfx.platforms.core.util.Strings;
 
 /**
  * @author Bruno Salmon

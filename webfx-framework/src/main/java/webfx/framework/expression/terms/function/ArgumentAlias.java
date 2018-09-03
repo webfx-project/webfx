@@ -2,7 +2,7 @@ package webfx.framework.expression.terms.function;
 
 import webfx.framework.expression.lci.DataReader;
 import webfx.framework.expression.terms.Alias;
-import webfx.type.Type;
+import webfx.fxkits.extra.type.Type;
 
 /**
  * @author Bruno Salmon

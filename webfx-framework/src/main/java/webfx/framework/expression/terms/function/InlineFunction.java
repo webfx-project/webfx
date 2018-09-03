@@ -7,8 +7,8 @@ import webfx.framework.expression.terms.ExpressionArray;
 import webfx.framework.expression.parser.ExpressionParser;
 import webfx.framework.expression.builder.ReferenceResolver;
 import webfx.framework.expression.builder.ThreadLocalReferenceResolver;
-import webfx.type.Type;
-import webfx.util.Strings;
+import webfx.fxkits.extra.type.Type;
+import webfx.platforms.core.util.Strings;
 
 import java.util.HashMap;
 import java.util.Map;

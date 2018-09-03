@@ -13,10 +13,10 @@ import webfx.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import webfx.framework.ui.graphic.controls.dialog.DialogContent;
 import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
 import webfx.framework.ui.graphic.materialdesign.MaterialFactoryMixin;
-import webfx.fxdata.cell.renderer.TextRenderer;
-import webfx.fxdata.cell.renderer.ValueRenderer;
-import webfx.fxdata.cell.renderer.ValueRenderingContext;
-import webfx.util.Arrays;
+import webfx.fxkits.extra.cell.renderer.TextRenderer;
+import webfx.fxkits.extra.cell.renderer.ValueRenderer;
+import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;
+import webfx.platforms.core.util.Arrays;
 
 /**
  * @author Bruno Salmon

@@ -9,7 +9,7 @@ import emul.javafx.beans.property.SimpleStringProperty;
 import emul.javafx.beans.property.StringProperty;
 import emul.javafx.geometry.VPos;
 import emul.javafx.scene.shape.Shape;
-import webfx.fx.properties.markers.*;
+import webfx.fxkits.core.properties.markers.*;
 
 /**
  * @author Bruno Salmon

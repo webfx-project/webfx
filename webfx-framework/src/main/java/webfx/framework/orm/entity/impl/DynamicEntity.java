@@ -5,7 +5,7 @@ import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.orm.entity.UpdateStore;
-import webfx.platform.services.log.Logger;
+import webfx.platforms.core.services.log.Logger;
 
 import java.util.HashMap;
 import java.util.Map;

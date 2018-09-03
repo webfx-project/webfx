@@ -2,9 +2,9 @@ package webfx.framework.router.session;
 
 import webfx.framework.router.RoutingContext;
 import webfx.framework.router.session.impl.SessionHandlerImpl;
-import webfx.util.async.Handler;
-import webfx.util.function.Callable;
-import webfx.util.function.Consumer;
+import webfx.platforms.core.util.async.Handler;
+import webfx.platforms.core.util.function.Callable;
+import webfx.platforms.core.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

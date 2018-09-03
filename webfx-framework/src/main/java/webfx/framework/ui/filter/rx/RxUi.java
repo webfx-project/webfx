@@ -3,7 +3,7 @@ package webfx.framework.ui.filter.rx;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import webfx.fx.spi.Toolkit;
+import webfx.fxkits.core.spi.FxKit;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscription;
@@ -40,7 +40,7 @@ public final class RxUi {
      */
     static Subscription unsubscribeInUiThread(Action0 unsubscribe) {
         return Subscriptions.create(() -> {
-            if (Toolkit.isUiThread())
+            if (FxKit.isUiThread())
                 unsubscribe.call();
             else {
                 Scheduler.Worker worker = RxScheduler.UI_SCHEDULER.createWorker();

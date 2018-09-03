@@ -2,17 +2,17 @@ package emul.javafx.stage;
 
 import emul.javafx.beans.property.*;
 import emul.javafx.event.*;
-import webfx.platform.services.uischeduler.spi.AnimationFramePass;
-import webfx.platform.services.scheduler.Scheduled;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.scheduler.Scheduled;
 import emul.javafx.geometry.Rectangle2D;
-import webfx.fx.properties.Properties;
-import webfx.fx.properties.markers.HasHeightProperty;
-import webfx.fx.properties.markers.HasSceneProperty;
-import webfx.fx.properties.markers.HasWidthProperty;
+import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.properties.markers.HasHeightProperty;
+import webfx.fxkits.core.properties.markers.HasSceneProperty;
+import webfx.fxkits.core.properties.markers.HasWidthProperty;
 import emul.javafx.scene.Scene;
-import webfx.fx.spi.Toolkit;
-import webfx.fx.spi.peer.StagePeer;
-import webfx.fx.spi.peer.WindowPeer;
+import webfx.fxkits.core.spi.peer.StagePeer;
+import webfx.fxkits.core.spi.peer.WindowPeer;
 import emul.com.sun.javafx.stage.WindowEventDispatcher;
 import emul.com.sun.javafx.stage.WindowHelper;
 import emul.com.sun.javafx.stage.WindowPeerListener;
@@ -118,7 +118,7 @@ public class Window implements EventTarget,
 
 
     protected WindowPeer createPeer() {
-        return Toolkit.get().createWindowPeer(this);
+        return FxKit.get().createWindowPeer(this);
     }
 
     private final Property<Scene> sceneProperty = new SimpleObjectProperty<Scene>() {
@@ -300,7 +300,7 @@ public class Window implements EventTarget,
                     // Register pulse listener
                     // tk.addStageTkPulseListener(peerBoundsConfigurator);
                     if (pulseScheduled == null)
-                        pulseScheduled = Toolkit.get().scheduler().schedulePeriodicInAnimationFrame(peerBoundsConfigurator::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+                        pulseScheduled = FxKit.get().scheduler().schedulePeriodicInAnimationFrame(peerBoundsConfigurator::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
 
 
                     if (getScene() != null) {
@@ -308,10 +308,10 @@ public class Window implements EventTarget,
                         //impl_peer.setScene(getScene().getPeer());
                         getScene().impl_preferredSize();
                         // Ugly workaround to fix a wrong window positioning that occurs on first showing while the node sizes are not yet correct
-                        if (firstShowing && Window.this != Toolkit.get().getPrimaryStage()) {
+                        if (firstShowing && Window.this != FxKit.get().getPrimaryStage()) {
                             impl_peer.setBounds(100_000, 100_000, true, true, -1, -1, -1, -1, 0, 0);
                             impl_peer.setVisible(true);
-                            Toolkit.get().scheduler().scheduleDelay(200, () -> {
+                            FxKit.get().scheduler().scheduleDelay(200, () -> {
                                 x.setValue(Double.NaN); xExplicit = false;
                                 y.setValue(Double.NaN); yExplicit = false;
                                 peerBoundsConfigurator.setDirty();
@@ -369,7 +369,7 @@ public class Window implements EventTarget,
                 }
             }
             if (newVisible) {
-                Toolkit.get().scheduler().requestNextScenePulse();
+                FxKit.get().scheduler().requestNextScenePulse();
             }
             impl_visibleChanged(newVisible);
 
@@ -918,7 +918,7 @@ public class Window implements EventTarget,
 
         private void setDirty() {
             if (!dirty) {
-                Toolkit.get().scheduler().requestNextScenePulse();
+                FxKit.get().scheduler().requestNextScenePulse();
                 dirty = true;
             }
         }

@@ -1,7 +1,7 @@
 package emul.javafx.scene.layout;
 
 import emul.javafx.scene.INode;
-import webfx.fx.properties.markers.*;
+import webfx.fxkits.core.properties.markers.*;
 
 /**
  * @author Bruno Salmon

@@ -1,3 +1,6 @@
+import webfx.fxkit.javafx.JavaFxFxKit;
+import webfx.fxkits.core.spi.FxKit;
+
 /**
  * @author Bruno Salmon
  */
@@ -13,5 +16,5 @@ module webfx.fxkit.javafx {
 
     exports webfx.fx.spi.javafx;
 
-    provides webfx.fx.spi.Toolkit with webfx.fx.spi.javafx.JavaFxToolkit;
+    provides FxKit with JavaFxFxKit;
 }

@@ -1,7 +1,7 @@
 package webfx.framework.operations.i18n;
 
 import webfx.framework.services.i18n.I18n;
-import webfx.util.async.Future;
+import webfx.platforms.core.util.async.Future;
 
 /**
  * @author Bruno Salmon

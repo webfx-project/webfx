@@ -4,6 +4,6 @@
     <inherits name="webfx-lib-javacupruntime"/>
     <inherits name="webfx-fxkits-emul-javafxbase"/>
     <!-- Specify the paths for translatable code                    -->
-    <source path="webfx/platform"/>                 <!-- source path to rxjava library (webfx-lib-rxjava) -->
-    <resource path="webfx/platform/client/bus/conf"/>     <!-- for webfx/platform/client/bus/conf/BusOptions.json -->
+    <source path="webfx/platforms/core"/>                 <!-- source path to rxjava library (webfx-lib-rxjava) -->
+    <resource path="webfx/platforms/core/client/bus/conf"/>     <!-- for webfx/platforms/core/client/bus/conf/BusOptions.json -->
 </module>

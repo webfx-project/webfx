@@ -3,7 +3,7 @@ package webfx.framework.orm.entity.result;
 import webfx.framework.expression.lci.mocks.CompilerDomainModelReaderMock;
 import webfx.framework.expression.lci.mocks.ParserDomainModelReaderMock;
 import webfx.framework.expression.sqlcompiler.sql.dbms.PostgresSyntax;
-import webfx.util.Arrays;
+import webfx.platforms.core.util.Arrays;
 import org.junit.Test;
 
 /**

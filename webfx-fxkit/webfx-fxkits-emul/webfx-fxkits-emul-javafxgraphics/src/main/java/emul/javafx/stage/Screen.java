@@ -1,7 +1,7 @@
 package emul.javafx.stage;
 
 import emul.javafx.geometry.Rectangle2D;
-import webfx.fx.spi.Toolkit;
+import webfx.fxkits.core.spi.FxKit;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +13,7 @@ public interface Screen {
     Rectangle2D getVisualBounds();
 
     static Screen getPrimary() {
-        return Toolkit.get().getPrimaryScreen();
+        return FxKit.get().getPrimaryScreen();
     }
 
     static Screen from(Rectangle2D bounds) {

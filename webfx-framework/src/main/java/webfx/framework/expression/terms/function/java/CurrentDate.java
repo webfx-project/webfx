@@ -2,7 +2,7 @@ package webfx.framework.expression.terms.function.java;
 
 import webfx.framework.expression.lci.DataReader;
 import webfx.framework.expression.terms.function.Function;
-import webfx.type.PrimType;
+import webfx.fxkits.extra.type.PrimType;
 
 import java.time.LocalDate;
 

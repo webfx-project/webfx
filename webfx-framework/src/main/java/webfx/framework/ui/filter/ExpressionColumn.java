@@ -3,12 +3,12 @@ package webfx.framework.ui.filter;
 import webfx.framework.orm.domainmodel.DomainClass;
 import webfx.framework.ui.formatter.Formatter;
 import webfx.framework.ui.formatter.FormatterRegistry;
-import webfx.platform.services.json.Json;
-import webfx.platform.services.json.JsonArray;
-import webfx.platform.services.json.JsonObject;
+import webfx.platforms.core.services.json.Json;
+import webfx.platforms.core.services.json.JsonArray;
+import webfx.platforms.core.services.json.JsonObject;
 import webfx.framework.orm.domainmodel.DomainModel;
 import webfx.framework.expression.Expression;
-import webfx.fxdata.displaydata.DisplayColumn;
+import webfx.fxkits.extra.displaydata.DisplayColumn;
 
 /**
  * @author Bruno Salmon

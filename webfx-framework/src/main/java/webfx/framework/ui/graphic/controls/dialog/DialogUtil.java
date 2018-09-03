@@ -13,11 +13,11 @@ import javafx.scene.layout.*;
 import webfx.framework.ui.graphic.controls.alert.AlertUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.layouts.SceneUtil;
-import webfx.fx.properties.Properties;
-import webfx.fx.spi.Toolkit;
-import webfx.util.Booleans;
-import webfx.util.collection.Collections;
-import webfx.util.function.Consumer;
+import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.util.Booleans;
+import webfx.platforms.core.util.collection.Collections;
+import webfx.platforms.core.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +120,7 @@ public final class DialogUtil {
             @Override
             public void closeDialog() {
                 if (!closed)
-                    Toolkit.get().scheduler().runInUiThread(() -> {
+                    FxKit.get().scheduler().runInUiThread(() -> {
                         // Sequence note: we call the hooks before removing the dialog from the UI because some hooks
                         // may be interested in the UI state before closing, like in ButtonSelector where it decides to
                         // restore the focus to the button if the last focus is inside the dialog
@@ -139,7 +139,7 @@ public final class DialogUtil {
 
             @Override
             public void showException(Throwable e) {
-                Toolkit.get().scheduler().runInUiThread(() -> AlertUtil.showExceptionAlert(e, parent.getScene().getWindow()));
+                FxKit.get().scheduler().runInUiThread(() -> AlertUtil.showExceptionAlert(e, parent.getScene().getWindow()));
             }
 
             @Override

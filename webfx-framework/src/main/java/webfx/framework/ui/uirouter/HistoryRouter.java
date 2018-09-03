@@ -1,10 +1,10 @@
 package webfx.framework.ui.uirouter;
 
-import webfx.platform.client.url.history.History;
-import webfx.platform.client.url.history.HistoryLocation;
+import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.client.url.history.HistoryLocation;
 import webfx.framework.router.Router;
-import webfx.platform.services.log.Logger;
-import webfx.util.async.Handler;
+import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.util.async.Handler;
 
 /**
  * @author Bruno Salmon

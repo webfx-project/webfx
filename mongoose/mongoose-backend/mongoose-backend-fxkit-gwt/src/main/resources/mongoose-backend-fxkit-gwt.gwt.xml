@@ -3,7 +3,7 @@
   <inherits name="mongooses-core"/>
   <inherits name="webfx-framework"/>
   <inherits name="webfx-fxkit-gwt"/>
-  <entry-point class="mongoose.activities.backend.application.web.WebBackendMongooseApplication"/>
+  <entry-point class="mongooses.web.activities.backend.MongooseBackendWebApplication"/>
   <source path="client"/>
   <source path="shared"/>
   <super-source path="super"/>

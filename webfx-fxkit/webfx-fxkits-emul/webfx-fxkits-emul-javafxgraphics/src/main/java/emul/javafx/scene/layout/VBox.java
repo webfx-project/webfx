@@ -6,7 +6,7 @@ import emul.javafx.geometry.HPos;
 import emul.javafx.geometry.Insets;
 import emul.javafx.geometry.VPos;
 import emul.javafx.scene.Node;
-import webfx.fx.properties.markers.*;
+import webfx.fxkits.core.properties.markers.HasFillWidthProperty;
 
 import java.util.List;
 

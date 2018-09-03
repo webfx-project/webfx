@@ -6,7 +6,7 @@ import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
 import webfx.framework.services.i18n.spi.I18nProvider;
-import webfx.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon

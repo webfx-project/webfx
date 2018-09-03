@@ -154,7 +154,7 @@ public class Clipboard {
     // Only allow Dragboard to extend from this
 /*
     Clipboard(TKClipboard peer) {
-        Toolkit.getToolkit().checkFxUserThread();
+        FxKit.getToolkit().checkFxUserThread();
         if (peer == null) {
             throw new NullPointerException();
         }
@@ -199,7 +199,7 @@ public class Clipboard {
 //    public abstract boolean setContent(DataFormat uti, Object content);
     public final boolean setContent(Map<DataFormat, Object> content) {
 /*
-        Toolkit.getToolkit().checkFxUserThread();
+        FxKit.getToolkit().checkFxUserThread();
         if (content == null) {
             contentPut = false;
             peer.putContent(new Pair[0]);
@@ -223,7 +223,7 @@ public class Clipboard {
      * @return The content associated with this type, or null if there is none
      */
     public final Object getContent(DataFormat dataFormat) {
-        //Toolkit.getToolkit().checkFxUserThread();
+        //FxKit.getToolkit().checkFxUserThread();
         return getContentImpl(dataFormat);
     }
 
@@ -239,7 +239,7 @@ public class Clipboard {
      * @return true if there is content on this clipboard for this type
      */
     public final boolean hasContent(DataFormat dataFormat) {
-        //Toolkit.getToolkit().checkFxUserThread();
+        //FxKit.getToolkit().checkFxUserThread();
         return false; // peer.hasContent(dataFormat);
     }
 
@@ -386,7 +386,7 @@ public class Clipboard {
     private static synchronized Clipboard getSystemClipboardImpl() {
         if (systemClipboard == null) {
             systemClipboard =
-                    new Clipboard(Toolkit.getToolkit().getSystemClipboard());
+                    new Clipboard(FxKit.getToolkit().getSystemClipboard());
         }
         return systemClipboard;
     }
@@ -396,7 +396,7 @@ public class Clipboard {
     private static synchronized Clipboard getLocalClipboardImpl() {
         if (localClipboard == null) {
             localClipboard =
-                    new Clipboard(Toolkit.getToolkit().createLocalClipboard());
+                    new Clipboard(FxKit.getToolkit().createLocalClipboard());
         }
         return localClipboard;
     }

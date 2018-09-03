@@ -1,9 +1,9 @@
 package webfx.framework.services.i18n.spi.impl;
 
 import webfx.framework.services.i18n.Dictionary;
-import webfx.platform.services.resource.ResourceService;
-import webfx.util.Strings;
-import webfx.util.async.Future;
+import webfx.platforms.core.services.resource.ResourceService;
+import webfx.platforms.core.util.Strings;
+import webfx.platforms.core.util.async.Future;
 
 import java.util.Set;
 

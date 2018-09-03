@@ -15,8 +15,8 @@ import webfx.framework.ui.graphic.border.BorderBuilder;
 import webfx.framework.ui.graphic.image.JsonImageViews;
 import webfx.framework.ui.graphic.paint.PaintBuilder;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.fx.properties.Properties;
-import webfx.util.function.Function;
+import webfx.fxkits.core.properties.Properties;
+import webfx.platforms.core.util.function.Function;
 
 /**
  * @author Bruno Salmon

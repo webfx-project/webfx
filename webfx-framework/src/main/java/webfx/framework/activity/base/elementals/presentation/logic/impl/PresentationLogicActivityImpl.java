@@ -1,6 +1,6 @@
 package webfx.framework.activity.base.elementals.presentation.logic.impl;
 
-import webfx.util.function.Factory;
+import webfx.platforms.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon

@@ -1,6 +1,6 @@
 package webfx.framework.operation;
 
-import webfx.util.async.AsyncFunction;
+import webfx.platforms.core.util.async.AsyncFunction;
 
 /**
  * @author Bruno Salmon

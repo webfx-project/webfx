@@ -3,6 +3,6 @@
     <inherits name="webfx-platforms-core-util"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="webfx/scheduler"/>
-    <source path="webfx/uischeduler"/>
+    <source path="webfx/platforms/core/services/scheduler"/>
+    <source path="webfx/platforms/core/services/uischeduler"/>
 </module>

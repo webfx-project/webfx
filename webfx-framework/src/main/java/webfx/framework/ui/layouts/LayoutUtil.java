@@ -9,10 +9,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import webfx.framework.ui.graphic.background.BackgroundUtil;
-import webfx.fx.properties.Properties;
-import webfx.fx.spi.Toolkit;
-import webfx.platform.services.uischeduler.spi.AnimationFramePass;
-import webfx.util.Numbers;
+import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.util.Numbers;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -35,7 +35,7 @@ public final class LayoutUtil {
         RowConstraints headerRowConstraints = new RowConstraints();
         // Making the gold pane invisible during a few animation frames because its height may not be stable on start
         goldPane.setVisible(false);
-        Toolkit.get().scheduler().scheduleInFutureAnimationFrame(5, () -> goldPane.setVisible(true), AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+        FxKit.get().scheduler().scheduleInFutureAnimationFrame(5, () -> goldPane.setVisible(true), AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
         headerRowConstraints.prefHeightProperty().bind(Properties.combine(goldPane.heightProperty(), child.heightProperty(),
                 (gpHeight, cHeight) -> {
                     if (percentageHeight != 0)
@@ -220,7 +220,7 @@ public final class LayoutUtil {
 
     public static ScrollPane createVerticalScrollPane(Region content) {
         ScrollPane scrollPane = createScrollPane(setMinMaxWidthToPref(content));
-        double verticalScrollbarExtraWidth = Toolkit.get().getVerticalScrollbarExtraWidth();
+        double verticalScrollbarExtraWidth = FxKit.get().getVerticalScrollbarExtraWidth();
         if (verticalScrollbarExtraWidth == 0)
             content.prefWidthProperty().bind(scrollPane.widthProperty());
         else

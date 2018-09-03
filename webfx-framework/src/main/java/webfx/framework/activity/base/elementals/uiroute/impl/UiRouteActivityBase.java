@@ -1,6 +1,6 @@
 package webfx.framework.activity.base.elementals.uiroute.impl;
 
-import webfx.util.Objects;
+import webfx.platforms.core.util.Objects;
 import webfx.framework.activity.base.elementals.activeproperty.impl.ActivePropertyActivityBase;
 import webfx.framework.activity.base.elementals.uiroute.UiRouteActivityContext;
 import webfx.framework.activity.base.elementals.uiroute.UiRouteActivityContextMixin;

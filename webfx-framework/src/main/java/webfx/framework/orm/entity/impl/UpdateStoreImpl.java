@@ -1,11 +1,11 @@
 package webfx.framework.orm.entity.impl;
 
-import webfx.platform.services.log.Logger;
-import webfx.platform.services.update.UpdateService;
-import webfx.util.Arrays;
-import webfx.util.Objects;
-import webfx.util.async.Batch;
-import webfx.util.async.Future;
+import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.update.UpdateService;
+import webfx.platforms.core.util.Arrays;
+import webfx.platforms.core.util.Objects;
+import webfx.platforms.core.util.async.Batch;
+import webfx.platforms.core.util.async.Future;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.domainmodel.DomainClass;
 import webfx.framework.orm.entity.Entity;
@@ -13,8 +13,8 @@ import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.framework.orm.entity.result.*;
-import webfx.platform.services.update.UpdateArgument;
-import webfx.platform.services.update.UpdateResult;
+import webfx.platforms.core.services.update.UpdateArgument;
+import webfx.platforms.core.services.update.UpdateResult;
 
 /**
  * @author Bruno Salmon

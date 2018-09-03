@@ -1,11 +1,11 @@
 package webfx.framework.router.impl;
 
-import webfx.platform.services.json.JsonObject;
+import webfx.platforms.core.services.json.JsonObject;
 import webfx.framework.router.Route;
 import webfx.framework.router.Router;
 import webfx.framework.router.RoutingContext;
-import webfx.platform.services.log.Logger;
-import webfx.util.async.Handler;
+import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.util.async.Handler;
 
 import java.util.ArrayList;
 import java.util.Iterator;

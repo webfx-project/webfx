@@ -1,11 +1,11 @@
 package webfx.framework.orm.domainmodel;
 
-import webfx.util.Booleans;
+import webfx.platforms.core.util.Booleans;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.parser.ExpressionParser;
 import webfx.framework.expression.terms.*;
-import webfx.fxdata.displaydata.HasLabel;
-import webfx.fxdata.displaydata.Label;
+import webfx.fxkits.extra.displaydata.HasLabel;
+import webfx.fxkits.extra.displaydata.Label;
 
 import java.util.Map;
 

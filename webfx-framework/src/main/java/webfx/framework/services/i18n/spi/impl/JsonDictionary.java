@@ -1,9 +1,9 @@
 package webfx.framework.services.i18n.spi.impl;
 
-import webfx.util.Strings;
+import webfx.platforms.core.util.Strings;
 import webfx.framework.services.i18n.Dictionary;
-import webfx.platform.services.json.Json;
-import webfx.platform.services.json.JsonObject;
+import webfx.platforms.core.services.json.Json;
+import webfx.platforms.core.services.json.JsonObject;
 
 /**
  * @author Bruno Salmon

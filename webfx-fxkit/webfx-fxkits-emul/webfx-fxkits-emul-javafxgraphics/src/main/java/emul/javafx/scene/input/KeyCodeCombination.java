@@ -1,6 +1,6 @@
 package emul.javafx.scene.input;
 
-import webfx.util.Strings;
+import webfx.platforms.core.util.Strings;
 
 /**
  * This class represents a key combination in which the main key is specified

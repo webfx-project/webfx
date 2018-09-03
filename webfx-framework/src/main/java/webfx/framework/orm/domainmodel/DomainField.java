@@ -1,12 +1,12 @@
 package webfx.framework.orm.domainmodel;
 
-import webfx.type.Type;
+import webfx.fxkits.extra.type.Type;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.terms.Equals;
 import webfx.framework.expression.terms.Parameter;
 import webfx.framework.expression.terms.Symbol;
-import webfx.fxdata.displaydata.HasLabel;
-import webfx.fxdata.displaydata.Label;
+import webfx.fxkits.extra.displaydata.HasLabel;
+import webfx.fxkits.extra.displaydata.Label;
 
 /**
  * @author Bruno Salmon

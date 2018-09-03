@@ -8,11 +8,11 @@ import webfx.framework.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.orm.entity.impl.DynamicEntity;
 import webfx.framework.orm.entity.impl.EntityStoreImpl;
 import webfx.framework.orm.mapping.QueryResultToEntityListGenerator;
-import webfx.platform.services.query.QueryArgument;
-import webfx.platform.services.query.QueryService;
-import webfx.util.Arrays;
-import webfx.util.async.Batch;
-import webfx.util.async.Future;
+import webfx.platforms.core.services.query.QueryArgument;
+import webfx.platforms.core.services.query.QueryService;
+import webfx.platforms.core.util.Arrays;
+import webfx.platforms.core.util.async.Batch;
+import webfx.platforms.core.util.async.Future;
 
 /**
  * A store for entities that are transactionally coherent.

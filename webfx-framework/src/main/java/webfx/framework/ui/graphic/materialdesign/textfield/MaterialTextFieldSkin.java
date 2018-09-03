@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.util.collection.Collections;
+import webfx.platforms.core.util.collection.Collections;
 
 
 /**

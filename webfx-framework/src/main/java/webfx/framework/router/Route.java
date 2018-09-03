@@ -1,6 +1,6 @@
 package webfx.framework.router;
 
-import webfx.util.async.Handler;
+import webfx.platforms.core.util.async.Handler;
 
 /**
  * @author Bruno Salmon

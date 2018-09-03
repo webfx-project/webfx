@@ -5,8 +5,8 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import webfx.framework.ui.uisession.UiSession;
-import webfx.fx.properties.Properties;
-import webfx.util.Objects;
+import webfx.fxkits.core.properties.Properties;
+import webfx.platforms.core.util.Objects;
 
 
 /**

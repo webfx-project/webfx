@@ -4,7 +4,7 @@ import webfx.framework.activity.base.elementals.presentation.logic.PresentationL
 import webfx.framework.activity.base.elementals.presentation.logic.PresentationLogicActivityContext;
 import webfx.framework.activity.base.elementals.presentation.logic.PresentationLogicActivityContextMixin;
 import webfx.framework.activity.base.elementals.uiroute.impl.UiRouteActivityBase;
-import webfx.util.function.Factory;
+import webfx.platforms.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon

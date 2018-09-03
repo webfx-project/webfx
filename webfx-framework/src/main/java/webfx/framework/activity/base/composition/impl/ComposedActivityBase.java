@@ -2,9 +2,9 @@ package webfx.framework.activity.base.composition.impl;
 
 import webfx.framework.activity.*;
 import webfx.framework.activity.base.ActivityBase;
-import webfx.util.async.Future;
-import webfx.util.function.Callable;
-import webfx.util.function.Factory;
+import webfx.platforms.core.util.async.Future;
+import webfx.platforms.core.util.function.Callable;
+import webfx.platforms.core.util.function.Factory;
 import webfx.framework.activity.base.composition.ComposedActivity;
 import webfx.framework.activity.base.composition.ComposedActivityContext;
 import webfx.framework.activity.base.composition.ComposedActivityContextMixin;

@@ -2,7 +2,7 @@ package webfx.framework.orm.domainmodel;
 
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.terms.Symbol;
-import webfx.type.Type;
+import webfx.fxkits.extra.type.Type;
 
 /**
  * @author Bruno Salmon

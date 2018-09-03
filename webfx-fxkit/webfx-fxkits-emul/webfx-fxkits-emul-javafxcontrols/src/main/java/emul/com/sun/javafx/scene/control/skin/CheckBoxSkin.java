@@ -5,7 +5,7 @@ import emul.javafx.geometry.Insets;
 import emul.javafx.scene.control.CheckBox;
 import emul.javafx.scene.image.ImageView;
 import emul.javafx.scene.layout.StackPane;
-import webfx.fx.properties.Properties;
+import webfx.fxkits.core.properties.Properties;
 
 /**
  * Skin for tri state selection Control.

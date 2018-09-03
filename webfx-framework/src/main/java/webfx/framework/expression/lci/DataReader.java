@@ -1,6 +1,6 @@
 package webfx.framework.expression.lci;
 
-import webfx.type.PrimType;
+import webfx.fxkits.extra.type.PrimType;
 
 /**
  * Loose coupling interface used by expressions to read data (from domain objects and parameters).

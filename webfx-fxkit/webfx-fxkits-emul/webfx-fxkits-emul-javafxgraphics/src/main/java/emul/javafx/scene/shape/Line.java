@@ -4,10 +4,10 @@ import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.com.sun.javafx.geom.BaseBounds;
 import emul.com.sun.javafx.geom.transform.BaseTransform;
-import webfx.fx.properties.markers.HasEndXProperty;
-import webfx.fx.properties.markers.HasEndYProperty;
-import webfx.fx.properties.markers.HasStartXProperty;
-import webfx.fx.properties.markers.HasStartYProperty;
+import webfx.fxkits.core.properties.markers.HasEndXProperty;
+import webfx.fxkits.core.properties.markers.HasEndYProperty;
+import webfx.fxkits.core.properties.markers.HasStartXProperty;
+import webfx.fxkits.core.properties.markers.HasStartYProperty;
 
 /**
  * @author Bruno Salmon

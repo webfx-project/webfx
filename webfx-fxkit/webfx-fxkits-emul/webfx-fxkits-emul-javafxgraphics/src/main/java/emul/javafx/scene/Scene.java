@@ -24,20 +24,20 @@ import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.stage.Window;
 import emul.javafx.util.Duration;
-import webfx.fx.properties.ObservableLists;
-import webfx.fx.properties.Properties;
-import webfx.fx.properties.markers.HasHeightProperty;
-import webfx.fx.properties.markers.HasRootProperty;
-import webfx.fx.properties.markers.HasWidthProperty;
-import webfx.fx.scene.SceneRequester;
-import webfx.fx.spi.Toolkit;
-import webfx.fx.spi.peer.NodePeer;
-import webfx.fx.spi.peer.ScenePeer;
-import webfx.fx.spi.peer.StagePeer;
-import webfx.platform.services.scheduler.Scheduled;
-import webfx.platform.services.uischeduler.spi.AnimationFramePass;
-import webfx.platform.services.uischeduler.spi.UiSchedulerProvider;
-import webfx.util.collection.Collections;
+import webfx.fxkits.core.properties.ObservableLists;
+import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.properties.markers.HasHeightProperty;
+import webfx.fxkits.core.properties.markers.HasRootProperty;
+import webfx.fxkits.core.properties.markers.HasWidthProperty;
+import webfx.fxkits.core.scene.SceneRequester;
+import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.spi.peer.NodePeer;
+import webfx.fxkits.core.spi.peer.ScenePeer;
+import webfx.fxkits.core.spi.peer.StagePeer;
+import webfx.platforms.core.services.scheduler.Scheduled;
+import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider;
+import webfx.platforms.core.util.collection.Collections;
 
 import java.util.*;
 
@@ -541,7 +541,7 @@ public class Scene implements EventTarget,
 
 
     private final SceneRequester sceneRequester = new SceneRequester() {
-        private final UiSchedulerProvider uiSchedulerProvider = Toolkit.get().scheduler();
+        private final UiSchedulerProvider uiSchedulerProvider = FxKit.get().scheduler();
 
         @Override
         public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
@@ -668,7 +668,7 @@ public class Scene implements EventTarget,
 
     public void startPulse() {
         if (pulseScheduled == null)
-            pulseScheduled = Toolkit.get().scheduler().schedulePeriodicInAnimationFrame(scenePulseListener::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+            pulseScheduled = FxKit.get().scheduler().schedulePeriodicInAnimationFrame(scenePulseListener::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
     }
 
     public void stopPulse() {
@@ -703,7 +703,7 @@ public class Scene implements EventTarget,
     //@Deprecated
     public ScenePeer impl_getPeer() {
         if (impl_peer == null)
-            impl_peer = Toolkit.get().createScenePeer(this);
+            impl_peer = FxKit.get().createScenePeer(this);
         return impl_peer;
     }
 

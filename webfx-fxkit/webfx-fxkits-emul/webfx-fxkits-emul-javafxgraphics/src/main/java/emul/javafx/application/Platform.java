@@ -1,6 +1,6 @@
 package emul.javafx.application;
 
-import webfx.fx.spi.Toolkit;
+import webfx.fxkits.core.spi.FxKit;
 
 /**
  * Application platform support class.
@@ -54,7 +54,7 @@ public final class Platform {
      */
     public static void runLater(Runnable runnable) {
         //PlatformImpl.runLater(runnable);
-        Toolkit.get().scheduler().scheduleDeferred(runnable);
+        FxKit.get().scheduler().scheduleDeferred(runnable);
     }
 
     // NOTE: Add the following if we decide to expose it publicly
@@ -71,7 +71,7 @@ public final class Platform {
      */
     public static boolean isFxApplicationThread() {
         //return PlatformImpl.isFxApplicationThread();
-        return Toolkit.isUiThread();
+        return FxKit.isUiThread();
     }
 
     /**

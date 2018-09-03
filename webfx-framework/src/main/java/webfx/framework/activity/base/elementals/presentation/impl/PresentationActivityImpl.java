@@ -1,6 +1,6 @@
 package webfx.framework.activity.base.elementals.presentation.impl;
 
-import webfx.util.function.Factory;
+import webfx.platforms.core.util.function.Factory;
 import webfx.framework.activity.base.elementals.presentation.logic.impl.PresentationLogicActivityContextFinal;
 import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityContextFinal;
 import webfx.framework.activity.Activity;

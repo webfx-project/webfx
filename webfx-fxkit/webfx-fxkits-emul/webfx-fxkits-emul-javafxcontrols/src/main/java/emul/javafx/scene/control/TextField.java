@@ -9,8 +9,8 @@ import emul.javafx.scene.layout.Background;
 import emul.javafx.scene.layout.BackgroundFill;
 import emul.javafx.scene.text.TextAlignment;
 import emul.javafx.scene.paint.Color;
-import webfx.fx.properties.markers.HasAlignmentProperty;
-import webfx.fx.properties.markers.HasTextAlignmentProperty;
+import webfx.fxkits.core.properties.markers.HasAlignmentProperty;
+import webfx.fxkits.core.properties.markers.HasTextAlignmentProperty;
 
 /**
  * @author Bruno Salmon

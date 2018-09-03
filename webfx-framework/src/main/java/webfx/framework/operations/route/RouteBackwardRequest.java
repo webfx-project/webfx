@@ -1,8 +1,8 @@
 package webfx.framework.operations.route;
 
 import webfx.framework.operation.HasOperationCode;
-import webfx.platform.client.url.history.History;
-import webfx.util.async.AsyncFunction;
+import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.util.async.AsyncFunction;
 
 /**
  * @author Bruno Salmon

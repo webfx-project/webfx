@@ -1,9 +1,9 @@
 package webfx.framework.services.authz;
 
-import webfx.util.async.AsyncFunction;
-import webfx.util.async.Future;
-import webfx.util.function.Consumer;
-import webfx.util.function.Function;
+import webfx.platforms.core.util.async.AsyncFunction;
+import webfx.platforms.core.util.async.Future;
+import webfx.platforms.core.util.function.Consumer;
+import webfx.platforms.core.util.function.Function;
 
 /**
  * @author Bruno Salmon

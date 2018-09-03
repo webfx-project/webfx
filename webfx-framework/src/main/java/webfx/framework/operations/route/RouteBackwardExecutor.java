@@ -1,7 +1,7 @@
 package webfx.framework.operations.route;
 
-import webfx.platform.client.url.history.History;
-import webfx.util.async.Future;
+import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.util.async.Future;
 
 /**
  * @author Bruno Salmon

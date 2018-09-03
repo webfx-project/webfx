@@ -6,9 +6,9 @@ import webfx.framework.expression.terms.function.Call;
 import webfx.framework.orm.domainmodel.DomainClass;
 import webfx.framework.orm.domainmodel.DomainModel;
 import webfx.framework.orm.entity.lciimpl.EntityDataReader;
-import webfx.util.Booleans;
-import webfx.util.collection.Collections;
-import webfx.util.function.Predicate;
+import webfx.platforms.core.util.Booleans;
+import webfx.platforms.core.util.collection.Collections;
+import webfx.platforms.core.util.function.Predicate;
 
 import java.util.List;
 

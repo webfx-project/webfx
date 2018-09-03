@@ -3,6 +3,6 @@
  */
 module webfx.platforms.core.type {
 
-    exports webfx.type;
+    exports webfx.fxkits.extra.type;
 
 }

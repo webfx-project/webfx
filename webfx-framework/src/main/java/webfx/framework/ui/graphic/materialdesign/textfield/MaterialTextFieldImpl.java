@@ -19,8 +19,8 @@ import webfx.framework.ui.graphic.materialdesign.util.LayoutChildrenFunction;
 import webfx.framework.ui.graphic.materialdesign.util.MaterialAnimation;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.layouts.SceneUtil;
-import webfx.fx.properties.Unregisterable;
-import webfx.util.Strings;
+import webfx.fxkits.core.properties.Unregisterable;
+import webfx.platforms.core.util.Strings;
 
 /**
  * @author Bruno Salmon

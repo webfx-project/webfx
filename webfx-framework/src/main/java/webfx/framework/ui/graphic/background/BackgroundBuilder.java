@@ -2,7 +2,7 @@ package webfx.framework.ui.graphic.background;
 
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import webfx.util.collection.Collections;
+import webfx.platforms.core.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

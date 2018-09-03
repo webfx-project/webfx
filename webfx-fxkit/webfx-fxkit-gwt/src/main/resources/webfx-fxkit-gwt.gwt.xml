@@ -15,6 +15,6 @@
     <inherits name="webfx-fxkits-emul-javafxcontrols"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="webfx/fx/spi/gwt"/>               <!-- source path to webfx-fxkit-gwt -->
+    <source path="webfx/fxkit/gwt"/>               <!-- source path to webfx-fxkit-gwt -->
     <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
 </module>
