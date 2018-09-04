@@ -18,7 +18,6 @@
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxbase" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
-    <orderEntry type="module" module-name="webfx-platforms-core-type" />
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-core:1.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:base:1.0.0-RC1" level="project" />

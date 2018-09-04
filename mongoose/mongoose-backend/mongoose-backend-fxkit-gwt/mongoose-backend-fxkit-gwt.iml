@@ -27,7 +27,6 @@
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-noreflect" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
-    <orderEntry type="module" module-name="webfx-platforms-core-type" />
     <orderEntry type="module" module-name="webfx-fxkit-gwt" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxcontrols" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxgraphics" />

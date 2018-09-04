@@ -8,7 +8,6 @@
 
     <!-- Inherit the WebFx modules  -->
     <inherits name="webfx-platform-gwt"/> <!-- refers to webfx-platform-gwt.gwt.xml in webfx-platform-gwt -->
-    <inherits name="webfx-platforms-core-type"/>
 
     <inherits name="webfx-fxkits-emul-javafxbase"/>
     <inherits name="webfx-fxkits-emul-javafxgraphics"/>

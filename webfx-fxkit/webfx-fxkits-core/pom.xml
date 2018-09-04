@@ -20,12 +20,6 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-type</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platforms-core-scheduler</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

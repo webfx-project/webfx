@@ -134,7 +134,6 @@
         <module name="webfx-platforms-core-monolith" />
         <module name="webfx-platforms-core-noreflect" />
         <module name="webfx-platforms-core-scheduler" />
-        <module name="webfx-platforms-core-type" />
         <module name="webfx-platforms-core-util" />
         <module name="webfx-platforms-emul-javabase" />
         <module name="webfx-platforms-emul-javatime" />

@@ -14,7 +14,6 @@
 
     <modules>
         <module>webfx-platforms-core-util</module>
-        <module>webfx-platforms-core-type</module>
         <module>webfx-platforms-core-noreflect</module>
         <module>webfx-platforms-core-scheduler</module>
         <module>webfx-platforms-core-monolith</module>
