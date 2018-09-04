@@ -14,6 +14,7 @@
 
     <modules>
         <module>webfx-fxkits-core</module>
+        <module>webfx-fxkits-extra</module>
         <module>webfx-fxkits-emul</module>
         <module>webfx-fxkit-javafx</module>
         <module>webfx-fxkit-gwt</module>

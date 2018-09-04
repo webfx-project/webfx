@@ -2,7 +2,7 @@ package mongooses.core.actions;
 
 import javafx.scene.image.ImageView;
 import mongooses.core.entities.Option;
-import webfx.fxkits.core.util.ImageStore;
+import webfx.fxkits.extra.util.ImageStore;
 
 /**
  * @author Bruno Salmon

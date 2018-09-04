@@ -26,6 +26,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-fxkits-extra</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-lib-javacupruntime</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

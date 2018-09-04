@@ -1,0 +1,5 @@
+<module rename-to="webfx_fxkits_extra">
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/fxkits/extra"/>
+</module>

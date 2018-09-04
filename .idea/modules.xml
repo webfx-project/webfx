@@ -14,7 +14,7 @@
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" />
-      <module fileurl="file://$PROJECT_DIR$/webfx.iml" filepath="$PROJECT_DIR$/webfx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-root.iml" filepath="$PROJECT_DIR$/webfx-root.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-framework/webfx-framework.iml" filepath="$PROJECT_DIR$/webfx-framework/webfx-framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt/webfx-fxkit-gwt.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt/webfx-fxkit-gwt.iml" />
@@ -25,6 +25,7 @@
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxcontrols/webfx-fxkits-emul-javafxcontrols.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxcontrols/webfx-fxkits-emul-javafxcontrols.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxgraphics/webfx-fxkits-emul-javafxgraphics.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxgraphics/webfx-fxkits-emul-javafxgraphics.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-tool/webfx-fxkits-emul-tool.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-tool/webfx-fxkits-emul-tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-extra/webfx-fxkits-extra.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-extra/webfx-fxkits-extra.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation/webfx-lib-controlsfx-validation.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation/webfx-lib-controlsfx-validation.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-lib-flexboxfx/webfx-lib-flexboxfx.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-lib-flexboxfx/webfx-lib-flexboxfx.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-libs/webfx-lib-javacupruntime/webfx-lib-javacupruntime.iml" filepath="$PROJECT_DIR$/webfx-libs/webfx-lib-javacupruntime/webfx-lib-javacupruntime.iml" />

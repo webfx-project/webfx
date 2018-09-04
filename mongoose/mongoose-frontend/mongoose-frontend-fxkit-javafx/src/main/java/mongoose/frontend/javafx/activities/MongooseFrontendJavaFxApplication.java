@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 import mongooses.core.activities.frontend.MongooseFrontendApplication;
 import webfx.fxkit.javafx.JavaFxFxKit;
 import webfx.fxkits.core.spi.FxKit;
-import webfx.fxkits.core.util.ImageStore;
+import webfx.fxkits.extra.util.ImageStore;
 
 /**
  * @author Bruno Salmon

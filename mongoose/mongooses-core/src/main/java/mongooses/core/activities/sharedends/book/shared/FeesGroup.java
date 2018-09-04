@@ -13,7 +13,7 @@ import mongooses.core.entities.Event;
 import mongooses.core.entities.Label;
 import mongooses.core.util.Labels;
 import webfx.framework.services.i18n.I18n;
-import webfx.fxkits.core.util.ImageStore;
+import webfx.fxkits.extra.util.ImageStore;
 import webfx.fxkits.extra.cell.collator.NodeCollatorRegistry;
 import webfx.fxkits.extra.cell.renderer.TextRenderer;
 import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;

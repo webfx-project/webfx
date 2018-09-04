@@ -21,7 +21,7 @@ import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import webfx.fxkits.core.properties.Properties;
 import webfx.fxkits.core.spi.FxKit;
-import webfx.fxkits.core.util.ImageStore;
+import webfx.fxkits.extra.util.ImageStore;
 import webfx.fxkits.extra.cell.rowstyle.RowAdapter;
 import webfx.fxkits.extra.cell.rowstyle.RowStyleUpdater;
 import webfx.fxkits.extra.control.DataGrid;

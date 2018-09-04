@@ -7,9 +7,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/../mongoose-core-web/target" />
-      <excludeFolder url="file://$MODULE_DIR$/../mongoose-logic-web/${project.build.directory}/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/../mongoose-logic-web/${project.build.directory}/test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -21,6 +18,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-noreflect" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt" scope="PROVIDED" />

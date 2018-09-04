@@ -22,7 +22,7 @@ import webfx.framework.ui.anim.Animations;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.properties.Properties;
 import webfx.fxkits.core.spi.FxKit;
-import webfx.fxkits.core.util.ImageStore;
+import webfx.fxkits.extra.util.ImageStore;
 
 /**
  * @author Bruno Salmon

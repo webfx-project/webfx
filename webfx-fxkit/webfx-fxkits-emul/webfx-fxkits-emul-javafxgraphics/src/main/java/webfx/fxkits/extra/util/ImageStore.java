@@ -1,4 +1,4 @@
-package webfx.fxkits.core.util;
+package webfx.fxkits.extra.util;
 
 import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;

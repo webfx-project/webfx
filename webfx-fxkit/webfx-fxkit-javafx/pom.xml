@@ -19,6 +19,12 @@
             <version>${webfx.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>webfx-fxkits-extra</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
         <!-- SVG support for JavaFx -->
         <dependency>
             <groupId>de.codecentric.centerdevice</groupId>

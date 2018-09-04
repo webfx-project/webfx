@@ -34,7 +34,7 @@ import webfx.framework.ui.graphic.border.BorderUtil;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.properties.Properties;
 import webfx.fxkits.core.spi.FxKit;
-import webfx.fxkits.core.util.ImageStore;
+import webfx.fxkits.extra.util.ImageStore;
 import webfx.platforms.core.util.collection.Collections;
 import org.controlsfx.control.decoration.Decoration;
 import org.controlsfx.control.decoration.GraphicDecoration;

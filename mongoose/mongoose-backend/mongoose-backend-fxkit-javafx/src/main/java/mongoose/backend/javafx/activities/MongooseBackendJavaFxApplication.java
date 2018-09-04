@@ -10,7 +10,7 @@ import mongooses.core.activities.sharedends.MongooseSharedEndsApplication;
 import webfx.framework.ui.uirouter.UiRouter;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkit.javafx.JavaFxFxKit;
-import webfx.fxkits.core.util.ImageStore;
+import webfx.fxkits.extra.util.ImageStore;
 
 
 /**

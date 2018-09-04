@@ -29,7 +29,7 @@ import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.graphic.controls.button.EntityButtonSelector;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.util.ImageStore;
+import webfx.fxkits.extra.util.ImageStore;
 import webfx.platforms.core.util.Booleans;
 import webfx.platforms.core.util.Objects;
 import webfx.platforms.core.util.collection.Collections;

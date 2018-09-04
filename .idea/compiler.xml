@@ -122,6 +122,7 @@
         <module name="webfx-fxkits-emul-javafxcontrols" />
         <module name="webfx-fxkits-emul-javafxgraphics" />
         <module name="webfx-fxkits-emul-tool" />
+        <module name="webfx-fxkits-extra" />
         <module name="webfx-lib-controlsfx-validation" />
         <module name="webfx-lib-flexboxfx" />
         <module name="webfx-lib-javacupruntime" />
@@ -167,6 +168,7 @@
       <module name="webfx-fxkits-emul-javafxcontrols" target="1.8" />
       <module name="webfx-fxkits-emul-javafxgraphics" target="1.8" />
       <module name="webfx-fxkits-emul-tool" target="1.8" />
+      <module name="webfx-fxkits-extra" target="1.8" />
       <module name="webfx-javafxportable" target="1.8" />
       <module name="webfx-javafxportable-fxlibs" target="1.8" />
       <module name="webfx-lib-controlsfx-validation" target="1.8" />

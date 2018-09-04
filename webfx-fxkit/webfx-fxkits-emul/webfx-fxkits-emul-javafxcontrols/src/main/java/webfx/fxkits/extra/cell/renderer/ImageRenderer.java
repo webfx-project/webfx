@@ -1,7 +1,7 @@
 package webfx.fxkits.extra.cell.renderer;
 
 import emul.javafx.scene.image.ImageView;
-import webfx.fxkits.core.util.ImageStore;
+import webfx.fxkits.extra.util.ImageStore;
 import webfx.platforms.core.util.Strings;
 
 /**
