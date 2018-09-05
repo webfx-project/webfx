@@ -7,13 +7,15 @@
     <inherits name="com.googlecode.gwt.charts.Charts" />
 
     <!-- Inherit the WebFx modules  -->
-    <inherits name="webfx-platform-gwt"/> <!-- refers to webfx-platform-gwt.gwt.xml in webfx-platform-gwt -->
+    <inherits name="webfx-platform-gwt"/>
+
+    <inherits name="webfx-fxkits-core"/>
 
     <inherits name="webfx-fxkits-emul-javafxbase"/>
     <inherits name="webfx-fxkits-emul-javafxgraphics"/>
     <inherits name="webfx-fxkits-emul-javafxcontrols"/>
 
-    <!-- Specify the paths for translatable code                    -->
-    <source path="webfx/fxkit/gwt"/>               <!-- source path to webfx-fxkit-gwt -->
-    <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/fxkit/gwt"/>
+    <super-source path="super"/>
 </module>

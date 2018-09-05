@@ -158,13 +158,13 @@ public final class HtmlScrollPanePeer
     }
 
     @Override
-    public void updateWidth(Double width) {
+    public void updateWidth(Number width) {
         super.updateWidth(width);
         hSyncUiFromModel();
     }
 
     @Override
-    public void updateHeight(Double height) {
+    public void updateHeight(Number height) {
         super.updateHeight(height);
         vSyncUiFromModel();
     }

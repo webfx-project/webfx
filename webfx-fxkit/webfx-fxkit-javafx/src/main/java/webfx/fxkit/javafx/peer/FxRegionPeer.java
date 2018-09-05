@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import webfx.fxkits.core.spi.peer.base.RegionPeerBase;
 import webfx.fxkits.core.spi.peer.base.RegionPeerMixin;
+import webfx.platforms.core.util.Numbers;
 
 import java.lang.reflect.Method;
 
@@ -32,15 +33,17 @@ abstract class FxRegionPeer
     }
 
     @Override
-    public void updateWidth(Double width) {
-        if (width != getFxNode().getWidth())
-            callRegionSetter("setWidth", width);
+    public void updateWidth(Number width) {
+        double w = Numbers.doubleValue(width);
+        if (w != getFxNode().getWidth())
+            callRegionSetter("setWidth", w);
     }
 
     @Override
-    public void updateHeight(Double height) {
-        if (height != getFxNode().getHeight())
-            callRegionSetter("setHeight", height);
+    public void updateHeight(Number height) {
+        double h = Numbers.doubleValue(height);
+        if (h != getFxNode().getHeight())
+            callRegionSetter("setHeight", h);
     }
 
     @Override

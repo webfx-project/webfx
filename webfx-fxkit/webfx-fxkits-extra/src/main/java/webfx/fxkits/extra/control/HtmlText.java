@@ -33,17 +33,17 @@ public class HtmlText extends Control {
         return (NodePeer) getProperties().get("nodePeer");
     }
 
-    private LayoutMeasurable getLayoutMeasurable() {
-        return (LayoutMeasurable) getPeer();
-    }
-
     @Override
     protected double computePrefWidth(double height) {
-        return getLayoutMeasurable().prefWidth(height);
+        return layoutMeasurable().prefWidth(height);
     }
 
     @Override
     protected double computePrefHeight(double width) {
-        return getLayoutMeasurable().prefHeight(width);
+        return layoutMeasurable().prefHeight(width);
+    }
+
+    private LayoutMeasurable layoutMeasurable() {
+        return (LayoutMeasurable) getPeer();
     }
 }

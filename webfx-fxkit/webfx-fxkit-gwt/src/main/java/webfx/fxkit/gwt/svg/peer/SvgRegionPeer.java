@@ -19,12 +19,12 @@ abstract class SvgRegionPeer
     }
 
     @Override
-    public void updateWidth(Double width) {
+    public void updateWidth(Number width) {
         setElementAttribute("width", width);
     }
 
     @Override
-    public void updateHeight(Double height) {
+    public void updateHeight(Number height) {
         setElementAttribute("height", height);
     }
 }

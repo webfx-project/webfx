@@ -13,14 +13,13 @@ public interface RegionPeerMixin
 
         extends NodePeerMixin<N, NB, NM> {
 
-    void updateWidth(Double width);
+    void updateWidth(Number width);
 
-    void updateHeight(Double height);
+    void updateHeight(Number height);
 
     void updateBackground(Background background);
 
     void updateBorder(Border border);
 
     void updatePadding(Insets padding);
-
 }

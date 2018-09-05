@@ -13,8 +13,7 @@ public abstract class ControlPeerBase
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
+        node.getProperties().put("skinProperty", node.skinProperty()); // used by Scene emulation
         super.bind(node, sceneRequester);
-        if (node.getSkin() == null)
-            node.getProperties().put("keepProperty", node.skinProperty());
     }
 }

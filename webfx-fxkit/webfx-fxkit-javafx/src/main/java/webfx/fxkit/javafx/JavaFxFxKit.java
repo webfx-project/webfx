@@ -6,7 +6,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.spi.peer.ScenePeer;
+import webfx.fxkits.core.spi.peer.StagePeer;
+import webfx.fxkits.core.spi.peer.WindowPeer;
 import webfx.platforms.core.util.function.Consumer;
 
 import java.util.ArrayList;
@@ -36,6 +40,21 @@ public class JavaFxFxKit extends FxKit {
                 System.exit(0);
             }).start();
         }
+    }
+
+    @Override
+    public StagePeer createStagePeer(Stage stage) {
+        return null;
+    }
+
+    @Override
+    public WindowPeer createWindowPeer(Window window) {
+        return null;
+    }
+
+    @Override
+    public ScenePeer createScenePeer(Scene scene) {
+        return null;
     }
 
     @Override
@@ -116,7 +135,7 @@ public class JavaFxFxKit extends FxKit {
     public static class FxApplication extends Application {
 
         @Override
-        public void start(Stage primaryStage) throws Exception {
+        public void start(Stage primaryStage) {
             onJavaFxPlatformReady();
         }
     }

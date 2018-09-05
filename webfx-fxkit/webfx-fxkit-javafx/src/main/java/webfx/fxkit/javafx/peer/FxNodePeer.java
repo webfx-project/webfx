@@ -13,6 +13,7 @@ import webfx.fxkits.core.scene.SceneRequester;
 import webfx.fxkits.core.spi.peer.base.NodePeerBase;
 import webfx.fxkits.core.spi.peer.base.NodePeerImpl;
 import webfx.fxkits.core.spi.peer.base.NodePeerMixin;
+import webfx.platforms.core.util.Numbers;
 
 import java.util.List;
 
@@ -92,13 +93,13 @@ public abstract class FxNodePeer
     }
 
     @Override
-    public void updateLayoutX(Double layoutX) {
-        fxNode.setLayoutX(layoutX);
+    public void updateLayoutX(Number layoutX) {
+        fxNode.setLayoutX(Numbers.doubleValue(layoutX));
     }
 
     @Override
-    public void updateLayoutY(Double layoutY) {
-        fxNode.setLayoutY(layoutY);
+    public void updateLayoutY(Number layoutY) {
+        fxNode.setLayoutY(Numbers.doubleValue(layoutY));
     }
 
     @Override

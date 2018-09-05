@@ -19,6 +19,14 @@
             <version>${webfx.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>webfx-fxkits-core</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>emul</classifier>
+        </dependency>
+
+
     </dependencies>
 
     <build>

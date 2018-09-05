@@ -23,7 +23,8 @@ public class TextFieldPeerBase
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
-                    || updateProperty(node.alignmentProperty(), changedProperty, mixin::updateAlignment)
+                || updateProperty(node.alignmentProperty(), changedProperty, mixin::updateAlignment)
                 ;
     }
+
 }

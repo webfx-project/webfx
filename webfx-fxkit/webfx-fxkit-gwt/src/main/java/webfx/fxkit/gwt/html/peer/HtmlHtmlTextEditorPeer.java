@@ -47,17 +47,17 @@ public class HtmlHtmlTextEditorPeer
     }
 
     @Override
-    public void updateWidth(Double width) {
+    public void updateWidth(Number width) {
         super.updateWidth(width);
         if (ckEditor != null && !recreateCKEditorIfRequired())
-            callCKEditorResize(ckEditor, width, getNode().getHeight());
+            callCKEditorResize(ckEditor, width.doubleValue(), getNode().getHeight());
     }
 
     @Override
-    public void updateHeight(Double height) {
+    public void updateHeight(Number height) {
         super.updateHeight(height);
         if (ckEditor != null && !recreateCKEditorIfRequired())
-            callCKEditorResize(ckEditor, getNode().getWidth(), height);
+            callCKEditorResize(ckEditor, getNode().getWidth(), height.doubleValue());
     }
 
     private boolean recreateCKEditorIfRequired() {

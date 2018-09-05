@@ -2,6 +2,7 @@ package webfx.fxkit.javafx.peer;
 
 import javafx.geometry.Insets;
 import javafx.scene.web.WebView;
+import webfx.platforms.core.util.Numbers;
 import webfx.platforms.core.util.Strings;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
@@ -55,14 +56,16 @@ public class FxHtmlTextPeer
     }
 
     @Override
-    public void updateWidth(Double width) {
-        executeScript("setDocumentWidth(" + documentWidth(width) + ");");
-        resizeWebView(width, getNode().getHeight());
+    public void updateWidth(Number width) {
+        double w = Numbers.doubleValue(width);
+        executeScript("setDocumentWidth(" + documentWidth(w) + ");");
+        resizeWebView(w, getNode().getHeight());
     }
 
     @Override
-    public void updateHeight(Double height) {
-        resizeWebView(getNode().getWidth(), height);
+    public void updateHeight(Number height) {
+        double h = Numbers.doubleValue(height);
+        resizeWebView(getNode().getWidth(), h);
     }
 
     protected void resizeWebView(double width, double height) {

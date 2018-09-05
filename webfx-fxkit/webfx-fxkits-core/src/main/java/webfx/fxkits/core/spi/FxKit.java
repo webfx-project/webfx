@@ -1,7 +1,12 @@
 package webfx.fxkits.core.spi;
 
+import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import webfx.fxkits.core.spi.peer.ScenePeer;
+import webfx.fxkits.core.spi.peer.StagePeer;
+import webfx.fxkits.core.spi.peer.WindowPeer;
 import webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider;
 import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 
@@ -29,18 +34,16 @@ public abstract class FxKit {
     public Stage getPrimaryStage() {
         if (primaryStage == null) {
             primaryStage = new Stage();
-            //primaryStage.impl_setPrimary(true); // Not accessible anymore in Java 9
+            primaryStage.impl_setPrimary(true);
         }
         return primaryStage;
     }
 
-/*
     public abstract StagePeer createStagePeer(Stage stage);
 
     public abstract WindowPeer createWindowPeer(Window window);
 
     public abstract ScenePeer createScenePeer(Scene scene);
-*/
 
     public boolean isReady() {
         return true;
@@ -67,14 +70,10 @@ public abstract class FxKit {
     public static synchronized FxKit get() {
         if (FXKIT == null) {
             //Platform.log("Getting FxKit");
-            register(ServiceLoaderHelper.loadService(FxKit.class));
+            FXKIT = ServiceLoaderHelper.loadService(FxKit.class);
             //Platform.log("FxKit ok");
         }
         return FXKIT;
-    }
-
-    public static synchronized void register(FxKit fxKit) {
-        FXKIT = fxKit;
     }
 
 }

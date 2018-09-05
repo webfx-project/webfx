@@ -33,6 +33,21 @@ public interface NodePeerMixin
     }
 
     @Override
+    default D getNode() {
+        return getNodePeerBase().getNode();
+    }
+
+    @Override
+    default void requestFocus() {
+        getNodePeerBase().requestFocus();
+    }
+
+    @Override
+    default boolean isTreeVisible() {
+        return getNodePeerBase().isTreeVisible();
+    }
+
+    @Override
     default boolean updateProperty(ObservableValue changedProperty) {
         return getNodePeerBase().updateProperty(changedProperty);
     }
@@ -54,11 +69,17 @@ public interface NodePeerMixin
 
     void updateEffect(Effect effect);
 
-    void updateLayoutX(Double layoutX);
+    /*default*/ void updateLayoutX(Number layoutX); /*{
+        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+    }*/
 
-    void updateLayoutY(Double layoutY);
+    /*default*/ void updateLayoutY(Number layoutY); /*{
+        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+    }*/
 
-    void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change);
+    /*default*/ void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change); /*{
+        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+    }*/
 
     void updateLocalToParentTransforms(List<Transform> localToParentTransforms);
 

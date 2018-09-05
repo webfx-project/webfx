@@ -193,6 +193,7 @@
       <module name="webfx-platforms-emul-javatime" target="1.8" />
       <module name="webfx-platforms-java" target="1.8" />
       <module name="webfx-platforms-web" target="1.8" />
+      <module name="webfx-root" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

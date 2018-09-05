@@ -162,6 +162,21 @@ public abstract class HtmlSvgNodePeer
     }
 
     @Override
+    public void updateLayoutX(Number layoutX) {
+        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+    }
+
+    @Override
+    public void updateLayoutY(Number layoutY) {
+        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+    }
+
+    @Override
+    public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
+        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+    }
+
+    @Override
     public boolean isTreeVisible() {
         if (container instanceof HTMLElement)
             return ((HTMLElement) container).offsetParent != null;
@@ -418,24 +433,24 @@ public abstract class HtmlSvgNodePeer
 
     /* Double attributes */
 
-    protected void setElementAttribute(String name, Double value, Double skipValue) {
+    protected void setElementAttribute(String name, Number value, Number skipValue) {
         if (skipValue != null && Objects.equals(value, skipValue))
             value = null;
         setElementAttribute(name, value);
     }
 
-    protected void setElementAttribute(String name, Double value) {
+    protected void setElementAttribute(String name, Number value) {
         if (container == element && isStyleAttribute(name))
             setElementStyleAttribute(name, value);
         else
             setElementAttribute(container, name, value);
     }
 
-    private void setElementAttribute(Element e, String name, Double value) {
+    private void setElementAttribute(Element e, String name, Number value) {
         if (value == null)
             e.removeAttribute(name);
         else
-            e.setAttribute(name, value);
+            e.setAttribute(name, value.doubleValue());
     }
 
     protected void setFontAttributes(Font font) {

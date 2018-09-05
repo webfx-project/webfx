@@ -1,8 +1,8 @@
 package webfx.fxkits.core.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
-import webfx.fxkits.core.scene.SceneRequester;
 import javafx.scene.control.ToggleButton;
+import webfx.fxkits.core.scene.SceneRequester;
 
 /**
  * @author Bruno Salmon

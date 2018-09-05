@@ -11,9 +11,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="webfx-fxkits-core-0.1.0-SNAPSHOT-emul" level="project" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxgraphics" />
+    <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxbase" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
+    <orderEntry type="module" module-name="webfx-fxkits-core" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
   </component>
 </module>

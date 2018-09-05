@@ -14,7 +14,6 @@
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" />
-      <module fileurl="file://$PROJECT_DIR$/webfx-root.iml" filepath="$PROJECT_DIR$/webfx-root.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-framework/webfx-framework.iml" filepath="$PROJECT_DIR$/webfx-framework/webfx-framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt/webfx-fxkit-gwt.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt/webfx-fxkit-gwt.iml" />
@@ -47,6 +46,7 @@
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-emul/webfx-platforms-emul-javatime/webfx-platforms-emul-javatime.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-emul/webfx-platforms-emul-javatime/webfx-platforms-emul-javatime.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-root.iml" filepath="$PROJECT_DIR$/webfx-root.iml" />
     </modules>
   </component>
 </project>

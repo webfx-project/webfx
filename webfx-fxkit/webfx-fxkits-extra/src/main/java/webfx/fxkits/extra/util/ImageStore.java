@@ -5,15 +5,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 /**
  * @author Bruno Salmon
  */
 public class ImageStore {
 
-    private final static Map<String, Image> imagesCache = new WeakHashMap<>();
+    private final static Map<String, Image> imagesCache = new /*Weak*/HashMap<>();
 
     public static ImageView createImageView(String iconPath) {
         double wh = 0;

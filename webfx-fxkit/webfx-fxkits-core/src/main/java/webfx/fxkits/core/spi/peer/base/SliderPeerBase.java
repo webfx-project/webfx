@@ -1,8 +1,8 @@
 package webfx.fxkits.core.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
-import webfx.fxkits.core.scene.SceneRequester;
 import javafx.scene.control.Slider;
+import webfx.fxkits.core.scene.SceneRequester;
 
 /**
  * @author Bruno Salmon
@@ -26,9 +26,9 @@ public class SliderPeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         N s = node;
         return super.updateProperty(changedProperty)
-                || updateProperty(s.minProperty(), changedProperty, p -> mixin.updateMin(p.doubleValue()))
-                || updateProperty(s.maxProperty(), changedProperty, p -> mixin.updateMax(p.doubleValue()))
-                || updateProperty(s.valueProperty(), changedProperty, p -> mixin.updateValue(p.doubleValue()))
+                || updateProperty(s.minProperty(), changedProperty, mixin::updateMin)
+                || updateProperty(s.maxProperty(), changedProperty, mixin::updateMax)
+                || updateProperty(s.valueProperty(), changedProperty, mixin::updateValue)
                 ;
     }
 }

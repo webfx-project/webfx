@@ -14,6 +14,13 @@
     <dependencies>
 
         <dependency>
+            <artifactId>webfx-fxkits-extra</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>emul</classifier>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-fxkits-emul-javafxbase</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

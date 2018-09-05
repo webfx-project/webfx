@@ -168,12 +168,12 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
-        public void updateWidth(Double width) {
+        public void updateWidth(Number width) {
             //getNode().container.setPrefWidth(width);
         }
 
         @Override
-        public void updateHeight(Double height) {
+        public void updateHeight(Number height) {
             //getNode().container.setPrefHeight(height);
         }
 
@@ -217,12 +217,12 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
-        public void updateLayoutX(Double layoutX) {
+        public void updateLayoutX(Number layoutX) {
             //getNode().container.setLayoutX(layoutX);
         }
 
         @Override
-        public void updateLayoutY(Double layoutY) {
+        public void updateLayoutY(Number layoutY) {
             //getNode().container.setLayoutY(layoutY);
         }
 

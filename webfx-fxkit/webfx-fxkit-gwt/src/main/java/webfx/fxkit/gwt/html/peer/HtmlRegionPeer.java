@@ -33,17 +33,18 @@ abstract class HtmlRegionPeer
     }
 
     @Override
-    public void updateWidth(Double width) {
-        if (width > 0) {
+    public void updateWidth(Number width) {
+        double w = width.doubleValue();
+        if (w > 0) {
             if (subtractCssPaddingBorderWhenUpdatingSize)
-                width = subtractCssPaddingBorderWidth(width);
+                w = subtractCssPaddingBorderWidth(w);
             else {
                 if (subtractNodePaddingWhenUpdatingSize)
-                    width = subtractNodePaddingWidth(width);
+                    w = subtractNodePaddingWidth(w);
                 if (subtractNodeBorderWhenUpdatingSize)
-                    width = subtractNodeBorderWidth(width);
+                    w = subtractNodeBorderWidth(w);
             }
-            getElement().style.width = CSSProperties.WidthUnionType.of(toPx(width));
+            getElement().style.width = CSSProperties.WidthUnionType.of(toPx(w));
             clearLayoutCache();
         }
     }
@@ -84,17 +85,18 @@ abstract class HtmlRegionPeer
     }
 
     @Override
-    public void updateHeight(Double height) {
-        if (height > 0) {
+    public void updateHeight(Number height) {
+        double h = height.doubleValue();
+        if (h > 0) {
             if (subtractCssPaddingBorderWhenUpdatingSize)
-                height = subtractCssPaddingBorderHeight(height);
+                h = subtractCssPaddingBorderHeight(h);
             else {
                 if (subtractNodePaddingWhenUpdatingSize)
-                    height = subtractNodePaddingHeight(height);
+                    h = subtractNodePaddingHeight(h);
                 if (subtractNodeBorderWhenUpdatingSize)
-                    height = subtractNodeBorderHeight(height);
+                    h = subtractNodeBorderHeight(h);
             }
-            getElement().style.height = CSSProperties.HeightUnionType.of(toPx(height));
+            getElement().style.height = CSSProperties.HeightUnionType.of(toPx(h));
             clearLayoutCache();
         }
     }

@@ -1,5 +1,6 @@
 package webfx.fxkits.core.spi.peer.base;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.Slider;
 
 /**
@@ -10,18 +11,16 @@ public interface SliderPeerMixin
 
         extends ControlPeerMixin<N, NB, NM> {
 
-    void updateMin(Double min);
+    void updateMin(Number min);
 
-    void updateMax(Double max);
+    void updateMax(Number max);
 
-    void updateValue(Double value);
+    void updateValue(Number value);
 
-/*
     default void updateNodeValue(Double value) {
-        Property<Double> valueProperty = getNodePeerBase().getNode().valueProperty();
+        DoubleProperty valueProperty = getNodePeerBase().getNode().valueProperty();
         if (!valueProperty.isBound())
             valueProperty.setValue(value);
     }
-*/
 
 }
