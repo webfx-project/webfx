@@ -19,7 +19,7 @@ final class TermsPresentationLogicActivity
     protected void startLogic(TermsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
-                .combine(pm.eventIdProperty(), e -> "{where: 'event=" + e + "'}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), id -> "{where: 'event=" + id + "'}")
                 .combine(I18n.languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
                 .displayResultInto(pm.termsLetterDisplayResultProperty())
                 .start();
