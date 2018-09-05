@@ -235,7 +235,15 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     }
 
     public <T> ReactiveExpressionFilter<E> combineIfNotNull(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return combine(property, value -> value == null ? null : toJsonFilterConverter.convert(value));
+        return combineIfNotNullOtherwise(property, toJsonFilterConverter, null);
+    }
+
+    public <T> ReactiveExpressionFilter<E> combineIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
+        return combineIfNotNullOtherwise(property, toJsonFilterConverter, "{where: 'false'}");
+    }
+
+    public <T> ReactiveExpressionFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter, String otherwiseStringFilter) {
+        return combine(property, value -> value == null ? otherwiseStringFilter : toJsonFilterConverter.convert(value));
     }
 
     public ReactiveExpressionFilter<E> combineIfNotEmpty(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
