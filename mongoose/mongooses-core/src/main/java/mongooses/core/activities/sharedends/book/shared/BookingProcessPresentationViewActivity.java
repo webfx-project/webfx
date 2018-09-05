@@ -8,11 +8,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import mongooses.core.activities.sharedends.generic.MongooseButtonFactoryMixin;
 import mongooses.core.activities.sharedends.generic.MongooseSectionFactoryMixin;
+import mongooses.core.aggregates.EventAggregate;
 import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
 import mongooses.core.entities.Event;
-import mongooses.core.aggregates.EventAggregate;
 import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import webfx.framework.ui.graphic.background.BackgroundUtil;
+import webfx.fxkits.core.properties.Properties;
+import webfx.platforms.core.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -41,18 +43,17 @@ public abstract class BookingProcessPresentationViewActivity<PM extends BookingP
 
     @Override
     protected Node styleUi(Node uiNode, PM pm) {
-        if (uiNode instanceof Region) {
-            EventAggregate.getOrCreate(pm.getEventId(), DomainModelSnapshotLoader.getDataSourceModel()).onEvent().setHandler(ar -> {
-                if (ar.succeeded()) {
-                    Event event = ar.result();
+        if (uiNode instanceof Region)
+            Properties.runNowAndOnPropertiesChange(() -> EventAggregate.getOrCreate(pm.getEventId(), DomainModelSnapshotLoader.getDataSourceModel()).onEvent().setHandler(ar -> {
+                Event event = ar.result();
+                if (event != null) {
                     String css = event.getStringFieldValue("cssClass");
-                    if (css.startsWith("linear-gradient")) {
+                    if (Strings.startsWith(css, "linear-gradient")) {
                         Background eventBackground = BackgroundUtil.newLinearGradientBackground(css);
                         ((Region) uiNode).setBackground(eventBackground);
                     }
                 }
-            });
-        }
+            }), pm.eventIdProperty());
         return uiNode;
     }
 }

@@ -10,8 +10,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import mongooses.core.activities.sharedends.generic.MongooseSectionFactoryMixin;
 import mongooses.core.activities.sharedends.generic.eventdependent.EventDependentViewDomainActivity;
+import mongooses.core.entities.Event;
 import webfx.framework.ui.graphic.background.BackgroundUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.fxkits.core.properties.Properties;
 import webfx.platforms.core.util.Strings;
 
 /**
@@ -52,13 +54,14 @@ public abstract class BookingProcessActivity
 
     protected Node styleUi(Node uiNode) {
         if (uiNode instanceof Region)
-            onEvent().setHandler(ar -> {
-                if (ar.succeeded()) {
-                    String css = ar.result().getStringFieldValue("cssClass");
+            Properties.runNowAndOnPropertiesChange(() -> onEvent().setHandler(ar -> {
+                Event event = ar.result();
+                if (event != null) {
+                    String css = event.getStringFieldValue("cssClass");
                     if (Strings.startsWith(css,"linear-gradient"))
                         ((Region) uiNode).setBackground(BackgroundUtil.newLinearGradientBackground(css));
                 }
-            });
+            }), eventIdProperty());
         return uiNode;
     }
 
