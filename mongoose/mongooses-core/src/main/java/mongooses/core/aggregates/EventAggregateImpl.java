@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-class EventAggregateImpl implements EventAggregate {
+final class EventAggregateImpl implements EventAggregate {
 
     private final static Map<Object, EventAggregate> aggregates = new HashMap<>();
 
@@ -93,7 +93,7 @@ class EventAggregateImpl implements EventAggregate {
 
     @Override
     public Future<Event> onEvent() {
-        if (getEvent() != null)
+        if (eventId == null || getEvent() != null)
             return Future.succeededFuture(event);
 /*
         if (eventOptionsFutureBroadcaster != null)
@@ -132,7 +132,7 @@ class EventAggregateImpl implements EventAggregate {
 
     @Override
     public Event getEvent() {
-        if (event == null) {
+        if (event == null && eventId != null) {
             event = store.getEntity("Event", eventId); // eventId may be from the wrong type (ex: String) because coming from the url
             if (event == null) // If not found, trying now with integer (should work for Java platforms)
                 event = store.getEntity("Event", Numbers.toInteger(eventId));
