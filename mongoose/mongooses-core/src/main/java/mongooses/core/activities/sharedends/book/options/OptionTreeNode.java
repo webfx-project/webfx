@@ -165,6 +165,7 @@ final class OptionTreeNode {
     }
 
     private void createTopLevelOptionButton() {
+        // Creating the button (actually a BorderPane) with the option name and icon
         topLevelOptionButton = createTopLevelOptionSection(false);
         topLevelOptionButton.setOnMouseClicked(e -> setOptionButtonSelected(!isOptionButtonSelected()));
         topLevelOptionButton.setCursor(Cursor.HAND);
@@ -174,10 +175,14 @@ final class OptionTreeNode {
         checkBoxView.imageProperty().bind(Properties.compute(optionButtonSelectedProperty, selected ->
                 ImageStore.getOrCreateImage(selected ? MongooseIcons.checkedIcon16Url : MongooseIcons.uncheckedIcon16Url)));
         ObservableList<Node> hBoxChildren = ((HBox) topLevelOptionButton.getTop()).getChildren();
+        // Adding the checkbox before the already present icon and text
         hBoxChildren.add(0, checkBoxView);
-        hBoxChildren.add(0, LayoutUtil.createHGrowable()); // To shift the button content and make it centered
+        // Making the button centered by surrounding the children with 2 HGrowables
+        hBoxChildren.add(0, LayoutUtil.createHGrowable()); // One in first position
+        hBoxChildren.add(LayoutUtil.createHGrowable()); // One in last position
+        // Setting min width to pref to avoid short button with ellipsis text (the flexbox will rearrange buttons instead)
         LayoutUtil.setMinWidthToPref(topLevelOptionButton);
-        LayoutUtil.setMaxSizeToInfinite(topLevelOptionButton);
+        //LayoutUtil.setMaxSizeToInfinite(topLevelOptionButton);
     }
 
     Node createOrUpdateTopLevelOptionSectionFromModel() {
