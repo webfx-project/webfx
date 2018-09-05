@@ -9,6 +9,6 @@ package java.util;
 public abstract class ServiceLoader<S> implements Iterable<S> {
 
     public static <S> ServiceLoader<S> load(Class<S> serviceClass) {
-        return new GwtFxKitServiceLoader().load(serviceClass);
+        return new GwtPlatformServiceLoader().load(serviceClass);
     }
 }
