@@ -1,4 +1,4 @@
-<module rename-to="mongoose_backend_html">
+<module rename-to="mongoose_backend_fxkit_gwt">
 
     <!-- Speeding up GWT compilation time in development mode -->
     <set-property name="user.agent" value="safari"/> <!-- to make only 1 permutation for testing with Chrome -->
