@@ -1,6 +1,7 @@
 <module rename-to="webfx_platforms_web">
 
     <inherits name="webfx-platforms-core-monolith"/>
+    <inherits name="webfx-platforms-core-monolith"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="webfx/platforms/web"/>

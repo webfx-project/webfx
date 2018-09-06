@@ -23,7 +23,6 @@
             <artifactId>webfx-lib-javacupruntime</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-            <scope>provided</scope>
         </dependency>
 
 

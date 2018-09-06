@@ -51,6 +51,13 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-lib-rxjava</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-fxkit-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

@@ -13,23 +13,24 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="webfx-framework" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" />
+    <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
+    <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />
-    <orderEntry type="module" module-name="webfx-lib-rxjava" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="module" module-name="webfx-platform-jre" scope="TEST" />
     <orderEntry type="module" module-name="webfx-platforms-java" scope="TEST" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
-    <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="TEST" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="library" scope="TEST" name="Maven: org.java-websocket:Java-WebSocket:1.3.7" level="project" />
   </component>
 </module>

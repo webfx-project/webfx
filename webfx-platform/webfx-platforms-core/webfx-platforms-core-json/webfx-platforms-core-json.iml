@@ -12,6 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
-    <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
   </component>
 </module>

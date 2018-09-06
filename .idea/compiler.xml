@@ -134,6 +134,7 @@
         <module name="webfx-platform-jre" />
         <module name="webfx-platform-vertx" />
         <module name="webfx-platforms-core-json" />
+        <module name="webfx-platforms-core-log" />
         <module name="webfx-platforms-core-monolith" />
         <module name="webfx-platforms-core-resource" />
         <module name="webfx-platforms-core-scheduler" />
@@ -191,6 +192,7 @@
       <module name="webfx-platforms-core" target="1.8" />
       <module name="webfx-platforms-core-bus" target="1.8" />
       <module name="webfx-platforms-core-json" target="1.8" />
+      <module name="webfx-platforms-core-log" target="1.8" />
       <module name="webfx-platforms-core-monolith" target="1.8" />
       <module name="webfx-platforms-core-noreflect" target="1.8" />
       <module name="webfx-platforms-core-push" target="1.8" />

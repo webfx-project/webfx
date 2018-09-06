@@ -32,13 +32,6 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-lib-rxjava</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-lib-mvvmfx-validation</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

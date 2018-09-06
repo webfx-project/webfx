@@ -32,17 +32,9 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-lib-javacupruntime</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-lib-rxjava</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Dependency used for drop down button decoration (only) -->

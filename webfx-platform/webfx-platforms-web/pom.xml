@@ -34,20 +34,6 @@
             </exclusions-->
         </dependency>
 
-        <!-- webfx-lib-javacupruntime that replaces java-cup-runtime library -->
-        <dependency>
-            <artifactId>webfx-lib-javacupruntime</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <!-- webfx-lib-rxjava that replaces rxjava library -->
-        <dependency>
-            <artifactId>webfx-lib-rxjava</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>
