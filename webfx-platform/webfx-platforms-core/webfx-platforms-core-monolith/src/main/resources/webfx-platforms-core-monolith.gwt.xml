@@ -1,6 +1,6 @@
 <module rename-to="webfx_platforms_core_monolith">
     <inherits name="webfx-platforms-core-scheduler"/>
-    <inherits name="webfx-platforms-core-noreflect"/>
+    <inherits name="webfx-platforms-core-util"/>
     <inherits name="webfx-lib-javacupruntime"/>
     <inherits name="webfx-fxkits-emul-javafxbase"/>
     <!-- Specify the paths for translatable code                    -->

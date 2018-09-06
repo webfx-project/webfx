@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.json;
 
-import webfx.platforms.core.noreflect.KeyObject;
+import webfx.platforms.core.util.noreflect.KeyObject;
 
 /**
  * @author Bruno Salmon

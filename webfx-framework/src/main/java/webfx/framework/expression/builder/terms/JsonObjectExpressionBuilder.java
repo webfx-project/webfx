@@ -1,6 +1,6 @@
 package webfx.framework.expression.builder.terms;
 
-import webfx.platforms.core.noreflect.IndexedArray;
+import webfx.platforms.core.util.noreflect.IndexedArray;
 import webfx.framework.expression.terms.JsonObjectExpression;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.json.WritableJsonObject;

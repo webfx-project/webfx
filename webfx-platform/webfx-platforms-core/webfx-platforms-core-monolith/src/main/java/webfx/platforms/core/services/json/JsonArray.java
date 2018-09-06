@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.json;
 
-import webfx.platforms.core.noreflect.IndexedArray;
+import webfx.platforms.core.util.noreflect.IndexedArray;
 
 /**
  * @author Bruno Salmon

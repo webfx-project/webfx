@@ -16,7 +16,6 @@
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-noreflect" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" scope="PROVIDED" />

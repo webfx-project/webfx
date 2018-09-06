@@ -1,4 +1,4 @@
-package webfx.platforms.core.noreflect;
+package webfx.platforms.core.util.noreflect;
 
 /**
  * @author Bruno Salmon

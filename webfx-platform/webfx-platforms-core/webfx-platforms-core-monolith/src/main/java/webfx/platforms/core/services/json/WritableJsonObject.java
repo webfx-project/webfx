@@ -1,8 +1,8 @@
 package webfx.platforms.core.services.json;
 
-import webfx.platforms.core.noreflect.IndexedArray;
-import webfx.platforms.core.noreflect.KeyObject;
-import webfx.platforms.core.noreflect.WritableKeyObject;
+import webfx.platforms.core.util.noreflect.IndexedArray;
+import webfx.platforms.core.util.noreflect.KeyObject;
+import webfx.platforms.core.util.noreflect.WritableKeyObject;
 
 /**
  * @author Bruno Salmon

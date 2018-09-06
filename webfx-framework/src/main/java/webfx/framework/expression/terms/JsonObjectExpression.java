@@ -1,7 +1,7 @@
 package webfx.framework.expression.terms;
 
-import webfx.platforms.core.noreflect.IndexedArray;
-import webfx.platforms.core.noreflect.KeyObject;
+import webfx.platforms.core.util.noreflect.IndexedArray;
+import webfx.platforms.core.util.noreflect.KeyObject;
 import webfx.fxkits.extra.type.Type;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.lci.DataReader;

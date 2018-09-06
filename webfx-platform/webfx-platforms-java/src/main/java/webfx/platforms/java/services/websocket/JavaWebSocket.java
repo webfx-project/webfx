@@ -17,15 +17,14 @@
  */
 package webfx.platforms.java.services.websocket;
 
-import webfx.platforms.core.services.websocket.WebSocket;
-import webfx.platforms.core.services.websocket.WebSocketListener;
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.json.WritableJsonObject;
-import webfx.platforms.core.services.log.Logger;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
+import webfx.platforms.core.services.json.Json;
+import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.websocket.WebSocket;
+import webfx.platforms.core.services.websocket.WebSocketListener;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -96,14 +95,8 @@ public final class JavaWebSocket implements WebSocket {
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-                if (listener != null) {
-                    // listener.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote)); // Doesn't compile in Maven since webfx-platforms-core-noreflect is a separate module for any strange reason
-                    WritableJsonObject jsonObject = Json.createObject();
-                    jsonObject.set("code", code);
-                    jsonObject.set("reason", reason);
-                    jsonObject.set("remote", remote);
-                    listener.onClose(jsonObject);
-                }
+                if (listener != null)
+                    listener.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote));
             }
         };
 

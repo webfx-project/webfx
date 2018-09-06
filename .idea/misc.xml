@@ -21,6 +21,7 @@
         <option value="$PROJECT_DIR$/mongoose/mongooses-test/pom.xml" />
         <option value="$PROJECT_DIR$/webfx-javafxportable/pom.xml" />
         <option value="$PROJECT_DIR$/webfx-javafxportable/webfx-javafxportable-fxlibs/pom.xml" />
+        <option value="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-noreflect/pom.xml" />
       </set>
     </option>
   </component>
