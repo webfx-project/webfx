@@ -15,6 +15,7 @@
 
     <modules>
         <module>mongooses-core</module>
+        <module>mongooses-loadtester-jp</module>
         <module>mongooses-java</module>
         <module>mongooses-web</module>
         <module>mongoose-backend</module>

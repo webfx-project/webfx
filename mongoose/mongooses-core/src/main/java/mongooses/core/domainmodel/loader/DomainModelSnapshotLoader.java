@@ -81,8 +81,10 @@ public class DomainModelSnapshotLoader {
             registerEntityFactory(Teacher.class, "Teacher", TeacherImpl::new);
             registerEntityFactory(SystemMetricsEntity.class, "Metrics", SystemMetricsEntityImpl::new);
             registerEntityFactory(MoneyTransfer.class, "MoneyTransfer", MoneyTransferImpl::new);
+            /* Commented to lighten the application as it is not used
             registerEntityFactory(LtTestSetEntity.class, "LtTestSet", LtTestSetEntityImpl::new);
             registerEntityFactory(LtTestEventEntity.class, "LtTestEvent", LtTestEventEntityImpl::new);
+            */
             // Loading the model from the resource snapshot
             Future<String> text = ResourceService.getText("mongooses/core/domainmodel/DomainModelSnapshot.json");
             String jsonString = text.result(); // LZString.decompressFromBase64(text.result());

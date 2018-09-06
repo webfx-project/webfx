@@ -1,0 +1,14 @@
+package mongooses.loadtester.activities.loadtester.drive.metrics.controller;
+
+import mongooses.loadtester.activities.loadtester.drive.metrics.model.SysBean;
+
+/**
+ * @author Jean-Pierre Alonso.
+ */
+public class SystemLookupMock extends SystemLookup {
+
+    @Override
+    public SysBean snapshot() {
+        return super.snapshot();
+    }
+}

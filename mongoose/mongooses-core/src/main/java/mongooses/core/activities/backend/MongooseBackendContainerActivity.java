@@ -24,7 +24,7 @@ final class MongooseBackendContainerActivity extends MongooseSharedEndsContainer
                 , newAction(() -> new RouteToBookingsRequest(getParameter("eventId"), getHistory()))
                 , newAction(() -> new RouteToLettersRequest(getParameter("eventId"), getHistory()))
                 , newAction(() -> new RouteToMonitorRequest(getHistory()))
-                , newAction(() -> new RouteToTesterRequest(getHistory()))
+                //, newAction(() -> new RouteToTesterRequest(getHistory())) // Not used at the moment
                 , newAction(() -> new RouteToOperationsRequest(getHistory()))
                 , newAction(() -> new RouteToAuthorizationsRequest(getHistory()))
                 , englishAction

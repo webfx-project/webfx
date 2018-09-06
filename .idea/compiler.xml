@@ -69,6 +69,7 @@
         <module name="mongoose-server-platform-vertx" />
         <module name="mongooses-core" />
         <module name="mongooses-java" />
+        <module name="mongooses-loadtester-jp" />
         <module name="mongooses-web" />
         <module name="naga-abstractplat-java" />
         <module name="naga-abstractplat-web" />
@@ -155,6 +156,7 @@
       <module name="mongoose-server-platform-vertx" target="1.8" />
       <module name="mongooses-core" target="1.8" />
       <module name="mongooses-java" target="1.8" />
+      <module name="mongooses-loadtester-jp" target="1.8" />
       <module name="mongooses-test" target="1.8" />
       <module name="mongooses-web" target="1.8" />
       <module name="webfx" target="1.8" />

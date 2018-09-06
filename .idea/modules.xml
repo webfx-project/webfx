@@ -13,6 +13,7 @@
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx/mongoose-server-platform-vertx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx/mongoose-server-platform-vertx.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-loadtester-jp/mongooses-loadtester-jp.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-loadtester-jp/mongooses-loadtester-jp.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-framework/webfx-framework.iml" filepath="$PROJECT_DIR$/webfx-framework/webfx-framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" />
