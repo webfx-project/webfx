@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.push.client.spi;
 
-import webfx.platforms.core.bus.Registration;
+import webfx.platforms.core.services.bus.Registration;
 
 /**
  * @author Bruno Salmon

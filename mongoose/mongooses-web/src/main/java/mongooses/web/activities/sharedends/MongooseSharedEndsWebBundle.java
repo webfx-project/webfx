@@ -15,7 +15,7 @@ public interface MongooseSharedEndsWebBundle extends ClientBundle {
     @Source("mongooses/core/domainmodel/DomainModelSnapshot.json")
     TextResource domainModelSnapshotJson();
 
-    @Source("webfx/platforms/core/client/bus/conf/BusOptions.json")
+    @Source("webfx/platforms/core/services/bus/client/conf/BusOptions.json")
     TextResource clientBusOptionsJson();
 
     @Source("mongooses/core/dictionaries/en.json")
@@ -39,7 +39,7 @@ public interface MongooseSharedEndsWebBundle extends ClientBundle {
     GwtBundle B = resourcePath -> {
         switch (resourcePath) {
             case "mongooses/core/domainmodel/DomainModelSnapshot.json": return R.domainModelSnapshotJson();
-            case "webfx/platforms/core/client/bus/conf/BusOptions.json": return R.clientBusOptionsJson();
+            case "webfx/platforms/core/services/bus/client/conf/BusOptions.json": return R.clientBusOptionsJson();
             case "mongooses/core/dictionaries/en.json": return R.englishDictionaryJson();
             case "mongooses/core/dictionaries/fr.json": return R.frenchDictionaryJson();
             case "images/svg/mono/certificate.svg": return R.certificateMonoSvg();

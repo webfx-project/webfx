@@ -1,12 +1,12 @@
 package webfx.platforms.core.services.push.server.spi.impl;
 
-import webfx.platforms.core.bus.Bus;
-import webfx.platforms.core.bus.call.BusCallService;
+import webfx.platforms.core.services.bus.Bus;
+import webfx.platforms.core.services.bus.call.BusCallService;
+import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.ClientPushBusAddressesSharedByBothClientAndServer;
 import webfx.platforms.core.services.push.server.PushClientDisconnectListener;
 import webfx.platforms.core.services.push.server.spi.PushServerServiceProvider;
-import webfx.platforms.core.spi.Platform;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.scheduler.Scheduler;
 import webfx.platforms.core.util.async.AsyncResult;
@@ -101,7 +101,7 @@ public class PushServerServiceProviderImpl implements PushServerServiceProvider 
 
         void rescheduleNextPing() {
             cancelNextPing();
-            pingScheduled = Scheduler.scheduleDelay(PING_PUSH_PERIOD_MS, () -> pingPushClient(Platform.bus(), pushClientId));
+            pingScheduled = Scheduler.scheduleDelay(PING_PUSH_PERIOD_MS, () -> pingPushClient(BusService.bus(), pushClientId));
         }
 
         void cancelNextPing() {

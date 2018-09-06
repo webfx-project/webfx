@@ -2,8 +2,8 @@ package webfx.platforms.core.services.push.client;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import webfx.platforms.core.bus.Registration;
-import webfx.platforms.core.bus.call.BusCallService;
+import webfx.platforms.core.services.bus.Registration;
+import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.client.spi.impl.PushClientServiceProviderImpl;
 import webfx.platforms.core.services.push.client.spi.PushClientServiceProvider;

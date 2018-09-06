@@ -1,11 +1,11 @@
 package webfx.platforms.core.services.query.push;
 
-import webfx.platforms.core.bus.Registration;
+import webfx.platforms.core.services.bus.Registration;
+import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.push.client.PushClientService;
 import webfx.platforms.core.services.push.server.PushServerService;
 import webfx.platforms.core.services.query.push.spi.QueryPushServiceProvider;
 import webfx.platforms.core.services.query.push.spi.remote.RemoteQueryPushServiceProviderImpl;
-import webfx.platforms.core.spi.Platform;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.function.Consumer;
 import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
@@ -49,7 +49,7 @@ public class QueryPushService {
 
     // Server side (sending a query push result to a specific client)
     public static <T> Future<T> pushQueryResultToClient(QueryPushResult queryPushResult, Object pushClientId) {
-        return PushServerService.callClientService(QUERY_PUSH_RESULT_LISTENER_CLIENT_SERVICE_ADDRESS, queryPushResult, Platform.bus(), pushClientId);
+        return PushServerService.callClientService(QUERY_PUSH_RESULT_LISTENER_CLIENT_SERVICE_ADDRESS, queryPushResult, BusService.bus(), pushClientId);
     }
 
 }

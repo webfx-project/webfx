@@ -17,10 +17,6 @@
  */
 package webfx.platforms.core.spi;
 
-import webfx.platforms.core.bus.Bus;
-import webfx.platforms.core.bus.BusFactory;
-import webfx.platforms.core.bus.BusOptions;
-import webfx.platforms.core.bus.call.ThreadLocalBusContext;
 import webfx.platforms.core.client.url.history.History;
 import webfx.platforms.core.client.url.history.memory.MemoryHistory;
 import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
@@ -34,14 +30,6 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/PlatformFactory.java">Original Goodow class</a>
  */
 public abstract class Platform {
-
-    public abstract BusFactory busFactory();
-
-    public BusOptions createBusOptions() { return new BusOptions();}
-
-    public void setPlatformBusOptions(BusOptions options) {
-        options.turnUnsetPropertiesToDefault();
-    }
 
     protected History history;
     public History getBrowserHistory() {
@@ -64,40 +52,4 @@ public abstract class Platform {
         return PLATFORM;
     }
 
-    // BusFactory methods
-
-    private static Bus BUS;
-    private static BusOptions busOptions;
-
-    public static Bus bus() {
-        Bus bus = ThreadLocalBusContext.getThreadLocalBus();
-        if (bus != null)
-            return bus;
-        if (BUS == null)
-            BUS = createBus();
-        return BUS;
-    }
-
-    public static BusOptions getBusOptions() {
-        return busOptions;
-    }
-
-    public static void setBusOptions(BusOptions busOptions) {
-        Platform.busOptions = busOptions;
-    }
-
-    public static Bus createBus() {
-        if (busOptions == null)
-            busOptions = get().createBusOptions();
-        return createBus(busOptions);
-    }
-
-    public static Bus createBus(BusOptions options) {
-        Platform platform = get();
-        platform.setPlatformBusOptions(options);
-        Bus bus = platform.busFactory().createBus(options);
-        if (BUS == null)
-            BUS = bus;
-        return bus;
-    }
 }

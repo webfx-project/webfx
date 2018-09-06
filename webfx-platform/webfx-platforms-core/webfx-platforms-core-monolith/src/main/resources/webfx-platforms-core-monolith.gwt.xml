@@ -3,5 +3,5 @@
     <inherits name="webfx-platforms-core-websocket"/>
     <!-- Specify the paths for translatable code -->
     <source path="webfx/platforms/core"/>
-    <resource path="webfx/platforms/core/client/bus/conf"/>
+    <resource path="webfx/platforms/core/services/bus/client/conf"/>
 </module>

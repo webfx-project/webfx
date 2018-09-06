@@ -4,11 +4,12 @@ import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
+import webfx.platform.vertx.services.bus.VertxBusServiceProvider;
 import webfx.platform.vertx.services.json.VertxJsonObject;
 import webfx.platform.vertx.services.query.VertxQueryServiceProviderImpl;
 import webfx.platform.vertx.services.scheduler.VertxSchedulerProviderImpl;
 import webfx.platform.vertx.services.update.VertxUpdateServiceProviderImpl;
-import webfx.platforms.core.bus.BusFactory;
+import webfx.platforms.core.services.bus.spi.BusServiceProvider;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.query.QueryService;
 import webfx.platforms.core.services.query.push.QueryPushService;
@@ -18,8 +19,8 @@ import webfx.platforms.core.services.update.UpdateService;
 import webfx.platforms.core.spi.Platform;
 import webfx.platforms.core.spi.server.ServerModule;
 import webfx.platforms.core.spi.server.ServerPlatform;
+import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 import webfx.platforms.java.JavaPlatform;
-import webfx.platform.vertx.bus.VertxBusFactory;
 
 /**
  * @author Bruno Salmon
@@ -30,22 +31,16 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
         Platform.register(new VertxPlatform(vertx));
         Scheduler.registerProvider(new VertxSchedulerProviderImpl(vertx));
         Json.registerProvider(new VertxJsonObject());
+        ServiceLoaderHelper.cacheServiceInstance(BusServiceProvider.class, new VertxBusServiceProvider(vertx));
         QueryService.registerProvider(new VertxQueryServiceProviderImpl(vertx));
         UpdateService.registerProvider(new VertxUpdateServiceProviderImpl(vertx));
         QueryPushService.registerProvider(new InMemoryQueryPushServiceProviderImpl());
     }
 
-    private final BusFactory vertxBusFactory;
     private final Vertx vertx;
 
     private VertxPlatform(Vertx vertx) {
-        vertxBusFactory = new VertxBusFactory(vertx.eventBus());
         this.vertx = vertx;
-    }
-
-    @Override
-    public BusFactory busFactory() {
-        return vertxBusFactory;
     }
 
     @Override

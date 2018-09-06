@@ -1,13 +1,7 @@
 package webfx.platforms.web;
 
-import webfx.platforms.core.bus.BusFactory;
-import webfx.platforms.core.bus.BusOptions;
-import webfx.platforms.core.client.bus.ReconnectBus;
-import webfx.platforms.core.client.bus.WebSocketBusOptions;
 import webfx.platforms.core.client.url.history.History;
 import webfx.platforms.core.client.url.location.WindowLocation;
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.resource.ResourceService;
 import webfx.platforms.core.spi.Platform;
 import webfx.platforms.core.spi.client.ClientPlatform;
 
@@ -23,6 +17,7 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         this.windowLocation = windowLocation;
         this.browserHistory = new BrowserHistory(windowHistory);
     }
+/*
 
     @Override
     public BusFactory busFactory() { // busFactory() ClientPlatform default method doesn't work to implement Platform one
@@ -34,6 +29,7 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         return new WebSocketBusOptions(); // So repeating it again...
     }
 
+*/
     @Override
     public WindowLocation getCurrentLocation() {
         return windowLocation;
@@ -43,6 +39,8 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
     public History getBrowserHistory() {
         return browserHistory;
     }
+
+/*
 
     @Override
     public void setPlatformBusOptions(BusOptions options) {
@@ -65,8 +63,9 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         if (socketBusOptions.isServerSSL() == null)
             socketBusOptions.setServerSSL("https".equals(windowLocation.getProtocol()));
         super.setPlatformBusOptions(options);
-        String json = ResourceService.getText("webfx/platforms/core/client/bus/conf/BusOptions.json").result();
+        String json = ResourceService.getText("webfx/platforms/core/services/bus/client/conf/BusOptions.json").result();
         if (json != null)
             options.applyJson(Json.parseObject(json));
     }
+*/
 }

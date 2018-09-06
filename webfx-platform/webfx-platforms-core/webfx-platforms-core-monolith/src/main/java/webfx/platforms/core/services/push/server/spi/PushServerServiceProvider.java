@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.push.server.spi;
 
-import webfx.platforms.core.bus.Bus;
+import webfx.platforms.core.services.bus.Bus;
 import webfx.platforms.core.services.push.server.PushClientDisconnectListener;
 import webfx.platforms.core.services.push.ClientPushBusAddressesSharedByBothClientAndServer;
 import webfx.platforms.core.util.async.Future;

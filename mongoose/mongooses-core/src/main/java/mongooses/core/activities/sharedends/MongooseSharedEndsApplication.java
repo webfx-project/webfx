@@ -34,9 +34,9 @@ import webfx.framework.ui.action.Action;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.framework.ui.uirouter.UiRouter;
 import webfx.fxkits.core.properties.Properties;
-import webfx.platforms.core.bus.call.PendingBusCall;
+import webfx.platforms.core.services.bus.call.PendingBusCall;
+import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.spi.Platform;
 import webfx.platforms.core.util.function.Consumer;
 import webfx.platforms.core.util.function.Factory;
 import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
@@ -113,8 +113,8 @@ public abstract class MongooseSharedEndsApplication
     }
 
     static {
-        // Instantiating the platform bus as soon as possible to open the connection while the application is initializing
-        Platform.bus();
+        // Instantiating the bus as soon as possible to open the connection while the application is initializing
+        BusService.bus();
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProviderImpl::new);
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProviderImpl::new);

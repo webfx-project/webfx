@@ -4,6 +4,7 @@
 
 package java.util;
 
+import webfx.platforms.core.services.bus.spi.BusServiceProvider;
 import webfx.platforms.core.services.json.spi.JsonProvider;
 import webfx.platforms.core.services.shutdown.spi.ShutdownProvider;
 import webfx.platforms.core.services.storage.spi.LocalStorageProvider;
@@ -24,11 +25,13 @@ import webfx.platforms.core.util.numbers.providers.StandardNumbersProviderImpl;
 import webfx.platforms.core.util.numbers.spi.NumbersProvider;
 import webfx.platforms.core.spi.Platform;
 import webfx.platform.gwt.GwtPlatform;
+import webfx.platforms.web.services.bus.WebClientBusServiceProvider;
 
 class GwtPlatformServiceLoader extends GwtServiceLoader {
 
     static {
         registerService(Platform.class, GwtPlatform::new);
+        registerService(BusServiceProvider.class, WebClientBusServiceProvider::new);
         registerService(SchedulerProvider.class, GwtSchedulerProviderImpl::new);
         registerService(JsonProvider.class, GwtJsonObject::create);
         registerService(ResourceServiceProvider.class, GwtResourceServiceProviderImpl::new);

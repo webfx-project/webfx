@@ -15,7 +15,7 @@ import mongooses.loadtester.entities.LtTestSet;
 import mongooses.loadtester.entities.LtTestSetEntity;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.UpdateStore;
-import webfx.platforms.core.bus.call.BusCallService;
+import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.log.Logger;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.scheduler.Scheduler;

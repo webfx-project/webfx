@@ -3,12 +3,12 @@ package mongooses.loadtester.activities.loadtester.drive.connection;
 import mongooses.loadtester.activities.loadtester.drive.command.Command;
 import mongooses.loadtester.activities.loadtester.drive.listener.ConnectionEvent;
 import mongooses.loadtester.activities.loadtester.drive.listener.EventType;
-import webfx.platforms.core.bus.call.BusCallService;
-import webfx.platforms.core.client.bus.WebSocketBus;
+import webfx.platforms.core.services.bus.call.BusCallService;
+import webfx.platforms.core.services.bus.client.WebSocketBus;
+import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.websocket.WebSocketListener;
 import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.spi.Platform;
 
 /**
  * @author Jean-Pierre Alonso.
@@ -22,7 +22,7 @@ public class WebSocketBusConnection extends ConnectionBase {
         ConnectionEvent event;
         switch (t) {
             case OPEN:
-                bus = (WebSocketBus)Platform.createBus();
+                bus = (WebSocketBus) BusService.createBus();
                 bus.setWebSocketListener(createWebSocketListener());
                 event = new ConnectionEvent(EventType.CONNECTING);
                 long t0 = System.currentTimeMillis();

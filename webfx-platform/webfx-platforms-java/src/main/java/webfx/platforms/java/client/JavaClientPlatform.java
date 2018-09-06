@@ -17,14 +17,10 @@
  */
 package webfx.platforms.java.client;
 
-import webfx.platforms.core.bus.BusFactory;
-import webfx.platforms.core.bus.BusOptions;
-import webfx.platforms.core.client.bus.ReconnectBus;
-import webfx.platforms.core.client.bus.WebSocketBusOptions;
 import webfx.platforms.core.client.url.location.WindowLocation;
 import webfx.platforms.core.client.url.location.impl.WindowLocationImpl;
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.resource.ResourceService;
+import webfx.platforms.core.services.bus.client.WebSocketBusOptions;
+import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.spi.client.ClientPlatform;
 import webfx.platforms.java.JavaPlatform;
 
@@ -35,6 +31,7 @@ import webfx.platforms.java.JavaPlatform;
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
 public abstract class JavaClientPlatform extends JavaPlatform implements ClientPlatform {
+/*
 
     @Override
     public BusFactory busFactory() { // ClientPlatform default method doesn't work while extending JavaPlatform
@@ -48,14 +45,15 @@ public abstract class JavaClientPlatform extends JavaPlatform implements ClientP
 
     public void setPlatformBusOptions(BusOptions options) {
         super.setPlatformBusOptions(options);
-        String json = ResourceService.getText("webfx/platforms/core/client/bus/conf/BusOptions.json").result();
+        String json = ResourceService.getText("webfx/platforms/core/services/bus/client/conf/BusOptions.json").result();
         if (json != null)
             options.applyJson(Json.parseObject(json));
     }
 
+*/
     @Override
     public WindowLocation getCurrentLocation() {
-        WebSocketBusOptions busOptions = (WebSocketBusOptions) getBusOptions();
+        WebSocketBusOptions busOptions = (WebSocketBusOptions) BusService.getBusOptions();
         return new WindowLocationImpl(busOptions.isServerSSL() ? "https" : "http", busOptions.getServerHost(), null, getBrowserHistory().getCurrentLocation());
     }
 }

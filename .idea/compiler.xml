@@ -189,9 +189,11 @@
       <module name="webfx-platform-jre" target="1.8" />
       <module name="webfx-platform-vertx" target="1.8" />
       <module name="webfx-platforms-core" target="1.8" />
+      <module name="webfx-platforms-core-bus" target="1.8" />
       <module name="webfx-platforms-core-json" target="1.8" />
       <module name="webfx-platforms-core-monolith" target="1.8" />
       <module name="webfx-platforms-core-noreflect" target="1.8" />
+      <module name="webfx-platforms-core-push" target="1.8" />
       <module name="webfx-platforms-core-resource" target="1.8" />
       <module name="webfx-platforms-core-scheduler" target="1.8" />
       <module name="webfx-platforms-core-shutdown" target="1.8" />

@@ -1,21 +1,21 @@
 package mongooses.core.activities.sharedends.generic.session;
 
 import javafx.beans.property.Property;
-import mongooses.core.services.authn.MongooseUserPrincipal;
 import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
+import mongooses.core.services.authn.MongooseUserPrincipal;
 import webfx.framework.orm.entity.Entities;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.fxkits.core.spi.FxKit;
-import webfx.platforms.core.bus.Bus;
-import webfx.platforms.core.bus.BusHook;
-import webfx.platforms.core.bus.Registration;
+import webfx.platforms.core.services.bus.Bus;
+import webfx.platforms.core.services.bus.BusHook;
+import webfx.platforms.core.services.bus.Registration;
+import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.client.PushClientService;
 import webfx.platforms.core.services.shutdown.Shutdown;
 import webfx.platforms.core.services.storage.LocalStorage;
-import webfx.platforms.core.spi.Platform;
 
 import java.time.Instant;
 
@@ -43,7 +43,7 @@ public class ClientSessionRecorder {
     private Registration pushClientRegistration;
 
     private ClientSessionRecorder() {
-        this(Platform.bus());
+        this(BusService.bus());
     }
 
     private ClientSessionRecorder(Bus bus) {

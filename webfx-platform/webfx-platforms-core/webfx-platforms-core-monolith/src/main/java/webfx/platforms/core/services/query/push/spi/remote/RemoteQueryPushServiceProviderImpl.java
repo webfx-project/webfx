@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.query.push.spi.remote;
 
-import webfx.platforms.core.bus.call.BusCallServerModule;
-import webfx.platforms.core.bus.call.BusCallService;
+import webfx.platforms.core.services.bus.call.BusCallServerModule;
+import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.datasource.ConnectionDetails;
 import webfx.platforms.core.services.datasource.LocalDataSourceRegistry;
 import webfx.platforms.core.services.log.Logger;

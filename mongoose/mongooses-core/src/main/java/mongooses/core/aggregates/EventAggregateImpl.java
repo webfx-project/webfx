@@ -10,11 +10,11 @@ import mongooses.core.entities.Option;
 import mongooses.core.entities.Rate;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.*;
-import webfx.platforms.core.client.bus.WebSocketBusOptions;
+import webfx.platforms.core.services.bus.client.WebSocketBusOptions;
+import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.query.QueryArgument;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.QueryService;
-import webfx.platforms.core.spi.Platform;
 import webfx.platforms.core.util.Numbers;
 import webfx.platforms.core.util.Objects;
 import webfx.platforms.core.util.async.Future;
@@ -265,7 +265,7 @@ final class EventAggregateImpl implements EventAggregate {
     // Private implementation methods
 
     private static String getHost() {
-        return ((WebSocketBusOptions) Platform.getBusOptions()).getServerHost();
+        return ((WebSocketBusOptions) BusService.getBusOptions()).getServerHost();
     }
 
     private OptionsPreselection selectedOptionsPreselection;

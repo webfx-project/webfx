@@ -13,7 +13,7 @@ import webfx.framework.expression.terms.function.InlineFunction;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.domainmodel.DomainModel;
 import webfx.framework.orm.domainmodel.loader.DomainModelLoader;
-import webfx.platforms.core.bus.call.BusCallService;
+import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.json.JsonElement;

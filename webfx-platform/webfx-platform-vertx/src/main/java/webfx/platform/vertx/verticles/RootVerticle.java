@@ -1,7 +1,7 @@
 package webfx.platform.vertx.verticles;
 
 import io.vertx.core.AbstractVerticle;
-import webfx.platforms.core.bus.call.BusCallServerModule;
+import webfx.platforms.core.services.bus.call.BusCallServerModule;
 import webfx.platform.vertx.VertxPlatform;
 import webfx.platform.vertx.util.VertxRunner;
 
