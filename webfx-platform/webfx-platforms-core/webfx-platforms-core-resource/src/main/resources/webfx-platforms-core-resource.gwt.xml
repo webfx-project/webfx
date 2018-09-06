@@ -1,0 +1,5 @@
+<module rename-to="webfx_platforms_core_json">
+    <inherits name="webfx-platforms-core-util"/>
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/resource"/>
+</module>
