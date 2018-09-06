@@ -20,7 +20,6 @@ import webfx.platforms.core.services.log.spi.LoggerProvider;
 import webfx.platform.gwt.services.log.GwtLoggerProviderImpl;
 import webfx.platforms.core.services.websocket.spi.WebSocketServiceProvider;
 import webfx.platform.gwt.services.websocket.GwtWebSocketServiceProviderImpl;
-import webfx.platforms.core.util.function.Factory;
 import webfx.platforms.core.util.numbers.providers.StandardNumbersProviderImpl;
 import webfx.platforms.core.util.numbers.spi.NumbersProvider;
 import webfx.platforms.core.spi.Platform;

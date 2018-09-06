@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>webfx-platforms-core</artifactId>
+        <groupId>org.webfx</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>webfx-platforms-core-json</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.webfx</groupId>
+            <artifactId>webfx-platforms-core-util</artifactId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-lib-javacupruntime</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Calling the Java CUP plugin to generate JavaCupJsonParser.java and JsonSymbols.java from the JsonParser.cup grammar file -->
+            <plugin>
+                <groupId>com.github.vbmacher</groupId>
+                <artifactId>cup-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>json-parser</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <cupDefinition>../webfx-platforms-core-json/src/main/java/webfx/platforms/core/services/json/parser/javacup/JsonParser.cup</cupDefinition>
+                            <outputDirectory>src/main/java</outputDirectory>
+                            <className>JavaCupJsonParser</className>
+                            <symbolsName>JsonSymbols</symbolsName>
+                            <packageName>webfx.platforms.core.services.json.parser.javacup</packageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Calling the JFlex plugin to generate JsonLexer.java from the JsonLexer.flex lexical file -->
+            <plugin>
+                <groupId>de.jflex</groupId>
+                <artifactId>jflex-maven-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>src/main/java</outputDirectory>
+                    <lexDefinitions>
+                        <lexDefinition>src/main/java/webfx/platforms/core/services/json/parser/jflex/JsonLexer.flex</lexDefinition>
+                    </lexDefinitions>
+                </configuration>
+            </plugin>
+
+            <!-- Generating the source artifact for GWT compilation -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

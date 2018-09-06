@@ -1,22 +1,8 @@
 package webfx.platforms.core.services.json.codec;
 
-import webfx.platforms.core.bus.call.BusCallService;
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.json.JsonArray;
-import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.services.json.WritableJsonArray;
-import webfx.platforms.core.services.json.WritableJsonObject;
-import webfx.platforms.core.services.query.QueryArgument;
-import webfx.platforms.core.services.query.QueryResult;
-import webfx.platforms.core.services.query.push.QueryPushArgument;
-import webfx.platforms.core.services.query.push.QueryPushResult;
-import webfx.platforms.core.services.query.push.diff.impl.QueryResultTranslation;
-import webfx.platforms.core.services.update.GeneratedKeyBatchIndex;
-import webfx.platforms.core.services.update.UpdateArgument;
-import webfx.platforms.core.services.update.UpdateResult;
+import webfx.platforms.core.services.json.*;
 import webfx.platforms.core.util.Dates;
 import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.async.Batch;
 
 import java.lang.reflect.Array;
 import java.time.Instant;
@@ -31,7 +17,7 @@ import java.util.Map;
 
 public class JsonCodecManager {
 
-    private static final String CODEC_ID_KEY = "$codec";
+    public static final String CODEC_ID_KEY = "$codec";
 
     private static final Map<Class, JsonCodec> encoders = new HashMap<>();
     private static final Map<String, JsonCodec> decoders = new HashMap<>();
@@ -151,61 +137,5 @@ public class JsonCodecManager {
         for (int i = 0; i < n; i++)
             array[i] = decodeFromJson(ca.getObject(i));
         return array;
-    }
-
-    /****************************************************
-     *          JsonCodec registration             *
-     * *************************************************/
-
-    // Batch json Serialization support
-
-    private static String BATCH_CODEC_ID = "Batch";
-    private static String BATCH_ARRAY_KEY = "array";
-
-    static void registerBatchJsonCodec() {
-        new AbstractJsonCodec<Batch>(Batch.class, BATCH_CODEC_ID) {
-
-            @Override
-            public void encodeToJson(Batch batch, WritableJsonObject json) {
-                json.set(BATCH_ARRAY_KEY, encodeToJsonArray(batch.getArray()));
-            }
-
-            @Override
-            public Batch decodeFromJson(JsonObject json) {
-                JsonArray array = json.getArray(BATCH_ARRAY_KEY);
-                Class contentClass = Object.class;
-                if (array.size() > 0) {
-                    switch (array.getObject(0).getString(JsonCodecManager.CODEC_ID_KEY)) {
-                        case QueryResult.CODEC_ID:
-                            contentClass = QueryResult.class;
-                            break;
-                        case QueryArgument.CODEC_ID:
-                            contentClass = QueryArgument.class;
-                            break;
-                        case UpdateArgument.CODEC_ID:
-                            contentClass = UpdateArgument.class;
-                            break;
-                        case UpdateResult.CODEC_ID:
-                            contentClass = UpdateResult.class;
-                            break;
-                    }
-                }
-                return new Batch<>(decodeFromJsonArray(array, contentClass));
-            }
-        };
-    }
-
-    static {
-        // Registering all required json codecs (especially for network bus calls)
-        BusCallService.registerJsonCodecs();
-        QueryArgument.registerJsonCodec();
-        QueryResult.registerJsonCodec();
-        QueryPushArgument.registerJsonCodec();
-        QueryPushResult.registerJsonCodec();
-        QueryResultTranslation.registerJsonCodec();
-        UpdateArgument.registerJsonCodec();
-        GeneratedKeyBatchIndex.registerJsonCodec();
-        UpdateResult.registerJsonCodec();
-        registerBatchJsonCodec();
     }
 }

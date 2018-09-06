@@ -10,7 +10,6 @@ import webfx.platforms.core.services.json.WritableJsonArray;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.util.Numbers;
 import webfx.platforms.core.util.tuples.Pair;
-import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
   */

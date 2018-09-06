@@ -16,6 +16,8 @@
         <module>webfx-platforms-core-util</module>
         <module>webfx-platforms-core-scheduler</module>
         <module>webfx-platforms-core-monolith</module>
+        <module>webfx-platforms-core-websocket</module>
+        <module>webfx-platforms-core-json</module>
     </modules>
 
 </project>

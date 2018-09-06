@@ -1,9 +1,7 @@
 <module rename-to="webfx_platforms_core_monolith">
     <inherits name="webfx-platforms-core-scheduler"/>
-    <inherits name="webfx-platforms-core-util"/>
-    <inherits name="webfx-lib-javacupruntime"/>
-    <inherits name="webfx-fxkits-emul-javafxbase"/>
-    <!-- Specify the paths for translatable code                    -->
-    <source path="webfx/platforms/core"/>                 <!-- source path to rxjava library (webfx-lib-rxjava) -->
-    <resource path="webfx/platforms/core/client/bus/conf"/>     <!-- for webfx/platforms/core/client/bus/conf/BusOptions.json -->
+    <inherits name="webfx-platforms-core-websocket"/>
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core"/>
+    <resource path="webfx/platforms/core/client/bus/conf"/>
 </module>

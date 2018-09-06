@@ -133,9 +133,11 @@
         <module name="webfx-platform-gwt" />
         <module name="webfx-platform-jre" />
         <module name="webfx-platform-vertx" />
+        <module name="webfx-platforms-core-json" />
         <module name="webfx-platforms-core-monolith" />
         <module name="webfx-platforms-core-scheduler" />
         <module name="webfx-platforms-core-util" />
+        <module name="webfx-platforms-core-websocket" />
         <module name="webfx-platforms-emul-javabase" />
         <module name="webfx-platforms-emul-javatime" />
         <module name="webfx-platforms-java" />
@@ -184,6 +186,7 @@
       <module name="webfx-platform-jre" target="1.8" />
       <module name="webfx-platform-vertx" target="1.8" />
       <module name="webfx-platforms-core" target="1.8" />
+      <module name="webfx-platforms-core-json" target="1.8" />
       <module name="webfx-platforms-core-monolith" target="1.8" />
       <module name="webfx-platforms-core-noreflect" target="1.8" />
       <module name="webfx-platforms-core-scheduler" target="1.8" />

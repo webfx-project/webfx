@@ -3,16 +3,28 @@ package webfx.platforms.core.bus.call;
 import webfx.platforms.core.bus.Bus;
 import webfx.platforms.core.bus.Message;
 import webfx.platforms.core.bus.Registration;
+import webfx.platforms.core.services.json.JsonArray;
+import webfx.platforms.core.services.json.JsonObject;
+import webfx.platforms.core.services.json.WritableJsonObject;
+import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.query.QueryArgument;
+import webfx.platforms.core.services.query.QueryResult;
+import webfx.platforms.core.services.query.push.QueryPushArgument;
+import webfx.platforms.core.services.query.push.QueryPushResult;
+import webfx.platforms.core.services.query.push.diff.impl.QueryResultTranslation;
+import webfx.platforms.core.services.update.GeneratedKeyBatchIndex;
+import webfx.platforms.core.services.update.UpdateArgument;
+import webfx.platforms.core.services.update.UpdateResult;
 import webfx.platforms.core.spi.Platform;
-import webfx.platforms.core.util.async.AsyncFunction;
-import webfx.platforms.core.util.async.AsyncResult;
-import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.async.Handler;
+import webfx.platforms.core.util.async.*;
 import webfx.platforms.core.util.function.BiConsumer;
 import webfx.platforms.core.util.function.Callable;
 import webfx.platforms.core.util.function.Function;
+
+import static webfx.platforms.core.services.json.codec.JsonCodecManager.decodeFromJsonArray;
+import static webfx.platforms.core.services.json.codec.JsonCodecManager.encodeToJsonArray;
 
 /**
  * @author Bruno Salmon
@@ -232,13 +244,67 @@ public class BusCallService {
     }
 
 
-    /****************************************************
-     *                    Json Codec                    *
-     * *************************************************/
+    /***********************************************
+     *          JsonCodec registration             *
+     * *********************************************/
+
+
+    static {
+        registerJsonCodecs();
+    }
 
     public static void registerJsonCodecs() {
+        // Registering all required json codecs (especially for network bus calls)
         BusCallArgument.registerJsonCodec();
         BusCallResult.registerJsonCodec();
         SerializableAsyncResult.registerJsonCodec();
+        QueryArgument.registerJsonCodec();
+        QueryResult.registerJsonCodec();
+        QueryPushArgument.registerJsonCodec();
+        QueryPushResult.registerJsonCodec();
+        QueryResultTranslation.registerJsonCodec();
+        UpdateArgument.registerJsonCodec();
+        GeneratedKeyBatchIndex.registerJsonCodec();
+        UpdateResult.registerJsonCodec();
+        registerBatchJsonCodec();
     }
+
+    // Batch json Serialization support
+
+    private static String BATCH_CODEC_ID = "Batch";
+    private static String BATCH_ARRAY_KEY = "array";
+
+    static void registerBatchJsonCodec() {
+        new AbstractJsonCodec<Batch>(Batch.class, BATCH_CODEC_ID) {
+
+            @Override
+            public void encodeToJson(Batch batch, WritableJsonObject json) {
+                json.set(BATCH_ARRAY_KEY, encodeToJsonArray(batch.getArray()));
+            }
+
+            @Override
+            public Batch decodeFromJson(JsonObject json) {
+                JsonArray array = json.getArray(BATCH_ARRAY_KEY);
+                Class contentClass = Object.class;
+                if (array.size() > 0) {
+                    switch (array.getObject(0).getString(JsonCodecManager.CODEC_ID_KEY)) {
+                        case QueryResult.CODEC_ID:
+                            contentClass = QueryResult.class;
+                            break;
+                        case QueryArgument.CODEC_ID:
+                            contentClass = QueryArgument.class;
+                            break;
+                        case UpdateArgument.CODEC_ID:
+                            contentClass = UpdateArgument.class;
+                            break;
+                        case UpdateResult.CODEC_ID:
+                            contentClass = UpdateResult.class;
+                            break;
+                    }
+                }
+                return new Batch<>(decodeFromJsonArray(array, contentClass));
+            }
+        };
+    }
+
 }
