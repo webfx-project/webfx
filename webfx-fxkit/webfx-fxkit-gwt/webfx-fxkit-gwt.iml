@@ -27,6 +27,7 @@
     <orderEntry type="module" module-name="webfx-platform-gwt" />
     <orderEntry type="module" module-name="webfx-platforms-web" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" />
+    <orderEntry type="module" module-name="webfx-platforms-core-bus" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />

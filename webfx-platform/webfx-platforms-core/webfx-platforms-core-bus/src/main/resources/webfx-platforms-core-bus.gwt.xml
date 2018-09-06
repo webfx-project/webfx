@@ -1,0 +1,11 @@
+<module rename-to="webfx_platforms_core_bus">
+
+    <inherits name="webfx-platforms-core-websocket"/>
+    <inherits name="webfx-platforms-core-log"/>
+    <inherits name="webfx-platforms-core-resource"/>
+    <inherits name="webfx-platforms-core-scheduler"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/bus"/>
+
+</module>

@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="webfx-platforms-core-bus" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />

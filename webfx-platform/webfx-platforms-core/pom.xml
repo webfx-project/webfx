@@ -15,13 +15,17 @@
     <modules>
         <module>webfx-platforms-core-util</module>
 
+        <!-- Modules that depend only from util -->
         <module>webfx-platforms-core-json</module>
         <module>webfx-platforms-core-log</module>
         <module>webfx-platforms-core-resource</module>
         <module>webfx-platforms-core-scheduler</module>
         <module>webfx-platforms-core-shutdown</module>
         <module>webfx-platforms-core-storage</module>
-        <module>webfx-platforms-core-websocket</module>
+
+        <!-- Modules that depend from another platform module -->
+        <module>webfx-platforms-core-websocket</module> <!-- depend from json module -->
+        <module>webfx-platforms-core-bus</module> <!-- depend from websocket module -->
 
         <module>webfx-platforms-core-monolith</module>
     </modules>

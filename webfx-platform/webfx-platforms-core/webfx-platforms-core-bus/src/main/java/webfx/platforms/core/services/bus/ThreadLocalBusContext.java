@@ -1,13 +1,11 @@
-package webfx.platforms.core.services.bus.call;
-
-import webfx.platforms.core.services.bus.Bus;
+package webfx.platforms.core.services.bus;
 
 /**
  * Usage:
  *
  * try (ThreadLocalBusContext context = ThreadLocalBusContext.open(threadLocalBus)) {
  *      ...
- *      any call to Platform.bus() will return threadLocalBus instead of the default platform bus
+ *      any call to ServicePus.bus() will return threadLocalBus instead of the default platform bus
  *      ...
  * }
  *

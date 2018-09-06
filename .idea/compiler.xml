@@ -133,6 +133,7 @@
         <module name="webfx-platform-gwt" />
         <module name="webfx-platform-jre" />
         <module name="webfx-platform-vertx" />
+        <module name="webfx-platforms-core-bus" />
         <module name="webfx-platforms-core-json" />
         <module name="webfx-platforms-core-log" />
         <module name="webfx-platforms-core-monolith" />
