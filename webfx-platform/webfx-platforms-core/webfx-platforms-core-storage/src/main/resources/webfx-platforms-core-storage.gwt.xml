@@ -1,5 +1,5 @@
-<module rename-to="webfx_platforms_core_shutdown">
+<module rename-to="webfx_platforms_core_storage">
     <inherits name="webfx-platforms-core-util"/>
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/shutdown"/>
+    <source path="webfx/platforms/core/services/storage"/>
 </module>

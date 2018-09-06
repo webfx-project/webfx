@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <module rename-to='webfx_platform_gwt'>
 
     <inherits name="com.google.gwt.user.User"/>
+
     <inherits name="webfx-platforms-web"/>
     <inherits name="webfx-platforms-core-shutdown"/>
+    <inherits name="webfx-platforms-core-storage"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="webfx/platform/gwt"/>

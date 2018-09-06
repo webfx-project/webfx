@@ -23,6 +23,7 @@
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="webfx-platforms-core-storage" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="mongooses-java" />
     <orderEntry type="module" module-name="webfx-platform-vertx" />

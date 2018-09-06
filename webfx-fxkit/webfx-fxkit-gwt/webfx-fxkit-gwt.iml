@@ -33,6 +33,7 @@
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
+    <orderEntry type="module" module-name="webfx-platforms-core-storage" />
     <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:sources:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />

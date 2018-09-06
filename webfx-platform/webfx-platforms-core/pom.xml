@@ -14,11 +14,14 @@
 
     <modules>
         <module>webfx-platforms-core-util</module>
-        <module>webfx-platforms-core-resource</module>
-        <module>webfx-platforms-core-shutdown</module>
-        <module>webfx-platforms-core-scheduler</module>
+
         <module>webfx-platforms-core-json</module>
+        <module>webfx-platforms-core-resource</module>
+        <module>webfx-platforms-core-scheduler</module>
+        <module>webfx-platforms-core-shutdown</module>
+        <module>webfx-platforms-core-storage</module>
         <module>webfx-platforms-core-websocket</module>
+
         <module>webfx-platforms-core-monolith</module>
     </modules>
 

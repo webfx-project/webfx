@@ -138,6 +138,7 @@
         <module name="webfx-platforms-core-resource" />
         <module name="webfx-platforms-core-scheduler" />
         <module name="webfx-platforms-core-shutdown" />
+        <module name="webfx-platforms-core-storage" />
         <module name="webfx-platforms-core-util" />
         <module name="webfx-platforms-core-websocket" />
         <module name="webfx-platforms-emul-javabase" />
@@ -194,6 +195,7 @@
       <module name="webfx-platforms-core-resource" target="1.8" />
       <module name="webfx-platforms-core-scheduler" target="1.8" />
       <module name="webfx-platforms-core-shutdown" target="1.8" />
+      <module name="webfx-platforms-core-storage" target="1.8" />
       <module name="webfx-platforms-core-type" target="1.8" />
       <module name="webfx-platforms-core-util" target="1.8" />
       <module name="webfx-platforms-core-websocket" target="1.8" />

@@ -26,6 +26,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-platforms-core-storage</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-lib-rxjava</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

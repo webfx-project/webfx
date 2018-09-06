@@ -27,6 +27,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-platforms-core-storage</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
         </dependency>

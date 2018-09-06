@@ -23,6 +23,7 @@
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-storage" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-web" scope="PROVIDED" />
