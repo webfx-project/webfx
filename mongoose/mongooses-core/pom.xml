@@ -20,6 +20,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-platforms-core-shutdown</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-lib-rxjava</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -37,6 +43,7 @@
             <artifactId>junit</artifactId>
         </dependency>
 
+        <!-- Because tests are ran in the JRE, we use that platform for tests -->
         <dependency>
             <artifactId>webfx-platform-jre</artifactId>
             <groupId>${webfx.groupId}</groupId>

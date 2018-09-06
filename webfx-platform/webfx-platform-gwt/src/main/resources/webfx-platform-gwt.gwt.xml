@@ -4,6 +4,7 @@
 
     <inherits name="com.google.gwt.user.User"/>
     <inherits name="webfx-platforms-web"/>
+    <inherits name="webfx-platforms-core-shutdown"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="webfx/platform/gwt"/>

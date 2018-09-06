@@ -19,9 +19,10 @@
     <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-web" scope="PROVIDED" />
