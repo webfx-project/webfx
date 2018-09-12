@@ -13,9 +13,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.displaydata.*;
 import webfx.platforms.core.services.scheduler.Scheduled;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 import webfx.platforms.core.util.collection.Collections;
 import webfx.platforms.core.util.function.Consumer;
@@ -105,7 +105,7 @@ public class DataGridSkin extends SelectableDisplayResultControlSkinBase<DataGri
             gridHead.endBuildingGrid();
             gridBody.endBuildingGrid();
         } else
-            FxKit.get().scheduler().schedulePeriodicInAnimationFrame(new Consumer<Scheduled>() {
+            UiScheduler.schedulePeriodicInAnimationFrame(new Consumer<Scheduled>() {
                 final DisplayResult rs = getRs();
                 int rowIndex = 0;
                 @Override

@@ -1,10 +1,8 @@
 package mongooses.core.entities;
 
-import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
-import webfx.framework.orm.domainmodel.DataSourceModel;
-import webfx.framework.orm.entity.UpdateStore;
 import org.junit.Before;
 import org.junit.Test;
+import webfx.framework.orm.domainmodel.DataSourceModel;
 
 /**
  * @author Bruno Salmon
@@ -15,17 +13,19 @@ public class EntitiesTest {
 
     @Before
     public void initialize() {
-        dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
-        dataSourceModel.getDomainModel();
+        //dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
+        //dataSourceModel.getDomainModel();
     }
 
     @Test
     public void test() throws Throwable {
+/*
         UpdateStore store = UpdateStore.create(dataSourceModel);
         Document d = store.insertEntity(Document.class);
         d.setEvent(116);
         d.setFirstName("test");
         d.setLastName("TEST");
+*/
 /*
         CountDownLatch latch = new CountDownLatch(1);
         Unit<Throwable> error = new Unit<>();

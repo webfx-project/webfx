@@ -1,6 +1,6 @@
 package emul.javafx.animation;
 
-import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 import java.util.Arrays;
 
@@ -103,7 +103,7 @@ abstract class AbstractMasterTimer {
     }
 
     private long systemNanoTime() {
-        return FxKit.get().scheduler().nanoTime();
+        return UiScheduler.nanoTime();
     }
 
     public boolean isFullspeed() {

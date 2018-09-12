@@ -14,7 +14,7 @@ import webfx.platforms.core.services.query.QueryResult;
 public class QueryResultToEntityListGenerator {
 
     public static <E extends Entity> EntityList<E> createEntityList(QueryResult rs, QueryRowToEntityMapping rowMapping, EntityStore store, Object listId) {
-        //Platform.log("createEntityList()");
+        //Logger.log("createEntityList()");
         // Creating an empty entity list in the store
         EntityList entityList = store.getOrCreateEntityList(listId);
         entityList.clear();
@@ -54,7 +54,7 @@ public class QueryResultToEntityListGenerator {
             // And finally adding this entity to the list
             entityList.add(entity);
         }
-        //Platform.log("Ok : " + entityList);
+        //Logger.log("Ok : " + entityList);
         return entityList;
     }
 

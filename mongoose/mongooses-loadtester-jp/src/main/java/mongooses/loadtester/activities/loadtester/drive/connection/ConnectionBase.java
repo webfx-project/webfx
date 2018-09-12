@@ -46,7 +46,7 @@ public abstract class ConnectionBase implements Connection {
         }
         if (listener != null) {
             listener.onEvent(event);
-//            Platform.log("CnxApply "+event.getType()+" ");
+//            Logger.log("CnxApply "+event.getType()+" ");
         }
     }
 

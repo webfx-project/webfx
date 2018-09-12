@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.collection.Collections;
 import webfx.platforms.core.util.function.Consumer;
 import webfx.platforms.core.util.function.Func2;
@@ -79,7 +79,7 @@ public final class Properties {
     }
 
     public static <T> void consumeInUiThread(ObservableValue<T> property, Consumer<T> consumer) {
-        consume(property, arg -> FxKit.get().scheduler().scheduleDeferred(() -> consumer.accept(arg)));
+        consume(property, arg -> UiScheduler.scheduleDeferred(() -> consumer.accept(arg)));
     }
 
     public static <T> void setIfNotBound(Property<T> property, T value) {

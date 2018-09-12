@@ -20,8 +20,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
-import webfx.fxkits.extra.util.ImageStore;
 import webfx.fxkits.extra.cell.rowstyle.RowAdapter;
 import webfx.fxkits.extra.cell.rowstyle.RowStyleUpdater;
 import webfx.fxkits.extra.control.DataGrid;
@@ -32,6 +30,8 @@ import webfx.fxkits.extra.displaydata.DisplaySelection;
 import webfx.fxkits.extra.spi.peer.base.DataGridPeerBase;
 import webfx.fxkits.extra.spi.peer.base.DataGridPeerImageTextMixin;
 import webfx.fxkits.extra.spi.peer.base.DataGridPeerMixin;
+import webfx.fxkits.extra.util.ImageStore;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.collection.IdentityList;
 
 import java.lang.reflect.Method;
@@ -206,7 +206,7 @@ public class FxDataGridPeer
             tableView.getItems().setAll(new IdentityList(rowCount));
             if (rowCount > 0) { // Workaround for the JavaFx wrong resize columns problem when vertical scroll bar appears
                 tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-                FxKit.get().scheduler().scheduleDelay(100, () -> tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
+                UiScheduler.scheduleDelay(100, () -> tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
             }
             if (dataGrid.isFullHeight())
                 fitHeightToContent(tableView, dataGrid);

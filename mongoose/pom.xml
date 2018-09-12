@@ -15,6 +15,10 @@
 
     <modules>
         <module>mongooses-core</module>
+        <module>mongooses-sharedends</module>
+        <module>mongooses-backend</module>
+        <module>mongooses-frontend</module>
+        <module>mongooses-server</module>
         <module>mongooses-loadtester-jp</module>
         <module>mongooses-java</module>
         <module>mongooses-web</module>

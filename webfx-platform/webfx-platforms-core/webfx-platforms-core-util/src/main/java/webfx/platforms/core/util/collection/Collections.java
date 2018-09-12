@@ -27,6 +27,12 @@ public final class Collections {
         return list;
     }
 
+    public static <T> List<T> listOf(Iterable<T> iterable) {
+        List<T> list = newList();
+        forEach(iterable, list::add);
+        return list;
+    }
+
     public static <T> void forEach(Iterable<T> iterable, Consumer<T> consumer) {
         // iterable.forEach(consumer); // Not GWT compilable for now
         if (iterable != null)

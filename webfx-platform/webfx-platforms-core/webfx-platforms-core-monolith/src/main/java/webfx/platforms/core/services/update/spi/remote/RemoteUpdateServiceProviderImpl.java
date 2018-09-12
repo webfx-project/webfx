@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.update.spi.remote;
 
+import webfx.platforms.core.services.update.UpdateService;
 import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
-import webfx.platforms.core.services.bus.call.BusCallServerModule;
 import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.update.UpdateArgument;
 import webfx.platforms.core.services.update.UpdateResult;
@@ -53,11 +53,11 @@ public class RemoteUpdateServiceProviderImpl implements UpdateServiceProvider {
     }
 
     protected Future<UpdateResult> executeRemoteUpdate(UpdateArgument argument) {
-        return BusCallService.call(BusCallServerModule.UPDATE_SERVICE_ADDRESS, argument);
+        return BusCallService.call(UpdateService.UPDATE_SERVICE_ADDRESS, argument);
     }
 
     protected Future<Batch<UpdateResult>> executeRemoteUpdateBatch(Batch<UpdateArgument> batch) {
-        return BusCallService.call(BusCallServerModule.UPDATE_BATCH_SERVICE_ADDRESS, batch);
+        return BusCallService.call(UpdateService.UPDATE_BATCH_SERVICE_ADDRESS, batch);
     }
 
 }

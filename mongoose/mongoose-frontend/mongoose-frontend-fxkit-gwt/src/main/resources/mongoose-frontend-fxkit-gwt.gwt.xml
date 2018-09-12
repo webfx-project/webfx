@@ -1,11 +1,13 @@
 <module rename-to="mongoose_frontend_fxkit_gwt">
   <inherits name="mongooses-web"/>
-  <inherits name="mongooses-core"/>
-  <inherits name="mongooses-web"/>
+  <inherits name="mongooses-frontend"/>
+  <inherits name="mongooses-sharedends"/>
   <inherits name="mongooses-core"/>
   <inherits name="webfx-framework"/>
   <inherits name="webfx-fxkit-gwt"/>
-  <entry-point class="mongooses.web.activities.frontend.MongooseFrontendWebApplication"/>
-  <source path="mongoose/html/frontend"/>
-  <set-property name="jre.checks.checkLevel" value="MINIMAL" />
+  <entry-point class="webfx.platform.gwt.services.appcontainer.GwtApplicationContainerStarter"/>
+  <source path="client"/>
+  <source path="shared"/>
+  <super-source path="super"/>
+  <set-property name="jre.checks.checkLevel" value="MINIMAL"/>
 </module>

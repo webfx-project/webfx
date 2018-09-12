@@ -68,7 +68,7 @@ public class WebSocketBusConnection extends ConnectionBase {
 
             @Override
             public void onMessage(String message) {
-//                Platform.log("Cnx-MESSAGE : "+message);
+//                Logger.log("Cnx-MESSAGE : "+message);
             }
 
             @Override

@@ -58,10 +58,10 @@ public abstract class RoutingContextImplBase implements RoutingContext {
         while (iter.hasNext()) {
             RouteImpl route = iter.next();
             if (route.matches(this, mountPoint(), failed)) {
-                //Platform.log("Route matches: " + route);
+                //Logger.log("Route matches: " + route);
                 try {
                     currentRoute = route;
-                    //Platform.log("Calling the " + (failed ? "failure" : "") + " handler");
+                    //Logger.log("Calling the " + (failed ? "failure" : "") + " handler");
                     if (failed)
                         route.handleFailure(this);
                     else

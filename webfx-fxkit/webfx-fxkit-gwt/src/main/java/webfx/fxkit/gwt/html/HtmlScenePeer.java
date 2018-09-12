@@ -8,15 +8,15 @@ import emul.javafx.scene.Parent;
 import emul.javafx.scene.Scene;
 import emul.javafx.scene.input.MouseButton;
 import emul.javafx.scene.text.TextFlow;
-import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkit.gwt.html.peer.HtmlHtmlTextPeer;
 import webfx.fxkit.gwt.html.peer.HtmlNodePeer;
 import webfx.fxkit.gwt.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.util.HtmlUtil;
+import webfx.fxkits.core.properties.Properties;
 import webfx.fxkits.core.spi.peer.NodePeer;
 import webfx.fxkits.core.spi.peer.base.ScenePeerBase;
 import webfx.fxkits.extra.control.HtmlText;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 import webfx.platforms.core.util.collection.Collections;
 
@@ -87,7 +87,7 @@ public class HtmlScenePeer extends ScenePeerBase {
             if (childrenChange == null)
                 HtmlUtil.setChildren(childrenContainer, Collections.map(parent.getChildren(), this::toChildElement));
             else {
-                //Platform.log(childrenChange);
+                //Logger.log(childrenChange);
                 while (childrenChange.next()) {
                     if (childrenChange.wasRemoved())
                         HtmlUtil.removeChildren(childrenContainer, Collections.map(childrenChange.getRemoved(), this::toChildElement));
@@ -96,7 +96,7 @@ public class HtmlScenePeer extends ScenePeerBase {
                 }
             }
             //long t1 = System.currentTimeMillis();
-            //Platform.log("setChildren() in " + (t1 - t0) + "ms / parent treeVisible = " + parentPeer.isTreeVisible() + ", isAnimationFrame = " + FxKit.get().scheduler().isAnimationFrameNow());
+            //Logger.log("setChildren() in " + (t1 - t0) + "ms / parent treeVisible = " + parentPeer.isTreeVisible() + ", isAnimationFrame = " + FxKit.get().scheduler().isAnimationFrameNow());
         }
     }
 
@@ -153,12 +153,12 @@ public class HtmlScenePeer extends ScenePeerBase {
             // the button pressedProperty) to appear before the action (which might be time consuming) is fired, so the
             // user doesn't know if the button has been successfully pressed or not during the action execution.
             if (fxMouseEvent.getEventType() == emul.javafx.scene.input.MouseEvent.MOUSE_RELEASED && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
-                FxKit.get().scheduler().scheduleInFutureAnimationFrame(1, () -> scene.impl_processMouseEvent(fxMouseEvent), AnimationFramePass.UI_UPDATE_PASS);
+                UiScheduler.scheduleInFutureAnimationFrame(1, () -> scene.impl_processMouseEvent(fxMouseEvent), AnimationFramePass.UI_UPDATE_PASS);
             else {
                 scene.impl_processMouseEvent(fxMouseEvent);
                 if (fxMouseEvent.getEventType() == emul.javafx.scene.input.MouseEvent.MOUSE_PRESSED) {
                     atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
-                    FxKit.get().scheduler().scheduleInFutureAnimationFrame(1, () -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, AnimationFramePass.UI_UPDATE_PASS);
+                    UiScheduler.scheduleInFutureAnimationFrame(1, () -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, AnimationFramePass.UI_UPDATE_PASS);
                 }
             }
         }

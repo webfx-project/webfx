@@ -10,7 +10,6 @@ import javafx.scene.layout.*;
 import mongooses.core.activities.sharedends.generic.MongooseButtonFactoryMixin;
 import mongooses.core.activities.sharedends.generic.MongooseSectionFactoryMixin;
 import mongooses.core.activities.sharedends.logic.ui.validation.MongooseValidationSupport;
-import mongooses.core.services.authn.MongooseUserPrincipal;
 import mongooses.core.domainmodel.formatters.DateFormatter;
 import mongooses.core.domainmodel.functions.AbcNames;
 import mongooses.core.entities.Country;
@@ -18,6 +17,7 @@ import mongooses.core.entities.Event;
 import mongooses.core.entities.Organization;
 import mongooses.core.entities.Person;
 import mongooses.core.entities.markers.HasPersonDetails;
+import mongooses.core.services.authn.MongooseUserPrincipal;
 import webfx.framework.activity.base.elementals.view.ViewActivityContextMixin;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.Entity;
@@ -30,13 +30,13 @@ import webfx.framework.ui.graphic.materialdesign.textfield.MaterialTextFieldPane
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.uisession.UiSession;
 import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResultBuilder;
 import webfx.fxkits.extra.displaydata.DisplayStyle;
 import webfx.fxkits.extra.displaydata.SelectionMode;
 import webfx.fxkits.extra.type.PrimType;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Booleans;
 
 import java.time.LocalDate;
@@ -302,7 +302,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         if (sectionPanel.getCenter() == null)
             Properties.runNowAndOnPropertiesChange(this::updatePanelBody, childRadioButton.selectedProperty(), I18n.dictionaryProperty());
         if (!editable)
-            FxKit.get().scheduler().runInUiThread(this::updatePanelBody);
+            UiScheduler.runInUiThread(this::updatePanelBody);
     }
 
     public void syncModelFromUi(HasPersonDetails p) {

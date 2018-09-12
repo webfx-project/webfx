@@ -3,7 +3,7 @@ package webfx.framework.services.authz.mixin;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.async.AsyncFunction;
 import webfx.platforms.core.util.function.Function;
 
@@ -29,7 +29,7 @@ public class AuthorizationUtil {
                         this.context = context;
                         this.userPrincipal = userPrincipal;
                         if (ar.succeeded())
-                            FxKit.get().scheduler().runInUiThread(() -> {
+                            UiScheduler.runInUiThread(() -> {
                                 value = ar.result();
                                 invalidate();
                             });

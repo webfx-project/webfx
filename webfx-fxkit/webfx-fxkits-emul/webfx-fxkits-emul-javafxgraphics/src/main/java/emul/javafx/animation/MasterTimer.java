@@ -1,6 +1,6 @@
 package emul.javafx.animation;
 
-import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 
 /**
@@ -17,7 +17,7 @@ class MasterTimer extends AbstractMasterTimer {
 
     @Override
     protected void postUpdateAnimationRunnable(DelayedRunnable animationRunnable) {
-        FxKit.get().scheduler().scheduleDelayInAnimationFrame(animationRunnable.getDelay(), animationRunnable, AnimationFramePass.UI_UPDATE_PASS);
+        UiScheduler.scheduleDelayInAnimationFrame(animationRunnable.getDelay(), animationRunnable, AnimationFramePass.UI_UPDATE_PASS);
     }
 
     @Override

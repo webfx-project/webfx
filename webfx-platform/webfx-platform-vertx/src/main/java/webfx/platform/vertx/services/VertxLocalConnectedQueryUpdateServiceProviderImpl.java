@@ -12,6 +12,7 @@ import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
+import webfx.platform.vertx.services.appcontainer.VertxInstance;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.push.PulseArgument;
@@ -42,7 +43,7 @@ public class VertxLocalConnectedQueryUpdateServiceProviderImpl implements QueryS
 
     private final AsyncSQLClient sqlClient;
 
-    public VertxLocalConnectedQueryUpdateServiceProviderImpl(Vertx vertx, ConnectionDetails connectionDetails) {
+    public VertxLocalConnectedQueryUpdateServiceProviderImpl(ConnectionDetails connectionDetails) {
         // Generating the Vertx Sql config from the connection details
         JsonObject sqlConfig = new JsonObject()
                 // common config with JDBCClient
@@ -51,6 +52,7 @@ public class VertxLocalConnectedQueryUpdateServiceProviderImpl implements QueryS
                 // used for PostgreSQLClient only
                 .put("host", connectionDetails.getHost())
                 .put("database", connectionDetails.getDatabaseName());
+        Vertx vertx = VertxInstance.getVertx();
         // Getting the best (non blocking if possible) sql client depending on the dbms
         if (connectionDetails.getDBMS() == DBMS.POSTGRES)
             sqlClient = PostgreSQLClient.createNonShared(vertx, sqlConfig); // Non blocking client for Postgres
@@ -249,7 +251,7 @@ public class VertxLocalConnectedQueryUpdateServiceProviderImpl implements QueryS
                 future.fail(connectionAsyncResult.cause());
             else { // Connection succeeded
                 SQLConnection connection = connectionAsyncResult.result();
-                //Platform.log("open = " + ++open);
+                //Logger.log("open = " + ++open);
                 if (autoCommit)
                     executor.accept(connection, future);
                 else
@@ -267,7 +269,7 @@ public class VertxLocalConnectedQueryUpdateServiceProviderImpl implements QueryS
 
     private void closeConnection(SQLConnection connection) {
         connection.close();
-        //Platform.log("open = " + --open);
+        //Logger.log("open = " + --open);
     }
 
     private static void onSuccessfulUpdate(UpdateArgument updateArgument) {

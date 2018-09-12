@@ -6,23 +6,17 @@ import emul.javafx.scene.Scene;
 import emul.javafx.stage.Screen;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkit.gwt.html.HtmlScenePeer;
+import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.core.spi.peer.ScenePeer;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.fxkits.core.spi.peer.WindowPeer;
-import webfx.platforms.core.services.scheduler.Scheduler;
-import webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider;
 
 
 /**
  * @author Bruno Salmon
  */
 public class GwtFxKit extends FxKit {
-
-    public GwtFxKit() {
-        super((UiSchedulerProvider) Scheduler.getProvider());
-    }
 
     @Override
     public String getUserAgent() {

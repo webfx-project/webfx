@@ -1,9 +1,11 @@
 <module rename-to="mongoose_backend_fxkit_gwt">
   <inherits name="mongooses-web"/>
+  <inherits name="mongooses-backend"/>
+  <inherits name="mongooses-sharedends"/>
   <inherits name="mongooses-core"/>
   <inherits name="webfx-framework"/>
   <inherits name="webfx-fxkit-gwt"/>
-  <entry-point class="mongooses.web.activities.backend.MongooseBackendWebApplication"/>
+  <entry-point class="webfx.platform.gwt.services.appcontainer.GwtApplicationContainerStarter"/>
   <source path="client"/>
   <source path="shared"/>
   <super-source path="super"/>

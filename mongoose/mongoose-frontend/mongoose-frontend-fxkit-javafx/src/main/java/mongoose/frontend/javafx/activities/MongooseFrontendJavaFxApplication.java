@@ -4,7 +4,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import mongooses.core.activities.frontend.MongooseFrontendApplication;
 import webfx.fxkit.javafx.JavaFxFxKit;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.util.ImageStore;
@@ -14,12 +13,14 @@ import webfx.fxkits.extra.util.ImageStore;
  */
 public class MongooseFrontendJavaFxApplication {
 
+/*
     public static void main(String[] args) {
         installJavaFxHooks();
         // Once hooks are set, we can start the application
         MongooseFrontendApplication.main(args);
         MongooseFrontendApplication.setLoadingSpinnerVisibleConsumer(MongooseFrontendJavaFxApplication::setLoadingSpinnerVisible);
     }
+*/
 
     private static void installJavaFxHooks() {
         // Setting JavaFx scene hook to apply the mongoose css file

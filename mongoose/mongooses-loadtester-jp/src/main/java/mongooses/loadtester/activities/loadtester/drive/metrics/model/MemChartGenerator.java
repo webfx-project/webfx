@@ -3,13 +3,13 @@ package mongooses.loadtester.activities.loadtester.drive.metrics.model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongooses.loadtester.activities.loadtester.drive.metrics.Metrics;
+import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResult;
+import webfx.fxkits.extra.displaydata.DisplayResultBuilder;
+import webfx.fxkits.extra.type.PrimType;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.scheduler.Scheduler;
-import webfx.fxkits.extra.type.PrimType;
-import webfx.fxkits.extra.displaydata.DisplayColumn;
-import webfx.fxkits.extra.displaydata.DisplayResultBuilder;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class MemChartGenerator {
     }
 
     public DisplayResult createDisplayResult(){
-//        Platform.log("createDisplayResult(System)");
+//        Logger.log("createDisplayResult(System)");
         int rowCount = memList.size();
         // Building the DisplayResult for the chart using column format (First column = X, other columns = series Ys)
         DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, new DisplayColumn[]{
@@ -43,13 +43,13 @@ public class MemChartGenerator {
             rsb.setValue(rowIndex, 3, data.freePhMemProperty().getValue());
         }
         DisplayResult displayResult = rsb.build();
-//        Platform.log("Ok: " + displayResult);
+//        Logger.log("Ok: " + displayResult);
         Logger.log("Chart - [" + rowCount
                     +", "+ memList.get(rowCount-1).totalMemProperty().getValue()
                     +", "+ memList.get(rowCount-1).freeMemProperty().getValue()
                     +", "+ memList.get(rowCount-1).freePhMemProperty().getValue()
                     +" ]");
-        FxKit.get().scheduler().scheduleDeferred(() -> memListProperty.set(displayResult));
+        UiScheduler.scheduleDeferred(() -> memListProperty.set(displayResult));
         return displayResult;
     }
 

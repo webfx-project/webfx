@@ -12,7 +12,7 @@ public final class GwtWindowLocation implements WindowLocation {
         return new GwtWindowLocation();
     }
 
-    private GwtWindowLocation() {
+    public GwtWindowLocation() {
     }
 
     @Override

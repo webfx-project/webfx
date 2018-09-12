@@ -33,7 +33,7 @@ public class SysBean {
         Logger.log("free     : " + getFreeMem() + " MB\n");
         Logger.log("sys max  : " + getMaxMem() + " MB");
         Logger.log("sys free : " + getFreePhMem() + " MB\n");
-        //        Platform.log("proc     : " + getAvailableProcessors());
+        //        Logger.log("proc     : " + getAvailableProcessors());
         Logger.log("sys load : " + getSysLoad());
         Logger.log("cpu load : " + (getCpuLoad()*100) + " %");
         Logger.log("cpu time : " + (getCpuTime()/NANO) + " ms");

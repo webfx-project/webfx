@@ -2,13 +2,13 @@ package mongooses.loadtester.activities.loadtester.drive;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import mongooses.loadtester.activities.loadtester.drive.command.Command;
+import mongooses.loadtester.activities.loadtester.drive.connection.Connection;
+import mongooses.loadtester.activities.loadtester.drive.connection.WebSocketBusConnection;
 import mongooses.loadtester.activities.loadtester.drive.listener.ConnectionEvent;
 import mongooses.loadtester.activities.loadtester.drive.listener.Event;
 import mongooses.loadtester.activities.loadtester.drive.listener.EventListenerImpl;
 import mongooses.loadtester.activities.loadtester.drive.listener.EventType;
-import mongooses.loadtester.activities.loadtester.drive.command.Command;
-import mongooses.loadtester.activities.loadtester.drive.connection.Connection;
-import mongooses.loadtester.activities.loadtester.drive.connection.WebSocketBusConnection;
 import mongooses.loadtester.entities.LtTestEvent;
 import mongooses.loadtester.entities.LtTestEventEntity;
 import mongooses.loadtester.entities.LtTestSet;
@@ -17,8 +17,8 @@ import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.log.Logger;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.scheduler.Scheduler;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +69,7 @@ public class Drive {
                     nextToRemove++;
                     started--;
                 }
-                FxKit.get().scheduler().scheduleDeferred(() -> startedConnectionCount.setValue(started));
+                UiScheduler.scheduleDeferred(() -> startedConnectionCount.setValue(started));
 
                 if (mode_console)
                     Logger.log("Drive - connections : R="+ requested

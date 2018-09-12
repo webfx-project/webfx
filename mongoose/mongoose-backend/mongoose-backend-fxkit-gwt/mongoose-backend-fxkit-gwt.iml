@@ -11,6 +11,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongooses-web" />
+    <orderEntry type="module" module-name="mongooses-backend" />
+    <orderEntry type="module" module-name="mongooses-sharedends" />
+    <orderEntry type="module" module-name="mongooses-sharedends" />
+    <orderEntry type="module" module-name="mongooses-core" />
     <orderEntry type="module" module-name="mongooses-core" />
     <orderEntry type="module" module-name="webfx-framework" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />

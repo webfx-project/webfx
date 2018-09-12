@@ -201,7 +201,7 @@ public class QueryResult {
 
             @Override
             public QueryResult decodeFromJson(JsonObject json) {
-                //Platform.log("Decoding json result set: " + json);
+                //Logger.log("Decoding json result set: " + json);
                 Integer columnCount = json.getInteger(COLUMN_COUNT_KEY);
                 // Column names deserialization
                 String[] names = null;

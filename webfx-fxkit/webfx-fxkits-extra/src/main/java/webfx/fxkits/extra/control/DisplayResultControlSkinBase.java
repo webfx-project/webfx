@@ -4,11 +4,11 @@ import javafx.scene.Node;
 import javafx.scene.control.SkinBase;
 import javafx.scene.paint.*;
 import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.cell.renderer.*;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.Label;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 /**
  * @author Bruno Salmon
@@ -33,7 +33,7 @@ public abstract class DisplayResultControlSkinBase<C extends DisplayResultContro
 
     protected void updateResult(DisplayResult rs) {
         this.rs = rs;
-        FxKit.get().scheduler().runInUiThread(this::buildGrid);
+        UiScheduler.runInUiThread(this::buildGrid);
     }
 
     protected void buildGrid() {

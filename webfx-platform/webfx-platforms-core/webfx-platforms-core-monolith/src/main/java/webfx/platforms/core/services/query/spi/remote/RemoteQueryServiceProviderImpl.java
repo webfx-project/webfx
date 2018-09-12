@@ -2,8 +2,8 @@ package webfx.platforms.core.services.query.spi.remote;
 
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.query.QueryResult;
+import webfx.platforms.core.services.query.QueryService;
 import webfx.platforms.core.services.query.spi.QueryServiceProvider;
-import webfx.platforms.core.services.bus.call.BusCallServerModule;
 import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.datasource.LocalDataSourceRegistry;
 import webfx.platforms.core.services.query.QueryArgument;
@@ -45,6 +45,6 @@ public class RemoteQueryServiceProviderImpl implements QueryServiceProvider {
     }
 
     protected <T> Future<T> executeRemoteQuery(QueryArgument argument) {
-        return BusCallService.call(BusCallServerModule.QUERY_SERVICE_ADDRESS, argument);
+        return BusCallService.call(QueryService.QUERY_SERVICE_ADDRESS, argument);
     }
 }

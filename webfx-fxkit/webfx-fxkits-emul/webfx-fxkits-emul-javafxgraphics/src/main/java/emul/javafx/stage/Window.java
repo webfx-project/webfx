@@ -3,6 +3,7 @@ package emul.javafx.stage;
 import emul.javafx.beans.property.*;
 import emul.javafx.event.*;
 import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import emul.javafx.geometry.Rectangle2D;
@@ -300,7 +301,7 @@ public class Window implements EventTarget,
                     // Register pulse listener
                     // tk.addStageTkPulseListener(peerBoundsConfigurator);
                     if (pulseScheduled == null)
-                        pulseScheduled = FxKit.get().scheduler().schedulePeriodicInAnimationFrame(peerBoundsConfigurator::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+                        pulseScheduled = UiScheduler.schedulePeriodicInAnimationFrame(peerBoundsConfigurator::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
 
 
                     if (getScene() != null) {
@@ -311,7 +312,7 @@ public class Window implements EventTarget,
                         if (firstShowing && Window.this != FxKit.get().getPrimaryStage()) {
                             impl_peer.setBounds(100_000, 100_000, true, true, -1, -1, -1, -1, 0, 0);
                             impl_peer.setVisible(true);
-                            FxKit.get().scheduler().scheduleDelay(200, () -> {
+                            UiScheduler.scheduleDelay(200, () -> {
                                 x.setValue(Double.NaN); xExplicit = false;
                                 y.setValue(Double.NaN); yExplicit = false;
                                 peerBoundsConfigurator.setDirty();
@@ -369,7 +370,7 @@ public class Window implements EventTarget,
                 }
             }
             if (newVisible) {
-                FxKit.get().scheduler().requestNextScenePulse();
+                UiScheduler.requestNextScenePulse();
             }
             impl_visibleChanged(newVisible);
 
@@ -918,7 +919,7 @@ public class Window implements EventTarget,
 
         private void setDirty() {
             if (!dirty) {
-                FxKit.get().scheduler().requestNextScenePulse();
+                UiScheduler.requestNextScenePulse();
                 dirty = true;
             }
         }

@@ -5,8 +5,8 @@ import mongooses.loadtester.activities.loadtester.drive.metrics.controller.Syste
 import mongooses.loadtester.activities.loadtester.drive.metrics.controller.SystemLookupMock;
 import mongooses.loadtester.activities.loadtester.drive.metrics.model.MemData;
 import mongooses.loadtester.activities.loadtester.drive.metrics.model.SysBean;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.scheduler.Scheduler;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 
 /**
@@ -37,11 +37,11 @@ public class Metrics {
                 SysBean sb = sysMon.snapshot();
                 current = System.currentTimeMillis();
                 // Display results on the UI
-                FxKit.get().scheduler().scheduleDeferred(() -> memData.set(new MemData(sb)));
+                UiScheduler.scheduleDeferred(() -> memData.set(new MemData(sb)));
                 // Display results on the console (optional)
                 if (mode_console) {
                     sb.printState();
-//                    Platform.log("elapsed time : " + (current - start) + " ms");
+//                    Logger.log("elapsed time : " + (current - start) + " ms");
                 }
             }
             cancelled = false;

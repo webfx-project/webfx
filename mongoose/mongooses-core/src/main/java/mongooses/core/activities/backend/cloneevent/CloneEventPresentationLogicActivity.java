@@ -1,10 +1,10 @@
 package mongooses.core.activities.backend.cloneevent;
 
-import mongooses.core.operations.bothends.route.RouteToBookingsRequest;
 import mongooses.core.activities.sharedends.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongooses.core.entities.Event;
+import mongooses.core.operations.bothends.route.RouteToBookingsRequest;
 import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.update.UpdateArgument;
 import webfx.platforms.core.services.update.UpdateService;
 
@@ -38,7 +38,7 @@ public final class CloneEventPresentationLogicActivity extends EventDependentPre
             LocalDate startDate = pm.getDate();
             UpdateService.executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceId())).setHandler(ar -> {
                 if (ar.succeeded())
-                    FxKit.get().scheduler().runInUiThread(() ->
+                    UiScheduler.runInUiThread(() ->
                         new RouteToBookingsRequest(ar.result().getGeneratedKeys()[0], getHistory()).execute()
                 );
             });

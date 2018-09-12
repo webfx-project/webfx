@@ -31,7 +31,7 @@ public class WorkingDocumentPricing {
         int price = 0;
         for (SiteRateItemBlock block : siteRateItemBlocks) {
             int blockPrice = block.computePrice();
-            //Platform.log(block + " price = " + blockPrice);
+            //Logger.log(block + " price = " + blockPrice);
             price += blockPrice;
         }
 /*

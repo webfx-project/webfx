@@ -6,8 +6,6 @@ import webfx.platforms.core.services.bus.client.WebSocketBusOptions;
 import webfx.platforms.core.services.bus.spi.impl.ClientBusServiceProviderImpl;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.resource.ResourceService;
-import webfx.platforms.core.spi.Platform;
-import webfx.platforms.web.WebPlatform;
 
 /**
  * @author Bruno Salmon
@@ -20,7 +18,7 @@ public class WebClientBusServiceProvider extends ClientBusServiceProviderImpl {
         // Setting protocol to HTTP (unless already explicitly set by the application)
         if (socketBusOptions.getProtocol() == null)
             socketBusOptions.setProtocol(WebSocketBusOptions.Protocol.HTTP);
-        WindowLocation windowLocation = ((WebPlatform) Platform.get()).getCurrentLocation();
+        WindowLocation windowLocation = WindowLocation.get();
         // Setting server host from url hostname (if not explicitly set)
         if (socketBusOptions.getServerHost() == null)
             socketBusOptions.setServerHost(windowLocation.getHostname());

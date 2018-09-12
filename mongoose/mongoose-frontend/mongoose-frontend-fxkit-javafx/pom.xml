@@ -10,7 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mongoose-frontend-fxkit-javafx</artifactId>
+
     <dependencies>
+
+        <dependency>
+            <artifactId>mongooses-frontend</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
 
         <dependency>
             <artifactId>mongooses-java</artifactId>

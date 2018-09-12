@@ -20,7 +20,6 @@ import webfx.framework.router.session.impl.UserHolder;
 import webfx.framework.router.session.impl.UserSessionHandlerImpl;
 import webfx.framework.ui.uisession.UiSession;
 import webfx.fxkits.core.properties.markers.HasNodeProperty;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.client.url.history.History;
 import webfx.platforms.core.client.url.history.baseimpl.SubHistory;
 import webfx.platforms.core.services.json.Json;
@@ -28,6 +27,7 @@ import webfx.platforms.core.services.json.JsonArray;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.function.Converter;
 import webfx.platforms.core.util.function.Factory;
@@ -262,7 +262,7 @@ public class UiRouter extends HistoryRouter {
             // once done we display the activity node by binding it with the hosting context (done in the UI tread)
             activityManager.resume().setHandler(event -> {
                 if (hostingContext instanceof HasNodeProperty && activityContext instanceof HasNodeProperty)
-                    FxKit.get().scheduler().runInUiThread(() ->
+                    UiScheduler.runInUiThread(() ->
                         ((HasNodeProperty) hostingContext).nodeProperty().bind(((HasNodeProperty) activityContext).nodeProperty())
                     );
             });
@@ -277,7 +277,7 @@ public class UiRouter extends HistoryRouter {
             if (mountChildSubRouter != null) // Indicates it is a mount parent activity
                 // The trick is to bind the mount node of the parent activity to the child activity node
                 if (activityContext instanceof HasMountNodeProperty && mountChildSubRouter.hostingContext instanceof HasNodeProperty)
-                    FxKit.get().scheduler().runInUiThread(() ->
+                    UiScheduler.runInUiThread(() ->
                         ((HasMountNodeProperty) activityContext).mountNodeProperty().bind(((HasNodeProperty) mountChildSubRouter.hostingContext).nodeProperty()) // Using the hosting context node which is bound to the child activity node
                     );
                 // This should display the child activity because a mount parent activity is supposed to bind its context mount node to the UI

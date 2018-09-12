@@ -4,12 +4,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongooses.loadtester.activities.loadtester.drive.listener.EventListener;
 import mongooses.loadtester.activities.loadtester.drive.listener.EventListenerImpl;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplayResultBuilder;
-import webfx.platforms.core.services.scheduler.Scheduler;
 import webfx.fxkits.extra.type.PrimType;
+import webfx.platforms.core.services.scheduler.Scheduler;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ConnectionChartGenerator {
     }
 
     public DisplayResult createDisplayResult(){
-//        Platform.log("createDisplayResult(Connections)");
+//        Logger.log("createDisplayResult(Connections)");
         int rowCount = connectionList.size();
         // Building the DisplayResult for the chart using column format (First column = X, other columns = series Ys)
         DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, new DisplayColumn[]{
@@ -47,15 +47,15 @@ public class ConnectionChartGenerator {
             rsb.setValue(rowIndex, 3, data.getConnected());
         }
         DisplayResult displayResult = rsb.build();
-//        Platform.log("Ok: " + displayResult);
+//        Logger.log("Ok: " + displayResult);
 /*
-        Platform.log("Chart - [" + rowCount
+        Logger.log("Chart - [" + rowCount
                     +", "+ connectionList.get(rowCount-1).getRequested()
                     +", "+ connectionList.get(rowCount-1).getStarted()
                     +", "+ connectionList.get(rowCount-1).getConnected()
                     +" ]");
 */
-        FxKit.get().scheduler().scheduleDeferred(() -> connectionListProperty.set(displayResult));
+        UiScheduler.scheduleDeferred(() -> connectionListProperty.set(displayResult));
         return displayResult;
     }
 

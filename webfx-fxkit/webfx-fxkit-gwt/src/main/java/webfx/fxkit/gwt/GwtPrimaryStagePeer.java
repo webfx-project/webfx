@@ -3,11 +3,11 @@ package webfx.fxkit.gwt;
 import emul.com.sun.javafx.tk.TKStageListener;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
-import webfx.fxkits.core.spi.FxKit;
-import webfx.fxkits.core.spi.peer.StagePeer;
-import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 import webfx.fxkit.gwt.html.HtmlScenePeer;
 import webfx.fxkit.gwt.util.HtmlUtil;
+import webfx.fxkits.core.spi.peer.StagePeer;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 
 import static elemental2.dom.DomGlobal.document;
 import static elemental2.dom.DomGlobal.window;
@@ -26,7 +26,7 @@ class GwtPrimaryStagePeer implements StagePeer {
         // Disabling horizontal and vertical scroll bars
         HtmlUtil.setStyleAttribute(document.documentElement, "overflow", "hidden");
         // Checking the window size on each pulse (window.onsize is not enough because it doesn't detect vertical scroll bar apparition)
-        FxKit.get().scheduler().schedulePeriodicInAnimationFrame(this::changedWindowSize, AnimationFramePass.PROPERTY_CHANGE_PASS);
+        UiScheduler.schedulePeriodicInAnimationFrame(this::changedWindowSize, AnimationFramePass.PROPERTY_CHANGE_PASS);
     }
 
     @Override
@@ -34,12 +34,12 @@ class GwtPrimaryStagePeer implements StagePeer {
         this.listener = listener;
         listener.changedLocation(0, 0);
         lastWidth = lastHeight = 0; // to force listener call in changedWindowSize()
-        FxKit.get().scheduler().requestNextScenePulse(); // to ensure changedWindowSize() will be called very soon
+        UiScheduler.requestNextScenePulse(); // to ensure changedWindowSize() will be called very soon
     }
 
     @Override
     public void setBounds(float x, float y, boolean xSet, boolean ySet, float w, float h, float cw, float ch, float xGravity, float yGravity) {
-        //Platform.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
+        //Logger.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
         changedWindowSize();
     }
 

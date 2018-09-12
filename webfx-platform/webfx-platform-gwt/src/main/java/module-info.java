@@ -1,6 +1,4 @@
-import webfx.platform.gwt.GwtPlatform;
 import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
-import webfx.platforms.web.WebPlatform;
 import webfx.platform.gwt.services.scheduler.GwtSchedulerProviderImpl;
 
 /**
@@ -19,7 +17,6 @@ module webfx.platform.gwt {
     exports webfx.platform.gwt;
     exports webfx.platform.gwt.services.resource;
 
-    provides WebPlatform with GwtPlatform;
     provides SchedulerProvider with GwtSchedulerProviderImpl;
     //provides webfx.platform.json.spi.JsonProvider with webfx.providers.platform.client.gwt.json.GwtJsonObject; // protected constructor
 }

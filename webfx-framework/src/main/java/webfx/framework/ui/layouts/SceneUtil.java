@@ -20,6 +20,7 @@ import webfx.fxkits.core.properties.Unregisterable;
 import webfx.fxkits.core.properties.UnregisterableListener;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.scheduler.Scheduled;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 import webfx.platforms.core.util.Booleans;
 import webfx.platforms.core.util.function.Consumer;
@@ -206,7 +207,7 @@ public final class SceneUtil {
                 }
                 virtualKeyboardShowingProperty.setValue(showing);
                 // Also keeping focused text input control visible on screen when changing height
-                FxKit.get().scheduler().scheduleInFutureAnimationFrame(2, () -> {
+                UiScheduler.scheduleInFutureAnimationFrame(2, () -> {
                     Node focusOwner = scene.getFocusOwner();
                     if (focusOwner instanceof TextInputControl)
                         scrollNodeToBeVerticallyVisibleOnScene(focusOwner, true, true);
@@ -218,7 +219,7 @@ public final class SceneUtil {
             lastTextInputFocusTime = System.currentTimeMillis();
             cancelLastNoVirtualKeyboardDetection();
             if (!isVirtualKeyboardShowing())
-                noVirtualKeyboardDetectionScheduled = FxKit.get().scheduler().scheduleDelay(MAX_DELAY_MILLIS_BETWEEN_FOCUS_AND_VIRTUAL_KEYBOARD, () -> virtualKeyboardDetected = false);
+                noVirtualKeyboardDetectionScheduled = UiScheduler.scheduleDelay(MAX_DELAY_MILLIS_BETWEEN_FOCUS_AND_VIRTUAL_KEYBOARD, () -> virtualKeyboardDetected = false);
         }
 
         public boolean isVirtualKeyboardShowing() {

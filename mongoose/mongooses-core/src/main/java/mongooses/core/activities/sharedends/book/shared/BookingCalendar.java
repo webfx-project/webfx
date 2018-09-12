@@ -15,12 +15,12 @@ import mongooses.core.activities.sharedends.logic.ui.calendargraphic.CalendarGra
 import mongooses.core.activities.sharedends.logic.work.WorkingDocument;
 import mongooses.core.activities.sharedends.logic.work.WorkingDocumentLine;
 import mongooses.core.activities.sharedends.logic.work.merge.WorkingDocumentMerger;
-import mongooses.core.domainmodel.formatters.PriceFormatter;
 import mongooses.core.aggregates.EventAggregate;
+import mongooses.core.domainmodel.formatters.PriceFormatter;
 import mongooses.core.util.PerformanceLogger;
 import webfx.framework.orm.entity.Entities;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 import java.util.concurrent.TimeUnit;
 
@@ -80,7 +80,7 @@ public class BookingCalendar {
             PerformanceLogger perf = new PerformanceLogger();
             Calendar calendar = createCalendarFromWorkingDocument();
             perf.log("Calendar creation");
-            FxKit.get().scheduler().runInUiThread(() -> {
+            UiScheduler.runInUiThread(() -> {
                 if (calendarGraphic == null) {
                     calendarGraphic = CalendarGraphic.create(calendar);
                     calendarGraphic.setCalendarClickHandler(this::onCalendarClick);

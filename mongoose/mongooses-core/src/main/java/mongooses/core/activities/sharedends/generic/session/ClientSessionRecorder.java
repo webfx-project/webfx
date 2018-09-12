@@ -187,7 +187,7 @@ public class ClientSessionRecorder {
         boolean newSessionApplication =  Entities.isNew(sessionApplication);
         store.executeUpdate().setHandler(ar -> {
             if (ar.failed())
-                Logger.log(ar.cause());
+                Logger.log("Client Session Recorder error", ar.cause());
             else {
                 if (newSessionAgent)
                     storeEntityToLocalStorage(sessionAgent, "sessionAgent", "agentString");

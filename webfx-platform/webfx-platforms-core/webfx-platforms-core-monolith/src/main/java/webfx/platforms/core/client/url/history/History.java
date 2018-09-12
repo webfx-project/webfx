@@ -5,6 +5,7 @@ import webfx.platforms.core.client.url.location.PathStateLocation;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.function.Function;
+import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * Inspired from https://github.com/mjackson/history/blob/master/docs/Glossary.md#history
@@ -12,6 +13,10 @@ import webfx.platforms.core.util.function.Function;
  * @author Bruno Salmon
  */
 public interface History {
+
+    static History get() { // returns browser history
+        return ServiceLoaderHelper.loadService(History.class);
+    }
 
     /***************************************** Navigation management ***************************************************
      *

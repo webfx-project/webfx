@@ -35,8 +35,8 @@ import webfx.fxkits.core.spi.peer.NodePeer;
 import webfx.fxkits.core.spi.peer.ScenePeer;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.platforms.core.services.scheduler.Scheduled;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
-import webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider;
 import webfx.platforms.core.util.collection.Collections;
 
 import java.util.*;
@@ -541,7 +541,6 @@ public class Scene implements EventTarget,
 
 
     private final SceneRequester sceneRequester = new SceneRequester() {
-        private final UiSchedulerProvider uiSchedulerProvider = FxKit.get().scheduler();
 
         @Override
         public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
@@ -550,17 +549,17 @@ public class Scene implements EventTarget,
 
         @Override
         public void requestNodePeerListUpdate(Node node, ObservableList changedList, ListChangeListener.Change change) {
-            if (change != null && !uiSchedulerProvider.isAnimationFrameNow())
+            if (change != null && !UiScheduler.isAnimationFrameNow())
                 change = new SnapshotChange(change);
             ListChangeListener.Change finalChange = change;
             executePropertyChange(() -> updateViewList(node, changedList, finalChange));
         }
 
         private void executePropertyChange(Runnable runnable) {
-            if (uiSchedulerProvider.isAnimationFrameNow())
+            if (UiScheduler.isAnimationFrameNow())
                 runnable.run();
             else
-                uiSchedulerProvider.schedulePropertyChangeInNextAnimationFrame(runnable);
+                UiScheduler.schedulePropertyChangeInNextAnimationFrame(runnable);
         }
     };
 
@@ -668,7 +667,7 @@ public class Scene implements EventTarget,
 
     public void startPulse() {
         if (pulseScheduled == null)
-            pulseScheduled = FxKit.get().scheduler().schedulePeriodicInAnimationFrame(scenePulseListener::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+            pulseScheduled = UiScheduler.schedulePeriodicInAnimationFrame(scenePulseListener::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
     }
 
     public void stopPulse() {
@@ -2034,6 +2033,52 @@ public class Scene implements EventTarget,
 */
     }
 
+    /**
+     * A ObservableList of string URLs linking to the stylesheets to use with this scene's
+     * contents. For additional information about using CSS with the
+     * scene graph, see the <a href="doc-files/cssref.html">CSS Reference
+     * Guide</a>.
+     */
+    private final ObservableList<String> stylesheets = FXCollections.observableArrayList();
+
+    /**
+     * Gets an observable list of string URLs linking to the stylesheets to use
+     * with this scene's contents.
+     * <p>
+     * The URL is a hierarchical URI of the form [scheme:][//authority][path]. If the URL
+     * does not have a [scheme:] component, the URL is considered to be the [path] component only.
+     * Any leading '/' character of the [path] is ignored and the [path] is treated as a path relative to
+     * the root of the application's classpath.
+     * </p>
+     * <code><pre>
+     *
+     * package com.example.javafx.app;
+     *
+     * import javafx.application.Application;
+     * import javafx.scene.Group;
+     * import javafx.scene.Scene;
+     * import javafx.stage.Stage;
+     *
+     * public class MyApp extends Application {
+     *
+     *     {@literal @}Override public void start(Stage stage) {
+     *         Scene scene = new Scene(new Group());
+     *         scene.getStylesheets().add("/com/example/javafx/app/mystyles.css");
+     *         stage.setScene(scene);
+     *         stage.show();
+     *     }
+     *
+     *     public static void main(String[] args) {
+     *         launch(args);
+     *     }
+     * }
+     * </pre></code>
+     * For additional information about using CSS with the scene graph,
+     * see the <a href="doc-files/cssref.html">CSS Reference Guide</a>.
+     *
+     * @return the list of stylesheets to use with this scene
+     */
+    public final ObservableList<String> getStylesheets() { return stylesheets; }
 
     private static class SnapshotChange<E> extends SourceAdapterChange<E> {
 

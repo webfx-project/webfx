@@ -11,9 +11,13 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-fxkit-javafx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongooses-backend" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongooses-frontend" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-loadtester-jp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongooses-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongooses-sharedends" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit" charset="UTF-8" />
@@ -38,7 +42,6 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-jre" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-vertx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-bus" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-bus" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-log" charset="UTF-8" />

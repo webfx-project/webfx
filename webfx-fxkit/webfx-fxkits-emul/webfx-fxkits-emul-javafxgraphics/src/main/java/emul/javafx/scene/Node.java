@@ -26,8 +26,8 @@ import emul.javafx.scene.layout.LayoutFlags;
 import emul.javafx.scene.transform.Transform;
 import emul.javafx.scene.transform.Translate;
 import webfx.fxkits.core.properties.markers.*;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.core.spi.peer.NodePeer;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -644,7 +644,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
     void requestNextPulse() {
-        FxKit.get().scheduler().requestNextScenePulse();
+        UiScheduler.requestNextScenePulse();
 /*
         if (getSubScene() != null) {
             getSubScene().setDirtyLayout(p);
@@ -1192,7 +1192,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
             private LayoutMeasurable acceptedLayoutMeasurable = nodePeer instanceof LayoutMeasurable && shouldUseLayoutMeasurable() ? (LayoutMeasurable) nodePeer : null;
             {
                 if (nodePeer instanceof HasSizeChangedCallback)
-                    FxKit.get().scheduler().scheduleDeferred(() ->
+                    UiScheduler.scheduleDeferred(() ->
                             ((HasSizeChangedCallback) nodePeer).setSizeChangedCallback(() -> onPeerSizeChanged())
                     );
             }

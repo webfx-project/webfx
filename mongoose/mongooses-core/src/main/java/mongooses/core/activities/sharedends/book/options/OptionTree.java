@@ -7,7 +7,7 @@ import mongooses.core.activities.sharedends.logic.work.WorkingDocument;
 import mongooses.core.activities.sharedends.logic.work.transaction.WorkingDocumentTransaction;
 import mongooses.core.entities.Event;
 import mongooses.core.entities.Option;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.collection.Collections;
 
 import java.util.HashMap;
@@ -117,7 +117,7 @@ public final class OptionTree {
     void deferTransactionCommitAndUiSync() {
         if (!pendingTransactionCommitAndUiSync) {
             pendingTransactionCommitAndUiSync = true;
-            FxKit.get().scheduler().scheduleDeferred(() -> {
+            UiScheduler.scheduleDeferred(() -> {
                 getWorkingDocumentTransaction().commit();
                 getActivity().createOrUpdateOptionPanelsIfReady(true);
                 pendingTransactionCommitAndUiSync = false;

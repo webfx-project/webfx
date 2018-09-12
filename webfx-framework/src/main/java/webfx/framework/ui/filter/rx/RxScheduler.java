@@ -1,14 +1,14 @@
 package webfx.framework.ui.filter.rx;
 
-import webfx.fxkits.core.spi.FxKit;
-import webfx.platforms.core.services.scheduler.Scheduled;
-import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.functions.Action0;
 import rx.subscriptions.BooleanSubscription;
 import rx.subscriptions.CompositeSubscription;
 import rx.subscriptions.Subscriptions;
+import webfx.platforms.core.services.scheduler.Scheduled;
+import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +21,7 @@ import static java.lang.Math.max;
 public final class RxScheduler extends Scheduler {
 
     public static RxScheduler BACKGROUND_SCHEDULER = new RxScheduler(webfx.platforms.core.services.scheduler.Scheduler.getProvider());
-    public static RxScheduler UI_SCHEDULER = new RxScheduler(FxKit.get().scheduler());
+    public static RxScheduler UI_SCHEDULER = new RxScheduler(UiScheduler.getProvider());
 
     private final SchedulerProvider schedulerProvider;
 

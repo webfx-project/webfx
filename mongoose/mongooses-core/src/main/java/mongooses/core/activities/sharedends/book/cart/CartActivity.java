@@ -11,19 +11,19 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import mongooses.core.operations.bothends.route.RouteToPaymentRequest;
-import mongooses.core.operations.bothends.route.RouteToFeesRequest;
-import mongooses.core.operations.bothends.route.RouteToOptionsRequest;
 import mongooses.core.activities.sharedends.book.shared.BookingOptionsPanel;
 import mongooses.core.activities.sharedends.book.shared.TermsDialog;
 import mongooses.core.activities.sharedends.book.shared.TranslateFunction;
 import mongooses.core.activities.sharedends.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongooses.core.activities.sharedends.logic.work.WorkingDocument;
+import mongooses.core.aggregates.CartAggregate;
 import mongooses.core.domainmodel.formatters.PriceFormatter;
 import mongooses.core.entities.Document;
 import mongooses.core.entities.History;
 import mongooses.core.entities.Mail;
-import mongooses.core.aggregates.CartAggregate;
+import mongooses.core.operations.bothends.route.RouteToFeesRequest;
+import mongooses.core.operations.bothends.route.RouteToOptionsRequest;
+import mongooses.core.operations.bothends.route.RouteToPaymentRequest;
 import webfx.framework.expression.lci.DataReader;
 import webfx.framework.expression.terms.function.Function;
 import webfx.framework.orm.entity.Entities;
@@ -35,12 +35,12 @@ import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
 import webfx.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.mapping.EntityListToDisplayResultGenerator;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplaySelection;
-import webfx.platforms.core.services.log.Logger;
 import webfx.fxkits.extra.type.PrimType;
+import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Strings;
 import webfx.platforms.core.util.collection.Collections;
 
@@ -144,7 +144,7 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void autoSelectWorkingDocument() {
-        FxKit.get().scheduler().runInUiThread(() -> {
+        UiScheduler.runInUiThread(() -> {
             int selectedIndex = indexOfWorkingDocument(selectedWorkingDocument);
             CartAggregate cartAggregate = cartService();
             if (selectedIndex == -1 && cartAggregate.getEventAggregate() != null)

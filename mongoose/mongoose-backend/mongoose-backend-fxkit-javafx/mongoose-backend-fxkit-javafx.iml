@@ -11,6 +11,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="mongooses-backend" />
+    <orderEntry type="module" module-name="mongooses-sharedends" />
     <orderEntry type="module" module-name="mongooses-java" />
     <orderEntry type="module" module-name="mongooses-core" />
     <orderEntry type="module" module-name="webfx-framework" />

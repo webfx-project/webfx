@@ -22,13 +22,12 @@ import webfx.framework.orm.entity.UpdateStore;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.control.HtmlText;
-import webfx.platforms.core.services.bus.client.WebSocketBus;
 import webfx.platforms.core.client.url.location.WindowLocation;
+import webfx.platforms.core.services.bus.client.WebSocketBus;
 import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.spi.client.ClientPlatform;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Dates;
 import webfx.platforms.core.util.Strings;
 import webfx.platforms.core.util.collection.Collections;
@@ -75,7 +74,7 @@ final class PaymentActivity extends CartBasedActivity {
         if (cartDocuments != null && paymentsVBox != null) {
             notPaidEnoughCount = notPaidFullCount = 0;
             documentPayments = Collections.mapFilter(cartDocuments, DocumentPayment::new, DocumentPayment::hasBalance);
-            FxKit.get().scheduler().runInUiThread(() -> {
+            UiScheduler.runInUiThread(() -> {
                 paymentsVBox.getChildren().setAll(Collections.map(documentPayments, DocumentPayment::getNode));
                 updateTotal();
             });
@@ -250,9 +249,9 @@ final class PaymentActivity extends CartBasedActivity {
                     else {
                         EntityList<GatewayParameter> gatewayParameters = ar2.result()[0];
                         lastPayment = (MoneyTransfer) ar2.result()[1].get(0);
-                        FxKit.get().scheduler().runInUiThread(() -> {
+                        UiScheduler.runInUiThread(() -> {
                             String innerHtml = generateHtmlForm(gatewayParameters);
-                            //Platform.log(innerHtml);
+                            //Logger.log(innerHtml);
                             HtmlText htmlText = LayoutUtil.setMaxPrefSizeToInfinite(new HtmlText(innerHtml));
                             DialogUtil.showModalNodeInGoldLayout(htmlText, (Pane) getNode(), 0.9, 0.8);
                         });
@@ -316,7 +315,7 @@ final class PaymentActivity extends CartBasedActivity {
         value = Strings.replaceAllSafe(value, "[phone]", doc.getPhone());
         ////"[phone_int]": keepDigitsOnly(firstDocument.person_phone),
         value = Strings.replaceAllSafe(value, "[email]", doc.getEmail());
-        WindowLocation currentLocation = ClientPlatform.get().getCurrentLocation();
+        WindowLocation currentLocation = WindowLocation.get();
         value = Strings.replaceAllSafe(value, "[frontendUrl]", currentLocation.getOrigin());
         String cartUrl = Strings.removeSuffix(currentLocation.getHref(), "/payment");
         value = Strings.replaceAllSafe(value, "[cartUrl]", cartUrl);

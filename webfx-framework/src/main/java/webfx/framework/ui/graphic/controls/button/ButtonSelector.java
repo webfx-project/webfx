@@ -9,16 +9,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import webfx.framework.ui.graphic.border.BorderUtil;
 import webfx.framework.ui.graphic.controls.dialog.DialogCallback;
 import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
-import webfx.framework.ui.graphic.border.BorderUtil;
 import webfx.framework.ui.graphic.materialdesign.MaterialFactoryMixin;
 import webfx.framework.ui.graphic.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.scheduler.Scheduled;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 import webfx.platforms.core.util.function.Callable;
 
@@ -159,7 +159,7 @@ public abstract class ButtonSelector<T> {
     }
 
     public void updateButtonContentOnNewSelectedItem() {
-        FxKit.get().scheduler().runInUiThread(() -> getButton().setGraphic(getOrCreateButtonContentFromSelectedItem()));
+        UiScheduler.runInUiThread(() -> getButton().setGraphic(getOrCreateButtonContentFromSelectedItem()));
     }
 
     protected abstract Node getOrCreateButtonContentFromSelectedItem();
@@ -354,7 +354,7 @@ public abstract class ButtonSelector<T> {
         if (isLoadedContentLayoutInDialog())
             applyNewDecidedShowModeNow();
         else if (scheduled == null)
-            scheduled = FxKit.get().scheduler().scheduleInFutureAnimationFrame(1, () -> {
+            scheduled = UiScheduler.scheduleInFutureAnimationFrame(1, () -> {
                 scheduled = null;
                 applyNewDecidedShowMode();
             }, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
@@ -377,7 +377,7 @@ public abstract class ButtonSelector<T> {
             } else {
                 // This code is in case a virtual keyboard just appeared, at this stage, the layout is not finished so we
                 // update the dialog position again later (2 animation frames later seems necessary)
-                FxKit.get().scheduler().scheduleInFutureAnimationFrame(2,
+                UiScheduler.scheduleInFutureAnimationFrame(2,
                     this::updateDropUpOrDownDialogPosition
                 , AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
             }

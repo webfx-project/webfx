@@ -7,7 +7,7 @@ import javafx.stage.Window;
 import webfx.fxkits.core.spi.peer.ScenePeer;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.fxkits.core.spi.peer.WindowPeer;
-import webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 
 /**
@@ -15,15 +15,13 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
  */
 public abstract class FxKit {
 
-    private final UiSchedulerProvider uiSchedulerProvider;
     private Stage primaryStage;
 
-    public FxKit(UiSchedulerProvider uiSchedulerProvider) {
-        this(uiSchedulerProvider, null);
+    public FxKit() {
+        this(null);
     }
 
-    public FxKit(UiSchedulerProvider uiSchedulerProvider, Stage primaryStage) {
-        this.uiSchedulerProvider = uiSchedulerProvider;
+    public FxKit(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
@@ -50,15 +48,11 @@ public abstract class FxKit {
     }
 
     public void onReady(Runnable runnable) {
-        get().scheduler().runInUiThread(runnable);
-    }
-
-    public UiSchedulerProvider scheduler() {
-        return uiSchedulerProvider;
+        UiScheduler.runInUiThread(runnable);
     }
 
     public static boolean isUiThread() {
-        return get().scheduler().isUiThread();
+        return UiScheduler.isUiThread();
     }
 
     public double getVerticalScrollbarExtraWidth() {

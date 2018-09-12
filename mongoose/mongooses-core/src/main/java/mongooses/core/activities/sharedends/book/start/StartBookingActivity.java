@@ -12,17 +12,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import mongooses.core.actions.MongooseActions;
+import mongooses.core.activities.sharedends.book.shared.BookingProcessActivity;
 import mongooses.core.operations.bothends.route.RouteToFeesRequest;
 import mongooses.core.operations.bothends.route.RouteToOptionsRequest;
 import mongooses.core.operations.bothends.route.RouteToProgramRequest;
-import mongooses.core.activities.sharedends.book.shared.BookingProcessActivity;
 import mongooses.core.operations.bothends.route.RouteToTermsRequest;
 import mongooses.core.util.Labels;
 import webfx.framework.ui.anim.Animations;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.util.ImageStore;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 /**
  * @author Bruno Salmon
@@ -66,7 +66,7 @@ final class StartBookingActivity extends BookingProcessActivity {
         fadeOut();
         onEvent().setHandler(ar -> {
             onEventOptions(); // Anticipating event options loading now (required for options and fees pages)
-            FxKit.get().scheduler().runInUiThread(() -> {
+            UiScheduler.runInUiThread(() -> {
                 String imageUrl = null;
                 if (ar.succeeded()) {
                     Labels.translateLabel(eventTitle, Labels.bestLabelOrName(ar.result()));

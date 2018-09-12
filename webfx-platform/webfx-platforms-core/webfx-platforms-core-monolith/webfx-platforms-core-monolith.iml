@@ -19,5 +19,6 @@
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
+    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
   </component>
 </module>

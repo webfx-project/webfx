@@ -1,6 +1,7 @@
 package emul.javafx.application;
 
 import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 /**
  * Application platform support class.
@@ -54,7 +55,7 @@ public final class Platform {
      */
     public static void runLater(Runnable runnable) {
         //PlatformImpl.runLater(runnable);
-        FxKit.get().scheduler().scheduleDeferred(runnable);
+        UiScheduler.scheduleDeferred(runnable);
     }
 
     // NOTE: Add the following if we decide to expose it publicly

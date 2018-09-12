@@ -15,7 +15,6 @@ import webfx.framework.activity.ActivityContextFactory;
 import webfx.framework.activity.base.elementals.application.ApplicationContext;
 import webfx.framework.activity.base.elementals.application.impl.ApplicationContextBase;
 import webfx.platforms.core.client.url.history.History;
-import webfx.platforms.core.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -60,7 +59,7 @@ public class ViewApplicationContextBase
     @Override
     public History getHistory() {
         if (super.getUiRouter() == null)
-            return Platform.get().getBrowserHistory();
+            return History.get();
         return super.getHistory();
     }
 

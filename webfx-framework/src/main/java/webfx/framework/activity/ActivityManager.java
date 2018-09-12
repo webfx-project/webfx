@@ -1,12 +1,12 @@
 package webfx.framework.activity;
 
 import webfx.framework.activity.base.ActivityContextBase;
-import webfx.platforms.core.spi.server.ServerModule;
+import webfx.platforms.core.services.appcontainer.ApplicationContainer;
+import webfx.platforms.core.services.appcontainer.ApplicationService;
 import webfx.platforms.core.util.async.AsyncResult;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.function.Factory;
-import webfx.platforms.core.spi.server.ServerPlatform;
 
 /**
  * @author Bruno Salmon
@@ -206,9 +206,9 @@ public class ActivityManager<C extends ActivityContext<C>> {
         new ActivityManager(activity, context).run();
     }
 
-    public static <C extends ActivityContext> void runActivityAsServerModule(Activity<C> activity, C context) {
+    public static <C extends ActivityContext> void startActivityAsApplicationService(Activity<C> activity, C context) {
         ActivityManager<?> activityManager = new ActivityManager(activity, context);
-        ServerPlatform.get().startServerModule(new ServerModule() {
+        ApplicationContainer.startApplicationService(new ApplicationService() {
             @Override
             public Future<Void> onStart() {
                 return activityManager.run();

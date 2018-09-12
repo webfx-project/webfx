@@ -24,16 +24,16 @@ import webfx.framework.services.i18n.Dictionary;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.cell.collator.GridCollator;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.control.SkinnedDataGrid;
 import webfx.fxkits.extra.displaydata.*;
+import webfx.fxkits.extra.type.SpecializedTextType;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.services.log.Logger;
-import webfx.fxkits.extra.type.SpecializedTextType;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Arrays;
 import webfx.platforms.core.util.Booleans;
 import webfx.platforms.core.util.tuples.Pair;
@@ -126,7 +126,7 @@ final class FeesActivity extends BookingProcessActivity {
     private void displayFeesGroups() {
         if (getEvent() == null || feesGroups == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
             return; // We return to avoid NPE (this method will be called again once the event is loaded)
-        FxKit.get().scheduler().runOutUiThread(this::displayFeesGroupsNow);
+        UiScheduler.runOutUiThread(this::displayFeesGroupsNow);
     }
 
     private void displayFeesGroupsNow() {

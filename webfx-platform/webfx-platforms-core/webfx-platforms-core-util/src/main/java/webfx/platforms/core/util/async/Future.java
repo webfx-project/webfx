@@ -6,6 +6,9 @@ import webfx.platforms.core.util.function.Consumer;
 import webfx.platforms.core.util.function.Function;
 import webfx.platforms.core.util.tuples.Unit;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Bruno Salmon
  */
@@ -75,8 +78,7 @@ public interface Future<T> extends AsyncResult<T> {
             return succeededFuture();
         } catch (Throwable t) {
             // temporary tracing the exception while exception handling mechanism is not finished
-            System.out.println("Exception raised in Future.runAsync(): " + t.getMessage());
-            t.printStackTrace();
+            Logger.getGlobal().log(Level.SEVERE, "Exception raised in Future.runAsync()", t);
             return failedFuture(t);
         }
     }
@@ -95,8 +97,7 @@ public interface Future<T> extends AsyncResult<T> {
             return succeededFuture();
         } catch (Throwable t) {
             // temporary tracing the exception while exception handling mechanism is not finished
-            System.out.println("Exception raised in Future.consumeAsync(): " + t.getMessage());
-            t.printStackTrace();
+            Logger.getGlobal().log(Level.SEVERE, "Exception raised in Future.consumeAsync()", t);
             return failedFuture(t);
         }
     }
@@ -216,8 +217,7 @@ public interface Future<T> extends AsyncResult<T> {
                     apply = mapper.apply(ar.result());
                 } catch (Throwable e) {
                     // temporary tracing the exception while exception handling mechanism is not finished
-                    System.out.println("Exception raised in Future.compose(): " + e.getMessage());
-                    e.printStackTrace();
+                    Logger.getGlobal().log(Level.SEVERE, "Exception raised in Future.compose()", e);
                     ret.fail(e);
                     return;
                 }
@@ -251,8 +251,7 @@ public interface Future<T> extends AsyncResult<T> {
                     mapped = mapper.apply(ar.result());
                 } catch (Throwable e) {
                     // temporary tracing the exception while exception handling mechanism is not finished
-                    System.out.println("Exception raised in Future.map(): " + e.getMessage());
-                    e.printStackTrace();
+                    Logger.getGlobal().log(Level.SEVERE, "Exception raised in Future.map()", e);
                     ret.fail(e);
                     return;
                 }

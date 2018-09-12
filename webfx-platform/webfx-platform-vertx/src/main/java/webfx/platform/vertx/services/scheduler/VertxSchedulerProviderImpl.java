@@ -1,6 +1,7 @@
 package webfx.platform.vertx.services.scheduler;
 
 import io.vertx.core.Vertx;
+import webfx.platform.vertx.services.appcontainer.VertxInstance;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
 
@@ -9,11 +10,7 @@ import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
  */
 public final class VertxSchedulerProviderImpl implements SchedulerProvider {
 
-    private final Vertx vertx;
-
-    public VertxSchedulerProviderImpl(Vertx vertx) {
-        this.vertx = vertx;
-    }
+    private final Vertx vertx = VertxInstance.getVertx();
 
     @Override
     public void scheduleDeferred(Runnable runnable) {

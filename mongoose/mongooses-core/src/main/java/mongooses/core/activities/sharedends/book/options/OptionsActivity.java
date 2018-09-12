@@ -7,17 +7,17 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import mongooses.core.actions.MongooseIcons;
-import mongooses.core.operations.bothends.route.RouteToPersonRequest;
 import mongooses.core.activities.sharedends.book.shared.BookingCalendar;
 import mongooses.core.activities.sharedends.book.shared.BookingProcessActivity;
 import mongooses.core.activities.sharedends.book.shared.FeesGroup;
 import mongooses.core.activities.sharedends.logic.preselection.OptionsPreselection;
 import mongooses.core.activities.sharedends.logic.work.WorkingDocument;
 import mongooses.core.entities.Option;
+import mongooses.core.operations.bothends.route.RouteToPersonRequest;
 import mongooses.core.util.Labels;
 import webfx.framework.ui.layouts.FlexBox;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Arrays;
 
 import java.util.HashMap;
@@ -106,7 +106,7 @@ public class OptionsActivity extends BookingProcessActivity {
         if (workingDocument != null && bookingCalendar != null) {
             bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, forceRefresh);
 
-            FxKit.get().scheduler().runInUiThread(() -> {
+            UiScheduler.runInUiThread(() -> {
                 topLevelOptionButtonsContainer.getChildren().setAll(optionTree.getUpdatedTopLevelOptionButtons());
                 ObservableList<Node> verticalStackChildren = verticalStack.getChildren();
                 verticalStackChildren.setAll(topLevelOptionButtonsContainer);

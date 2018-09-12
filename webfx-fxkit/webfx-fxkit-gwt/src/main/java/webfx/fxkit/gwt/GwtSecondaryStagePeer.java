@@ -39,7 +39,7 @@ class GwtSecondaryStagePeer implements StagePeer {
 
     @Override
     public void setBounds(float x, float y, boolean xSet, boolean ySet, float w, float h, float cw, float ch, float xGravity, float yGravity) {
-        //Platform.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
+        //Logger.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
         if (xSet)
             stageDivStyle.left = x + "px";
         if (ySet)

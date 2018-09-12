@@ -59,8 +59,4 @@ public class MongooseBackendApplication extends MongooseSharedEndsApplication {
         );
     }
 
-    public static void main(String[] args) {
-        launchApplication(new MongooseBackendApplication(), args);
-    }
-
 }

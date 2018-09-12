@@ -30,7 +30,7 @@ public class JavaFxFxKit extends FxKit {
     }
 
     public JavaFxFxKit() {
-        super(FxSchedulerProviderImpl.SINGLETON, startingStage);
+        super(startingStage);
         if (startingStage != null) {
             getPrimaryStage();
             onJavaFxPlatformReady();

@@ -21,7 +21,7 @@ public class SubHistory extends HistoryBase {
         String parentMountPath = super.mountToFullPath(mountPath);
         // Then calling the parent method will give the final (parent) full path
         String fullPath = parentHistory.mountToFullPath(parentMountPath);
-        //Platform.log("SubHistory parentFullPath('" + mountPath + "') = " + fullPath);
+        //Logger.log("SubHistory parentFullPath('" + mountPath + "') = " + fullPath);
         return fullPath;
     }
 
@@ -31,7 +31,7 @@ public class SubHistory extends HistoryBase {
         String parentMountPath = parentHistory.fullToMountPath(fullPath);
         // Then calling the super method will actually give the final (sub) mount path
         String mountPath = super.fullToMountPath(parentMountPath);
-        //Platform.log("SubHistory fullToMountPath('" + fullPath + "') = " + mountPath);
+        //Logger.log("SubHistory fullToMountPath('" + fullPath + "') = " + mountPath);
         return mountPath;
     }
 

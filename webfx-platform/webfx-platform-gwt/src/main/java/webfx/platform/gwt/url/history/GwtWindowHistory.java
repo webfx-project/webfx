@@ -12,9 +12,7 @@ import webfx.platforms.core.util.function.Function;
  */
 public class GwtWindowHistory implements WindowHistory {
 
-    public static GwtWindowHistory SINGLETON = new GwtWindowHistory();
-
-    private GwtWindowHistory() {
+    public GwtWindowHistory() {
     }
 
     @Override

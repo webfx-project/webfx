@@ -11,9 +11,13 @@
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-fxkit-javafx/mongoose-frontend-fxkit-javafx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-fxkit-javafx/mongoose-frontend-fxkit-javafx.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx/mongoose-server-platform-vertx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx/mongoose-server-platform-vertx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-backend/mongooses-backend.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-backend/mongooses-backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-frontend/mongooses-frontend.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-frontend/mongooses-frontend.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-loadtester-jp/mongooses-loadtester-jp.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-loadtester-jp/mongooses-loadtester-jp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-server/mongooses-server.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-server/mongooses-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-sharedends/mongooses-sharedends.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-sharedends/mongooses-sharedends.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" filepath="$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-framework/webfx-framework.iml" filepath="$PROJECT_DIR$/webfx-framework/webfx-framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit.iml" />

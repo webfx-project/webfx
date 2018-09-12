@@ -1,9 +1,16 @@
 <module rename-to="mongoose_backend_fxkit_gwt">
 
+    <inherits name="mongooses-web"/>
+    <inherits name="mongooses-backend"/>
+    <inherits name="mongooses-sharedends"/>
+    <inherits name="mongooses-core"/>
+    <inherits name="webfx-framework"/>
+    <inherits name="webfx-fxkit-gwt"/>
+
     <!-- Speeding up GWT compilation time in development mode -->
     <set-property name="user.agent" value="safari"/> <!-- to make only 1 permutation for testing with Chrome -->
 
     <!-- Specify the app entry point class.                         -->
-    <entry-point class='mongooses.web.activities.backend.MongooseBackendWebApplication'/>
+    <entry-point class="webfx.platform.gwt.services.appcontainer.GwtApplicationContainerStarter"/>
 
 </module>

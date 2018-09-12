@@ -1,28 +1,26 @@
 package mongooses.web.activities.sharedends;
 
 import com.google.gwt.core.client.EntryPoint;
-import mongooses.core.activities.sharedends.MongooseSharedEndsApplication;
-import webfx.platform.gwt.GwtPlatform;
+import webfx.platform.gwt.services.resource.GwtResourceServiceProviderImpl;
+import webfx.platforms.core.services.resource.ResourceService;
 
 /**
  * @author Bruno Salmon
  */
 public abstract class MongooseSharedEndsWebApplication implements EntryPoint {
 
-    /* No need for GwtPlatform.register(); as the platform will be found by the customized ServiceLoader provided in the super-source */
-
     @Override
     public void onModuleLoad() {
         registerResourceBundles();
         registerCustomViewBuilders();
         startMongooseApplicationLogic();
-        MongooseSharedEndsApplication.setLoadingSpinnerVisibleConsumer(MongooseSharedEndsWebApplication::setLoadingSpinnerVisible);
+        //MongooseSharedEndsApplication.setLoadingSpinnerVisibleConsumer(MongooseSharedEndsWebApplication::setLoadingSpinnerVisible);
     }
 
     protected abstract void startMongooseApplicationLogic();
 
     protected void registerResourceBundles() {
-        GwtPlatform.registerBundle(MongooseSharedEndsWebBundle.B);
+        ((GwtResourceServiceProviderImpl) ResourceService.getProvider()).register(MongooseSharedEndsWebBundle.B);
     }
 
     protected void registerCustomViewBuilders() {}

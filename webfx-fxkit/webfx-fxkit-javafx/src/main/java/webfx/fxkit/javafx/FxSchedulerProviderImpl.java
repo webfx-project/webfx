@@ -13,12 +13,12 @@ import java.util.concurrent.Executors;
 /**
  * @author Bruno Salmon
  */
-class FxSchedulerProviderImpl extends UiSchedulerProviderImplBase {
+public class FxSchedulerProviderImpl extends UiSchedulerProviderImplBase {
 
     static FxSchedulerProviderImpl SINGLETON = new FxSchedulerProviderImpl();
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
-    private FxSchedulerProviderImpl() {
+    public FxSchedulerProviderImpl() {
     }
 
     @Override

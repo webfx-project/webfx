@@ -1,9 +1,11 @@
 package webfx.platforms.core.services.query.push;
 
 import webfx.platforms.core.services.bus.Registration;
+import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.push.client.PushClientService;
 import webfx.platforms.core.services.push.server.PushServerService;
+import webfx.platforms.core.services.query.push.diff.impl.QueryResultTranslation;
 import webfx.platforms.core.services.query.push.spi.QueryPushServiceProvider;
 import webfx.platforms.core.services.query.push.spi.remote.RemoteQueryPushServiceProviderImpl;
 import webfx.platforms.core.util.async.Future;
@@ -15,8 +17,19 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
  */
 public class QueryPushService {
 
+    public static final String QUERY_PUSH_SERVICE_ADDRESS = "service/querypush";
+
     static {
         ServiceLoaderHelper.registerDefaultServiceFactory(QueryPushServiceProvider.class, RemoteQueryPushServiceProviderImpl::new);
+        // registerJsonCodecsAndBusCalls() body:
+        QueryPushArgument.registerJsonCodec();
+        QueryPushResult.registerJsonCodec();
+        QueryResultTranslation.registerJsonCodec();
+        BusCallService.registerJavaAsyncFunctionAsCallableService(QUERY_PUSH_SERVICE_ADDRESS, QueryPushService::executeQueryPush);
+    }
+
+    public static void registerJsonCodecsAndBusCalls() {
+        // body actually moved in the static constructor
     }
 
     public static QueryPushServiceProvider getProvider() {

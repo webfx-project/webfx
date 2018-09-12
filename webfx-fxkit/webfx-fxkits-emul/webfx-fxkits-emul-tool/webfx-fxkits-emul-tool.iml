@@ -19,6 +19,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
+    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
   </component>
 </module>

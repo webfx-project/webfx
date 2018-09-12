@@ -7,15 +7,10 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 /**
  * @author Bruno Salmon
  */
-public class Scheduler {
+public final class Scheduler {
 
     public static SchedulerProvider getProvider() {
         return ServiceLoaderHelper.loadService(SchedulerProvider.class);
-    }
-
-    public static void registerProvider(SchedulerProvider provider) {
-        ServiceLoaderHelper.cacheServiceInstance(SchedulerProvider.class, provider);
-
     }
 
     /**

@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import webfx.framework.ui.graphic.background.BackgroundUtil;
 import webfx.fxkits.core.properties.Properties;
 import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 import webfx.platforms.core.util.Numbers;
 
@@ -35,7 +36,7 @@ public final class LayoutUtil {
         RowConstraints headerRowConstraints = new RowConstraints();
         // Making the gold pane invisible during a few animation frames because its height may not be stable on start
         goldPane.setVisible(false);
-        FxKit.get().scheduler().scheduleInFutureAnimationFrame(5, () -> goldPane.setVisible(true), AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+        UiScheduler.scheduleInFutureAnimationFrame(5, () -> goldPane.setVisible(true), AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
         headerRowConstraints.prefHeightProperty().bind(Properties.combine(goldPane.heightProperty(), child.heightProperty(),
                 (gpHeight, cHeight) -> {
                     if (percentageHeight != 0)

@@ -6,11 +6,11 @@ import emul.javafx.geometry.BoundingBox;
 import emul.javafx.geometry.Bounds;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.ScrollPane;
-import webfx.fxkits.core.scene.SceneRequester;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkit.gwt.util.HtmlUtil;
+import webfx.fxkits.core.scene.SceneRequester;
 import webfx.fxkits.core.spi.peer.base.ScrollPanePeerBase;
 import webfx.fxkits.core.spi.peer.base.ScrollPanePeerMixin;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 /**
  * @author Bruno Salmon
@@ -150,7 +150,7 @@ public final class HtmlScrollPanePeer
     private void scheduleUpdate() {
         if (!pending) {
             pending = true;
-            FxKit.get().scheduler().scheduleDeferred(() -> {
+            UiScheduler.scheduleDeferred(() -> {
                 callPerfectScrollbarUpdate(getElement());
                 pending = false;
             });

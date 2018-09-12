@@ -3,9 +3,8 @@ package webfx.fxkit.gwt.html.peer;
 import com.googlecode.gwt.charts.client.*;
 import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
 import elemental2.dom.Node;
-import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkit.gwt.util.HtmlUtil;
+import webfx.fxkits.core.properties.Properties;
 import webfx.fxkits.extra.chart.Chart;
 import webfx.fxkits.extra.chart.PieChart;
 import webfx.fxkits.extra.displaydata.DisplayResult;
@@ -16,6 +15,7 @@ import webfx.fxkits.extra.spi.peer.base.ChartPeerMixin;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
 import webfx.fxkits.extra.type.Types;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Booleans;
 import webfx.platforms.core.util.Numbers;
 import webfx.platforms.core.util.Strings;
@@ -42,7 +42,7 @@ abstract class HtmlChartPeer
             if (getNode() != null)
                 onNodeAndWidgetReady();
             else
-                FxKit.get().scheduler().scheduleDeferred(this::onNodeAndWidgetReady);
+                UiScheduler.scheduleDeferred(this::onNodeAndWidgetReady);
         });
     }
 

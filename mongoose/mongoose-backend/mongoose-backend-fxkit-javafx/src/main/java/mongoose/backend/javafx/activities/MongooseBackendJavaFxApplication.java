@@ -18,9 +18,11 @@ import webfx.fxkits.extra.util.ImageStore;
  */
 public final class MongooseBackendJavaFxApplication extends MongooseBackendApplication {
 
+/*
     public static void main(String[] args) {
         launchJavaFxBackendMongooseApplication(args);
     }
+*/
 
     public static void launchJavaFxBackendMongooseApplication(String[] args) {
         launchJavaFxMongooseApplication(new MongooseBackendJavaFxApplication(), args);

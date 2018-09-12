@@ -4,7 +4,7 @@ import emul.javafx.geometry.Pos;
 import emul.javafx.scene.layout.GridPane;
 import emul.javafx.scene.layout.Priority;
 import emul.javafx.scene.layout.Region;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.platforms.core.services.scheduler.Scheduler;
 
 /**
  * A dialog that shows a text input control to the user.
@@ -119,6 +119,6 @@ public class TextInputDialog extends Dialog<String> {
         getDialogPane().setContent(grid);
 
         /*Platform.runLater*/
-        FxKit.get().scheduler().scheduleDeferred(() -> textField.requestFocus());
+        Scheduler.scheduleDeferred(() -> textField.requestFocus());
     }
 }

@@ -9,13 +9,13 @@ import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.Text;
 import emul.javafx.scene.text.TextAlignment;
-import webfx.fxkits.core.spi.FxKit;
-import webfx.fxkits.core.spi.peer.base.TextPeerBase;
-import webfx.fxkits.core.spi.peer.base.TextPeerMixin;
-import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.Objects;
 import webfx.fxkit.gwt.util.HtmlPaints;
 import webfx.fxkit.gwt.util.HtmlUtil;
+import webfx.fxkits.core.spi.peer.base.TextPeerBase;
+import webfx.fxkits.core.spi.peer.base.TextPeerMixin;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platforms.core.util.Numbers;
+import webfx.platforms.core.util.Objects;
 
 /**
  * @author Bruno Salmon
@@ -86,7 +86,7 @@ public class HtmlTextPeer
                 if (sizeChangedCallback != null)
                     sizeChangedCallback.run();
             };
-            FxKit.get().scheduler().schedulePropertyChangeInNextAnimationFrame(updateYRunnable);
+            UiScheduler.schedulePropertyChangeInNextAnimationFrame(updateYRunnable);
         }
     }
 

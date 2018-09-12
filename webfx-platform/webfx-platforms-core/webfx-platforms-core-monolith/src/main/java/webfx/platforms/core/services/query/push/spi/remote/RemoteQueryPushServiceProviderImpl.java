@@ -1,6 +1,5 @@
 package webfx.platforms.core.services.query.push.spi.remote;
 
-import webfx.platforms.core.services.bus.call.BusCallServerModule;
 import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.datasource.ConnectionDetails;
 import webfx.platforms.core.services.datasource.LocalDataSourceRegistry;
@@ -63,7 +62,7 @@ public class RemoteQueryPushServiceProviderImpl implements QueryPushServiceProvi
             consumerRegistrationPendingCalls++;
         else if (queryStreamId != null && queryPushResultConsumer != null)
             queryPushResultConsumers.put(queryStreamId, queryPushResultConsumer);
-        Future<T> call = BusCallService.call(BusCallServerModule.QUERY_PUSH_SERVICE_ADDRESS, argument);
+        Future<T> call = BusCallService.call(QueryPushService.QUERY_PUSH_SERVICE_ADDRESS, argument);
         if (isConsumerRegistrationPendingCall)
             call = call.map(newQueryStreamId -> {
                 synchronized (queryPushResultConsumers) {

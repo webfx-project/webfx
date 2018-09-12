@@ -1,6 +1,6 @@
 package webfx.platform.vertx.services.bus;
 
-import io.vertx.core.Vertx;
+import webfx.platform.vertx.services.appcontainer.VertxInstance;
 import webfx.platforms.core.services.bus.BusFactory;
 import webfx.platforms.core.services.bus.spi.impl.BusServiceProviderBase;
 
@@ -11,8 +11,8 @@ public final class VertxBusServiceProvider extends BusServiceProviderBase {
 
     private final BusFactory vertxBusFactory;
 
-    public VertxBusServiceProvider(Vertx vertx) {
-        vertxBusFactory = new VertxBusFactory(vertx.eventBus());
+    public VertxBusServiceProvider() {
+        vertxBusFactory = new VertxBusFactory(VertxInstance.getVertx().eventBus());
     }
 
     @Override
