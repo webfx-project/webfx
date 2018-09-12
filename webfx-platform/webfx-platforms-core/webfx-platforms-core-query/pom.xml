@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-core-appcontainer</artifactId>
+            <artifactId>webfx-platforms-core-bus</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

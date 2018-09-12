@@ -10,12 +10,12 @@ import webfx.framework.activity.ActivityManager;
 import webfx.framework.activity.base.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.util.ImageStore;
-import webfx.platforms.core.services.appcontainer.spi.impl.ClientApplicationModuleBase;
+import webfx.platforms.core.services.bus.call.BusBasedClientApplicationModuleBase;
 
 /**
  * @author Bruno Salmon
  */
-public class MongooseSharedEndsApplicationModule extends ClientApplicationModuleBase {
+public class MongooseSharedEndsApplicationModule extends BusBasedClientApplicationModuleBase {
 
     private final MongooseSharedEndsApplication mongooseApplication;
 

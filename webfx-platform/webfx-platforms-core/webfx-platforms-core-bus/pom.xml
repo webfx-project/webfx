@@ -14,26 +14,32 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.webfx</groupId>
             <artifactId>webfx-platforms-core-websocket</artifactId>
+            <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.webfx</groupId>
             <artifactId>webfx-platforms-core-log</artifactId>
+            <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.webfx</groupId>
             <artifactId>webfx-platforms-core-resource</artifactId>
+            <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.webfx</groupId>
             <artifactId>webfx-platforms-core-scheduler</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-appcontainer</artifactId>
+            <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 

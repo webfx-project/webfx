@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.appcontainer.spi.impl;
+package webfx.platforms.core.services.bus.call;
 
 import webfx.platforms.core.services.appcontainer.ApplicationContainer;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
@@ -6,7 +6,7 @@ import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
 /**
  * @author Bruno Salmon
  */
-public class ServerApplicationModuleBase implements ApplicationModule {
+public class BusCallBasedServerApplicationModuleBase implements ApplicationModule {
 
     @Override
     public void start() {

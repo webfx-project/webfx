@@ -18,5 +18,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
+    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
   </component>
 </module>

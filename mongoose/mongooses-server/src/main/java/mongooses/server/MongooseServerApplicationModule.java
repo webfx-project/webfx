@@ -3,7 +3,7 @@ package mongooses.server;
 import mongooses.core.activities.server.SystemMetricsRecorderActivity;
 import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.orm.domainmodel.DataSourceModel;
-import webfx.platforms.core.services.appcontainer.spi.impl.ServerApplicationModuleBase;
+import webfx.platforms.core.services.bus.call.BusCallBasedServerApplicationModuleBase;
 import webfx.platforms.core.services.datasource.ConnectionDetails;
 import webfx.platforms.core.services.datasource.LocalDataSourceRegistry;
 import webfx.platforms.core.services.json.Json;
@@ -17,7 +17,7 @@ import webfx.platforms.core.services.update.UpdateService;
 /**
  * @author Bruno Salmon
  */
-public class MongooseServerApplicationModule extends ServerApplicationModuleBase {
+public class MongooseServerApplicationModule extends BusCallBasedServerApplicationModuleBase {
 
     @Override
     public void start() {

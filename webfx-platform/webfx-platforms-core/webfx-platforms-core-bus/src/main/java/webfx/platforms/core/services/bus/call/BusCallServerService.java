@@ -1,11 +1,10 @@
-package webfx.platforms.core.services.appcontainer.spi.impl;
+package webfx.platforms.core.services.bus.call;
 
 /**
  * @author Bruno Salmon
  */
 
 import webfx.platforms.core.services.appcontainer.ApplicationService;
-import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.util.async.Future;
 
 public class BusCallServerService implements ApplicationService {

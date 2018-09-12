@@ -14,12 +14,6 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-core-bus</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platforms-core-shutdown</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

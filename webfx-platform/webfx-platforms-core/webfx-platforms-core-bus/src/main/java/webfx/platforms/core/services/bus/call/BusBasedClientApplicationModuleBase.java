@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.appcontainer.spi.impl;
+package webfx.platforms.core.services.bus.call;
 
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
 import webfx.platforms.core.services.bus.spi.BusService;
@@ -6,7 +6,7 @@ import webfx.platforms.core.services.bus.spi.BusService;
 /**
  * @author Bruno Salmon
  */
-public class ClientApplicationModuleBase implements ApplicationModule {
+public class BusBasedClientApplicationModuleBase implements ApplicationModule {
 
 
     @Override
