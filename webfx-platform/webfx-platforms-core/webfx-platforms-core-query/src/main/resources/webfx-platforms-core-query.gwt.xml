@@ -1,0 +1,10 @@
+<module rename-to="webfx_platforms_core_query">
+
+    <inherits name="webfx-platforms-core-appcontainer"/>
+    <inherits name="webfx-platforms-core-util"/>
+
+    <!-- Specify the paths for translatable code -->
+
+    <source path="webfx/platforms/core/services/datasource"/>
+    <source path="webfx/platforms/core/services/query"/>
+</module>

@@ -193,7 +193,7 @@ public class QueryResult {
                         json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(rs.values)));
                     else
                         json.set(VALUES_KEY, Json.fromJavaArray(rs.values));
-                    encodeKey(VERSION_KEY, rs.getVersionNumber(), json);
+                    AbstractJsonCodec.encodeKey(VERSION_KEY, rs.getVersionNumber(), json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

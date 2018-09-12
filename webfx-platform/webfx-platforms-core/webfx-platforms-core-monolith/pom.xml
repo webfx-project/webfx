@@ -50,7 +50,13 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-shutdown</artifactId>
+            <artifactId>webfx-platforms-core-util</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-query</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
