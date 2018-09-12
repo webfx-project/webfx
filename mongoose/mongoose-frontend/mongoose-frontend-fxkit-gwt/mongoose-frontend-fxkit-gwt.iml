@@ -27,6 +27,7 @@
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-framework" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />

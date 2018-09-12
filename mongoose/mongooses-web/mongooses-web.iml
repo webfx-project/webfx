@@ -14,6 +14,7 @@
     <orderEntry type="module" module-name="mongooses-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" scope="PROVIDED" />

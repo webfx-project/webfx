@@ -4,7 +4,6 @@
 
 package java.util;
 
-import mongooses.web.activities.sharedends.MongooseWebApplicationModule;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
 import mongooses.backend.MongooseBackendApplicationModule;
 

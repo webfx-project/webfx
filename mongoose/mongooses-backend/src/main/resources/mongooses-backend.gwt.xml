@@ -1,0 +1,7 @@
+<module rename-to="mongooses_backend">
+
+  <inherits name="mongooses-sharedends"/>
+
+  <source path="mongooses/backend"/>
+
+</module>
