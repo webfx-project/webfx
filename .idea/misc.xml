@@ -22,6 +22,7 @@
         <option value="$PROJECT_DIR$/webfx-javafxportable/pom.xml" />
         <option value="$PROJECT_DIR$/webfx-javafxportable/webfx-javafxportable-fxlibs/pom.xml" />
         <option value="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-noreflect/pom.xml" />
+        <option value="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-query/pom.xml" />
       </set>
     </option>
   </component>

@@ -15,7 +15,7 @@
     <modules>
         <module>webfx-platforms-core-util</module>
 
-        <!-- Modules that depend only from util -->
+        <!-- Modules that depend only on util -->
         <module>webfx-platforms-core-json</module>
         <module>webfx-platforms-core-log</module>
         <module>webfx-platforms-core-resource</module>
@@ -23,12 +23,12 @@
         <module>webfx-platforms-core-shutdown</module>
         <module>webfx-platforms-core-storage</module>
 
-        <!-- Modules that depend from another platform module -->
-        <module>webfx-platforms-core-websocket</module> <!-- depend from json module -->
-        <module>webfx-platforms-core-bus</module> <!-- depend from websocket module -->
+        <!-- Modules that depend on another platform module -->
+        <module>webfx-platforms-core-websocket</module> <!-- depends on json module -->
+        <module>webfx-platforms-core-bus</module> <!-- depends on websocket module -->
+        <module>webfx-platforms-core-appcontainer</module> <!-- depends on bus, shutdown, log, util modules -->
 
         <module>webfx-platforms-core-monolith</module>
-        <module>webfx-platforms-core-query</module>
     </modules>
 
 </project>

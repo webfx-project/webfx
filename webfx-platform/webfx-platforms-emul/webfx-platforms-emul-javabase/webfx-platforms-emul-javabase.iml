@@ -12,9 +12,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />

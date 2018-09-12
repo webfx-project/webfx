@@ -2,7 +2,6 @@ package webfx.platforms.core.services.appcontainer.spi.impl;
 
 import webfx.platforms.core.services.appcontainer.ApplicationContainer;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
-import webfx.platforms.core.services.bus.call.BusCallServerService;
 
 /**
  * @author Bruno Salmon
