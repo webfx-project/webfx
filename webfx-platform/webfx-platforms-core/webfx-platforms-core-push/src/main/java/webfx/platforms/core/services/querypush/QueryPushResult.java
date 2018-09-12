@@ -56,9 +56,9 @@ public class QueryPushResult {
 
             @Override
             public void encodeToJson(QueryPushResult arg, WritableJsonObject json) {
-                encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
-                encodeKeyIfNotNull(QUERY_RESULT_KEY, arg.getQueryResult(), json);
-                encodeKeyIfNotNull(QUERY_RESULT_DIFF_KEY, arg.getQueryResultDiff(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_RESULT_KEY, arg.getQueryResult(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_RESULT_DIFF_KEY, arg.getQueryResultDiff(), json);
             }
 
             @Override

@@ -35,6 +35,7 @@
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" />
+    <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />
     <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.2" level="project" />

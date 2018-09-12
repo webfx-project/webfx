@@ -122,13 +122,13 @@ public class QueryPushArgument {
 
             @Override
             public void encodeToJson(QueryPushArgument arg, WritableJsonObject json) {
-                encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
-                encodeKeyIfNotNull(CLIENT_PUSH_ID_KEY, arg.getPushClientId(), json);
-                encodeKeyIfNotNull(QUERY_ARGUMENT_KEY, arg.getQueryArgument(), json);
-                encodeKey(DATA_SOURCE_ID_KEY, arg.getDataSourceId(), json);
-                encodeKeyIfNotNull(ACTIVE_KEY, arg.getActive(), json);
-                encodeKeyIfNotNull(RESEND_KEY, arg.getResend(), json);
-                encodeKeyIfNotNull(CLOSE_KEY, arg.getClose(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(CLIENT_PUSH_ID_KEY, arg.getPushClientId(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_ARGUMENT_KEY, arg.getQueryArgument(), json);
+                AbstractJsonCodec.encodeKey(DATA_SOURCE_ID_KEY, arg.getDataSourceId(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(ACTIVE_KEY, arg.getActive(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(RESEND_KEY, arg.getResend(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(CLOSE_KEY, arg.getClose(), json);
             }
 
             @Override

@@ -28,6 +28,7 @@
         <module>webfx-platforms-core-bus</module> <!-- depends on websocket module -->
         <module>webfx-platforms-core-appcontainer</module> <!-- depends on bus, shutdown, log, util modules -->
         <module>webfx-platforms-core-query</module> <!-- depends on appcontainer, util modules -->
+        <module>webfx-platforms-core-push</module> <!-- depends on appcontainer module -->
 
         <module>webfx-platforms-core-monolith</module>
     </modules>

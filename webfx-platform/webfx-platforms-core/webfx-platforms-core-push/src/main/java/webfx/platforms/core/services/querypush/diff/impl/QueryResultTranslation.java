@@ -89,12 +89,12 @@ public class QueryResultTranslation implements QueryResultDiff {
 
             @Override
             public void encodeToJson(QueryResultTranslation arg, WritableJsonObject json) {
-                encodeKeyIfNotNull(ROWS_BEFORE_KEY, arg.getRowsBefore(), json);
-                encodeKey(ROW_START_KEY, arg.getRowStart(), json);
-                encodeKey(ROW_END_KEY, arg.getRowEnd(), json);
-                encodeKeyIfNotNull(ROWS_AFTER_KEY, arg.getRowsAfter(), json);
-                encodeKey(PREVIOUS_VERSION_KEY, arg.getPreviousQueryResultVersionNumber(), json);
-                encodeKey(FINAL_VERSION_KEY, arg.getFinalQueryResultVersionNumber(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(ROWS_BEFORE_KEY, arg.getRowsBefore(), json);
+                AbstractJsonCodec.encodeKey(ROW_START_KEY, arg.getRowStart(), json);
+                AbstractJsonCodec.encodeKey(ROW_END_KEY, arg.getRowEnd(), json);
+                AbstractJsonCodec.encodeKeyIfNotNull(ROWS_AFTER_KEY, arg.getRowsAfter(), json);
+                AbstractJsonCodec.encodeKey(PREVIOUS_VERSION_KEY, arg.getPreviousQueryResultVersionNumber(), json);
+                AbstractJsonCodec.encodeKey(FINAL_VERSION_KEY, arg.getFinalQueryResultVersionNumber(), json);
             }
 
             @Override
