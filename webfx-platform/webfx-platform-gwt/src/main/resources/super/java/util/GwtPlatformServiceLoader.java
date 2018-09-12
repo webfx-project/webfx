@@ -11,6 +11,7 @@ import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
 import webfx.platforms.core.services.bus.call.BusCallModule;
 import webfx.platforms.core.services.query.QueryModule;
 import webfx.platforms.core.services.querypush.QueryPushModule;
+import webfx.platforms.core.services.update.UpdateModule;
 import webfx.platforms.web.BrowserHistory;
 import webfx.platforms.web.WindowHistory;
 import webfx.platforms.core.services.bus.spi.BusServiceProvider;
@@ -54,7 +55,7 @@ class GwtPlatformServiceLoader extends GwtServiceLoader {
         registerService(ShutdownProvider.class, GwtShutdownProviderImpl::new);
         registerService(LocalStorageProvider.class, GwtLocalStorageProviderImpl::new);
         registerService(SessionStorageProvider.class, GwtSessionStorageProviderImpl::new);
-        registerService(ApplicationModule.class, MonolithModule::new, QueryPushModule::new, QueryModule::new, BusCallModule::new);
+        registerService(ApplicationModule.class, MonolithModule::new, UpdateModule::new, QueryPushModule::new, QueryModule::new, BusCallModule::new);
     }
 
 }
