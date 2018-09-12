@@ -8,7 +8,6 @@ import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.query.QueryArgument;
 import webfx.platforms.core.services.query.QueryResult;
-import webfx.platforms.core.services.query.QueryService;
 import webfx.platforms.core.services.querypush.QueryPushService;
 import webfx.platforms.core.services.update.UpdateArgument;
 import webfx.platforms.core.services.update.UpdateResult;
@@ -35,7 +34,6 @@ public class MonolithModule implements ApplicationModule {
 
     private void registerJsonCodecs() {
         // Registering all required json codecs (especially for network bus calls)
-        QueryService.registerJsonCodecsAndBusCalls();
         QueryPushService.registerJsonCodecsAndBusCalls();
         UpdateService.registerJsonCodecsAndBusCalls();
         registerBatchJsonCodec();
