@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.appcontainer;
 
 import webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -9,7 +9,7 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 public final class ApplicationContainer {
 
     public static ApplicationContainerProvider getProvider() {
-        return ServiceLoaderHelper.loadService(ApplicationContainerProvider.class);
+        return SingleServiceLoader.loadService(ApplicationContainerProvider.class);
     }
 
     public static void startApplicationService(ApplicationService applicationService) {

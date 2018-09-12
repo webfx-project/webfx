@@ -9,7 +9,7 @@ import webfx.platforms.core.services.push.client.spi.impl.PushClientServiceProvi
 import webfx.platforms.core.services.push.client.spi.PushClientServiceProvider;
 import webfx.platforms.core.services.push.ClientPushBusAddressesSharedByBothClientAndServer;
 import webfx.platforms.core.util.function.Function;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -20,7 +20,7 @@ public class PushClientService {
 
     static {
         // Registering the default push client service provider (can be overridden using the service loader mechanism)
-        ServiceLoaderHelper.registerDefaultServiceFactory(PushClientServiceProvider.class, PushClientServiceProviderImpl::new);
+        SingleServiceLoader.registerDefaultServiceFactory(PushClientServiceProvider.class, PushClientServiceProviderImpl::new);
         // Registering the client push ping listener. This registration is private (ie just done locally on the client
         // event bus) so not directly visible from the server event bus but the server can reach that listener by calling
         // PushServerService.pingPushClient() because the client bus call service will finally pass the arg to that
@@ -42,7 +42,7 @@ public class PushClientService {
     }
 
     public static PushClientServiceProvider getProvider() {
-        return ServiceLoaderHelper.loadService(PushClientServiceProvider.class);
+        return SingleServiceLoader.loadService(PushClientServiceProvider.class);
     }
 
     public static Registration listenServerPushCalls(Object pushClientId) {

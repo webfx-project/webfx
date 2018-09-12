@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.storage;
 
 import webfx.platforms.core.services.storage.spi.SessionStorageProvider;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 import java.util.Iterator;
 
@@ -11,7 +11,7 @@ import java.util.Iterator;
 public class SessionStorage {
 
     public static SessionStorageProvider getProvider() {
-        return ServiceLoaderHelper.loadService(SessionStorageProvider.class);
+        return SingleServiceLoader.loadService(SessionStorageProvider.class);
     }
 
     public static void setItem(String key, String value) {

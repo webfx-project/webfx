@@ -6,7 +6,7 @@ import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
 import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
 import webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider;
 import webfx.platforms.core.util.function.Consumer;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -16,11 +16,11 @@ public final class UiScheduler {
     static {
         SchedulerProvider schedulerProvider = Scheduler.getProvider();
         if (schedulerProvider instanceof UiSchedulerProvider)
-            ServiceLoaderHelper.cacheServiceInstance(UiSchedulerProvider.class, (UiSchedulerProvider) schedulerProvider);
+            SingleServiceLoader.cacheServiceInstance(UiSchedulerProvider.class, (UiSchedulerProvider) schedulerProvider);
     }
 
     public static UiSchedulerProvider getProvider() {
-        return ServiceLoaderHelper.loadService(UiSchedulerProvider.class);
+        return SingleServiceLoader.loadService(UiSchedulerProvider.class);
     }
 
     public static boolean isUiThread() {

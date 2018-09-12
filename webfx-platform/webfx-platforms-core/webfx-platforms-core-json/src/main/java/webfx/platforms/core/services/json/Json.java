@@ -4,7 +4,7 @@ import webfx.platforms.core.util.noreflect.IndexedArray;
 import webfx.platforms.core.util.noreflect.KeyObject;
 import webfx.platforms.core.services.json.spi.JsonProvider;
 import webfx.platforms.core.services.json.spi.impl.listmap.MapJsonObject;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -52,7 +52,7 @@ public class Json {
 
     public static JsonProvider getProvider() {
         if (PROVIDER == null) {
-            registerProvider(ServiceLoaderHelper.loadService(JsonProvider.class, ServiceLoaderHelper.NotFoundPolicy.TRACE_AND_RETURN_NULL));
+            registerProvider(SingleServiceLoader.loadService(JsonProvider.class, SingleServiceLoader.NotFoundPolicy.TRACE_AND_RETURN_NULL));
             if (PROVIDER == null) {
                 System.out.println("Using default built-in JSON factory which is not interoperable with the underlying platform! Be sure you haven't forgot to call Json.registerProvider().");
                 PROVIDER = new MapJsonObject();

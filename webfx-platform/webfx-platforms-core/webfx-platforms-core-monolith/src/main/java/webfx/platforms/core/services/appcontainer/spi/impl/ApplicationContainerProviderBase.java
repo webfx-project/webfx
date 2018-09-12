@@ -5,7 +5,7 @@ import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.shutdown.Shutdown;
 import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class ApplicationContainerProviderBase implements ApplicationContainerPro
 
     public ApplicationContainerProviderBase() {
         // Caching this instance to make the ApplicationContainer work
-        ServiceLoaderHelper.cacheServiceInstance(ApplicationContainerProvider.class, this);
+        SingleServiceLoader.cacheServiceInstance(ApplicationContainerProvider.class, this);
         init();
     }
 

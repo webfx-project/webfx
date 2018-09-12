@@ -1,7 +1,7 @@
 package webfx.platforms.core.util;
 
 import webfx.platforms.core.util.numbers.spi.NumbersProvider;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * Utilities class for numbers that is designed to also work with Java ME CLDC (Connected Limited Device Configuration)
@@ -17,7 +17,7 @@ public final class Numbers {
 
     static {
         // Loading the numbers provider from the META-INF/services resource folder.
-        provider = ServiceLoaderHelper.loadService(NumbersProvider.class);
+        provider = SingleServiceLoader.loadService(NumbersProvider.class);
         /**
          * Note: for better performance, the default service declared in the META-INF/services resource folder of the
          * webfx-platforms-core-util module is the StandardNumbersProviderImpl which finally uses the java.lang.Number class to reduce the

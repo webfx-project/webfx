@@ -3,7 +3,7 @@ package webfx.platforms.core.services.bus.spi;
 import webfx.platforms.core.services.bus.Bus;
 import webfx.platforms.core.services.bus.BusFactory;
 import webfx.platforms.core.services.bus.BusOptions;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -11,7 +11,7 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 public final class BusService {
 
     public static BusServiceProvider getProvider() {
-        return ServiceLoaderHelper.loadService(BusServiceProvider.class);
+        return SingleServiceLoader.loadService(BusServiceProvider.class);
     }
 
     public static BusFactory busFactory() {

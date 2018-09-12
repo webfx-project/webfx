@@ -10,7 +10,7 @@ import java.util.ServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public final class ServiceLoaderHelper {
+public final class SingleServiceLoader {
 
     public enum NotFoundPolicy {RETURN_NULL, TRACE_AND_RETURN_NULL, THROW_EXCEPTION}
 

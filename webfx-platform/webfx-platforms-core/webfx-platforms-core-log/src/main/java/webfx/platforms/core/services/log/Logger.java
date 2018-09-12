@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.log;
 
 import webfx.platforms.core.services.log.spi.LoggerProvider;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -12,7 +12,7 @@ public class Logger {
 
     public static LoggerProvider getProvider() {
         if (PROVIDER == null) {
-            registerProvider(ServiceLoaderHelper.loadService(LoggerProvider.class, ServiceLoaderHelper.NotFoundPolicy.RETURN_NULL));
+            registerProvider(SingleServiceLoader.loadService(LoggerProvider.class, SingleServiceLoader.NotFoundPolicy.RETURN_NULL));
             if (PROVIDER == null)
                 registerProvider(new LoggerProvider() {});
         }

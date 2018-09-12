@@ -1,7 +1,7 @@
 package webfx.platforms.core.client.url.location;
 
 import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -9,7 +9,7 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 public interface WindowLocation extends PathLocation {
 
     static WindowLocation get() {
-        return ServiceLoaderHelper.loadService(WindowLocation.class);
+        return SingleServiceLoader.loadService(WindowLocation.class);
     }
 
     /**

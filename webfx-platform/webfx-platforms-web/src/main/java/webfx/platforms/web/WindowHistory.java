@@ -3,7 +3,7 @@ package webfx.platforms.web;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.function.Function;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * Wrapper interface to the window history.
@@ -13,7 +13,7 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 public interface WindowHistory {
 
     static WindowHistory get() {
-        return ServiceLoaderHelper.loadService(WindowHistory.class);
+        return SingleServiceLoader.loadService(WindowHistory.class);
     }
 
     /**

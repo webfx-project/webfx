@@ -5,7 +5,7 @@ import webfx.platforms.core.services.query.spi.QueryServiceProvider;
 import webfx.platforms.core.services.query.spi.remote.RemoteQueryServiceProviderImpl;
 import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -16,7 +16,7 @@ public class QueryService {
     public static final String QUERY_BATCH_SERVICE_ADDRESS = "service/query/batch";
 
     static {
-        ServiceLoaderHelper.registerDefaultServiceFactory(QueryServiceProvider.class, RemoteQueryServiceProviderImpl::new);
+        SingleServiceLoader.registerDefaultServiceFactory(QueryServiceProvider.class, RemoteQueryServiceProviderImpl::new);
         // registerJsonCodecsAndBusCalls() body:
         QueryArgument.registerJsonCodec();
         QueryResult.registerJsonCodec();
@@ -29,11 +29,11 @@ public class QueryService {
     }
 
     public static QueryServiceProvider getProvider() {
-        return ServiceLoaderHelper.loadService(QueryServiceProvider.class);
+        return SingleServiceLoader.loadService(QueryServiceProvider.class);
     }
 
     public static void registerProvider(QueryServiceProvider provider) {
-        ServiceLoaderHelper.cacheServiceInstance(QueryServiceProvider.class, provider);
+        SingleServiceLoader.cacheServiceInstance(QueryServiceProvider.class, provider);
     }
 
     public static Future<QueryResult> executeQuery(QueryArgument argument) {

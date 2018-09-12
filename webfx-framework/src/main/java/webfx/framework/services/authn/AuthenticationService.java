@@ -2,7 +2,7 @@ package webfx.framework.services.authn;
 
 import webfx.framework.services.authn.spi.AuthenticationServiceProvider;
 import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -14,6 +14,6 @@ public final class AuthenticationService {
     }
 
     public static AuthenticationServiceProvider getProvider() {
-        return ServiceLoaderHelper.loadService(AuthenticationServiceProvider.class);
+        return SingleServiceLoader.loadService(AuthenticationServiceProvider.class);
     }
 }

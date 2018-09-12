@@ -6,7 +6,7 @@ package java.util;
 
 import webfx.platforms.core.util.collection.Collections;
 import webfx.platforms.core.util.function.Factory;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 class GwtServiceLoader {
 
@@ -32,7 +32,7 @@ class GwtServiceLoader {
                 if (constructorsList != null)
                     Collections.forEach(constructorsList, c -> instancesList.add((S) c.create()));
                 else {
-                    S serviceInstance = ServiceLoaderHelper.instantiateDefaultService(serviceClass);
+                    S serviceInstance = SingleServiceLoader.instantiateDefaultService(serviceClass);
                     if (serviceInstance != null)
                         instancesList.add(serviceInstance);
                 }

@@ -8,7 +8,7 @@ import webfx.fxkits.core.spi.peer.ScenePeer;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.fxkits.core.spi.peer.WindowPeer;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -64,7 +64,7 @@ public abstract class FxKit {
     public static synchronized FxKit get() {
         if (FXKIT == null) {
             //Platform.log("Getting FxKit");
-            FXKIT = ServiceLoaderHelper.loadService(FxKit.class);
+            FXKIT = SingleServiceLoader.loadService(FxKit.class);
             //Platform.log("FxKit ok");
         }
         return FXKIT;

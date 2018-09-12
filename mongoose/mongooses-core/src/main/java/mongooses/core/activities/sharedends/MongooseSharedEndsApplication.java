@@ -39,7 +39,7 @@ import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.util.function.Consumer;
 import webfx.platforms.core.util.function.Factory;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -116,8 +116,8 @@ public abstract class MongooseSharedEndsApplication
         // Instantiating the bus as soon as possible to open the connection while the application is initializing
         BusService.bus();
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
-        ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProviderImpl::new);
-        ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProviderImpl::new);
+        SingleServiceLoader.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProviderImpl::new);
+        SingleServiceLoader.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProviderImpl::new);
         // Registering i18n service provider based on json resources
         I18n.registerProvider(I18nProvider.createFromJsonResources("mongooses/core/dictionaries/{lang}.json"));
         // Activating focus owner auto scroll

@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.shutdown;
 
 import webfx.platforms.core.services.shutdown.spi.ShutdownProvider;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -9,7 +9,7 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 public class Shutdown {
 
     public static ShutdownProvider getProvider() {
-        return ServiceLoaderHelper.loadService(ShutdownProvider.class);
+        return SingleServiceLoader.loadService(ShutdownProvider.class);
     }
 
     public static void addShutdownHook(Runnable hook) {

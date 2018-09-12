@@ -2,7 +2,7 @@ package webfx.platforms.core.services.scheduler;
 
 import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
 import webfx.platforms.core.util.function.Consumer;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -10,7 +10,7 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 public final class Scheduler {
 
     public static SchedulerProvider getProvider() {
-        return ServiceLoaderHelper.loadService(SchedulerProvider.class);
+        return SingleServiceLoader.loadService(SchedulerProvider.class);
     }
 
     /**

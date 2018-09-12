@@ -6,7 +6,7 @@ import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
 import webfx.framework.services.i18n.spi.I18nProvider;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -14,11 +14,11 @@ import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
 public final class I18n {
 
     public static I18nProvider getProvider() {
-        return ServiceLoaderHelper.loadService(I18nProvider.class);
+        return SingleServiceLoader.loadService(I18nProvider.class);
     }
 
     public static void registerProvider(I18nProvider provider) {
-        ServiceLoaderHelper.cacheServiceInstance(I18nProvider.class, provider);
+        SingleServiceLoader.cacheServiceInstance(I18nProvider.class, provider);
     }
 
     public static Property<Object> languageProperty() {

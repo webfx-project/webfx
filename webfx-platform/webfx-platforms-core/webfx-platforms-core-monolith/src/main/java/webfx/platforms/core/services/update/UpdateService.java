@@ -5,7 +5,7 @@ import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
 import webfx.platforms.core.services.update.spi.remote.RemoteUpdateServiceProviderImpl;
 import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -16,7 +16,7 @@ public class UpdateService {
     public static final String UPDATE_BATCH_SERVICE_ADDRESS = "service/update/batch";
 
     static {
-        ServiceLoaderHelper.registerDefaultServiceFactory(UpdateServiceProvider.class, RemoteUpdateServiceProviderImpl::new);
+        SingleServiceLoader.registerDefaultServiceFactory(UpdateServiceProvider.class, RemoteUpdateServiceProviderImpl::new);
         // registerJsonCodecsAndBusCalls() body:
         UpdateArgument.registerJsonCodec();
         GeneratedKeyBatchIndex.registerJsonCodec();
@@ -30,11 +30,11 @@ public class UpdateService {
     }
 
     public static UpdateServiceProvider getProvider() {
-        return ServiceLoaderHelper.loadService(UpdateServiceProvider.class);
+        return SingleServiceLoader.loadService(UpdateServiceProvider.class);
     }
 
     public static void registerProvider(UpdateServiceProvider provider) {
-        ServiceLoaderHelper.cacheServiceInstance(UpdateServiceProvider.class, provider);
+        SingleServiceLoader.cacheServiceInstance(UpdateServiceProvider.class, provider);
     }
 
     public static Future<UpdateResult> executeUpdate(UpdateArgument argument) {

@@ -10,7 +10,7 @@ import webfx.platforms.core.services.query.push.spi.QueryPushServiceProvider;
 import webfx.platforms.core.services.query.push.spi.remote.RemoteQueryPushServiceProviderImpl;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.function.Consumer;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -20,7 +20,7 @@ public class QueryPushService {
     public static final String QUERY_PUSH_SERVICE_ADDRESS = "service/querypush";
 
     static {
-        ServiceLoaderHelper.registerDefaultServiceFactory(QueryPushServiceProvider.class, RemoteQueryPushServiceProviderImpl::new);
+        SingleServiceLoader.registerDefaultServiceFactory(QueryPushServiceProvider.class, RemoteQueryPushServiceProviderImpl::new);
         // registerJsonCodecsAndBusCalls() body:
         QueryPushArgument.registerJsonCodec();
         QueryPushResult.registerJsonCodec();
@@ -33,11 +33,11 @@ public class QueryPushService {
     }
 
     public static QueryPushServiceProvider getProvider() {
-        return ServiceLoaderHelper.loadService(QueryPushServiceProvider.class);
+        return SingleServiceLoader.loadService(QueryPushServiceProvider.class);
     }
 
     public static void registerProvider(QueryPushServiceProvider provider) {
-        ServiceLoaderHelper.cacheServiceInstance(QueryPushServiceProvider.class, provider);
+        SingleServiceLoader.cacheServiceInstance(QueryPushServiceProvider.class, provider);
     }
 
     public static Future<Object> executeQueryPush(QueryPushArgument argument) {

@@ -2,7 +2,7 @@ package webfx.platforms.core.services.resource;
 
 import webfx.platforms.core.services.resource.spi.ResourceServiceProvider;
 import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.serviceloader.ServiceLoaderHelper;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +13,7 @@ public class ResourceService {
 
     public static ResourceServiceProvider getProvider() {
         if (PROVIDER == null)
-            registerProvider(ServiceLoaderHelper.loadService(ResourceServiceProvider.class));
+            registerProvider(SingleServiceLoader.loadService(ResourceServiceProvider.class));
         return PROVIDER;
     }
 
