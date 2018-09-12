@@ -67,6 +67,12 @@
             <version>${webfx.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>webfx-platforms-core-update</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
