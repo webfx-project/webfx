@@ -1,7 +1,6 @@
 package webfx.platforms.core;
 
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
-import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.json.JsonArray;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
@@ -36,7 +35,6 @@ public class MonolithModule implements ApplicationModule {
 
     private void registerJsonCodecs() {
         // Registering all required json codecs (especially for network bus calls)
-        BusCallService.registerJsonCodecs();
         QueryService.registerJsonCodecsAndBusCalls();
         QueryPushService.registerJsonCodecsAndBusCalls();
         UpdateService.registerJsonCodecsAndBusCalls();

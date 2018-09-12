@@ -12,8 +12,9 @@ class GwtServiceLoader {
 
     private final static Map<Class, List<Factory>> serviceContructorsLists = new HashMap<>();
 
-    final static <S> void registerService(Class<S> serviceClass, Factory<S> serviceConstructor) {
-        getConstructorsList(serviceClass, true).add(0, serviceConstructor);
+    final static <S> void registerService(Class<S> serviceClass, Factory<S>... serviceConstructors) {
+        for (int i = 0; i < serviceConstructors.length; i++)
+            getConstructorsList(serviceClass, true).add(i, serviceConstructors[i]);
     }
 
     private static List<Factory> getConstructorsList(Class serviceClass, boolean create) {
