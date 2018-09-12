@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.query.push;
+package webfx.platforms.core.services.querypush;
 
 import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;

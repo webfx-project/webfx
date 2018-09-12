@@ -1,6 +1,6 @@
-package webfx.platforms.core.services.query.push.spi.remote;
+package webfx.platforms.core.services.querypush.spi.remote;
 
-import webfx.platforms.core.services.query.push.spi.QueryPushServiceProvider;
+import webfx.platforms.core.services.querypush.spi.QueryPushServiceProvider;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
-package webfx.platforms.core.services.query.push;
+package webfx.platforms.core.services.querypush;
 
-import webfx.platforms.core.services.query.push.spi.impl.QueryPushServiceProviderImplBase;
+import webfx.platforms.core.services.querypush.spi.impl.QueryPushServiceProviderImplBase;
 
 /**
  * @author Bruno Salmon

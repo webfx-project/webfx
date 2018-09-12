@@ -1,11 +1,11 @@
-package webfx.platforms.core.services.query.push;
+package webfx.platforms.core.services.querypush;
 
 import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.services.query.QueryResult;
-import webfx.platforms.core.services.query.push.diff.QueryResultDiff;
+import webfx.platforms.core.services.querypush.diff.QueryResultDiff;
 
 /**
  * @author Bruno Salmon

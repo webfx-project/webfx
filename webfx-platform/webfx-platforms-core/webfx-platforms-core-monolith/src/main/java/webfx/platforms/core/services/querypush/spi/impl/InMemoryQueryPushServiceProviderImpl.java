@@ -1,8 +1,8 @@
-package webfx.platforms.core.services.query.push.spi.impl;
+package webfx.platforms.core.services.querypush.spi.impl;
 
 import webfx.platforms.core.services.query.QueryArgument;
-import webfx.platforms.core.services.query.push.PulseArgument;
-import webfx.platforms.core.services.query.push.QueryPushArgument;
+import webfx.platforms.core.services.querypush.PulseArgument;
+import webfx.platforms.core.services.querypush.QueryPushArgument;
 import webfx.platforms.core.util.Objects;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.collection.Collections;

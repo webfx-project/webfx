@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.query.push.diff.impl;
+package webfx.platforms.core.services.querypush.diff.impl;
 
 import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;
@@ -6,8 +6,8 @@ import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.QueryResultBuilder;
-import webfx.platforms.core.services.query.push.diff.QueryResultComparator;
-import webfx.platforms.core.services.query.push.diff.QueryResultDiff;
+import webfx.platforms.core.services.querypush.diff.QueryResultComparator;
+import webfx.platforms.core.services.querypush.diff.QueryResultDiff;
 
 /**
  * @author Bruno Salmon

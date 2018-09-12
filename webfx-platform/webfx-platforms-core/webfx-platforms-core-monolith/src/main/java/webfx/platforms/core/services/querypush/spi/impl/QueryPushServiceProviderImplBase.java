@@ -1,17 +1,17 @@
-package webfx.platforms.core.services.query.push.spi.impl;
+package webfx.platforms.core.services.querypush.spi.impl;
 
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.server.PushServerService;
 import webfx.platforms.core.services.query.QueryArgument;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.QueryService;
-import webfx.platforms.core.services.query.push.PulseArgument;
-import webfx.platforms.core.services.query.push.QueryPushArgument;
-import webfx.platforms.core.services.query.push.QueryPushResult;
-import webfx.platforms.core.services.query.push.QueryPushService;
-import webfx.platforms.core.services.query.push.diff.QueryResultComparator;
-import webfx.platforms.core.services.query.push.diff.QueryResultDiff;
-import webfx.platforms.core.services.query.push.spi.QueryPushServiceProvider;
+import webfx.platforms.core.services.querypush.PulseArgument;
+import webfx.platforms.core.services.querypush.QueryPushArgument;
+import webfx.platforms.core.services.querypush.QueryPushResult;
+import webfx.platforms.core.services.querypush.QueryPushService;
+import webfx.platforms.core.services.querypush.diff.QueryResultComparator;
+import webfx.platforms.core.services.querypush.diff.QueryResultDiff;
+import webfx.platforms.core.services.querypush.spi.QueryPushServiceProvider;
 import webfx.platforms.core.services.scheduler.Scheduler;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.collection.Collections;

@@ -1,14 +1,14 @@
-package webfx.platforms.core.services.query.push.spi.remote;
+package webfx.platforms.core.services.querypush.spi.remote;
 
 import webfx.platforms.core.services.bus.call.BusCallService;
 import webfx.platforms.core.services.datasource.ConnectionDetails;
 import webfx.platforms.core.services.datasource.LocalDataSourceRegistry;
 import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.query.push.PulseArgument;
-import webfx.platforms.core.services.query.push.QueryPushArgument;
-import webfx.platforms.core.services.query.push.QueryPushResult;
-import webfx.platforms.core.services.query.push.QueryPushService;
-import webfx.platforms.core.services.query.push.spi.QueryPushServiceProvider;
+import webfx.platforms.core.services.querypush.PulseArgument;
+import webfx.platforms.core.services.querypush.QueryPushArgument;
+import webfx.platforms.core.services.querypush.QueryPushResult;
+import webfx.platforms.core.services.querypush.QueryPushService;
+import webfx.platforms.core.services.querypush.spi.QueryPushServiceProvider;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.function.Consumer;
 

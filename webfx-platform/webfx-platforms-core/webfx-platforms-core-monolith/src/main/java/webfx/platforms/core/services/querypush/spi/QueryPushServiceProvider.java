@@ -1,7 +1,7 @@
-package webfx.platforms.core.services.query.push.spi;
+package webfx.platforms.core.services.querypush.spi;
 
-import webfx.platforms.core.services.query.push.PulseArgument;
-import webfx.platforms.core.services.query.push.QueryPushArgument;
+import webfx.platforms.core.services.querypush.PulseArgument;
+import webfx.platforms.core.services.querypush.QueryPushArgument;
 import webfx.platforms.core.util.async.Future;
 
 /**

@@ -28,6 +28,7 @@
         <module>webfx-platforms-core-bus</module> <!-- depend from websocket module -->
 
         <module>webfx-platforms-core-monolith</module>
+        <module>webfx-platforms-core-query</module>
     </modules>
 
 </project>

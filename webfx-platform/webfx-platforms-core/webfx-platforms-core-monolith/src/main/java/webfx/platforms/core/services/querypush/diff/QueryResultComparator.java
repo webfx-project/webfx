@@ -1,8 +1,8 @@
-package webfx.platforms.core.services.query.push.diff;
+package webfx.platforms.core.services.querypush.diff;
 
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.QueryResultBuilder;
-import webfx.platforms.core.services.query.push.diff.impl.QueryResultTranslation;
+import webfx.platforms.core.services.querypush.diff.impl.QueryResultTranslation;
 
 import java.util.Objects;
 

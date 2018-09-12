@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.query.push.diff;
+package webfx.platforms.core.services.querypush.diff;
 
 import webfx.platforms.core.services.query.QueryResult;
 
