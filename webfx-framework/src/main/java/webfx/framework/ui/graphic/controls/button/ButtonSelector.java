@@ -19,7 +19,7 @@ import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.properties.Properties;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 import webfx.platforms.core.util.function.Callable;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;

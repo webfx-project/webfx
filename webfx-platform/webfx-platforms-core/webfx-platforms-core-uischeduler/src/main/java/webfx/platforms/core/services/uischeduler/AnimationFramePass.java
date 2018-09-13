@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.uischeduler.spi;
+package webfx.platforms.core.services.uischeduler;
 
 /**
  * @author Bruno Salmon

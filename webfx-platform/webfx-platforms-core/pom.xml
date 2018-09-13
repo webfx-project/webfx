@@ -24,16 +24,17 @@
         <module>webfx-platforms-core-storage</module>
 
         <!-- Modules that depend on another platform module -->
-        <module>webfx-platforms-core-websocket</module> <!-- depends on json module -->
+        <module>webfx-platforms-core-uischeduler</module> <!-- depends on scheduler module -->
         <module>webfx-platforms-core-appcontainer</module> <!-- depends on shutdown, log, util modules -->
-        <module>webfx-platforms-core-bus</module> <!-- depends on websocket, appcontainer modules -->
+        <module>webfx-platforms-core-websocket</module> <!-- depends on json module -->
+        <module>webfx-platforms-core-bus</module> <!-- depends on json, appcontainer modules -->
+        <module>webfx-platforms-core-clientbus</module> <!-- depends on bus, websocket, log, resource, scheduler modules -->
+        <module>webfx-platforms-core-buscall</module> <!-- depends on bus, appcontainer module -->
         <module>webfx-platforms-core-query</module> <!-- depends on bus, util modules -->
         <module>webfx-platforms-core-push</module> <!-- depends on query module -->
         <module>webfx-platforms-core-update</module> <!-- depends on appcontainer module -->
 
         <module>webfx-platforms-core-monolith</module>
-        <module>webfx-platforms-core-buscall</module>
-        <module>webfx-platforms-core-clientbus</module>
     </modules>
 
 </project>

@@ -19,6 +19,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
+    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />

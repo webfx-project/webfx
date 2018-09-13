@@ -11,8 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" />
-    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" />
   </component>
 </module>

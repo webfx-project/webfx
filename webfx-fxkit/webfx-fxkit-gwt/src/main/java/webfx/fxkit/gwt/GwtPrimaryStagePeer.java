@@ -7,7 +7,7 @@ import webfx.fxkit.gwt.html.HtmlScenePeer;
 import webfx.fxkit.gwt.util.HtmlUtil;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 
 import static elemental2.dom.DomGlobal.document;
 import static elemental2.dom.DomGlobal.window;

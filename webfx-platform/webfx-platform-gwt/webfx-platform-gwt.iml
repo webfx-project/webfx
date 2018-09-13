@@ -26,6 +26,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />

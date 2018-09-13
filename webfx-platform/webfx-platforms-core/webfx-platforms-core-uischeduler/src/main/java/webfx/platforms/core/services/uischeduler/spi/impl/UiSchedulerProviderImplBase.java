@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.uischeduler.spi.impl;
 
-import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider;
 

@@ -1,7 +1,7 @@
 package emul.javafx.animation;
 
 import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 
 /**
  * @author Bruno Salmon

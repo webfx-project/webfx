@@ -4,7 +4,7 @@ import emul.javafx.beans.property.*;
 import emul.javafx.event.*;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import emul.javafx.geometry.Rectangle2D;
 import webfx.fxkits.core.properties.Properties;

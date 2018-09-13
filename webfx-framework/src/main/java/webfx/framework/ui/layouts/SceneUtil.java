@@ -21,7 +21,7 @@ import webfx.fxkits.core.properties.UnregisterableListener;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 import webfx.platforms.core.util.Booleans;
 import webfx.platforms.core.util.function.Consumer;
 import webfx.platforms.core.util.tuples.Unit;

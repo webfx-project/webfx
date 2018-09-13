@@ -2,6 +2,7 @@ package webfx.platforms.core.services.uischeduler.spi;
 
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
+import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 import webfx.platforms.core.util.function.Consumer;
 import webfx.platforms.core.util.tuples.Unit;
 

@@ -17,7 +17,7 @@ import webfx.fxkits.core.spi.peer.NodePeer;
 import webfx.fxkits.core.spi.peer.base.ScenePeerBase;
 import webfx.fxkits.extra.control.HtmlText;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 import webfx.platforms.core.util.collection.Collections;
 
 import static elemental2.dom.DomGlobal.document;

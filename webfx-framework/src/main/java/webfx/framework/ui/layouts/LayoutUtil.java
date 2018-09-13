@@ -12,7 +12,7 @@ import webfx.framework.ui.graphic.background.BackgroundUtil;
 import webfx.fxkits.core.properties.Properties;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.spi.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 import webfx.platforms.core.util.Numbers;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;

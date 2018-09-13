@@ -15,6 +15,7 @@
     <orderEntry type="module" module-name="mongooses-core" />
     <orderEntry type="module" module-name="webfx-framework" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
+    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />

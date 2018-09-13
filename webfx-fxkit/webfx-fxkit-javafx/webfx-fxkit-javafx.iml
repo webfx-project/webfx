@@ -13,6 +13,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="library" name="Maven: de.codecentric.centerdevice:javafxsvg:1.2.1" level="project" />
