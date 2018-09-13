@@ -3,7 +3,7 @@ package mongooses.loadtester.activities.loadtester.drive.connection;
 import mongooses.loadtester.activities.loadtester.drive.command.Command;
 import mongooses.loadtester.activities.loadtester.drive.listener.ConnectionEvent;
 import mongooses.loadtester.activities.loadtester.drive.listener.EventType;
-import webfx.platforms.core.services.bus.call.BusCallService;
+import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.bus.client.WebSocketBus;
 import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.json.JsonObject;

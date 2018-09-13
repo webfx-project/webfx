@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.push.server.spi.impl;
 
 import webfx.platforms.core.services.bus.Bus;
-import webfx.platforms.core.services.bus.call.BusCallService;
+import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.bus.spi.BusService;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.ClientPushBusAddressesSharedByBothClientAndServer;

@@ -8,7 +8,7 @@ import webfx.platforms.core.MonolithModule;
 import webfx.platforms.core.client.url.history.History;
 import webfx.platforms.core.client.url.location.WindowLocation;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
-import webfx.platforms.core.services.bus.call.BusCallModule;
+import webfx.platforms.core.services.buscall.BusCallModule;
 import webfx.platforms.core.services.query.QueryModule;
 import webfx.platforms.core.services.querypush.QueryPushModule;
 import webfx.platforms.core.services.update.UpdateModule;

@@ -2,7 +2,7 @@ package webfx.platforms.core.services.update.spi.remote;
 
 import webfx.platforms.core.services.update.UpdateService;
 import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
-import webfx.platforms.core.services.bus.call.BusCallService;
+import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.update.UpdateArgument;
 import webfx.platforms.core.services.update.UpdateResult;
 import webfx.platforms.core.util.async.Batch;

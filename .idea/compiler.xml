@@ -139,6 +139,7 @@
         <module name="webfx-platform-vertx" />
         <module name="webfx-platforms-core-appcontainer" />
         <module name="webfx-platforms-core-bus" />
+        <module name="webfx-platforms-core-buscall" />
         <module name="webfx-platforms-core-json" />
         <module name="webfx-platforms-core-log" />
         <module name="webfx-platforms-core-monolith" />
@@ -205,6 +206,7 @@
       <module name="webfx-platforms-core" target="1.8" />
       <module name="webfx-platforms-core-appcontainer" target="1.8" />
       <module name="webfx-platforms-core-bus" target="1.8" />
+      <module name="webfx-platforms-core-buscall" target="1.8" />
       <module name="webfx-platforms-core-json" target="1.8" />
       <module name="webfx-platforms-core-log" target="1.8" />
       <module name="webfx-platforms-core-monolith" target="1.8" />

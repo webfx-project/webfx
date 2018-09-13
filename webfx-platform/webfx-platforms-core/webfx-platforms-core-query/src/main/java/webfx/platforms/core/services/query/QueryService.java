@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.query;
 
-import webfx.platforms.core.services.bus.call.BusCallService;
+import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.query.spi.QueryServiceProvider;
 import webfx.platforms.core.services.query.spi.remote.RemoteQueryServiceProviderImpl;
 import webfx.platforms.core.util.async.Batch;

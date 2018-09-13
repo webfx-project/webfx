@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.bus.call;
+package webfx.platforms.core.services.buscall;
 
 /**
  * @author Bruno Salmon

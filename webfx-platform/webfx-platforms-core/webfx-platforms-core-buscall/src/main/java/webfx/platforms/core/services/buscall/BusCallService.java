@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.bus.call;
+package webfx.platforms.core.services.buscall;
 
 import webfx.platforms.core.services.bus.Bus;
 import webfx.platforms.core.services.bus.Message;

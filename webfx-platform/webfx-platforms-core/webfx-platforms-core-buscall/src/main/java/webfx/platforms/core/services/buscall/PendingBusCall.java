@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.bus.call;
+package webfx.platforms.core.services.buscall;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;

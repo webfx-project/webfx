@@ -9,15 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webfx-platforms-core-query</artifactId>
+    <artifactId>webfx-platforms-core-buscall</artifactId>
 
     <dependencies>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-buscall</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
 
         <dependency>
             <artifactId>webfx-platforms-core-appcontainer</artifactId>
@@ -26,7 +20,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-util</artifactId>
+            <artifactId>webfx-platforms-core-bus</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

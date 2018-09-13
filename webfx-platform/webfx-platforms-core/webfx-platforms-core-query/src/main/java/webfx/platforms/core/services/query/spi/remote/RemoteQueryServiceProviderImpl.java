@@ -4,7 +4,7 @@ import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.QueryService;
 import webfx.platforms.core.services.query.spi.QueryServiceProvider;
-import webfx.platforms.core.services.bus.call.BusCallService;
+import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.datasource.LocalDataSourceRegistry;
 import webfx.platforms.core.services.query.QueryArgument;
 import webfx.platforms.core.util.Arrays;

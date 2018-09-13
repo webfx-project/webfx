@@ -10,7 +10,7 @@ import webfx.framework.activity.ActivityManager;
 import webfx.framework.activity.base.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.util.ImageStore;
-import webfx.platforms.core.services.bus.call.BusBasedClientApplicationModuleBase;
+import webfx.platforms.core.services.buscall.BusBasedClientApplicationModuleBase;
 
 /**
  * @author Bruno Salmon

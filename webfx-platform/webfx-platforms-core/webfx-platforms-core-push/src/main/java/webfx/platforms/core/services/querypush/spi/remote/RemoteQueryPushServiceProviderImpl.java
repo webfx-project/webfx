@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.querypush.spi.remote;
 
-import webfx.platforms.core.services.bus.call.BusCallService;
+import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.datasource.ConnectionDetails;
 import webfx.platforms.core.services.datasource.LocalDataSourceRegistry;
 import webfx.platforms.core.services.log.Logger;

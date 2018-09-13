@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.update;
 
-import webfx.platforms.core.services.bus.call.BusCallService;
+import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
 import webfx.platforms.core.services.update.spi.remote.RemoteUpdateServiceProviderImpl;
 import webfx.platforms.core.util.async.Batch;

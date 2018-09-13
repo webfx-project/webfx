@@ -32,6 +32,7 @@
         <module>webfx-platforms-core-update</module> <!-- depends on appcontainer module -->
 
         <module>webfx-platforms-core-monolith</module>
+        <module>webfx-platforms-core-buscall</module>
     </modules>
 
 </project>

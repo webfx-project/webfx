@@ -1,5 +1,6 @@
 <module rename-to="webfx_platforms_core_query">
 
+    <inherits name="webfx-platforms-core-buscall"/>
     <inherits name="webfx-platforms-core-appcontainer"/>
     <inherits name="webfx-platforms-core-util"/>
 
