@@ -35,6 +35,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-platforms-core-browsinghistory</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-platforms-core-clientbus</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

@@ -1,11 +1,10 @@
 package webfx.platforms.core.services.browsinghistory.spi;
 
-import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.browsinglocation.spi.PathStateLocation;
+import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.function.Function;
-import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * Inspired from https://github.com/mjackson/history/blob/master/docs/Glossary.md#history
@@ -13,11 +12,6 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
  * @author Bruno Salmon
  */
 public interface BrowsingHistory {
-
-    static BrowsingHistory getWindowHistory() { // returns the browser history
-        // The only provider of BrowsingHistory returned by the ServiceLoader should be the browser history
-        return SingleServiceLoader.loadService(BrowsingHistory.class);
-    }
 
     /***************************************** Navigation management ***************************************************
      *

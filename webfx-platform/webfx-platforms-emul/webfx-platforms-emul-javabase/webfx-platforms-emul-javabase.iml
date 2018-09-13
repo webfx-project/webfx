@@ -12,13 +12,12 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-browsinglocation" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" scope="PROVIDED" />

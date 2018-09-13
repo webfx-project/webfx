@@ -1,0 +1,8 @@
+<module rename-to="webfx_platforms_core_browsinghistory">
+
+    <inherits name="webfx-platforms-core-browsinglocation"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/browsinghistory"/>
+
+</module>

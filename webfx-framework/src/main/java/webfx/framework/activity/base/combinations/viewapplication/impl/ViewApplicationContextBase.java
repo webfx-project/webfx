@@ -14,6 +14,7 @@ import webfx.fxkits.core.spi.FxKit;
 import webfx.framework.activity.ActivityContextFactory;
 import webfx.framework.activity.base.elementals.application.ApplicationContext;
 import webfx.framework.activity.base.elementals.application.impl.ApplicationContextBase;
+import webfx.platforms.core.services.browsinghistory.WindowHistory;
 import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 
 /**
@@ -59,7 +60,7 @@ public class ViewApplicationContextBase
     @Override
     public BrowsingHistory getHistory() {
         if (super.getUiRouter() == null)
-            return BrowsingHistory.getWindowHistory();
+            return WindowHistory.get();
         return super.getHistory();
     }
 

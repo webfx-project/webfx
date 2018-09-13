@@ -25,10 +25,11 @@
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-framework" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" />
+    <orderEntry type="module" module-name="webfx-platforms-core-update" />
+    <orderEntry type="module" module-name="webfx-platforms-core-browsinghistory" />
     <orderEntry type="module" module-name="webfx-platforms-core-browsinglocation" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
-    <orderEntry type="module" module-name="webfx-platforms-core-update" />
     <orderEntry type="module" module-name="webfx-platforms-core-querypush" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
