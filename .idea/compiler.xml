@@ -147,6 +147,7 @@
         <module name="webfx-platforms-core-monolith" />
         <module name="webfx-platforms-core-push" />
         <module name="webfx-platforms-core-query" />
+        <module name="webfx-platforms-core-querypush" />
         <module name="webfx-platforms-core-resource" />
         <module name="webfx-platforms-core-scheduler" />
         <module name="webfx-platforms-core-shutdown" />
@@ -218,6 +219,7 @@
       <module name="webfx-platforms-core-noreflect" target="1.8" />
       <module name="webfx-platforms-core-push" target="1.8" />
       <module name="webfx-platforms-core-query" target="1.8" />
+      <module name="webfx-platforms-core-querypush" target="1.8" />
       <module name="webfx-platforms-core-resource" target="1.8" />
       <module name="webfx-platforms-core-scheduler" target="1.8" />
       <module name="webfx-platforms-core-shutdown" target="1.8" />

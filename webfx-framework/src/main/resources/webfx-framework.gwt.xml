@@ -1,6 +1,7 @@
 <module rename-to="webfx_framework">
 
     <inherits name="webfx-platforms-core-monolith"/>
+    <inherits name="webfx-platforms-core-querypush"/>
     <inherits name="webfx-lib-rxjava"/>
 
     <!-- Specify the paths for translatable code -->

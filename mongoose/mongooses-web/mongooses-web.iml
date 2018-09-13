@@ -27,6 +27,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-querypush" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" scope="PROVIDED" />

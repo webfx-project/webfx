@@ -33,15 +33,17 @@
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
-    <orderEntry type="module" module-name="webfx-platforms-core-query" />
-    <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
-    <orderEntry type="module" module-name="webfx-platforms-core-datasource" />
-    <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" />
+    <orderEntry type="module" module-name="webfx-platforms-core-querypush" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
+    <orderEntry type="module" module-name="webfx-platforms-core-querypush" />
+    <orderEntry type="module" module-name="webfx-platforms-core-push" />
+    <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
+    <orderEntry type="module" module-name="webfx-platforms-core-query" />
+    <orderEntry type="module" module-name="webfx-platforms-core-datasource" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-fxkit-gwt" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />

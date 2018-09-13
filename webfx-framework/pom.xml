@@ -20,6 +20,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-platforms-core-querypush</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-fxkits-core</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -93,7 +99,7 @@
             </plugin>
 
             <!-- Relocating the java_cup package to avoid a version conflict that makes TeaVM compilation fail (TeaVM has a dependency on xalan which includes an incompatible version of java_cup) -->
-            <plugin>
+            <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <executions>
@@ -108,8 +114,6 @@
                             <createSourcesJar>true</createSourcesJar>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
-                                <!-- 1) TeaVM has a dependency on xalan that uses an incompatible version of java_cup
-                                        so we relocate our version to avoid a compilation error -->
                                 <relocation>
                                     <pattern>java_cup</pattern>
                                     <shadedPattern>java_cub_11b</shadedPattern>
@@ -119,7 +123,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin!-->
 
         </plugins>
     </build>

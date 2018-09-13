@@ -9,18 +9,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webfx-platforms-core-push</artifactId>
+    <artifactId>webfx-platforms-core-querypush</artifactId>
 
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-core-buscall</artifactId>
+            <artifactId>webfx-platforms-core-push</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-scheduler</artifactId>
+            <artifactId>webfx-platforms-core-query</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
