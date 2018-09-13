@@ -2,7 +2,7 @@ package mongooses.core.operations.backend.route;
 
 import webfx.framework.operation.HasOperationCode;
 import webfx.framework.operations.route.RouteRequestBase;
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.util.async.AsyncFunction;
 
 /**
@@ -15,7 +15,7 @@ public final class RouteToNewBackendBookingRequest extends RouteRequestBase<Rout
 
     private Object eventId;
 
-    public RouteToNewBackendBookingRequest(Object eventId, History history) {
+    public RouteToNewBackendBookingRequest(Object eventId, BrowsingHistory history) {
         super(history);
         this.eventId = eventId;
     }

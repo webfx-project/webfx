@@ -1,7 +1,7 @@
 package webfx.framework.ui.uirouter;
 
-import webfx.platforms.core.client.url.history.History;
-import webfx.platforms.core.client.url.history.HistoryLocation;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryLocation;
 import webfx.framework.router.Router;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.util.async.Handler;
@@ -12,11 +12,11 @@ import webfx.platforms.core.util.async.Handler;
 public class HistoryRouter {
 
     protected final Router router;
-    protected History history;
+    protected BrowsingHistory history;
     // The default path to be used if the history is initially empty or the path is not found
     private String defaultInitialHistoryPath;
 
-    public HistoryRouter(Router router, History history) {
+    public HistoryRouter(Router router, BrowsingHistory history) {
         this.router = router;
         this.history = history;
         router.exceptionHandler(new Handler<Throwable>() {
@@ -34,11 +34,11 @@ public class HistoryRouter {
         return router;
     }
 
-    public History getHistory() {
+    public BrowsingHistory getHistory() {
         return history;
     }
 
-    protected void setHistory(History history) {
+    protected void setHistory(BrowsingHistory history) {
         this.history = history;
     }
 
@@ -56,7 +56,7 @@ public class HistoryRouter {
     }
 
     public void start() {
-        HistoryLocation currentLocation = history.getCurrentLocation();
+        BrowsingHistoryLocation currentLocation = history.getCurrentLocation();
         history.listen(this::onNewHistoryLocation);
         if (currentLocation != null)
             onNewHistoryLocation(currentLocation);
@@ -68,8 +68,8 @@ public class HistoryRouter {
         onNewHistoryLocation(history.getCurrentLocation());
     }
 
-    protected void onNewHistoryLocation(HistoryLocation historyLocation) {
-        router.accept(history.getPath(historyLocation), historyLocation.getState());
+    protected void onNewHistoryLocation(BrowsingHistoryLocation browsingHistoryLocation) {
+        router.accept(history.getPath(browsingHistoryLocation), browsingHistoryLocation.getState());
     }
 
 }

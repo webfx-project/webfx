@@ -1,18 +1,16 @@
-package webfx.platforms.core.client.url.history.memory;
+package webfx.platforms.core.services.browsinghistory.spi.impl;
 
-import webfx.platforms.core.client.url.history.baseimpl.HistoryBase;
-import webfx.platforms.core.client.url.history.baseimpl.HistoryLocationImpl;
-import webfx.platforms.core.client.url.history.HistoryEvent;
-import webfx.platforms.core.client.url.history.HistoryLocation;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryEvent;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryLocation;
 
 import java.util.Stack;
 
 /**
  * @author Bruno Salmon
  */
-public class MemoryHistory extends HistoryBase {
+public class MemoryBrowsingHistory extends BrowsingHistoryBase {
 
-    protected final Stack<HistoryLocationImpl> locationStack = new Stack<>();
+    protected final Stack<BrowsingHistoryLocationImpl> locationStack = new Stack<>();
     protected int backOffset = 0; // offset that becomes > 0 during back navigation to indicate the current location from the top of the history stack
 
     private int getCurrentLocationIndex() {
@@ -20,13 +18,13 @@ public class MemoryHistory extends HistoryBase {
     }
 
     @Override
-    public HistoryLocationImpl getCurrentLocation() {
+    public BrowsingHistoryLocationImpl getCurrentLocation() {
         int index = getCurrentLocationIndex();
         return index >= 0 && index < locationStack.size() ? locationStack.get(index) : null;
     }
 
     @Override
-    public void transitionTo(HistoryLocation location) {
+    public void transitionTo(BrowsingHistoryLocation location) {
         int index = locationStack.indexOf(location);
         if (index > 0)
             go(index - getCurrentLocationIndex());
@@ -38,8 +36,8 @@ public class MemoryHistory extends HistoryBase {
         if (offset != 0 && requestedBackOffset >= 0 && requestedBackOffset < locationStack.size()) {
             int previousBackOffset = backOffset;
             backOffset = requestedBackOffset;
-            HistoryLocationImpl newLocation = getCurrentLocation();
-            checkBeforeUnloadThenCheckBeforeThenTransit(newLocation, HistoryEvent.POPPED).setHandler(asyncResult -> {
+            BrowsingHistoryLocationImpl newLocation = getCurrentLocation();
+            checkBeforeUnloadThenCheckBeforeThenTransit(newLocation, BrowsingHistoryEvent.POPPED).setHandler(asyncResult -> {
                 if (asyncResult.failed())
                     backOffset = previousBackOffset;
             });
@@ -47,7 +45,7 @@ public class MemoryHistory extends HistoryBase {
     }
 
     @Override
-    protected void doAcceptedPush(HistoryLocationImpl historyLocation) {
+    protected void doAcceptedPush(BrowsingHistoryLocationImpl historyLocation) {
         if (backOffset > 0)
             do
                 locationStack.pop();
@@ -55,7 +53,7 @@ public class MemoryHistory extends HistoryBase {
         locationStack.push(historyLocation);
     }
 
-    protected void doAcceptedReplace(HistoryLocationImpl historyLocation) {
+    protected void doAcceptedReplace(BrowsingHistoryLocationImpl historyLocation) {
         int index = getCurrentLocationIndex();
         if (index != -1)
             locationStack.set(index, historyLocation);

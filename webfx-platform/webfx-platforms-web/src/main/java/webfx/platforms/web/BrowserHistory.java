@@ -1,8 +1,8 @@
 package webfx.platforms.web;
 
-import webfx.platforms.core.client.url.history.HistoryEvent;
-import webfx.platforms.core.client.url.history.baseimpl.HistoryLocationImpl;
-import webfx.platforms.core.client.url.history.memory.MemoryHistory;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryEvent;
+import webfx.platforms.core.services.browsinghistory.spi.impl.MemoryBrowsingHistory;
+import webfx.platforms.core.services.browsinghistory.spi.impl.BrowsingHistoryLocationImpl;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
@@ -14,7 +14,7 @@ import webfx.platforms.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public class BrowserHistory extends MemoryHistory {
+public class BrowserHistory extends MemoryBrowsingHistory {
 
     private final WindowHistory windowHistory;
     private final boolean supportsStates;
@@ -68,7 +68,7 @@ public class BrowserHistory extends MemoryHistory {
     }
 
     @Override
-    public HistoryLocationImpl getCurrentLocation() {
+    public BrowsingHistoryLocationImpl getCurrentLocation() {
         checkInitialized();
         return super.getCurrentLocation();
     }
@@ -79,15 +79,15 @@ public class BrowserHistory extends MemoryHistory {
         String path = fullToMountPath(WindowLocation.getPath());
         Logger.log("Pop state with path = " + path);
         PathStateLocation pathStateLocation = createPathStateLocation(path, state);
-        HistoryLocationImpl location;
+        BrowsingHistoryLocationImpl location;
         int p = locationStack.indexOf(pathStateLocation);
         //Logger.log("Index in stack: " + p);
         if (p != -1) {
             location = locationStack.get(p);
-            location.setEvent(HistoryEvent.POPPED);
+            location.setEvent(BrowsingHistoryEvent.POPPED);
             backOffset = p;
         } else
-            super.doAcceptedPush(location = createHistoryLocation(pathStateLocation, HistoryEvent.POPPED));
+            super.doAcceptedPush(location = createHistoryLocation(pathStateLocation, BrowsingHistoryEvent.POPPED));
         // For any reason there is a performance issue with Chrome if we fire the location change now, so we defer it
         Runnable runnable = () -> fireLocationChanged(location);
         UiScheduler.scheduleDeferred(runnable);
@@ -95,7 +95,7 @@ public class BrowserHistory extends MemoryHistory {
     }
 
     @Override
-    protected void doAcceptedPush(HistoryLocationImpl historyLocation) {
+    protected void doAcceptedPush(BrowsingHistoryLocationImpl historyLocation) {
         String path = historyLocation.getPath();
         if (supportsStates)
             windowHistory.pushState(historyLocation.getState(), null, path);
@@ -105,7 +105,7 @@ public class BrowserHistory extends MemoryHistory {
     }
 
     @Override
-    protected void doAcceptedReplace(HistoryLocationImpl historyLocation) {
+    protected void doAcceptedReplace(BrowsingHistoryLocationImpl historyLocation) {
         String path = historyLocation.getPath();
         if (supportsStates)
             windowHistory.replaceState(historyLocation.getState(), null, path);

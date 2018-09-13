@@ -1,6 +1,6 @@
 package webfx.framework.operations.route;
 
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.util.async.AsyncFunction;
 
@@ -11,11 +11,11 @@ public class RoutePushRequest extends RouteRequestBase<RoutePushRequest> {
 
     private JsonObject state;
 
-    public RoutePushRequest(String routePath, History history) {
-        this(routePath, history, null);
+    public RoutePushRequest(String routePath, BrowsingHistory browsingHistory) {
+        this(routePath, browsingHistory, null);
     }
 
-    public RoutePushRequest(String routePath, History history, JsonObject state) {
+    public RoutePushRequest(String routePath, BrowsingHistory history, JsonObject state) {
         super(routePath, history);
         this.state = state;
     }

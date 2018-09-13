@@ -1,7 +1,7 @@
 package webfx.framework.operations.route;
 
 import webfx.framework.operation.HasOperationCode;
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.util.async.AsyncFunction;
 
 /**
@@ -13,7 +13,7 @@ public final class RouteForwardRequest
 
     private static final String OPERATION_CODE = "RouteForward";
 
-    public RouteForwardRequest(History history) {
+    public RouteForwardRequest(BrowsingHistory history) {
         super(history);
     }
 

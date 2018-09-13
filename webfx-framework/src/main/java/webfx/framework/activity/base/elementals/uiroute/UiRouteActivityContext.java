@@ -4,7 +4,7 @@ import webfx.framework.activity.base.elementals.activeproperty.ActivePropertyAct
 import webfx.framework.router.session.Session;
 import webfx.framework.ui.uirouter.UiRouter;
 import webfx.framework.ui.uisession.UiSession;
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.services.json.JsonObject;
 
 /**
@@ -17,7 +17,7 @@ public interface UiRouteActivityContext
 
     UiRouter getUiRouter();
 
-    default History getHistory() {
+    default BrowsingHistory getHistory() {
         return getUiRouter().getHistory();
     }
 

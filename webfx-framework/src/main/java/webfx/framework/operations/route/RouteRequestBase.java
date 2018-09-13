@@ -2,7 +2,7 @@ package webfx.framework.operations.route;
 
 import webfx.framework.operation.HasOperationExecutor;
 import webfx.framework.router.auth.authz.RouteRequest;
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.util.async.Future;
 
 /**
@@ -12,22 +12,22 @@ public abstract class RouteRequestBase<THIS extends RouteRequestBase<THIS>>
         extends RouteRequest
         implements HasOperationExecutor<THIS, Void> {
 
-    private History history;
+    private BrowsingHistory history;
 
-    protected RouteRequestBase(History history) {
+    protected RouteRequestBase(BrowsingHistory history) {
         this(null, history);
     }
 
-    protected RouteRequestBase(String routePath, History history) {
+    protected RouteRequestBase(String routePath, BrowsingHistory history) {
         super(routePath);
         this.history = history;
     }
 
-    public History getHistory() {
+    public BrowsingHistory getHistory() {
         return history;
     }
 
-    public THIS setHistory(History history) {
+    public THIS setHistory(BrowsingHistory history) {
         this.history = history;
         return (THIS) this;
     }

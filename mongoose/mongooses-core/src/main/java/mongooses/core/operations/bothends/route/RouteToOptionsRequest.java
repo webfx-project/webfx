@@ -5,26 +5,26 @@ import mongooses.core.activities.sharedends.logic.preselection.OptionsPreselecti
 import mongooses.core.activities.sharedends.logic.work.WorkingDocument;
 import mongooses.core.aggregates.EventAggregate;
 import webfx.framework.operations.route.RoutePushRequest;
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon
  */
 public final class RouteToOptionsRequest extends RoutePushRequest {
 
-    public RouteToOptionsRequest(Object eventId, History history) {
+    public RouteToOptionsRequest(Object eventId, BrowsingHistory history) {
         super(OptionsRouting.getEventOptionsPath(eventId), history);
     }
 
-    public RouteToOptionsRequest(WorkingDocument workingDocument, History history) {
+    public RouteToOptionsRequest(WorkingDocument workingDocument, BrowsingHistory history) {
         this(workingDocument, null, history);
     }
 
-    public RouteToOptionsRequest(OptionsPreselection optionsPreselection, History history) {
+    public RouteToOptionsRequest(OptionsPreselection optionsPreselection, BrowsingHistory history) {
         this(optionsPreselection.getWorkingDocument(), optionsPreselection, history);
     }
 
-    public RouteToOptionsRequest(WorkingDocument workingDocument, OptionsPreselection optionsPreselection, History history) {
+    public RouteToOptionsRequest(WorkingDocument workingDocument, OptionsPreselection optionsPreselection, BrowsingHistory history) {
         this(prepareEventServiceAndReturnEventId(workingDocument, optionsPreselection), history);
     }
 

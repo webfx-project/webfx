@@ -1,6 +1,6 @@
 package webfx.framework.operations.route;
 
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.util.async.Future;
 
@@ -13,7 +13,7 @@ final class RoutePushExecutor {
         return execute(rq.getRoutePath(), rq.getHistory(), rq.getState());
     }
 
-    private static Future<Void> execute(String routePath, History history, JsonObject state) {
+    private static Future<Void> execute(String routePath, BrowsingHistory history, JsonObject state) {
         if (routePath != null)
             history.push(routePath, state);
         return Future.succeededFuture();

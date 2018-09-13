@@ -5,7 +5,7 @@ import webfx.framework.router.session.Session;
 import webfx.framework.ui.uirouter.UiRouter;
 import webfx.framework.ui.uisession.UiSession;
 import webfx.framework.ui.uisession.UiSessionMixin;
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.services.json.JsonObject;
 
 /**
@@ -22,7 +22,7 @@ public interface UiRouteActivityContextMixin
     default UiRouter getUiRouter() { return getActivityContext().getUiRouter(); }
 
     @Override
-    default History getHistory() { return getActivityContext().getHistory(); }
+    default BrowsingHistory getHistory() { return getActivityContext().getHistory(); }
 
     @Override
     default JsonObject getParams() { return getActivityContext().getParams(); }

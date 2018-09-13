@@ -1,17 +1,17 @@
-package webfx.platforms.core.client.url.history.baseimpl;
+package webfx.platforms.core.services.browsinghistory.spi.impl;
 
-import webfx.platforms.core.client.url.history.History;
-import webfx.platforms.core.client.url.history.HistoryLocation;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryLocation;
 
 /**
  * @author Bruno Salmon
  */
-public class SubHistory extends HistoryBase {
+public class SubBrowsingHistory extends BrowsingHistoryBase {
 
-    private final HistoryBase parentHistory;
+    private final BrowsingHistoryBase parentHistory;
 
-    public SubHistory(History parentHistory, String subMountPoint) {
-        this.parentHistory = (HistoryBase) parentHistory;
+    public SubBrowsingHistory(BrowsingHistory parentBrowsingHistory, String subMountPoint) {
+        this.parentHistory = (BrowsingHistoryBase) parentBrowsingHistory;
         setMountPoint(subMountPoint);
     }
 
@@ -21,7 +21,7 @@ public class SubHistory extends HistoryBase {
         String parentMountPath = super.mountToFullPath(mountPath);
         // Then calling the parent method will give the final (parent) full path
         String fullPath = parentHistory.mountToFullPath(parentMountPath);
-        //Logger.log("SubHistory parentFullPath('" + mountPath + "') = " + fullPath);
+        //Logger.log("SubBrowsingHistory parentFullPath('" + mountPath + "') = " + fullPath);
         return fullPath;
     }
 
@@ -31,27 +31,27 @@ public class SubHistory extends HistoryBase {
         String parentMountPath = parentHistory.fullToMountPath(fullPath);
         // Then calling the super method will actually give the final (sub) mount path
         String mountPath = super.fullToMountPath(parentMountPath);
-        //Logger.log("SubHistory fullToMountPath('" + fullPath + "') = " + mountPath);
+        //Logger.log("SubBrowsingHistory fullToMountPath('" + fullPath + "') = " + mountPath);
         return mountPath;
     }
 
     @Override
-    protected void doAcceptedPush(HistoryLocationImpl historyLocation) {
+    protected void doAcceptedPush(BrowsingHistoryLocationImpl historyLocation) {
         parentHistory.doAcceptedPush(historyLocation);
     }
 
     @Override
-    protected void doAcceptedReplace(HistoryLocationImpl historyLocation) {
+    protected void doAcceptedReplace(BrowsingHistoryLocationImpl historyLocation) {
         parentHistory.doAcceptedReplace(historyLocation);
     }
 
     @Override
-    public HistoryLocation getCurrentLocation() {
+    public BrowsingHistoryLocation getCurrentLocation() {
         return parentHistory.getCurrentLocation();
     }
 
     @Override
-    public void transitionTo(HistoryLocation location) {
+    public void transitionTo(BrowsingHistoryLocation location) {
         parentHistory.transitionTo(location);
     }
 
@@ -61,7 +61,7 @@ public class SubHistory extends HistoryBase {
     }
 
     @Override
-    protected void fireLocationChanged(HistoryLocation location) {
+    protected void fireLocationChanged(BrowsingHistoryLocation location) {
         parentHistory.fireLocationChanged(location);
     }
 }

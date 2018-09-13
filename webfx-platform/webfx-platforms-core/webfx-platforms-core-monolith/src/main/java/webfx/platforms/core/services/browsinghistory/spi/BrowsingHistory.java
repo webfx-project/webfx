@@ -1,4 +1,4 @@
-package webfx.platforms.core.client.url.history;
+package webfx.platforms.core.services.browsinghistory.spi;
 
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
@@ -12,10 +12,11 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
  *
  * @author Bruno Salmon
  */
-public interface History {
+public interface BrowsingHistory {
 
-    static History get() { // returns browser history
-        return SingleServiceLoader.loadService(History.class);
+    static BrowsingHistory getWindowHistory() { // returns the browser history
+        // The provider of BrowsingHistory returned by the ServiceLoader should be the browser history
+        return SingleServiceLoader.loadService(BrowsingHistory.class);
     }
 
     /***************************************** Navigation management ***************************************************
@@ -29,7 +30,7 @@ public interface History {
      *
      * @return the current location
      */
-    HistoryLocation getCurrentLocation();
+    BrowsingHistoryLocation getCurrentLocation();
 
     /**
      * Push a new entry onto the history stack.
@@ -69,7 +70,7 @@ public interface History {
      */
     void replace(PathStateLocation location);
 
-    void transitionTo(HistoryLocation location);
+    void transitionTo(BrowsingHistoryLocation location);
 
     /**
      * Differential navigation method.
@@ -101,7 +102,7 @@ public interface History {
     /**
      * Listen for changes to the current location.
      */
-    void listen(Handler<HistoryLocation> listener);
+    void listen(Handler<BrowsingHistoryLocation> listener);
 
     /**
      * Sometimes you may want to prevent the user from going to a different page.
@@ -111,7 +112,7 @@ public interface History {
      * @param transitionHook a hook function that takes the location and returns a boolean that tells if the transition
      *                       is accepted (true) or prevented (false)
      */
-    default void listenBefore(Function<HistoryLocation, Boolean> transitionHook) { listenBeforeAsync(location -> Future.succeededFuture(transitionHook.apply(location))); }
+    default void listenBefore(Function<BrowsingHistoryLocation, Boolean> transitionHook) { listenBeforeAsync(location -> Future.succeededFuture(transitionHook.apply(location))); }
 
     /**
      * If your transition hook needs to execute asynchronously, you can return a future boolean.
@@ -122,18 +123,18 @@ public interface History {
      * @param transitionHook a hook asynchronous function that takes the location and returns a future boolean that will
      *                       tell if the transition  accepted (true) or prevented (false)
      */
-    void listenBeforeAsync(Function<HistoryLocation, Future<Boolean>> transitionHook);
+    void listenBeforeAsync(Function<BrowsingHistoryLocation, Future<Boolean>> transitionHook);
 
     /**
      * A before unload hook is a function that is used in web browsers to prevent the user from navigating away from
      * the page or closing the window.
      *      history.listenBeforeUnload(() -> 'Are you sure you want to leave this page?');
      * Note that because of the nature of the beforeunload event all hooks must return synchronously.
-     * History runs all hooks in the order they were registered and displays the first message that is returned.
+     * BrowsingHistory runs all hooks in the order they were registered and displays the first message that is returned.
      *
      * @param transitionHook
      */
-    void listenBeforeUnload(Function<HistoryLocation, Boolean> transitionHook);
+    void listenBeforeUnload(Function<BrowsingHistoryLocation, Boolean> transitionHook);
 
     /********************************************* Creating URLs *******************************************************
      *
@@ -148,6 +149,6 @@ public interface History {
 
     PathStateLocation createPathStateLocation(String path, JsonObject state);
 
-    HistoryLocation createHistoryLocation(String path, JsonObject state);
+    BrowsingHistoryLocation createHistoryLocation(String path, JsonObject state);
 
 }

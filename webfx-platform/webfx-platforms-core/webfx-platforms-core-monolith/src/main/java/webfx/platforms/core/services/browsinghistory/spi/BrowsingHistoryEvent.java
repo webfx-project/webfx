@@ -1,4 +1,4 @@
-package webfx.platforms.core.client.url.history;
+package webfx.platforms.core.services.browsinghistory.spi;
 
 /**
  * An history event describes the type of change that has been done to a URL. Possible values are:
@@ -8,6 +8,6 @@ package webfx.platforms.core.client.url.history;
  *
  * @author Bruno Salmon
  */
-public enum HistoryEvent {
+public enum BrowsingHistoryEvent {
     PUSHED, REPLACED, POPPED
 }

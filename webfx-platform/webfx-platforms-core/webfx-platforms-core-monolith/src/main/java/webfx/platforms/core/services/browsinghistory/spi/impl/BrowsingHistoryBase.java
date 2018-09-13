@@ -1,9 +1,9 @@
-package webfx.platforms.core.client.url.history.baseimpl;
+package webfx.platforms.core.services.browsinghistory.spi.impl;
 
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryEvent;
 import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.client.url.history.History;
-import webfx.platforms.core.client.url.history.HistoryEvent;
-import webfx.platforms.core.client.url.history.HistoryLocation;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryLocation;
 import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
 import webfx.platforms.core.services.windowlocation.spi.impl.PathLocationImpl;
 import webfx.platforms.core.services.windowlocation.spi.impl.PathStateLocationImpl;
@@ -15,7 +15,7 @@ import webfx.platforms.core.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public abstract class HistoryBase implements History {
+public abstract class BrowsingHistoryBase implements BrowsingHistory {
 
     private String mountPoint;
 
@@ -39,23 +39,23 @@ public abstract class HistoryBase implements History {
 
     @Override
     public void push(PathStateLocation location) {
-        checkBeforeUnloadThenCheckBeforeThenTransit(location, HistoryEvent.PUSHED);
+        checkBeforeUnloadThenCheckBeforeThenTransit(location, BrowsingHistoryEvent.PUSHED);
     }
 
     @Override
     public void replace(PathStateLocation location) {
-        checkBeforeUnloadThenCheckBeforeThenTransit(location, HistoryEvent.REPLACED);
+        checkBeforeUnloadThenCheckBeforeThenTransit(location, BrowsingHistoryEvent.REPLACED);
     }
 
-    protected Future<HistoryLocationImpl> checkBeforeUnloadThenCheckBeforeThenTransit(PathStateLocation location, HistoryEvent event) {
+    protected Future<BrowsingHistoryLocationImpl> checkBeforeUnloadThenCheckBeforeThenTransit(PathStateLocation location, BrowsingHistoryEvent event) {
         if (!checkBeforeUnload(getCurrentLocation()))
             return Future.failedFuture("Location refused to unload");
         return checkBeforeThenTransit(location, event);
     }
 
-    protected Future<HistoryLocationImpl> checkBeforeThenTransit(PathStateLocation location, HistoryEvent event) {
-        Future<HistoryLocationImpl> future = Future.future();
-        HistoryLocationImpl newLocation = location instanceof HistoryLocationImpl ? (HistoryLocationImpl) location : createHistoryLocation(location, event);
+    protected Future<BrowsingHistoryLocationImpl> checkBeforeThenTransit(PathStateLocation location, BrowsingHistoryEvent event) {
+        Future<BrowsingHistoryLocationImpl> future = Future.future();
+        BrowsingHistoryLocationImpl newLocation = location instanceof BrowsingHistoryLocationImpl ? (BrowsingHistoryLocationImpl) location : createHistoryLocation(location, event);
         newLocation.setEvent(event);
         checkBeforeAsync(newLocation).setHandler(asyncResult -> {
             if (asyncResult.failed() || !asyncResult.result())
@@ -68,7 +68,7 @@ public abstract class HistoryBase implements History {
         return future;
     }
 
-    protected void transit(HistoryLocationImpl newHistoryLocation) {
+    protected void transit(BrowsingHistoryLocationImpl newHistoryLocation) {
         switch (newHistoryLocation.getEvent()) {
             case PUSHED:
                 doAcceptedPush(newHistoryLocation);
@@ -83,11 +83,11 @@ public abstract class HistoryBase implements History {
         fireLocationChanged(newHistoryLocation);
     }
 
-    protected abstract void doAcceptedPush(HistoryLocationImpl historyLocation);
+    protected abstract void doAcceptedPush(BrowsingHistoryLocationImpl historyLocation);
 
-    protected abstract void doAcceptedReplace(HistoryLocationImpl historyLocation);
+    protected abstract void doAcceptedReplace(BrowsingHistoryLocationImpl historyLocation);
 
-    protected void doAcceptedPop(HistoryLocationImpl historyLocation) {} // normally unnecessary
+    protected void doAcceptedPop(BrowsingHistoryLocationImpl historyLocation) {} // normally unnecessary
 
 
     private int keySeq;
@@ -107,12 +107,12 @@ public abstract class HistoryBase implements History {
     }
 
     @Override
-    public HistoryLocation createHistoryLocation(String path, JsonObject state) {
+    public BrowsingHistoryLocation createHistoryLocation(String path, JsonObject state) {
         return createHistoryLocation(createPathStateLocation(path, state), null);
     }
 
-    public HistoryLocationImpl createHistoryLocation(PathStateLocation pathStateLocation, HistoryEvent event) {
-        return new HistoryLocationImpl(pathStateLocation, event, createLocationKey());
+    public BrowsingHistoryLocationImpl createHistoryLocation(PathStateLocation pathStateLocation, BrowsingHistoryEvent event) {
+        return new BrowsingHistoryLocationImpl(pathStateLocation, event, createLocationKey());
     }
 
 
@@ -126,33 +126,33 @@ public abstract class HistoryBase implements History {
      *
      ******************************************************************************************************************/
 
-    private Handler<HistoryLocation> listener;
+    private Handler<BrowsingHistoryLocation> listener;
     @Override
-    public void listen(Handler<HistoryLocation> listener) {
+    public void listen(Handler<BrowsingHistoryLocation> listener) {
         this.listener = listener;
     }
 
-    private Function<HistoryLocation, Future<Boolean>> beforeTransitionHook;
+    private Function<BrowsingHistoryLocation, Future<Boolean>> beforeTransitionHook;
     @Override
-    public void listenBeforeAsync(Function<HistoryLocation, Future<Boolean>> transitionHook) {
+    public void listenBeforeAsync(Function<BrowsingHistoryLocation, Future<Boolean>> transitionHook) {
         beforeTransitionHook = transitionHook;
     }
 
-    private Function<HistoryLocation, Boolean> beforeUnloadTransitionHook;
+    private Function<BrowsingHistoryLocation, Boolean> beforeUnloadTransitionHook;
     @Override
-    public void listenBeforeUnload(Function<HistoryLocation, Boolean> transitionHook) {
+    public void listenBeforeUnload(Function<BrowsingHistoryLocation, Boolean> transitionHook) {
         beforeUnloadTransitionHook = transitionHook;
     }
 
-    protected boolean checkBeforeUnload(HistoryLocation location) {
+    protected boolean checkBeforeUnload(BrowsingHistoryLocation location) {
         return beforeUnloadTransitionHook == null || !Boolean.FALSE.equals(beforeUnloadTransitionHook.apply(location));
     }
 
-    protected Future<Boolean> checkBeforeAsync(HistoryLocation location) {
+    protected Future<Boolean> checkBeforeAsync(BrowsingHistoryLocation location) {
         return beforeTransitionHook == null ? Future.succeededFuture(Boolean.TRUE) : beforeTransitionHook.apply(location);
     }
 
-    protected void fireLocationChanged(HistoryLocation location) {
+    protected void fireLocationChanged(BrowsingHistoryLocation location) {
         if (listener != null)
             listener.handle(location);
     }

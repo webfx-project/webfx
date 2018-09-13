@@ -1,4 +1,4 @@
-package webfx.platforms.core.client.url.history;
+package webfx.platforms.core.services.browsinghistory.spi;
 
 import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
 
@@ -18,14 +18,14 @@ import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
  *
  * @author Bruno Salmon
  */
-public interface HistoryLocation extends PathStateLocation {
+public interface BrowsingHistoryLocation extends PathStateLocation {
 
     /**
      * Returns an history event that describes the type of change that has been done to the URL to get there.
      *
-     * @return an HistoryEvent object
+     * @return an BrowsingHistoryEvent object
      */
-    HistoryEvent getEvent();
+    BrowsingHistoryEvent getEvent();
 
     /**
      * Returns a location key of the current URL. A location key is a unique string that identifies a location.

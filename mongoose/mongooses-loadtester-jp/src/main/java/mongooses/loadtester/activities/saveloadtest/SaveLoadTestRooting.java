@@ -2,7 +2,7 @@ package mongooses.loadtester.activities.saveloadtest;
 
 import webfx.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRoute;
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon
@@ -19,8 +19,8 @@ public class SaveLoadTestRooting {
         );
     }
 
-    public static void route(History history) {
-        history.push(PATH);
+    public static void route(BrowsingHistory browsingHistory) {
+        browsingHistory.push(PATH);
     }
 
 }

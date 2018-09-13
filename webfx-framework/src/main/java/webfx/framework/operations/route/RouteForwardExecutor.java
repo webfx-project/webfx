@@ -1,6 +1,6 @@
 package webfx.framework.operations.route;
 
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.util.async.Future;
 
 /**
@@ -12,7 +12,7 @@ final class RouteForwardExecutor {
         return execute(rq.getHistory());
     }
 
-    private static Future<Void> execute(History history) {
+    private static Future<Void> execute(BrowsingHistory history) {
         history.goForward();
         return Future.succeededFuture();
     }

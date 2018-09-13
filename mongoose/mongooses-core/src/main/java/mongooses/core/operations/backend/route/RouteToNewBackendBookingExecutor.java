@@ -2,7 +2,7 @@ package mongooses.core.operations.backend.route;
 
 import mongooses.core.operations.bothends.route.RouteToFeesRequest;
 import mongooses.core.aggregates.EventAggregate;
-import webfx.platforms.core.client.url.history.History;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.util.async.Future;
 
 /**
@@ -14,7 +14,7 @@ final class RouteToNewBackendBookingExecutor {
         return execute(rq.getEventId(), rq.getHistory());
     }
 
-    private static Future<Void> execute(Object eventId, History history) {
+    private static Future<Void> execute(Object eventId, BrowsingHistory history) {
         // When made in the backend, we don't want to add the new booking to the last visited booking cart (as
         // opposed to the frontend), so we clear the reference to the current booking cart (if set) before routing
         EventAggregate eventAggregate = EventAggregate.get(eventId);

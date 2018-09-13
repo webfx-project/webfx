@@ -20,8 +20,8 @@ import webfx.framework.router.session.impl.UserHolder;
 import webfx.framework.router.session.impl.UserSessionHandlerImpl;
 import webfx.framework.ui.uisession.UiSession;
 import webfx.fxkits.core.properties.markers.HasNodeProperty;
-import webfx.platforms.core.client.url.history.History;
-import webfx.platforms.core.client.url.history.baseimpl.SubHistory;
+import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.browsinghistory.spi.impl.SubBrowsingHistory;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.json.JsonArray;
 import webfx.platforms.core.services.json.JsonObject;
@@ -72,7 +72,7 @@ public class UiRouter extends HistoryRouter {
         // For now we just create a new context that is different from the parent router one.
         return activityContextFactory.createContext(hostingContext);
         // The main links between these 2 contexts will actually be done later:
-        // - in routeAndMountSubRouter() which will reset the history to a SubHistory (to consider the mount point shift)
+        // - in routeAndMountSubRouter() which will reset the history to a SubBrowsingHistory (to consider the mount point shift)
         // - in ActivityRoutingHandler.handle() which will bind the parent mount node to the sub router context node
         //   (so the sub activity appears in the appropriate place within the parent activity)
     }
@@ -85,8 +85,8 @@ public class UiRouter extends HistoryRouter {
         this(router, hostingContext.getHistory(), hostingContext, activityContextFactory);
     }
 
-    private UiRouter(Router router, History history, UiRouteActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
-        super(router, history);
+    private UiRouter(Router router, BrowsingHistory browsingHistory, UiRouteActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
+        super(router, browsingHistory);
         this.hostingContext = hostingContext;
         this.activityContextFactory = activityContextFactory;
         UiRouteActivityContextBase hostingUiRouterActivityContext = UiRouteActivityContextBase.toUiRouterActivityContextBase(hostingContext);
@@ -225,7 +225,7 @@ public class UiRouter extends HistoryRouter {
         // Memorizing the link from the sub router to this router (for the sub routing management in ActivityRoutingHandler)
         subRouter.mountParentRouter = this;
         // Also changing the sub router history so that when sub activities call history.push("/xxx"), they actually do history.push("/{path}/xxx")
-        subRouter.setHistory(new SubHistory(subRouter.getHistory(), path));
+        subRouter.setHistory(new SubBrowsingHistory(subRouter.getHistory(), path));
         return this;
     }
 
