@@ -13,16 +13,16 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="webfx-platforms-java" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" />
-    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platforms-core-bus" />
-    <orderEntry type="module" module-name="webfx-platforms-core-log" />
-    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
-    <orderEntry type="module" module-name="webfx-platforms-core-resource" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-bus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
+    <orderEntry type="module" module-name="webfx-platforms-core-log" />
+    <orderEntry type="module" module-name="webfx-platforms-core-resource" />
+    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
@@ -33,6 +33,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.5.3" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.19.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.19.Final" level="project" />

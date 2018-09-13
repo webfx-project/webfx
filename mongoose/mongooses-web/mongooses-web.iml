@@ -14,20 +14,17 @@
     <orderEntry type="module" module-name="mongooses-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-bus" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-log" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-websocket" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-resource" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-push" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-querypush" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-push" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-resource" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" scope="PROVIDED" />
@@ -38,6 +35,10 @@
     <orderEntry type="module" module-name="webfx-platform-gwt" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-web" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-bus" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-websocket" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-log" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" scope="PROVIDED" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.2" level="project" />
