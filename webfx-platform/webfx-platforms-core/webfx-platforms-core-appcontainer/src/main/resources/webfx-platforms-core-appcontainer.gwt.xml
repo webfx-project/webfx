@@ -6,6 +6,6 @@
     <inherits name="webfx-platforms-core-util"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/appcontainer"/>
+    <source path="webfx/platforms/core/services/appcontainer"/>
 
 </module>

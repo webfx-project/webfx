@@ -1,5 +1,9 @@
 <module rename-to="mongooses_core">
 
+    <inherits name="webfx-platforms-core-appcontainer"/>
+    <inherits name="webfx-platforms-core-buscall"/>
+    <inherits name="webfx-platforms-core-query"/>
+    <inherits name="webfx-platforms-core-update"/>
     <inherits name="webfx-lib-mvvmfx-validation"/>
 
     <!-- Specify the paths for translatable code -->

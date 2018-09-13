@@ -22,7 +22,7 @@ public final class Numbers {
          * Note: for better performance, the default service declared in the META-INF/services resource folder of the
          * webfx-platforms-core-util module is the StandardNumbersProviderImpl which finally uses the java.lang.Number class to reduce the
          * usage of instanceof operator (which is more consequent in the CldcPlatformNumbers provider). But the
-         * webfx-platforms-core-monolith-cn1 changes it to StandardNumbersProviderImpl.
+         * webfx-platform-cn1 changes it to StandardNumbersProviderImpl.
          */
     }
 

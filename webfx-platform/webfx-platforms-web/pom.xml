@@ -13,27 +13,6 @@
 
     <dependencies>
 
-        <!--
-        This module depends on webfx-platforms-core which depends on java-cup-runtime and rxjava libraries. However these
-        libraries can't be transpiled as is so we exclude them and replace them with forked and minimized versions
-        (webfx-lib-javacupruntime and webfx-lib-rxjava) that can be transpiled.
-        -->
-        <dependency>
-            <artifactId>webfx-platforms-core-monolith</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <!--exclusions>
-                <exclusion>
-                    <artifactId>java-cup-runtime</artifactId>
-                    <groupId>com.github.vbmacher</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>rxjava</artifactId>
-                    <groupId>io.reactivex</groupId>
-                </exclusion>
-            </exclusions-->
-        </dependency>
-
         <dependency>
             <artifactId>webfx-platforms-core-browsinghistory</artifactId>
             <groupId>${webfx.groupId}</groupId>

@@ -13,18 +13,17 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongooses-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-monolith" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-query" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-buscall" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-datasource" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-update" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-browsinghistory" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-browsinglocation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-querypush" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-query" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-update" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-buscall" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-datasource" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />

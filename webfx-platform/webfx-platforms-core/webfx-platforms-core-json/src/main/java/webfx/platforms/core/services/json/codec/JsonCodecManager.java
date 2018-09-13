@@ -3,6 +3,7 @@ package webfx.platforms.core.services.json.codec;
 import webfx.platforms.core.services.json.*;
 import webfx.platforms.core.util.Dates;
 import webfx.platforms.core.util.Numbers;
+import webfx.platforms.core.util.async.Batch;
 
 import java.lang.reflect.Array;
 import java.time.Instant;
@@ -17,14 +18,17 @@ import java.util.Map;
 
 public class JsonCodecManager {
 
-    public static final String CODEC_ID_KEY = "$codec";
+    private static final String CODEC_ID_KEY = "$codec";
 
     private static final Map<Class, JsonCodec> encoders = new HashMap<>();
     private static final Map<String, JsonCodec> decoders = new HashMap<>();
+    private static final Map<String, Class> javaClasses = new HashMap<>();
+
 
     public static <J> void registerJsonCodec(Class<? extends J> javaClass, JsonCodec<J> codec) {
         encoders.put(javaClass, codec);
         decoders.put(codec.getCodecId(), codec);
+        javaClasses.put(codec.getCodecId(), javaClass);
     }
 
     /* Not supported in J2ME CLDC
@@ -46,6 +50,10 @@ public class JsonCodecManager {
 
     public static JsonCodec getJsonDecoder(String codecId) {
         return decoders.get(codecId);
+    }
+
+    public static Class getJavaClass(String codecId) {
+        return javaClasses.get(codecId);
     }
 
     public static Object encodeToJson(Object object) {
@@ -137,5 +145,34 @@ public class JsonCodecManager {
         for (int i = 0; i < n; i++)
             array[i] = decodeFromJson(ca.getObject(i));
         return array;
+    }
+
+    static {
+        // Registering all required json codecs (especially for network bus calls)
+        registerBatchJsonCodec();
+    }
+
+    // Batch json Serialization support
+
+    private final static String BATCH_CODEC_ID = "Batch";
+    private final static String BATCH_ARRAY_KEY = "array";
+
+    private static void registerBatchJsonCodec() {
+        new AbstractJsonCodec<Batch>(Batch.class, BATCH_CODEC_ID) {
+
+            @Override
+            public void encodeToJson(Batch batch, WritableJsonObject json) {
+                json.set(BATCH_ARRAY_KEY, encodeToJsonArray(batch.getArray()));
+            }
+
+            @Override
+            public Batch decodeFromJson(JsonObject json) {
+                JsonArray array = json.getArray(BATCH_ARRAY_KEY);
+                Class contentClass = Object.class;
+                if (array.size() > 0)
+                    contentClass = JsonCodecManager.getJavaClass(array.getObject(0).getString(JsonCodecManager.CODEC_ID_KEY));
+                return new Batch<>(decodeFromJsonArray(array, contentClass));
+            }
+        };
     }
 }

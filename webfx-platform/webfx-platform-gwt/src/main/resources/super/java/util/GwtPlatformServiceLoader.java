@@ -4,7 +4,6 @@
 
 package java.util;
 
-import webfx.platforms.core.MonolithModule;
 import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.services.browsinglocation.spi.BrowsingLocation;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
@@ -54,7 +53,7 @@ class GwtPlatformServiceLoader extends GwtServiceLoader {
         registerService(ShutdownProvider.class, GwtShutdownProviderImpl::new);
         registerService(LocalStorageProvider.class, GwtLocalStorageProviderImpl::new);
         registerService(SessionStorageProvider.class, GwtSessionStorageProviderImpl::new);
-        registerService(ApplicationModule.class, MonolithModule::new, UpdateModule::new, QueryPushModule::new, QueryModule::new, BusCallModule::new);
+        registerService(ApplicationModule.class, UpdateModule::new, QueryPushModule::new, QueryModule::new, BusCallModule::new);
     }
 
 }

@@ -65,20 +65,6 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-push</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-querypush</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-lib-rxjava</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -90,6 +76,55 @@
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>shaded-sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-appcontainer</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-buscall</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-datasource</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-query</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-update</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-push</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-querypush</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
         </dependency>
 
         <dependency>

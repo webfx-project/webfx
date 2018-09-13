@@ -37,8 +37,6 @@
         <module>webfx-platforms-core-update</module> <!-- depends on buscall, datasource, appcontainer module -->
         <module>webfx-platforms-core-push</module> <!-- depends on query module -->
         <module>webfx-platforms-core-querypush</module> <!-- depends on push, query modules -->
-
-        <module>webfx-platforms-core-monolith</module>
     </modules>
 
 </project>

@@ -13,8 +13,22 @@
 
     <dependencies>
 
-        <dependency>
-            <artifactId>webfx-platforms-core-monolith</artifactId>
+        <dependency> <!-- required for Array.newInstance() emulation -->
+            <artifactId>webfx-platforms-core-query</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency> <!-- required for Array.newInstance() emulation -->
+            <artifactId>webfx-platforms-core-update</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency> <!-- required for Array.newInstance() emulation -->
+            <artifactId>webfx-platforms-core-log</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <scope>provided</scope>

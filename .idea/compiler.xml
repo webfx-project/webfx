@@ -146,7 +146,6 @@
         <module name="webfx-platforms-core-datasource" />
         <module name="webfx-platforms-core-json" />
         <module name="webfx-platforms-core-log" />
-        <module name="webfx-platforms-core-monolith" />
         <module name="webfx-platforms-core-push" />
         <module name="webfx-platforms-core-query" />
         <module name="webfx-platforms-core-querypush" />
