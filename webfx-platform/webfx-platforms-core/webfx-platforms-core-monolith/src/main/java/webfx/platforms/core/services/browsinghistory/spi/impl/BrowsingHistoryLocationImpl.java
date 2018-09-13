@@ -2,8 +2,8 @@ package webfx.platforms.core.services.browsinghistory.spi.impl;
 
 import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryEvent;
 import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryLocation;
-import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
-import webfx.platforms.core.services.windowlocation.spi.impl.PathStateLocationImpl;
+import webfx.platforms.core.services.browsinglocation.spi.PathStateLocation;
+import webfx.platforms.core.services.browsinglocation.spi.impl.PathStateLocationImpl;
 
 /**
  * @author Bruno Salmon

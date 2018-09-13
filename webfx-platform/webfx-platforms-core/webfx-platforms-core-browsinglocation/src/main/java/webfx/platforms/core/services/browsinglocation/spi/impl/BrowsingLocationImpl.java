@@ -1,23 +1,23 @@
-package webfx.platforms.core.services.windowlocation.spi.impl;
+package webfx.platforms.core.services.browsinglocation.spi.impl;
 
 import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.services.windowlocation.spi.PathLocation;
-import webfx.platforms.core.services.windowlocation.spi.WindowLocationProvider;
+import webfx.platforms.core.services.browsinglocation.spi.PathLocation;
+import webfx.platforms.core.services.browsinglocation.spi.BrowsingLocation;
 
 /**
  * @author Bruno Salmon
  */
-public class WindowLocationProviderImpl extends PathLocationImpl implements WindowLocationProvider {
+public class BrowsingLocationImpl extends PathLocationImpl implements BrowsingLocation {
 
     private final String protocol;
     private final String hostname;
     private final String port;
 
-    public WindowLocationProviderImpl(String protocol, String hostname, String port, PathLocation pathLocation) {
+    public BrowsingLocationImpl(String protocol, String hostname, String port, PathLocation pathLocation) {
         this(protocol, hostname, port, pathLocation.getPathname(), pathLocation.getQueryString(), pathLocation.getFragment());
     }
 
-    public WindowLocationProviderImpl(String protocol, String hostname, String port, String pathname, String queryString, String fragment) {
+    public BrowsingLocationImpl(String protocol, String hostname, String port, String pathname, String queryString, String fragment) {
         super(pathname, queryString, fragment);
         this.protocol = protocol;
         this.hostname = hostname;
@@ -38,7 +38,7 @@ public class WindowLocationProviderImpl extends PathLocationImpl implements Wind
         return port;
     }
 
-    public static WindowLocationProviderImpl fromHref(String href) {
+    public static BrowsingLocationImpl fromHref(String href) {
         int protoEnd = href.indexOf("://");
         String protocol = href.substring(0, protoEnd);
         int hostStart = protoEnd + 3;
@@ -54,10 +54,10 @@ public class WindowLocationProviderImpl extends PathLocationImpl implements Wind
             port = host.substring(portColon + 1);
         }
         String path = href.substring(hostEnd);
-        return new WindowLocationProviderImpl(protocol, hostname, port, new PathLocationImpl(path));
+        return new BrowsingLocationImpl(protocol, hostname, port, new PathLocationImpl(path));
     }
 
-    public static WindowLocationProviderImpl fromJson(JsonObject json) {
+    public static BrowsingLocationImpl fromJson(JsonObject json) {
         String href = json.getString("href");
         if (href != null)
             return fromHref(href);
@@ -75,6 +75,6 @@ public class WindowLocationProviderImpl extends PathLocationImpl implements Wind
                 port = host.substring(portColon + 1);
             }
         }
-        return new WindowLocationProviderImpl(protocol, hostname, port, PathLocationImpl.fromJson(json));
+        return new BrowsingLocationImpl(protocol, hostname, port, PathLocationImpl.fromJson(json));
     }
 }

@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-core-windowlocation</artifactId>
+            <artifactId>webfx-platforms-core-browsinglocation</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

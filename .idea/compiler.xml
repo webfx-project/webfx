@@ -138,6 +138,7 @@
         <module name="webfx-platform-jre" />
         <module name="webfx-platform-vertx" />
         <module name="webfx-platforms-core-appcontainer" />
+        <module name="webfx-platforms-core-browsinglocation" />
         <module name="webfx-platforms-core-bus" />
         <module name="webfx-platforms-core-buscall" />
         <module name="webfx-platforms-core-clientbus" />
@@ -156,7 +157,6 @@
         <module name="webfx-platforms-core-update" />
         <module name="webfx-platforms-core-util" />
         <module name="webfx-platforms-core-websocket" />
-        <module name="webfx-platforms-core-windowlocation" />
         <module name="webfx-platforms-emul-javabase" />
         <module name="webfx-platforms-emul-javatime" />
         <module name="webfx-platforms-java" />
@@ -210,6 +210,7 @@
       <module name="webfx-platform-vertx" target="1.8" />
       <module name="webfx-platforms-core" target="1.8" />
       <module name="webfx-platforms-core-appcontainer" target="1.8" />
+      <module name="webfx-platforms-core-browsinglocation" target="1.8" />
       <module name="webfx-platforms-core-bus" target="1.8" />
       <module name="webfx-platforms-core-buscall" target="1.8" />
       <module name="webfx-platforms-core-clientbus" target="1.8" />
@@ -230,7 +231,6 @@
       <module name="webfx-platforms-core-update" target="1.8" />
       <module name="webfx-platforms-core-util" target="1.8" />
       <module name="webfx-platforms-core-websocket" target="1.8" />
-      <module name="webfx-platforms-core-windowlocation" target="1.8" />
       <module name="webfx-platforms-emul" target="1.8" />
       <module name="webfx-platforms-emul-javabase" target="1.8" />
       <module name="webfx-platforms-emul-javatime" target="1.8" />

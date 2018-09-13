@@ -6,7 +6,7 @@ package java.util;
 
 import webfx.platforms.core.MonolithModule;
 import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
-import webfx.platforms.core.services.windowlocation.spi.WindowLocationProvider;
+import webfx.platforms.core.services.browsinglocation.spi.BrowsingLocation;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
 import webfx.platforms.core.services.buscall.BusCallModule;
 import webfx.platforms.core.services.query.QueryModule;
@@ -34,7 +34,7 @@ import webfx.platform.gwt.services.websocket.GwtWebSocketServiceProviderImpl;
 import webfx.platforms.core.util.numbers.providers.StandardNumbersProviderImpl;
 import webfx.platforms.core.util.numbers.spi.NumbersProvider;
 import webfx.platforms.web.services.bus.WebClientBusServiceProvider;
-import webfx.platform.gwt.url.location.GwtWindowLocationProvider;
+import webfx.platform.gwt.url.location.GwtWindowLocation;
 import webfx.platform.gwt.url.history.GwtWindowHistory;
 
 class GwtPlatformServiceLoader extends GwtServiceLoader {
@@ -43,7 +43,7 @@ class GwtPlatformServiceLoader extends GwtServiceLoader {
         registerService(BusServiceProvider.class, WebClientBusServiceProvider::new);
         registerService(SchedulerProvider.class, GwtSchedulerProviderImpl::new);
         registerService(UiSchedulerProvider.class, GwtSchedulerProviderImpl::new);
-        registerService(WindowLocationProvider.class, GwtWindowLocationProvider::new);
+        registerService(BrowsingLocation.class, GwtWindowLocation::new);
         registerService(webfx.platforms.web.WindowHistory.class, GwtWindowHistory::new);
         registerService(BrowsingHistory.class, BrowserHistory::new);
         registerService(JsonProvider.class, GwtJsonObject::create);

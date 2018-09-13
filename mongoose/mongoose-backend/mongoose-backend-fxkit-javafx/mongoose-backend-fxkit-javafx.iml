@@ -24,7 +24,7 @@
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="webfx-platform-jre" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
+    <orderEntry type="module" module-name="webfx-platforms-core-browsinglocation" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" />

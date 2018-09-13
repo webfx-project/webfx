@@ -15,7 +15,7 @@
     <orderEntry type="module" module-name="mongooses-core" />
     <orderEntry type="module" module-name="webfx-framework" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
+    <orderEntry type="module" module-name="webfx-platforms-core-browsinglocation" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" />

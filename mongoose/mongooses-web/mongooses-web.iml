@@ -14,7 +14,7 @@
     <orderEntry type="module" module-name="mongooses-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-browsinglocation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" scope="PROVIDED" />

@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.browsinghistory.spi;
 
-import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
+import webfx.platforms.core.services.browsinglocation.spi.PathStateLocation;
 
 /**
  * A location answers two important (philosophical) questions:

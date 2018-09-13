@@ -1,11 +1,12 @@
-package webfx.platforms.core.services.windowlocation.spi;
+package webfx.platforms.core.services.browsinglocation.spi;
 
 import webfx.platforms.core.util.Strings;
+import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
  */
-public interface WindowLocationProvider extends PathLocation {
+public interface BrowsingLocation extends PathLocation {
 
     /**
      * Ex: https://developer.mozilla.org

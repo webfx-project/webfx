@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.windowlocation.spi;
+package webfx.platforms.core.services.browsinglocation.spi;
 
 import webfx.platforms.core.services.json.JsonObject;
 
