@@ -5,7 +5,7 @@ import webfx.platforms.core.services.query.QueryArgument;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.QueryResultBuilder;
 import webfx.platforms.core.services.query.spi.QueryServiceProvider;
-import webfx.platforms.core.services.datasource.ConnectionDetails;
+import webfx.platforms.core.datasource.ConnectionDetails;
 import webfx.platforms.core.services.update.UpdateArgument;
 import webfx.platforms.core.services.update.UpdateResult;
 import webfx.platforms.core.services.update.spi.UpdateServiceProvider;

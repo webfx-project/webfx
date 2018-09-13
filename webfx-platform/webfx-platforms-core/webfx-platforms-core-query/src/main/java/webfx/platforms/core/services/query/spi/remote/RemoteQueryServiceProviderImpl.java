@@ -5,10 +5,10 @@ import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.QueryService;
 import webfx.platforms.core.services.query.spi.QueryServiceProvider;
 import webfx.platforms.core.services.buscall.BusCallService;
-import webfx.platforms.core.services.datasource.LocalDataSourceRegistry;
+import webfx.platforms.core.datasource.LocalDataSourceRegistry;
 import webfx.platforms.core.services.query.QueryArgument;
 import webfx.platforms.core.util.Arrays;
-import webfx.platforms.core.services.datasource.ConnectionDetails;
+import webfx.platforms.core.datasource.ConnectionDetails;
 import webfx.platforms.core.util.async.Future;
 
 import static webfx.platforms.core.services.query.spi.remote.LocalConnectedQueryServiceProviderRegistry.*;

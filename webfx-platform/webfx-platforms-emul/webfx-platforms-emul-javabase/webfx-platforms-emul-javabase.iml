@@ -24,6 +24,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-datasource" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-user:2.8.2" level="project" />

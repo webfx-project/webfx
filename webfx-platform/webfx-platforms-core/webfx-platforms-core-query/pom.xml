@@ -20,6 +20,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-platforms-core-datasource</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-platforms-core-appcontainer</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

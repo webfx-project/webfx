@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.datasource;
+package webfx.platforms.core.datasource;
 
 import webfx.platforms.core.util.Strings;
 

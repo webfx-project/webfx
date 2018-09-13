@@ -9,24 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webfx-platforms-core-update</artifactId>
+    <artifactId>webfx-platforms-core-datasource</artifactId>
 
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-core-buscall</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-datasource</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-appcontainer</artifactId>
+            <artifactId>webfx-platforms-core-json</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
