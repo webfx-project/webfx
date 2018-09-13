@@ -1,16 +1,11 @@
-package webfx.platforms.core.client.url.location;
+package webfx.platforms.core.services.windowlocation.spi;
 
 import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
  */
-public interface WindowLocation extends PathLocation {
-
-    static WindowLocation get() {
-        return SingleServiceLoader.loadService(WindowLocation.class);
-    }
+public interface WindowLocationProvider extends PathLocation {
 
     /**
      * Ex: https://developer.mozilla.org

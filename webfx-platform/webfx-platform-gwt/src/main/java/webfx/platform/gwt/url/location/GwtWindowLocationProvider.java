@@ -1,18 +1,18 @@
 package webfx.platform.gwt.url.location;
 
-import webfx.platforms.core.client.url.location.WindowLocation;
+import webfx.platforms.core.services.windowlocation.spi.WindowLocationProvider;
 import webfx.platforms.core.util.Strings;
 
 /**
  * @author Bruno Salmon
  */
-public final class GwtWindowLocation implements WindowLocation {
+public final class GwtWindowLocationProvider implements WindowLocationProvider {
 
-    public static GwtWindowLocation current() {
-        return new GwtWindowLocation();
+    public static GwtWindowLocationProvider current() {
+        return new GwtWindowLocationProvider();
     }
 
-    public GwtWindowLocation() {
+    public GwtWindowLocationProvider() {
     }
 
     @Override

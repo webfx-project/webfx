@@ -3,11 +3,11 @@ package webfx.platforms.web;
 import webfx.platforms.core.client.url.history.HistoryEvent;
 import webfx.platforms.core.client.url.history.baseimpl.HistoryLocationImpl;
 import webfx.platforms.core.client.url.history.memory.MemoryHistory;
-import webfx.platforms.core.client.url.location.PathStateLocation;
-import webfx.platforms.core.client.url.location.WindowLocation;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platforms.core.services.windowlocation.WindowLocation;
+import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
 import webfx.platforms.core.util.Objects;
 import webfx.platforms.core.util.Strings;
 
@@ -37,15 +37,14 @@ public class BrowserHistory extends MemoryHistory {
 
     private void checkInitialized() {
         if (getMountPoint() == null) {
-            WindowLocation wl = WindowLocation.get();
-            String mountPath = wl.getPathname();
+            String mountPath = WindowLocation.getPathname();
             if (mountPath.endsWith("/index.html"))
                 mountPath = mountPath.substring(0, mountPath.lastIndexOf('/') + 1);
             setMountPoint(mountPath);
             onPopState(supportsStates ? windowHistory.state() : null);
             if (!supportsStates)
                 UiScheduler.schedulePeriodic(500, () -> {
-                    if (!Objects.areEquals(WindowLocation.get().getFragment(), getCurrentLocation().getFragment()))
+                    if (!Objects.areEquals(WindowLocation.getFragment(), getCurrentLocation().getFragment()))
                         onPopState(null);
                 });
         }
@@ -77,7 +76,7 @@ public class BrowserHistory extends MemoryHistory {
     private void onPopState(JsonObject state) {
         //Logger.log("Entering onPopState");
         // Transforming the current window location into a history location descriptor
-        String path = fullToMountPath(WindowLocation.get().getPath());
+        String path = fullToMountPath(WindowLocation.getPath());
         Logger.log("Pop state with path = " + path);
         PathStateLocation pathStateLocation = createPathStateLocation(path, state);
         HistoryLocationImpl location;
@@ -101,7 +100,7 @@ public class BrowserHistory extends MemoryHistory {
         if (supportsStates)
             windowHistory.pushState(historyLocation.getState(), null, path);
         else
-            WindowLocation.get().assignHref(path);
+            WindowLocation.assignHref(path);
         super.doAcceptedPush(historyLocation);
     }
 
@@ -111,7 +110,7 @@ public class BrowserHistory extends MemoryHistory {
         if (supportsStates)
             windowHistory.replaceState(historyLocation.getState(), null, path);
         else
-            WindowLocation.get().replaceHref(path);
+            WindowLocation.replaceHref(path);
         super.doAcceptedReplace(historyLocation);
     }
 

@@ -1,4 +1,4 @@
-package webfx.platforms.core.client.url.location;
+package webfx.platforms.core.services.windowlocation.spi;
 
 import webfx.platforms.core.util.Strings;
 

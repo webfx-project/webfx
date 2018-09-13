@@ -23,11 +23,11 @@ import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.extra.control.HtmlText;
-import webfx.platforms.core.client.url.location.WindowLocation;
-import webfx.platforms.core.services.bus.client.WebSocketBus;
 import webfx.platforms.core.services.bus.BusService;
+import webfx.platforms.core.services.bus.client.WebSocketBus;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platforms.core.services.windowlocation.WindowLocation;
 import webfx.platforms.core.util.Dates;
 import webfx.platforms.core.util.Strings;
 import webfx.platforms.core.util.collection.Collections;
@@ -315,9 +315,8 @@ final class PaymentActivity extends CartBasedActivity {
         value = Strings.replaceAllSafe(value, "[phone]", doc.getPhone());
         ////"[phone_int]": keepDigitsOnly(firstDocument.person_phone),
         value = Strings.replaceAllSafe(value, "[email]", doc.getEmail());
-        WindowLocation currentLocation = WindowLocation.get();
-        value = Strings.replaceAllSafe(value, "[frontendUrl]", currentLocation.getOrigin());
-        String cartUrl = Strings.removeSuffix(currentLocation.getHref(), "/payment");
+        value = Strings.replaceAllSafe(value, "[frontendUrl]", WindowLocation.getOrigin());
+        String cartUrl = Strings.removeSuffix(WindowLocation.getHref(), "/payment");
         value = Strings.replaceAllSafe(value, "[cartUrl]", cartUrl);
         value = Strings.replaceAllSafe(value, "[session]", ((WebSocketBus) BusService.bus()).getSessionId());
         value = Strings.replaceAllSafe(value, "[lang]", I18n.getLanguage().toString());

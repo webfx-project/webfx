@@ -1,6 +1,6 @@
 package webfx.platforms.core.client.url.history;
 
-import webfx.platforms.core.client.url.location.PathStateLocation;
+import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
 
 /**
  * A location answers two important (philosophical) questions:

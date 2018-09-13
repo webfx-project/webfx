@@ -2,8 +2,8 @@ package webfx.platforms.core.client.url.history.baseimpl;
 
 import webfx.platforms.core.client.url.history.HistoryEvent;
 import webfx.platforms.core.client.url.history.HistoryLocation;
-import webfx.platforms.core.client.url.location.PathStateLocation;
-import webfx.platforms.core.client.url.location.impl.PathStateLocationImpl;
+import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
+import webfx.platforms.core.services.windowlocation.spi.impl.PathStateLocationImpl;
 
 /**
  * @author Bruno Salmon

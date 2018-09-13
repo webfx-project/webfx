@@ -1,7 +1,7 @@
 package webfx.platforms.core.client.url.history;
 
 import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.client.url.location.PathStateLocation;
+import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.function.Function;
