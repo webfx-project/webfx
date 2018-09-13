@@ -25,7 +25,7 @@ import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.extra.control.HtmlText;
 import webfx.platforms.core.client.url.location.WindowLocation;
 import webfx.platforms.core.services.bus.client.WebSocketBus;
-import webfx.platforms.core.services.bus.spi.BusService;
+import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Dates;

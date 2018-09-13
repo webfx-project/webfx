@@ -4,7 +4,7 @@ import webfx.platforms.core.services.bus.Bus;
 import webfx.platforms.core.services.bus.Message;
 import webfx.platforms.core.services.bus.Registration;
 import webfx.platforms.core.services.bus.ThreadLocalBusContext;
-import webfx.platforms.core.services.bus.spi.BusService;
+import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.util.async.AsyncFunction;

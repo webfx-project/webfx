@@ -1,8 +1,6 @@
-package webfx.platforms.core.services.bus.spi;
+package webfx.platforms.core.services.bus;
 
-import webfx.platforms.core.services.bus.Bus;
-import webfx.platforms.core.services.bus.BusFactory;
-import webfx.platforms.core.services.bus.BusOptions;
+import webfx.platforms.core.services.bus.spi.BusServiceProvider;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**

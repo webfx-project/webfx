@@ -11,7 +11,7 @@ import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.bus.Bus;
 import webfx.platforms.core.services.bus.BusHook;
 import webfx.platforms.core.services.bus.Registration;
-import webfx.platforms.core.services.bus.spi.BusService;
+import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.client.PushClientService;
 import webfx.platforms.core.services.shutdown.Shutdown;

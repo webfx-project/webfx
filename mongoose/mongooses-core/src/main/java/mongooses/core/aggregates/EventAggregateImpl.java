@@ -11,7 +11,7 @@ import mongooses.core.entities.Rate;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.*;
 import webfx.platforms.core.services.bus.client.WebSocketBusOptions;
-import webfx.platforms.core.services.bus.spi.BusService;
+import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.query.QueryArgument;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.QueryService;

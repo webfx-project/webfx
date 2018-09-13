@@ -3,7 +3,7 @@ package webfx.platforms.java.client;
 import webfx.platforms.core.client.url.history.History;
 import webfx.platforms.core.client.url.location.impl.WindowLocationImpl;
 import webfx.platforms.core.services.bus.client.WebSocketBusOptions;
-import webfx.platforms.core.services.bus.spi.BusService;
+import webfx.platforms.core.services.bus.BusService;
 
 /**
  * @author Bruno Salmon

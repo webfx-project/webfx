@@ -5,7 +5,7 @@ import mongooses.loadtester.activities.loadtester.drive.listener.ConnectionEvent
 import mongooses.loadtester.activities.loadtester.drive.listener.EventType;
 import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.bus.client.WebSocketBus;
-import webfx.platforms.core.services.bus.spi.BusService;
+import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.websocket.WebSocketListener;
 import webfx.platforms.core.services.log.Logger;

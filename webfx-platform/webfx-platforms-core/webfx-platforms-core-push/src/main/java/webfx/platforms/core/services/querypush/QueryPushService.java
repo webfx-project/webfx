@@ -2,7 +2,7 @@ package webfx.platforms.core.services.querypush;
 
 import webfx.platforms.core.services.bus.Registration;
 import webfx.platforms.core.services.buscall.BusCallService;
-import webfx.platforms.core.services.bus.spi.BusService;
+import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.push.client.PushClientService;
 import webfx.platforms.core.services.push.server.PushServerService;
 import webfx.platforms.core.services.querypush.diff.impl.QueryResultTranslation;
