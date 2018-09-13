@@ -33,6 +33,7 @@
 
         <module>webfx-platforms-core-monolith</module>
         <module>webfx-platforms-core-buscall</module>
+        <module>webfx-platforms-core-clientbus</module>
     </modules>
 
 </project>

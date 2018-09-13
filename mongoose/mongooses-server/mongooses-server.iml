@@ -15,12 +15,13 @@
     <orderEntry type="module" module-name="webfx-framework" />
     <orderEntry type="module" module-name="webfx-platforms-core-monolith" />
     <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
+    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-json" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
-    <orderEntry type="module" module-name="webfx-platforms-core-json" />
-    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
@@ -30,9 +31,8 @@
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
-    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
   </component>
 </module>

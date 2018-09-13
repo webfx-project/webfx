@@ -20,9 +20,10 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-shutdown</artifactId>
+            <artifactId>webfx-platforms-core-clientbus</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
+            <scope>provided</scope> <!-- Not provided to not interfere with the server bus provider -->
         </dependency>
 
         <dependency>

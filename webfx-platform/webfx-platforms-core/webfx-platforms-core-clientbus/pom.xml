@@ -9,18 +9,36 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webfx-platforms-core-bus</artifactId>
+    <artifactId>webfx-platforms-core-clientbus</artifactId>
 
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-core-json</artifactId>
+            <artifactId>webfx-platforms-core-bus</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-appcontainer</artifactId>
+            <artifactId>webfx-platforms-core-websocket</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-log</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-resource</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-scheduler</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

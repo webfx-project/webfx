@@ -2,8 +2,8 @@ package webfx.platforms.web.services.bus;
 
 import webfx.platforms.core.client.url.location.WindowLocation;
 import webfx.platforms.core.services.bus.BusOptions;
+import webfx.platforms.core.services.bus.client.ClientBusServiceProviderImpl;
 import webfx.platforms.core.services.bus.client.WebSocketBusOptions;
-import webfx.platforms.core.services.bus.spi.impl.ClientBusServiceProviderImpl;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.resource.ResourceService;
 

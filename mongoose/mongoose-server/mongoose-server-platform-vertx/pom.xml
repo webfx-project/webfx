@@ -20,15 +20,15 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongooses-java</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platform-vertx</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongooses-java</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
         </dependency>
 
         <!-- Mongoose backend - ->

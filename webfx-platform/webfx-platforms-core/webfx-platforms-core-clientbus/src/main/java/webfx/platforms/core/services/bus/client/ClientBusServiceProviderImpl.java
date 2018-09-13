@@ -1,9 +1,8 @@
-package webfx.platforms.core.services.bus.spi.impl;
+package webfx.platforms.core.services.bus.client;
 
 import webfx.platforms.core.services.bus.BusFactory;
 import webfx.platforms.core.services.bus.BusOptions;
-import webfx.platforms.core.services.bus.client.ReconnectBus;
-import webfx.platforms.core.services.bus.client.WebSocketBusOptions;
+import webfx.platforms.core.services.bus.spi.impl.BusServiceProviderBase;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.resource.ResourceService;
 

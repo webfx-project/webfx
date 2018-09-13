@@ -1,6 +1,7 @@
 <module rename-to="webfx_platforms_core_push">
 
     <inherits name="webfx-platforms-core-query"/>
+    <inherits name="webfx-platforms-core-scheduler"/>
 
     <!-- Specify the paths for translatable code -->
     <source path="webfx/platforms/core/services/push"/>

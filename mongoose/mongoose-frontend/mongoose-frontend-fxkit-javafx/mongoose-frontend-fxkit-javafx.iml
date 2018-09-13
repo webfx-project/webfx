@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -17,7 +17,7 @@
     <orderEntry type="module" module-name="mongooses-core" />
     <orderEntry type="module" module-name="webfx-framework" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
-    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
+    <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="webfx-platform-jre" />
@@ -35,6 +35,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-update" />
     <orderEntry type="module" module-name="webfx-platforms-java" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
+    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.7" level="project" />

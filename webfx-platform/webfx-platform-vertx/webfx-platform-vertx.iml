@@ -24,6 +24,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" />
+    <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />
