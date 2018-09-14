@@ -30,6 +30,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
@@ -39,9 +40,17 @@
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="module" module-name="webfx-platform-jre" scope="TEST" />
-    <orderEntry type="module" module-name="webfx-platforms-java" scope="TEST" />
+    <orderEntry type="module" module-name="webfx-platforms-java-appcontainer" scope="TEST" />
+    <orderEntry type="module" module-name="webfx-platforms-java-json" scope="TEST" />
+    <orderEntry type="module" module-name="webfx-platforms-java-queryupdate" scope="TEST" />
+    <orderEntry type="module" module-name="webfx-platforms-java-resource" scope="TEST" />
+    <orderEntry type="module" module-name="webfx-platforms-java-scheduler" scope="TEST" />
+    <orderEntry type="module" module-name="webfx-platforms-java-shutdown" scope="TEST" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
-    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
+    <orderEntry type="module" module-name="webfx-platforms-java-storage" scope="TEST" />
+    <orderEntry type="module" module-name="webfx-platforms-java-websocket" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Maven: org.java-websocket:Java-WebSocket:1.3.7" level="project" />
+    <orderEntry type="module" module-name="webfx-platforms-java-windowhistory" scope="TEST" />
+    <orderEntry type="module" module-name="webfx-platforms-java-windowlocation" scope="TEST" />
   </component>
 </module>

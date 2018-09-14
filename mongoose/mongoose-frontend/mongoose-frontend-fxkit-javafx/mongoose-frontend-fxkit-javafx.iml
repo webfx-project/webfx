@@ -18,29 +18,38 @@
     <orderEntry type="module" module-name="webfx-framework" />
     <orderEntry type="module" module-name="webfx-platforms-core-querypush" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
-    <orderEntry type="module" module-name="webfx-platforms-core-resource" />
+    <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="webfx-platform-jre" />
-    <orderEntry type="module" module-name="webfx-platforms-java" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
-    <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
-    <orderEntry type="module" module-name="webfx-platforms-core-bus" />
-    <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
+    <orderEntry type="module" module-name="webfx-platforms-java-appcontainer" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" />
-    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
+    <orderEntry type="module" module-name="webfx-platforms-java-json" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
-    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
+    <orderEntry type="module" module-name="webfx-platforms-java-queryupdate" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" />
-    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" />
-    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
-    <orderEntry type="module" module-name="webfx-lib-rxjava" />
+    <orderEntry type="module" module-name="webfx-platforms-java-resource" />
+    <orderEntry type="module" module-name="webfx-platforms-core-resource" />
+    <orderEntry type="module" module-name="webfx-platforms-java-scheduler" />
+    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
+    <orderEntry type="module" module-name="webfx-platforms-java-shutdown" />
+    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
+    <orderEntry type="module" module-name="webfx-platforms-java-storage" />
+    <orderEntry type="module" module-name="webfx-platforms-java-websocket" />
+    <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
     <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.7" level="project" />
+    <orderEntry type="module" module-name="webfx-platforms-java-windowhistory" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" />
+    <orderEntry type="module" module-name="webfx-platforms-java-windowlocation" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
+    <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-bus" />
     <orderEntry type="module" module-name="webfx-fxkit-javafx" />
     <orderEntry type="module" module-name="webfx-fxkits-core" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />

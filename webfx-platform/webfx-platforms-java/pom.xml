@@ -10,95 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>webfx-platforms-java</artifactId>
+    <packaging>pom</packaging>
 
-    <dependencies>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-windowhistory</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-clientbus</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-json</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-shutdown</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-storage</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-query</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-update</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <!--dependency>
-            <artifactId>java-cup-runtime</artifactId>
-            <groupId>com.github.vbmacher</groupId>
-        </dependency-->
-
-        <dependency>
-            <artifactId>webfx-lib-javacupruntime</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <!--dependency>
-            <artifactId>rxjava</artifactId>
-            <groupId>io.reactivex</groupId>
-        </dependency-->
-
-        <dependency>
-            <artifactId>webfx-lib-rxjava</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.java-websocket</groupId>
-            <artifactId>Java-WebSocket</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>2.3.8</version>
-            <optional>true</optional>
-            <scope>provided</scope>
-        </dependency>
-
-    </dependencies>
-
-    <build>
-        <plugins>
-            <!-- Generating the source artifact -->
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <modules>
+        <module>webfx-platforms-java-scheduler</module>
+        <module>webfx-platforms-java-resource</module>
+        <module>webfx-platforms-java-shutdown</module>
+        <module>webfx-platforms-java-storage</module>
+        <module>webfx-platforms-java-websocket</module>
+        <module>webfx-platforms-java-windowhistory</module>
+        <module>webfx-platforms-java-windowlocation</module>
+        <module>webfx-platforms-java-queryupdate</module>
+        <module>webfx-platforms-java-json</module>
+        <module>webfx-platforms-java-appcontainer</module>
+    </modules>
 
 </project>

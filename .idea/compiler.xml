@@ -159,7 +159,16 @@
         <module name="webfx-platforms-core-windowlocation" />
         <module name="webfx-platforms-emul-javabase" />
         <module name="webfx-platforms-emul-javatime" />
-        <module name="webfx-platforms-java" />
+        <module name="webfx-platforms-java-appcontainer" />
+        <module name="webfx-platforms-java-json" />
+        <module name="webfx-platforms-java-queryupdate" />
+        <module name="webfx-platforms-java-resource" />
+        <module name="webfx-platforms-java-scheduler" />
+        <module name="webfx-platforms-java-shutdown" />
+        <module name="webfx-platforms-java-storage" />
+        <module name="webfx-platforms-java-websocket" />
+        <module name="webfx-platforms-java-windowhistory" />
+        <module name="webfx-platforms-java-windowlocation" />
         <module name="webfx-platforms-web" />
       </profile>
     </annotationProcessing>
@@ -236,6 +245,16 @@
       <module name="webfx-platforms-emul-javabase" target="1.8" />
       <module name="webfx-platforms-emul-javatime" target="1.8" />
       <module name="webfx-platforms-java" target="1.8" />
+      <module name="webfx-platforms-java-appcontainer" target="1.8" />
+      <module name="webfx-platforms-java-json" target="1.8" />
+      <module name="webfx-platforms-java-queryupdate" target="1.8" />
+      <module name="webfx-platforms-java-resource" target="1.8" />
+      <module name="webfx-platforms-java-scheduler" target="1.8" />
+      <module name="webfx-platforms-java-shutdown" target="1.8" />
+      <module name="webfx-platforms-java-storage" target="1.8" />
+      <module name="webfx-platforms-java-websocket" target="1.8" />
+      <module name="webfx-platforms-java-windowhistory" target="1.8" />
+      <module name="webfx-platforms-java-windowlocation" target="1.8" />
       <module name="webfx-platforms-web" target="1.8" />
       <module name="webfx-root" target="1.8" />
     </bytecodeTargetLevel>

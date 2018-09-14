@@ -66,6 +66,16 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-emul/webfx-platforms-emul-javabase" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-emul/webfx-platforms-emul-javatime" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-appcontainer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-queryupdate" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-resource" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-scheduler" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-shutdown" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-storage" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-websocket" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-windowhistory" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-windowlocation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
