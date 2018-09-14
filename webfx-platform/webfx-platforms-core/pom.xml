@@ -25,7 +25,7 @@
 
         <!-- Modules that depend on another platform module -->
         <module>webfx-platforms-core-uischeduler</module> <!-- depends on scheduler module -->
-        <module>webfx-platforms-core-browsinglocation</module> <!-- depends on json module -->
+        <module>webfx-platforms-core-windowlocation</module> <!-- depends on json module -->
         <module>webfx-platforms-core-browsinghistory</module> <!-- depends on json module -->
         <module>webfx-platforms-core-appcontainer</module> <!-- depends on shutdown, log, util modules -->
         <module>webfx-platforms-core-websocket</module> <!-- depends on json module -->

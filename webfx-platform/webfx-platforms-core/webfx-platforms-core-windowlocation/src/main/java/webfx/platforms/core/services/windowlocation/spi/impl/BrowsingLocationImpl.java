@@ -1,8 +1,8 @@
-package webfx.platforms.core.services.browsinglocation.spi.impl;
+package webfx.platforms.core.services.windowlocation.spi.impl;
 
 import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.services.browsinglocation.spi.PathLocation;
-import webfx.platforms.core.services.browsinglocation.spi.BrowsingLocation;
+import webfx.platforms.core.services.windowlocation.spi.PathLocation;
+import webfx.platforms.core.services.windowlocation.spi.BrowsingLocation;
 
 /**
  * @author Bruno Salmon

@@ -1,0 +1,8 @@
+<module rename-to="webfx_platforms_core_windowlocation">
+
+    <inherits name="webfx-platforms-core-json"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/windowlocation"/>
+
+</module>

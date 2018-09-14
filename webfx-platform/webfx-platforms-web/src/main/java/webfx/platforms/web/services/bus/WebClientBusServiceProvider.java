@@ -1,12 +1,11 @@
 package webfx.platforms.web.services.bus;
 
-import webfx.platforms.core.services.browsinglocation.WindowLocation;
-import webfx.platforms.core.services.browsinglocation.spi.BrowsingLocation;
 import webfx.platforms.core.services.bus.BusOptions;
 import webfx.platforms.core.services.bus.client.ClientBusServiceProviderImpl;
 import webfx.platforms.core.services.bus.client.WebSocketBusOptions;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.resource.ResourceService;
+import webfx.platforms.core.services.windowlocation.WindowLocation;
 
 /**
  * @author Bruno Salmon
@@ -20,19 +19,18 @@ public class WebClientBusServiceProvider extends ClientBusServiceProviderImpl {
         if (socketBusOptions.getProtocol() == null)
             socketBusOptions.setProtocol(WebSocketBusOptions.Protocol.HTTP);
         // Setting server host from url hostname (if not explicitly set)
-        BrowsingLocation windowLocation = WindowLocation.get();
         if (socketBusOptions.getServerHost() == null)
-            socketBusOptions.setServerHost(windowLocation.getHostname());
+            socketBusOptions.setServerHost(WindowLocation.getHostname());
         // Setting server port from url port (if not explicitly set)
         if (socketBusOptions.getServerPort() == null) {
-            String port = windowLocation.getPort();
+            String port = WindowLocation.getPort();
             if ("63342".equals(port)) // Port used by IntelliJ IDEA to serve web pages when testing directly in IDEA
                 port = "80"; // But the actual webfx server web port on the development local machine is 80 in this case
             socketBusOptions.setServerPort(port);
         }
         // Setting server SSL from url protocol (if not explicitly set)
         if (socketBusOptions.isServerSSL() == null)
-            socketBusOptions.setServerSSL("https".equals(windowLocation.getProtocol()));
+            socketBusOptions.setServerSSL("https".equals(WindowLocation.getProtocol()));
         super.setPlatformBusOptions(options);
         String json = ResourceService.getText("webfx/platforms/core/services/bus/client/conf/BusOptions.json").result();
         if (json != null)

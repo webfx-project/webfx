@@ -1,12 +1,12 @@
-package webfx.platform.gwt.url.location;
+package webfx.platform.gwt.services.windowlocation;
 
-import webfx.platforms.core.services.browsinglocation.spi.BrowsingLocation;
+import webfx.platforms.core.services.windowlocation.spi.WindowLocationProvider;
 import webfx.platforms.core.util.Strings;
 
 /**
  * @author Bruno Salmon
  */
-public final class GwtWindowLocation implements BrowsingLocation {
+public final class GwtWindowLocationProvider implements WindowLocationProvider {
 
     @Override
     public native String getHref() /*-{
