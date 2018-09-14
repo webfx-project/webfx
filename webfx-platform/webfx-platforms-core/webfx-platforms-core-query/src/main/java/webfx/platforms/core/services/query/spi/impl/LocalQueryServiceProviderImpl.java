@@ -1,22 +1,21 @@
-package webfx.platforms.core.services.query.spi.remote;
+package webfx.platforms.core.services.query.spi.impl;
 
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.query.QueryResult;
-import webfx.platforms.core.services.query.QueryService;
-import webfx.platforms.core.services.query.spi.QueryServiceProvider;
-import webfx.platforms.core.services.buscall.BusCallService;
-import webfx.platforms.core.datasource.LocalDataSourceRegistry;
-import webfx.platforms.core.services.query.QueryArgument;
-import webfx.platforms.core.util.Arrays;
 import webfx.platforms.core.datasource.ConnectionDetails;
+import webfx.platforms.core.datasource.LocalDataSourceRegistry;
+import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.query.QueryArgument;
+import webfx.platforms.core.services.query.QueryResult;
+import webfx.platforms.core.services.query.spi.QueryServiceProvider;
+import webfx.platforms.core.util.Arrays;
 import webfx.platforms.core.util.async.Future;
 
-import static webfx.platforms.core.services.query.spi.remote.LocalConnectedQueryServiceProviderRegistry.*;
+import static webfx.platforms.core.services.query.spi.impl.LocalConnectedQueryServiceProviderRegistry.getLocalConnectedProvider;
+import static webfx.platforms.core.services.query.spi.impl.LocalConnectedQueryServiceProviderRegistry.registerLocalConnectedProvider;
 
 /**
  * @author Bruno Salmon
  */
-public class RemoteQueryServiceProviderImpl implements QueryServiceProvider {
+public class LocalQueryServiceProviderImpl implements QueryServiceProvider {
 
     @Override
     public Future<QueryResult> executeQuery(QueryArgument argument) {
@@ -41,10 +40,10 @@ public class RemoteQueryServiceProviderImpl implements QueryServiceProvider {
     }
 
     protected QueryServiceProvider createLocalConnectedProvider(ConnectionDetails connectionDetails) {
-        throw new UnsupportedOperationException("This platform doesn't provide local QueryServiceProvider");
+        throw new UnsupportedOperationException("This platform doesn't support local query service");
     }
 
     protected <T> Future<T> executeRemoteQuery(QueryArgument argument) {
-        return BusCallService.call(QueryService.QUERY_SERVICE_ADDRESS, argument);
+        throw new UnsupportedOperationException("This platform doesn't support remote query service");
     }
 }

@@ -2,7 +2,7 @@ package webfx.platforms.core.services.query;
 
 import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.query.spi.QueryServiceProvider;
-import webfx.platforms.core.services.query.spi.remote.RemoteQueryServiceProviderImpl;
+import webfx.platforms.core.services.query.spi.impl.LocalOrRemoteQueryServiceProviderImpl;
 import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
@@ -16,7 +16,7 @@ public class QueryService {
     public static final String QUERY_BATCH_SERVICE_ADDRESS = "service/query/batch";
 
     static {
-        SingleServiceLoader.registerDefaultServiceFactory(QueryServiceProvider.class, RemoteQueryServiceProviderImpl::new);
+        SingleServiceLoader.registerDefaultServiceFactory(QueryServiceProvider.class, LocalOrRemoteQueryServiceProviderImpl::new);
         // registerJsonCodecsAndBusCalls() body:
         QueryArgument.registerJsonCodec();
         QueryResult.registerJsonCodec();

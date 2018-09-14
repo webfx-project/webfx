@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.query.spi.remote;
+package webfx.platforms.core.services.query.spi.impl;
 
 import webfx.platforms.core.services.query.spi.QueryServiceProvider;
 

@@ -2,7 +2,7 @@ package webfx.platforms.core.services.update;
 
 import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
-import webfx.platforms.core.services.update.spi.remote.RemoteUpdateServiceProviderImpl;
+import webfx.platforms.core.services.update.spi.impl.LocalOrRemoteUpdateServiceProviderImpl;
 import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
@@ -16,7 +16,7 @@ public class UpdateService {
     public static final String UPDATE_BATCH_SERVICE_ADDRESS = "service/update/batch";
 
     static {
-        SingleServiceLoader.registerDefaultServiceFactory(UpdateServiceProvider.class, RemoteUpdateServiceProviderImpl::new);
+        SingleServiceLoader.registerDefaultServiceFactory(UpdateServiceProvider.class, LocalOrRemoteUpdateServiceProviderImpl::new);
         // registerJsonCodecsAndBusCalls() body:
         UpdateArgument.registerJsonCodec();
         GeneratedKeyBatchIndex.registerJsonCodec();

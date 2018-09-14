@@ -1,14 +1,14 @@
 package webfx.platforms.java.services.update;
 
 import webfx.platforms.core.datasource.ConnectionDetails;
-import webfx.platforms.core.services.update.spi.remote.RemoteUpdateServiceProviderImpl;
+import webfx.platforms.core.services.update.spi.impl.LocalOrRemoteUpdateServiceProviderImpl;
 import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
 import webfx.platforms.java.services.JdbcConnectedServiceProviderImpl;
 
 /**
  * @author Bruno Salmon
  */
-public class JdbcUpdateServiceProviderImpl extends RemoteUpdateServiceProviderImpl {
+public class JdbcUpdateServiceProviderImpl extends LocalOrRemoteUpdateServiceProviderImpl {
 
     @Override
     protected UpdateServiceProvider createConnectedUpdateService(ConnectionDetails connectionDetails) {

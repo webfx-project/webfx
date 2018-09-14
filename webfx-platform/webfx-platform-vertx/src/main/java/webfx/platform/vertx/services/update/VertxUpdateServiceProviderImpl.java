@@ -3,12 +3,12 @@ package webfx.platform.vertx.services.update;
 import webfx.platform.vertx.services.VertxLocalConnectedQueryUpdateServiceProviderImpl;
 import webfx.platforms.core.datasource.ConnectionDetails;
 import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
-import webfx.platforms.core.services.update.spi.remote.RemoteUpdateServiceProviderImpl;
+import webfx.platforms.core.services.update.spi.impl.LocalUpdateServiceProviderImpl;
 
 /**
  * @author Bruno Salmon
  */
-public class VertxUpdateServiceProviderImpl extends RemoteUpdateServiceProviderImpl {
+public class VertxUpdateServiceProviderImpl extends LocalUpdateServiceProviderImpl {
 
     @Override
     protected UpdateServiceProvider createConnectedUpdateService(ConnectionDetails connectionDetails) {

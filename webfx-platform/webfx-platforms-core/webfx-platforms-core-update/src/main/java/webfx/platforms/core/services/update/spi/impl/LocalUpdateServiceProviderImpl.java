@@ -1,20 +1,18 @@
-package webfx.platforms.core.services.update.spi.remote;
+package webfx.platforms.core.services.update.spi.impl;
 
-import webfx.platforms.core.services.update.UpdateService;
-import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
-import webfx.platforms.core.services.buscall.BusCallService;
-import webfx.platforms.core.services.update.UpdateArgument;
-import webfx.platforms.core.services.update.UpdateResult;
-import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.datasource.ConnectionDetails;
 import webfx.platforms.core.datasource.LocalDataSourceRegistry;
 import webfx.platforms.core.services.update.LocalUpdateServiceRegistry;
+import webfx.platforms.core.services.update.UpdateArgument;
+import webfx.platforms.core.services.update.UpdateResult;
+import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
+import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.util.async.Future;
 
 /**
  * @author Bruno Salmon
  */
-public class RemoteUpdateServiceProviderImpl implements UpdateServiceProvider {
+public class LocalUpdateServiceProviderImpl implements UpdateServiceProvider {
 
     @Override
     public Future<UpdateResult> executeUpdate(UpdateArgument argument) {
@@ -53,11 +51,11 @@ public class RemoteUpdateServiceProviderImpl implements UpdateServiceProvider {
     }
 
     protected Future<UpdateResult> executeRemoteUpdate(UpdateArgument argument) {
-        return BusCallService.call(UpdateService.UPDATE_SERVICE_ADDRESS, argument);
+        throw new UnsupportedOperationException("This platform doesn't support remote update service");
     }
 
     protected Future<Batch<UpdateResult>> executeRemoteUpdateBatch(Batch<UpdateArgument> batch) {
-        return BusCallService.call(UpdateService.UPDATE_BATCH_SERVICE_ADDRESS, batch);
+        throw new UnsupportedOperationException("This platform doesn't support remote update service");
     }
 
 }
