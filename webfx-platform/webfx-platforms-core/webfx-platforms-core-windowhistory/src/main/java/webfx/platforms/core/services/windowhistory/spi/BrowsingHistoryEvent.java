@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.browsinghistory.spi;
+package webfx.platforms.core.services.windowhistory.spi;
 
 /**
  * An history event describes the type of change that has been done to a URL. Possible values are:

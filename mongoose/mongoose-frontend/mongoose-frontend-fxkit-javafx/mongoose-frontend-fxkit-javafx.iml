@@ -24,7 +24,7 @@
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="webfx-platform-jre" />
     <orderEntry type="module" module-name="webfx-platforms-java" />
-    <orderEntry type="module" module-name="webfx-platforms-core-browsinghistory" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" />
     <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />

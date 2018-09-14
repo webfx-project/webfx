@@ -1,7 +1,7 @@
 package webfx.framework.ui.uirouter;
 
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryLocation;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistoryLocation;
 import webfx.framework.router.Router;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.util.async.Handler;

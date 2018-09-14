@@ -1,9 +1,9 @@
-package webfx.platforms.core.services.browsinghistory.spi.impl;
+package webfx.platforms.core.services.windowhistory.spi.impl;
 
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryEvent;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistoryEvent;
 import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryLocation;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistoryLocation;
 import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
 import webfx.platforms.core.services.windowlocation.spi.impl.PathLocationImpl;
 import webfx.platforms.core.services.windowlocation.spi.impl.PathStateLocationImpl;

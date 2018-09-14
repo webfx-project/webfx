@@ -2,7 +2,7 @@ package mongooses.loadtester.activities.saveloadtest;
 
 import webfx.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRoute;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon

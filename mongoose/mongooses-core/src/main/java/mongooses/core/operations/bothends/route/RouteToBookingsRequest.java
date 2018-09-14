@@ -3,7 +3,7 @@ package mongooses.core.operations.bothends.route;
 import mongooses.core.activities.backend.bookings.BookingsRouting;
 import webfx.framework.operation.HasOperationCode;
 import webfx.framework.operations.route.RoutePushRequest;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon

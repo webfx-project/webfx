@@ -1,18 +1,18 @@
-package webfx.platform.gwt.url.history;
+package webfx.platform.gwt.services.windowhistory;
 
 import webfx.platform.gwt.jsinterop.Window;
 import webfx.platform.gwt.services.json.GwtJsonObject;
 import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.web.WindowHistory;
+import webfx.platforms.web.services.windowhistory.JsWindowHistory;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.function.Function;
 
 /**
  * @author Bruno Salmon
  */
-public class GwtWindowHistory implements WindowHistory {
+public class GwtJsWindowHistory implements JsWindowHistory {
 
-    public GwtWindowHistory() {
+    public GwtJsWindowHistory() {
     }
 
     @Override

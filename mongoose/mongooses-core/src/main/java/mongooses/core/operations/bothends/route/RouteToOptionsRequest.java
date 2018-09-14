@@ -5,7 +5,7 @@ import mongooses.core.activities.sharedends.logic.preselection.OptionsPreselecti
 import mongooses.core.activities.sharedends.logic.work.WorkingDocument;
 import mongooses.core.aggregates.EventAggregate;
 import webfx.framework.operations.route.RoutePushRequest;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon

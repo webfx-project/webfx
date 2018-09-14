@@ -1,8 +1,9 @@
-package webfx.platforms.web;
+package webfx.platforms.web.services.windowhistory;
 
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryEvent;
-import webfx.platforms.core.services.browsinghistory.spi.impl.BrowsingHistoryLocationImpl;
-import webfx.platforms.core.services.browsinghistory.spi.impl.MemoryBrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistoryEvent;
+import webfx.platforms.core.services.windowhistory.spi.WindowHistoryProvider;
+import webfx.platforms.core.services.windowhistory.spi.impl.BrowsingHistoryLocationImpl;
+import webfx.platforms.core.services.windowhistory.spi.impl.MemoryBrowsingHistory;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
@@ -14,23 +15,23 @@ import webfx.platforms.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public class BrowserHistory extends MemoryBrowsingHistory {
+public class WebWindowHistoryProvider extends MemoryBrowsingHistory implements WindowHistoryProvider {
 
-    private final WindowHistory windowHistory;
+    private final JsWindowHistory jsWindowHistory;
     private final boolean supportsStates;
     private final boolean showHash;
 
-    public BrowserHistory() {
-        this(WindowHistory.get());
+    public WebWindowHistoryProvider() {
+        this(JsWindowHistory.get());
     }
 
-    public BrowserHistory(WindowHistory windowHistory) {
-        this.windowHistory = windowHistory;
-        supportsStates = windowHistory.supportsStates();
+    public WebWindowHistoryProvider(JsWindowHistory jsWindowHistory) {
+        this.jsWindowHistory = jsWindowHistory;
+        supportsStates = jsWindowHistory.supportsStates();
         showHash = true; // !supportsState;
-        //windowHistory.onBeforeUnload(event -> checkBeforeUnload(getCurrentLocation()));
+        //jsWindowHistory.onBeforeUnload(event -> checkBeforeUnload(getCurrentLocation()));
         if (supportsStates)
-            windowHistory.onPopState(this::onPopState);
+            jsWindowHistory.onPopState(this::onPopState);
         // Can't access the platform API at this stage since it is currently initializing, so the remaining
         // initialization will be done later in checkInitialized()
     }
@@ -41,7 +42,7 @@ public class BrowserHistory extends MemoryBrowsingHistory {
             if (mountPath.endsWith("/index.html"))
                 mountPath = mountPath.substring(0, mountPath.lastIndexOf('/') + 1);
             setMountPoint(mountPath);
-            onPopState(supportsStates ? windowHistory.state() : null);
+            onPopState(supportsStates ? jsWindowHistory.state() : null);
             if (!supportsStates)
                 UiScheduler.schedulePeriodic(500, () -> {
                     if (!Objects.areEquals(WindowLocation.getFragment(), getCurrentLocation().getFragment()))
@@ -98,7 +99,7 @@ public class BrowserHistory extends MemoryBrowsingHistory {
     protected void doAcceptedPush(BrowsingHistoryLocationImpl historyLocation) {
         String path = historyLocation.getPath();
         if (supportsStates)
-            windowHistory.pushState(historyLocation.getState(), null, path);
+            jsWindowHistory.pushState(historyLocation.getState(), null, path);
         else
             WindowLocation.assignHref(path);
         super.doAcceptedPush(historyLocation);
@@ -108,7 +109,7 @@ public class BrowserHistory extends MemoryBrowsingHistory {
     protected void doAcceptedReplace(BrowsingHistoryLocationImpl historyLocation) {
         String path = historyLocation.getPath();
         if (supportsStates)
-            windowHistory.replaceState(historyLocation.getState(), null, path);
+            jsWindowHistory.replaceState(historyLocation.getState(), null, path);
         else
             WindowLocation.replaceHref(path);
         super.doAcceptedReplace(historyLocation);
@@ -116,7 +117,7 @@ public class BrowserHistory extends MemoryBrowsingHistory {
 
     @Override
     public void go(int offset) {
-        windowHistory.go(offset);
+        jsWindowHistory.go(offset);
         // super.go(offset); // Commented as this causes extra routing. TODO: find another way to synchronize the memory history
     }
 }

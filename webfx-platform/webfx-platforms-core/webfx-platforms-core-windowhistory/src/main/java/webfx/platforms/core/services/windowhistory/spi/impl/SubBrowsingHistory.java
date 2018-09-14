@@ -1,7 +1,7 @@
-package webfx.platforms.core.services.browsinghistory.spi.impl;
+package webfx.platforms.core.services.windowhistory.spi.impl;
 
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistoryLocation;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistoryLocation;
 
 /**
  * @author Bruno Salmon

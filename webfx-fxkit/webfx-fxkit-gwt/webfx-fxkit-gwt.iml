@@ -27,7 +27,7 @@
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-promise:1.0.0-RC1" level="project" />
     <orderEntry type="module" module-name="webfx-platform-gwt" />
     <orderEntry type="module" module-name="webfx-platforms-web" />
-    <orderEntry type="module" module-name="webfx-platforms-core-browsinghistory" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" />
     <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />

@@ -5,7 +5,7 @@ import webfx.framework.router.session.Session;
 import webfx.framework.ui.uirouter.UiRouter;
 import webfx.framework.ui.uisession.UiSession;
 import webfx.framework.ui.uisession.UiSessionMixin;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
 import webfx.platforms.core.services.json.JsonObject;
 
 /**

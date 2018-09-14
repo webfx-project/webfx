@@ -43,7 +43,6 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-vertx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-appcontainer" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-browsinghistory" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-bus" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-buscall" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-clientbus" charset="UTF-8" />
@@ -61,6 +60,7 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-update" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-util" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-websocket" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-windowhistory" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-windowlocation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-emul" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-emul/webfx-platforms-emul-javabase" charset="UTF-8" />

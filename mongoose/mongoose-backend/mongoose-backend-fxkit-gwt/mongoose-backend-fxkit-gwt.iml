@@ -23,7 +23,7 @@
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-framework" />
-    <orderEntry type="module" module-name="webfx-platforms-core-browsinghistory" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" />
     <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
     <orderEntry type="module" module-name="webfx-platforms-core-querypush" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" />

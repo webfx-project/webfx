@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.browsinghistory.spi;
+package webfx.platforms.core.services.windowhistory.spi;
 
 import webfx.platforms.core.services.windowlocation.spi.PathStateLocation;
 import webfx.platforms.core.services.json.JsonObject;

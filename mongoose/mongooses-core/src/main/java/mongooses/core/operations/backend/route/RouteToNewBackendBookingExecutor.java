@@ -2,7 +2,7 @@ package mongooses.core.operations.backend.route;
 
 import mongooses.core.operations.bothends.route.RouteToFeesRequest;
 import mongooses.core.aggregates.EventAggregate;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
 import webfx.platforms.core.util.async.Future;
 
 /**

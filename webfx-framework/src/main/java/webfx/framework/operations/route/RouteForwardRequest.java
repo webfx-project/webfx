@@ -1,7 +1,7 @@
 package webfx.framework.operations.route;
 
 import webfx.framework.operation.HasOperationCode;
-import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
 import webfx.platforms.core.util.async.AsyncFunction;
 
 /**

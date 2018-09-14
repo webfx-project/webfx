@@ -1,4 +1,4 @@
-package webfx.platforms.web;
+package webfx.platforms.web.services.windowhistory;
 
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.util.async.Handler;
@@ -6,14 +6,14 @@ import webfx.platforms.core.util.function.Function;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
- * Wrapper interface to the window history.
+ * Wrapper interface to the javascript window history.
  *
  * @author Bruno Salmon
  */
-public interface WindowHistory {
+public interface JsWindowHistory {
 
-    static WindowHistory get() {
-        return SingleServiceLoader.loadService(WindowHistory.class);
+    static JsWindowHistory get() {
+        return SingleServiceLoader.loadService(JsWindowHistory.class);
     }
 
     /**
