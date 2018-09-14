@@ -418,6 +418,6 @@ public abstract class Control extends Region implements Skinnable {
 
     {
         // Simulating skin mechanism (normally done during css pass - not yet implemented)
-        //FxKit.get().scheduler().scheduleDelay(5000, () -> setSkin(createDefaultSkin()));
+        // Scheduler.scheduleDelay(5000, () -> setSkin(createDefaultSkin()));
     }
 }

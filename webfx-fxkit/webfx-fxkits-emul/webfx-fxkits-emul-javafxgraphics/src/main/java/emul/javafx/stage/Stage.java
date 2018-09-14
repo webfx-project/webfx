@@ -3,7 +3,7 @@ package emul.javafx.stage;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.beans.value.ObservableValue;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.FxKit;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.fxkits.core.properties.markers.HasTitleProperty;
 import emul.javafx.scene.Scene;
@@ -156,7 +156,7 @@ public class Stage extends Window implements HasTitleProperty {
 
     @Override
     protected StagePeer createPeer() {
-        return FxKit.get().createStagePeer(this);
+        return FxKit.getProvider().createStagePeer(this);
     }
 
     private final Property<String> titleProperty = new SimpleObjectProperty<String>() {

@@ -4,7 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.FxKit;
 import webfx.platforms.core.services.uischeduler.spi.impl.UiSchedulerProviderImplBase;
 
 import java.util.concurrent.ExecutorService;
@@ -15,11 +15,7 @@ import java.util.concurrent.Executors;
  */
 public class FxSchedulerProviderImpl extends UiSchedulerProviderImplBase {
 
-    static FxSchedulerProviderImpl SINGLETON = new FxSchedulerProviderImpl();
     private final ExecutorService executor = Executors.newCachedThreadPool();
-
-    public FxSchedulerProviderImpl() {
-    }
 
     @Override
     public void runInBackground(Runnable runnable) {
@@ -28,16 +24,15 @@ public class FxSchedulerProviderImpl extends UiSchedulerProviderImplBase {
 
     @Override
     public void scheduleDeferred(Runnable runnable) {
-        FxKit fxKit = FxKit.get();
-        if (!fxKit.isReady())
-            fxKit.onReady(runnable);
+        if (!FxKit.isReady())
+            FxKit.onReady(runnable);
         else
             Platform.runLater(runnable);
     }
 
     @Override
     public boolean isUiThread() {
-        return FxKit.get().isReady() && Platform.isFxApplicationThread();
+        return FxKit.isReady() && Platform.isFxApplicationThread();
     }
 
     @Override

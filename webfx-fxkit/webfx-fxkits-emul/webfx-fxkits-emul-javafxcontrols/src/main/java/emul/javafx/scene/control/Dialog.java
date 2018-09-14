@@ -260,7 +260,7 @@ public class Dialog<R> implements EventTarget {
      *     other than the JavaFX Application Thread.
      */
     public final void show() {
-        //FxKit.getToolkit().checkFxUserThread();
+        //Toolkit.getToolkit().checkFxUserThread();
 
         Event.fireEvent(this, new DialogEvent(this, DialogEvent.DIALOG_SHOWING));
         if( getWidth() == Double.NaN && getHeight() == Double.NaN ) {
@@ -292,9 +292,9 @@ public class Dialog<R> implements EventTarget {
      */
     public final Optional<R> showAndWait() {
 /*
-        FxKit.getToolkit().checkFxUserThread();
+        Toolkit.getToolkit().checkFxUserThread();
 
-        if (!FxKit.getToolkit().canStartNestedEventLoop()) {
+        if (!Toolkit.getToolkit().canStartNestedEventLoop()) {
             throw new IllegalStateException("showAndWait is not allowed during animation or layout processing");
         }
 */

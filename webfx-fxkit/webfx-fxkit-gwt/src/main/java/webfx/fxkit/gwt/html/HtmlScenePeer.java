@@ -96,7 +96,7 @@ public class HtmlScenePeer extends ScenePeerBase {
                 }
             }
             //long t1 = System.currentTimeMillis();
-            //Logger.log("setChildren() in " + (t1 - t0) + "ms / parent treeVisible = " + parentPeer.isTreeVisible() + ", isAnimationFrame = " + FxKit.get().scheduler().isAnimationFrameNow());
+            //Logger.log("setChildren() in " + (t1 - t0) + "ms / parent treeVisible = " + parentPeer.isTreeVisible() + ", isAnimationFrame = " + UiScheduler().isAnimationFrameNow());
         }
     }
 

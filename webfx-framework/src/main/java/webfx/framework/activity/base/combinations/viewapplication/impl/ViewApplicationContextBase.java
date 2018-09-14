@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import webfx.framework.activity.base.elementals.view.impl.ViewActivityContextBase;
 import webfx.framework.activity.base.combinations.viewapplication.ViewApplicationContext;
 import webfx.framework.ui.uirouter.UiRouter;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.FxKit;
 import webfx.framework.activity.ActivityContextFactory;
 import webfx.framework.activity.base.elementals.application.ApplicationContext;
 import webfx.framework.activity.base.elementals.application.impl.ApplicationContextBase;
@@ -32,12 +32,12 @@ public class ViewApplicationContextBase
         ApplicationContextBase.registerRootFields(this, mainArgs);
         nodeProperty().addListener((observable, oldValue, node) -> {
             Parent root = (Parent) node;
-            Stage primaryStage = FxKit.get().getPrimaryStage();
+            Stage primaryStage = FxKit.getPrimaryStage();
             Scene scene = primaryStage.getScene();
             if (scene != null)
                 scene.setRoot(root);
             else {
-                FxKit.get().onReady(() -> {
+                FxKit.onReady(() -> {
                     Rectangle2D screenVisualBounds = Screen.getPrimary().getVisualBounds();
                     double width = screenVisualBounds.getWidth() * 0.8;
                     double height = screenVisualBounds.getHeight() * 0.9;

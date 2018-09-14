@@ -4,13 +4,13 @@
 
 package java.util;
 
-import webfx.fxkit.gwt.GwtFxKit;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkit.gwt.GwtFxKitProvider;
+import webfx.fxkits.core.spi.FxKitProvider;
 
 class GwtFxKitServiceLoader extends GwtPlatformServiceLoader {
 
     static  {
-        registerService(FxKit.class, GwtFxKit::new);
+        registerService(FxKitProvider.class, GwtFxKitProvider::new);
     }
 
 }

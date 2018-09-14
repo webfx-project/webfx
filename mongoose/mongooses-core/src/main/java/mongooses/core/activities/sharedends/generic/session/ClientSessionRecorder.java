@@ -7,7 +7,7 @@ import webfx.framework.orm.entity.Entities;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.UpdateStore;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.FxKit;
 import webfx.platforms.core.services.bus.Bus;
 import webfx.platforms.core.services.bus.BusHook;
 import webfx.platforms.core.services.bus.Registration;
@@ -255,7 +255,7 @@ public class ClientSessionRecorder {
     }
 
     public static String getUserAgent() {
-        return FxKit.get().getUserAgent();
+        return FxKit.getUserAgent();
     }
 
     public static String getApplicationName() {

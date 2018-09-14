@@ -15,10 +15,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Window;
 import webfx.framework.ui.anim.Animations;
+import webfx.fxkits.core.FxKit;
 import webfx.fxkits.core.properties.Properties;
 import webfx.fxkits.core.properties.Unregisterable;
 import webfx.fxkits.core.properties.UnregisterableListener;
-import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.AnimationFramePass;
@@ -122,7 +122,7 @@ public final class SceneUtil {
     }
 
     public static void installPrimarySceneFocusOwnerAutoScroll() {
-        FxKit.get().onReady(() -> onSceneReady(FxKit.get().getPrimaryStage(), SceneUtil::installSceneFocusOwnerAutoScroll));
+        FxKit.onReady(() -> onSceneReady(FxKit.getPrimaryStage(), SceneUtil::installSceneFocusOwnerAutoScroll));
     }
 
     public static boolean isVirtualKeyboardShowing(Scene scene) {

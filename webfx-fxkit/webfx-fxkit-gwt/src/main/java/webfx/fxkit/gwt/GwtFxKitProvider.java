@@ -7,7 +7,7 @@ import emul.javafx.stage.Screen;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
 import webfx.fxkit.gwt.html.HtmlScenePeer;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.spi.FxKitProvider;
 import webfx.fxkits.core.spi.peer.ScenePeer;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.fxkits.core.spi.peer.WindowPeer;
@@ -16,7 +16,7 @@ import webfx.fxkits.core.spi.peer.WindowPeer;
 /**
  * @author Bruno Salmon
  */
-public class GwtFxKit extends FxKit {
+public class GwtFxKitProvider extends FxKitProvider {
 
     @Override
     public String getUserAgent() {

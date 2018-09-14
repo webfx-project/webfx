@@ -8,7 +8,7 @@ import mongooses.core.activities.sharedends.MongooseSharedEndsApplication;
 import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.activity.ActivityManager;
 import webfx.framework.activity.base.combinations.viewdomainapplication.ViewDomainApplicationContext;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.FxKit;
 import webfx.fxkits.extra.util.ImageStore;
 import webfx.platforms.core.services.buscall.BusBasedClientApplicationModuleInitializerBase;
 
@@ -44,7 +44,7 @@ public abstract class MongooseSharedEndsApplicationModuleInitializer extends Bus
     private ImageView spinner;
 
     private void setLoadingSpinnerVisible(boolean visible) {
-        Scene scene = FxKit.get().getPrimaryStage().getScene();
+        Scene scene = FxKit.getPrimaryStage().getScene();
         if (scene != null && !cssApplied) {
             scene.getStylesheets().addAll("mongooses/java/client/css/mongoose.css");
             cssApplied = true;

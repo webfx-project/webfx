@@ -8,20 +8,19 @@ import webfx.fxkits.core.spi.peer.ScenePeer;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.fxkits.core.spi.peer.WindowPeer;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class FxKit {
+public abstract class FxKitProvider {
 
     private Stage primaryStage;
 
-    public FxKit() {
+    public FxKitProvider() {
         this(null);
     }
 
-    public FxKit(Stage primaryStage) {
+    public FxKitProvider(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
@@ -32,7 +31,7 @@ public abstract class FxKit {
     public Stage getPrimaryStage() {
         if (primaryStage == null) {
             primaryStage = new Stage();
-            primaryStage.impl_setPrimary(true);
+            //primaryStage.impl_setPrimary(true);
         }
         return primaryStage;
     }
@@ -51,23 +50,8 @@ public abstract class FxKit {
         UiScheduler.runInUiThread(runnable);
     }
 
-    public static boolean isUiThread() {
-        return UiScheduler.isUiThread();
-    }
-
     public double getVerticalScrollbarExtraWidth() {
         return 16;
-    }
-
-    private static FxKit FXKIT;
-
-    public static synchronized FxKit get() {
-        if (FXKIT == null) {
-            //Platform.log("Getting FxKit");
-            FXKIT = SingleServiceLoader.loadService(FxKit.class);
-            //Platform.log("FxKit ok");
-        }
-        return FXKIT;
     }
 
 }

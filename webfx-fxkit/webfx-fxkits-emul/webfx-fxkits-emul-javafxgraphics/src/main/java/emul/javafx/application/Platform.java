@@ -1,6 +1,5 @@
 package emul.javafx.application;
 
-import webfx.fxkits.core.spi.FxKit;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 
 /**
@@ -72,7 +71,7 @@ public final class Platform {
      */
     public static boolean isFxApplicationThread() {
         //return PlatformImpl.isFxApplicationThread();
-        return FxKit.isUiThread();
+        return UiScheduler.isUiThread();
     }
 
     /**

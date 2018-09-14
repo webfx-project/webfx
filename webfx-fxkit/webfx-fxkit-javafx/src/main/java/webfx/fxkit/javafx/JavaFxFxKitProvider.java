@@ -7,7 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.FxKit;
+import webfx.fxkits.core.spi.FxKitProvider;
 import webfx.fxkits.core.spi.peer.ScenePeer;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.fxkits.core.spi.peer.WindowPeer;
@@ -19,24 +20,24 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class JavaFxFxKit extends FxKit {
+public class JavaFxFxKitProvider extends FxKitProvider {
 
     private static Consumer<Scene> sceneHook;
     private static List<Runnable> readyRunnables = new ArrayList<>();
     private static Stage startingStage;
 
     public static void registerStartingStage(Stage startingStage) {
-        JavaFxFxKit.startingStage = startingStage;
+        JavaFxFxKitProvider.startingStage = startingStage;
     }
 
-    public JavaFxFxKit() {
+    public JavaFxFxKitProvider() {
         super(startingStage);
         if (startingStage != null) {
             getPrimaryStage();
             onJavaFxPlatformReady();
         } else {
             new Thread(() -> {
-                Application.launch(FxApplication.class, "JavaFxFxKit-Launcher");
+                Application.launch(FxApplication.class, "JavaFxFxKitProvider-Launcher");
                 System.exit(0);
             }).start();
         }
@@ -75,7 +76,7 @@ public class JavaFxFxKit extends FxKit {
 
     @Override
     public void onReady(Runnable runnable) {
-        synchronized (JavaFxFxKit.class) {
+        synchronized (JavaFxFxKitProvider.class) {
             if (readyRunnables != null)
                 readyRunnables.add(runnable);
             else
@@ -84,7 +85,7 @@ public class JavaFxFxKit extends FxKit {
     }
 
     private static void executeReadyRunnables() {
-        synchronized (JavaFxFxKit.class) {
+        synchronized (JavaFxFxKitProvider.class) {
             if (readyRunnables != null) {
                 List<Runnable> runnables = readyRunnables;
                 readyRunnables = null;
@@ -96,8 +97,8 @@ public class JavaFxFxKit extends FxKit {
     }
 
     public static void setSceneHook(Consumer<Scene> sceneHook) {
-        JavaFxFxKit.sceneHook = sceneHook;
-        ((JavaFxFxKit) get()).applySceneHookToPrimaryStage();
+        JavaFxFxKitProvider.sceneHook = sceneHook;
+        ((JavaFxFxKitProvider) FxKit.getProvider()).applySceneHookToPrimaryStage();
     }
 
     private void applySceneHookToPrimaryStage() {

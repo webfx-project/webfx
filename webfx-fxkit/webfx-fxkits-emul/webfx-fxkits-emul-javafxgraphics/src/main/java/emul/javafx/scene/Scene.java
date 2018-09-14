@@ -30,7 +30,7 @@ import webfx.fxkits.core.properties.markers.HasHeightProperty;
 import webfx.fxkits.core.properties.markers.HasRootProperty;
 import webfx.fxkits.core.properties.markers.HasWidthProperty;
 import webfx.fxkits.core.scene.SceneRequester;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.FxKit;
 import webfx.fxkits.core.spi.peer.NodePeer;
 import webfx.fxkits.core.spi.peer.ScenePeer;
 import webfx.fxkits.core.spi.peer.StagePeer;
@@ -702,7 +702,7 @@ public class Scene implements EventTarget,
     //@Deprecated
     public ScenePeer impl_getPeer() {
         if (impl_peer == null)
-            impl_peer = FxKit.get().createScenePeer(this);
+            impl_peer = FxKit.getProvider().createScenePeer(this);
         return impl_peer;
     }
 

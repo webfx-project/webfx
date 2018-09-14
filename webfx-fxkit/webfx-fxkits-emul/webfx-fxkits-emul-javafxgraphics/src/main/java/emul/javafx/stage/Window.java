@@ -2,7 +2,7 @@ package emul.javafx.stage;
 
 import emul.javafx.beans.property.*;
 import emul.javafx.event.*;
-import webfx.fxkits.core.spi.FxKit;
+import webfx.fxkits.core.FxKit;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 import webfx.platforms.core.services.scheduler.Scheduled;
@@ -119,7 +119,7 @@ public class Window implements EventTarget,
 
 
     protected WindowPeer createPeer() {
-        return FxKit.get().createWindowPeer(this);
+        return FxKit.getProvider().createWindowPeer(this);
     }
 
     private final Property<Scene> sceneProperty = new SimpleObjectProperty<Scene>() {
@@ -309,7 +309,7 @@ public class Window implements EventTarget,
                         //impl_peer.setScene(getScene().getPeer());
                         getScene().impl_preferredSize();
                         // Ugly workaround to fix a wrong window positioning that occurs on first showing while the node sizes are not yet correct
-                        if (firstShowing && Window.this != FxKit.get().getPrimaryStage()) {
+                        if (firstShowing && Window.this != FxKit.getPrimaryStage()) {
                             impl_peer.setBounds(100_000, 100_000, true, true, -1, -1, -1, -1, 0, 0);
                             impl_peer.setVisible(true);
                             UiScheduler.scheduleDelay(200, () -> {
