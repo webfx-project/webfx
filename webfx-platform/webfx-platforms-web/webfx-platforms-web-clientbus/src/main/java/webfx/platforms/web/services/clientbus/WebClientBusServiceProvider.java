@@ -1,4 +1,4 @@
-package webfx.platforms.web.services.bus;
+package webfx.platforms.web.services.clientbus;
 
 import webfx.platforms.core.services.bus.BusOptions;
 import webfx.platforms.core.services.bus.client.ClientBusServiceProviderImpl;

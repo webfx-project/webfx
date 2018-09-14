@@ -1,11 +1,10 @@
-<module rename-to="webfx_platforms_web">
+<module rename-to="webfx_platforms_clientbus">
 
-    <inherits name="webfx-platforms-core-windowhistory"/>
     <inherits name="webfx-platforms-core-clientbus"/>
     <inherits name="webfx-platforms-core-uischeduler"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="webfx/platforms/web"/>
+    <source path="webfx/platforms/web/services/clientbus"/>
 
     <public path="public" />
 </module>

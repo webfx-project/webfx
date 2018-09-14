@@ -77,6 +77,8 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-windowhistory" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-windowlocation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-clientbus" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-windowhistory" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

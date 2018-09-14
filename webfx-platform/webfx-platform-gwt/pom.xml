@@ -15,7 +15,13 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-web</artifactId>
+            <artifactId>webfx-platforms-web-clientbus</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-web-windowhistory</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

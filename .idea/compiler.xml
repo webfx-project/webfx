@@ -169,7 +169,8 @@
         <module name="webfx-platforms-java-websocket" />
         <module name="webfx-platforms-java-windowhistory" />
         <module name="webfx-platforms-java-windowlocation" />
-        <module name="webfx-platforms-web" />
+        <module name="webfx-platforms-web-clientbus" />
+        <module name="webfx-platforms-web-windowhistory" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -256,6 +257,8 @@
       <module name="webfx-platforms-java-windowhistory" target="1.8" />
       <module name="webfx-platforms-java-windowlocation" target="1.8" />
       <module name="webfx-platforms-web" target="1.8" />
+      <module name="webfx-platforms-web-clientbus" target="1.8" />
+      <module name="webfx-platforms-web-windowhistory" target="1.8" />
       <module name="webfx-root" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -2,12 +2,14 @@
 
     <inherits name="com.google.gwt.user.User"/>
 
-    <inherits name="webfx-platforms-web"/>
+    <inherits name="webfx-platforms-web-clientbus"/>
+    <inherits name="webfx-platforms-web-windowhistory"/>
     <inherits name="webfx-platforms-core-shutdown"/>
     <inherits name="webfx-platforms-core-storage"/>
 
-    <!-- Specify the paths for translatable code                    -->
+    <!-- Specify the paths for translatable code -->
     <source path="webfx/platform/gwt"/>
-    <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
+    <super-source path="super"/>        <!-- super-source path to emulate java code not covered by GWT -->
 
+    <public path="public" /> <!-- contains xregexp.js required for the java.util.regex emulated package -->
 </module>

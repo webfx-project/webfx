@@ -34,7 +34,7 @@ import webfx.platforms.core.services.websocket.spi.WebSocketServiceProvider;
 import webfx.platform.gwt.services.websocket.GwtWebSocketServiceProviderImpl;
 import webfx.platforms.core.util.numbers.providers.StandardNumbersProviderImpl;
 import webfx.platforms.core.util.numbers.spi.NumbersProvider;
-import webfx.platforms.web.services.bus.WebClientBusServiceProvider;
+import webfx.platforms.web.services.clientbus.WebClientBusServiceProvider;
 import webfx.platform.gwt.services.windowlocation.GwtWindowLocationProvider;
 
 class GwtPlatformServiceLoader extends GwtServiceLoader {

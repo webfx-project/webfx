@@ -77,6 +77,8 @@
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-windowhistory/webfx-platforms-java-windowhistory.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-windowhistory/webfx-platforms-java-windowhistory.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-windowlocation/webfx-platforms-java-windowlocation.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-java/webfx-platforms-java-windowlocation/webfx-platforms-java-windowlocation.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-clientbus/webfx-platforms-web-clientbus.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-clientbus/webfx-platforms-web-clientbus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-windowhistory/webfx-platforms-web-windowhistory.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-windowhistory/webfx-platforms-web-windowhistory.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-root.iml" filepath="$PROJECT_DIR$/webfx-root.iml" />
     </modules>
   </component>
