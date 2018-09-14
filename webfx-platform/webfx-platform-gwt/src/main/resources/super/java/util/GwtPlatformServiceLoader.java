@@ -4,13 +4,13 @@
 
 package java.util;
 
+import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platforms.core.services.browsinghistory.spi.BrowsingHistory;
 import webfx.platforms.core.services.browsinglocation.spi.BrowsingLocation;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
-import webfx.platforms.core.services.buscall.BusCallModule;
-import webfx.platforms.core.services.query.QueryModule;
-import webfx.platforms.core.services.querypush.QueryPushModule;
-import webfx.platforms.core.services.update.UpdateModule;
+import webfx.platforms.core.services.buscall.BusCallModuleInitializer;
+import webfx.platforms.core.services.query.QueryModuleInitializer;
+import webfx.platforms.core.services.querypush.QueryPushModuleInitializer;
+import webfx.platforms.core.services.update.UpdateModuleInitializer;
 import webfx.platforms.web.BrowserHistory;
 import webfx.platforms.core.services.bus.spi.BusServiceProvider;
 import webfx.platforms.core.services.json.spi.JsonProvider;
@@ -53,7 +53,7 @@ class GwtPlatformServiceLoader extends GwtServiceLoader {
         registerService(ShutdownProvider.class, GwtShutdownProviderImpl::new);
         registerService(LocalStorageProvider.class, GwtLocalStorageProviderImpl::new);
         registerService(SessionStorageProvider.class, GwtSessionStorageProviderImpl::new);
-        registerService(ApplicationModule.class, UpdateModule::new, QueryPushModule::new, QueryModule::new, BusCallModule::new);
+        registerService(ApplicationModuleInitializer.class, UpdateModuleInitializer::new, QueryPushModuleInitializer::new, QueryModuleInitializer::new, BusCallModuleInitializer::new);
     }
 
 }

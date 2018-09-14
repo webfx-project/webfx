@@ -6,6 +6,8 @@
 
 package java.util;
 
+import mongooses.web.activities.sharedends.MongooseWebApplicationModuleInitializer;
+
 public abstract class ServiceLoader<S> implements Iterable<S> {
 
     public static <S> ServiceLoader<S> load(Class<S> serviceClass) {
@@ -13,6 +15,6 @@ public abstract class ServiceLoader<S> implements Iterable<S> {
     }
 
     static {
-        new mongooses.web.activities.sharedends.MongooseWebApplicationModule().start();
+        new MongooseWebApplicationModuleInitializer().initModule();
     }
 }

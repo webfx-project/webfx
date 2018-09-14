@@ -10,22 +10,22 @@ import webfx.framework.activity.ActivityManager;
 import webfx.framework.activity.base.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import webfx.fxkits.core.spi.FxKit;
 import webfx.fxkits.extra.util.ImageStore;
-import webfx.platforms.core.services.buscall.BusBasedClientApplicationModuleBase;
+import webfx.platforms.core.services.buscall.BusBasedClientApplicationModuleInitializerBase;
 
 /**
  * @author Bruno Salmon
  */
-public class MongooseSharedEndsApplicationModule extends BusBasedClientApplicationModuleBase {
+public abstract class MongooseSharedEndsApplicationModuleInitializer extends BusBasedClientApplicationModuleInitializerBase {
 
     private final MongooseSharedEndsApplication mongooseApplication;
 
-    public MongooseSharedEndsApplicationModule(MongooseSharedEndsApplication mongooseApplication) {
+    public MongooseSharedEndsApplicationModuleInitializer(MongooseSharedEndsApplication mongooseApplication) {
         this.mongooseApplication = mongooseApplication;
     }
 
     @Override
-    public void start() {
-        super.start();
+    public void initModule() {
+        super.initModule();
         ActivityManager.startActivityAsApplicationService(mongooseApplication,
                 ViewDomainApplicationContext.createViewDomainApplicationContext(
                         DomainModelSnapshotLoader.getDataSourceModel(),

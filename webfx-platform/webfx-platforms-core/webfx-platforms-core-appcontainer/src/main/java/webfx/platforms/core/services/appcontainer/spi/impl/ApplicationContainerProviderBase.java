@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.appcontainer.spi.impl;
 
 import webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.shutdown.Shutdown;
 import webfx.platforms.core.util.collection.Collections;
@@ -16,7 +16,7 @@ import java.util.ServiceLoader;
  */
 public class ApplicationContainerProviderBase implements ApplicationContainerProvider {
 
-    private final List<ApplicationModule> modules = Collections.listOf(ServiceLoader.load(ApplicationModule.class));
+    private final List<ApplicationModuleInitializer> modules = Collections.listOf(ServiceLoader.load(ApplicationModuleInitializer.class));
 
     public ApplicationContainerProviderBase() {
         // Caching this instance to make the ApplicationContainer work
@@ -37,27 +37,29 @@ public class ApplicationContainerProviderBase implements ApplicationContainerPro
         callModules(false);
     }
 
-    protected void callModules(boolean starting) {
+    protected void callModules(boolean init) {
         // Calling all registered application modules
         int n = modules.size();
-        logInFrame((starting ? "Starting " : "Stopping ") + n + " application modules");
-        List<ApplicationModule> orderedModules = starting ? new ArrayList<>(modules.size()) : modules;
-        if (starting) // Calling in inverse order (from platform layers to application layers) when starting
-            Collections.forEach(ServiceLoader.load(ApplicationModule.class), i -> orderedModules.add(0, i));
+        logInFrame((init ? "Initializing " : "Exiting ") + n + " application modules");
+        List<ApplicationModuleInitializer> orderedModules = init ? new ArrayList<>(modules.size()) : modules;
+        if (init) // Calling in inverse order (from platform layers to application layers) on init
+            Collections.forEach(ServiceLoader.load(ApplicationModuleInitializer.class), i -> orderedModules.add(0, i));
         for (int i = 0; i < n; i++)
-            Logger.log((i + 1) + ") " + orderedModules.get(i).getClass().getName());
+            Logger.log((i + 1) + ") " + orderedModules.get(i).getModuleName());
         for (int i = 0; i < n; i++) {
-            ApplicationModule module = orderedModules.get(i);
-            Logger.log(">>>>> " + (starting ? "Starting " : "Stopping ") + (i + 1) + ") " + module.getClass().getName() + " <<<<<");
-            if (starting)
-                module.start();
+            ApplicationModuleInitializer module = orderedModules.get(i);
+            Logger.log(">>>>> " + (init ? "Initializing " : "Exiting ") + (i + 1) + ") " + module.getModuleName() + " with " + module.getClass().getSimpleName() + " <<<<<");
+            if (init)
+                module.initModule();
+            else
+                module.exitModule();
         }
-        logInFrame(n + " application modules " + (starting ? "started" : "stopped"));
+        logInFrame(n + " application modules " + (init ? "initialized" : "exited"));
     }
 
     protected void logInFrame(String s) {
         s = "***** " + s + " *****";
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++)
             sb.append('*');
         Logger.log(sb + "\n" + s + "\n" + sb);

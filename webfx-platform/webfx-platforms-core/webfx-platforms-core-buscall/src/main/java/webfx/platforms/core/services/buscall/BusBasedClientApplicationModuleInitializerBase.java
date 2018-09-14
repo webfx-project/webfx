@@ -1,16 +1,15 @@
 package webfx.platforms.core.services.buscall;
 
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platforms.core.services.bus.BusService;
 
 /**
  * @author Bruno Salmon
  */
-public class BusBasedClientApplicationModuleBase implements ApplicationModule {
-
+public abstract class BusBasedClientApplicationModuleInitializerBase implements ApplicationModuleInitializer {
 
     @Override
-    public void start() {
+    public void initModule() {
         // Initializing the bus immediately to make the connection connection process happen while the application is initializing
         initializeBusConnection();
     }

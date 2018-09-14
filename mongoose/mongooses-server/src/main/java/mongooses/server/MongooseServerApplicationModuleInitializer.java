@@ -3,7 +3,7 @@ package mongooses.server;
 import mongooses.core.activities.server.SystemMetricsRecorderActivity;
 import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.orm.domainmodel.DataSourceModel;
-import webfx.platforms.core.services.buscall.BusCallBasedServerApplicationModuleBase;
+import webfx.platforms.core.services.buscall.BusCallBasedServerApplicationModuleInitializerBase;
 import webfx.platforms.core.datasource.ConnectionDetails;
 import webfx.platforms.core.datasource.LocalDataSourceRegistry;
 import webfx.platforms.core.services.json.Json;
@@ -17,11 +17,16 @@ import webfx.platforms.core.services.update.UpdateService;
 /**
  * @author Bruno Salmon
  */
-public class MongooseServerApplicationModule extends BusCallBasedServerApplicationModuleBase {
+public class MongooseServerApplicationModuleInitializer extends BusCallBasedServerApplicationModuleInitializerBase {
 
     @Override
-    public void start() {
-        super.start();
+    public String getModuleName() {
+        return "mongooses-server";
+    }
+
+    @Override
+    public void initModule() {
+        super.initModule();
         registerMongooseLocalDataSource();
         SystemMetricsRecorderActivity.startAsApplicationService();
     }

@@ -1,15 +1,15 @@
 package webfx.platforms.core.services.buscall;
 
 import webfx.platforms.core.services.appcontainer.ApplicationContainer;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 
 /**
  * @author Bruno Salmon
  */
-public class BusCallBasedServerApplicationModuleBase implements ApplicationModule {
+public abstract class BusCallBasedServerApplicationModuleInitializerBase implements ApplicationModuleInitializer {
 
     @Override
-    public void start() {
+    public void initModule() {
         startListeningBusCalls();
     }
 

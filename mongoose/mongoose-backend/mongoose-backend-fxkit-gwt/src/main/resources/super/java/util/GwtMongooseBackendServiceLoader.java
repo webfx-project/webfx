@@ -4,14 +4,14 @@
 
 package java.util;
 
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
-import mongooses.backend.MongooseBackendApplicationModule;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
+import mongooses.backend.MongooseBackendApplicationModuleInitializer;
 
 class GwtMongooseBackendServiceLoader extends GwtFxKitServiceLoader {
 
     static  {
-        //registerService(ApplicationModule.class, MongooseWebApplicationModule::new);
-        registerService(ApplicationModule.class, MongooseBackendApplicationModule::new);
+        //registerService(ApplicationModuleInitializer.class, MongooseWebApplicationModuleInitializer::new);
+        registerService(ApplicationModuleInitializer.class, MongooseBackendApplicationModuleInitializer::new);
     }
 
 }

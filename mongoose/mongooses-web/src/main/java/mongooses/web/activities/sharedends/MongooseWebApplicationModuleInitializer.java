@@ -1,16 +1,21 @@
 package mongooses.web.activities.sharedends;
 
 import webfx.platform.gwt.services.resource.GwtResourceServiceProviderImpl;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModule;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platforms.core.services.resource.ResourceService;
 
 /**
  * @author Bruno Salmon
  */
-public class MongooseWebApplicationModule implements ApplicationModule {
+public class MongooseWebApplicationModuleInitializer implements ApplicationModuleInitializer {
 
     @Override
-    public void start() {
+    public String getModuleName() {
+        return "mongooses-web";
+    }
+
+    @Override
+    public void initModule() {
         ((GwtResourceServiceProviderImpl) ResourceService.getProvider()).register(MongooseSharedEndsWebBundle.B);
     }
 }
