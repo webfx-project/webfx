@@ -259,15 +259,15 @@ public class ClientSessionRecorder {
     }
 
     public static String getApplicationName() {
-        return System.getProperty("application.name");
+        return System.getProperty("application.name", "?");
     }
 
     public static String getApplicationVersion() {
-        return System.getProperty("application.version");
+        return System.getProperty("application.version", "?");
     }
 
     public static String getApplicationBuildTool() {
-        return System.getProperty("application.build.tool");
+        return System.getProperty("application.build.tool", "?");
     }
 
     public static String getApplicationBuildNumberString() {
