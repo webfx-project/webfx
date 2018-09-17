@@ -112,6 +112,9 @@ public final class SceneUtil {
         Properties.onPropertySet(sceneProperty, sceneConsumer);
     }
 
+    public static void onPrimarySceneReady(Consumer<Scene> sceneConsumer) {
+        FxKit.onReady(() -> onSceneReady(FxKit.getPrimaryStage(), sceneConsumer));
+    }
 
     public static void installSceneFocusOwnerAutoScroll(Scene scene) {
         scene.focusOwnerProperty().addListener((observable, oldValue, newFocusOwner) -> {
@@ -122,7 +125,7 @@ public final class SceneUtil {
     }
 
     public static void installPrimarySceneFocusOwnerAutoScroll() {
-        FxKit.onReady(() -> onSceneReady(FxKit.getPrimaryStage(), SceneUtil::installSceneFocusOwnerAutoScroll));
+        onPrimarySceneReady(SceneUtil::installSceneFocusOwnerAutoScroll);
     }
 
     public static boolean isVirtualKeyboardShowing(Scene scene) {
