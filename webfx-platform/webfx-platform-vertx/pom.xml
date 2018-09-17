@@ -10,73 +10,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>webfx-platform-vertx</artifactId>
+    <packaging>pom</packaging>
 
-    <dependencies>
+    <modules>
 
-        <dependency>
-            <artifactId>webfx-platforms-java-resource</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
+        <module>webfx-platform-vertx-global</module>
+        <module>webfx-platform-vertx-appcontainer</module>
+        <module>webfx-platform-vertx-bus</module>
+        <module>webfx-platform-vertx-json</module>
+        <module>webfx-platform-vertx-scheduler</module>
+        <module>webfx-platform-vertx-queryupdate</module>
+        <module>webfx-platform-vertx-all</module>
 
-        <dependency>
-            <artifactId>webfx-platforms-java-shutdown</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-java-storage</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-query</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-update</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-querypush</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-mysql-postgresql-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-jdbc-client</artifactId>
-        </dependency>
-
-        <!-- Required by vertx-mysql-postgresql-client -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.15</version>
-            <scope>runtime</scope>
-        </dependency>
-
-    </dependencies>
+    </modules>
 
 </project>
