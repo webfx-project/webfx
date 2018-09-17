@@ -8,6 +8,7 @@ import mongooses.core.activities.sharedends.MongooseSharedEndsApplication;
 import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.activity.ActivityManager;
 import webfx.framework.activity.base.combinations.viewdomainapplication.ViewDomainApplicationContext;
+import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.FxKit;
 import webfx.fxkits.extra.util.ImageStore;
 import webfx.platforms.core.services.buscall.BusBasedClientApplicationModuleInitializerBase;
@@ -24,8 +25,14 @@ public abstract class MongooseSharedEndsApplicationModuleInitializer extends Bus
     }
 
     @Override
+    public int getInitLevel() {
+        return APPLICATION_INIT_LEVEL;
+    }
+
+    @Override
     public void initModule() {
         super.initModule();
+        SceneUtil.onPrimarySceneReady(scene -> scene.getStylesheets().addAll("mongooses/sharends/css/mongoose.css"));
         ActivityManager.startActivityAsApplicationService(mongooseApplication,
                 ViewDomainApplicationContext.createViewDomainApplicationContext(
                         DomainModelSnapshotLoader.getDataSourceModel(),
@@ -35,20 +42,10 @@ public abstract class MongooseSharedEndsApplicationModuleInitializer extends Bus
         MongooseSharedEndsApplication.setLoadingSpinnerVisibleConsumer(this::setLoadingSpinnerVisible);
     }
 
-    private static void installSceneHook() {
-        // Setting JavaFx scene hook to apply the mongoose css file
-        // FxKit.setSceneHook(scene -> scene.getStylesheets().addAll("mongooses/java/client/css/mongoose.css"));
-    }
-
-    boolean cssApplied;
     private ImageView spinner;
 
     private void setLoadingSpinnerVisible(boolean visible) {
         Scene scene = FxKit.getPrimaryStage().getScene();
-        if (scene != null && !cssApplied) {
-            scene.getStylesheets().addAll("mongooses/java/client/css/mongoose.css");
-            cssApplied = true;
-        }
         Node root = scene == null ? null : scene.getRoot();
         if (root instanceof Pane) {
             Pane rootPane = (Pane) root;
@@ -56,7 +53,7 @@ public abstract class MongooseSharedEndsApplicationModuleInitializer extends Bus
                 rootPane.getChildren().remove(spinner);
             } else if (!rootPane.getChildren().contains(spinner)) {
                 if (spinner == null)
-                    spinner = ImageStore.createImageView("mongooses/java/client/images/spinner.gif");
+                    spinner = ImageStore.createImageView("mongooses/sharedends/images/spinner.gif");
                 spinner.setManaged(false);
                 spinner.setX(rootPane.getWidth() / 2 - spinner.prefWidth(-1) / 2);
                 spinner.setY(rootPane.getHeight() / 2 - spinner.prefHeight(-1) / 2);

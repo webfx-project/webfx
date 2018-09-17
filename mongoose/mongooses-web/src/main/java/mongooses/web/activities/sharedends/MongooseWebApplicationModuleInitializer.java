@@ -15,6 +15,11 @@ public class MongooseWebApplicationModuleInitializer implements ApplicationModul
     }
 
     @Override
+    public int getInitLevel() {
+        return RESOURCE_BUNDLE_INIT_LEVEL;
+    }
+
+    @Override
     public void initModule() {
         ((GwtResourceServiceProviderImpl) ResourceService.getProvider()).register(MongooseSharedEndsWebBundle.B);
     }

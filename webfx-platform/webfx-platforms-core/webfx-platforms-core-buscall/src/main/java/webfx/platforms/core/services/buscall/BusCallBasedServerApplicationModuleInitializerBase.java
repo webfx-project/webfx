@@ -9,6 +9,11 @@ import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializ
 public abstract class BusCallBasedServerApplicationModuleInitializerBase implements ApplicationModuleInitializer {
 
     @Override
+    public int getInitLevel() {
+        return BUS_START_INIT_LEVEL;
+    }
+
+    @Override
     public void initModule() {
         startListeningBusCalls();
     }

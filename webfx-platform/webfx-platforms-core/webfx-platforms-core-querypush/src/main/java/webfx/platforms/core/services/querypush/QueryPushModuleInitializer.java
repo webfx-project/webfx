@@ -13,6 +13,11 @@ public class QueryPushModuleInitializer implements ApplicationModuleInitializer 
     }
 
     @Override
+    public int getInitLevel() {
+        return JSON_CODEC_INIT_LEVEL;
+    }
+
+    @Override
     public void initModule() {
         // Registering all required json codecs (especially for network bus calls)
         QueryPushService.registerJsonCodecsAndBusCalls();

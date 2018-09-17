@@ -4,4 +4,6 @@
 
   <source path="mongooses/sharedends"/>
 
+  <public path="" includes="mongooses/sharedends/"/>
+
 </module>
