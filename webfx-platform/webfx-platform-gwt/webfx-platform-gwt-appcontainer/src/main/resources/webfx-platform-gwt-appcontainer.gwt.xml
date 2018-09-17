@@ -1,0 +1,9 @@
+<module rename-to='webfx_platform_gwt_appcontainer'>
+
+    <inherits name="webfx-platforms-core-appcontainer"/>
+    <inherits name="com.google.gwt.user.User"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platform/gwt/services/appcontainer"/>
+
+</module>

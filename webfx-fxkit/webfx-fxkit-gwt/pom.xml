@@ -45,7 +45,7 @@
 
         <!-- TODO: remove this dependency (using only ResourceService in HtmlImageViewPeer ) -->
         <dependency>
-            <artifactId>webfx-platform-gwt</artifactId>
+            <artifactId>webfx-platforms-core-resource</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

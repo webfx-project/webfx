@@ -5,12 +5,8 @@
     <inherits name="com.googlecode.gwt.charts.Charts" />
 
     <!-- Inherit the WebFx modules  -->
-    <inherits name="webfx-platform-gwt"/>
+    <inherits name="webfx-platforms-core-resource"/>
 
-    <inherits name="webfx-fxkits-core"/>
-
-    <inherits name="webfx-fxkits-emul-javafxbase"/>
-    <inherits name="webfx-fxkits-emul-javafxgraphics"/>
     <inherits name="webfx-fxkits-emul-javafxcontrols"/>
 
     <!-- Specify the paths for translatable code -->

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Bruno Salmon
@@ -50,7 +52,7 @@ public final class SingleServiceLoader {
                 String message = "Cannot find META-INF/services/" + serviceClass.getName() + " on classpath";
                 if (policy == NotFoundPolicy.THROW_EXCEPTION)
                     throw new IllegalStateException(message);
-                System.out.println(message);
+                Logger.getGlobal().log(Level.WARNING, message);
             }
         } else if (cacheable)
             cacheServiceInstance(serviceClass, serviceInstance);

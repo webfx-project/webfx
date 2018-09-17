@@ -1,0 +1,16 @@
+<module rename-to='webfx_platform_gwt_all'>
+
+    <inherits name="webfx-platforms-web-clientbus"/>
+    <inherits name="webfx-platform-gwt-appcontainer"/>
+    <inherits name="webfx-platform-gwt-json"/>
+    <inherits name="webfx-platform-gwt-log"/>
+    <inherits name="webfx-platform-gwt-resource"/>
+    <inherits name="webfx-platform-gwt-shutdown"/>
+    <inherits name="webfx-platform-gwt-storage"/>
+    <inherits name="webfx-platform-gwt-super"/>
+    <inherits name="webfx-platform-gwt-uischeduler"/>
+    <inherits name="webfx-platform-gwt-websocket"/>
+    <inherits name="webfx-platform-gwt-windowhistory"/>
+    <inherits name="webfx-platform-gwt-windowlocation"/>
+
+</module>

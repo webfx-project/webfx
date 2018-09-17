@@ -1,0 +1,9 @@
+<module rename-to='webfx_platform_gwt_storage'>
+
+    <inherits name="webfx-platforms-core-storage"/>
+    <inherits name="com.google.gwt.user.User"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platform/gwt/services/storage"/>
+
+</module>

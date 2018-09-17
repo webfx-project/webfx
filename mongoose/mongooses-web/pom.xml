@@ -21,7 +21,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt</artifactId>
+            <artifactId>webfx-platform-gwt-all</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <scope>provided</scope>
