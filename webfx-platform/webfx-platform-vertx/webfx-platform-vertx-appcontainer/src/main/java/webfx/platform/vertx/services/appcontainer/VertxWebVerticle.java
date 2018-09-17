@@ -19,7 +19,7 @@ import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 final class VertxWebVerticle extends AbstractVerticle {
 
     @Override
-    public void start() throws Exception {
+    public void start() {
         createHttpServer(9090, null); // for http
         createHttpServer(9191, new PemKeyCertOptions().setCertPath("fullchain.pem").setKeyPath("privkey.pem")); // Let's encrypt certificate for https
     }
