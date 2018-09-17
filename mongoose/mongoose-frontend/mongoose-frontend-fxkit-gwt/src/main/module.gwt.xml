@@ -27,4 +27,6 @@
     <!-- Specify the app entry point class.                         -->
     <entry-point class="webfx.platform.gwt.services.appcontainer.GwtApplicationContainerProvider"/>
 
+    <super-source path="super"/>
+
 </module>

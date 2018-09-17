@@ -11,5 +11,4 @@
 
     <!-- Specify the paths for translatable code -->
     <source path="webfx/fxkit/gwt"/>
-    <super-source path="super"/>
 </module>
