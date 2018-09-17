@@ -5,7 +5,7 @@
   <inherits name="mongooses-core"/>
   <inherits name="webfx-framework"/>
   <inherits name="webfx-fxkit-gwt"/>
-  <entry-point class="webfx.platform.gwt.services.appcontainer.GwtApplicationContainerStarter"/>
+  <entry-point class="webfx.platform.gwt.services.appcontainer.GwtApplicationContainerProvider"/>
   <source path="client"/>
   <source path="shared"/>
   <super-source path="super"/>

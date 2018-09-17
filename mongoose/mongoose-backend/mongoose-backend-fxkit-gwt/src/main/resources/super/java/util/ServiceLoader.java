@@ -13,8 +13,4 @@ public abstract class ServiceLoader<S> implements Iterable<S> {
     public static <S> ServiceLoader<S> load(Class<S> serviceClass) {
         return new GwtMongooseBackendServiceLoader().load(serviceClass);
     }
-
-    static {
-        new MongooseWebApplicationModuleInitializer().initModule();
-    }
 }

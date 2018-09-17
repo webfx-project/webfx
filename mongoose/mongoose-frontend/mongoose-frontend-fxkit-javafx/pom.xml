@@ -13,6 +13,14 @@
 
     <dependencies>
 
+        <!-- The dependencies order matters for module initialization sequence -->
+
+        <dependency>
+            <artifactId>webfx-fxkit-javafx</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
         <dependency>
             <artifactId>mongooses-frontend</artifactId>
             <groupId>${mongoose.groupId}</groupId>
@@ -31,18 +39,12 @@
             <version>${webfx.version}</version>
         </dependency>
 
-        <dependency>
-            <artifactId>webfx-fxkit-javafx</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
     </dependencies>
 
     <!-- Making the jar file executable with its associated lib directory -->
 
     <properties>
-        <plugins.param.jre.mainClass>webfx.platforms.java.services.appcontainer.JavaApplicationContainerStarter</plugins.param.jre.mainClass>
+        <plugins.param.jre.mainClass>webfx.platforms.core.services.appcontainer.ApplicationContainer</plugins.param.jre.mainClass>
         <!-- disabling classes-dependencies unpack to avoid including them again in the jar -->
         <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
     </properties>
