@@ -13,7 +13,7 @@ public interface Screen {
     Rectangle2D getVisualBounds();
 
     static Screen getPrimary() {
-        return FxKit.getPrimaryScreen();
+        return FxKit.getProvider().getPrimaryScreen();
     }
 
     static Screen from(Rectangle2D bounds) {

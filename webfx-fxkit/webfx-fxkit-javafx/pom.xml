@@ -26,9 +26,16 @@
         </dependency>
 
         <!-- SVG support for JavaFx -->
+
+        <dependency> <!-- This module is actually not used by webfx-fxkit-javafx but it is listed here (above javafxsvg) because javafxsvg uses an older version of javacup (ie < 11b) that may interfere with other modules (such as webfx-platforms-xxx or webfx-framework-xxx modules) that requires javacup 11b API -->
+            <artifactId>webfx-lib-javacupruntime</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
         <dependency>
-            <groupId>de.codecentric.centerdevice</groupId>
             <artifactId>javafxsvg</artifactId>
+            <groupId>de.codecentric.centerdevice</groupId>
         </dependency>
 
     </dependencies>

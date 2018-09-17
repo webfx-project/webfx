@@ -15,7 +15,11 @@
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
+    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
+    <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="library" name="Maven: de.codecentric.centerdevice:javafxsvg:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlgraphics:batik-transcoder:1.8" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlgraphics:batik-anim:1.8" level="project" />

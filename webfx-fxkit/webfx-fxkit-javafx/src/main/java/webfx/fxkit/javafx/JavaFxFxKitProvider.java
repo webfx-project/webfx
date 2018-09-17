@@ -1,18 +1,17 @@
 package webfx.fxkit.javafx;
 
+import com.sun.javafx.application.ParametersImpl;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import webfx.fxkits.core.FxKit;
 import webfx.fxkits.core.spi.FxKitProvider;
 import webfx.fxkits.core.spi.peer.ScenePeer;
 import webfx.fxkits.core.spi.peer.StagePeer;
 import webfx.fxkits.core.spi.peer.WindowPeer;
-import webfx.platforms.core.util.function.Consumer;
+import webfx.platforms.core.util.function.Factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,25 +21,10 @@ import java.util.List;
  */
 public class JavaFxFxKitProvider extends FxKitProvider {
 
-    private static Consumer<Scene> sceneHook;
     private static List<Runnable> readyRunnables = new ArrayList<>();
-    private static Stage startingStage;
-
-    public static void registerStartingStage(Stage startingStage) {
-        JavaFxFxKitProvider.startingStage = startingStage;
-    }
+    private static Factory<Application> applicationFactory;
 
     public JavaFxFxKitProvider() {
-        super(startingStage);
-        if (startingStage != null) {
-            getPrimaryStage();
-            onJavaFxPlatformReady();
-        } else {
-            new Thread(() -> {
-                Application.launch(FxApplication.class, "JavaFxFxKitProvider-Launcher");
-                System.exit(0);
-            }).start();
-        }
     }
 
     @Override
@@ -63,7 +47,16 @@ public class JavaFxFxKitProvider extends FxKitProvider {
         return "JavaFx";
     }
 
-    private static void onJavaFxPlatformReady() {
+    @Override
+    public void launchApplication(Factory<Application> applicationFactory, String... args) {
+        JavaFxFxKitProvider.applicationFactory = applicationFactory;
+        new Thread(() -> {
+            Application.launch(FxKitWrapperApplication.class, args);
+            System.exit(0);
+        }).start();
+    }
+
+    private static void onJavaFxToolkitReady() {
         // Activating SVG support
         SvgImageLoaderFactory.install();
         executeReadyRunnables();
@@ -96,48 +89,31 @@ public class JavaFxFxKitProvider extends FxKitProvider {
         }
     }
 
-    public static void setSceneHook(Consumer<Scene> sceneHook) {
-        JavaFxFxKitProvider.sceneHook = sceneHook;
-        ((JavaFxFxKitProvider) FxKit.getProvider()).applySceneHookToPrimaryStage();
-    }
-
-    private void applySceneHookToPrimaryStage() {
-        if (sceneChangeListener != null)
-            sceneChangeListener.changed(null, null, getPrimaryStage().getScene());
-    }
-
-    public static Consumer<Scene> getSceneHook() {
-        return sceneHook;
-    }
-
     @Override
     public Screen getPrimaryScreen() {
         return Screen.getPrimary();
     }
 
-    private ChangeListener<Scene> sceneChangeListener;
+    public static class FxKitWrapperApplication extends Application {
 
-    @Override
-    public Stage getPrimaryStage() {
-        Stage primaryStage = super.getPrimaryStage();
-        if (sceneChangeListener == null) {
-            primaryStage.sceneProperty().addListener(sceneChangeListener = (observable, oldValue, newValue) -> {
-                if (newValue != null) {
-                    Consumer<Scene> sceneHook = getSceneHook();
-                    if (sceneHook != null)
-                        sceneHook.accept(newValue);
-                }
-            });
-            applySceneHookToPrimaryStage();
-        }
-        return primaryStage;
-    }
-
-    public static class FxApplication extends Application {
+        Application application;
 
         @Override
-        public void start(Stage primaryStage) {
-            onJavaFxPlatformReady();
+        public void init() throws Exception {
+            if (applicationFactory != null)
+                application = applicationFactory.create();
+            if (application != null) {
+                ParametersImpl.registerParameters(application, getParameters());
+                application.init();
+            }
         }
+
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            onJavaFxToolkitReady();
+            if (application != null)
+                application.start(primaryStage);
+        }
+
     }
 }
