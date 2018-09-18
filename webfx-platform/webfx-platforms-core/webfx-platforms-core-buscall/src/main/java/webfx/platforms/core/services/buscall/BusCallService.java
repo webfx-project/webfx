@@ -5,6 +5,7 @@ import webfx.platforms.core.services.bus.Message;
 import webfx.platforms.core.services.bus.Registration;
 import webfx.platforms.core.services.bus.ThreadLocalBusContext;
 import webfx.platforms.core.services.bus.BusService;
+import webfx.platforms.core.services.buscall.spi.BusCallEndpoint;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.util.async.AsyncFunction;
@@ -231,4 +232,9 @@ public class BusCallService {
                 (ignoredJavaArgument , callerMessage) -> sendJavaReply(callable.call(), callerMessage)
         );
     }
+
+    public static Registration registerBusCallEndpoint(BusCallEndpoint endpoint) {
+        return registerJavaAsyncFunctionAsCallableService(endpoint.getAddress(), endpoint.toAsyncFunction());
+    }
+
 }

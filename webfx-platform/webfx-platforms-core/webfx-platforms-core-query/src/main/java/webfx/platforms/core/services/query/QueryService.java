@@ -1,6 +1,5 @@
 package webfx.platforms.core.services.query;
 
-import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.query.spi.QueryServiceProvider;
 import webfx.platforms.core.services.query.spi.impl.LocalOrRemoteQueryServiceProviderImpl;
 import webfx.platforms.core.util.async.Batch;
@@ -17,13 +16,6 @@ public class QueryService {
 
     static {
         SingleServiceLoader.registerDefaultServiceFactory(QueryServiceProvider.class, LocalOrRemoteQueryServiceProviderImpl::new);
-        // registerJsonCodecsAndBusCalls() body:
-        BusCallService.registerJavaAsyncFunctionAsCallableService(QUERY_SERVICE_ADDRESS, QueryService::executeQuery);
-        BusCallService.registerJavaAsyncFunctionAsCallableService(QUERY_BATCH_SERVICE_ADDRESS, QueryService::executeQueryBatch);
-    }
-
-    public static void registerJsonCodecsAndBusCalls() {
-        // body actually moved to the static constructor
     }
 
     public static QueryServiceProvider getProvider() {

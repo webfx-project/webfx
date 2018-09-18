@@ -1,6 +1,5 @@
 package webfx.platforms.core.services.update;
 
-import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
 import webfx.platforms.core.services.update.spi.impl.LocalOrRemoteUpdateServiceProviderImpl;
 import webfx.platforms.core.util.async.Batch;
@@ -17,13 +16,6 @@ public class UpdateService {
 
     static {
         SingleServiceLoader.registerDefaultServiceFactory(UpdateServiceProvider.class, LocalOrRemoteUpdateServiceProviderImpl::new);
-        // registerJsonCodecsAndBusCalls() body:
-        BusCallService.registerJavaAsyncFunctionAsCallableService(UPDATE_SERVICE_ADDRESS, UpdateService::executeUpdate);
-        BusCallService.registerJavaAsyncFunctionAsCallableService(UPDATE_BATCH_SERVICE_ADDRESS, UpdateService::executeUpdateBatch);
-    }
-
-    public static void registerJsonCodecsAndBusCalls() {
-        // Body actually moved into the static constructor
     }
 
     public static UpdateServiceProvider getProvider() {
