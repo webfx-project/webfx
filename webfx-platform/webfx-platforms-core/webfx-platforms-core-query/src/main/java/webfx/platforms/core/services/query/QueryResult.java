@@ -162,68 +162,70 @@ public class QueryResult {
      *                    Json Codec                    *
      * *************************************************/
 
-    public final static String CODEC_ID = "QueryResult";
-    private final static String COLUMN_NAMES_KEY = "columnNames";
-    private final static String COLUMN_COUNT_KEY = "columnCount";
-    private final static String VALUES_KEY = "values";
-    private final static String COMPRESSED_VALUES_KEY = "cvalues";
-    private final static String VERSION_KEY = "version";
-
     public static boolean COMPRESSION = true;
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<QueryResult>(QueryResult.class, CODEC_ID) {
+    public static class Codec extends AbstractJsonCodec<QueryResult> {
 
-            @Override
-            public void encodeToJson(QueryResult rs, WritableJsonObject json) {
-                try {
-                    int columnCount = rs.getColumnCount();
-                    // Column names serialization
-                    WritableJsonArray namesArray = json.createJsonArray();
-                    String[] columnNames = rs.getColumnNames();
-                    if (columnNames != null) {
-                        for (String name : columnNames)
-                            namesArray.push(name);
-                        json.set(COLUMN_NAMES_KEY, namesArray);
-                        columnCount = namesArray.size();
-                    }
-                    json.set(COLUMN_COUNT_KEY, columnCount);
-                    // values packing and serialization
-                    if (COMPRESSION)
-                        json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(rs.values)));
-                    else
-                        json.set(VALUES_KEY, Json.fromJavaArray(rs.values));
-                    AbstractJsonCodec.encodeKey(VERSION_KEY, rs.getVersionNumber(), json);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        private final static String CODEC_ID = "QueryResult";
+        private final static String COLUMN_NAMES_KEY = "columnNames";
+        private final static String COLUMN_COUNT_KEY = "columnCount";
+        private final static String VALUES_KEY = "values";
+        private final static String COMPRESSED_VALUES_KEY = "cvalues";
+        private final static String VERSION_KEY = "version";
 
-            @Override
-            public QueryResult decodeFromJson(JsonObject json) {
-                //Logger.log("Decoding json result set: " + json);
-                Integer columnCount = json.getInteger(COLUMN_COUNT_KEY);
-                // Column names deserialization
-                String[] names = null;
-                JsonArray namesArray = json.getArray(COLUMN_NAMES_KEY);
-                if (namesArray != null) {
+        public Codec() {
+            super(QueryResult.class, CODEC_ID);
+        }
+
+        @Override
+        public void encodeToJson(QueryResult rs, WritableJsonObject json) {
+            try {
+                int columnCount = rs.getColumnCount();
+                // Column names serialization
+                WritableJsonArray namesArray = json.createJsonArray();
+                String[] columnNames = rs.getColumnNames();
+                if (columnNames != null) {
+                    for (String name : columnNames)
+                        namesArray.push(name);
+                    json.set(COLUMN_NAMES_KEY, namesArray);
                     columnCount = namesArray.size();
-                    names = new String[columnCount];
-                    for (int i = 0; i < columnCount; i++)
-                        names[i] = namesArray.getString(i);
                 }
-                // Values deserialization
-                Object[] inlineValues;
-                JsonArray valuesArray = json.getArray(VALUES_KEY);
-                if (valuesArray != null)
-                    inlineValues = Json.toJavaArray(valuesArray);
+                json.set(COLUMN_COUNT_KEY, columnCount);
+                // values packing and serialization
+                if (COMPRESSION)
+                    json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(rs.values)));
                 else
-                    inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray(json.getArray(COMPRESSED_VALUES_KEY)));
-                // returning the query result with its version number (if provided)
-                QueryResult rs = new QueryResult(columnCount, inlineValues, names);
-                rs.setVersionNumber(json.getInteger(VERSION_KEY, 0));
-                return rs;
+                    json.set(VALUES_KEY, Json.fromJavaArray(rs.values));
+                AbstractJsonCodec.encodeKey(VERSION_KEY, rs.getVersionNumber(), json);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        };
-    }
+        }
+
+        @Override
+        public QueryResult decodeFromJson(JsonObject json) {
+            //Logger.log("Decoding json result set: " + json);
+            Integer columnCount = json.getInteger(COLUMN_COUNT_KEY);
+            // Column names deserialization
+            String[] names = null;
+            JsonArray namesArray = json.getArray(COLUMN_NAMES_KEY);
+            if (namesArray != null) {
+                columnCount = namesArray.size();
+                names = new String[columnCount];
+                for (int i = 0; i < columnCount; i++)
+                    names[i] = namesArray.getString(i);
+            }
+            // Values deserialization
+            Object[] inlineValues;
+            JsonArray valuesArray = json.getArray(VALUES_KEY);
+            if (valuesArray != null)
+                inlineValues = Json.toJavaArray(valuesArray);
+            else
+                inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray(json.getArray(COMPRESSED_VALUES_KEY)));
+            // returning the query result with its version number (if provided)
+            QueryResult rs = new QueryResult(columnCount, inlineValues, names);
+            rs.setVersionNumber(json.getInteger(VERSION_KEY, 0));
+            return rs;
+        }
+    };
 }

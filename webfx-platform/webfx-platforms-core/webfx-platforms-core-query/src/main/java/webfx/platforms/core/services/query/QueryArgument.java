@@ -1,8 +1,8 @@
 package webfx.platforms.core.services.query;
 
 import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
 import webfx.platforms.core.services.json.WritableJsonObject;
+import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.util.Arrays;
 
@@ -71,31 +71,32 @@ public class QueryArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static final String CODEC_ID = "QueryArgument";
-    private static final String QUERY_STRING_KEY = "queryString";
-    private static final String PARAMETERS_KEY = "parameters";
-    private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
+    public static class Codec extends AbstractJsonCodec<QueryArgument> {
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<QueryArgument>(QueryArgument.class, CODEC_ID) {
+        private static final String CODEC_ID = "QueryArgument";
+        private static final String QUERY_STRING_KEY = "queryString";
+        private static final String PARAMETERS_KEY = "parameters";
+        private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
 
-            @Override
-            public void encodeToJson(QueryArgument arg, WritableJsonObject json) {
-                json.set(QUERY_STRING_KEY, arg.getQueryString());
-                if (!Arrays.isEmpty(arg.getParameters()))
-                    json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
-                json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
-            }
+        public Codec() {
+            super(QueryArgument.class, CODEC_ID);
+        }
 
-            @Override
-            public QueryArgument decodeFromJson(JsonObject json) {
-                return new QueryArgument(
-                        json.getString(QUERY_STRING_KEY),
-                        JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
-                        json.get(DATA_SOURCE_ID_KEY)
-                );
-            }
-        };
+        @Override
+        public void encodeToJson(QueryArgument arg, WritableJsonObject json) {
+            json.set(QUERY_STRING_KEY, arg.getQueryString());
+            if (!Arrays.isEmpty(arg.getParameters()))
+                json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
+            json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
+        }
+
+        @Override
+        public QueryArgument decodeFromJson(JsonObject json) {
+            return new QueryArgument(
+                    json.getString(QUERY_STRING_KEY),
+                    JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
+                    json.get(DATA_SOURCE_ID_KEY)
+            );
+        }
     }
-
 }

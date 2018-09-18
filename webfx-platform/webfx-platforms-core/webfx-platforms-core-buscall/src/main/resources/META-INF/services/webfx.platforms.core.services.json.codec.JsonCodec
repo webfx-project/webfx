@@ -1,0 +1,3 @@
+webfx.platforms.core.services.buscall.BusCallArgument$Codec
+webfx.platforms.core.services.buscall.BusCallResult$Codec
+webfx.platforms.core.services.buscall.SerializableAsyncResult$Codec

@@ -56,34 +56,35 @@ public class UpdateArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static final String CODEC_ID = "UpdateArg";
-    private static final String UPDATE_KEY = "update";
-    private static final String PARAMETERS_KEY = "params";
-    private static final String RETURN_GENERATED_KEYS_KEY = "genKeys";
-    private static final String DATA_SOURCE_ID_KEY = "dsId";
+    public static class Codec extends AbstractJsonCodec<UpdateArgument> {
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<UpdateArgument>(UpdateArgument.class, CODEC_ID) {
+        private static final String CODEC_ID = "UpdateArg";
+        private static final String UPDATE_KEY = "update";
+        private static final String PARAMETERS_KEY = "params";
+        private static final String RETURN_GENERATED_KEYS_KEY = "genKeys";
+        private static final String DATA_SOURCE_ID_KEY = "dsId";
 
-            @Override
-            public void encodeToJson(UpdateArgument arg, WritableJsonObject json) {
-                json.set(UPDATE_KEY, arg.getUpdateString());
-                if (!Arrays.isEmpty(arg.getParameters()))
-                    json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
-                json.set(RETURN_GENERATED_KEYS_KEY, arg.returnGeneratedKeys());
-                json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
-            }
+        public Codec() {
+            super(UpdateArgument.class, CODEC_ID);
+        }
 
-            @Override
-            public UpdateArgument decodeFromJson(JsonObject json) {
-                return new UpdateArgument(
-                        json.getString(UPDATE_KEY),
-                        JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
-                        json.getBoolean(RETURN_GENERATED_KEYS_KEY),
-                        json.get(DATA_SOURCE_ID_KEY)
-                );
-            }
-        };
+        @Override
+        public void encodeToJson(UpdateArgument arg, WritableJsonObject json) {
+            json.set(UPDATE_KEY, arg.getUpdateString());
+            if (!Arrays.isEmpty(arg.getParameters()))
+                json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
+            json.set(RETURN_GENERATED_KEYS_KEY, arg.returnGeneratedKeys());
+            json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
+        }
+
+        @Override
+        public UpdateArgument decodeFromJson(JsonObject json) {
+            return new UpdateArgument(
+                    json.getString(UPDATE_KEY),
+                    JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
+                    json.getBoolean(RETURN_GENERATED_KEYS_KEY),
+                    json.get(DATA_SOURCE_ID_KEY)
+            );
+        }
     }
-
 }

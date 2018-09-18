@@ -1,11 +1,10 @@
 package webfx.platforms.core.services.querypush;
 
+import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.bus.Registration;
 import webfx.platforms.core.services.buscall.BusCallService;
-import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.push.client.PushClientService;
 import webfx.platforms.core.services.push.server.PushServerService;
-import webfx.platforms.core.services.querypush.diff.impl.QueryResultTranslation;
 import webfx.platforms.core.services.querypush.spi.QueryPushServiceProvider;
 import webfx.platforms.core.services.querypush.spi.remote.RemoteQueryPushServiceProviderImpl;
 import webfx.platforms.core.util.async.Future;
@@ -22,9 +21,6 @@ public class QueryPushService {
     static {
         SingleServiceLoader.registerDefaultServiceFactory(QueryPushServiceProvider.class, RemoteQueryPushServiceProviderImpl::new);
         // registerJsonCodecsAndBusCalls() body:
-        QueryPushArgument.registerJsonCodec();
-        QueryPushResult.registerJsonCodec();
-        QueryResultTranslation.registerJsonCodec();
         BusCallService.registerJavaAsyncFunctionAsCallableService(QUERY_PUSH_SERVICE_ADDRESS, QueryPushService::executeQueryPush);
     }
 

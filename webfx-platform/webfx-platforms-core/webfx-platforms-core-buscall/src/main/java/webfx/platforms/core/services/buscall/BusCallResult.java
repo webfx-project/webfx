@@ -8,7 +8,7 @@ import webfx.platforms.core.services.json.codec.JsonCodecManager;
 /**
  * @author Bruno Salmon
  */
-class BusCallResult<T> {
+public class BusCallResult<T> {
 
     private final int callNumber;
     private T targetResult;
@@ -73,27 +73,29 @@ class BusCallResult<T> {
      *                    Json Codec                    *
      * *************************************************/
 
-    private static String CODEC_ID = "callRes";
-    private static String CALL_NUMBER_KEY = "seq";
-    private static String TARGET_RESULT_KEY = "res";
+    public static class Codec extends AbstractJsonCodec<BusCallResult> {
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<BusCallResult>(BusCallResult.class, CODEC_ID) {
+        private static String CODEC_ID = "callRes";
+        private static String CALL_NUMBER_KEY = "seq";
+        private static String TARGET_RESULT_KEY = "res";
 
-            @Override
-            public void encodeToJson(BusCallResult result, WritableJsonObject json) {
-                json.set(CALL_NUMBER_KEY, result.getCallNumber())
+        public Codec() {
+            super(BusCallResult.class, CODEC_ID);
+        }
+
+        @Override
+        public void encodeToJson(BusCallResult result, WritableJsonObject json) {
+            json.set(CALL_NUMBER_KEY, result.getCallNumber())
                     .set(TARGET_RESULT_KEY, result.getSerializedTargetResult());
-            }
+        }
 
-            @Override
-            public BusCallResult decodeFromJson(JsonObject json) {
-                //Platform.log("Decoding " + json.toJsonString());
-                return new BusCallResult(
-                        json.getInteger(CALL_NUMBER_KEY),
-                        json.get(TARGET_RESULT_KEY)
-                );
-            }
-        };
+        @Override
+        public BusCallResult decodeFromJson(JsonObject json) {
+            //Platform.log("Decoding " + json.toJsonString());
+            return new BusCallResult(
+                    json.getInteger(CALL_NUMBER_KEY),
+                    json.get(TARGET_RESULT_KEY)
+            );
+        }
     }
 }

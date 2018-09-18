@@ -99,7 +99,6 @@
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-clientbus/webfx-platforms-web-clientbus.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-clientbus/webfx-platforms-web-clientbus.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-windowhistory/webfx-platforms-web-windowhistory.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platforms-web/webfx-platforms-web-windowhistory/webfx-platforms-web-windowhistory.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-root.iml" filepath="$PROJECT_DIR$/webfx-root.iml" />
-      <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platform-gwt/webfx-platform-gwt-log/webfxplatformgwtlog.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platform-gwt/webfx-platform-gwt-log/webfxplatformgwtlog.iml" />
     </modules>
   </component>
 </project>

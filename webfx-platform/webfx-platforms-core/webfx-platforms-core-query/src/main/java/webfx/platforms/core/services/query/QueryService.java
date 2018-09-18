@@ -18,8 +18,6 @@ public class QueryService {
     static {
         SingleServiceLoader.registerDefaultServiceFactory(QueryServiceProvider.class, LocalOrRemoteQueryServiceProviderImpl::new);
         // registerJsonCodecsAndBusCalls() body:
-        QueryArgument.registerJsonCodec();
-        QueryResult.registerJsonCodec();
         BusCallService.registerJavaAsyncFunctionAsCallableService(QUERY_SERVICE_ADDRESS, QueryService::executeQuery);
         BusCallService.registerJavaAsyncFunctionAsCallableService(QUERY_BATCH_SERVICE_ADDRESS, QueryService::executeQueryBatch);
     }

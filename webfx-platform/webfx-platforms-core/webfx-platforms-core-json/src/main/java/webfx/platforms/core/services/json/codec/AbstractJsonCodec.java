@@ -8,11 +8,17 @@ import webfx.platforms.core.services.json.WritableJsonObject;
 
 public abstract class AbstractJsonCodec<T> implements JsonCodec<T> {
 
+    private final Class<? extends T> javaClass;
     private final String codecId;
 
     public AbstractJsonCodec(Class<? extends T> javaClass, String codecId) {
+        this.javaClass = javaClass;
         this.codecId = codecId;
-        JsonCodecManager.registerJsonCodec(javaClass, this);
+    }
+
+    @Override
+    public Class<? extends T> getJavaClass() {
+        return javaClass;
     }
 
     @Override

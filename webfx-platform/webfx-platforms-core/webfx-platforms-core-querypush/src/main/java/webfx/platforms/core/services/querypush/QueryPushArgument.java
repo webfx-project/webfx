@@ -108,43 +108,45 @@ public class QueryPushArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static final String CODEC_ID = "QueryPushArgument";
-    private static final String QUERY_STREAM_ID_KEY = "queryStreamId";
-    private static final String CLIENT_PUSH_ID_KEY = "pushClientId";
-    private static final String QUERY_ARGUMENT_KEY = "queryArgument";
-    private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
-    private static final String ACTIVE_KEY = "active";
-    private static final String RESEND_KEY = "resend";
-    private static final String CLOSE_KEY = "close";
+    public static class Codec extends AbstractJsonCodec<QueryPushArgument> {
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<QueryPushArgument>(QueryPushArgument.class, CODEC_ID) {
+        private static final String CODEC_ID = "QueryPushArgument";
+        private static final String QUERY_STREAM_ID_KEY = "queryStreamId";
+        private static final String CLIENT_PUSH_ID_KEY = "pushClientId";
+        private static final String QUERY_ARGUMENT_KEY = "queryArgument";
+        private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
+        private static final String ACTIVE_KEY = "active";
+        private static final String RESEND_KEY = "resend";
+        private static final String CLOSE_KEY = "close";
 
-            @Override
-            public void encodeToJson(QueryPushArgument arg, WritableJsonObject json) {
-                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
-                AbstractJsonCodec.encodeKeyIfNotNull(CLIENT_PUSH_ID_KEY, arg.getPushClientId(), json);
-                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_ARGUMENT_KEY, arg.getQueryArgument(), json);
-                AbstractJsonCodec.encodeKey(DATA_SOURCE_ID_KEY, arg.getDataSourceId(), json);
-                AbstractJsonCodec.encodeKeyIfNotNull(ACTIVE_KEY, arg.getActive(), json);
-                AbstractJsonCodec.encodeKeyIfNotNull(RESEND_KEY, arg.getResend(), json);
-                AbstractJsonCodec.encodeKeyIfNotNull(CLOSE_KEY, arg.getClose(), json);
-            }
+        public Codec() {
+            super(QueryPushArgument.class, CODEC_ID);
+        }
 
-            @Override
-            public QueryPushArgument decodeFromJson(JsonObject json) {
-                return new QueryPushArgument(
-                        json.get(QUERY_STREAM_ID_KEY),
-                        json.get(CLIENT_PUSH_ID_KEY),
-                        JsonCodecManager.decodeFromJson(json.get(QUERY_ARGUMENT_KEY)),
-                        json.get(DATA_SOURCE_ID_KEY),
-                        json.getBoolean(ACTIVE_KEY),
-                        json.getBoolean(RESEND_KEY),
-                        json.getBoolean(CLOSE_KEY),
-                        null
-                );
-            }
-        };
+        @Override
+        public void encodeToJson(QueryPushArgument arg, WritableJsonObject json) {
+            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
+            AbstractJsonCodec.encodeKeyIfNotNull(CLIENT_PUSH_ID_KEY, arg.getPushClientId(), json);
+            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_ARGUMENT_KEY, arg.getQueryArgument(), json);
+            AbstractJsonCodec.encodeKey(DATA_SOURCE_ID_KEY, arg.getDataSourceId(), json);
+            AbstractJsonCodec.encodeKeyIfNotNull(ACTIVE_KEY, arg.getActive(), json);
+            AbstractJsonCodec.encodeKeyIfNotNull(RESEND_KEY, arg.getResend(), json);
+            AbstractJsonCodec.encodeKeyIfNotNull(CLOSE_KEY, arg.getClose(), json);
+        }
+
+        @Override
+        public QueryPushArgument decodeFromJson(JsonObject json) {
+            return new QueryPushArgument(
+                    json.get(QUERY_STREAM_ID_KEY),
+                    json.get(CLIENT_PUSH_ID_KEY),
+                    JsonCodecManager.decodeFromJson(json.get(QUERY_ARGUMENT_KEY)),
+                    json.get(DATA_SOURCE_ID_KEY),
+                    json.getBoolean(ACTIVE_KEY),
+                    json.getBoolean(RESEND_KEY),
+                    json.getBoolean(CLOSE_KEY),
+                    null
+            );
+        }
+
     }
-
 }

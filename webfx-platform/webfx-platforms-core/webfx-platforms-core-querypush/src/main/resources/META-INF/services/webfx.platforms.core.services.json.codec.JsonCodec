@@ -1,0 +1,3 @@
+webfx.platforms.core.services.querypush.QueryPushArgument$Codec
+webfx.platforms.core.services.querypush.QueryPushResult$Codec
+webfx.platforms.core.services.querypush.diff.impl.QueryResultTranslation$Codec

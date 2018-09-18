@@ -58,7 +58,7 @@ public class ServiceLoaderGenerator {
                 for (String providerClassName : providerClassNames) {
                     if (providerClassName != providerClassNames.get(0))
                         sb.append(", ");
-                    sb.append(providerClassName).append(providerClassName.equals("webfx.platform.gwt.services.json.GwtJsonObject") ? "::create" : "::new");
+                    sb.append(providerClassName.replace('$', '.')).append(providerClassName.equals("webfx.platform.gwt.services.json.GwtJsonObject") ? "::create" : "::new");
                 }
                 sb.append(");\n");
             }

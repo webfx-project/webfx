@@ -1,9 +1,9 @@
 package webfx.platforms.core.services.querypush.diff.impl;
 
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
+import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
+import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.query.QueryResultBuilder;
 import webfx.platforms.core.services.querypush.diff.QueryResultComparator;
@@ -76,40 +76,40 @@ public class QueryResultTranslation implements QueryResultDiff {
      *                    Json Codec                    *
      * *************************************************/
 
-    private static final String CODEC_ID = "QueryResultTranslation";
-    private static final String ROWS_BEFORE_KEY = "rowsBefore";
-    private static final String ROW_START_KEY = "rowStart";
-    private static final String ROW_END_KEY = "rowEnd";
-    private static final String ROWS_AFTER_KEY = "rowsAfter";
-    private static final String PREVIOUS_VERSION_KEY = "previousVersion";
-    private static final String FINAL_VERSION_KEY = "finalVersion";
+    public static class Codec extends AbstractJsonCodec<QueryResultTranslation> {
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<QueryResultTranslation>(QueryResultTranslation.class, CODEC_ID) {
+        private static final String CODEC_ID = "QueryResultTranslation";
+        private static final String ROWS_BEFORE_KEY = "rowsBefore";
+        private static final String ROW_START_KEY = "rowStart";
+        private static final String ROW_END_KEY = "rowEnd";
+        private static final String ROWS_AFTER_KEY = "rowsAfter";
+        private static final String PREVIOUS_VERSION_KEY = "previousVersion";
+        private static final String FINAL_VERSION_KEY = "finalVersion";
 
-            @Override
-            public void encodeToJson(QueryResultTranslation arg, WritableJsonObject json) {
-                AbstractJsonCodec.encodeKeyIfNotNull(ROWS_BEFORE_KEY, arg.getRowsBefore(), json);
-                AbstractJsonCodec.encodeKey(ROW_START_KEY, arg.getRowStart(), json);
-                AbstractJsonCodec.encodeKey(ROW_END_KEY, arg.getRowEnd(), json);
-                AbstractJsonCodec.encodeKeyIfNotNull(ROWS_AFTER_KEY, arg.getRowsAfter(), json);
-                AbstractJsonCodec.encodeKey(PREVIOUS_VERSION_KEY, arg.getPreviousQueryResultVersionNumber(), json);
-                AbstractJsonCodec.encodeKey(FINAL_VERSION_KEY, arg.getFinalQueryResultVersionNumber(), json);
-            }
+        public Codec() {
+            super(QueryResultTranslation.class, CODEC_ID);
+        }
 
-            @Override
-            public QueryResultTranslation decodeFromJson(JsonObject json) {
-                return new QueryResultTranslation(
-                        JsonCodecManager.decodeFromJson(json.get(ROWS_BEFORE_KEY)),
-                        json.getInteger(ROW_START_KEY),
-                        json.getInteger(ROW_END_KEY),
-                        JsonCodecManager.decodeFromJson(json.get(ROWS_AFTER_KEY)),
-                        json.getInteger(PREVIOUS_VERSION_KEY),
-                        json.getInteger(FINAL_VERSION_KEY)
-                );
-            }
-        };
+        @Override
+        public void encodeToJson(QueryResultTranslation arg, WritableJsonObject json) {
+            AbstractJsonCodec.encodeKeyIfNotNull(ROWS_BEFORE_KEY, arg.getRowsBefore(), json);
+            AbstractJsonCodec.encodeKey(ROW_START_KEY, arg.getRowStart(), json);
+            AbstractJsonCodec.encodeKey(ROW_END_KEY, arg.getRowEnd(), json);
+            AbstractJsonCodec.encodeKeyIfNotNull(ROWS_AFTER_KEY, arg.getRowsAfter(), json);
+            AbstractJsonCodec.encodeKey(PREVIOUS_VERSION_KEY, arg.getPreviousQueryResultVersionNumber(), json);
+            AbstractJsonCodec.encodeKey(FINAL_VERSION_KEY, arg.getFinalQueryResultVersionNumber(), json);
+        }
+
+        @Override
+        public QueryResultTranslation decodeFromJson(JsonObject json) {
+            return new QueryResultTranslation(
+                    JsonCodecManager.decodeFromJson(json.get(ROWS_BEFORE_KEY)),
+                    json.getInteger(ROW_START_KEY),
+                    json.getInteger(ROW_END_KEY),
+                    JsonCodecManager.decodeFromJson(json.get(ROWS_AFTER_KEY)),
+                    json.getInteger(PREVIOUS_VERSION_KEY),
+                    json.getInteger(FINAL_VERSION_KEY)
+            );
+        }
     }
-
-
 }

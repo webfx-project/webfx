@@ -231,23 +231,4 @@ public class BusCallService {
                 (ignoredJavaArgument , callerMessage) -> sendJavaReply(callable.call(), callerMessage)
         );
     }
-
-
-    /***********************************************
-     *          JsonCodec registration             *
-     * *********************************************/
-
-
-    static {
-        // registerJsonCodecs() body:
-        // Registering all required json codecs (especially for network bus calls)
-        BusCallArgument.registerJsonCodec();
-        BusCallResult.registerJsonCodec();
-        SerializableAsyncResult.registerJsonCodec();
-    }
-
-    public static void registerJsonCodecs() {
-        // Body actually moved into the static constructor
-    }
-
 }

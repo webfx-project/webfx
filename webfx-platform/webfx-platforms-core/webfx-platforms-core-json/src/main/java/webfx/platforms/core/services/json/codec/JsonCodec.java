@@ -11,6 +11,8 @@ public interface JsonCodec<T> {
 
     String getCodecId();
 
+    Class<? extends T> getJavaClass();
+
     void encodeToJson(T javaObject, WritableJsonObject json);
 
     T decodeFromJson(JsonObject json);

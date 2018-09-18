@@ -18,9 +18,6 @@ public class UpdateService {
     static {
         SingleServiceLoader.registerDefaultServiceFactory(UpdateServiceProvider.class, LocalOrRemoteUpdateServiceProviderImpl::new);
         // registerJsonCodecsAndBusCalls() body:
-        UpdateArgument.registerJsonCodec();
-        GeneratedKeyBatchIndex.registerJsonCodec();
-        UpdateResult.registerJsonCodec();
         BusCallService.registerJavaAsyncFunctionAsCallableService(UPDATE_SERVICE_ADDRESS, UpdateService::executeUpdate);
         BusCallService.registerJavaAsyncFunctionAsCallableService(UPDATE_BATCH_SERVICE_ADDRESS, UpdateService::executeUpdateBatch);
     }

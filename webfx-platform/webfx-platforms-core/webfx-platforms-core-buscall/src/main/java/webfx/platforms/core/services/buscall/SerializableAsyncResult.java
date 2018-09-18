@@ -9,22 +9,22 @@ import webfx.platforms.core.util.async.AsyncResult;
 /**
  * @author Bruno Salmon
  */
-class SerializableAsyncResult<T> implements AsyncResult<T> {
+public class SerializableAsyncResult<T> implements AsyncResult<T> {
 
     private final T result;
     private final Throwable cause;
 
-    public static <T> SerializableAsyncResult<T> getSerializableAsyncResult(AsyncResult<T> asyncResult) {
+    static <T> SerializableAsyncResult<T> getSerializableAsyncResult(AsyncResult<T> asyncResult) {
         if (asyncResult == null || asyncResult instanceof SerializableAsyncResult)
             return (SerializableAsyncResult<T>) asyncResult;
-        return new SerializableAsyncResult<T>(asyncResult);
+        return new SerializableAsyncResult<>(asyncResult);
     }
 
-    public SerializableAsyncResult(AsyncResult<T> asyncResult) {
+    private SerializableAsyncResult(AsyncResult<T> asyncResult) {
         this(asyncResult.result(), asyncResult.cause());
     }
 
-    public SerializableAsyncResult(T result, Throwable cause) {
+    private SerializableAsyncResult(T result, Throwable cause) {
         this.result = result;
         this.cause = cause;
     }
@@ -53,29 +53,31 @@ class SerializableAsyncResult<T> implements AsyncResult<T> {
      *                    Json Codec                    *
      * *************************************************/
 
-    private final static String CODEC_ID = "AsyncResult";
-    private final static String RESULT_KEY = "result";
-    private final static String ERROR_KEY = "error";
+    public static class Codec extends AbstractJsonCodec<SerializableAsyncResult> {
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<SerializableAsyncResult>(SerializableAsyncResult.class, CODEC_ID) {
+        private final static String CODEC_ID = "AsyncResult";
+        private final static String RESULT_KEY = "result";
+        private final static String ERROR_KEY = "error";
 
-            @Override
-            public void encodeToJson(SerializableAsyncResult result, WritableJsonObject json) {
-                if (result.cause() != null)
-                    json.set(ERROR_KEY, result.cause().getMessage());
-                if (result.result() != null)
-                    json.set(RESULT_KEY, JsonCodecManager.encodeToJson(result.result()));
-            }
+        public Codec() {
+            super(SerializableAsyncResult.class, CODEC_ID);
+        }
 
-            @Override
-            public SerializableAsyncResult decodeFromJson(JsonObject json) {
-                String errorMessage = json.getString(ERROR_KEY);
-                return new SerializableAsyncResult<>(
-                        JsonCodecManager.decodeFromJson(json.get(RESULT_KEY)),
-                        errorMessage == null ? null : new Exception(errorMessage)
-                );
-            }
-        };
+        @Override
+        public void encodeToJson(SerializableAsyncResult result, WritableJsonObject json) {
+            if (result.cause() != null)
+                json.set(ERROR_KEY, result.cause().getMessage());
+            if (result.result() != null)
+                json.set(RESULT_KEY, JsonCodecManager.encodeToJson(result.result()));
+        }
+
+        @Override
+        public SerializableAsyncResult decodeFromJson(JsonObject json) {
+            String errorMessage = json.getString(ERROR_KEY);
+            return new SerializableAsyncResult<>(
+                    JsonCodecManager.decodeFromJson(json.get(RESULT_KEY)),
+                    errorMessage == null ? null : new Exception(errorMessage)
+            );
+        }
     }
 }

@@ -13,14 +13,13 @@ import webfx.framework.expression.terms.function.InlineFunction;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.domainmodel.DomainModel;
 import webfx.framework.orm.domainmodel.loader.DomainModelLoader;
-import webfx.platforms.core.services.buscall.BusCallService;
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
-import webfx.platforms.core.services.json.JsonElement;
-import webfx.platforms.core.services.query.QueryResult;
-import webfx.platforms.core.services.resource.ResourceService;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
+import webfx.platforms.core.services.json.Json;
+import webfx.platforms.core.services.json.JsonElement;
+import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.query.QueryResult;
+import webfx.platforms.core.services.resource.ResourceService;
 import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.util.async.Future;
 
@@ -90,7 +89,6 @@ public class DomainModelSnapshotLoader {
             Future<String> text = ResourceService.getText("mongooses/core/domainmodel/DomainModelSnapshot.json");
             String jsonString = text.result(); // LZString.decompressFromBase64(text.result());
             JsonElement json = Json.parseObject(jsonString);
-            BusCallService.registerJsonCodecs(); // Ensuring all json codecs are registered before
             Batch<QueryResult> snapshotBatch = JsonCodecManager.decodeFromJson(json);
             DomainModel domainModel = new DomainModelLoader(1).generateDomainModel(snapshotBatch);
             // Registering functions

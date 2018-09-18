@@ -46,30 +46,31 @@ public class QueryPushResult {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static final String CODEC_ID = "QueryPushResult";
-    private static final String QUERY_STREAM_ID_KEY = "queryStreamId";
-    private static final String QUERY_RESULT_KEY = "queryResult";
-    private static final String QUERY_RESULT_DIFF_KEY = "queryResultDiff";
+    public static class Codec extends AbstractJsonCodec<QueryPushResult> {
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<QueryPushResult>(QueryPushResult.class, CODEC_ID) {
+        private static final String CODEC_ID = "QueryPushResult";
+        private static final String QUERY_STREAM_ID_KEY = "queryStreamId";
+        private static final String QUERY_RESULT_KEY = "queryResult";
+        private static final String QUERY_RESULT_DIFF_KEY = "queryResultDiff";
 
-            @Override
-            public void encodeToJson(QueryPushResult arg, WritableJsonObject json) {
-                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
-                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_RESULT_KEY, arg.getQueryResult(), json);
-                AbstractJsonCodec.encodeKeyIfNotNull(QUERY_RESULT_DIFF_KEY, arg.getQueryResultDiff(), json);
-            }
+        public Codec() {
+            super(QueryPushResult.class, CODEC_ID);
+        }
 
-            @Override
-            public QueryPushResult decodeFromJson(JsonObject json) {
-                return new QueryPushResult(
-                        json.get(QUERY_STREAM_ID_KEY),
-                        JsonCodecManager.decodeFromJson(json.get(QUERY_RESULT_KEY)),
-                        JsonCodecManager.decodeFromJson(json.get(QUERY_RESULT_DIFF_KEY))
-                );
-            }
-        };
+        @Override
+        public void encodeToJson(QueryPushResult arg, WritableJsonObject json) {
+            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
+            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_RESULT_KEY, arg.getQueryResult(), json);
+            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_RESULT_DIFF_KEY, arg.getQueryResultDiff(), json);
+        }
+
+        @Override
+        public QueryPushResult decodeFromJson(JsonObject json) {
+            return new QueryPushResult(
+                    json.get(QUERY_STREAM_ID_KEY),
+                    JsonCodecManager.decodeFromJson(json.get(QUERY_RESULT_KEY)),
+                    JsonCodecManager.decodeFromJson(json.get(QUERY_RESULT_DIFF_KEY))
+            );
+        }
     }
-
 }

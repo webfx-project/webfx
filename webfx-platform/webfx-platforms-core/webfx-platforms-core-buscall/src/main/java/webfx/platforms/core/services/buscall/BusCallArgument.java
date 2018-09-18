@@ -9,7 +9,7 @@ import webfx.platforms.core.services.json.codec.JsonCodecManager;
 /*
  * @author Bruno Salmon
  */
-class BusCallArgument {
+public class BusCallArgument {
 
     private static int SEQ = 0;
 
@@ -19,7 +19,7 @@ class BusCallArgument {
 
     private Object jsonEncodedTargetArgument; // can be a JsonObject or simply a scalar
 
-    public BusCallArgument(String targetAddress, Object targetArgument) {
+    BusCallArgument(String targetAddress, Object targetArgument) {
         this(targetAddress, targetArgument, ++SEQ);
     }
 
@@ -29,15 +29,15 @@ class BusCallArgument {
         this.callNumber = callNumber;
     }
 
-    public String getTargetAddress() {
+    String getTargetAddress() {
         return targetAddress;
     }
 
-    public Object getTargetArgument() {
+    Object getTargetArgument() {
         return targetArgument;
     }
 
-    public int getCallNumber() {
+    int getCallNumber() {
         return callNumber;
     }
 
@@ -51,30 +51,32 @@ class BusCallArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    private static String CODEC_ID = "call";
-    private static String CALL_NUMBER_KEY = "seq";
-    private static String TARGET_ADDRESS_KEY = "addr";
-    private static String TARGET_ARGUMENT_KEY = "arg";
+    public static class Codec extends AbstractJsonCodec<BusCallArgument> {
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<BusCallArgument>(BusCallArgument.class, CODEC_ID) {
+        private static String CODEC_ID = "call";
+        private static String CALL_NUMBER_KEY = "seq";
+        private static String TARGET_ADDRESS_KEY = "addr";
+        private static String TARGET_ARGUMENT_KEY = "arg";
 
-            @Override
-            public void encodeToJson(BusCallArgument call, WritableJsonObject json) {
-                json.set(CALL_NUMBER_KEY, call.callNumber)
+        public Codec() {
+            super(BusCallArgument.class, CODEC_ID);
+        }
+
+        @Override
+        public void encodeToJson(BusCallArgument call, WritableJsonObject json) {
+            json.set(CALL_NUMBER_KEY, call.callNumber)
                     .set(TARGET_ADDRESS_KEY, call.getTargetAddress())
                     .set(TARGET_ARGUMENT_KEY, call.getJsonEncodedTargetArgument());
-            }
+        }
 
-            @Override
-            public BusCallArgument decodeFromJson(JsonObject json) {
-                return new BusCallArgument(
-                        json.getString(TARGET_ADDRESS_KEY),
-                        JsonCodecManager.decodeFromJson(json.get(TARGET_ARGUMENT_KEY)),
-                        json.getInteger(CALL_NUMBER_KEY)
-                );
-            }
-        };
+        @Override
+        public BusCallArgument decodeFromJson(JsonObject json) {
+            return new BusCallArgument(
+                    json.getString(TARGET_ADDRESS_KEY),
+                    JsonCodecManager.decodeFromJson(json.get(TARGET_ARGUMENT_KEY)),
+                    json.getInteger(CALL_NUMBER_KEY)
+            );
+        }
     }
 
 }
