@@ -9,7 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import webfx.framework.ui.action.Action;
 import webfx.framework.ui.graphic.controls.Controls;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.util.ImageStore;
 import org.controlsfx.control.decoration.GraphicDecoration;
 

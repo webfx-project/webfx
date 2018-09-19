@@ -3,7 +3,7 @@ package webfx.fxkits.extra.control;
 import javafx.scene.Node;
 import javafx.scene.control.SkinBase;
 import javafx.scene.paint.*;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.cell.renderer.*;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResult;

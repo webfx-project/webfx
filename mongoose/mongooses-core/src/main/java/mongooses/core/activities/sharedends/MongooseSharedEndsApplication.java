@@ -33,7 +33,7 @@ import webfx.framework.services.i18n.spi.I18nProvider;
 import webfx.framework.ui.action.Action;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.framework.ui.uirouter.UiRouter;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.services.buscall.PendingBusCall;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.util.function.Consumer;

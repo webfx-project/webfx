@@ -2,9 +2,9 @@ package emul.javafx.scene.control;
 
 import emul.javafx.beans.property.DoubleProperty;
 import emul.javafx.beans.property.SimpleDoubleProperty;
-import webfx.fxkits.core.properties.markers.HasMaxProperty;
-import webfx.fxkits.core.properties.markers.HasMinProperty;
-import webfx.fxkits.core.properties.markers.HasValueProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasMaxProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasMinProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasValueProperty;
 
 /**
  * @author Bruno Salmon

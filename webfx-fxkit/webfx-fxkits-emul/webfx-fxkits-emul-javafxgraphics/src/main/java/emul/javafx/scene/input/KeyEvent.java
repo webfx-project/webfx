@@ -339,7 +339,7 @@ public final class KeyEvent extends InputEvent {
      */
 /*
     public final boolean isShortcutDown() {
-        switch (FxKit.getToolkit().getPlatformShortcutKey()) {
+        switch (Toolkit.getToolkit().getPlatformShortcutKey()) {
             case SHIFT:
                 return shiftDown;
 

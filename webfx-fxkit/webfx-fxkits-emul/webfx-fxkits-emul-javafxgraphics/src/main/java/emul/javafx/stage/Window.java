@@ -2,18 +2,19 @@ package emul.javafx.stage;
 
 import emul.javafx.beans.property.*;
 import emul.javafx.event.*;
-import webfx.fxkits.core.FxKit;
+import webfx.fxkits.core.launcher.FxKitLauncher;
+import webfx.fxkits.core.mapper.FxKitMapper;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.AnimationFramePass;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import emul.javafx.geometry.Rectangle2D;
-import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.properties.markers.HasHeightProperty;
-import webfx.fxkits.core.properties.markers.HasSceneProperty;
-import webfx.fxkits.core.properties.markers.HasWidthProperty;
+import webfx.fxkits.core.util.properties.Properties;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasHeightProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasSceneProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasWidthProperty;
 import emul.javafx.scene.Scene;
-import webfx.fxkits.core.spi.peer.StagePeer;
-import webfx.fxkits.core.spi.peer.WindowPeer;
+import webfx.fxkits.core.mapper.spi.StagePeer;
+import webfx.fxkits.core.mapper.spi.WindowPeer;
 import emul.com.sun.javafx.stage.WindowEventDispatcher;
 import emul.com.sun.javafx.stage.WindowHelper;
 import emul.com.sun.javafx.stage.WindowPeerListener;
@@ -119,7 +120,7 @@ public class Window implements EventTarget,
 
 
     protected WindowPeer createPeer() {
-        return FxKit.getProvider().createWindowPeer(this);
+        return FxKitMapper.getProvider().createWindowPeer(this);
     }
 
     private final Property<Scene> sceneProperty = new SimpleObjectProperty<Scene>() {
@@ -309,7 +310,7 @@ public class Window implements EventTarget,
                         //impl_peer.setScene(getScene().getPeer());
                         getScene().impl_preferredSize();
                         // Ugly workaround to fix a wrong window positioning that occurs on first showing while the node sizes are not yet correct
-                        if (firstShowing && Window.this != FxKit.getPrimaryStage()) {
+                        if (firstShowing && Window.this != FxKitLauncher.getPrimaryStage()) {
                             impl_peer.setBounds(100_000, 100_000, true, true, -1, -1, -1, -1, 0, 0);
                             impl_peer.setVisible(true);
                             UiScheduler.scheduleDelay(200, () -> {

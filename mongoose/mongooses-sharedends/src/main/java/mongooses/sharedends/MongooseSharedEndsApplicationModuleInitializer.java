@@ -9,7 +9,7 @@ import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.activity.ActivityManager;
 import webfx.framework.activity.base.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import webfx.framework.ui.layouts.SceneUtil;
-import webfx.fxkits.core.FxKit;
+import webfx.fxkits.core.launcher.FxKitLauncher;
 import webfx.fxkits.extra.util.ImageStore;
 import webfx.platforms.core.services.buscall.BusBasedClientApplicationModuleInitializerBase;
 
@@ -45,7 +45,7 @@ public abstract class MongooseSharedEndsApplicationModuleInitializer extends Bus
     private ImageView spinner;
 
     private void setLoadingSpinnerVisible(boolean visible) {
-        Scene scene = FxKit.getPrimaryStage().getScene();
+        Scene scene = FxKitLauncher.getPrimaryStage().getScene();
         Node root = scene == null ? null : scene.getRoot();
         if (root instanceof Pane) {
             Pane rootPane = (Pane) root;

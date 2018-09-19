@@ -22,7 +22,7 @@ import mongooses.core.activities.sharedends.logic.ui.calendargraphic.CalendarGra
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.collection.Collections;
 import webfx.platforms.core.util.tuples.Unit;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

@@ -19,7 +19,7 @@ import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.mapping.EntityListToDisplayResultGenerator;
 import webfx.framework.ui.filter.rx.RxFuture;
 import webfx.framework.ui.filter.rx.RxUi;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.displaydata.DisplayColumnBuilder;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplaySelection;

@@ -3,8 +3,8 @@ package webfx.fxkits.extra.control;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Control;
-import webfx.fxkits.core.scene.LayoutMeasurable;
-import webfx.fxkits.core.spi.peer.NodePeer;
+import webfx.fxkits.core.mapper.spi.LayoutMeasurable;
+import webfx.fxkits.core.mapper.spi.NodePeer;
 
 /**
  * @author Bruno Salmon

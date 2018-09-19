@@ -13,7 +13,7 @@ import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
 import mongooses.core.entities.Event;
 import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import webfx.framework.ui.graphic.background.BackgroundUtil;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.util.Strings;
 
 /**

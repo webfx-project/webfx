@@ -17,9 +17,9 @@ import emul.javafx.scene.layout.Background;
 import emul.javafx.scene.layout.Border;
 import emul.javafx.scene.layout.BorderPane;
 import emul.javafx.scene.transform.Transform;
-import webfx.fxkits.core.properties.ObservableLists;
-import webfx.fxkits.core.scene.SceneRequester;
-import webfx.fxkits.core.spi.peer.NodePeer;
+import webfx.fxkits.core.util.properties.ObservableLists;
+import webfx.fxkits.core.mapper.spi.SceneRequester;
+import webfx.fxkits.core.mapper.spi.NodePeer;
 import webfx.fxkits.extra.cell.renderer.ArrayRenderer;
 import webfx.fxkits.extra.cell.renderer.ValueRenderer;
 import webfx.fxkits.extra.control.DataGrid;
@@ -27,8 +27,8 @@ import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplaySelection;
 import webfx.fxkits.extra.displaydata.SelectionMode;
-import webfx.fxkits.extra.spi.peer.base.DataGridPeerBase;
-import webfx.fxkits.extra.spi.peer.base.DataGridPeerMixin;
+import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerBase;
+import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerMixin;
 
 import java.util.List;
 

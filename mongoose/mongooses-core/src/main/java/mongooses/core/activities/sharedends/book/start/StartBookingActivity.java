@@ -20,7 +20,7 @@ import mongooses.core.operations.bothends.route.RouteToTermsRequest;
 import mongooses.core.util.Labels;
 import webfx.framework.ui.anim.Animations;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.util.ImageStore;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 

@@ -2,8 +2,8 @@ package emul.javafx.scene.transform;
 
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
-import webfx.fxkits.core.properties.markers.HasPivotXProperty;
-import webfx.fxkits.core.properties.markers.HasPivotYProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasPivotXProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasPivotYProperty;
 
 /**
  * @author Bruno Salmon

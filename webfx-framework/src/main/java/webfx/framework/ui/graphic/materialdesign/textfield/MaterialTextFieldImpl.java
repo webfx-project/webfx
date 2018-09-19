@@ -19,7 +19,7 @@ import webfx.framework.ui.graphic.materialdesign.util.LayoutChildrenFunction;
 import webfx.framework.ui.graphic.materialdesign.util.MaterialAnimation;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.layouts.SceneUtil;
-import webfx.fxkits.core.properties.Unregisterable;
+import webfx.fxkits.core.util.properties.Unregisterable;
 import webfx.platforms.core.util.Strings;
 
 /**

@@ -19,8 +19,8 @@ import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplaySelection;
 import webfx.fxkits.extra.displaydata.SelectionMode;
-import webfx.fxkits.extra.spi.peer.base.DataGridPeerBase;
-import webfx.fxkits.extra.spi.peer.base.DataGridPeerMixin;
+import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerBase;
+import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerMixin;
 
 import java.util.List;
 

@@ -9,8 +9,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WritableValue;
 import javafx.util.Duration;
 import webfx.framework.ui.anim.Animations;
-import webfx.fxkits.core.properties.Properties;
-import webfx.fxkits.core.properties.Unregisterable;
+import webfx.fxkits.core.util.properties.Properties;
+import webfx.fxkits.core.util.properties.Unregisterable;
 import webfx.platforms.core.util.collection.Collections;
 
 import java.util.ArrayList;

@@ -15,7 +15,7 @@ public interface ApplicationModuleInitializer {
     int JSON_CODEC_INIT_LEVEL = INIT_LEVEL_2;
     int BUS_START_INIT_LEVEL = INIT_LEVEL_3;
     int APPLICATION_INIT_LEVEL = INIT_LEVEL_4;
-    int FXKIT_INIT_LEVEL = INIT_LEVEL_5;
+    int APPLICATION_LAUNCH_LEVEL = INIT_LEVEL_5;
 
     String getModuleName();
 

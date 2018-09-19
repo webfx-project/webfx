@@ -5,9 +5,9 @@ import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.com.sun.javafx.geom.BaseBounds;
 import emul.com.sun.javafx.geom.transform.BaseTransform;
 import emul.javafx.scene.paint.Paint;
-import webfx.fxkits.core.properties.markers.HasCenterXProperty;
-import webfx.fxkits.core.properties.markers.HasCenterYProperty;
-import webfx.fxkits.core.properties.markers.HasRadiusProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasCenterXProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasCenterYProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasRadiusProperty;
 
 /**
  * @author Bruno Salmon

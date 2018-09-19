@@ -4,7 +4,7 @@ import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.geometry.Bounds;
 import emul.javafx.scene.layout.LayoutFlags;
-import webfx.fxkits.core.properties.markers.HasAutoSizeChildrenProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasAutoSizeChildrenProperty;
 
 /**
  * @author Bruno Salmon

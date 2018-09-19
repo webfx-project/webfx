@@ -3,7 +3,7 @@ package mongooses.core.activities.backend.cloneevent;
 import mongooses.core.activities.sharedends.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongooses.core.entities.Event;
 import mongooses.core.operations.bothends.route.RouteToBookingsRequest;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.update.UpdateArgument;
 import webfx.platforms.core.services.update.UpdateService;

@@ -35,7 +35,7 @@ import org.controlsfx.validation.decoration.GraphicValidationDecoration;
 import webfx.framework.ui.graphic.background.BackgroundUtil;
 import webfx.framework.ui.graphic.border.BorderUtil;
 import webfx.framework.ui.layouts.SceneUtil;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.util.ImageStore;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.collection.Collections;

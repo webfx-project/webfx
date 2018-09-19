@@ -9,10 +9,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import webfx.framework.ui.graphic.background.BackgroundUtil;
-import webfx.fxkits.core.FxKit;
-import webfx.fxkits.core.properties.Properties;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.fxkits.core.mapper.FxKitMapper;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.services.uischeduler.AnimationFramePass;
+import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Numbers;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
@@ -221,7 +221,7 @@ public final class LayoutUtil {
 
     public static ScrollPane createVerticalScrollPane(Region content) {
         ScrollPane scrollPane = createScrollPane(setMinMaxWidthToPref(content));
-        double verticalScrollbarExtraWidth = FxKit.getVerticalScrollbarExtraWidth();
+        double verticalScrollbarExtraWidth = FxKitMapper.getVerticalScrollbarExtraWidth();
         if (verticalScrollbarExtraWidth == 0)
             content.prefWidthProperty().bind(scrollPane.widthProperty());
         else

@@ -23,7 +23,7 @@ import webfx.framework.orm.entity.EntityList;
 import webfx.framework.services.i18n.Dictionary;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.cell.collator.GridCollator;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.control.SkinnedDataGrid;

@@ -84,7 +84,7 @@ public final class KeyCharacterCombination extends KeyCombination {
             return false;
         }
         return /*(event.getCode().impl_getCode()
-                == FxKit.getToolkit().getKeyCodeForChar(getCharacter()))
+                == Toolkit.getToolkit().getKeyCodeForChar(getCharacter()))
                 &&*/ super.match(event);
     }
 

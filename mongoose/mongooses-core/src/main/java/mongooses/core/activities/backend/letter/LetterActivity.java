@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import mongooses.core.activities.backend.util.MultiLanguageEditor;
 import webfx.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 
 /**
  * @author Bruno Salmon

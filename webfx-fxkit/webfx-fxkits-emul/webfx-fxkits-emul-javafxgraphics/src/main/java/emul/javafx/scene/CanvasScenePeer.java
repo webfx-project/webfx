@@ -4,9 +4,8 @@ import emul.com.sun.javafx.geom.Point2D;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.scene.input.PickResult;
 import emul.javafx.scene.transform.Transform;
-import webfx.fxkits.core.spi.peer.CanvasNodePeer;
-import webfx.fxkits.core.spi.peer.NodePeerFactory;
-import webfx.fxkits.core.spi.peer.base.ScenePeerBase;
+import webfx.fxkits.core.mapper.spi.CanvasNodePeer;
+import webfx.fxkits.core.mapper.spi.impl.peer.ScenePeerBase;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,8 +18,8 @@ public abstract class CanvasScenePeer
 
         extends ScenePeerBase {
 
-    public CanvasScenePeer(Scene scene, NodePeerFactory nodePeerFactory) {
-        super(scene, nodePeerFactory);
+    public CanvasScenePeer(Scene scene) {
+        super(scene);
     }
 
     @Override

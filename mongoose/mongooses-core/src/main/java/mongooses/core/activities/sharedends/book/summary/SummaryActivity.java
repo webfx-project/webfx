@@ -24,7 +24,7 @@ import mongooses.core.activities.sharedends.logic.work.sync.WorkingDocumentSubmi
 import mongooses.core.entities.Cart;
 import mongooses.core.entities.Document;
 import webfx.framework.services.i18n.I18n;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.util.Strings;
 

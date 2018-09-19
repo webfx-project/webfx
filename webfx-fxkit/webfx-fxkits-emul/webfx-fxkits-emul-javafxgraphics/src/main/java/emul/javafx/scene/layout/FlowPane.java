@@ -5,7 +5,7 @@ import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.util.Callback;
 import emul.javafx.geometry.*;
 import emul.javafx.scene.Node;
-import webfx.fxkits.core.properties.markers.*;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.*;
 
 import java.util.ArrayList;
 import java.util.List;

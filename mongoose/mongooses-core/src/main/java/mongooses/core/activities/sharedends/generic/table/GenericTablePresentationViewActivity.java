@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 import mongooses.core.activities.sharedends.logic.ui.theme.Theme;
 import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import webfx.framework.ui.layouts.SceneUtil;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
 
 /**

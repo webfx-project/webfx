@@ -5,7 +5,7 @@ import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.com.sun.javafx.geom.BaseBounds;
 import emul.com.sun.javafx.geom.transform.BaseTransform;
 import emul.javafx.scene.paint.Paint;
-import webfx.fxkits.core.properties.markers.*;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.*;
 
 /**
  * @author Bruno Salmon

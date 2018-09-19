@@ -19,7 +19,7 @@ import webfx.framework.router.session.impl.MemorySessionStore;
 import webfx.framework.router.session.impl.UserHolder;
 import webfx.framework.router.session.impl.UserSessionHandlerImpl;
 import webfx.framework.ui.uisession.UiSession;
-import webfx.fxkits.core.properties.markers.HasNodeProperty;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasNodeProperty;
 import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
 import webfx.platforms.core.services.windowhistory.spi.impl.SubBrowsingHistory;
 import webfx.platforms.core.services.json.Json;

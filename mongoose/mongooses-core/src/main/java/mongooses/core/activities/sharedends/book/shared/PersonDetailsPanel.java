@@ -29,7 +29,7 @@ import webfx.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import webfx.framework.ui.graphic.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.uisession.UiSession;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResultBuilder;

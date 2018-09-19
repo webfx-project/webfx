@@ -1,2 +1,3 @@
-webfx.fxkits.core.spi.FxKitProvider
+webfx.fxkits.core.launcher.spi.FxKitLauncherProvider
+webfx.fxkits.core.mapper.spi.FxKitMapperProvider
 javafx.application.Application

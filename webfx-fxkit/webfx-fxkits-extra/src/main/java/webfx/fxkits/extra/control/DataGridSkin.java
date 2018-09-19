@@ -12,7 +12,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.displaydata.*;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.uischeduler.UiScheduler;

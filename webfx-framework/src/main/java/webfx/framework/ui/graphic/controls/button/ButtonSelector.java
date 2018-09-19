@@ -16,7 +16,7 @@ import webfx.framework.ui.graphic.materialdesign.MaterialFactoryMixin;
 import webfx.framework.ui.graphic.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.layouts.SceneUtil;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.services.uischeduler.AnimationFramePass;

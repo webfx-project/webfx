@@ -16,7 +16,7 @@ import webfx.framework.orm.entity.EntityList;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.mapping.EntityListToDisplayResultGenerator;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.control.SkinnedDataGrid;
 import webfx.fxkits.extra.displaydata.DisplayResult;

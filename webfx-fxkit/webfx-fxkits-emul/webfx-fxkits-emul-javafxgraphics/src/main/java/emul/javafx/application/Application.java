@@ -187,7 +187,7 @@ public abstract class Application {
     }
 
     private static void reportIncorrectWebfxLaunchEntryPoint() {
-        String msg = "Please use FxKit.launchApplication() and not Application.launch() to make your application run in the browser";
+        String msg = "Please use FxKitLauncher.launchApplication() and not Application.launch() to make your application run in the browser";
         Logger.log(msg);
         throw new UnsupportedOperationException(msg);
     }

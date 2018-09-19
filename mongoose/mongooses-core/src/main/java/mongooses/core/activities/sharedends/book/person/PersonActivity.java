@@ -23,7 +23,7 @@ import webfx.framework.ui.graphic.background.BackgroundUtil;
 import webfx.framework.ui.graphic.border.BorderUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.uisession.UiSession;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.util.Numbers;
 
 /**

@@ -5,8 +5,8 @@ import emul.javafx.collections.ObservableMap;
 import emul.javafx.geometry.Bounds;
 import emul.javafx.geometry.Orientation;
 import emul.javafx.scene.transform.Transform;
-import webfx.fxkits.core.properties.markers.*;
-import webfx.fxkits.core.spi.peer.NodePeer;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.*;
+import webfx.fxkits.core.mapper.spi.NodePeer;
 
 import java.util.List;
 

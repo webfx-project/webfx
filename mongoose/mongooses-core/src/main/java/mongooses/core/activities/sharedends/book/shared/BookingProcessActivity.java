@@ -13,7 +13,7 @@ import mongooses.core.activities.sharedends.generic.eventdependent.EventDependen
 import mongooses.core.entities.Event;
 import webfx.framework.ui.graphic.background.BackgroundUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.fxkits.core.properties.Properties;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.util.Strings;
 
 /**

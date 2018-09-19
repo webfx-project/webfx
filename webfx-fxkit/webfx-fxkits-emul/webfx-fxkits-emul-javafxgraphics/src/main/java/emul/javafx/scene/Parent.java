@@ -8,8 +8,8 @@ import emul.javafx.collections.ObservableList;
 import emul.com.sun.javafx.geom.BaseBounds;
 import emul.com.sun.javafx.geom.RectBounds;
 import emul.com.sun.javafx.geom.transform.BaseTransform;
-import webfx.fxkits.core.properties.ObservableLists;
-import webfx.fxkits.core.properties.markers.HasManagedProperty;
+import webfx.fxkits.core.util.properties.ObservableLists;
+import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasManagedProperty;
 import emul.javafx.scene.layout.LayoutFlags;
 import emul.javafx.scene.layout.PreferenceResizableNode;
 
