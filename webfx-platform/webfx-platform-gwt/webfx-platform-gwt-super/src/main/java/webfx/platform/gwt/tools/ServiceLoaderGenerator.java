@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class ServiceLoaderGenerator {
 
-    private static String template = "package java.util;\n" +
+    private final static String TEMPLATE = "package java.util;\n" +
             "\n" +
             "import java.util.Iterator;\n" +
             "import webfx.platforms.core.util.function.Factory;\n" +
@@ -49,21 +49,9 @@ public class ServiceLoaderGenerator {
 
     public static void main(String[] args) {
         StringBuilder sb = new StringBuilder();
-        for (String spiClassName: loadProviderClassNames("spi")) {
-            List<String> providerClassNames = loadProviderClassNames(spiClassName);
-            if (providerClassNames.isEmpty())
-                System.out.println("WARNING: No provider found for " + spiClassName);
-            else {
-                sb.append("        if (serviceClass.equals(").append(spiClassName).append(".class)) return new ServiceLoader<S>(");
-                for (String providerClassName : providerClassNames) {
-                    if (providerClassName != providerClassNames.get(0))
-                        sb.append(", ");
-                    sb.append(providerClassName.replace('$', '.')).append(providerClassName.equals("webfx.platform.gwt.services.json.GwtJsonObject") ? "::create" : "::new");
-                }
-                sb.append(");\n");
-            }
-        }
-        String serviceLoaderJavaCode = template.replace("${generatedCode}", sb);
+        generateCode(sb, "exports.spi.single", true);
+        generateCode(sb, "exports.spi.multiple", false);
+        String serviceLoaderJavaCode = TEMPLATE.replace("${generatedCode}", sb);
         String serviceLoaderPath = System.getProperty("user.dir") + "/src/main/resources/super/java/util/ServiceLoader.java";
         System.out.println("Writing " + serviceLoaderPath);
         try {
@@ -73,10 +61,32 @@ public class ServiceLoaderGenerator {
         }
     }
 
-    private static List<String> loadProviderClassNames(String service) {
+    private static void generateCode(StringBuilder sb, String spiPath, boolean single) {
+        for (String spiClassName: loadProviderClassNames(spiPath, true)) {
+            List<String> providerClassNames = loadProviderClassNames(spiClassName, false);
+            if (providerClassNames.isEmpty())
+                System.out.println("WARNING: No provider found for " + spiClassName);
+            else {
+                sb.append("        if (serviceClass.equals(").append(spiClassName).append(".class)) return new ServiceLoader<S>(");
+                for (String providerClassName : providerClassNames) {
+                    String firstProvider = providerClassNames.get(0);
+                    if (providerClassName != firstProvider)
+                        if (single) {
+                            System.out.println("INFO: Keeping single provider " + firstProvider + ", skipping provider " + spiClassName);
+                            continue;
+                        } else
+                            sb.append(", ");
+                    sb.append(providerClassName.replace('$', '.')).append(providerClassName.equals("webfx.platform.gwt.services.json.GwtJsonObject") ? "::create" : "::new");
+                }
+                sb.append(");\n");
+            }
+        }
+    }
+
+    private static List<String> loadProviderClassNames(String service, boolean webfx) {
         List<String> providers = new ArrayList<>();
         try {
-            String prefix = service.equals("spi") ? "META-INF/webfx/" : "META-INF/services/";
+            String prefix = webfx ? "META-INF/webfx/" : "META-INF/services/";
             String fullName = prefix + service;
             Enumeration<URL> configs = ClassLoader.getSystemResources(fullName);
             while (configs.hasMoreElements()) {
