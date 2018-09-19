@@ -16,13 +16,19 @@ public class ServiceLoaderGenerator {
     private final static String TEMPLATE = "package java.util;\n" +
             "\n" +
             "import java.util.Iterator;\n" +
+            "import java.util.logging.Logger;\n" +
             "import webfx.platforms.core.util.function.Factory;\n" +
             "\n" +
             "public class ServiceLoader<S> implements Iterable<S> {\n" +
             "\n" +
             "    public static <S> ServiceLoader<S> load(Class<S> serviceClass) {\n" +
+            "        switch (serviceClass.getName()) {\n" +
             "${generatedCode}" +
-            "        return new ServiceLoader<S>();\n" +
+            "            // SPI NOT FOUND\n" +
+            "            default:\n" +
+            "               Logger.getLogger(ServiceLoader.class.getName()).warning(\"SPI not found for \" + serviceClass);\n" +
+            "               return new ServiceLoader<S>();\n" +
+            "        }\n" +
             "    }\n" +
             "\n" +
             "    private final Factory[] factories;\n" +
@@ -49,7 +55,9 @@ public class ServiceLoaderGenerator {
 
     public static void main(String[] args) {
         StringBuilder sb = new StringBuilder();
+        sb.append("            // Single SPI providers\n");
         generateCode(sb, "exports.spi.single", true);
+        sb.append("            // Multiple SPI providers\n");
         generateCode(sb, "exports.spi.multiple", false);
         String serviceLoaderJavaCode = TEMPLATE.replace("${generatedCode}", sb);
         String serviceLoaderPath = System.getProperty("user.dir") + "/src/main/resources/super/java/util/ServiceLoader.java";
@@ -67,7 +75,7 @@ public class ServiceLoaderGenerator {
             if (providerClassNames.isEmpty())
                 System.out.println("WARNING: No provider found for " + spiClassName);
             else {
-                sb.append("        if (serviceClass.equals(").append(spiClassName).append(".class)) return new ServiceLoader<S>(");
+                sb.append("            case \"").append(spiClassName).append("\": return new ServiceLoader<S>(");
                 for (String providerClassName : providerClassNames) {
                     String firstProvider = providerClassNames.get(0);
                     if (providerClassName != firstProvider)
