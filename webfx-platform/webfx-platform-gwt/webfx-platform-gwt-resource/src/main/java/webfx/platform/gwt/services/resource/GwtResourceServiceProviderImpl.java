@@ -12,15 +12,15 @@ import java.util.List;
  */
 public final class GwtResourceServiceProviderImpl implements ResourceServiceProvider {
 
-    private List<GwtBundle> bundles = new ArrayList<>();
+    private List<GwtResourceBundle> bundles = new ArrayList<>();
 
-    public void register(GwtBundle bundle) {
+    public void register(GwtResourceBundle bundle) {
         bundles.add(bundle);
     }
 
     @Override
     public Future<String> getText(String resourcePath) {
-        for (GwtBundle bundle : bundles) {
+        for (GwtResourceBundle bundle : bundles) {
             TextResource textResource = bundle.getTextResource(resourcePath);
             if (textResource != null)
                 return Future.succeededFuture(textResource.getText());

@@ -12,7 +12,7 @@ public class ServiceLoader<S> implements Iterable<S> {
         if (serviceClass.equals(webfx.platforms.core.services.resource.spi.ResourceServiceProvider.class)) return new ServiceLoader<S>(webfx.platform.gwt.services.resource.GwtResourceServiceProviderImpl::new);
         if (serviceClass.equals(webfx.fxkits.core.spi.FxKitProvider.class)) return new ServiceLoader<S>(webfx.fxkit.gwt.GwtFxKitProvider::new);
         if (serviceClass.equals(webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider.class)) return new ServiceLoader<S>(webfx.platform.gwt.services.appcontainer.GwtApplicationContainerProvider::new);
-        if (serviceClass.equals(webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer.class)) return new ServiceLoader<S>(mongooses.web.activities.sharedends.MongooseWebApplicationModuleInitializer::new, mongooses.backend.MongooseBackendApplicationModuleInitializer::new, webfx.fxkits.core.FxKitModuleInitializer::new, webfx.platforms.core.services.buscall.BusCallModuleInitializer::new, webfx.platforms.core.services.json.codec.JsonCodecModuleInitializer::new);
+        if (serviceClass.equals(webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer.class)) return new ServiceLoader<S>(mongooses.backend.MongooseBackendApplicationModuleInitializer::new, webfx.fxkits.core.FxKitModuleInitializer::new, webfx.platforms.core.services.buscall.BusCallModuleInitializer::new, webfx.platforms.core.services.json.codec.JsonCodecModuleInitializer::new, webfx.platform.gwt.services.resource.GwtResourceModuleInitializer::new);
         if (serviceClass.equals(webfx.platforms.core.services.shutdown.spi.ShutdownProvider.class)) return new ServiceLoader<S>(webfx.platform.gwt.services.shutdown.GwtShutdownProviderImpl::new);
         if (serviceClass.equals(webfx.platforms.core.services.log.spi.LoggerProvider.class)) return new ServiceLoader<S>(webfx.platform.gwt.services.log.GwtLoggerProviderImpl::new);
         if (serviceClass.equals(webfx.platforms.core.util.numbers.spi.NumbersProvider.class)) return new ServiceLoader<S>(webfx.platforms.core.util.numbers.providers.StandardNumbersProviderImpl::new);
@@ -24,6 +24,7 @@ public class ServiceLoader<S> implements Iterable<S> {
         if (serviceClass.equals(webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider.class)) return new ServiceLoader<S>(webfx.platform.gwt.services.scheduler.GwtSchedulerProviderImpl::new);
         if (serviceClass.equals(webfx.platforms.core.services.scheduler.spi.SchedulerProvider.class)) return new ServiceLoader<S>(webfx.platform.gwt.services.scheduler.GwtSchedulerProviderImpl::new);
         if (serviceClass.equals(webfx.platforms.web.services.windowhistory.JsWindowHistory.class)) return new ServiceLoader<S>(webfx.platform.gwt.services.windowhistory.GwtJsWindowHistory::new);
+        if (serviceClass.equals(webfx.platform.gwt.services.resource.GwtResourceBundle.class)) return new ServiceLoader<S>(mongooses.web.activities.sharedends.MongooseSharedEndsWebBundle.ResourceBundle::new);
         if (serviceClass.equals(webfx.platforms.core.services.websocket.spi.WebSocketServiceProvider.class)) return new ServiceLoader<S>(webfx.platform.gwt.services.websocket.GwtWebSocketServiceProviderImpl::new);
         return new ServiceLoader<S>();
     }

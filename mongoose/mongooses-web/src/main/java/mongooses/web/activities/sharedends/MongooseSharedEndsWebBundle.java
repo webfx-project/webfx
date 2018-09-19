@@ -3,7 +3,7 @@ package mongooses.web.activities.sharedends;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
-import webfx.platform.gwt.services.resource.GwtBundle;
+import webfx.platform.gwt.services.resource.GwtResourceBundleBase;
 
 /**
  * @author Bruno Salmon
@@ -36,17 +36,16 @@ public interface MongooseSharedEndsWebBundle extends ClientBundle {
     @Source("images/svg/color/price-tag.svg")
     TextResource priceTagColorSvg();
 
-    GwtBundle B = resourcePath -> {
-        switch (resourcePath) {
-            case "mongooses/core/domainmodel/DomainModelSnapshot.json": return R.domainModelSnapshotJson();
-            case "webfx/platforms/core/services/bus/client/conf/BusOptions.json": return R.clientBusOptionsJson();
-            case "mongooses/core/dictionaries/en.json": return R.englishDictionaryJson();
-            case "mongooses/core/dictionaries/fr.json": return R.frenchDictionaryJson();
-            case "images/svg/mono/certificate.svg": return R.certificateMonoSvg();
-            case "images/svg/mono/calendar.svg": return R.calendarMonoSvg();
-            case "images/svg/mono/price-tag.svg": return R.priceTagMonoSvg();
-            case "images/svg/color/price-tag.svg": return R.priceTagColorSvg();
-            default: return null;
+    class ResourceBundle extends GwtResourceBundleBase {
+        public ResourceBundle() {
+            registerResource("mongooses/core/domainmodel/DomainModelSnapshot.json", R.domainModelSnapshotJson());
+            registerResource("webfx/platforms/core/services/bus/client/conf/BusOptions.json", R.clientBusOptionsJson());
+            registerResource("mongooses/core/dictionaries/en.json", R.englishDictionaryJson());
+            registerResource("mongooses/core/dictionaries/fr.json", R.frenchDictionaryJson());
+            registerResource("images/svg/mono/certificate.svg", R.certificateMonoSvg());
+            registerResource("images/svg/mono/calendar.svg", R.calendarMonoSvg());
+            registerResource("images/svg/mono/price-tag.svg", R.priceTagMonoSvg());
+            registerResource("images/svg/color/price-tag.svg", R.priceTagColorSvg());
         }
-    };
+    }
 }
