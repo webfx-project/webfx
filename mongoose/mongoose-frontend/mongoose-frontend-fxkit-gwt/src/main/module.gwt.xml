@@ -1,5 +1,11 @@
 <module rename-to="mongoose_frontend_fxkit_gwt">
 
+    <!-- Configuring logging (must be in first position) -->
+    <inherits name="com.google.gwt.logging.Logging" />
+    <set-property name="gwt.logging.enabled" value="TRUE" />
+    <set-property name="gwt.logging.logLevel" value="FINEST" />
+    <set-property name="gwt.logging.consoleHandler" value="ENABLED" />
+
     <inherits name="mongooses-web"/>
     <inherits name="mongooses-frontend"/>
     <inherits name="mongooses-sharedends"/>
