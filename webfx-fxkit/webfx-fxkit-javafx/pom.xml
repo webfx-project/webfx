@@ -14,7 +14,13 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-fxkits-core</artifactId>
+            <artifactId>webfx-fxkits-core-launcher</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkits-core-mapper</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

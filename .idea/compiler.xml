@@ -122,7 +122,9 @@
         <module name="webfx-framework" />
         <module name="webfx-fxkit-gwt" />
         <module name="webfx-fxkit-javafx" />
-        <module name="webfx-fxkits-core" />
+        <module name="webfx-fxkits-core-launcher" />
+        <module name="webfx-fxkits-core-mapper" />
+        <module name="webfx-fxkits-core-util" />
         <module name="webfx-fxkits-emul-javafxbase" />
         <module name="webfx-fxkits-emul-javafxcontrols" />
         <module name="webfx-fxkits-emul-javafxgraphics" />
@@ -217,6 +219,9 @@
       <module name="webfx-fxkit-gwt" target="1.8" />
       <module name="webfx-fxkit-javafx" target="1.8" />
       <module name="webfx-fxkits-core" target="1.8" />
+      <module name="webfx-fxkits-core-launcher" target="1.8" />
+      <module name="webfx-fxkits-core-mapper" target="1.8" />
+      <module name="webfx-fxkits-core-util" target="1.8" />
       <module name="webfx-fxkits-emul" target="1.8" />
       <module name="webfx-fxkits-emul-javafxbase" target="1.8" />
       <module name="webfx-fxkits-emul-javafxcontrols" target="1.8" />

@@ -1,0 +1,8 @@
+<module rename-to="webfx_fxkits_core_launcher">
+
+    <inherits name="webfx-platforms-core-uischeduler"/>
+    <inherits name="webfx-platforms-core-appcontainer"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/fxkits/core/launcher"/>
+</module>

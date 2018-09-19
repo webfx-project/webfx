@@ -1,7 +1,6 @@
 package webfx.fxkits.core.launcher;
 
 import javafx.application.Application;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import webfx.fxkits.core.launcher.spi.FxKitLauncherProvider;
 import webfx.platforms.core.services.log.Logger;
@@ -19,10 +18,6 @@ public final class FxKitLauncher {
 
     public static String getUserAgent() {
         return getProvider().getUserAgent();
-    }
-
-    public static Screen getPrimaryScreen() {
-        return getProvider().getPrimaryScreen();
     }
 
     public static Stage getPrimaryStage() {

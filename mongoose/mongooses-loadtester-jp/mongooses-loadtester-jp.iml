@@ -21,8 +21,10 @@
     <orderEntry type="module" module-name="webfx-platforms-core-update" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" />
-    <orderEntry type="module" module-name="webfx-fxkits-core" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />

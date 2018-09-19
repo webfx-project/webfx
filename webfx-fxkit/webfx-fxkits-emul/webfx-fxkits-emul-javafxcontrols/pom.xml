@@ -20,12 +20,11 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-fxkits-core</artifactId>
+            <artifactId>webfx-fxkits-core-launcher</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-            <classifier>emul</classifier>
+            <scope>provided</scope>
         </dependency>
-
 
     </dependencies>
 

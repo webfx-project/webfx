@@ -24,6 +24,9 @@
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt/webfx-fxkit-gwt.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt/webfx-fxkit-gwt.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-javafx/webfx-fxkit-javafx.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-javafx/webfx-fxkit-javafx.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-launcher/webfx-fxkits-core-launcher.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-launcher/webfx-fxkits-core-launcher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-mapper/webfx-fxkits-core-mapper.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-mapper/webfx-fxkits-core-mapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-util/webfx-fxkits-core-util.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-util/webfx-fxkits-core-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxbase/webfx-fxkits-emul-javafxbase.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxbase/webfx-fxkits-emul-javafxbase.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxcontrols/webfx-fxkits-emul-javafxcontrols.iml" filepath="$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxcontrols/webfx-fxkits-emul-javafxcontrols.iml" />

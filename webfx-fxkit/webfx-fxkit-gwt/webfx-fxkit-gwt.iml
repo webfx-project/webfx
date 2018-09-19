@@ -11,18 +11,22 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="webfx-fxkits-core-launcher-0.1.0-SNAPSHOT-emul" level="project" />
     <orderEntry type="library" name="webfx-fxkits-extra-0.1.0-SNAPSHOT-emul" level="project" />
-    <orderEntry type="module" module-name="webfx-fxkits-extra" />
-    <orderEntry type="module" module-name="webfx-fxkits-core" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
-    <orderEntry type="module" module-name="webfx-platforms-core-log" />
+    <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxcontrols" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxgraphics" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxbase" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
+    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
+    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
+    <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-core:1.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:base:1.0.0-RC1" level="project" />

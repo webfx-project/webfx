@@ -14,14 +14,14 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-fxkits-extra</artifactId>
+            <artifactId>webfx-fxkits-core-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>emul</classifier>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-fxkits-core</artifactId>
+            <artifactId>webfx-fxkits-extra</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>emul</classifier>

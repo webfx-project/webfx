@@ -21,7 +21,9 @@
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-fxkits-core" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" scope="PROVIDED" />
