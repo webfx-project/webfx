@@ -1,0 +1,9 @@
+<module rename-to="webfx_framework_activity">
+
+    <inherits name="webfx-platforms-core-appcontainer"/>
+    <inherits name="webfx-platforms-core-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/activity"/>
+
+</module>

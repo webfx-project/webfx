@@ -15,7 +15,7 @@ import webfx.framework.expression.terms.function.AggregateFunction;
 import webfx.framework.orm.entity.EntityList;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.mapping.EntityListToDisplayResultGenerator;
+import webfx.framework.orm.mapping.EntityListToDisplayResultMapper;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.control.SkinnedDataGrid;
@@ -27,7 +27,7 @@ import webfx.platforms.core.util.collection.Collections;
 
 import java.util.List;
 
-import static webfx.framework.ui.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.ui.util.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon
@@ -82,7 +82,7 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
     }
 
     private DisplayResult generateDetailedLinesResult() {
-        return EntityListToDisplayResultGenerator.select(lineEntities,
+        return EntityListToDisplayResultMapper.select(lineEntities,
                 "select [" +
                         "'item.icon'," +
                         "'translate(item)'," +
@@ -92,7 +92,7 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
     }
 
     private DisplayResult generateGroupedLinesResult() {
-        return EntityListToDisplayResultGenerator.select(lineEntities,
+        return EntityListToDisplayResultMapper.select(lineEntities,
                 "select [" +
                         "'item.family.icon," +
                         "translate(item.family) + (item.family.code in (`teach`, `meals`) ? `` : `: ` + string_agg(translate(item), `, ` order by item.name))'," +

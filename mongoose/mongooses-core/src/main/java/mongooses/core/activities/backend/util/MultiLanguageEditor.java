@@ -8,7 +8,7 @@ import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.graphic.controls.button.ButtonFactoryMixin;
+import webfx.framework.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.HtmlTextEditor;

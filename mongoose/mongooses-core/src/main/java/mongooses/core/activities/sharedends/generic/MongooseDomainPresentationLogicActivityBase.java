@@ -1,6 +1,6 @@
 package mongooses.core.activities.sharedends.generic;
 
-import webfx.framework.activity.base.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import webfx.framework.activity.impl.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 import webfx.framework.expression.sqlcompiler.sql.SqlCompiled;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.json.JsonObject;

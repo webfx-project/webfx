@@ -8,10 +8,10 @@ import javafx.scene.layout.Pane;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.framework.ui.graphic.background.BackgroundUtil;
-import webfx.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import webfx.framework.ui.graphic.controls.dialog.DialogCallback;
-import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
+import webfx.framework.ui.util.background.BackgroundUtil;
+import webfx.framework.ui.controls.button.ButtonFactoryMixin;
+import webfx.framework.ui.controls.dialog.DialogCallback;
+import webfx.framework.ui.controls.dialog.DialogUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.extra.cell.collator.GridCollator;
 

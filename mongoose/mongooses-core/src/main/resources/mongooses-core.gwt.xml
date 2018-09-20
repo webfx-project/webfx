@@ -1,5 +1,6 @@
 <module rename-to="mongooses_core">
 
+    <inherits name="webfx-framework-all"/>
     <inherits name="webfx-platforms-core-appcontainer"/>
     <inherits name="webfx-platforms-core-buscall"/>
     <inherits name="webfx-platforms-core-query"/>

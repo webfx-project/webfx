@@ -20,7 +20,7 @@ import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.orm.entity.EntityStoreQuery;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
+import webfx.framework.ui.controls.dialog.DialogUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.extra.control.HtmlText;
 import webfx.platforms.core.services.bus.BusService;

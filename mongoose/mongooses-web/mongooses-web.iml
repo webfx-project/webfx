@@ -12,24 +12,40 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongooses-core" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-framework" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-querypush" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-push" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-all" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-expression" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-activity" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-domain" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-update" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-resource" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-entity" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-update" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-operation" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-action" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-i18n" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-authn" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-authz" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-router" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-uirouter" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core-mapper" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core-util" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-uifilter" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-querypush" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-push" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-layouts" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-controls" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-materialdesign" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt-all" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-web-clientbus" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" scope="PROVIDED" />
@@ -40,10 +56,10 @@
     <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt-log" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt-resource" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-resource" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt-shutdown" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.elemental2:elemental2-dom:1.0.0-RC1" level="project" />

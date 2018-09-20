@@ -1,0 +1,20 @@
+<module rename-to="webfx_framework_all">
+
+    <inherits name="webfx-framework-action" />
+    <inherits name="webfx-framework-activity" />
+    <inherits name="webfx-framework-authn" />
+    <inherits name="webfx-framework-authz" />
+    <inherits name="webfx-framework-controls" />
+    <inherits name="webfx-framework-domain" />
+    <inherits name="webfx-framework-entity" />
+    <inherits name="webfx-framework-expression" />
+    <inherits name="webfx-framework-i18n" />
+    <inherits name="webfx-framework-layouts" />
+    <inherits name="webfx-framework-materialdesign" />
+    <inherits name="webfx-framework-operation" />
+    <inherits name="webfx-framework-router" />
+    <inherits name="webfx-framework-uirouter" />
+    <inherits name="webfx-framework-uifilter" />
+    <inherits name="webfx-framework-util" />
+
+</module>

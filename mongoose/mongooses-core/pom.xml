@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-framework</artifactId>
+            <artifactId>webfx-framework-all</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

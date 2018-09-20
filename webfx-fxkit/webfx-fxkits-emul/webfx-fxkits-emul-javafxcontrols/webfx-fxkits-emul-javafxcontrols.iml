@@ -12,6 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="webfx-fxkits-core-mapper-0.1.0-SNAPSHOT-emul" level="project" />
+    <orderEntry type="library" name="webfx-fxkits-core-util-0.1.0-SNAPSHOT-emul" level="project" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxgraphics" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxbase" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />

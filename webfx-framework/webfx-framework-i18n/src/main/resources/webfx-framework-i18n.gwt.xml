@@ -1,0 +1,12 @@
+<module rename-to="webfx_framework_i18n">
+
+    <inherits name="webfx-framework-operation"/>
+    <inherits name="webfx-platforms-core-uischeduler"/>
+    <inherits name="webfx-platforms-core-resource"/>
+    <inherits name="webfx-platforms-core-json"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/services/i18n"/>
+    <source path="webfx/framework/operations/i18n"/>
+
+</module>

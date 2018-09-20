@@ -10,15 +10,18 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import mongooses.core.activities.sharedends.logic.ui.theme.Theme;
 import mongooses.core.domainmodel.formatters.DateFormatter;
-import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
+import webfx.framework.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.ui.controls.button.ButtonFactoryMixin;
+import webfx.framework.ui.controls.dialog.DialogUtil;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
 /**
  * @author Bruno Salmon
  */
-public class CloneEventPresentationViewActivity extends PresentationViewActivityImpl<CloneEventPresentationModel> {
+public class CloneEventPresentationViewActivity
+        extends PresentationViewActivityImpl<CloneEventPresentationModel>
+        implements ButtonFactoryMixin {
 
     protected GridPane gp;
     protected TextField dateTextField;

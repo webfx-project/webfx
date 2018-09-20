@@ -1,7 +1,7 @@
 package mongooses.core.activities.backend.book.options;
 
 import mongooses.core.activities.sharedends.book.options.OptionsRouting;
-import webfx.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRoute;
 
 /**

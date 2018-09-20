@@ -1,0 +1,15 @@
+<module rename-to="webfx_framework_controls">
+
+    <inherits name="webfx-framework-action"/>
+    <inherits name="webfx-framework-materialdesign"/>
+    <inherits name="webfx-framework-uifilter"/>
+    <inherits name="webfx-framework-layouts"/>
+    <inherits name="webfx-framework-util"/>
+    <inherits name="webfx-lib-controlsfx-validation"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/ui/controls"/>
+
+    <public path="" includes="images/"/>
+
+</module>

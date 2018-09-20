@@ -17,12 +17,12 @@ import mongooses.core.activities.sharedends.logic.ui.validation.MongooseValidati
 import webfx.framework.services.authn.AuthenticationRequest;
 import webfx.framework.services.authn.UsernamePasswordCredentials;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.anim.Animations;
-import webfx.framework.ui.graphic.controls.button.ButtonUtil;
-import webfx.framework.ui.graphic.controls.dialog.GridPaneBuilder;
+import webfx.framework.ui.util.anim.Animations;
+import webfx.framework.ui.controls.button.ButtonUtil;
+import webfx.framework.ui.controls.dialog.GridPaneBuilder;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.layouts.SceneUtil;
-import webfx.framework.ui.uisession.UiSession;
+import webfx.framework.ui.uirouter.uisession.UiSession;
 import webfx.fxkits.core.util.properties.Properties;
 
 

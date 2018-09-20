@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 import mongooses.core.activities.sharedends.MongooseSharedEndsApplication;
 import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.activity.ActivityManager;
-import webfx.framework.activity.base.combinations.viewdomainapplication.ViewDomainApplicationContext;
+import webfx.framework.activity.impl.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.launcher.FxKitLauncher;
 import webfx.fxkits.extra.util.ImageStore;

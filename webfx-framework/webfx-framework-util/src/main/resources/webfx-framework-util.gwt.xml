@@ -1,0 +1,11 @@
+<module rename-to="webfx_framework_util">
+
+    <inherits name="webfx-fxkits-core-util"/>
+    <inherits name="webfx-fxkits-extra"/>
+    <inherits name="webfx-platforms-core-json"/>
+    <inherits name="webfx-platforms-core-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/ui/util"/>
+
+</module>

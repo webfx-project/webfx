@@ -1,8 +1,8 @@
 package mongooses.core.activities.sharedends.generic.eventdependent;
 
 import mongooses.core.activities.sharedends.generic.MongooseButtonFactoryMixin;
-import webfx.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import webfx.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 
 /**
  * @author Bruno Salmon

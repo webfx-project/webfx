@@ -14,7 +14,7 @@ import mongooses.core.activities.sharedends.MongooseSharedEndsApplication;
 import mongooses.core.activities.sharedends.auth.LoginRouting;
 import mongooses.core.activities.sharedends.auth.UnauthorizedRouting;
 import webfx.framework.activity.Activity;
-import webfx.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRouter;
 import webfx.platforms.core.util.function.Factory;
 

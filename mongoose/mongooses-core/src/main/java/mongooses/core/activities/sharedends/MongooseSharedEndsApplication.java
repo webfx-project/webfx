@@ -17,11 +17,11 @@ import mongooses.core.services.authz.MongooseAuthorizationServiceProviderImpl;
 import webfx.framework.activity.Activity;
 import webfx.framework.activity.ActivityContext;
 import webfx.framework.activity.ActivityManager;
-import webfx.framework.activity.base.combinations.viewapplication.ViewApplicationContext;
-import webfx.framework.activity.base.combinations.viewdomain.ViewDomainActivityContext;
-import webfx.framework.activity.base.combinations.viewdomain.ViewDomainActivityContextMixin;
-import webfx.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import webfx.framework.activity.base.combinations.viewdomainapplication.ViewDomainApplicationContext;
+import webfx.framework.activity.impl.combinations.viewapplication.ViewApplicationContext;
+import webfx.framework.activity.impl.combinations.viewdomain.ViewDomainActivityContext;
+import webfx.framework.activity.impl.combinations.viewdomain.ViewDomainActivityContextMixin;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.activity.impl.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import webfx.framework.operation.action.OperationActionFactoryMixin;
 import webfx.framework.operation.action.OperationActionRegistry;
 import webfx.framework.orm.entity.Entity;
@@ -31,6 +31,7 @@ import webfx.framework.services.authz.spi.AuthorizationServiceProvider;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.services.i18n.spi.I18nProvider;
 import webfx.framework.ui.action.Action;
+import webfx.framework.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.framework.ui.uirouter.UiRouter;
 import webfx.fxkits.core.util.properties.Properties;
@@ -46,7 +47,8 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 public abstract class MongooseSharedEndsApplication
         implements Activity<ViewDomainActivityContext>
         , ViewDomainActivityContextMixin
-        , OperationActionFactoryMixin {
+        , OperationActionFactoryMixin
+        , ButtonFactoryMixin {
 
     private final String defaultInitialHistoryPath;
     private ViewDomainActivityContext context;

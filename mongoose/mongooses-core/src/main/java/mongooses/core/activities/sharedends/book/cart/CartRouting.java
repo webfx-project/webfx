@@ -2,7 +2,7 @@ package mongooses.core.activities.sharedends.book.cart;
 
 import mongooses.core.activities.sharedends.generic.routing.MongooseRoutingUtil;
 import mongooses.core.entities.Document;
-import webfx.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRoute;
 
 /**

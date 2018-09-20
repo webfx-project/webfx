@@ -119,7 +119,23 @@
         <module name="naga-toolkit-swing" />
         <module name="naga-vertx" />
         <module name="naga-webplat" />
-        <module name="webfx-framework" />
+        <module name="webfx-framework-action" />
+        <module name="webfx-framework-activity" />
+        <module name="webfx-framework-all" />
+        <module name="webfx-framework-authn" />
+        <module name="webfx-framework-authz" />
+        <module name="webfx-framework-controls" />
+        <module name="webfx-framework-domain" />
+        <module name="webfx-framework-entity" />
+        <module name="webfx-framework-expression" />
+        <module name="webfx-framework-i18n" />
+        <module name="webfx-framework-layouts" />
+        <module name="webfx-framework-materialdesign" />
+        <module name="webfx-framework-operation" />
+        <module name="webfx-framework-router" />
+        <module name="webfx-framework-uifilter" />
+        <module name="webfx-framework-uirouter" />
+        <module name="webfx-framework-util" />
         <module name="webfx-fxkit-gwt" />
         <module name="webfx-fxkit-javafx" />
         <module name="webfx-fxkits-core-launcher" />
@@ -215,6 +231,24 @@
       <module name="mongooses-web" target="1.8" />
       <module name="webfx" target="1.8" />
       <module name="webfx-framework" target="1.8" />
+      <module name="webfx-framework-action" target="1.8" />
+      <module name="webfx-framework-activity" target="1.8" />
+      <module name="webfx-framework-all" target="1.8" />
+      <module name="webfx-framework-athn" target="1.8" />
+      <module name="webfx-framework-authn" target="1.8" />
+      <module name="webfx-framework-authz" target="1.8" />
+      <module name="webfx-framework-controls" target="1.8" />
+      <module name="webfx-framework-domain" target="1.8" />
+      <module name="webfx-framework-entity" target="1.8" />
+      <module name="webfx-framework-expression" target="1.8" />
+      <module name="webfx-framework-i18n" target="1.8" />
+      <module name="webfx-framework-layouts" target="1.8" />
+      <module name="webfx-framework-materialdesign" target="1.8" />
+      <module name="webfx-framework-operation" target="1.8" />
+      <module name="webfx-framework-router" target="1.8" />
+      <module name="webfx-framework-uifilter" target="1.8" />
+      <module name="webfx-framework-uirouter" target="1.8" />
+      <module name="webfx-framework-util" target="1.8" />
       <module name="webfx-fxkit" target="1.8" />
       <module name="webfx-fxkit-gwt" target="1.8" />
       <module name="webfx-fxkit-javafx" target="1.8" />

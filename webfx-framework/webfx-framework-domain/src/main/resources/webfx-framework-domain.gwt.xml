@@ -1,0 +1,16 @@
+<module rename-to="webfx_framework_domain">
+
+    <inherits name="webfx-framework-expression"/>
+    <inherits name="webfx-platforms-core-query"/>
+    <inherits name="webfx-framework-uirouter"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/orm/domainmodel"/>
+    <source path="webfx/framework/activity/impl/elementals/domain"/>
+    <source path="webfx/framework/activity/impl/combinations/domainapplication"/>
+    <source path="webfx/framework/activity/impl/combinations/domainpresentation"/>
+    <source path="webfx/framework/activity/impl/combinations/domainpresentationlogic"/>
+    <source path="webfx/framework/activity/impl/combinations/viewdomain"/>
+    <source path="webfx/framework/activity/impl/combinations/viewdomainapplication"/>
+
+</module>

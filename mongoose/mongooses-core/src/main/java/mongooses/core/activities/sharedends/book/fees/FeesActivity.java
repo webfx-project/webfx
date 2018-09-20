@@ -38,7 +38,7 @@ import webfx.platforms.core.util.Arrays;
 import webfx.platforms.core.util.Booleans;
 import webfx.platforms.core.util.tuples.Pair;
 
-import static webfx.framework.ui.graphic.image.JsonImageViews.createImageView;
+import static webfx.framework.ui.util.image.JsonImageViews.createImageView;
 
 /**
  * @author Bruno Salmon

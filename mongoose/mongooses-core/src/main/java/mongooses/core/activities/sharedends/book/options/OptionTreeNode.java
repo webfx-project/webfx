@@ -26,7 +26,7 @@ import mongooses.core.entities.Label;
 import mongooses.core.entities.Option;
 import mongooses.core.util.Labels;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.graphic.controls.button.EntityButtonSelector;
+import webfx.framework.ui.controls.button.EntityButtonSelector;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.util.ImageStore;

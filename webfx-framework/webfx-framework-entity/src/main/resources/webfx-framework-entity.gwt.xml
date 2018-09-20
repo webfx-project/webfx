@@ -1,0 +1,10 @@
+<module rename-to="webfx_framework_entity">
+
+    <inherits name="webfx-framework-domain"/>
+    <inherits name="webfx-platforms-core-update"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/orm/entity"/>
+    <source path="webfx/framework/orm/mapping"/>
+
+</module>

@@ -1,0 +1,11 @@
+<module rename-to="webfx_framework_router">
+
+    <inherits name="webfx-framework-authn"/>
+    <inherits name="webfx-framework-authz"/>
+    <inherits name="webfx-platforms-core-json"/>
+    <inherits name="webfx-platforms-core-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/router"/>
+
+</module>

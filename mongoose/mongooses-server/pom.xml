@@ -19,6 +19,12 @@
             <version>${mongoose.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>webfx-platforms-core-resource</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
     </dependencies>
 
 

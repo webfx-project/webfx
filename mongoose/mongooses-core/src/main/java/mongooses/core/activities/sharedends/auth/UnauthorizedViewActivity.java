@@ -2,7 +2,7 @@ package mongooses.core.activities.sharedends.auth;
 
 import javafx.scene.Node;
 import javafx.scene.text.Text;
-import webfx.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 
 /**
  * @author Bruno Salmon

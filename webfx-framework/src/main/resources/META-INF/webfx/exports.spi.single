@@ -1,3 +1,0 @@
-webfx.framework.services.authn.spi.AuthenticationServiceProvider
-webfx.framework.services.authz.spi.AuthorizationServiceProvider
-webfx.framework.services.i18n.spi.I18nProvider

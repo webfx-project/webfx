@@ -10,7 +10,7 @@
     <inherits name="mongooses-backend"/>
     <inherits name="mongooses-sharedends"/>
     <inherits name="mongooses-core"/>
-    <inherits name="webfx-framework"/>
+    <inherits name="webfx-framework-all"/>
     <inherits name="webfx-fxkit-gwt"/>
     <inherits name="webfx-platforms-web-clientbus"/>
     <inherits name="webfx-platform-gwt-appcontainer"/>

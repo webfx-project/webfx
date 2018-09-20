@@ -3,7 +3,7 @@ package mongooses.core.activities.frontend;
 import mongooses.core.activities.sharedends.MongooseSharedEndsApplication;
 import mongooses.core.activities.sharedends.book.start.StartBookingRouting;
 import webfx.framework.activity.Activity;
-import webfx.framework.activity.base.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.platforms.core.util.function.Factory;
 
 /**

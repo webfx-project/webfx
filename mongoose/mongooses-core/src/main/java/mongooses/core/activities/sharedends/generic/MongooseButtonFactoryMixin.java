@@ -2,9 +2,9 @@ package mongooses.core.activities.sharedends.generic;
 
 import javafx.scene.control.Button;
 import mongooses.core.activities.sharedends.logic.ui.theme.Theme;
-import webfx.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import webfx.framework.ui.graphic.controls.button.ButtonBuilder;
-import webfx.framework.ui.graphic.materialdesign.MaterialFactoryMixin;
+import webfx.framework.ui.controls.button.ButtonFactoryMixin;
+import webfx.framework.ui.controls.button.ButtonBuilder;
+import webfx.framework.ui.controls.MaterialFactoryMixin;
 
 /**
  * @author Bruno Salmon

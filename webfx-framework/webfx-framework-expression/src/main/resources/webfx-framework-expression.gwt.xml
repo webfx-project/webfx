@@ -1,0 +1,11 @@
+<module rename-to="webfx_framework_expression">
+
+    <inherits name="webfx-fxkits-extra"/>
+    <inherits name="webfx-platforms-core-json"/>
+    <inherits name="webfx-platforms-core-util"/>
+    <inherits name="webfx-lib-javacupruntime"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/expression"/>
+
+</module>

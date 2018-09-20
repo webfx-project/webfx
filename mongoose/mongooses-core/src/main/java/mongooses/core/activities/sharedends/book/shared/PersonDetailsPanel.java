@@ -18,17 +18,16 @@ import mongooses.core.entities.Organization;
 import mongooses.core.entities.Person;
 import mongooses.core.entities.markers.HasPersonDetails;
 import mongooses.core.services.authn.MongooseUserPrincipal;
-import webfx.framework.activity.base.elementals.view.ViewActivityContextMixin;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import webfx.framework.ui.graphic.controls.button.EntityButtonSelector;
-import webfx.framework.ui.graphic.controls.dialog.GridPaneBuilder;
-import webfx.framework.ui.graphic.materialdesign.textfield.MaterialTextFieldPane;
+import webfx.framework.ui.controls.button.ButtonFactoryMixin;
+import webfx.framework.ui.controls.button.EntityButtonSelector;
+import webfx.framework.ui.controls.dialog.GridPaneBuilder;
+import webfx.framework.ui.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.framework.ui.uisession.UiSession;
+import webfx.framework.ui.uirouter.uisession.UiSession;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
@@ -62,11 +61,11 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     private boolean editable = true;
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
-    public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent) {
-        this(event, viewActivityContextMixin, parent, null);
+    public PersonDetailsPanel(Event event, ButtonFactoryMixin buttonFactoryMixin, Pane parent) {
+        this(event, buttonFactoryMixin, parent, null);
     }
 
-    public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent, UiSession uiSession) {
+    public PersonDetailsPanel(Event event, ButtonFactoryMixin buttonFactoryMixin, Pane parent, UiSession uiSession) {
         this.event = event;
         sectionPanel = createSectionPanel("YourPersonalDetails");
 
@@ -94,15 +93,15 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         postCodeTextField = newMaterialTextField("Postcode", "PostcodePlaceholder");
         cityNameTextField = newMaterialTextField("City", "CityPlaceholder");
         DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
-        countrySelector = createEntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
+        countrySelector = createEntityButtonSelector("{class: 'Country', orderBy: 'name'}", buttonFactoryMixin, parent, dataSourceModel);
         countryButton = countrySelector.toMaterialButton("Country", "CountryPlaceholder");
-        organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
+        organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", buttonFactoryMixin, parent, dataSourceModel);
         organizationButton = organizationSelector.toMaterialButton("Centre", "CentreInfo");
         if (uiSession == null) {
             personSelector = null;
             personButton = null;
         } else {
-            personSelector = createEntityButtonSelector(null, viewActivityContextMixin, parent, dataSourceModel);
+            personSelector = createEntityButtonSelector(null, buttonFactoryMixin, parent, dataSourceModel);
             personButton = personSelector.toMaterialButton("PersonToBook", null);
             Properties.runOnPropertiesChange(p -> syncUiFromModel((Person) p.getValue()), personSelector.selectedItemProperty());
             Properties.runNowAndOnPropertiesChange(userProperty -> {

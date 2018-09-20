@@ -65,7 +65,113 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework</artifactId>
+            <artifactId>webfx-framework-expression</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-activity</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-domain</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-entity</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-operation</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-action</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-authn</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-authz</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-i18n</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-uirouter</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-router</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-uifilter</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-layouts</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-controls</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-materialdesign</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+
+        <dependency>
+            <artifactId>webfx-framework-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>

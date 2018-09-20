@@ -1,7 +1,7 @@
 package mongooses.core.activities.sharedends.book.terms;
 
 import mongooses.core.activities.sharedends.generic.routing.MongooseRoutingUtil;
-import webfx.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
+import webfx.framework.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRoute;
 
 /**

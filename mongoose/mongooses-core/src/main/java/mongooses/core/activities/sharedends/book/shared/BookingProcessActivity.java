@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import mongooses.core.activities.sharedends.generic.MongooseSectionFactoryMixin;
 import mongooses.core.activities.sharedends.generic.eventdependent.EventDependentViewDomainActivity;
 import mongooses.core.entities.Event;
-import webfx.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.ui.util.background.BackgroundUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.util.Strings;

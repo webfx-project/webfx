@@ -19,10 +19,10 @@ import mongooses.core.activities.sharedends.book.shared.LoginPanel;
 import mongooses.core.activities.sharedends.book.shared.PersonDetailsPanel;
 import mongooses.core.operations.bothends.route.RouteToSummaryRequest;
 import mongooses.core.activities.sharedends.logic.work.WorkingDocument;
-import webfx.framework.ui.graphic.background.BackgroundUtil;
-import webfx.framework.ui.graphic.border.BorderUtil;
+import webfx.framework.ui.util.background.BackgroundUtil;
+import webfx.framework.ui.util.border.BorderUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.framework.ui.uisession.UiSession;
+import webfx.framework.ui.uirouter.uisession.UiSession;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.util.Numbers;
 

@@ -1,0 +1,10 @@
+<module rename-to="webfx_framework_materialdesign">
+
+    <inherits name="webfx-framework-i18n"/>
+    <inherits name="webfx-framework-layouts"/>
+    <inherits name="webfx-framework-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/ui/materialdesign"/>
+
+</module>

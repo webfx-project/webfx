@@ -1,0 +1,8 @@
+<module rename-to="webfx_framework_authn">
+
+    <inherits name="webfx-platforms-core-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/services/authn"/>
+
+</module>

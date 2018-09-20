@@ -1,0 +1,10 @@
+<module rename-to="webfx_framework_authz">
+
+    <inherits name="webfx-framework-operation"/>
+    <inherits name="webfx-platforms-core-uischeduler"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/services/authz"/>
+    <source path="webfx/framework/operation/authz"/>
+
+</module>

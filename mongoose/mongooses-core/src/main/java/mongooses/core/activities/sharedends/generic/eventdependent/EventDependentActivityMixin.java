@@ -2,10 +2,10 @@ package mongooses.core.activities.sharedends.generic.eventdependent;
 
 import mongooses.core.aggregates.EventAggregate;
 import mongooses.core.aggregates.EventAggregateMixin;
-import webfx.framework.activity.base.elementals.domain.DomainActivityContext;
-import webfx.framework.activity.base.elementals.domain.DomainActivityContextMixin;
-import webfx.framework.activity.base.elementals.uiroute.UiRouteActivityContext;
-import webfx.framework.activity.base.elementals.uiroute.UiRouteActivityContextMixin;
+import webfx.framework.activity.impl.elementals.domain.DomainActivityContext;
+import webfx.framework.activity.impl.elementals.domain.DomainActivityContextMixin;
+import webfx.framework.activity.impl.elementals.uiroute.UiRouteActivityContext;
+import webfx.framework.activity.impl.elementals.uiroute.UiRouteActivityContextMixin;
 
 /**
  * @author Bruno Salmon

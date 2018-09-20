@@ -16,7 +16,7 @@ import mongooses.core.activities.sharedends.logic.time.TimeInterval;
 import mongooses.core.activities.sharedends.logic.ui.calendargraphic.CalendarCell;
 import mongooses.core.activities.sharedends.logic.ui.calendargraphic.CalendarClickEvent;
 import mongooses.core.activities.sharedends.logic.ui.calendargraphic.CalendarGraphic;
-import webfx.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.ui.util.background.BackgroundUtil;
 
 import java.util.concurrent.TimeUnit;
 

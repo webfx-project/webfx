@@ -8,11 +8,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.graphic.background.BackgroundUtil;
-import webfx.framework.ui.graphic.border.BorderUtil;
+import webfx.framework.ui.util.background.BackgroundUtil;
+import webfx.framework.ui.util.border.BorderUtil;
 import webfx.fxkits.extra.cell.collator.NodeCollatorRegistry;
 
-import static webfx.framework.ui.graphic.image.JsonImageViews.createImageView;
+import static webfx.framework.ui.util.image.JsonImageViews.createImageView;
 
 /**
  * @author Bruno Salmon

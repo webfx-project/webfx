@@ -1,8 +1,8 @@
 package mongooses.core.activities.sharedends.logic.ui.theme;
 
 import javafx.scene.paint.Color;
-import webfx.framework.ui.graphic.background.BackgroundUtil;
-import webfx.framework.ui.graphic.border.BorderUtil;
+import webfx.framework.ui.util.background.BackgroundUtil;
+import webfx.framework.ui.util.border.BorderUtil;
 
 /**
  * @author Bruno Salmon

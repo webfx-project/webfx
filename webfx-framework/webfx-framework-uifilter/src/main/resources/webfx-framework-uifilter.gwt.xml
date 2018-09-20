@@ -1,0 +1,13 @@
+<module rename-to="webfx_framework_uifilter">
+
+    <inherits name="webfx-framework-entity"/>
+    <inherits name="webfx-framework-i18n"/>
+    <inherits name="webfx-framework-util"/>
+    <inherits name="webfx-platforms-core-querypush"/>
+    <inherits name="webfx-lib-rxjava"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/ui/filter"/>
+    <source path="webfx/framework/orm/mapping"/>
+
+</module>

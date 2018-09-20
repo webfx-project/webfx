@@ -11,8 +11,8 @@ import mongooses.core.activities.sharedends.generic.MongooseSectionFactoryMixin;
 import mongooses.core.aggregates.EventAggregate;
 import mongooses.core.domainmodel.loader.DomainModelSnapshotLoader;
 import mongooses.core.entities.Event;
-import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import webfx.framework.ui.graphic.background.BackgroundUtil;
+import webfx.framework.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.ui.util.background.BackgroundUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.util.Strings;
 

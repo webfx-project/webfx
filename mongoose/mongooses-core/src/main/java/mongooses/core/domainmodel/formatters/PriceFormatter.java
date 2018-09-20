@@ -5,7 +5,7 @@ import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
 import webfx.platforms.core.util.Numbers;
 import webfx.framework.orm.entity.EntityId;
-import webfx.framework.ui.formatter.Formatter;
+import webfx.framework.ui.util.formatter.Formatter;
 
 /**
  * @author Bruno Salmon

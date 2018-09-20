@@ -13,6 +13,11 @@
         <option value="$PROJECT_DIR$/mongoose/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/webfx-framework/webfx-framework-athn/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />

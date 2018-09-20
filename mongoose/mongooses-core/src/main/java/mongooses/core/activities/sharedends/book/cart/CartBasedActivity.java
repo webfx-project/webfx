@@ -6,7 +6,7 @@ import mongooses.core.activities.sharedends.generic.MongooseButtonFactoryMixin;
 import mongooses.core.activities.sharedends.generic.MongooseSectionFactoryMixin;
 import mongooses.core.aggregates.CartAggregate;
 import mongooses.core.entities.Event;
-import webfx.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.services.i18n.I18n;
 import webfx.fxkits.core.util.properties.Properties;
 

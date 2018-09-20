@@ -6,7 +6,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import mongooses.core.activities.sharedends.logic.ui.theme.Theme;
-import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
@@ -15,7 +16,8 @@ import webfx.fxkits.extra.control.DataGrid;
  * @author Bruno Salmon
  */
 public abstract class GenericTablePresentationViewActivity<PM extends GenericTablePresentationModel>
-        extends PresentationViewActivityImpl<PM> {
+        extends PresentationViewActivityImpl<PM>
+        implements ButtonFactoryMixin {
 
     protected TextField searchBox;
     protected DataGrid table;

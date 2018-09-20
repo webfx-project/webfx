@@ -1,7 +1,7 @@
 package mongoose.backend.javafx.activities.event.clone;
 
 import mongooses.core.activities.backend.cloneevent.CloneEventRouting;
-import webfx.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
+import webfx.framework.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRoute;
 
 /**

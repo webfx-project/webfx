@@ -30,11 +30,11 @@ import webfx.framework.orm.entity.Entities;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.graphic.controls.dialog.DialogCallback;
-import webfx.framework.ui.graphic.controls.dialog.DialogUtil;
-import webfx.framework.ui.graphic.controls.dialog.GridPaneBuilder;
+import webfx.framework.ui.controls.dialog.DialogCallback;
+import webfx.framework.ui.controls.dialog.DialogUtil;
+import webfx.framework.ui.controls.dialog.GridPaneBuilder;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.framework.ui.mapping.EntityListToDisplayResultGenerator;
+import webfx.framework.orm.mapping.EntityListToDisplayResultMapper;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplaySelection;
@@ -46,7 +46,7 @@ import webfx.platforms.core.util.collection.Collections;
 
 import java.util.List;
 
-import static webfx.framework.ui.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.ui.util.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon
@@ -193,7 +193,7 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<DisplayResult> displayResultProperty) {
-        displayResultProperty.setValue(EntityListToDisplayResultGenerator.createDisplayResult(entities, columnsDefinition
+        displayResultProperty.setValue(EntityListToDisplayResultMapper.createDisplayResult(entities, columnsDefinition
                 , getDataSourceModel().getDomainModel(), classId));
     }
 

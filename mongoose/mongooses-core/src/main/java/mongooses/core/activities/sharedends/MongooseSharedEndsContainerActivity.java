@@ -6,7 +6,7 @@ import javafx.scene.layout.FlowPane;
 import mongooses.core.activities.sharedends.generic.MongooseButtonFactoryMixin;
 import mongooses.core.operations.bothends.i18n.ChangeLanguageToEnglishRequest;
 import mongooses.core.operations.bothends.i18n.ChangeLanguageToFrenchRequest;
-import webfx.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.operation.action.OperationActionFactoryMixin;
 import webfx.framework.ui.action.Action;
 import webfx.framework.ui.action.ActionBinder;

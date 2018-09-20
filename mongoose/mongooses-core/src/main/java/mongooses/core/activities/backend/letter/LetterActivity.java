@@ -4,13 +4,14 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import mongooses.core.activities.backend.util.MultiLanguageEditor;
-import webfx.framework.activity.base.elementals.view.impl.ViewDomainActivityBase;
+import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
+import webfx.framework.ui.controls.button.ButtonFactoryMixin;
 import webfx.fxkits.core.util.properties.Properties;
 
 /**
  * @author Bruno Salmon
  */
-final class LetterActivity extends ViewDomainActivityBase {
+final class LetterActivity extends ViewDomainActivityBase implements ButtonFactoryMixin {
 
     private final Property<Object> routeLetterIdProperty = new SimpleObjectProperty<>();
 

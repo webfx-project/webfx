@@ -20,11 +20,28 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-sharedends" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-action" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-activity" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-all" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-athn" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-authn" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-authz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-controls" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-domain" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-entity" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-expression" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-i18n" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-layouts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-materialdesign" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-operation" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-router" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-uifilter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-uirouter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-util" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-javafx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-all" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-launcher" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-mapper" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-util" charset="UTF-8" />

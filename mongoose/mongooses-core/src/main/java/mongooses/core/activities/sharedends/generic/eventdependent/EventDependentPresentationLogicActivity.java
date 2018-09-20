@@ -1,7 +1,7 @@
 package mongooses.core.activities.sharedends.generic.eventdependent;
 
 import mongooses.core.activities.sharedends.generic.MongooseDomainPresentationLogicActivityBase;
-import webfx.framework.activity.base.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
+import webfx.framework.activity.impl.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
 import webfx.platforms.core.util.function.Factory;
 
 /**

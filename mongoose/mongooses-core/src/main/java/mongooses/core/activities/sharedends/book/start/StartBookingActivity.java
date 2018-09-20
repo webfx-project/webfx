@@ -18,7 +18,7 @@ import mongooses.core.operations.bothends.route.RouteToOptionsRequest;
 import mongooses.core.operations.bothends.route.RouteToProgramRequest;
 import mongooses.core.operations.bothends.route.RouteToTermsRequest;
 import mongooses.core.util.Labels;
-import webfx.framework.ui.anim.Animations;
+import webfx.framework.ui.util.anim.Animations;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.util.ImageStore;

@@ -5,13 +5,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import webfx.framework.activity.base.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.ui.layouts.SceneUtil;
 
 /**
  * @author Bruno Salmon
  */
-class SaveLoadTestPresentationViewActivity extends PresentationViewActivityImpl<SaveLoadTestPresentationModel> {
+class SaveLoadTestPresentationViewActivity
+        extends PresentationViewActivityImpl<SaveLoadTestPresentationModel>
+        implements ButtonFactoryMixin {
 
     private TextField testName;
     private TextField testComment;

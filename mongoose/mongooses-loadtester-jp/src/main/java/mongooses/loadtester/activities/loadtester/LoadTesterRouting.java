@@ -1,6 +1,6 @@
 package mongooses.loadtester.activities.loadtester;
 
-import webfx.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
+import webfx.framework.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRoute;
 
 /**

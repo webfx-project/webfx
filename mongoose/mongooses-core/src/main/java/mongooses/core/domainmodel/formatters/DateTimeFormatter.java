@@ -3,7 +3,7 @@ package mongooses.core.domainmodel.formatters;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
 import webfx.platforms.core.util.Dates;
-import webfx.framework.ui.formatter.Formatter;
+import webfx.framework.ui.util.formatter.Formatter;
 
 
 /**

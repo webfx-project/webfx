@@ -10,148 +10,29 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>webfx-framework</artifactId>
+    <packaging>pom</packaging>
 
-    <dependencies>
+    <modules>
 
-        <dependency>
-            <artifactId>webfx-platforms-core-windowhistory</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
+        <module>webfx-framework-util</module>
+        <module>webfx-framework-expression</module>
+        <module>webfx-framework-activity</module>
+        <module>webfx-framework-domain</module>
+        <module>webfx-framework-operation</module>
+        <module>webfx-framework-action</module>
+        <module>webfx-framework-authn</module>
+        <module>webfx-framework-authz</module>
+        <module>webfx-framework-i18n</module>
+        <module>webfx-framework-router</module>
+        <module>webfx-framework-uirouter</module>
 
+        <module>webfx-framework-all</module>
+        <module>webfx-framework-entity</module>
+        <module>webfx-framework-uifilter</module>
+        <module>webfx-framework-materialdesign</module>
+        <module>webfx-framework-controls</module>
+        <module>webfx-framework-layouts</module>
 
-        <dependency>
-            <artifactId>webfx-platforms-core-querypush</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-update</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-resource</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-fxkits-core-launcher</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <!-- Only because of HasNodeProperty and FxKitMapper.getVerticalScrollbarExtraWidth() -->
-        <dependency>
-            <artifactId>webfx-fxkits-core-mapper</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-fxkits-core-util</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-fxkits-extra</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-lib-rxjava</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <!-- Dependency used for drop down button decoration (only) -->
-        <dependency>
-            <artifactId>webfx-lib-controlsfx-validation</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-
-    </dependencies>
-
-    <build>
-        <plugins>
-
-            <!-- Calling the Java CUP plugin to generate JavaCupExpressionParser.java and ExpressionSymbols.java from the ExpressionParser.cup grammar file -->
-            <plugin>
-                <groupId>com.github.vbmacher</groupId>
-                <artifactId>cup-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>expression-parser</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <cupDefinition>src/main/java/webfx/framework/expression/parser/javacup/ExpressionParser.cup</cupDefinition>
-                            <outputDirectory>src/main/java/</outputDirectory>
-                            <className>JavaCupExpressionParser</className>
-                            <symbolsName>ExpressionSymbols</symbolsName>
-                            <packageName>webfx.framework.expression.parser.javacup</packageName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Calling the JFlex plugin to generate ExpressionLexer.java from the ExpressionLexer.flex lexical file -->
-            <plugin>
-                <groupId>de.jflex</groupId>
-                <artifactId>jflex-maven-plugin</artifactId>
-                <configuration>
-                    <outputDirectory>src/main/java</outputDirectory>
-                    <lexDefinitions>
-                        <lexDefinition>src/main/java/webfx/framework/expression/parser/jflex/ExpressionLexer.flex</lexDefinition>
-                    </lexDefinitions>
-                </configuration>
-            </plugin>
-
-            <!-- Generating the source artifact for GWT compilation -->
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-            <!-- Relocating the java_cup package to avoid a version conflict that makes TeaVM compilation fail (TeaVM has a dependency on xalan which includes an incompatible version of java_cup) -->
-            <!--plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>teavm</shadedClassifierName>
-                            <createSourcesJar>true</createSourcesJar>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <relocations>
-                                <relocation>
-                                    <pattern>java_cup</pattern>
-                                    <shadedPattern>java_cub_11b</shadedPattern>
-                                </relocation>
-
-                            </relocations>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin!-->
-
-        </plugins>
-    </build>
+    </modules>
 
 </project>

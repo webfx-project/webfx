@@ -24,7 +24,7 @@ import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.util.async.Future;
 
 import static webfx.framework.orm.entity.EntityFactoryRegistry.registerEntityFactory;
-import static webfx.framework.ui.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.ui.util.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon

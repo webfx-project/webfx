@@ -1,6 +1,6 @@
 package mongooses.core.activities.backend.letters;
 
-import webfx.framework.activity.base.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
+import webfx.framework.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
 
 /**
  * @author Bruno Salmon
