@@ -20,7 +20,13 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-scheduler</artifactId>
+            <artifactId>webfx-platforms-core-uischeduler</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-log</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -30,6 +36,12 @@
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>emul</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -37,6 +49,38 @@
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>emul</classifier>
+            <exclusions> <!-- Excluding all the transitive dependencies (because they were not relocated to emul) -->
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency> <!-- Just for markers such as HasParentProperty, etc... -->
+            <artifactId>webfx-fxkits-core-mapper</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>emul</classifier>
+            <exclusions> <!-- Excluding all the transitive dependencies (because they were not relocated to emul) -->
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkits-core-util</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>emul</classifier>
+            <exclusions> <!-- Excluding all the transitive dependencies (because they were not relocated to emul) -->
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

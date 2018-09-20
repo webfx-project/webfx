@@ -82,7 +82,7 @@
             <artifactId>webfx-fxkit-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-            <classifier>shaded-sources</classifier>
+            <classifier>javafx-sources</classifier>
         </dependency>
 
         <dependency>
@@ -129,6 +129,13 @@
 
         <dependency>
             <artifactId>webfx-platforms-core-uischeduler</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-scheduler</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -291,6 +298,13 @@
 
         <dependency>
             <artifactId>webfx-platforms-core-clientbus</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platforms-core-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>

@@ -63,6 +63,8 @@
     </dependencies>
 
     <properties>
+        <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
+        <plugin.shade.param.fat.phase>none</plugin.shade.param.fat.phase>
         <!-- Disabling the default behaviour defined in the parent pom for the dependency plugin -->
         <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
@@ -77,10 +79,39 @@
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
-            <!-- Relocating the emul.javafx package to java for both classes and sources -->
+            <!-- Relocating the emul.javafx package to javafx for both classes and sources -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <artifactSet>
+                                <includes> <!-- We want only the project artifact, not the artifact dependencies -->
+                                    <include>${project.groupId}:webfx-fxkit*</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>emul.javafx</pattern>
+                                    <shadedPattern>javafx</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>emul.com.sun</pattern>
+                                    <shadedPattern>com.sun</shadedPattern>
+                                </relocation>
+                            </relocations>
+                            <createSourcesJar>true</createSourcesJar>
+                            <shadeSourcesContent>true</shadeSourcesContent>
+                            <shadedClassifierName>javafx</shadedClassifierName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

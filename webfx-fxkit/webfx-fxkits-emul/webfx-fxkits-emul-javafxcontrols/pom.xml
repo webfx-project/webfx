@@ -23,7 +23,13 @@
             <artifactId>webfx-fxkits-core-launcher</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-            <scope>provided</scope>
+            <classifier>emul</classifier>
+            <exclusions> <!-- Excluding all the transitive dependencies (because they were not relocated to emul) -->
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

@@ -36,8 +36,13 @@
                                 <goal>shade</goal>
                             </goals>
                             <configuration>
-                                <keepDependenciesWithProvidedScope>false</keepDependenciesWithProvidedScope>
+                                <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
                                 <shadedArtifactAttached>true</shadedArtifactAttached>
+                                <artifactSet>
+                                    <includes> <!-- We want only the project artifact, not the artifact dependencies -->
+                                        <include>${project.groupId}:${project.artifactId}</include>
+                                    </includes>
+                                </artifactSet>
                                 <relocations>
                                     <relocation>
                                         <pattern>javafx</pattern>
