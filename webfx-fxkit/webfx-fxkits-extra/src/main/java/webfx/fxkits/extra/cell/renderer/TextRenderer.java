@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.function.Func2;
+import java.util.function.BiFunction;
 
 /**
  * @author Bruno Salmon
@@ -13,11 +13,11 @@ public class TextRenderer implements ValueRenderer {
 
     public final static TextRenderer SINGLETON = new TextRenderer();
 
-    private Func2<Object, Object, TextField> textFieldFactory = (labelKey, placeholderKey) -> new TextField();
+    private BiFunction<Object, Object, TextField> textFieldFactory = (labelKey, placeholderKey) -> new TextField();
 
     private TextRenderer() {}
 
-    public void setTextFieldFactory(Func2<Object, Object, TextField> textFieldFactory) {
+    public void setTextFieldFactory(BiFunction<Object, Object, TextField> textFieldFactory) {
         this.textFieldFactory = textFieldFactory;
     }
 
@@ -26,7 +26,7 @@ public class TextRenderer implements ValueRenderer {
         String stringValue = Strings.toSafeString(value);
         if (context.isReadOnly())
             return new Text(stringValue);
-        TextField textField = textFieldFactory.call(context.getLabelKey(), context.getPlaceholderKey());
+        TextField textField = textFieldFactory.apply(context.getLabelKey(), context.getPlaceholderKey());
         textField.setText(Strings.stringValue(value));
         context.setEditedValueProperty(textField.textProperty());
         return textField;

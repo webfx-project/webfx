@@ -7,7 +7,7 @@ import javafx.beans.value.ObservableValue;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.collection.Collections;
 import java.util.function.Consumer;
-import webfx.platforms.core.util.function.Func2;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -62,9 +62,9 @@ public final class Properties {
         return combinedProperty;
     }
 
-    public static <T1, T2, R> ObservableValue<R> combine(ObservableValue<? extends T1> p1, ObservableValue<? extends T2> p2, Func2<? super T1, ? super T2, ? extends R> combineFunction) {
+    public static <T1, T2, R> ObservableValue<R> combine(ObservableValue<? extends T1> p1, ObservableValue<? extends T2> p2, BiFunction<? super T1, ? super T2, ? extends R> combineFunction) {
         Property<R> combinedProperty = new SimpleObjectProperty<>();
-        runNowAndOnPropertiesChange(arg -> combinedProperty.setValue(combineFunction.call(p1.getValue(), p2.getValue())), p1, p2);
+        runNowAndOnPropertiesChange(arg -> combinedProperty.setValue(combineFunction.apply(p1.getValue(), p2.getValue())), p1, p2);
         return combinedProperty;
     }
 
