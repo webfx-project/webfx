@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import webfx.fxkits.extra.type.Type;
 import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 import webfx.fxkits.extra.chart.PieChart;
 import webfx.fxkits.extra.mapper.spi.peer.impl.PieChartPeerMixin;
 import webfx.fxkits.extra.mapper.spi.peer.impl.PieChartPeerBase;

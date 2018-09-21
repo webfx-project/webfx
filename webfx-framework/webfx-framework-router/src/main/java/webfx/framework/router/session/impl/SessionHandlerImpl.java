@@ -5,7 +5,7 @@ import webfx.framework.router.session.Session;
 import webfx.framework.router.session.SessionHandler;
 import webfx.framework.router.session.SessionStore;
 import webfx.platforms.core.util.function.Callable;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

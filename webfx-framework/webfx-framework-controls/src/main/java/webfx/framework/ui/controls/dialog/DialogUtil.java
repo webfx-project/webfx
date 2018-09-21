@@ -17,7 +17,7 @@ import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Booleans;
 import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.List;

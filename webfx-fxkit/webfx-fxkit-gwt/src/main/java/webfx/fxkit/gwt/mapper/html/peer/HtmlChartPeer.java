@@ -19,7 +19,7 @@ import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.Booleans;
 import webfx.platforms.core.util.Numbers;
 import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.List;

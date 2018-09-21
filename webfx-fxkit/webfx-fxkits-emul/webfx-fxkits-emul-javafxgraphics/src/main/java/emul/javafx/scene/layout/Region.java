@@ -17,7 +17,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasBackgroundProperty;
 import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasBorderProperty;
 import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasPaddingProperty;
 import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasSnapToPixelProperty;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.services.query.QueryArgument;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

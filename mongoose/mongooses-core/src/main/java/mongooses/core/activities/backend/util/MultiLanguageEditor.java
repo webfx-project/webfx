@@ -16,7 +16,7 @@ import webfx.platforms.core.util.Objects;
 import webfx.platforms.core.util.Strings;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.function.Callable;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 import webfx.platforms.core.util.tuples.Pair;
 
 import java.util.HashMap;

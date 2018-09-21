@@ -10,7 +10,7 @@ import webfx.platforms.core.services.querypush.QueryPushResult;
 import webfx.platforms.core.services.querypush.QueryPushService;
 import webfx.platforms.core.services.querypush.spi.QueryPushServiceProvider;
 import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

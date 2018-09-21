@@ -12,9 +12,9 @@ import webfx.platforms.core.util.async.AsyncFunction;
 import webfx.platforms.core.util.async.AsyncResult;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.Handler;
-import webfx.platforms.core.util.function.BiConsumer;
+import java.util.function.BiConsumer;
 import webfx.platforms.core.util.function.Callable;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon

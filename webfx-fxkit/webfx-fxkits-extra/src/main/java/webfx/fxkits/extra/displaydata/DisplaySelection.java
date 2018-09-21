@@ -1,6 +1,6 @@
 package webfx.fxkits.extra.displaydata;
 
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.List;

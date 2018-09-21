@@ -10,7 +10,7 @@ import webfx.platforms.core.services.windowlocation.spi.impl.PathStateLocationIm
 import webfx.platforms.core.util.Strings;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.Handler;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon

@@ -8,7 +8,7 @@ import webfx.framework.orm.domainmodel.DomainModel;
 import webfx.framework.orm.entity.lciimpl.EntityDataReader;
 import webfx.platforms.core.util.Booleans;
 import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Predicate;
+import java.util.function.Predicate;
 
 import java.util.List;
 

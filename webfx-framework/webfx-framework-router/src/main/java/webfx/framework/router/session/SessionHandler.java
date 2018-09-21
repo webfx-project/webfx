@@ -4,7 +4,7 @@ import webfx.framework.router.RoutingContext;
 import webfx.framework.router.session.impl.SessionHandlerImpl;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.function.Callable;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

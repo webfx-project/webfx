@@ -18,7 +18,7 @@
 package webfx.platforms.core.services.scheduler.spi;
 
 import webfx.platforms.core.services.scheduler.Scheduled;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 import webfx.platforms.core.util.tuples.Unit;
 
 /**

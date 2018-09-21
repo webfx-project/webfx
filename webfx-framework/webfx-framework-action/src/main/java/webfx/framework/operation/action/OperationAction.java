@@ -5,7 +5,7 @@ import webfx.framework.operation.OperationUtil;
 import webfx.framework.ui.action.impl.WritableAction;
 import webfx.platforms.core.util.async.AsyncFunction;
 import webfx.platforms.core.util.function.Factory;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon

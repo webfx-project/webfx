@@ -29,7 +29,7 @@ import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
 import webfx.platforms.core.util.Arrays;
 import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.function.BiConsumer;
+import java.util.function.BiConsumer;
 import webfx.platforms.core.util.tuples.Unit;
 
 import java.util.ArrayList;

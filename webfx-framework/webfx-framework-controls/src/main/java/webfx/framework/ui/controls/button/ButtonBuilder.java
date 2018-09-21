@@ -16,7 +16,7 @@ import webfx.framework.ui.util.image.JsonImageViews;
 import webfx.framework.ui.util.paint.PaintBuilder;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon

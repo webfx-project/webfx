@@ -20,7 +20,7 @@ import webfx.platforms.core.util.Objects;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.FutureBroadcaster;
 import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Predicate;
+import java.util.function.Predicate;
 
 import java.util.HashMap;
 import java.util.List;

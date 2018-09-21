@@ -1,10 +1,10 @@
 package webfx.platforms.core.util;
 
 import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 import webfx.platforms.core.util.function.Converter;
-import webfx.platforms.core.util.function.IntFunction;
-import webfx.platforms.core.util.function.Predicate;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,7 @@ import webfx.platform.gwt.services.json.GwtJsonObject;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.web.services.windowhistory.JsWindowHistory;
 import webfx.platforms.core.util.async.Handler;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon

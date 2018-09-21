@@ -5,7 +5,7 @@ import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.async.AsyncFunction;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon

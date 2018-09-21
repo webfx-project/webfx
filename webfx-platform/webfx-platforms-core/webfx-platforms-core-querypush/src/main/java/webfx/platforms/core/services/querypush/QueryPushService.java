@@ -7,7 +7,7 @@ import webfx.platforms.core.services.push.server.PushServerService;
 import webfx.platforms.core.services.querypush.spi.QueryPushServiceProvider;
 import webfx.platforms.core.services.querypush.spi.remote.RemoteQueryPushServiceProviderImpl;
 import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**

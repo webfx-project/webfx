@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.scheduler;
 
 import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**

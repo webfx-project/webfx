@@ -1,9 +1,9 @@
 package webfx.platforms.core.util.async;
 
-import webfx.platforms.core.util.function.BiConsumer;
+import java.util.function.BiConsumer;
 import webfx.platforms.core.util.function.Callable;
-import webfx.platforms.core.util.function.Consumer;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import webfx.platforms.core.util.tuples.Unit;
 
 import java.util.logging.Level;

@@ -8,7 +8,7 @@ import webfx.framework.orm.domainmodel.HasDataSourceModel;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Predicate;
+import java.util.function.Predicate;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityList;

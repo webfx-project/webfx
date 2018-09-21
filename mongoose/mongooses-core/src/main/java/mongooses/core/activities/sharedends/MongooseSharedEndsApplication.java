@@ -37,7 +37,7 @@ import webfx.framework.ui.uirouter.UiRouter;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.services.buscall.PendingBusCall;
 import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 import webfx.platforms.core.util.function.Factory;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 

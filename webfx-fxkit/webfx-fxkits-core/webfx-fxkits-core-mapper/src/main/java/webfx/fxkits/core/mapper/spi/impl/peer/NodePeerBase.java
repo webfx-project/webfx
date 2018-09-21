@@ -15,8 +15,8 @@ import webfx.fxkits.core.util.properties.ObservableLists;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.platforms.core.util.Arrays;
 import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.BiConsumer;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import java.util.List;
 

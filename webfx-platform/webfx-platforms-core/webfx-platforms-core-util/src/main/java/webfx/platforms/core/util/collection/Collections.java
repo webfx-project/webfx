@@ -1,8 +1,11 @@
 package webfx.platforms.core.util.collection;
 
 import webfx.platforms.core.util.function.*;
+import java.util.function.IntFunction;
+
 import java.io.Serializable;
 import java.util.*;
+import java.util.function.*;
 
 /**
  * @author Bruno Salmon

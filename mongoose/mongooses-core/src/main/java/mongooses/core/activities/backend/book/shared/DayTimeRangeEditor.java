@@ -9,7 +9,7 @@ import mongooses.core.activities.sharedends.logic.calendar.CalendarTimeline;
 import mongooses.core.activities.sharedends.logic.time.DayTimeRange;
 import mongooses.core.activities.sharedends.logic.ui.calendargraphic.impl.DayColumnBodyBlockViewModel;
 import mongooses.core.activities.sharedends.logic.ui.calendargraphic.impl.DayColumnHeaderViewModel;
-import webfx.platforms.core.util.function.BiConsumer;
+import java.util.function.BiConsumer;
 import webfx.framework.ui.controls.dialog.DialogCallback;
 import webfx.framework.ui.controls.dialog.DialogUtil;
 import webfx.framework.ui.controls.dialog.GridPaneBuilder;

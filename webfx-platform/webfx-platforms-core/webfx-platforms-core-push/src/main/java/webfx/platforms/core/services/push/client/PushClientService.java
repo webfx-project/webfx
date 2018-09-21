@@ -8,7 +8,7 @@ import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.client.spi.impl.PushClientServiceProviderImpl;
 import webfx.platforms.core.services.push.client.spi.PushClientServiceProvider;
 import webfx.platforms.core.services.push.ClientPushBusAddressesSharedByBothClientAndServer;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**

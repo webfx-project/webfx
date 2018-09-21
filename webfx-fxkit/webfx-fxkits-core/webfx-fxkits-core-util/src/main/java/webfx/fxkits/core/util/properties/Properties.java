@@ -6,10 +6,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
 import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 import webfx.platforms.core.util.function.Func2;
-import webfx.platforms.core.util.function.Function;
-import webfx.platforms.core.util.function.Predicate;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import java.util.Collection;
 

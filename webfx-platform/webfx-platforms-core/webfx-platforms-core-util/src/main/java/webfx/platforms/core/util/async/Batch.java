@@ -1,6 +1,6 @@
 package webfx.platforms.core.util.async;
 
-import webfx.platforms.core.util.function.IntFunction;
+import java.util.function.IntFunction;
 import webfx.platforms.core.util.tuples.Unit;
 
 /**

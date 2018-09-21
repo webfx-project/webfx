@@ -2,7 +2,7 @@ package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.chart.XYChart;
 import webfx.fxkits.extra.type.Type;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 import webfx.fxkits.extra.chart.Chart;
 import webfx.fxkits.extra.mapper.spi.peer.impl.ChartPeerBase;
 import webfx.fxkits.extra.mapper.spi.peer.impl.ChartPeerMixin;

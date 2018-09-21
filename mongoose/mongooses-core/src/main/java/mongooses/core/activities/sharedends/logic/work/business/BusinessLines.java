@@ -5,7 +5,7 @@ import mongooses.core.activities.sharedends.logic.work.WorkingDocumentLine;
 import mongooses.core.activities.sharedends.logic.work.business.logic.OptionLogic;
 import mongooses.core.entities.Option;
 import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Predicate;
+import java.util.function.Predicate;
 
 import java.util.Collection;
 import java.util.List;

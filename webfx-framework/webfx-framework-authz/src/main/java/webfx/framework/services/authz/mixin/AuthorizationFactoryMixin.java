@@ -5,7 +5,7 @@ import javafx.beans.value.ObservableValue;
 import webfx.framework.services.authz.AuthorizationRequest;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.function.Factory;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon

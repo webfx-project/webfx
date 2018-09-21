@@ -2,7 +2,7 @@ package webfx.fxkits.core.util.properties;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

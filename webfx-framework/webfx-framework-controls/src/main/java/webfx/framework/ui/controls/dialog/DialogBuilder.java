@@ -2,7 +2,7 @@ package webfx.framework.ui.controls.dialog;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 import webfx.framework.ui.controls.button.ButtonFactoryMixin;
 
 /**

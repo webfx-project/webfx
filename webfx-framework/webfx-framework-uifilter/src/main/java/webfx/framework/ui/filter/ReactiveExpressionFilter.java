@@ -41,7 +41,7 @@ import webfx.platforms.core.util.Strings;
 import webfx.platforms.core.util.async.Handler;
 import webfx.platforms.core.util.collection.Collections;
 import webfx.platforms.core.util.function.Callable;
-import webfx.platforms.core.util.function.Consumer;
+import java.util.function.Consumer;
 import webfx.platforms.core.util.function.Converter;
 import webfx.platforms.core.util.tuples.Unit;
 import rx.Observable;

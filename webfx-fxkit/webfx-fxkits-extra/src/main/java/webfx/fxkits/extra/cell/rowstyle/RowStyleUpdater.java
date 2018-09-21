@@ -2,7 +2,7 @@ package webfx.fxkits.extra.cell.rowstyle;
 
 import webfx.platforms.core.util.Objects;
 import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 import javafx.scene.paint.Paint;
 
 /**

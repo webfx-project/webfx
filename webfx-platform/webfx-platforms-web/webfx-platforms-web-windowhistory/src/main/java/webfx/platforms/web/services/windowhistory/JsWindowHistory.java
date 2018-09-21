@@ -2,7 +2,7 @@ package webfx.platforms.web.services.windowhistory;
 
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.util.async.Handler;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**

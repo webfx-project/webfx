@@ -2,7 +2,7 @@ package webfx.fxkits.extra.mapper.spi.peer.impl;
 
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.type.Type;
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 import webfx.fxkits.extra.chart.Chart;
 
 /**

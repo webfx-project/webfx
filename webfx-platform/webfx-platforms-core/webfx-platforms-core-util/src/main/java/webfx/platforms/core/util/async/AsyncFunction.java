@@ -1,6 +1,6 @@
 package webfx.platforms.core.util.async;
 
-import webfx.platforms.core.util.function.Function;
+import java.util.function.Function;
 
 /**
  * A functional interface for asynchronous operations that take one argument and return a future result.
