@@ -444,10 +444,6 @@
         <plugin.gwt.param.optimize>0</plugin.gwt.param.optimize>
         <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
         <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
-        <!-- But unpacking webroot resources coming from dependencies such as webfx-platforms-web -->
-        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
-        <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
-        <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
     </properties>
 
     <build>
@@ -456,16 +452,6 @@
             <!-- Generating the source artifact for another GWT compilation (ex: KBS) -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <type>jar</type>
-                    </archive>
-                </configuration>
             </plugin>
 
             <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
