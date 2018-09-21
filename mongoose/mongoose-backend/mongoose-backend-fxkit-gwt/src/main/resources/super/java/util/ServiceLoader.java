@@ -12,7 +12,6 @@ public class ServiceLoader<S> implements Iterable<S> {
             case "webfx.platforms.core.services.storage.spi.LocalStorageProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.storage.GwtLocalStorageProviderImpl::new);
             case "webfx.platforms.core.services.storage.spi.SessionStorageProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.storage.GwtSessionStorageProviderImpl::new);
             case "webfx.platforms.core.services.json.spi.JsonProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.json.GwtJsonObject::create);
-            case "webfx.platforms.core.util.numbers.spi.NumbersProvider": return new ServiceLoader<S>(webfx.platforms.core.util.numbers.providers.StandardNumbersProviderImpl::new);
             case "webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.appcontainer.GwtApplicationContainerProvider::new);
             case "webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.scheduler.GwtSchedulerProvider::new);
             case "webfx.fxkits.core.launcher.spi.FxKitLauncherProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.launcher.GwtFxKitLauncherProvider::new);

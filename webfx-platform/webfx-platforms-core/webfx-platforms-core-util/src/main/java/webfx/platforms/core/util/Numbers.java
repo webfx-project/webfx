@@ -1,31 +1,9 @@
 package webfx.platforms.core.util;
 
-import webfx.platforms.core.util.numbers.spi.NumbersProvider;
-import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
-
 /**
- * Utilities class for numbers that is designed to also work with Java ME CLDC (Connected Limited Device Configuration)
- * which is the strictest platform regarding numbers (as it doesn't have the java.lang.Number class!). Codename One is
- * based on CLDC so any java code referring to the java.lang.Number class will cause compilation errors on CLDC based
- * platforms like Codename One.
- *
  * @author Bruno Salmon
  */
 public final class Numbers {
-
-    private static NumbersProvider provider;
-
-    static {
-        // Loading the numbers provider from the META-INF/services resource folder.
-        provider = SingleServiceLoader.loadService(NumbersProvider.class);
-        /**
-         * Note: for better performance, the default service declared in the META-INF/services resource folder of the
-         * webfx-platforms-core-util module is the StandardNumbersProviderImpl which finally uses the java.lang.Number class to reduce the
-         * usage of instanceof operator (which is more consequent in the CldcPlatformNumbers provider). But the
-         * webfx-platform-cn1 changes it to StandardNumbersProviderImpl.
-         */
-    }
-
 
     private static final Byte ZERO_BYTE = 0;
     private static final Short ZERO_SHORT = 0;
@@ -33,10 +11,6 @@ public final class Numbers {
     private static final Long ZERO_LONG = 0L;
     private static final Float ZERO_FLOAT = 0f;
     private static final Double ZERO_DOUBLE = 0d;
-
-    public static void registerNumbersProvider(NumbersProvider provider) {
-        Numbers.provider = provider;
-    }
 
     public static boolean isZero(Object value) {
         return value != null && (
@@ -75,31 +49,31 @@ public final class Numbers {
     }
 
     public static boolean isNumber(Object value) {
-        return provider.isNumber(value);
+        return value instanceof Number;
     }
 
     public static Integer asInteger(Object value) {
-        return provider.asInteger(value);
+        return value == null ? null : value instanceof Integer ? (Integer) value : value instanceof Number ? ((Number) value).intValue() : null;
     }
 
     public static Long asLong(Object value) {
-        return provider.asLong(value);
+        return value == null ? null : value instanceof Long ? (Long) value : value instanceof Number ? ((Number) value).longValue() : null;
     }
 
     public static Float asFloat(Object value) {
-        return provider.asFloat(value);
+        return value == null ? null : value instanceof Float ? (Float) value : value instanceof Number ? ((Number) value).floatValue() : null;
     }
 
     public static Double asDouble(Object value) {
-        return provider.asDouble(value);
+        return value == null ? null : value instanceof Double ? (Double) value : value instanceof Number ? ((Number) value).doubleValue() : null;
     }
 
     public static Byte asByte(Object value){
-        return provider.asByte(value);
+        return value == null ? null : value instanceof Byte ? (Byte) value : value instanceof Number ? ((Number) value).byteValue() : null;
     }
 
     public static Short asShort(Object value){
-        return provider.asShort(value);
+        return value == null ? null : value instanceof Short ? (Short) value : value instanceof Number ? ((Number) value).shortValue() : null;
     }
 
 
