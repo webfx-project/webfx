@@ -81,8 +81,8 @@ public class SystemMetricsRecorderActivity implements Activity<DomainActivityCon
 
     // Static method helper to start this activity
 
-    public static void startAsApplicationService() {
-        ActivityManager.startActivityAsApplicationService(new SystemMetricsRecorderActivity(), DomainActivityContext.createDomainActivityContext(DomainModelSnapshotLoader.getDataSourceModel()));
+    public static void startAsApplicationJob() {
+        ActivityManager.startActivityAsApplicationJob(new SystemMetricsRecorderActivity(), DomainActivityContext.createDomainActivityContext(DomainModelSnapshotLoader.getDataSourceModel()));
     }
 
 }

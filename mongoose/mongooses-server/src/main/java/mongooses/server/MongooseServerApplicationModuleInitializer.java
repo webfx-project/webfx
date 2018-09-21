@@ -28,7 +28,7 @@ public class MongooseServerApplicationModuleInitializer extends BusCallBasedServ
     public void initModule() {
         super.initModule();
         registerMongooseLocalDataSource();
-        SystemMetricsRecorderActivity.startAsApplicationService();
+        SystemMetricsRecorderActivity.startAsApplicationJob();
     }
 
     private static void registerMongooseLocalDataSource() {

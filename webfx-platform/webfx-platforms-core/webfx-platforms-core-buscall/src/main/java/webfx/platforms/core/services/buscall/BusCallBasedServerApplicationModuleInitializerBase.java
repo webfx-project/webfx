@@ -20,6 +20,6 @@ public abstract class BusCallBasedServerApplicationModuleInitializerBase impleme
 
     protected void startListeningBusCalls() {
         // Starting the server module that listen the bus calls so clients can communicate with the server
-        ApplicationContainer.startApplicationService(new BusCallServerService());
+        ApplicationContainer.startApplicationJob(new BusCallServerJob());
     }
 }

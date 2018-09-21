@@ -17,8 +17,8 @@ public final class ApplicationContainer {
         return SingleServiceLoader.loadService(ApplicationContainerProvider.class);
     }
 
-    public static void startApplicationService(ApplicationService applicationService) {
-        getProvider().startApplicationService(applicationService);
+    public static void startApplicationJob(ApplicationJob applicationJob) {
+        getProvider().startApplicationJob(applicationJob);
     }
 
     private static String[] mainArgs;

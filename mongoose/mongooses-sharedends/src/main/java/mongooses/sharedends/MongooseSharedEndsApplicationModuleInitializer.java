@@ -33,7 +33,7 @@ public abstract class MongooseSharedEndsApplicationModuleInitializer extends Bus
     public void initModule() {
         super.initModule();
         SceneUtil.onPrimarySceneReady(scene -> scene.getStylesheets().addAll("mongooses/sharends/css/mongoose.css"));
-        ActivityManager.startActivityAsApplicationService(mongooseApplication,
+        ActivityManager.startActivityAsApplicationJob(mongooseApplication,
                 ViewDomainApplicationContext.createViewDomainApplicationContext(
                         DomainModelSnapshotLoader.getDataSourceModel(),
                         null //args

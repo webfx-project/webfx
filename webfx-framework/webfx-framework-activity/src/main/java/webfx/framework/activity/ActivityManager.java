@@ -2,7 +2,7 @@ package webfx.framework.activity;
 
 import webfx.framework.activity.impl.ActivityContextBase;
 import webfx.platforms.core.services.appcontainer.ApplicationContainer;
-import webfx.platforms.core.services.appcontainer.ApplicationService;
+import webfx.platforms.core.services.appcontainer.ApplicationJob;
 import webfx.platforms.core.util.async.AsyncResult;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.Handler;
@@ -206,9 +206,9 @@ public class ActivityManager<C extends ActivityContext<C>> {
         new ActivityManager(activity, context).run();
     }
 
-    public static <C extends ActivityContext> void startActivityAsApplicationService(Activity<C> activity, C context) {
+    public static <C extends ActivityContext> void startActivityAsApplicationJob(Activity<C> activity, C context) {
         ActivityManager<?> activityManager = new ActivityManager(activity, context);
-        ApplicationContainer.startApplicationService(new ApplicationService() {
+        ApplicationContainer.startApplicationJob(new ApplicationJob() {
             @Override
             public Future<Void> onStart() {
                 return activityManager.run();

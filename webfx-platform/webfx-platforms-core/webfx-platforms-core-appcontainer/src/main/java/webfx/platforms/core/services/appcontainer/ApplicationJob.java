@@ -5,7 +5,7 @@ import webfx.platforms.core.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public interface ApplicationService {
+public interface ApplicationJob {
 
     Future<Void> onStart();
 

@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.appcontainer.spi;
 
-import webfx.platforms.core.services.appcontainer.ApplicationService;
+import webfx.platforms.core.services.appcontainer.ApplicationJob;
 import webfx.platforms.core.services.appcontainer.spi.impl.ApplicationModuleInitializerManager;
 import webfx.platforms.core.services.shutdown.Shutdown;
 
@@ -13,9 +13,9 @@ public interface ApplicationContainerProvider {
         ApplicationModuleInitializerManager.initialize();
     }
 
-    default void startApplicationService(ApplicationService applicationService) {
-        applicationService.onStart();
-        Shutdown.addShutdownHook(applicationService::onStop);
+    default void startApplicationJob(ApplicationJob applicationJob) {
+        applicationJob.onStart();
+        Shutdown.addShutdownHook(applicationJob::onStop);
     }
 
 }

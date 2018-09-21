@@ -3,7 +3,7 @@ package webfx.platform.vertx.services.appcontainer;
 import io.vertx.core.*;
 import webfx.platform.vertx.global.VertxInstance;
 import webfx.platforms.core.services.appcontainer.ApplicationContainer;
-import webfx.platforms.core.services.appcontainer.ApplicationService;
+import webfx.platforms.core.services.appcontainer.ApplicationJob;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider;
 import webfx.platforms.core.services.appcontainer.spi.impl.ApplicationModuleInitializerManager;
 
@@ -40,7 +40,7 @@ public class VertxApplicationContainerVerticle extends AbstractVerticle implemen
     }
 
     @Override
-    public void startApplicationService(ApplicationService applicationService) {
+    public void startApplicationJob(ApplicationJob applicationJob) {
         Vertx vertx = VertxInstance.getVertx();
         vertx.deployVerticle(new Verticle() {
             @Override
@@ -54,12 +54,12 @@ public class VertxApplicationContainerVerticle extends AbstractVerticle implemen
 
             @Override
             public void start(Future<Void> future) {
-                completeVertxFuture(applicationService.onStart(), future);
+                completeVertxFuture(applicationJob.onStart(), future);
             }
 
             @Override
             public void stop(Future<Void> future) {
-                completeVertxFuture(applicationService.onStop(), future);
+                completeVertxFuture(applicationJob.onStop(), future);
             }
 
             private void completeVertxFuture(webfx.platforms.core.util.async.Future<Void> webfxFuture, Future<Void> vertxFuture) {

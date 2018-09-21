@@ -4,10 +4,10 @@ package webfx.platforms.core.services.buscall;
  * @author Bruno Salmon
  */
 
-import webfx.platforms.core.services.appcontainer.ApplicationService;
+import webfx.platforms.core.services.appcontainer.ApplicationJob;
 import webfx.platforms.core.util.async.Future;
 
-public class BusCallServerService implements ApplicationService {
+public class BusCallServerJob implements ApplicationJob {
 
     public static final String VERSION_ADDRESS = "version";
 
