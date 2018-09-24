@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-public final class I18nProviderImpl implements I18nProvider {
+public class I18nProviderImpl implements I18nProvider {
 
     private final Map<Object, Reference<StringProperty>> translations = new HashMap<>();
     private boolean dictionaryLoadRequired;
@@ -28,6 +28,8 @@ public final class I18nProviderImpl implements I18nProvider {
     }
 
     public I18nProviderImpl(DictionaryLoader dictionaryLoader, Object initialLanguage) {
+        if (initialLanguage == null)
+            initialLanguage = "en";
         this.dictionaryLoader = dictionaryLoader;
         languageProperty.addListener((observable, oldValue, newValue) -> onLanguageChanged());
         setLanguage(initialLanguage);

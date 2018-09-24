@@ -6,8 +6,6 @@ import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
 import webfx.framework.services.i18n.Dictionary;
-import webfx.framework.services.i18n.spi.impl.I18nProviderImpl;
-import webfx.framework.services.i18n.spi.impl.ResourceJsonDictionaryLoader;
 import webfx.platforms.core.util.Strings;
 
 /**
@@ -104,9 +102,4 @@ public interface I18nProvider {
         translatePromptTextFluent(textInputControl, key);
         return textInputControl;
     }
-
-    static I18nProvider createFromJsonResources(String resourcePathWithLangPattern) {
-        return new I18nProviderImpl(new ResourceJsonDictionaryLoader(resourcePathWithLangPattern));
-    }
-
 }
