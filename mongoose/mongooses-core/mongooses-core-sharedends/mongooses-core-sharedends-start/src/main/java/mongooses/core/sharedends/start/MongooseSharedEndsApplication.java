@@ -1,7 +1,7 @@
 package mongooses.core.sharedends.start;
 
 import mongooses.core.actions.MongooseActions;
-import mongooses.core.sharedends.jobs.sessionrecorder.ClientSessionRecorder;
+import mongooses.core.sharedends.jobs.sessionrecorder.ProvidedClientSessionRecorderJob;
 import webfx.framework.activity.Activity;
 import webfx.framework.activity.ActivityContext;
 import webfx.framework.activity.impl.combinations.viewapplication.ViewApplicationContext;
@@ -49,7 +49,7 @@ public abstract class MongooseSharedEndsApplication
         this.context = context;
         getUiRouter().routeAndMount("/", getContainerActivityFactory(), setupContainedRouter(UiRouter.createSubRouter(context)));
         // Also passing the userPrincipal property to the client session recorder so it can react to user changes
-        ClientSessionRecorder.get().setUserPrincipalProperty(getUiSession().userPrincipalProperty());
+        ProvidedClientSessionRecorderJob.setUserPrincipalProperty(getUiSession().userPrincipalProperty());
     }
 
     protected abstract Factory<Activity<ViewDomainActivityContextFinal>> getContainerActivityFactory();

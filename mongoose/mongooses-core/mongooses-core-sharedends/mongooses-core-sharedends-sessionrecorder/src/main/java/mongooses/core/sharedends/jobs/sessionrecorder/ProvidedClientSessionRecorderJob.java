@@ -8,46 +8,48 @@ import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.fxkits.core.launcher.FxKitLauncher;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
 import webfx.platforms.core.services.bus.Bus;
 import webfx.platforms.core.services.bus.BusHook;
-import webfx.platforms.core.services.bus.Registration;
 import webfx.platforms.core.services.bus.BusService;
+import webfx.platforms.core.services.bus.Registration;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.client.PushClientService;
-import webfx.platforms.core.services.shutdown.Shutdown;
 import webfx.platforms.core.services.storage.LocalStorage;
+import webfx.platforms.core.util.async.Future;
 
 import java.time.Instant;
 
 /**
  * @author Bruno Salmon
  */
-public final class ClientSessionRecorder {
+public final class ProvidedClientSessionRecorderJob implements ApplicationJob {
 
-    private final static ClientSessionRecorder INSTANCE = new ClientSessionRecorder();
+    private static ProvidedClientSessionRecorderJob INSTANCE;
 
-    public static ClientSessionRecorder get() {
-        return INSTANCE;
+    private final Bus bus;
+    private Registration pushClientRegistration;
+
+    public ProvidedClientSessionRecorderJob() {
+        this(BusService.bus());
     }
 
-    static {
+    private ProvidedClientSessionRecorderJob(Bus bus) {
+        this.bus = bus;
+        INSTANCE = this;
+    }
+
+    private final UpdateStore store = UpdateStore.create(DomainModelSnapshotLoader.getDataSourceModel());
+    private Entity sessionAgent, sessionApplication, sessionProcess, sessionConnection, sessionUser;
+
+    @Override
+    public Future<Void> onStart() {
         Logger.log("User Agent = " + getUserAgent());
         Logger.log("application.name = " + getApplicationName());
         Logger.log("application.version = " + getApplicationVersion());
         Logger.log("application.build.tool = " + getApplicationBuildTool());
         Logger.log("application.build.timestamp = " + getApplicationBuildTimestampString());
         Logger.log("application.build.number = " + getApplicationBuildNumberString());
-    }
-
-    private final Bus bus;
-    private Registration pushClientRegistration;
-
-    private ClientSessionRecorder() {
-        this(BusService.bus());
-    }
-
-    private ClientSessionRecorder(Bus bus) {
-        this.bus = bus;
         bus.setHook(new BusHook() {
             @Override
             public void handleOpened() {
@@ -67,16 +69,19 @@ public final class ClientSessionRecorder {
         });
         if (bus.isOpen())
             onConnectionOpened();
-        Shutdown.addShutdownHook(this::onShutdown);
+        return Future.succeededFuture();
     }
 
-    private final UpdateStore store = UpdateStore.create(DomainModelSnapshotLoader.getDataSourceModel());
-    private Entity sessionAgent, sessionApplication, sessionProcess, sessionConnection, sessionUser;
+    @Override
+    public Future<Void> onStop() {
+        onShutdown();
+        return Future.succeededFuture();
+    }
 
-    public void setUserPrincipalProperty(Property<Object> userPrincipalProperty) {
+    public static void setUserPrincipalProperty(Property<Object> userPrincipalProperty) {
         userPrincipalProperty.addListener((observable, oldValue, userPrincipal) -> {
-            if (userPrincipal instanceof MongooseUserPrincipal)
-                recordNewSessionUser(((MongooseUserPrincipal) userPrincipal).getUserPersonId());
+            if (userPrincipal instanceof MongooseUserPrincipal && INSTANCE != null)
+                INSTANCE.recordNewSessionUser(((MongooseUserPrincipal) userPrincipal).getUserPersonId());
         });
     }
 

@@ -13,7 +13,7 @@ import java.util.ServiceLoader;
  */
 public class ApplicationJobsInitializer implements ApplicationModuleInitializer {
 
-    private static final List<ApplicationJob> providedJobs = Collections.listOf(ServiceLoader.load(ApplicationJob.class));
+    private List<ApplicationJob> providedJobs; // Not initialized here as it's not the good timing
 
     @Override
     public String getModuleName() {
@@ -27,6 +27,7 @@ public class ApplicationJobsInitializer implements ApplicationModuleInitializer 
 
     @Override
     public void initModule() {
+        providedJobs = Collections.listOf(ServiceLoader.load(ApplicationJob.class));
         providedJobs.forEach(ApplicationContainer::startApplicationJob);
     }
 
