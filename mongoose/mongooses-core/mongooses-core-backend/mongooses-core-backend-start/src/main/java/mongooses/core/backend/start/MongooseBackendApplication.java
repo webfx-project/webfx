@@ -8,7 +8,7 @@ import webfx.platforms.core.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public class MongooseBackendApplication extends MongooseSharedEndsApplication {
+public final class MongooseBackendApplication extends MongooseSharedEndsApplication {
 
     private static final String DEFAULT_START_PATH = "/organizations";
 

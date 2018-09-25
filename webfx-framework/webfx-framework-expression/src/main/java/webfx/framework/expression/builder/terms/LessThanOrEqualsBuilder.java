@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.LessThanOrEquals;
 /**
  * @author Bruno Salmon
  */
-public class LessThanOrEqualsBuilder extends BinaryBooleanExpressionBuilder {
+public final class LessThanOrEqualsBuilder extends BinaryBooleanExpressionBuilder {
 
     public LessThanOrEqualsBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

@@ -12,7 +12,7 @@ import static jsinterop.annotations.JsPackage.GLOBAL;
  */
 
 @JsType(namespace = GLOBAL, name = "window", isNative = true)
-public class Window {
+public final class Window {
 
     public static History history;
 
@@ -48,7 +48,7 @@ public class Window {
     }
 
     @JsType(isNative = true)
-    public static class PopStateEvent {
+    public static final class PopStateEvent {
         public JavaScriptObject state;
     }
 }

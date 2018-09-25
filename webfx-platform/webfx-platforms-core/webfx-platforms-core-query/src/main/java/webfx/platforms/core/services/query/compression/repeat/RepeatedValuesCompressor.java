@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-public class RepeatedValuesCompressor implements ValuesCompressor {
+public final class RepeatedValuesCompressor implements ValuesCompressor {
 
     public final static RepeatedValuesCompressor SINGLETON = new RepeatedValuesCompressor();
 

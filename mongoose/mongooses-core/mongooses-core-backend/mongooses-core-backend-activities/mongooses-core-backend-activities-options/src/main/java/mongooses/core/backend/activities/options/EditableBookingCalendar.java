@@ -11,7 +11,7 @@ import webfx.framework.orm.entity.UpdateStore;
 /**
  * @author Bruno Salmon
  */
-public class EditableBookingCalendar extends BookingCalendar {
+public final class EditableBookingCalendar extends BookingCalendar {
 
     private final Node parentOwner;
     private boolean editMode;
@@ -72,5 +72,4 @@ public class EditableBookingCalendar extends BookingCalendar {
             return ((WorkingDocumentLine) source).getOption();
         return null;
     }
-
 }

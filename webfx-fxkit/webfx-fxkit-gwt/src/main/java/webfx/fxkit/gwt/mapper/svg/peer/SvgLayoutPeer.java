@@ -11,7 +11,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class SvgLayoutPeer
+public final class SvgLayoutPeer
         <N extends Region, NB extends RegionPeerBase<N, NB, NM>, NM extends RegionPeerMixin<N, NB, NM>>
 
         extends SvgRegionPeer<N, NB, NM> {

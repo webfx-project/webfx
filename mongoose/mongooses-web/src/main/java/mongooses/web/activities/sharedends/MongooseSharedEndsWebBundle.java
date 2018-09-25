@@ -36,7 +36,7 @@ public interface MongooseSharedEndsWebBundle extends ClientBundle {
     @Source("images/svg/color/price-tag.svg")
     TextResource priceTagColorSvg();
 
-    class ResourceBundle extends GwtResourceBundleBase {
+    final class ResourceBundle extends GwtResourceBundleBase {
         public ResourceBundle() {
             registerResource("mongooses/core/shared/domainmodel/DomainModelSnapshot.json", R.domainModelSnapshotJson());
             registerResource("webfx/platforms/core/services/bus/client/conf/BusOptions.json", R.clientBusOptionsJson());

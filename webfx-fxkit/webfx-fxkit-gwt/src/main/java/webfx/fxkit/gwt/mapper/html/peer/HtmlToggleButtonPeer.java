@@ -9,7 +9,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.ToggleButtonPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlToggleButtonPeer
+public final class HtmlToggleButtonPeer
         <N extends ToggleButton, NB extends ToggleButtonPeerBase<N, NB, NM>, NM extends ToggleButtonPeerMixin<N, NB, NM>>
 
         extends HtmlButtonBasePeer<N, NB, NM>

@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class LessThan<T> extends PrimitiveBinaryBooleanExpression<T> {
+public final class LessThan<T> extends PrimitiveBinaryBooleanExpression<T> {
 
     public LessThan(Expression<T> left, Expression<T> right) {
         super(left, "<", right, 5);

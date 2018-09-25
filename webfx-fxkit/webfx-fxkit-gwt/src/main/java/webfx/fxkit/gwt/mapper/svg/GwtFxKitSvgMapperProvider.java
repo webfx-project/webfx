@@ -28,7 +28,7 @@ import webfx.fxkits.core.mapper.spi.impl.FxKitMapperProviderBase;
 /**
  * @author Bruno Salmon
  */
-public class GwtFxKitSvgMapperProvider extends FxKitMapperProviderBase {
+public final class GwtFxKitSvgMapperProvider extends FxKitMapperProviderBase {
 
     public GwtFxKitSvgMapperProvider() {
         registerNodePeerFactory(Rectangle.class, SvgRectanglePeer::new);

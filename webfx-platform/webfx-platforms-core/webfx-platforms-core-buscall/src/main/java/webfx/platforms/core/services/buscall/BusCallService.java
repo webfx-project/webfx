@@ -1,10 +1,6 @@
 package webfx.platforms.core.services.buscall;
 
-import webfx.platforms.core.services.bus.Bus;
-import webfx.platforms.core.services.bus.Message;
-import webfx.platforms.core.services.bus.Registration;
-import webfx.platforms.core.services.bus.ThreadLocalBusContext;
-import webfx.platforms.core.services.bus.BusService;
+import webfx.platforms.core.services.bus.*;
 import webfx.platforms.core.services.buscall.spi.BusCallEndpoint;
 import webfx.platforms.core.services.json.codec.JsonCodecManager;
 import webfx.platforms.core.services.log.Logger;
@@ -12,14 +8,15 @@ import webfx.platforms.core.util.async.AsyncFunction;
 import webfx.platforms.core.util.async.AsyncResult;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.Handler;
-import java.util.function.BiConsumer;
 import webfx.platforms.core.util.function.Callable;
+
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
  * @author Bruno Salmon
  */
-public class BusCallService {
+public final class BusCallService {
 
     private final static String DEFAULT_BUS_CALL_SERVICE_ADDRESS = "busCallService";
 
@@ -236,5 +233,4 @@ public class BusCallService {
     public static Registration registerBusCallEndpoint(BusCallEndpoint endpoint) {
         return registerJavaAsyncFunctionAsCallableService(endpoint.getAddress(), endpoint.toAsyncFunction());
     }
-
 }

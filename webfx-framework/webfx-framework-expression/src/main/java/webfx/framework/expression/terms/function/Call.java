@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class Call<T> extends UnaryExpression<T> {
+public final class Call<T> extends UnaryExpression<T> {
 
     private final String functionName;
     private final Function function;
@@ -139,5 +139,4 @@ public class Call<T> extends UnaryExpression<T> {
         });
         return list;
     }
-
 }

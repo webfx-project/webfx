@@ -22,7 +22,7 @@ import java.time.Instant;
 /**
  * @author Bruno Salmon
  */
-public class ClientSessionRecorder {
+public final class ClientSessionRecorder {
 
     private final static ClientSessionRecorder INSTANCE = new ClientSessionRecorder();
 

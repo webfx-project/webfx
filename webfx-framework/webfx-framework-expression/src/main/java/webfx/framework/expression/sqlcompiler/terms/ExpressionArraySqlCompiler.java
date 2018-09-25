@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.ExpressionArray;
 /**
  * @author Bruno Salmon
  */
-public class ExpressionArraySqlCompiler extends AbstractTermSqlCompiler<ExpressionArray> {
+public final class ExpressionArraySqlCompiler extends AbstractTermSqlCompiler<ExpressionArray> {
 
     public ExpressionArraySqlCompiler() {
         super(ExpressionArray.class);

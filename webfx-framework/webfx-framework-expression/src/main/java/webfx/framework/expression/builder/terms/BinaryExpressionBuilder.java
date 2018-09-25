@@ -7,8 +7,8 @@ import webfx.framework.expression.terms.BinaryExpression;
  * @author Bruno Salmon
  */
 public abstract class BinaryExpressionBuilder extends ExpressionBuilder {
-    public ExpressionBuilder left;
-    public ExpressionBuilder right;
+    public final ExpressionBuilder left;
+    public final ExpressionBuilder right;
 
     protected BinaryExpression operation;
 

@@ -8,7 +8,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.AreaChartPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlAreaChartPeer
+public final class HtmlAreaChartPeer
         <C, N extends AreaChart, NB extends AreaChartPeerBase<C, N, NB, NM>, NM extends AreaChartPeerMixin<C, N, NB, NM>>
         extends HtmlChartPeer<C, N, NB, NM>
         implements AreaChartPeerMixin<C, N, NB, NM> {

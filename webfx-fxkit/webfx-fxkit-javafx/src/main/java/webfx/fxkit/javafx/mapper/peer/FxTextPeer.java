@@ -10,7 +10,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.TextPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class FxTextPeer
+public final class FxTextPeer
         <FxN extends javafx.scene.text.Text, N extends Text, NB extends TextPeerBase<N, NB, NM>, NM extends TextPeerMixin<N, NB, NM>>
         extends FxShapePeer<FxN, N, NB, NM>
         implements TextPeerMixin<N, NB, NM>, FxLayoutMeasurable {

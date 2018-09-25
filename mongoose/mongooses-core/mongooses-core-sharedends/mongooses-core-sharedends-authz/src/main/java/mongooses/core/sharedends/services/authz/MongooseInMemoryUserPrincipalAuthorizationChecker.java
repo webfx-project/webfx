@@ -15,7 +15,7 @@ import webfx.platforms.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrincipalAuthorizationChecker {
+final class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrincipalAuthorizationChecker {
 
     MongooseInMemoryUserPrincipalAuthorizationChecker(Object userPrincipal, DataSourceModel dataSourceModel) {
         super(userPrincipal);

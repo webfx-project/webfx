@@ -11,12 +11,12 @@ import webfx.fxkits.extra.displaydata.Label;
 /**
  * @author Bruno Salmon
  */
-public class DomainFieldBuilder {
+public final class DomainFieldBuilder {
     public DomainClassBuilder classBuilder;
     public DomainClass domainClass;
     public Object modelId;
     public Object id;
-    public String name;
+    public final String name;
     public String expressionDefinition;
     public ExpressionBuilder expressionBuilder;
     public Expression expression;
@@ -59,5 +59,4 @@ public class DomainFieldBuilder {
         }
         return field;
     }
-
 }

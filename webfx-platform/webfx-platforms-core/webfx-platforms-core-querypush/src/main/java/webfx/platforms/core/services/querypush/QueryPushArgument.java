@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-public class QueryPushArgument {
+public final class QueryPushArgument {
 
     private final Object queryStreamId;
     private final Object pushClientId;
@@ -108,7 +108,7 @@ public class QueryPushArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<QueryPushArgument> {
+    public static final class Codec extends AbstractJsonCodec<QueryPushArgument> {
 
         private static final String CODEC_ID = "QueryPushArgument";
         private static final String QUERY_STREAM_ID_KEY = "queryStreamId";

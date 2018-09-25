@@ -10,7 +10,7 @@ import webfx.platforms.core.services.querypush.diff.QueryResultDiff;
 /**
  * @author Bruno Salmon
  */
-public class QueryPushResult {
+public final class QueryPushResult {
 
     private final Object queryStreamId;
     private final QueryResult queryResult;
@@ -46,7 +46,7 @@ public class QueryPushResult {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<QueryPushResult> {
+    public static final class Codec extends AbstractJsonCodec<QueryPushResult> {
 
         private static final String CODEC_ID = "QueryPushResult";
         private static final String QUERY_STREAM_ID_KEY = "queryStreamId";

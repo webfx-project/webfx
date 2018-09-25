@@ -8,7 +8,7 @@ import webfx.platforms.core.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class Equals<T> extends PrimitiveBinaryBooleanExpression<T> {
+public final class Equals<T> extends PrimitiveBinaryBooleanExpression<T> {
 
     public Equals(Expression<T> left, Expression<T> right) {
         super(left, "=", right, 5);
@@ -49,5 +49,4 @@ public class Equals<T> extends PrimitiveBinaryBooleanExpression<T> {
         if (Booleans.isTrue(value))
             left.setValue(domainObject, right.evaluate(domainObject, dataWriter), dataWriter);
     }
-
 }

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class ListJsonArray extends ListBasedJsonArray {
+public final class ListJsonArray extends ListBasedJsonArray {
 
     protected List<Object> list;
 

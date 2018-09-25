@@ -6,11 +6,11 @@ import webfx.framework.orm.domainmodel.FieldsGroup;
 /**
  * @author Bruno Salmon
  */
-public class DomainFieldsGroupBuilder {
+public final class DomainFieldsGroupBuilder {
 
     public DomainClassBuilder classBuilder;
     public DomainClass domainClass;
-    public String name;
+    public final String name;
     public String fieldsDefinition;
 
     public DomainFieldsGroupBuilder(String name) {
@@ -29,5 +29,4 @@ public class DomainFieldsGroupBuilder {
         }
         return fieldsGroup;
     }
-
 }

@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class SvgTransforms {
+public final class SvgTransforms {
 
     public static String toSvgTransforms(Collection<Transform> transforms) {
         if (Collections.isEmpty(transforms))

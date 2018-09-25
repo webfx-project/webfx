@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
 /**
  * @author Bruno Salmon
  */
-public class FxTextFieldPeer
+public final class FxTextFieldPeer
         <FxN extends javafx.scene.control.TextField, N extends TextField, NB extends TextFieldPeerBase<N, NB, NM>, NM extends TextFieldPeerMixin<N, NB, NM>>
 
         extends FxTextInputControlPeer<FxN, N, NB, NM>

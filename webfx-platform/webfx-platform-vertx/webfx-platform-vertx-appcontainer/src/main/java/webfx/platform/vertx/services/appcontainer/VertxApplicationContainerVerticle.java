@@ -17,7 +17,7 @@ import webfx.platforms.core.services.appcontainer.spi.impl.ApplicationModuleInit
  *
  * @author Bruno Salmon
  */
-public class VertxApplicationContainerVerticle extends AbstractVerticle implements ApplicationContainerProvider {
+public final class VertxApplicationContainerVerticle extends AbstractVerticle implements ApplicationContainerProvider {
 
     private static Object containerInstance;
     private static Object verticleInstance;

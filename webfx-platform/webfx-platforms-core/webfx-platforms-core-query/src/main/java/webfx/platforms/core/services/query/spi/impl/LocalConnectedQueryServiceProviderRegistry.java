@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class LocalConnectedQueryServiceProviderRegistry {
+public final class LocalConnectedQueryServiceProviderRegistry {
 
     private static final Map</* dataSourceId */ Object, QueryServiceProvider> localConnectedProviders = new HashMap<>();
 

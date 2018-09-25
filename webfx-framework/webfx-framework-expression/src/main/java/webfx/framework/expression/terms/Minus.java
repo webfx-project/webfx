@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * @author Bruno Salmon
  */
-public class Minus<T> extends PrimitiveBinaryExpression<T> {
+public final class Minus<T> extends PrimitiveBinaryExpression<T> {
 
     public Minus(Expression<T> left, Expression<T> right) {
         super(left, "-", right, 6);

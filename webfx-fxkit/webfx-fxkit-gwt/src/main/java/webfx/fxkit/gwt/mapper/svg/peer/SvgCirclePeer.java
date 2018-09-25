@@ -9,7 +9,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.CirclePeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class SvgCirclePeer
+public final class SvgCirclePeer
         <N extends Circle, NB extends CirclePeerBase<N, NB, NM>, NM extends CirclePeerMixin<N, NB, NM>>
 
         extends SvgShapePeer<N, NB, NM>

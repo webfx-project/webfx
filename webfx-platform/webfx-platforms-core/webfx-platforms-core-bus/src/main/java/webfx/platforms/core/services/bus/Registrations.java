@@ -29,7 +29,7 @@ import java.util.List;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/Registrations.java">Original Goodow class</a>
  */
-public class Registrations implements Registration {
+public final class Registrations implements Registration {
     private List<Registration> registrations;
 
     public Registrations add(Registration registration) {

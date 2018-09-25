@@ -8,15 +8,15 @@ import webfx.platforms.core.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class Options {
+public final class Options {
     public final SqlBuild build;
     public final SqlClause clause;
-    public String separator;
-    public Object[] parameterValues;
-    public boolean grouped;
-    public boolean generateQueryMapping;
-    public boolean readForeignFields;
-    public CompilerDomainModelReader modelReader;
+    public final String separator;
+    public final Object[] parameterValues;
+    public final boolean grouped;
+    public final boolean generateQueryMapping;
+    public final boolean readForeignFields;
+    public final CompilerDomainModelReader modelReader;
 
     public Options(SqlBuild build, SqlClause clause, String separator, Object[] parameterValues, boolean grouped, boolean generateQueryMapping, boolean readForeignFields, CompilerDomainModelReader modelReader) {
         this.separator = separator;

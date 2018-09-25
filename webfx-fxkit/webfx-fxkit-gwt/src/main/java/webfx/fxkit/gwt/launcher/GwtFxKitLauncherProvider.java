@@ -9,7 +9,7 @@ import webfx.fxkits.core.launcher.spi.impl.FxKitLauncherProviderBase;
 /**
  * @author Bruno Salmon
  */
-public class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
+public final class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
 
     @Override
     public String getUserAgent() {

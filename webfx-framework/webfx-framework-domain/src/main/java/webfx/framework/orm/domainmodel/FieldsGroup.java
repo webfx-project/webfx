@@ -8,7 +8,8 @@ import webfx.fxkits.extra.type.Type;
 /**
  * @author Bruno Salmon
  */
-public class FieldsGroup extends Symbol {
+public final class FieldsGroup extends Symbol {
+
     private final DomainClass domainClass;
     private String fieldsDefinition;
 

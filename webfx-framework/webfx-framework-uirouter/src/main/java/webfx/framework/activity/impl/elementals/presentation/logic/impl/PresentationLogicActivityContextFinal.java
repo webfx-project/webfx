@@ -5,7 +5,7 @@ import webfx.framework.activity.ActivityContext;
 /**
  * @author Bruno Salmon
  */
-public class PresentationLogicActivityContextFinal<PM>
+public final class PresentationLogicActivityContextFinal<PM>
         extends PresentationLogicActivityContextBase<PresentationLogicActivityContextFinal<PM>, PM> {
 
     public PresentationLogicActivityContextFinal(ActivityContext parentContext) {

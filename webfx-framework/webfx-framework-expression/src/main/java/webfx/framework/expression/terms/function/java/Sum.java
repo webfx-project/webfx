@@ -8,7 +8,7 @@ import webfx.framework.expression.terms.function.SqlAggregateFunction;
 /**
  * @author Bruno Salmon
  */
-public class Sum<T> extends SqlAggregateFunction<T> {
+public final class Sum<T> extends SqlAggregateFunction<T> {
 
     public Sum() {
         super("sum", null, null, null, true);

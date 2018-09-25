@@ -26,7 +26,7 @@ package webfx.platforms.core.services.bus.client;
  *         <p>
  *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/util/FuzzingBackOffGenerator.java">Original Goodow class</a>
  */
-class FuzzingBackOffGenerator {
+final class FuzzingBackOffGenerator {
 
     static class BackOffParameters {
         final int targetDelay;

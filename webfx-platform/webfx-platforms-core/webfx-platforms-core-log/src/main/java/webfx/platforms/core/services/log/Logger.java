@@ -6,7 +6,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class Logger {
+public final class Logger {
 
     private static LoggerProvider PROVIDER;
 

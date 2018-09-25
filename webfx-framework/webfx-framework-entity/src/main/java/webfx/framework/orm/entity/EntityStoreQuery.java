@@ -3,7 +3,7 @@ package webfx.framework.orm.entity;
 /**
  * @author Bruno Salmon
  */
-public class EntityStoreQuery {
+public final class EntityStoreQuery {
 
     final String select;
     final Object[] parameters;

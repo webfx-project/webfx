@@ -7,5 +7,5 @@ package webfx.fxkits.extra.chart;
  *
  * @author Bruno Salmon
  */
-public class PieChart extends Chart {
+public final class PieChart extends Chart {
 }

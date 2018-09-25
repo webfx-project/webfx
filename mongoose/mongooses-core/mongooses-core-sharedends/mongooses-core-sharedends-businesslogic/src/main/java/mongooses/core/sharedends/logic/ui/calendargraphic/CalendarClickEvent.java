@@ -6,7 +6,7 @@ import javafx.scene.input.MouseEvent;
 /**
  * @author Bruno Salmon
  */
-public class CalendarClickEvent {
+public final class CalendarClickEvent {
 
     private final MouseEvent mouseEvent;
     private final CalendarCell calendarCell;

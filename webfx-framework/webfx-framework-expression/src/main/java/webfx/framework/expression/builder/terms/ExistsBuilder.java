@@ -5,8 +5,9 @@ import webfx.framework.expression.terms.Exists;
 /**
  * @author Bruno Salmon
  */
-public class ExistsBuilder extends ExpressionBuilder {
-    public SelectBuilder select;
+public final class ExistsBuilder extends ExpressionBuilder {
+
+    public final SelectBuilder select;
 
     private Exists exists;
 

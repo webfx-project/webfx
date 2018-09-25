@@ -8,5 +8,5 @@ package webfx.fxkits.extra.chart;
  * @author Bruno Salmon
  */
 
-public class BarChart extends Chart {
+public final class BarChart extends Chart {
 }

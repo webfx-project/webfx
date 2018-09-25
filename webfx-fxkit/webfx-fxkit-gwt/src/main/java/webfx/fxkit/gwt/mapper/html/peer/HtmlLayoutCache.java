@@ -5,7 +5,7 @@ import emul.javafx.geometry.Bounds;
 /**
  * @author Bruno Salmon
  */
-class HtmlLayoutCache {
+final class HtmlLayoutCache {
 
     private Bounds cachedLayoutBounds;
 

@@ -76,7 +76,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     private StringFilter baseFilter;
     private Handler<EntityList<E>> entitiesHandler;
     private FilterDisplay filterDisplay;
-    private List<FilterDisplay> filterDisplays = new ArrayList<>();
+    private final List<FilterDisplay> filterDisplays = new ArrayList<>();
     private ReferenceResolver rootAliasReferenceResolver;
     private final BooleanProperty activeProperty = new SimpleBooleanProperty(true);
     private final BooleanProperty pushProperty = new SimpleBooleanProperty(false);
@@ -691,7 +691,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return rootAliasReferenceResolver;
     }
 
-    private class FilterDisplay {
+    private final class FilterDisplay {
         ExpressionColumn[] expressionColumns;
         Property<DisplayResult> displayResultProperty;
         Property<DisplaySelection> displaySelectionProperty;

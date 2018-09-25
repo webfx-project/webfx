@@ -8,7 +8,7 @@ import webfx.platforms.core.services.update.spi.impl.LocalUpdateServiceProviderI
 /**
  * @author Bruno Salmon
  */
-public class VertxUpdateServiceProviderImpl extends LocalUpdateServiceProviderImpl {
+public final class VertxUpdateServiceProviderImpl extends LocalUpdateServiceProviderImpl {
 
     @Override
     protected UpdateServiceProvider createConnectedUpdateService(ConnectionDetails connectionDetails) {

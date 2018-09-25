@@ -9,7 +9,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.GroupPeerBase;
 /**
  * @author Bruno Salmon
  */
-public class SvgGroupPeer
+public final class SvgGroupPeer
         <N extends Group, NB extends GroupPeerBase<N, NB, NM>, NM extends GroupPeerMixin<N, NB, NM>>
 
         extends SvgNodePeer<N, NB, NM>

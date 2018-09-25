@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-class VerticalDayTimePositioner {
+final class VerticalDayTimePositioner {
 
     final static double slotHeight = 35d;
     final static Font slotFont = Font.font("Verdana", 13);

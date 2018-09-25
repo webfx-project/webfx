@@ -17,7 +17,7 @@ import webfx.platforms.core.services.update.UpdateService;
 /**
  * @author Bruno Salmon
  */
-public class MongooseServerApplicationModuleInitializer extends BusCallBasedServerApplicationModuleInitializerBase {
+public final class MongooseServerApplicationModuleInitializer extends BusCallBasedServerApplicationModuleInitializerBase {
 
     @Override
     public String getModuleName() {

@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class InMemoryQueryPushServiceProviderImpl extends QueryPushServiceProviderImplBase {
+public final class InMemoryQueryPushServiceProviderImpl extends QueryPushServiceProviderImplBase {
     private static int queryStreamIdSeq;
     private final Map<Object /* queryStreamId */, StreamInfo> streamInfos = new HashMap<>();
     private final Map<QueryArgument, QueryInfo> queryInfos = new HashMap<>();
@@ -101,7 +101,7 @@ public class InMemoryQueryPushServiceProviderImpl extends QueryPushServiceProvid
         return new InMemoryPulsePass(argument);
     }
 
-    class InMemoryPulsePass extends PulsePass {
+    final class InMemoryPulsePass extends PulsePass {
 
         InMemoryPulsePass(PulseArgument argument) {
             super(argument);

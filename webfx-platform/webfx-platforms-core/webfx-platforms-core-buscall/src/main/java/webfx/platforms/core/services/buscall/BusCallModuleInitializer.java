@@ -9,7 +9,7 @@ import java.util.ServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class BusCallModuleInitializer implements ApplicationModuleInitializer {
+public final class BusCallModuleInitializer implements ApplicationModuleInitializer {
 
     @Override
     public String getModuleName() {

@@ -13,7 +13,7 @@ import netscape.javascript.JSObject;
 /**
  * @author Bruno Salmon
  */
-public class FxHtmlTextEditorPeer
+public final class FxHtmlTextEditorPeer
         <FxN extends WebView, N extends HtmlTextEditor, NB extends HtmlTextEditorPeerBase<N, NB, NM>, NM extends HtmlTextEditorPeerMixin<N, NB, NM>>
         extends FxHtmlTextPeer<FxN, N, NB, NM>
         implements HtmlTextEditorPeerMixin<N, NB, NM> {

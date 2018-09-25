@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 /*
  * @author Bruno Salmon
  */
-public class JavaSchedulerProviderImpl implements SchedulerProvider {
+public final class JavaSchedulerProviderImpl implements SchedulerProvider {
 
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
@@ -78,7 +78,7 @@ public class JavaSchedulerProviderImpl implements SchedulerProvider {
         executor.execute(caughtRunnable(runnable));
     }
 
-    private static class JavaScheduled implements Scheduled {
+    private static final class JavaScheduled implements Scheduled {
         private final ScheduledFuture scheduledFuture;
 
         private JavaScheduled(ScheduledFuture scheduledFuture) {

@@ -7,7 +7,7 @@ import java.io.*;
 /**
  * @author Bruno Salmon
  */
-public class JavaLocalStorageProviderImpl extends JavaStorageProviderImpl implements LocalStorageProvider {
+public final class JavaLocalStorageProviderImpl extends JavaStorageProviderImpl implements LocalStorageProvider {
 
     private final File locateStorageFile = new File(getWorkingDirectory(), "storage/localStorage.properties");
 

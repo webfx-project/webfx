@@ -7,10 +7,10 @@ import mongooses.core.shared.entities.Option;
 /**
  * @author Bruno Salmon
  */
-public class OptionPreselection {
-    private Option option;
-    private DateTimeRange dateTimeRange;
-    private DayTimeRange dayTimeRange;
+public final class OptionPreselection {
+    private final Option option;
+    private final DateTimeRange dateTimeRange;
+    private final DayTimeRange dayTimeRange;
 
     OptionPreselection(Option option, String dateTimeRange, String dayTimeRange) {
         this(option, DateTimeRange.parse(dateTimeRange), dayTimeRange);

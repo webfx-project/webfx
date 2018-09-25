@@ -10,7 +10,7 @@ import java.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public class OperationAction<Rq, Rs> extends WritableAction {
+public final class OperationAction<Rq, Rs> extends WritableAction {
 
     private final Function<ActionEvent, Rq> operationRequestFactory;
     private OperationActionRegistry operationActionRegistry;

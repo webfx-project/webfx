@@ -32,7 +32,7 @@ public final class VertxSchedulerProviderImpl implements SchedulerProvider {
         return System.nanoTime();
     }
 
-    private class VertxScheduled implements Scheduled {
+    private final class VertxScheduled implements Scheduled {
         private final long timerId;
 
         private VertxScheduled(long timerId) {

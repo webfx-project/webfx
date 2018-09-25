@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Or;
 /**
  * @author Bruno Salmon
  */
-public class OrBuilder extends BinaryExpressionBuilder {
+public final class OrBuilder extends BinaryExpressionBuilder {
 
     public OrBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

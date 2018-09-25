@@ -32,7 +32,7 @@ import static webfx.framework.ui.layouts.LayoutUtil.setMinSizeToZeroAndPrefSizeT
 /**
  * @author Bruno Salmon
  */
-public class CalendarGraphicImpl implements CalendarGraphic {
+public final class CalendarGraphicImpl implements CalendarGraphic {
 
     private Calendar calendar;
     private Pane rootNode;

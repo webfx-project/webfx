@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class RemoteQueryPushServiceProviderImpl implements QueryPushServiceProvider {
+public final class RemoteQueryPushServiceProviderImpl implements QueryPushServiceProvider {
 
     @Override
     public Future<Object> executeQueryPush(QueryPushArgument argument) {

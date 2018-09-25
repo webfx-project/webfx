@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.And;
 /**
  * @author Bruno Salmon
  */
-public class AndBuilder extends BinaryExpressionBuilder {
+public final class AndBuilder extends BinaryExpressionBuilder {
 
     public AndBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

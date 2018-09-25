@@ -8,7 +8,7 @@ import webfx.platforms.core.util.Booleans;
 /**
  * @author Bruno Salmon
  */
-public class BooleanRenderer implements ValueRenderer {
+public final class BooleanRenderer implements ValueRenderer {
 
     public final static BooleanRenderer SINGLETON = new BooleanRenderer();
 

@@ -12,7 +12,7 @@ import emul.javafx.scene.text.TextAlignment;
 /**
  * @author Bruno Salmon
  */
-public class SvgTextPeer
+public final class SvgTextPeer
         <N extends Text, NB extends TextPeerBase<N, NB, NM>, NM extends TextPeerMixin<N, NB, NM>>
         extends SvgShapePeer<N, NB, NM>
         implements TextPeerMixin<N, NB, NM> {

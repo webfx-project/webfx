@@ -135,7 +135,7 @@ public class OptionsActivity extends BookingProcessActivity {
         return htmlText;
     }
 
-    private Map<mongooses.core.shared.entities.Label, Property<String>> labelTexts = new HashMap<>();
+    private final Map<mongooses.core.shared.entities.Label, Property<String>> labelTexts = new HashMap<>();
 
     private void bindTextWithLabel(Property<String> textProperty, mongooses.core.shared.entities.Label label) {
         textProperty.bind(Labels.translateLabel(label));

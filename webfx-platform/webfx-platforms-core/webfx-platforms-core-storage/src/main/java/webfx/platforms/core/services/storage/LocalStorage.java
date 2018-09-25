@@ -8,7 +8,7 @@ import java.util.Iterator;
 /**
  * @author Bruno Salmon
  */
-public class LocalStorage {
+public final class LocalStorage {
 
     public static LocalStorageProvider getProvider() {
         return SingleServiceLoader.loadService(LocalStorageProvider.class);

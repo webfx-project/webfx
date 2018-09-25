@@ -5,7 +5,7 @@ import webfx.framework.router.RoutingContext;
 /**
  * @author Bruno Salmon
  */
-public class UserHolder {
+public final class UserHolder {
     RoutingContext context;
     Object userPrincipal;
 

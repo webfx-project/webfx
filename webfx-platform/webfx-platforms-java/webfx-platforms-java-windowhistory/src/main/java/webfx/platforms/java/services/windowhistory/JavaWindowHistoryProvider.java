@@ -6,5 +6,5 @@ import webfx.platforms.core.services.windowhistory.spi.impl.MemoryBrowsingHistor
 /**
  * @author Bruno Salmon
  */
-public class JavaWindowHistoryProvider extends MemoryBrowsingHistory implements WindowHistoryProvider {
+public final class JavaWindowHistoryProvider extends MemoryBrowsingHistory implements WindowHistoryProvider {
 }

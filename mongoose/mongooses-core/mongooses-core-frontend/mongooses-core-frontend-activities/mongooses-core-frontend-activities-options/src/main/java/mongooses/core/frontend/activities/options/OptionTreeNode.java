@@ -457,7 +457,7 @@ final class OptionTreeNode {
      *  SYNCHRONIZATION CONTEXT CLASS  *********************************************************************************
      ******************************************************************************************************************/
 
-    private class SyncingContext implements Closeable {
+    private final class SyncingContext implements Closeable {
 
         private final boolean staticSyncingSnapshot = staticSyncing;
         private final boolean thisSyncingSnapshot = thisSyncing;

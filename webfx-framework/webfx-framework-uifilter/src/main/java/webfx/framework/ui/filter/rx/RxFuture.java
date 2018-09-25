@@ -32,7 +32,7 @@ public final class RxFuture {
             throw new IllegalStateException("No instances!");
         }
 
-        /* package accessible for unit tests */static class ToObservableFuture<T> implements Observable.OnSubscribe<T> {
+        /* package accessible for unit tests */static final class ToObservableFuture<T> implements Observable.OnSubscribe<T> {
             final Future<? extends T> that;
             //private final long time;
             //private final TimeUnit unit;

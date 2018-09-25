@@ -10,7 +10,7 @@ import webfx.framework.orm.domainmodel.DomainModel;
 /**
  * @author Bruno Salmon
  */
-public class CompilerDomainModelReaderImpl implements CompilerDomainModelReader {
+public final class CompilerDomainModelReaderImpl implements CompilerDomainModelReader {
 
     private final DomainModel domainModel;
 

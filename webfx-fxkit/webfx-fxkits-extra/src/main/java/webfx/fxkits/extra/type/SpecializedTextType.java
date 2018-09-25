@@ -3,7 +3,7 @@ package webfx.fxkits.extra.type;
 /**
  * @author Bruno Salmon
  */
-public class SpecializedTextType extends DerivedType {
+public final class SpecializedTextType extends DerivedType {
 
     private final SpecializedText specializedText;
 

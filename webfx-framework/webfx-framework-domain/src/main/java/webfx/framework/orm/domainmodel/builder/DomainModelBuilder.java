@@ -9,13 +9,13 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class DomainModelBuilder {
-    Map<String, DomainClassBuilder> classBuilderMap = new HashMap<>();
+public final class DomainModelBuilder {
+    final Map<String, DomainClassBuilder> classBuilderMap = new HashMap<>();
 
-    public Object dataModelId;
-    Map<Object, DomainClass> classMap = new HashMap<>();
+    public final Object dataModelId;
+    final Map<Object, DomainClass> classMap = new HashMap<>();
 
-    public DomainModel dataModel;
+    public final DomainModel dataModel;
 
     public DomainModelBuilder(Object dataModelId) {
         this.dataModelId = dataModelId;
@@ -44,6 +44,4 @@ public class DomainModelBuilder {
         }
         return dataModel;
     }
-
-
 }

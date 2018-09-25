@@ -9,7 +9,7 @@ import webfx.platforms.core.services.bus.BusService;
 /**
  * @author Bruno Salmon
  */
-public class JavaWindowLocationProvider extends BrowsingLocationImpl implements WindowLocationProvider {
+public final class JavaWindowLocationProvider extends BrowsingLocationImpl implements WindowLocationProvider {
 
     public JavaWindowLocationProvider() {
         super(((WebSocketBusOptions) BusService.getBusOptions()).isServerSSL() ? "https" : "http", ((WebSocketBusOptions) BusService.getBusOptions()).getServerHost(), null, WindowHistory.getCurrentLocation());

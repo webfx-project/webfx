@@ -10,7 +10,7 @@ import java.io.StringReader;
 /**
  * @author Bruno Salmon
  */
-public class BuiltInJsonParser {
+public final class BuiltInJsonParser {
 
     public static WritableJsonObject parseJsonObject(String json) {
         return parseWithJavaCup(json);
@@ -28,5 +28,4 @@ public class BuiltInJsonParser {
             return null;
         }
     }
-
 }

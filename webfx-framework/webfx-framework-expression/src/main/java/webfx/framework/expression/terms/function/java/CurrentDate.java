@@ -9,7 +9,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public class CurrentDate extends Function {
+public final class CurrentDate extends Function {
 
     public CurrentDate() {
         super("current_date", PrimType.DATE, true, true);

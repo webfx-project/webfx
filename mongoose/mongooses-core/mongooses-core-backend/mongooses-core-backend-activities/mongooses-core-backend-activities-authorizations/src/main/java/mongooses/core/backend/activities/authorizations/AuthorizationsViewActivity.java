@@ -23,8 +23,8 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase
     private final String manageeColumns = "[{label: 'Managee', expression: `active,user.genderIcon,user.firstName,user.lastName`}]";
     private final String assignmentColumns = "[`active`,`operation`,{expression: `rule`, foreignFields: null, foreignSearchCondition: null, foreignCondition: null},`activityState`]";
 
-    private DataGrid usersDataGrid = new DataGrid();
-    private DataGrid assignmentsDataGrid = new DataGrid();
+    private final DataGrid usersDataGrid = new DataGrid();
+    private final DataGrid assignmentsDataGrid = new DataGrid();
 
     private final ObjectProperty<Entity> selectedManagementProperty = new SimpleObjectProperty<>();
 

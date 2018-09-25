@@ -3,7 +3,7 @@ package webfx.platforms.core.util.tuples;
 /**
  * @author Bruno Salmon
  */
-public class Unit<T> {
+public final class Unit<T> {
 
     private T o1;
 

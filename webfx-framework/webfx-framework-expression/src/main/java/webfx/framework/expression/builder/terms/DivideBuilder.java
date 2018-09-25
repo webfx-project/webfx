@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Divide;
 /**
  * @author Bruno Salmon
  */
-public class DivideBuilder extends BinaryExpressionBuilder {
+public final class DivideBuilder extends BinaryExpressionBuilder {
 
     public DivideBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

@@ -6,9 +6,9 @@ import webfx.framework.expression.terms.This;
 /**
  * @author Bruno Salmon
  */
-public class ThisBuilder extends ExpressionBuilder {
+public final class ThisBuilder extends ExpressionBuilder {
 
-    public static ThisBuilder SINGLETON = new ThisBuilder();
+    public static final ThisBuilder SINGLETON = new ThisBuilder();
 
     private ThisBuilder() {
     }

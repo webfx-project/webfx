@@ -15,28 +15,28 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class DomainClassBuilder {
+public final class DomainClassBuilder {
     public DomainModelBuilder domainModelBuilder;
     public DomainModel domainModel;
     public Object id;
     public Object modelId;
-    public String name;
+    public final String name;
     public String sqlTableName;
-    public String idColumnName = "id";
+    public final String idColumnName = "id";
     public Label label;
     public String foreignFieldsDefinition;
     public String fxmlForm;
     public String searchCondition;
     public String css;
-    public Map<String, DomainFieldBuilder> fieldMap = new HashMap<>();
-    public Map<String, DomainFieldsGroupBuilder> fieldsGroupMap = new HashMap<>();
+    public final Map<String, DomainFieldBuilder> fieldMap = new HashMap<>();
+    public final Map<String, DomainFieldsGroupBuilder> fieldsGroupMap = new HashMap<>();
     public String styleClassesExpressionArrayDefinition;
 
     public DomainClass domainClass;
     private boolean built;
-    private Map<Object, DomainField> logicalMap = new HashMap<>();
-    private Map<String, DomainField> sqlMap = new HashMap<>();
-    private Map<Object, FieldsGroup> groupMap = new HashMap<>();
+    private final Map<Object, DomainField> logicalMap = new HashMap<>();
+    private final Map<String, DomainField> sqlMap = new HashMap<>();
+    private final Map<Object, FieldsGroup> groupMap = new HashMap<>();
 
     public DomainClassBuilder(String name) {
         this.name = name;
@@ -117,5 +117,4 @@ public class DomainClassBuilder {
         FieldsGroup group = groupBuilder.build();
         groupMap.put(group.getName(), group);
     }
-
 }

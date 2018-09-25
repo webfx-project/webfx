@@ -5,7 +5,7 @@ import mongooses.core.sharedends.start.MongooseSharedEndsApplicationModuleInitia
 /**
  * @author Bruno Salmon
  */
-public class MongooseFrontendApplicationModuleInitializer extends MongooseSharedEndsApplicationModuleInitializer {
+public final class MongooseFrontendApplicationModuleInitializer extends MongooseSharedEndsApplicationModuleInitializer {
 
     public MongooseFrontendApplicationModuleInitializer() {
         super(new MongooseFrontendApplication());

@@ -29,7 +29,7 @@ import webfx.fxkits.core.util.properties.Properties;
 /**
  * @author Bruno Salmon
  */
-public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
+public final class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
     private final Node node;
     private final TextField usernameField;
     private final PasswordField passwordField;

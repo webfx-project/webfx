@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * @author Bruno Salmon
  */
-public class SqlCompiled {
+public final class SqlCompiled {
 
     private final String sql;
     private final String countSql; // select count(*) ... used to return the total row numbers when the query is truncated by the limit clause

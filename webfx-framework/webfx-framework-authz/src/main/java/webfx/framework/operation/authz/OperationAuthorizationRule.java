@@ -7,7 +7,7 @@ import webfx.framework.services.authz.spi.impl.inmemory.SimpleInMemoryAuthorizat
 /**
  * @author Bruno Salmon
  */
-public class OperationAuthorizationRule extends SimpleInMemoryAuthorizationRuleBase {
+public final class OperationAuthorizationRule extends SimpleInMemoryAuthorizationRuleBase {
 
     private final Class operationRequestClass;
     private final Object operationRequestCode;

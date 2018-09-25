@@ -7,7 +7,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.RadioButtonPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class FxRadioButtonPeer
+public final class FxRadioButtonPeer
         <FxN extends javafx.scene.control.RadioButton, N extends RadioButton, NB extends RadioButtonPeerBase<N, NB, NM>, NM extends RadioButtonPeerMixin<N, NB, NM>>
 
         extends FxButtonBasePeer<FxN, N, NB, NM>

@@ -20,7 +20,7 @@ import static webfx.framework.ui.layouts.LayoutUtil.createHGrowable;
 /**
  * @author Bruno Salmon
  */
-public class TermsDialog implements ButtonFactoryMixin, ReactiveExpressionFilterFactoryMixin {
+public final class TermsDialog implements ButtonFactoryMixin, ReactiveExpressionFilterFactoryMixin {
 
     private final Object eventId;
     private final DataSourceModel dataSourceModel;

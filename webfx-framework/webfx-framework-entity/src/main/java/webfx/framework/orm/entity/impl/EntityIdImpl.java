@@ -6,7 +6,7 @@ import webfx.framework.orm.domainmodel.DomainClass;
 /**
  * @author Bruno Salmon
  */
-public class EntityIdImpl implements EntityId {
+public final class EntityIdImpl implements EntityId {
 
     private final DomainClass domainClass;
     private final Object primaryKey;

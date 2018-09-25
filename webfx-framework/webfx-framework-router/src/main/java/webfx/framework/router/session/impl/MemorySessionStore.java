@@ -10,9 +10,9 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class MemorySessionStore implements SessionStore {
+public final class MemorySessionStore implements SessionStore {
 
-    private Map<String, Session> sessions = new HashMap<>();
+    private final Map<String, Session> sessions = new HashMap<>();
 
     public static MemorySessionStore create() {
         return new MemorySessionStore();

@@ -3,7 +3,7 @@ package webfx.framework.expression.sqlcompiler.sql.dbms;
 /**
  * @author Bruno Salmon
  */
-public class HsqlSyntax extends DbmsSqlSyntaxImpl {
+public final class HsqlSyntax extends DbmsSqlSyntaxImpl {
 
     private final static HsqlSyntax INSTANCE = new HsqlSyntax();
 

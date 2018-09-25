@@ -94,10 +94,10 @@ final class PaymentActivity extends CartBasedActivity {
         return PriceFormatter.formatWithCurrency(amount, getEvent());
     }
 
-    private static int CENTS = 100;
-    private static int MIN_AMOUNT_TO_PAY = 10 * CENTS;
+    private static final int CENTS = 100;
+    private static final int MIN_AMOUNT_TO_PAY = 10 * CENTS;
 
-    private class DocumentPayment {
+    private final class DocumentPayment {
         final Document document;
         final int minAmount, maxAmount;
         int amount;

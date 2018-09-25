@@ -6,7 +6,7 @@ import webfx.framework.expression.sqlcompiler.sql.SqlClause;
 /**
  * @author Bruno Salmon
  */
-public class ParameterSqlCompiler extends AbstractTermSqlCompiler<Parameter> {
+public final class ParameterSqlCompiler extends AbstractTermSqlCompiler<Parameter> {
 
     public ParameterSqlCompiler() {
         super(Parameter.class);

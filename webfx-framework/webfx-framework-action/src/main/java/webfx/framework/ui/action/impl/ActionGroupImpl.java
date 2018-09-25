@@ -22,7 +22,7 @@ import java.util.Collection;
 public final class ActionGroupImpl extends ReadOnlyAction implements ActionGroup {
 
     private final Collection<Action> actions;
-    private ObservableList<Action> visibleActions = FXCollections.observableArrayList();
+    private final ObservableList<Action> visibleActions = FXCollections.observableArrayList();
 
     public ActionGroupImpl(Collection<Action> actions, ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
         super(textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);

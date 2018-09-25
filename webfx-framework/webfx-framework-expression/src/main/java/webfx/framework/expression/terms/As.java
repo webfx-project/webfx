@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class As<T> extends UnaryExpression<T> {
+public final class As<T> extends UnaryExpression<T> {
 
     private final String alias;
 
@@ -35,5 +35,4 @@ public class As<T> extends UnaryExpression<T> {
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
         persistentTerms.add(this); // We want the whole As expression to be sent to the server
     }
-
 }

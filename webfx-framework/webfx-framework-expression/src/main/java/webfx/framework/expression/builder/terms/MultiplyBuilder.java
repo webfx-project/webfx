@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Multiply;
 /**
  * @author Bruno Salmon
  */
-public class MultiplyBuilder extends BinaryExpressionBuilder {
+public final class MultiplyBuilder extends BinaryExpressionBuilder {
 
     public MultiplyBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

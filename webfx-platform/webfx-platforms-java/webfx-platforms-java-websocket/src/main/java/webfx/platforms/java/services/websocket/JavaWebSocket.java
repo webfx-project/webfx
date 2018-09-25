@@ -40,8 +40,8 @@ import java.nio.charset.CharsetDecoder;
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
 public final class JavaWebSocket implements WebSocket {
-    private static Charset charset = Charset.forName("UTF-8");
-    private static CharsetDecoder decoder = charset.newDecoder();
+    private static final Charset charset = Charset.forName("UTF-8");
+    private static final CharsetDecoder decoder = charset.newDecoder();
 
     private static String toString(ByteBuffer buffer) throws CharacterCodingException {
         int old_position = buffer.position();

@@ -8,7 +8,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class FxKitLauncherModuleInitializer implements ApplicationModuleInitializer {
+public final class FxKitLauncherModuleInitializer implements ApplicationModuleInitializer {
 
     @Override
     public String getModuleName() {

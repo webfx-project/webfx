@@ -6,9 +6,9 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class ThreadLocalReferenceResolver {
+public final class ThreadLocalReferenceResolver {
 
-    private static ThreadLocal<Stack<ReferenceResolver>> stack = new ThreadLocal<>();
+    private static final ThreadLocal<Stack<ReferenceResolver>> stack = new ThreadLocal<>();
 
     private static Stack<ReferenceResolver> getThreadLocalResolvers() {
         Stack<ReferenceResolver> referenceResolvers = stack.get();

@@ -8,7 +8,7 @@ import webfx.platforms.core.util.async.Batch;
 /**
  * @author Bruno Salmon
  */
-public class BatchJsonCodec extends AbstractJsonCodec<Batch> {
+public final class BatchJsonCodec extends AbstractJsonCodec<Batch> {
 
     private final static String BATCH_CODEC_ID = "Batch";
     private final static String BATCH_ARRAY_KEY = "array";

@@ -6,12 +6,12 @@ import webfx.platforms.core.util.function.Callable;
 /**
  * @author Bruno Salmon
  */
-public class BuilderThreadContext implements AutoCloseable {
+public final class BuilderThreadContext implements AutoCloseable {
 
     private final static ThreadLocal<BuilderThreadContext> contexts = new ThreadLocal<>();
     private static BuilderThreadContext jsContext; // used in a javascript context only (since ThreadLocal doesn't work with TeaVM)
 
-    private ParserDomainModelReader modelReader;
+    private final ParserDomainModelReader modelReader;
 
     public BuilderThreadContext(ParserDomainModelReader modelReader) {
         this.modelReader = modelReader;
@@ -49,5 +49,4 @@ public class BuilderThreadContext implements AutoCloseable {
             return callable.call();
         }
     }
-
 }

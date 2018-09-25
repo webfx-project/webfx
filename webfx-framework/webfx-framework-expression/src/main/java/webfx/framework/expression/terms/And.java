@@ -9,7 +9,7 @@ import webfx.framework.expression.lci.DataWriter;
 /**
  * @author Bruno Salmon
  */
-public class And<T> extends BinaryBooleanExpression<T> {
+public final class And<T> extends BinaryBooleanExpression<T> {
 
     public And(Expression<T> left, Expression<T> right) {
         super(left, " and ", right, 3);
@@ -38,5 +38,4 @@ public class And<T> extends BinaryBooleanExpression<T> {
         left.setValue(domainObject, value, dataWriter);
         right.setValue(domainObject, value, dataWriter);
     }
-
 }

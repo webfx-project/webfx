@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class DomainModelLoader {
+public final class DomainModelLoader {
     private final Object id;
     private final DomainModelBuilder dmb;
     private final Object dataSourceId = 0;

@@ -21,7 +21,7 @@ import static java.lang.Math.max;
 public final class RxScheduler extends Scheduler {
 
     public static RxScheduler BACKGROUND_SCHEDULER = new RxScheduler(webfx.platforms.core.services.scheduler.Scheduler.getProvider());
-    public static RxScheduler UI_SCHEDULER = new RxScheduler(UiScheduler.getProvider());
+    public static final RxScheduler UI_SCHEDULER = new RxScheduler(UiScheduler.getProvider());
 
     private final SchedulerProvider schedulerProvider;
 

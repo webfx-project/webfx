@@ -20,7 +20,7 @@ import webfx.platforms.core.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class HtmlTextPeer
+public final class HtmlTextPeer
         <N extends Text, NB extends TextPeerBase<N, NB, NM>, NM extends TextPeerMixin<N, NB, NM>>
         extends HtmlShapePeer<N, NB, NM>
         implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoHGrow, HasSizeChangedCallback {
@@ -110,7 +110,7 @@ public class HtmlTextPeer
         updateYOnNextPulse();
     }
 
-    private static HTMLCanvasElement canvas = HtmlUtil.createElement("canvas");
+    private static final HTMLCanvasElement canvas = HtmlUtil.createElement("canvas");
     private String lastFont;
     private JavaScriptObject currentTextMetrics;
 

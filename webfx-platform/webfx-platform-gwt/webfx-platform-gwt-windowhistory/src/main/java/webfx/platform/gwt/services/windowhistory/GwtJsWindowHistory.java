@@ -10,7 +10,7 @@ import java.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public class GwtJsWindowHistory implements JsWindowHistory {
+public final class GwtJsWindowHistory implements JsWindowHistory {
 
     public GwtJsWindowHistory() {
     }

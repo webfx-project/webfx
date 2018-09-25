@@ -8,7 +8,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class UpdateService {
+public final class UpdateService {
 
     public static final String UPDATE_SERVICE_ADDRESS = "service/update";
     public static final String UPDATE_BATCH_SERVICE_ADDRESS = "service/update/batch";

@@ -9,7 +9,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class PushServerService {
+public final class PushServerService {
 
     static {
         SingleServiceLoader.registerDefaultServiceFactory(PushServerServiceProvider.class, PushServerServiceProviderImpl::new);

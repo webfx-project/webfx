@@ -11,8 +11,8 @@ import webfx.platforms.core.services.uischeduler.spi.impl.UiSchedulerProviderBas
  */
 public final class GwtSchedulerProvider extends UiSchedulerProviderBase {
 
-    private static long MILLIS_IN_NANO = 1_000_000;
-    private static long START_NANO = System.currentTimeMillis() * MILLIS_IN_NANO - performanceNano();
+    private static final long MILLIS_IN_NANO = 1_000_000;
+    private static final long START_NANO = System.currentTimeMillis() * MILLIS_IN_NANO - performanceNano();
 
     @Override
     public boolean isUiThread() {

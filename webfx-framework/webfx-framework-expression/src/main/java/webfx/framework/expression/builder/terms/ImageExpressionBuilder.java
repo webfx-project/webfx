@@ -7,7 +7,7 @@ import webfx.framework.expression.terms.function.Call;
 /**
  * @author Bruno Salmon
  */
-public class ImageExpressionBuilder extends UnaryExpressionBuilder {
+public final class ImageExpressionBuilder extends UnaryExpressionBuilder {
 
     public ImageExpressionBuilder(ExpressionBuilder operand) {
         super(operand);

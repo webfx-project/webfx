@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class DomainModel {
+public final class DomainModel {
     private final Object id;
     private final Map<Object /* id, modelId, name or sqlTable */, DomainClass> classMap;
     private final CompilerDomainModelReader compilerDomainModelReader = new CompilerDomainModelReaderImpl(this);

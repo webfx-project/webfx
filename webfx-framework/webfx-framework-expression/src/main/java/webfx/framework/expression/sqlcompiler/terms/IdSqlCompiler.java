@@ -6,7 +6,7 @@ import webfx.fxkits.extra.type.Types;
 /**
  * @author Bruno Salmon
  */
-public class IdSqlCompiler extends AbstractTermSqlCompiler<IdExpression> {
+public final class IdSqlCompiler extends AbstractTermSqlCompiler<IdExpression> {
 
     public IdSqlCompiler() {
         super(IdExpression.class);

@@ -12,7 +12,7 @@ import webfx.fxkits.extra.displaydata.Label;
 /**
  * @author Bruno Salmon
  */
-public class DomainField extends Symbol implements HasLabel {
+public final class DomainField extends Symbol implements HasLabel {
     private final DomainClass domainClass;
     private final Object modelId;
     private final Object id;
@@ -32,7 +32,7 @@ public class DomainField extends Symbol implements HasLabel {
     private final String foreignTableFields;
     private DomainField foreignFieldId;
 
-    private boolean debug = true;
+    private final boolean debug = true;
 
     private Expression fieldEqualsParam;
 
@@ -166,5 +166,4 @@ public class DomainField extends Symbol implements HasLabel {
             fieldEqualsParam = new Equals(this, Parameter.UNNAMED_PARAMETER);
         return fieldEqualsParam;
     }
-
 }

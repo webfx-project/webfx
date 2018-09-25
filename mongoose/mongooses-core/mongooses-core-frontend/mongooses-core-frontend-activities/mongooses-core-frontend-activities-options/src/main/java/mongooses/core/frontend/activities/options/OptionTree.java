@@ -94,7 +94,7 @@ public final class OptionTree {
         return getOptionTreeNode(o).createOrUpdateTopLevelOptionSectionFromModel();
     }
 
-    private Map<Option, OptionTreeNode> optionTreeNodes = new HashMap<>();
+    private final Map<Option, OptionTreeNode> optionTreeNodes = new HashMap<>();
 
     private OptionTreeNode getOptionTreeNode(Option option) {
         OptionTreeNode optionTreeNode = optionTreeNodes.get(option);

@@ -7,7 +7,7 @@ import webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvid
 /**
  * @author Bruno Salmon
  */
-public class GwtApplicationContainerProvider implements ApplicationContainerProvider, EntryPoint {
+public final class GwtApplicationContainerProvider implements ApplicationContainerProvider, EntryPoint {
 
     @Override
     public void onModuleLoad() {

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase {
+public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase {
 
     private static List<Runnable> readyRunnables = new ArrayList<>();
     private static Factory<Application> applicationFactory;

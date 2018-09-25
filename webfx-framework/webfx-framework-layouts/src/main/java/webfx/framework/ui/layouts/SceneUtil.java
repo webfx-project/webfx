@@ -195,7 +195,7 @@ public final class SceneUtil {
 
     private final static long MAX_DELAY_MILLIS_BETWEEN_FOCUS_AND_VIRTUAL_KEYBOARD = 1000;
 
-    private static class SceneInfo {
+    private static final class SceneInfo {
         private Boolean virtualKeyboardDetected; // null = don't know yet, true = yes we detected it, no = we detected it was not here
         private final BooleanProperty virtualKeyboardShowingProperty = new SimpleBooleanProperty();
         private long lastTextInputFocusTime;

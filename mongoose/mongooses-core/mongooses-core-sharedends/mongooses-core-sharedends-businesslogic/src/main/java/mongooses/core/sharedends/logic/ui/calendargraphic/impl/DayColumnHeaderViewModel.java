@@ -16,7 +16,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public class DayColumnHeaderViewModel implements HorizontalDayPositioned {
+public final class DayColumnHeaderViewModel implements HorizontalDayPositioned {
 
     final static double dayColumnHeaderHeight = 50d;
     private final static LinearGradient dayColumnHeaderFill = LinearGradient.valueOf("from 0% 0% to 0% 100%, 0x75A9A3 0%, 0x375855 100%"); // Color.web("0x609993")

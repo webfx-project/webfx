@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class HtmlPaints {
+public final class HtmlPaints {
 
     public static String toHtmlCssPaint(Paint paint) {
         return toCssPaint(paint, DomType.HTML);

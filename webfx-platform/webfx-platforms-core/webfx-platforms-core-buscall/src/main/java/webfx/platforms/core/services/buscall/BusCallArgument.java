@@ -9,7 +9,7 @@ import webfx.platforms.core.services.json.codec.JsonCodecManager;
 /*
  * @author Bruno Salmon
  */
-public class BusCallArgument {
+public final class BusCallArgument {
 
     private static int SEQ = 0;
 
@@ -51,12 +51,12 @@ public class BusCallArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<BusCallArgument> {
+    public static final class Codec extends AbstractJsonCodec<BusCallArgument> {
 
-        private static String CODEC_ID = "call";
-        private static String CALL_NUMBER_KEY = "seq";
-        private static String TARGET_ADDRESS_KEY = "addr";
-        private static String TARGET_ARGUMENT_KEY = "arg";
+        private static final String CODEC_ID = "call";
+        private static final String CALL_NUMBER_KEY = "seq";
+        private static final String TARGET_ADDRESS_KEY = "addr";
+        private static final String TARGET_ARGUMENT_KEY = "arg";
 
         public Codec() {
             super(BusCallArgument.class, CODEC_ID);
@@ -78,5 +78,4 @@ public class BusCallArgument {
             );
         }
     }
-
 }

@@ -11,7 +11,7 @@ import webfx.platforms.core.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public class ActivityManager<C extends ActivityContext<C>> {
+public final class ActivityManager<C extends ActivityContext<C>> {
 
     enum State {LAUNCHED, CREATED, STARTED, RESUMED, PAUSED, STOPPED, DESTROYED}
 
@@ -224,5 +224,4 @@ public class ActivityManager<C extends ActivityContext<C>> {
     public static <C extends ActivityContext<C>> Factory<ActivityManager<C>> factory(Factory<Activity<C>> activityFactory, ActivityContextFactory<C> contextFactory) {
         return () -> new ActivityManager<>(activityFactory, contextFactory);
     }
-
 }

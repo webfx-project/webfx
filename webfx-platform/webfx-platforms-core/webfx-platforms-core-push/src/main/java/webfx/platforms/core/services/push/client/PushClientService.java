@@ -14,7 +14,7 @@ import java.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public class PushClientService {
+public final class PushClientService {
 
     private final static ObjectProperty<Object> pushClientIdProperty = new SimpleObjectProperty<>();
 

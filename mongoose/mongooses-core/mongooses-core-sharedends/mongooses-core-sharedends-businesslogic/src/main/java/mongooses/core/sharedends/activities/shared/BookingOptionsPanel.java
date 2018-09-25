@@ -32,7 +32,7 @@ import static webfx.framework.ui.util.formatter.FormatterRegistry.registerFormat
 /**
  * @author Bruno Salmon
  */
-public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
+public final class BookingOptionsPanel implements MongooseSectionFactoryMixin {
 
     private final DataGrid dataGrid;
     private BorderPane optionsPanel;

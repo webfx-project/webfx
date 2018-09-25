@@ -7,7 +7,7 @@ import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
 /**
  * @author Bruno Salmon
  */
-public class GeneratedKeyBatchIndex {
+public final class GeneratedKeyBatchIndex {
 
     private final int batchIndex;
 
@@ -23,10 +23,10 @@ public class GeneratedKeyBatchIndex {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<GeneratedKeyBatchIndex> {
+    public static final class Codec extends AbstractJsonCodec<GeneratedKeyBatchIndex> {
 
-        private static String CODEC_ID = "GenKeyBatchIndex";
-        private static String BATCH_INDEX_KEY = "index";
+        private static final String CODEC_ID = "GenKeyBatchIndex";
+        private static final String BATCH_INDEX_KEY = "index";
 
         public Codec() {
             super(GeneratedKeyBatchIndex.class, CODEC_ID);

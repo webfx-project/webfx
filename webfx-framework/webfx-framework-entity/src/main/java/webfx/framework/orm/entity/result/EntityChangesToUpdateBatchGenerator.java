@@ -26,7 +26,7 @@ import java.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public class EntityChangesToUpdateBatchGenerator {
+public final class EntityChangesToUpdateBatchGenerator {
 
     private EntityChangesToUpdateBatchGenerator() {
     }
@@ -55,7 +55,7 @@ public class EntityChangesToUpdateBatchGenerator {
         return createUpdateBatchGenerator(changes, dataSourceId, dbmsSyntax, parserModelReader, compilerModelReader, initialUpdates).generate();
     }
 
-    public static class BatchGenerator {
+    public static final class BatchGenerator {
 
         final static Expression WHERE_ID_EQUALS_PARAM = new Equals(IdExpression.singleton, Parameter.UNNAMED_PARAMETER);
 

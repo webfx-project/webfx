@@ -6,7 +6,7 @@ import java.util.Collection;
  * @author Bruno Salmon
  */
 
-public class Types {
+public final class Types {
 
     public CollectionType STRINGS = collectionType(PrimType.STRING);
 

@@ -14,9 +14,9 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class RouterImpl implements Router {
+public final class RouterImpl implements Router {
 
-    private List<RouteImpl> routes = new ArrayList<>();
+    private final List<RouteImpl> routes = new ArrayList<>();
     private Handler<Throwable> exceptionHandler;
 
     @Override

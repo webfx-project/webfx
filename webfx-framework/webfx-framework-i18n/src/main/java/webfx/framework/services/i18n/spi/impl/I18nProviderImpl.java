@@ -20,7 +20,7 @@ public class I18nProviderImpl implements I18nProvider {
 
     private final Map<Object, Reference<StringProperty>> translations = new HashMap<>();
     private boolean dictionaryLoadRequired;
-    private DictionaryLoader dictionaryLoader;
+    private final DictionaryLoader dictionaryLoader;
     private Set<Object> unloadedKeys;
 
     public I18nProviderImpl(DictionaryLoader dictionaryLoader) {
@@ -35,13 +35,13 @@ public class I18nProviderImpl implements I18nProvider {
         setLanguage(initialLanguage);
     }
 
-    private Property<Object> languageProperty = new SimpleObjectProperty<>();
+    private final Property<Object> languageProperty = new SimpleObjectProperty<>();
     @Override
     public Property<Object> languageProperty() {
         return languageProperty;
     }
 
-    private Property<webfx.framework.services.i18n.Dictionary> dictionaryProperty = new SimpleObjectProperty<>();
+    private final Property<webfx.framework.services.i18n.Dictionary> dictionaryProperty = new SimpleObjectProperty<>();
     @Override
     public Property<Dictionary> dictionaryProperty() {
         return dictionaryProperty;

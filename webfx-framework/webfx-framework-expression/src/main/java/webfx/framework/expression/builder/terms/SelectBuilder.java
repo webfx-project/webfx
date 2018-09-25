@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Select;
 /**
  * @author Bruno Salmon
  */
-public class SelectBuilder extends SqlOrderBuilder<Select> {
+public final class SelectBuilder extends SqlOrderBuilder<Select> {
     public Object filterId;
     public boolean distinct = false;
     public boolean includeIdColumn = true;

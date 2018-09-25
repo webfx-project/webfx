@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.In;
 /**
  * @author Bruno Salmon
  */
-public class InBuilder extends BinaryBooleanExpressionBuilder {
+public final class InBuilder extends BinaryBooleanExpressionBuilder {
 
     public InBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

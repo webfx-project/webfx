@@ -10,7 +10,7 @@ import webfx.framework.ui.controls.dialog.DialogUtil;
 /**
  * @author Bruno Salmon
  */
-public class Theme {
+public final class Theme {
 
     private final static Property<Background> mainBackgroundProperty = new SimpleObjectProperty<>();
     public static Property<Background> mainBackgroundProperty() {

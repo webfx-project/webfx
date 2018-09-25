@@ -7,7 +7,7 @@ import webfx.platforms.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public class MongooseRoutingUtil {
+public final class MongooseRoutingUtil {
 
     public static String interpolateParamInPath(String paramToken, Object paramValue, String path) {
         return paramValue == null ? null : Strings.replaceAll(path, paramToken, paramValue);

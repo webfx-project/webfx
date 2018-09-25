@@ -70,7 +70,7 @@ public abstract class QueryPushServiceProviderImplBase implements QueryPushServi
 
     protected abstract void removePushClientStreams(Object pushClientId);
 
-    class StreamInfo {
+    final class StreamInfo {
         final long creationTime = now();
         Object queryStreamId;
         final Object pushClientId;
@@ -104,7 +104,7 @@ public abstract class QueryPushServiceProviderImplBase implements QueryPushServi
         }
     }
 
-    public static class QueryInfo {
+    public static final class QueryInfo {
         final QueryArgument queryArgument;
         private final List<StreamInfo> streamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
         int activeNewStreamCount;

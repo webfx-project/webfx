@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Ordered;
 /**
  * @author Bruno Salmon
  */
-public class OrderedBuilder extends UnaryExpressionBuilder {
+public final class OrderedBuilder extends UnaryExpressionBuilder {
     private boolean ascending;
     private boolean descending;
     private boolean nullsFirst;

@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Select<T> extends SqlOrder<T> {
+public final class Select<T> extends SqlOrder<T> {
     private final boolean distinct;
     private final boolean includeIdColumn;
     private final ExpressionArray<T> fields;

@@ -8,7 +8,7 @@ import webfx.platforms.java.services.JdbcConnectedServiceProviderImpl;
 /**
  * @author Bruno Salmon
  */
-public class JdbcUpdateServiceProviderImpl extends LocalOrRemoteUpdateServiceProviderImpl {
+public final class JdbcUpdateServiceProviderImpl extends LocalOrRemoteUpdateServiceProviderImpl {
 
     @Override
     protected UpdateServiceProvider createConnectedUpdateService(ConnectionDetails connectionDetails) {

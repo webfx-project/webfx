@@ -253,7 +253,7 @@ public final class FlexBox extends Pane {
         grid.put(row, flexBoxRow);
     }
 
-    private static class FlexBoxItem {
+    private static final class FlexBoxItem {
         final Node node;
         final int order;
         final double grow;
@@ -267,7 +267,7 @@ public final class FlexBox extends Pane {
         }
     }
 
-    private static class FlexBoxRow {
+    private static final class FlexBoxRow {
         private final ArrayList<FlexBoxItem> items = new ArrayList<>();
         double rowMinWidth;
         double flexGrowSum;

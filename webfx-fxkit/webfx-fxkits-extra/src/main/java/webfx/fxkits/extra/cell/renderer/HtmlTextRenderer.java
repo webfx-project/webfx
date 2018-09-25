@@ -6,7 +6,7 @@ import webfx.platforms.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public class HtmlTextRenderer implements ValueRenderer {
+public final class HtmlTextRenderer implements ValueRenderer {
 
     public final static HtmlTextRenderer SINGLETON = new HtmlTextRenderer();
 

@@ -8,7 +8,7 @@ import webfx.platforms.core.util.Numbers;
 /**
  * @author Bruno Salmon
  */
-public class Or<T> extends BinaryBooleanExpression<T> {
+public final class Or<T> extends BinaryBooleanExpression<T> {
 
     public Or(Expression<T> left, Expression<T> right) {
         super(left, " or ", right, 2);

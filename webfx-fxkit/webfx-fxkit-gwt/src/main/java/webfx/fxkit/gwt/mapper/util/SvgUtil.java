@@ -15,7 +15,7 @@ import static elemental2.dom.DomGlobal.document;
 /**
  * @author Bruno Salmon
  */
-public class SvgUtil {
+public final class SvgUtil {
 
     private final static String svgNS = "http://www.w3.org/2000/svg";
 

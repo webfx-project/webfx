@@ -15,7 +15,7 @@ import webfx.platforms.core.services.uischeduler.UiScheduler;
 /**
  * @author Bruno Salmon
  */
-public class FxControlPeerSkin<C extends Control> extends SkinBase<C> {
+public final class FxControlPeerSkin<C extends Control> extends SkinBase<C> {
 
     public FxControlPeerSkin(C control) {
         super(control);

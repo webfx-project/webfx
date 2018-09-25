@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class FxDataGridPeer
+public final class FxDataGridPeer
         <N extends DataGrid, NB extends DataGridPeerBase<TableCell, N, NB, NM>, NM extends DataGridPeerMixin<TableCell, N, NB, NM>>
 
         extends FxRegionPeer<TableView<Integer>, N, NB, NM>

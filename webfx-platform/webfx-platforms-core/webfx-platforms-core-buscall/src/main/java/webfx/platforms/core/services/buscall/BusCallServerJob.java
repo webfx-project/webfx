@@ -7,7 +7,7 @@ package webfx.platforms.core.services.buscall;
 import webfx.platforms.core.services.appcontainer.ApplicationJob;
 import webfx.platforms.core.util.async.Future;
 
-public class BusCallServerJob implements ApplicationJob {
+public final class BusCallServerJob implements ApplicationJob {
 
     public static final String VERSION_ADDRESS = "version";
 
@@ -25,5 +25,4 @@ public class BusCallServerJob implements ApplicationJob {
         BusCallService.listenBusEntryCalls();
         return Future.succeededFuture();
     }
-
 }

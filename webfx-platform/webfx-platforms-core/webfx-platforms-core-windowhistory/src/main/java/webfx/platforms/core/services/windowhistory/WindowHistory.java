@@ -7,7 +7,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class WindowHistory {
+public final class WindowHistory {
 
     public static WindowHistoryProvider getProvider() { // returns the browser history
         return SingleServiceLoader.loadService(WindowHistoryProvider.class);

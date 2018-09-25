@@ -5,9 +5,9 @@ import webfx.framework.expression.terms.Symbol;
 /**
  * @author Bruno Salmon
  */
-public class FieldsGroupBuilder extends ExpressionBuilder {
+public final class FieldsGroupBuilder extends ExpressionBuilder {
 
-    public String name;
+    public final String name;
 
     public FieldsGroupBuilder(String name) {
         this.name = name;
@@ -23,5 +23,4 @@ public class FieldsGroupBuilder extends ExpressionBuilder {
         }
         return fieldsGroup;
     }
-
 }

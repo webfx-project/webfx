@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class QueryResultBuilder {
+public final class QueryResultBuilder {
 
     private int rowCount;
     private final int columnCount;

@@ -5,7 +5,7 @@ import webfx.fxkits.extra.type.Type;
 /**
  * @author Bruno Salmon
  */
-public class DomainClassType implements Type {
+public final class DomainClassType implements Type {
 
     private final Object domainClass;
 

@@ -6,7 +6,7 @@ import webfx.platforms.core.services.windowhistory.spi.BrowsingHistoryLocation;
 /**
  * @author Bruno Salmon
  */
-public class SubBrowsingHistory extends BrowsingHistoryBase {
+public final class SubBrowsingHistory extends BrowsingHistoryBase {
 
     private final BrowsingHistoryBase parentHistory;
 

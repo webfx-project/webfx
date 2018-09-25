@@ -9,7 +9,7 @@ import java.util.function.BiFunction;
 /**
  * @author Bruno Salmon
  */
-public class TextRenderer implements ValueRenderer {
+public final class TextRenderer implements ValueRenderer {
 
     public final static TextRenderer SINGLETON = new TextRenderer();
 

@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-public class SessionHandlerImpl implements SessionHandler {
+public final class SessionHandlerImpl implements SessionHandler {
 
     private final Callable<SessionStore> sessionStoreGetter;
     private final Callable<String> sessionIdFetcher;

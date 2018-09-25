@@ -5,7 +5,7 @@ import webfx.fxkits.extra.displaydata.DisplayStyle;
 /**
  * @author Bruno Salmon
  */
-public class DisplayStyleImpl implements DisplayStyle {
+public final class DisplayStyleImpl implements DisplayStyle {
 
     private final Double prefWidth;
     private final String textAlign;

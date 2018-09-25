@@ -9,7 +9,7 @@ import webfx.platforms.core.services.json.codec.JsonCodecManager;
 /**
  * @author Bruno Salmon
  */
-public class UpdateArgument {
+public final class UpdateArgument {
 
     private final String updateString;
     private final Object[] parameters;
@@ -56,7 +56,7 @@ public class UpdateArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<UpdateArgument> {
+    public static final class Codec extends AbstractJsonCodec<UpdateArgument> {
 
         private static final String CODEC_ID = "UpdateArg";
         private static final String UPDATE_KEY = "update";

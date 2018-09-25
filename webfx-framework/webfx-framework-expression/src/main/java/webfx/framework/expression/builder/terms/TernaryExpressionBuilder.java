@@ -5,10 +5,10 @@ import webfx.framework.expression.terms.TernaryExpression;
 /**
  * @author Bruno Salmon
  */
-public class TernaryExpressionBuilder extends ExpressionBuilder {
-    public ExpressionBuilder question;
-    public ExpressionBuilder yes;
-    public ExpressionBuilder no;
+public final class TernaryExpressionBuilder extends ExpressionBuilder {
+    public final ExpressionBuilder question;
+    public final ExpressionBuilder yes;
+    public final ExpressionBuilder no;
 
     private TernaryExpression operation;
 

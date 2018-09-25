@@ -19,7 +19,7 @@ import webfx.platforms.core.services.update.UpdateResult;
 /**
  * @author Bruno Salmon
  */
-public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
+public final class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
 
     private final EntityChangesBuilder changesBuilder = EntityChangesBuilder.create();
     private EntityResultBuilder previousValues;

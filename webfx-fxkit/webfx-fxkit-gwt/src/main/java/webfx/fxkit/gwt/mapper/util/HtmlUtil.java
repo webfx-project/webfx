@@ -10,7 +10,7 @@ import static elemental2.dom.DomGlobal.document;
 /**
  * @author Bruno Salmon
  */
-public class HtmlUtil {
+public final class HtmlUtil {
 
     public static <N extends Node> N removeChildren(N parent) {
         if (parent != null)

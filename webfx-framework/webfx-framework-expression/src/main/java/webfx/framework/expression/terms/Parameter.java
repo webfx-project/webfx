@@ -10,14 +10,14 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class Parameter<T> extends AbstractExpression<T> {
+public final class Parameter<T> extends AbstractExpression<T> {
 
     public final static Parameter UNNAMED_PARAMETER = new Parameter<>(null, null);
 
     private final String name;
     private final Expression<T> rightDot;
 
-    private int index = -1; // index of this parameter in a oqlOrder
+    private final int index = -1; // index of this parameter in a oqlOrder
 
     public Parameter(String name, Expression<T> rightDot) {
         super(9);

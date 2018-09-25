@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class QueryResultComparator {
+public final class QueryResultComparator {
 
     public static QueryResultDiff computeDiff(QueryResult rs1, QueryResult rs2) {
         if (rs1 != null && rs2 != null && rs1 != rs2) {

@@ -9,7 +9,7 @@ import java.lang.management.ManagementFactory;
 /**
  * @author Bruno Salmon
  */
-public class JavaSystemMetricsServiceProviderImpl implements SystemMetricsServiceProvider {
+public final class JavaSystemMetricsServiceProviderImpl implements SystemMetricsServiceProvider {
 
     @Override
     public void takeSystemMetricsSnapshot(SystemMetrics systemMetrics) {

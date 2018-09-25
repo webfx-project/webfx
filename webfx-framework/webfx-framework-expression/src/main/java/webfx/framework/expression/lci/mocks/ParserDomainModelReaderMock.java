@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class ParserDomainModelReaderMock implements ParserDomainModelReader {
+public final class ParserDomainModelReaderMock implements ParserDomainModelReader {
 
     private final Map<String, String> fieldGroups = new HashMap<>();
 

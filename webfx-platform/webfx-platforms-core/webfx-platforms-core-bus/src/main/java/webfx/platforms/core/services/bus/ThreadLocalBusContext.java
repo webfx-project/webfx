@@ -11,9 +11,9 @@ package webfx.platforms.core.services.bus;
  *
  * @author Bruno Salmon
  */
-public class ThreadLocalBusContext implements AutoCloseable {
+public final class ThreadLocalBusContext implements AutoCloseable {
 
-    private static ThreadLocal<Bus> busThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<Bus> busThreadLocal = new ThreadLocal<>();
 
     private final Bus previousBus = busThreadLocal.get();
 

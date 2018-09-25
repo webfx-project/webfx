@@ -5,7 +5,7 @@ import webfx.framework.expression.terms.TernaryExpression;
 /**
  * @author Bruno Salmon
  */
-public class TernaryExpressionSqlCompiler extends AbstractTermSqlCompiler<TernaryExpression> {
+public final class TernaryExpressionSqlCompiler extends AbstractTermSqlCompiler<TernaryExpression> {
 
     public TernaryExpressionSqlCompiler() {
         super(TernaryExpression.class);

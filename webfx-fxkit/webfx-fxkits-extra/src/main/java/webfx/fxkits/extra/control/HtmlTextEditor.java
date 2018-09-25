@@ -3,5 +3,5 @@ package webfx.fxkits.extra.control;
 /**
  * @author Bruno Salmon
  */
-public class HtmlTextEditor extends HtmlText {
+public final class HtmlTextEditor extends HtmlText {
 }

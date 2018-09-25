@@ -6,7 +6,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class Shutdown {
+public final class Shutdown {
 
     public static ShutdownProvider getProvider() {
         return SingleServiceLoader.loadService(ShutdownProvider.class);

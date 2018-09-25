@@ -9,7 +9,7 @@ import webfx.framework.services.authz.AuthorizationRequest;
 /**
  * @author Bruno Salmon
  */
-public class RedirectAuthHandlerImpl implements RedirectAuthHandler {
+public final class RedirectAuthHandlerImpl implements RedirectAuthHandler {
 
     private final String loginPath;
     private final String unauthorizedPath;

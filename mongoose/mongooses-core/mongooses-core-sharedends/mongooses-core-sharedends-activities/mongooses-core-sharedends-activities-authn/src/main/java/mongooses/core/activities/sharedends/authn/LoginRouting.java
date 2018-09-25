@@ -10,7 +10,7 @@ import webfx.framework.ui.uirouter.impl.UiRouteImpl;
  */
 public final class LoginRouting {
 
-    private static String PATH = "/login";
+    private static final String PATH = "/login";
 
     public static String getPath() {
         return PATH;

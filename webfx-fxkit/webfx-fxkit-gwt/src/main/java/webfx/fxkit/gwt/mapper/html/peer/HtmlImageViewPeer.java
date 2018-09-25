@@ -22,7 +22,7 @@ import static webfx.fxkit.gwt.mapper.util.HtmlUtil.createNodeFromHtml;
 /**
  * @author Bruno Salmon
  */
-public class HtmlImageViewPeer
+public final class HtmlImageViewPeer
         <N extends ImageView, NB extends ImageViewPeerBase<N, NB, NM>, NM extends ImageViewPeerMixin<N, NB, NM>>
 
         extends HtmlNodePeer<N, NB, NM>

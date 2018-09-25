@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.function.Function;
 /**
  * @author Bruno Salmon
  */
-public class Coalesce extends Function {
+public final class Coalesce extends Function {
 
     public Coalesce() {
         super("coalesce", null, null, null, true);

@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Plus<T> extends PrimitiveBinaryExpression<T> {
+public final class Plus<T> extends PrimitiveBinaryExpression<T> {
 
     public Plus(Expression<T> left, Expression<T> right) {
         super(left, "+", right, 6);

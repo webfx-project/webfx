@@ -6,7 +6,7 @@ import webfx.framework.expression.lci.DataReader;
 /**
  * @author Bruno Salmon
  */
-public class Like<T> extends BinaryBooleanExpression<T> {
+public final class Like<T> extends BinaryBooleanExpression<T> {
 
     public Like(Expression<T> left, Expression<T> right) {
         super(left, " like ", right, 5);
@@ -18,13 +18,13 @@ public class Like<T> extends BinaryBooleanExpression<T> {
 
 // From HSQLDB Like.java
 
-    static class LikeImpl {
+    static final class LikeImpl {
 
         private char[] cLike;
         private int[] wildCardType;
         private int iLen;
         private boolean isIgnoreCase;
-        private Character escapeChar = null;
+        private final Character escapeChar = null;
         private static final int UNDERSCORE_CHAR = 1;
         private static final int PERCENT_CHAR = 2;
 

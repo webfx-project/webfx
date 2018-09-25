@@ -8,7 +8,7 @@ import webfx.platforms.core.services.json.WritableJsonObject;
 /**
  * @author Bruno Salmon
  */
-public class JsonObjectExpressionBuilder extends ExpressionBuilder {
+public final class JsonObjectExpressionBuilder extends ExpressionBuilder {
 
     private final WritableJsonObject jsonObjectExpressionBuilders = Json.createObject();
 

@@ -8,7 +8,7 @@ import webfx.platforms.core.services.json.codec.JsonCodecManager;
 /**
  * @author Bruno Salmon
  */
-public class BusCallResult<T> {
+public final class BusCallResult<T> {
 
     private final int callNumber;
     private T targetResult;
@@ -73,11 +73,11 @@ public class BusCallResult<T> {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<BusCallResult> {
+    public static final class Codec extends AbstractJsonCodec<BusCallResult> {
 
-        private static String CODEC_ID = "callRes";
-        private static String CALL_NUMBER_KEY = "seq";
-        private static String TARGET_RESULT_KEY = "res";
+        private static final String CODEC_ID = "callRes";
+        private static final String CALL_NUMBER_KEY = "seq";
+        private static final String TARGET_RESULT_KEY = "res";
 
         public Codec() {
             super(BusCallResult.class, CODEC_ID);

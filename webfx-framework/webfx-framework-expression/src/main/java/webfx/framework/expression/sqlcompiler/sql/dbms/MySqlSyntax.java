@@ -3,7 +3,7 @@ package webfx.framework.expression.sqlcompiler.sql.dbms;
 /**
  * @author Bruno Salmon
  */
-public class MySqlSyntax extends DbmsSqlSyntaxImpl {
+public final class MySqlSyntax extends DbmsSqlSyntaxImpl {
 
     private final static MySqlSyntax INSTANCE = new MySqlSyntax();
 

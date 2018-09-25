@@ -8,7 +8,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.LabelPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlLabelPeer
+public final class HtmlLabelPeer
         <N extends Label, NB extends LabelPeerBase<N, NB, NM>, NM extends LabelPeerMixin<N, NB, NM>>
         extends HtmlLabeledPeer<N, NB, NM>
         implements LabelPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoGrow {

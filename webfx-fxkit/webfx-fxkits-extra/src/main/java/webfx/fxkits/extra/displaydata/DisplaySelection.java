@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class DisplaySelection {
+public final class DisplaySelection {
 
     private final Unit[] units;
 
@@ -79,7 +79,7 @@ public class DisplaySelection {
         return new Builder(10);
     }
 
-    public static class Unit {
+    public static final class Unit {
         private final Integer row;
         private final Integer column;
 
@@ -109,7 +109,7 @@ public class DisplaySelection {
         }
     }
 
-    public static class Builder {
+    public static final class Builder {
 
         final ArrayList<Unit> units;
 

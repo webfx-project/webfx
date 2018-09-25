@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class GridCollator extends DataGrid {
+public final class GridCollator extends DataGrid {
 
     private final NodeCollator columnCollator;
     private final NodeCollator rowCollator;
@@ -86,7 +86,7 @@ public class GridCollator extends DataGrid {
 
     private GridCollatorPeer gridCollatorPeer;
 
-    private class GridCollatorPeer
+    private final class GridCollatorPeer
             <N extends DataGrid, NB extends DataGridPeerBase<GridCollator, N, NB, NM>, NM extends DataGridPeerMixin<GridCollator, N, NB, NM>>
 
             extends DataGridPeerBase<GridCollator, N, NB, NM>

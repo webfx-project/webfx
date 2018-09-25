@@ -12,7 +12,7 @@ import emul.javafx.scene.control.Slider;
 /**
  * @author Bruno Salmon
  */
-public class HtmlSliderPeer
+public final class HtmlSliderPeer
         <N extends Slider, NB extends SliderPeerBase<N, NB, NM>, NM extends SliderPeerMixin<N, NB, NM>>
 
         extends HtmlRegionPeer<N, NB, NM>

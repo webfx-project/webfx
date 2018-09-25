@@ -5,7 +5,7 @@ import webfx.platforms.core.services.log.Logger;
 /**
  * @author Bruno Salmon
  */
-public class PerformanceLogger {
+public final class PerformanceLogger {
 
     private long t0 = System.currentTimeMillis();
 

@@ -9,7 +9,7 @@ import webfx.platforms.core.services.push.client.spi.PushClientServiceProvider;
 /**
  * @author Bruno Salmon
  */
-public class PushClientServiceProviderImpl implements PushClientServiceProvider {
+public final class PushClientServiceProviderImpl implements PushClientServiceProvider {
 
     @Override
     public Registration listenServerPushCalls(Object pushClientId) {

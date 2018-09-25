@@ -6,9 +6,9 @@ import webfx.framework.expression.lci.DataReader;
 /**
  * @author Bruno Salmon
  */
-public class This<T> extends AbstractExpression<T> {
+public final class This<T> extends AbstractExpression<T> {
 
-    public static This SINGLETON = new This();
+    public static final This SINGLETON = new This();
 
     private This() {
         super(9);

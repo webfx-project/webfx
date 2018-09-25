@@ -7,7 +7,7 @@ import webfx.fxkits.extra.type.Type;
 /**
  * @author Bruno Salmon
  */
-public class Exists extends SelectExpression {
+public final class Exists extends SelectExpression {
 
     public Exists(Select select) {
         super(select);
@@ -27,5 +27,4 @@ public class Exists extends SelectExpression {
     public StringBuilder toString(StringBuilder sb) {
         return super.toString(sb.append("exists"));
     }
-
 }

@@ -3,7 +3,7 @@ package webfx.platforms.core.services.query.compression.repeat;
 /**
  * @author Bruno Salmon
  */
-class RepeatedValue {
+final class RepeatedValue {
     private final Object value;
     private final SortedIntegersTokenReader indexes;
     private int nextIndex;

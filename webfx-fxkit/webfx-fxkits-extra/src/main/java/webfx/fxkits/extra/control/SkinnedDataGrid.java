@@ -6,7 +6,7 @@ import webfx.fxkits.extra.displaydata.DisplayResult;
 /**
  * @author Bruno Salmon
  */
-public class SkinnedDataGrid extends DataGrid {
+public final class SkinnedDataGrid extends DataGrid {
 
     public SkinnedDataGrid() {
     }

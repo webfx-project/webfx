@@ -6,9 +6,9 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class EntityDomainClassIdRegistry {
+public final class EntityDomainClassIdRegistry {
 
-    private static Map<Class<? extends Entity>, Object> entityDomainClassIds = new HashMap<>();
+    private static final Map<Class<? extends Entity>, Object> entityDomainClassIds = new HashMap<>();
 
     public static <E extends Entity> void registerEntityDomainClassId(Class<E> entityClass, Object domainClassId) {
         entityDomainClassIds.put(entityClass, domainClassId);

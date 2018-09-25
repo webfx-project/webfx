@@ -8,5 +8,5 @@ package webfx.fxkits.extra.chart;
  * @author Bruno Salmon
  */
 
-public class LineChart extends Chart {
+public final class LineChart extends Chart {
 }

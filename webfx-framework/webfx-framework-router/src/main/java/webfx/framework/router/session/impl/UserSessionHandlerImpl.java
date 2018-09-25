@@ -7,7 +7,7 @@ import webfx.framework.router.session.UserSessionHandler;
 /**
  * @author Bruno Salmon
  */
-public class UserSessionHandlerImpl implements UserSessionHandler {
+public final class UserSessionHandlerImpl implements UserSessionHandler {
 
     private static final String SESSION_USER_HOLDER_KEY = "session.userHolder";
 

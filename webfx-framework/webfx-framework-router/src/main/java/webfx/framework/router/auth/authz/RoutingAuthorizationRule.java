@@ -6,7 +6,7 @@ import webfx.framework.services.authz.spi.impl.inmemory.SimpleInMemoryAuthorizat
 /**
  * @author Bruno Salmon
  */
-public class RoutingAuthorizationRule extends SimpleInMemoryAuthorizationRuleBase<RouteRequest> {
+public final class RoutingAuthorizationRule extends SimpleInMemoryAuthorizationRuleBase<RouteRequest> {
 
     private final String route;
     private final boolean includeSubRoutes;

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Bruno Salmon
  */
-class HorizontalDayPositioner {
+final class HorizontalDayPositioner {
 
     private Calendar calendar;
     private final List<HorizontalDayPositioned> horizontalDayPositionedList = new ArrayList<>();

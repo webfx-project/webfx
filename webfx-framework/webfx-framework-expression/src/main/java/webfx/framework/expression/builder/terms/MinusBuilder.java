@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Minus;
 /**
  * @author Bruno Salmon
  */
-public class MinusBuilder extends BinaryExpressionBuilder {
+public final class MinusBuilder extends BinaryExpressionBuilder {
 
     public MinusBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

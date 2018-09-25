@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * @author Bruno Salmon
  */
-public class PathBuilder {
+public final class PathBuilder {
 
     private final static Pattern PATH_WITH_SEMI_COLON_PARAMETER_PATTERN = Pattern.compile(".*(:([^/|)]+)).*");
 

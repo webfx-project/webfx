@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class ObservableLists {
+public final class ObservableLists {
 
     public static <T> void setAllNonNulls(ObservableList<T> list, T... elements) {
         if (elements != null) {

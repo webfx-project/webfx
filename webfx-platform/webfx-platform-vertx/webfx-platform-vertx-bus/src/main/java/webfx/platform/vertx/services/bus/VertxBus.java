@@ -16,7 +16,7 @@ import webfx.platforms.core.util.async.Handler;
 final class VertxBus implements Bus {
 
     private final EventBus eventBus;
-    private BusOptions options;
+    private final BusOptions options;
     private boolean open;
 
     VertxBus(EventBus eventBus, BusOptions options) {

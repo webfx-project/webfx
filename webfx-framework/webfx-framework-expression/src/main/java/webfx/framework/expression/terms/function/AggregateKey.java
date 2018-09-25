@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class AggregateKey<T> {
+public final class AggregateKey<T> {
     private final int rowNumber;
     private final List<T> aggregates = new ArrayList<>();
 

@@ -10,7 +10,7 @@ import webfx.framework.expression.terms.function.SqlAggregateFunction;
 /**
  * @author Bruno Salmon
  */
-public class StringAgg<T> extends SqlAggregateFunction<T> {
+public final class StringAgg<T> extends SqlAggregateFunction<T> {
 
     public StringAgg() {
         super("string_agg", null, null, PrimType.STRING, true);

@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Equals;
 /**
  * @author Bruno Salmon
  */
-public class EqualsBuilder extends BinaryBooleanExpressionBuilder {
+public final class EqualsBuilder extends BinaryBooleanExpressionBuilder {
 
     public EqualsBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

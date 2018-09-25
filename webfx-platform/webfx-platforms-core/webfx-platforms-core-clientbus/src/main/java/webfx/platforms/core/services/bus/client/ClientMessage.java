@@ -29,13 +29,13 @@ import webfx.platforms.core.util.async.Handler;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/MessageImpl.java">Original Goodow class</a>
  */
-class ClientMessage<U> implements Message<U> {
-    protected U body;
-    protected Bus bus;
-    protected String address;
-    protected String replyAddress;
-    protected boolean send; // Is it a send or a publish?
-    protected boolean local;
+final class ClientMessage<U> implements Message<U> {
+    protected final U body;
+    protected final Bus bus;
+    protected final String address;
+    protected final String replyAddress;
+    protected final boolean send; // Is it a send or a publish?
+    protected final boolean local;
 
     public ClientMessage(boolean local, boolean send, Bus bus, String address, String replyAddress, U body) {
         this.local = local;

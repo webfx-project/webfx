@@ -7,7 +7,7 @@ import webfx.platforms.core.util.function.Converter;
 /**
  * @author Bruno Salmon
  */
-public class ConvertedProperty<A, B> extends ConvertedObservableValue<A, B> implements Property<A> {
+public final class ConvertedProperty<A, B> extends ConvertedObservableValue<A, B> implements Property<A> {
 
     private A dontGarbageA; // to avoid garbage collection
     private final Property<B> property;
@@ -80,5 +80,4 @@ public class ConvertedProperty<A, B> extends ConvertedObservableValue<A, B> impl
     public static ConvertedProperty<Double, Integer> integerToDoubleProperty(Property<Integer> numberProperty) {
         return new ConvertedProperty<>(numberProperty, Double::intValue, Integer::doubleValue);
     }
-
 }

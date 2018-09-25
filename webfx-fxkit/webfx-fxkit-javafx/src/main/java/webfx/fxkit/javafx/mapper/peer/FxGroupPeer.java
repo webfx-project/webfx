@@ -7,7 +7,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.GroupPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class FxGroupPeer
+public final class FxGroupPeer
         <FxN extends javafx.scene.Group, N extends Group, NB extends GroupPeerBase<N, NB, NM>, NM extends GroupPeerMixin<N, NB, NM>>
 
         extends FxNodePeer<FxN, N, NB, NM>

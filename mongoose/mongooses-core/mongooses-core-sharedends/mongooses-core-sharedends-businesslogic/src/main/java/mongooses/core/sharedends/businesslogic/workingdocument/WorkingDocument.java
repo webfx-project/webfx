@@ -142,7 +142,7 @@ public final class WorkingDocument {
         return computedPrice = WorkingDocumentPricing.computeDocumentPrice(this);
     }
 
-    private Map<BusinessType, BusinessLines> businessLinesMap = new HashMap<>();
+    private final Map<BusinessType, BusinessLines> businessLinesMap = new HashMap<>();
 
     private void clearLinesCache() {
         businessLinesMap.clear();

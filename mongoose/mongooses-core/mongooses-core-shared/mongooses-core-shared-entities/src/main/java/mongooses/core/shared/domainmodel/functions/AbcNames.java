@@ -10,7 +10,7 @@ import java.util.Arrays;
 /**
  * @author Bruno Salmon
  */
-public class AbcNames extends Function {
+public final class AbcNames extends Function {
 
     public AbcNames() {
         super("abcNames");
@@ -41,5 +41,4 @@ public class AbcNames extends Function {
         }
         return sb.toString();
     }
-
 }

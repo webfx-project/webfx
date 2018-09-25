@@ -8,7 +8,7 @@ import webfx.platforms.core.services.windowlocation.spi.impl.PathStateLocationIm
 /**
  * @author Bruno Salmon
  */
-public class BrowsingHistoryLocationImpl extends PathStateLocationImpl implements BrowsingHistoryLocation {
+public final class BrowsingHistoryLocationImpl extends PathStateLocationImpl implements BrowsingHistoryLocation {
 
     private BrowsingHistoryEvent event;
     private final String key;

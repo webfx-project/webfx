@@ -10,7 +10,7 @@ import webfx.fxkits.extra.type.Type;
 /**
  * @author Bruno Salmon
  */
-public class DisplayColumnImpl implements DisplayColumn {
+public final class DisplayColumnImpl implements DisplayColumn {
 
     private final Object headerValue;
     private final Label label;
@@ -18,7 +18,7 @@ public class DisplayColumnImpl implements DisplayColumn {
     private final String role;
     private final DisplayStyle style;
     private ValueRenderer valueRenderer;
-    private ColumnWidthCumulator cumulator;
+    private final ColumnWidthCumulator cumulator;
 
     public DisplayColumnImpl(Object label, Type type) {
         this(label, label, type, null, null, null, null);

@@ -9,7 +9,7 @@ import webfx.fxkits.extra.type.Types;
 /**
  * @author Bruno Salmon
  */
-public class SymbolSqlCompiler extends AbstractTermSqlCompiler<Symbol> {
+public final class SymbolSqlCompiler extends AbstractTermSqlCompiler<Symbol> {
 
     public SymbolSqlCompiler() {
         super(Symbol.class);

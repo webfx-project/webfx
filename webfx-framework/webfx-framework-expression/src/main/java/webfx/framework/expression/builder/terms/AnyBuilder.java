@@ -6,8 +6,8 @@ import webfx.framework.expression.terms.Any;
 /**
  * @author Bruno Salmon
  */
-public class AnyBuilder extends BinaryBooleanExpressionBuilder {
-    String operator;
+public final class AnyBuilder extends BinaryBooleanExpressionBuilder {
+    final String operator;
 
     public AnyBuilder(ExpressionBuilder left, String operator, ExpressionBuilder right) {
         super(left, right);

@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationRule {
+public final class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationRule {
 
     private final Map<Class, Collection<InMemoryAuthorizationRule>> registeredInMemoryAuthorizationRules = new HashMap<>();
     private InMemoryAuthorizationRuleParser inMemoryAuthorizationRuleParser;

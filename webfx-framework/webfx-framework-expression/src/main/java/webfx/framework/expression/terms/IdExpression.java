@@ -6,7 +6,7 @@ import webfx.fxkits.extra.type.PrimType;
 /**
  * @author Bruno Salmon
  */
-public class IdExpression<T> extends Symbol<T> {
+public final class IdExpression<T> extends Symbol<T> {
 
     public final static IdExpression singleton = new IdExpression();
 

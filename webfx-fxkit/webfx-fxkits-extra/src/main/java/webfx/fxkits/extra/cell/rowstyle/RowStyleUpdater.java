@@ -8,7 +8,7 @@ import javafx.scene.paint.Paint;
 /**
  * @author Bruno Salmon
  */
-public class RowStyleUpdater {
+public final class RowStyleUpdater {
     private final RowAdapter row;
     private final Function<Integer, Object[]> rowStyleClassesGetter;
     private final Function<Integer, Paint> rowFillGetter;

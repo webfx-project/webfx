@@ -7,7 +7,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.CheckBoxPeerBase;
 /**
  * @author Bruno Salmon
  */
-public class FxCheckBoxPeer
+public final class FxCheckBoxPeer
         <FxN extends javafx.scene.control.CheckBox, N extends CheckBox, NB extends CheckBoxPeerBase<N, NB, NM>, NM extends CheckBoxPeerMixin<N, NB, NM>>
 
         extends FxButtonBasePeer<FxN, N, NB, NM>

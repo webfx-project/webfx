@@ -8,8 +8,8 @@ import webfx.framework.expression.builder.ReferenceResolver;
 /**
  * @author Bruno Salmon
  */
-public class AsBuilder extends UnaryExpressionBuilder implements ReferenceResolver {
-    public String alias;
+public final class AsBuilder extends UnaryExpressionBuilder implements ReferenceResolver {
+    public final String alias;
 
     public AsBuilder(ExpressionBuilder operand, String alias) {
         super(operand);

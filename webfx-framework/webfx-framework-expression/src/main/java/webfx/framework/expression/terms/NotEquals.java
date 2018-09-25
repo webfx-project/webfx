@@ -6,7 +6,7 @@ import webfx.platforms.core.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class NotEquals<T> extends PrimitiveBinaryBooleanExpression<T> {
+public final class NotEquals<T> extends PrimitiveBinaryBooleanExpression<T> {
 
     public NotEquals(Expression<T> left, Expression<T> right) {
         super(left, "!=", right, 5);

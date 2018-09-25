@@ -6,7 +6,7 @@ import webfx.fxkits.extra.displaydata.DisplayResult;
 /**
  * @author Bruno Salmon
  */
-public class DisplayResultImpl implements DisplayResult {
+public final class DisplayResultImpl implements DisplayResult {
 
     private final int rowCount;
     private final int columnCount;
@@ -64,5 +64,4 @@ public class DisplayResultImpl implements DisplayResult {
         sb.append("\n]");
         return sb;
     }
-
 }

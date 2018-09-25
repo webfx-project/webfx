@@ -114,7 +114,7 @@ public final class EntityListToDisplayResultMapper {
         return rsb.build();
     }
 
-    private static class GroupValue {
+    private static final class GroupValue {
         private final Object[] values;
 
         GroupValue(Object value) {
@@ -137,5 +137,4 @@ public final class EntityListToDisplayResultMapper {
             return java.util.Arrays.hashCode(values);
         }
     }
-
 }

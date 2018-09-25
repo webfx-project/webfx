@@ -3,7 +3,7 @@ package webfx.platforms.core.util.tuples;
 /**
  * @author Bruno Salmon
  */
-public class Triplet<T1, T2, T3> extends Pair<T1, T2> {
+public final class Triplet<T1, T2, T3> extends Pair<T1, T2> {
 
     private T3 o3;
 

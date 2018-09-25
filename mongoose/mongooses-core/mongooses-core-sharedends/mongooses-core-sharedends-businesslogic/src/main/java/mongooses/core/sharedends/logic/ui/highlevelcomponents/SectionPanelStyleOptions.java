@@ -3,7 +3,7 @@ package mongooses.core.sharedends.logic.ui.highlevelcomponents;
 /**
  * @author Bruno Salmon
  */
-public class SectionPanelStyleOptions {
+public final class SectionPanelStyleOptions {
 
     private final boolean padding;
 

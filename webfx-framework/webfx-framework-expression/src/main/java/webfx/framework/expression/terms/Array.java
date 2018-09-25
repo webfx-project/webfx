@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Array<T> extends UnaryExpression<T> {
+public final class Array<T> extends UnaryExpression<T> {
 
     public Array(Expression<T> operand) {
         super(operand);

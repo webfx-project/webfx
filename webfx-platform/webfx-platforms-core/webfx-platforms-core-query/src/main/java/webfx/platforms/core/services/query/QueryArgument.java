@@ -9,7 +9,7 @@ import webfx.platforms.core.util.Arrays;
 /**
  * @author Bruno Salmon
  */
-public class QueryArgument {
+public final class QueryArgument {
 
     private final String queryString;
     private final Object[] parameters;
@@ -71,7 +71,7 @@ public class QueryArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<QueryArgument> {
+    public static final class Codec extends AbstractJsonCodec<QueryArgument> {
 
         private static final String CODEC_ID = "QueryArgument";
         private static final String QUERY_STRING_KEY = "queryString";

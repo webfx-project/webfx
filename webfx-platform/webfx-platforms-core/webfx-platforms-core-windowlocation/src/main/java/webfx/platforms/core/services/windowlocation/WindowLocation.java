@@ -7,7 +7,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class WindowLocation {
+public final class WindowLocation {
 
     public static WindowLocationProvider getProvider() { // Returns the browser window location
         return SingleServiceLoader.loadService(WindowLocationProvider.class);

@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class ExpressionArrayBuilder extends ExpressionBuilder {
-    public List<ExpressionBuilder> expressions = new ArrayList<>();
+public final class ExpressionArrayBuilder extends ExpressionBuilder {
+    public final List<ExpressionBuilder> expressions = new ArrayList<>();
 
     public ExpressionArrayBuilder() {
     }

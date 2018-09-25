@@ -7,7 +7,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.AreaChartPeerBase;
 /**
  * @author Bruno Salmon
  */
-public class FxAreaChartPeer
+public final class FxAreaChartPeer
         <FxN extends javafx.scene.chart.AreaChart, N extends AreaChart, NB extends AreaChartPeerBase<FxN, N, NB, NM>, NM extends AreaChartPeerMixin<FxN, N, NB, NM>>
 
         extends FxXYChartPeer<FxN, N, NB, NM>

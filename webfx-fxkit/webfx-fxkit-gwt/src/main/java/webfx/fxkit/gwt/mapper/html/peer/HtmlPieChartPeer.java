@@ -8,7 +8,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.PieChartPeerBase;
 /**
  * @author Bruno Salmon
  */
-public class HtmlPieChartPeer
+public final class HtmlPieChartPeer
         <C, N extends PieChart, NB extends PieChartPeerBase<C, N, NB, NM>, NM extends PieChartPeerMixin<C, N, NB, NM>>
         extends HtmlChartPeer<C, N, NB, NM>
         implements PieChartPeerMixin<C, N, NB, NM> {

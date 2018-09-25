@@ -8,7 +8,7 @@ import webfx.framework.expression.lci.DataWriter;
 /**
  * @author Bruno Salmon
  */
-public class EntityDataWriter<E extends Entity> extends EntityDataReader<E> implements DataWriter<E> {
+public final class EntityDataWriter<E extends Entity> extends EntityDataReader<E> implements DataWriter<E> {
 
     public EntityDataWriter(EntityStore entityStore) {
         super(entityStore);
@@ -23,6 +23,5 @@ public class EntityDataWriter<E extends Entity> extends EntityDataReader<E> impl
 
     @Override
     public void setParameterValue(String name, Object value) {
-
     }
 }

@@ -7,7 +7,7 @@ import webfx.framework.services.authz.spi.impl.inmemory.parser.SimpleInMemoryAut
 /**
  * @author Bruno Salmon
  */
-public class OperationAuthorizationRuleParser extends SimpleInMemoryAuthorizationRuleParserBase {
+public final class OperationAuthorizationRuleParser extends SimpleInMemoryAuthorizationRuleParserBase {
 
     @Override
     protected InMemoryAuthorizationRule parseAuthorization(AuthorizationRuleType type, String argument) {

@@ -5,7 +5,7 @@ import webfx.framework.services.i18n.spi.impl.I18nResourceBasedProvider;
 /**
  * @author Bruno Salmon
  */
-public class MongooseI18nProvider extends I18nResourceBasedProvider {
+public final class MongooseI18nProvider extends I18nResourceBasedProvider {
 
     public MongooseI18nProvider() {
         super("mongooses/core/sharedends/i18n/dictionaries/{lang}.json");

@@ -8,7 +8,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.ScatterChartPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlScatterChartPeer
+public final class HtmlScatterChartPeer
         <C, N extends ScatterChart, NB extends ScatterChartPeerBase<C, N, NB, NM>, NM extends ScatterChartPeerMixin<C, N, NB, NM>>
         extends HtmlChartPeer<C, N, NB, NM>
         implements ScatterChartPeerMixin<C, N, NB, NM> {

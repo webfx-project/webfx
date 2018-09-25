@@ -29,7 +29,7 @@ import static webfx.framework.ui.layouts.LayoutUtil.setMaxPrefSizeToInfinite;
 /**
  * @author Bruno Salmon
  */
-public class MultiLanguageEditor {
+public final class MultiLanguageEditor {
 
     private final static String[] languages = {"en", "de", "es", "fr", "pt"};
     private final static String entityListId = "loadedEntity";
@@ -129,7 +129,7 @@ public class MultiLanguageEditor {
         return monoLanguageEditor;
     }
 
-    private static class EditedEntity {
+    private static final class EditedEntity {
         private final Entity loadedEntity;
         private final UpdateStore updateStore;
         private Entity updatedEntity;
@@ -146,7 +146,7 @@ public class MultiLanguageEditor {
         }
     }
 
-    private class MonoLanguageEditor {
+    private final class MonoLanguageEditor {
         private final TextField subjectTextField = new TextField();
         private final HtmlTextEditor editor = new HtmlTextEditor();
         private final Button saveButton =   buttonFactory.newButton(closeCallback != null ? OK_ACTION_KEY     : SAVE_ACTION_KEY ,  this::save);

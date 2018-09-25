@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Ordered;
 /**
  * @author Bruno Salmon
  */
-public class OrderedSqlCompiler extends AbstractTermSqlCompiler<Ordered> {
+public final class OrderedSqlCompiler extends AbstractTermSqlCompiler<Ordered> {
 
     public OrderedSqlCompiler() {
         super(Ordered.class);

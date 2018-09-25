@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-class SubRoutingContext extends RoutingContextImplBase {
+final class SubRoutingContext extends RoutingContextImplBase {
 
     protected final RoutingContext inner;
     private final String mountPoint;

@@ -19,7 +19,7 @@ import webfx.fxkits.extra.control.HtmlTextEditor;
 /**
  * @author Bruno Salmon
  */
-public class JavaFxFxKitMapperProvider extends FxKitMapperProviderBase {
+public final class JavaFxFxKitMapperProvider extends FxKitMapperProviderBase {
 
     public JavaFxFxKitMapperProvider() {
         registerNodePeerFactory(HtmlText.class, FxHtmlTextPeer::new);

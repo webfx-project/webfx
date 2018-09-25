@@ -25,7 +25,7 @@ import java.util.Random;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/util/IdGenerator.java">Original Goodow class</a>
  */
-class IdGenerator {
+final class IdGenerator {
 
     /**
      * valid characters.

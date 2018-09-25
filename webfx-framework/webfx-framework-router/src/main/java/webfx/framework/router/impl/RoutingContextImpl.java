@@ -7,7 +7,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-class RoutingContextImpl extends RoutingContextImplBase {
+final class RoutingContextImpl extends RoutingContextImplBase {
 
     private final RouterImpl router;
     private Throwable failure;

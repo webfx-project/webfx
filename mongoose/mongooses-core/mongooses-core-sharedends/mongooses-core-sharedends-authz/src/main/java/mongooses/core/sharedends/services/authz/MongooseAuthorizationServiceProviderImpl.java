@@ -8,7 +8,7 @@ import webfx.framework.services.authz.spi.impl.UserPrincipalAuthorizationChecker
 /**
  * @author Bruno Salmon
  */
-public class MongooseAuthorizationServiceProviderImpl extends AuthorizationServiceProviderImplBase {
+public final class MongooseAuthorizationServiceProviderImpl extends AuthorizationServiceProviderImplBase {
 
     private final DataSourceModel dataSourceModel;
 

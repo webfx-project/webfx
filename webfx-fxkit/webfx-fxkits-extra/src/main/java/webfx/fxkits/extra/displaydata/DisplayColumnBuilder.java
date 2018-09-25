@@ -7,7 +7,7 @@ import webfx.fxkits.extra.cell.renderer.ValueRenderer;
 /**
  * @author Bruno Salmon
  */
-public class DisplayColumnBuilder {
+public final class DisplayColumnBuilder {
 
     private Object headerValue;
     private Object label;
@@ -68,5 +68,4 @@ public class DisplayColumnBuilder {
     public static DisplayColumnBuilder create(Object label, Type type) {
         return new DisplayColumnBuilder(label, type);
     }
-
 }

@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Like;
 /**
  * @author Bruno Salmon
  */
-public class LikeBuilder extends BinaryBooleanExpressionBuilder {
+public final class LikeBuilder extends BinaryBooleanExpressionBuilder {
 
     public LikeBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

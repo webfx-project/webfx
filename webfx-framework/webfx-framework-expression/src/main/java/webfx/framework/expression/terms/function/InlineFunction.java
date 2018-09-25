@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class InlineFunction<T> extends Function<T> {
+public final class InlineFunction<T> extends Function<T> {
 
     private final Expression body;
 
@@ -64,7 +64,7 @@ public class InlineFunction<T> extends Function<T> {
     private static Expression parseBody(String body, final String[] argNames, final Type[] argTypes, Object domainClass, ParserDomainModelReader modelReader) {
         try {
             ThreadLocalReferenceResolver.pushReferenceResolver(new ReferenceResolver() {
-                Map<String, ArgumentAlias> argumentAliases = new HashMap<>();
+                final Map<String, ArgumentAlias> argumentAliases = new HashMap<>();
                 @Override
                 public Expression resolveReference(String name) {
                     ArgumentAlias argumentAlias = argumentAliases.get(name);

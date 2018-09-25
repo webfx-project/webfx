@@ -4,7 +4,7 @@ package webfx.fxkits.extra.type;
  * @author Bruno Salmon
  */
 
-public class ObjectType implements Type {
+public final class ObjectType implements Type {
 
     protected final Class objectClass;
 

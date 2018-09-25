@@ -8,7 +8,7 @@ import java.util.ServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class JsonCodecModuleInitializer implements ApplicationModuleInitializer {
+public final class JsonCodecModuleInitializer implements ApplicationModuleInitializer {
 
     @Override
     public String getModuleName() {

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class OptionsPreselectionBuilder {
+public final class OptionsPreselectionBuilder {
 
     private final EventAggregate eventAggregate;
     private final DateTimeRange dateTimeRange;

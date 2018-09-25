@@ -9,7 +9,7 @@ import webfx.platforms.core.services.json.codec.JsonCodecManager;
 /**
  * @author Bruno Salmon
  */
-public class UpdateResult {
+public final class UpdateResult {
 
     private final int rowCount;
     private final Object[] generatedKeys;
@@ -31,7 +31,7 @@ public class UpdateResult {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<UpdateResult> {
+    public static final class Codec extends AbstractJsonCodec<UpdateResult> {
 
         private final static String CODEC_ID = "UpdateRes";
         private final static String ROW_COUNT_KEY = "update";

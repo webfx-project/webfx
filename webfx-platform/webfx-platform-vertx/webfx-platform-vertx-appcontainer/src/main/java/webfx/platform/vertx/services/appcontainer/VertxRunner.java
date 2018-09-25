@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 /*
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
-public class VertxRunner {
+public final class VertxRunner {
 
     public static void runClusteredVerticle(Class clazz) {
         runVerticle(clazz, new VertxOptions().setClustered(true), null);

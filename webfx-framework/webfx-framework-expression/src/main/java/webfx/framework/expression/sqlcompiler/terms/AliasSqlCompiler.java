@@ -7,7 +7,7 @@ import webfx.framework.expression.terms.function.ArgumentAlias;
 /**
  * @author Bruno Salmon
  */
-public class AliasSqlCompiler extends AbstractTermSqlCompiler<Alias> {
+public final class AliasSqlCompiler extends AbstractTermSqlCompiler<Alias> {
 
     public AliasSqlCompiler() {
         super(Alias.class, ArgumentAlias.class);

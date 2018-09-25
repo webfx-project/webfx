@@ -7,7 +7,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.BarChartPeerBase;
 /**
  * @author Bruno Salmon
  */
-public class FxBarChartPeer
+public final class FxBarChartPeer
         <FxN extends javafx.scene.chart.BarChart, N extends BarChart, NB extends BarChartPeerBase<FxN, N, NB, NM>, NM extends BarChartPeerMixin<FxN, N, NB, NM>>
 
         extends FxXYChartPeer<FxN, N, NB, NM>

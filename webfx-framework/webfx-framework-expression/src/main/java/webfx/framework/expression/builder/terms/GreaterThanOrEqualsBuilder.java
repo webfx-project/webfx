@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.GreaterThanOrEquals;
 /**
  * @author Bruno Salmon
  */
-public class GreaterThanOrEqualsBuilder extends BinaryBooleanExpressionBuilder {
+public final class GreaterThanOrEqualsBuilder extends BinaryBooleanExpressionBuilder {
 
     public GreaterThanOrEqualsBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

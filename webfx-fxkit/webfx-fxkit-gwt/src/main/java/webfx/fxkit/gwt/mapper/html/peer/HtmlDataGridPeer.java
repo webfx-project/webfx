@@ -22,7 +22,7 @@ import static webfx.fxkit.gwt.mapper.util.HtmlUtil.*;
 /**
  * @author Bruno Salmon
  */
-public class HtmlDataGridPeer
+public final class HtmlDataGridPeer
         <N extends DataGrid, NB extends DataGridPeerBase<HTMLTableCellElement, N, NB, NM>, NM extends DataGridPeerMixin<HTMLTableCellElement, N, NB, NM>>
 
         extends HtmlRegionPeer<N, NB, NM>
@@ -31,7 +31,7 @@ public class HtmlDataGridPeer
 
     private final HTMLTableElement table = HtmlUtil.createTableElement();
     private final HTMLTableSectionElement tHead = (HTMLTableSectionElement) table.createTHead();
-    private HTMLTableRowElement tHeadRow = (HTMLTableRowElement) tHead.insertRow(0);
+    private final HTMLTableRowElement tHeadRow = (HTMLTableRowElement) tHead.insertRow(0);
     private final HTMLTableSectionElement tBody = createElement("tbody");
     private double scrollTop;
 

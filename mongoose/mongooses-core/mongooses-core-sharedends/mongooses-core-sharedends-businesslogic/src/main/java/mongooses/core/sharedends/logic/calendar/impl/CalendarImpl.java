@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class CalendarImpl implements Calendar {
+public final class CalendarImpl implements Calendar {
 
     private final TimeInterval period;
     private final Collection<CalendarTimeline> timelines;

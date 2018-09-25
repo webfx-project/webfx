@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class JdbcConnectedServiceProviderImpl implements QueryServiceProvider, UpdateServiceProvider {
+public final class JdbcConnectedServiceProviderImpl implements QueryServiceProvider, UpdateServiceProvider {
 
     private final DataSource jdbcDataSource;
 

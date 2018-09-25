@@ -7,7 +7,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.LineChartPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class FxLineChartPeer
+public final class FxLineChartPeer
         <FxN extends javafx.scene.chart.LineChart, N extends LineChart, NB extends LineChartPeerBase<FxN, N, NB, NM>, NM extends LineChartPeerMixin<FxN, N, NB, NM>>
 
         extends FxXYChartPeer<FxN, N, NB, NM>

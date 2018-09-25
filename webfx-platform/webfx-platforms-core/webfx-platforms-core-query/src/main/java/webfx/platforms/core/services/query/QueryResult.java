@@ -14,7 +14,7 @@ import java.util.Arrays;
 /**
  * @author Bruno Salmon
  */
-public class QueryResult {
+public final class QueryResult {
 
     /**
      * The number of rows in this result set.
@@ -162,9 +162,9 @@ public class QueryResult {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static boolean COMPRESSION = true;
+    public static final boolean COMPRESSION = true;
 
-    public static class Codec extends AbstractJsonCodec<QueryResult> {
+    public static final class Codec extends AbstractJsonCodec<QueryResult> {
 
         private final static String CODEC_ID = "QueryResult";
         private final static String COLUMN_NAMES_KEY = "columnNames";

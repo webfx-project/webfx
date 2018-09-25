@@ -9,7 +9,7 @@ import javafx.scene.layout.Priority;
 /**
  * @author Bruno Salmon
  */
-public class ArrayRenderer implements ValueRenderer {
+public final class ArrayRenderer implements ValueRenderer {
 
     private final ValueRenderer[] valueRenderers;
     private NodeCollator collator;
@@ -56,5 +56,4 @@ public class ArrayRenderer implements ValueRenderer {
 */
         return node;
     }
-
 }

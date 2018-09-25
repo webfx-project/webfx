@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * @author Bruno Salmon
  */
-public class EntityListImpl<E extends Entity> extends ArrayList<E> implements EntityList<E> {
+public final class EntityListImpl<E extends Entity> extends ArrayList<E> implements EntityList<E> {
 
     private final Object listId;
     private final EntityStore store;

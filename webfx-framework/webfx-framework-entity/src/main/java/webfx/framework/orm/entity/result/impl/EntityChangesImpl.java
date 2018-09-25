@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class EntityChangesImpl implements EntityChanges {
+public final class EntityChangesImpl implements EntityChanges {
 
     private final EntityResult insertedUpdatedEntities;
     private final Collection<EntityId> deletedEntities;

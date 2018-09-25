@@ -11,10 +11,10 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class PendingBusCall<T> extends FutureImpl<T> {
+public final class PendingBusCall<T> extends FutureImpl<T> {
 
-    private static List<PendingBusCall> pendingCalls = new ArrayList<>();
-    private static Property<Integer> pendingCallsCountProperty = new SimpleObjectProperty<>(0);
+    private static final List<PendingBusCall> pendingCalls = new ArrayList<>();
+    private static final Property<Integer> pendingCallsCountProperty = new SimpleObjectProperty<>(0);
     // Note: this is the only javafx property used so far in the Platform module
     // TODO: decide if we keep it or replace it with something else to remove the dependency to javafx bindings
     public static Property<Integer> pendingCallsCountProperty() {

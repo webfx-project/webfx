@@ -9,7 +9,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.GroupPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlGroupPeer
+public final class HtmlGroupPeer
         <N extends Group, NB extends GroupPeerBase<N, NB, NM>, NM extends GroupPeerMixin<N, NB, NM>>
 
         extends HtmlNodePeer<N, NB, NM>

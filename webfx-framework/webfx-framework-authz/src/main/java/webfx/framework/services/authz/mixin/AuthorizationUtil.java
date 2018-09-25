@@ -10,7 +10,7 @@ import java.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public class AuthorizationUtil {
+public final class AuthorizationUtil {
 
     public static <C, Rq> ObservableBooleanValue authorizedOperationProperty(Function<C, Rq> operationRequestFactory, AsyncFunction<Rq, Boolean> authorizationFunction, ObservableValue<C> contextProperty, ObservableValue userPrincipalProperty) {
         return new BooleanBinding() {
@@ -45,5 +45,4 @@ public class AuthorizationUtil {
             }
         };
     }
-
 }

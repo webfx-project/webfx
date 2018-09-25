@@ -7,5 +7,5 @@ package webfx.fxkits.extra.chart;
  *
  * @author Bruno Salmon
  */
-public class ScatterChart extends Chart {
+public final class ScatterChart extends Chart {
 }

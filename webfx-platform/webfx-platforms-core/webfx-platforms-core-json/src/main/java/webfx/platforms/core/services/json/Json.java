@@ -9,7 +9,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class Json {
+public final class Json {
 
     /***************************
      * Factory methods helpers *

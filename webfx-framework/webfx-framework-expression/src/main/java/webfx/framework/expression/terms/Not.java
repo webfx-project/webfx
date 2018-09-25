@@ -9,7 +9,7 @@ import webfx.platforms.core.util.Booleans;
 /**
  * @author Bruno Salmon
  */
-public class Not<T> extends UnaryExpression<T> {
+public final class Not<T> extends UnaryExpression<T> {
 
     public Not(Expression<T> operand) {
         super(operand);

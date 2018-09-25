@@ -9,9 +9,9 @@ import webfx.framework.expression.terms.function.Function;
 /**
  * @author Bruno Salmon
  */
-public class FieldBuilder extends ExpressionBuilder {
-    public String name;
+public final class FieldBuilder extends ExpressionBuilder {
 
+    public final String name;
     private Expression field;  // Field or Alias or Argument
 
     public FieldBuilder(String name) {

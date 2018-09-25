@@ -5,9 +5,9 @@ import webfx.framework.expression.terms.Constant;
 /**
  * @author Bruno Salmon
  */
-public class ConstantBuilder extends ExpressionBuilder {
+public final class ConstantBuilder extends ExpressionBuilder {
 
-    public Object constantValue;
+    public final Object constantValue;
 
     public ConstantBuilder(Object constantValue) {
         this.constantValue = constantValue;

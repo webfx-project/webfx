@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class EntityResultBuilder {
+public final class EntityResultBuilder {
 
     private final List<EntityId> entityIds = new HashList<>();
     private final List<Map> entityFieldsMaps = new ArrayList<>();

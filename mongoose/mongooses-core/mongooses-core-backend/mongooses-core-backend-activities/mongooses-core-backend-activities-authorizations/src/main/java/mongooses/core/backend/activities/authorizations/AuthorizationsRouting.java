@@ -9,7 +9,7 @@ import webfx.framework.ui.uirouter.impl.UiRouteImpl;
  */
 public final class AuthorizationsRouting {
 
-    private static String PATH = "/authorizations";
+    private static final String PATH = "/authorizations";
 
     public static String getPath() {
         return PATH;

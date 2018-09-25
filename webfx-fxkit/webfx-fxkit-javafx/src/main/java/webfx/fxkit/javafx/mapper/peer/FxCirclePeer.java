@@ -7,7 +7,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.CirclePeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class FxCirclePeer
+public final class FxCirclePeer
         <FxN extends javafx.scene.shape.Circle, N extends Circle, NB extends CirclePeerBase<N, NB, NM>, NM extends CirclePeerMixin<N, NB, NM>>
 
         extends FxShapePeer<FxN, N, NB, NM>

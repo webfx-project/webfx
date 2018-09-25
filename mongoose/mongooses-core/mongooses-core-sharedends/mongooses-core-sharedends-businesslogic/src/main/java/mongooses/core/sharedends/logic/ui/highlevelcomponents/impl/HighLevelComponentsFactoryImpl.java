@@ -13,7 +13,7 @@ import webfx.framework.ui.util.border.BorderUtil;
 /**
  * @author Bruno Salmon
  */
-public class HighLevelComponentsFactoryImpl implements HighLevelComponentsFactory {
+public final class HighLevelComponentsFactoryImpl implements HighLevelComponentsFactory {
 
     @Override
     public BorderPane createSectionPanel(SectionPanelStyleOptions options) {

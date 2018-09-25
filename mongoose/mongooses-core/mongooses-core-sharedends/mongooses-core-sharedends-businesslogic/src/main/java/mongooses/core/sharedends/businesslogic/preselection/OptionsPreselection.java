@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class OptionsPreselection {
+public final class OptionsPreselection {
 
     private final EventAggregate eventAggregate;
     private final Label label;

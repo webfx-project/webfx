@@ -8,7 +8,7 @@ import webfx.platforms.core.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public class MongooseFrontendApplication extends MongooseSharedEndsApplication {
+public final class MongooseFrontendApplication extends MongooseSharedEndsApplication {
 
     private static final String DEFAULT_START_PATH = "/book/event/357/start";
 

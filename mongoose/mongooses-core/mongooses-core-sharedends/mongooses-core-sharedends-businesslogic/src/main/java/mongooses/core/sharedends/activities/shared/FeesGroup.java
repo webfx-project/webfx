@@ -27,7 +27,8 @@ import webfx.platforms.core.util.tuples.Pair;
 /**
  * @author Bruno Salmon
  */
-public class FeesGroup {
+public final class FeesGroup {
+
     private final Event event;
     private final Object id;
     private final Label label;

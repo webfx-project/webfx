@@ -5,9 +5,9 @@ import java.util.Stack;
 /**
  * @author Bruno Salmon
  */
-class ThreadLocalArgumentStack {
+final class ThreadLocalArgumentStack {
 
-    private static ThreadLocal<Stack> stacks = new ThreadLocal<>();
+    private static final ThreadLocal<Stack> stacks = new ThreadLocal<>();
 
     private static Stack getThreadLocalArgumentStack() {
         Stack stack = stacks.get();

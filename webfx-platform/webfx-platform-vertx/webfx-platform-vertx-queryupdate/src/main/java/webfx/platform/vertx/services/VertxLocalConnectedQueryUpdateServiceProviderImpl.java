@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class VertxLocalConnectedQueryUpdateServiceProviderImpl implements QueryServiceProvider, UpdateServiceProvider {
+public final class VertxLocalConnectedQueryUpdateServiceProviderImpl implements QueryServiceProvider, UpdateServiceProvider {
 
     private final AsyncSQLClient sqlClient;
 
@@ -66,7 +66,7 @@ public class VertxLocalConnectedQueryUpdateServiceProviderImpl implements QueryS
             //.put("provider_class", HikariCPDataSourceProvider.class.getName())
             ;
             sqlClient = new AsyncSQLClient() {
-                JDBCClient jdbcClient = JDBCClient.createNonShared(vertx, sqlConfig);
+                final JDBCClient jdbcClient = JDBCClient.createNonShared(vertx, sqlConfig);
 
                 @Override
                 public void close() {

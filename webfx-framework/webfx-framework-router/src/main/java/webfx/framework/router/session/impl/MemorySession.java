@@ -9,10 +9,10 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class MemorySession implements Session {
+public final class MemorySession implements Session {
 
     private final String id = Uuid.randomUuid();
-    private Map<String, Object> objects = new HashMap<>();
+    private final Map<String, Object> objects = new HashMap<>();
 
     @Override
     public String id() {

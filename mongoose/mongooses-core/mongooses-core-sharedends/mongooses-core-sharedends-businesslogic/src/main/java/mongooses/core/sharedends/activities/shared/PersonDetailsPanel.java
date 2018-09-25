@@ -43,7 +43,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
+public final class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
 
     private static final int CHILD_MAX_AGE = 17;
 

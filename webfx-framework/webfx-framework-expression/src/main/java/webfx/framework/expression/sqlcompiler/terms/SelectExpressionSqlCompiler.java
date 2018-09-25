@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.SelectExpression;
 /**
  * @author Bruno Salmon
  */
-public class SelectExpressionSqlCompiler extends AbstractTermSqlCompiler<SelectExpression> {
+public final class SelectExpressionSqlCompiler extends AbstractTermSqlCompiler<SelectExpression> {
 
     public SelectExpressionSqlCompiler() {
         super(SelectExpression.class, Exists.class);

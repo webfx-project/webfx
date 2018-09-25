@@ -8,7 +8,7 @@ import webfx.platforms.java.services.JdbcConnectedServiceProviderImpl;
 /**
  * @author Bruno Salmon
  */
-public class JdbcQueryServiceProviderImpl extends LocalOrRemoteQueryServiceProviderImpl {
+public final class JdbcQueryServiceProviderImpl extends LocalOrRemoteQueryServiceProviderImpl {
 
     @Override
     protected QueryServiceProvider createLocalConnectedProvider(ConnectionDetails connectionDetails) {

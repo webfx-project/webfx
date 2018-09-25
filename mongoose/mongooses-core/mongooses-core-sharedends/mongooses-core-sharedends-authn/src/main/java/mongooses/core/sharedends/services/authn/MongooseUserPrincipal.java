@@ -3,7 +3,7 @@ package mongooses.core.sharedends.services.authn;
 /**
  * @author Bruno Salmon
  */
-public class MongooseUserPrincipal {
+public final class MongooseUserPrincipal {
 
     private final Object userPersonId;
     private final Object userAccountId;

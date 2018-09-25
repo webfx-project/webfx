@@ -7,7 +7,7 @@ import javafx.scene.paint.Paint;
 /**
  * @author Bruno Salmon
  */
-public class PaintBuilder {
+public final class PaintBuilder {
 
     private String webColor;
     private String topWebColor;

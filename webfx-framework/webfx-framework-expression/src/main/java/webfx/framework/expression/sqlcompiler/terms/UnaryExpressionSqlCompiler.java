@@ -9,7 +9,7 @@ import webfx.framework.expression.sqlcompiler.sql.SqlClause;
 /**
  * @author Bruno Salmon
  */
-public class UnaryExpressionSqlCompiler extends AbstractTermSqlCompiler<UnaryExpression> {
+public final class UnaryExpressionSqlCompiler extends AbstractTermSqlCompiler<UnaryExpression> {
 
     public UnaryExpressionSqlCompiler() {
         super(Array.class, As.class, Not.class);

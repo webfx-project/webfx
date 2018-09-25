@@ -8,7 +8,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class QueryService {
+public final class QueryService {
 
     public static final String QUERY_SERVICE_ADDRESS = "service/query";
     public static final String QUERY_BATCH_SERVICE_ADDRESS = "service/query/batch";

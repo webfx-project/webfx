@@ -9,7 +9,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.TextAreaPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlTextAreaPeer
+public final class HtmlTextAreaPeer
         <N extends TextArea, NB extends TextAreaPeerBase<N, NB, NM>, NM extends TextAreaPeerMixin<N, NB, NM>>
 
         extends HtmlTextInputControlPeer<N, NB, NM>

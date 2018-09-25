@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class DataGridSkin extends SelectableDisplayResultControlSkinBase<DataGrid, Pane, Pane> {
+public final class DataGridSkin extends SelectableDisplayResultControlSkinBase<DataGrid, Pane, Pane> {
 
     private final GridHead gridHead = new GridHead();
     private final GridBody gridBody = new GridBody();
@@ -288,7 +288,7 @@ public class DataGridSkin extends SelectableDisplayResultControlSkinBase<DataGri
         }
     }
 
-    private class GridHead extends Region {
+    private final class GridHead extends Region {
 
         private final List<GridColumn> headColumns = new ArrayList<>();
 
@@ -334,7 +334,7 @@ public class DataGridSkin extends SelectableDisplayResultControlSkinBase<DataGri
         }
     }
 
-    private class GridBody extends Region {
+    private final class GridBody extends Region {
         private final List<Pane> bodyRows = new ArrayList<>();
         private final List<GridColumn> bodyColumns = new ArrayList<>();
 
@@ -421,13 +421,13 @@ public class DataGridSkin extends SelectableDisplayResultControlSkinBase<DataGri
         }
     }
 
-    private static Insets CELL_MARGIN = new Insets(5);
+    private static final Insets CELL_MARGIN = new Insets(5);
 
-    private class GridColumn extends Pane {
+    private final class GridColumn extends Pane {
         private Double fixedWidth;
         private ColumnWidthCumulator cumulator;
         private HPos hAlignment = HPos.LEFT;
-        private VPos vAlignment = VPos.CENTER;
+        private final VPos vAlignment = VPos.CENTER;
         private double columnWidth;
 
         GridColumn() {
@@ -493,5 +493,4 @@ public class DataGridSkin extends SelectableDisplayResultControlSkinBase<DataGri
             }
         }
     }
-
 }

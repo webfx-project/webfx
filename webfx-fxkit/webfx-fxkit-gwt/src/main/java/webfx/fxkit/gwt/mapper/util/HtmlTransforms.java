@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class HtmlTransforms {
+public final class HtmlTransforms {
 
     public static String toHtmlTransforms(Collection<Transform> transforms) {
         if (Collections.isEmpty(transforms))

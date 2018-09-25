@@ -7,7 +7,7 @@ import webfx.fxkits.extra.util.ImageStore;
 /**
  * @author Bruno Salmon
  */
-public class ImageRenderer implements ValueRenderer {
+public final class ImageRenderer implements ValueRenderer {
 
     public final static ImageRenderer SINGLETON = new ImageRenderer();
 

@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class UiRouter extends HistoryRouter {
+public final class UiRouter extends HistoryRouter {
 
     private final UiRouteActivityContext hostingContext; // The activity context that hosts this router
     private final ActivityContextFactory activityContextFactory;
@@ -251,7 +251,7 @@ public class UiRouter extends HistoryRouter {
     // Was originally in ActivityRoutingHandler but was moved in upper level because otherwise activities were not paused
     private ActivityManager activityManager; // TODO: check if this is correct to put it here
 
-    private class ActivityRoutingHandler<C extends UiRouteActivityContext<C>> implements Handler<RoutingContext> {
+    private final class ActivityRoutingHandler<C extends UiRouteActivityContext<C>> implements Handler<RoutingContext> {
 
         private final Converter<RoutingContext, C> contextConverter;
         private final Factory<ActivityManager<C>> activityManagerFactory;

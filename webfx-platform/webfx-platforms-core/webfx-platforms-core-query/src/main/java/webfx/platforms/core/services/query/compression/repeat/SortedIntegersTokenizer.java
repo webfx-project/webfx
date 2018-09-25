@@ -3,7 +3,7 @@ package webfx.platforms.core.services.query.compression.repeat;
 /**
  * @author Bruno Salmon
  */
-class SortedIntegersTokenizer {
+final class SortedIntegersTokenizer {
     StringBuilder sb;
     int lastSeqStart;
     int lastInt;

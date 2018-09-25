@@ -5,7 +5,7 @@ import webfx.platforms.core.services.querypush.spi.impl.QueryPushServiceProvider
 /**
  * @author Bruno Salmon
  */
-public class PulseArgument {
+public final class PulseArgument {
 
     private final Object dataSourceId;
     private final QueryPushServiceProviderImplBase.QueryInfo queryInfo;

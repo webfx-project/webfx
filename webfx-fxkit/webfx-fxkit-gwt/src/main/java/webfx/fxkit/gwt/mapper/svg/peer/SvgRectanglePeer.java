@@ -9,7 +9,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.RectanglePeerBase;
 /**
  * @author Bruno Salmon
  */
-public class SvgRectanglePeer
+public final class SvgRectanglePeer
         <N extends Rectangle, NB extends RectanglePeerBase<N, NB, NM>, NM extends RectanglePeerMixin<N, NB, NM>>
 
         extends SvgShapePeer<N, NB, NM>

@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Parameter;
 /**
  * @author Bruno Salmon
  */
-public class ParameterBuilder extends ExpressionBuilder {
+public final class ParameterBuilder extends ExpressionBuilder {
 
     public String name;
     public ExpressionBuilder rightDot;

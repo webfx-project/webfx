@@ -9,7 +9,7 @@ import java.util.HashSet;
 /**
  * @author Bruno Salmon
  */
-public class EntityChangesBuilder {
+public final class EntityChangesBuilder {
 
     private EntityResultBuilder rsb;
     private Collection<EntityId> deletedEntities;
@@ -74,5 +74,4 @@ public class EntityChangesBuilder {
     public static EntityChangesBuilder create() {
         return new EntityChangesBuilder();
     }
-
 }

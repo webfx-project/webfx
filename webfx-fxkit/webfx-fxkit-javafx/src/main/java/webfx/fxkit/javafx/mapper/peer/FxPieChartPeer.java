@@ -12,7 +12,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.PieChartPeerBase;
 /**
  * @author Bruno Salmon
  */
-public class FxPieChartPeer
+public final class FxPieChartPeer
         <FxN extends javafx.scene.chart.PieChart, N extends PieChart, NB extends PieChartPeerBase<FxN, N, NB, NM>, NM extends PieChartPeerMixin<FxN, N, NB, NM>>
 
         extends FxChartPeer<FxN, N, NB, NM>

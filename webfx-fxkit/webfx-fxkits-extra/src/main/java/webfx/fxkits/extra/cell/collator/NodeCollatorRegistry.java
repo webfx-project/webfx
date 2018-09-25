@@ -12,20 +12,20 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class NodeCollatorRegistry {
+public final class NodeCollatorRegistry {
 
-    private static Map<String, NodeCollator> collators = new HashMap<>();
+    private static final Map<String, NodeCollator> collators = new HashMap<>();
 
-    private static NodeCollator hBoxCollator = nodes -> {
+    private static final NodeCollator hBoxCollator = nodes -> {
         HBox hBox = new HBox(5);
         if (nodes != null)
             hBox.getChildren().addAll(nodes);
         hBox.setAlignment(Pos.CENTER_LEFT);
         return hBox;
     };
-    private static NodeCollator vBoxCollator = VBox::new;
-    private static NodeCollator flowPaneCollator = FlowPane::new;
-    private static NodeCollator firstCollator = nodes -> Arrays.getValue(nodes, 0);
+    private static final NodeCollator vBoxCollator = VBox::new;
+    private static final NodeCollator flowPaneCollator = FlowPane::new;
+    private static final NodeCollator firstCollator = nodes -> Arrays.getValue(nodes, 0);
 
     static {
         registerCollator("hBox", hBoxCollator);

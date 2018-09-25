@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Array;
 /**
  * @author Bruno Salmon
  */
-public class ArrayBuilder extends UnaryExpressionBuilder {
+public final class ArrayBuilder extends UnaryExpressionBuilder {
 
     public ArrayBuilder(ExpressionBuilder operand) {
         super(operand);

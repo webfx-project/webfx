@@ -8,7 +8,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.LineChartPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlLineChartPeer
+public final class HtmlLineChartPeer
         <C, N extends LineChart, NB extends LineChartPeerBase<C, N, NB, NM>, NM extends LineChartPeerMixin<C, N, NB, NM>>
         extends HtmlChartPeer<C, N, NB, NM>
         implements LineChartPeerMixin<C, N, NB, NM> {

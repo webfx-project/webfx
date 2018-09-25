@@ -62,7 +62,7 @@ public final class MaterialTextFieldImpl implements MaterialTextField {
         return errorMessageProperty;
     }
 
-    private BooleanProperty disabledProperty = new SimpleBooleanProperty(false);
+    private final BooleanProperty disabledProperty = new SimpleBooleanProperty(false);
     @Override
     public BooleanProperty disabledProperty() {
         return disabledProperty;

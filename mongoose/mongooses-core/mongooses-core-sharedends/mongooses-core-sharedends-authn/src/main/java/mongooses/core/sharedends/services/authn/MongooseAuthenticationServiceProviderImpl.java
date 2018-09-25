@@ -13,7 +13,7 @@ import webfx.platforms.core.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public class MongooseAuthenticationServiceProviderImpl implements AuthenticationServiceProvider, HasDataSourceModel {
+public final class MongooseAuthenticationServiceProviderImpl implements AuthenticationServiceProvider, HasDataSourceModel {
 
     private final DataSourceModel dataSourceModel;
 

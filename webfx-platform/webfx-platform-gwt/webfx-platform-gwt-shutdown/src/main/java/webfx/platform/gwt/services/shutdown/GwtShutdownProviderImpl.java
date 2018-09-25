@@ -6,7 +6,7 @@ import webfx.platforms.core.services.shutdown.spi.ShutdownProvider;
 /**
  * @author Bruno Salmon
  */
-public class GwtShutdownProviderImpl implements ShutdownProvider {
+public final class GwtShutdownProviderImpl implements ShutdownProvider {
 
     @Override
     public void addShutdownHook(Runnable hook) {

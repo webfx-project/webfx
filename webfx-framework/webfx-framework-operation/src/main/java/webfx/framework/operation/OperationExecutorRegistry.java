@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class OperationExecutorRegistry {
+public final class OperationExecutorRegistry {
 
     private static OperationExecutorRegistry INSTANCE;
 

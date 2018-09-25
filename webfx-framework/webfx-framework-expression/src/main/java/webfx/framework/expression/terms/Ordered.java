@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Ordered<T> extends UnaryExpression<T> {
+public final class Ordered<T> extends UnaryExpression<T> {
     private final boolean ascending;
     private final boolean descending;
     private final boolean nullsFirst;

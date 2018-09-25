@@ -11,7 +11,7 @@ import webfx.framework.expression.terms.function.InlineFunction;
 /**
  * @author Bruno Salmon
  */
-public class CallSqlCompiler extends AbstractTermSqlCompiler<Call> {
+public final class CallSqlCompiler extends AbstractTermSqlCompiler<Call> {
 
     public CallSqlCompiler() {
         super(Call.class);

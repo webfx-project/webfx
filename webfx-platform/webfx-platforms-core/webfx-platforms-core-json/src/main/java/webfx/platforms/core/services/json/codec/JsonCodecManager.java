@@ -15,7 +15,7 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 
-public class JsonCodecManager {
+public final class JsonCodecManager {
 
     static final String CODEC_ID_KEY = "$codec";
 

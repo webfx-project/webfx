@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class ColumnWidthCumulator {
+public final class ColumnWidthCumulator {
 
     private double maxWidth;
     private boolean hasChanged;

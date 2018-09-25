@@ -6,7 +6,7 @@ import webfx.framework.expression.lci.DataReader;
 /**
  * @author Bruno Salmon
  */
-public class NotLike<T> extends BinaryBooleanExpression<T> {
+public final class NotLike<T> extends BinaryBooleanExpression<T> {
 
     public NotLike(Expression<T> left, Expression<T> right) {
         super(left, " not like ", right, 5);

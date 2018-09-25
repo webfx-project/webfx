@@ -9,7 +9,7 @@ import webfx.framework.expression.lci.ParserDomainModelReader;
 /**
  * @author Bruno Salmon
  */
-public class ParserDomainModelReaderImpl implements ParserDomainModelReader {
+public final class ParserDomainModelReaderImpl implements ParserDomainModelReader {
 
     private final DomainModel domainModel;
 

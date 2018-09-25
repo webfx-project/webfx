@@ -7,7 +7,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.ScatterChartPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class FxScatterChartPeer
+public final class FxScatterChartPeer
         <FxN extends javafx.scene.chart.ScatterChart, N extends ScatterChart, NB extends ScatterChartPeerBase<FxN, N, NB, NM>, NM extends ScatterChartPeerMixin<FxN, N, NB, NM>>
 
         extends FxXYChartPeer<FxN, N, NB, NM>

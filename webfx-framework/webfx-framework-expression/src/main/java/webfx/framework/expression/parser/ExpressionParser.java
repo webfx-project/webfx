@@ -16,7 +16,7 @@ import java.io.StringReader;
 /**
  * @author Bruno Salmon
  */
-public class ExpressionParser {
+public final class ExpressionParser {
 
     public static <E> Expression<E> parseExpression(String definition, Object domainClass, ParserDomainModelReader modelReader) {
         return parseExpression(definition, domainClass, modelReader, false);
@@ -62,5 +62,4 @@ public class ExpressionParser {
         JavaCupExpressionParser javaCupExpressionParser = new JavaCupExpressionParser(new ExpressionLexer(new StringReader(definition)));
         return javaCupExpressionParser.parse();
     }
-
 }

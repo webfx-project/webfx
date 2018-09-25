@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Plus;
 /**
  * @author Bruno Salmon
  */
-public class PlusBuilder extends BinaryExpressionBuilder {
+public final class PlusBuilder extends BinaryExpressionBuilder {
 
     public PlusBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

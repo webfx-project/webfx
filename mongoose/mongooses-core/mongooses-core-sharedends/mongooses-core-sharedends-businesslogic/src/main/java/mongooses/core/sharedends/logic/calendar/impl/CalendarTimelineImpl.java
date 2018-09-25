@@ -9,7 +9,7 @@ import javafx.scene.paint.Paint;
 /**
  * @author Bruno Salmon
  */
-public class CalendarTimelineImpl implements CalendarTimeline {
+public final class CalendarTimelineImpl implements CalendarTimeline {
 
     private final DateTimeRange dateTimeRange;
     private final DayTimeRange dayTimeRange;

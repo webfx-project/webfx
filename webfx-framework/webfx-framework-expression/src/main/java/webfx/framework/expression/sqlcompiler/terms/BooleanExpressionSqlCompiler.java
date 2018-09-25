@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.*;
 /**
  * @author Bruno Salmon
  */
-public class BooleanExpressionSqlCompiler extends BinaryExpressionSqlCompiler<BinaryBooleanExpression> {
+public final class BooleanExpressionSqlCompiler extends BinaryExpressionSqlCompiler<BinaryBooleanExpression> {
 
     public BooleanExpressionSqlCompiler() {
         super(And.class, Equals.class, GreaterThan.class, GreaterThanOrEquals.class,
@@ -53,5 +53,4 @@ public class BooleanExpressionSqlCompiler extends BinaryExpressionSqlCompiler<Bi
             precedenceLevel = Math.min(precedenceLevel, getSqlPrecedenceLevel(((Dot) e).getRight()));
         return precedenceLevel;
     }
-
 }

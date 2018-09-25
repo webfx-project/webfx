@@ -35,7 +35,7 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/ReconnectBus.java">Original Goodow class</a>
  */
-public class ReconnectBus extends WebSocketBus {
+public final class ReconnectBus extends WebSocketBus {
     private static final String AUTO_RECONNECT = "reconnect";
     private final FuzzingBackOffGenerator backOffGenerator;
     private BusHook hook;

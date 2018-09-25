@@ -12,7 +12,7 @@ import webfx.framework.expression.sqlcompiler.mapping.QueryColumnToEntityFieldMa
 /**
  * @author Bruno Salmon
  */
-public class DotSqlCompiler extends AbstractTermSqlCompiler<Dot> {
+public final class DotSqlCompiler extends AbstractTermSqlCompiler<Dot> {
 
     public DotSqlCompiler() {
         super(Dot.class);

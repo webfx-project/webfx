@@ -8,7 +8,7 @@ import java.util.Iterator;
 /**
  * @author Bruno Salmon
  */
-public class SessionStorage {
+public final class SessionStorage {
 
     public static SessionStorageProvider getProvider() {
         return SingleServiceLoader.loadService(SessionStorageProvider.class);

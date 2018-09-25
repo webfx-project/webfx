@@ -3,7 +3,7 @@ package webfx.platforms.core.services.query.compression.repeat;
 /**
  * @author Bruno Salmon
  */
-class SortedIntegersTokenReader {
+final class SortedIntegersTokenReader {
     final String token;
     int pos = 0;
     int lastSeqStart;

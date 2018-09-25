@@ -8,7 +8,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.BarChartPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlBarChartPeer
+public final class HtmlBarChartPeer
         <C, N extends BarChart, NB extends BarChartPeerBase<C, N, NB, NM>, NM extends BarChartPeerMixin<C, N, NB, NM>>
         extends HtmlChartPeer<C, N, NB, NM>
         implements BarChartPeerMixin<C, N, NB, NM> {

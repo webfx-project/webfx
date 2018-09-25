@@ -5,19 +5,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import mongooses.core.sharedends.logic.calendar.CalendarTimeline;
 import mongooses.core.shared.domainmodel.time.DayTimeRange;
+import mongooses.core.sharedends.logic.calendar.CalendarTimeline;
 import mongooses.core.sharedends.logic.ui.calendargraphic.impl.DayColumnBodyBlockViewModel;
 import mongooses.core.sharedends.logic.ui.calendargraphic.impl.DayColumnHeaderViewModel;
-import java.util.function.BiConsumer;
 import webfx.framework.ui.controls.dialog.DialogCallback;
 import webfx.framework.ui.controls.dialog.DialogUtil;
 import webfx.framework.ui.controls.dialog.GridPaneBuilder;
 
+import java.util.function.BiConsumer;
+
 /**
  * @author Bruno Salmon
  */
-class DayTimeRangeEditor {
+final class DayTimeRangeEditor {
 
     static void showDayTimeRangeEditorDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner) {
         showDayTimeRangeInternDialog(dayTimeRange, epochDay, timeline, okConsumer, parentOwner);
@@ -63,5 +64,4 @@ class DayTimeRangeEditor {
         });
         cancelButton.setOnAction(e -> dialogCallback.closeDialog());
     }
-
 }

@@ -11,7 +11,7 @@ public abstract class SqlOrder<T> {
     protected final String domainClassAlias;
 
     // object level definition
-    protected String definition;
+    protected final String definition;
     protected final Expression<T> where;
     protected final ExpressionArray<T> orderBy;
     protected final Expression<T> limit;
@@ -21,7 +21,7 @@ public abstract class SqlOrder<T> {
     protected final String sqlDefinition;
 
     // common
-    protected Object[] parameterValues;
+    protected final Object[] parameterValues;
 
     protected SqlOrder(Object id, Object domainClass, String domainClassAlias, String definition, String sqlDefinition, Object[] parameterValues, Expression<T> where, ExpressionArray<T> orderBy, Expression<T> limit) {
         this.id = id;

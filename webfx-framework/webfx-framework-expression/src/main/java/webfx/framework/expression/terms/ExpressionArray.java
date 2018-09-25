@@ -11,7 +11,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class ExpressionArray<T> extends AbstractExpression<T> implements ParentExpression<T> {
+public final class ExpressionArray<T> extends AbstractExpression<T> implements ParentExpression<T> {
 
     protected final Expression<T>[] expressions;
 

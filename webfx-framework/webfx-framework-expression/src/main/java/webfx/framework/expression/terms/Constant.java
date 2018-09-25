@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class Constant<T> extends AbstractExpression<T> {
+public final class Constant<T> extends AbstractExpression<T> {
 
     private static final Map<Object, Constant> predefinedConstants = new HashMap<>();
     public static final Constant NULL;
@@ -71,5 +71,4 @@ public class Constant<T> extends AbstractExpression<T> {
     private static String toQuotedString(String s, boolean sql) {
         return sql ? "'" + Strings.replaceAll(s, "'", "''") + "'" : "\"" + Strings.replaceAll(s, "\"", "\\\"") + "\"" ;
     }
-
 }

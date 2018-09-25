@@ -3,7 +3,7 @@ package webfx.framework.orm.entity;
 /**
  * @author Bruno Salmon
  */
-public class EntityListWrapper<E extends Entity> implements EntityListMixin<E> {
+public final class EntityListWrapper<E extends Entity> implements EntityListMixin<E> {
     private final EntityList<E> entityList;
 
     public EntityListWrapper(EntityList<E> entityList) {

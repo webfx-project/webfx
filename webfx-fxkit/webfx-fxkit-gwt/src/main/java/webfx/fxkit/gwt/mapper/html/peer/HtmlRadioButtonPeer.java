@@ -13,7 +13,7 @@ import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 /**
  * @author Bruno Salmon
  */
-public class HtmlRadioButtonPeer
+public final class HtmlRadioButtonPeer
         <N extends RadioButton, NB extends RadioButtonPeerBase<N, NB, NM>, NM extends RadioButtonPeerMixin<N, NB, NM>>
 
         extends HtmlButtonBasePeer<N, NB, NM>

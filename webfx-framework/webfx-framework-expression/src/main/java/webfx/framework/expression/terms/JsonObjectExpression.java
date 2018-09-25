@@ -15,7 +15,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class JsonObjectExpression<T> extends AbstractExpression<T> {
+public final class JsonObjectExpression<T> extends AbstractExpression<T> {
 
     private final KeyObject jsonObjectExpressions;
 

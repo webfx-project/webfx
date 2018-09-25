@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Bruno Salmon
  */
-public class WorkingDocumentCalendarExtractor implements CalendarExtractor<WorkingDocument> {
+public final class WorkingDocumentCalendarExtractor implements CalendarExtractor<WorkingDocument> {
 
     private final static WorkingDocumentCalendarExtractor SINGLETON = new WorkingDocumentCalendarExtractor();
 
@@ -58,9 +58,9 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
     private WorkingDocumentCalendarExtractor() {
     }
 
-    private static class OptionTimeline {
+    private static final class OptionTimeline {
         final Option option;
-        List<WorkingDocumentLine> workingDocumentLines = new ArrayList<>(); // List because possible multi-lines with same option (ex: early breakfast and festival breakfast)
+        final List<WorkingDocumentLine> workingDocumentLines = new ArrayList<>(); // List because possible multi-lines with same option (ex: early breakfast and festival breakfast)
         WorkingDocumentLine maxWorkingDocumentLine;
 
         OptionTimeline(Option option, WorkingDocumentLine workingDocumentLine, boolean isMax) {

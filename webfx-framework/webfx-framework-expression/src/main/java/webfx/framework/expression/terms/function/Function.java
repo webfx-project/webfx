@@ -20,7 +20,8 @@ public class Function<T> {
     private final boolean evaluable;
     private final boolean keyword; // indicates if we should omit () when calling this function with no args (ex: current_date)
 
-    private static Map<String, Function> functions = new HashMap<>();
+    private static final Map<String, Function> functions = new HashMap<>();
+
     static {
         new Function("array").register();
         new Function("abs").register();

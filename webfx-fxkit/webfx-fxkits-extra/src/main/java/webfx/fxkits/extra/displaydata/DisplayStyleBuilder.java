@@ -5,7 +5,7 @@ import webfx.fxkits.extra.displaydata.impl.DisplayStyleImpl;
 /**
  * @author Bruno Salmon
  */
-public class DisplayStyleBuilder {
+public final class DisplayStyleBuilder {
 
     private Double prefWidth;
     private String textAlign;
@@ -30,5 +30,4 @@ public class DisplayStyleBuilder {
     public static DisplayStyleBuilder create() {
         return new DisplayStyleBuilder();
     }
-
 }

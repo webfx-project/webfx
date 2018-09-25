@@ -9,7 +9,7 @@ import static jsinterop.annotations.JsPackage.GLOBAL;
  * @author Bruno Salmon
  */
 @JsType(namespace = GLOBAL, isNative = true)
-public class History {
+public final class History {
 
     public int length;
 

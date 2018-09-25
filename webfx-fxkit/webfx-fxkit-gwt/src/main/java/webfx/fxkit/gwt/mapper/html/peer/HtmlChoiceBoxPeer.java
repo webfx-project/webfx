@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * @author Bruno Salmon
  */
-public class HtmlChoiceBoxPeer
+public final class HtmlChoiceBoxPeer
         <T, N extends ChoiceBox<T>, NB extends ChoiceBoxPeerBase<T, N, NB, NM>, NM extends ChoiceBoxPeerMixin<T, N, NB, NM>>
 
         extends HtmlControlPeer<N, NB, NM>

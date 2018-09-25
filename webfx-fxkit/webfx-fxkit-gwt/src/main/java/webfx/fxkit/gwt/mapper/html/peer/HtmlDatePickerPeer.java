@@ -8,7 +8,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.TextFieldPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlDatePickerPeer
+public final class HtmlDatePickerPeer
         <N extends DatePicker, NB extends TextFieldPeerBase<N, NB, NM>, NM extends TextFieldPeerMixin<N, NB, NM>>
 
         extends HtmlTextFieldPeer<N, NB, NM> {

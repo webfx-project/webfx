@@ -3,13 +3,13 @@ package webfx.fxkits.extra.displaydata;
 /**
  * @author Bruno Salmon
  */
-public class Label {
+public final class Label {
 
-    private String code; // Can be used by i18n as translation key
+    private final String code; // Can be used by i18n as translation key
     private String text;
-    private String iconPath;
+    private final String iconPath;
 
-    public static Label emptyLabel = new Label("");
+    public static final Label emptyLabel = new Label("");
 
     public Label(String text) {
         this(null, text, null);

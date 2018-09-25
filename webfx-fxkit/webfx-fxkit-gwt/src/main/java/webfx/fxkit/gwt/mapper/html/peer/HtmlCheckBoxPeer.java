@@ -9,7 +9,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.CheckBoxPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlCheckBoxPeer
+public final class HtmlCheckBoxPeer
         <N extends CheckBox, NB extends CheckBoxPeerBase<N, NB, NM>, NM extends CheckBoxPeerMixin<N, NB, NM>>
 
         extends HtmlButtonBasePeer<N, NB, NM>

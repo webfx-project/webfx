@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class Dot<T> extends BinaryExpression<T> {
+public final class Dot<T> extends BinaryExpression<T> {
 
     private final boolean outerJoin;
     private final boolean readLeftKey;

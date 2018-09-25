@@ -15,7 +15,7 @@ import webfx.platforms.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public class WebWindowHistoryProvider extends MemoryBrowsingHistory implements WindowHistoryProvider {
+public final class WebWindowHistoryProvider extends MemoryBrowsingHistory implements WindowHistoryProvider {
 
     private final JsWindowHistory jsWindowHistory;
     private final boolean supportsStates;

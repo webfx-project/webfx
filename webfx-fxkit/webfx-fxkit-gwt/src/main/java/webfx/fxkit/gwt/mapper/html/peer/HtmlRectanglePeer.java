@@ -10,7 +10,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.RectanglePeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlRectanglePeer
+public final class HtmlRectanglePeer
         <N extends Rectangle, NB extends RectanglePeerBase<N, NB, NM>, NM extends RectanglePeerMixin<N, NB, NM>>
 
         extends HtmlShapePeer<N, NB, NM>

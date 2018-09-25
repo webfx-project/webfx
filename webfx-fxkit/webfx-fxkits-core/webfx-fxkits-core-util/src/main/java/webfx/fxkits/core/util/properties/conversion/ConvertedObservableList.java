@@ -10,7 +10,7 @@ import webfx.platforms.core.util.tuples.Unit;
 /**
  * @author Bruno Salmon
  */
-public class ConvertedObservableList {
+public final class ConvertedObservableList {
 
     public static <A, B> ObservableList<B> create(ObservableList<A> aList, Converter<A, B> aToBConverter, Converter<B, A> bToAConverter) {
         if (aList == null)
@@ -33,5 +33,4 @@ public class ConvertedObservableList {
         });
         return bList;
     }
-
 }

@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class PushServerServiceProviderImpl implements PushServerServiceProvider {
+public final class PushServerServiceProviderImpl implements PushServerServiceProvider {
 
     private final static long PING_PUSH_PERIOD_MS = 20_000; // Should be lower than client WebSocketBusOptions.pingInterval (which is set to 30_000 at the time of writing this code)
 
@@ -70,7 +70,7 @@ public class PushServerServiceProviderImpl implements PushServerServiceProvider 
         return pushClientInfo;
     }
 
-    class PushClientInfo {
+    final class PushClientInfo {
         final Object pushClientId;
         int pendingCalls;
         long lastCallTime;

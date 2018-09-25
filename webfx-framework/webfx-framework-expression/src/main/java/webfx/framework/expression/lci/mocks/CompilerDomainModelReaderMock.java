@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author Bruno Salmon
  */
-public class CompilerDomainModelReaderMock implements CompilerDomainModelReader {
+public final class CompilerDomainModelReaderMock implements CompilerDomainModelReader {
 
     private final Map<String, Expression> classForeignFields = new HashMap<>();
     private final Set<String> foreignFields = new HashSet<>(); // ClassName.fieldName
@@ -76,5 +76,4 @@ public class CompilerDomainModelReaderMock implements CompilerDomainModelReader 
     public Expression getDomainClassDefaultForeignFields(Object domainClass) {
         return classForeignFields.get(getClassName(domainClass));
     }
-
 }

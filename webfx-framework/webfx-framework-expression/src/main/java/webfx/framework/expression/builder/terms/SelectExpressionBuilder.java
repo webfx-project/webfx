@@ -5,8 +5,8 @@ import webfx.framework.expression.terms.SelectExpression;
 /**
  * @author Bruno Salmon
  */
-public class SelectExpressionBuilder extends ExpressionBuilder {
-    public SelectBuilder select;
+public final class SelectExpressionBuilder extends ExpressionBuilder {
+    public final SelectBuilder select;
 
     private SelectExpression selectExpression;
 

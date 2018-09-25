@@ -12,7 +12,7 @@ import webfx.fxkits.extra.displaydata.HasDisplayResultProperty;
 public abstract class DisplayResultControl extends Control implements
         HasDisplayResultProperty {
 
-    private Property<DisplayResult> displayResultProperty = new SimpleObjectProperty<DisplayResult>() {
+    private final Property<DisplayResult> displayResultProperty = new SimpleObjectProperty<DisplayResult>() {
         @Override
         protected void invalidated() {
             requestParentLayout();
@@ -22,5 +22,4 @@ public abstract class DisplayResultControl extends Control implements
     public Property<DisplayResult> displayResultProperty() {
         return displayResultProperty;
     }
-
 }

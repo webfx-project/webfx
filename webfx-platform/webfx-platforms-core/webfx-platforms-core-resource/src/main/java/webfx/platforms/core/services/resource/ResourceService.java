@@ -7,7 +7,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class ResourceService {
+public final class ResourceService {
 
     private static ResourceServiceProvider PROVIDER;
 

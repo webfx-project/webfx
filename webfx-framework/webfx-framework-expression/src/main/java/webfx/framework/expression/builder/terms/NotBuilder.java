@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.Not;
 /**
  * @author Bruno Salmon
  */
-public class NotBuilder extends UnaryExpressionBuilder {
+public final class NotBuilder extends UnaryExpressionBuilder {
 
     public NotBuilder(ExpressionBuilder operand) {
         super(operand);

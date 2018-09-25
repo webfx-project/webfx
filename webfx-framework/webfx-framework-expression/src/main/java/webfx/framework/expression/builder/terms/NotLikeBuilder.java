@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.NotLike;
 /**
  * @author Bruno Salmon
  */
-public class NotLikeBuilder extends BinaryBooleanExpressionBuilder {
+public final class NotLikeBuilder extends BinaryBooleanExpressionBuilder {
 
     public NotLikeBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

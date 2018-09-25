@@ -11,7 +11,7 @@ import webfx.platforms.core.services.query.QueryResult;
 /**
  * @author Bruno Salmon
  */
-public class QueryResultToEntityListMapper {
+public final class QueryResultToEntityListMapper {
 
     public static <E extends Entity> EntityList<E> createEntityList(QueryResult rs, QueryRowToEntityMapping rowMapping, EntityStore store, Object listId) {
         //Logger.log("createEntityList()");

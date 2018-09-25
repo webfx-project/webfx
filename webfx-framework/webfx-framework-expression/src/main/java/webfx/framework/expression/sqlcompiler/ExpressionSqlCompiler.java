@@ -16,9 +16,9 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class ExpressionSqlCompiler {
+public final class ExpressionSqlCompiler {
 
-    private static Map<Class<? extends Expression>, AbstractTermSqlCompiler<?>> termCompilers = new HashMap<>();
+    private static final Map<Class<? extends Expression>, AbstractTermSqlCompiler<?>> termCompilers = new HashMap<>();
 
     static {
         // Registering all term compilers (some can actually compile several term classes).
@@ -209,5 +209,4 @@ public class ExpressionSqlCompiler {
             sb.append(Character.toLowerCase(name.charAt(j)));
         return sb.toString();
     }
-
 }

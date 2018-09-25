@@ -7,7 +7,7 @@ import webfx.platforms.core.services.json.JsonObject;
 /**
  * @author Bruno Salmon
  */
-public class WebSocketBusOptions extends BusOptions {
+public final class WebSocketBusOptions extends BusOptions {
 
     public enum Protocol {
         WS,   // Web Socket protocol, to be used by non web applications (Jre, Android, iOS)

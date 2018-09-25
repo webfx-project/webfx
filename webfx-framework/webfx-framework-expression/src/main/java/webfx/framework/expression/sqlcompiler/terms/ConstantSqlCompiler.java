@@ -9,7 +9,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public class ConstantSqlCompiler extends AbstractTermSqlCompiler<Constant> {
+public final class ConstantSqlCompiler extends AbstractTermSqlCompiler<Constant> {
 
     public ConstantSqlCompiler() {
         super(Constant.class);
@@ -44,5 +44,4 @@ public class ConstantSqlCompiler extends AbstractTermSqlCompiler<Constant> {
     private static String toSqlQuotedString(String s) {
         return "'" + Strings.replaceAll(s, "'", "''") + "'";
     }
-
 }

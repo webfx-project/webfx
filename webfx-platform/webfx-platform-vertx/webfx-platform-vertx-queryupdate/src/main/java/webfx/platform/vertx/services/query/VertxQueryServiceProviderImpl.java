@@ -8,7 +8,7 @@ import webfx.platforms.core.services.query.spi.impl.LocalQueryServiceProviderImp
 /**
  * @author Bruno Salmon
  */
-public class VertxQueryServiceProviderImpl extends LocalQueryServiceProviderImpl {
+public final class VertxQueryServiceProviderImpl extends LocalQueryServiceProviderImpl {
 
     @Override
     protected QueryServiceProvider createLocalConnectedProvider(ConnectionDetails connectionDetails) {

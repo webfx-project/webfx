@@ -11,7 +11,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.LinePeerMixin;
  * This temporary implementation works only for horizontal and vertical lines (not diagonals)
  * @author Bruno Salmon
  */
-public class HtmlLinePeer
+public final class HtmlLinePeer
         <N extends Line, NB extends LinePeerBase<N, NB, NM>, NM extends LinePeerMixin<N, NB, NM>>
 
         extends HtmlShapePeer<N, NB, NM>

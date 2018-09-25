@@ -10,7 +10,7 @@ import webfx.framework.ui.uirouter.impl.UiRouteImpl;
  */
 public final class UnauthorizedRouting {
 
-    private static String PATH = "/unauthorized";
+    private static final String PATH = "/unauthorized";
 
     public static String getPath() {
         return PATH;

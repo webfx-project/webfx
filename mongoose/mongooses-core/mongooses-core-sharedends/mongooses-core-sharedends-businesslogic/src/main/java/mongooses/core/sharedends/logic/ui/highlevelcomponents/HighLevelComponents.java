@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 /**
  * @author Bruno Salmon
  */
-public class HighLevelComponents {
+public final class HighLevelComponents {
 
     private static HighLevelComponentsFactory builder;
 

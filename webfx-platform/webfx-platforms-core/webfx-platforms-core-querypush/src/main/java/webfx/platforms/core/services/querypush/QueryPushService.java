@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-public class QueryPushService {
+public final class QueryPushService {
 
     public static final String QUERY_PUSH_SERVICE_ADDRESS = "service/querypush";
 

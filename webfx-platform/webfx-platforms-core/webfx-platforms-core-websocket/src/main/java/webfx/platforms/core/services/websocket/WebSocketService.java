@@ -7,7 +7,7 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 /**
  * @author Bruno Salmon
  */
-public class WebSocketService {
+public final class WebSocketService {
 
     public static WebSocketServiceProvider getProvider() {
         return SingleServiceLoader.loadService(WebSocketServiceProvider.class);

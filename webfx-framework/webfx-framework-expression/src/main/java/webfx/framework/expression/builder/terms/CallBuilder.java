@@ -6,10 +6,10 @@ import webfx.framework.expression.terms.function.Call;
 /**
  * @author Bruno Salmon
  */
-public class CallBuilder extends UnaryExpressionBuilder {
+public final class CallBuilder extends UnaryExpressionBuilder {
 
-    public String functionName;
-    public ExpressionArrayBuilder orderBy;
+    public final String functionName;
+    public final ExpressionArrayBuilder orderBy;
 
     public CallBuilder(String functionName) {
         this(functionName, null);

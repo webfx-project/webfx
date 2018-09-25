@@ -7,7 +7,7 @@ import webfx.fxkits.extra.displaydata.impl.DisplayColumnImpl;
 /**
  * @author Bruno Salmon
  */
-public class DisplayResultBuilder {
+public final class DisplayResultBuilder {
 
     private final int rowCount;
     private final Object[] values;

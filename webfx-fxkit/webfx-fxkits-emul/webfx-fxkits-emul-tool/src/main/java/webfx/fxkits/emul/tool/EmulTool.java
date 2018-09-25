@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 /**
  * @author Bruno Salmon
  */
-public class EmulTool {
+public final class EmulTool {
 
     public static void main(String[] args) {
         processJsonFile("/javaemul.json");

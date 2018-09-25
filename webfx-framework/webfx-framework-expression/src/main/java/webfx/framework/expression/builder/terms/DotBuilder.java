@@ -11,7 +11,7 @@ import webfx.framework.expression.builder.ThreadLocalReferenceResolver;
 /**
  * @author Bruno Salmon
  */
-public class DotBuilder extends BinaryExpressionBuilder {
+public final class DotBuilder extends BinaryExpressionBuilder {
     private final boolean outerJoin;
 
     public DotBuilder(ExpressionBuilder left, ExpressionBuilder right, boolean outerJoin) {
@@ -54,5 +54,4 @@ public class DotBuilder extends BinaryExpressionBuilder {
     protected Dot newBinaryOperation(Expression left, Expression right) {
         return new Dot(left, right, outerJoin);
     }
-
 }

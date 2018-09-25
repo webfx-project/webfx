@@ -7,7 +7,7 @@ import webfx.framework.expression.terms.UnaryExpression;
  * @author Bruno Salmon
  */
 public abstract class UnaryExpressionBuilder extends ExpressionBuilder {
-    public ExpressionBuilder operand; // may be null, like for example a call with no argument such as: now()
+    public final ExpressionBuilder operand; // may be null, like for example a call with no argument such as: now()
 
     private UnaryExpression operation;
 

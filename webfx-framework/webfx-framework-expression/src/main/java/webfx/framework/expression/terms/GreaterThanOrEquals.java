@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class GreaterThanOrEquals<T> extends PrimitiveBinaryBooleanExpression<T> {
+public final class GreaterThanOrEquals<T> extends PrimitiveBinaryBooleanExpression<T> {
 
     public GreaterThanOrEquals(Expression<T> left, Expression<T> right) {
         super(left, ">=", right, 5);

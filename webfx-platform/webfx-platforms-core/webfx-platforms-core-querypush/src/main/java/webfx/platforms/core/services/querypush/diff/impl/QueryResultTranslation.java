@@ -12,7 +12,7 @@ import webfx.platforms.core.services.querypush.diff.QueryResultDiff;
 /**
  * @author Bruno Salmon
  */
-public class QueryResultTranslation implements QueryResultDiff {
+public final class QueryResultTranslation implements QueryResultDiff {
 
     private final QueryResult rowsBefore;
     private final int rowStart;
@@ -76,7 +76,7 @@ public class QueryResultTranslation implements QueryResultDiff {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<QueryResultTranslation> {
+    public static final class Codec extends AbstractJsonCodec<QueryResultTranslation> {
 
         private static final String CODEC_ID = "QueryResultTranslation";
         private static final String ROWS_BEFORE_KEY = "rowsBefore";

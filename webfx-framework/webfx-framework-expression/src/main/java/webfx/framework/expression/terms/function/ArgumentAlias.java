@@ -7,7 +7,7 @@ import webfx.fxkits.extra.type.Type;
 /**
  * @author Bruno Salmon
  */
-public class ArgumentAlias extends Alias {
+public final class ArgumentAlias extends Alias {
 
     private final int index;
 

@@ -7,7 +7,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.LabelPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class FxLabelPeer
+public final class FxLabelPeer
         <FxN extends javafx.scene.control.Label, N extends Label, NB extends LabelPeerBase<N, NB, NM>, NM extends LabelPeerMixin<N, NB, NM>>
 
         extends FxLabeledPeer<FxN, N, NB, NM>

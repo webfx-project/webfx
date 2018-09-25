@@ -7,7 +7,7 @@ import webfx.framework.ui.util.border.BorderUtil;
 /**
  * @author Bruno Salmon
  */
-public class DarkTheme implements ThemeProvider {
+public final class DarkTheme implements ThemeProvider {
 
     @Override
     public void apply() {

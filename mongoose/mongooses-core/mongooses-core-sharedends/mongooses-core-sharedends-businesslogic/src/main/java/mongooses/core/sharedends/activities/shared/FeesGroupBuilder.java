@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class FeesGroupBuilder {
+public final class FeesGroupBuilder {
 
     private final EventAggregate eventAggregate;
     private DateInfo dateInfo;

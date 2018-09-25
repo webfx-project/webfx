@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class LocalUpdateServiceRegistry {
+public final class LocalUpdateServiceRegistry {
 
     private static Map</* dataSourceId */ Object, UpdateServiceProvider> localConnectedUpdateServices;
 

@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class ObjStateBuilder extends ExpressionBuilder {
+public final class ObjStateBuilder extends ExpressionBuilder {
 
     @Override
     public Expression build() {

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class DomainClass implements HasLabel, HasDomainModel {
+public final class DomainClass implements HasLabel, HasDomainModel {
     private final DomainModel domainModel;
     private final Object id;
     private final Object modelId;

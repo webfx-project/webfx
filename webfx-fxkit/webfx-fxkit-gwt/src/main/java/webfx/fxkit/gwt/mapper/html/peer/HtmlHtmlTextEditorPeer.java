@@ -15,14 +15,14 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextEditorPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlHtmlTextEditorPeer
+public final class HtmlHtmlTextEditorPeer
         <N extends HtmlTextEditor, NB extends HtmlTextEditorPeerBase<N, NB, NM>, NM extends HtmlTextEditorPeerMixin<N, NB, NM>>
         extends HtmlRegionPeer<N, NB, NM>
         implements HtmlTextEditorPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     private static final String ckEditorUrl = "https://cdn.ckeditor.com/4.7.2/full/ckeditor.js";
 
-    private HTMLDivElement div = HtmlUtil.createDivElement();
+    private final HTMLDivElement div = HtmlUtil.createDivElement();
     private JavaScriptObject ckEditor;
 
     public HtmlHtmlTextEditorPeer() {

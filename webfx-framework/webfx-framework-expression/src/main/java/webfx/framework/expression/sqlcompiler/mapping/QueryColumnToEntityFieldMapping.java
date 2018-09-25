@@ -10,7 +10,7 @@ package webfx.framework.expression.sqlcompiler.mapping;
  *
  * @author Bruno Salmon
  */
-public class QueryColumnToEntityFieldMapping {
+public final class QueryColumnToEntityFieldMapping {
 
     /**
      * The query result column index (first = 0) that we are talking about. The column contains value that needs to be

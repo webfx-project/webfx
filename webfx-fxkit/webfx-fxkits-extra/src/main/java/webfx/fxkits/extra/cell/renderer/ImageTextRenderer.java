@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 /**
  * @author Bruno Salmon
  */
-public class ImageTextRenderer implements ValueRenderer {
+public final class ImageTextRenderer implements ValueRenderer {
 
     public final static ImageTextRenderer SINGLETON = new ImageTextRenderer();
 

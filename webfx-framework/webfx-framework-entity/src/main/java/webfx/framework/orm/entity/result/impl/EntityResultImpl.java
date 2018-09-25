@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class EntityResultImpl implements EntityResult {
+public final class EntityResultImpl implements EntityResult {
 
     private final List<EntityId> entityIds;
     private final List<Map> entityFieldsMaps;

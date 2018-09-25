@@ -47,7 +47,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class MongooseValidationSupport {
+public final class MongooseValidationSupport {
 
     private static final String DEFAULT_REQUIRED_MESSAGE = "This field is required";
 

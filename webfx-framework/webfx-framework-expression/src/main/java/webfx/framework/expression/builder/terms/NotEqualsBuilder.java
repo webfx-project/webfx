@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.NotEquals;
 /**
  * @author Bruno Salmon
  */
-public class NotEqualsBuilder extends BinaryBooleanExpressionBuilder {
+public final class NotEqualsBuilder extends BinaryBooleanExpressionBuilder {
 
     public NotEqualsBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

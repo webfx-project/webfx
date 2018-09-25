@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Bruno Salmon
  */
-public class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDayTimePositioned, CalendarCell {
+public final class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDayTimePositioned, CalendarCell {
 
     private final static String fontFamily = "Verdana";
     private final static Font textFont = Font.font(fontFamily, 13);

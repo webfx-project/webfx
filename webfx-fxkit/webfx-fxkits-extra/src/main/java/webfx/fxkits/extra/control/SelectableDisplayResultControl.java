@@ -16,13 +16,13 @@ public abstract class SelectableDisplayResultControl extends DisplayResultContro
         HasDisplaySelectionProperty,
         HasSelectionModeProperty {
 
-    private Property<DisplaySelection> displaySelectionProperty = new SimpleObjectProperty<>();
+    private final Property<DisplaySelection> displaySelectionProperty = new SimpleObjectProperty<>();
     @Override
     public Property<DisplaySelection> displaySelectionProperty() {
         return displaySelectionProperty;
     }
 
-    private Property<SelectionMode> selectionModeProperty = new SimpleObjectProperty<>(SINGLE);
+    private final Property<SelectionMode> selectionModeProperty = new SimpleObjectProperty<>(SINGLE);
     @Override
     public Property<SelectionMode> selectionModeProperty() {
         return selectionModeProperty;

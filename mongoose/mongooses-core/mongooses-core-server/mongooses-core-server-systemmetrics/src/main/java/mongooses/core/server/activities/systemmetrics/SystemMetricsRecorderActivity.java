@@ -20,7 +20,7 @@ import java.time.temporal.ChronoUnit;
 /**
  * @author Bruno Salmon
  */
-public class SystemMetricsRecorderActivity implements Activity<DomainActivityContext>, DomainActivityContextMixin {
+public final class SystemMetricsRecorderActivity implements Activity<DomainActivityContext>, DomainActivityContextMixin {
 
     private DomainActivityContext activityContext;
     private Scheduled metricsCapturePeriodicTimer;

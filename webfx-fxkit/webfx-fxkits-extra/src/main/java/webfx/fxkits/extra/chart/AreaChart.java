@@ -7,5 +7,5 @@ package webfx.fxkits.extra.chart;
  *
  * @author Bruno Salmon
  */
-public class AreaChart extends Chart {
+public final class AreaChart extends Chart {
 }

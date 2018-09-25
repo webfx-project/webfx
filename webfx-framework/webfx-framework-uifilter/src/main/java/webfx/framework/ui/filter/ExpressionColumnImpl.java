@@ -18,7 +18,7 @@ import webfx.fxkits.extra.cell.renderer.ValueRenderer;
 /**
  * @author Bruno Salmon
  */
-class ExpressionColumnImpl implements ExpressionColumn {
+final class ExpressionColumnImpl implements ExpressionColumn {
 
     private final String expressionDefinition;
     private Expression  expression;
@@ -26,7 +26,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
     private final Formatter displayFormatter;
     private Object label;
     private DisplayColumn displayColumn;
-    private JsonObject json;
+    private final JsonObject json;
     private Boolean isForeignObject;
     private DomainClass foreignClass;
     private Expression foreignFields;
@@ -162,5 +162,4 @@ class ExpressionColumnImpl implements ExpressionColumn {
             expression = domainModel.parseExpression(expressionDefinition, domainClassId);
         return this;
     }
-
 }

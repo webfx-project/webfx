@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Divide<T> extends PrimitiveBinaryExpression<T> {
+public final class Divide<T> extends PrimitiveBinaryExpression<T> {
 
     public Divide(Expression<T> left, Expression<T> right) {
         super(left, "/", right, 7);
@@ -63,5 +63,4 @@ public class Divide<T> extends PrimitiveBinaryExpression<T> {
         }*/
         throw new IllegalArgumentException("Unsupported numeric type " + a.getClass().getName());
     }
-
 }

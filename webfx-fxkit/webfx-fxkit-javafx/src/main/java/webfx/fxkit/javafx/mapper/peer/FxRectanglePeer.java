@@ -7,7 +7,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.RectanglePeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class FxRectanglePeer
+public final class FxRectanglePeer
         <FxN extends javafx.scene.shape.Rectangle, N extends Rectangle, NB extends RectanglePeerBase<N, NB, NM>, NM extends RectanglePeerMixin<N, NB, NM>>
 
         extends FxShapePeer<FxN, N, NB, NM>

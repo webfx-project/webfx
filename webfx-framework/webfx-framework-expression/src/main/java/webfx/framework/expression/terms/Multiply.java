@@ -6,7 +6,7 @@ import webfx.platforms.core.util.Numbers;
 /**
  * @author Bruno Salmon
  */
-public class Multiply<T> extends PrimitiveBinaryExpression<T> {
+public final class Multiply<T> extends PrimitiveBinaryExpression<T> {
 
     public Multiply(Expression<T> left, Expression<T> right) {
         super(left, "*", right, 7);

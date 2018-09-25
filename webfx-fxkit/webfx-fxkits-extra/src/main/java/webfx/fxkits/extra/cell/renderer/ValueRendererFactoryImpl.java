@@ -10,7 +10,7 @@ import webfx.platforms.core.util.Arrays;
 /**
  * @author Bruno Salmon
  */
-class ValueRendererFactoryImpl implements ValueRendererFactory {
+final class ValueRendererFactoryImpl implements ValueRendererFactory {
 
     final static ValueRendererFactoryImpl INSTANCE = new ValueRendererFactoryImpl();
 

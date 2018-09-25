@@ -7,7 +7,7 @@ import webfx.platforms.core.util.Arrays;
  *
  * @author Bruno Salmon
  */
-public class QueryRowToEntityMapping {
+public final class QueryRowToEntityMapping {
 
     private final int primaryKeyColumnIndex; // the column index that contains the primary key
     private final Object domainClassId; // the domain class id for the entity

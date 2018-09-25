@@ -9,7 +9,7 @@ import webfx.platforms.core.util.async.AsyncResult;
 /**
  * @author Bruno Salmon
  */
-public class SerializableAsyncResult<T> implements AsyncResult<T> {
+public final class SerializableAsyncResult<T> implements AsyncResult<T> {
 
     private final T result;
     private final Throwable cause;
@@ -53,7 +53,7 @@ public class SerializableAsyncResult<T> implements AsyncResult<T> {
      *                    Json Codec                    *
      * *************************************************/
 
-    public static class Codec extends AbstractJsonCodec<SerializableAsyncResult> {
+    public static final class Codec extends AbstractJsonCodec<SerializableAsyncResult> {
 
         private final static String CODEC_ID = "AsyncResult";
         private final static String RESULT_KEY = "result";

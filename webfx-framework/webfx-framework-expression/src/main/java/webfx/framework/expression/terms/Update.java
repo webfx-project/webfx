@@ -5,7 +5,7 @@ import webfx.framework.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Update<T> extends SqlOrder<T> {
+public final class Update<T> extends SqlOrder<T> {
 
     private final ExpressionArray<T> setClause; // field1=value1, field2=value2, ...
 

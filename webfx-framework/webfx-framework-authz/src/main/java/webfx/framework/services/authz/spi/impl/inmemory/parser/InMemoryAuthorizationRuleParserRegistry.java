@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class InMemoryAuthorizationRuleParserRegistry implements InMemoryAuthorizationRuleParser {
+public final class InMemoryAuthorizationRuleParserRegistry implements InMemoryAuthorizationRuleParser {
 
     private final Collection<InMemoryAuthorizationRuleParser> parsers = new ArrayList<>();
 

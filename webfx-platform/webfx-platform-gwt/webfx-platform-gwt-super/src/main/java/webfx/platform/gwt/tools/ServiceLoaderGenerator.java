@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-public class ServiceLoaderGenerator {
+public final class ServiceLoaderGenerator {
 
     private final static String TEMPLATE = "package java.util;\n" +
             "\n" +

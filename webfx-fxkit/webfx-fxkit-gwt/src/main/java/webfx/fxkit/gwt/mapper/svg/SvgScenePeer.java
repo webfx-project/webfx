@@ -22,7 +22,7 @@ import static elemental2.dom.DomGlobal.document;
 /**
  * @author Bruno Salmon
  */
-public class SvgScenePeer extends ScenePeerBase {
+public final class SvgScenePeer extends ScenePeerBase {
 
     private final Element container = SvgUtil.createSvgElement();
     private final Element defsElement = SvgUtil.createSvgDefs();

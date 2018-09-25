@@ -7,7 +7,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.ButtonPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class FxButtonPeer
+public final class FxButtonPeer
         <FxN extends javafx.scene.control.Button, N extends Button, NB extends ButtonPeerBase<N, NB, NM>, NM extends ButtonPeerMixin<N, NB, NM>>
 
         extends FxButtonBasePeer<FxN, N, NB, NM>

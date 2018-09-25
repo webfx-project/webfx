@@ -10,7 +10,7 @@ import webfx.platforms.core.services.windowlocation.WindowLocation;
 /**
  * @author Bruno Salmon
  */
-public class WebClientBusServiceProvider extends ClientBusServiceProviderImpl {
+public final class WebClientBusServiceProvider extends ClientBusServiceProviderImpl {
 
     @Override
     public void setPlatformBusOptions(BusOptions options) {

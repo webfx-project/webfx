@@ -30,7 +30,7 @@ import webfx.fxkits.extra.control.HtmlTextEditor;
 /**
  * @author Bruno Salmon
  */
-public class GwtFxKitHtmlMapperProvider extends FxKitMapperProviderBase {
+public final class GwtFxKitHtmlMapperProvider extends FxKitMapperProviderBase {
 
     public GwtFxKitHtmlMapperProvider() {
         registerNodePeerFactory(ScrollPane.class, HtmlScrollPanePeer::new);

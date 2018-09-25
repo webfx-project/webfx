@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-class CartAggregateImpl implements CartAggregate {
+final class CartAggregateImpl implements CartAggregate {
 
     private final static Map<Object, CartAggregate> aggregates = new HashMap<>();
 

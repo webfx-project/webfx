@@ -9,9 +9,9 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-class PersonAggregateImpl implements PersonAggregate {
+final class PersonAggregateImpl implements PersonAggregate {
 
-    private static Map<Object, PersonAggregate> aggregates = new IdentityHashMap<>();
+    private static final Map<Object, PersonAggregate> aggregates = new IdentityHashMap<>();
 
     static PersonAggregate get(EntityStore store) {
         return aggregates.get(store);
@@ -25,7 +25,7 @@ class PersonAggregateImpl implements PersonAggregate {
     }
 
     private final EntityStore store;
-    private Person preselectionProfilePerson;
+    private final Person preselectionProfilePerson;
 
     public PersonAggregateImpl(EntityStore store) {
         this.store = store;

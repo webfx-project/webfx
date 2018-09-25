@@ -259,10 +259,10 @@ final class SiteRateItemBlock {
         return ratePrice;
     }
 
-    static class RateInfo {
-        int dailyPrice;
-        int price;
-        int consumableDays;
+    static final class RateInfo {
+        final int dailyPrice;
+        final int price;
+        final int consumableDays;
 
         RateInfo(int dailyPrice, int price, int consumableDays) {
             this.dailyPrice = dailyPrice;

@@ -9,7 +9,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.ButtonBasePeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlHyperlinkPeer
+public final class HtmlHyperlinkPeer
         <N extends Hyperlink, NB extends ButtonBasePeerBase<N, NB, NM>, NM extends ButtonBasePeerMixin<N, NB, NM>>
 
         extends HtmlButtonBasePeer<N, NB, NM>

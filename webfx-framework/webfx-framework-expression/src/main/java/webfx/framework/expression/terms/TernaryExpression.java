@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class TernaryExpression<T> extends AbstractExpression<T> {
+public final class TernaryExpression<T> extends AbstractExpression<T> {
     private final Expression<T> question;
     private final Expression<T> yes;
     private final Expression<T> no;

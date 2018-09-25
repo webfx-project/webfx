@@ -3,7 +3,7 @@ package webfx.framework.expression.sqlcompiler.sql.dbms;
 /**
  * @author Bruno Salmon
  */
-public class PostgresSyntax extends DbmsSqlSyntaxImpl {
+public final class PostgresSyntax extends DbmsSqlSyntaxImpl {
 
     private final static PostgresSyntax INSTANCE = new PostgresSyntax();
 

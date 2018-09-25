@@ -7,7 +7,7 @@ import webfx.fxkits.core.mapper.spi.impl.peer.LinePeerBase;
 /**
  * @author Bruno Salmon
  */
-public class FxLinePeer
+public final class FxLinePeer
         <FxN extends javafx.scene.shape.Line, N extends Line, NB extends LinePeerBase<N, NB, NM>, NM extends LinePeerMixin<N, NB, NM>>
 
         extends FxShapePeer<FxN, N, NB, NM>

@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 /**
  * @author Bruno Salmon
  */
-class RouteImpl implements Route {
+final class RouteImpl implements Route {
 
     private final RouterImpl router;
     private String path;

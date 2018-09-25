@@ -25,7 +25,7 @@ import static elemental2.dom.DomGlobal.document;
 /**
  * @author Bruno Salmon
  */
-public class HtmlScenePeer extends ScenePeerBase {
+public final class HtmlScenePeer extends ScenePeerBase {
 
     private final HTMLElement container = HtmlUtil.createDivElement();
 
@@ -164,7 +164,7 @@ public class HtmlScenePeer extends ScenePeerBase {
         }
     }
 
-    private static boolean BUTTON_DOWN_STATES[] = {false, false, false, false};
+    private static final boolean[] BUTTON_DOWN_STATES = {false, false, false, false};
 
     private emul.javafx.scene.input.MouseEvent toFxMouseEvent(elemental2.dom.MouseEvent me, String type) {
         MouseButton button;

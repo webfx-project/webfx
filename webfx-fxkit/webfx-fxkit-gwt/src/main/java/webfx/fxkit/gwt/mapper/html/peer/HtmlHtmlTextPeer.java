@@ -13,7 +13,7 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextPeerMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlHtmlTextPeer
+public final class HtmlHtmlTextPeer
         <N extends HtmlText, NB extends HtmlTextPeerBase<N, NB, NM>, NM extends HtmlTextPeerMixin<N, NB, NM>>
         extends HtmlRegionPeer<N, NB, NM>
         implements HtmlTextPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {

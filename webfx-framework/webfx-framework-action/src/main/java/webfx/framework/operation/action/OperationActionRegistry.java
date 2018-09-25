@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class OperationActionRegistry {
+public final class OperationActionRegistry {
 
     private static OperationActionRegistry INSTANCE;
 

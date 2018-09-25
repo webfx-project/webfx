@@ -17,7 +17,7 @@ import static elemental2.dom.DomGlobal.document;
 /**
  * @author Bruno Salmon
  */
-public class GwtSecondaryStagePeer implements StagePeer {
+public final class GwtSecondaryStagePeer implements StagePeer {
 
     private final Stage stage;
     private TKStageListener listener;
