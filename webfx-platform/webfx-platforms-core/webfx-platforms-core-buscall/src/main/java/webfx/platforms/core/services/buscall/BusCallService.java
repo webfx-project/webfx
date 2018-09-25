@@ -43,8 +43,8 @@ public final class BusCallService {
         }
     }
 
-    public static void listenBusEntryCalls() {
-        listenBusEntryCalls(DEFAULT_BUS_CALL_SERVICE_ADDRESS);
+    public static Registration listenBusEntryCalls() {
+        return listenBusEntryCalls(DEFAULT_BUS_CALL_SERVICE_ADDRESS);
     }
 
     public static Registration listenBusEntryCalls(String busCallServiceAddress) {

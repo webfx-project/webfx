@@ -33,6 +33,7 @@
         <module>webfx-platforms-core-bus</module> <!-- depends on json, appcontainer modules -->
         <module>webfx-platforms-core-clientbus</module> <!-- depends on bus, websocket, log, resource, scheduler modules -->
         <module>webfx-platforms-core-buscall</module> <!-- depends on bus, appcontainer module -->
+        <module>webfx-platforms-core-buscallserver</module> <!-- depends on buscall module -->
         <module>webfx-platforms-core-datasource</module> <!-- depends on json module -->
         <module>webfx-platforms-core-query</module> <!-- depends on buscall, datasource, appcontainer, util modules -->
         <module>webfx-platforms-core-update</module> <!-- depends on buscall, datasource, appcontainer module -->
