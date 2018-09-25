@@ -36,7 +36,7 @@ public class HtmlChoiceBoxPeer
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         select.onchange = e -> {
-            node.getSelectionModel().select((int) select.selectedIndex);
+            node.getSelectionModel().select(select.selectedIndex);
             return null;
         };
     }

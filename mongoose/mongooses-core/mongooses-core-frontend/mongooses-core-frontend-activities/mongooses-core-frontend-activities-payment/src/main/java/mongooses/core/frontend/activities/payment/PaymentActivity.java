@@ -231,7 +231,7 @@ final class PaymentActivity extends CartBasedActivity {
                 childTransfer.setParent(moneyTransfer);
                 if (doc == null)
                     doc = payment.document;
-                paymentRef = (paymentRef == null ? "" : paymentRef + "-") + payment.document.getRef().toString();;
+                paymentRef = (paymentRef == null ? "" : paymentRef + "-") + payment.document.getRef().toString();
             }
         }
         updateStore.executeUpdate().setHandler(ar -> {
@@ -348,6 +348,6 @@ final class PaymentActivity extends CartBasedActivity {
         s = "" + s;
         while (s.length() < n)
             s = right ? s + '0' : '0' + s;
-        return s.substring(s.length() - n, s.length());
+        return s.substring(s.length() - n);
     }
 }

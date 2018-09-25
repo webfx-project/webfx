@@ -227,5 +227,5 @@ public class QueryResult {
             rs.setVersionNumber(json.getInteger(VERSION_KEY, 0));
             return rs;
         }
-    };
+    }
 }

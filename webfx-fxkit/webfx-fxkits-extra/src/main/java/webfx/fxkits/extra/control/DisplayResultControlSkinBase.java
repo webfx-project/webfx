@@ -65,9 +65,9 @@ public abstract class DisplayResultControlSkinBase<C extends DisplayResultContro
         }
     }
 
-    protected void startBuildingGrid() {};
+    protected void startBuildingGrid() {}
 
-    protected void endBuildingGrid() {};
+    protected void endBuildingGrid() {}
 
     protected abstract CELL getOrAddHeadCell(int gridColumnIndex);
 

@@ -164,7 +164,7 @@ public abstract class QueryPushServiceProviderImplBase implements QueryPushServi
                         if (streamInfo.lastQueryResult != lastQueryResult)
                             activeNewStreamCount--;
                     }
-                };
+                }
             }
         }
 

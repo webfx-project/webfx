@@ -37,14 +37,14 @@ public interface BusHook {
     /**
      * Called when the bus is closed
      */
-    default void handlePostClose() {};
+    default void handlePostClose() {}
 
     /**
      * Called before close the bus
      *
      * @return true to close the bus, false to reject it
      */
-    default boolean handlePreClose() { return true; };
+    default boolean handlePreClose() { return true; }
 
     /**
      * Called before register a handler

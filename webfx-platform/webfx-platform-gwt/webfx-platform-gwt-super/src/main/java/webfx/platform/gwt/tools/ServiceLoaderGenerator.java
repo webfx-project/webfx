@@ -3,6 +3,7 @@ package webfx.platform.gwt.tools;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -114,7 +115,7 @@ public class ServiceLoaderGenerator {
         ArrayList<String> names = new ArrayList<>();
         try {
             in = u.openStream();
-            r = new BufferedReader(new InputStreamReader(in, "utf-8"));
+            r = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             int lc = 1;
             while ((lc = parseLine(service, u, r, lc, names)) >= 0);
         } catch (IOException x) {

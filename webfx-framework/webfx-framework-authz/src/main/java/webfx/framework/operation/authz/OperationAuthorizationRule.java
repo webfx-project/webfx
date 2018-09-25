@@ -31,8 +31,6 @@ public class OperationAuthorizationRule extends SimpleInMemoryAuthorizationRuleB
     protected boolean matchRule(Object operationRequest) {
         if (operationRequestCode != null && operationRequest instanceof HasOperationCode && operationRequestCode.equals(((HasOperationCode) operationRequest).getOperationCode()))
             return true;
-        if (operationRequestClass != null && operationRequestClass.equals(operationRequest.getClass()))
-            return true;
-        return false;
+        return operationRequestClass != null && operationRequestClass.equals(operationRequest.getClass());
     }
 }

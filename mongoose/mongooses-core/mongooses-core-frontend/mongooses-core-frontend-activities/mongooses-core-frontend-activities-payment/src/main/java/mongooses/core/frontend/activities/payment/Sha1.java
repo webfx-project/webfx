@@ -10,6 +10,8 @@ package mongooses.core.frontend.activities.payment;
 
 import webfx.platforms.core.services.log.Logger;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author Bruno Salmon
  */
@@ -17,7 +19,7 @@ final class Sha1 {
 
     static String hash(String msg) {
         try {
-            byte[] bytes = msg.getBytes("UTF-8"); // convert string to UTF-8, as SHA only deals with byte-streams
+            byte[] bytes = msg.getBytes(StandardCharsets.UTF_8); // convert string to UTF-8, as SHA only deals with byte-streams
 /* Commented as this code compile but doesn't work with GWT (NoSuchAlgorithmException is thrown)
             MessageDigest crypt = MessageDigest.getInstance("SHA-1");
             crypt.reset();

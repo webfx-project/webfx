@@ -168,7 +168,7 @@ public class HtmlScenePeer extends ScenePeerBase {
 
     private emul.javafx.scene.input.MouseEvent toFxMouseEvent(elemental2.dom.MouseEvent me, String type) {
         MouseButton button;
-        switch ((int) me.button) {
+        switch (me.button) {
             case 0: button = MouseButton.PRIMARY; break;
             case 1: button = MouseButton.MIDDLE; break;
             case 2: button = MouseButton.SECONDARY; break;

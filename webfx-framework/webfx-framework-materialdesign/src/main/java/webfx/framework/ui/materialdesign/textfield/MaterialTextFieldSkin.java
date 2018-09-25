@@ -96,5 +96,5 @@ public final class MaterialTextFieldSkin extends TextFieldSkin implements Materi
     public HitInfo getIndex(double x, double y) {
         return super.getIndex(x - lastTextFieldX, y - lastTextFieldY);
     }
-    @interface GwtIncompatible {};
+    @interface GwtIncompatible {}
 }

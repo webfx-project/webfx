@@ -9,7 +9,6 @@ import emul.javafx.geometry.VPos;
 import emul.javafx.scene.Cursor;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
-import emul.javafx.scene.control.Control;
 import emul.javafx.scene.control.SkinBase;
 import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
@@ -17,9 +16,9 @@ import emul.javafx.scene.layout.Background;
 import emul.javafx.scene.layout.Border;
 import emul.javafx.scene.layout.BorderPane;
 import emul.javafx.scene.transform.Transform;
-import webfx.fxkits.core.util.properties.ObservableLists;
-import webfx.fxkits.core.mapper.spi.SceneRequester;
 import webfx.fxkits.core.mapper.spi.NodePeer;
+import webfx.fxkits.core.mapper.spi.SceneRequester;
+import webfx.fxkits.core.util.properties.ObservableLists;
 import webfx.fxkits.extra.cell.renderer.ArrayRenderer;
 import webfx.fxkits.extra.cell.renderer.ValueRenderer;
 import webfx.fxkits.extra.control.DataGrid;
@@ -51,7 +50,7 @@ public class GridCollator extends DataGrid {
         container = new BorderPane();
         setMaxWidth(Double.MAX_VALUE);
         ObservableLists.setAllNonNulls(getChildren(), container);
-        setSkin(new SkinBase((Control) this) {}); // So the peer displays (skin) children
+        setSkin(new SkinBase(this) {}); // So the peer displays (skin) children
     }
 
     @Override

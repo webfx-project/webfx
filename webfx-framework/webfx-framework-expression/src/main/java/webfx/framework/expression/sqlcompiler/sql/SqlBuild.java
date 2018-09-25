@@ -409,9 +409,7 @@ public class SqlBuild {
             if (!column1Name.equals(join.column1Name)) return false;
             if (!column2Name.equals(join.column2Name)) return false;
             if (!table1Alias.equals(join.table1Alias)) return false;
-            if (!table2Name.equals(join.table2Name)) return false;
-
-            return true;
+            return table2Name.equals(join.table2Name);
         }
 
         @Override

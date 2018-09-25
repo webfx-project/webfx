@@ -51,10 +51,10 @@ public final class LtTestEventEntityImpl extends DynamicEntity implements LtTest
     @Override
     public Integer getVal() {
         return getIntegerFieldValue("value");
-    };
+    }
 
     @Override
     public void setVal(Integer val){
         setFieldValue("value", val);
-    };
+    }
 }

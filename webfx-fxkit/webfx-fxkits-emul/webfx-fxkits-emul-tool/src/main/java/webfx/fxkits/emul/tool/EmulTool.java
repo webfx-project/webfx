@@ -87,7 +87,7 @@ public class EmulTool {
             int relativePathStartIndex = jdkModule.length() + 2;
             Files.walkFileTree(searchRootPath, new FileVisitor<Path>() {
                 @Override
-                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
                     return dir == searchRootPath || recurse ? FileVisitResult.CONTINUE : FileVisitResult.SKIP_SUBTREE;
                 }
 
@@ -98,12 +98,12 @@ public class EmulTool {
                 }
 
                 @Override
-                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                public FileVisitResult visitFileFailed(Path file, IOException exc) {
                     return FileVisitResult.TERMINATE;
                 }
 
                 @Override
-                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
                     return FileVisitResult.CONTINUE;
                 }
             });
@@ -207,7 +207,7 @@ public class EmulTool {
             if (replacement != null) {
                 if (sb == null)
                     sb = new StringBuffer();
-                sb.append(text.substring(p, matcher.start())).append(replacement);
+                sb.append(text, p, matcher.start()).append(replacement);
                 p = matcher.end();
             }
         }

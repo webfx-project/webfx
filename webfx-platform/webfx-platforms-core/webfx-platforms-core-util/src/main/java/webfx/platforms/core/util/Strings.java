@@ -73,7 +73,7 @@ public final class Strings {
         StringBuilder sb = new StringBuilder();
         int lastPos = 0;
         while (pos != -1) {
-            sb.append(s.substring(lastPos, pos)).append(replacement);
+            sb.append(s, lastPos, pos).append(replacement);
             lastPos = pos + match.length();
             pos = s.indexOf(match, lastPos);
         }
