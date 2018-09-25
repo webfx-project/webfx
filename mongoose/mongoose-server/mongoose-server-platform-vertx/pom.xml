@@ -31,6 +31,12 @@
             <version>${webfx.version}</version>
         </dependency>
 
+        <dependency> <!-- This module automatically starts listening bus entry calls -->
+            <artifactId>webfx-platforms-core-buscallserver</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
         <!-- Mongoose backend - ->
 
         <dependency>

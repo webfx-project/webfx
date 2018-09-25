@@ -36,7 +36,6 @@
     <orderEntry type="module" module-name="webfx-framework-operation" />
     <orderEntry type="module" module-name="webfx-framework-authz" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
-    <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="mongooses-java-server-systemmetrics" />
     <orderEntry type="module" module-name="webfx-platform-vertx-all" />
@@ -93,5 +92,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-java-storage" />
     <orderEntry type="module" module-name="webfx-platforms-core-storage" />
+    <orderEntry type="module" module-name="webfx-platforms-core-buscallserver" />
+    <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
   </component>
 </module>
