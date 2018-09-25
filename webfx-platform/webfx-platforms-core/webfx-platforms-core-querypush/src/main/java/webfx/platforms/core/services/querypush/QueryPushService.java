@@ -5,10 +5,10 @@ import webfx.platforms.core.services.bus.Registration;
 import webfx.platforms.core.services.push.client.PushClientService;
 import webfx.platforms.core.services.push.server.PushServerService;
 import webfx.platforms.core.services.querypush.spi.QueryPushServiceProvider;
-import webfx.platforms.core.services.querypush.spi.remote.RemoteQueryPushServiceProviderImpl;
 import webfx.platforms.core.util.async.Future;
-import java.util.function.Consumer;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
+
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon
@@ -16,10 +16,6 @@ import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 public class QueryPushService {
 
     public static final String QUERY_PUSH_SERVICE_ADDRESS = "service/querypush";
-
-    static {
-        SingleServiceLoader.registerDefaultServiceFactory(QueryPushServiceProvider.class, RemoteQueryPushServiceProviderImpl::new);
-    }
 
     public static QueryPushServiceProvider getProvider() {
         return SingleServiceLoader.loadService(QueryPushServiceProvider.class);

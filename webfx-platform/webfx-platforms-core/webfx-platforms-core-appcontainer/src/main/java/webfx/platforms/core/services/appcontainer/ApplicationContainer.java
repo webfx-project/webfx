@@ -1,17 +1,12 @@
 package webfx.platforms.core.services.appcontainer;
 
 import webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider;
-import webfx.platforms.core.services.appcontainer.spi.impl.SimpleApplicationContainerProvider;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
  */
 public final class ApplicationContainer {
-
-    static {
-        SingleServiceLoader.registerDefaultServiceFactory(ApplicationContainerProvider.class, SimpleApplicationContainerProvider::new);
-    }
 
     public static ApplicationContainerProvider getProvider() {
         return SingleServiceLoader.loadService(ApplicationContainerProvider.class);

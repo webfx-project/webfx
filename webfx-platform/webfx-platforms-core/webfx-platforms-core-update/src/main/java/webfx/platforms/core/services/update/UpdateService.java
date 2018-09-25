@@ -1,7 +1,6 @@
 package webfx.platforms.core.services.update;
 
 import webfx.platforms.core.services.update.spi.UpdateServiceProvider;
-import webfx.platforms.core.services.update.spi.impl.LocalOrRemoteUpdateServiceProviderImpl;
 import webfx.platforms.core.util.async.Batch;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
@@ -13,10 +12,6 @@ public class UpdateService {
 
     public static final String UPDATE_SERVICE_ADDRESS = "service/update";
     public static final String UPDATE_BATCH_SERVICE_ADDRESS = "service/update/batch";
-
-    static {
-        SingleServiceLoader.registerDefaultServiceFactory(UpdateServiceProvider.class, LocalOrRemoteUpdateServiceProviderImpl::new);
-    }
 
     public static UpdateServiceProvider getProvider() {
         return SingleServiceLoader.loadService(UpdateServiceProvider.class);
