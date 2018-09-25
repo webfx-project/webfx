@@ -2,6 +2,7 @@ package webfx.platforms.core.services.serial;
 
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.services.serial.spi.SerialCodec;
 
 import java.util.ServiceLoader;
 
@@ -12,12 +13,12 @@ public final class SerialCodecModuleInitializer implements ApplicationModuleInit
 
     @Override
     public String getModuleName() {
-        return "webfx-platforms-core-json";
+        return "webfx-platforms-core-serial";
     }
 
     @Override
     public int getInitLevel() {
-        return JSON_CODEC_INIT_LEVEL;
+        return SERIAL_CODEC_INIT_LEVEL;
     }
 
     @Override

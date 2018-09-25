@@ -3,7 +3,7 @@ package webfx.platforms.core.services.update;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.util.Arrays;
-import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.spi.impl.SerialCodecBase;
 import webfx.platforms.core.services.serial.SerialCodecManager;
 
 /**

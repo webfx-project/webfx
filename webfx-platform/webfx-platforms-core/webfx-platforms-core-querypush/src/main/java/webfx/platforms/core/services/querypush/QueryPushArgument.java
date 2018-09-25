@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.querypush;
 
-import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.spi.impl.SerialCodecBase;
 import webfx.platforms.core.services.serial.SerialCodecManager;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;

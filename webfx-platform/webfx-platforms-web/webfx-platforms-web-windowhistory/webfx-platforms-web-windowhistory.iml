@@ -14,8 +14,6 @@
     <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" />
     <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
-    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />

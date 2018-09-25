@@ -14,6 +14,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-serial" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" />

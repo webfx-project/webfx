@@ -65,6 +65,7 @@
     <orderEntry type="library" name="Maven: io.vertx:vertx-bridge-common:3.5.3" level="project" />
     <orderEntry type="module" module-name="webfx-platform-vertx-bus" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-serial" />
     <orderEntry type="module" module-name="webfx-platform-vertx-json" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />

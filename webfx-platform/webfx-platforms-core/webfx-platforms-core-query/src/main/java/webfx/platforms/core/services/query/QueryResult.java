@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.query;
 
-import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.spi.impl.SerialCodecBase;
 import webfx.platforms.core.services.query.compression.repeat.RepeatedValuesCompressor;
 import webfx.platforms.core.util.Numbers;
 import webfx.platforms.core.services.json.Json;

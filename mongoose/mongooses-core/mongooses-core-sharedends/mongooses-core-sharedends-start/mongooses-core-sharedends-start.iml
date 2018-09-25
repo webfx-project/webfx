@@ -46,6 +46,7 @@
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-serial" />
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
     <orderEntry type="module" module-name="webfx-framework-controls" />
     <orderEntry type="module" module-name="webfx-framework-action" />

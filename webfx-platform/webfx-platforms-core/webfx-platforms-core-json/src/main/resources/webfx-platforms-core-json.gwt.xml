@@ -5,6 +5,5 @@
 
     <!-- Specify the paths for translatable code -->
     <source path="webfx/platforms/core/services/json"/>
-    <source path="webfx/platforms/core/services/serial"/>
 
 </module>

@@ -17,11 +17,11 @@
     <orderEntry type="module" module-name="webfx-framework-authz" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-log" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-activity" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-log" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-operation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" scope="PROVIDED" />

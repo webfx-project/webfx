@@ -1,8 +1,9 @@
-package webfx.platforms.core.services.serial;
+package webfx.platforms.core.services.serial.spi.impl;
 
 import webfx.platforms.core.services.json.JsonArray;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 import webfx.platforms.core.util.async.Batch;
 
 /**

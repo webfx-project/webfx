@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.serial;
+package webfx.platforms.core.services.serial.spi;
 
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;

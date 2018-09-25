@@ -15,6 +15,7 @@
     <orderEntry type="module" module-name="webfx-platforms-web-clientbus" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-serial" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-gwt-appcontainer" scope="PROVIDED" />

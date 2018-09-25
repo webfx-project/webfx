@@ -12,10 +12,8 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-server/mongoose-server-platform-vertx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-all" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-activities" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-activities-letter" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-activities/mongooses-core-backend-activities-authorizations" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-activities/mongooses-core-backend-activities-bookings" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-activities/mongooses-core-backend-activities-cloneevent" charset="UTF-8" />
@@ -27,8 +25,6 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-activities/mongooses-core-backend-activities-operations" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-activities/mongooses-core-backend-activities-options" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-activities/mongooses-core-backend-activities-organizations" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-all" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-all" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-multilangeditor" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-start" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-frontend" charset="UTF-8" />
@@ -64,9 +60,7 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java-server-systemmetrics" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java-sharedends-activities" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-loadtester-jp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongooses-web" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web-sharedends-activities" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-action" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-activity" charset="UTF-8" />
@@ -141,6 +135,7 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-querypush" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-resource" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-scheduler" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-serial" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-shutdown" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-storage" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-uischeduler" charset="UTF-8" />

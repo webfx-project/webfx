@@ -1,10 +1,12 @@
-package webfx.platforms.core.services.serial;
+package webfx.platforms.core.services.serial.spi.impl;
 
 /*
  * @author Bruno Salmon
  */
 
 import webfx.platforms.core.services.json.WritableJsonObject;
+import webfx.platforms.core.services.serial.spi.SerialCodec;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 
 public abstract class SerialCodecBase<T> implements SerialCodec<T> {
 

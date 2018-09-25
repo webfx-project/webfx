@@ -1,6 +1,7 @@
 package webfx.platforms.core.services.serial;
 
 import webfx.platforms.core.services.json.*;
+import webfx.platforms.core.services.serial.spi.SerialCodec;
 import webfx.platforms.core.util.Dates;
 import webfx.platforms.core.util.Numbers;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public final class SerialCodecManager {
 
-    static final String CODEC_ID_KEY = "$codec";
+    public static final String CODEC_ID_KEY = "$codec";
 
     private static final Map<Class, SerialCodec> encoders = new HashMap<>();
     private static final Map<String, SerialCodec> decoders = new HashMap<>();

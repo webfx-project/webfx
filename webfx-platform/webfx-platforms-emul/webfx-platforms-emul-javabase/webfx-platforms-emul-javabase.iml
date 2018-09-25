@@ -14,6 +14,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-query" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platforms-core-serial" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />

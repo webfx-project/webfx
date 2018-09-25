@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-core-json</artifactId>
+            <artifactId>webfx-platforms-core-serial</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

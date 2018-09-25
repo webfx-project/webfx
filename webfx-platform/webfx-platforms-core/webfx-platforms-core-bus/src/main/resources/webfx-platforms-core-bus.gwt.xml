@@ -1,6 +1,6 @@
 <module rename-to="webfx_platforms_core_bus">
 
-    <inherits name="webfx-platforms-core-json"/>
+    <inherits name="webfx-platforms-core-serial"/>
     <inherits name="webfx-platforms-core-appcontainer"/>
 
     <!-- Specify the paths for translatable code -->

@@ -13,6 +13,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-serial" />
     <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" />

@@ -110,5 +110,6 @@
     <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />
+    <orderEntry type="module" module-name="webfx-platforms-core-serial" />
   </component>
 </module>
