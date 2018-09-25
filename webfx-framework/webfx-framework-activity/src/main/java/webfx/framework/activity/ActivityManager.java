@@ -1,8 +1,6 @@
 package webfx.framework.activity;
 
 import webfx.framework.activity.impl.ActivityContextBase;
-import webfx.platforms.core.services.appcontainer.ApplicationContainer;
-import webfx.platforms.core.services.appcontainer.ApplicationJob;
 import webfx.platforms.core.util.async.AsyncResult;
 import webfx.platforms.core.util.async.Future;
 import webfx.platforms.core.util.async.Handler;
@@ -204,21 +202,6 @@ public final class ActivityManager<C extends ActivityContext<C>> {
 
     public static <C extends ActivityContext> void runActivity(Activity<C> activity, C context) {
         new ActivityManager(activity, context).run();
-    }
-
-    public static <C extends ActivityContext> void startActivityAsApplicationJob(Activity<C> activity, C context) {
-        ActivityManager<?> activityManager = new ActivityManager(activity, context);
-        ApplicationContainer.startApplicationJob(new ApplicationJob() {
-            @Override
-            public Future<Void> onStart() {
-                return activityManager.run();
-            }
-
-            @Override
-            public Future<Void> onStop() {
-                return activityManager.destroy();
-            }
-        });
     }
 
     public static <C extends ActivityContext<C>> Factory<ActivityManager<C>> factory(Factory<Activity<C>> activityFactory, ActivityContextFactory<C> contextFactory) {
