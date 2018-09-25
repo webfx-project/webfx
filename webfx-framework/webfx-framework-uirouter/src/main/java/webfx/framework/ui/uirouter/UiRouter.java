@@ -20,18 +20,20 @@ import webfx.framework.router.session.impl.UserHolder;
 import webfx.framework.router.session.impl.UserSessionHandlerImpl;
 import webfx.framework.ui.uirouter.uisession.UiSession;
 import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasNodeProperty;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
-import webfx.platforms.core.services.windowhistory.spi.impl.SubBrowsingHistory;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.json.JsonArray;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platforms.core.services.windowhistory.spi.impl.SubBrowsingHistory;
 import webfx.platforms.core.util.async.Handler;
+import webfx.platforms.core.util.collection.Collections;
 import webfx.platforms.core.util.function.Converter;
 import webfx.platforms.core.util.function.Factory;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -200,6 +202,23 @@ public class UiRouter extends HistoryRouter {
 
     public <C extends UiRouteActivityContext<C>> UiRouter route(UiRoute<C> uiRoute) {
         return route(uiRoute.requiresAuthentication(), uiRoute.isRegex(), uiRoute.getPath(), uiRoute.activityFactory(), uiRoute.activityContextFactory(), uiRoute.contextConverter());
+    }
+
+    public <C extends UiRouteActivityContext<C>> UiRouter registerProvidedUiRoutes() {
+        Collection<UiRoute> providedUiRoutes = UiRoute.getProvidedUiRoutes();
+        if (redirectAuthHandler == null) {
+            UiRoute loginUiRoute = Collections.findFirst(providedUiRoutes, uiRoute -> uiRoute instanceof ProvidedLoginUiRoute);
+            UiRoute unauthorizedUiRoute = Collections.findFirst(providedUiRoutes, uiRoute -> uiRoute instanceof ProvidedUnauthorizedUiRoute);
+            if (loginUiRoute != null && unauthorizedUiRoute != null)
+                setRedirectAuthHandler(loginUiRoute.getPath(), unauthorizedUiRoute.getPath());
+        }
+        StringBuilder sb = new StringBuilder("***** Registered the following provided ui routes: ****");
+        providedUiRoutes.forEach(uiRoute -> {
+            sb.append("\n").append(uiRoute.getPath());
+            route(uiRoute);
+        });
+        Logger.log(sb.append("\n").append("*******************************************************"));
+        return this;
     }
 
     private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, boolean regex, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {

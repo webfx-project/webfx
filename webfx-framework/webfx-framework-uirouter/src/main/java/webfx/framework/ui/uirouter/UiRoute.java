@@ -1,13 +1,17 @@
 package webfx.framework.ui.uirouter;
 
+import webfx.framework.activity.Activity;
+import webfx.framework.activity.ActivityContextFactory;
 import webfx.framework.activity.impl.elementals.uiroute.UiRouteActivityContext;
 import webfx.framework.router.RoutingContext;
 import webfx.framework.router.util.PathBuilder;
 import webfx.framework.ui.uirouter.impl.UiRouteImpl;
-import webfx.framework.activity.Activity;
-import webfx.framework.activity.ActivityContextFactory;
+import webfx.platforms.core.util.collection.Collections;
 import webfx.platforms.core.util.function.Converter;
 import webfx.platforms.core.util.function.Factory;
+
+import java.util.Collection;
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -47,5 +51,9 @@ public interface UiRoute<C extends UiRouteActivityContext<C>> {
 
     static <C extends UiRouteActivityContext<C>> UiRoute<C> create(String path, boolean regex, boolean auth, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
         return new UiRouteImpl<>(path, regex, auth, activityFactory, activityContextFactory, contextConverter);
+    }
+
+    static Collection<UiRoute> getProvidedUiRoutes() {
+        return Collections.listOf(ServiceLoader.load(UiRoute.class));
     }
 }

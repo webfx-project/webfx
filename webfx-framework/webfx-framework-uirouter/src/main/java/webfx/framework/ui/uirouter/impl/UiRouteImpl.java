@@ -11,7 +11,7 @@ import webfx.platforms.core.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public final class UiRouteImpl<C extends UiRouteActivityContext<C>> implements UiRoute<C> {
+public class UiRouteImpl<C extends UiRouteActivityContext<C>> implements UiRoute<C> {
 
     private final String path;
     private final boolean regex;
@@ -19,6 +19,10 @@ public final class UiRouteImpl<C extends UiRouteActivityContext<C>> implements U
     private final Factory<Activity<C>> activityFactory;
     private final ActivityContextFactory<C> activityContextFactory;
     private final Converter<RoutingContext, C> contextConverter;
+
+    public UiRouteImpl(UiRoute<C> uiRoute) {
+        this(uiRoute.getPath(), uiRoute.isRegex(), uiRoute.requiresAuthentication(), uiRoute.activityFactory(), uiRoute.activityContextFactory(), uiRoute.contextConverter());
+    }
 
     public UiRouteImpl(String path, boolean regex, boolean auth, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
         this.path = path;
