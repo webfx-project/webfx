@@ -5,8 +5,13 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
+import webfx.framework.operations.i18n.ChangeLanguageRequestEmitter;
 import webfx.framework.services.i18n.Dictionary;
 import webfx.platforms.core.util.Strings;
+import webfx.platforms.core.util.collection.Collections;
+
+import java.util.Collection;
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -101,5 +106,13 @@ public interface I18nProvider {
     default <T extends TextInputControl> T translatePromptText(T textInputControl, Object key) {
         translatePromptTextFluent(textInputControl, key);
         return textInputControl;
+    }
+
+    default Collection<ChangeLanguageRequestEmitter> getProvidedInstantiators() {
+        return Collections.listOf(ServiceLoader.load(ChangeLanguageRequestEmitter.class));
+    }
+
+    default Collection<Object> getSupportedLanguages() {
+        return Collections.map(getProvidedInstantiators(), i -> i.emitLanguageRequest().getLanguage());
     }
 }

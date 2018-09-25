@@ -5,8 +5,11 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
+import webfx.framework.operations.i18n.ChangeLanguageRequestEmitter;
 import webfx.framework.services.i18n.spi.I18nProvider;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
+
+import java.util.Collection;
 
 /**
  * @author Bruno Salmon
@@ -17,16 +20,17 @@ public final class I18n {
         return SingleServiceLoader.loadService(I18nProvider.class);
     }
 
-    public static void registerProvider(I18nProvider provider) {
-        SingleServiceLoader.cacheServiceInstance(I18nProvider.class, provider);
-    }
-
     public static Property<Object> languageProperty() {
         return getProvider().languageProperty();
     }
 
-    public static Object getLanguage() { return getProvider().getLanguage(); }
-    public static void setLanguage(Object language) { getProvider().setLanguage(language); }
+    public static Object getLanguage() {
+        return getProvider().getLanguage();
+    }
+
+    public static void setLanguage(Object language) {
+        getProvider().setLanguage(language);
+    }
 
     public static ObservableStringValue translationProperty(Object key) {
         return getProvider().translationProperty(key);
@@ -75,5 +79,14 @@ public final class I18n {
     public static <T extends TextInputControl> T translatePromptText(T textInputControl, Object key) {
         return getProvider().translatePromptText(textInputControl, key);
     }
+
+    public static Collection<ChangeLanguageRequestEmitter> getProvidedInstantiators() {
+        return getProvider().getProvidedInstantiators();
+    }
+
+    public static Collection<Object> getSupportedLanguages() {
+        return getProvider().getSupportedLanguages();
+    }
+
     
 }

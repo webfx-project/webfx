@@ -9,7 +9,7 @@ import webfx.platforms.core.util.async.Future;
 final class ChangeLanguageExecutor {
 
     static Future<Void> executeRequest(ChangeLanguageRequest rq) {
-        return execute(rq.language);
+        return execute(rq.getLanguage());
     }
 
     private static Future<Void> execute(Object language) {

@@ -8,10 +8,14 @@ import webfx.platforms.core.util.async.AsyncFunction;
  */
 public class ChangeLanguageRequest implements HasOperationExecutor<ChangeLanguageRequest, Void> {
 
-    final Object language;
+    private final Object language;
 
     public ChangeLanguageRequest(Object language) {
         this.language = language;
+    }
+
+    public Object getLanguage() {
+        return language;
     }
 
     @Override
