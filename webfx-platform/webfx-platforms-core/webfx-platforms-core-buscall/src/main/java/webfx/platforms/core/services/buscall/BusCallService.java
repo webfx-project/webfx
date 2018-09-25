@@ -193,7 +193,7 @@ public final class BusCallService {
      * @param <A> java class of the input argument of the asynchronous function
      * @param <R> java class of the output result of the asynchronous function
      */
-    public static <A, R> Registration registerJavaAsyncFunctionAsCallableService(String address, AsyncFunction<A, R> javaAsyncFunction) {
+    public static <A, R> Registration registerBusCallEndpoint(String address, AsyncFunction<A, R> javaAsyncFunction) {
         return BusCallService.<A, R>registerJavaHandlerForLocalCalls(address, (javaArgument , callerMessage) ->
             // Calling the java function each time a java object is received
             javaAsyncFunction.apply(javaArgument).setHandler(javaAsyncResult -> // the java result of the asynchronous function is now ready
@@ -213,7 +213,7 @@ public final class BusCallService {
      * @param <A> java class of the input argument of the synchronous function
      * @param <R> java class of the output result of the synchronous function
      */
-    public static <A, R> Registration registerJavaFunctionAsCallableService(String address, Function<A, R> javaFunction) {
+    public static <A, R> Registration registerBusCallEndpoint(String address, Function<A, R> javaFunction) {
         return BusCallService.<A, R>registerJavaHandlerForLocalCalls(address,
                 (javaArgument , callerMessage) -> sendJavaReply(javaFunction.apply(javaArgument), callerMessage)
         );
@@ -224,13 +224,13 @@ public final class BusCallService {
      *
      * @param <R> java class of the output result of the callable
      */
-    public static <R> Registration registerJavaCallableAsCallableService(String address, Callable<R> callable) {
+    public static <R> Registration registerBusCallEndpoint(String address, Callable<R> callable) {
         return BusCallService.<Object, R>registerJavaHandlerForLocalCalls(address,
                 (ignoredJavaArgument , callerMessage) -> sendJavaReply(callable.call(), callerMessage)
         );
     }
 
     public static Registration registerBusCallEndpoint(BusCallEndpoint endpoint) {
-        return registerJavaAsyncFunctionAsCallableService(endpoint.getAddress(), endpoint.toAsyncFunction());
+        return registerBusCallEndpoint(endpoint.getAddress(), endpoint.toAsyncFunction());
     }
 }

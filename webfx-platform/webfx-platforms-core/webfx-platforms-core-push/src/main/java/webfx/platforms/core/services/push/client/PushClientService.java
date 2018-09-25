@@ -49,7 +49,7 @@ public final class PushClientService {
     }
 
     public static <A, R> Registration registerPushFunction(String address, Function<A, R> javaFunction) {
-        return BusCallService.registerJavaFunctionAsCallableService(address, javaFunction);
+        return BusCallService.registerBusCallEndpoint(address, javaFunction);
     }
 
 }

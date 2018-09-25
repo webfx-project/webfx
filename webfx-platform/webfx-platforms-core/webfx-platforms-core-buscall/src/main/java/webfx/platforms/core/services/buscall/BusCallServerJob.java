@@ -18,7 +18,7 @@ public final class BusCallServerJob implements ApplicationJob {
     @Override
     public Future<Void> onStart() {
         // Registering java services so they can be called through the BusCallService
-        BusCallService.registerJavaCallableAsCallableService(VERSION_ADDRESS, this::getVersion);
+        BusCallService.registerBusCallEndpoint(VERSION_ADDRESS, this::getVersion);
         // Other services should be already registered by application initializers
 
         // Starting the BusCallService by listening entry calls
