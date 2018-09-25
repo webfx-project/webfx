@@ -1,6 +1,7 @@
 package webfx.platforms.core.services.appcontainer;
 
 import webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
 import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
 
 /**
@@ -14,6 +15,10 @@ public final class ApplicationContainer {
 
     public static void startApplicationJob(ApplicationJob applicationJob) {
         getProvider().startApplicationJob(applicationJob);
+    }
+
+    public static void stoptApplicationJob(ApplicationJob applicationJob) {
+        getProvider().stopApplicationJob(applicationJob);
     }
 
     private static String[] mainArgs;

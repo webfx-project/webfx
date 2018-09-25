@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.appcontainer;
+package webfx.platforms.core.services.appcontainer.spi;
 
 import webfx.platforms.core.util.async.Future;
 

@@ -1,11 +1,10 @@
 package mongooses.core.server.start;
 
-import mongooses.core.server.activities.systemmetrics.SystemMetricsRecorderActivity;
 import mongooses.core.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.platforms.core.datasource.ConnectionDetails;
 import webfx.platforms.core.datasource.LocalDataSourceRegistry;
-import webfx.platforms.core.services.buscall.BusCallBasedServerApplicationModuleInitializerBase;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.log.Logger;
@@ -17,7 +16,7 @@ import webfx.platforms.core.services.update.UpdateService;
 /**
  * @author Bruno Salmon
  */
-public final class MongooseServerApplicationModuleInitializer extends BusCallBasedServerApplicationModuleInitializerBase {
+public final class MongooseServerApplicationModuleInitializer implements ApplicationModuleInitializer {
 
     @Override
     public String getModuleName() {
@@ -25,15 +24,19 @@ public final class MongooseServerApplicationModuleInitializer extends BusCallBas
     }
 
     @Override
+    public int getInitLevel() {
+        return JOBS_START_INIT_LEVEL;
+    }
+
+    @Override
     public void initModule() {
-        super.initModule();
+        Logger.log("Registering Mongoose local data source");
         registerMongooseLocalDataSource();
-        SystemMetricsRecorderActivity.startAsApplicationJob();
     }
 
     private static void registerMongooseLocalDataSource() {
         DataSourceModel dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
-        dataSourceModel.getDomainModel();
+        //dataSourceModel.getDomainModel();
         Object dataSourceId = dataSourceModel.getId();
         String json = ResourceService.getText("mongooses/server/datasource/" + dataSourceId + "/ConnectionDetails.json").result();
         JsonObject jso = json == null ? null : Json.parseObject(json);

@@ -3,7 +3,7 @@ package webfx.platform.vertx.services.appcontainer;
 import io.vertx.core.*;
 import webfx.platform.vertx.global.VertxInstance;
 import webfx.platforms.core.services.appcontainer.ApplicationContainer;
-import webfx.platforms.core.services.appcontainer.ApplicationJob;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider;
 import webfx.platforms.core.services.appcontainer.spi.impl.ApplicationModuleInitializerManager;
 

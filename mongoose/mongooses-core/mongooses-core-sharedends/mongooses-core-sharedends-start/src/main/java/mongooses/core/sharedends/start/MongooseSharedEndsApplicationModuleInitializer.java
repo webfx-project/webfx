@@ -10,12 +10,12 @@ import webfx.framework.activity.impl.combinations.viewdomainapplication.ViewDoma
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.launcher.FxKitLauncher;
 import webfx.fxkits.extra.util.ImageStore;
-import webfx.platforms.core.services.buscall.BusBasedClientApplicationModuleInitializerBase;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class MongooseSharedEndsApplicationModuleInitializer extends BusBasedClientApplicationModuleInitializerBase {
+public abstract class MongooseSharedEndsApplicationModuleInitializer implements ApplicationModuleInitializer {
 
     private final MongooseSharedEndsApplication mongooseApplication;
 
@@ -30,9 +30,8 @@ public abstract class MongooseSharedEndsApplicationModuleInitializer extends Bus
 
     @Override
     public void initModule() {
-        super.initModule();
         SceneUtil.onPrimarySceneReady(scene -> scene.getStylesheets().addAll("mongooses/sharends/css/mongoose.css"));
-        ActivityManager.startActivityAsApplicationJob(mongooseApplication,
+        ActivityManager.runActivity(mongooseApplication,
                 ViewDomainApplicationContext.createViewDomainApplicationContext(
                         DomainModelSnapshotLoader.getDataSourceModel(),
                         null //args
@@ -60,5 +59,4 @@ public abstract class MongooseSharedEndsApplicationModuleInitializer extends Bus
             }
         }
     }
-
 }

@@ -1,1 +1,2 @@
 webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer
+webfx.platforms.core.services.appcontainer.spi.ApplicationJob
