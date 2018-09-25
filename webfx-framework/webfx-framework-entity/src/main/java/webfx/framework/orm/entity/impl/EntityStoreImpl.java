@@ -33,6 +33,8 @@ public class EntityStoreImpl implements EntityStore {
     private EntityStoreImpl(DataSourceModel dataSourceModel, EntityStore underlyingStore) {
         this.dataSourceModel = dataSourceModel;
         this.underlyingStore = underlyingStore;
+        // Ensuring the domain model is loaded (and entities registered) otherwise further calls to store.insertEntity(MyEntity.class) will fail
+        dataSourceModel.getDomainModel();
     }
 
     @Override
