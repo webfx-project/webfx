@@ -3,8 +3,8 @@ package webfx.platforms.core.services.update;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.util.Arrays;
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 
 /**
  * @author Bruno Salmon
@@ -53,10 +53,10 @@ public final class UpdateArgument {
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                   Serial ProvidedSerialCodec                   *
      * *************************************************/
 
-    public static final class Codec extends AbstractJsonCodec<UpdateArgument> {
+    public static final class ProvidedSerialCodec extends SerialCodecBase<UpdateArgument> {
 
         private static final String CODEC_ID = "UpdateArg";
         private static final String UPDATE_KEY = "update";
@@ -64,7 +64,7 @@ public final class UpdateArgument {
         private static final String RETURN_GENERATED_KEYS_KEY = "genKeys";
         private static final String DATA_SOURCE_ID_KEY = "dsId";
 
-        public Codec() {
+        public ProvidedSerialCodec() {
             super(UpdateArgument.class, CODEC_ID);
         }
 
@@ -72,7 +72,7 @@ public final class UpdateArgument {
         public void encodeToJson(UpdateArgument arg, WritableJsonObject json) {
             json.set(UPDATE_KEY, arg.getUpdateString());
             if (!Arrays.isEmpty(arg.getParameters()))
-                json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
+                json.set(PARAMETERS_KEY, SerialCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
             json.set(RETURN_GENERATED_KEYS_KEY, arg.returnGeneratedKeys());
             json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
         }
@@ -81,7 +81,7 @@ public final class UpdateArgument {
         public UpdateArgument decodeFromJson(JsonObject json) {
             return new UpdateArgument(
                     json.getString(UPDATE_KEY),
-                    JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
+                    SerialCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
                     json.getBoolean(RETURN_GENERATED_KEYS_KEY),
                     json.get(DATA_SOURCE_ID_KEY)
             );

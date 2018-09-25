@@ -1,6 +1,10 @@
 <module rename-to="webfx_platforms_core_json">
+
     <inherits name="webfx-platforms-core-util"/>
     <inherits name="webfx-lib-javacupruntime"/>
+
     <!-- Specify the paths for translatable code -->
     <source path="webfx/platforms/core/services/json"/>
+    <source path="webfx/platforms/core/services/serial"/>
+
 </module>

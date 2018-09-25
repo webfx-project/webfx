@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.querypush;
 
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.services.query.QueryResult;
@@ -43,33 +43,33 @@ public final class QueryPushResult {
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                   Serial ProvidedSerialCodec                   *
      * *************************************************/
 
-    public static final class Codec extends AbstractJsonCodec<QueryPushResult> {
+    public static final class ProvidedSerialCodec extends SerialCodecBase<QueryPushResult> {
 
         private static final String CODEC_ID = "QueryPushResult";
         private static final String QUERY_STREAM_ID_KEY = "queryStreamId";
         private static final String QUERY_RESULT_KEY = "queryResult";
         private static final String QUERY_RESULT_DIFF_KEY = "queryResultDiff";
 
-        public Codec() {
+        public ProvidedSerialCodec() {
             super(QueryPushResult.class, CODEC_ID);
         }
 
         @Override
         public void encodeToJson(QueryPushResult arg, WritableJsonObject json) {
-            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
-            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_RESULT_KEY, arg.getQueryResult(), json);
-            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_RESULT_DIFF_KEY, arg.getQueryResultDiff(), json);
+            SerialCodecBase.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
+            SerialCodecBase.encodeKeyIfNotNull(QUERY_RESULT_KEY, arg.getQueryResult(), json);
+            SerialCodecBase.encodeKeyIfNotNull(QUERY_RESULT_DIFF_KEY, arg.getQueryResultDiff(), json);
         }
 
         @Override
         public QueryPushResult decodeFromJson(JsonObject json) {
             return new QueryPushResult(
                     json.get(QUERY_STREAM_ID_KEY),
-                    JsonCodecManager.decodeFromJson(json.get(QUERY_RESULT_KEY)),
-                    JsonCodecManager.decodeFromJson(json.get(QUERY_RESULT_DIFF_KEY))
+                    SerialCodecManager.decodeFromJson(json.get(QUERY_RESULT_KEY)),
+                    SerialCodecManager.decodeFromJson(json.get(QUERY_RESULT_DIFF_KEY))
             );
         }
     }

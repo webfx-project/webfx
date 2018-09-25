@@ -2,7 +2,7 @@ package webfx.platforms.core.services.update;
 
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
+import webfx.platforms.core.services.serial.SerialCodecBase;
 
 /**
  * @author Bruno Salmon
@@ -20,15 +20,15 @@ public final class GeneratedKeyBatchIndex {
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                   Serial ProvidedSerialCodec                   *
      * *************************************************/
 
-    public static final class Codec extends AbstractJsonCodec<GeneratedKeyBatchIndex> {
+    public static final class ProvidedSerialCodec extends SerialCodecBase<GeneratedKeyBatchIndex> {
 
         private static final String CODEC_ID = "GenKeyBatchIndex";
         private static final String BATCH_INDEX_KEY = "index";
 
-        public Codec() {
+        public ProvidedSerialCodec() {
             super(GeneratedKeyBatchIndex.class, CODEC_ID);
         }
 

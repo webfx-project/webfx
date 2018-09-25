@@ -1,1 +1,1 @@
-webfx.platforms.core.services.json.codec.JsonCodecModuleInitializer
+webfx.platforms.core.services.serial.SerialCodecModuleInitializer

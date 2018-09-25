@@ -17,7 +17,7 @@ import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.json.JsonElement;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 import webfx.platforms.core.services.query.QueryResult;
 import webfx.platforms.core.services.resource.ResourceService;
 import webfx.platforms.core.util.async.Batch;
@@ -89,7 +89,7 @@ public class DomainModelSnapshotLoader {
             Future<String> text = ResourceService.getText("mongooses/core/shared/domainmodel/DomainModelSnapshot.json");
             String jsonString = text.result(); // LZString.decompressFromBase64(text.result());
             JsonElement json = Json.parseObject(jsonString);
-            Batch<QueryResult> snapshotBatch = JsonCodecManager.decodeFromJson(json);
+            Batch<QueryResult> snapshotBatch = SerialCodecManager.decodeFromJson(json);
             DomainModel domainModel = new DomainModelLoader(1).generateDomainModel(snapshotBatch);
             // Registering functions
             new AbcNames().register();

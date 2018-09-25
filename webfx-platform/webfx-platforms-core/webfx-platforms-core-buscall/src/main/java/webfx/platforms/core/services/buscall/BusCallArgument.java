@@ -2,8 +2,8 @@ package webfx.platforms.core.services.buscall;
 
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 
 
 /*
@@ -43,22 +43,22 @@ public final class BusCallArgument {
 
     Object getJsonEncodedTargetArgument() {
         if (jsonEncodedTargetArgument == null && targetArgument != null)
-            jsonEncodedTargetArgument = JsonCodecManager.encodeToJson(targetArgument);
+            jsonEncodedTargetArgument = SerialCodecManager.encodeToJson(targetArgument);
         return jsonEncodedTargetArgument;
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                   Serial ProvidedSerialCodec                   *
      * *************************************************/
 
-    public static final class Codec extends AbstractJsonCodec<BusCallArgument> {
+    public static final class ProvidedSerialCodec extends SerialCodecBase<BusCallArgument> {
 
         private static final String CODEC_ID = "call";
         private static final String CALL_NUMBER_KEY = "seq";
         private static final String TARGET_ADDRESS_KEY = "addr";
         private static final String TARGET_ARGUMENT_KEY = "arg";
 
-        public Codec() {
+        public ProvidedSerialCodec() {
             super(BusCallArgument.class, CODEC_ID);
         }
 
@@ -73,7 +73,7 @@ public final class BusCallArgument {
         public BusCallArgument decodeFromJson(JsonObject json) {
             return new BusCallArgument(
                     json.getString(TARGET_ADDRESS_KEY),
-                    JsonCodecManager.decodeFromJson(json.get(TARGET_ARGUMENT_KEY)),
+                    SerialCodecManager.decodeFromJson(json.get(TARGET_ARGUMENT_KEY)),
                     json.getInteger(CALL_NUMBER_KEY)
             );
         }

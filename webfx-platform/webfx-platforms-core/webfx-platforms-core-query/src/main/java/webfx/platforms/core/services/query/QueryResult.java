@@ -1,6 +1,6 @@
 package webfx.platforms.core.services.query;
 
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
+import webfx.platforms.core.services.serial.SerialCodecBase;
 import webfx.platforms.core.services.query.compression.repeat.RepeatedValuesCompressor;
 import webfx.platforms.core.util.Numbers;
 import webfx.platforms.core.services.json.Json;
@@ -159,12 +159,12 @@ public final class QueryResult {
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                   Serial ProvidedSerialCodec                   *
      * *************************************************/
 
     public static final boolean COMPRESSION = true;
 
-    public static final class Codec extends AbstractJsonCodec<QueryResult> {
+    public static final class ProvidedSerialCodec extends SerialCodecBase<QueryResult> {
 
         private final static String CODEC_ID = "QueryResult";
         private final static String COLUMN_NAMES_KEY = "columnNames";
@@ -173,7 +173,7 @@ public final class QueryResult {
         private final static String COMPRESSED_VALUES_KEY = "cvalues";
         private final static String VERSION_KEY = "version";
 
-        public Codec() {
+        public ProvidedSerialCodec() {
             super(QueryResult.class, CODEC_ID);
         }
 
@@ -196,7 +196,7 @@ public final class QueryResult {
                     json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(rs.values)));
                 else
                     json.set(VALUES_KEY, Json.fromJavaArray(rs.values));
-                AbstractJsonCodec.encodeKey(VERSION_KEY, rs.getVersionNumber(), json);
+                SerialCodecBase.encodeKey(VERSION_KEY, rs.getVersionNumber(), json);
             } catch (Exception e) {
                 e.printStackTrace();
             }

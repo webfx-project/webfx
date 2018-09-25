@@ -2,8 +2,8 @@ package webfx.platforms.core.services.buscall;
 
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 import webfx.platforms.core.util.async.AsyncResult;
 
 /**
@@ -50,16 +50,16 @@ public final class SerializableAsyncResult<T> implements AsyncResult<T> {
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                   Serial Codec                   *
      * *************************************************/
 
-    public static final class Codec extends AbstractJsonCodec<SerializableAsyncResult> {
+    public static final class ProvidedSerialCodec extends SerialCodecBase<SerializableAsyncResult> {
 
         private final static String CODEC_ID = "AsyncResult";
         private final static String RESULT_KEY = "result";
         private final static String ERROR_KEY = "error";
 
-        public Codec() {
+        public ProvidedSerialCodec() {
             super(SerializableAsyncResult.class, CODEC_ID);
         }
 
@@ -68,14 +68,14 @@ public final class SerializableAsyncResult<T> implements AsyncResult<T> {
             if (result.cause() != null)
                 json.set(ERROR_KEY, result.cause().getMessage());
             if (result.result() != null)
-                json.set(RESULT_KEY, JsonCodecManager.encodeToJson(result.result()));
+                json.set(RESULT_KEY, SerialCodecManager.encodeToJson(result.result()));
         }
 
         @Override
         public SerializableAsyncResult decodeFromJson(JsonObject json) {
             String errorMessage = json.getString(ERROR_KEY);
             return new SerializableAsyncResult<>(
-                    JsonCodecManager.decodeFromJson(json.get(RESULT_KEY)),
+                    SerialCodecManager.decodeFromJson(json.get(RESULT_KEY)),
                     errorMessage == null ? null : new Exception(errorMessage)
             );
         }

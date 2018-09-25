@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.json.codec;
+package webfx.platforms.core.services.serial;
 
 /*
  * @author Bruno Salmon
@@ -6,12 +6,12 @@ package webfx.platforms.core.services.json.codec;
 
 import webfx.platforms.core.services.json.WritableJsonObject;
 
-public abstract class AbstractJsonCodec<T> implements JsonCodec<T> {
+public abstract class SerialCodecBase<T> implements SerialCodec<T> {
 
     private final Class<? extends T> javaClass;
     private final String codecId;
 
-    public AbstractJsonCodec(Class<? extends T> javaClass, String codecId) {
+    public SerialCodecBase(Class<? extends T> javaClass, String codecId) {
         this.javaClass = javaClass;
         this.codecId = codecId;
     }
@@ -27,7 +27,7 @@ public abstract class AbstractJsonCodec<T> implements JsonCodec<T> {
     }
 
     protected static void encodeKey(String key, Object value, WritableJsonObject json) {
-        json.set(key, JsonCodecManager.encodeToJson(value));
+        json.set(key, SerialCodecManager.encodeToJson(value));
     }
 
     protected static void encodeKeyIfNotNull(String key, Object value, WritableJsonObject json) {

@@ -3,8 +3,8 @@ package webfx.platforms.core.services.update;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.util.Arrays;
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 
 /**
  * @author Bruno Salmon
@@ -28,16 +28,16 @@ public final class UpdateResult {
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                   Serial Codec                   *
      * *************************************************/
 
-    public static final class Codec extends AbstractJsonCodec<UpdateResult> {
+    public static final class ProvidedSerialCodec extends SerialCodecBase<UpdateResult> {
 
         private final static String CODEC_ID = "UpdateRes";
         private final static String ROW_COUNT_KEY = "update";
         private final static String GENERATED_KEYS_KEY = "genKeys";
 
-        public Codec() {
+        public ProvidedSerialCodec() {
             super(UpdateResult.class, CODEC_ID);
         }
 
@@ -45,14 +45,14 @@ public final class UpdateResult {
         public void encodeToJson(UpdateResult arg, WritableJsonObject json) {
             json.set(ROW_COUNT_KEY, arg.getRowCount());
             if (!Arrays.isEmpty(arg.getGeneratedKeys()))
-                json.set(GENERATED_KEYS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getGeneratedKeys()));
+                json.set(GENERATED_KEYS_KEY, SerialCodecManager.encodePrimitiveArrayToJsonArray(arg.getGeneratedKeys()));
         }
 
         @Override
         public UpdateResult decodeFromJson(JsonObject json) {
             return new UpdateResult(
                     json.getInteger(ROW_COUNT_KEY),
-                    JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(GENERATED_KEYS_KEY))
+                    SerialCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(GENERATED_KEYS_KEY))
             );
         }
     }

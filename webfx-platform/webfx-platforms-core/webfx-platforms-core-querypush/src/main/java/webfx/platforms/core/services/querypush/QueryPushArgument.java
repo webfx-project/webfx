@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.querypush;
 
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
 import webfx.platforms.core.services.query.QueryArgument;
@@ -105,10 +105,10 @@ public final class QueryPushArgument {
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                   Serial ProvidedSerialCodec                   *
      * *************************************************/
 
-    public static final class Codec extends AbstractJsonCodec<QueryPushArgument> {
+    public static final class ProvidedSerialCodec extends SerialCodecBase<QueryPushArgument> {
 
         private static final String CODEC_ID = "QueryPushArgument";
         private static final String QUERY_STREAM_ID_KEY = "queryStreamId";
@@ -119,19 +119,19 @@ public final class QueryPushArgument {
         private static final String RESEND_KEY = "resend";
         private static final String CLOSE_KEY = "close";
 
-        public Codec() {
+        public ProvidedSerialCodec() {
             super(QueryPushArgument.class, CODEC_ID);
         }
 
         @Override
         public void encodeToJson(QueryPushArgument arg, WritableJsonObject json) {
-            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
-            AbstractJsonCodec.encodeKeyIfNotNull(CLIENT_PUSH_ID_KEY, arg.getPushClientId(), json);
-            AbstractJsonCodec.encodeKeyIfNotNull(QUERY_ARGUMENT_KEY, arg.getQueryArgument(), json);
-            AbstractJsonCodec.encodeKey(DATA_SOURCE_ID_KEY, arg.getDataSourceId(), json);
-            AbstractJsonCodec.encodeKeyIfNotNull(ACTIVE_KEY, arg.getActive(), json);
-            AbstractJsonCodec.encodeKeyIfNotNull(RESEND_KEY, arg.getResend(), json);
-            AbstractJsonCodec.encodeKeyIfNotNull(CLOSE_KEY, arg.getClose(), json);
+            SerialCodecBase.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
+            SerialCodecBase.encodeKeyIfNotNull(CLIENT_PUSH_ID_KEY, arg.getPushClientId(), json);
+            SerialCodecBase.encodeKeyIfNotNull(QUERY_ARGUMENT_KEY, arg.getQueryArgument(), json);
+            SerialCodecBase.encodeKey(DATA_SOURCE_ID_KEY, arg.getDataSourceId(), json);
+            SerialCodecBase.encodeKeyIfNotNull(ACTIVE_KEY, arg.getActive(), json);
+            SerialCodecBase.encodeKeyIfNotNull(RESEND_KEY, arg.getResend(), json);
+            SerialCodecBase.encodeKeyIfNotNull(CLOSE_KEY, arg.getClose(), json);
         }
 
         @Override
@@ -139,7 +139,7 @@ public final class QueryPushArgument {
             return new QueryPushArgument(
                     json.get(QUERY_STREAM_ID_KEY),
                     json.get(CLIENT_PUSH_ID_KEY),
-                    JsonCodecManager.decodeFromJson(json.get(QUERY_ARGUMENT_KEY)),
+                    SerialCodecManager.decodeFromJson(json.get(QUERY_ARGUMENT_KEY)),
                     json.get(DATA_SOURCE_ID_KEY),
                     json.getBoolean(ACTIVE_KEY),
                     json.getBoolean(RESEND_KEY),

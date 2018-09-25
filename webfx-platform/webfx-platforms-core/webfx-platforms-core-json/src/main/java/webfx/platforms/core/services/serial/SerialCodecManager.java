@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.json.codec;
+package webfx.platforms.core.services.serial;
 
 import webfx.platforms.core.services.json.*;
 import webfx.platforms.core.util.Dates;
@@ -15,16 +15,16 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 
-public final class JsonCodecManager {
+public final class SerialCodecManager {
 
     static final String CODEC_ID_KEY = "$codec";
 
-    private static final Map<Class, JsonCodec> encoders = new HashMap<>();
-    private static final Map<String, JsonCodec> decoders = new HashMap<>();
+    private static final Map<Class, SerialCodec> encoders = new HashMap<>();
+    private static final Map<String, SerialCodec> decoders = new HashMap<>();
     private static final Map<String, Class> javaClasses = new HashMap<>();
 
 
-    public static <J> void registerJsonCodec(Class<? extends J> javaClass, JsonCodec<J> codec) {
+    public static <J> void registerJsonCodec(Class<? extends J> javaClass, SerialCodec<J> codec) {
         encoders.put(javaClass, codec);
         decoders.put(codec.getCodecId(), codec);
         javaClasses.put(codec.getCodecId(), javaClass);
@@ -35,11 +35,11 @@ public final class JsonCodecManager {
         registerJsonCodec(javaClass1, getJsonEncoder(javaClass2));
     } */
 
-    public static <J> JsonCodec<J> getJsonEncoder(Class<J> javaClass) {
+    public static <J> SerialCodec<J> getJsonEncoder(Class<J> javaClass) {
         return encoders.get(javaClass);
         /* getSuperclass() is not supported in J2ME CLDC
         for (Class c = javaClass; c != null; c = c.getSuperclass()) {
-            JsonCodec<J> codec = encoders.get(c);
+            SerialCodec<J> codec = encoders.get(c);
             if (codec != null)
                 return codec;
         }
@@ -47,7 +47,7 @@ public final class JsonCodecManager {
         */
     }
 
-    public static JsonCodec getJsonDecoder(String codecId) {
+    public static SerialCodec getJsonDecoder(String codecId) {
         return decoders.get(codecId);
     }
 
@@ -83,9 +83,9 @@ public final class JsonCodecManager {
     }
 
     private static WritableJsonObject encodeJavaObjectToJsonObject(Object javaObject, WritableJsonObject json) {
-        JsonCodec encoder = getJsonEncoder(javaObject.getClass());
+        SerialCodec encoder = getJsonEncoder(javaObject.getClass());
         if (encoder == null)
-            throw new IllegalArgumentException("No JsonCodec for type: " + javaObject.getClass());
+            throw new IllegalArgumentException("No SerialCodec for type: " + javaObject.getClass());
         json.set(CODEC_ID_KEY, encoder.getCodecId());
         encoder.encodeToJson(javaObject, json);
         return json;
@@ -95,9 +95,9 @@ public final class JsonCodecManager {
         if (json == null)
             return null;
         String codecId = json.getString(CODEC_ID_KEY);
-        JsonCodec<J> decoder = getJsonDecoder(codecId);
+        SerialCodec<J> decoder = getJsonDecoder(codecId);
         if (decoder == null)
-            throw new IllegalArgumentException("No JsonCodec found for id: '" + codecId + "' when trying to decode " + json.toJsonString());
+            throw new IllegalArgumentException("No SerialCodec found for id: '" + codecId + "' when trying to decode " + json.toJsonString());
         return decoder.decodeFromJson(json);
     }
 

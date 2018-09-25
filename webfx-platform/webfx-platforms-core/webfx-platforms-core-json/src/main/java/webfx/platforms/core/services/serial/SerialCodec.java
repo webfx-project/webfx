@@ -1,4 +1,4 @@
-package webfx.platforms.core.services.json.codec;
+package webfx.platforms.core.services.serial;
 
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
@@ -7,7 +7,7 @@ import webfx.platforms.core.services.json.WritableJsonObject;
  * @author Bruno Salmon
  */
 
-public interface JsonCodec<T> {
+public interface SerialCodec<T> {
 
     String getCodecId();
 

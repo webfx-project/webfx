@@ -2,7 +2,7 @@ package webfx.platforms.core.services.buscall;
 
 import webfx.platforms.core.services.bus.*;
 import webfx.platforms.core.services.buscall.spi.BusCallEndpoint;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.util.async.AsyncFunction;
 import webfx.platforms.core.util.async.AsyncResult;
@@ -83,7 +83,7 @@ public final class BusCallService {
      */
     private static <T> void sendJavaObjectAndWaitJsonReply(boolean local, String address, Object javaObject, Handler<AsyncResult<Message<T>>> jsonReplyMessageHandler) {
         // Serializing the java object into json format (a json object most of the time but may also be a simple string or number)
-        Object jsonObject = JsonCodecManager.encodeToJson(javaObject);
+        Object jsonObject = SerialCodecManager.encodeToJson(javaObject);
         // Sending that json object over the json event bus
         BusService.bus().send(local, address, jsonObject, jsonReplyMessageHandler);
     }
@@ -94,7 +94,7 @@ public final class BusCallService {
      */
     private static <T> void sendJavaReply(Object javaReply, Message<T> callerMessage) {
         // Serializing the java reply into json format (a json object most of the time but may also be a simple string or number)
-        Object jsonReply = JsonCodecManager.encodeToJson(javaReply);
+        Object jsonReply = SerialCodecManager.encodeToJson(javaReply);
         // Sending that json reply to the caller over the json event bus
         callerMessage.reply(jsonReply);
     }
@@ -109,7 +109,7 @@ public final class BusCallService {
         // Getting the message body in json format
         Object jsonBody = message.body();
         // Converting it into a java object through json deserialization
-        return JsonCodecManager.decodeFromJson(jsonBody);
+        return SerialCodecManager.decodeFromJson(jsonBody);
     }
 
     /**

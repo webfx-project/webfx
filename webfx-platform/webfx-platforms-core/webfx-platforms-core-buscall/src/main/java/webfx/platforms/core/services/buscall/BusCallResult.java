@@ -2,8 +2,8 @@ package webfx.platforms.core.services.buscall;
 
 import webfx.platforms.core.services.json.JsonObject;
 import webfx.platforms.core.services.json.WritableJsonObject;
-import webfx.platforms.core.services.json.codec.AbstractJsonCodec;
-import webfx.platforms.core.services.json.codec.JsonCodecManager;
+import webfx.platforms.core.services.serial.SerialCodecBase;
+import webfx.platforms.core.services.serial.SerialCodecManager;
 
 /**
  * @author Bruno Salmon
@@ -54,7 +54,7 @@ public final class BusCallResult<T> {
 
     public T getTargetResult() {
         if (targetResult == null && serializedTargetResult != null)
-            targetResult = JsonCodecManager.decodeFromJson(serializedTargetResult);
+            targetResult = SerialCodecManager.decodeFromJson(serializedTargetResult);
         //Platform.log("BusCallResult getTargetResult(), class of targetResult = " + targetResult.getClass());
         return targetResult;
     }
@@ -64,22 +64,22 @@ public final class BusCallResult<T> {
             // Transforming the target result into a serializable object before serializing it
             //SerializableAsyncResult serializableTargetResult = SerializableAsyncResult.getSerializableAsyncResult(targetResult);
             // Now that we are sure it can be serialized, we do it
-            serializedTargetResult = JsonCodecManager.encodeToJson(targetResult);
+            serializedTargetResult = SerialCodecManager.encodeToJson(targetResult);
         }
         return serializedTargetResult;
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                    Serial ProvidedSerialCodec                  *
      * *************************************************/
 
-    public static final class Codec extends AbstractJsonCodec<BusCallResult> {
+    public static final class ProvidedSerialCodec extends SerialCodecBase<BusCallResult> {
 
         private static final String CODEC_ID = "callRes";
         private static final String CALL_NUMBER_KEY = "seq";
         private static final String TARGET_RESULT_KEY = "res";
 
-        public Codec() {
+        public ProvidedSerialCodec() {
             super(BusCallResult.class, CODEC_ID);
         }
 
