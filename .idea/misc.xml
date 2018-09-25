@@ -15,6 +15,21 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/mongoose/mongooses-backend/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-all/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-activities-letter/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend/mongooses-core-backend-all/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-frontend/mongooses-core-frontend-activities/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-shared/mongooses-core-sharedends-activities/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-sharedends/mongooses-core-shared-authz/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-sharedends/mongooses-core-sharedends-workingdocument/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-sharedends/mongooses-sharedends-sessionrecorder/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-frontend/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-java/mongooses-java-sharedends/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-loadtester-jp/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-server/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-sharedends/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web-sharedends-activities/pom.xml" />
         <option value="$PROJECT_DIR$/webfx-framework/webfx-framework-athn/pom.xml" />
       </set>
     </option>

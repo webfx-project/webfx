@@ -14,7 +14,13 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongooses-server</artifactId>
+            <artifactId>mongooses-core-server-start</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongooses-java-server-systemmetrics</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -23,12 +29,6 @@
             <artifactId>webfx-platform-vertx-all</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongooses-java</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
         </dependency>
 
         <!-- Mongoose backend - ->

@@ -1,7 +1,5 @@
 <module rename-to="mongooses_web">
 
-    <inherits name="mongooses-core"/>
-
     <!-- Specifying the paths for translatable code -->
     <source path="mongooses/web/activities"/>
 

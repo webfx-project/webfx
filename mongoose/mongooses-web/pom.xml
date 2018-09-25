@@ -14,13 +14,6 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongooses-core</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platform-gwt-all</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

@@ -11,38 +11,34 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="mongooses-server" />
-    <orderEntry type="module" module-name="mongooses-core" />
-    <orderEntry type="module" module-name="webfx-framework-all" />
-    <orderEntry type="module" module-name="webfx-framework-expression" />
-    <orderEntry type="module" module-name="webfx-fxkits-extra" />
-    <orderEntry type="module" module-name="webfx-framework-activity" />
-    <orderEntry type="module" module-name="webfx-framework-domain" />
-    <orderEntry type="module" module-name="webfx-framework-entity" />
-    <orderEntry type="module" module-name="webfx-framework-operation" />
-    <orderEntry type="module" module-name="webfx-framework-action" />
-    <orderEntry type="module" module-name="webfx-framework-i18n" />
-    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
-    <orderEntry type="module" module-name="webfx-framework-authn" />
-    <orderEntry type="module" module-name="webfx-framework-authz" />
-    <orderEntry type="module" module-name="webfx-framework-router" />
-    <orderEntry type="module" module-name="webfx-framework-uirouter" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
-    <orderEntry type="module" module-name="webfx-framework-uifilter" />
-    <orderEntry type="module" module-name="webfx-lib-rxjava" />
-    <orderEntry type="module" module-name="webfx-framework-layouts" />
-    <orderEntry type="module" module-name="webfx-framework-controls" />
-    <orderEntry type="module" module-name="webfx-framework-materialdesign" />
-    <orderEntry type="module" module-name="webfx-framework-util" />
-    <orderEntry type="module" module-name="webfx-platforms-core-storage" />
-    <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
-    <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
+    <orderEntry type="module" module-name="mongooses-core-server-start" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="mongooses-core-server-systemmetrics" />
+    <orderEntry type="module" module-name="mongooses-core-shared-entities" />
+    <orderEntry type="module" module-name="webfx-framework-entity" />
+    <orderEntry type="module" module-name="webfx-framework-domain" />
+    <orderEntry type="module" module-name="webfx-framework-expression" />
+    <orderEntry type="module" module-name="webfx-fxkits-extra" />
+    <orderEntry type="module" module-name="webfx-framework-uirouter" />
+    <orderEntry type="module" module-name="webfx-framework-router" />
+    <orderEntry type="module" module-name="webfx-framework-authn" />
+    <orderEntry type="module" module-name="webfx-framework-activity" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" />
+    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
+    <orderEntry type="module" module-name="webfx-framework-util" />
+    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
+    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
+    <orderEntry type="module" module-name="webfx-framework-action" />
+    <orderEntry type="module" module-name="webfx-framework-i18n" />
+    <orderEntry type="module" module-name="webfx-framework-operation" />
+    <orderEntry type="module" module-name="webfx-framework-authz" />
+    <orderEntry type="module" module-name="webfx-platforms-core-push" />
+    <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
+    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
+    <orderEntry type="module" module-name="mongooses-java-server-systemmetrics" />
     <orderEntry type="module" module-name="webfx-platform-vertx-all" />
     <orderEntry type="module" module-name="webfx-platform-vertx-appcontainer" />
     <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
@@ -74,11 +70,9 @@
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platform-vertx-queryupdate" />
     <orderEntry type="module" module-name="webfx-platforms-core-query" />
-    <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" />
     <orderEntry type="module" module-name="webfx-platforms-core-update" />
     <orderEntry type="module" module-name="webfx-platforms-core-querypush" />
-    <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-mysql-postgresql-client:3.5.3" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-sql-common:3.5.3" level="project" />
     <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.12.4" level="project" />
@@ -93,11 +87,10 @@
     <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.11" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-api:1.7.15" level="project" />
     <orderEntry type="module" module-name="webfx-platform-vertx-scheduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="webfx-platforms-java-resource" />
     <orderEntry type="module" module-name="webfx-platforms-java-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-java-storage" />
-    <orderEntry type="module" module-name="mongooses-java" />
+    <orderEntry type="module" module-name="webfx-platforms-core-storage" />
   </component>
 </module>

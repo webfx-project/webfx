@@ -1,9 +1,6 @@
 <module rename-to="mongoose_frontend_fxkit_gwt">
   <inherits name="mongooses-web"/>
-  <inherits name="mongooses-frontend"/>
-  <inherits name="mongooses-sharedends"/>
-  <inherits name="mongooses-core"/>
-  <inherits name="webfx-framework-all"/>
+  <inherits name="mongooses-core-frontend-start"/>
   <inherits name="webfx-fxkit-gwt"/>
   <inherits name="webfx-platforms-web-clientbus"/>
   <inherits name="webfx-platform-gwt-appcontainer"/>
@@ -21,8 +18,6 @@
   <inherits name="webfx-lib-javacupruntime"/>
   <set-property name="user.agent" value="safari"/>
   <entry-point class="webfx.platform.gwt.services.appcontainer.GwtApplicationContainerProvider"/>
-  <source path="client"/>
-  <source path="shared"/>
   <super-source path="super"/>
   <set-property name="jre.checks.checkLevel" value="MINIMAL"/>
 </module>

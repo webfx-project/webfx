@@ -7,10 +7,7 @@
     <set-property name="gwt.logging.consoleHandler" value="ENABLED" />
 
     <inherits name="mongooses-web"/>
-    <inherits name="mongooses-frontend"/>
-    <inherits name="mongooses-sharedends"/>
-    <inherits name="mongooses-core"/>
-    <inherits name="webfx-framework-all"/>
+    <inherits name="mongooses-core-frontend-start"/>
     <inherits name="webfx-fxkit-gwt"/>
     <inherits name="webfx-platforms-web-clientbus"/>
     <inherits name="webfx-platform-gwt-appcontainer"/>

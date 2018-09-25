@@ -12,16 +12,16 @@ public interface MongooseSharedEndsWebBundle extends ClientBundle {
 
     MongooseSharedEndsWebBundle R = GWT.create(MongooseSharedEndsWebBundle.class);
 
-    @Source("mongooses/core/domainmodel/DomainModelSnapshot.json")
+    @Source("mongooses/core/shared/domainmodel/DomainModelSnapshot.json")
     TextResource domainModelSnapshotJson();
 
     @Source("webfx/platforms/core/services/bus/client/conf/BusOptions.json")
     TextResource clientBusOptionsJson();
 
-    @Source("mongooses/core/dictionaries/en.json")
+    @Source("mongooses/core/sharedends/i18n/dictionaries/en.json")
     TextResource englishDictionaryJson();
 
-    @Source("mongooses/core/dictionaries/fr.json")
+    @Source("mongooses/core/sharedends/i18n/dictionaries/fr.json")
     TextResource frenchDictionaryJson();
 
     @Source("images/svg/mono/certificate.svg")
@@ -38,10 +38,10 @@ public interface MongooseSharedEndsWebBundle extends ClientBundle {
 
     class ResourceBundle extends GwtResourceBundleBase {
         public ResourceBundle() {
-            registerResource("mongooses/core/domainmodel/DomainModelSnapshot.json", R.domainModelSnapshotJson());
+            registerResource("mongooses/core/shared/domainmodel/DomainModelSnapshot.json", R.domainModelSnapshotJson());
             registerResource("webfx/platforms/core/services/bus/client/conf/BusOptions.json", R.clientBusOptionsJson());
-            registerResource("mongooses/core/dictionaries/en.json", R.englishDictionaryJson());
-            registerResource("mongooses/core/dictionaries/fr.json", R.frenchDictionaryJson());
+            registerResource("mongooses/core/sharedends/i18n/dictionaries/en.json", R.englishDictionaryJson());
+            registerResource("mongooses/core/sharedends/i18n/dictionaries/fr.json", R.frenchDictionaryJson());
             registerResource("images/svg/mono/certificate.svg", R.certificateMonoSvg());
             registerResource("images/svg/mono/calendar.svg", R.calendarMonoSvg());
             registerResource("images/svg/mono/price-tag.svg", R.priceTagMonoSvg());

@@ -16,21 +16,21 @@
         <!-- The dependencies order matters for module initialization sequence -->
 
         <dependency>
+            <artifactId>mongooses-core-backend-start</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongooses-java-sharedends-activities</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-fxkit-javafx</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongooses-backend</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongooses-java</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
         </dependency>
 
         <dependency>

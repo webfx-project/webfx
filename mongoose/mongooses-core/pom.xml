@@ -10,80 +10,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mongooses-core</artifactId>
+    <packaging>pom</packaging>
 
-    <dependencies>
+    <modules>
 
-        <dependency>
-            <artifactId>webfx-framework-all</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
+        <module>mongooses-core-shared</module>
+        <module>mongooses-core-sharedends</module>
+        <module>mongooses-core-backend</module>
+        <module>mongooses-core-frontend</module>
+        <module>mongooses-core-server</module>
 
-        <dependency>
-            <artifactId>webfx-platforms-core-clientbus</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <scope>provided</scope> <!-- Not provided to not interfere with the server bus provider -->
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-storage</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-lib-mvvmfx-validation</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-
-        <!-- Because tests are ran in the JRE, we use that platform for tests -->
-        <dependency>
-            <artifactId>webfx-platform-jre</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-    </dependencies>
-
-    <properties>
-        <!-- Not skipping the artifact installation when the profile is activated -->
-        <!--plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
-        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase-->
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-            <!-- Commented as not working on Android for now
-            <!- - Unpacking dependencies before calling retrolambda - ->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <configuration>
-                    <includeScope>runtime</includeScope> <!- - to avoid unpacking android dependency - ->
-                </configuration>
-            </plugin>
-
-            <!- - Calling retrolambda (for android project) - ->
-            <plugin>
-                <groupId>net.orfjackal.retrolambda</groupId>
-                <artifactId>retrolambda-maven-plugin</artifactId>
-            </plugin>
-            -->
-
-        </plugins>
-    </build>
+    </modules>
 
 </project>

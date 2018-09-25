@@ -15,6 +15,14 @@
     <dependencies>
 
         <!-- Now listing the sources for GWT compilation -->
+
+        <dependency> <!-- Listing it first to ensure to have the GridCollator gwt version -->
+            <artifactId>webfx-fxkit-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>javafx-sources</classifier>
+        </dependency>
+
         <dependency>
             <artifactId>mongooses-web</artifactId>
             <groupId>${mongoose.groupId}</groupId>
@@ -23,176 +31,14 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongooses-frontend</artifactId>
+            <artifactId>mongooses-core-frontend-start</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
+            <classifier>fat-sources</classifier>
         </dependency>
 
-        <dependency>
-            <artifactId>mongooses-sharedends</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongooses-core</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-lib-mvvmfx-validation</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-lib-controlsfx-validation</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-lib-javacupruntime</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-expression</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-activity</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-domain</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-entity</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-operation</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-action</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-authn</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-authz</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-i18n</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-uirouter</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-router</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-uifilter</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-layouts</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-controls</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-materialdesign</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-
-        <dependency>
-            <artifactId>webfx-framework-util</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-lib-rxjava</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-fxkit-gwt</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>javafx-sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-appcontainer</artifactId>
+        <dependency> <!-- Only because its gwt xml module is referenced - TODO: remove this dependency -->
+            <artifactId>webfx-framework-all</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -206,21 +52,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-buscall</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platforms-web-clientbus</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-json</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -234,28 +66,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-uischeduler</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-scheduler</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platform-gwt-uischeduler</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-log</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -269,22 +80,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-shutdown</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platform-gwt-shutdown</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-
-        <dependency>
-            <artifactId>webfx-platforms-core-windowlocation</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -292,13 +88,6 @@
 
         <dependency>
             <artifactId>webfx-platform-gwt-windowlocation</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-windowhistory</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -319,56 +108,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-datasource</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-query</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-update</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-push</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-querypush</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-resource</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platform-gwt-resource</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-storage</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -382,35 +122,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-websocket</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platform-gwt-websocket</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-bus</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-clientbus</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
