@@ -36,7 +36,6 @@ public final class MongooseServerApplicationModuleInitializer implements Applica
 
     private static void registerMongooseLocalDataSource() {
         DataSourceModel dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
-        //dataSourceModel.getDomainModel();
         Object dataSourceId = dataSourceModel.getId();
         String json = ResourceService.getText("mongooses/server/datasource/" + dataSourceId + "/ConnectionDetails.json").result();
         JsonObject jso = json == null ? null : Json.parseObject(json);
