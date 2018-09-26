@@ -162,7 +162,7 @@ public final class QueryResult {
      *                   Serial ProvidedSerialCodec                   *
      * *************************************************/
 
-    public static final boolean COMPRESSION = true;
+    public static boolean COMPRESSION = true; // Not final as this flag is turned off by the kbs2-model-import module to make the domain model snapshot
 
     public static final class ProvidedSerialCodec extends SerialCodecBase<QueryResult> {
 
