@@ -25,7 +25,8 @@ public final class SerialCodecManager {
     private static final Map<String, Class> javaClasses = new HashMap<>();
 
 
-    public static <J> void registerJsonCodec(Class<? extends J> javaClass, SerialCodec<J> codec) {
+    public static void registerSerialCodec(SerialCodec codec) {
+        Class javaClass = codec.getJavaClass();
         encoders.put(javaClass, codec);
         decoders.put(codec.getCodecId(), codec);
         javaClasses.put(codec.getCodecId(), javaClass);
@@ -36,7 +37,7 @@ public final class SerialCodecManager {
         registerJsonCodec(javaClass1, getJsonEncoder(javaClass2));
     } */
 
-    public static <J> SerialCodec<J> getJsonEncoder(Class<J> javaClass) {
+    public static <J> SerialCodec<J> getSerialEncoder(Class<J> javaClass) {
         return encoders.get(javaClass);
         /* getSuperclass() is not supported in J2ME CLDC
         for (Class c = javaClass; c != null; c = c.getSuperclass()) {
@@ -48,7 +49,7 @@ public final class SerialCodecManager {
         */
     }
 
-    public static SerialCodec getJsonDecoder(String codecId) {
+    public static SerialCodec getSerialDecoder(String codecId) {
         return decoders.get(codecId);
     }
 
@@ -84,7 +85,7 @@ public final class SerialCodecManager {
     }
 
     private static WritableJsonObject encodeJavaObjectToJsonObject(Object javaObject, WritableJsonObject json) {
-        SerialCodec encoder = getJsonEncoder(javaObject.getClass());
+        SerialCodec encoder = getSerialEncoder(javaObject.getClass());
         if (encoder == null)
             throw new IllegalArgumentException("No SerialCodec for type: " + javaObject.getClass());
         json.set(CODEC_ID_KEY, encoder.getCodecId());
@@ -96,7 +97,7 @@ public final class SerialCodecManager {
         if (json == null)
             return null;
         String codecId = json.getString(CODEC_ID_KEY);
-        SerialCodec<J> decoder = getJsonDecoder(codecId);
+        SerialCodec<J> decoder = getSerialDecoder(codecId);
         if (decoder == null)
             throw new IllegalArgumentException("No SerialCodec found for id: '" + codecId + "' when trying to decode " + json.toJsonString());
         return decoder.decodeFromJson(json);

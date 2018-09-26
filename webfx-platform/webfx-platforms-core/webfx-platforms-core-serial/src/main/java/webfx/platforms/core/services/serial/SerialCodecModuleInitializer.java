@@ -25,8 +25,8 @@ public final class SerialCodecModuleInitializer implements ApplicationModuleInit
     public void initModule() {
         StringBuilder sb = new StringBuilder();
         for (SerialCodec serialCodec : ServiceLoader.load(SerialCodec.class)) {
-            SerialCodecManager.registerJsonCodec(serialCodec.getJavaClass(), serialCodec);
-            sb.append(sb.length() == 0 ? "Json codecs registered for classes: " : ", ").append(serialCodec.getJavaClass().getSimpleName());
+            SerialCodecManager.registerSerialCodec(serialCodec);
+            sb.append(sb.length() == 0 ? "Serial codecs registered for classes: " : ", ").append(serialCodec.getJavaClass().getSimpleName());
         }
         Logger.log(sb);
     }
