@@ -1,1 +1,1 @@
-webfx.platforms.core.services.query.spi.impl.LocalOrRemoteQueryServiceProviderImpl
+webfx.platforms.core.services.query.spi.impl.LocalOrRemoteQueryServiceProvider

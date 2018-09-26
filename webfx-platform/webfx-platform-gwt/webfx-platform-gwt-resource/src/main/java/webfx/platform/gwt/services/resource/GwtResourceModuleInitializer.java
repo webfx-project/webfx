@@ -25,7 +25,7 @@ public class GwtResourceModuleInitializer implements ApplicationModuleInitialize
     public void initModule() {
         StringBuilder sb = new StringBuilder();
         for (GwtResourceBundle gwtResourceBundle : ServiceLoader.load(GwtResourceBundle.class)) {
-            ((GwtResourceServiceProviderImpl) ResourceService.getProvider()).register(gwtResourceBundle);
+            ((GwtResourceServiceProvider) ResourceService.getProvider()).register(gwtResourceBundle);
             for (String resourcePath : gwtResourceBundle.resourcePathsForLogging())
                 sb.append(sb.length() == 0 ? gwtResourceBundle.getClass().getName() + " registered the following resources:\n" : "\n").append(resourcePath);
         }

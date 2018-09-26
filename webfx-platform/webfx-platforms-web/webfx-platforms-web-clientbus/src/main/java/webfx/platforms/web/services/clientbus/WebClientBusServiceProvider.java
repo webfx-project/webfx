@@ -1,7 +1,7 @@
 package webfx.platforms.web.services.clientbus;
 
 import webfx.platforms.core.services.bus.BusOptions;
-import webfx.platforms.core.services.bus.client.ClientBusServiceProviderImpl;
+import webfx.platforms.core.services.bus.client.ClientBusServiceProvider;
 import webfx.platforms.core.services.bus.client.WebSocketBusOptions;
 import webfx.platforms.core.services.json.Json;
 import webfx.platforms.core.services.resource.ResourceService;
@@ -10,7 +10,7 @@ import webfx.platforms.core.services.windowlocation.WindowLocation;
 /**
  * @author Bruno Salmon
  */
-public final class WebClientBusServiceProvider extends ClientBusServiceProviderImpl {
+public final class WebClientBusServiceProvider extends ClientBusServiceProvider {
 
     @Override
     public void setPlatformBusOptions(BusOptions options) {

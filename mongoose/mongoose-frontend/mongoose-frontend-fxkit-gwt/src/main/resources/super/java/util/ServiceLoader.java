@@ -11,27 +11,27 @@ public class ServiceLoader<S> implements Iterable<S> {
             // Single SPI providers
             case "webfx.fxkits.core.mapper.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
             case "webfx.fxkits.core.launcher.spi.FxKitLauncherProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.launcher.GwtFxKitLauncherProvider::new);
-            case "webfx.platforms.core.services.resource.spi.ResourceServiceProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.resource.GwtResourceServiceProviderImpl::new);
+            case "webfx.platforms.core.services.resource.spi.ResourceServiceProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.resource.GwtResourceServiceProvider::new);
             case "webfx.platforms.core.services.push.client.spi.PushClientServiceProvider": return new ServiceLoader<S>(webfx.platforms.core.services.push.client.spi.impl.PushClientServiceProviderImpl::new);
-            case "webfx.platforms.core.services.query.spi.QueryServiceProvider": return new ServiceLoader<S>(webfx.platforms.core.services.query.spi.impl.LocalOrRemoteQueryServiceProviderImpl::new);
-            case "webfx.platforms.core.services.update.spi.UpdateServiceProvider": return new ServiceLoader<S>(webfx.platforms.core.services.update.spi.impl.LocalOrRemoteUpdateServiceProviderImpl::new);
+            case "webfx.platforms.core.services.query.spi.QueryServiceProvider": return new ServiceLoader<S>(webfx.platforms.core.services.query.spi.impl.LocalOrRemoteQueryServiceProvider::new);
+            case "webfx.platforms.core.services.update.spi.UpdateServiceProvider": return new ServiceLoader<S>(webfx.platforms.core.services.update.spi.impl.LocalOrRemoteUpdateServiceProvider::new);
             case "webfx.framework.services.i18n.spi.I18nProvider": return new ServiceLoader<S>(mongooses.core.sharedends.services.i18n.MongooseI18nProvider::new);
-            case "webfx.framework.services.authn.spi.AuthenticationServiceProvider": return new ServiceLoader<S>(mongooses.core.sharedends.services.authn.MongooseAuthenticationServiceProviderImpl::new);
-            case "webfx.framework.services.authz.spi.AuthorizationServiceProvider": return new ServiceLoader<S>(mongooses.core.sharedends.services.authz.MongooseAuthorizationServiceProviderImpl::new);
-            case "webfx.platforms.core.services.querypush.spi.QueryPushServiceProvider": return new ServiceLoader<S>(webfx.platforms.core.services.querypush.spi.remote.RemoteQueryPushServiceProviderImpl::new);
+            case "webfx.framework.services.authn.spi.AuthenticationServiceProvider": return new ServiceLoader<S>(mongooses.core.sharedends.services.authn.MongooseAuthenticationServiceProvider::new);
+            case "webfx.framework.services.authz.spi.AuthorizationServiceProvider": return new ServiceLoader<S>(mongooses.core.sharedends.services.authz.MongooseAuthorizationServiceProvider::new);
+            case "webfx.platforms.core.services.querypush.spi.QueryPushServiceProvider": return new ServiceLoader<S>(webfx.platforms.core.services.querypush.spi.remote.RemoteQueryPushServiceProvider::new);
             case "webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.appcontainer.GwtApplicationContainerProvider::new);
             case "webfx.platforms.core.services.bus.spi.BusServiceProvider": return new ServiceLoader<S>(webfx.platforms.web.services.clientbus.WebClientBusServiceProvider::new);
             case "webfx.platforms.core.services.scheduler.spi.SchedulerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.scheduler.GwtSchedulerProvider::new);
             case "webfx.platforms.core.services.windowlocation.spi.WindowLocationProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.windowlocation.GwtWindowLocationProvider::new);
             case "webfx.platforms.core.services.json.spi.JsonProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.json.GwtJsonObject::create);
             case "webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.scheduler.GwtSchedulerProvider::new);
-            case "webfx.platforms.core.services.log.spi.LoggerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.log.GwtLoggerProviderImpl::new);
-            case "webfx.platforms.core.services.shutdown.spi.ShutdownProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.shutdown.GwtShutdownProviderImpl::new);
+            case "webfx.platforms.core.services.log.spi.LoggerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.log.GwtLoggerProvider::new);
+            case "webfx.platforms.core.services.shutdown.spi.ShutdownProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.shutdown.GwtShutdownProvider::new);
             case "webfx.platforms.web.services.windowhistory.JsWindowHistory": return new ServiceLoader<S>(webfx.platform.gwt.services.windowhistory.GwtJsWindowHistory::new);
             case "webfx.platforms.core.services.windowhistory.spi.WindowHistoryProvider": return new ServiceLoader<S>(webfx.platforms.web.services.windowhistory.WebWindowHistoryProvider::new);
-            case "webfx.platforms.core.services.storage.spi.LocalStorageProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.storage.GwtLocalStorageProviderImpl::new);
-            case "webfx.platforms.core.services.storage.spi.SessionStorageProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.storage.GwtSessionStorageProviderImpl::new);
-            case "webfx.platforms.core.services.websocket.spi.WebSocketServiceProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.websocket.GwtWebSocketServiceProviderImpl::new);
+            case "webfx.platforms.core.services.storage.spi.LocalStorageProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.storage.GwtLocalStorageProvider::new);
+            case "webfx.platforms.core.services.storage.spi.SessionStorageProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.storage.GwtSessionStorageProvider::new);
+            case "webfx.platforms.core.services.websocket.spi.WebSocketServiceProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.websocket.GwtWebSocketServiceProvider::new);
             // Multiple SPI providers
             case "webfx.platforms.core.services.buscall.spi.BusCallEndpoint": return new ServiceLoader<S>(webfx.platforms.core.services.query.ExecuteQueryBusCallEndpoint::new, webfx.platforms.core.services.query.ExecuteQueryBatchBusCallEndpoint::new, webfx.platforms.core.services.update.ExecuteUpdateBusCallEndpoint::new, webfx.platforms.core.services.update.ExecuteUpdateBatchBusCallEndpoint::new, webfx.platforms.core.services.querypush.ExecuteQueryPushBusCallEndpoint::new);
             case "webfx.framework.operations.i18n.ChangeLanguageRequestEmitter": return new ServiceLoader<S>(mongooses.core.sharedends.operations.i18n.ChangeLanguageToEnglishRequest.ProvidedEmitter::new, mongooses.core.sharedends.operations.i18n.ChangeLanguageToFrenchRequest.ProvidedEmitter::new);
