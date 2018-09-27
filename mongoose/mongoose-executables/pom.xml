@@ -9,10 +9,38 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mongoose-frontend</artifactId>
+    <artifactId>mongoose-executables</artifactId>
     <packaging>pom</packaging>
 
+    <modules>
+
+        <module>mongoose-server-platform-vertx</module>
+
+    </modules>
+
     <profiles>
+        <!-- JRE profiles (JavaFx) -->
+        <profile>
+            <id>mongoose-backend-fxkit-javafx</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-fxkit-javafx</module>
+            </modules>
+        </profile>
+
+        <!-- Web profiles (GWT, TeaVM) -->
+        <profile>
+            <id>mongoose-backend-fxkit-gwt</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-fxkit-gwt</module>
+            </modules>
+        </profile>
+
         <!-- JRE profiles (JavaFx) -->
         <profile>
             <id>mongoose-frontend-fxkit-javafx</id>

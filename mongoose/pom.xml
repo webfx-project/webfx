@@ -17,9 +17,7 @@
         <module>mongooses-core</module>
         <module>mongooses-java</module>
         <module>mongooses-web</module>
-        <module>mongoose-backend</module>
-        <module>mongoose-frontend</module>
-        <module>mongoose-server</module>
+        <module>mongoose-executables</module>
     </modules>
 
     <properties>

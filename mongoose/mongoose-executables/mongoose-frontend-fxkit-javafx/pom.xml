@@ -4,19 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.webfx</groupId>
-        <artifactId>mongoose-backend</artifactId>
+        <artifactId>mongoose-executables</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mongoose-backend-fxkit-javafx</artifactId>
+    <artifactId>mongoose-frontend-fxkit-javafx</artifactId>
 
     <dependencies>
 
         <!-- The dependencies order matters for module initialization sequence -->
 
         <dependency>
-            <artifactId>mongooses-core-backend-start</artifactId>
+            <artifactId>mongooses-core-frontend-start</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -78,7 +78,7 @@
 
         <!-- profile to make a fat standalone executable jar with all dependent libraries included inside -->
         <profile>
-            <id>mongoose-backend-fxkit-javafx-fat</id>
+            <id>mongoose-frontend-fxkit-javafx-fat</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
@@ -90,15 +90,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-shade-plugin</artifactId>
-                        <configuration>
-                            <!-- Also relocating java_cup package to avoid version mismatch (with xalan library) when installing this application on Android with the Gluon plugin -->
-                            <relocations>
-                                <relocation>
-                                    <pattern>java_cup</pattern>
-                                    <shadedPattern>java_cub_11b</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
                     </plugin>
 
                 </plugins>
@@ -107,7 +98,7 @@
 
         <!-- Profile to minimize and obfuscate the jar file with Proguard -->
         <profile>
-            <id>mongoose-backend-fxkit-javafx-min</id>
+            <id>mongoose-frontend-fxkit-javafx-min</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
