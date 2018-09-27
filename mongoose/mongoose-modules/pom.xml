@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mongoose</artifactId>
+        <groupId>org.webfx</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongoose-modules</artifactId>
+
+    <packaging>pom</packaging>
+
+    <modules>
+
+        <module>mongooses-core-backend-activities-organizations</module>
+        <module>mongooses-core-backend-activities-loadtester-jp</module>
+        <module>mongooses-core-backend-activities-authorizations</module>
+        <module>mongooses-core-backend-activities-operations</module>
+        <module>mongooses-core-backend-activities-monitor</module>
+        <module>mongooses-core-backend-activities-letters</module>
+        <module>mongooses-core-backend-activities-letter</module>
+        <module>mongooses-core-backend-activities-events</module>
+        <module>mongooses-core-backend-activities-bookings</module>
+        <module>mongooses-core-backend-activities-cloneevent</module>
+        <module>mongooses-core-backend-activities-options</module>
+        <module>mongooses-core-backend-start</module>
+        <module>mongooses-core-backend-multilangeditor</module>
+        <module>mongooses-core-frontend-activities-terms</module>
+        <module>mongooses-core-frontend-activities-program</module>
+        <module>mongooses-core-frontend-activities-startbooking</module>
+        <module>mongooses-core-frontend-activities-fees</module>
+        <module>mongooses-core-frontend-activities-options</module>
+        <module>mongooses-core-frontend-activities-person</module>
+        <module>mongooses-core-frontend-activities-summary</module>
+        <module>mongooses-core-frontend-activities-cart</module>
+        <module>mongooses-core-frontend-activities-payment</module>
+        <module>mongooses-core-frontend-start</module>
+        <module>mongooses-core-server-systemmetrics</module>
+        <module>mongooses-core-server-start</module>
+        <module>mongooses-core-shared-domain</module>
+        <module>mongooses-core-shared-entities</module>
+        <module>mongooses-core-sharedends-activities-authn</module>
+        <module>mongooses-core-sharedends-activities-authz</module>
+        <module>mongooses-core-sharedends-i18n</module>
+        <module>mongooses-core-sharedends-authn</module>
+        <module>mongooses-core-sharedends-authz</module>
+        <module>mongooses-core-sharedends-aggregates</module>
+        <module>mongooses-core-sharedends-start</module>
+        <module>mongooses-core-sharedends-sessionrecorder</module>
+        <module>mongooses-core-sharedends-businesslogic</module>
+        <module>mongooses-core-sharedends-util</module>
+        <module>mongooses-java-server-systemmetrics</module>
+        <module>mongooses-java-sharedends-activities</module>
+        <module>mongooses-web</module>
+
+    </modules>
+
+</project>

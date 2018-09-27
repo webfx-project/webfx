@@ -14,10 +14,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>mongooses-core</module>
-        <module>mongooses-java</module>
-        <module>mongooses-web</module>
+
+        <module>mongoose-modules</module>
         <module>mongoose-executables</module>
+
     </modules>
 
     <properties>

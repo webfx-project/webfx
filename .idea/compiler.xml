@@ -249,9 +249,11 @@
       <module name="mongoose-backend-fxkit-gwt" target="1.8" />
       <module name="mongoose-backend-fxkit-javafx" target="1.8" />
       <module name="mongoose-core" target="1.8" />
+      <module name="mongoose-executables" target="1.8" />
       <module name="mongoose-frontend" target="1.8" />
       <module name="mongoose-frontend-fxkit-gwt" target="1.8" />
       <module name="mongoose-frontend-fxkit-javafx" target="1.8" />
+      <module name="mongoose-modules" target="1.8" />
       <module name="mongoose-server" target="1.8" />
       <module name="mongoose-server-platform-vertx" target="1.8" />
       <module name="mongooses-backend" target="1.8" />
