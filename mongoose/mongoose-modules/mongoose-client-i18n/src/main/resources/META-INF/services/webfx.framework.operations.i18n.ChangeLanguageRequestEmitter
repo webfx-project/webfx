@@ -1,2 +1,2 @@
-mongooses.core.sharedends.operations.i18n.ChangeLanguageToEnglishRequest$ProvidedEmitter
-mongooses.core.sharedends.operations.i18n.ChangeLanguageToFrenchRequest$ProvidedEmitter
+mongoose.client.operations.i18n.ChangeLanguageToEnglishRequest$ProvidedEmitter
+mongoose.client.operations.i18n.ChangeLanguageToFrenchRequest$ProvidedEmitter

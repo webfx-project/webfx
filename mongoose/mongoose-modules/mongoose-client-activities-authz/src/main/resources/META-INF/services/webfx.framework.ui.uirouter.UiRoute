@@ -1,1 +1,1 @@
-mongooses.core.sharedends.actvities.authz.UnauthorizedRouting$ProvidedUiRoute
+mongoose.client.activities.authz.UnauthorizedRouting$ProvidedUiRoute

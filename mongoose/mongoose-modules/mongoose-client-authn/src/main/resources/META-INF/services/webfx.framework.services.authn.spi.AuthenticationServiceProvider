@@ -1,1 +1,1 @@
-mongooses.core.sharedends.services.authn.MongooseAuthenticationServiceProvider
+mongoose.client.services.authn.MongooseAuthenticationServiceProvider

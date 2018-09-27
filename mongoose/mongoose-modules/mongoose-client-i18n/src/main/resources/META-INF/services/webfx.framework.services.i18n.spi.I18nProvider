@@ -1,1 +1,1 @@
-mongooses.core.sharedends.services.i18n.MongooseI18nProvider
+mongoose.client.services.i18n.MongooseI18nProvider

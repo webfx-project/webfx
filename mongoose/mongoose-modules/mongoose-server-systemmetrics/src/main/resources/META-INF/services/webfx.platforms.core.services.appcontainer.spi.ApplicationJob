@@ -1,1 +1,1 @@
-mongooses.core.server.jobs.systemmetrics.ProvidedSystemMetricsRecorderJob
+mongoose.server.jobs.systemmetrics.ProvidedSystemMetricsRecorderJob

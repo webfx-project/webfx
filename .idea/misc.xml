@@ -17,6 +17,7 @@
       <set>
         <option value="$PROJECT_DIR$/mongoose/mongoose-backend/pom.xml" />
         <option value="$PROJECT_DIR$/mongoose/mongoose-frontend/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-start/pom.xml" />
         <option value="$PROJECT_DIR$/mongoose/mongoose-modules/mongooses-core-backend-activities/pom.xml" />
         <option value="$PROJECT_DIR$/mongoose/mongoose-modules/mongooses-core-sharedends-activities/pom.xml" />
         <option value="$PROJECT_DIR$/mongoose/mongoose-server/pom.xml" />

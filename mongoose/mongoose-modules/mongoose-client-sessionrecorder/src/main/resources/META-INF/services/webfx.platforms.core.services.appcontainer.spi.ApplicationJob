@@ -1,1 +1,1 @@
-mongooses.core.sharedends.jobs.sessionrecorder.ProvidedClientSessionRecorderJob
+mongoose.client.jobs.sessionrecorder.ProvidedClientSessionRecorderJob

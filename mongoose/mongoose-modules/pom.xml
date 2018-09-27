@@ -38,8 +38,6 @@
         <module>mongoose-frontend-activities-cart</module>
         <module>mongoose-frontend-activities-payment</module>
         <module>mongoose-frontend-application</module>
-        <module>mongoose-server-systemmetrics</module>
-        <module>mongoose-server-start</module>
         <module>mongoose-shared-domain</module>
         <module>mongoose-shared-entities</module>
         <module>mongoose-client-activities-authn</module>
@@ -51,10 +49,14 @@
         <module>mongoose-client-application</module>
         <module>mongoose-client-sessionrecorder</module>
         <module>mongoose-client-businesslogic</module>
-        <module>mongoose-client-util</module>
-        <module>mongoose-server-systemmetrics-java</module>
         <module>mongoose-client-application-java</module>
         <module>mongoose-client-application-gwt</module>
+        <module>mongoose-client-util</module>
+        <module>mongoose-server-push</module>
+        <module>mongoose-server-datasource</module>
+        <module>mongoose-server-systemmetrics</module>
+        <module>mongoose-server-systemmetrics-java</module>
+        <module>mongoose-server-application</module>
 
     </modules>
 

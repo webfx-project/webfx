@@ -1,1 +1,1 @@
-mongooses.core.backend.start.MongooseBackendApplicationModuleInitializer
+mongoose.backend.application.MongooseBackendApplicationModuleInitializer

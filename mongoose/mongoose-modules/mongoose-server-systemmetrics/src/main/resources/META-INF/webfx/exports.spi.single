@@ -1,1 +1,1 @@
-mongooses.core.server.services.systemmetrics.spi.SystemMetricsServiceProvider
+mongoose.server.services.systemmetrics.spi.SystemMetricsServiceProvider

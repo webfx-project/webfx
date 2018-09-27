@@ -1,1 +1,1 @@
-mongooses.core.activities.sharedends.authn.LoginRouting$ProvidedUiRoute
+mongoose.client.activities.authn.LoginRouting$ProvidedUiRoute

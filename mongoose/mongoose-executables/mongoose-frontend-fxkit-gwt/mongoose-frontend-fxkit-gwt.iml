@@ -26,7 +26,7 @@
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-promise:1.0.0-RC1" level="project" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
     <orderEntry type="library" name="Maven: com.googlecode.gwt-charts:gwt-charts:0.9.10" level="project" />
-    <orderEntry type="module" module-name="mongooses-web" />
+    <orderEntry type="module" module-name="mongoose-client-application-gwt" />
     <orderEntry type="module" module-name="mongoose-frontend-application" />
     <orderEntry type="module" module-name="mongoose-client-application" />
     <orderEntry type="module" module-name="mongoose-client-i18n" />

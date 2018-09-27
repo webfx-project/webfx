@@ -52,7 +52,7 @@
     <orderEntry type="module" module-name="mongoose-frontend-activities-summary" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-cart" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-payment" />
-    <orderEntry type="module" module-name="mongooses-java-sharedends-activities" />
+    <orderEntry type="module" module-name="mongoose-client-application-java" />
     <orderEntry type="module" module-name="webfx-fxkit-javafx" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />

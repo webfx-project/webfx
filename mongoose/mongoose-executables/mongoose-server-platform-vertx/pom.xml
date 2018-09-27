@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.webfx</groupId>
-        <artifactId>mongoose-server</artifactId>
+        <artifactId>mongoose-executables</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,7 +14,13 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-server-start</artifactId>
+            <artifactId>webfx-platform-vertx-all</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-server-application</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -24,76 +30,6 @@
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
-
-        <dependency>
-            <artifactId>webfx-platform-vertx-all</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency> <!-- This module automatically starts listening bus entry calls -->
-            <artifactId>webfx-platforms-core-buscallserver</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <!-- Mongoose backend - ->
-
-        <dependency>
-            <artifactId>mongoose-backend-gwt</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-backend-teavm</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-backend-fxkit-javafx</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>web</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-backend-swing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>web</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-backend-pivot</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>web</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-backend-android</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>web</classifier>
-        </dependency>
-
-        <!- - Mongoose frontend - ->
-
-        <dependency>
-            <artifactId>mongoose-frontend-gwt</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-frontend-fxkit-javafx</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>web</classifier>
-        </dependency>
-        -->
 
     </dependencies>
 

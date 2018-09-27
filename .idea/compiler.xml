@@ -101,8 +101,10 @@
         <module name="mongoose-frontend-fxkit-gwt" />
         <module name="mongoose-frontend-fxkit-javafx" />
         <module name="mongoose-frontend-gwt" />
+        <module name="mongoose-server-application" />
+        <module name="mongoose-server-datasource" />
         <module name="mongoose-server-platform-vertx" />
-        <module name="mongoose-server-start" />
+        <module name="mongoose-server-push" />
         <module name="mongoose-server-systemmetrics" />
         <module name="mongoose-server-systemmetrics-java" />
         <module name="mongoose-shared-domain" />
@@ -290,7 +292,10 @@
       <module name="mongoose-frontend-fxkit-javafx" target="1.8" />
       <module name="mongoose-modules" target="1.8" />
       <module name="mongoose-server" target="1.8" />
+      <module name="mongoose-server-application" target="1.8" />
+      <module name="mongoose-server-datasource" target="1.8" />
       <module name="mongoose-server-platform-vertx" target="1.8" />
+      <module name="mongoose-server-push" target="1.8" />
       <module name="mongoose-server-start" target="1.8" />
       <module name="mongoose-server-systemmetrics" target="1.8" />
       <module name="mongoose-server-systemmetrics-java" target="1.8" />
