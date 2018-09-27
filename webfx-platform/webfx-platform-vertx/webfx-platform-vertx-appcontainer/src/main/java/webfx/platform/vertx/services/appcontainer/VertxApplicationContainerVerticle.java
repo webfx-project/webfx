@@ -3,9 +3,13 @@ package webfx.platform.vertx.services.appcontainer;
 import io.vertx.core.*;
 import webfx.platform.vertx.global.VertxInstance;
 import webfx.platforms.core.services.appcontainer.ApplicationContainer;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationContainerProvider;
+import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
 import webfx.platforms.core.services.appcontainer.spi.impl.ApplicationModuleInitializerManager;
+import webfx.platforms.core.services.shutdown.Shutdown;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * There are 2 possible entry points:
@@ -19,8 +23,10 @@ import webfx.platforms.core.services.appcontainer.spi.impl.ApplicationModuleInit
  */
 public final class VertxApplicationContainerVerticle extends AbstractVerticle implements ApplicationContainerProvider {
 
-    private static Object containerInstance;
-    private static Object verticleInstance;
+    private static VertxApplicationContainerVerticle containerInstance;
+    private static VertxApplicationContainerVerticle verticleInstance;
+
+    private final Collection<ApplicationJobVerticle> applicationJobVerticles = new ArrayList<>();
 
     @Override
     public void initialize() { // Entry point 1)
@@ -28,6 +34,12 @@ public final class VertxApplicationContainerVerticle extends AbstractVerticle im
         if (verticleInstance == null)
             VertxRunner.runVerticle(VertxApplicationContainerVerticle.class);
         ApplicationModuleInitializerManager.initialize();
+        Shutdown.addShutdownHook(() -> {
+            for (String deploymentId : VertxInstance.getVertx().deploymentIDs())
+                VertxInstance.getVertx().undeploy(deploymentId);
+            ApplicationModuleInitializerManager.shutdown();
+            VertxInstance.getVertx().close();
+        });
     }
 
     @Override
@@ -35,42 +47,67 @@ public final class VertxApplicationContainerVerticle extends AbstractVerticle im
         verticleInstance = this;
         VertxInstance.setVertx(vertx);
         if (containerInstance == null)
-            ApplicationContainer.start(new VertxApplicationContainerVerticle(), null);
+            ApplicationContainer.main(null);
         vertx.deployVerticle(new VertxWebVerticle());
     }
 
     @Override
+    public void stop() {
+        if (this == containerInstance && !Shutdown.isShuttingDown())
+            Shutdown.softwareShutdown(false, 0);
+    }
+
+    @Override
     public void startApplicationJob(ApplicationJob applicationJob) {
-        Vertx vertx = VertxInstance.getVertx();
-        vertx.deployVerticle(new Verticle() {
-            @Override
-            public Vertx getVertx() {
-                return vertx;
-            }
+        ApplicationJobVerticle applicationJobVerticle = new ApplicationJobVerticle(applicationJob);
+        applicationJobVerticles.add(applicationJobVerticle);
+        VertxInstance.getVertx().deployVerticle(applicationJobVerticle, ar -> applicationJobVerticle.deploymentId = ar.result());
+    }
 
-            @Override
-            public void init(Vertx vertx, Context context) {
-            }
+    @Override
+    public void stopApplicationJob(ApplicationJob applicationJob) {
+        applicationJobVerticles.stream()
+                .filter(v -> v.applicationJob == applicationJob)
+                .findFirst()
+                .ifPresent(v -> VertxInstance.getVertx().undeploy(v.deploymentId));
+    }
 
-            @Override
-            public void start(Future<Void> future) {
-                completeVertxFuture(applicationJob.onStartAsync(), future);
-            }
+    private final class ApplicationJobVerticle implements Verticle {
 
-            @Override
-            public void stop(Future<Void> future) {
-                completeVertxFuture(applicationJob.onStopAsync(), future);
-            }
+        private final ApplicationJob applicationJob;
+        private String deploymentId;
 
-            private void completeVertxFuture(webfx.platforms.core.util.async.Future<Void> webfxFuture, Future<Void> vertxFuture) {
-                webfxFuture.setHandler(ar -> {
-                    if (ar.failed())
-                        vertxFuture.fail(webfxFuture.cause());
-                    else
-                        vertxFuture.complete();
-                });
-            }
-        });
+        public ApplicationJobVerticle(ApplicationJob applicationJob) {
+            this.applicationJob = applicationJob;
+        }
+
+        @Override
+        public Vertx getVertx() {
+            return VertxInstance.getVertx();
+        }
+
+        @Override
+        public void init(Vertx vertx, Context context) {
+        }
+
+        @Override
+        public void start(Future<Void> future) {
+            completeVertxFuture(applicationJob.onStartAsync(), future);
+        }
+
+        @Override
+        public void stop(Future<Void> future) {
+            completeVertxFuture(applicationJob.onStopAsync(), future);
+        }
+
+        private void completeVertxFuture(webfx.platforms.core.util.async.Future<Void> webfxFuture, Future<Void> vertxFuture) {
+            webfxFuture.setHandler(ar -> {
+                if (ar.failed())
+                    vertxFuture.fail(webfxFuture.cause());
+                else
+                    vertxFuture.complete();
+            });
+        }
     }
 
     public static void main(String[] args) {

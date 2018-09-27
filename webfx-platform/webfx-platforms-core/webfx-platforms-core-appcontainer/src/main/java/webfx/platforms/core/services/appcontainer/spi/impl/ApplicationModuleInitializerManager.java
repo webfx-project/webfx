@@ -2,7 +2,6 @@ package webfx.platforms.core.services.appcontainer.spi.impl;
 
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.shutdown.Shutdown;
 import webfx.platforms.core.util.collection.Collections;
 
 import java.util.Comparator;
@@ -19,7 +18,10 @@ public final class ApplicationModuleInitializerManager {
     public static void initialize() {
         sortModulesByInitLevel();
         startModules();
-        Shutdown.addShutdownHook(ApplicationModuleInitializerManager::stopModules);
+    }
+
+    public static void shutdown() {
+        stopModules();
     }
 
     private static void sortModulesByInitLevel() {
