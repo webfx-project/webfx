@@ -11,11 +11,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="mongooses-core-server-start" />
+    <orderEntry type="module" module-name="mongoose-server-start" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
     <orderEntry type="module" module-name="webfx-platforms-core-util" />
-    <orderEntry type="module" module-name="mongooses-core-server-systemmetrics" />
-    <orderEntry type="module" module-name="mongooses-core-shared-entities" />
+    <orderEntry type="module" module-name="mongoose-server-systemmetrics" />
+    <orderEntry type="module" module-name="mongoose-shared-entities" />
     <orderEntry type="module" module-name="webfx-framework-entity" />
     <orderEntry type="module" module-name="webfx-framework-domain" />
     <orderEntry type="module" module-name="webfx-framework-expression" />
@@ -37,7 +37,7 @@
     <orderEntry type="module" module-name="webfx-framework-authz" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
-    <orderEntry type="module" module-name="mongooses-java-server-systemmetrics" />
+    <orderEntry type="module" module-name="mongoose-server-systemmetrics-java" />
     <orderEntry type="module" module-name="webfx-platform-vertx-all" />
     <orderEntry type="module" module-name="webfx-platform-vertx-appcontainer" />
     <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />

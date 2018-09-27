@@ -1,6 +1,6 @@
 <module rename-to="mongoose_backend_fxkit_gwt">
-  <inherits name="mongooses-web"/>
-  <inherits name="mongooses-core-backend-start"/>
+  <inherits name="mongoose-client-application-gwt"/>
+  <inherits name="mongoose-backend-application"/>
   <inherits name="webfx-fxkit-gwt"/>
   <inherits name="webfx-platforms-web-clientbus"/>
   <inherits name="webfx-platform-gwt-appcontainer"/>

@@ -24,14 +24,14 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongooses-web</artifactId>
+            <artifactId>mongoose-client-application-gwt</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>
         </dependency>
 
         <dependency>
-            <artifactId>mongooses-core-frontend-start</artifactId>
+            <artifactId>mongoose-frontend-application</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>fat-sources</classifier>

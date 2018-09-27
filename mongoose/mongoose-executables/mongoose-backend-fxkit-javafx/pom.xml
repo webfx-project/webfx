@@ -16,13 +16,13 @@
         <!-- The dependencies order matters for module initialization sequence -->
 
         <dependency>
-            <artifactId>mongooses-core-backend-start</artifactId>
+            <artifactId>mongoose-backend-application</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>mongooses-java-sharedends-activities</artifactId>
+            <artifactId>mongoose-client-application-java</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

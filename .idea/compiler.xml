@@ -56,57 +56,57 @@
         <module name="javaport-niobuffer" />
         <module name="jreport-base64" />
         <module name="jreport-niobuffer" />
+        <module name="mongoose-backend-activities-authorizations" />
+        <module name="mongoose-backend-activities-bookings" />
+        <module name="mongoose-backend-activities-cloneevent" />
+        <module name="mongoose-backend-activities-events" />
+        <module name="mongoose-backend-activities-letter" />
+        <module name="mongoose-backend-activities-letters" />
+        <module name="mongoose-backend-activities-loadtester-jp" />
+        <module name="mongoose-backend-activities-monitor" />
+        <module name="mongoose-backend-activities-operations" />
+        <module name="mongoose-backend-activities-options" />
+        <module name="mongoose-backend-activities-organizations" />
         <module name="mongoose-backend-android" />
+        <module name="mongoose-backend-application" />
         <module name="mongoose-backend-cn1" />
         <module name="mongoose-backend-fxkit-gwt" />
         <module name="mongoose-backend-fxkit-javafx" />
         <module name="mongoose-backend-gwt" />
+        <module name="mongoose-backend-multilangeditor" />
         <module name="mongoose-backend-pivot" />
         <module name="mongoose-backend-teavm" />
+        <module name="mongoose-client-activities-authn" />
+        <module name="mongoose-client-activities-authz" />
+        <module name="mongoose-client-aggregates" />
+        <module name="mongoose-client-application" />
+        <module name="mongoose-client-application-gwt" />
+        <module name="mongoose-client-application-java" />
+        <module name="mongoose-client-authn" />
+        <module name="mongoose-client-authz" />
+        <module name="mongoose-client-businesslogic" />
+        <module name="mongoose-client-i18n" />
+        <module name="mongoose-client-sessionrecorder" />
+        <module name="mongoose-client-util" />
+        <module name="mongoose-frontend-activities-cart" />
+        <module name="mongoose-frontend-activities-fees" />
+        <module name="mongoose-frontend-activities-options" />
+        <module name="mongoose-frontend-activities-payment" />
+        <module name="mongoose-frontend-activities-person" />
+        <module name="mongoose-frontend-activities-program" />
+        <module name="mongoose-frontend-activities-startbooking" />
+        <module name="mongoose-frontend-activities-summary" />
+        <module name="mongoose-frontend-activities-terms" />
+        <module name="mongoose-frontend-application" />
         <module name="mongoose-frontend-fxkit-gwt" />
         <module name="mongoose-frontend-fxkit-javafx" />
         <module name="mongoose-frontend-gwt" />
         <module name="mongoose-server-platform-vertx" />
-        <module name="mongooses-core-backend-activities-authorizations" />
-        <module name="mongooses-core-backend-activities-bookings" />
-        <module name="mongooses-core-backend-activities-cloneevent" />
-        <module name="mongooses-core-backend-activities-events" />
-        <module name="mongooses-core-backend-activities-letter" />
-        <module name="mongooses-core-backend-activities-letters" />
-        <module name="mongooses-core-backend-activities-loadtester-jp" />
-        <module name="mongooses-core-backend-activities-monitor" />
-        <module name="mongooses-core-backend-activities-operations" />
-        <module name="mongooses-core-backend-activities-options" />
-        <module name="mongooses-core-backend-activities-organizations" />
-        <module name="mongooses-core-backend-multilangeditor" />
-        <module name="mongooses-core-backend-start" />
-        <module name="mongooses-core-frontend-activities-cart" />
-        <module name="mongooses-core-frontend-activities-fees" />
-        <module name="mongooses-core-frontend-activities-options" />
-        <module name="mongooses-core-frontend-activities-payment" />
-        <module name="mongooses-core-frontend-activities-person" />
-        <module name="mongooses-core-frontend-activities-program" />
-        <module name="mongooses-core-frontend-activities-startbooking" />
-        <module name="mongooses-core-frontend-activities-summary" />
-        <module name="mongooses-core-frontend-activities-terms" />
-        <module name="mongooses-core-frontend-start" />
-        <module name="mongooses-core-server-start" />
-        <module name="mongooses-core-server-systemmetrics" />
-        <module name="mongooses-core-shared-domain" />
-        <module name="mongooses-core-shared-entities" />
-        <module name="mongooses-core-sharedends-activities-authn" />
-        <module name="mongooses-core-sharedends-activities-authz" />
-        <module name="mongooses-core-sharedends-aggregates" />
-        <module name="mongooses-core-sharedends-authn" />
-        <module name="mongooses-core-sharedends-authz" />
-        <module name="mongooses-core-sharedends-businesslogic" />
-        <module name="mongooses-core-sharedends-i18n" />
-        <module name="mongooses-core-sharedends-sessionrecorder" />
-        <module name="mongooses-core-sharedends-start" />
-        <module name="mongooses-core-sharedends-util" />
-        <module name="mongooses-java-server-systemmetrics" />
-        <module name="mongooses-java-sharedends-activities" />
-        <module name="mongooses-web" />
+        <module name="mongoose-server-start" />
+        <module name="mongoose-server-systemmetrics" />
+        <module name="mongoose-server-systemmetrics-java" />
+        <module name="mongoose-shared-domain" />
+        <module name="mongoose-shared-entities" />
         <module name="naga-abstractplat-java" />
         <module name="naga-abstractplat-web" />
         <module name="naga-abstrplat-java" />
@@ -246,77 +246,77 @@
     <bytecodeTargetLevel>
       <module name="mongoose" target="1.8" />
       <module name="mongoose-backend" target="1.8" />
+      <module name="mongoose-backend-activities-authorizations" target="1.8" />
+      <module name="mongoose-backend-activities-bookings" target="1.8" />
+      <module name="mongoose-backend-activities-cloneevent" target="1.8" />
+      <module name="mongoose-backend-activities-events" target="1.8" />
+      <module name="mongoose-backend-activities-letter" target="1.8" />
+      <module name="mongoose-backend-activities-letters" target="1.8" />
+      <module name="mongoose-backend-activities-loadtester-jp" target="1.8" />
+      <module name="mongoose-backend-activities-monitor" target="1.8" />
+      <module name="mongoose-backend-activities-operations" target="1.8" />
+      <module name="mongoose-backend-activities-options" target="1.8" />
+      <module name="mongoose-backend-activities-organizations" target="1.8" />
+      <module name="mongoose-backend-application" target="1.8" />
       <module name="mongoose-backend-fxkit-gwt" target="1.8" />
       <module name="mongoose-backend-fxkit-javafx" target="1.8" />
+      <module name="mongoose-backend-multilangeditor" target="1.8" />
+      <module name="mongoose-client-activities-authn" target="1.8" />
+      <module name="mongoose-client-activities-authz" target="1.8" />
+      <module name="mongoose-client-aggregates" target="1.8" />
+      <module name="mongoose-client-application" target="1.8" />
+      <module name="mongoose-client-application-gwt" target="1.8" />
+      <module name="mongoose-client-application-java" target="1.8" />
+      <module name="mongoose-client-authn" target="1.8" />
+      <module name="mongoose-client-authz" target="1.8" />
+      <module name="mongoose-client-businesslogic" target="1.8" />
+      <module name="mongoose-client-i18n" target="1.8" />
+      <module name="mongoose-client-sessionrecorder" target="1.8" />
+      <module name="mongoose-client-util" target="1.8" />
       <module name="mongoose-core" target="1.8" />
       <module name="mongoose-executables" target="1.8" />
       <module name="mongoose-frontend" target="1.8" />
+      <module name="mongoose-frontend-activities-cart" target="1.8" />
+      <module name="mongoose-frontend-activities-fees" target="1.8" />
+      <module name="mongoose-frontend-activities-options" target="1.8" />
+      <module name="mongoose-frontend-activities-payment" target="1.8" />
+      <module name="mongoose-frontend-activities-person" target="1.8" />
+      <module name="mongoose-frontend-activities-program" target="1.8" />
+      <module name="mongoose-frontend-activities-startbooking" target="1.8" />
+      <module name="mongoose-frontend-activities-summary" target="1.8" />
+      <module name="mongoose-frontend-activities-terms" target="1.8" />
+      <module name="mongoose-frontend-application" target="1.8" />
       <module name="mongoose-frontend-fxkit-gwt" target="1.8" />
       <module name="mongoose-frontend-fxkit-javafx" target="1.8" />
       <module name="mongoose-modules" target="1.8" />
       <module name="mongoose-server" target="1.8" />
       <module name="mongoose-server-platform-vertx" target="1.8" />
+      <module name="mongoose-server-start" target="1.8" />
+      <module name="mongoose-server-systemmetrics" target="1.8" />
+      <module name="mongoose-server-systemmetrics-java" target="1.8" />
+      <module name="mongoose-shared-domain" target="1.8" />
+      <module name="mongoose-shared-entities" target="1.8" />
       <module name="mongooses-backend" target="1.8" />
       <module name="mongooses-core" target="1.8" />
       <module name="mongooses-core-all" target="1.8" />
       <module name="mongooses-core-backend" target="1.8" />
       <module name="mongooses-core-backend-activities" target="1.8" />
-      <module name="mongooses-core-backend-activities-authorizations" target="1.8" />
-      <module name="mongooses-core-backend-activities-bookings" target="1.8" />
-      <module name="mongooses-core-backend-activities-cloneevent" target="1.8" />
-      <module name="mongooses-core-backend-activities-events" target="1.8" />
-      <module name="mongooses-core-backend-activities-letter" target="1.8" />
-      <module name="mongooses-core-backend-activities-letters" target="1.8" />
-      <module name="mongooses-core-backend-activities-loadtester-jp" target="1.8" />
-      <module name="mongooses-core-backend-activities-monitor" target="1.8" />
-      <module name="mongooses-core-backend-activities-operations" target="1.8" />
-      <module name="mongooses-core-backend-activities-options" target="1.8" />
-      <module name="mongooses-core-backend-activities-organizations" target="1.8" />
       <module name="mongooses-core-backend-all" target="1.8" />
-      <module name="mongooses-core-backend-multilangeditor" target="1.8" />
-      <module name="mongooses-core-backend-start" target="1.8" />
       <module name="mongooses-core-frontend" target="1.8" />
       <module name="mongooses-core-frontend-activities" target="1.8" />
-      <module name="mongooses-core-frontend-activities-cart" target="1.8" />
-      <module name="mongooses-core-frontend-activities-fees" target="1.8" />
-      <module name="mongooses-core-frontend-activities-options" target="1.8" />
-      <module name="mongooses-core-frontend-activities-payment" target="1.8" />
-      <module name="mongooses-core-frontend-activities-person" target="1.8" />
-      <module name="mongooses-core-frontend-activities-program" target="1.8" />
-      <module name="mongooses-core-frontend-activities-startbooking" target="1.8" />
-      <module name="mongooses-core-frontend-activities-summary" target="1.8" />
-      <module name="mongooses-core-frontend-activities-terms" target="1.8" />
-      <module name="mongooses-core-frontend-start" target="1.8" />
       <module name="mongooses-core-server" target="1.8" />
-      <module name="mongooses-core-server-start" target="1.8" />
-      <module name="mongooses-core-server-systemmetrics" target="1.8" />
       <module name="mongooses-core-shared" target="1.8" />
-      <module name="mongooses-core-shared-domain" target="1.8" />
-      <module name="mongooses-core-shared-entities" target="1.8" />
       <module name="mongooses-core-sharedends" target="1.8" />
       <module name="mongooses-core-sharedends-activities" target="1.8" />
-      <module name="mongooses-core-sharedends-activities-authn" target="1.8" />
-      <module name="mongooses-core-sharedends-activities-authz" target="1.8" />
-      <module name="mongooses-core-sharedends-aggregates" target="1.8" />
-      <module name="mongooses-core-sharedends-authn" target="1.8" />
-      <module name="mongooses-core-sharedends-authz" target="1.8" />
-      <module name="mongooses-core-sharedends-businesslogic" target="1.8" />
-      <module name="mongooses-core-sharedends-i18n" target="1.8" />
-      <module name="mongooses-core-sharedends-sessionrecorder" target="1.8" />
-      <module name="mongooses-core-sharedends-start" target="1.8" />
-      <module name="mongooses-core-sharedends-util" target="1.8" />
       <module name="mongooses-core-sharedends-workingdocument" target="1.8" />
       <module name="mongooses-frontend" target="1.8" />
       <module name="mongooses-java" target="1.8" />
-      <module name="mongooses-java-server-systemmetrics" target="1.8" />
       <module name="mongooses-java-sharedends" target="1.8" />
-      <module name="mongooses-java-sharedends-activities" target="1.8" />
       <module name="mongooses-loadtester-jp" target="1.8" />
       <module name="mongooses-server" target="1.8" />
       <module name="mongooses-sharedends" target="1.8" />
       <module name="mongooses-sharedends-sessionrecorder" target="1.8" />
       <module name="mongooses-test" target="1.8" />
-      <module name="mongooses-web" target="1.8" />
       <module name="mongooses-web-sharedends-activities" target="1.8" />
       <module name="webfx" target="1.8" />
       <module name="webfx-framework" target="1.8" />

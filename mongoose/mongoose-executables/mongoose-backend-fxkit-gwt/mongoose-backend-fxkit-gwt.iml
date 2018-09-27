@@ -26,29 +26,29 @@
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
     <orderEntry type="library" name="Maven: com.googlecode.gwt-charts:gwt-charts:0.9.10" level="project" />
     <orderEntry type="module" module-name="mongooses-web" />
-    <orderEntry type="module" module-name="mongooses-core-backend-start" />
-    <orderEntry type="module" module-name="mongooses-core-sharedends-start" />
-    <orderEntry type="module" module-name="mongooses-core-sharedends-i18n" />
-    <orderEntry type="module" module-name="mongooses-core-sharedends-authz" />
-    <orderEntry type="module" module-name="mongooses-core-shared-entities" />
-    <orderEntry type="module" module-name="mongooses-core-sharedends-authn" />
-    <orderEntry type="module" module-name="mongooses-core-sharedends-sessionrecorder" />
+    <orderEntry type="module" module-name="mongoose-backend-application" />
+    <orderEntry type="module" module-name="mongoose-client-application" />
+    <orderEntry type="module" module-name="mongoose-client-i18n" />
+    <orderEntry type="module" module-name="mongoose-client-authz" />
+    <orderEntry type="module" module-name="mongoose-shared-entities" />
+    <orderEntry type="module" module-name="mongoose-client-authn" />
+    <orderEntry type="module" module-name="mongoose-client-sessionrecorder" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
-    <orderEntry type="module" module-name="mongooses-core-sharedends-businesslogic" />
-    <orderEntry type="module" module-name="mongooses-core-sharedends-util" />
+    <orderEntry type="module" module-name="mongoose-client-businesslogic" />
+    <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
-    <orderEntry type="module" module-name="mongooses-core-sharedends-activities-authn" />
-    <orderEntry type="module" module-name="mongooses-core-sharedends-activities-authz" />
-    <orderEntry type="module" module-name="mongooses-core-backend-activities-authorizations" />
-    <orderEntry type="module" module-name="mongooses-core-backend-activities-organizations" />
-    <orderEntry type="module" module-name="mongooses-core-backend-activities-operations" />
-    <orderEntry type="module" module-name="mongooses-core-backend-activities-monitor" />
-    <orderEntry type="module" module-name="mongooses-core-backend-activities-letters" />
-    <orderEntry type="module" module-name="mongooses-core-backend-activities-letter" />
-    <orderEntry type="module" module-name="mongooses-core-backend-multilangeditor" />
-    <orderEntry type="module" module-name="mongooses-core-backend-activities-events" />
-    <orderEntry type="module" module-name="mongooses-core-backend-activities-bookings" />
-    <orderEntry type="module" module-name="mongooses-core-backend-activities-cloneevent" />
+    <orderEntry type="module" module-name="mongoose-client-activities-authn" />
+    <orderEntry type="module" module-name="mongoose-client-activities-authz" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-authorizations" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-organizations" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-operations" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-monitor" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-letters" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-letter" />
+    <orderEntry type="module" module-name="mongoose-backend-multilangeditor" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-events" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-bookings" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent" />
     <orderEntry type="module" module-name="webfx-framework-all" />
     <orderEntry type="module" module-name="webfx-framework-expression" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />

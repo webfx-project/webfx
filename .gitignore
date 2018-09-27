@@ -104,8 +104,9 @@ bower_components/
 
 ### Mongoose
 /mongoose/mongooses-java/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
-/mongoose/mongooses-web/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
+/mongoose/mongoose-client-application-gwt/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
 /mongoose/mongooses-server/src/main/resources/mongooses/server/datasource/1/ConnectionDetails.json
-/mongoose/mongooses-java/mongooses-java-sharedends-activities/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
-/mongoose/mongoose-modules/mongooses-web/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
-/mongoose/mongoose-modules/mongooses-java-sharedends-activities/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
+/mongoose/mongooses-java/mongoose-client-application-java/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
+/mongoose/mongoose-modules/mongoose-client-application-gwt/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
+/mongoose/mongoose-modules/mongoose-client-application-java/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
+/mongoose/mongoose-modules/mongoose-server-start/src/main/resources/mongooses/server/datasource/1/ConnectionDetails.json

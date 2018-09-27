@@ -14,13 +14,13 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongooses-core-server-start</artifactId>
+            <artifactId>mongoose-server-start</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>mongooses-java-server-systemmetrics</artifactId>
+            <artifactId>mongoose-server-systemmetrics-java</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
