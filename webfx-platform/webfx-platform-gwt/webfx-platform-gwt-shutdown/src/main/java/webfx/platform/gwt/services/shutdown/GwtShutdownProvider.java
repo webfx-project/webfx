@@ -1,15 +1,35 @@
 package webfx.platform.gwt.services.shutdown;
 
 import elemental2.dom.DomGlobal;
-import webfx.platforms.core.services.shutdown.spi.ShutdownProvider;
+import elemental2.dom.EventListener;
+import webfx.platforms.core.services.shutdown.spi.impl.ShutdownProviderBase;
 
 /**
  * @author Bruno Salmon
  */
-public final class GwtShutdownProvider implements ShutdownProvider {
+public final class GwtShutdownProvider extends ShutdownProviderBase<EventListener> {
 
     @Override
-    public void addShutdownHook(Runnable hook) {
-        DomGlobal.window.addEventListener("beforeunload", evt -> hook.run());
+    protected EventListener createPlatformShutdownHook(Runnable hook) {
+        return evt -> hook.run();
     }
+
+    @Override
+    protected void addPlatformShutdownHook(EventListener platformHook) {
+        DomGlobal.window.addEventListener("beforeunload", platformHook);
+    }
+
+    @Override
+    protected void removePlatformShutdownHook(EventListener platformHook) {
+        DomGlobal.window.removeEventListener("beforeunload", platformHook);
+    }
+
+    @Override
+    protected void exit(int exitStatus) {
+        exit();
+    }
+
+    public native void exit() /*-{
+        $wnd.close();
+    }-*/;
 }
