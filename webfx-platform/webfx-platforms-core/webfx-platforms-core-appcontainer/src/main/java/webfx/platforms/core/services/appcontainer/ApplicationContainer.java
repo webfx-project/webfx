@@ -17,7 +17,7 @@ public final class ApplicationContainer {
         getProvider().startApplicationJob(applicationJob);
     }
 
-    public static void stoptApplicationJob(ApplicationJob applicationJob) {
+    public static void stopApplicationJob(ApplicationJob applicationJob) {
         getProvider().stopApplicationJob(applicationJob);
     }
 

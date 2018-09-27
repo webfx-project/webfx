@@ -207,6 +207,7 @@
         <module name="webfx-platforms-core-appcontainer" />
         <module name="webfx-platforms-core-bus" />
         <module name="webfx-platforms-core-buscall" />
+        <module name="webfx-platforms-core-buscallserver" />
         <module name="webfx-platforms-core-clientbus" />
         <module name="webfx-platforms-core-datasource" />
         <module name="webfx-platforms-core-json" />
@@ -385,7 +386,10 @@
       <module name="webfx-platforms-core-appcontainer" target="1.8" />
       <module name="webfx-platforms-core-bus" target="1.8" />
       <module name="webfx-platforms-core-buscall" target="1.8" />
+      <module name="webfx-platforms-core-buscallclient" target="1.8" />
+      <module name="webfx-platforms-core-buscallserver" target="1.8" />
       <module name="webfx-platforms-core-clientbus" target="1.8" />
+      <module name="webfx-platforms-core-clientbuscall" target="1.8" />
       <module name="webfx-platforms-core-datasource" target="1.8" />
       <module name="webfx-platforms-core-json" target="1.8" />
       <module name="webfx-platforms-core-log" target="1.8" />
@@ -397,6 +401,7 @@
       <module name="webfx-platforms-core-resource" target="1.8" />
       <module name="webfx-platforms-core-scheduler" target="1.8" />
       <module name="webfx-platforms-core-serial" target="1.8" />
+      <module name="webfx-platforms-core-serverbuscall" target="1.8" />
       <module name="webfx-platforms-core-shutdown" target="1.8" />
       <module name="webfx-platforms-core-storage" target="1.8" />
       <module name="webfx-platforms-core-type" target="1.8" />

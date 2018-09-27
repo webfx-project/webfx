@@ -33,6 +33,6 @@ public class ApplicationJobsInitializer implements ApplicationModuleInitializer 
 
     @Override
     public void exitModule() {
-        providedJobs.forEach(ApplicationContainer::stoptApplicationJob);
+        providedJobs.forEach(ApplicationContainer::stopApplicationJob);
     }
 }

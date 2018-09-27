@@ -12,11 +12,11 @@ public interface ApplicationContainerProvider {
     }
 
     default void startApplicationJob(ApplicationJob applicationJob) {
-        applicationJob.onStart();
+        applicationJob.onStartAsync();
     }
 
     default void stopApplicationJob(ApplicationJob applicationJob) {
-        applicationJob.onStop();
+        applicationJob.onStopAsync();
     }
 
 }

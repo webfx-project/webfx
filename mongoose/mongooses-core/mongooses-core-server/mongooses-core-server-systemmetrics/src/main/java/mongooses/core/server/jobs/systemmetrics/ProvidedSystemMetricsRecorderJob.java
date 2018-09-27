@@ -12,7 +12,6 @@ import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.scheduler.Scheduler;
 import webfx.platforms.core.services.update.UpdateArgument;
 import webfx.platforms.core.services.update.UpdateService;
-import webfx.platforms.core.util.async.Future;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -27,13 +26,13 @@ public final class ProvidedSystemMetricsRecorderJob implements ApplicationJob {
 
 
     @Override
-    public Future<Void> onStart() {
+    public void onStart() {
         // Stopping the activity if there is actually no metrics service registered for this platform
         if (SystemMetricsService.getProvider() == null) {
             String errorMessage = "ProvidedSystemMetricsRecorderJob will not start as no SystemMetricsServiceProvider is registered for this platform";
             Logger.log(errorMessage);
-            ApplicationContainer.stoptApplicationJob(this);
-            return Future.failedFuture(errorMessage);
+            ApplicationContainer.stopApplicationJob(this);
+            throw new IllegalStateException(errorMessage);
         }
 
         Logger.log("Starting system metrics recorder activity...");
@@ -59,12 +58,10 @@ public final class ProvidedSystemMetricsRecorderJob implements ApplicationJob {
                 else
                     Logger.log("" + ar.result().getRowCount() + " metrics records have been deleted from the database");
             }));
-
-        return Future.succeededFuture();
     }
 
     @Override
-    public Future<Void> onStop() {
+    public void onStop() {
         if (metricsCapturePeriodicTimer != null) {
             Logger.log("Stopping system metrics recorder activity...");
             metricsCapturePeriodicTimer.cancel();
@@ -72,6 +69,5 @@ public final class ProvidedSystemMetricsRecorderJob implements ApplicationJob {
             metricsCleaningPeriodicTimer.cancel();
             metricsCleaningPeriodicTimer = null;
         }
-        return Future.succeededFuture();
     }
 }

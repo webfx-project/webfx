@@ -16,7 +16,6 @@ import webfx.platforms.core.services.bus.Registration;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.client.PushClientService;
 import webfx.platforms.core.services.storage.LocalStorage;
-import webfx.platforms.core.util.async.Future;
 
 import java.time.Instant;
 
@@ -43,7 +42,7 @@ public final class ProvidedClientSessionRecorderJob implements ApplicationJob {
     private Entity sessionAgent, sessionApplication, sessionProcess, sessionConnection, sessionUser;
 
     @Override
-    public Future<Void> onStart() {
+    public void onStart() {
         Logger.log("User Agent = " + getUserAgent());
         Logger.log("application.name = " + getApplicationName());
         Logger.log("application.version = " + getApplicationVersion());
@@ -69,13 +68,11 @@ public final class ProvidedClientSessionRecorderJob implements ApplicationJob {
         });
         if (bus.isOpen())
             onConnectionOpened();
-        return Future.succeededFuture();
     }
 
     @Override
-    public Future<Void> onStop() {
+    public void onStop() {
         onShutdown();
-        return Future.succeededFuture();
     }
 
     public static void setUserPrincipalProperty(Property<Object> userPrincipalProperty) {

@@ -54,12 +54,12 @@ public final class VertxApplicationContainerVerticle extends AbstractVerticle im
 
             @Override
             public void start(Future<Void> future) {
-                completeVertxFuture(applicationJob.onStart(), future);
+                completeVertxFuture(applicationJob.onStartAsync(), future);
             }
 
             @Override
             public void stop(Future<Void> future) {
-                completeVertxFuture(applicationJob.onStop(), future);
+                completeVertxFuture(applicationJob.onStopAsync(), future);
             }
 
             private void completeVertxFuture(webfx.platforms.core.util.async.Future<Void> webfxFuture, Future<Void> vertxFuture) {
@@ -74,6 +74,6 @@ public final class VertxApplicationContainerVerticle extends AbstractVerticle im
     }
 
     public static void main(String[] args) {
-        ApplicationContainer.start(new VertxApplicationContainerVerticle(), args);
+        ApplicationContainer.main(args);
     }
 }
