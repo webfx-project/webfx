@@ -5,7 +5,6 @@ import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.shared.entities.SystemMetricsEntity;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.UpdateStore;
-import webfx.platforms.core.services.appcontainer.ApplicationContainer;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.scheduler.Scheduled;
@@ -19,7 +18,7 @@ import java.time.temporal.ChronoUnit;
 /**
  * @author Bruno Salmon
  */
-public final class ProvidedSystemMetricsRecorderJob implements ApplicationJob {
+public final class SystemMetricsRecorderJob implements ApplicationJob {
 
     private Scheduled metricsCapturePeriodicTimer;
     private Scheduled metricsCleaningPeriodicTimer;
@@ -27,15 +26,10 @@ public final class ProvidedSystemMetricsRecorderJob implements ApplicationJob {
 
     @Override
     public void onStart() {
-        // Stopping the activity if there is actually no metrics service registered for this platform
-        if (SystemMetricsService.getProvider() == null) {
-            String errorMessage = "ProvidedSystemMetricsRecorderJob will not application as no SystemMetricsServiceProvider is registered for this platform";
-            Logger.log(errorMessage);
-            ApplicationContainer.stopApplicationJob(this);
-            throw new IllegalStateException(errorMessage);
-        }
+        // Checking there is a metrics service provider registered for this platform
+        if (SystemMetricsService.getProvider() == null)
+            throw new IllegalStateException("SystemMetricsRecorderJob will not start as no SystemMetricsServiceProvider is registered for this platform");
 
-        Logger.log("Starting system metrics recorder activity...");
         DataSourceModel dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
         // Starting a periodic timer to capture metrics every seconds and record it in the database
         metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, () -> {
@@ -62,12 +56,10 @@ public final class ProvidedSystemMetricsRecorderJob implements ApplicationJob {
 
     @Override
     public void onStop() {
-        if (metricsCapturePeriodicTimer != null) {
-            Logger.log("Stopping system metrics recorder activity...");
+        if (metricsCapturePeriodicTimer != null)
             metricsCapturePeriodicTimer.cancel();
-            metricsCapturePeriodicTimer = null;
+        if (metricsCapturePeriodicTimer != null)
             metricsCleaningPeriodicTimer.cancel();
-            metricsCleaningPeriodicTimer = null;
-        }
+        metricsCapturePeriodicTimer = metricsCleaningPeriodicTimer = null;
     }
 }
