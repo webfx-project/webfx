@@ -22,18 +22,18 @@ import java.time.Instant;
 /**
  * @author Bruno Salmon
  */
-public final class ProvidedClientSessionRecorderJob implements ApplicationJob {
+public final class ClientSessionRecorderJob implements ApplicationJob {
 
-    private static ProvidedClientSessionRecorderJob INSTANCE;
+    private static ClientSessionRecorderJob INSTANCE;
 
     private final Bus bus;
     private Registration pushClientRegistration;
 
-    public ProvidedClientSessionRecorderJob() {
+    public ClientSessionRecorderJob() {
         this(BusService.bus());
     }
 
-    private ProvidedClientSessionRecorderJob(Bus bus) {
+    private ClientSessionRecorderJob(Bus bus) {
         this.bus = bus;
         INSTANCE = this;
     }
@@ -256,27 +256,27 @@ public final class ProvidedClientSessionRecorderJob implements ApplicationJob {
         return nextEntity;
     }
 
-    public static String getUserAgent() {
+    private static String getUserAgent() {
         return FxKitLauncher.getUserAgent();
     }
 
-    public static String getApplicationName() {
+    private static String getApplicationName() {
         return System.getProperty("application.name", "?");
     }
 
-    public static String getApplicationVersion() {
+    private static String getApplicationVersion() {
         return System.getProperty("application.version", "?");
     }
 
-    public static String getApplicationBuildTool() {
+    private static String getApplicationBuildTool() {
         return System.getProperty("application.build.tool", "?");
     }
 
-    public static String getApplicationBuildNumberString() {
+    private static String getApplicationBuildNumberString() {
         return System.getProperty("application.build.number", "0");
     }
 
-    public static Number getApplicationBuildNumber() {
+    private static Number getApplicationBuildNumber() {
         try {
             return Integer.valueOf(getApplicationBuildNumberString());
         } catch (NumberFormatException e) {
@@ -284,14 +284,14 @@ public final class ProvidedClientSessionRecorderJob implements ApplicationJob {
         }
     }
 
-    public static String getApplicationBuildTimestampString() {
+    private static String getApplicationBuildTimestampString() {
         String timestamp = System.getProperty("application.build.timestamp");
         if (timestamp == null)
             timestamp = Instant.now().toString();
         return timestamp;
     }
 
-    public static Instant getApplicationBuildTimestamp() {
+    private static Instant getApplicationBuildTimestamp() {
         try {
             return Instant.parse(getApplicationBuildTimestampString());
         } catch (Exception e) {

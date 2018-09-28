@@ -1,7 +1,7 @@
 package mongoose.client.application;
 
 import mongoose.shared.actions.MongooseActions;
-import mongoose.client.jobs.sessionrecorder.ProvidedClientSessionRecorderJob;
+import mongoose.client.jobs.sessionrecorder.ClientSessionRecorderJob;
 import webfx.framework.activity.Activity;
 import webfx.framework.activity.ActivityContext;
 import webfx.framework.activity.impl.combinations.viewapplication.ViewApplicationContext;
@@ -49,7 +49,7 @@ public abstract class MongooseClientApplication
         this.context = context;
         getUiRouter().routeAndMount("/", getContainerActivityFactory(), setupContainedRouter(UiRouter.createSubRouter(context)));
         // Also passing the userPrincipal property to the client session recorder so it can react to user changes
-        ProvidedClientSessionRecorderJob.setUserPrincipalProperty(getUiSession().userPrincipalProperty());
+        ClientSessionRecorderJob.setUserPrincipalProperty(getUiSession().userPrincipalProperty());
     }
 
     protected abstract Factory<Activity<ViewDomainActivityContextFinal>> getContainerActivityFactory();
