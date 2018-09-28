@@ -1,7 +1,7 @@
 package mongoose.client.logic.ui.calendargraphic.impl;
 
 import mongoose.client.logic.calendar.Calendar;
-import mongoose.shared.domainmodel.time.TimeInterval;
+import mongoose.shared.time.TimeInterval;
 import webfx.platforms.core.util.collection.Collections;
 
 import java.util.ArrayList;

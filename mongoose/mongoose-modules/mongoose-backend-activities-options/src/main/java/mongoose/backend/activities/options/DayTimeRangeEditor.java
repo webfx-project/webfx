@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import mongoose.shared.domainmodel.time.DayTimeRange;
+import mongoose.shared.time.DayTimeRange;
 import mongoose.client.logic.calendar.CalendarTimeline;
 import mongoose.client.logic.ui.calendargraphic.impl.DayColumnBodyBlockViewModel;
 import mongoose.client.logic.ui.calendargraphic.impl.DayColumnHeaderViewModel;

@@ -32,6 +32,7 @@
     <orderEntry type="module" module-name="mongoose-client-i18n" />
     <orderEntry type="module" module-name="mongoose-client-authz" />
     <orderEntry type="module" module-name="mongoose-shared-entities" />
+    <orderEntry type="module" module-name="mongoose-shared-time" />
     <orderEntry type="module" module-name="mongoose-client-authn" />
     <orderEntry type="module" module-name="mongoose-client-sessionrecorder" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" />

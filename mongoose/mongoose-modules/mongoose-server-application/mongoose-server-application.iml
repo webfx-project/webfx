@@ -13,6 +13,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongoose-server-datasource" />
     <orderEntry type="module" module-name="mongoose-shared-entities" />
+    <orderEntry type="module" module-name="mongoose-shared-time" />
+    <orderEntry type="module" module-name="webfx-platforms-core-json" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-framework-entity" />
     <orderEntry type="module" module-name="webfx-framework-domain" />
     <orderEntry type="module" module-name="webfx-framework-expression" />
@@ -29,8 +32,6 @@
     <orderEntry type="module" module-name="webfx-framework-util" />
     <orderEntry type="module" module-name="webfx-fxkits-core-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-json" />
-    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-framework-action" />
     <orderEntry type="module" module-name="webfx-framework-i18n" />
     <orderEntry type="module" module-name="webfx-framework-operation" />

@@ -2,7 +2,7 @@ package mongoose.client.logic.ui.calendargraphic.impl;
 
 import javafx.beans.property.Property;
 import javafx.scene.text.Font;
-import mongoose.shared.domainmodel.time.TimeInterval;
+import mongoose.shared.time.TimeInterval;
 import webfx.platforms.core.util.collection.Collections;
 import webfx.platforms.core.util.collection.HashList;
 

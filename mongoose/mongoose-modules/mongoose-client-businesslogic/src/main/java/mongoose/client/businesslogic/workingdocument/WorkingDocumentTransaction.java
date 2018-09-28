@@ -1,7 +1,7 @@
 package mongoose.client.businesslogic.workingdocument;
 
-import mongoose.shared.domainmodel.time.DateTimeRange;
-import mongoose.shared.domainmodel.time.TimeInterval;
+import mongoose.shared.time.DateTimeRange;
+import mongoose.shared.time.TimeInterval;
 import mongoose.shared.entities.Option;
 import webfx.platforms.core.util.collection.Collections;
 

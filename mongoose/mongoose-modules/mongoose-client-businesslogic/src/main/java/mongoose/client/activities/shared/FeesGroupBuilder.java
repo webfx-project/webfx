@@ -2,7 +2,7 @@ package mongoose.client.activities.shared;
 
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.preselection.OptionsPreselectionBuilder;
-import mongoose.shared.domainmodel.time.DateTimeRange;
+import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.entities.DateInfo;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Label;

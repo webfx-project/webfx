@@ -1,6 +1,6 @@
 package mongoose.client.businesslogic.workingdocument;
 
-import mongoose.shared.domainmodel.time.DateTimeRange;
+import mongoose.shared.time.DateTimeRange;
 
 import java.util.ArrayList;
 import java.util.List;

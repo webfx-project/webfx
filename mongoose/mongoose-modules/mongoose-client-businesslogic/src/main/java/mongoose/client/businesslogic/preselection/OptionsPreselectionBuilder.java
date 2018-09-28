@@ -1,8 +1,8 @@
 package mongoose.client.businesslogic.preselection;
 
 import mongoose.client.aggregates.EventAggregate;
-import mongoose.shared.domainmodel.time.DateTimeRange;
-import mongoose.shared.domainmodel.time.DayTimeRange;
+import mongoose.shared.time.DateTimeRange;
+import mongoose.shared.time.DayTimeRange;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
 import mongoose.shared.util.Labels;

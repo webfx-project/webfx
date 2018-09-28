@@ -1,6 +1,6 @@
 package mongoose.shared.entities.markers;
 
-import mongoose.shared.domainmodel.time.DateTimeRange;
+import mongoose.shared.time.DateTimeRange;
 import webfx.framework.orm.entity.Entity;
 
 /**

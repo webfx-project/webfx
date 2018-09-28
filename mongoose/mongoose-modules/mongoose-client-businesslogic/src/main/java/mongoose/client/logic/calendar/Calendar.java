@@ -1,6 +1,6 @@
 package mongoose.client.logic.calendar;
 
-import mongoose.shared.domainmodel.time.TimeInterval;
+import mongoose.shared.time.TimeInterval;
 
 import java.util.Collection;
 

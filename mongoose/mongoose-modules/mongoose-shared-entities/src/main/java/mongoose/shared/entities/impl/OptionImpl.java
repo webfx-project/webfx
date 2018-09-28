@@ -1,7 +1,7 @@
 package mongoose.shared.entities.impl;
 
-import mongoose.shared.domainmodel.time.DateTimeRange;
-import mongoose.shared.domainmodel.time.DayTimeRange;
+import mongoose.shared.time.DateTimeRange;
+import mongoose.shared.time.DayTimeRange;
 import mongoose.shared.entities.Option;
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.EntityStore;

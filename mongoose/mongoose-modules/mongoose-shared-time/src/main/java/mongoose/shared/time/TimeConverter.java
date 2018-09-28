@@ -1,4 +1,4 @@
-package mongoose.shared.domainmodel.time;
+package mongoose.shared.time;
 
 import webfx.platforms.core.util.Dates;
 import webfx.platforms.core.util.Numbers;

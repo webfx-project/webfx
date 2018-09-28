@@ -53,6 +53,7 @@
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-systemmetrics-java/mongoose-server-systemmetrics-java.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-systemmetrics-java/mongoose-server-systemmetrics-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-domain/mongoose-shared-domain.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-domain/mongoose-shared-domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-entities/mongoose-shared-entities.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-entities/mongoose-shared-entities.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-time/mongoose-shared-time.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-time/mongoose-shared-time.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-framework/webfx-framework.iml" filepath="$PROJECT_DIR$/webfx-framework/webfx-framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-framework/webfx-framework-action/webfx-framework-action.iml" filepath="$PROJECT_DIR$/webfx-framework/webfx-framework-action/webfx-framework-action.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-framework/webfx-framework-activity/webfx-framework-activity.iml" filepath="$PROJECT_DIR$/webfx-framework/webfx-framework-activity/webfx-framework-activity.iml" />

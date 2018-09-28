@@ -1,7 +1,7 @@
 package mongoose.client.businesslogic.workingdocument;
 
 import mongoose.client.aggregates.EventAggregate;
-import mongoose.shared.domainmodel.time.DaysArray;
+import mongoose.shared.time.DaysArray;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;

@@ -2,8 +2,8 @@ package mongoose.client.activities.shared;
 
 import javafx.scene.layout.BorderPane;
 import mongoose.client.activities.generic.MongooseSectionFactoryMixin;
-import mongoose.shared.domainmodel.time.DaysArray;
-import mongoose.shared.domainmodel.time.DaysArrayBuilder;
+import mongoose.shared.time.DaysArray;
+import mongoose.shared.time.DaysArrayBuilder;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;

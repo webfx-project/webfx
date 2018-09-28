@@ -1,7 +1,7 @@
 package mongoose.client.businesslogic.rules;
 
 import mongoose.client.aggregates.EventAggregate;
-import mongoose.shared.domainmodel.time.DaysArray;
+import mongoose.shared.time.DaysArray;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.client.businesslogic.workingdocument.BusinessType;

@@ -2,7 +2,7 @@ package mongoose.client.businesslogic.preselection;
 
 import mongoose.client.aggregates.EventAggregate;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
-import mongoose.shared.domainmodel.time.DateTimeRange;
+import mongoose.shared.time.DateTimeRange;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Label;

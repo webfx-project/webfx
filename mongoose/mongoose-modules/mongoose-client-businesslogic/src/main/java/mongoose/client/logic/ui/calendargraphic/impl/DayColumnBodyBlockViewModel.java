@@ -14,7 +14,7 @@ import javafx.scene.transform.Translate;
 import mongoose.client.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.client.logic.ui.calendargraphic.CalendarGraphic;
 import mongoose.client.logic.calendar.CalendarTimeline;
-import mongoose.shared.domainmodel.time.TimeInterval;
+import mongoose.shared.time.TimeInterval;
 import mongoose.client.logic.ui.calendargraphic.CalendarCell;
 import webfx.framework.ui.util.background.BackgroundUtil;
 

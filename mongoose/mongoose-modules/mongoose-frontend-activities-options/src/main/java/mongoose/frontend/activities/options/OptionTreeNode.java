@@ -17,7 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.shared.actions.MongooseIcons;
-import mongoose.shared.domainmodel.time.DateTimeRange;
+import mongoose.shared.time.DateTimeRange;
 import mongoose.client.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;

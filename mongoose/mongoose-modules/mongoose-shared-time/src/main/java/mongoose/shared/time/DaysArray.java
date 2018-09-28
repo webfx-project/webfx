@@ -1,10 +1,10 @@
-package mongoose.shared.domainmodel.time;
+package mongoose.shared.time;
 
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
-import static mongoose.shared.domainmodel.time.TimeConverter.convertTime;
+import static mongoose.shared.time.TimeConverter.convertTime;
 
 /**
  * @author Bruno Salmon

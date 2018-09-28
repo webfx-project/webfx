@@ -1,6 +1,6 @@
 package mongoose.client.logic.ui.calendargraphic;
 
-import mongoose.shared.domainmodel.time.TimeInterval;
+import mongoose.shared.time.TimeInterval;
 
 /**
  * @author Bruno Salmon

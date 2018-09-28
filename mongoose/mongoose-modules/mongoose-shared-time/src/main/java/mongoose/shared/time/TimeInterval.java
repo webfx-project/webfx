@@ -1,8 +1,8 @@
-package mongoose.shared.domainmodel.time;
+package mongoose.shared.time;
 
 import java.util.concurrent.TimeUnit;
 
-import static mongoose.shared.domainmodel.time.TimeConverter.*;
+import static mongoose.shared.time.TimeConverter.*;
 
 /**
  * @author Bruno Salmon

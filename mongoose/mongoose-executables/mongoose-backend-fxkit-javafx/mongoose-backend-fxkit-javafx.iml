@@ -18,6 +18,7 @@
     <orderEntry type="module" module-name="webfx-framework-operation" />
     <orderEntry type="module" module-name="mongoose-client-authz" />
     <orderEntry type="module" module-name="mongoose-shared-entities" />
+    <orderEntry type="module" module-name="mongoose-shared-time" />
     <orderEntry type="module" module-name="webfx-framework-entity" />
     <orderEntry type="module" module-name="webfx-framework-domain" />
     <orderEntry type="module" module-name="webfx-framework-expression" />

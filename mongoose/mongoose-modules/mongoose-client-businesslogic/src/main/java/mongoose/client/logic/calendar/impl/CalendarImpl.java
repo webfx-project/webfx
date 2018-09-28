@@ -2,7 +2,7 @@ package mongoose.client.logic.calendar.impl;
 
 import mongoose.client.logic.calendar.Calendar;
 import mongoose.client.logic.calendar.CalendarTimeline;
-import mongoose.shared.domainmodel.time.TimeInterval;
+import mongoose.shared.time.TimeInterval;
 
 import java.util.Collection;
 

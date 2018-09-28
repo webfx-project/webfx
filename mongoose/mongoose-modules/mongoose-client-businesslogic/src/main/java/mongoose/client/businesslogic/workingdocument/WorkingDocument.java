@@ -5,7 +5,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import mongoose.client.aggregates.EventAggregate;
 import mongoose.client.businesslogic.pricing.WorkingDocumentPricing;
-import mongoose.shared.domainmodel.time.DateTimeRange;
+import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Person;

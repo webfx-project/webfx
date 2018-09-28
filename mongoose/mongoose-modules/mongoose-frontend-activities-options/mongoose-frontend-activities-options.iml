@@ -17,6 +17,10 @@
     <orderEntry type="module" module-name="mongoose-client-activities-login" />
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
     <orderEntry type="module" module-name="mongoose-shared-entities" />
+    <orderEntry type="module" module-name="mongoose-shared-time" />
+    <orderEntry type="module" module-name="webfx-platforms-core-json" />
+    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
+    <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-framework-entity" />
     <orderEntry type="module" module-name="webfx-framework-domain" />
     <orderEntry type="module" module-name="webfx-framework-expression" />
@@ -33,9 +37,6 @@
     <orderEntry type="module" module-name="webfx-platforms-core-datasource" />
     <orderEntry type="module" module-name="webfx-framework-util" />
     <orderEntry type="module" module-name="webfx-fxkits-core-util" />
-    <orderEntry type="module" module-name="webfx-platforms-core-json" />
-    <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" />
     <orderEntry type="module" module-name="webfx-framework-action" />
     <orderEntry type="module" module-name="webfx-framework-authz" />
     <orderEntry type="module" module-name="webfx-platforms-core-resource" />
