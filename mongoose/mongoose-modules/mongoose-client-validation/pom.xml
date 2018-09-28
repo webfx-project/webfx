@@ -9,15 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mongoose-client-businesslogic</artifactId>
+    <artifactId>mongoose-client-validation</artifactId>
 
     <dependencies>
-
-        <dependency>
-            <artifactId>mongoose-shared-entities</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
 
         <dependency>
             <artifactId>mongoose-client-util</artifactId>
@@ -26,31 +20,13 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-client-authn</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-client-validation</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-i18n</artifactId>
+            <artifactId>webfx-lib-mvvmfx-validation</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
             <artifactId>webfx-framework-controls</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platforms-core-clientbus</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

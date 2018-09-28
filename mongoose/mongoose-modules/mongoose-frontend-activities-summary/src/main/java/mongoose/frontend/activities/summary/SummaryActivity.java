@@ -18,7 +18,7 @@ import mongoose.client.activities.shared.BookingProcessActivity;
 import mongoose.client.activities.shared.PersonDetailsPanel;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentSubmitter;
-import mongoose.client.logic.ui.validation.MongooseValidationSupport;
+import mongoose.client.validation.MongooseValidationSupport;
 import mongoose.frontend.operations.cart.RouteToCartRequest;
 import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;

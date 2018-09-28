@@ -88,6 +88,7 @@
         <module name="mongoose-client-i18n" />
         <module name="mongoose-client-sessionrecorder" />
         <module name="mongoose-client-util" />
+        <module name="mongoose-client-validation" />
         <module name="mongoose-frontend-activities-cart" />
         <module name="mongoose-frontend-activities-fees" />
         <module name="mongoose-frontend-activities-options" />
@@ -275,6 +276,7 @@
       <module name="mongoose-client-i18n" target="1.8" />
       <module name="mongoose-client-sessionrecorder" target="1.8" />
       <module name="mongoose-client-util" target="1.8" />
+      <module name="mongoose-client-validation" target="1.8" />
       <module name="mongoose-core" target="1.8" />
       <module name="mongoose-executables" target="1.8" />
       <module name="mongoose-frontend" target="1.8" />

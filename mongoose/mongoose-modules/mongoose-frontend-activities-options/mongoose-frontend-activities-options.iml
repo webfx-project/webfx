@@ -42,8 +42,8 @@
     <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="module" module-name="mongoose-client-authn" />
+    <orderEntry type="module" module-name="mongoose-client-validation" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
-    <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-framework-i18n" />
     <orderEntry type="module" module-name="webfx-framework-operation" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
@@ -56,6 +56,7 @@
     <orderEntry type="module" module-name="webfx-framework-layouts" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
     <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
+    <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />
     <orderEntry type="module" module-name="webfx-platforms-core-serial" />

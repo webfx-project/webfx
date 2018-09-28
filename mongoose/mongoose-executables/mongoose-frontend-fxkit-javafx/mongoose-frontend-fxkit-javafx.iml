@@ -31,6 +31,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
     <orderEntry type="module" module-name="mongoose-client-util" />
+    <orderEntry type="module" module-name="mongoose-client-validation" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="webfx-framework-controls" />
     <orderEntry type="module" module-name="webfx-framework-action" />

@@ -13,7 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
 import mongoose.client.activities.generic.MongooseSectionFactoryMixin;
-import mongoose.client.logic.ui.validation.MongooseValidationSupport;
+import mongoose.client.validation.MongooseValidationSupport;
 import webfx.framework.services.authn.AuthenticationRequest;
 import webfx.framework.services.authn.UsernamePasswordCredentials;
 import webfx.framework.services.i18n.I18n;

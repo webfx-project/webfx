@@ -52,6 +52,7 @@
         <module>mongoose-client-application-java</module>
         <module>mongoose-client-application-gwt</module>
         <module>mongoose-client-util</module>
+        <module>mongoose-client-validation</module>
         <module>mongoose-server-sessioncloser</module>
         <module>mongoose-server-datasource</module>
         <module>mongoose-server-systemmetrics</module>

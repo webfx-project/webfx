@@ -43,6 +43,7 @@
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
     <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" />
+    <orderEntry type="module" module-name="mongoose-client-validation" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
     <orderEntry type="module" module-name="webfx-platforms-core-bus" />

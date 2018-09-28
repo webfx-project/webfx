@@ -1,4 +1,4 @@
-package mongoose.client.logic.ui.validation;
+package mongoose.client.validation;
 
 import de.saxsys.mvvmfx.utils.validation.ObservableRuleBasedValidator;
 import de.saxsys.mvvmfx.utils.validation.ValidationMessage;
@@ -28,7 +28,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
-import mongoose.shared.actions.MongooseIcons;
 import org.controlsfx.control.decoration.Decoration;
 import org.controlsfx.control.decoration.GraphicDecoration;
 import org.controlsfx.validation.decoration.GraphicValidationDecoration;
@@ -114,7 +113,7 @@ public final class MongooseValidationSupport {
             validationVisualizer.setDecoration(new GraphicValidationDecoration() {
                 @Override
                 protected Node createErrorNode() {
-                    return ImageStore.createImageView(MongooseIcons.validationErrorIcon16Url);
+                    return ImageStore.createImageView(MongooseValidationIcons.validationErrorIcon16Url);
                 }
 
                 @Override
@@ -146,7 +145,7 @@ public final class MongooseValidationSupport {
                 @Override
                 protected Collection<Decoration> createRequiredDecorations(Control target) {
                     return java.util.Collections.singletonList(
-                            new GraphicDecoration(ImageStore.createImageView(MongooseIcons.validationRequiredIcon16Url),
+                            new GraphicDecoration(ImageStore.createImageView(MongooseValidationIcons.validationRequiredIcon16Url),
                                     Pos.CENTER_LEFT,
                                     -10,
                                     0));
