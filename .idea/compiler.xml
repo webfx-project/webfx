@@ -84,7 +84,10 @@
         <module name="mongoose-client-application-java" />
         <module name="mongoose-client-authn" />
         <module name="mongoose-client-authz" />
+        <module name="mongoose-client-bookingcalendar" />
+        <module name="mongoose-client-bookingprocess" />
         <module name="mongoose-client-businesslogic" />
+        <module name="mongoose-client-calendar" />
         <module name="mongoose-client-i18n" />
         <module name="mongoose-client-sessionrecorder" />
         <module name="mongoose-client-util" />
@@ -273,7 +276,10 @@
       <module name="mongoose-client-application-java" target="1.8" />
       <module name="mongoose-client-authn" target="1.8" />
       <module name="mongoose-client-authz" target="1.8" />
+      <module name="mongoose-client-bookingcalendar" target="1.8" />
+      <module name="mongoose-client-bookingprocess" target="1.8" />
       <module name="mongoose-client-businesslogic" target="1.8" />
+      <module name="mongoose-client-calendar" target="1.8" />
       <module name="mongoose-client-i18n" target="1.8" />
       <module name="mongoose-client-sessionrecorder" target="1.8" />
       <module name="mongoose-client-util" target="1.8" />

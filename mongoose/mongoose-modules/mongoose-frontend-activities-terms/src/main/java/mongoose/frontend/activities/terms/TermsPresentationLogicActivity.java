@@ -1,6 +1,6 @@
 package mongoose.frontend.activities.terms;
 
-import mongoose.client.activities.shared.BookingProcessPresentationLogicActivity;
+import mongoose.client.bookingprocess.activity.BookingProcessPresentationLogicActivity;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 

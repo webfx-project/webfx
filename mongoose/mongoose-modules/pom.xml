@@ -43,11 +43,14 @@
         <module>mongoose-shared-time</module>
         <module>mongoose-client-activities-login</module>
         <module>mongoose-client-activities-unauthorized</module>
-        <module>mongoose-client-i18n</module>
-        <module>mongoose-client-authn</module>
-        <module>mongoose-client-authz</module>
         <module>mongoose-client-aggregates</module>
         <module>mongoose-client-application</module>
+        <module>mongoose-client-authn</module>
+        <module>mongoose-client-authz</module>
+        <module>mongoose-client-bookingcalendar</module>
+        <module>mongoose-client-bookingprocess</module>
+        <module>mongoose-client-calendar</module>
+        <module>mongoose-client-i18n</module>
         <module>mongoose-client-sessionrecorder</module>
         <module>mongoose-client-businesslogic</module>
         <module>mongoose-client-application-java</module>

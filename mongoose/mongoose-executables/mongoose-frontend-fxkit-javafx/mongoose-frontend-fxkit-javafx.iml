@@ -31,6 +31,7 @@
     <orderEntry type="module" module-name="mongoose-client-sessionrecorder" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
+    <orderEntry type="module" module-name="mongoose-client-calendar" />
     <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="mongoose-client-validation" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
@@ -46,6 +47,8 @@
     <orderEntry type="module" module-name="mongoose-client-activities-login" />
     <orderEntry type="module" module-name="mongoose-client-activities-unauthorized" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-startbooking" />
+    <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
+    <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-terms" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-program" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-fees" />

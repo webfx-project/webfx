@@ -3,7 +3,6 @@ package mongoose.frontend.activities.cart;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
-import mongoose.client.activities.generic.MongooseSectionFactoryMixin;
 import mongoose.client.aggregates.CartAggregate;
 import mongoose.shared.entities.Event;
 import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
@@ -15,7 +14,7 @@ import webfx.fxkits.core.util.properties.Properties;
  */
 public abstract class CartBasedActivity
         extends ViewDomainActivityBase
-        implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
+        implements MongooseButtonFactoryMixin {
 
     private final Property<Object> cartUuidProperty = new SimpleObjectProperty<>();
 

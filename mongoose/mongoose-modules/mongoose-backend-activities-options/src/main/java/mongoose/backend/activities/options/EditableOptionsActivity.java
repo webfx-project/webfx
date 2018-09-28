@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import mongoose.shared.actions.MongooseActions;
 import mongoose.backend.multilangeditor.MultiLanguageEditor;
 import mongoose.frontend.activities.options.OptionsActivity;
-import mongoose.client.activities.shared.BookingCalendar;
+import mongoose.client.bookingcalendar.BookingCalendar;
 import mongoose.client.activities.shared.FeesGroup;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.shared.entities.Label;

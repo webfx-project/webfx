@@ -16,9 +16,6 @@ import webfx.platforms.core.util.function.Factory;
 public abstract class MongooseDomainPresentationLogicActivityBase<PM>
     extends DomainPresentationLogicActivityImpl<PM>  {
 
-    public MongooseDomainPresentationLogicActivityBase() {
-    }
-
     public MongooseDomainPresentationLogicActivityBase(Factory<PM> presentationModelFactory) {
         super(presentationModelFactory);
     }

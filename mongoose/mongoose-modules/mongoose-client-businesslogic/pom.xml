@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-shared-entities</artifactId>
+            <artifactId>mongoose-client-calendar</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -33,6 +33,12 @@
 
         <dependency>
             <artifactId>mongoose-client-validation</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-shared-entities</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

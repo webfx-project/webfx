@@ -12,24 +12,24 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
-import mongoose.client.activities.generic.MongooseSectionFactoryMixin;
+import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
 import mongoose.client.validation.MongooseValidationSupport;
 import webfx.framework.services.authn.AuthenticationRequest;
 import webfx.framework.services.authn.UsernamePasswordCredentials;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.util.anim.Animations;
 import webfx.framework.ui.controls.button.ButtonUtil;
 import webfx.framework.ui.controls.dialog.GridPaneBuilder;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.framework.ui.uirouter.uisession.UiSession;
+import webfx.framework.ui.util.anim.Animations;
 import webfx.fxkits.core.util.properties.Properties;
 
 
 /**
  * @author Bruno Salmon
  */
-public final class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
+public final class LoginPanel implements MongooseButtonFactoryMixin {
     private final Node node;
     private final TextField usernameField;
     private final PasswordField passwordField;
@@ -38,7 +38,7 @@ public final class LoginPanel implements MongooseButtonFactoryMixin, MongooseSec
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
     public LoginPanel(UiSession uiSession) {
-        BorderPane loginWindow = createSectionPanel("SignInWindowTitle");
+        BorderPane loginWindow = BookingFormSectionFactory.createSectionPanel("SignInWindowTitle");
         Hyperlink hyperLink = newHyperlink("ForgotPassword?", e -> signInMode.setValue(!signInMode.getValue()));
         GridPane gridPane;
         loginWindow.setCenter(

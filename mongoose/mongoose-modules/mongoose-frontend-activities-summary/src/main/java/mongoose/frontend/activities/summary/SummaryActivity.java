@@ -12,12 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import mongoose.client.activities.shared.BookingCalendar;
-import mongoose.client.activities.shared.BookingOptionsPanel;
-import mongoose.client.activities.shared.BookingProcessActivity;
-import mongoose.client.activities.shared.PersonDetailsPanel;
+import mongoose.client.bookingcalendar.BookingCalendar;
+import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentSubmitter;
+import mongoose.client.bookingprocess.components.BookingOptionsPanel;
+import mongoose.client.bookingprocess.components.PersonDetailsPanel;
+import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
 import mongoose.client.validation.MongooseValidationSupport;
 import mongoose.frontend.operations.cart.RouteToCartRequest;
 import mongoose.shared.entities.Cart;
@@ -46,14 +47,14 @@ final class SummaryActivity extends BookingProcessActivity {
         super.createViewNodes();
         bookingOptionsPanel = new BookingOptionsPanel();
         bookingCalendar = new BookingCalendar(false);
-        bookingCalendarSection = createBookingCalendarSection(bookingCalendar);
+        bookingCalendarSection = BookingFormSectionFactory.createBookingCalendarSection(bookingCalendar);
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer);
         personDetailsPanel.setEditable(false);
 
-        BorderPane commentPanel = createSectionPanel("Comment");
+        BorderPane commentPanel = BookingFormSectionFactory.createSectionPanel("Comment");
         commentPanel.setCenter(commentTextArea = newTextAreaWithPrompt("CommentPlaceholder"));
 
-        BorderPane termsPanel = createSectionPanel("TermsAndConditions");
+        BorderPane termsPanel = BookingFormSectionFactory.createSectionPanel("TermsAndConditions");
         termsPanel.setCenter(termsCheckBox = new CheckBox());
         BorderPane.setAlignment(termsCheckBox, Pos.CENTER_LEFT);
         BorderPane.setMargin(termsCheckBox, new Insets(10));

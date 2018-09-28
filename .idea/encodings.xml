@@ -31,7 +31,10 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-application-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-authn" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-authz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-bookingcalendar" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-bookingprocess" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-businesslogic" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-calendar" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-i18n" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-sessionrecorder" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-util" charset="UTF-8" />

@@ -10,15 +10,14 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import mongoose.shared.actions.MongooseIcons;
-import mongoose.client.activities.shared.BookingProcessActivity;
 import mongoose.client.activities.shared.FeesGroup;
+import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.client.logic.ui.highlevelcomponents.HighLevelComponents;
-import mongoose.client.logic.ui.highlevelcomponents.SectionPanelStyleOptions;
+import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
+import mongoose.frontend.activities.options.RouteToOptionsRequest;
+import mongoose.shared.actions.MongooseIcons;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Person;
-import mongoose.frontend.activities.options.RouteToOptionsRequest;
 import webfx.framework.orm.entity.EntityList;
 import webfx.framework.services.i18n.Dictionary;
 import webfx.framework.services.i18n.I18n;
@@ -64,8 +63,7 @@ final class FeesActivity extends BookingProcessActivity {
     }
 
     private BorderPane buildFeesSectionPanel(Node node) {
-        SectionPanelStyleOptions options = new SectionPanelStyleOptions(false);
-        return HighLevelComponents.createSectionPanel(options, node);
+        return BookingFormSectionFactory.createSectionPanel(node);
     }
 
     @Override

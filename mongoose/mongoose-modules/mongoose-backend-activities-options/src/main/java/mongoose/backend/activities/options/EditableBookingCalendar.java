@@ -1,9 +1,9 @@
 package mongoose.backend.activities.options;
 
 import javafx.scene.Node;
-import mongoose.client.activities.shared.BookingCalendar;
-import mongoose.client.logic.calendar.CalendarTimeline;
-import mongoose.client.logic.ui.calendargraphic.CalendarClickEvent;
+import mongoose.client.bookingcalendar.BookingCalendar;
+import mongoose.client.calendar.CalendarTimeline;
+import mongoose.client.calendargraphic.CalendarClickEvent;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.shared.entities.Option;
 import webfx.framework.orm.entity.UpdateStore;

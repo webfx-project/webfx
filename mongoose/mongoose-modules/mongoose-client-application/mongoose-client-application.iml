@@ -42,6 +42,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
+    <orderEntry type="module" module-name="mongoose-client-calendar" />
     <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="webfx-platforms-core-log" />
     <orderEntry type="module" module-name="mongoose-client-validation" />
@@ -66,6 +67,8 @@
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="mongoose-client-activities-login" />
+    <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
+    <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
     <orderEntry type="module" module-name="mongoose-client-activities-unauthorized" />
   </component>
 </module>

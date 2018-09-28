@@ -16,9 +16,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
 import mongoose.shared.actions.MongooseIcons;
 import mongoose.shared.time.DateTimeRange;
-import mongoose.client.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentTransaction;
@@ -193,7 +193,7 @@ final class OptionTreeNode {
     }
 
     private BorderPane createTopLevelOptionSection(boolean detailed) {
-        BorderPane sectionPanel = HighLevelComponents.createSectionPanel(null, Collections.toArray(
+        BorderPane sectionPanel = BookingFormSectionFactory.createSectionPanel(Collections.toArray(
                 createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option)))
                 , Node[]::new));
         createOptionButtonAndSelectedProperty();
