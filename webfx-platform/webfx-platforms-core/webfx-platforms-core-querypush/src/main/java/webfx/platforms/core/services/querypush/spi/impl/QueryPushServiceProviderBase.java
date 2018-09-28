@@ -28,7 +28,7 @@ public abstract class QueryPushServiceProviderBase implements QueryPushServicePr
     private PulsePass pulsePass;
 
     protected QueryPushServiceProviderBase() {
-        PushServerService.addPushClientDisconnectListener(this::removePushClientStreams);
+        PushServerService.addUnresponsivePushClientListener(this::removePushClientStreams);
     }
 
     @Override

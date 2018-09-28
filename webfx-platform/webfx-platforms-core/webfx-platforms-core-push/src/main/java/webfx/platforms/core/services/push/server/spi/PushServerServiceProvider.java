@@ -1,7 +1,7 @@
 package webfx.platforms.core.services.push.server.spi;
 
 import webfx.platforms.core.services.bus.Bus;
-import webfx.platforms.core.services.push.server.PushClientDisconnectListener;
+import webfx.platforms.core.services.push.server.UnresponsivePushClientListener;
 import webfx.platforms.core.services.push.ClientPushBusAddressesSharedByBothClientAndServer;
 import webfx.platforms.core.util.async.Future;
 
@@ -16,8 +16,8 @@ public interface PushServerServiceProvider {
         return callClientService(ClientPushBusAddressesSharedByBothClientAndServer.PUSH_PING_CLIENT_LISTENER_SERVICE_ADDRESS, "Server ping for push client " + pushClientId, bus, pushClientId);
     }
 
-    void addPushClientDisconnectListener(PushClientDisconnectListener listener);
+    void addUnresponsivePushClientListener(UnresponsivePushClientListener listener);
 
-    void removePushClientDisconnectListener(PushClientDisconnectListener listener);
+    void removeUnresponsivePushClientListener(UnresponsivePushClientListener listener);
 
 }

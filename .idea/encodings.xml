@@ -47,7 +47,7 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-application" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-application" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-datasource" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-push" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-sessioncloser" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-systemmetrics" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-systemmetrics-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-domain" charset="UTF-8" />

@@ -27,11 +27,11 @@ public final class PushServerService {
         return getProvider().pingPushClient(bus, pushClientId);
     }
 
-    public static void addPushClientDisconnectListener(PushClientDisconnectListener listener) {
-        getProvider().addPushClientDisconnectListener(listener);
+    public static void addUnresponsivePushClientListener(UnresponsivePushClientListener listener) {
+        getProvider().addUnresponsivePushClientListener(listener);
     }
 
-    public static void removePushClientDisconnectListener(PushClientDisconnectListener listener) {
-        getProvider().removePushClientDisconnectListener(listener);
+    public static void removeUnresponsivePushClientListener(UnresponsivePushClientListener listener) {
+        getProvider().removeUnresponsivePushClientListener(listener);
     }
 }

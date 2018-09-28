@@ -104,7 +104,7 @@
         <module name="mongoose-server-application" />
         <module name="mongoose-server-datasource" />
         <module name="mongoose-server-platform-vertx" />
-        <module name="mongoose-server-push" />
+        <module name="mongoose-server-sessioncloser" />
         <module name="mongoose-server-systemmetrics" />
         <module name="mongoose-server-systemmetrics-java" />
         <module name="mongoose-shared-domain" />
@@ -295,7 +295,7 @@
       <module name="mongoose-server-application" target="1.8" />
       <module name="mongoose-server-datasource" target="1.8" />
       <module name="mongoose-server-platform-vertx" target="1.8" />
-      <module name="mongoose-server-push" target="1.8" />
+      <module name="mongoose-server-sessioncloser" target="1.8" />
       <module name="mongoose-server-start" target="1.8" />
       <module name="mongoose-server-systemmetrics" target="1.8" />
       <module name="mongoose-server-systemmetrics-java" target="1.8" />

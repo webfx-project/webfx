@@ -89,7 +89,7 @@
     <orderEntry type="module" module-name="webfx-framework-i18n" />
     <orderEntry type="module" module-name="webfx-framework-operation" />
     <orderEntry type="module" module-name="webfx-framework-authz" />
-    <orderEntry type="module" module-name="mongoose-server-push" />
+    <orderEntry type="module" module-name="mongoose-server-sessioncloser" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscallserver" />
     <orderEntry type="module" module-name="webfx-platforms-core-buscall" />

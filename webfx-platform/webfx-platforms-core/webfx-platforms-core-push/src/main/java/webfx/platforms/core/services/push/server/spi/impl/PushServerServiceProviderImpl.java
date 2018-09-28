@@ -5,7 +5,7 @@ import webfx.platforms.core.services.buscall.BusCallService;
 import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.log.Logger;
 import webfx.platforms.core.services.push.ClientPushBusAddressesSharedByBothClientAndServer;
-import webfx.platforms.core.services.push.server.PushClientDisconnectListener;
+import webfx.platforms.core.services.push.server.UnresponsivePushClientListener;
 import webfx.platforms.core.services.push.server.spi.PushServerServiceProvider;
 import webfx.platforms.core.services.scheduler.Scheduled;
 import webfx.platforms.core.services.scheduler.Scheduler;
@@ -25,7 +25,7 @@ public final class PushServerServiceProviderImpl implements PushServerServicePro
     private final static long PING_PUSH_PERIOD_MS = 20_000; // Should be lower than client WebSocketBusOptions.pingInterval (which is set to 30_000 at the time of writing this code)
 
     private final Map<Object /*pushClientId*/, PushClientInfo> pushClientInfos = new HashMap<>();
-    private final List<PushClientDisconnectListener> pushClientDisconnectListeners = new ArrayList<>();
+    private final List<UnresponsivePushClientListener> unresponsivePushClientListeners = new ArrayList<>();
 
     @Override
     public <T> Future<T> callClientService(String serviceAddress, Object javaArgument, Bus bus, Object pushClientId) {
@@ -44,18 +44,18 @@ public final class PushServerServiceProviderImpl implements PushServerServicePro
     }
 
     @Override
-    public void addPushClientDisconnectListener(PushClientDisconnectListener listener) {
-        pushClientDisconnectListeners.add(listener);
+    public void addUnresponsivePushClientListener(UnresponsivePushClientListener listener) {
+        unresponsivePushClientListeners.add(listener);
     }
 
     @Override
-    public void removePushClientDisconnectListener(PushClientDisconnectListener listener) {
-        pushClientDisconnectListeners.remove(listener);
+    public void removeUnresponsivePushClientListener(UnresponsivePushClientListener listener) {
+        unresponsivePushClientListeners.remove(listener);
     }
 
     private void firePushClientDisconnected(Object pushClientId) {
-        for (PushClientDisconnectListener listener : pushClientDisconnectListeners)
-            listener.pushClientDisconnected(pushClientId);
+        for (UnresponsivePushClientListener listener : unresponsivePushClientListeners)
+            listener.onUnresponsivePushClient(pushClientId);
     }
 
     private void pushFailed(Object pushClientId) {
