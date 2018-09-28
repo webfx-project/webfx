@@ -1,4 +1,4 @@
-package mongoose.client.util;
+package mongoose.client.util.log;
 
 import webfx.platforms.core.services.log.Logger;
 
