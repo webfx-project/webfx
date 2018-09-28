@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import mongoose.client.activities.authn.LoginPanel;
+import mongoose.client.activities.login.LoginPanel;
 import mongoose.client.activities.shared.BookingProcessActivity;
 import mongoose.client.activities.shared.PersonDetailsPanel;
 import mongoose.frontend.operations.summary.RouteToSummaryRequest;

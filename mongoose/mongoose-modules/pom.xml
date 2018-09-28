@@ -40,7 +40,7 @@
         <module>mongoose-frontend-application</module>
         <module>mongoose-shared-domain</module>
         <module>mongoose-shared-entities</module>
-        <module>mongoose-client-activities-authn</module>
+        <module>mongoose-client-activities-login</module>
         <module>mongoose-client-activities-authz</module>
         <module>mongoose-client-i18n</module>
         <module>mongoose-client-authn</module>

@@ -1,4 +1,4 @@
-package mongoose.client.activities.authn;
+package mongoose.client.activities.login;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;

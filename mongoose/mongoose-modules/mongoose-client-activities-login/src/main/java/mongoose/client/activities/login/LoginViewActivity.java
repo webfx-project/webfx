@@ -1,4 +1,4 @@
-package mongoose.client.activities.authn;
+package mongoose.client.activities.login;
 
 import javafx.scene.Node;
 import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;

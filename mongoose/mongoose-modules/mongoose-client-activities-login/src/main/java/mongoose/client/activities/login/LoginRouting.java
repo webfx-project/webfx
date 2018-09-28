@@ -1,4 +1,4 @@
-package mongoose.client.activities.authn;
+package mongoose.client.activities.login;
 
 import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.ui.uirouter.ProvidedLoginUiRoute;
