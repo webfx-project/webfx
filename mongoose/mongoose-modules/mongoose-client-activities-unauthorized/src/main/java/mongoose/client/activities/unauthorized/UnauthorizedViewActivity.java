@@ -1,4 +1,4 @@
-package mongoose.client.activities.authz;
+package mongoose.client.activities.unauthorized;
 
 import javafx.scene.Node;
 import javafx.scene.text.Text;

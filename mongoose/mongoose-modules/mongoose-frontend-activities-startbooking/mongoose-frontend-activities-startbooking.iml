@@ -66,6 +66,6 @@
     <orderEntry type="module" module-name="mongoose-frontend-activities-person" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-summary" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-cart" />
-    <orderEntry type="module" module-name="mongoose-client-activities-authn" />
+    <orderEntry type="module" module-name="mongoose-client-activities-login" />
   </component>
 </module>

@@ -61,6 +61,6 @@
     <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
-    <orderEntry type="module" module-name="mongoose-client-activities-authn" />
+    <orderEntry type="module" module-name="mongoose-client-activities-login" />
   </component>
 </module>

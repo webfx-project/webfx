@@ -41,7 +41,7 @@
         <module>mongoose-shared-domain</module>
         <module>mongoose-shared-entities</module>
         <module>mongoose-client-activities-login</module>
-        <module>mongoose-client-activities-authz</module>
+        <module>mongoose-client-activities-unauthorized</module>
         <module>mongoose-client-i18n</module>
         <module>mongoose-client-authn</module>
         <module>mongoose-client-authz</module>

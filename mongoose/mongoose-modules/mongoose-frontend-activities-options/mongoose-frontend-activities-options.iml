@@ -14,7 +14,7 @@
     <orderEntry type="module" module-name="mongoose-frontend-activities-person" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-summary" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-cart" />
-    <orderEntry type="module" module-name="mongoose-client-activities-authn" />
+    <orderEntry type="module" module-name="mongoose-client-activities-login" />
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
     <orderEntry type="module" module-name="mongoose-shared-entities" />
     <orderEntry type="module" module-name="webfx-framework-entity" />

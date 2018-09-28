@@ -1,4 +1,4 @@
-package mongoose.client.activities.authz;
+package mongoose.client.activities.unauthorized;
 
 import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRoute;

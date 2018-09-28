@@ -76,8 +76,8 @@
         <module name="mongoose-backend-multilangeditor" />
         <module name="mongoose-backend-pivot" />
         <module name="mongoose-backend-teavm" />
-        <module name="mongoose-client-activities-authn" />
-        <module name="mongoose-client-activities-authz" />
+        <module name="mongoose-client-activities-login" />
+        <module name="mongoose-client-activities-unauthorized" />
         <module name="mongoose-client-aggregates" />
         <module name="mongoose-client-application" />
         <module name="mongoose-client-application-gwt" />
@@ -263,8 +263,8 @@
       <module name="mongoose-backend-fxkit-gwt" target="1.8" />
       <module name="mongoose-backend-fxkit-javafx" target="1.8" />
       <module name="mongoose-backend-multilangeditor" target="1.8" />
-      <module name="mongoose-client-activities-authn" target="1.8" />
-      <module name="mongoose-client-activities-authz" target="1.8" />
+      <module name="mongoose-client-activities-login" target="1.8" />
+      <module name="mongoose-client-activities-unauthorized" target="1.8" />
       <module name="mongoose-client-aggregates" target="1.8" />
       <module name="mongoose-client-application" target="1.8" />
       <module name="mongoose-client-application-gwt" target="1.8" />

@@ -64,8 +64,8 @@
     <orderEntry type="module" module-name="webfx-platforms-core-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
-    <orderEntry type="module" module-name="mongoose-client-activities-authn" />
-    <orderEntry type="module" module-name="mongoose-client-activities-authz" />
+    <orderEntry type="module" module-name="mongoose-client-activities-login" />
+    <orderEntry type="module" module-name="mongoose-client-activities-unauthorized" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-startbooking" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-terms" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-program" />

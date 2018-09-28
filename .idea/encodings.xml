@@ -3,14 +3,12 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-executables" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-executables/mongoose-backend-fxkit-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-executables/mongoose-backend-fxkit-javafx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-executables/mongoose-frontend-fxkit-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-executables/mongoose-frontend-fxkit-javafx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-executables/mongoose-server-platform-vertx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-authorizations" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-bookings" charset="UTF-8" />
@@ -25,8 +23,8 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-organizations" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-application" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-multilangeditor" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-activities-authn" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-activities-authz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-activities-login" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-activities-unauthorized" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-aggregates" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-application" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-application-gwt" charset="UTF-8" />
@@ -50,22 +48,10 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-application" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-datasource" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-push" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-start" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-systemmetrics" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-systemmetrics-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-domain" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-entities" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongooses-core-backend-activities" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongooses-core-sharedends-activities" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-server" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-backend" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-frontend" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-frontend/mongooses-core-frontend-activities" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-server" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-shared" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-core/mongooses-core-sharedends" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongooses-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-action" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-activity" charset="UTF-8" />
