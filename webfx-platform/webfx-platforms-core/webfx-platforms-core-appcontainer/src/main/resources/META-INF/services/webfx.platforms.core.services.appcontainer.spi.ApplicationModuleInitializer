@@ -1,1 +1,1 @@
-webfx.platforms.core.services.appcontainer.spi.impl.ApplicationJobsInitializer
+webfx.platforms.core.services.appcontainer.spi.impl.ApplicationJobsStarter
