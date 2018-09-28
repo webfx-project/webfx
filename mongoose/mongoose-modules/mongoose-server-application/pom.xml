@@ -21,7 +21,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-server-push</artifactId>
+            <artifactId>mongoose-server-sessioncloser</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
