@@ -4,7 +4,9 @@ import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializ
 import webfx.platforms.core.services.bus.BusService;
 import webfx.platforms.core.services.buscall.spi.BusCallEndpoint;
 import webfx.platforms.core.services.log.Logger;
+import webfx.platforms.core.util.collection.Collections;
 
+import java.util.List;
 import java.util.ServiceLoader;
 
 /**
@@ -25,9 +27,10 @@ public final class BusCallModuleInitializer implements ApplicationModuleInitiali
     @Override
     public void initModule() {
         StringBuilder sb = new StringBuilder();
-        for (BusCallEndpoint endpoint : ServiceLoader.load(BusCallEndpoint.class)) {
+        List<BusCallEndpoint> endpoints = Collections.listOf(ServiceLoader.load(BusCallEndpoint.class));
+        for (BusCallEndpoint endpoint : endpoints) {
             BusCallService.registerBusCallEndpoint(endpoint);
-            sb.append(sb.length() == 0 ? "Endpoints registered for addresses: " : ", ").append(endpoint.getAddress());
+            sb.append(sb.length() == 0 ? endpoints.size() + " endpoints provided for addresses: " : ", ").append(endpoint.getAddress());
         }
         Logger.log(sb);
         // Initializing the bus immediately to make the connection connection process happen while the application is initializing
