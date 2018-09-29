@@ -46,7 +46,7 @@
         <module>mongoose-client-activities-unauthorized</module>
         <module>mongoose-client-aggregates</module>
         <module>mongoose-client-application</module>
-        <module>mongoose-client-application-java</module>
+        <module>mongoose-client-navigationarrows-java</module>
         <module>mongoose-client-authn</module>
         <module>mongoose-client-authz</module>
         <module>mongoose-client-busconfig</module>

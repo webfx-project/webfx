@@ -22,7 +22,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-client-application-java</artifactId>
+            <artifactId>mongoose-client-navigationarrows-java</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
