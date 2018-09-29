@@ -62,6 +62,7 @@
         <module>mongoose-client-i18n-gwt</module>
         <module>mongoose-client-icons</module>
         <module>mongoose-client-icons-gwt</module>
+        <module>mongoose-client-operationactionsloading</module>
         <module>mongoose-client-personaldetails</module>
         <module>mongoose-client-sectionpanel</module>
         <module>mongoose-client-sessionrecorder</module>

@@ -80,7 +80,6 @@
         <module name="mongoose-client-activities-unauthorized" />
         <module name="mongoose-client-aggregates" />
         <module name="mongoose-client-application" />
-        <module name="mongoose-client-application-java" />
         <module name="mongoose-client-authn" />
         <module name="mongoose-client-authz" />
         <module name="mongoose-client-bookingcalendar" />
@@ -96,11 +95,14 @@
         <module name="mongoose-client-i18n-gwt" />
         <module name="mongoose-client-icons" />
         <module name="mongoose-client-icons-gwt" />
+        <module name="mongoose-client-navigationarrows-java" />
+        <module name="mongoose-client-operationactionsloading" />
         <module name="mongoose-client-personaldetails" />
         <module name="mongoose-client-sectionpanel" />
         <module name="mongoose-client-sessionrecorder" />
         <module name="mongoose-client-util" />
         <module name="mongoose-client-validation" />
+        <module name="mongoose-frontend-actions" />
         <module name="mongoose-frontend-activities-cart" />
         <module name="mongoose-frontend-activities-fees" />
         <module name="mongoose-frontend-activities-options" />
@@ -282,7 +284,6 @@
       <module name="mongoose-client-activities-unauthorized" target="1.8" />
       <module name="mongoose-client-aggregates" target="1.8" />
       <module name="mongoose-client-application" target="1.8" />
-      <module name="mongoose-client-application-java" target="1.8" />
       <module name="mongoose-client-authn" target="1.8" />
       <module name="mongoose-client-authz" target="1.8" />
       <module name="mongoose-client-bookingcalendar" target="1.8" />
@@ -298,6 +299,9 @@
       <module name="mongoose-client-i18n-gwt" target="1.8" />
       <module name="mongoose-client-icons" target="1.8" />
       <module name="mongoose-client-icons-gwt" target="1.8" />
+      <module name="mongoose-client-navigationarrows-java" target="1.8" />
+      <module name="mongoose-client-operationactions" target="1.8" />
+      <module name="mongoose-client-operationactionsloading" target="1.8" />
       <module name="mongoose-client-personaldetails" target="1.8" />
       <module name="mongoose-client-sectionpanel" target="1.8" />
       <module name="mongoose-client-sessionrecorder" target="1.8" />
@@ -306,6 +310,7 @@
       <module name="mongoose-core" target="1.8" />
       <module name="mongoose-executables" target="1.8" />
       <module name="mongoose-frontend" target="1.8" />
+      <module name="mongoose-frontend-actions" target="1.8" />
       <module name="mongoose-frontend-activities-cart" target="1.8" />
       <module name="mongoose-frontend-activities-fees" target="1.8" />
       <module name="mongoose-frontend-activities-options" target="1.8" />

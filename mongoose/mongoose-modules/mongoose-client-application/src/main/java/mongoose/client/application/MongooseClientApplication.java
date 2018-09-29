@@ -47,14 +47,10 @@ public abstract class MongooseClientApplication
 
     @Override
     public void onStart() {
-        registerActions();
+        MongooseActions.registerActions();
         UiRouter uiRouter = getUiRouter();
         uiRouter.setDefaultInitialHistoryPath(defaultInitialHistoryPath);
         uiRouter.start();
-    }
-
-    protected void registerActions() {
-        MongooseActions.registerActions();
     }
 
     public static void setLoadingSpinnerVisibleConsumer(Consumer<Boolean> consumer) {

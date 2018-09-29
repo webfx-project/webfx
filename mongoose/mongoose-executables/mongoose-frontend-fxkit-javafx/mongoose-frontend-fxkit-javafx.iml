@@ -27,24 +27,25 @@
     <orderEntry type="module" module-name="webfx-framework-router" />
     <orderEntry type="module" module-name="webfx-framework-authn" />
     <orderEntry type="module" module-name="webfx-framework-activity" />
+    <orderEntry type="module" module-name="webfx-framework-util" />
+    <orderEntry type="module" module-name="webfx-framework-action" />
     <orderEntry type="module" module-name="mongoose-client-authn" />
     <orderEntry type="module" module-name="webfx-framework-authz" />
+    <orderEntry type="module" module-name="mongoose-client-operationactionsloading" />
     <orderEntry type="module" module-name="mongoose-client-sessionrecorder" />
     <orderEntry type="module" module-name="webfx-platforms-core-push" />
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
     <orderEntry type="module" module-name="mongoose-client-calendar" />
+    <orderEntry type="module" module-name="webfx-framework-layouts" />
     <orderEntry type="module" module-name="mongoose-client-icons" />
     <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="mongoose-client-validation" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
     <orderEntry type="module" module-name="webfx-framework-controls" />
-    <orderEntry type="module" module-name="webfx-framework-action" />
     <orderEntry type="module" module-name="webfx-framework-materialdesign" />
     <orderEntry type="module" module-name="webfx-framework-uifilter" />
     <orderEntry type="module" module-name="webfx-platforms-core-querypush" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
-    <orderEntry type="module" module-name="webfx-framework-layouts" />
-    <orderEntry type="module" module-name="webfx-framework-util" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="mongoose-client-activities-login" />
     <orderEntry type="module" module-name="mongoose-client-activities-unauthorized" />
@@ -62,7 +63,7 @@
     <orderEntry type="module" module-name="mongoose-frontend-activities-cart" />
     <orderEntry type="module" module-name="mongoose-client-bookingoptionspanel" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-payment" />
-    <orderEntry type="module" module-name="mongoose-client-application-java" />
+    <orderEntry type="module" module-name="mongoose-client-navigationarrows-java" />
     <orderEntry type="module" module-name="mongoose-client-css-java" />
     <orderEntry type="module" module-name="webfx-fxkit-javafx" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />

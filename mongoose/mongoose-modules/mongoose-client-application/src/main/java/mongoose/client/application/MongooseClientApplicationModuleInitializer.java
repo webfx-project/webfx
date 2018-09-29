@@ -30,6 +30,8 @@ public abstract class MongooseClientApplicationModuleInitializer implements Appl
 
     @Override
     public void initModule() {
+        // Activating focus owner auto scroll
+        SceneUtil.installPrimarySceneFocusOwnerAutoScroll();
         SceneUtil.onPrimarySceneReady(scene -> scene.getStylesheets().addAll("mongoose/client/css/mongoose.css"));
         ActivityManager.runActivity(mongooseApplication,
                 ViewDomainApplicationContext.createViewDomainApplicationContext(

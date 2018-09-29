@@ -32,6 +32,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>mongoose-client-operationactionsloading</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>mongoose-client-sessionrecorder</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -41,12 +47,6 @@
             <artifactId>mongoose-client-businesslogic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-controls</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
