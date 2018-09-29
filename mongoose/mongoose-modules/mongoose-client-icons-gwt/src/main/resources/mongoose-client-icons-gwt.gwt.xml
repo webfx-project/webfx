@@ -3,6 +3,6 @@
     <!-- Specifying the paths for translatable code -->
     <source path="mongoose/client/icons/gwt"/>
 
-    <resource path="mongoose/client/icons"/>
+    <resource path="images"/>
 
 </module>

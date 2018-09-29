@@ -80,7 +80,6 @@
         <module name="mongoose-client-activities-unauthorized" />
         <module name="mongoose-client-aggregates" />
         <module name="mongoose-client-application" />
-        <module name="mongoose-client-application-gwt" />
         <module name="mongoose-client-application-java" />
         <module name="mongoose-client-authn" />
         <module name="mongoose-client-authz" />
@@ -91,6 +90,7 @@
         <module name="mongoose-client-busconfig-gwt" />
         <module name="mongoose-client-businesslogic" />
         <module name="mongoose-client-calendar" />
+        <module name="mongoose-client-css-web" />
         <module name="mongoose-client-i18n" />
         <module name="mongoose-client-i18n-gwt" />
         <module name="mongoose-client-icons" />
@@ -281,7 +281,6 @@
       <module name="mongoose-client-activities-unauthorized" target="1.8" />
       <module name="mongoose-client-aggregates" target="1.8" />
       <module name="mongoose-client-application" target="1.8" />
-      <module name="mongoose-client-application-gwt" target="1.8" />
       <module name="mongoose-client-application-java" target="1.8" />
       <module name="mongoose-client-authn" target="1.8" />
       <module name="mongoose-client-authz" target="1.8" />
@@ -292,6 +291,7 @@
       <module name="mongoose-client-busconfig-gwt" target="1.8" />
       <module name="mongoose-client-businesslogic" target="1.8" />
       <module name="mongoose-client-calendar" target="1.8" />
+      <module name="mongoose-client-css-web" target="1.8" />
       <module name="mongoose-client-i18n" target="1.8" />
       <module name="mongoose-client-i18n-gwt" target="1.8" />
       <module name="mongoose-client-icons" target="1.8" />

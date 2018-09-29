@@ -9,23 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mongoose-client-application-gwt</artifactId>
-
-    <dependencies>
-
-        <dependency>
-            <artifactId>webfx-platform-gwt-all</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-        </dependency>
-
-    </dependencies>
+    <artifactId>mongoose-client-css-web</artifactId>
 
     <build>
         <plugins>

@@ -1,6 +1,6 @@
 <module rename-to="mongoose_frontend_application">
 
-  <inherits name="mongoose-client-application-gwt"/>
+  <inherits name="mongoose-client-application"/>
 
     <source path="mongoose/frontend"/>
 

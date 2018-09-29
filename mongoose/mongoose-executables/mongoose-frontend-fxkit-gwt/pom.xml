@@ -24,7 +24,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-client-application-gwt</artifactId>
+            <artifactId>mongoose-client-css-web</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>

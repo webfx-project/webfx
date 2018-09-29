@@ -60,7 +60,7 @@
         <module>mongoose-client-sessionrecorder</module>
         <module>mongoose-client-businesslogic</module>
         <module>mongoose-client-application-java</module>
-        <module>mongoose-client-application-gwt</module>
+        <module>mongoose-client-css-web</module>
         <module>mongoose-client-util</module>
         <module>mongoose-client-validation</module>
         <module>mongoose-server-sessioncloser</module>

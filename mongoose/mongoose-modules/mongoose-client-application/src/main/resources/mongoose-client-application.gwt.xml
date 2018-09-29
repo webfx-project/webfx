@@ -1,14 +1,25 @@
 <module rename-to="mongoose_client_application">
 
-  <inherits name="webfx-framework-all"/>
+    <!-- Declaring application properties so they can be accessed through System.getProperty()  -->
+    <!-- Note: these properties are set with the -setProperty GWT compiler argument when calling the GWT plugin in the root pom.xml -->
+    <define-configuration-property name="application.name" is_multi_valued="false"/>
+    <define-configuration-property name="application.version" is_multi_valued="false"/>
+    <define-configuration-property name="application.build.tool" is_multi_valued="false"/>
+    <define-configuration-property name="application.build.number" is_multi_valued="false"/>
+    <define-configuration-property name="application.build.timestamp" is_multi_valued="false"/>
 
-  <!-- temporary wide source path before writing gwt xml submodules -->
-  <source path="mongoose/client"/>
-  <source path="mongoose/shared"/>
-  <source path="de/saxsys/mvvmfx/utils/validation"/>
+    <inherits name="mongoose-client-busconfig-gwt"/>
+    <inherits name="mongoose-client-css-web"/>
+    <inherits name="mongoose-client-i18n-gwt"/>
+    <inherits name="mongoose-client-icons-gwt"/>
+    <inherits name="mongoose-shared-domain-gwt"/>
+    <inherits name="webfx-framework-all"/>
 
-  <public path="" includes="mongoose/client/"/>
+    <!-- temporary wide source path before writing gwt xml submodules -->
+    <source path="mongoose/client"/>
+    <source path="mongoose/shared"/>
+    <source path="de/saxsys/mvvmfx/utils/validation"/>
 
-  <resource path="images"/>
+    <public path="" includes="mongoose/client/"/>
 
 </module>
