@@ -15,12 +15,6 @@ public interface MongooseClientWebBundle extends ClientBundle {
     @Source("webfx/platforms/core/services/bus/client/conf/BusOptions.json")
     TextResource clientBusOptionsJson();
 
-    @Source("mongoose/client/services/i18n/dictionaries/en.json")
-    TextResource englishDictionaryJson();
-
-    @Source("mongoose/client/services/i18n/dictionaries/fr.json")
-    TextResource frenchDictionaryJson();
-
     @Source("images/svg/mono/certificate.svg")
     TextResource certificateMonoSvg();
 
@@ -36,8 +30,6 @@ public interface MongooseClientWebBundle extends ClientBundle {
     final class ResourceBundle extends GwtResourceBundleBase {
         public ResourceBundle() {
             registerResource("webfx/platforms/core/services/bus/client/conf/BusOptions.json", R.clientBusOptionsJson());
-            registerResource("mongoose/client/services/i18n/dictionaries/en.json", R.englishDictionaryJson());
-            registerResource("mongoose/client/services/i18n/dictionaries/fr.json", R.frenchDictionaryJson());
             registerResource("images/svg/mono/certificate.svg", R.certificateMonoSvg());
             registerResource("images/svg/mono/calendar.svg", R.calendarMonoSvg());
             registerResource("images/svg/mono/price-tag.svg", R.priceTagMonoSvg());

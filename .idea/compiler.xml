@@ -90,6 +90,7 @@
         <module name="mongoose-client-businesslogic" />
         <module name="mongoose-client-calendar" />
         <module name="mongoose-client-i18n" />
+        <module name="mongoose-client-i18n-gwt" />
         <module name="mongoose-client-icons" />
         <module name="mongoose-client-personaldetails" />
         <module name="mongoose-client-sectionpanel" />
@@ -287,6 +288,7 @@
       <module name="mongoose-client-businesslogic" target="1.8" />
       <module name="mongoose-client-calendar" target="1.8" />
       <module name="mongoose-client-i18n" target="1.8" />
+      <module name="mongoose-client-i18n-gwt" target="1.8" />
       <module name="mongoose-client-icons" target="1.8" />
       <module name="mongoose-client-personaldetails" target="1.8" />
       <module name="mongoose-client-sectionpanel" target="1.8" />
