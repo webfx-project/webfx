@@ -9,6 +9,7 @@ import webfx.framework.activity.ActivityManager;
 import webfx.framework.activity.impl.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.launcher.FxKitLauncher;
+import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.util.ImageStore;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
 
@@ -52,11 +53,12 @@ public abstract class MongooseClientApplicationModuleInitializer implements Appl
             if (!visible) {
                 rootPane.getChildren().remove(spinner);
             } else if (!rootPane.getChildren().contains(spinner)) {
-                if (spinner == null)
+                if (spinner == null) {
                     spinner = ImageStore.createImageView("mongoose/client/images/spinner.gif");
-                spinner.setManaged(false);
-                spinner.setX(rootPane.getWidth() / 2 - spinner.prefWidth(-1) / 2);
-                spinner.setY(rootPane.getHeight() / 2 - spinner.prefHeight(-1) / 2);
+                    spinner.setManaged(false);
+                }
+                spinner.xProperty().bind(Properties.combine(rootPane.widthProperty(), spinner.getImage().widthProperty(), (w1, w2) -> (w1.doubleValue() - w2.doubleValue())/2 ));
+                spinner.yProperty().bind(Properties.combine(rootPane.heightProperty(), spinner.getImage().heightProperty(), (h1, h2) -> (h1.doubleValue() - h2.doubleValue())/2 ));
                 rootPane.getChildren().add(spinner);
             }
         }
