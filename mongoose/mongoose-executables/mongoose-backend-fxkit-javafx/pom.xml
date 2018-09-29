@@ -49,32 +49,40 @@
         <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
     </properties>
 
-    <build>
-        <plugins>
-
-            <!-- Setting the main class and classpath in the manifest file to make it executable (with java -jar) -->
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>${plugins.param.jre.mainClass}</mainClass>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <!-- Unpacking all dependent libraries in the lib folder -->
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
-
-        </plugins>
-    </build>
-
     <profiles>
+
+        <!-- profile to make a non fat standalone executable jar with all dependent libraries unpacked in lib folder -->
+        <profile>
+            <id>mongoose-backend-fxkit-javafx-nonfat</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+
+                    <!-- Setting the main class and classpath in the manifest file to make it executable (with java -jar) -->
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${plugins.param.jre.mainClass}</mainClass>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>lib/</classpathPrefix>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Unpacking all dependent libraries in the lib folder -->
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
 
         <!-- profile to make a fat standalone executable jar with all dependent libraries included inside -->
         <profile>
