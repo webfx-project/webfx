@@ -112,3 +112,4 @@ bower_components/
 /mongoose/mongoose-modules/mongoose-server-start/src/main/resources/mongooses/server/datasource/1/ConnectionDetails.json
 /mongoose/mongoose-modules/mongoose-server-datasource/src/main/resources/mongoose/server/datasource/1/ConnectionDetails.json
 /mongoose/mongoose-modules/mongoose-client-busconfig-gwt/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json
+/mongoose/mongoose-modules/mongoose-client-busconfig/src/main/resources/webfx/platforms/core/services/bus/client/conf/BusOptions.json

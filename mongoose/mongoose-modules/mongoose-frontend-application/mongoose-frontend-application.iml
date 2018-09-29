@@ -12,6 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongoose-client-application" />
+    <orderEntry type="module" module-name="mongoose-client-busconfig" />
     <orderEntry type="module" module-name="mongoose-client-i18n" />
     <orderEntry type="module" module-name="webfx-framework-i18n" />
     <orderEntry type="module" module-name="webfx-framework-operation" />

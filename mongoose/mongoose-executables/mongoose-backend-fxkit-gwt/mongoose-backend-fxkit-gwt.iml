@@ -32,6 +32,7 @@
     <orderEntry type="module" module-name="mongoose-shared-domain-gwt" />
     <orderEntry type="module" module-name="mongoose-backend-application" />
     <orderEntry type="module" module-name="mongoose-client-application" />
+    <orderEntry type="module" module-name="mongoose-client-busconfig" />
     <orderEntry type="module" module-name="mongoose-client-i18n" />
     <orderEntry type="module" module-name="mongoose-client-authz" />
     <orderEntry type="module" module-name="mongoose-shared-entities" />

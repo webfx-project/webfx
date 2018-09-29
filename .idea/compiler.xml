@@ -87,6 +87,7 @@
         <module name="mongoose-client-bookingcalendar" />
         <module name="mongoose-client-bookingoptionspanel" />
         <module name="mongoose-client-bookingprocess" />
+        <module name="mongoose-client-busconfig" />
         <module name="mongoose-client-busconfig-gwt" />
         <module name="mongoose-client-businesslogic" />
         <module name="mongoose-client-calendar" />
@@ -287,6 +288,7 @@
       <module name="mongoose-client-bookingcalendar" target="1.8" />
       <module name="mongoose-client-bookingoptionspanel" target="1.8" />
       <module name="mongoose-client-bookingprocess" target="1.8" />
+      <module name="mongoose-client-busconfig" target="1.8" />
       <module name="mongoose-client-busconfig-gwt" target="1.8" />
       <module name="mongoose-client-businesslogic" target="1.8" />
       <module name="mongoose-client-calendar" target="1.8" />
