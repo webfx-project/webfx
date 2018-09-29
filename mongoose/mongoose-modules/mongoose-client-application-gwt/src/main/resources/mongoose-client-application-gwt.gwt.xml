@@ -1,6 +1,7 @@
 <module rename-to="mongoose_client_application_gwt">
 
     <inherits name="mongoose-client-i18n-gwt"/>
+    <inherits name="mongoose-client-icons-gwt"/>
     <inherits name="mongoose-shared-domain-gwt"/>
 
     <inherits name="mongoose-client-application"/>

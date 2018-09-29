@@ -1,0 +1,8 @@
+<module rename-to="mongoose_client_icons_gwt">
+
+    <!-- Specifying the paths for translatable code -->
+    <source path="mongoose/client/icons/gwt"/>
+
+    <resource path="mongoose/client/icons"/>
+
+</module>

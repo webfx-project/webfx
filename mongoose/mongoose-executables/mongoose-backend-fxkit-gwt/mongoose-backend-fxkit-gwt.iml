@@ -27,6 +27,7 @@
     <orderEntry type="library" name="Maven: com.googlecode.gwt-charts:gwt-charts:0.9.10" level="project" />
     <orderEntry type="module" module-name="mongoose-client-application-gwt" />
     <orderEntry type="module" module-name="mongoose-client-i18n-gwt" />
+    <orderEntry type="module" module-name="mongoose-client-icons-gwt" />
     <orderEntry type="module" module-name="mongoose-shared-domain-gwt" />
     <orderEntry type="module" module-name="mongoose-backend-application" />
     <orderEntry type="module" module-name="mongoose-client-application" />

@@ -39,6 +39,7 @@
         <module>mongoose-frontend-activities-payment</module>
         <module>mongoose-frontend-application</module>
         <module>mongoose-shared-domain</module>
+        <module>mongoose-shared-domain-gwt</module>
         <module>mongoose-shared-entities</module>
         <module>mongoose-shared-time</module>
         <module>mongoose-client-activities-login</module>
@@ -51,6 +52,9 @@
         <module>mongoose-client-bookingprocess</module>
         <module>mongoose-client-calendar</module>
         <module>mongoose-client-i18n</module>
+        <module>mongoose-client-i18n-gwt</module>
+        <module>mongoose-client-icons</module>
+        <module>mongoose-client-icons-gwt</module>
         <module>mongoose-client-sessionrecorder</module>
         <module>mongoose-client-businesslogic</module>
         <module>mongoose-client-application-java</module>
@@ -65,9 +69,6 @@
         <module>mongoose-client-personaldetails</module>
         <module>mongoose-client-bookingoptionspanel</module>
         <module>mongoose-client-sectionpanel</module>
-        <module>mongoose-client-icons</module>
-        <module>mongoose-shared-domain-gwt</module>
-        <module>mongoose-client-i18n-gwt</module>
 
     </modules>
 
