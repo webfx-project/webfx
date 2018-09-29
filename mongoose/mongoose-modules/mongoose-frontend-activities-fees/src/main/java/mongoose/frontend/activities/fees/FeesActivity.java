@@ -13,9 +13,9 @@ import javafx.scene.layout.VBox;
 import mongoose.client.activities.shared.FeesGroup;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
+import mongoose.client.icons.MongooseIcons;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.activities.options.RouteToOptionsRequest;
-import mongoose.shared.actions.MongooseIcons;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Person;
 import webfx.framework.orm.entity.EntityList;
@@ -63,7 +63,7 @@ final class FeesActivity extends BookingProcessActivity {
     }
 
     private BorderPane buildFeesSectionPanel(Node node) {
-        return BookingFormSectionFactory.createSectionPanel(node);
+        return SectionPanelFactory.createSectionPanel(node);
     }
 
     @Override

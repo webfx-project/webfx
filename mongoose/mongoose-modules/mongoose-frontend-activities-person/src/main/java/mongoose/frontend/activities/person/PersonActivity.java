@@ -17,7 +17,7 @@ import javafx.scene.text.TextFlow;
 import mongoose.client.activities.login.LoginPanel;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
-import mongoose.client.bookingprocess.components.PersonDetailsPanel;
+import mongoose.client.personaldetails.PersonalDetailsPanel;
 import mongoose.frontend.operations.summary.RouteToSummaryRequest;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.uirouter.uisession.UiSession;
@@ -31,7 +31,7 @@ import webfx.platforms.core.util.Numbers;
  */
 final class PersonActivity extends BookingProcessActivity {
 
-    private PersonDetailsPanel personDetailsPanel;
+    private PersonalDetailsPanel personalDetailsPanel;
 
     @Override
     protected void createViewNodes() {
@@ -58,8 +58,8 @@ final class PersonActivity extends BookingProcessActivity {
         ObservableBooleanValue loggedInProperty = loggedInProperty();
         ObservableBooleanValue notLoggedIn = BooleanExpression.booleanExpression(loggedInProperty).not();
         LoginPanel loginPanel = new LoginPanel(uiSession);
-        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer, uiSession);
-        Node[] tabContents = {new VBox(10, personDetailsPanel.getSectionPanel(), nextButton), loginPanel.getNode() };
+        personalDetailsPanel = new PersonalDetailsPanel(getEvent(), this, pageContainer, uiSession);
+        Node[] tabContents = {new VBox(10, personalDetailsPanel.getSectionPanel(), nextButton), loginPanel.getNode() };
         BorderPane accountPane = new BorderPane();
         accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             Node displayedNode = tabContents[accountToggleGroup.getToggles().indexOf(newValue)];
@@ -83,18 +83,18 @@ final class PersonActivity extends BookingProcessActivity {
     private void syncUiFromModel() {
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocument != null)
-            personDetailsPanel.syncUiFromModel(workingDocument.getDocument());
+            personalDetailsPanel.syncUiFromModel(workingDocument.getDocument());
     }
 
     private void syncModelFromUi() {
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocument != null)
-            personDetailsPanel.syncModelFromUi(workingDocument.getDocument());
+            personalDetailsPanel.syncModelFromUi(workingDocument.getDocument());
     }
 
     @Override
     protected void onNextButtonPressed(ActionEvent event) {
-        if (personDetailsPanel.isValid())
+        if (personalDetailsPanel.isValid())
             new RouteToSummaryRequest(getEventId(), getHistory()).execute();
     }
 

@@ -1,6 +1,6 @@
 package mongoose.shared.entities;
 
-import mongoose.shared.entities.markers.EntityHasPersonDetails;
+import mongoose.shared.entities.markers.EntityHasPersonalDetails;
 import webfx.framework.orm.entity.Entity;
 
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public interface Person extends Entity, EntityHasPersonDetails {
+public interface Person extends Entity, EntityHasPersonalDetails {
 
     default Object getBirthDateField() { return "birthdate";}
 

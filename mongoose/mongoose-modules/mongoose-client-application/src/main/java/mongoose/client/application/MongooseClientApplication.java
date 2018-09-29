@@ -1,6 +1,6 @@
 package mongoose.client.application;
 
-import mongoose.shared.actions.MongooseActions;
+import mongoose.client.actions.MongooseActions;
 import mongoose.client.jobs.sessionrecorder.ClientSessionRecorderJob;
 import webfx.framework.activity.Activity;
 import webfx.framework.activity.ActivityContext;

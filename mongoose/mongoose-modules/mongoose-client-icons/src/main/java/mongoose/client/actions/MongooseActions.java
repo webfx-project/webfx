@@ -1,6 +1,10 @@
-package mongoose.shared.actions;
+package mongoose.client.actions;
 
-import webfx.framework.ui.action.*;
+import mongoose.client.icons.MongooseIcons;
+import webfx.framework.ui.action.Action;
+import webfx.framework.ui.action.ActionBuilder;
+import webfx.framework.ui.action.ActionBuilderRegistry;
+import webfx.framework.ui.action.StandardActionKeys;
 
 /**
  * @author Bruno Salmon

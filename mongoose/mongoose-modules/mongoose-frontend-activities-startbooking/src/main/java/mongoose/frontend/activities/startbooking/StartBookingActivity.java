@@ -16,7 +16,7 @@ import mongoose.frontend.activities.options.RouteToOptionsRequest;
 import mongoose.frontend.activities.terms.RouteToTermsRequest;
 import mongoose.frontend.operations.fees.RouteToFeesRequest;
 import mongoose.frontend.operations.program.RouteToProgramRequest;
-import mongoose.shared.actions.MongooseActions;
+import mongoose.client.actions.MongooseActions;
 import mongoose.shared.util.Labels;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.util.anim.Animations;

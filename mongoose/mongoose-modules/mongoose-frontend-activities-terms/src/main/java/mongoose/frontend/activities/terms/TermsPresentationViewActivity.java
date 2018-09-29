@@ -4,8 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import mongoose.client.bookingprocess.activity.BookingProcessPresentationViewActivity;
-import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
-import mongoose.shared.actions.MongooseIcons;
+import mongoose.client.icons.MongooseIcons;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.extra.cell.collator.GridCollator;
 
@@ -20,7 +20,7 @@ final class TermsPresentationViewActivity extends BookingProcessPresentationView
     protected void createViewNodes(TermsPresentationModel pm) {
         super.createViewNodes(pm);
         GridCollator termsLetterCollator = new GridCollator("first", "first");
-        termsPanel = BookingFormSectionFactory.createSectionPanel(MongooseIcons.certificateMonoSvg16JsonUrl, "TermsAndConditions");
+        termsPanel = SectionPanelFactory.createSectionPanel(MongooseIcons.certificateMonoSvg16JsonUrl, "TermsAndConditions");
         termsPanel.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(termsLetterCollator));
 
         termsLetterCollator.displayResultProperty().bind(pm.termsLetterDisplayResultProperty());

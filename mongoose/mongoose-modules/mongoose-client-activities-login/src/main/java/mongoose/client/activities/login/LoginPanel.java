@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
-import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.client.validation.MongooseValidationSupport;
 import webfx.framework.services.authn.AuthenticationRequest;
 import webfx.framework.services.authn.UsernamePasswordCredentials;
@@ -38,7 +38,7 @@ public final class LoginPanel implements MongooseButtonFactoryMixin {
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
     public LoginPanel(UiSession uiSession) {
-        BorderPane loginWindow = BookingFormSectionFactory.createSectionPanel("SignInWindowTitle");
+        BorderPane loginWindow = SectionPanelFactory.createSectionPanel("SignInWindowTitle");
         Hyperlink hyperLink = newHyperlink("ForgotPassword?", e -> signInMode.setValue(!signInMode.getValue()));
         GridPane gridPane;
         loginWindow.setCenter(

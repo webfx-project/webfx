@@ -1,9 +1,10 @@
-package mongoose.client.bookingprocess.components;
+package mongoose.client.bookingoptionspanel;
 
 import javafx.scene.layout.BorderPane;
 import mongoose.client.activities.shared.TranslateFunction;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.DocumentLine;
 import mongoose.shared.entities.Item;
@@ -107,7 +108,7 @@ public final class BookingOptionsPanel {
 
     public BorderPane getOptionsPanel() {
         if (optionsPanel == null) {
-            optionsPanel = BookingFormSectionFactory.createSectionPanel("YourOptions");
+            optionsPanel = SectionPanelFactory.createSectionPanel("YourOptions");
             optionsPanel.setCenter(getGrid());
         }
         return optionsPanel;

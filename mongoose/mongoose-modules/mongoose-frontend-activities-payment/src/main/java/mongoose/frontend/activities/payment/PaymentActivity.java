@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.activities.cart.CartBasedActivity;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.*;
@@ -55,7 +55,7 @@ final class PaymentActivity extends CartBasedActivity {
                 LayoutUtil.createHGrowable(),
                 newButton("MakePayment", this::submitPayment));
 
-        BorderPane totalSection = BookingFormSectionFactory.createSectionPanel(newLabel("TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
+        BorderPane totalSection = SectionPanelFactory.createSectionPanel(newLabel("TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
         VBox vBox = new VBox(20, newLabel("PaymentPrompt:"), paymentsVBox, totalSection, buttonBar);
         BorderPane container = new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(vBox));
 
@@ -130,7 +130,7 @@ final class PaymentActivity extends CartBasedActivity {
         Node getNode() {
             if (node == null) {
                 String title = document.getFullName() + " - " + I18n.instantTranslate("Booking") + " " + document.getRef() + "   " + I18n.instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + I18n.instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + I18n.instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit());
-                BorderPane bp = BookingFormSectionFactory.createSectionPanel(new Label(title), LayoutUtil.createHGrowable(), newLabel("PaymentAmount"));
+                BorderPane bp = SectionPanelFactory.createSectionPanel(new Label(title), LayoutUtil.createHGrowable(), newLabel("PaymentAmount"));
                 hBox = new HBox(20);
                 hBox.setAlignment(Pos.CENTER_LEFT);
                 hBox.setPadding(new Insets(10));

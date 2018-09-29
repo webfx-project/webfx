@@ -13,12 +13,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import mongoose.client.bookingcalendar.BookingCalendar;
+import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentSubmitter;
-import mongoose.client.bookingprocess.components.BookingOptionsPanel;
-import mongoose.client.bookingprocess.components.PersonDetailsPanel;
-import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
+import mongoose.client.personaldetails.PersonalDetailsPanel;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.client.validation.MongooseValidationSupport;
 import mongoose.frontend.operations.cart.RouteToCartRequest;
 import mongoose.shared.entities.Cart;
@@ -36,7 +36,7 @@ final class SummaryActivity extends BookingProcessActivity {
     private BookingOptionsPanel bookingOptionsPanel;
     private Node bookingCalendarSection;
     private BookingCalendar bookingCalendar;
-    private PersonDetailsPanel personDetailsPanel;
+    private PersonalDetailsPanel personalDetailsPanel;
     private TextArea commentTextArea;
     private CheckBox termsCheckBox;
     private ObservableStringValue agreeTCTranslationProperty; // to avoid GC
@@ -47,14 +47,14 @@ final class SummaryActivity extends BookingProcessActivity {
         super.createViewNodes();
         bookingOptionsPanel = new BookingOptionsPanel();
         bookingCalendar = new BookingCalendar(false);
-        bookingCalendarSection = BookingFormSectionFactory.createBookingCalendarSection(bookingCalendar);
-        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer);
-        personDetailsPanel.setEditable(false);
+        bookingCalendarSection = SectionPanelFactory.createBookingCalendarSection(bookingCalendar);
+        personalDetailsPanel = new PersonalDetailsPanel(getEvent(), this, pageContainer);
+        personalDetailsPanel.setEditable(false);
 
-        BorderPane commentPanel = BookingFormSectionFactory.createSectionPanel("Comment");
+        BorderPane commentPanel = SectionPanelFactory.createSectionPanel("Comment");
         commentPanel.setCenter(commentTextArea = newTextAreaWithPrompt("CommentPlaceholder"));
 
-        BorderPane termsPanel = BookingFormSectionFactory.createSectionPanel("TermsAndConditions");
+        BorderPane termsPanel = SectionPanelFactory.createSectionPanel("TermsAndConditions");
         termsPanel.setCenter(termsCheckBox = new CheckBox());
         BorderPane.setAlignment(termsCheckBox, Pos.CENTER_LEFT);
         BorderPane.setMargin(termsCheckBox, new Insets(10));
@@ -64,7 +64,7 @@ final class SummaryActivity extends BookingProcessActivity {
         verticalStack.getChildren().setAll(
                 bookingOptionsPanel.getOptionsPanel(),
                 bookingCalendarSection,
-                personDetailsPanel.getSectionPanel(),
+                personalDetailsPanel.getSectionPanel(),
                 commentPanel,
                 termsPanel,
                 nextButton
@@ -106,14 +106,14 @@ final class SummaryActivity extends BookingProcessActivity {
         if (workingDocument != null) {
             bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, true);
             bookingOptionsPanel.syncUiFromModel(workingDocument);
-            personDetailsPanel.syncUiFromModel(workingDocument.getDocument());
+            personalDetailsPanel.syncUiFromModel(workingDocument.getDocument());
         }
     }
 
     private void syncModelFromUi() {
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocument != null)
-            personDetailsPanel.syncModelFromUi(workingDocument.getDocument());
+            personalDetailsPanel.syncModelFromUi(workingDocument.getDocument());
     }
 
     @Override

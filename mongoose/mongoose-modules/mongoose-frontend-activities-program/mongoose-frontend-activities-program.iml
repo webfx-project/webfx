@@ -64,5 +64,7 @@
     <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
     <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
+    <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
+    <orderEntry type="module" module-name="mongoose-client-icons" />
   </component>
 </module>

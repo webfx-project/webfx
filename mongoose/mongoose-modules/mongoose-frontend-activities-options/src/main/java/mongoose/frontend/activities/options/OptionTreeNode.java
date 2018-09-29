@@ -16,14 +16,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
-import mongoose.shared.actions.MongooseIcons;
-import mongoose.shared.time.DateTimeRange;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentTransaction;
+import mongoose.client.icons.MongooseIcons;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
+import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.util.Labels;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.controls.button.EntityButtonSelector;
@@ -193,7 +193,7 @@ final class OptionTreeNode {
     }
 
     private BorderPane createTopLevelOptionSection(boolean detailed) {
-        BorderPane sectionPanel = BookingFormSectionFactory.createSectionPanel(Collections.toArray(
+        BorderPane sectionPanel = SectionPanelFactory.createSectionPanel(Collections.toArray(
                 createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option)))
                 , Node[]::new));
         createOptionButtonAndSelectedProperty();

@@ -14,9 +14,9 @@ import javafx.scene.layout.VBox;
 import mongoose.client.activities.shared.TermsDialog;
 import mongoose.client.activities.shared.TranslateFunction;
 import mongoose.client.aggregates.CartAggregate;
+import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
-import mongoose.client.bookingprocess.components.BookingOptionsPanel;
-import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.History;
@@ -68,14 +68,14 @@ final class CartActivity extends CartBasedActivity {
 
     @Override
     public Node buildUi() {
-        BorderPane bookingsPanel = BookingFormSectionFactory.createSectionPanel("YourBookings");
+        BorderPane bookingsPanel = SectionPanelFactory.createSectionPanel("YourBookings");
         DataGrid documentTable = new DataGrid(); //LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         documentTable.setFullHeight(true);
         bookingsPanel.setCenter(documentTable);
-        optionsPanel = BookingFormSectionFactory.createSectionPanel(null, bookingLabel = new Label());
+        optionsPanel = SectionPanelFactory.createSectionPanel(null, bookingLabel = new Label());
         bookingOptionsPanel = new BookingOptionsPanel();
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
-        paymentsPanel = BookingFormSectionFactory.createSectionPanel("YourPayments");
+        paymentsPanel = SectionPanelFactory.createSectionPanel("YourPayments");
         DataGrid paymentTable = new DataGrid();
         paymentTable.setFullHeight(true);
         paymentsPanel.setCenter(paymentTable);
@@ -277,8 +277,8 @@ final class CartActivity extends CartBasedActivity {
         TextField subjectTextField = newTextFieldWithPrompt("SubjectPlaceholder");
         TextArea bodyTextArea = newTextAreaWithPrompt("YourMessagePlaceholder");
         DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder()
-                        .addNodeFillingRow(BookingFormSectionFactory.createSectionPanel("Subject", subjectTextField))
-                        .addNodeFillingRowAndHeight(BookingFormSectionFactory.createSectionPanel("YourMessage", bodyTextArea))
+                        .addNodeFillingRow(SectionPanelFactory.createSectionPanel("Subject", subjectTextField))
+                        .addNodeFillingRowAndHeight(SectionPanelFactory.createSectionPanel("YourMessage", bodyTextArea))
                         .addButtons("Send", dialogCallback -> {
                                     Document doc = selectedWorkingDocument.getDocument();
                                     UpdateStore updateStore = UpdateStore.createAbove(doc.getStore());

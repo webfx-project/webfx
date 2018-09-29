@@ -9,8 +9,8 @@ import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Person;
-import mongoose.shared.entities.markers.EntityHasPersonDetails;
-import mongoose.shared.entities.markers.HasPersonDetails;
+import mongoose.shared.entities.markers.EntityHasPersonalDetails;
+import mongoose.shared.entities.markers.HasPersonalDetails;
 import webfx.framework.orm.entity.Entities;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityStore;
@@ -256,7 +256,7 @@ public final class WorkingDocument {
     }
 
 
-    public void syncPersonDetails(HasPersonDetails p) {
+    public void syncPersonDetails(HasPersonalDetails p) {
         syncPersonDetails(p, document);
     }
 
@@ -274,7 +274,7 @@ public final class WorkingDocument {
         return store instanceof UpdateStore ? (UpdateStore) store : UpdateStore.createAbove(store);
     }
 
-    private static Document createDocument(EntityHasPersonDetails personDetailsEntity) {
+    private static Document createDocument(EntityHasPersonalDetails personDetailsEntity) {
         UpdateStore store = getUpdateStore(personDetailsEntity);
         Document document;
         if (personDetailsEntity instanceof Document) // If from an original document, just making a copy
@@ -284,7 +284,7 @@ public final class WorkingDocument {
         return document;
     }
 
-    public static void syncPersonDetails(HasPersonDetails p1, HasPersonDetails p2) {
+    public static void syncPersonDetails(HasPersonalDetails p1, HasPersonalDetails p2) {
         p2.setFirstName(p1.getFirstName());
         p2.setLastName(p1.getLastName());
         p2.setLayName(p1.getLayName());

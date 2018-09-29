@@ -62,6 +62,10 @@
         <module>mongoose-server-systemmetrics</module>
         <module>mongoose-server-systemmetrics-java</module>
         <module>mongoose-server-application</module>
+        <module>mongoose-client-personaldetails</module>
+        <module>mongoose-client-bookingoptionspanel</module>
+        <module>mongoose-client-sectionpanel</module>
+        <module>mongoose-client-icons</module>
 
     </modules>
 

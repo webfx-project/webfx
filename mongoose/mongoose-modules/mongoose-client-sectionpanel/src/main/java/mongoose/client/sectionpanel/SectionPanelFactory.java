@@ -1,4 +1,4 @@
-package mongoose.client.bookingprocess.components;
+package mongoose.client.sectionpanel;
 
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import mongoose.client.bookingcalendar.BookingCalendar;
-import mongoose.shared.actions.MongooseIcons;
+import mongoose.client.icons.MongooseIcons;
 import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.util.background.BackgroundUtil;
 import webfx.framework.ui.util.border.BorderUtil;
@@ -20,7 +20,7 @@ import static webfx.framework.ui.util.image.JsonImageViews.createImageView;
 /**
  * @author Bruno Salmon
  */
-public final class BookingFormSectionFactory {
+public final class SectionPanelFactory {
 
     public static BorderPane createSectionPanel(String i18nKey) {
         return createSectionPanel(null, i18nKey);

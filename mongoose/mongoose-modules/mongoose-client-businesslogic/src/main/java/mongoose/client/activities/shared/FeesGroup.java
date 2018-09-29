@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
 import mongoose.client.aggregates.EventAggregate;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.shared.actions.MongooseIcons;
+import mongoose.client.icons.MongooseIcons;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Label;
 import mongoose.shared.util.Labels;

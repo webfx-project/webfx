@@ -3,14 +3,14 @@ package mongoose.shared.entities;
 import mongoose.shared.entities.markers.EntityHasCancelled;
 import mongoose.shared.entities.markers.EntityHasEvent;
 import mongoose.shared.entities.markers.EntityHasPerson;
-import mongoose.shared.entities.markers.EntityHasPersonDetailsCopy;
+import mongoose.shared.entities.markers.EntityHasPersonalDetailsCopy;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon
  */
-public interface Document extends Entity, EntityHasEvent, EntityHasCancelled, EntityHasPerson, EntityHasPersonDetailsCopy {
+public interface Document extends Entity, EntityHasEvent, EntityHasCancelled, EntityHasPerson, EntityHasPersonalDetailsCopy {
 
     default void setRef(Integer ref) {
         setFieldValue("ref", ref);

@@ -25,6 +25,12 @@
             <version>${webfx.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>mongoose-client-personaldetails</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

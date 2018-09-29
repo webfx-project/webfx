@@ -7,7 +7,7 @@ import webfx.framework.orm.entity.EntityId;
 /**
  * @author Bruno Salmon
  */
-public interface HasPersonDetails {
+public interface HasPersonalDetails {
 
     void setFirstName(String firstName);
 

@@ -1,4 +1,4 @@
-package mongoose.client.bookingprocess.components;
+package mongoose.client.personaldetails;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -7,16 +7,17 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.*;
-import mongoose.client.validation.MongooseValidationSupport;
-import mongoose.client.services.authn.MongooseUserPrincipal;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
+import mongoose.client.sectionpanel.SectionPanelFactory;
+import mongoose.client.services.authn.MongooseUserPrincipal;
+import mongoose.client.validation.MongooseValidationSupport;
 import mongoose.shared.domainmodel.formatters.DateFormatter;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Country;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Organization;
 import mongoose.shared.entities.Person;
-import mongoose.shared.entities.markers.HasPersonDetails;
+import mongoose.shared.entities.markers.HasPersonalDetails;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityStore;
@@ -24,8 +25,8 @@ import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.ui.controls.button.EntityButtonSelector;
 import webfx.framework.ui.controls.dialog.GridPaneBuilder;
-import webfx.framework.ui.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.framework.ui.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.ui.uirouter.uisession.UiSession;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
@@ -42,7 +43,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public final class PersonDetailsPanel implements MongooseButtonFactoryMixin {
+public final class PersonalDetailsPanel implements MongooseButtonFactoryMixin {
 
     private static final int CHILD_MAX_AGE = 17;
 
@@ -56,17 +57,17 @@ public final class PersonDetailsPanel implements MongooseButtonFactoryMixin {
     private final EntityButtonSelector<Organization> organizationSelector;
     private final MaterialTextFieldPane personButton, countryButton, organizationButton;
     private final BorderPane sectionPanel;
-    private HasPersonDetails model;
+    private HasPersonalDetails model;
     private boolean editable = true;
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
-    public PersonDetailsPanel(Event event, ButtonFactoryMixin buttonFactoryMixin, Pane parent) {
+    public PersonalDetailsPanel(Event event, ButtonFactoryMixin buttonFactoryMixin, Pane parent) {
         this(event, buttonFactoryMixin, parent, null);
     }
 
-    public PersonDetailsPanel(Event event, ButtonFactoryMixin buttonFactoryMixin, Pane parent, UiSession uiSession) {
+    public PersonalDetailsPanel(Event event, ButtonFactoryMixin buttonFactoryMixin, Pane parent, UiSession uiSession) {
         this.event = event;
-        sectionPanel = BookingFormSectionFactory.createSectionPanel("YourPersonalDetails");
+        sectionPanel = SectionPanelFactory.createSectionPanel("YourPersonalDetails");
 
         firstNameTextField = newMaterialTextField("FirstName", "FirstNamePlaceholder");
         lastNameTextField = newMaterialTextField("LastName", "LastNamePlaceholder");
@@ -269,7 +270,7 @@ public final class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         return dataGrid;
     }
 
-    public void syncUiFromModel(HasPersonDetails p) {
+    public void syncUiFromModel(HasPersonalDetails p) {
         model = p;
         if (p instanceof Entity)
             setLoadingStore(((Entity) p).getStore());
@@ -303,7 +304,7 @@ public final class PersonDetailsPanel implements MongooseButtonFactoryMixin {
             UiScheduler.runInUiThread(this::updatePanelBody);
     }
 
-    public void syncModelFromUi(HasPersonDetails p) {
+    public void syncModelFromUi(HasPersonalDetails p) {
         p.setFirstName(firstNameTextField.getText());
         p.setLastName(lastNameTextField.getText());
         p.setMale(maleRadioButton.isSelected());

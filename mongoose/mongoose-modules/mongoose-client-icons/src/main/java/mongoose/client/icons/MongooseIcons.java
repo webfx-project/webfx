@@ -1,4 +1,4 @@
-package mongoose.shared.actions;
+package mongoose.client.icons;
 
 import javafx.scene.image.ImageView;
 import mongoose.shared.entities.Option;

@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import mongoose.shared.actions.MongooseActions;
+import mongoose.client.actions.MongooseActions;
 import mongoose.backend.multilangeditor.MultiLanguageEditor;
 import mongoose.frontend.activities.options.OptionsActivity;
 import mongoose.client.bookingcalendar.BookingCalendar;

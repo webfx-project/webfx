@@ -6,14 +6,14 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import mongoose.client.bookingcalendar.BookingCalendar;
 import mongoose.client.activities.shared.FeesGroup;
+import mongoose.client.bookingcalendar.BookingCalendar;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
-import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
+import mongoose.client.icons.MongooseIcons;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.operations.person.RouteToPersonRequest;
-import mongoose.shared.actions.MongooseIcons;
 import mongoose.shared.entities.Option;
 import mongoose.shared.util.Labels;
 import webfx.framework.ui.layouts.FlexBox;
@@ -86,7 +86,7 @@ public class OptionsActivity extends BookingProcessActivity {
         topLevelOptionButtonsContainer = new FlexBox(4, 4);
         bookingCalendar = createBookingCalendar();
         bookingCalendar.setOnAttendanceChangedRunnable(optionTree::getUpdatedTopLevelOptionSections);
-        bookingCalendarSection = BookingFormSectionFactory.createBookingCalendarSection(bookingCalendar);
+        bookingCalendarSection = SectionPanelFactory.createBookingCalendarSection(bookingCalendar);
 
         priceText = new Label();
         priceText.textProperty().bind(bookingCalendar.formattedBookingPriceProperty());

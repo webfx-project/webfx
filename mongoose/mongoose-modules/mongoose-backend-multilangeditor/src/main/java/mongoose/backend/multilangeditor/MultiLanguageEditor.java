@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static mongoose.shared.actions.MongooseIcons.getLanguageIcon32;
+import static mongoose.client.icons.MongooseIcons.getLanguageIcon32;
 import static webfx.framework.ui.action.StandardActionKeys.*;
 import static webfx.framework.ui.layouts.LayoutUtil.setMaxPrefSizeToInfinite;
 

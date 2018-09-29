@@ -1,12 +1,12 @@
 package mongoose.frontend.activities.program;
 
 import javafx.scene.layout.BorderPane;
-import mongoose.client.bookingcalendar.BookingCalendar;
 import mongoose.client.activities.shared.FeesGroup;
+import mongoose.client.bookingcalendar.BookingCalendar;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.client.bookingprocess.components.BookingFormSectionFactory;
-import mongoose.shared.actions.MongooseIcons;
+import mongoose.client.icons.MongooseIcons;
+import mongoose.client.sectionpanel.SectionPanelFactory;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.platforms.core.services.log.Logger;
 
@@ -22,7 +22,7 @@ final class ProgramActivity extends BookingProcessActivity {
     protected void createViewNodes() {
         super.createViewNodes();
         bookingCalendar = new BookingCalendar(false);
-        BorderPane calendarSection = BookingFormSectionFactory.createSectionPanel(MongooseIcons.calendarMonoSvg16JsonUrl, "Timetable");
+        BorderPane calendarSection = SectionPanelFactory.createSectionPanel(MongooseIcons.calendarMonoSvg16JsonUrl, "Timetable");
         calendarSection.centerProperty().bind(bookingCalendar.calendarNodeProperty());
         verticalStack.getChildren().setAll(calendarSection, LayoutUtil.setMaxWidthToInfinite(backButton));
         showBookingCalendarIfReady();

@@ -20,6 +20,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>mongoose-client-icons</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>mongoose-client-util</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>

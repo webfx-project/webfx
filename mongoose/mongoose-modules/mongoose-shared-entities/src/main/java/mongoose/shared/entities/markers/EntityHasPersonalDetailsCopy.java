@@ -3,7 +3,7 @@ package mongoose.shared.entities.markers;
 /**
  * @author Bruno Salmon
  */
-public interface EntityHasPersonDetailsCopy extends EntityHasPersonDetails {
+public interface EntityHasPersonalDetailsCopy extends EntityHasPersonalDetails {
 
     default Object getFirstNameField() { return "person_firstName";}
 
