@@ -62,6 +62,7 @@
     <orderEntry type="module" module-name="mongoose-backend-activities-bookings" />
     <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent" />
     <orderEntry type="module" module-name="mongoose-client-application-java" />
+    <orderEntry type="module" module-name="mongoose-client-css-java" />
     <orderEntry type="module" module-name="webfx-fxkit-javafx" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
     <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />

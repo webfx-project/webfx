@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="mongoose-client-css-java" />
     <orderEntry type="module" module-name="webfx-framework-uirouter" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-router" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-authn" scope="PROVIDED" />
