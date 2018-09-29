@@ -37,7 +37,6 @@ public final class FxKitMapper {
     }
 
     public static  double getVerticalScrollbarExtraWidth() {
-        return 16;
+        return getProvider().getVerticalScrollbarExtraWidth();
     }
-
 }
