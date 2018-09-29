@@ -24,7 +24,7 @@ public interface UiSession extends ObservableUserAuthorizationFactory {
         return loggedInProperty().getValue();
     }
 
-    static UiSession create() {
-        return new UiSessionImpl();
+    static UiSession get() {
+        return UiSessionImpl.getInstance();
     }
 }

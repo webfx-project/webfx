@@ -141,7 +141,7 @@ public final class UiRouter extends HistoryRouter {
         if (uiSession == null) {
             if (mountParentRouter != null)
                 return mountParentRouter.getUiSession();
-            uiSession = UiSession.create();
+            uiSession = UiSession.get();
             uiSession.userPrincipalProperty().addListener((observable, oldUser, userPrincipal) -> getSessionStore().get(sessionId).setHandler(ar -> {
                 if (ar.succeeded()) {
                     UserSessionHandlerImpl.setSessionUserHolder(ar.result(), new UserHolder(userPrincipal));

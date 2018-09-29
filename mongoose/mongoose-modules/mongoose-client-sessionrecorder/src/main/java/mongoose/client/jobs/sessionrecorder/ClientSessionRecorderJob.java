@@ -1,12 +1,12 @@
 package mongoose.client.jobs.sessionrecorder;
 
-import javafx.beans.property.Property;
 import mongoose.client.services.authn.MongooseUserPrincipal;
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.orm.entity.Entities;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.UpdateStore;
+import webfx.framework.ui.uirouter.uisession.UiSession;
 import webfx.fxkits.core.launcher.FxKitLauncher;
 import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
 import webfx.platforms.core.services.bus.Bus;
@@ -68,18 +68,15 @@ public final class ClientSessionRecorderJob implements ApplicationJob {
         });
         if (bus.isOpen())
             onConnectionOpened();
+        UiSession.get().userPrincipalProperty().addListener((observable, oldValue, userPrincipal) -> {
+            if (userPrincipal instanceof MongooseUserPrincipal && INSTANCE != null)
+                INSTANCE.recordNewSessionUser(((MongooseUserPrincipal) userPrincipal).getUserPersonId());
+        });
     }
 
     @Override
     public void onStop() {
         onShutdown();
-    }
-
-    public static void setUserPrincipalProperty(Property<Object> userPrincipalProperty) {
-        userPrincipalProperty.addListener((observable, oldValue, userPrincipal) -> {
-            if (userPrincipal instanceof MongooseUserPrincipal && INSTANCE != null)
-                INSTANCE.recordNewSessionUser(((MongooseUserPrincipal) userPrincipal).getUserPersonId());
-        });
     }
 
     private Entity getSessionAgent() {
