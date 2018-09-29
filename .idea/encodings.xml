@@ -59,6 +59,7 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-systemmetrics" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-systemmetrics-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-domain" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-domain-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-entities" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-shared-time" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework" charset="UTF-8" />

@@ -66,6 +66,7 @@
         <module>mongoose-client-bookingoptionspanel</module>
         <module>mongoose-client-sectionpanel</module>
         <module>mongoose-client-icons</module>
+        <module>mongoose-shared-domain-gwt</module>
 
     </modules>
 

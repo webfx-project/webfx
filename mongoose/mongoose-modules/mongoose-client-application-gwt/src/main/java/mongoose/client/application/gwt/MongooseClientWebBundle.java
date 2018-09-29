@@ -12,9 +12,6 @@ public interface MongooseClientWebBundle extends ClientBundle {
 
     MongooseClientWebBundle R = GWT.create(MongooseClientWebBundle.class);
 
-    @Source("mongoose/shared/domainmodel/DomainModelSnapshot.json")
-    TextResource domainModelSnapshotJson();
-
     @Source("webfx/platforms/core/services/bus/client/conf/BusOptions.json")
     TextResource clientBusOptionsJson();
 
@@ -38,7 +35,6 @@ public interface MongooseClientWebBundle extends ClientBundle {
 
     final class ResourceBundle extends GwtResourceBundleBase {
         public ResourceBundle() {
-            registerResource("mongoose/shared/domainmodel/DomainModelSnapshot.json", R.domainModelSnapshotJson());
             registerResource("webfx/platforms/core/services/bus/client/conf/BusOptions.json", R.clientBusOptionsJson());
             registerResource("mongoose/client/services/i18n/dictionaries/en.json", R.englishDictionaryJson());
             registerResource("mongoose/client/services/i18n/dictionaries/fr.json", R.frenchDictionaryJson());

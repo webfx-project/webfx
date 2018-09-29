@@ -1,0 +1,8 @@
+<module rename-to="mongoose_shared_domain_gwt">
+
+    <!-- Specifying the paths for translatable code -->
+    <source path="mongoose/shared/domain/gwt"/>
+
+    <resource path="mongoose/shared/domain"/>
+
+</module>

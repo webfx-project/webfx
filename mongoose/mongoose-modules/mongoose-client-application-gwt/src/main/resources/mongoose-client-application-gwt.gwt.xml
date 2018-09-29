@@ -1,5 +1,7 @@
 <module rename-to="mongoose_client_application_gwt">
 
+    <inherits name="mongoose-shared-domain-gwt"/>
+
     <inherits name="mongoose-client-application"/>
 
     <!-- Specifying the paths for translatable code -->

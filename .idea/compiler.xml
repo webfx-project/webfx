@@ -116,6 +116,7 @@
         <module name="mongoose-server-systemmetrics" />
         <module name="mongoose-server-systemmetrics-java" />
         <module name="mongoose-shared-domain" />
+        <module name="mongoose-shared-domain-gwt" />
         <module name="mongoose-shared-entities" />
         <module name="mongoose-shared-time" />
         <module name="naga-abstractplat-java" />
@@ -317,6 +318,7 @@
       <module name="mongoose-server-systemmetrics" target="1.8" />
       <module name="mongoose-server-systemmetrics-java" target="1.8" />
       <module name="mongoose-shared-domain" target="1.8" />
+      <module name="mongoose-shared-domain-gwt" target="1.8" />
       <module name="mongoose-shared-entities" target="1.8" />
       <module name="mongoose-shared-time" target="1.8" />
       <module name="mongooses-backend" target="1.8" />
