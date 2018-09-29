@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public abstract class GwtResourceBundleBase implements GwtResourceBundle {
 
-    private final static Map<String, TextResource> resources = new HashMap<>();
+    private final Map<String, TextResource> resources = new HashMap<>();
 
     protected void registerResource(String resourcePath, TextResource textResource) {
         resources.put(resourcePath, textResource);
