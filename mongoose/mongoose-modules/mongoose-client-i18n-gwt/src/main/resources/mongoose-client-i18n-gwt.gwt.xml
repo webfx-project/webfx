@@ -1,4 +1,4 @@
-<module rename-to="mongoose_client_i18n_domain_gwt">
+<module rename-to="mongoose_client_i18n_gwt">
 
     <!-- Specifying the paths for translatable code -->
     <source path="mongoose/client/services/i18n/gwt"/>

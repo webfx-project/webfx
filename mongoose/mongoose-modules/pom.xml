@@ -48,6 +48,7 @@
         <module>mongoose-client-application</module>
         <module>mongoose-client-authn</module>
         <module>mongoose-client-authz</module>
+        <module>mongoose-client-busconfig-gwt</module>
         <module>mongoose-client-bookingcalendar</module>
         <module>mongoose-client-bookingprocess</module>
         <module>mongoose-client-calendar</module>
