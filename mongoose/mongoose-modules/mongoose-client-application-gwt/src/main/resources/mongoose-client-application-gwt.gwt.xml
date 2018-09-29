@@ -1,9 +1,11 @@
 <module rename-to="mongoose_client_application_gwt">
 
+    <inherits name="mongoose-client-application"/>
+
     <!-- Specifying the paths for translatable code -->
     <source path="mongoose/client/application/gwt"/>
 
-    <resource path="images"/>
+    <resource path="webfx"/>
 
     <!-- Declaring application properties so they can be accessed through System.getProperty()  -->
     <!-- Note: these properties are set with the -setProperty GWT compiler argument when calling the GWT plugin in the root pom.xml -->

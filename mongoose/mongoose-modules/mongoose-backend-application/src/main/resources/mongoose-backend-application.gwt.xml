@@ -1,14 +1,7 @@
 <module rename-to="mongoose_backend_application">
 
-  <inherits name="webfx-framework-all"/>
+    <inherits name="mongoose-client-application-gwt"/>
 
-  <!-- temporary wide source path before writing gwt xml submodules -->
-  <source path="mongoose/backend"/>
-  <source path="mongoose/client"/>
-  <source path="mongoose/shared"/>
-  <source path="de/saxsys/mvvmfx/utils/validation"/>
-
-  <public path="" includes="mongoose"/>
-  <public path="" includes="webfx"/>
+    <source path="mongoose/backend"/>
 
 </module>

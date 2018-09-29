@@ -1,5 +1,4 @@
 <module rename-to="mongoose_frontend_fxkit_gwt">
-  <inherits name="mongoose-client-application-gwt"/>
   <inherits name="mongoose-frontend-application"/>
   <inherits name="webfx-fxkit-gwt"/>
   <inherits name="webfx-platforms-web-clientbus"/>

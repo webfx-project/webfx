@@ -1,9 +1,0 @@
-<module rename-to="mongooses_sharedends">
-
-  <inherits name="mongoose-core"/>
-
-  <source path="mongoose/sharedends"/>
-
-  <public path="" includes="mongoose/sharedends/"/>
-
-</module>
