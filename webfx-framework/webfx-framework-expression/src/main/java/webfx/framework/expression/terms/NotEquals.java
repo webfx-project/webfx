@@ -1,7 +1,7 @@
 package webfx.framework.expression.terms;
 
 import webfx.framework.expression.Expression;
-import webfx.platforms.core.util.Objects;
+import webfx.platform.shared.util.Objects;
 
 /**
  * @author Bruno Salmon

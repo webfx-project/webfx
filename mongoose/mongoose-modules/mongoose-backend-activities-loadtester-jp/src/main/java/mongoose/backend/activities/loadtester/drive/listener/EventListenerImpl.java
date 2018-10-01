@@ -1,7 +1,7 @@
 package mongoose.backend.activities.loadtester.drive.listener;
 
 import mongoose.backend.activities.loadtester.drive.metrics.model.MemData;
-import webfx.platforms.core.services.log.Logger;
+import webfx.platform.shared.services.log.Logger;
 
 /**
  * @author Jean-Pierre Alonso.

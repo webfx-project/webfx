@@ -4,7 +4,7 @@
     <inherits name="webfx-platform-client-uischeduler"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/web/services/clientbus"/>
+    <source path="webfx/platform/client/services/websocketbus/spi/impl/web"/>
 
     <public path="public" />
 

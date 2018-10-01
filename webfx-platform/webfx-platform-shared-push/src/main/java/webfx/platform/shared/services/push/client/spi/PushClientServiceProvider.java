@@ -1,0 +1,12 @@
+package webfx.platform.shared.services.push.client.spi;
+
+import webfx.platform.shared.services.bus.Registration;
+
+/**
+ * @author Bruno Salmon
+ */
+public interface PushClientServiceProvider {
+
+    Registration listenServerPushCalls(Object pushClientId);
+
+}

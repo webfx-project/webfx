@@ -2,9 +2,9 @@ package webfx.framework.router.impl;
 
 import webfx.framework.router.Route;
 import webfx.framework.router.RoutingContext;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.async.Handler;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.Strings;
+import webfx.platform.shared.util.async.Handler;
 
 import java.util.ArrayList;
 import java.util.List;

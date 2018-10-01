@@ -2,7 +2,7 @@ package webfx.framework.expression.parser.javacup;
 
 import java_cup.runtime.lr_parser;
 import webfx.framework.expression.builder.terms.*;
-import webfx.platforms.core.util.Numbers;
+import webfx.platform.shared.util.Numbers;
 
 /* ----------------------Preliminary Declarations Section--------------------*/
    

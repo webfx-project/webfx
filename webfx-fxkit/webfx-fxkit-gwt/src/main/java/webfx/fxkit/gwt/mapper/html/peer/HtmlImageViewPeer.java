@@ -12,9 +12,9 @@ import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkits.core.mapper.spi.impl.peer.ImageViewPeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.ImageViewPeerMixin;
-import webfx.platforms.core.services.resource.ResourceService;
-import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.services.resource.ResourceService;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.Strings;
 
 import static webfx.fxkit.gwt.mapper.util.HtmlUtil.createImageElement;
 import static webfx.fxkit.gwt.mapper.util.HtmlUtil.createNodeFromHtml;

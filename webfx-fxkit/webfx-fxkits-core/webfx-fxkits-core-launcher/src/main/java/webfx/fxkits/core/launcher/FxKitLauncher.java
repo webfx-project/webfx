@@ -3,9 +3,9 @@ package webfx.fxkits.core.launcher;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import webfx.fxkits.core.launcher.spi.FxKitLauncherProvider;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.util.function.Factory;
-import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.function.Factory;
+import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon

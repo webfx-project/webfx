@@ -8,7 +8,7 @@ import webfx.fxkits.extra.cell.renderer.*;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.Label;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**
  * @author Bruno Salmon

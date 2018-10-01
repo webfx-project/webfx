@@ -6,9 +6,9 @@ import rx.functions.Action0;
 import rx.subscriptions.BooleanSubscription;
 import rx.subscriptions.CompositeSubscription;
 import rx.subscriptions.Subscriptions;
-import webfx.platforms.core.services.scheduler.Scheduled;
-import webfx.platforms.core.services.scheduler.spi.SchedulerProvider;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.scheduler.Scheduled;
+import webfx.platform.shared.services.scheduler.spi.SchedulerProvider;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +20,7 @@ import static java.lang.Math.max;
  */
 public final class RxScheduler extends Scheduler {
 
-    public static RxScheduler BACKGROUND_SCHEDULER = new RxScheduler(webfx.platforms.core.services.scheduler.Scheduler.getProvider());
+    public static RxScheduler BACKGROUND_SCHEDULER = new RxScheduler(webfx.platform.shared.services.scheduler.Scheduler.getProvider());
     public static final RxScheduler UI_SCHEDULER = new RxScheduler(UiScheduler.getProvider());
 
     private final SchedulerProvider schedulerProvider;

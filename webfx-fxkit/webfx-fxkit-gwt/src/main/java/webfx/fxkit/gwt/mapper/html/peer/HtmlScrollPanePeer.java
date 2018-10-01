@@ -10,7 +10,7 @@ import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkits.core.mapper.spi.SceneRequester;
 import webfx.fxkits.core.mapper.spi.impl.peer.ScrollPanePeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.ScrollPanePeerMixin;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**
  * @author Bruno Salmon

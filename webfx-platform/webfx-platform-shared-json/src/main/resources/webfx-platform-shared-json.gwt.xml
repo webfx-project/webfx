@@ -4,6 +4,6 @@
     <inherits name="webfx-lib-javacupruntime"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/json"/>
+    <source path="webfx/platform/shared/services/json"/>
 
 </module>

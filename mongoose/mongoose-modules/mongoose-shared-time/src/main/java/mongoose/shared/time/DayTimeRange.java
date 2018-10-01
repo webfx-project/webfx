@@ -1,9 +1,9 @@
 package mongoose.shared.time;
 
-import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.json.JsonArray;
-import webfx.platforms.core.services.json.JsonObject;
+import webfx.platform.shared.util.collection.Collections;
+import webfx.platform.shared.services.json.Json;
+import webfx.platform.shared.services.json.JsonArray;
+import webfx.platform.shared.services.json.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;

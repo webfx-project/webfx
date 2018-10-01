@@ -1,1 +1,1 @@
-webfx.platforms.core.services.buscall.spi.BusCallEndpoint
+webfx.platform.shared.services.buscall.spi.BusCallEndpoint

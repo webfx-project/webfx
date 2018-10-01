@@ -10,7 +10,7 @@ import mongoose.shared.time.DaysArrayBuilder;
 import mongoose.shared.entities.*;
 import mongoose.shared.entities.markers.HasItemFamilyType;
 import webfx.framework.orm.entity.Entities;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.time.LocalDate;
 import java.util.List;

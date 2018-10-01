@@ -1,8 +1,8 @@
 package webfx.framework.router;
 
-import webfx.platforms.core.services.json.JsonObject;
+import webfx.platform.shared.services.json.JsonObject;
 import webfx.framework.router.impl.RouterImpl;
-import webfx.platforms.core.util.async.Handler;
+import webfx.platform.shared.util.async.Handler;
 
 /**
  * @author Bruno Salmon

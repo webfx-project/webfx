@@ -1,9 +1,9 @@
 package webfx.framework.orm.entity;
 
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.Dates;
-import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Dates;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.Strings;
 import webfx.framework.expression.Expression;
 import webfx.framework.orm.domainmodel.DomainClass;
 

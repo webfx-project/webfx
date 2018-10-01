@@ -4,7 +4,7 @@ import webfx.framework.expression.Expression;
 import webfx.framework.expression.lci.DataReader;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
-import webfx.platforms.core.util.Booleans;
+import webfx.platform.shared.util.Booleans;
 
 /**
  * @author Bruno Salmon

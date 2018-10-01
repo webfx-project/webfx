@@ -2,8 +2,8 @@ package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.geometry.Insets;
 import javafx.scene.web.WebView;
-import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.Strings;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import webfx.fxkits.extra.control.HtmlText;

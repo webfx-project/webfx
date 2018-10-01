@@ -1,7 +1,7 @@
 package webfx.framework.ui.filter;
 
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.json.JsonObject;
+import webfx.platform.shared.services.json.Json;
+import webfx.platform.shared.services.json.JsonObject;
 
 /**
  * @author Bruno Salmon

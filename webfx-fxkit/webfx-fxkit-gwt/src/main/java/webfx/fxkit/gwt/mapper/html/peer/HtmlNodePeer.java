@@ -17,7 +17,7 @@ import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlTransforms;
 import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerMixin;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 
 import java.util.List;
 

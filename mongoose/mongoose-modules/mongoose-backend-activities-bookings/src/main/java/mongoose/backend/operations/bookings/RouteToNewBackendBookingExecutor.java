@@ -1,8 +1,8 @@
 package mongoose.backend.operations.bookings;
 
 import mongoose.client.aggregates.EventAggregate;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.shared.util.async.Future;
 
 /**
  * @author Bruno Salmon

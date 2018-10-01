@@ -2,10 +2,10 @@ package webfx.fxkits.core.util.properties;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import webfx.platforms.core.util.Arrays;
-import webfx.platforms.core.util.Objects;
-import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Converter;
+import webfx.platform.shared.util.Arrays;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.collection.Collections;
+import webfx.platform.shared.util.function.Converter;
 
 import java.util.List;
 

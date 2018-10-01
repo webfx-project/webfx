@@ -1,6 +1,6 @@
 <module rename-to="webfx_platform_shared_util">
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/util"/>
+    <source path="webfx/platform/shared/util"/>
 
 </module>

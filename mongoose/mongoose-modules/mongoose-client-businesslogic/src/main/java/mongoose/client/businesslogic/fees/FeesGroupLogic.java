@@ -9,7 +9,7 @@ import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Site;
 import mongoose.shared.util.Labels;
 import webfx.framework.orm.entity.EntityList;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

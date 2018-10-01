@@ -8,9 +8,9 @@ import emul.javafx.scene.text.Font;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkits.core.mapper.spi.impl.peer.TextInputControlPeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.TextInputControlPeerMixin;
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.Objects;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package webfx.fxkits.extra.cell.renderer;
 
 import webfx.fxkits.extra.cell.collator.NodeCollator;
-import webfx.platforms.core.util.Arrays;
+import webfx.platform.shared.util.Arrays;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;

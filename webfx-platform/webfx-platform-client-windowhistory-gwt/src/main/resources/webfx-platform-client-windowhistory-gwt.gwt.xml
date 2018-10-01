@@ -4,6 +4,6 @@
     <inherits name="com.google.gwt.user.User"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platform/gwt/services/windowhistory"/>
+    <source path="webfx/platform/client/services/windowhistory/spi/impl/gwt"/>
 
 </module>

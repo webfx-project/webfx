@@ -5,7 +5,7 @@ import webfx.fxkits.extra.cell.collator.NodeCollatorRegistry;
 import webfx.fxkits.extra.type.ArrayType;
 import webfx.fxkits.extra.type.Type;
 import webfx.fxkits.extra.type.Types;
-import webfx.platforms.core.util.Arrays;
+import webfx.platform.shared.util.Arrays;
 
 /**
  * @author Bruno Salmon

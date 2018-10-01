@@ -1,13 +1,13 @@
 package mongoose.server.application;
 
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
-import webfx.platforms.core.datasource.ConnectionDetails;
-import webfx.platforms.core.datasource.LocalDataSourceRegistry;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.resource.ResourceService;
+import webfx.platform.shared.datasource.ConnectionDetails;
+import webfx.platform.shared.datasource.LocalDataSourceRegistry;
+import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
+import webfx.platform.shared.services.json.Json;
+import webfx.platform.shared.services.json.JsonObject;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.resource.ResourceService;
 
 /**
  * @author Bruno Salmon

@@ -4,7 +4,7 @@ import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.entities.markers.*;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
-import webfx.platforms.core.util.Objects;
+import webfx.platform.shared.util.Objects;
 
 import java.time.LocalDate;
 

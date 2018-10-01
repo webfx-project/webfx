@@ -3,7 +3,7 @@ package mongoose.client.icons.gwt;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
-import webfx.platform.gwt.services.resource.GwtResourceBundleBase;
+import webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceBundleBase;
 
 /**
  * @author Bruno Salmon

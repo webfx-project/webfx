@@ -8,7 +8,7 @@ import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.icons.MongooseIcons;
 import mongoose.client.sectionpanel.SectionPanelFactory;
 import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.platforms.core.services.log.Logger;
+import webfx.platform.shared.services.log.Logger;
 
 /**
  * @author Bruno Salmon

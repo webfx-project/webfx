@@ -6,11 +6,11 @@ import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
 import webfx.framework.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.platforms.core.services.json.WritableJsonObject;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.Objects;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.services.json.WritableJsonObject;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.Strings;
 
 import java.time.LocalDate;
 

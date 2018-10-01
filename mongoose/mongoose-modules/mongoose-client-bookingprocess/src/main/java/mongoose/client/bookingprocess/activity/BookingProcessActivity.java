@@ -13,7 +13,7 @@ import mongoose.shared.entities.Event;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.util.background.BackgroundUtil;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon

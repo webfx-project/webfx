@@ -1,7 +1,7 @@
 package webfx.framework.router.session.impl;
 
 import webfx.framework.router.session.Session;
-import webfx.platforms.core.util.uuid.Uuid;
+import webfx.platform.shared.util.uuid.Uuid;
 
 import java.util.HashMap;
 import java.util.Map;

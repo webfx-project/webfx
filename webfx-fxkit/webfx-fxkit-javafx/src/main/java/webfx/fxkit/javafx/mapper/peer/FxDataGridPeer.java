@@ -31,8 +31,8 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerBase;
 import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerImageTextMixin;
 import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerMixin;
 import webfx.fxkits.extra.util.ImageStore;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.collection.IdentityList;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.collection.IdentityList;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

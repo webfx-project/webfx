@@ -1,6 +1,6 @@
 package webfx.fxkits.extra.cell.renderer;
 
-import webfx.platforms.core.util.Arrays;
+import webfx.platform.shared.util.Arrays;
 import webfx.fxkits.extra.cell.collator.NodeCollatorRegistry;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;

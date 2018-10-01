@@ -2,8 +2,8 @@ package webfx.framework.operation.action;
 
 import javafx.event.ActionEvent;
 import webfx.framework.operation.HasOperationExecutor;
-import webfx.platforms.core.util.async.AsyncFunction;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.async.AsyncFunction;
+import webfx.platform.shared.util.function.Factory;
 import java.util.function.Function;
 
 /**

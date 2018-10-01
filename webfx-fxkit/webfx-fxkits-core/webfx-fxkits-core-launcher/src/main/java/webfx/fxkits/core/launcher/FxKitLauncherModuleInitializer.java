@@ -1,9 +1,9 @@
 package webfx.fxkits.core.launcher;
 
 import javafx.application.Application;
-import webfx.platforms.core.services.appcontainer.ApplicationContainer;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
-import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.services.appcontainer.ApplicationContainer;
+import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
+import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon

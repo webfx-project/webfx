@@ -9,8 +9,8 @@ import webfx.framework.activity.impl.combinations.viewdomain.ViewDomainActivityC
 import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRouter;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.services.buscall.PendingBusCall;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.services.buscall.PendingBusCall;
+import webfx.platform.shared.util.function.Factory;
 
 import java.util.function.Consumer;
 

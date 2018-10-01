@@ -5,8 +5,8 @@ import mongoose.backend.activities.loadtester.drive.metrics.controller.SystemLoo
 import mongoose.backend.activities.loadtester.drive.metrics.controller.SystemLookupMock;
 import mongoose.backend.activities.loadtester.drive.metrics.model.MemData;
 import mongoose.backend.activities.loadtester.drive.metrics.model.SysBean;
-import webfx.platforms.core.services.scheduler.Scheduler;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.scheduler.Scheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 
 /**

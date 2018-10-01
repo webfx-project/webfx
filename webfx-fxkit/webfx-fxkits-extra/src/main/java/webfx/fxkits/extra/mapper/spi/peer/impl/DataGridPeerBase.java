@@ -9,7 +9,7 @@ import webfx.fxkits.extra.cell.renderer.TextRenderer;
 import webfx.fxkits.extra.cell.renderer.ValueRenderer;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 import webfx.fxkits.core.mapper.spi.SceneRequester;
 
 /**

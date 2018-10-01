@@ -4,7 +4,7 @@ import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.aggregates.EventAggregate;
 import webfx.framework.operations.route.RoutePushRequest;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon

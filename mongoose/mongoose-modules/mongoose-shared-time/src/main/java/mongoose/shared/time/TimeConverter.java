@@ -1,7 +1,7 @@
 package mongoose.shared.time;
 
-import webfx.platforms.core.util.Dates;
-import webfx.platforms.core.util.Numbers;
+import webfx.platform.shared.util.Dates;
+import webfx.platform.shared.util.Numbers;
 
 import java.time.LocalDateTime;
 import java.time.Month;

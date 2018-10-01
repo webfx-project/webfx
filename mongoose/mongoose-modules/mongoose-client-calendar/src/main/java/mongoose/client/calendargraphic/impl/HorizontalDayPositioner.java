@@ -2,7 +2,7 @@ package mongoose.client.calendargraphic.impl;
 
 import mongoose.client.calendar.Calendar;
 import mongoose.shared.time.TimeInterval;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,7 @@ import webfx.fxkits.extra.chart.Chart;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon

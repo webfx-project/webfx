@@ -20,7 +20,7 @@ import webfx.framework.ui.materialdesign.util.MaterialAnimation;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.util.properties.Unregisterable;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon

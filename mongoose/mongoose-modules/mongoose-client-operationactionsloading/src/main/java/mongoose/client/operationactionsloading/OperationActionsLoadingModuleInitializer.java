@@ -9,8 +9,8 @@ import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.ui.action.Action;
 import webfx.framework.ui.action.ActionFactoryMixin;
 import webfx.framework.ui.uirouter.uisession.UiSession;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
-import webfx.platforms.core.services.log.Logger;
+import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
+import webfx.platform.shared.services.log.Logger;
 
 /**
  * @author Bruno Salmon

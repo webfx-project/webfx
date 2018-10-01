@@ -4,6 +4,6 @@
     <inherits name="webfx-platform-shared-query"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/querypush"/>
+    <source path="webfx/platform/shared/services/querypush"/>
 
 </module>

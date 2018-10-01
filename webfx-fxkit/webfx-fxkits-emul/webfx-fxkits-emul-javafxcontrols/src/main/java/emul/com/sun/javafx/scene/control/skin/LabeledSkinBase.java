@@ -13,7 +13,7 @@ import emul.javafx.scene.image.ImageView;
 import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.TextBoundsType;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 
 import static emul.javafx.scene.control.ContentDisplay.*;
 import static emul.javafx.scene.control.OverrunStyle.CLIP;

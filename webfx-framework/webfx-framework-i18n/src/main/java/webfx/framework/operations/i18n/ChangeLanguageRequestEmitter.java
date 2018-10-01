@@ -1,6 +1,6 @@
 package webfx.framework.operations.i18n;
 
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.Collection;
 import java.util.ServiceLoader;

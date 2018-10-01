@@ -9,7 +9,7 @@ import webfx.framework.orm.domainmodel.DomainClass;
 import webfx.framework.orm.domainmodel.DomainField;
 import webfx.framework.orm.domainmodel.DomainModel;
 import webfx.framework.ui.util.formatter.Formatter;
-import webfx.platforms.core.services.json.JsonObject;
+import webfx.platform.shared.services.json.JsonObject;
 import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayColumnBuilder;
 import webfx.fxkits.extra.displaydata.DisplayStyleBuilder;

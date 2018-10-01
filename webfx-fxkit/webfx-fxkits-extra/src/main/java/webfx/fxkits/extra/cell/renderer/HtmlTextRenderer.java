@@ -1,7 +1,7 @@
 package webfx.fxkits.extra.cell.renderer;
 
 import webfx.fxkits.extra.control.HtmlText;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon

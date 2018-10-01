@@ -9,9 +9,9 @@ import webfx.framework.operation.HasOperationCode;
 import webfx.framework.services.authz.mixin.AuthorizationUtil;
 import webfx.framework.ui.action.Action;
 import webfx.framework.ui.action.ActionBinder;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.async.AsyncFunction;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.async.AsyncFunction;
+import webfx.platform.shared.util.async.Future;
 import java.util.function.Function;
 
 import java.util.ArrayList;

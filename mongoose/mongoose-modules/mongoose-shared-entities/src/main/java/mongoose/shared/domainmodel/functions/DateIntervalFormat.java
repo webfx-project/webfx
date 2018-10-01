@@ -2,7 +2,7 @@ package mongoose.shared.domainmodel.functions;
 
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
-import webfx.platforms.core.util.Dates;
+import webfx.platform.shared.util.Dates;
 import webfx.framework.expression.lci.DataReader;
 import webfx.framework.expression.terms.function.Function;
 

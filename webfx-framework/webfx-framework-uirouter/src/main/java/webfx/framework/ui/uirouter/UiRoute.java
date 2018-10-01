@@ -6,9 +6,9 @@ import webfx.framework.activity.impl.elementals.uiroute.UiRouteActivityContext;
 import webfx.framework.router.RoutingContext;
 import webfx.framework.router.util.PathBuilder;
 import webfx.framework.ui.uirouter.impl.UiRouteImpl;
-import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Converter;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.collection.Collections;
+import webfx.platform.shared.util.function.Converter;
+import webfx.platform.shared.util.function.Factory;
 
 import java.util.Collection;
 import java.util.ServiceLoader;

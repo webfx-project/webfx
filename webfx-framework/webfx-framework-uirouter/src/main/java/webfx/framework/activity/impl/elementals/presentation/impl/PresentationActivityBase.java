@@ -10,10 +10,10 @@ import webfx.framework.activity.impl.elementals.presentation.PresentationActivit
 import webfx.framework.activity.impl.elementals.presentation.logic.PresentationLogicActivityContext;
 import webfx.framework.activity.impl.elementals.presentation.view.PresentationViewActivityContext;
 import webfx.framework.activity.impl.elementals.presentation.view.impl.PresentationViewActivityBase;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.function.Callable;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.async.Future;
+import webfx.platform.shared.util.function.Callable;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

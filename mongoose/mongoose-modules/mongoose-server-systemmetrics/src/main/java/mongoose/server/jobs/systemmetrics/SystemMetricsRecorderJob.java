@@ -5,12 +5,12 @@ import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.shared.entities.SystemMetricsEntity;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.UpdateStore;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.scheduler.Scheduled;
-import webfx.platforms.core.services.scheduler.Scheduler;
-import webfx.platforms.core.services.update.UpdateArgument;
-import webfx.platforms.core.services.update.UpdateService;
+import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.scheduler.Scheduled;
+import webfx.platform.shared.services.scheduler.Scheduler;
+import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.services.update.UpdateService;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

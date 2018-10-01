@@ -19,9 +19,9 @@ import mongoose.client.calendar.Calendar;
 import mongoose.client.calendar.CalendarTimeline;
 import mongoose.shared.time.DayTimeRange;
 import mongoose.shared.time.TimeInterval;
-import webfx.platforms.core.util.async.Handler;
-import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.tuples.Unit;
+import webfx.platform.shared.util.async.Handler;
+import webfx.platform.shared.util.collection.Collections;
+import webfx.platform.shared.util.tuples.Unit;
 import webfx.fxkits.core.util.properties.Properties;
 
 import java.util.List;

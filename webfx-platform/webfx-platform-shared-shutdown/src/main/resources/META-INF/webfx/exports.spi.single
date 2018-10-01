@@ -1,1 +1,1 @@
-webfx.platforms.core.services.shutdown.spi.ShutdownProvider
+webfx.platform.shared.services.shutdown.spi.ShutdownProvider

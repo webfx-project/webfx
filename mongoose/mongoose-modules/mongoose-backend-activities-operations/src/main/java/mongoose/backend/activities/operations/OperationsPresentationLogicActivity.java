@@ -6,7 +6,7 @@ import webfx.framework.activity.impl.combinations.viewapplication.ViewApplicatio
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.ui.controls.sheet.PropertySheet;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

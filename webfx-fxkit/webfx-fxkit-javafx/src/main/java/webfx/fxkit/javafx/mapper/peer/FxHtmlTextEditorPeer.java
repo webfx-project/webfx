@@ -4,7 +4,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import webfx.platforms.core.util.Objects;
+import webfx.platform.shared.util.Objects;
 import webfx.fxkits.extra.control.HtmlTextEditor;
 import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextEditorPeerBase;
 import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextEditorPeerMixin;

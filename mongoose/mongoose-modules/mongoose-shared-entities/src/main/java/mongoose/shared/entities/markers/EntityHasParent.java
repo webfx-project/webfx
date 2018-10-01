@@ -1,6 +1,6 @@
 package mongoose.shared.entities.markers;
 
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
 

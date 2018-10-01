@@ -23,14 +23,14 @@ import webfx.framework.services.i18n.I18n;
 import webfx.framework.ui.controls.dialog.DialogUtil;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.extra.control.HtmlText;
-import webfx.platforms.core.services.bus.BusService;
-import webfx.platforms.core.services.bus.client.WebSocketBus;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.windowlocation.WindowLocation;
-import webfx.platforms.core.util.Dates;
-import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.services.bus.BusService;
+import webfx.platform.client.services.websocketbus.WebSocketBus;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.windowlocation.WindowLocation;
+import webfx.platform.shared.util.Dates;
+import webfx.platform.shared.util.Strings;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
 

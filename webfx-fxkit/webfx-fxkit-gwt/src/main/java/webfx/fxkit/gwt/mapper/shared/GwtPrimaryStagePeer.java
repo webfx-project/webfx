@@ -6,8 +6,8 @@ import emul.javafx.stage.Window;
 import webfx.fxkit.gwt.mapper.html.HtmlScenePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkits.core.mapper.spi.StagePeer;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.AnimationFramePass;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.AnimationFramePass;
 
 import static elemental2.dom.DomGlobal.document;
 import static elemental2.dom.DomGlobal.window;

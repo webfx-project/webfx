@@ -4,7 +4,7 @@ import webfx.framework.orm.entity.Entities;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityList;
 import webfx.framework.orm.entity.EntityStore;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 import webfx.framework.expression.Expression;
 
 import java.util.ArrayList;

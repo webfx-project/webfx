@@ -17,10 +17,10 @@ import webfx.framework.ui.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.services.scheduler.Scheduled;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.AnimationFramePass;
-import webfx.platforms.core.util.function.Callable;
+import webfx.platform.shared.services.scheduler.Scheduled;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.shared.util.function.Callable;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static webfx.framework.ui.layouts.LayoutUtil.*;

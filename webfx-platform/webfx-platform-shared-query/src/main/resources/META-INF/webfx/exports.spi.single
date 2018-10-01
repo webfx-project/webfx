@@ -1,1 +1,1 @@
-webfx.platforms.core.services.query.spi.QueryServiceProvider
+webfx.platform.shared.services.query.spi.QueryServiceProvider

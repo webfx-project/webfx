@@ -7,8 +7,8 @@ import mongoose.shared.entities.DocumentLine;
 import webfx.framework.orm.entity.EntityList;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.orm.entity.EntityStoreQuery;
-import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.async.Future;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,7 @@ import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import webfx.fxkits.core.launcher.spi.impl.FxKitLauncherProviderBase;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.function.Factory;
 
 import java.util.ArrayList;
 import java.util.List;

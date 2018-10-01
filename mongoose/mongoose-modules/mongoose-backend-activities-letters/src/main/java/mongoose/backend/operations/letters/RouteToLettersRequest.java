@@ -6,7 +6,7 @@ import webfx.framework.operation.HasOperationCode;
 import webfx.framework.operations.route.RoutePushRequest;
 import webfx.framework.operations.route.RouteRequestEmitter;
 import webfx.framework.router.auth.authz.RouteRequest;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon

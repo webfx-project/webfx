@@ -1,6 +1,6 @@
 package emul.javafx.application;
 
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**
  * Application platform support class.

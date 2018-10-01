@@ -1,7 +1,7 @@
 package webfx.framework.expression.terms.function.java;
 
 import webfx.fxkits.extra.type.PrimType;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.lci.DataReader;
 import webfx.framework.expression.terms.ExpressionArray;

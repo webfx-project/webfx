@@ -18,10 +18,10 @@ import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;
 import webfx.fxkits.extra.displaydata.*;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.util.ImageStore;
-import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.Objects;
-import webfx.platforms.core.util.async.Handler;
-import webfx.platforms.core.util.tuples.Pair;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.async.Handler;
+import webfx.platform.shared.util.tuples.Pair;
 
 /**
  * @author Bruno Salmon

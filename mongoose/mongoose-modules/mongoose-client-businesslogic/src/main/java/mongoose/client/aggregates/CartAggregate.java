@@ -4,7 +4,7 @@ import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.MoneyTransfer;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.shared.util.async.Future;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.EntityList;
 

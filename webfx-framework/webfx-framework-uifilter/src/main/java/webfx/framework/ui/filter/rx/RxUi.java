@@ -8,7 +8,7 @@ import rx.Scheduler;
 import rx.Subscription;
 import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**
  * @author Bruno Salmon

@@ -18,7 +18,7 @@ import webfx.fxkits.extra.displaydata.DisplayColumn;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplayResultBuilder;
 import webfx.fxkits.extra.displaydata.Label;
-import webfx.platforms.core.util.Arrays;
+import webfx.platform.shared.util.Arrays;
 
 import java.util.HashMap;
 import java.util.List;

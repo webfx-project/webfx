@@ -1,7 +1,7 @@
 package webfx.framework.expression.terms;
 
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.Numbers;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Numbers;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.lci.DataReader;
 import webfx.framework.expression.lci.DataWriter;

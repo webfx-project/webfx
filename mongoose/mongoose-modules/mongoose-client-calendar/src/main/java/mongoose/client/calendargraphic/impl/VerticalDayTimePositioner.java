@@ -3,8 +3,8 @@ package mongoose.client.calendargraphic.impl;
 import javafx.beans.property.Property;
 import javafx.scene.text.Font;
 import mongoose.shared.time.TimeInterval;
-import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.collection.HashList;
+import webfx.platform.shared.util.collection.Collections;
+import webfx.platform.shared.util.collection.HashList;
 
 import java.util.*;
 

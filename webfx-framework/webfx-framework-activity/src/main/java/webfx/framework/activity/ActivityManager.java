@@ -1,10 +1,10 @@
 package webfx.framework.activity;
 
 import webfx.framework.activity.impl.ActivityContextBase;
-import webfx.platforms.core.util.async.AsyncResult;
-import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.async.Handler;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.async.AsyncResult;
+import webfx.platform.shared.util.async.Future;
+import webfx.platform.shared.util.async.Handler;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

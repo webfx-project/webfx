@@ -25,8 +25,8 @@ import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;
 import webfx.framework.services.i18n.I18n;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon

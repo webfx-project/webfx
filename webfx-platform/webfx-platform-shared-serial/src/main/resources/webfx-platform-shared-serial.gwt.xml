@@ -3,6 +3,6 @@
     <inherits name="webfx-platform-shared-json"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/serial"/>
+    <source path="webfx/platform/shared/services/serial"/>
 
 </module>

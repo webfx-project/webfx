@@ -8,7 +8,7 @@ import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
 import mongoose.client.aggregates.EventAggregate;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

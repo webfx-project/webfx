@@ -19,12 +19,12 @@ import webfx.fxkits.core.launcher.FxKitLauncher;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.core.util.properties.Unregisterable;
 import webfx.fxkits.core.util.properties.UnregisterableListener;
-import webfx.platforms.core.services.scheduler.Scheduled;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.AnimationFramePass;
-import webfx.platforms.core.util.Booleans;
+import webfx.platform.shared.services.scheduler.Scheduled;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.shared.util.Booleans;
 import java.util.function.Consumer;
-import webfx.platforms.core.util.tuples.Unit;
+import webfx.platform.shared.util.tuples.Unit;
 
 /**
  * @author Bruno Salmon

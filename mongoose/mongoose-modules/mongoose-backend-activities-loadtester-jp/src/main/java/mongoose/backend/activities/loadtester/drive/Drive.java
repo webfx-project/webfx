@@ -15,10 +15,10 @@ import mongoose.backend.entities.loadtester.LtTestSet;
 import mongoose.backend.entities.loadtester.LtTestSetEntity;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.entity.UpdateStore;
-import webfx.platforms.core.services.buscall.BusCallService;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.scheduler.Scheduler;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.buscall.BusCallService;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.scheduler.Scheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.List;

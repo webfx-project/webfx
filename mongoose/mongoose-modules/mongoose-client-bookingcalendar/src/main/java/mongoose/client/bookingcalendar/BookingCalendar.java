@@ -20,8 +20,8 @@ import mongoose.client.aggregates.EventAggregate;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.client.util.log.PerformanceLogger;
 import webfx.framework.orm.entity.Entities;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 import java.util.concurrent.TimeUnit;
 

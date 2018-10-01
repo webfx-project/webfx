@@ -3,6 +3,6 @@
     <inherits name="webfx-platform-shared-util"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/scheduler"/>
+    <source path="webfx/platform/shared/services/scheduler"/>
 
 </module>

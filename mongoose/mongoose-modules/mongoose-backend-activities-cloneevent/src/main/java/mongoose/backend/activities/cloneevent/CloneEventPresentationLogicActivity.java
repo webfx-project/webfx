@@ -3,8 +3,8 @@ package mongoose.backend.activities.cloneevent;
 import mongoose.client.activities.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.shared.entities.Event;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.services.update.UpdateArgument;
-import webfx.platforms.core.services.update.UpdateService;
+import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.services.update.UpdateService;
 
 import java.time.LocalDate;
 

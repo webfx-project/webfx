@@ -30,9 +30,9 @@ import webfx.framework.ui.controls.button.EntityButtonSelector;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.util.ImageStore;
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.Objects;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.io.Closeable;
 import java.util.ArrayList;

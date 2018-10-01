@@ -10,7 +10,7 @@ import webfx.framework.ui.controls.button.EntityButtonSelector;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.cell.renderer.ValueRenderer;
 import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;
-import webfx.platforms.core.services.json.Json;
+import webfx.platform.shared.services.json.Json;
 
 /**
  * @author Bruno Salmon

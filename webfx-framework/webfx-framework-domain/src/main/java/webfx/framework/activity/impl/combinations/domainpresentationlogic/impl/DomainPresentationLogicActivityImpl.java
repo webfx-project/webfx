@@ -2,7 +2,7 @@ package webfx.framework.activity.impl.combinations.domainpresentationlogic.impl;
 
 import webfx.framework.activity.impl.elementals.domain.DomainActivityContextMixin;
 import webfx.framework.activity.impl.elementals.presentation.logic.impl.PresentationLogicActivityBase;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.util;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.*;
-import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.shared.util.Strings;
+import webfx.platform.shared.util.async.Future;
 
 import static elemental2.dom.DomGlobal.document;
 

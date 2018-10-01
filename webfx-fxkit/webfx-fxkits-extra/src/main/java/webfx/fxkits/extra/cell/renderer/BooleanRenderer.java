@@ -3,7 +3,7 @@ package webfx.fxkits.extra.cell.renderer;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.CheckBox;
-import webfx.platforms.core.util.Booleans;
+import webfx.platform.shared.util.Booleans;
 
 /**
  * @author Bruno Salmon

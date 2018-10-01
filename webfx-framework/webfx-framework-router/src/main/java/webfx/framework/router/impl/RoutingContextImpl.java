@@ -1,6 +1,6 @@
 package webfx.framework.router.impl;
 
-import webfx.platforms.core.services.json.JsonObject;
+import webfx.platform.shared.services.json.JsonObject;
 
 import java.util.Collection;
 

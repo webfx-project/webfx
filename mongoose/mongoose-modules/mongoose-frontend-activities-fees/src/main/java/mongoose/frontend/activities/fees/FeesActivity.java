@@ -28,14 +28,14 @@ import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.control.SkinnedDataGrid;
 import webfx.fxkits.extra.displaydata.*;
 import webfx.fxkits.extra.type.SpecializedTextType;
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.services.json.WritableJsonObject;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.Arrays;
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.tuples.Pair;
+import webfx.platform.shared.services.json.Json;
+import webfx.platform.shared.services.json.JsonObject;
+import webfx.platform.shared.services.json.WritableJsonObject;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.Arrays;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.tuples.Pair;
 
 import static webfx.framework.ui.util.image.JsonImageViews.createImageView;
 

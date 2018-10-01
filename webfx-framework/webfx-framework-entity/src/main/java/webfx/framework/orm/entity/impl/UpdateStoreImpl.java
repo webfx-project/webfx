@@ -4,17 +4,17 @@ import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.framework.orm.entity.result.*;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.update.UpdateService;
-import webfx.platforms.core.util.Arrays;
-import webfx.platforms.core.util.Objects;
-import webfx.platforms.core.util.async.Batch;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.update.UpdateService;
+import webfx.platform.shared.util.Arrays;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.async.Batch;
+import webfx.platform.shared.util.async.Future;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.domainmodel.DomainClass;
 import webfx.framework.orm.entity.Entity;
-import webfx.platforms.core.services.update.UpdateArgument;
-import webfx.platforms.core.services.update.UpdateResult;
+import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.services.update.UpdateResult;
 
 /**
  * @author Bruno Salmon

@@ -25,8 +25,8 @@ import webfx.framework.ui.controls.dialog.DialogUtil;
 import webfx.framework.ui.filter.ReactiveExpressionFilter;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
-import webfx.platforms.core.services.update.UpdateArgument;
-import webfx.platforms.core.services.update.UpdateService;
+import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.services.update.UpdateService;
 
 import java.util.ArrayList;
 import java.util.Collections;

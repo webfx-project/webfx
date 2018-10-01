@@ -1,6 +1,6 @@
 package webfx.framework.operations.i18n;
 
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

@@ -6,9 +6,9 @@ import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.services.authn.spi.AuthenticationServiceProvider;
 import webfx.framework.services.authn.UsernamePasswordCredentials;
-import webfx.platforms.core.services.query.QueryArgument;
-import webfx.platforms.core.services.query.QueryService;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.shared.services.query.QueryArgument;
+import webfx.platform.shared.services.query.QueryService;
+import webfx.platform.shared.util.async.Future;
 
 /**
  * @author Bruno Salmon

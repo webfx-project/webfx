@@ -7,7 +7,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
 import webfx.framework.operations.i18n.ChangeLanguageRequestEmitter;
 import webfx.framework.services.i18n.spi.I18nProvider;
-import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 
 import java.util.Collection;
 

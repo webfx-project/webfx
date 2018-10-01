@@ -7,8 +7,8 @@ import mongoose.shared.entities.Item;
 import mongoose.shared.entities.Rate;
 import mongoose.shared.entities.Site;
 import webfx.framework.orm.entity.Entities;
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.Objects;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Objects;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

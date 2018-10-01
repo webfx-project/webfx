@@ -3,7 +3,7 @@ package webfx.fxkits.extra.cell.renderer;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 import java.util.function.BiFunction;
 
 /**

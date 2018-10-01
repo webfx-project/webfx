@@ -4,7 +4,7 @@ import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivit
 import mongoose.backend.operations.events.RouteToEventsRequest;
 import mongoose.shared.entities.Organization;
 import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

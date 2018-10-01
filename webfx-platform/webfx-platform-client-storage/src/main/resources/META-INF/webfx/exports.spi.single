@@ -1,2 +1,2 @@
-webfx.platforms.core.services.storage.spi.LocalStorageProvider
-webfx.platforms.core.services.storage.spi.SessionStorageProvider
+webfx.platform.client.services.storage.spi.LocalStorageProvider
+webfx.platform.client.services.storage.spi.SessionStorageProvider

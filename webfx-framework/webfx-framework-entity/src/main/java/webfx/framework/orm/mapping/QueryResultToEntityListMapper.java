@@ -6,7 +6,7 @@ import webfx.framework.orm.domainmodel.DomainField;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityList;
 import webfx.framework.orm.entity.EntityStore;
-import webfx.platforms.core.services.query.QueryResult;
+import webfx.platform.shared.services.query.QueryResult;
 
 /**
  * @author Bruno Salmon

@@ -3,12 +3,12 @@ package mongoose.backend.activities.loadtester.drive.connection;
 import mongoose.backend.activities.loadtester.drive.command.Command;
 import mongoose.backend.activities.loadtester.drive.listener.ConnectionEvent;
 import mongoose.backend.activities.loadtester.drive.listener.EventType;
-import webfx.platforms.core.services.buscall.BusCallService;
-import webfx.platforms.core.services.bus.client.WebSocketBus;
-import webfx.platforms.core.services.bus.BusService;
-import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.services.websocket.WebSocketListener;
-import webfx.platforms.core.services.log.Logger;
+import webfx.platform.shared.services.buscall.BusCallService;
+import webfx.platform.client.services.websocketbus.WebSocketBus;
+import webfx.platform.shared.services.bus.BusService;
+import webfx.platform.shared.services.json.JsonObject;
+import webfx.platform.client.services.websocket.WebSocketListener;
+import webfx.platform.shared.services.log.Logger;
 
 /**
  * @author Jean-Pierre Alonso.

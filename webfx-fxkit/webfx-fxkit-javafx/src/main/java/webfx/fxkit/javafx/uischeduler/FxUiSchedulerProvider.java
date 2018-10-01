@@ -5,7 +5,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
 import webfx.fxkits.core.launcher.FxKitLauncher;
-import webfx.platforms.core.services.uischeduler.spi.impl.UiSchedulerProviderBase;
+import webfx.platform.client.services.uischeduler.spi.impl.UiSchedulerProviderBase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

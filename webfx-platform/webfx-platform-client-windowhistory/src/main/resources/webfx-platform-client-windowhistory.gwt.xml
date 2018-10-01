@@ -3,6 +3,6 @@
     <inherits name="webfx-platform-client-windowlocation"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/windowhistory"/>
+    <source path="webfx/platform/client/services/windowhistory"/>
 
 </module>

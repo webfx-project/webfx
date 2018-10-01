@@ -1,8 +1,8 @@
 package webfx.fxkits.emul.tool;
 
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.json.JsonArray;
-import webfx.platforms.core.services.json.JsonObject;
+import webfx.platform.shared.services.json.Json;
+import webfx.platform.shared.services.json.JsonArray;
+import webfx.platform.shared.services.json.JsonObject;
 
 import java.io.IOException;
 import java.io.InputStream;

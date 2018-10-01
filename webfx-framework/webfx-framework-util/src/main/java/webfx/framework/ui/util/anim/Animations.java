@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.WritableValue;
 import javafx.scene.Node;
 import javafx.util.Duration;
-import webfx.platforms.core.util.Objects;
+import webfx.platform.shared.util.Objects;
 
 /**
  * @author Bruno Salmon

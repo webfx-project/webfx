@@ -34,10 +34,10 @@ import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasRootProperty;
 import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasWidthProperty;
 import webfx.fxkits.core.util.properties.ObservableLists;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.services.scheduler.Scheduled;
-import webfx.platforms.core.services.uischeduler.AnimationFramePass;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.services.scheduler.Scheduled;
+import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.*;
 

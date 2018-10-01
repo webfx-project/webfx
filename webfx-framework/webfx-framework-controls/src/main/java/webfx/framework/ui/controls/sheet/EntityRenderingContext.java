@@ -6,7 +6,7 @@ import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.ui.filter.ExpressionColumn;
 import webfx.framework.ui.controls.button.ButtonFactoryMixin;
 import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;
-import webfx.platforms.core.util.function.Callable;
+import webfx.platform.shared.util.function.Callable;
 
 /**
  * @author Bruno Salmon

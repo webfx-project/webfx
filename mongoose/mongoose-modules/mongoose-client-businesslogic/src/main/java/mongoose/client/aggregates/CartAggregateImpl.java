@@ -9,10 +9,10 @@ import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.EntityList;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.orm.entity.EntityStoreQuery;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.Strings;
+import webfx.platform.shared.util.async.Future;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.HashMap;

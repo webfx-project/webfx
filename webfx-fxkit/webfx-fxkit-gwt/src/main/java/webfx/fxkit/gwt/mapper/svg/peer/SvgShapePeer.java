@@ -3,7 +3,7 @@ package webfx.fxkit.gwt.mapper.svg.peer;
 import elemental2.dom.Element;
 import webfx.fxkits.core.mapper.spi.impl.peer.ShapePeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.ShapePeerMixin;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.shape.Shape;

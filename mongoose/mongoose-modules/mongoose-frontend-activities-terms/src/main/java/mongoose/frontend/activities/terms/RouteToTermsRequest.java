@@ -1,7 +1,7 @@
 package mongoose.frontend.activities.terms;
 
 import webfx.framework.operations.route.RoutePushRequest;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon

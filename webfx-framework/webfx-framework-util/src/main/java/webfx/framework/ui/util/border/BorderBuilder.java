@@ -2,7 +2,7 @@ package webfx.framework.ui.util.border;
 
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

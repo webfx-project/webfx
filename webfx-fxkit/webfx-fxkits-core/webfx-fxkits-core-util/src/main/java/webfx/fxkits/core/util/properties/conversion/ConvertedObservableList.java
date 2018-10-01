@@ -4,8 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import webfx.fxkits.core.util.properties.ObservableLists;
-import webfx.platforms.core.util.function.Converter;
-import webfx.platforms.core.util.tuples.Unit;
+import webfx.platform.shared.util.function.Converter;
+import webfx.platform.shared.util.tuples.Unit;
 
 /**
  * @author Bruno Salmon

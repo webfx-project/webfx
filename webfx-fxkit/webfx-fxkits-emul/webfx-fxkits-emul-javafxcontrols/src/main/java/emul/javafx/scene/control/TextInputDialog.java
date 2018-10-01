@@ -4,7 +4,7 @@ import emul.javafx.geometry.Pos;
 import emul.javafx.scene.layout.GridPane;
 import emul.javafx.scene.layout.Priority;
 import emul.javafx.scene.layout.Region;
-import webfx.platforms.core.services.scheduler.Scheduler;
+import webfx.platform.shared.services.scheduler.Scheduler;
 
 /**
  * A dialog that shows a text input control to the user.

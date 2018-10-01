@@ -3,7 +3,7 @@ package webfx.framework.expression.terms;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.lci.DataReader;
 import webfx.fxkits.extra.type.Type;
-import webfx.platforms.core.util.collection.HashList;
+import webfx.platform.shared.util.collection.HashList;
 
 import java.util.Collection;
 import java.util.List;

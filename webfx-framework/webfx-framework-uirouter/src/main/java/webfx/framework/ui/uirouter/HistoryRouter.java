@@ -1,10 +1,10 @@
 package webfx.framework.ui.uirouter;
 
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistoryLocation;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistoryLocation;
 import webfx.framework.router.Router;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.util.async.Handler;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.async.Handler;
 
 /**
  * @author Bruno Salmon

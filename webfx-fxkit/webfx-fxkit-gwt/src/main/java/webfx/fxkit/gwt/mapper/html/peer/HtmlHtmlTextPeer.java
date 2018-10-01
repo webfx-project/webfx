@@ -4,7 +4,7 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLScriptElement;
 import elemental2.dom.Node;
 import elemental2.dom.NodeList;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkits.extra.control.HtmlText;
 import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextPeerBase;

@@ -1,6 +1,6 @@
 package emul.javafx.animation;
 
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 import java.util.Arrays;
 
@@ -140,7 +140,7 @@ abstract class AbstractMasterTimer {
 
     public void removePulseReceiver(PulseReceiver target) {
         if (receiversLocked) {
-            receivers = webfx.platforms.core.util.Arrays.clone(receivers, PulseReceiver[]::new);
+            receivers = webfx.platform.shared.util.Arrays.clone(receivers, PulseReceiver[]::new);
             receiversLocked = false;
         }
         for (int i = 0; i < receiversLength; ++i) {
@@ -172,7 +172,7 @@ abstract class AbstractMasterTimer {
 
     public void removeAnimationTimer(TimerReceiver timer) {
         if (animationTimersLocked) {
-            animationTimers = webfx.platforms.core.util.Arrays.clone(animationTimers, TimerReceiver[]::new);
+            animationTimers = webfx.platform.shared.util.Arrays.clone(animationTimers, TimerReceiver[]::new);
             animationTimersLocked = false;
         }
         for (int i = 0; i < animationTimersLength; ++i) {

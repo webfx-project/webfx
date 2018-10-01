@@ -1,7 +1,7 @@
 package mongoose.client.businesslogic.workingdocument;
 
 import mongoose.client.businesslogic.rules.*;
-import webfx.platforms.core.util.Arrays;
+import webfx.platform.shared.util.Arrays;
 
 /**
  * @author Bruno Salmon

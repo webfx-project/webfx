@@ -18,7 +18,7 @@ public final class ServiceLoaderGenerator {
             "\n" +
             "import java.util.Iterator;\n" +
             "import java.util.logging.Logger;\n" +
-            "import webfx.platforms.core.util.function.Factory;\n" +
+            "import webfx.platform.shared.util.function.Factory;\n" +
             "\n" +
             "public class ServiceLoader<S> implements Iterable<S> {\n" +
             "\n" +
@@ -85,7 +85,7 @@ public final class ServiceLoaderGenerator {
                             continue;
                         } else
                             sb.append(", ");
-                    sb.append(providerClassName.replace('$', '.')).append(providerClassName.equals("webfx.platform.gwt.services.json.GwtJsonObject") ? "::create" : "::new");
+                    sb.append(providerClassName.replace('$', '.')).append(providerClassName.equals("webfx.platform.shared.services.json.spi.impl.gwt.GwtJsonObject") ? "::create" : "::new");
                 }
                 sb.append(");\n");
             }

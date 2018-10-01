@@ -3,8 +3,8 @@ package webfx.framework.services.authz.mixin;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import webfx.framework.services.authz.AuthorizationRequest;
-import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.async.Future;
+import webfx.platform.shared.util.function.Factory;
 import java.util.function.Function;
 
 /**

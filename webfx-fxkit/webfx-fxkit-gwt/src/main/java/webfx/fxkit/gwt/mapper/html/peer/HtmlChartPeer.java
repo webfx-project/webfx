@@ -15,10 +15,10 @@ import webfx.fxkits.extra.mapper.spi.peer.impl.ChartPeerMixin;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
 import webfx.fxkits.extra.type.Types;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.Strings;
 import java.util.function.Function;
 
 import java.util.ArrayList;

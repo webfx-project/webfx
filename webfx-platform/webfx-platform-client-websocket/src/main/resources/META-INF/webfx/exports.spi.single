@@ -1,1 +1,1 @@
-webfx.platforms.core.services.websocket.spi.WebSocketServiceProvider
+webfx.platform.client.services.websocket.spi.WebSocketServiceProvider

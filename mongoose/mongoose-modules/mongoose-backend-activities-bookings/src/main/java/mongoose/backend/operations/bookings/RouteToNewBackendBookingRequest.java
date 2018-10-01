@@ -2,8 +2,8 @@ package mongoose.backend.operations.bookings;
 
 import webfx.framework.operation.HasOperationCode;
 import webfx.framework.operations.route.RouteRequestBase;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
-import webfx.platforms.core.util.async.AsyncFunction;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.shared.util.async.AsyncFunction;
 
 /**
  * @author Bruno Salmon

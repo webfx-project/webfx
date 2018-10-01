@@ -23,8 +23,8 @@ import webfx.fxkits.extra.control.SkinnedDataGrid;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.SelectionMode;
 import webfx.fxkits.extra.type.PrimType;
-import webfx.platforms.core.util.Objects;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
 

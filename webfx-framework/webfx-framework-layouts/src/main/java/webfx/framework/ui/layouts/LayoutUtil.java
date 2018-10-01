@@ -11,9 +11,9 @@ import javafx.scene.paint.Color;
 import webfx.framework.ui.util.background.BackgroundUtil;
 import webfx.fxkits.core.mapper.FxKitMapper;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.services.uischeduler.AnimationFramePass;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.Numbers;
+import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.Numbers;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 

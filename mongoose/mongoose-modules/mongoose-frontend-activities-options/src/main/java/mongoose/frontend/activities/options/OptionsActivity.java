@@ -17,9 +17,9 @@ import mongoose.frontend.operations.person.RouteToPersonRequest;
 import mongoose.shared.entities.Option;
 import mongoose.shared.util.Labels;
 import webfx.framework.ui.layouts.FlexBox;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.Arrays;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.Arrays;
 
 import java.util.HashMap;
 import java.util.List;

@@ -14,10 +14,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.displaydata.*;
-import webfx.platforms.core.services.scheduler.Scheduled;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.services.uischeduler.AnimationFramePass;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.services.scheduler.Scheduled;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.shared.util.collection.Collections;
 import java.util.function.Consumer;
 
 import java.util.ArrayList;

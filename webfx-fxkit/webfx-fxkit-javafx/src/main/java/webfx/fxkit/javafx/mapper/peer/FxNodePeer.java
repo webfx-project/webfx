@@ -13,7 +13,7 @@ import webfx.fxkits.core.mapper.spi.SceneRequester;
 import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerImpl;
 import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerMixin;
-import webfx.platforms.core.util.Numbers;
+import webfx.platform.shared.util.Numbers;
 
 import java.util.List;
 

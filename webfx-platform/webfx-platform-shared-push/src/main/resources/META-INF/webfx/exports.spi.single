@@ -1,1 +1,1 @@
-webfx.platforms.core.services.push.client.spi.PushClientServiceProvider
+webfx.platform.shared.services.push.client.spi.PushClientServiceProvider

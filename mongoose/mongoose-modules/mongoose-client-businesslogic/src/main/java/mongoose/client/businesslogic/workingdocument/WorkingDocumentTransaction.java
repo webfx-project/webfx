@@ -3,7 +3,7 @@ package mongoose.client.businesslogic.workingdocument;
 import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.time.TimeInterval;
 import mongoose.shared.entities.Option;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 
 /**
  * A transaction for a working document to be used for a very short time such as reacting to a click in the booking form.

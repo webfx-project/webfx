@@ -28,7 +28,7 @@ package emul.javafx.application;
 import emul.com.sun.javafx.application.ParametersImpl;
 import emul.javafx.scene.Scene;
 import emul.javafx.stage.Stage;
-import webfx.platforms.core.services.log.Logger;
+import webfx.platform.shared.services.log.Logger;
 
 import java.util.List;
 import java.util.Map;

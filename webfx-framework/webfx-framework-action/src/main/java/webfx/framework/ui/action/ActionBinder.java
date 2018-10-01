@@ -7,7 +7,7 @@ import javafx.scene.control.Labeled;
 import javafx.scene.layout.Pane;
 import webfx.framework.ui.action.impl.WritableAction;
 import webfx.fxkits.core.util.properties.ObservableLists;
-import webfx.platforms.core.util.function.Converter;
+import webfx.platform.shared.util.function.Converter;
 
 import java.util.Collection;
 

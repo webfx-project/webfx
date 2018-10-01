@@ -3,7 +3,7 @@ package mongoose.shared.domainmodel.functions;
 import webfx.framework.expression.lci.DataReader;
 import webfx.framework.expression.terms.function.Function;
 import webfx.fxkits.extra.type.PrimType;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 
 import java.util.Arrays;
 

@@ -3,6 +3,6 @@
     <inherits name="webfx-platform-shared-json"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/datasource"/>
+    <source path="webfx/platform/shared/datasource"/>
 
 </module>

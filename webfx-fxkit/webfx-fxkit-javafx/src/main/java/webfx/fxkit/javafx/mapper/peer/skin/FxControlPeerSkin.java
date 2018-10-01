@@ -10,7 +10,7 @@ import webfx.fxkit.javafx.mapper.peer.FxNodePeer;
 import webfx.fxkits.core.mapper.FxKitMapper;
 import webfx.fxkits.core.mapper.spi.NodePeer;
 import webfx.fxkits.core.mapper.spi.SceneRequester;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**
  * @author Bruno Salmon

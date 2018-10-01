@@ -8,14 +8,14 @@ import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.framework.ui.uirouter.uisession.UiSession;
 import webfx.fxkits.core.launcher.FxKitLauncher;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
-import webfx.platforms.core.services.bus.Bus;
-import webfx.platforms.core.services.bus.BusHook;
-import webfx.platforms.core.services.bus.BusService;
-import webfx.platforms.core.services.bus.Registration;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.push.client.PushClientService;
-import webfx.platforms.core.services.storage.LocalStorage;
+import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
+import webfx.platform.shared.services.bus.Bus;
+import webfx.platform.shared.services.bus.BusHook;
+import webfx.platform.shared.services.bus.BusService;
+import webfx.platform.shared.services.bus.Registration;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.push.client.PushClientService;
+import webfx.platform.client.services.storage.LocalStorage;
 
 import java.time.Instant;
 

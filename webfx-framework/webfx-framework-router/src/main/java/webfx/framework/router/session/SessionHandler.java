@@ -2,8 +2,8 @@ package webfx.framework.router.session;
 
 import webfx.framework.router.RoutingContext;
 import webfx.framework.router.session.impl.SessionHandlerImpl;
-import webfx.platforms.core.util.async.Handler;
-import webfx.platforms.core.util.function.Callable;
+import webfx.platform.shared.util.async.Handler;
+import webfx.platform.shared.util.function.Callable;
 import java.util.function.Consumer;
 
 /**

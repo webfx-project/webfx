@@ -3,7 +3,7 @@ package mongoose.backend.application;
 import mongoose.client.application.MongooseClientApplication;
 import webfx.framework.activity.Activity;
 import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

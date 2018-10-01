@@ -3,7 +3,7 @@ package mongoose.shared.domainmodel.formatters;
 import mongoose.shared.entities.Event;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
-import webfx.platforms.core.util.Numbers;
+import webfx.platform.shared.util.Numbers;
 import webfx.framework.orm.entity.EntityId;
 import webfx.framework.ui.util.formatter.Formatter;
 

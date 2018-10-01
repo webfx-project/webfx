@@ -8,9 +8,9 @@ import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
 import mongoose.shared.util.Labels;
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.services.query.QueryResult;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.collection.Collections;
+import webfx.platform.shared.services.query.QueryResult;
 
 import java.util.List;
 

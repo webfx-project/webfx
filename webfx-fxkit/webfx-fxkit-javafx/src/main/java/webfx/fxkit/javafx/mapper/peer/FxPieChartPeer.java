@@ -3,7 +3,7 @@ package webfx.fxkit.javafx.mapper.peer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import webfx.fxkits.extra.type.Type;
-import webfx.platforms.core.util.Numbers;
+import webfx.platform.shared.util.Numbers;
 import java.util.function.Function;
 import webfx.fxkits.extra.chart.PieChart;
 import webfx.fxkits.extra.mapper.spi.peer.impl.PieChartPeerMixin;

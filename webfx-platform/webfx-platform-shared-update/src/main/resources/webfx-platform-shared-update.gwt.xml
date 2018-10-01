@@ -6,5 +6,5 @@
 
     <!-- Specify the paths for translatable code -->
 
-    <source path="webfx/platforms/core/services/update"/>
+    <source path="webfx/platform/shared/services/update"/>
 </module>

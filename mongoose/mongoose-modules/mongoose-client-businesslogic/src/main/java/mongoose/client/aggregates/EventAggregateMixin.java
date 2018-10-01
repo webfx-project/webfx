@@ -7,8 +7,8 @@ import mongoose.shared.entities.*;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityList;
 import webfx.framework.orm.entity.EntityStore;
-import webfx.platforms.core.services.query.QueryResult;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.shared.services.query.QueryResult;
+import webfx.platform.shared.util.async.Future;
 
 import java.util.List;
 import java.util.function.Predicate;

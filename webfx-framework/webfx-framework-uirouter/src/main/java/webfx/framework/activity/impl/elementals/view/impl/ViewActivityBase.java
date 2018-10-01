@@ -2,7 +2,7 @@ package webfx.framework.activity.impl.elementals.view.impl;
 
 import javafx.scene.Node;
 import webfx.fxkits.core.launcher.FxKitLauncher;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.shared.util.async.Future;
 import webfx.framework.activity.impl.elementals.uiroute.impl.UiRouteActivityBase;
 import webfx.framework.activity.impl.elementals.view.ViewActivity;
 import webfx.framework.activity.impl.elementals.view.ViewActivityContext;

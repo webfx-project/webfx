@@ -1,7 +1,7 @@
 package webfx.framework.services.authz;
 
-import webfx.platforms.core.util.async.AsyncFunction;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.shared.util.async.AsyncFunction;
+import webfx.platform.shared.util.async.Future;
 import java.util.function.Consumer;
 import java.util.function.Function;
 

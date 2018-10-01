@@ -1,6 +1,6 @@
 package emul.javafx.scene.paint;
 
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.LinkedList;
 import java.util.List;

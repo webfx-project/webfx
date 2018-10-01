@@ -6,7 +6,7 @@ import webfx.framework.expression.terms.ExpressionArray;
 import webfx.framework.expression.terms.Ordered;
 import webfx.framework.expression.terms.UnaryExpression;
 import webfx.fxkits.extra.type.Type;
-import webfx.platforms.core.util.Arrays;
+import webfx.platform.shared.util.Arrays;
 
 import java.util.Collection;
 import java.util.List;

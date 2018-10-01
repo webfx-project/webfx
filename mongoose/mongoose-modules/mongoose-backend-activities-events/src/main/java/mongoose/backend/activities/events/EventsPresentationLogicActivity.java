@@ -4,7 +4,7 @@ import mongoose.backend.operations.bookings.RouteToBookingsRequest;
 import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivityBase;
 import mongoose.shared.entities.Event;
 import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

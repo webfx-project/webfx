@@ -1,12 +1,12 @@
 package mongoose.server.jobs.sessioncloser;
 
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationJob;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.push.server.UnresponsivePushClientListener;
-import webfx.platforms.core.services.push.server.PushServerService;
-import webfx.platforms.core.services.update.UpdateArgument;
-import webfx.platforms.core.services.update.UpdateService;
+import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.push.server.UnresponsivePushClientListener;
+import webfx.platform.shared.services.push.server.PushServerService;
+import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.services.update.UpdateService;
 
 /**
  * @author Bruno Salmon

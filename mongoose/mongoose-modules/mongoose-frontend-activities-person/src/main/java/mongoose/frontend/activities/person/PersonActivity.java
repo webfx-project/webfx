@@ -24,7 +24,7 @@ import webfx.framework.ui.uirouter.uisession.UiSession;
 import webfx.framework.ui.util.background.BackgroundUtil;
 import webfx.framework.ui.util.border.BorderUtil;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.util.Numbers;
+import webfx.platform.shared.util.Numbers;
 
 /**
  * @author Bruno Salmon

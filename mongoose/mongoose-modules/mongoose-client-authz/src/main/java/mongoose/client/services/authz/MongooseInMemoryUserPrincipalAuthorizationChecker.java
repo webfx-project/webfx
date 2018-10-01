@@ -9,8 +9,8 @@ import webfx.framework.router.auth.authz.RoutingAuthorizationRule;
 import webfx.framework.router.auth.authz.RoutingAuthorizationRuleParser;
 import webfx.framework.services.authz.spi.impl.inmemory.AuthorizationRuleType;
 import webfx.framework.services.authz.spi.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon

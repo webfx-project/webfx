@@ -3,8 +3,8 @@ package webfx.fxkits.core.launcher.spi;
 import javafx.application.Application;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

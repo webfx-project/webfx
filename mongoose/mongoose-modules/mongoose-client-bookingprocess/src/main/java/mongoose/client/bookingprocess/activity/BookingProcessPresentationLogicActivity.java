@@ -2,7 +2,7 @@ package mongoose.client.bookingprocess.activity;
 
 import javafx.event.ActionEvent;
 import mongoose.client.activities.generic.eventdependent.EventDependentPresentationLogicActivity;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

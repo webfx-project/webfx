@@ -4,8 +4,8 @@ import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.shared.entities.Item;
 import mongoose.shared.entities.Site;
-import webfx.platforms.core.util.Objects;
-import webfx.platforms.core.util.collection.HashList;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.collection.HashList;
 
 /**
  * @author Bruno Salmon

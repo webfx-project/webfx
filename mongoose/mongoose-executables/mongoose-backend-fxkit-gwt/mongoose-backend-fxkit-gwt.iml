@@ -47,9 +47,6 @@
     <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="mongoose-client-validation" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
-    <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
-    <orderEntry type="module" module-name="webfx-platform-shared-bus" />
-    <orderEntry type="module" module-name="webfx-platform-shared-serial" />
     <orderEntry type="module" module-name="mongoose-client-activities-login" />
     <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
@@ -96,18 +93,21 @@
     <orderEntry type="module" module-name="webfx-framework-util" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer-gwt" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
-    <orderEntry type="library" name="Maven: org.webfx:webfx-platform-client-websocketbus-web:sources:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="webfx-platform-client-websocketbus-web" />
+    <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
+    <orderEntry type="module" module-name="webfx-platform-shared-bus" />
+    <orderEntry type="module" module-name="webfx-platform-shared-serial" />
+    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="webfx-platform-shared-json-gwt" />
     <orderEntry type="module" module-name="webfx-platform-shared-json" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler-gwt" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
-    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-platform-shared-log-gwt" />
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown-gwt" />
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation-gwt" />
-    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.2" level="project" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory-web" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />

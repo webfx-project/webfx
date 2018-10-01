@@ -1,7 +1,7 @@
 package webfx.fxkit.gwt.mapper.util;
 
 import elemental2.dom.Element;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.paint.CycleMethod;
 import emul.javafx.scene.paint.LinearGradient;

@@ -7,10 +7,10 @@ import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
 import webfx.framework.orm.entity.UpdateStore;
-import webfx.platforms.core.services.update.UpdateArgument;
-import webfx.platforms.core.util.async.Future;
-import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.uuid.Uuid;
+import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.util.async.Future;
+import webfx.platform.shared.util.collection.Collections;
+import webfx.platform.shared.util.uuid.Uuid;
 
 import java.time.LocalDate;
 import java.util.List;

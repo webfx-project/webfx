@@ -1,1 +1,1 @@
-webfx.platforms.core.services.serial.spi.SerialCodec
+webfx.platform.shared.services.serial.spi.SerialCodec

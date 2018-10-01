@@ -5,7 +5,7 @@ import webfx.framework.expression.parser.ExpressionParser;
 import webfx.framework.expression.terms.ExpressionArray;
 import webfx.fxkits.extra.displaydata.HasLabel;
 import webfx.fxkits.extra.displaydata.Label;
-import webfx.platforms.core.util.Booleans;
+import webfx.platform.shared.util.Booleans;
 
 import java.util.Map;
 

@@ -9,7 +9,7 @@ import mongoose.shared.entities.markers.HasItem;
 import mongoose.shared.entities.markers.HasLabel;
 import mongoose.shared.entities.markers.HasName;
 import webfx.framework.services.i18n.I18n;
-import webfx.platforms.core.util.Objects;
+import webfx.platform.shared.util.Objects;
 
 /**
  * @author Bruno Salmon

@@ -9,7 +9,7 @@ import webfx.fxkits.core.mapper.spi.ScenePeer;
 import webfx.fxkits.core.mapper.spi.StagePeer;
 import webfx.fxkits.core.mapper.spi.WindowPeer;
 import webfx.fxkits.core.mapper.spi.FxKitMapperProvider;
-import webfx.platforms.core.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon

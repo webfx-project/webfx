@@ -1,1 +1,1 @@
-webfx.platforms.core.services.uischeduler.spi.UiSchedulerProvider
+webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider

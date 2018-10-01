@@ -7,6 +7,6 @@
     <inherits name="webfx-platform-shared-scheduler"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/bus/client"/>
+    <source path="webfx/platform/client/services/websocketbus"/>
 
 </module>

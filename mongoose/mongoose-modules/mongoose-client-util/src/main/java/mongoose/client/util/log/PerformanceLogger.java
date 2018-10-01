@@ -1,6 +1,6 @@
 package mongoose.client.util.log;
 
-import webfx.platforms.core.services.log.Logger;
+import webfx.platform.shared.services.log.Logger;
 
 /**
  * @author Bruno Salmon

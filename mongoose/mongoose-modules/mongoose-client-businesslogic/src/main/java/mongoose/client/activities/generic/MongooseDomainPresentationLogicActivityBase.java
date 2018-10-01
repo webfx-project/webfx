@@ -2,13 +2,13 @@ package mongoose.client.activities.generic;
 
 import webfx.framework.activity.impl.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 import webfx.framework.expression.sqlcompiler.sql.SqlCompiled;
-import webfx.platforms.core.services.json.Json;
-import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.services.json.WritableJsonObject;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.query.QueryArgument;
-import webfx.platforms.core.services.query.QueryService;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.services.json.Json;
+import webfx.platform.shared.services.json.JsonObject;
+import webfx.platform.shared.services.json.WritableJsonObject;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.query.QueryArgument;
+import webfx.platform.shared.services.query.QueryService;
+import webfx.platform.shared.util.function.Factory;
 
 /**
  * @author Bruno Salmon

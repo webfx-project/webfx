@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerMixin;
-import webfx.platforms.core.util.Numbers;
+import webfx.platform.shared.util.Numbers;
 
 import java.lang.reflect.Method;
 

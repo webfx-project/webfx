@@ -2,7 +2,7 @@ package webfx.framework.router.impl;
 
 import webfx.framework.router.RoutingContext;
 import webfx.framework.router.session.Session;
-import webfx.platforms.core.services.json.WritableJsonObject;
+import webfx.platform.shared.services.json.WritableJsonObject;
 
 import java.util.Collection;
 

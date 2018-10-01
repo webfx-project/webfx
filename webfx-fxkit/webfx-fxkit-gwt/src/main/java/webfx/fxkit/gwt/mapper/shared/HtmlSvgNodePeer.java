@@ -29,9 +29,9 @@ import webfx.fxkits.core.mapper.spi.NodePeer;
 import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerImpl;
 import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerMixin;
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Strings;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
 import java.util.Objects;

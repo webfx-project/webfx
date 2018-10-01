@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableStringValue;
 import webfx.framework.services.i18n.Dictionary;
 import webfx.framework.services.i18n.spi.I18nProvider;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;

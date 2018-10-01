@@ -11,7 +11,7 @@ import webfx.framework.ui.layouts.SceneUtil;
 import webfx.fxkits.core.launcher.FxKitLauncher;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.util.ImageStore;
-import webfx.platforms.core.services.appcontainer.spi.ApplicationModuleInitializer;
+import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 
 /**
  * @author Bruno Salmon

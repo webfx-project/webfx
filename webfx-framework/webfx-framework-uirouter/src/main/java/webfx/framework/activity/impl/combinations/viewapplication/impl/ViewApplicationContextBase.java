@@ -14,8 +14,8 @@ import webfx.fxkits.core.launcher.FxKitLauncher;
 import webfx.framework.activity.ActivityContextFactory;
 import webfx.framework.activity.impl.elementals.application.ApplicationContext;
 import webfx.framework.activity.impl.elementals.application.impl.ApplicationContextBase;
-import webfx.platforms.core.services.windowhistory.WindowHistory;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.client.services.windowhistory.WindowHistory;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon

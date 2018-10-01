@@ -4,8 +4,8 @@ import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
 import webfx.fxkits.core.mapper.spi.impl.peer.SliderPeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.SliderPeerMixin;
-import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.Strings;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import emul.javafx.scene.control.Slider;
 

@@ -3,6 +3,6 @@
     <inherits name="webfx-platform-shared-util"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/storage"/>
+    <source path="webfx/platform/client/services/storage"/>
 
 </module>

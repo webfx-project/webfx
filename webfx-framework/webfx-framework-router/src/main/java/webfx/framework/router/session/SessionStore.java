@@ -1,6 +1,6 @@
 package webfx.framework.router.session;
 
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.shared.util.async.Future;
 
 /**
  * @author Bruno Salmon

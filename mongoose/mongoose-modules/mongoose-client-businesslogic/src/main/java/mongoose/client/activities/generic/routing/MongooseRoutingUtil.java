@@ -2,7 +2,7 @@ package mongoose.client.activities.generic.routing;
 
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityId;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon

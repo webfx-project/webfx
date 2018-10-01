@@ -11,7 +11,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.webfx:webfx-platform-client-websocketbus-web:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="webfx-platform-client-websocketbus-web" />
+    <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
+    <orderEntry type="module" module-name="webfx-platform-shared-bus" />
+    <orderEntry type="module" module-name="webfx-platform-shared-serial" />
+    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer-gwt" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
@@ -39,7 +44,6 @@
     <orderEntry type="module" module-name="webfx-platform-gwt-super" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler-gwt" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
-    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="webfx-platform-client-websocket-gwt" />
     <orderEntry type="module" module-name="webfx-platform-client-websocket" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory-gwt" />
@@ -47,6 +51,5 @@
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.2" level="project" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation-gwt" />
-    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
   </component>
 </module>

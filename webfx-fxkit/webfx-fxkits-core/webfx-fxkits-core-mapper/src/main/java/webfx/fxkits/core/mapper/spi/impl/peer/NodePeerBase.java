@@ -13,8 +13,8 @@ import webfx.fxkits.core.mapper.spi.NodePeer;
 import webfx.fxkits.core.mapper.spi.SceneRequester;
 import webfx.fxkits.core.util.properties.ObservableLists;
 import webfx.fxkits.core.util.properties.Properties;
-import webfx.platforms.core.util.Arrays;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.Arrays;
+import webfx.platform.shared.util.collection.Collections;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 

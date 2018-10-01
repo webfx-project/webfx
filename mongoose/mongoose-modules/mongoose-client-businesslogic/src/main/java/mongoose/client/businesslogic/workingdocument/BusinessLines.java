@@ -2,7 +2,7 @@ package mongoose.client.businesslogic.workingdocument;
 
 import mongoose.client.businesslogic.option.OptionLogic;
 import mongoose.shared.entities.Option;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 import java.util.function.Predicate;
 
 import java.util.Collection;

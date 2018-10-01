@@ -4,8 +4,8 @@ import webfx.framework.activity.impl.elementals.activeproperty.ActivePropertyAct
 import webfx.framework.router.session.Session;
 import webfx.framework.ui.uirouter.UiRouter;
 import webfx.framework.ui.uirouter.uisession.UiSession;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
-import webfx.platforms.core.services.json.JsonObject;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.shared.services.json.JsonObject;
 
 /**
  * @author Bruno Salmon

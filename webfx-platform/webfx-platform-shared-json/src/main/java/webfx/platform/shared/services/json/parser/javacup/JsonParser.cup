@@ -1,0 +1,146 @@
+package webfx.platform.shared.services.json.parser.javacup;
+
+import webfx.platform.shared.services.json.Json;
+import webfx.platform.shared.services.json.WritableJsonArray;
+import webfx.platform.shared.services.json.WritableJsonObject;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.tuples.Pair;
+
+/* ----------------------Preliminary Declarations Section--------------------*/
+   
+/* Parser code to change the way the parser reports errors (include
+   line and column number of the error). */
+parser code {:
+
+    /* Change the method report_error so it will display the line and
+       column of where the error occurred in the input as well as the
+       reason for the error which is passed into the method in the
+       String 'message'. */
+    public void report_error(String message, Object info) {
+   
+        /* Create a StringBuffer called 'm' with the string 'Error' in it. */
+        StringBuilder m = new StringBuilder("Error");
+   
+        /* Check if the information passed to the method is the same
+           type as the type java_cup.runtime.Symbol. */
+        if (info instanceof java_cup.runtime.Symbol) {
+            /* Declare a java_cup.runtime.Symbol object 's' with the
+               information in the object info that is being typecasted
+               as a java_cup.runtime.Symbol object. */
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+   
+            /* Check if the line number in the input is greater or
+               equal to zero. */
+            if (s.left >= 0) {                
+                /* Add to the end of the StringBuffer error message
+                   the line number of the error in the input. */
+                m.append(" in line "+(s.left+1));   
+                /* Check if the column number in the input is greater
+                   or equal to zero. */
+                if (s.right >= 0)                    
+                    /* Add to the end of the StringBuffer error message
+                       the column number of the error in the input. */
+                    m.append(", column "+(s.right+1));
+            }
+        }
+   
+        /* Add to the end of the StringBuffer error message created in
+           this method the message that was passed into this method. */
+        m.append(" : "+message);
+   
+        /* Print the contents of the StringBuffer 'm', which contains
+           an error message, out on a line. */
+        System.err.println(m);
+    }
+   
+    /* Change the method report_fatal_error so when it reports a fatal
+       error it will display the line and column number of where the
+       fatal error occurred in the input as well as the reason for the
+       fatal error which is passed into the method in the object
+       'message' and then exit.*/
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+    }
+:};
+   
+
+   
+/* ------------Declaration of Terminals and Non Terminals Section----------- */
+   
+/* Terminals (tokens returned by the scanner).*/
+terminal          LCURLY, RCURLY, LBRACK, RBRACK, COLON, COMMA;
+terminal          NULL;
+terminal Object   NUMBER, MINUS;
+terminal Boolean  BOOLEAN;
+terminal String   STRING, IDENTIFIER;
+
+/* Non terminals used in the grammar section.*/
+non terminal Object                     json_element;
+non terminal Object                     json_native_scalar, json_java_scalar;
+non terminal WritableJsonArray          json_array;
+non terminal WritableJsonArray          json_array_body;
+non terminal WritableJsonObject         json_object;
+non terminal WritableJsonObject         json_object_body;
+non terminal Pair<String, Object>       json_object_entry;
+
+/* -------------Precedence and Associatively of Terminals Section----------- */
+
+start with json_element;
+
+/* ----------------------------Grammar Section-------------------- */
+
+json_element ::= json_object:o
+              {: RESULT = o; :}
+            | json_array:a
+              {: RESULT = a; :}
+            | json_native_scalar:s
+              {: RESULT = s; :}
+            ;
+
+json_native_scalar
+            ::= json_java_scalar:s
+              {: RESULT = Json.javaToNativeScalar(s); :}
+            ;
+
+json_java_scalar
+            ::= NUMBER:n
+              {: RESULT = n; :}
+            | MINUS NUMBER:n
+              {: RESULT = Numbers.negate(n); :}
+            | STRING:s
+              {: RESULT = s; :}
+            | BOOLEAN:b
+              {: RESULT = b; :}
+            | NULL
+              {: RESULT = null; :}
+            ;
+
+json_array  ::= LBRACK json_array_body:a RBRACK
+               {: RESULT = a ; :}
+            | LBRACK RBRACK
+               {: RESULT = Json.createArray() ; :}
+            ;
+
+json_array_body ::= json_array_body:a COMMA json_element:e
+              {: RESULT = a.push(e); :}
+            | json_element:e
+              {: RESULT = Json.createArray().push(e); :}
+            ;
+
+json_object ::= LCURLY json_object_body:o RCURLY
+               {: RESULT = o ; :}
+            | LCURLY RCURLY
+               {: RESULT = Json.createObject() ; :}
+            ;
+
+json_object_body ::= json_object_body:o COMMA json_object_entry:e
+              {: RESULT = o.set(e.get1(), e.get2()); :}
+            | json_object_entry:e
+              {: RESULT = Json.createObject().set(e.get1(), e.get2()); :}
+            ;
+
+json_object_entry ::= STRING:id COLON json_element:e
+               {: RESULT = new Pair(id, e) ; :}
+            | IDENTIFIER:id COLON json_element:e
+               {: RESULT = new Pair(id, e) ; :}
+            ;

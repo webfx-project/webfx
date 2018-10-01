@@ -12,11 +12,11 @@ import webfx.framework.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.HtmlTextEditor;
-import webfx.platforms.core.util.Objects;
-import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.async.Handler;
-import webfx.platforms.core.util.function.Callable;
-import webfx.platforms.core.util.tuples.Pair;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.Strings;
+import webfx.platform.shared.util.async.Handler;
+import webfx.platform.shared.util.function.Callable;
+import webfx.platform.shared.util.tuples.Pair;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -27,7 +27,7 @@ import emul.javafx.scene.transform.Transform;
 import emul.javafx.scene.transform.Translate;
 import webfx.fxkits.core.mapper.spi.impl.peer.markers.*;
 import webfx.fxkits.core.mapper.spi.NodePeer;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.HashMap;

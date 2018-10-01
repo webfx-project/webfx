@@ -2,8 +2,8 @@ package webfx.framework.expression.terms;
 
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.lci.DataWriter;
-import webfx.platforms.core.util.Booleans;
-import webfx.platforms.core.util.Objects;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Objects;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package webfx.framework.router.session;
 
 import webfx.framework.router.session.impl.UserSessionHandlerImpl;
-import webfx.platforms.core.util.async.Handler;
+import webfx.platform.shared.util.async.Handler;
 import webfx.framework.router.RoutingContext;
 
 /**

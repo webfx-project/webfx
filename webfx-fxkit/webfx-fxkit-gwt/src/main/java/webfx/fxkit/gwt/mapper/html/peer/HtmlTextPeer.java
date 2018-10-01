@@ -13,9 +13,9 @@ import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkits.core.mapper.spi.impl.peer.TextPeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.TextPeerMixin;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.Numbers;
-import webfx.platforms.core.util.Objects;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.Objects;
 
 /**
  * @author Bruno Salmon

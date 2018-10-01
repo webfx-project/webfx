@@ -3,7 +3,7 @@
     <inherits name="webfx-platform-client-windowhistory"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/web/services/windowhistory"/>
+    <source path="webfx/platform/client/services/windowhistory/spi/impl/web"/>
 
     <public path="public" />
 

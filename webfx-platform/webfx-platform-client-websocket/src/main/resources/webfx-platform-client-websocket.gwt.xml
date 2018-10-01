@@ -3,6 +3,6 @@
     <inherits name="webfx-platform-shared-json"/>
 
     <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/websocket"/>
+    <source path="webfx/platform/client/services/websocket"/>
 
 </module>

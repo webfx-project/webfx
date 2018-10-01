@@ -2,7 +2,7 @@ package webfx.fxkits.core.util.properties.conversion;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
-import webfx.platforms.core.util.function.Converter;
+import webfx.platform.shared.util.function.Converter;
 
 /**
  * @author Bruno Salmon

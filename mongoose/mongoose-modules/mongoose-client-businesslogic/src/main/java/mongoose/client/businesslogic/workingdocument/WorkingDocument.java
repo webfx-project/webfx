@@ -15,7 +15,7 @@ import webfx.framework.orm.entity.Entities;
 import webfx.framework.orm.entity.Entity;
 import webfx.framework.orm.entity.EntityStore;
 import webfx.framework.orm.entity.UpdateStore;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.HashMap;

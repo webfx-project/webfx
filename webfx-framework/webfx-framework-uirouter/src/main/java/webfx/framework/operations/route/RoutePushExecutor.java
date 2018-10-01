@@ -1,8 +1,8 @@
 package webfx.framework.operations.route;
 
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
-import webfx.platforms.core.services.json.JsonObject;
-import webfx.platforms.core.util.async.Future;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.shared.services.json.JsonObject;
+import webfx.platform.shared.util.async.Future;
 
 /**
  * @author Bruno Salmon

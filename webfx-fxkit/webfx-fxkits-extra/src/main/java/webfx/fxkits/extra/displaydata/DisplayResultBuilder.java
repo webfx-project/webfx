@@ -1,7 +1,7 @@
 package webfx.fxkits.extra.displaydata;
 
 import webfx.fxkits.extra.displaydata.impl.DisplayResultImpl;
-import webfx.platforms.core.util.function.Converter;
+import webfx.platform.shared.util.function.Converter;
 import webfx.fxkits.extra.displaydata.impl.DisplayColumnImpl;
 
 /**

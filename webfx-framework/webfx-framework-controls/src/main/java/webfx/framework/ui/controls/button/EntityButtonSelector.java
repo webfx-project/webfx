@@ -26,10 +26,10 @@ import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.control.SkinnedDataGrid;
 import webfx.fxkits.extra.displaydata.DisplayResult;
-import webfx.platforms.core.util.Arrays;
-import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.collection.Collections;
-import webfx.platforms.core.util.function.Callable;
+import webfx.platform.shared.util.Arrays;
+import webfx.platform.shared.util.Strings;
+import webfx.platform.shared.util.collection.Collections;
+import webfx.platform.shared.util.function.Callable;
 
 import java.util.List;
 

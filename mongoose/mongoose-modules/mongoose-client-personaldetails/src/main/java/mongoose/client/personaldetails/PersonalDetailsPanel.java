@@ -35,8 +35,8 @@ import webfx.fxkits.extra.displaydata.DisplayResultBuilder;
 import webfx.fxkits.extra.displaydata.DisplayStyle;
 import webfx.fxkits.extra.displaydata.SelectionMode;
 import webfx.fxkits.extra.type.PrimType;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.Booleans;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.Booleans;
 
 import java.time.LocalDate;
 

@@ -6,7 +6,7 @@ import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.Insets;
 import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerMixin;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.util.collection.Collections;
 import webfx.fxkit.gwt.mapper.util.DomType;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import emul.javafx.scene.layout.*;

@@ -16,7 +16,7 @@ import webfx.framework.ui.controls.MaterialFactoryMixin;
 import webfx.fxkits.extra.cell.renderer.TextRenderer;
 import webfx.fxkits.extra.cell.renderer.ValueRenderer;
 import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;
-import webfx.platforms.core.util.Arrays;
+import webfx.platform.shared.util.Arrays;
 
 /**
  * @author Bruno Salmon

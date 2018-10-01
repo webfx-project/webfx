@@ -3,7 +3,7 @@ package mongoose.backend.activities.saveloadtest;
 import webfx.framework.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import webfx.framework.ui.uirouter.UiRoute;
 import webfx.framework.ui.uirouter.impl.UiRouteImpl;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon

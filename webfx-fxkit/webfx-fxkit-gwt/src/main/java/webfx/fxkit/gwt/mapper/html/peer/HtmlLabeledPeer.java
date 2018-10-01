@@ -12,7 +12,7 @@ import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkits.core.mapper.spi.impl.peer.LabeledPeerBase;
 import webfx.fxkits.core.mapper.spi.impl.peer.LabeledPeerMixin;
-import webfx.platforms.core.util.Strings;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon

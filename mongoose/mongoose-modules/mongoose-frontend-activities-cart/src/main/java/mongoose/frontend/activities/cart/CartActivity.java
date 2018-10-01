@@ -36,10 +36,10 @@ import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplaySelection;
 import webfx.fxkits.extra.type.PrimType;
-import webfx.platforms.core.services.log.Logger;
-import webfx.platforms.core.services.uischeduler.UiScheduler;
-import webfx.platforms.core.util.Strings;
-import webfx.platforms.core.util.collection.Collections;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.util.Strings;
+import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
 

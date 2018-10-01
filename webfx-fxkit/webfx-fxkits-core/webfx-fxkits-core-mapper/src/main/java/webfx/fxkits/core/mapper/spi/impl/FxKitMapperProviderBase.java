@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Region;
 import webfx.fxkits.core.mapper.spi.NodePeer;
 import webfx.fxkits.core.mapper.spi.FxKitMapperProvider;
-import webfx.platforms.core.util.function.Factory;
+import webfx.platform.shared.util.function.Factory;
 
 import java.util.HashMap;
 import java.util.Map;

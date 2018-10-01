@@ -2,7 +2,7 @@ package mongoose.backend.operations.letter;
 
 import mongoose.backend.activities.letter.LetterRouting;
 import webfx.framework.operations.route.RoutePushRequest;
-import webfx.platforms.core.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**
  * @author Bruno Salmon
