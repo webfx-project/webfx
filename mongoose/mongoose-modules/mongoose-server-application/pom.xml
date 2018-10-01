@@ -27,7 +27,7 @@
         </dependency>
 
         <dependency> <!-- This module automatically starts listening bus entry calls -->
-            <artifactId>webfx-platforms-core-buscallserver</artifactId>
+            <artifactId>webfx-platform-server-buscall</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

@@ -1,9 +1,0 @@
-<module rename-to="webfx_platforms_core_querypush">
-
-    <inherits name="webfx-platforms-core-push"/>
-    <inherits name="webfx-platforms-core-query"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/querypush"/>
-
-</module>

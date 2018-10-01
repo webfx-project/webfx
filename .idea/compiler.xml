@@ -202,62 +202,62 @@
         <module name="webfx-lib-javafastpfor" />
         <module name="webfx-lib-mvvmfx-validation" />
         <module name="webfx-lib-rxjava" />
+        <module name="webfx-platform-client-storage" />
+        <module name="webfx-platform-client-storage-gwt" />
+        <module name="webfx-platform-client-storage-java" />
+        <module name="webfx-platform-client-uischeduler" />
+        <module name="webfx-platform-client-uischeduler-gwt" />
+        <module name="webfx-platform-client-websocket" />
+        <module name="webfx-platform-client-websocket-gwt" />
+        <module name="webfx-platform-client-websocket-java" />
+        <module name="webfx-platform-client-websocketbus" />
+        <module name="webfx-platform-client-websocketbus-web" />
+        <module name="webfx-platform-client-windowhistory" />
+        <module name="webfx-platform-client-windowhistory-gwt" />
+        <module name="webfx-platform-client-windowhistory-java" />
+        <module name="webfx-platform-client-windowhistory-web" />
+        <module name="webfx-platform-client-windowlocation" />
+        <module name="webfx-platform-client-windowlocation-gwt" />
+        <module name="webfx-platform-client-windowlocation-java" />
+        <module name="webfx-platform-emul-javabase" />
+        <module name="webfx-platform-emul-javatime" />
         <module name="webfx-platform-gwt-all" />
-        <module name="webfx-platform-gwt-appcontainer" />
-        <module name="webfx-platform-gwt-json" />
-        <module name="webfx-platform-gwt-log" />
-        <module name="webfx-platform-gwt-resource" />
-        <module name="webfx-platform-gwt-shutdown" />
-        <module name="webfx-platform-gwt-storage" />
         <module name="webfx-platform-gwt-super" />
-        <module name="webfx-platform-gwt-uischeduler" />
-        <module name="webfx-platform-gwt-websocket" />
-        <module name="webfx-platform-gwt-windowhistory" />
-        <module name="webfx-platform-gwt-windowlocation" />
         <module name="webfx-platform-jre" />
+        <module name="webfx-platform-server-buscall" />
+        <module name="webfx-platform-shared-appcontainer" />
+        <module name="webfx-platform-shared-appcontainer-gwt" />
+        <module name="webfx-platform-shared-appcontainer-java" />
+        <module name="webfx-platform-shared-appcontainer-vertx" />
+        <module name="webfx-platform-shared-bus" />
+        <module name="webfx-platform-shared-bus-vertx" />
+        <module name="webfx-platform-shared-buscall" />
+        <module name="webfx-platform-shared-datasource" />
+        <module name="webfx-platform-shared-json" />
+        <module name="webfx-platform-shared-json-gwt" />
+        <module name="webfx-platform-shared-json-java" />
+        <module name="webfx-platform-shared-json-vertx" />
+        <module name="webfx-platform-shared-log" />
+        <module name="webfx-platform-shared-log-gwt" />
+        <module name="webfx-platform-shared-push" />
+        <module name="webfx-platform-shared-query" />
+        <module name="webfx-platform-shared-querypush" />
+        <module name="webfx-platform-shared-queryupdate-java" />
+        <module name="webfx-platform-shared-queryupdate-vertx" />
+        <module name="webfx-platform-shared-resource" />
+        <module name="webfx-platform-shared-resource-gwt" />
+        <module name="webfx-platform-shared-resource-java" />
+        <module name="webfx-platform-shared-scheduler" />
+        <module name="webfx-platform-shared-scheduler-java" />
+        <module name="webfx-platform-shared-scheduler-vertx" />
+        <module name="webfx-platform-shared-serial" />
+        <module name="webfx-platform-shared-shutdown" />
+        <module name="webfx-platform-shared-shutdown-gwt" />
+        <module name="webfx-platform-shared-shutdown-java" />
+        <module name="webfx-platform-shared-update" />
+        <module name="webfx-platform-shared-util" />
         <module name="webfx-platform-vertx-all" />
-        <module name="webfx-platform-vertx-appcontainer" />
-        <module name="webfx-platform-vertx-bus" />
         <module name="webfx-platform-vertx-global" />
-        <module name="webfx-platform-vertx-json" />
-        <module name="webfx-platform-vertx-queryupdate" />
-        <module name="webfx-platform-vertx-scheduler" />
-        <module name="webfx-platforms-core-appcontainer" />
-        <module name="webfx-platforms-core-bus" />
-        <module name="webfx-platforms-core-buscall" />
-        <module name="webfx-platforms-core-buscallserver" />
-        <module name="webfx-platforms-core-clientbus" />
-        <module name="webfx-platforms-core-datasource" />
-        <module name="webfx-platforms-core-json" />
-        <module name="webfx-platforms-core-log" />
-        <module name="webfx-platforms-core-push" />
-        <module name="webfx-platforms-core-query" />
-        <module name="webfx-platforms-core-querypush" />
-        <module name="webfx-platforms-core-resource" />
-        <module name="webfx-platforms-core-scheduler" />
-        <module name="webfx-platforms-core-serial" />
-        <module name="webfx-platforms-core-shutdown" />
-        <module name="webfx-platforms-core-storage" />
-        <module name="webfx-platforms-core-uischeduler" />
-        <module name="webfx-platforms-core-update" />
-        <module name="webfx-platforms-core-util" />
-        <module name="webfx-platforms-core-websocket" />
-        <module name="webfx-platforms-core-windowhistory" />
-        <module name="webfx-platforms-core-windowlocation" />
-        <module name="webfx-platforms-emul-javabase" />
-        <module name="webfx-platforms-emul-javatime" />
-        <module name="webfx-platforms-java-appcontainer" />
-        <module name="webfx-platforms-java-json" />
-        <module name="webfx-platforms-java-queryupdate" />
-        <module name="webfx-platforms-java-resource" />
-        <module name="webfx-platforms-java-scheduler" />
-        <module name="webfx-platforms-java-shutdown" />
-        <module name="webfx-platforms-java-storage" />
-        <module name="webfx-platforms-java-websocket" />
-        <module name="webfx-platforms-java-windowhistory" />
-        <module name="webfx-platforms-java-windowlocation" />
-        <module name="webfx-platforms-web-clientbus" />
-        <module name="webfx-platforms-web-windowhistory" />
         <module name="webfxplatformgwtlog" />
       </profile>
     </annotationProcessing>
@@ -400,75 +400,75 @@
       <module name="webfx-lib-rxjava" target="1.8" />
       <module name="webfx-libs" target="1.8" />
       <module name="webfx-platform" target="1.8" />
+      <module name="webfx-platform-client-storage" target="1.8" />
+      <module name="webfx-platform-client-storage-gwt" target="1.8" />
+      <module name="webfx-platform-client-storage-java" target="1.8" />
+      <module name="webfx-platform-client-uischeduler" target="1.8" />
+      <module name="webfx-platform-client-uischeduler-gwt" target="1.8" />
+      <module name="webfx-platform-client-websocket" target="1.8" />
+      <module name="webfx-platform-client-websocket-gwt" target="1.8" />
+      <module name="webfx-platform-client-websocket-java" target="1.8" />
+      <module name="webfx-platform-client-websocketbus" target="1.8" />
+      <module name="webfx-platform-client-websocketbus-web" target="1.8" />
+      <module name="webfx-platform-client-windowhistory" target="1.8" />
+      <module name="webfx-platform-client-windowhistory-gwt" target="1.8" />
+      <module name="webfx-platform-client-windowhistory-java" target="1.8" />
+      <module name="webfx-platform-client-windowhistory-web" target="1.8" />
+      <module name="webfx-platform-client-windowlocation" target="1.8" />
+      <module name="webfx-platform-client-windowlocation-gwt" target="1.8" />
+      <module name="webfx-platform-client-windowlocation-java" target="1.8" />
+      <module name="webfx-platform-emul-javabase" target="1.8" />
+      <module name="webfx-platform-emul-javatime" target="1.8" />
       <module name="webfx-platform-gwt" target="1.8" />
       <module name="webfx-platform-gwt-all" target="1.8" />
-      <module name="webfx-platform-gwt-appcontainer" target="1.8" />
-      <module name="webfx-platform-gwt-json" target="1.8" />
-      <module name="webfx-platform-gwt-log" target="1.8" />
-      <module name="webfx-platform-gwt-resource" target="1.8" />
       <module name="webfx-platform-gwt-scheduler" target="1.8" />
-      <module name="webfx-platform-gwt-shutdown" target="1.8" />
-      <module name="webfx-platform-gwt-storage" target="1.8" />
       <module name="webfx-platform-gwt-super" target="1.8" />
-      <module name="webfx-platform-gwt-uischeduler" target="1.8" />
-      <module name="webfx-platform-gwt-websocket" target="1.8" />
-      <module name="webfx-platform-gwt-windowhistory" target="1.8" />
-      <module name="webfx-platform-gwt-windowlocation" target="1.8" />
       <module name="webfx-platform-jre" target="1.8" />
+      <module name="webfx-platform-server-buscall" target="1.8" />
+      <module name="webfx-platform-shared-appcontainer" target="1.8" />
+      <module name="webfx-platform-shared-appcontainer-gwt" target="1.8" />
+      <module name="webfx-platform-shared-appcontainer-java" target="1.8" />
+      <module name="webfx-platform-shared-appcontainer-vertx" target="1.8" />
+      <module name="webfx-platform-shared-bus" target="1.8" />
+      <module name="webfx-platform-shared-bus-vertx" target="1.8" />
+      <module name="webfx-platform-shared-buscall" target="1.8" />
+      <module name="webfx-platform-shared-datasource" target="1.8" />
+      <module name="webfx-platform-shared-json" target="1.8" />
+      <module name="webfx-platform-shared-json-gwt" target="1.8" />
+      <module name="webfx-platform-shared-json-java" target="1.8" />
+      <module name="webfx-platform-shared-json-vertx" target="1.8" />
+      <module name="webfx-platform-shared-log" target="1.8" />
+      <module name="webfx-platform-shared-log-gwt" target="1.8" />
+      <module name="webfx-platform-shared-push" target="1.8" />
+      <module name="webfx-platform-shared-query" target="1.8" />
+      <module name="webfx-platform-shared-querypush" target="1.8" />
+      <module name="webfx-platform-shared-queryupdate-java" target="1.8" />
+      <module name="webfx-platform-shared-queryupdate-vertx" target="1.8" />
+      <module name="webfx-platform-shared-resource" target="1.8" />
+      <module name="webfx-platform-shared-resource-gwt" target="1.8" />
+      <module name="webfx-platform-shared-resource-java" target="1.8" />
+      <module name="webfx-platform-shared-scheduler" target="1.8" />
+      <module name="webfx-platform-shared-scheduler-java" target="1.8" />
+      <module name="webfx-platform-shared-scheduler-vertx" target="1.8" />
+      <module name="webfx-platform-shared-serial" target="1.8" />
+      <module name="webfx-platform-shared-shutdown" target="1.8" />
+      <module name="webfx-platform-shared-shutdown-gwt" target="1.8" />
+      <module name="webfx-platform-shared-shutdown-java" target="1.8" />
+      <module name="webfx-platform-shared-update" target="1.8" />
+      <module name="webfx-platform-shared-util" target="1.8" />
       <module name="webfx-platform-vertx" target="1.8" />
       <module name="webfx-platform-vertx-all" target="1.8" />
-      <module name="webfx-platform-vertx-appcontainer" target="1.8" />
-      <module name="webfx-platform-vertx-bus" target="1.8" />
       <module name="webfx-platform-vertx-global" target="1.8" />
-      <module name="webfx-platform-vertx-json" target="1.8" />
-      <module name="webfx-platform-vertx-queryupdate" target="1.8" />
-      <module name="webfx-platform-vertx-scheduler" target="1.8" />
       <module name="webfx-platforms-core" target="1.8" />
-      <module name="webfx-platforms-core-appcontainer" target="1.8" />
-      <module name="webfx-platforms-core-bus" target="1.8" />
-      <module name="webfx-platforms-core-buscall" target="1.8" />
       <module name="webfx-platforms-core-buscallclient" target="1.8" />
-      <module name="webfx-platforms-core-buscallserver" target="1.8" />
-      <module name="webfx-platforms-core-clientbus" target="1.8" />
       <module name="webfx-platforms-core-clientbuscall" target="1.8" />
-      <module name="webfx-platforms-core-datasource" target="1.8" />
-      <module name="webfx-platforms-core-json" target="1.8" />
-      <module name="webfx-platforms-core-log" target="1.8" />
       <module name="webfx-platforms-core-monolith" target="1.8" />
       <module name="webfx-platforms-core-noreflect" target="1.8" />
-      <module name="webfx-platforms-core-push" target="1.8" />
-      <module name="webfx-platforms-core-query" target="1.8" />
-      <module name="webfx-platforms-core-querypush" target="1.8" />
-      <module name="webfx-platforms-core-resource" target="1.8" />
-      <module name="webfx-platforms-core-scheduler" target="1.8" />
-      <module name="webfx-platforms-core-serial" target="1.8" />
       <module name="webfx-platforms-core-serverbuscall" target="1.8" />
-      <module name="webfx-platforms-core-shutdown" target="1.8" />
-      <module name="webfx-platforms-core-storage" target="1.8" />
       <module name="webfx-platforms-core-type" target="1.8" />
-      <module name="webfx-platforms-core-uischeduler" target="1.8" />
-      <module name="webfx-platforms-core-update" target="1.8" />
-      <module name="webfx-platforms-core-util" target="1.8" />
-      <module name="webfx-platforms-core-websocket" target="1.8" />
-      <module name="webfx-platforms-core-windowhistory" target="1.8" />
-      <module name="webfx-platforms-core-windowlocation" target="1.8" />
       <module name="webfx-platforms-emul" target="1.8" />
-      <module name="webfx-platforms-emul-javabase" target="1.8" />
-      <module name="webfx-platforms-emul-javatime" target="1.8" />
       <module name="webfx-platforms-java" target="1.8" />
-      <module name="webfx-platforms-java-appcontainer" target="1.8" />
-      <module name="webfx-platforms-java-json" target="1.8" />
-      <module name="webfx-platforms-java-queryupdate" target="1.8" />
-      <module name="webfx-platforms-java-resource" target="1.8" />
-      <module name="webfx-platforms-java-scheduler" target="1.8" />
-      <module name="webfx-platforms-java-shutdown" target="1.8" />
-      <module name="webfx-platforms-java-storage" target="1.8" />
-      <module name="webfx-platforms-java-websocket" target="1.8" />
-      <module name="webfx-platforms-java-windowhistory" target="1.8" />
-      <module name="webfx-platforms-java-windowlocation" target="1.8" />
       <module name="webfx-platforms-web" target="1.8" />
-      <module name="webfx-platforms-web-clientbus" target="1.8" />
-      <module name="webfx-platforms-web-windowhistory" target="1.8" />
       <module name="webfx-root" target="1.8" />
       <module name="webfxplatformgwtlog" target="1.8" />
     </bytecodeTargetLevel>

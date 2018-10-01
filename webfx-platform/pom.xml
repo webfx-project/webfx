@@ -13,70 +13,70 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>webfx-platforms-core-util</module>
+        <module>webfx-platform-shared-util</module>
 
         <!-- Modules that depend only on util -->
-        <module>webfx-platforms-core-json</module>
-        <module>webfx-platforms-core-log</module>
-        <module>webfx-platforms-core-resource</module>
-        <module>webfx-platforms-core-scheduler</module>
-        <module>webfx-platforms-core-shutdown</module>
-        <module>webfx-platforms-core-storage</module>
+        <module>webfx-platform-shared-json</module>
+        <module>webfx-platform-shared-log</module>
+        <module>webfx-platform-shared-resource</module>
+        <module>webfx-platform-shared-scheduler</module>
+        <module>webfx-platform-shared-shutdown</module>
+        <module>webfx-platform-client-storage</module>
 
         <!-- Modules that depend on another platform module -->
-        <module>webfx-platforms-core-uischeduler</module> <!-- depends on scheduler module -->
-        <module>webfx-platforms-core-serial</module> <!-- depends on json module -->
-        <module>webfx-platforms-core-windowlocation</module> <!-- depends on json module -->
-        <module>webfx-platforms-core-windowhistory</module> <!-- depends on json module -->
-        <module>webfx-platforms-core-appcontainer</module> <!-- depends on shutdown, log, util modules -->
-        <module>webfx-platforms-core-websocket</module> <!-- depends on json module -->
-        <module>webfx-platforms-core-bus</module> <!-- depends on json, appcontainer modules -->
-        <module>webfx-platforms-core-clientbus</module> <!-- depends on bus, websocket, log, resource, scheduler modules -->
-        <module>webfx-platforms-core-buscall</module> <!-- depends on bus, appcontainer module -->
-        <module>webfx-platforms-core-buscallserver</module> <!-- depends on buscall module -->
-        <module>webfx-platforms-core-datasource</module> <!-- depends on json module -->
-        <module>webfx-platforms-core-query</module> <!-- depends on buscall, datasource, appcontainer, util modules -->
-        <module>webfx-platforms-core-update</module> <!-- depends on buscall, datasource, appcontainer module -->
-        <module>webfx-platforms-core-push</module> <!-- depends on query module -->
-        <module>webfx-platforms-core-querypush</module> <!-- depends on push, query modules -->
+        <module>webfx-platform-client-uischeduler</module> <!-- depends on scheduler module -->
+        <module>webfx-platform-shared-serial</module> <!-- depends on json module -->
+        <module>webfx-platform-client-windowlocation</module> <!-- depends on json module -->
+        <module>webfx-platform-client-windowhistory</module> <!-- depends on json module -->
+        <module>webfx-platform-shared-appcontainer</module> <!-- depends on shutdown, log, util modules -->
+        <module>webfx-platform-client-websocket</module> <!-- depends on json module -->
+        <module>webfx-platform-shared-bus</module> <!-- depends on json, appcontainer modules -->
+        <module>webfx-platform-client-websocketbus</module> <!-- depends on bus, websocket, log, resource, scheduler modules -->
+        <module>webfx-platform-shared-buscall</module> <!-- depends on bus, appcontainer module -->
+        <module>webfx-platform-server-buscall</module> <!-- depends on buscall module -->
+        <module>webfx-platform-shared-datasource</module> <!-- depends on json module -->
+        <module>webfx-platform-shared-query</module> <!-- depends on buscall, datasource, appcontainer, util modules -->
+        <module>webfx-platform-shared-update</module> <!-- depends on buscall, datasource, appcontainer module -->
+        <module>webfx-platform-shared-push</module> <!-- depends on query module -->
+        <module>webfx-platform-shared-querypush</module> <!-- depends on push, query modules -->
 
-        <module>webfx-platforms-java-scheduler</module>
-        <module>webfx-platforms-java-resource</module>
-        <module>webfx-platforms-java-shutdown</module>
-        <module>webfx-platforms-java-storage</module>
-        <module>webfx-platforms-java-websocket</module>
-        <module>webfx-platforms-java-windowhistory</module>
-        <module>webfx-platforms-java-windowlocation</module>
-        <module>webfx-platforms-java-queryupdate</module>
-        <module>webfx-platforms-java-json</module>
-        <module>webfx-platforms-java-appcontainer</module>
+        <module>webfx-platform-shared-scheduler-java</module>
+        <module>webfx-platform-shared-resource-java</module>
+        <module>webfx-platform-shared-shutdown-java</module>
+        <module>webfx-platform-client-storage-java</module>
+        <module>webfx-platform-client-websocket-java</module>
+        <module>webfx-platform-client-windowhistory-java</module>
+        <module>webfx-platform-client-windowlocation-java</module>
+        <module>webfx-platform-shared-queryupdate-java</module>
+        <module>webfx-platform-shared-json-java</module>
+        <module>webfx-platform-shared-appcontainer-java</module>
 
-        <module>webfx-platforms-web-clientbus</module>
-        <module>webfx-platforms-web-windowhistory</module>
+        <module>webfx-platform-client-websocketbus-web</module>
+        <module>webfx-platform-client-windowhistory-web</module>
 
-        <module>webfx-platforms-emul-javabase</module>
-        <module>webfx-platforms-emul-javatime</module>
+        <module>webfx-platform-emul-javabase</module>
+        <module>webfx-platform-emul-javatime</module>
 
         <module>webfx-platform-jre</module>
 
         <module>webfx-platform-vertx-global</module>
-        <module>webfx-platform-vertx-appcontainer</module>
-        <module>webfx-platform-vertx-bus</module>
-        <module>webfx-platform-vertx-json</module>
-        <module>webfx-platform-vertx-scheduler</module>
-        <module>webfx-platform-vertx-queryupdate</module>
+        <module>webfx-platform-shared-appcontainer-vertx</module>
+        <module>webfx-platform-shared-bus-vertx</module>
+        <module>webfx-platform-shared-json-vertx</module>
+        <module>webfx-platform-shared-scheduler-vertx</module>
+        <module>webfx-platform-shared-queryupdate-vertx</module>
         <module>webfx-platform-vertx-all</module>
 
-        <module>webfx-platform-gwt-appcontainer</module>
-        <module>webfx-platform-gwt-json</module>
-        <module>webfx-platform-gwt-log</module>
-        <module>webfx-platform-gwt-resource</module>
-        <module>webfx-platform-gwt-uischeduler</module>
-        <module>webfx-platform-gwt-shutdown</module>
-        <module>webfx-platform-gwt-storage</module>
-        <module>webfx-platform-gwt-websocket</module>
-        <module>webfx-platform-gwt-windowhistory</module>
-        <module>webfx-platform-gwt-windowlocation</module>
+        <module>webfx-platform-shared-appcontainer-gwt</module>
+        <module>webfx-platform-shared-json-gwt</module>
+        <module>webfx-platform-shared-log-gwt</module>
+        <module>webfx-platform-shared-resource-gwt</module>
+        <module>webfx-platform-client-uischeduler-gwt</module>
+        <module>webfx-platform-shared-shutdown-gwt</module>
+        <module>webfx-platform-client-storage-gwt</module>
+        <module>webfx-platform-client-websocket-gwt</module>
+        <module>webfx-platform-client-windowhistory-gwt</module>
+        <module>webfx-platform-client-windowlocation-gwt</module>
         <module>webfx-platform-gwt-all</module>
         <module>webfx-platform-gwt-super</module>
 

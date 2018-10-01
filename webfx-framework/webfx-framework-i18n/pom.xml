@@ -20,20 +20,20 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-uischeduler</artifactId>
+            <artifactId>webfx-platform-client-uischeduler</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-resource</artifactId>
+            <artifactId>webfx-platform-shared-resource</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-json</artifactId>
+            <artifactId>webfx-platform-shared-json</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <scope>provided</scope>

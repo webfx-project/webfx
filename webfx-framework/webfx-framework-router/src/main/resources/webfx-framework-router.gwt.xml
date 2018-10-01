@@ -2,9 +2,9 @@
 
     <inherits name="webfx-framework-authn"/>
     <inherits name="webfx-framework-authz"/>
-    <inherits name="webfx-platforms-core-json"/>
-    <inherits name="webfx-platforms-core-log"/>
-    <inherits name="webfx-platforms-core-util"/>
+    <inherits name="webfx-platform-shared-json"/>
+    <inherits name="webfx-platform-shared-log"/>
+    <inherits name="webfx-platform-shared-util"/>
 
     <!-- Specify the paths for translatable code -->
     <source path="webfx/framework/router"/>

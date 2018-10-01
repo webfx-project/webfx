@@ -32,7 +32,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-querypush</artifactId>
+            <artifactId>webfx-platform-shared-querypush</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

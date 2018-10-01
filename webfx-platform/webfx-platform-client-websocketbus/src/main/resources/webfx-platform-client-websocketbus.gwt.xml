@@ -1,0 +1,12 @@
+<module rename-to="webfx_platform_client_websocketbus">
+
+    <inherits name="webfx-platform-shared-bus"/>
+    <inherits name="webfx-platform-client-websocket"/>
+    <inherits name="webfx-platform-shared-log"/>
+    <inherits name="webfx-platform-shared-resource"/>
+    <inherits name="webfx-platform-shared-scheduler"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/bus/client"/>
+
+</module>

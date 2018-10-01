@@ -20,13 +20,13 @@
         </dependency>
 
         <dependency> <!-- For JsonObjectExpression -->
-            <artifactId>webfx-platforms-core-json</artifactId>
+            <artifactId>webfx-platform-shared-json</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-util</artifactId>
+            <artifactId>webfx-platform-shared-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

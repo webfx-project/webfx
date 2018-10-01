@@ -16,20 +16,20 @@
     <orderEntry type="module" module-name="webfx-framework-router" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-authn" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-authz" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-json" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-shared-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-log" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-shared-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-activity" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-operation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-client-uischeduler" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core-mapper" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core-util" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowhistory" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" scope="PROVIDED" />
   </component>
 </module>

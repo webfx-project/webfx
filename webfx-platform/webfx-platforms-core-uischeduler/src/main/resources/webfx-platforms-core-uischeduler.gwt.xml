@@ -1,7 +1,0 @@
-<module rename-to="webfx_platforms_core_uischeduler">
-
-    <inherits name="webfx-platforms-core-scheduler"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/services/uischeduler"/>
-</module>

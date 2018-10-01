@@ -38,7 +38,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-resource</artifactId>
+            <artifactId>webfx-platform-shared-resource</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

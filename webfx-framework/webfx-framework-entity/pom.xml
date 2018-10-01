@@ -20,7 +20,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-update</artifactId>
+            <artifactId>webfx-platform-shared-update</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

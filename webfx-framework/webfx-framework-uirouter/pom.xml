@@ -50,7 +50,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-windowhistory</artifactId>
+            <artifactId>webfx-platform-client-windowhistory</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

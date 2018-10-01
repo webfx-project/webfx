@@ -2,8 +2,8 @@
 
     <inherits name="webfx-fxkits-core-util"/>
     <inherits name="webfx-fxkits-extra"/>
-    <inherits name="webfx-platforms-core-json"/>
-    <inherits name="webfx-platforms-core-util"/>
+    <inherits name="webfx-platform-shared-json"/>
+    <inherits name="webfx-platform-shared-util"/>
 
     <!-- Specify the paths for translatable code -->
     <source path="webfx/framework/ui/util"/>

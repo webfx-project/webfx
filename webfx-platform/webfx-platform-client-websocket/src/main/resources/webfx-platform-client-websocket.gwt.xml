@@ -1,0 +1,8 @@
+<module rename-to="webfx_platform_client_websocket">
+
+    <inherits name="webfx-platform-shared-json"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/websocket"/>
+
+</module>

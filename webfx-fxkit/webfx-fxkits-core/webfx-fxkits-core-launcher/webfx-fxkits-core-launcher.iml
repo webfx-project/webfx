@@ -11,11 +11,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
-    <orderEntry type="module" module-name="webfx-platforms-core-log" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
+    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
+    <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log" />
+    <orderEntry type="module" module-name="webfx-platform-shared-util" />
   </component>
 </module>

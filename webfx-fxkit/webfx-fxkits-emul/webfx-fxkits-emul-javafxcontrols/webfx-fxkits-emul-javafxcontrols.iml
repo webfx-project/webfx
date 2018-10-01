@@ -15,10 +15,10 @@
     <orderEntry type="library" name="webfx-fxkits-core-util-0.1.0-SNAPSHOT-emul" level="project" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxgraphics" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxbase" />
-    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-log" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
+    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log" />
+    <orderEntry type="module" module-name="webfx-platform-shared-util" />
     <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
     <orderEntry type="module" module-name="webfx-fxkits-core-util" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />

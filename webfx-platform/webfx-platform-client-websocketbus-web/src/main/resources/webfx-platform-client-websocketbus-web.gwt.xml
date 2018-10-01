@@ -1,0 +1,11 @@
+<module rename-to="webfx_platform_client_websocketbus_web">
+
+    <inherits name="webfx-platform-client-websocketbus"/>
+    <inherits name="webfx-platform-client-uischeduler"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/web/services/clientbus"/>
+
+    <public path="public" />
+
+</module>

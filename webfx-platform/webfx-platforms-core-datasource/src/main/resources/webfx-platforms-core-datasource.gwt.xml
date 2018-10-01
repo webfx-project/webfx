@@ -1,8 +1,0 @@
-<module rename-to="webfx_platforms_core_datasource">
-
-    <inherits name="webfx-platforms-core-json"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/platforms/core/datasource"/>
-
-</module>

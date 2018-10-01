@@ -12,7 +12,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="webfx-fxkit-gwt" />
     <orderEntry type="module" module-name="webfx-fxkits-core-util" />
-    <orderEntry type="module" module-name="webfx-platforms-core-util" />
+    <orderEntry type="module" module-name="webfx-platform-shared-util" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxcontrols" />
     <orderEntry type="module" module-name="webfx-fxkits-emul-javafxgraphics" />
@@ -23,7 +23,7 @@
     <orderEntry type="library" name="Maven: com.google.jsinterop:base:1.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-dom:1.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-promise:1.0.0-RC1" level="project" />
-    <orderEntry type="module" module-name="webfx-platforms-core-resource" />
+    <orderEntry type="module" module-name="webfx-platform-shared-resource" />
     <orderEntry type="library" name="Maven: com.googlecode.gwt-charts:gwt-charts:0.9.10" level="project" />
     <orderEntry type="module" module-name="mongoose-client-css-web" />
     <orderEntry type="module" module-name="mongoose-client-busconfig-gwt" />
@@ -40,13 +40,16 @@
     <orderEntry type="module" module-name="mongoose-client-authn" />
     <orderEntry type="module" module-name="mongoose-client-operationactionsloading" />
     <orderEntry type="module" module-name="mongoose-client-sessionrecorder" />
-    <orderEntry type="module" module-name="webfx-platforms-core-push" />
+    <orderEntry type="module" module-name="webfx-platform-shared-push" />
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
     <orderEntry type="module" module-name="mongoose-client-calendar" />
     <orderEntry type="module" module-name="mongoose-client-icons" />
     <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="mongoose-client-validation" />
     <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
+    <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
+    <orderEntry type="module" module-name="webfx-platform-shared-bus" />
+    <orderEntry type="module" module-name="webfx-platform-shared-serial" />
     <orderEntry type="module" module-name="mongoose-client-activities-login" />
     <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
@@ -68,11 +71,11 @@
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-framework-activity" />
     <orderEntry type="module" module-name="webfx-framework-domain" />
-    <orderEntry type="module" module-name="webfx-platforms-core-query" />
-    <orderEntry type="module" module-name="webfx-platforms-core-buscall" />
-    <orderEntry type="module" module-name="webfx-platforms-core-datasource" />
+    <orderEntry type="module" module-name="webfx-platform-shared-query" />
+    <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
+    <orderEntry type="module" module-name="webfx-platform-shared-datasource" />
     <orderEntry type="module" module-name="webfx-framework-entity" />
-    <orderEntry type="module" module-name="webfx-platforms-core-update" />
+    <orderEntry type="module" module-name="webfx-platform-shared-update" />
     <orderEntry type="module" module-name="webfx-framework-operation" />
     <orderEntry type="module" module-name="webfx-framework-action" />
     <orderEntry type="module" module-name="webfx-framework-i18n" />
@@ -84,41 +87,38 @@
     <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
     <orderEntry type="module" module-name="webfx-fxkits-core-util" />
     <orderEntry type="module" module-name="webfx-framework-uifilter" />
-    <orderEntry type="module" module-name="webfx-platforms-core-querypush" />
+    <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-framework-layouts" />
     <orderEntry type="module" module-name="webfx-framework-controls" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-framework-materialdesign" />
     <orderEntry type="module" module-name="webfx-framework-util" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platforms-core-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platforms-web-clientbus" />
-    <orderEntry type="module" module-name="webfx-platforms-core-clientbus" />
-    <orderEntry type="module" module-name="webfx-platforms-core-bus" />
-    <orderEntry type="module" module-name="webfx-platforms-core-serial" />
-    <orderEntry type="module" module-name="webfx-platforms-core-scheduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowlocation" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-json" />
-    <orderEntry type="module" module-name="webfx-platforms-core-json" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-uischeduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-uischeduler" />
-    <orderEntry type="module" module-name="webfx-platforms-core-log" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-log" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-shutdown" />
-    <orderEntry type="module" module-name="webfx-platforms-core-shutdown" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-windowlocation" />
+    <orderEntry type="module" module-name="webfx-platform-shared-appcontainer-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
+    <orderEntry type="library" name="Maven: org.webfx:webfx-platform-client-websocketbus-web:sources:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="webfx-platform-shared-json-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-shared-json" />
+    <orderEntry type="module" module-name="webfx-platform-client-uischeduler-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
+    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowlocation-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.2" level="project" />
-    <orderEntry type="module" module-name="webfx-platforms-web-windowhistory" />
-    <orderEntry type="module" module-name="webfx-platforms-core-windowhistory" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-windowhistory" />
-    <orderEntry type="module" module-name="webfx-platforms-web-windowhistory" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-json" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-resource" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-storage" />
-    <orderEntry type="module" module-name="webfx-platforms-core-storage" />
-    <orderEntry type="module" module-name="webfx-platform-gwt-websocket" />
-    <orderEntry type="module" module-name="webfx-platforms-core-websocket" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowhistory-web" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowhistory-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowhistory-web" />
+    <orderEntry type="module" module-name="webfx-platform-shared-json-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-shared-resource-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-client-storage-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-client-storage" />
+    <orderEntry type="module" module-name="webfx-platform-client-websocket-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-client-websocket" />
     <orderEntry type="module" module-name="webfx-platform-gwt-super" />
     <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:sources:1.0.2" level="project" />

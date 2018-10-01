@@ -1,7 +1,7 @@
 <module rename-to="webfx_framework_domain">
 
     <inherits name="webfx-framework-expression"/>
-    <inherits name="webfx-platforms-core-query"/>
+    <inherits name="webfx-platform-shared-query"/>
     <inherits name="webfx-framework-uirouter"/>
 
     <!-- Specify the paths for translatable code -->

@@ -14,61 +14,61 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-java-appcontainer</artifactId>
+            <artifactId>webfx-platform-shared-appcontainer-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-java-json</artifactId>
+            <artifactId>webfx-platform-shared-json-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-java-queryupdate</artifactId>
+            <artifactId>webfx-platform-shared-queryupdate-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-java-resource</artifactId>
+            <artifactId>webfx-platform-shared-resource-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-java-scheduler</artifactId>
+            <artifactId>webfx-platform-shared-scheduler-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-java-shutdown</artifactId>
+            <artifactId>webfx-platform-shared-shutdown-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-java-storage</artifactId>
+            <artifactId>webfx-platform-client-storage-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-java-websocket</artifactId>
+            <artifactId>webfx-platform-client-websocket-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-java-windowhistory</artifactId>
+            <artifactId>webfx-platform-client-windowhistory-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-java-windowlocation</artifactId>
+            <artifactId>webfx-platform-client-windowlocation-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

@@ -1,9 +1,0 @@
-<module rename-to='webfx_platform_gwt_json'>
-
-    <inherits name="webfx-platforms-core-json"/>
-    <inherits name="com.google.gwt.user.User"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/platform/gwt/services/json"/>
-
-</module>

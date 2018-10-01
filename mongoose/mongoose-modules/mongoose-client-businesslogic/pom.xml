@@ -62,7 +62,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-clientbus</artifactId>
+            <artifactId>webfx-platform-client-websocketbus</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

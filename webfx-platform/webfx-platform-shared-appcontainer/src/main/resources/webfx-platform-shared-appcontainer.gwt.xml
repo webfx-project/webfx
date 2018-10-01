@@ -1,0 +1,11 @@
+<module rename-to="webfx_platform_shared_appcontainer">
+
+    <inherits name="webfx-platform-shared-shutdown"/>
+    <inherits name="webfx-platform-shared-log"/>
+    <inherits name="webfx-platform-shared-bus"/>
+    <inherits name="webfx-platform-shared-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/appcontainer"/>
+
+</module>

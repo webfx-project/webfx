@@ -1,0 +1,10 @@
+<module rename-to="webfx_platform_client_windowhistory_gwt">
+
+    <inherits name="webfx-platform-client-windowhistory"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/web/services/windowhistory"/>
+
+    <public path="public" />
+
+</module>

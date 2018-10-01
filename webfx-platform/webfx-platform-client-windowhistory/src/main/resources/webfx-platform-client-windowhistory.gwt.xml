@@ -1,0 +1,8 @@
+<module rename-to="webfx_platform_client_windowhistory">
+
+    <inherits name="webfx-platform-client-windowlocation"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/windowhistory"/>
+
+</module>

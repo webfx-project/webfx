@@ -1,0 +1,9 @@
+<module rename-to="webfx_platform_shared_bus">
+
+    <inherits name="webfx-platform-shared-serial"/>
+    <inherits name="webfx-platform-shared-appcontainer"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/bus"/>
+
+</module>

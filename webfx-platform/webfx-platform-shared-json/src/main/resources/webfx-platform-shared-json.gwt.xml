@@ -1,0 +1,9 @@
+<module rename-to="webfx_platform_shared_json">
+
+    <inherits name="webfx-platform-shared-util"/>
+    <inherits name="webfx-lib-javacupruntime"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/json"/>
+
+</module>

@@ -1,0 +1,9 @@
+<module rename-to='webfx_platform_client_windowlocation_gwt'>
+
+    <inherits name="webfx-platform-client-windowlocation"/>
+    <inherits name="com.google.gwt.user.User"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platform/gwt/services/windowlocation"/>
+
+</module>

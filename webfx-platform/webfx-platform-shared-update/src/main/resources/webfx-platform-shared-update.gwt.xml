@@ -1,0 +1,10 @@
+<module rename-to="webfx_platform_shared_update">
+
+    <inherits name="webfx-platform-shared-buscall"/>
+    <inherits name="webfx-platform-shared-datasource"/>
+    <inherits name="webfx-platform-shared-appcontainer"/>
+
+    <!-- Specify the paths for translatable code -->
+
+    <source path="webfx/platforms/core/services/update"/>
+</module>

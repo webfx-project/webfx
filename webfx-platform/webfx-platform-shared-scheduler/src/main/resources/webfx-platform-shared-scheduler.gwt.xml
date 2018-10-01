@@ -1,0 +1,8 @@
+<module rename-to="webfx_platform_shared_scheduler">
+
+    <inherits name="webfx-platform-shared-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platforms/core/services/scheduler"/>
+
+</module>

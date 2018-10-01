@@ -26,13 +26,13 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-storage</artifactId>
+            <artifactId>webfx-platform-client-storage</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-push</artifactId>
+            <artifactId>webfx-platform-shared-push</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

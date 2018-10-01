@@ -20,7 +20,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platforms-core-query</artifactId>
+            <artifactId>webfx-platform-shared-query</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

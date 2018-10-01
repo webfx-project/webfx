@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>webfx-platform-gwt</artifactId>
+        <artifactId>webfx-platform</artifactId>
         <groupId>org.webfx</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
@@ -14,43 +14,43 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platforms-web-clientbus</artifactId>
+            <artifactId>webfx-platform-client-websocketbus-web</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-appcontainer</artifactId>
+            <artifactId>webfx-platform-shared-appcontainer-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-json</artifactId>
+            <artifactId>webfx-platform-shared-json-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-log</artifactId>
+            <artifactId>webfx-platform-shared-log-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-resource</artifactId>
+            <artifactId>webfx-platform-shared-resource-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-shutdown</artifactId>
+            <artifactId>webfx-platform-shared-shutdown-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-storage</artifactId>
+            <artifactId>webfx-platform-client-storage-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -62,25 +62,25 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-uischeduler</artifactId>
+            <artifactId>webfx-platform-client-uischeduler-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-websocket</artifactId>
+            <artifactId>webfx-platform-client-websocket-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-windowhistory</artifactId>
+            <artifactId>webfx-platform-client-windowhistory-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-windowlocation</artifactId>
+            <artifactId>webfx-platform-client-windowlocation-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

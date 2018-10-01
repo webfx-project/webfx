@@ -1,0 +1,11 @@
+<module rename-to='webfx_platform_client_websocket_gwt'>
+
+    <inherits name="webfx-platform-client-websocket"/>
+    <inherits name="com.google.gwt.user.User"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platform/gwt/services/websocket"/>
+
+    <public path="public" />
+
+</module>

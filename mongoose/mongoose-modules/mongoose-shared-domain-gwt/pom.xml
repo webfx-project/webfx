@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platform-gwt-resource</artifactId>
+            <artifactId>webfx-platform-shared-resource-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <scope>provided</scope>
