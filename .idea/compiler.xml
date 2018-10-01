@@ -102,7 +102,6 @@
         <module name="mongoose-client-sessionrecorder" />
         <module name="mongoose-client-util" />
         <module name="mongoose-client-validation" />
-        <module name="mongoose-frontend-actions" />
         <module name="mongoose-frontend-activities-cart" />
         <module name="mongoose-frontend-activities-fees" />
         <module name="mongoose-frontend-activities-options" />

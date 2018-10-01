@@ -13,14 +13,73 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>webfx-platforms-core</module>
-        <module>webfx-platforms-java</module>
-        <module>webfx-platforms-web</module>
-        <module>webfx-platforms-emul</module>
+        <module>webfx-platforms-core-util</module>
+
+        <!-- Modules that depend only on util -->
+        <module>webfx-platforms-core-json</module>
+        <module>webfx-platforms-core-log</module>
+        <module>webfx-platforms-core-resource</module>
+        <module>webfx-platforms-core-scheduler</module>
+        <module>webfx-platforms-core-shutdown</module>
+        <module>webfx-platforms-core-storage</module>
+
+        <!-- Modules that depend on another platform module -->
+        <module>webfx-platforms-core-uischeduler</module> <!-- depends on scheduler module -->
+        <module>webfx-platforms-core-serial</module> <!-- depends on json module -->
+        <module>webfx-platforms-core-windowlocation</module> <!-- depends on json module -->
+        <module>webfx-platforms-core-windowhistory</module> <!-- depends on json module -->
+        <module>webfx-platforms-core-appcontainer</module> <!-- depends on shutdown, log, util modules -->
+        <module>webfx-platforms-core-websocket</module> <!-- depends on json module -->
+        <module>webfx-platforms-core-bus</module> <!-- depends on json, appcontainer modules -->
+        <module>webfx-platforms-core-clientbus</module> <!-- depends on bus, websocket, log, resource, scheduler modules -->
+        <module>webfx-platforms-core-buscall</module> <!-- depends on bus, appcontainer module -->
+        <module>webfx-platforms-core-buscallserver</module> <!-- depends on buscall module -->
+        <module>webfx-platforms-core-datasource</module> <!-- depends on json module -->
+        <module>webfx-platforms-core-query</module> <!-- depends on buscall, datasource, appcontainer, util modules -->
+        <module>webfx-platforms-core-update</module> <!-- depends on buscall, datasource, appcontainer module -->
+        <module>webfx-platforms-core-push</module> <!-- depends on query module -->
+        <module>webfx-platforms-core-querypush</module> <!-- depends on push, query modules -->
+
+        <module>webfx-platforms-java-scheduler</module>
+        <module>webfx-platforms-java-resource</module>
+        <module>webfx-platforms-java-shutdown</module>
+        <module>webfx-platforms-java-storage</module>
+        <module>webfx-platforms-java-websocket</module>
+        <module>webfx-platforms-java-windowhistory</module>
+        <module>webfx-platforms-java-windowlocation</module>
+        <module>webfx-platforms-java-queryupdate</module>
+        <module>webfx-platforms-java-json</module>
+        <module>webfx-platforms-java-appcontainer</module>
+
+        <module>webfx-platforms-web-clientbus</module>
+        <module>webfx-platforms-web-windowhistory</module>
+
+        <module>webfx-platforms-emul-javabase</module>
+        <module>webfx-platforms-emul-javatime</module>
 
         <module>webfx-platform-jre</module>
-        <module>webfx-platform-vertx</module>
-        <module>webfx-platform-gwt</module>
+
+        <module>webfx-platform-vertx-global</module>
+        <module>webfx-platform-vertx-appcontainer</module>
+        <module>webfx-platform-vertx-bus</module>
+        <module>webfx-platform-vertx-json</module>
+        <module>webfx-platform-vertx-scheduler</module>
+        <module>webfx-platform-vertx-queryupdate</module>
+        <module>webfx-platform-vertx-all</module>
+
+        <module>webfx-platform-gwt-appcontainer</module>
+        <module>webfx-platform-gwt-json</module>
+        <module>webfx-platform-gwt-log</module>
+        <module>webfx-platform-gwt-resource</module>
+        <module>webfx-platform-gwt-uischeduler</module>
+        <module>webfx-platform-gwt-shutdown</module>
+        <module>webfx-platform-gwt-storage</module>
+        <module>webfx-platform-gwt-websocket</module>
+        <module>webfx-platform-gwt-windowhistory</module>
+        <module>webfx-platform-gwt-windowlocation</module>
+        <module>webfx-platform-gwt-all</module>
+        <module>webfx-platform-gwt-super</module>
+
     </modules>
 
     <properties>
