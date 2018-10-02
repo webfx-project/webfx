@@ -44,6 +44,10 @@
         <option value="$PROJECT_DIR$/mongoose/mongooses-sharedends/pom.xml" />
         <option value="$PROJECT_DIR$/mongoose/mongooses-web/mongooses-web-sharedends-activities/pom.xml" />
         <option value="$PROJECT_DIR$/webfx-framework/webfx-framework-athn/pom.xml" />
+        <option value="$PROJECT_DIR$/webfx-platform/webfx-framework-client-push-simple/pom.xml" />
+        <option value="$PROJECT_DIR$/webfx-platform/webfx-platform-server-querypush-simple/pom.xml" />
+        <option value="$PROJECT_DIR$/webfx-platform/webfx-platform-shared-queryupdate-java/pom.xml" />
+        <option value="$PROJECT_DIR$/webfx-platform/webfx-platform-shared-queryupdate-vertx/pom.xml" />
         <option value="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-buscallclient/pom.xml" />
         <option value="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-clientbuscall/pom.xml" />
         <option value="$PROJECT_DIR$/webfx-platform/webfx-platforms-core/webfx-platforms-core-serverbuscall/pom.xml" />

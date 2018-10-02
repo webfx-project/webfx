@@ -1,6 +1,5 @@
 package webfx.platform.shared.services.querypush;
 
-import webfx.platform.shared.services.querypush.spi.impl.QueryPushServiceProviderBase;
 
 /**
  * @author Bruno Salmon
@@ -8,23 +7,26 @@ import webfx.platform.shared.services.querypush.spi.impl.QueryPushServiceProvide
 public final class PulseArgument {
 
     private final Object dataSourceId;
-    private final QueryPushServiceProviderBase.QueryInfo queryInfo;
+    private final Object queryInfo;
 
     public PulseArgument(Object dataSourceId) {
-        this.dataSourceId = dataSourceId;
-        queryInfo = null;
+        this(dataSourceId, null);
     }
 
-    public PulseArgument(QueryPushServiceProviderBase.QueryInfo queryInfo) {
+    public PulseArgument(Object dataSourceId, Object queryInfo) {
+        this.dataSourceId = dataSourceId;
         this.queryInfo = queryInfo;
-        dataSourceId = null;
     }
 
     public Object getDataSourceId() {
         return dataSourceId;
     }
 
-    public QueryPushServiceProviderBase.QueryInfo getQueryInfo() {
+    public Object getQueryInfo() {
         return queryInfo;
+    }
+
+    public static PulseArgument createWithQueryInfo(Object queryInfo) {
+        return new PulseArgument(null, queryInfo);
     }
 }

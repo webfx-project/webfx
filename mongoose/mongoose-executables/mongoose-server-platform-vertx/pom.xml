@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-platform-vertx-all</artifactId>
+            <artifactId>webfx-platform-all-vertx</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

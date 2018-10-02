@@ -34,9 +34,11 @@
     <orderEntry type="module" module-name="webfx-platform-shared-bus" />
     <orderEntry type="module" module-name="webfx-platform-shared-serial" />
     <orderEntry type="module" module-name="webfx-platform-shared-datasource" />
-    <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
+    <orderEntry type="module" module-name="webfx-platform-client-push" />
     <orderEntry type="module" module-name="webfx-platform-shared-push" />
+    <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
     <orderEntry type="module" module-name="webfx-platform-shared-query" />
+    <orderEntry type="module" module-name="webfx-platform-server-push" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-framework-layouts" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />

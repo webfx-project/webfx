@@ -2,8 +2,9 @@ package webfx.framework.ui.filter;
 
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
 import webfx.framework.activity.impl.elementals.activeproperty.HasActiveProperty;
-import webfx.framework.orm.entity.*;
 import webfx.framework.expression.Expression;
 import webfx.framework.expression.builder.ReferenceResolver;
 import webfx.framework.expression.builder.ThreadLocalReferenceResolver;
@@ -14,19 +15,21 @@ import webfx.framework.expression.terms.ExpressionArray;
 import webfx.framework.orm.domainmodel.DataSourceModel;
 import webfx.framework.orm.domainmodel.DomainClass;
 import webfx.framework.orm.domainmodel.DomainModel;
+import webfx.framework.orm.entity.*;
+import webfx.framework.orm.mapping.EntityListToDisplayResultMapper;
 import webfx.framework.orm.mapping.QueryResultToEntityListMapper;
 import webfx.framework.services.i18n.I18n;
-import webfx.framework.orm.mapping.EntityListToDisplayResultMapper;
 import webfx.framework.ui.filter.rx.RxFuture;
 import webfx.framework.ui.filter.rx.RxUi;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.displaydata.DisplayColumnBuilder;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplaySelection;
+import webfx.fxkits.extra.type.PrimType;
+import webfx.platform.client.services.push.PushClientService;
 import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.services.push.client.PushClientService;
 import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.services.query.QueryService;
@@ -34,20 +37,17 @@ import webfx.platform.shared.services.querypush.QueryPushArgument;
 import webfx.platform.shared.services.querypush.QueryPushService;
 import webfx.platform.shared.services.querypush.diff.QueryResultDiff;
 import webfx.platform.shared.services.scheduler.Scheduler;
-import webfx.fxkits.extra.type.PrimType;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Numbers;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.async.Handler;
 import webfx.platform.shared.util.collection.Collections;
 import webfx.platform.shared.util.function.Callable;
-import java.util.function.Consumer;
 import webfx.platform.shared.util.function.Converter;
 import webfx.platform.shared.util.tuples.Unit;
-import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

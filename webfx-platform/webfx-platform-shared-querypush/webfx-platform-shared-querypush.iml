@@ -26,5 +26,6 @@
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
+    <orderEntry type="module" module-name="webfx-platform-server-push" />
   </component>
 </module>

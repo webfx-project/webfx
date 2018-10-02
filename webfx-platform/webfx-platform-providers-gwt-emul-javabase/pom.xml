@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>webfx-platform</artifactId>
+        <groupId>org.webfx</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>webfx-platform-providers-gwt-emul-javabase</artifactId>
+
+    <dependencies>
+
+        <dependency> <!-- required for Array.newInstance() emulation -->
+            <artifactId>webfx-platform-shared-query</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency> <!-- required for Array.newInstance() emulation -->
+            <artifactId>webfx-platform-shared-update</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency> <!-- required for Array.newInstance() emulation -->
+            <artifactId>webfx-platform-shared-log</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- This dependency is for regex emulation (based on gwt RegExp provided in gwt-user) -->
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
+        <plugin.shade.param.fat.phase>none</plugin.shade.param.fat.phase>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- Relocating the emul.java package to java for both classes and sources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>

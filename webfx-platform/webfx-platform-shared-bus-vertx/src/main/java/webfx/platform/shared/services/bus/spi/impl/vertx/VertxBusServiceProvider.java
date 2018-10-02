@@ -1,7 +1,7 @@
 package webfx.platform.shared.services.bus.spi.impl.vertx;
 
 import webfx.platform.shared.services.bus.BusFactory;
-import webfx.platform.vertx.global.VertxInstance;
+import webfx.platform.providers.vertx.instance.VertxInstance;
 import webfx.platform.shared.services.bus.spi.impl.BusServiceProviderBase;
 
 /**

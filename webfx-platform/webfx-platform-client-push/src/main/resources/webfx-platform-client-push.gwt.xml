@@ -1,0 +1,8 @@
+<module rename-to="webfx_platform_client_push">
+
+    <inherits name="webfx-platform-shared-push"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platform/client/services/push"/>
+
+</module>

@@ -44,11 +44,9 @@
     <orderEntry type="module" module-name="mongoose-client-sessionrecorder" />
     <orderEntry type="module" module-name="webfx-platform-client-storage" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
+    <orderEntry type="module" module-name="webfx-platform-client-push" />
     <orderEntry type="module" module-name="webfx-platform-shared-push" />
     <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
-    <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
-    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
     <orderEntry type="module" module-name="mongoose-client-calendar" />
     <orderEntry type="module" module-name="webfx-framework-layouts" />
@@ -63,12 +61,16 @@
     <orderEntry type="module" module-name="webfx-framework-materialdesign" />
     <orderEntry type="module" module-name="webfx-framework-uifilter" />
     <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
+    <orderEntry type="module" module-name="webfx-platform-server-push" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
     <orderEntry type="module" module-name="webfx-platform-shared-bus" />
     <orderEntry type="module" module-name="webfx-platform-shared-serial" />
+    <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-platform-client-websocket" />
+    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="mongoose-client-activities-login" />
     <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />

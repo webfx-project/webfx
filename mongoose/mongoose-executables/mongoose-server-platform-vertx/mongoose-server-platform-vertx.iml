@@ -11,11 +11,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="webfx-platform-vertx-all" />
+    <orderEntry type="module" module-name="webfx-platform-all-vertx" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer-vertx" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platform-shared-log" />
-    <orderEntry type="module" module-name="webfx-platform-vertx-global" />
+    <orderEntry type="module" module-name="webfx-platform-providers-vertx-instance" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.5.3" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.19.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.19.Final" level="project" />
@@ -41,10 +40,9 @@
     <orderEntry type="module" module-name="webfx-platform-shared-json-vertx" />
     <orderEntry type="module" module-name="webfx-platform-shared-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
-    <orderEntry type="module" module-name="webfx-platform-shared-queryupdate-vertx" />
+    <orderEntry type="module" module-name="webfx-platform-shared-query-vertx" />
+    <orderEntry type="module" module-name="webfx-platform-providers-vertx-queryupdate" />
     <orderEntry type="module" module-name="webfx-platform-shared-query" />
-    <orderEntry type="module" module-name="webfx-platform-shared-datasource" />
-    <orderEntry type="module" module-name="webfx-platform-shared-update" />
     <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-mysql-postgresql-client:3.5.3" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-sql-common:3.5.3" level="project" />
@@ -59,8 +57,16 @@
     <orderEntry type="library" name="Maven: com.mchange:c3p0:0.9.5.2" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.11" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-api:1.7.15" level="project" />
+    <orderEntry type="module" module-name="webfx-platform-shared-update-vertx" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log-simple" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler-vertx" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
+    <orderEntry type="module" module-name="webfx-platform-server-push-simple" />
+    <orderEntry type="module" module-name="webfx-platform-server-push" />
+    <orderEntry type="module" module-name="webfx-platform-shared-push" />
+    <orderEntry type="library" name="Maven: org.webfx:webfx-platform-server-querypush-simple:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="webfx-platform-server-querypush" />
     <orderEntry type="module" module-name="webfx-platform-shared-resource-java" />
     <orderEntry type="module" module-name="webfx-platform-shared-resource" />
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown-java" />
@@ -91,8 +97,9 @@
     <orderEntry type="module" module-name="webfx-framework-operation" />
     <orderEntry type="module" module-name="webfx-framework-authz" />
     <orderEntry type="module" module-name="mongoose-server-sessioncloser" />
-    <orderEntry type="module" module-name="webfx-platform-shared-push" />
-    <orderEntry type="module" module-name="webfx-platform-server-buscall" />
+    <orderEntry type="module" module-name="webfx-platform-shared-update" />
+    <orderEntry type="module" module-name="webfx-platform-shared-datasource" />
+    <orderEntry type="module" module-name="webfx-platform-server-buscalljob" />
     <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
     <orderEntry type="module" module-name="mongoose-server-systemmetrics" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />

@@ -34,7 +34,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-jre</artifactId>
+            <artifactId>webfx-platform-all-jre</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

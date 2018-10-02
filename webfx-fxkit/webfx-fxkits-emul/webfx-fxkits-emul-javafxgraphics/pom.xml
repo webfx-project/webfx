@@ -32,19 +32,6 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-fxkits-core-mapper</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>emul</classifier>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-fxkits-core-launcher</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

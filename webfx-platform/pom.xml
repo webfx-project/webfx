@@ -33,39 +33,43 @@
         <module>webfx-platform-shared-bus</module> <!-- depends on json, appcontainer modules -->
         <module>webfx-platform-client-websocketbus</module> <!-- depends on bus, websocket, log, resource, scheduler modules -->
         <module>webfx-platform-shared-buscall</module> <!-- depends on bus, appcontainer module -->
-        <module>webfx-platform-server-buscall</module> <!-- depends on buscall module -->
+        <module>webfx-platform-server-buscalljob</module> <!-- depends on buscall module -->
         <module>webfx-platform-shared-datasource</module> <!-- depends on json module -->
         <module>webfx-platform-shared-query</module> <!-- depends on buscall, datasource, appcontainer, util modules -->
         <module>webfx-platform-shared-update</module> <!-- depends on buscall, datasource, appcontainer module -->
         <module>webfx-platform-shared-push</module> <!-- depends on query module -->
         <module>webfx-platform-shared-querypush</module> <!-- depends on push, query modules -->
 
-        <module>webfx-platform-shared-scheduler-java</module>
+        <module>webfx-platform-shared-log-simple</module>
+
+        <module>webfx-platform-providers-java-queryupdate</module>
+        <module>webfx-platform-shared-appcontainer-java</module>
+        <module>webfx-platform-shared-json-java</module>
         <module>webfx-platform-shared-resource-java</module>
+        <module>webfx-platform-shared-scheduler-java</module>
         <module>webfx-platform-shared-shutdown-java</module>
         <module>webfx-platform-client-storage-java</module>
         <module>webfx-platform-client-websocket-java</module>
         <module>webfx-platform-client-windowhistory-java</module>
         <module>webfx-platform-client-windowlocation-java</module>
-        <module>webfx-platform-shared-queryupdate-java</module>
-        <module>webfx-platform-shared-json-java</module>
-        <module>webfx-platform-shared-appcontainer-java</module>
+        <module>webfx-platform-shared-query-java</module>
+        <module>webfx-platform-shared-update-java</module>
 
         <module>webfx-platform-client-websocketbus-web</module>
         <module>webfx-platform-client-windowhistory-web</module>
 
-        <module>webfx-platform-emul-javabase</module>
-        <module>webfx-platform-emul-javatime</module>
-
-        <module>webfx-platform-jre</module>
-
-        <module>webfx-platform-vertx-global</module>
+        <module>webfx-platform-providers-vertx-instance</module>
+        <module>webfx-platform-providers-vertx-queryupdate</module>
         <module>webfx-platform-shared-appcontainer-vertx</module>
         <module>webfx-platform-shared-bus-vertx</module>
         <module>webfx-platform-shared-json-vertx</module>
         <module>webfx-platform-shared-scheduler-vertx</module>
-        <module>webfx-platform-shared-queryupdate-vertx</module>
-        <module>webfx-platform-vertx-all</module>
+        <module>webfx-platform-shared-query-vertx</module>
+        <module>webfx-platform-shared-update-vertx</module>
+
+        <module>webfx-platform-providers-gwt-emul-javabase</module>
+        <module>webfx-platform-providers-gwt-emul-javatime</module>
+        <module>webfx-platform-providers-gwt-serviceloadergenerator</module>
 
         <module>webfx-platform-shared-appcontainer-gwt</module>
         <module>webfx-platform-shared-json-gwt</module>
@@ -77,8 +81,18 @@
         <module>webfx-platform-client-websocket-gwt</module>
         <module>webfx-platform-client-windowhistory-gwt</module>
         <module>webfx-platform-client-windowlocation-gwt</module>
-        <module>webfx-platform-gwt-all</module>
-        <module>webfx-platform-gwt-super</module>
+
+        <module>webfx-platform-all-jre</module>
+        <module>webfx-platform-all-vertx</module>
+        <module>webfx-platform-all-gwt</module>
+        <module>webfx-platform-client-push</module>
+        <module>webfx-platform-server-push</module>
+        <module>webfx-platform-client-push-simple</module>
+        <module>webfx-platform-server-push-simple</module>
+        <module>webfx-platform-server-querypush</module>
+        <module>webfx-platform-client-querypush</module>
+        <module>webfx-platform-client-querypush-simple</module>
+        <module>webfx-platform-server-querypush-simple</module>
 
     </modules>
 

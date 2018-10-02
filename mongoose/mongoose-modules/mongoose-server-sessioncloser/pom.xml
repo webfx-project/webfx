@@ -20,13 +20,13 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-shared-push</artifactId>
+            <artifactId>webfx-platform-shared-update</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-shared-update</artifactId>
+            <artifactId>webfx-platform-server-push</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

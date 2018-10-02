@@ -2,7 +2,7 @@ package webfx.platform.shared.services.scheduler.spi.impl.vertx;
 
 import io.vertx.core.Vertx;
 import webfx.platform.shared.services.scheduler.Scheduled;
-import webfx.platform.vertx.global.VertxInstance;
+import webfx.platform.providers.vertx.instance.VertxInstance;
 import webfx.platform.shared.services.scheduler.spi.SchedulerProvider;
 
 /**

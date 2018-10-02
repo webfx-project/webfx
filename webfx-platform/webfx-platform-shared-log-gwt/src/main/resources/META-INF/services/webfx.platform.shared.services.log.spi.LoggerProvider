@@ -1,1 +1,1 @@
-webfx.platform.shared.services.log.spi.gwt.GwtLoggerProvider
+webfx.platform.shared.services.log.spi.impl.gwt.GwtLoggerProvider

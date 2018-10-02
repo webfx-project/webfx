@@ -32,10 +32,11 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-shared-push</artifactId>
+            <artifactId>webfx-platform-client-push</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
+
     </dependencies>
 
     <build>

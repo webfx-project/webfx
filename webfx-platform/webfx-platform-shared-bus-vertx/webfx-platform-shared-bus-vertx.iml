@@ -19,7 +19,7 @@
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
-    <orderEntry type="module" module-name="webfx-platform-vertx-global" />
+    <orderEntry type="module" module-name="webfx-platform-providers-vertx-instance" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.5.3" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.19.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.19.Final" level="project" />

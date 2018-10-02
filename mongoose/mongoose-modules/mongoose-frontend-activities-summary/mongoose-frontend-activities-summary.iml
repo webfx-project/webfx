@@ -55,8 +55,10 @@
     <orderEntry type="module" module-name="webfx-framework-controls" />
     <orderEntry type="module" module-name="webfx-framework-materialdesign" />
     <orderEntry type="module" module-name="webfx-framework-uifilter" />
-    <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
+    <orderEntry type="module" module-name="webfx-platform-client-push" />
     <orderEntry type="module" module-name="webfx-platform-shared-push" />
+    <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
+    <orderEntry type="module" module-name="webfx-platform-server-push" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />

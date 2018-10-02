@@ -1,5 +1,0 @@
-<module rename-to='webfx_platform_gwt_super'>
-
-    <public path="public" />
-
-</module>

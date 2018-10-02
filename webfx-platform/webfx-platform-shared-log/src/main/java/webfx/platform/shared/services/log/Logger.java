@@ -8,19 +8,8 @@ import webfx.platform.shared.services.log.spi.LoggerProvider;
  */
 public final class Logger {
 
-    private static LoggerProvider PROVIDER;
-
     public static LoggerProvider getProvider() {
-        if (PROVIDER == null) {
-            registerProvider(SingleServiceLoader.loadService(LoggerProvider.class, SingleServiceLoader.NotFoundPolicy.RETURN_NULL));
-            if (PROVIDER == null)
-                registerProvider(new LoggerProvider() {});
-        }
-        return PROVIDER;
-    }
-
-    public static void registerProvider(LoggerProvider provider) {
-        PROVIDER = provider;
+        return SingleServiceLoader.loadService(LoggerProvider.class);
     }
 
     public static void log(Object message) {
