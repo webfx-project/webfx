@@ -45,8 +45,8 @@
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
-    <orderEntry type="module" module-name="webfx-platform-server-push" />
-    <orderEntry type="module" module-name="webfx-platform-shared-push" />
+    <orderEntry type="module" module-name="webfx-framework-server-push" />
+    <orderEntry type="module" module-name="webfx-framework-shared-push" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
   </component>
 </module>

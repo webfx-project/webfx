@@ -33,6 +33,8 @@
     <orderEntry type="module" module-name="webfx-framework-authz" />
     <orderEntry type="module" module-name="mongoose-client-operationactionsloading" />
     <orderEntry type="module" module-name="mongoose-client-sessionrecorder" />
+    <orderEntry type="module" module-name="webfx-framework-client-push" />
+    <orderEntry type="module" module-name="webfx-framework-shared-push" />
     <orderEntry type="module" module-name="mongoose-client-businesslogic" />
     <orderEntry type="module" module-name="mongoose-client-calendar" />
     <orderEntry type="module" module-name="webfx-framework-layouts" />
@@ -50,6 +52,10 @@
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
     <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
     <orderEntry type="module" module-name="mongoose-client-activities-unauthorized" />
+    <orderEntry type="module" module-name="webfx-framework-client-push-simple" />
+    <orderEntry type="module" module-name="webfx-framework-client-querypush-simple" />
+    <orderEntry type="module" module-name="webfx-framework-client-querypush" />
+    <orderEntry type="module" module-name="webfx-framework-shared-querypush" />
     <orderEntry type="module" module-name="mongoose-backend-activities-authorizations" />
     <orderEntry type="module" module-name="mongoose-backend-activities-organizations" />
     <orderEntry type="module" module-name="mongoose-backend-activities-operations" />
@@ -92,7 +98,7 @@
     <orderEntry type="library" name="Maven: org.apache.xmlgraphics:xmlgraphics-commons:2.1" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.0.4" level="project" />
-    <orderEntry type="module" module-name="webfx-platform-all-jre" />
+    <orderEntry type="module" module-name="webfx-platform-client-all-java" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer-java" />
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-platform-shared-json-java" />
@@ -102,6 +108,7 @@
     <orderEntry type="module" module-name="webfx-platform-providers-java-queryupdate" />
     <orderEntry type="module" module-name="webfx-platform-shared-query" />
     <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
+    <orderEntry type="module" module-name="webfx-platform-shared-serial" />
     <orderEntry type="module" module-name="webfx-platform-shared-datasource" />
     <orderEntry type="module" module-name="webfx-platform-shared-update" />
     <orderEntry type="module" module-name="webfx-platform-shared-update-java" />
@@ -122,13 +129,5 @@
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
     <orderEntry type="module" module-name="webfx-platform-shared-bus" />
-    <orderEntry type="module" module-name="webfx-platform-shared-serial" />
-    <orderEntry type="module" module-name="webfx-platform-client-push-simple" />
-    <orderEntry type="module" module-name="webfx-platform-client-push" />
-    <orderEntry type="module" module-name="webfx-platform-shared-push" />
-    <orderEntry type="module" module-name="webfx-platform-client-querypush-simple" />
-    <orderEntry type="module" module-name="webfx-platform-client-querypush" />
-    <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
-    <orderEntry type="module" module-name="webfx-platform-server-push" />
   </component>
 </module>

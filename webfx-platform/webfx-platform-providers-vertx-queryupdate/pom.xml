@@ -26,7 +26,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-shared-querypush</artifactId>
+            <artifactId>webfx-platform-server-updatelistener</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

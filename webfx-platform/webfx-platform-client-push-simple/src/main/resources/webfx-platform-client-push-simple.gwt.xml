@@ -1,8 +1,0 @@
-<module rename-to="webfx_platform_client_push_simple">
-
-    <inherits name="webfx-platform-client-push"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/platform/client/services/push/spi/impl/simple"/>
-
-</module>

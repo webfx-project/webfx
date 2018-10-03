@@ -1,0 +1,3 @@
+webfx.framework.shared.services.querypush.QueryPushArgument$ProvidedSerialCodec
+webfx.framework.shared.services.querypush.QueryPushResult$ProvidedSerialCodec
+webfx.framework.shared.services.querypush.diff.impl.QueryResultTranslation$ProvidedSerialCodec

@@ -44,8 +44,8 @@
     <orderEntry type="module" module-name="mongoose-client-authn" />
     <orderEntry type="module" module-name="webfx-platform-client-storage" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
-    <orderEntry type="module" module-name="webfx-platform-client-push" />
-    <orderEntry type="module" module-name="webfx-platform-shared-push" />
+    <orderEntry type="module" module-name="webfx-framework-client-push" />
+    <orderEntry type="module" module-name="webfx-framework-shared-push" />
     <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
     <orderEntry type="module" module-name="webfx-platform-shared-bus" />
     <orderEntry type="module" module-name="webfx-platform-shared-serial" />

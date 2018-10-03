@@ -171,9 +171,13 @@
         <module name="naga-webplat" />
         <module name="webfx-framework-action" />
         <module name="webfx-framework-activity" />
-        <module name="webfx-framework-all" />
         <module name="webfx-framework-authn" />
         <module name="webfx-framework-authz" />
+        <module name="webfx-framework-client-all" />
+        <module name="webfx-framework-client-push" />
+        <module name="webfx-framework-client-push-simple" />
+        <module name="webfx-framework-client-querypush" />
+        <module name="webfx-framework-client-querypush-simple" />
         <module name="webfx-framework-controls" />
         <module name="webfx-framework-domain" />
         <module name="webfx-framework-entity" />
@@ -183,6 +187,13 @@
         <module name="webfx-framework-materialdesign" />
         <module name="webfx-framework-operation" />
         <module name="webfx-framework-router" />
+        <module name="webfx-framework-server-all" />
+        <module name="webfx-framework-server-push" />
+        <module name="webfx-framework-server-push-simple" />
+        <module name="webfx-framework-server-querypush" />
+        <module name="webfx-framework-server-querypush-simple" />
+        <module name="webfx-framework-shared-push" />
+        <module name="webfx-framework-shared-querypush" />
         <module name="webfx-framework-uifilter" />
         <module name="webfx-framework-uirouter" />
         <module name="webfx-framework-util" />
@@ -202,13 +213,8 @@
         <module name="webfx-lib-javafastpfor" />
         <module name="webfx-lib-mvvmfx-validation" />
         <module name="webfx-lib-rxjava" />
-        <module name="webfx-platform-all-gwt" />
-        <module name="webfx-platform-all-jre" />
-        <module name="webfx-platform-all-vertx" />
-        <module name="webfx-platform-client-push" />
-        <module name="webfx-platform-client-push-simple" />
-        <module name="webfx-platform-client-querypush" />
-        <module name="webfx-platform-client-querypush-simple" />
+        <module name="webfx-platform-client-all-gwt" />
+        <module name="webfx-platform-client-all-java" />
         <module name="webfx-platform-client-storage" />
         <module name="webfx-platform-client-storage-gwt" />
         <module name="webfx-platform-client-storage-java" />
@@ -232,11 +238,9 @@
         <module name="webfx-platform-providers-java-queryupdate" />
         <module name="webfx-platform-providers-vertx-instance" />
         <module name="webfx-platform-providers-vertx-queryupdate" />
+        <module name="webfx-platform-server-all-vertx" />
         <module name="webfx-platform-server-buscalljob" />
-        <module name="webfx-platform-server-push" />
-        <module name="webfx-platform-server-push-simple" />
-        <module name="webfx-platform-server-querypush" />
-        <module name="webfx-platform-server-querypush-simple" />
+        <module name="webfx-platform-server-updatelistener" />
         <module name="webfx-platform-shared-appcontainer" />
         <module name="webfx-platform-shared-appcontainer-gwt" />
         <module name="webfx-platform-shared-appcontainer-java" />
@@ -252,11 +256,9 @@
         <module name="webfx-platform-shared-log" />
         <module name="webfx-platform-shared-log-gwt" />
         <module name="webfx-platform-shared-log-simple" />
-        <module name="webfx-platform-shared-push" />
         <module name="webfx-platform-shared-query" />
         <module name="webfx-platform-shared-query-java" />
         <module name="webfx-platform-shared-query-vertx" />
-        <module name="webfx-platform-shared-querypush" />
         <module name="webfx-platform-shared-resource" />
         <module name="webfx-platform-shared-resource-gwt" />
         <module name="webfx-platform-shared-resource-java" />
@@ -374,11 +376,14 @@
       <module name="webfx-framework" target="1.8" />
       <module name="webfx-framework-action" target="1.8" />
       <module name="webfx-framework-activity" target="1.8" />
-      <module name="webfx-framework-all" target="1.8" />
       <module name="webfx-framework-athn" target="1.8" />
       <module name="webfx-framework-authn" target="1.8" />
       <module name="webfx-framework-authz" target="1.8" />
+      <module name="webfx-framework-client-all" target="1.8" />
+      <module name="webfx-framework-client-push" target="1.8" />
       <module name="webfx-framework-client-push-simple" target="1.8" />
+      <module name="webfx-framework-client-querypush" target="1.8" />
+      <module name="webfx-framework-client-querypush-simple" target="1.8" />
       <module name="webfx-framework-controls" target="1.8" />
       <module name="webfx-framework-domain" target="1.8" />
       <module name="webfx-framework-entity" target="1.8" />
@@ -388,6 +393,13 @@
       <module name="webfx-framework-materialdesign" target="1.8" />
       <module name="webfx-framework-operation" target="1.8" />
       <module name="webfx-framework-router" target="1.8" />
+      <module name="webfx-framework-server-all" target="1.8" />
+      <module name="webfx-framework-server-push" target="1.8" />
+      <module name="webfx-framework-server-push-simple" target="1.8" />
+      <module name="webfx-framework-server-querypush" target="1.8" />
+      <module name="webfx-framework-server-querypush-simple" target="1.8" />
+      <module name="webfx-framework-shared-push" target="1.8" />
+      <module name="webfx-framework-shared-querypush" target="1.8" />
       <module name="webfx-framework-uifilter" target="1.8" />
       <module name="webfx-framework-uirouter" target="1.8" />
       <module name="webfx-framework-util" target="1.8" />
@@ -414,13 +426,8 @@
       <module name="webfx-lib-rxjava" target="1.8" />
       <module name="webfx-libs" target="1.8" />
       <module name="webfx-platform" target="1.8" />
-      <module name="webfx-platform-all-gwt" target="1.8" />
-      <module name="webfx-platform-all-jre" target="1.8" />
-      <module name="webfx-platform-all-vertx" target="1.8" />
-      <module name="webfx-platform-client-push" target="1.8" />
-      <module name="webfx-platform-client-push-simple" target="1.8" />
-      <module name="webfx-platform-client-querypush" target="1.8" />
-      <module name="webfx-platform-client-querypush-simple" target="1.8" />
+      <module name="webfx-platform-client-all-gwt" target="1.8" />
+      <module name="webfx-platform-client-all-java" target="1.8" />
       <module name="webfx-platform-client-storage" target="1.8" />
       <module name="webfx-platform-client-storage-gwt" target="1.8" />
       <module name="webfx-platform-client-storage-java" target="1.8" />
@@ -446,11 +453,9 @@
       <module name="webfx-platform-providers-java-queryupdate" target="1.8" />
       <module name="webfx-platform-providers-vertx-instance" target="1.8" />
       <module name="webfx-platform-providers-vertx-queryupdate" target="1.8" />
+      <module name="webfx-platform-server-all-vertx" target="1.8" />
       <module name="webfx-platform-server-buscalljob" target="1.8" />
-      <module name="webfx-platform-server-push" target="1.8" />
-      <module name="webfx-platform-server-push-simple" target="1.8" />
-      <module name="webfx-platform-server-querypush" target="1.8" />
-      <module name="webfx-platform-server-querypush-simple" target="1.8" />
+      <module name="webfx-platform-server-updatelistener" target="1.8" />
       <module name="webfx-platform-shared-appcontainer" target="1.8" />
       <module name="webfx-platform-shared-appcontainer-gwt" target="1.8" />
       <module name="webfx-platform-shared-appcontainer-java" target="1.8" />
@@ -466,11 +471,9 @@
       <module name="webfx-platform-shared-log" target="1.8" />
       <module name="webfx-platform-shared-log-gwt" target="1.8" />
       <module name="webfx-platform-shared-log-simple" target="1.8" />
-      <module name="webfx-platform-shared-push" target="1.8" />
       <module name="webfx-platform-shared-query" target="1.8" />
       <module name="webfx-platform-shared-query-java" target="1.8" />
       <module name="webfx-platform-shared-query-vertx" target="1.8" />
-      <module name="webfx-platform-shared-querypush" target="1.8" />
       <module name="webfx-platform-shared-queryupdate-java" target="1.8" />
       <module name="webfx-platform-shared-queryupdate-vertx" target="1.8" />
       <module name="webfx-platform-shared-resource" target="1.8" />

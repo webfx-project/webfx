@@ -13,7 +13,7 @@
     <inherits name="mongoose-client-i18n-gwt"/>
     <inherits name="mongoose-client-icons-gwt"/>
     <inherits name="mongoose-shared-domain-gwt"/>
-    <inherits name="webfx-framework-all"/>
+    <inherits name="webfx-framework-client-all"/>
 
     <!-- temporary wide source path before writing gwt xml submodules -->
     <source path="mongoose/client"/>

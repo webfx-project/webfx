@@ -32,7 +32,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-client-push</artifactId>
+            <artifactId>webfx-framework-client-push</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

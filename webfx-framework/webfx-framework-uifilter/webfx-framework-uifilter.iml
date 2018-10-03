@@ -41,11 +41,10 @@
     <orderEntry type="module" module-name="webfx-platform-shared-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
-    <orderEntry type="module" module-name="webfx-platform-client-push" />
-    <orderEntry type="module" module-name="webfx-platform-shared-push" />
-    <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
+    <orderEntry type="module" module-name="webfx-framework-client-push" />
+    <orderEntry type="module" module-name="webfx-framework-shared-push" />
+    <orderEntry type="module" module-name="webfx-framework-shared-querypush" />
     <orderEntry type="module" module-name="webfx-platform-shared-query" />
-    <orderEntry type="module" module-name="webfx-platform-server-push" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
   </component>
 </module>

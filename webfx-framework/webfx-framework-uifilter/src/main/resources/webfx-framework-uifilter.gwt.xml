@@ -3,7 +3,7 @@
     <inherits name="webfx-framework-entity"/>
     <inherits name="webfx-framework-i18n"/>
     <inherits name="webfx-framework-util"/>
-    <inherits name="webfx-platform-shared-querypush"/>
+    <inherits name="webfx-framework-shared-querypush"/>
     <inherits name="webfx-lib-rxjava"/>
 
     <!-- Specify the paths for translatable code -->

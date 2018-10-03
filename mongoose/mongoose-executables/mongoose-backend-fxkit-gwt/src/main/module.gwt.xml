@@ -20,8 +20,8 @@
     <inherits name="webfx-platform-client-windowlocation-gwt"/>
     <inherits name="webfx-platform-client-windowhistory-gwt"/>
     <inherits name="webfx-platform-providers-gwt-emul-javabase"/>
-    <inherits name="webfx-platform-client-push-simple"/>
-    <inherits name="webfx-platform-client-querypush-simple"/>
+    <inherits name="webfx-framework-client-push-simple"/>
+    <inherits name="webfx-framework-client-querypush-simple"/>
     <inherits name="webfx-lib-controlsfx-validation" />
     <inherits name="webfx-lib-javacupruntime" />
 

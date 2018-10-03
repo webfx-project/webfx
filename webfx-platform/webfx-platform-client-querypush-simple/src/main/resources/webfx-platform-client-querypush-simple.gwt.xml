@@ -1,8 +1,0 @@
-<module rename-to="webfx_platform_client_querypush_simple">
-
-    <inherits name="webfx-platform-client-querypush"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/platform/client/jobs/querypush"/>
-
-</module>

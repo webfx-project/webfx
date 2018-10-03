@@ -24,21 +24,19 @@
         <module>webfx-platform-client-storage</module>
 
         <!-- Modules that depend on another platform module -->
-        <module>webfx-platform-client-uischeduler</module> <!-- depends on scheduler module -->
         <module>webfx-platform-shared-serial</module> <!-- depends on json module -->
+        <module>webfx-platform-shared-buscall</module> <!-- depends on bus, appcontainer module -->
+        <module>webfx-platform-server-buscalljob</module> <!-- depends on buscall module -->
+        <module>webfx-platform-client-uischeduler</module> <!-- depends on scheduler module -->
         <module>webfx-platform-client-windowlocation</module> <!-- depends on json module -->
         <module>webfx-platform-client-windowhistory</module> <!-- depends on json module -->
         <module>webfx-platform-shared-appcontainer</module> <!-- depends on shutdown, log, util modules -->
         <module>webfx-platform-client-websocket</module> <!-- depends on json module -->
         <module>webfx-platform-shared-bus</module> <!-- depends on json, appcontainer modules -->
         <module>webfx-platform-client-websocketbus</module> <!-- depends on bus, websocket, log, resource, scheduler modules -->
-        <module>webfx-platform-shared-buscall</module> <!-- depends on bus, appcontainer module -->
-        <module>webfx-platform-server-buscalljob</module> <!-- depends on buscall module -->
         <module>webfx-platform-shared-datasource</module> <!-- depends on json module -->
         <module>webfx-platform-shared-query</module> <!-- depends on buscall, datasource, appcontainer, util modules -->
         <module>webfx-platform-shared-update</module> <!-- depends on buscall, datasource, appcontainer module -->
-        <module>webfx-platform-shared-push</module> <!-- depends on query module -->
-        <module>webfx-platform-shared-querypush</module> <!-- depends on push, query modules -->
 
         <module>webfx-platform-shared-log-simple</module>
 
@@ -82,17 +80,10 @@
         <module>webfx-platform-client-windowhistory-gwt</module>
         <module>webfx-platform-client-windowlocation-gwt</module>
 
-        <module>webfx-platform-all-jre</module>
-        <module>webfx-platform-all-vertx</module>
-        <module>webfx-platform-all-gwt</module>
-        <module>webfx-platform-client-push</module>
-        <module>webfx-platform-server-push</module>
-        <module>webfx-platform-client-push-simple</module>
-        <module>webfx-platform-server-push-simple</module>
-        <module>webfx-platform-server-querypush</module>
-        <module>webfx-platform-client-querypush</module>
-        <module>webfx-platform-client-querypush-simple</module>
-        <module>webfx-platform-server-querypush-simple</module>
+        <module>webfx-platform-client-all-java</module>
+        <module>webfx-platform-server-all-vertx</module>
+        <module>webfx-platform-client-all-gwt</module>
+        <module>webfx-platform-server-updatelistener</module>
 
     </modules>
 

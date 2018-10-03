@@ -63,7 +63,7 @@
     <orderEntry type="module" module-name="mongoose-frontend-activities-cart" />
     <orderEntry type="module" module-name="mongoose-client-bookingoptionspanel" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-payment" />
-    <orderEntry type="module" module-name="webfx-framework-all" />
+    <orderEntry type="module" module-name="webfx-framework-client-all" />
     <orderEntry type="module" module-name="webfx-framework-expression" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
@@ -90,12 +90,13 @@
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-framework-materialdesign" />
     <orderEntry type="module" module-name="webfx-framework-util" />
+    <orderEntry type="module" module-name="webfx-framework-client-push-simple" />
+    <orderEntry type="module" module-name="webfx-framework-client-querypush-simple" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer-gwt" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
     <orderEntry type="module" module-name="webfx-platform-client-websocketbus-web" />
     <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
     <orderEntry type="module" module-name="webfx-platform-shared-bus" />
-    <orderEntry type="module" module-name="webfx-platform-shared-serial" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="webfx-platform-shared-json-gwt" />
@@ -120,16 +121,16 @@
     <orderEntry type="module" module-name="webfx-platform-client-websocket" />
     <orderEntry type="module" module-name="webfx-platform-providers-gwt-emul-javabase" />
     <orderEntry type="module" module-name="webfx-platform-providers-gwt-emul-javatime" />
-    <orderEntry type="module" module-name="webfx-platform-client-push" />
-    <orderEntry type="module" module-name="webfx-platform-shared-push" />
+    <orderEntry type="module" module-name="webfx-framework-client-push" />
+    <orderEntry type="module" module-name="webfx-framework-shared-push" />
     <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
-    <orderEntry type="module" module-name="webfx-platform-client-push-simple" />
-    <orderEntry type="module" module-name="webfx-platform-client-push" />
-    <orderEntry type="module" module-name="webfx-platform-client-querypush" />
-    <orderEntry type="module" module-name="webfx-platform-shared-querypush" />
-    <orderEntry type="module" module-name="webfx-platform-server-push" />
-    <orderEntry type="module" module-name="webfx-platform-client-querypush-simple" />
-    <orderEntry type="module" module-name="webfx-platform-client-querypush" />
+    <orderEntry type="module" module-name="webfx-platform-shared-serial" />
+    <orderEntry type="module" module-name="webfx-framework-client-push-simple" />
+    <orderEntry type="module" module-name="webfx-framework-client-push" />
+    <orderEntry type="module" module-name="webfx-framework-client-querypush" />
+    <orderEntry type="module" module-name="webfx-framework-shared-querypush" />
+    <orderEntry type="module" module-name="webfx-framework-client-querypush-simple" />
+    <orderEntry type="module" module-name="webfx-framework-client-querypush" />
     <orderEntry type="module" module-name="webfx-platform-providers-gwt-serviceloadergenerator" />
     <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:sources:1.0.2" level="project" />

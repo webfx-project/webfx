@@ -8,7 +8,7 @@ import webfx.framework.orm.entity.EntityId;
 import webfx.framework.orm.entity.UpdateStore;
 import webfx.framework.ui.uirouter.uisession.UiSession;
 import webfx.fxkits.core.launcher.FxKitLauncher;
-import webfx.platform.client.services.push.PushClientService;
+import webfx.framework.client.services.push.PushClientService;
 import webfx.platform.client.services.storage.LocalStorage;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
 import webfx.platform.shared.services.bus.Bus;

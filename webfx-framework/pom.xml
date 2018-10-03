@@ -26,12 +26,25 @@
         <module>webfx-framework-router</module>
         <module>webfx-framework-uirouter</module>
 
-        <module>webfx-framework-all</module>
         <module>webfx-framework-entity</module>
         <module>webfx-framework-uifilter</module>
         <module>webfx-framework-materialdesign</module>
         <module>webfx-framework-controls</module>
         <module>webfx-framework-layouts</module>
+
+        <module>webfx-framework-shared-push</module> <!-- depends on query module -->
+        <module>webfx-framework-shared-querypush</module> <!-- depends on push, query modules -->
+        <module>webfx-framework-client-push</module>
+        <module>webfx-framework-server-push</module>
+        <module>webfx-framework-client-push-simple</module>
+        <module>webfx-framework-server-push-simple</module>
+        <module>webfx-framework-server-querypush</module>
+        <module>webfx-framework-client-querypush</module>
+        <module>webfx-framework-client-querypush-simple</module>
+        <module>webfx-framework-server-querypush-simple</module>
+
+        <module>webfx-framework-client-all</module>
+        <module>webfx-framework-server-all</module>
 
     </modules>
 

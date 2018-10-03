@@ -26,6 +26,12 @@
             <version>${mongoose.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>mongoose-server-systemmetrics</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
         <dependency> <!-- This module automatically starts listening bus entry calls -->
             <artifactId>webfx-platform-server-buscalljob</artifactId>
             <groupId>${webfx.groupId}</groupId>
@@ -33,9 +39,9 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-server-systemmetrics</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
+            <artifactId>webfx-framework-server-all</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
 
     </dependencies>

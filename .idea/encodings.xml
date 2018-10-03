@@ -71,9 +71,13 @@
     <file url="file://$PROJECT_DIR$/webfx-framework" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-action" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-activity" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-all" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-authn" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-authz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-client-all" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-client-push" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-client-push-simple" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-client-querypush" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-client-querypush-simple" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-controls" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-domain" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-entity" charset="UTF-8" />
@@ -83,6 +87,13 @@
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-materialdesign" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-operation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-router" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-server-all" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-server-push" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-server-push-simple" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-server-querypush" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-server-querypush-simple" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-shared-push" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-shared-querypush" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-uifilter" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-uirouter" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-util" charset="UTF-8" />
@@ -107,14 +118,8 @@
     <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-mvvmfx-validation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-rxjava" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-framework-client-push-simple" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-all-gwt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-all-jre" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-all-vertx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-push" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-push-simple" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-querypush" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-querypush-simple" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-all-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-all-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-storage" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-storage-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-storage-java" charset="UTF-8" />
@@ -138,12 +143,9 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-providers-java-queryupdate" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-providers-vertx-instance" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-providers-vertx-queryupdate" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-server-all-vertx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-server-buscalljob" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-server-push" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-server-push-simple" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-server-querypush" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-server-querypush-simple" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-server-querypush-simple" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-server-updatelistener" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-appcontainer" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-appcontainer-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-appcontainer-java" charset="UTF-8" />
@@ -159,13 +161,9 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-log" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-log-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-log-simple" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-push" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-query" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-query-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-query-vertx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-querypush" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-queryupdate-java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-queryupdate-vertx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-resource" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-resource-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-resource-java" charset="UTF-8" />

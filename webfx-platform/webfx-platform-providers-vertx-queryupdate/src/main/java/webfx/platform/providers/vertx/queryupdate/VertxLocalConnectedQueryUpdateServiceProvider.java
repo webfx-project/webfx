@@ -12,6 +12,8 @@ import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
+import webfx.platform.providers.vertx.instance.VertxInstance;
+import webfx.platform.server.services.updatelistener.UpdateListenerService;
 import webfx.platform.shared.datasource.ConnectionDetails;
 import webfx.platform.shared.datasource.DBMS;
 import webfx.platform.shared.services.log.Logger;
@@ -19,8 +21,6 @@ import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.services.query.QueryResultBuilder;
 import webfx.platform.shared.services.query.spi.QueryServiceProvider;
-import webfx.platform.shared.services.querypush.PulseArgument;
-import webfx.platform.shared.services.querypush.QueryPushService;
 import webfx.platform.shared.services.update.GeneratedKeyBatchIndex;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateResult;
@@ -29,7 +29,6 @@ import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.async.Batch;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.tuples.Unit;
-import webfx.platform.providers.vertx.instance.VertxInstance;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -273,7 +272,7 @@ public final class VertxLocalConnectedQueryUpdateServiceProvider implements Quer
     }
 
     private static void onSuccessfulUpdate(UpdateArgument updateArgument) {
-        QueryPushService.executePulse(new PulseArgument(updateArgument.getDataSourceId()));
+        UpdateListenerService.fireSuccessfulUpdate(updateArgument);
     }
 
     private static void onSuccessfulUpdate(Batch<UpdateArgument> batch) {
