@@ -17,10 +17,6 @@ public final class UpdateService {
         return SingleServiceLoader.loadService(UpdateServiceProvider.class);
     }
 
-    public static void registerProvider(UpdateServiceProvider provider) {
-        SingleServiceLoader.cacheServiceInstance(UpdateServiceProvider.class, provider);
-    }
-
     public static Future<UpdateResult> executeUpdate(UpdateArgument argument) {
         return getProvider().executeUpdate(argument);
     }
