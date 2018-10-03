@@ -21,7 +21,7 @@ final class VertxWebVerticle extends AbstractVerticle {
     @Override
     public void start() {
         createHttpServer(9090, null); // for http
-        //createHttpServer(9191, new PemKeyCertOptions().setCertPath("fullchain.pem").setKeyPath("privkey.pem")); // Let's encrypt certificate for https
+        createHttpServer(9191, new PemKeyCertOptions().setCertPath("fullchain.pem").setKeyPath("privkey.pem")); // Let's encrypt certificate for https
     }
 
     private void createHttpServer(int port, PemKeyCertOptions pemKeyCertOptions) {
