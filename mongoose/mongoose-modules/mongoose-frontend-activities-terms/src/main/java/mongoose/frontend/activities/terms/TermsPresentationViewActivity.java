@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 import mongoose.client.bookingprocess.activity.BookingProcessPresentationViewActivity;
 import mongoose.client.icons.MongooseIcons;
 import mongoose.client.sectionpanel.SectionPanelFactory;
-import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.fxkits.extra.cell.collator.GridCollator;
 
 /**

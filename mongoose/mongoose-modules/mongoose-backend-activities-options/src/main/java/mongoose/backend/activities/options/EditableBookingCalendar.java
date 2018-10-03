@@ -6,7 +6,7 @@ import mongoose.client.calendar.CalendarTimeline;
 import mongoose.client.calendargraphic.CalendarClickEvent;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.shared.entities.Option;
-import webfx.framework.orm.entity.UpdateStore;
+import webfx.framework.shared.orm.entity.UpdateStore;
 
 /**
  * @author Bruno Salmon

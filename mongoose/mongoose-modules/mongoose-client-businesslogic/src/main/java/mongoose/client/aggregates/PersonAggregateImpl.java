@@ -1,7 +1,7 @@
 package mongoose.client.aggregates;
 
 import mongoose.shared.entities.Person;
-import webfx.framework.orm.entity.EntityStore;
+import webfx.framework.shared.orm.entity.EntityStore;
 
 import java.util.IdentityHashMap;
 import java.util.Map;

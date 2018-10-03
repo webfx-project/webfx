@@ -1,0 +1,12 @@
+<module rename-to="webfx_framework_shared_router">
+
+    <inherits name="webfx-framework-shared-authn"/>
+    <inherits name="webfx-framework-shared-authz"/>
+    <inherits name="webfx-platform-shared-json"/>
+    <inherits name="webfx-platform-shared-log"/>
+    <inherits name="webfx-platform-shared-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/shared/router"/>
+
+</module>

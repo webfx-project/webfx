@@ -1,8 +1,8 @@
 package mongoose.backend.operations.cloneevent;
 
 import mongoose.backend.activities.cloneevent.CloneEventRouting;
-import webfx.framework.operation.HasOperationCode;
-import webfx.framework.operations.route.RoutePushRequest;
+import webfx.framework.shared.operation.HasOperationCode;
+import webfx.framework.client.operations.route.RoutePushRequest;
 import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**

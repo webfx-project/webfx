@@ -1,0 +1,16 @@
+<module rename-to="webfx_framework_shared_domain">
+
+    <inherits name="webfx-framework-shared-expression"/>
+    <inherits name="webfx-platform-shared-query"/>
+    <inherits name="webfx-framework-client-uirouter"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/shared/orm/domainmodel"/>
+    <source path="webfx/framework/client/activity/impl/elementals/domain"/>
+    <source path="webfx/framework/client/activity/impl/combinations/domainapplication"/>
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation"/>
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentationlogic"/>
+    <source path="webfx/framework/client/activity/impl/combinations/viewdomain"/>
+    <source path="webfx/framework/client/activity/impl/combinations/viewdomainapplication"/>
+
+</module>

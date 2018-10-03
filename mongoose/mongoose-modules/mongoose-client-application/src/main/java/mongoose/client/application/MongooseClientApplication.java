@@ -1,13 +1,13 @@
 package mongoose.client.application;
 
 import mongoose.client.actions.MongooseActions;
-import webfx.framework.activity.Activity;
-import webfx.framework.activity.ActivityContext;
-import webfx.framework.activity.impl.combinations.viewapplication.ViewApplicationContext;
-import webfx.framework.activity.impl.combinations.viewdomain.ViewDomainActivityContext;
-import webfx.framework.activity.impl.combinations.viewdomain.ViewDomainActivityContextMixin;
-import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import webfx.framework.ui.uirouter.UiRouter;
+import webfx.framework.client.activity.Activity;
+import webfx.framework.client.activity.ActivityContext;
+import webfx.framework.client.activity.impl.combinations.viewapplication.ViewApplicationContext;
+import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainActivityContext;
+import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainActivityContextMixin;
+import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.client.ui.uirouter.UiRouter;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.platform.shared.services.buscall.PendingBusCall;
 import webfx.platform.shared.util.function.Factory;

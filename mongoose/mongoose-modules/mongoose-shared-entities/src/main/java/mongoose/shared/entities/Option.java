@@ -3,8 +3,8 @@ package mongoose.shared.entities;
 import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.time.DayTimeRange;
 import mongoose.shared.entities.markers.*;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon

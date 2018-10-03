@@ -3,7 +3,7 @@ package mongoose.frontend.activities.options;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.aggregates.EventAggregate;
-import webfx.framework.operations.route.RoutePushRequest;
+import webfx.framework.client.operations.route.RoutePushRequest;
 import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**

@@ -21,17 +21,17 @@ import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.History;
 import mongoose.shared.entities.Mail;
-import webfx.framework.expression.lci.DataReader;
-import webfx.framework.expression.terms.function.Function;
-import webfx.framework.orm.entity.Entities;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.UpdateStore;
-import webfx.framework.orm.mapping.EntityListToDisplayResultMapper;
-import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.controls.dialog.DialogCallback;
-import webfx.framework.ui.controls.dialog.DialogUtil;
-import webfx.framework.ui.controls.dialog.GridPaneBuilder;
-import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.framework.shared.expression.lci.DataReader;
+import webfx.framework.shared.expression.terms.function.Function;
+import webfx.framework.shared.orm.entity.Entities;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.UpdateStore;
+import webfx.framework.shared.orm.mapping.EntityListToDisplayResultMapper;
+import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.ui.controls.dialog.DialogCallback;
+import webfx.framework.client.ui.controls.dialog.DialogUtil;
+import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
+import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.displaydata.DisplayResult;
 import webfx.fxkits.extra.displaydata.DisplaySelection;
@@ -43,7 +43,7 @@ import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
 
-import static webfx.framework.ui.util.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.client.ui.util.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon

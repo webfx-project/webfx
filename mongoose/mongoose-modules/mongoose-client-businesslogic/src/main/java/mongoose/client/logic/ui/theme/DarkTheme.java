@@ -1,8 +1,8 @@
 package mongoose.client.logic.ui.theme;
 
 import javafx.scene.paint.Color;
-import webfx.framework.ui.util.background.BackgroundUtil;
-import webfx.framework.ui.util.border.BorderUtil;
+import webfx.framework.client.ui.util.background.BackgroundUtil;
+import webfx.framework.client.ui.util.border.BorderUtil;
 
 /**
  * @author Bruno Salmon

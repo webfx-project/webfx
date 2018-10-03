@@ -1,0 +1,10 @@
+<module rename-to="webfx_framework_client_layouts">
+
+    <inherits name="webfx-framework-client-util"/>
+    <inherits name="webfx-fxkits-core-launcher"/>
+    <inherits name="webfx-fxkits-core-mapper"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/client/ui/layouts"/>
+
+</module>

@@ -1,8 +1,8 @@
 package mongoose.backend.activities.options;
 
 import mongoose.frontend.activities.options.OptionsRouting;
-import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import webfx.framework.ui.uirouter.UiRoute;
+import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.client.ui.uirouter.UiRoute;
 
 /**
  * @author Bruno Salmon

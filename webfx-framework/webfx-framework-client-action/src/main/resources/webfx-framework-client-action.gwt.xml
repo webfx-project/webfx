@@ -1,0 +1,12 @@
+<module rename-to="webfx_framework_client_action">
+
+    <inherits name="webfx-framework-client-i18n"/>
+    <inherits name="webfx-framework-shared-operation"/>
+    <inherits name="webfx-framework-shared-authz"/>
+    <inherits name="webfx-framework-client-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/framework/client/ui/action"/>
+    <source path="webfx/framework/client/operation/action"/>
+
+</module>

@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.paint.Paint;
-import webfx.framework.ui.controls.dialog.DialogUtil;
+import webfx.framework.client.ui.controls.dialog.DialogUtil;
 
 /**
  * @author Bruno Salmon

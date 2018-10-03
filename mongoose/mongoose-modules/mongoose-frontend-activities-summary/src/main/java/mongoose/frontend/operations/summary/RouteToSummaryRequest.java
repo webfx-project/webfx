@@ -1,7 +1,7 @@
 package mongoose.frontend.operations.summary;
 
 import mongoose.frontend.activities.summary.SummaryRouting;
-import webfx.framework.operations.route.RoutePushRequest;
+import webfx.framework.client.operations.route.RoutePushRequest;
 import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**

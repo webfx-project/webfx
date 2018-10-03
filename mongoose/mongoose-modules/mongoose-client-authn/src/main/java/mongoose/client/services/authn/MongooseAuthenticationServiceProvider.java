@@ -1,11 +1,11 @@
 package mongoose.client.services.authn;
 
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
-import webfx.framework.expression.sqlcompiler.sql.SqlCompiled;
-import webfx.framework.orm.domainmodel.DataSourceModel;
-import webfx.framework.orm.domainmodel.HasDataSourceModel;
-import webfx.framework.services.authn.spi.AuthenticationServiceProvider;
-import webfx.framework.services.authn.UsernamePasswordCredentials;
+import webfx.framework.shared.expression.sqlcompiler.sql.SqlCompiled;
+import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
+import webfx.framework.shared.services.authn.spi.AuthenticationServiceProvider;
+import webfx.framework.shared.services.authn.UsernamePasswordCredentials;
 import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryService;
 import webfx.platform.shared.util.async.Future;

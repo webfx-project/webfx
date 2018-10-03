@@ -11,7 +11,7 @@ import mongoose.client.icons.MongooseIcons;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Label;
 import mongoose.shared.util.Labels;
-import webfx.framework.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18n;
 import webfx.fxkits.extra.cell.collator.NodeCollatorRegistry;
 import webfx.fxkits.extra.cell.renderer.TextRenderer;
 import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;

@@ -2,11 +2,11 @@ package mongoose.backend.operations.operations;
 
 
 import mongoose.backend.activities.operations.OperationsRouting;
-import webfx.framework.activity.impl.elementals.uiroute.UiRouteActivityContext;
-import webfx.framework.operation.HasOperationCode;
-import webfx.framework.operations.route.RoutePushRequest;
-import webfx.framework.operations.route.RouteRequestEmitter;
-import webfx.framework.router.auth.authz.RouteRequest;
+import webfx.framework.client.activity.impl.elementals.uiroute.UiRouteActivityContext;
+import webfx.framework.shared.operation.HasOperationCode;
+import webfx.framework.client.operations.route.RoutePushRequest;
+import webfx.framework.client.operations.route.RouteRequestEmitter;
+import webfx.framework.shared.router.auth.authz.RouteRequest;
 import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
 /**

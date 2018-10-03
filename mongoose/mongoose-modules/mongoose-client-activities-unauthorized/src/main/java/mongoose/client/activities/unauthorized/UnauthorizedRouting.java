@@ -1,9 +1,9 @@
 package mongoose.client.activities.unauthorized;
 
-import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import webfx.framework.ui.uirouter.UiRoute;
-import webfx.framework.ui.uirouter.ProvidedUnauthorizedUiRoute;
-import webfx.framework.ui.uirouter.impl.UiRouteImpl;
+import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import webfx.framework.client.ui.uirouter.UiRoute;
+import webfx.framework.client.ui.uirouter.ProvidedUnauthorizedUiRoute;
+import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;
 
 /**
  * @author Bruno Salmon

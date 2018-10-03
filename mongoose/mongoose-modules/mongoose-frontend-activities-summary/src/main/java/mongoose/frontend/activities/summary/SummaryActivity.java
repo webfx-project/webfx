@@ -23,7 +23,7 @@ import mongoose.client.validation.MongooseValidationSupport;
 import mongoose.frontend.operations.cart.RouteToCartRequest;
 import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;
-import webfx.framework.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18n;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Strings;

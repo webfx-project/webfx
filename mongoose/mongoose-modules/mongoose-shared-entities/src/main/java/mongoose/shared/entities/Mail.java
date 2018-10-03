@@ -1,7 +1,7 @@
 package mongoose.shared.entities;
 
 import mongoose.shared.entities.markers.EntityHasDocument;
-import webfx.framework.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.Entity;
 
 /**
  * @author Bruno Salmon

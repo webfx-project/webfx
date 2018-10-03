@@ -6,9 +6,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import mongoose.client.logic.ui.theme.Theme;
-import webfx.framework.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import webfx.framework.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.ui.layouts.SceneUtil;
+import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
+import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
 

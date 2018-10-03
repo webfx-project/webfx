@@ -1,7 +1,7 @@
 package mongoose.client.activities.generic.eventdependent;
 
 import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivityBase;
-import webfx.framework.activity.impl.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
+import webfx.framework.client.activity.impl.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
 import webfx.platform.shared.util.function.Factory;
 
 /**

@@ -4,8 +4,8 @@ import mongoose.shared.entities.markers.EntityHasCancelled;
 import mongoose.shared.entities.markers.EntityHasEvent;
 import mongoose.shared.entities.markers.EntityHasPerson;
 import mongoose.shared.entities.markers.EntityHasPersonalDetailsCopy;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon

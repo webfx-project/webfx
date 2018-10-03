@@ -16,7 +16,7 @@ import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.operations.person.RouteToPersonRequest;
 import mongoose.shared.entities.Option;
 import mongoose.shared.util.Labels;
-import webfx.framework.ui.layouts.FlexBox;
+import webfx.framework.client.ui.layouts.FlexBox;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.Arrays;
@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static webfx.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
+import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
 
 /**
  * @author Bruno Salmon

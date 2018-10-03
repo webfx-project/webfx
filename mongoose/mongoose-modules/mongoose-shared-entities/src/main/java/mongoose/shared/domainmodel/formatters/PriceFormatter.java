@@ -4,8 +4,8 @@ import mongoose.shared.entities.Event;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
 import webfx.platform.shared.util.Numbers;
-import webfx.framework.orm.entity.EntityId;
-import webfx.framework.ui.util.formatter.Formatter;
+import webfx.framework.shared.orm.entity.EntityId;
+import webfx.framework.client.ui.util.formatter.Formatter;
 
 /**
  * @author Bruno Salmon

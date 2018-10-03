@@ -10,9 +10,9 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import mongoose.client.logic.ui.theme.Theme;
 import mongoose.shared.domainmodel.formatters.DateFormatter;
-import webfx.framework.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import webfx.framework.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.ui.controls.dialog.DialogUtil;
+import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
+import webfx.framework.client.ui.controls.dialog.DialogUtil;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 

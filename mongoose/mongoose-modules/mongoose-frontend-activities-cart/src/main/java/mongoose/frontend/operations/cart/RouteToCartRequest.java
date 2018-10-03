@@ -1,7 +1,7 @@
 package mongoose.frontend.operations.cart;
 
 import mongoose.frontend.activities.cart.CartRouting;
-import webfx.framework.operations.route.RoutePushRequest;
+import webfx.framework.client.operations.route.RoutePushRequest;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 

@@ -27,7 +27,7 @@ import webfx.fxkits.core.util.properties.Properties;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static webfx.framework.ui.layouts.LayoutUtil.setMinSizeToZeroAndPrefSizeToInfinite;
+import static webfx.framework.client.ui.layouts.LayoutUtil.setMinSizeToZeroAndPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon

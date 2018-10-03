@@ -14,15 +14,15 @@ import javafx.scene.layout.GridPane;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
 import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.client.validation.MongooseValidationSupport;
-import webfx.framework.services.authn.AuthenticationRequest;
-import webfx.framework.services.authn.UsernamePasswordCredentials;
-import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.controls.button.ButtonUtil;
-import webfx.framework.ui.controls.dialog.GridPaneBuilder;
-import webfx.framework.ui.layouts.LayoutUtil;
-import webfx.framework.ui.layouts.SceneUtil;
-import webfx.framework.ui.uirouter.uisession.UiSession;
-import webfx.framework.ui.util.anim.Animations;
+import webfx.framework.shared.services.authn.AuthenticationRequest;
+import webfx.framework.shared.services.authn.UsernamePasswordCredentials;
+import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.ui.controls.button.ButtonUtil;
+import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
+import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.layouts.SceneUtil;
+import webfx.framework.client.ui.uirouter.uisession.UiSession;
+import webfx.framework.client.ui.util.anim.Animations;
 import webfx.fxkits.core.util.properties.Properties;
 
 

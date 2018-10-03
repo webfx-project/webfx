@@ -1,7 +1,7 @@
 package mongoose.client.activities.login;
 
 import javafx.scene.Node;
-import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
+import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 
 /**
  * @author Bruno Salmon

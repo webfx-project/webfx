@@ -10,13 +10,13 @@ import mongoose.shared.entities.DocumentLine;
 import mongoose.shared.entities.Item;
 import mongoose.shared.time.DaysArray;
 import mongoose.shared.time.DaysArrayBuilder;
-import webfx.framework.expression.Expression;
-import webfx.framework.expression.lci.DataReader;
-import webfx.framework.expression.terms.function.AggregateFunction;
-import webfx.framework.orm.entity.EntityList;
-import webfx.framework.orm.entity.EntityStore;
-import webfx.framework.orm.mapping.EntityListToDisplayResultMapper;
-import webfx.framework.services.i18n.I18n;
+import webfx.framework.shared.expression.Expression;
+import webfx.framework.shared.expression.lci.DataReader;
+import webfx.framework.shared.expression.terms.function.AggregateFunction;
+import webfx.framework.shared.orm.entity.EntityList;
+import webfx.framework.shared.orm.entity.EntityStore;
+import webfx.framework.shared.orm.mapping.EntityListToDisplayResultMapper;
+import webfx.framework.client.services.i18n.I18n;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.fxkits.extra.control.SkinnedDataGrid;
@@ -28,7 +28,7 @@ import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
 
-import static webfx.framework.ui.util.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.client.ui.util.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon

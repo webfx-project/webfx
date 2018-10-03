@@ -27,7 +27,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-authz</artifactId>
+            <artifactId>webfx-framework-shared-authz</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

@@ -12,16 +12,16 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongoose-client-css-java" />
-    <orderEntry type="module" module-name="webfx-framework-uirouter" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-framework-router" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-framework-authn" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-framework-authz" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-client-uirouter" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-shared-router" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-shared-authn" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-shared-authz" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-shared-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-shared-log" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-framework-activity" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-framework-operation" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-client-activity" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-framework-shared-operation" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" scope="PROVIDED" />

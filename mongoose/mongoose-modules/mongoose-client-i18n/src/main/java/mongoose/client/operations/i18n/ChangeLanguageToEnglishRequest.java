@@ -1,8 +1,8 @@
 package mongoose.client.operations.i18n;
 
-import webfx.framework.operation.HasOperationCode;
-import webfx.framework.operations.i18n.ChangeLanguageRequest;
-import webfx.framework.operations.i18n.ChangeLanguageRequestEmitterImpl;
+import webfx.framework.shared.operation.HasOperationCode;
+import webfx.framework.client.operations.i18n.ChangeLanguageRequest;
+import webfx.framework.client.operations.i18n.ChangeLanguageRequestEmitterImpl;
 
 /**
  * @author Bruno Salmon

@@ -7,12 +7,12 @@ import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.domainmodel.functions.DateIntervalFormat;
 import mongoose.shared.entities.*;
 import mongoose.shared.entities.impl.*;
-import webfx.framework.expression.terms.function.DomainClassType;
-import webfx.framework.expression.terms.function.Function;
-import webfx.framework.expression.terms.function.InlineFunction;
-import webfx.framework.orm.domainmodel.DataSourceModel;
-import webfx.framework.orm.domainmodel.DomainModel;
-import webfx.framework.orm.domainmodel.loader.DomainModelLoader;
+import webfx.framework.shared.expression.terms.function.DomainClassType;
+import webfx.framework.shared.expression.terms.function.Function;
+import webfx.framework.shared.expression.terms.function.InlineFunction;
+import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.domainmodel.DomainModel;
+import webfx.framework.shared.orm.domainmodel.loader.DomainModelLoader;
 import webfx.fxkits.extra.type.PrimType;
 import webfx.fxkits.extra.type.Type;
 import webfx.platform.shared.services.json.Json;
@@ -23,8 +23,8 @@ import webfx.platform.shared.services.serial.SerialCodecManager;
 import webfx.platform.shared.util.async.Batch;
 import webfx.platform.shared.util.async.Future;
 
-import static webfx.framework.orm.entity.EntityFactoryRegistry.registerEntityFactory;
-import static webfx.framework.ui.util.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.shared.orm.entity.EntityFactoryRegistry.registerEntityFactory;
+import static webfx.framework.client.ui.util.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon

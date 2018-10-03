@@ -2,7 +2,7 @@ package mongoose.client.activities.unauthorized;
 
 import javafx.scene.Node;
 import javafx.scene.text.Text;
-import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
+import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 
 /**
  * @author Bruno Salmon

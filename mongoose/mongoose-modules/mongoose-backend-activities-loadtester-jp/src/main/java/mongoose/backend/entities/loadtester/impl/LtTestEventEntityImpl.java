@@ -3,9 +3,9 @@ package mongoose.backend.entities.loadtester.impl;
 import mongoose.backend.activities.loadtester.drive.listener.EventType;
 import mongoose.backend.entities.loadtester.LtTestEventEntity;
 import mongoose.backend.entities.loadtester.LtTestSet;
-import webfx.framework.orm.entity.EntityId;
-import webfx.framework.orm.entity.EntityStore;
-import webfx.framework.orm.entity.impl.DynamicEntity;
+import webfx.framework.shared.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.EntityStore;
+import webfx.framework.shared.orm.entity.impl.DynamicEntity;
 
 import java.time.Instant;
 

@@ -11,10 +11,10 @@ import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Person;
 import mongoose.shared.entities.markers.EntityHasPersonalDetails;
 import mongoose.shared.entities.markers.HasPersonalDetails;
-import webfx.framework.orm.entity.Entities;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.EntityStore;
-import webfx.framework.orm.entity.UpdateStore;
+import webfx.framework.shared.orm.entity.Entities;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityStore;
+import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;

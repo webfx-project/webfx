@@ -1,7 +1,7 @@
 package mongoose.backend.activities.monitor;
 
 import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivityBase;
-import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
 /**
  * @author Bruno Salmon

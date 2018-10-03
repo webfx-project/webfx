@@ -1,8 +1,8 @@
 package mongoose.backend.activities.loadtester;
 
-import webfx.framework.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
-import webfx.framework.ui.uirouter.UiRoute;
-import webfx.framework.ui.uirouter.impl.UiRouteImpl;
+import webfx.framework.client.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
+import webfx.framework.client.ui.uirouter.UiRoute;
+import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;
 
 /**
  * @author Bruno Salmon

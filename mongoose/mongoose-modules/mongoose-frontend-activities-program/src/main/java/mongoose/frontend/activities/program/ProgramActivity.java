@@ -7,7 +7,7 @@ import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.icons.MongooseIcons;
 import mongoose.client.sectionpanel.SectionPanelFactory;
-import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.platform.shared.services.log.Logger;
 
 /**

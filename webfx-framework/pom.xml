@@ -14,23 +14,23 @@
 
     <modules>
 
-        <module>webfx-framework-util</module>
-        <module>webfx-framework-expression</module>
-        <module>webfx-framework-activity</module>
-        <module>webfx-framework-domain</module>
-        <module>webfx-framework-operation</module>
-        <module>webfx-framework-action</module>
-        <module>webfx-framework-authn</module>
-        <module>webfx-framework-authz</module>
-        <module>webfx-framework-i18n</module>
-        <module>webfx-framework-router</module>
-        <module>webfx-framework-uirouter</module>
+        <module>webfx-framework-client-util</module>
+        <module>webfx-framework-shared-expression</module>
+        <module>webfx-framework-client-activity</module>
+        <module>webfx-framework-shared-domain</module>
+        <module>webfx-framework-shared-operation</module>
+        <module>webfx-framework-client-action</module>
+        <module>webfx-framework-shared-authn</module>
+        <module>webfx-framework-shared-authz</module>
+        <module>webfx-framework-client-i18n</module>
+        <module>webfx-framework-shared-router</module>
+        <module>webfx-framework-client-uirouter</module>
 
-        <module>webfx-framework-entity</module>
-        <module>webfx-framework-uifilter</module>
-        <module>webfx-framework-materialdesign</module>
-        <module>webfx-framework-controls</module>
-        <module>webfx-framework-layouts</module>
+        <module>webfx-framework-shared-entity</module>
+        <module>webfx-framework-client-uifilter</module>
+        <module>webfx-framework-client-materialdesign</module>
+        <module>webfx-framework-client-controls</module>
+        <module>webfx-framework-client-layouts</module>
 
         <module>webfx-framework-shared-push</module> <!-- depends on query module -->
         <module>webfx-framework-shared-querypush</module> <!-- depends on push, query modules -->

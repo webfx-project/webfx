@@ -3,13 +3,13 @@ package mongoose.backend.multilangeditor;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import webfx.framework.orm.domainmodel.DataSourceModel;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.EntityStore;
-import webfx.framework.orm.entity.UpdateStore;
-import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityStore;
+import webfx.framework.shared.orm.entity.UpdateStore;
+import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
+import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.HtmlTextEditor;
 import webfx.platform.shared.util.Objects;
@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static mongoose.client.icons.MongooseIcons.getLanguageIcon32;
-import static webfx.framework.ui.action.StandardActionKeys.*;
-import static webfx.framework.ui.layouts.LayoutUtil.setMaxPrefSizeToInfinite;
+import static webfx.framework.client.ui.action.StandardActionKeys.*;
+import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon

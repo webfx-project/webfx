@@ -2,7 +2,7 @@ package mongoose.backend.activities.letters;
 
 import mongoose.client.activities.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.backend.operations.letter.RouteToLetterRequest;
-import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
 /**
  * @author Bruno Salmon

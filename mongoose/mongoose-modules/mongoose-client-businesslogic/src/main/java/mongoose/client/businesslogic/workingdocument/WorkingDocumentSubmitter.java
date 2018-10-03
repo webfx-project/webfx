@@ -6,7 +6,7 @@ import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
-import webfx.framework.orm.entity.UpdateStore;
+import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;

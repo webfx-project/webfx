@@ -1,9 +1,9 @@
 package mongoose.backend.entities.loadtester.impl;
 
 import mongoose.backend.entities.loadtester.LtTestSetEntity;
-import webfx.framework.orm.entity.EntityId;
-import webfx.framework.orm.entity.EntityStore;
-import webfx.framework.orm.entity.impl.DynamicEntity;
+import webfx.framework.shared.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.EntityStore;
+import webfx.framework.shared.orm.entity.impl.DynamicEntity;
 
 import java.time.Instant;
 

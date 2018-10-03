@@ -20,7 +20,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-uirouter</artifactId>
+            <artifactId>webfx-framework-client-uirouter</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <scope>provided</scope>

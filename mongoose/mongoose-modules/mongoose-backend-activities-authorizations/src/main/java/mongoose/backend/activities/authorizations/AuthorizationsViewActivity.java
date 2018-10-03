@@ -5,13 +5,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import mongoose.client.services.authn.MongooseUserPrincipal;
-import webfx.framework.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
-import webfx.framework.orm.entity.Entities;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.framework.ui.controls.sheet.PropertySheet;
-import webfx.framework.ui.layouts.FlexBox;
+import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
+import webfx.framework.shared.orm.entity.Entities;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.ui.controls.sheet.PropertySheet;
+import webfx.framework.client.ui.layouts.FlexBox;
 import webfx.fxkits.extra.control.DataGrid;
 
 /**

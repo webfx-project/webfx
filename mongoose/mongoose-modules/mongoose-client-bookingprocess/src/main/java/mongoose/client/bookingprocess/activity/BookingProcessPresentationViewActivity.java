@@ -10,8 +10,8 @@ import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
 import mongoose.client.aggregates.EventAggregate;
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.shared.entities.Event;
-import webfx.framework.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import webfx.framework.ui.util.background.BackgroundUtil;
+import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
+import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 

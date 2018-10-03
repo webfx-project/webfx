@@ -8,7 +8,7 @@ import mongoose.shared.entities.DateInfo;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Site;
 import mongoose.shared.util.Labels;
-import webfx.framework.orm.entity.EntityList;
+import webfx.framework.shared.orm.entity.EntityList;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;

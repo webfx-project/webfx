@@ -3,7 +3,7 @@ package mongoose.backend.activities.organizations;
 import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivityBase;
 import mongoose.backend.operations.events.RouteToEventsRequest;
 import mongoose.shared.entities.Organization;
-import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.platform.shared.util.function.Factory;
 
 /**

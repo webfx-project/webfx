@@ -17,12 +17,12 @@ import mongoose.client.activities.shared.FeesGroup;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.UpdateStore;
-import webfx.framework.ui.controls.dialog.DialogCallback;
-import webfx.framework.ui.controls.dialog.DialogContent;
-import webfx.framework.ui.controls.dialog.DialogUtil;
-import webfx.framework.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.UpdateStore;
+import webfx.framework.client.ui.controls.dialog.DialogCallback;
+import webfx.framework.client.ui.controls.dialog.DialogContent;
+import webfx.framework.client.ui.controls.dialog.DialogUtil;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.control.DataGrid;
 import webfx.platform.shared.services.update.UpdateArgument;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static webfx.framework.ui.layouts.LayoutUtil.*;
+import static webfx.framework.client.ui.layouts.LayoutUtil.*;
 
 /**
  * @author Bruno Salmon

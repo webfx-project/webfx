@@ -5,8 +5,8 @@ import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.platform.shared.util.async.Future;
-import webfx.framework.orm.domainmodel.DataSourceModel;
-import webfx.framework.orm.entity.EntityList;
+import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.entity.EntityList;
 
 import java.util.List;
 

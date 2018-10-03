@@ -4,9 +4,9 @@ import mongoose.client.activities.shared.FeesGroup;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.shared.entities.*;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.EntityList;
-import webfx.framework.orm.entity.EntityStore;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityList;
+import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.util.async.Future;
 

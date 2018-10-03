@@ -1,14 +1,14 @@
 package mongoose.client.operationactionsloading;
 
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
-import webfx.framework.operation.action.OperationActionFactoryMixin;
-import webfx.framework.operation.action.OperationActionRegistry;
-import webfx.framework.orm.domainmodel.DataSourceModel;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.EntityStore;
-import webfx.framework.ui.action.Action;
-import webfx.framework.ui.action.ActionFactoryMixin;
-import webfx.framework.ui.uirouter.uisession.UiSession;
+import webfx.framework.client.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.operation.action.OperationActionRegistry;
+import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityStore;
+import webfx.framework.client.ui.action.Action;
+import webfx.framework.client.ui.action.ActionFactoryMixin;
+import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platform.shared.services.log.Logger;
 

@@ -19,7 +19,7 @@ import mongoose.client.businesslogic.workingdocument.WorkingDocumentMerger;
 import mongoose.client.aggregates.EventAggregate;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.client.util.log.PerformanceLogger;
-import webfx.framework.orm.entity.Entities;
+import webfx.framework.shared.orm.entity.Entities;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 

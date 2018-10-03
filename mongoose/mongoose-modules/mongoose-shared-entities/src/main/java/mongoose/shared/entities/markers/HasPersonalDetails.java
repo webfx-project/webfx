@@ -2,7 +2,7 @@ package mongoose.shared.entities.markers;
 
 import mongoose.shared.entities.Country;
 import mongoose.shared.entities.Organization;
-import webfx.framework.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon

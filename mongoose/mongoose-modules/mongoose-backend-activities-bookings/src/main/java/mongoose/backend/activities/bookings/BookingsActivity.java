@@ -1,6 +1,6 @@
 package mongoose.backend.activities.bookings;
 
-import webfx.framework.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
+import webfx.framework.client.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
 
 /**
  * @author Bruno Salmon

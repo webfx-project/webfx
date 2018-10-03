@@ -71,12 +71,12 @@
     <orderEntry type="module" module-name="mongoose-server-datasource" />
     <orderEntry type="module" module-name="mongoose-shared-entities" />
     <orderEntry type="module" module-name="mongoose-shared-time" />
-    <orderEntry type="module" module-name="webfx-framework-util" />
+    <orderEntry type="module" module-name="webfx-framework-client-util" />
     <orderEntry type="module" module-name="webfx-fxkits-core-util" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
-    <orderEntry type="module" module-name="webfx-framework-action" />
-    <orderEntry type="module" module-name="webfx-framework-i18n" />
-    <orderEntry type="module" module-name="webfx-framework-authz" />
+    <orderEntry type="module" module-name="webfx-framework-client-action" />
+    <orderEntry type="module" module-name="webfx-framework-client-i18n" />
+    <orderEntry type="module" module-name="webfx-framework-shared-authz" />
     <orderEntry type="module" module-name="mongoose-server-sessioncloser" />
     <orderEntry type="module" module-name="webfx-platform-shared-update" />
     <orderEntry type="module" module-name="webfx-platform-shared-datasource" />
@@ -88,19 +88,19 @@
     <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
     <orderEntry type="module" module-name="webfx-platform-shared-serial" />
     <orderEntry type="module" module-name="webfx-framework-server-all" />
-    <orderEntry type="module" module-name="webfx-framework-expression" />
+    <orderEntry type="module" module-name="webfx-framework-shared-expression" />
     <orderEntry type="module" module-name="webfx-fxkits-extra" />
-    <orderEntry type="module" module-name="webfx-framework-domain" />
-    <orderEntry type="module" module-name="webfx-framework-uirouter" />
-    <orderEntry type="module" module-name="webfx-framework-router" />
-    <orderEntry type="module" module-name="webfx-framework-authn" />
-    <orderEntry type="module" module-name="webfx-framework-activity" />
+    <orderEntry type="module" module-name="webfx-framework-shared-domain" />
+    <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
+    <orderEntry type="module" module-name="webfx-framework-shared-router" />
+    <orderEntry type="module" module-name="webfx-framework-shared-authn" />
+    <orderEntry type="module" module-name="webfx-framework-client-activity" />
     <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
     <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
-    <orderEntry type="module" module-name="webfx-framework-entity" />
-    <orderEntry type="module" module-name="webfx-framework-operation" />
+    <orderEntry type="module" module-name="webfx-framework-shared-entity" />
+    <orderEntry type="module" module-name="webfx-framework-shared-operation" />
     <orderEntry type="module" module-name="webfx-framework-server-push-simple" />
     <orderEntry type="module" module-name="webfx-framework-server-querypush-simple" />
     <orderEntry type="module" module-name="webfx-framework-server-querypush" />

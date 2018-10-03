@@ -9,9 +9,9 @@ import mongoose.shared.time.DayTimeRange;
 import mongoose.client.calendar.CalendarTimeline;
 import mongoose.client.calendargraphic.impl.DayColumnBodyBlockViewModel;
 import mongoose.client.calendargraphic.impl.DayColumnHeaderViewModel;
-import webfx.framework.ui.controls.dialog.DialogCallback;
-import webfx.framework.ui.controls.dialog.DialogUtil;
-import webfx.framework.ui.controls.dialog.GridPaneBuilder;
+import webfx.framework.client.ui.controls.dialog.DialogCallback;
+import webfx.framework.client.ui.controls.dialog.DialogUtil;
+import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
 
 import java.util.function.BiConsumer;
 

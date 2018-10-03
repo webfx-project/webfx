@@ -2,11 +2,11 @@ package mongoose.client.jobs.sessionrecorder;
 
 import mongoose.client.services.authn.MongooseUserPrincipal;
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
-import webfx.framework.orm.entity.Entities;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.EntityId;
-import webfx.framework.orm.entity.UpdateStore;
-import webfx.framework.ui.uirouter.uisession.UiSession;
+import webfx.framework.shared.orm.entity.Entities;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.UpdateStore;
+import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.fxkits.core.launcher.FxKitLauncher;
 import webfx.framework.client.services.push.PushClientService;
 import webfx.platform.client.services.storage.LocalStorage;

@@ -1,8 +1,8 @@
 package mongoose.shared.entities.markers;
 
 import mongoose.shared.entities.Person;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon

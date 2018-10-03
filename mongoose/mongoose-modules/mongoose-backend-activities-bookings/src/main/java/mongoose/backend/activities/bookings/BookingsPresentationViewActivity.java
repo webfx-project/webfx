@@ -7,10 +7,10 @@ import javafx.scene.layout.HBox;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activities.generic.table.GenericTablePresentationViewActivity;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
-import webfx.framework.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 
-import static webfx.framework.ui.layouts.LayoutUtil.setHGrowable;
-import static webfx.framework.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
+import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
+import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
 /**
  * @author Bruno Salmon

@@ -2,9 +2,9 @@ package mongoose.client.activities.generic;
 
 import javafx.scene.control.Button;
 import mongoose.client.logic.ui.theme.Theme;
-import webfx.framework.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.ui.controls.button.ButtonBuilder;
-import webfx.framework.ui.controls.MaterialFactoryMixin;
+import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
+import webfx.framework.client.ui.controls.button.ButtonBuilder;
+import webfx.framework.client.ui.controls.MaterialFactoryMixin;
 
 /**
  * @author Bruno Salmon

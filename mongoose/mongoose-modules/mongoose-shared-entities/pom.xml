@@ -20,19 +20,19 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-entity</artifactId>
+            <artifactId>webfx-framework-shared-entity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-util</artifactId>
+            <artifactId>webfx-framework-client-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-action</artifactId>
+            <artifactId>webfx-framework-client-action</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

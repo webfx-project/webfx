@@ -4,9 +4,9 @@ import mongoose.client.aggregates.EventAggregate;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
-import webfx.framework.orm.entity.EntityList;
-import webfx.framework.orm.entity.EntityStore;
-import webfx.framework.orm.entity.EntityStoreQuery;
+import webfx.framework.shared.orm.entity.EntityList;
+import webfx.framework.shared.orm.entity.EntityStore;
+import webfx.framework.shared.orm.entity.EntityStoreQuery;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
 

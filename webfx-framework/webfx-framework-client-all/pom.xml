@@ -14,97 +14,97 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-framework-expression</artifactId>
+            <artifactId>webfx-framework-shared-expression</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-activity</artifactId>
+            <artifactId>webfx-framework-client-activity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-domain</artifactId>
+            <artifactId>webfx-framework-shared-domain</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-entity</artifactId>
+            <artifactId>webfx-framework-shared-entity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-operation</artifactId>
+            <artifactId>webfx-framework-shared-operation</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-action</artifactId>
+            <artifactId>webfx-framework-client-action</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-i18n</artifactId>
+            <artifactId>webfx-framework-client-i18n</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-authn</artifactId>
+            <artifactId>webfx-framework-shared-authn</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-authz</artifactId>
+            <artifactId>webfx-framework-shared-authz</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-router</artifactId>
+            <artifactId>webfx-framework-shared-router</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-uirouter</artifactId>
+            <artifactId>webfx-framework-client-uirouter</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-uifilter</artifactId>
+            <artifactId>webfx-framework-client-uifilter</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-layouts</artifactId>
+            <artifactId>webfx-framework-client-layouts</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-controls</artifactId>
+            <artifactId>webfx-framework-client-controls</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-materialdesign</artifactId>
+            <artifactId>webfx-framework-client-materialdesign</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-util</artifactId>
+            <artifactId>webfx-framework-client-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

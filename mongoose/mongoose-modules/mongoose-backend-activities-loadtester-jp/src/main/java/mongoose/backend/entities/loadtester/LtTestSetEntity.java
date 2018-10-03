@@ -1,6 +1,6 @@
 package mongoose.backend.entities.loadtester;
 
-import webfx.framework.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.Entity;
 
 /**
  * @author Jean-Pierre Alonso.

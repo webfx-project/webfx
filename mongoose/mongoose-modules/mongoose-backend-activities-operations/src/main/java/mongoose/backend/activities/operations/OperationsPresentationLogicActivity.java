@@ -2,10 +2,10 @@ package mongoose.backend.activities.operations;
 
 import javafx.scene.layout.Pane;
 import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivityBase;
-import webfx.framework.activity.impl.combinations.viewapplication.ViewApplicationContext;
-import webfx.framework.orm.entity.Entity;
-import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.framework.ui.controls.sheet.PropertySheet;
+import webfx.framework.client.activity.impl.combinations.viewapplication.ViewApplicationContext;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.ui.controls.sheet.PropertySheet;
 import webfx.platform.shared.util.function.Factory;
 
 /**

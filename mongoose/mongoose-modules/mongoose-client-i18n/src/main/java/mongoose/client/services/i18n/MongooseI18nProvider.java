@@ -1,6 +1,6 @@
 package mongoose.client.services.i18n;
 
-import webfx.framework.services.i18n.spi.impl.I18nResourceBasedProvider;
+import webfx.framework.client.services.i18n.spi.impl.I18nResourceBasedProvider;
 
 /**
  * @author Bruno Salmon

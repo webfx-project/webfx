@@ -18,10 +18,10 @@ import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.activities.options.RouteToOptionsRequest;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Person;
-import webfx.framework.orm.entity.EntityList;
-import webfx.framework.services.i18n.Dictionary;
-import webfx.framework.services.i18n.I18n;
-import webfx.framework.ui.layouts.LayoutUtil;
+import webfx.framework.shared.orm.entity.EntityList;
+import webfx.framework.client.services.i18n.Dictionary;
+import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.fxkits.core.util.properties.Properties;
 import webfx.fxkits.extra.cell.collator.GridCollator;
 import webfx.fxkits.extra.control.DataGrid;
@@ -37,7 +37,7 @@ import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.tuples.Pair;
 
-import static webfx.framework.ui.util.image.JsonImageViews.createImageView;
+import static webfx.framework.client.ui.util.image.JsonImageViews.createImageView;
 
 /**
  * @author Bruno Salmon

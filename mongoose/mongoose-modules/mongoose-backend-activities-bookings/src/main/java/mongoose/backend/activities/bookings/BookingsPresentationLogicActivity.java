@@ -4,8 +4,8 @@ import mongoose.client.activities.generic.eventdependent.EventDependentPresentat
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLoader;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
-import webfx.framework.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Booleans;
@@ -15,7 +15,7 @@ import webfx.platform.shared.util.Strings;
 import java.time.LocalDate;
 
 import static mongoose.backend.activities.bookings.BookingsRouting.parseDayParam;
-import static webfx.framework.expression.sqlcompiler.terms.ConstantSqlCompiler.toSqlDate;
+import static webfx.framework.shared.expression.sqlcompiler.terms.ConstantSqlCompiler.toSqlDate;
 
 /**
  * @author Bruno Salmon
