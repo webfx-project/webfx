@@ -5,8 +5,8 @@ import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
 import emul.javafx.scene.control.RadioButton;
-import webfx.fxkits.core.mapper.spi.impl.peer.RadioButtonPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.RadioButtonPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.RadioButtonPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.RadioButtonPeerMixin;
 import webfx.platform.shared.util.Booleans;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 

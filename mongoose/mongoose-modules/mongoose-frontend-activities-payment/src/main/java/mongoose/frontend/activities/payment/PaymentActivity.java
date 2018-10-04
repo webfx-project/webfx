@@ -22,7 +22,7 @@ import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.fxkits.extra.control.HtmlText;
+import webfx.fxkit.extra.control.HtmlText;
 import webfx.platform.shared.services.bus.BusService;
 import webfx.platform.client.services.websocketbus.WebSocketBus;
 import webfx.platform.shared.services.log.Logger;

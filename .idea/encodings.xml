@@ -98,18 +98,18 @@
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-shared-querypush" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-framework/webfx-framework-shared-router" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-emul-javafxbase" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-emul-javafxcontrols" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-emul-javafxgraphics" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-extra" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-launcher" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-mapper" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-util" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-launcher" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-mapper" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core/webfx-fxkits-core-util" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxbase" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxcontrols" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-javafxgraphics" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul/webfx-fxkits-emul-tool" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-extra" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul-tool" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-libs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-flexboxfx" charset="UTF-8" />

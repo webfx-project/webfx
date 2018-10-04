@@ -3,9 +3,9 @@
     <inherits name="webfx-framework-shared-router"/>
     <inherits name="webfx-framework-client-activity"/>
     <inherits name="webfx-framework-shared-operation"/>
-    <inherits name="webfx-fxkits-core-launcher"/>
-    <inherits name="webfx-fxkits-core-mapper"/>
-    <inherits name="webfx-fxkits-core-util"/>
+    <inherits name="webfx-fxkit-launcher"/>
+    <inherits name="webfx-fxkit-mapper"/>
+    <inherits name="webfx-fxkit-util"/>
     <inherits name="webfx-platform-client-windowhistory"/>
 
     <!-- Specify the paths for translatable code -->

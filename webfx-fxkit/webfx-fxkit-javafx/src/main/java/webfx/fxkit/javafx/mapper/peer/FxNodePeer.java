@@ -9,10 +9,10 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Transform;
-import webfx.fxkits.core.mapper.spi.SceneRequester;
-import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerImpl;
-import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerMixin;
+import webfx.fxkit.mapper.spi.SceneRequester;
+import webfx.fxkit.mapper.spi.impl.peer.NodePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.NodePeerImpl;
+import webfx.fxkit.mapper.spi.impl.peer.NodePeerMixin;
 import webfx.platform.shared.util.Numbers;
 
 import java.util.List;

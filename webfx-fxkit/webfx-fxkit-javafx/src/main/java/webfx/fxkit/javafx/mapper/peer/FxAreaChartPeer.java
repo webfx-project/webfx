@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
-import webfx.fxkits.extra.chart.AreaChart;
-import webfx.fxkits.extra.mapper.spi.peer.impl.AreaChartPeerMixin;
-import webfx.fxkits.extra.mapper.spi.peer.impl.AreaChartPeerBase;
+import webfx.fxkit.extra.chart.AreaChart;
+import webfx.fxkit.extra.mapper.spi.peer.impl.AreaChartPeerMixin;
+import webfx.fxkit.extra.mapper.spi.peer.impl.AreaChartPeerBase;
 
 /**
  * @author Bruno Salmon

@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.control.Label;
-import webfx.fxkits.core.mapper.spi.impl.peer.LabelPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.LabelPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.LabelPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.LabelPeerMixin;
 
 /**
  * @author Bruno Salmon

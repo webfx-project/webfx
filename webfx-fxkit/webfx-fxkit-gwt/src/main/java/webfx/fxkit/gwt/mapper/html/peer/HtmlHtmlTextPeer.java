@@ -6,9 +6,9 @@ import elemental2.dom.Node;
 import elemental2.dom.NodeList;
 import webfx.platform.shared.util.Strings;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.extra.control.HtmlText;
-import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextPeerBase;
-import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextPeerMixin;
+import webfx.fxkit.extra.control.HtmlText;
+import webfx.fxkit.extra.mapper.spi.peer.impl.HtmlTextPeerBase;
+import webfx.fxkit.extra.mapper.spi.peer.impl.HtmlTextPeerMixin;
 
 /**
  * @author Bruno Salmon

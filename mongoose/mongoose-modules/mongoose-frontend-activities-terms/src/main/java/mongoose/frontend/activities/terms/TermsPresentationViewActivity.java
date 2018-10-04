@@ -7,7 +7,7 @@ import mongoose.client.bookingprocess.activity.BookingProcessPresentationViewAct
 import mongoose.client.icons.MongooseIcons;
 import mongoose.client.sectionpanel.SectionPanelFactory;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.fxkits.extra.cell.collator.GridCollator;
+import webfx.fxkit.extra.cell.collator.GridCollator;
 
 /**
  * @author Bruno Salmon

@@ -1,4 +1,4 @@
 <module rename-to="webfx_lib_rxjava">
-    <!-- Specify the paths for translatable code                    -->
+    <!-- Specify the paths for translatable code -->
     <source path="rx"/>
 </module>

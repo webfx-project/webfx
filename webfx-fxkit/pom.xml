@@ -14,12 +14,64 @@
 
     <modules>
 
-        <module>webfx-fxkits-core</module>
-        <module>webfx-fxkits-extra</module>
-        <module>webfx-fxkits-emul</module>
+        <module>webfx-fxkit-util</module>
+        <module>webfx-fxkit-launcher</module>
+        <module>webfx-fxkit-mapper</module>
+
+        <module>webfx-fxkit-extra</module>
+
+        <module>webfx-fxkit-emul-javafxbase</module>
+        <module>webfx-fxkit-emul-javafxgraphics</module>
+        <module>webfx-fxkit-emul-javafxcontrols</module>
+        <module>webfx-fxkits-emul-tool</module>
+
         <module>webfx-fxkit-javafx</module>
         <module>webfx-fxkit-gwt</module>
 
     </modules>
+
+    <build>
+
+        <pluginManagement>
+            <plugins>
+                <!-- Generating emul classifier artifacts (classes et sources) by relocating the javafx package under emul -->
+                <!-- These artifacts will be used by the javafx emulation modules (ie webfx-fxkits-emul submodules) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+                                <shadedArtifactAttached>true</shadedArtifactAttached>
+                                <artifactSet>
+                                    <includes> <!-- We want only the project artifact, not the artifact dependencies -->
+                                        <include>${project.groupId}:${project.artifactId}</include>
+                                    </includes>
+                                </artifactSet>
+                                <relocations>
+                                    <relocation>
+                                        <pattern>javafx</pattern>
+                                        <shadedPattern>emul.javafx</shadedPattern>
+                                    </relocation>
+                                    <relocation>
+                                        <pattern>com.sun</pattern>
+                                        <shadedPattern>emul.com.sun</shadedPattern>
+                                    </relocation>
+                                </relocations>
+                                <createSourcesJar>true</createSourcesJar>
+                                <shadeSourcesContent>true</shadeSourcesContent>
+                                <shadedClassifierName>emul</shadedClassifierName>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

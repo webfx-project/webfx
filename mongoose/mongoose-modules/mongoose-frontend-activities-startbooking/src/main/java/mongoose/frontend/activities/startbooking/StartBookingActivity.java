@@ -20,8 +20,8 @@ import mongoose.client.actions.MongooseActions;
 import mongoose.shared.util.Labels;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.util.anim.Animations;
-import webfx.fxkits.core.util.properties.Properties;
-import webfx.fxkits.extra.util.ImageStore;
+import webfx.fxkit.util.properties.Properties;
+import webfx.fxkit.extra.util.ImageStore;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**

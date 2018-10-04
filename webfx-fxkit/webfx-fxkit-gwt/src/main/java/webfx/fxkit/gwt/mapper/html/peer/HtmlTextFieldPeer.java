@@ -9,11 +9,11 @@ import emul.javafx.scene.Node;
 import emul.javafx.scene.control.PasswordField;
 import emul.javafx.scene.control.Skin;
 import emul.javafx.scene.control.TextField;
-import webfx.fxkits.core.mapper.spi.SceneRequester;
+import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextFieldPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextFieldPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.TextFieldPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.TextFieldPeerMixin;
 
 /**
  * @author Bruno Salmon

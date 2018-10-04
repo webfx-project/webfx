@@ -5,8 +5,8 @@ import emul.javafx.scene.Node;
 import emul.javafx.scene.control.Button;
 import emul.javafx.scene.control.ButtonBase;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.core.mapper.spi.impl.peer.ButtonPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.ButtonPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.ButtonPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.ButtonPeerMixin;
 
 /**
  * @author Bruno Salmon

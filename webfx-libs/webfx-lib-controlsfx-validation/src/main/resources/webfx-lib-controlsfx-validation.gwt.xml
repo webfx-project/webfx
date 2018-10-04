@@ -1,5 +1,5 @@
 <module rename-to="webfx_lib_controlsfx_validation">
-    <!-- Specify the paths for translatable code                    -->
+    <!-- Specify the paths for translatable code -->
     <source path="org/controlsfx"/>   <!-- source path to javacup-runtime library (webfx-lib-javacupruntime) -->
     <source path="impl/org/controlsfx"/>   <!-- source path to javacup-runtime library (webfx-lib-javacupruntime) -->
 

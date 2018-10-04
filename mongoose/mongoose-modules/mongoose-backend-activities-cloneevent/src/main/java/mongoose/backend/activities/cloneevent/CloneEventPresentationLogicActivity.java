@@ -2,7 +2,7 @@ package mongoose.backend.activities.cloneevent;
 
 import mongoose.client.activities.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.shared.entities.Event;
-import webfx.fxkits.core.util.properties.Properties;
+import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateService;
 

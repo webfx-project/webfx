@@ -22,13 +22,13 @@
     <orderEntry type="module" module-name="webfx-platform-shared-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-client-activity" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-framework-shared-operation" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-fxkit-launcher" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" scope="PROVIDED" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-util" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-fxkit-mapper" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation" scope="PROVIDED" />
   </component>

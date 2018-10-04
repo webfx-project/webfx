@@ -197,16 +197,16 @@
         <module name="webfx-framework-shared-push" />
         <module name="webfx-framework-shared-querypush" />
         <module name="webfx-framework-shared-router" />
+        <module name="webfx-fxkit-emul-javafxbase" />
+        <module name="webfx-fxkit-emul-javafxcontrols" />
+        <module name="webfx-fxkit-emul-javafxgraphics" />
+        <module name="webfx-fxkit-extra" />
         <module name="webfx-fxkit-gwt" />
         <module name="webfx-fxkit-javafx" />
-        <module name="webfx-fxkits-core-launcher" />
-        <module name="webfx-fxkits-core-mapper" />
-        <module name="webfx-fxkits-core-util" />
-        <module name="webfx-fxkits-emul-javafxbase" />
-        <module name="webfx-fxkits-emul-javafxcontrols" />
-        <module name="webfx-fxkits-emul-javafxgraphics" />
+        <module name="webfx-fxkit-launcher" />
+        <module name="webfx-fxkit-mapper" />
+        <module name="webfx-fxkit-util" />
         <module name="webfx-fxkits-emul-tool" />
-        <module name="webfx-fxkits-extra" />
         <module name="webfx-lib-controlsfx-validation" />
         <module name="webfx-lib-flexboxfx" />
         <module name="webfx-lib-javacupruntime" />
@@ -404,18 +404,18 @@
       <module name="webfx-framework-shared-querypush" target="1.8" />
       <module name="webfx-framework-shared-router" target="1.8" />
       <module name="webfx-fxkit" target="1.8" />
+      <module name="webfx-fxkit-emul-javafxbase" target="1.8" />
+      <module name="webfx-fxkit-emul-javafxcontrols" target="1.8" />
+      <module name="webfx-fxkit-emul-javafxgraphics" target="1.8" />
+      <module name="webfx-fxkit-extra" target="1.8" />
       <module name="webfx-fxkit-gwt" target="1.8" />
       <module name="webfx-fxkit-javafx" target="1.8" />
+      <module name="webfx-fxkit-launcher" target="1.8" />
+      <module name="webfx-fxkit-mapper" target="1.8" />
+      <module name="webfx-fxkit-util" target="1.8" />
       <module name="webfx-fxkits-core" target="1.8" />
-      <module name="webfx-fxkits-core-launcher" target="1.8" />
-      <module name="webfx-fxkits-core-mapper" target="1.8" />
-      <module name="webfx-fxkits-core-util" target="1.8" />
       <module name="webfx-fxkits-emul" target="1.8" />
-      <module name="webfx-fxkits-emul-javafxbase" target="1.8" />
-      <module name="webfx-fxkits-emul-javafxcontrols" target="1.8" />
-      <module name="webfx-fxkits-emul-javafxgraphics" target="1.8" />
       <module name="webfx-fxkits-emul-tool" target="1.8" />
-      <module name="webfx-fxkits-extra" target="1.8" />
       <module name="webfx-javafxportable" target="1.8" />
       <module name="webfx-javafxportable-fxlibs" target="1.8" />
       <module name="webfx-lib-controlsfx-validation" target="1.8" />

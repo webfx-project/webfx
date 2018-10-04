@@ -11,10 +11,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
-    <orderEntry type="module" module-name="webfx-fxkits-extra" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-fxkit-extra" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-platform-shared-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />

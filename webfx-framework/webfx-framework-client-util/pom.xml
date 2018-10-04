@@ -14,13 +14,13 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-fxkits-core-util</artifactId>
+            <artifactId>webfx-fxkit-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-fxkits-extra</artifactId>
+            <artifactId>webfx-fxkit-extra</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <scope>provided</scope>

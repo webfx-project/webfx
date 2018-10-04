@@ -69,13 +69,13 @@
     <orderEntry type="module" module-name="mongoose-client-navigationarrows-java" />
     <orderEntry type="module" module-name="mongoose-client-css-java" />
     <orderEntry type="module" module-name="webfx-fxkit-javafx" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
+    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
-    <orderEntry type="module" module-name="webfx-fxkits-extra" />
+    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" />
+    <orderEntry type="module" module-name="webfx-fxkit-extra" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="library" name="Maven: de.codecentric.centerdevice:javafxsvg:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlgraphics:batik-transcoder:1.8" level="project" />

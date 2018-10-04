@@ -19,7 +19,7 @@ import webfx.framework.shared.router.session.impl.MemorySessionStore;
 import webfx.framework.shared.router.session.impl.UserHolder;
 import webfx.framework.shared.router.session.impl.UserSessionHandlerImpl;
 import webfx.framework.client.ui.uirouter.uisession.UiSession;
-import webfx.fxkits.core.mapper.spi.impl.peer.markers.HasNodeProperty;
+import webfx.fxkit.mapper.spi.impl.peer.markers.HasNodeProperty;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;

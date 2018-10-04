@@ -1,8 +1,8 @@
 package mongoose.client.activities.generic.table;
 
 import javafx.beans.property.*;
-import webfx.fxkits.extra.displaydata.DisplayResult;
-import webfx.fxkits.extra.displaydata.DisplaySelection;
+import webfx.fxkit.extra.displaydata.DisplayResult;
+import webfx.fxkit.extra.displaydata.DisplaySelection;
 
 /**
  * @author Bruno Salmon

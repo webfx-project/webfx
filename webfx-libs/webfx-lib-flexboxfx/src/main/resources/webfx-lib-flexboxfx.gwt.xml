@@ -1,5 +1,5 @@
 <module rename-to="webfx_lib_flexboxfx">
-    <!-- Specify the paths for translatable code                    -->
+    <!-- Specify the paths for translatable code -->
     <source path="com/onexip/flexboxfx"/>   <!-- source path to javacup-runtime library (webfx-lib-javacupruntime) -->
 
 </module>

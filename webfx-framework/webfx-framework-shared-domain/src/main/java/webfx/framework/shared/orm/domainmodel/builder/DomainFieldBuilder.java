@@ -1,12 +1,12 @@
 package webfx.framework.shared.orm.domainmodel.builder;
 
-import webfx.fxkits.extra.type.Type;
+import webfx.fxkit.extra.type.Type;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.builder.terms.ExpressionBuilder;
 import webfx.framework.shared.expression.sqlcompiler.ExpressionSqlCompiler;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
-import webfx.fxkits.extra.displaydata.Label;
+import webfx.fxkit.extra.displaydata.Label;
 
 /**
  * @author Bruno Salmon

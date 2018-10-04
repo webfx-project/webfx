@@ -7,7 +7,7 @@
     <!-- Inherit the WebFx modules  -->
     <inherits name="webfx-platform-shared-resource"/>
 
-    <inherits name="webfx-fxkits-emul-javafxcontrols"/>
+    <inherits name="webfx-fxkit-emul-javafxcontrols"/>
 
     <!-- Specify the paths for translatable code -->
     <source path="webfx/fxkit/gwt"/>

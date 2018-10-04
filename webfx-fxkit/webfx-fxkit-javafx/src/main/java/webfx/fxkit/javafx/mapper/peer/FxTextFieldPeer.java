@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.geometry.Pos;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextFieldPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextFieldPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.TextFieldPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.TextFieldPeerMixin;
 import webfx.platform.shared.util.Objects;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;

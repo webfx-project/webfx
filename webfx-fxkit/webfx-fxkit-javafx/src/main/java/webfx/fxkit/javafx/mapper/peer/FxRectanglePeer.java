@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.shape.Rectangle;
-import webfx.fxkits.core.mapper.spi.impl.peer.RectanglePeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.RectanglePeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.RectanglePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.RectanglePeerMixin;
 
 /**
  * @author Bruno Salmon

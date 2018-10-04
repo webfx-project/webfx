@@ -5,7 +5,7 @@ import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
 import webfx.fxkit.gwt.mapper.html.HtmlScenePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.core.mapper.spi.StagePeer;
+import webfx.fxkit.mapper.spi.StagePeer;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 

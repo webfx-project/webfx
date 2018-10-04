@@ -13,7 +13,7 @@ import javafx.scene.layout.*;
 import webfx.framework.client.ui.controls.alert.AlertUtil;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.layouts.SceneUtil;
-import webfx.fxkits.core.util.properties.Properties;
+import webfx.fxkit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.collection.Collections;

@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
-import webfx.fxkits.extra.chart.LineChart;
-import webfx.fxkits.extra.mapper.spi.peer.impl.LineChartPeerBase;
-import webfx.fxkits.extra.mapper.spi.peer.impl.LineChartPeerMixin;
+import webfx.fxkit.extra.chart.LineChart;
+import webfx.fxkit.extra.mapper.spi.peer.impl.LineChartPeerBase;
+import webfx.fxkit.extra.mapper.spi.peer.impl.LineChartPeerMixin;
 
 /**
  * @author Bruno Salmon

@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.Group;
-import webfx.fxkits.core.mapper.spi.impl.peer.GroupPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.GroupPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.GroupPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.GroupPeerMixin;
 
 /**
  * @author Bruno Salmon

@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.control.ButtonBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.ButtonBasePeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.ButtonBasePeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.ButtonBasePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.ButtonBasePeerMixin;
 
 /**
  * @author Bruno Salmon

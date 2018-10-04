@@ -2,9 +2,9 @@ package webfx.framework.shared.expression.terms;
 
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.lci.DataReader;
-import webfx.fxkits.extra.type.ArrayType;
-import webfx.fxkits.extra.type.Type;
-import webfx.fxkits.extra.type.Types;
+import webfx.fxkit.extra.type.ArrayType;
+import webfx.fxkit.extra.type.Type;
+import webfx.fxkit.extra.type.Types;
 
 import java.util.Collection;
 

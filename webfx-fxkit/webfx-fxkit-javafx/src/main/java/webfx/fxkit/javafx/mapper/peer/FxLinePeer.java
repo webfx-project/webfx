@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.shape.Line;
-import webfx.fxkits.core.mapper.spi.impl.peer.LinePeerMixin;
-import webfx.fxkits.core.mapper.spi.impl.peer.LinePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.LinePeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.LinePeerBase;
 
 /**
  * @author Bruno Salmon

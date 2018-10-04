@@ -8,7 +8,7 @@ import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainAc
 import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainActivityContextMixin;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.client.ui.uirouter.UiRouter;
-import webfx.fxkits.core.util.properties.Properties;
+import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.services.buscall.PendingBusCall;
 import webfx.platform.shared.util.function.Factory;
 

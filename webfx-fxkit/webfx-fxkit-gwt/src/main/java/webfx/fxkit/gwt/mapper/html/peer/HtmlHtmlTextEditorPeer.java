@@ -3,14 +3,14 @@ package webfx.fxkit.gwt.mapper.html.peer;
 import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
-import webfx.fxkits.core.mapper.spi.SceneRequester;
+import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.Strings;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.extra.control.HtmlTextEditor;
-import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextEditorPeerBase;
-import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextEditorPeerMixin;
+import webfx.fxkit.extra.control.HtmlTextEditor;
+import webfx.fxkit.extra.mapper.spi.peer.impl.HtmlTextEditorPeerBase;
+import webfx.fxkit.extra.mapper.spi.peer.impl.HtmlTextEditorPeerMixin;
 
 /**
  * @author Bruno Salmon

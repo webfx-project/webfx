@@ -4,7 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import webfx.fxkits.core.launcher.FxKitLauncher;
+import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.platform.client.services.uischeduler.spi.impl.UiSchedulerProviderBase;
 
 import java.util.concurrent.ExecutorService;

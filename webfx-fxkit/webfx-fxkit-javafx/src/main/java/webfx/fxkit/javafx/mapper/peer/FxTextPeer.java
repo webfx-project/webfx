@@ -4,8 +4,8 @@ import javafx.geometry.VPos;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.TextPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.TextPeerMixin;
 
 /**
  * @author Bruno Salmon

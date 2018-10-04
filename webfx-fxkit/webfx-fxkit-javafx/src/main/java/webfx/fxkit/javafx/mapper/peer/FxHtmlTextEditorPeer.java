@@ -5,9 +5,9 @@ import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import webfx.platform.shared.util.Objects;
-import webfx.fxkits.extra.control.HtmlTextEditor;
-import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextEditorPeerBase;
-import webfx.fxkits.extra.mapper.spi.peer.impl.HtmlTextEditorPeerMixin;
+import webfx.fxkit.extra.control.HtmlTextEditor;
+import webfx.fxkit.extra.mapper.spi.peer.impl.HtmlTextEditorPeerBase;
+import webfx.fxkit.extra.mapper.spi.peer.impl.HtmlTextEditorPeerMixin;
 import netscape.javascript.JSObject;
 
 /**

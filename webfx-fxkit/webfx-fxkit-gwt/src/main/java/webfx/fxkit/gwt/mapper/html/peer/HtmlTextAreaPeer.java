@@ -3,8 +3,8 @@ package webfx.fxkit.gwt.mapper.html.peer;
 import elemental2.dom.HTMLElement;
 import emul.javafx.scene.control.TextArea;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextAreaPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextAreaPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.TextAreaPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.TextAreaPeerMixin;
 
 /**
  * @author Bruno Salmon

@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.shape.Circle;
-import webfx.fxkits.core.mapper.spi.impl.peer.CirclePeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.CirclePeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.CirclePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.CirclePeerMixin;
 
 /**
  * @author Bruno Salmon

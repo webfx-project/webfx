@@ -7,7 +7,7 @@ import webfx.framework.shared.expression.terms.ExpressionArray;
 import webfx.framework.shared.expression.parser.ExpressionParser;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
 import webfx.framework.shared.expression.builder.ThreadLocalReferenceResolver;
-import webfx.fxkits.extra.type.Type;
+import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.Strings;
 
 import java.util.HashMap;

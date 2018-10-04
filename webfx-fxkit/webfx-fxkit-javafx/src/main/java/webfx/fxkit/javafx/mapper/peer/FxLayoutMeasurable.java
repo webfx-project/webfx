@@ -3,7 +3,7 @@ package webfx.fxkit.javafx.mapper.peer;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import webfx.fxkits.core.mapper.spi.LayoutMeasurable;
+import webfx.fxkit.mapper.spi.LayoutMeasurable;
 
 /**
  * @author Bruno Salmon

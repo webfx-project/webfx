@@ -5,8 +5,8 @@ import javafx.scene.control.Labeled;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import webfx.fxkits.core.mapper.spi.impl.peer.LabeledPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.LabeledPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.LabeledPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.LabeledPeerMixin;
 
 /**
  * @author Bruno Salmon

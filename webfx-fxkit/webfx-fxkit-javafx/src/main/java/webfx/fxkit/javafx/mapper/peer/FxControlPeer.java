@@ -4,8 +4,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Control;
-import webfx.fxkits.core.mapper.spi.impl.peer.ControlPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.ControlPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.ControlPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.ControlPeerMixin;
 
 /**
  * @author Bruno Salmon

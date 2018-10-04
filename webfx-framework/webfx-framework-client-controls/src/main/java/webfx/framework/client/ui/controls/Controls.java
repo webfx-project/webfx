@@ -2,7 +2,7 @@ package webfx.framework.client.ui.controls;
 
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
-import webfx.fxkits.core.util.properties.Properties;
+import webfx.fxkit.util.properties.Properties;
 import java.util.function.Consumer;
 
 /**

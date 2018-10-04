@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.control.TextInputControl;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextInputControlPeerMixin;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextInputControlPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.TextInputControlPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.TextInputControlPeerBase;
 
 /**
  * @author Bruno Salmon

@@ -3,7 +3,7 @@ package webfx.framework.shared.expression.terms.function.java;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.terms.ExpressionArray;
-import webfx.fxkits.extra.type.PrimType;
+import webfx.fxkit.extra.type.PrimType;
 import webfx.platform.shared.util.Strings;
 import webfx.framework.shared.expression.terms.function.SqlAggregateFunction;
 

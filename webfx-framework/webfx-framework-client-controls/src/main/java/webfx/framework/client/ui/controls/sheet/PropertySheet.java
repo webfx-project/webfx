@@ -13,9 +13,9 @@ import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.controls.MaterialFactoryMixin;
-import webfx.fxkits.extra.cell.renderer.TextRenderer;
-import webfx.fxkits.extra.cell.renderer.ValueRenderer;
-import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;
+import webfx.fxkit.extra.cell.renderer.TextRenderer;
+import webfx.fxkit.extra.cell.renderer.ValueRenderer;
+import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
 import webfx.platform.shared.util.Arrays;
 
 /**

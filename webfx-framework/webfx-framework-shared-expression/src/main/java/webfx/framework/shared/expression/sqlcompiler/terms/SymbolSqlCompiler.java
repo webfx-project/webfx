@@ -4,7 +4,7 @@ import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.sqlcompiler.sql.SqlClause;
 import webfx.framework.shared.expression.terms.Dot;
 import webfx.framework.shared.expression.terms.Symbol;
-import webfx.fxkits.extra.type.Types;
+import webfx.fxkit.extra.type.Types;
 
 /**
  * @author Bruno Salmon

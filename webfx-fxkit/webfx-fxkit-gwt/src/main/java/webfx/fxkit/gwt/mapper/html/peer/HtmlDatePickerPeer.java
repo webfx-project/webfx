@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.HTMLElement;
 import emul.javafx.scene.control.DatePicker;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextFieldPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextFieldPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.TextFieldPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.TextFieldPeerMixin;
 
 /**
  * @author Bruno Salmon

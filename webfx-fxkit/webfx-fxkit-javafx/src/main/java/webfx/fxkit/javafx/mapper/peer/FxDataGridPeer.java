@@ -19,18 +19,18 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.util.Callback;
-import webfx.fxkits.core.util.properties.Properties;
-import webfx.fxkits.extra.cell.rowstyle.RowAdapter;
-import webfx.fxkits.extra.cell.rowstyle.RowStyleUpdater;
-import webfx.fxkits.extra.control.DataGrid;
-import webfx.fxkits.extra.displaydata.DisplayColumn;
-import webfx.fxkits.extra.displaydata.DisplayResult;
-import webfx.fxkits.extra.displaydata.DisplayResultBuilder;
-import webfx.fxkits.extra.displaydata.DisplaySelection;
-import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerBase;
-import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerImageTextMixin;
-import webfx.fxkits.extra.mapper.spi.peer.impl.DataGridPeerMixin;
-import webfx.fxkits.extra.util.ImageStore;
+import webfx.fxkit.util.properties.Properties;
+import webfx.fxkit.extra.cell.rowstyle.RowAdapter;
+import webfx.fxkit.extra.cell.rowstyle.RowStyleUpdater;
+import webfx.fxkit.extra.control.DataGrid;
+import webfx.fxkit.extra.displaydata.DisplayColumn;
+import webfx.fxkit.extra.displaydata.DisplayResult;
+import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
+import webfx.fxkit.extra.displaydata.DisplaySelection;
+import webfx.fxkit.extra.mapper.spi.peer.impl.DataGridPeerBase;
+import webfx.fxkit.extra.mapper.spi.peer.impl.DataGridPeerImageTextMixin;
+import webfx.fxkit.extra.mapper.spi.peer.impl.DataGridPeerMixin;
+import webfx.fxkit.extra.util.ImageStore;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.collection.IdentityList;
 
@@ -131,7 +131,7 @@ public final class FxDataGridPeer
     }
 
     @Override
-    public void updateSelectionMode(webfx.fxkits.extra.displaydata.SelectionMode mode) {
+    public void updateSelectionMode(webfx.fxkit.extra.displaydata.SelectionMode mode) {
         javafx.scene.control.SelectionMode fxSelectionMode = null;
         switch (mode) {
             case DISABLED:
@@ -225,7 +225,7 @@ public final class FxDataGridPeer
     public void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
         TableColumn<Integer, ?> gridColumn = gridColumnIndex < currentColumns.size() ? currentColumns.get(gridColumnIndex) : new TableColumn<>();
         newColumns.add(gridColumn);
-        webfx.fxkits.extra.displaydata.Label label = displayColumn.getLabel();
+        webfx.fxkit.extra.displaydata.Label label = displayColumn.getLabel();
         gridColumn.setText(label.getText());
         gridColumn.setGraphic(ImageStore.createImageView(label.getIconPath()));
         Double prefWidth = displayColumn.getStyle().getPrefWidth();

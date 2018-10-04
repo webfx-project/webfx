@@ -8,7 +8,7 @@ import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.expression.Expression;
-import webfx.fxkits.extra.displaydata.DisplayColumn;
+import webfx.fxkit.extra.displaydata.DisplayColumn;
 
 /**
  * @author Bruno Salmon

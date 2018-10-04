@@ -15,8 +15,8 @@ import emul.javafx.scene.text.TextAlignment;
 import emul.javafx.scene.transform.Transform;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlTransforms;
-import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.NodePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.NodePeerMixin;
 import webfx.platform.shared.util.Strings;
 
 import java.util.List;

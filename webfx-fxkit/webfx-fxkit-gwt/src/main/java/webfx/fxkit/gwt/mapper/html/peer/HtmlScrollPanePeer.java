@@ -7,9 +7,9 @@ import emul.javafx.geometry.Bounds;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.ScrollPane;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.core.mapper.spi.SceneRequester;
-import webfx.fxkits.core.mapper.spi.impl.peer.ScrollPanePeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.ScrollPanePeerMixin;
+import webfx.fxkit.mapper.spi.SceneRequester;
+import webfx.fxkit.mapper.spi.impl.peer.ScrollPanePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.ScrollPanePeerMixin;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**

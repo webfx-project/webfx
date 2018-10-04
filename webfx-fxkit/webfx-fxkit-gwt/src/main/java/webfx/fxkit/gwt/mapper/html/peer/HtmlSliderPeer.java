@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
-import webfx.fxkits.core.mapper.spi.impl.peer.SliderPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.SliderPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.SliderPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.SliderPeerMixin;
 import webfx.platform.shared.util.Numbers;
 import webfx.platform.shared.util.Strings;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;

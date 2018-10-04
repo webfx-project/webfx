@@ -5,7 +5,7 @@ import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.terms.ExpressionArray;
 import webfx.framework.shared.expression.terms.Ordered;
 import webfx.framework.shared.expression.terms.UnaryExpression;
-import webfx.fxkits.extra.type.Type;
+import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.Arrays;
 
 import java.util.Collection;

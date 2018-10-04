@@ -8,9 +8,9 @@ import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.client.activity.ActivityManager;
 import webfx.framework.client.activity.impl.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import webfx.framework.client.ui.layouts.SceneUtil;
-import webfx.fxkits.core.launcher.FxKitLauncher;
-import webfx.fxkits.core.util.properties.Properties;
-import webfx.fxkits.extra.util.ImageStore;
+import webfx.fxkit.launcher.FxKitLauncher;
+import webfx.fxkit.util.properties.Properties;
+import webfx.fxkit.extra.util.ImageStore;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 
 /**

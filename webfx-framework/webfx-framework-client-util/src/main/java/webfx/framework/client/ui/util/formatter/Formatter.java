@@ -1,6 +1,6 @@
 package webfx.framework.client.ui.util.formatter;
 
-import webfx.fxkits.extra.type.Type;
+import webfx.fxkit.extra.type.Type;
 
 /**
  * @author Bruno Salmon

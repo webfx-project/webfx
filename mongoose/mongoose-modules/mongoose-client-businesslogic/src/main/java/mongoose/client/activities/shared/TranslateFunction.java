@@ -4,7 +4,7 @@ import mongoose.shared.util.Labels;
 import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.terms.function.Function;
 import webfx.framework.client.services.i18n.I18n;
-import webfx.fxkits.extra.type.PrimType;
+import webfx.fxkit.extra.type.PrimType;
 
 /**
  * @author Bruno Salmon

@@ -13,19 +13,19 @@ import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.scene.text.Text;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
+import webfx.fxkit.extra.chart.*;
 import webfx.fxkit.gwt.mapper.shared.GwtPrimaryStagePeer;
 import webfx.fxkit.gwt.mapper.shared.GwtSecondaryStagePeer;
 import webfx.fxkit.gwt.mapper.html.peer.*;
-import webfx.fxkits.core.launcher.FxKitLauncher;
-import webfx.fxkits.core.mapper.spi.NodePeer;
-import webfx.fxkits.core.mapper.spi.ScenePeer;
-import webfx.fxkits.core.mapper.spi.StagePeer;
-import webfx.fxkits.core.mapper.spi.WindowPeer;
-import webfx.fxkits.core.mapper.spi.impl.FxKitMapperProviderBase;
-import webfx.fxkits.extra.chart.*;
-import webfx.fxkits.extra.control.DataGrid;
-import webfx.fxkits.extra.control.HtmlText;
-import webfx.fxkits.extra.control.HtmlTextEditor;
+import webfx.fxkit.launcher.FxKitLauncher;
+import webfx.fxkit.mapper.spi.NodePeer;
+import webfx.fxkit.mapper.spi.ScenePeer;
+import webfx.fxkit.mapper.spi.StagePeer;
+import webfx.fxkit.mapper.spi.WindowPeer;
+import webfx.fxkit.mapper.spi.impl.FxKitMapperProviderBase;
+import webfx.fxkit.extra.control.DataGrid;
+import webfx.fxkit.extra.control.HtmlText;
+import webfx.fxkit.extra.control.HtmlTextEditor;
 
 /**
  * @author Bruno Salmon

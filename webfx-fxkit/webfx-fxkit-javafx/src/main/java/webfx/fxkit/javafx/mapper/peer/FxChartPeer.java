@@ -1,12 +1,12 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.chart.NumberAxis;
-import webfx.fxkits.extra.displaydata.DisplaySelection;
-import webfx.fxkits.extra.chart.Chart;
-import webfx.fxkits.core.mapper.spi.SceneRequester;
-import webfx.fxkits.extra.mapper.spi.peer.impl.ChartPeerMixin;
-import webfx.fxkits.extra.mapper.spi.peer.impl.ChartPeerBase;
-import webfx.fxkits.extra.displaydata.SelectionMode;
+import webfx.fxkit.extra.displaydata.DisplaySelection;
+import webfx.fxkit.extra.chart.Chart;
+import webfx.fxkit.mapper.spi.SceneRequester;
+import webfx.fxkit.extra.mapper.spi.peer.impl.ChartPeerMixin;
+import webfx.fxkit.extra.mapper.spi.peer.impl.ChartPeerBase;
+import webfx.fxkit.extra.displaydata.SelectionMode;
 
 /**
  * @author Bruno Salmon

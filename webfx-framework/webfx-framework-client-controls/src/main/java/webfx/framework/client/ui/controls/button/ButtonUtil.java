@@ -9,8 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.controls.Controls;
-import webfx.fxkits.core.util.properties.Properties;
-import webfx.fxkits.extra.util.ImageStore;
+import webfx.fxkit.util.properties.Properties;
+import webfx.fxkit.extra.util.ImageStore;
 import org.controlsfx.control.decoration.GraphicDecoration;
 
 /**

@@ -1,0 +1,7 @@
+<module rename-to="webfx_fxkit_mapper">
+
+    <inherits name="webfx-fxkit-util"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/fxkit/mapper"/>
+</module>

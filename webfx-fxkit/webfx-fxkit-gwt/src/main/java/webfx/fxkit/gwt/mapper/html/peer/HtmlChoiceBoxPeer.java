@@ -4,10 +4,10 @@ import elemental2.dom.HTMLOptionElement;
 import elemental2.dom.HTMLSelectElement;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.scene.control.ChoiceBox;
-import webfx.fxkits.core.mapper.spi.SceneRequester;
+import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.core.mapper.spi.impl.peer.ChoiceBoxPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.ChoiceBoxPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.ChoiceBoxPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.ChoiceBoxPeerMixin;
 
 import java.util.List;
 import java.util.stream.Collectors;

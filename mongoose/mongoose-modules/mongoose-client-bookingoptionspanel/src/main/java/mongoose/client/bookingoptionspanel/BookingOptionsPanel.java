@@ -17,12 +17,12 @@ import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.mapping.EntityListToDisplayResultMapper;
 import webfx.framework.client.services.i18n.I18n;
-import webfx.fxkits.core.util.properties.Properties;
-import webfx.fxkits.extra.control.DataGrid;
-import webfx.fxkits.extra.control.SkinnedDataGrid;
-import webfx.fxkits.extra.displaydata.DisplayResult;
-import webfx.fxkits.extra.displaydata.SelectionMode;
-import webfx.fxkits.extra.type.PrimType;
+import webfx.fxkit.util.properties.Properties;
+import webfx.fxkit.extra.control.DataGrid;
+import webfx.fxkit.extra.control.SkinnedDataGrid;
+import webfx.fxkit.extra.displaydata.DisplayResult;
+import webfx.fxkit.extra.displaydata.SelectionMode;
+import webfx.fxkit.extra.type.PrimType;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.collection.Collections;
 

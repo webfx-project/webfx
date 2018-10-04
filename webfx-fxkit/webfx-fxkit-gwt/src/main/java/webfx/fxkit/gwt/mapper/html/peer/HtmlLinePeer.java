@@ -4,8 +4,8 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.HTMLElement;
 import emul.javafx.scene.shape.Line;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.core.mapper.spi.impl.peer.LinePeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.LinePeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.LinePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.LinePeerMixin;
 
 /**
  * This temporary implementation works only for horizontal and vertical lines (not diagonals)

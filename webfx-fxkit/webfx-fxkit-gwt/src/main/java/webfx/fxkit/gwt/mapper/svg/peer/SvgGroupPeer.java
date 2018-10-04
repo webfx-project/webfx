@@ -3,8 +3,8 @@ package webfx.fxkit.gwt.mapper.svg.peer;
 import elemental2.dom.Element;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
 import emul.javafx.scene.Group;
-import webfx.fxkits.core.mapper.spi.impl.peer.GroupPeerMixin;
-import webfx.fxkits.core.mapper.spi.impl.peer.GroupPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.GroupPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.GroupPeerBase;
 
 /**
  * @author Bruno Salmon

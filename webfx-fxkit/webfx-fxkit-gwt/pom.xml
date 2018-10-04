@@ -14,21 +14,21 @@
     <dependencies>
 
         <dependency>
-            <artifactId>webfx-fxkits-core-util</artifactId>
+            <artifactId>webfx-fxkit-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>emul</classifier>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-fxkits-extra</artifactId>
+            <artifactId>webfx-fxkit-extra</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>emul</classifier>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-fxkits-emul-javafxcontrols</artifactId>
+            <artifactId>webfx-fxkit-emul-javafxcontrols</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

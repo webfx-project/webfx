@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.scene.control.CheckBox;
-import webfx.fxkits.core.mapper.spi.impl.peer.CheckBoxPeerMixin;
-import webfx.fxkits.core.mapper.spi.impl.peer.CheckBoxPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.CheckBoxPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.CheckBoxPeerBase;
 
 /**
  * @author Bruno Salmon

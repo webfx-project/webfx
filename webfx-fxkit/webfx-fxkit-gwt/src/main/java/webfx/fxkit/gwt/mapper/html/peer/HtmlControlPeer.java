@@ -5,8 +5,8 @@ import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.Insets;
 import emul.javafx.scene.control.Control;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkits.core.mapper.spi.impl.peer.ControlPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.ControlPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.ControlPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.ControlPeerMixin;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package webfx.fxkit.gwt.mapper.svg.peer;
 
-import webfx.fxkits.core.mapper.spi.impl.peer.TextPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.TextPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.TextPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.TextPeerMixin;
 import webfx.platform.shared.util.Numbers;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
 import emul.javafx.geometry.VPos;

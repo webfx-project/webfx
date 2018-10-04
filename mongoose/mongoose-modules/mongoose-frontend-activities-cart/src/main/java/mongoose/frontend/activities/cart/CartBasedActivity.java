@@ -7,7 +7,7 @@ import mongoose.client.aggregates.CartAggregate;
 import mongoose.shared.entities.Event;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.client.services.i18n.I18n;
-import webfx.fxkits.core.util.properties.Properties;
+import webfx.fxkit.util.properties.Properties;
 
 /**
  * @author Bruno Salmon

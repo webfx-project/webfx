@@ -3,8 +3,8 @@ package webfx.fxkit.javafx.mapper.peer;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.RegionPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.RegionPeerMixin;
 import webfx.platform.shared.util.Numbers;
 
 import java.lang.reflect.Method;

@@ -13,7 +13,7 @@ import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.fxkits.extra.cell.collator.GridCollator;
+import webfx.fxkit.extra.cell.collator.GridCollator;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.createHGrowable;
 

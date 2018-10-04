@@ -5,8 +5,8 @@ import webfx.fxkit.gwt.mapper.util.SvgUtil;
 import emul.javafx.scene.layout.Background;
 import emul.javafx.scene.layout.Border;
 import emul.javafx.scene.layout.Region;
-import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.RegionPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.RegionPeerMixin;
 
 /**
  * @author Bruno Salmon

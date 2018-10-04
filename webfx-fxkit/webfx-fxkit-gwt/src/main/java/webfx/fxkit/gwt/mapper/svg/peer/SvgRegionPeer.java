@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.svg.peer;
 
 import elemental2.dom.Element;
 import emul.javafx.scene.layout.Region;
-import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.RegionPeerMixin;
+import webfx.fxkit.mapper.spi.impl.peer.RegionPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.RegionPeerMixin;
 
 /**
  * @author Bruno Salmon

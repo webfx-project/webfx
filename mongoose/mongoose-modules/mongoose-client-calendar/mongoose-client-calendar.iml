@@ -20,12 +20,12 @@
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="webfx-framework-client-layouts" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
+    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
+    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
     <orderEntry type="module" module-name="webfx-framework-client-util" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" />
   </component>
 </module>

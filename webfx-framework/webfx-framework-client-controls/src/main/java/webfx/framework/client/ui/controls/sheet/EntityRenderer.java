@@ -7,9 +7,9 @@ import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
-import webfx.fxkits.core.util.properties.Properties;
-import webfx.fxkits.extra.cell.renderer.ValueRenderer;
-import webfx.fxkits.extra.cell.renderer.ValueRenderingContext;
+import webfx.fxkit.util.properties.Properties;
+import webfx.fxkit.extra.cell.renderer.ValueRenderer;
+import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
 import webfx.platform.shared.services.json.Json;
 
 /**

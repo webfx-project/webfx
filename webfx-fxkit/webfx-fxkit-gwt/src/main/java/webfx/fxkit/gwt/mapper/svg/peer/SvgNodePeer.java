@@ -14,9 +14,9 @@ import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.paint.LinearGradient;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.text.TextAlignment;
-import webfx.fxkits.core.mapper.spi.NodePeer;
-import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerBase;
-import webfx.fxkits.core.mapper.spi.impl.peer.NodePeerMixin;
+import webfx.fxkit.mapper.spi.NodePeer;
+import webfx.fxkit.mapper.spi.impl.peer.NodePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.NodePeerMixin;
 
 import java.util.HashMap;
 import java.util.Map;

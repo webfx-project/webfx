@@ -4,17 +4,17 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import webfx.fxkit.extra.chart.*;
 import webfx.fxkit.javafx.mapper.peer.*;
-import webfx.fxkits.core.mapper.spi.NodePeer;
-import webfx.fxkits.core.mapper.spi.ScenePeer;
-import webfx.fxkits.core.mapper.spi.StagePeer;
-import webfx.fxkits.core.mapper.spi.WindowPeer;
-import webfx.fxkits.core.mapper.spi.impl.FxKitMapperProviderBase;
-import webfx.fxkits.extra.cell.collator.GridCollator;
-import webfx.fxkits.extra.chart.*;
-import webfx.fxkits.extra.control.DataGrid;
-import webfx.fxkits.extra.control.HtmlText;
-import webfx.fxkits.extra.control.HtmlTextEditor;
+import webfx.fxkit.mapper.spi.NodePeer;
+import webfx.fxkit.mapper.spi.ScenePeer;
+import webfx.fxkit.mapper.spi.StagePeer;
+import webfx.fxkit.mapper.spi.WindowPeer;
+import webfx.fxkit.mapper.spi.impl.FxKitMapperProviderBase;
+import webfx.fxkit.extra.cell.collator.GridCollator;
+import webfx.fxkit.extra.control.DataGrid;
+import webfx.fxkit.extra.control.HtmlText;
+import webfx.fxkit.extra.control.HtmlTextEditor;
 
 /**
  * @author Bruno Salmon

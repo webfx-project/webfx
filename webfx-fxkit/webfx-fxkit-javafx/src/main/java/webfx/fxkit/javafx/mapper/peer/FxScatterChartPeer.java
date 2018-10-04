@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer;
 
-import webfx.fxkits.extra.chart.ScatterChart;
-import webfx.fxkits.extra.mapper.spi.peer.impl.ScatterChartPeerBase;
-import webfx.fxkits.extra.mapper.spi.peer.impl.ScatterChartPeerMixin;
+import webfx.fxkit.extra.chart.ScatterChart;
+import webfx.fxkit.extra.mapper.spi.peer.impl.ScatterChartPeerBase;
+import webfx.fxkit.extra.mapper.spi.peer.impl.ScatterChartPeerMixin;
 
 /**
  * @author Bruno Salmon

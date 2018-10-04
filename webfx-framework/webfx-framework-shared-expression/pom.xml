@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency> <!-- Only because of the type package -->
-            <artifactId>webfx-fxkits-extra</artifactId>
+            <artifactId>webfx-fxkit-extra</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

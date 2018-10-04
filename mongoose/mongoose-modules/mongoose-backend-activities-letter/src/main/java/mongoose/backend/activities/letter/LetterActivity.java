@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import mongoose.backend.multilangeditor.MultiLanguageEditor;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
-import webfx.fxkits.core.util.properties.Properties;
+import webfx.fxkit.util.properties.Properties;
 
 /**
  * @author Bruno Salmon

@@ -11,15 +11,14 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="webfx-fxkit-gwt" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
-    <orderEntry type="module" module-name="webfx-fxkits-extra" />
-    <orderEntry type="module" module-name="webfx-fxkits-emul-javafxcontrols" />
-    <orderEntry type="module" module-name="webfx-fxkits-emul-javafxgraphics" />
-    <orderEntry type="module" module-name="webfx-fxkits-emul-javafxbase" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
+    <orderEntry type="module" module-name="webfx-fxkit-extra" />
+    <orderEntry type="module" module-name="webfx-fxkit-gwt" />
+    <orderEntry type="module" module-name="webfx-fxkit-emul-javafxgraphics" />
+    <orderEntry type="module" module-name="webfx-fxkit-emul-javafxbase" />
+    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
+    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-core:1.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:base:1.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-dom:1.0.0-RC1" level="project" />
@@ -31,7 +30,7 @@
     <orderEntry type="module" module-name="mongoose-client-i18n-gwt" />
     <orderEntry type="module" module-name="mongoose-client-icons-gwt" />
     <orderEntry type="module" module-name="mongoose-shared-domain-gwt" />
-    <orderEntry type="module" module-name="mongoose-frontend-application" />
+    <orderEntry type="module" module-name="webfx-fxkit-emul-javafxcontrols" />
     <orderEntry type="module" module-name="mongoose-client-application" />
     <orderEntry type="module" module-name="mongoose-client-busconfig" />
     <orderEntry type="module" module-name="mongoose-client-i18n" />
@@ -50,7 +49,7 @@
     <orderEntry type="module" module-name="mongoose-client-activities-login" />
     <orderEntry type="module" module-name="mongoose-client-activities-unauthorized" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-startbooking" />
-    <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
+    <orderEntry type="module" module-name="mongoose-frontend-application" />
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-terms" />
     <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
@@ -65,7 +64,7 @@
     <orderEntry type="module" module-name="mongoose-frontend-activities-payment" />
     <orderEntry type="module" module-name="webfx-framework-client-all" />
     <orderEntry type="module" module-name="webfx-framework-shared-expression" />
-    <orderEntry type="module" module-name="webfx-fxkits-extra" />
+    <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-framework-client-activity" />
     <orderEntry type="module" module-name="webfx-framework-shared-domain" />
@@ -78,11 +77,11 @@
     <orderEntry type="module" module-name="webfx-framework-client-i18n" />
     <orderEntry type="module" module-name="webfx-framework-shared-authn" />
     <orderEntry type="module" module-name="webfx-framework-shared-authz" />
-    <orderEntry type="module" module-name="webfx-framework-shared-router" />
+    <orderEntry type="module" module-name="webfx-fxkit-extra" />
     <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
+    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
+    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-framework-client-uifilter" />
     <orderEntry type="module" module-name="webfx-lib-rxjava" />
     <orderEntry type="module" module-name="webfx-framework-client-layouts" />
@@ -96,7 +95,7 @@
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
     <orderEntry type="module" module-name="webfx-platform-client-websocketbus-web" />
     <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
-    <orderEntry type="module" module-name="webfx-platform-shared-bus" />
+    <orderEntry type="module" module-name="webfx-framework-shared-router" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="webfx-platform-shared-json-gwt" />
@@ -113,7 +112,7 @@
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory-gwt" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory-web" />
-    <orderEntry type="module" module-name="webfx-platform-shared-json-gwt" />
+    <orderEntry type="module" module-name="webfx-platform-shared-bus" />
     <orderEntry type="module" module-name="webfx-platform-shared-resource-gwt" />
     <orderEntry type="module" module-name="webfx-platform-client-storage-gwt" />
     <orderEntry type="module" module-name="webfx-platform-client-storage" />
@@ -129,7 +128,7 @@
     <orderEntry type="module" module-name="webfx-framework-client-push" />
     <orderEntry type="module" module-name="webfx-framework-client-querypush" />
     <orderEntry type="module" module-name="webfx-framework-shared-querypush" />
-    <orderEntry type="module" module-name="webfx-framework-client-querypush-simple" />
+    <orderEntry type="module" module-name="webfx-platform-shared-json-gwt" />
     <orderEntry type="module" module-name="webfx-framework-client-querypush" />
     <orderEntry type="module" module-name="webfx-platform-providers-gwt-serviceloadergenerator" />
     <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.2" level="project" />
@@ -146,7 +145,7 @@
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-tree:5.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-commons:5.0.3" level="project" />
     <orderEntry type="library" name="Maven: colt:colt:1.2.0" level="project" />
-    <orderEntry type="library" name="Maven: ant:ant:1.6.5" level="project" />
+    <orderEntry type="module" module-name="webfx-framework-client-querypush-simple" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
     <orderEntry type="library" name="Maven: com.ibm.icu:icu4j:50.1.1" level="project" />
@@ -166,7 +165,7 @@
     <orderEntry type="library" name="Maven: net.sourceforge.cssparser:cssparser:0.9.18" level="project" />
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.2.13.v20150730" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.2.14.v20151106" level="project" />
+    <orderEntry type="library" name="Maven: ant:ant:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.2.14.v20151106" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-webapp:9.2.14.v20151106" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-xml:9.2.14.v20151106" level="project" />
@@ -186,5 +185,6 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty.toolchain:jetty-schemas:3.1.M0" level="project" />
     <orderEntry type="library" name="Maven: org.mortbay.jasper:apache-jsp:8.0.9.M3" level="project" />
     <orderEntry type="library" name="Maven: org.mortbay.jasper:apache-el:8.0.9.M3" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.2.14.v20151106" level="project" />
   </component>
 </module>

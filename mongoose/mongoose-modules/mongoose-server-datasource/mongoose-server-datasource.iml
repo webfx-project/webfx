@@ -18,14 +18,14 @@
     <orderEntry type="module" module-name="webfx-framework-shared-entity" />
     <orderEntry type="module" module-name="webfx-framework-shared-domain" />
     <orderEntry type="module" module-name="webfx-framework-shared-expression" />
-    <orderEntry type="module" module-name="webfx-fxkits-extra" />
+    <orderEntry type="module" module-name="webfx-fxkit-extra" />
     <orderEntry type="module" module-name="webfx-platform-shared-query" />
     <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
     <orderEntry type="module" module-name="webfx-framework-shared-router" />
     <orderEntry type="module" module-name="webfx-framework-shared-authn" />
     <orderEntry type="module" module-name="webfx-framework-client-activity" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-launcher" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-mapper" />
+    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
+    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="webfx-platform-shared-update" />
@@ -37,7 +37,7 @@
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-framework-client-util" />
-    <orderEntry type="module" module-name="webfx-fxkits-core-util" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="webfx-framework-client-action" />

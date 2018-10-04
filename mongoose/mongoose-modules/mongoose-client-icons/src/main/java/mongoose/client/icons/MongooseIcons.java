@@ -2,7 +2,7 @@ package mongoose.client.icons;
 
 import javafx.scene.image.ImageView;
 import mongoose.shared.entities.Option;
-import webfx.fxkits.extra.util.ImageStore;
+import webfx.fxkit.extra.util.ImageStore;
 
 /**
  * @author Bruno Salmon

@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import webfx.framework.client.activity.impl.elementals.view.impl.ViewActivityContextBase;
 import webfx.framework.client.activity.impl.combinations.viewapplication.ViewApplicationContext;
 import webfx.framework.client.ui.uirouter.UiRouter;
-import webfx.fxkits.core.launcher.FxKitLauncher;
+import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.framework.client.activity.ActivityContextFactory;
 import webfx.framework.client.activity.impl.elementals.application.ApplicationContext;
 import webfx.framework.client.activity.impl.elementals.application.impl.ApplicationContextBase;

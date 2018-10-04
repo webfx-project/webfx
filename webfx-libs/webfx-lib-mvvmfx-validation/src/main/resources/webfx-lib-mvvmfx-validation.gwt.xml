@@ -2,7 +2,7 @@
 
     <inherits name="webfx-lib-controlsfx-validation"/>
 
-    <!-- Specify the paths for translatable code                    -->
+    <!-- Specify the paths for translatable code -->
     <source path="de/saxsys/mvvmfx/utils/validation"/>   <!-- source path to javacup-runtime library (webfx-lib-javacupruntime) -->
 
 </module>

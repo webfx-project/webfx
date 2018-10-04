@@ -7,9 +7,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.control.SkinBase;
 import webfx.fxkit.javafx.mapper.peer.FxNodePeer;
-import webfx.fxkits.core.mapper.FxKitMapper;
-import webfx.fxkits.core.mapper.spi.NodePeer;
-import webfx.fxkits.core.mapper.spi.SceneRequester;
+import webfx.fxkit.mapper.FxKitMapper;
+import webfx.fxkit.mapper.spi.NodePeer;
+import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**

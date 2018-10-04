@@ -18,12 +18,12 @@ import webfx.fxkit.gwt.mapper.html.peer.HtmlButtonPeer;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlCheckBoxPeer;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlTextFieldPeer;
 import webfx.fxkit.gwt.mapper.svg.peer.*;
-import webfx.fxkits.core.launcher.FxKitLauncher;
-import webfx.fxkits.core.mapper.spi.NodePeer;
-import webfx.fxkits.core.mapper.spi.ScenePeer;
-import webfx.fxkits.core.mapper.spi.StagePeer;
-import webfx.fxkits.core.mapper.spi.WindowPeer;
-import webfx.fxkits.core.mapper.spi.impl.FxKitMapperProviderBase;
+import webfx.fxkit.launcher.FxKitLauncher;
+import webfx.fxkit.mapper.spi.NodePeer;
+import webfx.fxkit.mapper.spi.ScenePeer;
+import webfx.fxkit.mapper.spi.StagePeer;
+import webfx.fxkit.mapper.spi.WindowPeer;
+import webfx.fxkit.mapper.spi.impl.FxKitMapperProviderBase;
 
 /**
  * @author Bruno Salmon
