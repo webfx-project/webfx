@@ -10,7 +10,7 @@ import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;
  */
 public final class StartBookingRouting {
 
-    private final static String PATH = "/book/event/:eventId/application";
+    private final static String PATH = "/book/event/:eventId/start";
 
     public static String getStartBookingPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
@@ -29,5 +29,4 @@ public final class StartBookingRouting {
             super(uiRoute());
         }
     }
-
 }
