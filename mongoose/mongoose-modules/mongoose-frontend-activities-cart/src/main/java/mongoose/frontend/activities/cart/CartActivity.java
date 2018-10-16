@@ -3,7 +3,6 @@ package mongoose.frontend.activities.cart;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -14,30 +13,35 @@ import javafx.scene.layout.VBox;
 import mongoose.client.activities.shared.TermsDialog;
 import mongoose.client.activities.shared.TranslateFunction;
 import mongoose.client.aggregates.CartAggregate;
+import mongoose.client.aggregates.EventAggregate;
 import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
+import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.History;
 import mongoose.shared.entities.Mail;
-import webfx.framework.shared.expression.lci.DataReader;
-import webfx.framework.shared.expression.terms.function.Function;
-import webfx.framework.shared.orm.entity.Entities;
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.framework.shared.orm.mapping.EntityListToDisplayResultMapper;
+import webfx.framework.client.operations.route.RoutePushRequest;
 import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.ui.action.impl.WritableAction;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
 import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.shared.expression.lci.DataReader;
+import webfx.framework.shared.expression.terms.function.Function;
+import webfx.framework.shared.orm.entity.Entities;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.UpdateStore;
+import webfx.framework.shared.orm.mapping.EntityListToDisplayResultMapper;
 import webfx.fxkit.extra.control.DataGrid;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
 import webfx.fxkit.extra.type.PrimType;
-import webfx.platform.shared.services.log.Logger;
 import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.collection.Collections;
 
@@ -58,10 +62,10 @@ final class CartActivity extends CartBasedActivity {
     private Label bookingLabel;
     private BookingOptionsPanel bookingOptionsPanel;
     private WorkingDocument selectedWorkingDocument;
-    private Button cancelBookingButton;
-    private Button modifyBookingButton;
-    private Button contactUsButton;
-    private Button showPaymentsButton;
+    private final WritableAction cancelBookingAction = new WritableAction(newCancelAction(this::cancelBooking), "*");
+    private final WritableAction modifyBookingAction = new WritableAction(newAction("Modify", this::modifyBooking), "*");
+    private final WritableAction contactUsAction     = new WritableAction(newAction("ContactUs", this::contactUs), "*");
+    private final WritableAction showPaymentsAction  = new WritableAction(newAction("YourPayments", this::showPayments), "*");
     private BorderPane optionsPanel;
     private BorderPane paymentsPanel;
     private HBox bottomButtonBar;
@@ -82,19 +86,21 @@ final class CartActivity extends CartBasedActivity {
 
         HBox bookingButtonBar = new HBox(20,
                 LayoutUtil.createHGrowable()
-                , cancelBookingButton = newCancelButton(this::cancelBooking)
-                , modifyBookingButton = newButton("Modify", this::modifyBooking)
-                , contactUsButton = newButton("ContactUs", this::contactUs)
+                , newButton(cancelBookingAction)
+                , newButton(modifyBookingAction)
+                , newButton(contactUsAction)
                 , newButton("TermsAndConditions", this::readTerms)
-                , LayoutUtil.createHGrowable());
+                , LayoutUtil.createHGrowable()
+        );
         optionsPanel.setBottom(LayoutUtil.createPadding(bookingButtonBar));
 
         bottomButtonBar = new HBox(20
                 , newButton("AddAnotherBooking", this::addBooking)
                 , LayoutUtil.createHGrowable()
-                , showPaymentsButton = newButton("YourPayments", this::showPayments)
+                , newButton(showPaymentsAction)
                 , LayoutUtil.createHGrowable()
-                , newButton("MakePayment", this::makePayment));
+                , newButton("MakePayment", this::makePayment)
+        );
 
         LayoutUtil.setUnmanagedWhenInvisible(optionsPanel).setVisible(false);
         LayoutUtil.setUnmanagedWhenInvisible(paymentsPanel).setVisible(false);
@@ -205,18 +211,18 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void disableCancelModifyButton(boolean disable) {
-        cancelBookingButton.setDisable(disable);
-        modifyBookingButton.setDisable(disable);
-        contactUsButton.setDisable(disable || selectedWorkingDocument == null || selectedWorkingDocument.getDocument().getEmail() == null);
+        cancelBookingAction.setDisabled(disable);
+        modifyBookingAction.setDisabled(disable);
+        contactUsAction.setDisabled(disable || selectedWorkingDocument == null || selectedWorkingDocument.getDocument().getEmail() == null);
     }
 
     private void updatePaymentsVisibility() {
-        if (showPaymentsButton != null) {
+        if (paymentsPanel != null) {
             if (Collections.isEmpty(cartService().getCartPayments())) {
-                showPaymentsButton.setVisible(false);
+                showPaymentsAction.setVisible(false);
                 paymentsPanel.setVisible(false);
             } else
-                showPaymentsButton.setVisible(!paymentsPanel.isVisible());
+                showPaymentsAction.setVisible(!paymentsPanel.isVisible());
         }
     }
 
@@ -248,8 +254,20 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void modifyBooking() {
-        // Commented TODO new RouteToOptionsRequest(selectedWorkingDocument, getHistory()).execute();
+        // // temporary commented (dependency cycle) TODO new RouteToOptionsRequest(selectedWorkingDocument, getHistory()).execute();
+        new RoutePushRequest("/book/event/" + prepareEventServiceAndReturnEventId(selectedWorkingDocument, null) + "/options", getHistory()).execute();
         setSelectedWorkingDocument(null);
+    }
+
+    // temporary
+    private static Object prepareEventServiceAndReturnEventId(WorkingDocument workingDocument, OptionsPreselection optionsPreselection) {
+        EventAggregate eventAggregate = workingDocument.getEventAggregate();
+        eventAggregate.setSelectedOptionsPreselection(optionsPreselection);
+        eventAggregate.setWorkingDocument(optionsPreselection == null ? workingDocument : null);
+        EntityId eventId = workingDocument.getDocument().getEventId();
+        if (eventId == null)
+            eventId = eventAggregate.getEvent().getId();
+        return eventId.getPrimaryKey();
     }
 
     private void cancelBooking() {
@@ -323,14 +341,16 @@ final class CartActivity extends CartBasedActivity {
 
     private void addBooking() {
         // temporary commented (dependency cycle) TODO new RouteToFeesRequest(getEventId(), getHistory()).execute();
+        new RoutePushRequest("/book/event/" + getEventId() + "/start", getHistory()).execute();
     }
 
     private void showPayments() {
         paymentsPanel.setVisible(true);
-        showPaymentsButton.setVisible(false);
+        showPaymentsAction.setVisible(false);
     }
 
     private void makePayment() {
-        // Commented for now TODO new RouteToPaymentRequest(getCartUuid(), getHistory()).execute();
+        // temporary commented (dependency cycle) TODO new RouteToPaymentRequest(getCartUuid(), getHistory()).execute();
+        new RoutePushRequest(CartRouting.getCartPath(getCartUuid()) + "/payment", getHistory()).execute();
     }
 }
