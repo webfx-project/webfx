@@ -10,7 +10,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import mongoose.client.activities.shared.TermsDialog;
 import mongoose.client.activities.shared.TranslateFunction;
 import mongoose.client.aggregates.CartAggregate;
 import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
@@ -19,6 +18,7 @@ import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.operations.fees.RouteToFeesRequest;
 import mongoose.frontend.operations.options.RouteToOptionsRequest;
 import mongoose.frontend.operations.payment.RouteToPaymentRequest;
+import mongoose.frontend.operations.terms.RouteToTermsRequest;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.History;
@@ -323,7 +323,8 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void readTerms() {
-        new TermsDialog(getEventId(), getDataSourceModel(), (Pane) getNode()).show();
+        //new TermsDialog(getEventId(), getDataSourceModel(), (Pane) getNode()).show();
+        new RouteToTermsRequest(getEventId(), getHistory()).execute();
     }
 
     private void addBooking() {
