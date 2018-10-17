@@ -97,7 +97,7 @@
     <orderEntry type="module" module-name="mongoose-frontend-activities-cart-routing" />
     <orderEntry type="module" module-name="mongoose-client-bookingoptionspanel" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-cart" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-payment" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-payment-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-payment" />
   </component>
 </module>

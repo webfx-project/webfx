@@ -30,6 +30,13 @@
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
+
+        <dependency>
+            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

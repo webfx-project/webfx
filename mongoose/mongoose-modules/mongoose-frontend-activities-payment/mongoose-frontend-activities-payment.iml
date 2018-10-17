@@ -61,6 +61,8 @@
     <orderEntry type="module" module-name="mongoose-client-bookingoptionspanel" />
     <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-cart-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-fees-routing" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-payment-routing" />
     <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
     <orderEntry type="module" module-name="webfx-framework-shared-router" />

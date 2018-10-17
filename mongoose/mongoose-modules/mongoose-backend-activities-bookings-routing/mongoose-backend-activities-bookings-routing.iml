@@ -64,5 +64,6 @@
     <orderEntry type="module" module-name="webfx-platform-shared-bus" />
     <orderEntry type="module" module-name="webfx-platform-client-websocket" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-fees-routing" />
   </component>
 </module>

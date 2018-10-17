@@ -25,6 +25,12 @@
             <version>${mongoose.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>mongoose-frontend-activities-fees-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

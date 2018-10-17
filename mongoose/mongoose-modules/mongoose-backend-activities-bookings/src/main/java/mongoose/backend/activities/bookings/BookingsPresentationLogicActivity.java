@@ -2,6 +2,7 @@ package mongoose.backend.activities.bookings;
 
 import mongoose.client.activities.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLoader;
+import mongoose.frontend.operations.options.RouteToOptionsRequest;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
@@ -99,10 +100,8 @@ final class BookingsPresentationLogicActivity
                     WorkingDocumentLoader.load(getEventService(), document.getPrimaryKey()).setHandler(ar -> {
                         if (ar.failed())
                             Logger.log("Error loading document", ar.cause());
-/* Commented for now TODO
                         else
                             new RouteToOptionsRequest(ar.result(), getHistory()).execute();
-*/
                     });
             })
             .start();

@@ -1,6 +1,7 @@
 package mongoose.backend.operations.bookings;
 
 import mongoose.client.aggregates.EventAggregate;
+import mongoose.frontend.operations.fees.RouteToFeesRequest;
 import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 import webfx.platform.shared.util.async.Future;
 
@@ -20,7 +21,7 @@ final class RouteToNewBackendBookingExecutor {
         if (eventAggregate != null)
             eventAggregate.setCurrentCart(null);
         // Now that the current cart reference is cleared, we can route to the fees page
-        // Commented for now TODO new RouteToFeesRequest(eventId, history).execute();
+        new RouteToFeesRequest(eventId, history).execute();
         return Future.succeededFuture();
     }
 }

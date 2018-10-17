@@ -72,8 +72,10 @@
     <orderEntry type="module" module-name="mongoose-backend-multilangeditor" />
     <orderEntry type="module" module-name="mongoose-backend-activities-events" />
     <orderEntry type="module" module-name="mongoose-backend-activities-bookings-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-fees-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-bookings" />
     <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent" />
     <orderEntry type="module" module-name="mongoose-client-navigationarrows-java" />
     <orderEntry type="module" module-name="mongoose-client-css-java" />

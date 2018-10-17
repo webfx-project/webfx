@@ -31,6 +31,24 @@
             <version>${mongoose.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-frontend-activities-fees-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-frontend-activities-payment-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

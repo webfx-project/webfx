@@ -1,8 +1,10 @@
 package mongoose.backend.activities.cloneevent;
 
+import mongoose.backend.operations.bookings.RouteToBookingsRequest;
 import mongoose.client.activities.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.shared.entities.Event;
 import webfx.fxkit.util.properties.Properties;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateService;
 
@@ -35,12 +37,10 @@ public final class CloneEventPresentationLogicActivity extends EventDependentPre
         pm.setOnSubmit(event -> {
             LocalDate startDate = pm.getDate();
             UpdateService.executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceId())).setHandler(ar -> {
-/* Temporary commented as this causes a cyclic dependency with bookings activity (TODO fix this)
                 if (ar.succeeded())
                     UiScheduler.runInUiThread(() ->
                         new RouteToBookingsRequest(ar.result().getGeneratedKeys()[0], getHistory()).execute()
                 );
-*/
             });
         });
     }

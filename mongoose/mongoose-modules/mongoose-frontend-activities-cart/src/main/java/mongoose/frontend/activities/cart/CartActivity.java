@@ -13,17 +13,16 @@ import javafx.scene.layout.VBox;
 import mongoose.client.activities.shared.TermsDialog;
 import mongoose.client.activities.shared.TranslateFunction;
 import mongoose.client.aggregates.CartAggregate;
-import mongoose.client.aggregates.EventAggregate;
 import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
-import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.sectionpanel.SectionPanelFactory;
-import mongoose.frontend.activities.cart.routing.CartRouting;
+import mongoose.frontend.operations.fees.RouteToFeesRequest;
+import mongoose.frontend.operations.options.RouteToOptionsRequest;
+import mongoose.frontend.operations.payment.RouteToPaymentRequest;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.History;
 import mongoose.shared.entities.Mail;
-import webfx.framework.client.operations.route.RoutePushRequest;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.action.impl.WritableAction;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
@@ -34,7 +33,6 @@ import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.terms.function.Function;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.framework.shared.orm.mapping.EntityListToDisplayResultMapper;
 import webfx.fxkit.extra.control.DataGrid;
@@ -255,20 +253,8 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void modifyBooking() {
-        // // temporary commented (dependency cycle) TODO new RouteToOptionsRequest(selectedWorkingDocument, getHistory()).execute();
-        new RoutePushRequest("/book/event/" + prepareEventServiceAndReturnEventId(selectedWorkingDocument, null) + "/options", getHistory()).execute();
+        new RouteToOptionsRequest(selectedWorkingDocument, getHistory()).execute();
         setSelectedWorkingDocument(null);
-    }
-
-    // temporary
-    private static Object prepareEventServiceAndReturnEventId(WorkingDocument workingDocument, OptionsPreselection optionsPreselection) {
-        EventAggregate eventAggregate = workingDocument.getEventAggregate();
-        eventAggregate.setSelectedOptionsPreselection(optionsPreselection);
-        eventAggregate.setWorkingDocument(optionsPreselection == null ? workingDocument : null);
-        EntityId eventId = workingDocument.getDocument().getEventId();
-        if (eventId == null)
-            eventId = eventAggregate.getEvent().getId();
-        return eventId.getPrimaryKey();
     }
 
     private void cancelBooking() {
@@ -341,8 +327,7 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void addBooking() {
-        // temporary commented (dependency cycle) TODO new RouteToFeesRequest(getEventId(), getHistory()).execute();
-        new RoutePushRequest("/book/event/" + getEventId() + "/start", getHistory()).execute();
+        new RouteToFeesRequest(getEventId(), getHistory()).execute();
     }
 
     private void showPayments() {
@@ -351,7 +336,6 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void makePayment() {
-        // temporary commented (dependency cycle) TODO new RouteToPaymentRequest(getCartUuid(), getHistory()).execute();
-        new RoutePushRequest(CartRouting.getCartPath(getCartUuid()) + "/payment", getHistory()).execute();
+        new RouteToPaymentRequest(getCartUuid(), getHistory()).execute();
     }
 }

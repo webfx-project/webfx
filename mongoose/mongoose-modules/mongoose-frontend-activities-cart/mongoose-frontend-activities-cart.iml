@@ -69,5 +69,8 @@
     <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-fees-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-payment-routing" />
   </component>
 </module>
