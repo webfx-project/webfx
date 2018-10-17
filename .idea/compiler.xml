@@ -69,6 +69,7 @@
         <module name="mongoose-backend-activities-letters" />
         <module name="mongoose-backend-activities-letters-routing" />
         <module name="mongoose-backend-activities-loadtester-jp" />
+        <module name="mongoose-backend-activities-loadtester-jp-routing" />
         <module name="mongoose-backend-activities-monitor" />
         <module name="mongoose-backend-activities-monitor-routing" />
         <module name="mongoose-backend-activities-operations" />
@@ -310,6 +311,7 @@
       <module name="mongoose-backend-activities-letters" target="1.8" />
       <module name="mongoose-backend-activities-letters-routing" target="1.8" />
       <module name="mongoose-backend-activities-loadtester-jp" target="1.8" />
+      <module name="mongoose-backend-activities-loadtester-jp-routing" target="1.8" />
       <module name="mongoose-backend-activities-monitor" target="1.8" />
       <module name="mongoose-backend-activities-monitor-routing" target="1.8" />
       <module name="mongoose-backend-activities-operations" target="1.8" />

@@ -9,19 +9,20 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mongoose-backend-activities-loadtester-jp</artifactId>
+    <artifactId>mongoose-backend-activities-loadtester-jp-routing</artifactId>
 
     <dependencies>
-        <dependency>
-            <artifactId>mongoose-backend-activities-loadtester-jp-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
 
         <dependency>
-            <artifactId>mongoose-client-businesslogic</artifactId>
+            <artifactId>webfx-framework-client-uirouter</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency> <!-- for MongooseRoutingUtil only -->
+            <artifactId>mongoose-client-businesslogic</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
         </dependency>
 
     </dependencies>

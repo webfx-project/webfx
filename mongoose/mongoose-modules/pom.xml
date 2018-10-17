@@ -91,6 +91,7 @@
         <module>mongoose-frontend-activities-startbooking-routing</module>
         <module>mongoose-frontend-activities-summary-routing</module>
         <module>mongoose-frontend-activities-terms-routing</module>
+        <module>mongoose-backend-activities-loadtester-jp-routing</module>
 
     </modules>
 

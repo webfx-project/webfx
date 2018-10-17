@@ -1,6 +1,6 @@
 package mongoose.backend.operations.loadtester;
 
-import mongoose.backend.activities.loadtester.LoadTesterRouting;
+import mongoose.backend.activities.loadtester.routing.LoadTesterRouting;
 import webfx.framework.client.activity.impl.elementals.uiroute.UiRouteActivityContext;
 import webfx.framework.shared.operation.HasOperationCode;
 import webfx.framework.client.operations.route.RoutePushRequest;
