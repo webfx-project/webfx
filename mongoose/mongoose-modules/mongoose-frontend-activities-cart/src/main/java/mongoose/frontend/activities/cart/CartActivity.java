@@ -169,8 +169,7 @@ final class CartActivity extends CartBasedActivity {
             registerFormatter("priceWithCurrency", new PriceFormatter(getEvent()));
         displayEntities(cartAggregate.getCartDocuments(), "[" +
                         "'ref'," +
-                        "'person_firstName'," +
-                        "'person_lastName'," +
+                        "'person_name'," +
                         "{expression: 'price_net', format: 'priceWithCurrency'}," +
                         "{expression: 'price_deposit', format: 'priceWithCurrency'}," +
                         "{expression: 'price_balance', format: 'priceWithCurrency'}," +
