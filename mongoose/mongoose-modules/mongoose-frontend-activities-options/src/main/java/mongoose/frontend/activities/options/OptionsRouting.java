@@ -20,17 +20,4 @@ public final class OptionsRouting {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, getPath());
     }
 
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , OptionsActivity::new
-                , ViewDomainActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
-    }
 }

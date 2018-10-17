@@ -16,18 +16,4 @@ public final class LoginRouting {
         return PATH;
     }
 
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , LoginViewActivity::new
-                , ViewDomainActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl implements ProvidedLoginUiRoute {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
-    }
-
 }

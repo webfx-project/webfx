@@ -21,17 +21,4 @@ public final class PaymentRouting {
         return MongooseRoutingUtil.interpolateCartUuidInPath(CartRouting.getCartUuid(cartUuidOrDocument), getPath());
     }
 
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , PaymentActivity::new
-                , ViewDomainActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
-    }
 }

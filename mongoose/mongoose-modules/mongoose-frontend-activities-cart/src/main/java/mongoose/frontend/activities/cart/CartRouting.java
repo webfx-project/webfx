@@ -2,9 +2,6 @@ package mongoose.frontend.activities.cart;
 
 import mongoose.client.activities.generic.routing.MongooseRoutingUtil;
 import mongoose.shared.entities.Document;
-import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import webfx.framework.client.ui.uirouter.UiRoute;
-import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;
 
 /**
  * @author Bruno Salmon
@@ -27,17 +24,4 @@ public final class CartRouting {
         return cartUuidOrDocument;
     }
 
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , CartActivity::new
-                , ViewDomainActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
-    }
 }

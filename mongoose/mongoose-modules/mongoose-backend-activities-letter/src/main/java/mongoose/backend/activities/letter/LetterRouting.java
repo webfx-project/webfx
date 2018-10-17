@@ -12,22 +12,12 @@ public final class LetterRouting {
 
     private final static String PATH = "/letter/:letterId";
 
+    public static String getPath() {
+        return PATH;
+    }
+
     public static String getEditLetterPath(Object letterId) {
         return MongooseRoutingUtil.interpolateLetterIdInPath(letterId, PATH);
-    }
-
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , LetterActivity::new
-                , ViewDomainActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
     }
 
 }

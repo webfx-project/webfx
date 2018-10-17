@@ -1,1 +1,1 @@
-mongoose.backend.activities.events.EventsRouting$ProvidedUiRoute
+mongoose.backend.activities.events.EventsUiRoute

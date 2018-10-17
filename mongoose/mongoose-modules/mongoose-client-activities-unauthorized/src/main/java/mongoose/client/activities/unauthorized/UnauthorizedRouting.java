@@ -16,18 +16,4 @@ public final class UnauthorizedRouting {
         return PATH;
     }
 
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , UnauthorizedViewActivity::new
-                , ViewDomainActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl implements ProvidedUnauthorizedUiRoute {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
-    }
-
 }

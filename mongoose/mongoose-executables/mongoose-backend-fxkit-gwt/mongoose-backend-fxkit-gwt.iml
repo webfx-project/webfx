@@ -15,6 +15,10 @@
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
     <orderEntry type="module" module-name="webfx-fxkit-extra" />
     <orderEntry type="module" module-name="webfx-fxkit-emul-javafxcontrols" />
+    <orderEntry type="module" module-name="webfx-fxkit-emul-javafxgraphics" />
+    <orderEntry type="module" module-name="webfx-fxkit-emul-javafxbase" />
+    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
+    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-core:1.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: com.google.jsinterop:base:1.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-dom:1.0.0-RC1" level="project" />

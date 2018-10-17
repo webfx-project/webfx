@@ -1,1 +1,1 @@
-mongoose.backend.activities.letter.LetterRouting$ProvidedUiRoute
+mongoose.backend.activities.letter.LetterUiRoute

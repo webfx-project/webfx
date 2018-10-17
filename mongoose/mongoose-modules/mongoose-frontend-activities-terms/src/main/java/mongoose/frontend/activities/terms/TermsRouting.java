@@ -12,21 +12,12 @@ public final class TermsRouting {
 
     private final static String PATH = "/book/event/:eventId/terms";
 
+    public static String getPath() {
+        return PATH;
+    }
+
     public static String getTermsPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
     }
 
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , TermsActivity::new
-                , DomainPresentationActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
-    }
 }

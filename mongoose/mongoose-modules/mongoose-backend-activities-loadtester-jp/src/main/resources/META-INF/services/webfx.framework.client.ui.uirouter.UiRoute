@@ -1,2 +1,2 @@
-mongoose.backend.activities.loadtester.LoadTesterRouting$ProvidedUiRoute
-mongoose.backend.activities.saveloadtest.SaveLoadTestRooting$ProvidedUiRoute
+mongoose.backend.activities.loadtester.LoadTesterUiRoute
+mongoose.backend.activities.saveloadtest.SaveLoadTestUiRoute

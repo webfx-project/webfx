@@ -1,1 +1,1 @@
-mongoose.client.activities.login.LoginRouting$ProvidedUiRoute
+mongoose.client.activities.login.LoginUiRoute

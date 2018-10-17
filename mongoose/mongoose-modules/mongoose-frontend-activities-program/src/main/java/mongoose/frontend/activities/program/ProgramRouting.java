@@ -12,22 +12,12 @@ public final class ProgramRouting {
 
     private final static String PATH = "/book/event/:eventId/program";
 
+    public static String getPath() {
+        return PATH;
+    }
+
     public static String getProgramPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
-    }
-
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , ProgramActivity::new
-                , ViewDomainActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
     }
 
 }

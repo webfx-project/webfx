@@ -15,17 +15,4 @@ public final class OrganizationsRouting {
         return PATH;
     }
 
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , OrganizationsActivity::new
-                , DomainPresentationActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
-    }
 }

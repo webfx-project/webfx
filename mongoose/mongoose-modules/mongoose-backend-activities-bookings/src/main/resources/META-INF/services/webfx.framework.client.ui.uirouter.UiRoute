@@ -1,1 +1,1 @@
-mongoose.backend.activities.bookings.BookingsRouting$ProvidedUiRoute
+mongoose.backend.activities.bookings.BookingsUiRoute

@@ -12,21 +12,12 @@ public final class StartBookingRouting {
 
     private final static String PATH = "/book/event/:eventId/start";
 
+    public static String getPath() {
+        return PATH;
+    }
+
     public static String getStartBookingPath(Object eventId) {
         return MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH);
     }
 
-    public static UiRoute<?> uiRoute() {
-        return UiRoute.create(PATH
-                , false
-                , StartBookingActivity::new
-                , ViewDomainActivityContextFinal::new
-        );
-    }
-
-    public static final class ProvidedUiRoute extends UiRouteImpl {
-        public ProvidedUiRoute() {
-            super(uiRoute());
-        }
-    }
 }
