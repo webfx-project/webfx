@@ -11,12 +11,29 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="mongoose-client-businesslogic" />
-    <orderEntry type="module" module-name="mongoose-client-calendar" />
-    <orderEntry type="module" module-name="mongoose-shared-time" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
+    <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
+    <orderEntry type="module" module-name="webfx-framework-shared-router" />
+    <orderEntry type="module" module-name="webfx-framework-shared-authn" />
+    <orderEntry type="module" module-name="webfx-framework-shared-authz" />
     <orderEntry type="module" module-name="webfx-platform-shared-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
+    <orderEntry type="module" module-name="webfx-framework-client-activity" />
+    <orderEntry type="module" module-name="webfx-framework-shared-operation" />
+    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
+    <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
+    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-bookings-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-fees-routing" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent-routing" />
+    <orderEntry type="module" module-name="mongoose-client-businesslogic" />
+    <orderEntry type="module" module-name="mongoose-client-calendar" />
+    <orderEntry type="module" module-name="mongoose-shared-time" />
     <orderEntry type="module" module-name="webfx-framework-client-layouts" />
     <orderEntry type="module" module-name="webfx-framework-client-util" />
     <orderEntry type="module" module-name="mongoose-client-icons" />
@@ -36,10 +53,8 @@
     <orderEntry type="module" module-name="webfx-platform-shared-serial" />
     <orderEntry type="module" module-name="webfx-platform-shared-datasource" />
     <orderEntry type="module" module-name="webfx-framework-client-action" />
-    <orderEntry type="module" module-name="webfx-framework-shared-authz" />
     <orderEntry type="module" module-name="webfx-platform-shared-resource" />
     <orderEntry type="module" module-name="webfx-framework-client-i18n" />
-    <orderEntry type="module" module-name="webfx-framework-shared-operation" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
     <orderEntry type="module" module-name="webfx-framework-client-controls" />
     <orderEntry type="module" module-name="webfx-framework-client-materialdesign" />
@@ -51,22 +66,7 @@
     <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
     <orderEntry type="module" module-name="webfx-platform-shared-bus" />
-    <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-platform-client-websocket" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
-    <orderEntry type="module" module-name="mongoose-backend-activities-bookings-routing" />
-    <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
-    <orderEntry type="module" module-name="webfx-framework-shared-router" />
-    <orderEntry type="module" module-name="webfx-framework-shared-authn" />
-    <orderEntry type="module" module-name="webfx-framework-client-activity" />
-    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
-    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
-    <orderEntry type="module" module-name="webfx-fxkit-util" />
-    <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
-    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-fees-routing" />
-    <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent-routing" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
   </component>
 </module>

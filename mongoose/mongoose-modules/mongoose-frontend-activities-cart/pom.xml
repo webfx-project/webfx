@@ -14,18 +14,6 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-client-bookingprocess</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-client-bookingoptionspanel</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
             <artifactId>mongoose-frontend-activities-cart-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -45,6 +33,24 @@
 
         <dependency>
             <artifactId>mongoose-frontend-activities-payment-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-frontend-activities-terms-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-client-bookingprocess</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-client-bookingoptionspanel</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

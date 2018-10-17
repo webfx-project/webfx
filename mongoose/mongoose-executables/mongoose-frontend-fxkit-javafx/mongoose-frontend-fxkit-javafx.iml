@@ -50,17 +50,17 @@
     <orderEntry type="module" module-name="webfx-framework-client-querypush" />
     <orderEntry type="module" module-name="webfx-framework-shared-querypush" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-startbooking" />
-    <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
-    <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-terms-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-startbooking-routing" />
     <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
     <orderEntry type="module" module-name="webfx-framework-shared-router" />
     <orderEntry type="module" module-name="webfx-framework-shared-authn" />
     <orderEntry type="module" module-name="webfx-framework-client-activity" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-terms-routing" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-program-routing" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-fees-routing" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-startbooking-routing" />
+    <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
+    <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-terms" />
     <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-program" />

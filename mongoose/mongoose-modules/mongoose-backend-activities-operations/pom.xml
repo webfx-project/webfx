@@ -14,13 +14,13 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-client-businesslogic</artifactId>
+            <artifactId>mongoose-backend-activities-operations-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-backend-activities-operations-routing</artifactId>
+            <artifactId>mongoose-client-businesslogic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

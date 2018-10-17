@@ -11,7 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-person-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
     <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
     <orderEntry type="module" module-name="webfx-framework-shared-router" />
     <orderEntry type="module" module-name="webfx-framework-shared-authn" />
@@ -64,10 +64,10 @@
     <orderEntry type="module" module-name="webfx-platform-shared-bus" />
     <orderEntry type="module" module-name="webfx-platform-client-websocket" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-person-routing" />
     <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
     <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
     <orderEntry type="module" module-name="mongoose-client-icons" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
   </component>
 </module>

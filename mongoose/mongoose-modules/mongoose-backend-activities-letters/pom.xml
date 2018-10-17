@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-client-businesslogic</artifactId>
+            <artifactId>mongoose-backend-activities-letters-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -26,7 +26,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-backend-activities-letters-routing</artifactId>
+            <artifactId>mongoose-client-businesslogic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

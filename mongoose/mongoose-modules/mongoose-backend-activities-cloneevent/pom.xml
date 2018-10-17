@@ -14,12 +14,6 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-client-businesslogic</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
             <artifactId>mongoose-backend-activities-cloneevent-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -27,6 +21,12 @@
 
         <dependency>
             <artifactId>mongoose-backend-activities-bookings-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-client-businesslogic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

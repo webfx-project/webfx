@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-client-businesslogic</artifactId>
+            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -32,7 +32,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
+            <artifactId>mongoose-client-businesslogic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

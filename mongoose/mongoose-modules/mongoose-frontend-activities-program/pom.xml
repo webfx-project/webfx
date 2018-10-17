@@ -14,6 +14,12 @@
     <dependencies>
 
         <dependency>
+            <artifactId>mongoose-frontend-activities-program-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>mongoose-client-bookingprocess</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -21,12 +27,6 @@
 
         <dependency>
             <artifactId>mongoose-client-sectionpanel</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-frontend-activities-program-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

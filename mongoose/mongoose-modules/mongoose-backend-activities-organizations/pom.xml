@@ -14,9 +14,9 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-client-businesslogic</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
+            <artifactId>mongoose-backend-activities-organizations-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
         </dependency>
 
         <dependency>
@@ -26,7 +26,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-backend-activities-organizations-routing</artifactId>
+            <artifactId>mongoose-client-businesslogic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
