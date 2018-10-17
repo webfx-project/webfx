@@ -15,12 +15,18 @@
 
         <dependency>
             <artifactId>mongoose-client-businesslogic</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-backend-activities-bookings</artifactId>
+            <artifactId>mongoose-backend-activities-bookings-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-backend-activities-events-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

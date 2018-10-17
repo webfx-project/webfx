@@ -1,5 +1,6 @@
 package mongoose.frontend.activities.payment;
 
+import mongoose.frontend.activities.payment.routing.PaymentRouting;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.client.ui.uirouter.UiRoute;
 import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;

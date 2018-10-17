@@ -1,5 +1,6 @@
 package mongoose.frontend.activities.startbooking;
 
+import mongoose.frontend.activities.startbooking.routing.StartBookingRouting;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.client.ui.uirouter.UiRoute;
 import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;

@@ -1,5 +1,6 @@
 package mongoose.backend.activities.events;
 
+import mongoose.backend.activities.events.routing.EventsRouting;
 import webfx.framework.client.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import webfx.framework.client.ui.uirouter.UiRoute;
 import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;

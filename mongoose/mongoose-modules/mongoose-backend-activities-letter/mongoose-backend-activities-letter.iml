@@ -18,10 +18,7 @@
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
     <orderEntry type="module" module-name="webfx-framework-client-layouts" />
-    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
-    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
     <orderEntry type="module" module-name="webfx-framework-client-util" />
-    <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="mongoose-client-icons" />
     <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
@@ -34,12 +31,6 @@
     <orderEntry type="module" module-name="webfx-framework-shared-expression" />
     <orderEntry type="module" module-name="webfx-fxkit-extra" />
     <orderEntry type="module" module-name="webfx-platform-shared-query" />
-    <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
-    <orderEntry type="module" module-name="webfx-framework-shared-router" />
-    <orderEntry type="module" module-name="webfx-framework-shared-authn" />
-    <orderEntry type="module" module-name="webfx-framework-client-activity" />
-    <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
-    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="webfx-platform-shared-update" />
     <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
     <orderEntry type="module" module-name="webfx-platform-shared-serial" />
@@ -65,5 +56,15 @@
     <orderEntry type="module" module-name="webfx-platform-client-websocket" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="mongoose-backend-multilangeditor" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-letter-routing" />
+    <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
+    <orderEntry type="module" module-name="webfx-framework-shared-router" />
+    <orderEntry type="module" module-name="webfx-framework-shared-authn" />
+    <orderEntry type="module" module-name="webfx-framework-client-activity" />
+    <orderEntry type="module" module-name="webfx-fxkit-launcher" />
+    <orderEntry type="module" module-name="webfx-fxkit-mapper" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
   </component>
 </module>

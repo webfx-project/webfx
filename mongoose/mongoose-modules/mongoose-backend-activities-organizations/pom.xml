@@ -20,11 +20,16 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-backend-activities-events</artifactId>
+            <artifactId>mongoose-backend-activities-events-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>mongoose-backend-activities-organizations-routing</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
 
     </dependencies>
 

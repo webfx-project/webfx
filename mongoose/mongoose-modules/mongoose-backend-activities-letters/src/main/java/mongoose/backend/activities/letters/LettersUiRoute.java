@@ -1,5 +1,6 @@
 package mongoose.backend.activities.letters;
 
+import mongoose.backend.activities.letters.routing.LettersRouting;
 import webfx.framework.client.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import webfx.framework.client.ui.uirouter.UiRoute;
 import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;

@@ -1,5 +1,6 @@
 package mongoose.backend.activities.bookings;
 
+import mongoose.backend.activities.bookings.routing.BookingsRouting;
 import webfx.framework.client.activity.impl.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import webfx.framework.client.ui.uirouter.UiRoute;
 import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;

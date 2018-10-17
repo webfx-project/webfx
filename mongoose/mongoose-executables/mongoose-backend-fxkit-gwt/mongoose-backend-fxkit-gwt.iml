@@ -52,14 +52,23 @@
     <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
     <orderEntry type="module" module-name="mongoose-client-activities-unauthorized" />
     <orderEntry type="module" module-name="mongoose-backend-activities-authorizations" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-authorizations-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-organizations" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-events-routing" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-organizations-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-operations" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-operations-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-monitor" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-monitor-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-letters" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-letter-routing" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-letters-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-letter" />
     <orderEntry type="module" module-name="mongoose-backend-multilangeditor" />
     <orderEntry type="module" module-name="mongoose-backend-activities-events" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-bookings-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-bookings" />
+    <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent" />
     <orderEntry type="module" module-name="webfx-framework-client-all" />
     <orderEntry type="module" module-name="webfx-framework-shared-expression" />

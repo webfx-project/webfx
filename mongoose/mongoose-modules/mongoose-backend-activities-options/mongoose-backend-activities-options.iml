@@ -34,12 +34,6 @@
     <orderEntry type="module" module-name="webfx-framework-shared-expression" />
     <orderEntry type="module" module-name="webfx-fxkit-extra" />
     <orderEntry type="module" module-name="webfx-platform-shared-query" />
-    <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
-    <orderEntry type="module" module-name="webfx-framework-shared-router" />
-    <orderEntry type="module" module-name="webfx-framework-shared-authn" />
-    <orderEntry type="module" module-name="webfx-framework-client-activity" />
-    <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
-    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="webfx-platform-shared-update" />
     <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
     <orderEntry type="module" module-name="webfx-platform-shared-serial" />
@@ -66,14 +60,16 @@
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="mongoose-backend-multilangeditor" />
     <orderEntry type="module" module-name="mongoose-frontend-activities-options" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-person" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-summary" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-cart" />
-    <orderEntry type="module" module-name="mongoose-client-bookingoptionspanel" />
-    <orderEntry type="module" module-name="mongoose-client-personaldetails" />
-    <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
-    <orderEntry type="module" module-name="mongoose-client-activities-login" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-person-routing" />
+    <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
+    <orderEntry type="module" module-name="webfx-framework-shared-router" />
+    <orderEntry type="module" module-name="webfx-framework-shared-authn" />
+    <orderEntry type="module" module-name="webfx-framework-client-activity" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
+    <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
+    <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
   </component>
 </module>

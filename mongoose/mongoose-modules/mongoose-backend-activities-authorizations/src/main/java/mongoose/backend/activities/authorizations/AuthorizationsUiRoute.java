@@ -1,5 +1,6 @@
 package mongoose.backend.activities.authorizations;
 
+import mongoose.backend.activities.authorizations.routing.AuthorizationsRouting;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.client.ui.uirouter.UiRoute;
 import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;

@@ -15,12 +15,18 @@
 
         <dependency>
             <artifactId>mongoose-client-businesslogic</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
         </dependency>
 
         <dependency>
             <artifactId>mongoose-backend-multilangeditor</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-backend-activities-letter-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

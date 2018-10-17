@@ -1,5 +1,6 @@
 package mongoose.frontend.activities.program;
 
+import mongoose.frontend.activities.program.routing.ProgramRouting;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.client.ui.uirouter.UiRoute;
 import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;

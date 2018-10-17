@@ -11,16 +11,25 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-executables/mongoose-server-platform-vertx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-authorizations" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-authorizations-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-bookings" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-bookings-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-cloneevent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-cloneevent-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-events" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-events-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-letter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-letter-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-letters" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-letters-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-loadtester-jp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-monitor" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-monitor-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-operations" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-operations-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-options" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-organizations" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-activities-organizations-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-application" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-backend-multilangeditor" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-activities-login" charset="UTF-8" />
@@ -50,14 +59,23 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-util" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-validation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-cart" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-cart-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-fees" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-fees-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-options" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-options-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-payment" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-payment-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-person" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-person-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-program" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-program-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-startbooking" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-startbooking-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-summary" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-summary-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-terms" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-terms-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-application" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-application" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-server-datasource" charset="UTF-8" />
@@ -107,8 +125,6 @@
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-launcher" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-mapper" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-util" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul-tool" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-libs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation" charset="UTF-8" />

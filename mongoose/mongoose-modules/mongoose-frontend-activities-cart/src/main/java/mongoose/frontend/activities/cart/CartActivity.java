@@ -18,6 +18,7 @@ import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.sectionpanel.SectionPanelFactory;
+import mongoose.frontend.activities.cart.routing.CartRouting;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.History;

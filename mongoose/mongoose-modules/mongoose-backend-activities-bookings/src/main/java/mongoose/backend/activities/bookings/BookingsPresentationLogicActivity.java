@@ -14,7 +14,7 @@ import webfx.platform.shared.util.Strings;
 
 import java.time.LocalDate;
 
-import static mongoose.backend.activities.bookings.BookingsRouting.parseDayParam;
+import static mongoose.backend.activities.bookings.routing.BookingsRouting.parseDayParam;
 import static webfx.framework.shared.expression.sqlcompiler.terms.ConstantSqlCompiler.toSqlDate;
 
 /**

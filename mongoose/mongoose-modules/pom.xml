@@ -73,6 +73,24 @@
         <module>mongoose-server-systemmetrics</module>
         <module>mongoose-server-systemmetrics-java</module>
         <module>mongoose-server-application</module>
+        <module>mongoose-backend-activities-authorizations-routing</module>
+        <module>mongoose-backend-activities-bookings-routing</module>
+        <module>mongoose-backend-activities-cloneevent-routing</module>
+        <module>mongoose-backend-activities-events-routing</module>
+        <module>mongoose-backend-activities-letter-routing</module>
+        <module>mongoose-backend-activities-letters-routing</module>
+        <module>mongoose-backend-activities-monitor-routing</module>
+        <module>mongoose-backend-activities-operations-routing</module>
+        <module>mongoose-backend-activities-organizations-routing</module>
+        <module>mongoose-frontend-activities-cart-routing</module>
+        <module>mongoose-frontend-activities-fees-routing</module>
+        <module>mongoose-frontend-activities-options-routing</module>
+        <module>mongoose-frontend-activities-payment-routing</module>
+        <module>mongoose-frontend-activities-person-routing</module>
+        <module>mongoose-frontend-activities-program-routing</module>
+        <module>mongoose-frontend-activities-startbooking-routing</module>
+        <module>mongoose-frontend-activities-summary-routing</module>
+        <module>mongoose-frontend-activities-terms-routing</module>
 
     </modules>
 

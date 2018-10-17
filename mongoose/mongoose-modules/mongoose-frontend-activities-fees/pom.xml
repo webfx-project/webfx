@@ -14,13 +14,25 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-frontend-activities-options</artifactId>
+            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
 
         <dependency>
             <artifactId>mongoose-client-bookingprocess</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-client-sectionpanel</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-frontend-activities-fees-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
