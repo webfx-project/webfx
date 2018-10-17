@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.client.activities.shared.TranslateFunction;
@@ -24,10 +23,12 @@ import mongoose.shared.entities.Document;
 import mongoose.shared.entities.History;
 import mongoose.shared.entities.Mail;
 import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.action.impl.WritableAction;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
+import webfx.framework.client.ui.layouts.FlexBox;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.terms.function.Function;
@@ -41,6 +42,7 @@ import webfx.fxkit.extra.displaydata.DisplaySelection;
 import webfx.fxkit.extra.type.PrimType;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.collection.Collections;
 
@@ -67,7 +69,7 @@ final class CartActivity extends CartBasedActivity {
     private final WritableAction showPaymentsAction  = new WritableAction(newAction("YourPayments", this::showPayments), "*");
     private BorderPane optionsPanel;
     private BorderPane paymentsPanel;
-    private HBox bottomButtonBar;
+    private FlexBox bottomButtonBar;
 
     @Override
     public Node buildUi() {
@@ -83,22 +85,18 @@ final class CartActivity extends CartBasedActivity {
         paymentTable.setFullHeight(true);
         paymentsPanel.setCenter(paymentTable);
 
-        HBox bookingButtonBar = new HBox(20,
-                LayoutUtil.createHGrowable()
-                , newButton(cancelBookingAction)
-                , newButton(modifyBookingAction)
-                , newButton(contactUsAction)
-                , newButton("TermsAndConditions", this::readTerms)
-                , LayoutUtil.createHGrowable()
+        FlexBox bookingButtonBar = createFlexButtonBar(
+                cancelBookingAction
+                , modifyBookingAction
+                , contactUsAction
+                , newAction("TermsAndConditions", this::readTerms)
         );
         optionsPanel.setBottom(LayoutUtil.createPadding(bookingButtonBar));
 
-        bottomButtonBar = new HBox(20
-                , newButton("AddAnotherBooking", this::addBooking)
-                , LayoutUtil.createHGrowable()
-                , newButton(showPaymentsAction)
-                , LayoutUtil.createHGrowable()
-                , newButton("MakePayment", this::makePayment)
+        bottomButtonBar = createFlexButtonBar(
+                newAction("AddAnotherBooking", this::addBooking)
+                , showPaymentsAction
+                , newAction("MakePayment", this::makePayment)
         );
 
         LayoutUtil.setUnmanagedWhenInvisible(optionsPanel).setVisible(false);
@@ -115,6 +113,13 @@ final class CartActivity extends CartBasedActivity {
         syncBookingOptionsPanelIfReady();
 
         return new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, bottomButtonBar)));
+    }
+
+    private FlexBox createFlexButtonBar(Action... actions) {
+        // not compiling with GWT return new FlexBox(20, 10, Arrays.map(actions, action -> LayoutUtil.setMaxWidthToInfinite(LayoutUtil.setMinWidthToPref(newButton(action))), Node[]::new));
+        FlexBox flexButtonBar = new FlexBox(20, 10);
+        Arrays.forEach(actions, action -> flexButtonBar.getChildren().add(LayoutUtil.setMaxWidthToInfinite(LayoutUtil.setMinWidthToPref(newButton(action)))));
+        return flexButtonBar;
     }
 
     @Override
