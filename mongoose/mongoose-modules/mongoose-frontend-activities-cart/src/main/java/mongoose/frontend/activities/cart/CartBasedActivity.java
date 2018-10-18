@@ -2,12 +2,15 @@ package mongoose.frontend.activities.cart;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.layout.Region;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
 import mongoose.client.aggregates.CartAggregate;
 import mongoose.shared.entities.Event;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.fxkit.util.properties.Properties;
+import webfx.platform.shared.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -59,7 +62,19 @@ public abstract class CartBasedActivity
         loadCart();
     }
 
-    protected abstract void onCartLoaded();
+    protected void onCartLoaded() {
+        // Applying the css background of the event if provided and if ui is ready
+        applyEventCssBackgroundIfProvided();
+    }
+
+    protected void applyEventCssBackgroundIfProvided() {
+        if (uiNode != null && cartService().getEventAggregate() != null) {
+            // TODO: capitalize this code with BookingProcessActivity
+            String css = getEvent().getStringFieldValue("cssClass");
+            if (Strings.startsWith(css,"linear-gradient"))
+                ((Region) uiNode).setBackground(BackgroundUtil.newLinearGradientBackground(css));
+        }
+    }
 
     protected CartAggregate cartService() {
         return CartAggregate.getOrCreate(getCartUuid(), getDataSourceModel());

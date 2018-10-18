@@ -18,7 +18,7 @@ public abstract class ViewActivityBase
         implements ViewActivity<C>,
         ViewActivityContextMixin<C> {
 
-    private Node uiNode;
+    protected Node uiNode;
 
     @Override
     public Future<Void> onResumeAsync() {

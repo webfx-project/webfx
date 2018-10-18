@@ -83,7 +83,7 @@ final class CartActivity extends CartBasedActivity {
         DataGrid documentTable = new DataGrid(); //LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         documentTable.setFullHeight(true);
         bookingsPanel.setCenter(documentTable);
-        optionsPanel = SectionPanelFactory.createSectionPanel(null, bookingLabel = new Label());
+        optionsPanel = SectionPanelFactory.createSectionPanel(bookingLabel = new Label());
         bookingOptionsPanel = new BookingOptionsPanel();
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
         paymentsPanel = SectionPanelFactory.createSectionPanel("YourPayments");
@@ -107,6 +107,9 @@ final class CartActivity extends CartBasedActivity {
         // User outputs: the presentation model changes are transferred in the UI
         documentTable.displayResultProperty().bind(documentDisplayResultProperty);
         paymentTable.displayResultProperty().bind(paymentDisplayResultProperty);
+
+        // Applying the css background of the event if provided and if ui is ready
+        UiScheduler.scheduleDeferred(this::applyEventCssBackgroundIfProvided);
 
         syncBookingOptionsPanelIfReady();
 
@@ -167,6 +170,7 @@ final class CartActivity extends CartBasedActivity {
 
     @Override
     protected void onCartLoaded() {
+        super.onCartLoaded(); // Applying the css background of the event if provided
         CartAggregate cartAggregate = cartService();
         if (cartAggregate.getEventAggregate() != null)
             registerFormatter("priceWithCurrency", new PriceFormatter(getEvent()));
