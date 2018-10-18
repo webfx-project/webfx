@@ -40,8 +40,6 @@
         <module>mongoose-backend-multilangeditor</module>
         <module>mongoose-frontend-activities-cart</module>
         <module>mongoose-frontend-activities-cart-routing</module>
-        <module>mongoose-frontend-activities-contactus</module>
-        <module>mongoose-frontend-activities-contactus-routing</module>
         <module>mongoose-frontend-activities-fees</module>
         <module>mongoose-frontend-activities-fees-routing</module>
         <module>mongoose-frontend-activities-options</module>
