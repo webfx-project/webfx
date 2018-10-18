@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import webfx.fxkit.launcher.FxKitLauncher;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,26 +34,37 @@ public final class ImageStore {
 
     public static ImageView createImageView(String iconPath, double w, double h, boolean resetToIntrinsicSizeOnceLoaded) {
         ImageView imageView = new ImageView();
+        boolean loaded = loadImageViewImage(imageView, iconPath, w, h, resetToIntrinsicSizeOnceLoaded);
+        if (!loaded) {
+            if (w > 0)
+                imageView.setFitWidth(w);
+            if (h > 0)
+                imageView.setFitHeight(h);
+        }
+        return imageView;
+    }
+
+    private static boolean loadImageViewImage(ImageView imageView, String iconPath, double w, double h, boolean resetToIntrinsicSizeOnceLoaded) {
         if (iconPath != null) {
+            // Checking the FxKit is ready (especially under JavaFx) because any attempt loading an image before JavaFx is ready results in crash
+            if (!FxKitLauncher.isReady()) { // If not ready, just postponing the image load once it is ready
+                FxKitLauncher.onReady(() -> loadImageViewImage(imageView, iconPath, w, h, resetToIntrinsicSizeOnceLoaded));
+                return false;
+            }
             Image image = getOrCreateImage(iconPath, w, h, resetToIntrinsicSizeOnceLoaded);
             if (image != null) {
                 imageView.setImage(image);
                 if (resetToIntrinsicSizeOnceLoaded) {
                     if (isImageLoaded(image))
-                        w = h = 0;
-                    else
-                        runOnImageLoaded(image, () -> {
-                            imageView.setFitWidth(0d);
-                            imageView.setFitHeight(0d);
-                        });
+                        return true;
+                    runOnImageLoaded(image, () -> {
+                        imageView.setFitWidth(0d);
+                        imageView.setFitHeight(0d);
+                    });
                 }
             }
         }
-        if (w > 0)
-            imageView.setFitWidth(w);
-        if (h > 0)
-            imageView.setFitHeight(h);
-        return imageView;
+        return false;
     }
 
     private static boolean isImageLoaded(Image image) {

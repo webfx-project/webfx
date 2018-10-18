@@ -27,6 +27,13 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <artifactId>webfx-fxkit-launcher</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
     <properties>
