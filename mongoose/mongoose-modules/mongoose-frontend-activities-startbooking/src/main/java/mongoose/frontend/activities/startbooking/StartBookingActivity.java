@@ -18,6 +18,7 @@ import mongoose.frontend.operations.fees.RouteToFeesRequest;
 import mongoose.frontend.operations.program.RouteToProgramRequest;
 import mongoose.client.actions.MongooseActions;
 import mongoose.shared.util.Labels;
+import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.util.anim.Animations;
 import webfx.fxkit.util.properties.Properties;
@@ -29,6 +30,10 @@ import webfx.platform.client.services.uischeduler.UiScheduler;
  */
 final class StartBookingActivity extends BookingProcessActivity {
 
+    private final Action bookAction = MongooseActions.newVisitBookAction(this::onBookButtonPressed);
+    private final Action feesAction = MongooseActions.newVisitFeesAction(this::onFeesButtonPressed);
+    private final Action termsAction = MongooseActions.newVisitTermsAndConditionsAction(this::onTermsButtonPressed);
+
     private ImageView eventImageView;
     private BorderPane eventImageViewContainer;
     private Label eventTitle;
@@ -39,9 +44,9 @@ final class StartBookingActivity extends BookingProcessActivity {
         eventImageViewContainer = LayoutUtil.setMinWidth(new BorderPane(eventImageView = new ImageView()), 0);
         eventTitle = new Label();
         eventTitle.setTextFill(Color.WHITE);
-        Button bookButton = newTransparentButton(MongooseActions.newVisitBookAction(this::onBookButtonPressed));
-        Button feesButton = newTransparentButton(MongooseActions.newVisitFeesAction(this::onFeesButtonPressed));
-        Button termsButton = newTransparentButton(MongooseActions.newVisitTermsAndConditionsAction(this::onTermsButtonPressed));
+        Button bookButton = newTransparentButton(bookAction);
+        Button feesButton = newTransparentButton(feesAction);
+        Button termsButton = newTransparentButton(termsAction);
         //Button programButton = newTransparentButton(MongooseActions.newVisitProgramAction(this::onProgramButtonPressed));
         Font eventFont = Font.font("Verdana", 24);
         Font bookButtonFont = Font.font("Verdana", 18);
