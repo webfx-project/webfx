@@ -19,6 +19,10 @@ public interface ActionFactory extends StandardActionKeys {
         return newAuthAction(actionKey, actionHandler, null);
     }
 
+    default Action newAction(Object actionKey, Object graphicUrlOrJson, EventHandler<ActionEvent> actionHandler) {
+        return newAuthAction(actionKey, graphicUrlOrJson, actionHandler, null);
+    }
+
     default Action newAuthAction(Object actionKey, ObservableBooleanValue authorizedProperty) {
         return newAuthAction(actionKey, (EventHandler<ActionEvent>) null, authorizedProperty);
     }
@@ -27,10 +31,18 @@ public interface ActionFactory extends StandardActionKeys {
         return newActionBuilder(actionKey).setActionHandler(actionHandler).setAuthorizedProperty(authorizedProperty).build();
     }
 
+    default Action newAuthAction(Object actionKey, Object graphicUrlOrJson, EventHandler<ActionEvent> actionHandler, ObservableBooleanValue authorizedProperty) {
+        return newActionBuilder(actionKey).setGraphicUrlOrJson(graphicUrlOrJson).setActionHandler(actionHandler).setAuthorizedProperty(authorizedProperty).build();
+    }
+
     // Same API but with Runnable
 
     default Action newAction(Object actionKey, Runnable actionHandler) {
         return newAction(actionKey, e -> actionHandler.run());
+    }
+
+    default Action newAction(Object actionKey, Object graphicUrlOrJson, Runnable actionHandler) {
+        return newAction(actionKey, graphicUrlOrJson, e -> actionHandler.run());
     }
 
     default Action newAuthAction(Object actionKey, Runnable actionHandler, ObservableBooleanValue authorizedProperty) {

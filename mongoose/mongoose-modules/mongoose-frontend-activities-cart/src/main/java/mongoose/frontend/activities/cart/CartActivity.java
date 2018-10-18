@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import mongoose.client.actions.MongooseActions;
 import mongoose.client.activities.shared.TranslateFunction;
 import mongoose.client.aggregates.CartAggregate;
 import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
@@ -55,6 +56,15 @@ import static webfx.framework.client.ui.util.formatter.FormatterRegistry.registe
  */
 final class CartActivity extends CartBasedActivity {
 
+    // Instantiating the different actions
+    private final WritableAction modifyBookingAction = new WritableAction(newAction("<<Modify", "{url: 'images/svg/mono/pen.svg', width: 16, height: 16}", this::modifyBooking), "*");
+    private final WritableAction cancelBookingAction = new WritableAction(newAction("Cancel", "{url: 'images/svg/mono/cancel.svg', width: 16, height: 16}", this::cancelBooking), "*");
+    private final WritableAction contactUsAction     = new WritableAction(newAction("ContactUs>>", "{url: 'images/svg/mono/mail.svg', width: 16, height: 16}", this::contactUs), "*");
+    private final Action termsAction                 = MongooseActions.newVisitTermsAndConditionsAction(this::readTerms);
+    private final WritableAction showPaymentsAction  = new WritableAction(newAction("YourPayments", this::showPayments), "*");
+    private final Action addAnotherBookingAction     = newAction("<<AddAnotherBooking", "{url: 'images/svg/mono/plus-circle-green.svg', width: 32, height: 32}", this::addBooking);
+    private final Action makePaymentAction           = newAction("MakePayment>>", "{url: 'images/svg/mono/pay-circle.svg', width: 32, height: 32}", this::makePayment);
+
     private final Property<DisplayResult> documentDisplayResultProperty = new SimpleObjectProperty<>();
     private final Property<DisplayResult> paymentDisplayResultProperty = new SimpleObjectProperty<>();
     // Display input & output
@@ -63,10 +73,6 @@ final class CartActivity extends CartBasedActivity {
     private Label bookingLabel;
     private BookingOptionsPanel bookingOptionsPanel;
     private WorkingDocument selectedWorkingDocument;
-    private final WritableAction cancelBookingAction = new WritableAction(newCancelAction(this::cancelBooking), "*");
-    private final WritableAction modifyBookingAction = new WritableAction(newAction("Modify", this::modifyBooking), "*");
-    private final WritableAction contactUsAction     = new WritableAction(newAction("ContactUs", this::contactUs), "*");
-    private final WritableAction showPaymentsAction  = new WritableAction(newAction("YourPayments", this::showPayments), "*");
     private BorderPane optionsPanel;
     private BorderPane paymentsPanel;
     private FlexBox bottomButtonBar;
@@ -85,19 +91,11 @@ final class CartActivity extends CartBasedActivity {
         paymentTable.setFullHeight(true);
         paymentsPanel.setCenter(paymentTable);
 
-        FlexBox bookingButtonBar = createFlexButtonBar(
-                cancelBookingAction
-                , modifyBookingAction
-                , contactUsAction
-                , newAction("TermsAndConditions", this::readTerms)
-        );
+        FlexBox bookingButtonBar = createFlexButtonBar(modifyBookingAction, cancelBookingAction, contactUsAction, termsAction);
+
         optionsPanel.setBottom(LayoutUtil.createPadding(bookingButtonBar));
 
-        bottomButtonBar = createFlexButtonBar(
-                newAction("AddAnotherBooking", this::addBooking)
-                , showPaymentsAction
-                , newAction("MakePayment", this::makePayment)
-        );
+        bottomButtonBar = createFlexButtonBar(addAnotherBookingAction, showPaymentsAction, makePaymentAction);
 
         LayoutUtil.setUnmanagedWhenInvisible(optionsPanel).setVisible(false);
         LayoutUtil.setUnmanagedWhenInvisible(paymentsPanel).setVisible(false);
@@ -118,7 +116,7 @@ final class CartActivity extends CartBasedActivity {
     private FlexBox createFlexButtonBar(Action... actions) {
         // not compiling with GWT return new FlexBox(20, 10, Arrays.map(actions, action -> LayoutUtil.setMaxWidthToInfinite(LayoutUtil.setMinWidthToPref(newButton(action))), Node[]::new));
         FlexBox flexButtonBar = new FlexBox(20, 10);
-        Arrays.forEach(actions, action -> flexButtonBar.getChildren().add(LayoutUtil.setMaxWidthToInfinite(LayoutUtil.setMinWidthToPref(newButton(action)))));
+        Arrays.forEach(actions, action -> flexButtonBar.getChildren().add(LayoutUtil.setMaxWidthToInfinite(LayoutUtil.setMinWidthToPref(action == makePaymentAction ? newGreenButton(action) : action == addAnotherBookingAction ? newTransparentButton(action) : newButton(action)))));
         return flexButtonBar;
     }
 

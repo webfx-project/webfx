@@ -38,6 +38,10 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
         return newGreenButtonBuilder(i18nKey).build();
     }
 
+    default Button newGreenButton(Action action) {
+        return newGreenButtonBuilder(null).setAction(action).build();
+    }
+
     default ButtonBuilder newGreenButtonBuilder(Object i18nKey) {
         return newColorButtonBuilder(i18nKey, "#B7CA79", "#7D9563");
     }
