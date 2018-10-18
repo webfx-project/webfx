@@ -114,6 +114,8 @@
         <module name="mongoose-client-validation" />
         <module name="mongoose-frontend-activities-cart" />
         <module name="mongoose-frontend-activities-cart-routing" />
+        <module name="mongoose-frontend-activities-contactus" />
+        <module name="mongoose-frontend-activities-contactus-routing" />
         <module name="mongoose-frontend-activities-fees" />
         <module name="mongoose-frontend-activities-fees-routing" />
         <module name="mongoose-frontend-activities-options" />
@@ -356,6 +358,8 @@
       <module name="mongoose-frontend-actions" target="1.8" />
       <module name="mongoose-frontend-activities-cart" target="1.8" />
       <module name="mongoose-frontend-activities-cart-routing" target="1.8" />
+      <module name="mongoose-frontend-activities-contactus" target="1.8" />
+      <module name="mongoose-frontend-activities-contactus-routing" target="1.8" />
       <module name="mongoose-frontend-activities-fees" target="1.8" />
       <module name="mongoose-frontend-activities-fees-routing" target="1.8" />
       <module name="mongoose-frontend-activities-options" target="1.8" />

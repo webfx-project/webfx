@@ -61,6 +61,8 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-client-validation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-cart" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-cart-routing" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-contactus" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-contactus-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-fees" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-fees-routing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-modules/mongoose-frontend-activities-options" charset="UTF-8" />

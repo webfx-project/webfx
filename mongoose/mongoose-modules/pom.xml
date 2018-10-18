@@ -15,33 +15,50 @@
 
     <modules>
 
-        <module>mongoose-backend-activities-organizations</module>
-        <module>mongoose-backend-activities-loadtester-jp</module>
+        <module>mongoose-backend-activities-authorizations-routing</module>
         <module>mongoose-backend-activities-authorizations</module>
-        <module>mongoose-backend-activities-operations</module>
-        <module>mongoose-backend-activities-monitor</module>
-        <module>mongoose-backend-activities-letters</module>
-        <module>mongoose-backend-activities-letter</module>
-        <module>mongoose-backend-activities-events</module>
         <module>mongoose-backend-activities-bookings</module>
+        <module>mongoose-backend-activities-bookings-routing</module>
         <module>mongoose-backend-activities-cloneevent</module>
+        <module>mongoose-backend-activities-cloneevent-routing</module>
+        <module>mongoose-backend-activities-events</module>
+        <module>mongoose-backend-activities-events-routing</module>
+        <module>mongoose-backend-activities-letter</module>
+        <module>mongoose-backend-activities-letter-routing</module>
+        <module>mongoose-backend-activities-letters</module>
+        <module>mongoose-backend-activities-letters-routing</module>
+        <module>mongoose-backend-activities-loadtester-jp</module>
+        <module>mongoose-backend-activities-loadtester-jp-routing</module>
+        <module>mongoose-backend-activities-monitor</module>
+        <module>mongoose-backend-activities-monitor-routing</module>
+        <module>mongoose-backend-activities-operations</module>
+        <module>mongoose-backend-activities-operations-routing</module>
         <module>mongoose-backend-activities-options</module>
+        <module>mongoose-backend-activities-organizations</module>
+        <module>mongoose-backend-activities-organizations-routing</module>
         <module>mongoose-backend-application</module>
         <module>mongoose-backend-multilangeditor</module>
-        <module>mongoose-frontend-activities-terms</module>
-        <module>mongoose-frontend-activities-program</module>
-        <module>mongoose-frontend-activities-startbooking</module>
-        <module>mongoose-frontend-activities-fees</module>
-        <module>mongoose-frontend-activities-options</module>
-        <module>mongoose-frontend-activities-person</module>
-        <module>mongoose-frontend-activities-summary</module>
         <module>mongoose-frontend-activities-cart</module>
+        <module>mongoose-frontend-activities-cart-routing</module>
+        <module>mongoose-frontend-activities-contactus</module>
+        <module>mongoose-frontend-activities-contactus-routing</module>
+        <module>mongoose-frontend-activities-fees</module>
+        <module>mongoose-frontend-activities-fees-routing</module>
+        <module>mongoose-frontend-activities-options</module>
+        <module>mongoose-frontend-activities-options-routing</module>
+        <module>mongoose-frontend-activities-person</module>
+        <module>mongoose-frontend-activities-person-routing</module>
         <module>mongoose-frontend-activities-payment</module>
+        <module>mongoose-frontend-activities-payment-routing</module>
+        <module>mongoose-frontend-activities-program</module>
+        <module>mongoose-frontend-activities-program-routing</module>
+        <module>mongoose-frontend-activities-startbooking</module>
+        <module>mongoose-frontend-activities-startbooking-routing</module>
+        <module>mongoose-frontend-activities-summary</module>
+        <module>mongoose-frontend-activities-summary-routing</module>
+        <module>mongoose-frontend-activities-terms</module>
+        <module>mongoose-frontend-activities-terms-routing</module>
         <module>mongoose-frontend-application</module>
-        <module>mongoose-shared-domain</module>
-        <module>mongoose-shared-domain-gwt</module>
-        <module>mongoose-shared-entities</module>
-        <module>mongoose-shared-time</module>
         <module>mongoose-client-activities-login</module>
         <module>mongoose-client-activities-unauthorized</module>
         <module>mongoose-client-aggregates</module>
@@ -73,25 +90,10 @@
         <module>mongoose-server-systemmetrics</module>
         <module>mongoose-server-systemmetrics-java</module>
         <module>mongoose-server-application</module>
-        <module>mongoose-backend-activities-authorizations-routing</module>
-        <module>mongoose-backend-activities-bookings-routing</module>
-        <module>mongoose-backend-activities-cloneevent-routing</module>
-        <module>mongoose-backend-activities-events-routing</module>
-        <module>mongoose-backend-activities-letter-routing</module>
-        <module>mongoose-backend-activities-letters-routing</module>
-        <module>mongoose-backend-activities-monitor-routing</module>
-        <module>mongoose-backend-activities-operations-routing</module>
-        <module>mongoose-backend-activities-organizations-routing</module>
-        <module>mongoose-frontend-activities-cart-routing</module>
-        <module>mongoose-frontend-activities-fees-routing</module>
-        <module>mongoose-frontend-activities-options-routing</module>
-        <module>mongoose-frontend-activities-payment-routing</module>
-        <module>mongoose-frontend-activities-person-routing</module>
-        <module>mongoose-frontend-activities-program-routing</module>
-        <module>mongoose-frontend-activities-startbooking-routing</module>
-        <module>mongoose-frontend-activities-summary-routing</module>
-        <module>mongoose-frontend-activities-terms-routing</module>
-        <module>mongoose-backend-activities-loadtester-jp-routing</module>
+        <module>mongoose-shared-domain</module>
+        <module>mongoose-shared-domain-gwt</module>
+        <module>mongoose-shared-entities</module>
+        <module>mongoose-shared-time</module>
 
     </modules>
 
