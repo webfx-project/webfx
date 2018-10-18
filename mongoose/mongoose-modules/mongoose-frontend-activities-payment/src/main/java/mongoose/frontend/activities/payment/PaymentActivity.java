@@ -15,19 +15,20 @@ import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.*;
 import mongoose.shared.entities.markers.EntityHasName;
 import mongoose.shared.util.Labels;
+import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.ui.action.Action;
+import webfx.framework.client.ui.controls.dialog.DialogUtil;
+import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.EntityStoreQuery;
 import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.framework.client.services.i18n.I18n;
-import webfx.framework.client.ui.controls.dialog.DialogUtil;
-import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.fxkit.extra.control.HtmlText;
-import webfx.platform.shared.services.bus.BusService;
-import webfx.platform.client.services.websocketbus.WebSocketBus;
-import webfx.platform.shared.services.log.Logger;
 import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.websocketbus.WebSocketBus;
 import webfx.platform.client.services.windowlocation.WindowLocation;
+import webfx.platform.shared.services.bus.BusService;
+import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Dates;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.collection.Collections;
@@ -38,6 +39,8 @@ import java.util.List;
  * @author Bruno Salmon
  */
 final class PaymentActivity extends CartBasedActivity {
+
+    private final Action makePaymentAction = newAction("MakePayment>>", "{url: 'images/svg/mono/pay-circle.svg', width: 32, height: 32}", this::submitPayment);
 
     private VBox paymentsVBox;
     private List<DocumentPayment> documentPayments;
@@ -50,22 +53,21 @@ final class PaymentActivity extends CartBasedActivity {
     public Node buildUi() {
         paymentsVBox = new VBox(20);
 
-        HBox buttonBar = new HBox(20,
-                newButton("<Back", () -> getHistory().goBack()),
-                LayoutUtil.createHGrowable(),
-                newButton("MakePayment", this::submitPayment));
-
         BorderPane totalSection = SectionPanelFactory.createSectionPanel(newLabel("TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
-        VBox vBox = new VBox(20, newLabel("PaymentPrompt:"), paymentsVBox, totalSection, buttonBar);
+        VBox vBox = new VBox(20, newLabel("PaymentPrompt:"), paymentsVBox, totalSection, newLargeGreenButton(makePaymentAction));
         BorderPane container = new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(vBox));
 
         displayDocumentPaymentsIfReady();
+
+        // Applying the css background of the event if provided and if ui is ready
+        UiScheduler.scheduleDeferred(this::applyEventCssBackgroundIfProvided);
 
         return container;
     }
 
     @Override
     protected void onCartLoaded() {
+        super.onCartLoaded(); // Applying the css background of the event if provided and if ui is ready
         displayDocumentPaymentsIfReady();
     }
 

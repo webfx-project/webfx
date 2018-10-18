@@ -30,8 +30,16 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
         return LayoutUtil.setMaxWidthToInfinite(newLargeGreenButtonBuilder(i18nKey).build());
     }
 
+    default Button newLargeGreenButton(Action action) {
+        return LayoutUtil.setMaxWidthToInfinite(newLargeGreenButtonBuilder(action).build());
+    }
+
     default ButtonBuilder newLargeGreenButtonBuilder(Object i18nKey) {
         return newGreenButtonBuilder(i18nKey).setHeight(LARGE_BUTTON_HEIGHT);
+    }
+
+    default ButtonBuilder newLargeGreenButtonBuilder(Action action) {
+        return newGreenButtonBuilder(null).setAction(action).setHeight(LARGE_BUTTON_HEIGHT);
     }
 
     default Button newGreenButton(Object i18nKey) {
