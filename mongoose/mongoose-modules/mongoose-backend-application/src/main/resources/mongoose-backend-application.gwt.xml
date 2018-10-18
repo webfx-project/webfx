@@ -4,4 +4,10 @@
 
     <source path="mongoose/backend"/>
 
+    <!-- Also includes some references to the frontend -->
+    <source path="mongoose/frontend/operations/fees"/>
+    <source path="mongoose/frontend/activities/fees/routing"/>
+    <source path="mongoose/frontend/operations/options"/>
+    <source path="mongoose/frontend/activities/options/routing"/>
+
 </module>
