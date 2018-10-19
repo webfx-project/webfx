@@ -3,28 +3,28 @@ package mongoose.frontend.activities.cart;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import mongoose.client.actions.MongooseActions;
 import mongoose.client.activities.shared.TranslateFunction;
-import mongoose.client.aggregates.CartAggregate;
 import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.operations.fees.RouteToFeesRequest;
 import mongoose.frontend.operations.options.RouteToOptionsRequest;
 import mongoose.frontend.operations.payment.RouteToPaymentRequest;
-import mongoose.frontend.operations.terms.RouteToTermsRequest;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Document;
+import mongoose.shared.entities.Event;
 import mongoose.shared.entities.History;
 import mongoose.shared.entities.Mail;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.action.Action;
+import webfx.framework.client.ui.action.ActionBinder;
 import webfx.framework.client.ui.action.impl.WritableAction;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
@@ -38,6 +38,7 @@ import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.framework.shared.orm.mapping.EntityListToDisplayResultMapper;
 import webfx.fxkit.extra.control.DataGrid;
+import webfx.fxkit.extra.control.SkinnedDataGrid;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
 import webfx.fxkit.extra.type.PrimType;
@@ -58,12 +59,13 @@ final class CartActivity extends CartBasedActivity {
 
     // Instantiating the different actions
     private final WritableAction modifyBookingAction = new WritableAction(newAction("<<Modify", "{url: 'images/svg/mono/pen.svg', width: 16, height: 16}", this::modifyBooking), "*");
-    private final WritableAction cancelBookingAction = new WritableAction(newAction("Cancel", "{url: 'images/svg/mono/cancel.svg', width: 16, height: 16}", this::cancelBooking), "*");
+    private final WritableAction cancelBookingAction = new WritableAction(newAction("Cancel", "{url: 'images/svg/mono/cancel-red.svg', width: 16, height: 16}", this::cancelBooking), "*");
     private final WritableAction contactUsAction     = new WritableAction(newAction("ContactUs>>", "{url: 'images/svg/mono/mail.svg', width: 16, height: 16}", this::contactUs), "*");
-    private final Action termsAction                 = MongooseActions.newVisitTermsAndConditionsAction(this::readTerms);
+    //private final Action termsAction                 = MongooseActions.newVisitTermsAndConditionsAction(this::readTerms);
     private final WritableAction showPaymentsAction  = new WritableAction(newAction("YourPayments", this::showPayments), "*");
     private final Action addAnotherBookingAction     = newAction("<<AddAnotherBooking", "{url: 'images/svg/mono/plus-circle-green.svg', width: 32, height: 32}", this::addBooking);
     private final Action makePaymentAction           = newAction("MakePayment>>", "{url: 'images/svg/mono/pay-circle.svg', width: 32, height: 32}", this::makePayment);
+    private final Action explainStatusAction         = newAction(null, "{url: 'images/svg/mono/help-circle-blue.svg', width: 32, height: 32}", this::explainStatus);
 
     private final Property<DisplayResult> documentDisplayResultProperty = new SimpleObjectProperty<>();
     private final Property<DisplayResult> paymentDisplayResultProperty = new SimpleObjectProperty<>();
@@ -80,10 +82,10 @@ final class CartActivity extends CartBasedActivity {
     @Override
     public Node buildUi() {
         BorderPane bookingsPanel = SectionPanelFactory.createSectionPanel("YourBookings");
-        DataGrid documentTable = new DataGrid(); //LayoutUtil.setMinMaxHeightToPref(new DataGrid());
+        DataGrid documentTable = new SkinnedDataGrid();
         documentTable.setFullHeight(true);
         bookingsPanel.setCenter(documentTable);
-        optionsPanel = SectionPanelFactory.createSectionPanel(bookingLabel = new Label());
+        optionsPanel = SectionPanelFactory.createSectionPanel(bookingLabel = new Label(), LayoutUtil.createHGrowable(), ActionBinder.getAndBindActionIcon(explainStatusAction));
         bookingOptionsPanel = new BookingOptionsPanel();
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
         paymentsPanel = SectionPanelFactory.createSectionPanel("YourPayments");
@@ -91,7 +93,7 @@ final class CartActivity extends CartBasedActivity {
         paymentTable.setFullHeight(true);
         paymentsPanel.setCenter(paymentTable);
 
-        FlexBox bookingButtonBar = createFlexButtonBar(modifyBookingAction, cancelBookingAction, contactUsAction, termsAction);
+        FlexBox bookingButtonBar = createFlexButtonBar(modifyBookingAction, cancelBookingAction, contactUsAction);
 
         optionsPanel.setBottom(LayoutUtil.createPadding(bookingButtonBar));
 
@@ -111,33 +113,35 @@ final class CartActivity extends CartBasedActivity {
         // Applying the css background of the event if provided and if ui is ready
         UiScheduler.scheduleDeferred(this::applyEventCssBackgroundIfProvided);
 
-        syncBookingOptionsPanelIfReady();
-
         return new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, bottomButtonBar)));
     }
 
     private FlexBox createFlexButtonBar(Action... actions) {
         // not compiling with GWT return new FlexBox(20, 10, Arrays.map(actions, action -> LayoutUtil.setMaxWidthToInfinite(LayoutUtil.setMinWidthToPref(newButton(action))), Node[]::new));
         FlexBox flexButtonBar = new FlexBox(20, 10);
-        Arrays.forEach(actions, action -> flexButtonBar.getChildren().add(LayoutUtil.setMaxWidthToInfinite(LayoutUtil.setMinWidthToPref(action == makePaymentAction ? newGreenButton(action) : action == addAnotherBookingAction ? newTransparentButton(action) : newButton(action)))));
+        Arrays.forEach(actions, action -> flexButtonBar.getChildren().add(createFlexButton(action)));
         return flexButtonBar;
+    }
+
+    private Button createFlexButton(Action action) {
+        return LayoutUtil.setMaxWidthToInfinite(LayoutUtil.setMinWidthToPref(action == makePaymentAction ? newGreenButton(action) : action == addAnotherBookingAction ? newTransparentButton(action) : newButton(action)));
     }
 
     @Override
     protected void startLogic() {
         super.startLogic();
         new TranslateFunction().register();
-        new Function<Document>("documentStatus", null, null, PrimType.STRING, true) {
+        new Function<Document>("documentStatus", PrimType.STRING, true, false) {
             @Override
             public Object evaluate(Document document, DataReader<Document> dataReader) {
                 return I18n.instantTranslate(getDocumentStatus(document));
             }
         }.register();
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
-            int selectedRow = selection.getSelectedRow();
+            int selectedRow = selection == null ? -1 : selection.getSelectedRow();
             if (selectedRow != -1) {
-                setSelectedWorkingDocument(Collections.get(cartService().getCartWorkingDocuments(), selectedRow));
-                syncBookingOptionsPanelIfReady();
+                setSelectedWorkingDocument(Collections.get(cartAggregate().getCartWorkingDocuments(), selectedRow));
+                displayBookingOptions();
             }
         });
     }
@@ -154,9 +158,8 @@ final class CartActivity extends CartBasedActivity {
     private void autoSelectWorkingDocument() {
         UiScheduler.runInUiThread(() -> {
             int selectedIndex = indexOfWorkingDocument(selectedWorkingDocument);
-            CartAggregate cartAggregate = cartService();
-            if (selectedIndex == -1 && cartAggregate.getEventAggregate() != null)
-                selectedIndex = indexOfWorkingDocument(cartAggregate.getEventAggregate().getWorkingDocument());
+            if (selectedIndex == -1 && eventAggregate() != null)
+                selectedIndex = indexOfWorkingDocument(eventAggregate().getWorkingDocument());
             documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
             updatePaymentsVisibility();
         });
@@ -171,19 +174,40 @@ final class CartActivity extends CartBasedActivity {
     @Override
     protected void onCartLoaded() {
         super.onCartLoaded(); // Applying the css background of the event if provided
-        CartAggregate cartAggregate = cartService();
-        if (cartAggregate.getEventAggregate() != null)
-            registerFormatter("priceWithCurrency", new PriceFormatter(getEvent()));
-        displayEntities(cartAggregate.getCartDocuments(), "[" +
-                        "'ref'," +
+        Event event = getEvent();
+        if (event != null) {
+            PriceFormatter priceFormatter = new PriceFormatter(event);
+            registerFormatter("priceWithCurrency", priceFormatter);
+            new Function("formatPrice", PrimType.STRING, true, false) {
+                @Override
+                public Object evaluate(Object argument, DataReader dataReader) {
+                    return priceFormatter.format(argument);
+                }
+            }.register();
+            displayCartDocuments();
+            displayCartPayments();
+            if (selectedWorkingDocument == null)
+                autoSelectWorkingDocument();
+        }
+    }
+
+    private void displayCartDocuments() {
+        displayEntities(cartAggregate().getCartDocuments(), "[" +
+                        "{expression: 'ref', prefWidth: null}," +
                         "'person_name'," +
+                        "{expression: 'formatPrice(price_deposit) + ` / ` + formatPrice(price_net)', label: 'Paid', textAlign: 'right'}," +
+/*
                         "{expression: 'price_net', format: 'priceWithCurrency'}," +
                         "{expression: 'price_deposit', format: 'priceWithCurrency'}," +
                         "{expression: 'price_balance', format: 'priceWithCurrency'}," +
+*/
                         "{expression: 'documentStatus(this)', label: 'Status', textAlign: 'center'}" +
                         "]"
                 , "Document", documentDisplayResultProperty);
-        displayEntities(cartAggregate.getCartPayments(), "[" +
+    }
+
+    private void displayCartPayments() {
+        displayEntities(cartAggregate().getCartPayments(), "[" +
                         "{expression: 'date', format: 'dateTime'}," +
                         "{expression: 'document.ref', label: 'Booking ref'}," +
                         "{expression: 'translate(method)', label: 'Method', textAlign: 'center'}," +
@@ -191,13 +215,6 @@ final class CartActivity extends CartBasedActivity {
                         "{expression: 'translate(pending ? `PendingStatus` : successful ? `SuccessfulStatus` : `FailedStatus`)', label: 'Status', textAlign: 'center'}" +
                         "]"
                 , "MoneyTransfer", paymentDisplayResultProperty);
-        autoSelectWorkingDocument();
-    }
-
-    private int indexOfWorkingDocument(WorkingDocument workingDocument) {
-        if (workingDocument == null)
-            return -1;
-        return Collections.indexOf(cartService().getCartWorkingDocuments(), wd -> Entities.sameId(wd.getDocument(), workingDocument.getDocument()));
     }
 
     private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<DisplayResult> displayResultProperty) {
@@ -205,17 +222,23 @@ final class CartActivity extends CartBasedActivity {
                 , getDataSourceModel().getDomainModel(), classId));
     }
 
-    private void syncBookingOptionsPanelIfReady() {
+    private void displayBookingOptions() {
         if (bookingOptionsPanel != null && selectedWorkingDocument != null) {
             bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
             Document selectedDocument = selectedWorkingDocument.getDocument();
             bookingLabel.setText(selectedDocument.getFullName() + " - " + I18n.instantTranslate("Status:") + " " + I18n.instantTranslate(getDocumentStatus(selectedDocument)));
-            disableCancelModifyButton(selectedDocument.isCancelled());
+            disableBookinOptionsButtons(selectedDocument.isCancelled());
             updatePaymentsVisibility();
         }
     }
 
-    private void disableCancelModifyButton(boolean disable) {
+    private int indexOfWorkingDocument(WorkingDocument workingDocument) {
+        if (workingDocument == null)
+            return -1;
+        return Collections.indexOf(cartAggregate().getCartWorkingDocuments(), wd -> Entities.sameId(wd.getDocument(), workingDocument.getDocument()));
+    }
+
+    private void disableBookinOptionsButtons(boolean disable) {
         cancelBookingAction.setDisabled(disable);
         modifyBookingAction.setDisabled(disable);
         contactUsAction.setDisabled(disable || selectedWorkingDocument == null || selectedWorkingDocument.getDocument().getEmail() == null);
@@ -223,7 +246,7 @@ final class CartActivity extends CartBasedActivity {
 
     private void updatePaymentsVisibility() {
         if (paymentsPanel != null) {
-            if (Collections.isEmpty(cartService().getCartPayments())) {
+            if (Collections.isEmpty(cartAggregate().getCartPayments())) {
                 showPaymentsAction.setVisible(false);
                 paymentsPanel.setVisible(false);
             } else
@@ -255,7 +278,11 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private boolean hasPendingPayment(Document document) {
-        return Collections.anyMatch(cartService().getCartPayments(), mt -> mt.getDocument() == document && mt.isPending());
+        return Collections.anyMatch(cartAggregate().getCartPayments(), mt -> mt.getDocument() == document && mt.isPending());
+    }
+
+    private void explainStatus() {
+        Logger.log("Help needed!!!");
     }
 
     private void modifyBooking() {
@@ -268,7 +295,7 @@ final class CartActivity extends CartBasedActivity {
                         .addNodeFillingRow(newLabel("BookingCancellation"))
                         .addNodeFillingRow(newLabel("ConfirmBookingCancellation"))
                         .addButtons("YesBookingCancellation", dialogCallback -> {
-                                    disableCancelModifyButton(true);
+                                    disableBookinOptionsButtons(true);
                                     Document selectedDocument = selectedWorkingDocument.getDocument();
                                     UpdateStore updateStore = UpdateStore.createAbove(selectedDocument.getStore());
                                     Document updatedDocument = updateStore.updateEntity(selectedDocument);
@@ -328,10 +355,12 @@ final class CartActivity extends CartBasedActivity {
                 , (Pane) getNode(), 0.9, 0.8);
     }
 
+/*
     private void readTerms() {
         //new TermsDialog(getEventId(), getDataSourceModel(), (Pane) getNode()).show();
         new RouteToTermsRequest(getEventId(), getHistory()).execute();
     }
+*/
 
     private void addBooking() {
         new RouteToFeesRequest(getEventId(), getHistory()).execute();

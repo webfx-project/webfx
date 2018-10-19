@@ -53,8 +53,11 @@ final class PaymentActivity extends CartBasedActivity {
     public Node buildUi() {
         paymentsVBox = new VBox(20);
 
+        HtmlText paymentPrompt = new HtmlText();
+        I18n.translateString(paymentPrompt.textProperty(), "PaymentPrompt:");
+
         BorderPane totalSection = SectionPanelFactory.createSectionPanel(newLabel("TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
-        VBox vBox = new VBox(20, newLabel("PaymentPrompt:"), paymentsVBox, totalSection, newLargeGreenButton(makePaymentAction));
+        VBox vBox = new VBox(20, paymentPrompt, paymentsVBox, totalSection, newLargeGreenButton(makePaymentAction));
         BorderPane container = new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(vBox));
 
         displayDocumentPaymentsIfReady();
@@ -72,7 +75,7 @@ final class PaymentActivity extends CartBasedActivity {
     }
 
     private void displayDocumentPaymentsIfReady() {
-        List<Document> cartDocuments = cartService().getCartDocuments();
+        List<Document> cartDocuments = cartAggregate().getCartDocuments();
         if (cartDocuments != null && paymentsVBox != null) {
             notPaidEnoughCount = notPaidFullCount = 0;
             documentPayments = Collections.mapFilter(cartDocuments, DocumentPayment::new, DocumentPayment::hasBalance);
@@ -131,8 +134,8 @@ final class PaymentActivity extends CartBasedActivity {
 
         Node getNode() {
             if (node == null) {
-                String title = document.getFullName() + " - " + I18n.instantTranslate("Booking") + " " + document.getRef() + "   " + I18n.instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + I18n.instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + I18n.instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit());
-                BorderPane bp = SectionPanelFactory.createSectionPanel(new Label(title), LayoutUtil.createHGrowable(), newLabel("PaymentAmount"));
+                String title = document.getRef() + " - " + document.getFullName(); // + " - " + I18n.instantTranslate("Booking") + " " + document.getRef() + "   " + I18n.instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + I18n.instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + I18n.instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit());
+                BorderPane bp = SectionPanelFactory.createSectionPanel(new Label(title), LayoutUtil.createHGrowable(), newLabel("Amount"));
                 hBox = new HBox(20);
                 hBox.setAlignment(Pos.CENTER_LEFT);
                 hBox.setPadding(new Insets(10));
@@ -166,7 +169,7 @@ final class PaymentActivity extends CartBasedActivity {
         }
 
         private RadioButton addRadioButton(int price, Object translationKey) {
-            RadioButton rb = new RadioButton(formatCurrency(price) + (translationKey == null ? "" : " (" + I18n.instantTranslate(translationKey) + ")"));
+            RadioButton rb = new RadioButton(formatCurrency(price)); // + (translationKey == null ? "" : " (" + I18n.instantTranslate(translationKey) + ")"));
             rb.setToggleGroup(radioGroup);
             rb.setOnAction(e -> updateAmount(price, true));
             addNode(rb);
@@ -240,7 +243,7 @@ final class PaymentActivity extends CartBasedActivity {
             if (ar.failed())
                 Logger.log("Error submitting payment", ar.cause());
             else {
-                cartService().unload();
+                cartAggregate().unload();
                 Object[] paymentIdParameter = {ar.result().getArray()[0].getGeneratedKeys()[0]};
                 loadStore.executeQueryBatch(
                       new EntityStoreQuery("select <frontend_loadEvent> from GatewayParameter gp where exists(select MoneyTransfer mt where mt=? and (gp.account=mt.toMoneyAccount or gp.account=null and gp.company=mt.toMoneyAccount.gatewayCompany)) order by company", paymentIdParameter, "gatewayParameters")

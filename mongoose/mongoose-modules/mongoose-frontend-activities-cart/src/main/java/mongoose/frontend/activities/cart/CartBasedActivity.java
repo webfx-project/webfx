@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Region;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
 import mongoose.client.aggregates.CartAggregate;
+import mongoose.client.aggregates.EventAggregate;
 import mongoose.shared.entities.Event;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.client.services.i18n.I18n;
@@ -46,19 +47,19 @@ public abstract class CartBasedActivity
     }
 
     protected void onDictionaryChange() {
-        if (cartService().isLoaded())
+        if (cartAggregate().isLoaded())
             onCartLoaded();
     }
 
     private void loadCart() {
-        cartService().onCartDocuments().setHandler(ar -> {
+        cartAggregate().onCartDocuments().setHandler(ar -> {
             if (ar.succeeded())
                 onCartLoaded();
         });
     }
 
     protected void reloadCart() {
-        cartService().unload();
+        cartAggregate().unload();
         loadCart();
     }
 
@@ -68,20 +69,26 @@ public abstract class CartBasedActivity
     }
 
     protected void applyEventCssBackgroundIfProvided() {
-        if (uiNode != null && cartService().getEventAggregate() != null) {
+        Event event = getEvent();
+        if (uiNode != null && event != null) {
             // TODO: capitalize this code with BookingProcessActivity
-            String css = getEvent().getStringFieldValue("cssClass");
+            String css = event.getStringFieldValue("cssClass");
             if (Strings.startsWith(css,"linear-gradient"))
                 ((Region) uiNode).setBackground(BackgroundUtil.newLinearGradientBackground(css));
         }
     }
 
-    protected CartAggregate cartService() {
+    protected CartAggregate cartAggregate() {
         return CartAggregate.getOrCreate(getCartUuid(), getDataSourceModel());
     }
 
+    protected EventAggregate eventAggregate() {
+        return cartAggregate().getEventAggregate();
+    }
+
     protected Event getEvent() {
-        return cartService().getEventAggregate().getEvent();
+        EventAggregate eventAggregate = eventAggregate();
+        return eventAggregate == null ? null : eventAggregate.getEvent();
     }
 
     protected Object getEventId() {
@@ -92,7 +99,7 @@ public abstract class CartBasedActivity
     public void onResume() {
         super.onResume();
         // Automatically loading the cart if not yet loading or loaded
-        if (getCartUuid() != null && !cartService().isLoaded() && !cartService().isLoading())
+        if (getCartUuid() != null && !cartAggregate().isLoaded() && !cartAggregate().isLoading())
             loadCart();
     }
 
