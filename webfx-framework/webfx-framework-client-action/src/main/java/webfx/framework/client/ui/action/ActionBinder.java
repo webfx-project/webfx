@@ -1,6 +1,7 @@
 package webfx.framework.client.ui.action;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
@@ -24,12 +25,20 @@ public final class ActionBinder {
     private static void bindLabeledToAction(Labeled labeled, Action action) {
         labeled.textProperty().bind(action.textProperty());
         labeled.graphicProperty().bind(action.graphicProperty());
-        bindNodeToAction(labeled, action);
+        bindNodeToAction(labeled, action, false);
     }
 
-    private static void bindNodeToAction(Node node, Action action) {
+    public static Node getAndBindActionIcon(Action action) {
+        Node icon = action.getGraphic();
+        bindNodeToAction(icon, action, true);
+        return icon;
+    }
+
+    private static void bindNodeToAction(Node node, Action action, boolean setOnMouseClicked) {
         node.disableProperty().bind(action.disabledProperty());
         node.visibleProperty().bind(action.visibleProperty());
+        if (setOnMouseClicked)
+            node.setOnMouseClicked(e -> action.handle(new ActionEvent(e.getSource(), e.getTarget())));
     }
 
     public static void bindWritableActionToAction(WritableAction writableAction, Action action) {
