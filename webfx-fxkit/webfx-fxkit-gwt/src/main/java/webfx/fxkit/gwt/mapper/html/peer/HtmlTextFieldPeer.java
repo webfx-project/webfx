@@ -2,6 +2,7 @@ package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
 import emul.com.sun.javafx.scene.control.skin.TextFieldSkin;
 import emul.com.sun.javafx.scene.control.skin.ToolkitTextBox;
 import emul.javafx.geometry.Pos;
@@ -9,9 +10,9 @@ import emul.javafx.scene.Node;
 import emul.javafx.scene.control.PasswordField;
 import emul.javafx.scene.control.Skin;
 import emul.javafx.scene.control.TextField;
-import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
+import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.fxkit.mapper.spi.impl.peer.TextFieldPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.TextFieldPeerMixin;
 
@@ -57,10 +58,15 @@ public class HtmlTextFieldPeer
 
     @Override
     public void updateAlignment(Pos alignment) {
+        // For any reason, the correct alignment is overridden by this second call, so we prevent it TODO: investigate why
+        if (getNode() instanceof ToolkitTextBox)
+            return;
         setElementStyleAttribute("text-align", toCssTextAlignment(alignment));
     }
 
     public static HtmlTextFieldPeer createHtmlTextBoxPeer() {
-        return new HtmlTextFieldPeer(HtmlUtil.createTextInput());
+        HTMLInputElement textInput = HtmlUtil.createTextInput();
+        HtmlUtil.setStyleAttribute(textInput,"text-align","inherit"); // so that it inherits text-align attribute set on element
+        return new HtmlTextFieldPeer(textInput);
     }
 }
