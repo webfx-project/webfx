@@ -73,6 +73,8 @@ final class ExpressionColumnImpl implements ExpressionColumn {
                 if (collator != null)
                     fxValueRenderer = ValueRenderer.create(displayType, collator);
                 role = json.getString("role");
+                if (json.has("prefWidth"))
+                    prefWidth = json.getDouble("prefWidth");
                 //json = null;
             }
             if (textAlign == null) {
