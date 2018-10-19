@@ -24,6 +24,7 @@ public final class HtmlHtmlTextPeer
 
     HtmlHtmlTextPeer(NB base) {
         super(base, HtmlUtil.createSpanElement());
+        setElementStyleAttribute("color", "white"); // Temporary hack to make the text white by default in the payment activity TODO: remove this hack
     }
 
     @Override
