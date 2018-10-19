@@ -195,7 +195,7 @@ final class CartActivity extends CartBasedActivity {
         displayEntities(cartAggregate().getCartDocuments(), "[" +
                         "{expression: 'ref', prefWidth: null}," +
                         "'person_name'," +
-                        "{expression: 'formatPrice(price_deposit) + ` / ` + formatPrice(price_net)', label: 'Paid', textAlign: 'right'}," +
+                        "{expression: 'formatPrice(price_deposit) + ` / ` + formatPrice(price_net)', label: 'Deposit', textAlign: 'right'}," +
 /*
                         "{expression: 'price_net', format: 'priceWithCurrency'}," +
                         "{expression: 'price_deposit', format: 'priceWithCurrency'}," +
