@@ -43,4 +43,13 @@ public abstract class TextInputControl extends Control implements
     public final void setEditable(boolean value) { editable.setValue(value); }
     public final Property<Boolean> editableProperty() { return editable; }
 
+    /**
+     * Clears the text.
+     */
+    public void clear() {
+        //deselect();
+        if (!textProperty.isBound()) {
+            setText("");
+        }
+    }
 }
