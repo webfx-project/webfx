@@ -5,8 +5,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -14,14 +12,13 @@ import mongoose.client.activities.shared.TranslateFunction;
 import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.sectionpanel.SectionPanelFactory;
-import mongoose.frontend.operations.fees.RouteToFeesRequest;
+import mongoose.frontend.operations.contactus.RouteToContactUsRequest;
 import mongoose.frontend.operations.options.RouteToOptionsRequest;
 import mongoose.frontend.operations.payment.RouteToPaymentRequest;
+import mongoose.frontend.operations.startbooking.RouteToStartBookingRequest;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.Event;
-import mongoose.shared.entities.History;
-import mongoose.shared.entities.Mail;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.action.ActionBinder;
@@ -45,7 +42,6 @@ import webfx.fxkit.extra.type.PrimType;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Arrays;
-import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
@@ -63,7 +59,7 @@ final class CartActivity extends CartBasedActivity {
     private final WritableAction contactUsAction     = new WritableAction(newAction("ContactUs>>", "{url: 'images/svg/mono/mail.svg', width: 16, height: 16}", this::contactUs), "*");
     //private final Action termsAction                 = MongooseActions.newVisitTermsAndConditionsAction(this::readTerms);
     private final WritableAction showPaymentsAction  = new WritableAction(newAction("YourPayments", this::showPayments), "*");
-    private final Action addAnotherBookingAction     = newAction("<<AddAnotherBooking", "{url: 'images/svg/mono/plus-circle-green.svg', width: 32, height: 32}", this::addBooking);
+    private final Action addAnotherBookingAction     = newAction("<<AddAnotherBooking", "{url: 'images/svg/mono/plus-circle-green.svg', width: 32, height: 32}", this::addAnotherBooking);
     private final Action makePaymentAction           = newAction("MakePayment>>", "{url: 'images/svg/mono/pay-circle.svg', width: 32, height: 32}", this::makePayment);
     private final Action explainStatusAction         = newAction(null, "{url: 'images/svg/mono/help-circle-blue.svg', width: 32, height: 32}", this::explainStatus);
 
@@ -282,7 +278,7 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void explainStatus() {
-        Logger.log("Help needed!!!");
+        Logger.log("Explaining status");
     }
 
     private void modifyBooking() {
@@ -312,47 +308,7 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void contactUs() {
-        TextField subjectTextField = newTextFieldWithPrompt("SubjectPlaceholder");
-        TextArea bodyTextArea = newTextAreaWithPrompt("YourMessagePlaceholder");
-        DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder()
-                        .addNodeFillingRow(SectionPanelFactory.createSectionPanel("Subject", subjectTextField))
-                        .addNodeFillingRowAndHeight(SectionPanelFactory.createSectionPanel("YourMessage", bodyTextArea))
-                        .addButtons("Send", dialogCallback -> {
-                                    Document doc = selectedWorkingDocument.getDocument();
-                                    UpdateStore updateStore = UpdateStore.createAbove(doc.getStore());
-                                    Mail mail = updateStore.insertEntity(Mail.class);
-                                    mail.setDocument(doc);
-                                    mail.setFromName(doc.getFullName());
-                                    mail.setFromEmail(doc.getEmail());
-                                    mail.setSubject("[" + doc.getRef() + "] " + subjectTextField.getText());
-                                    String cartUrl = getHistory().getCurrentLocation().getPath();
-                                    // building mail content
-                                    String content = bodyTextArea.getText()
-                                            + "\n-----\n"
-                                            + doc.getEvent().getName() + " - #" + doc.getRef()
-                                            + " - <a href=mailto:'" + doc.getEmail() + "'>" + doc.getFullName() + "</a>\n"
-                                            + "<a href='" + cartUrl + "'>" + cartUrl + "</a>";
-                                    content = Strings.replaceAll(content, "\r", "<br/>");
-                                    content = Strings.replaceAll(content, "\n", "<br/>");
-                                    content = "<html>" + content + "</html>";
-                                    // setting mail content
-                                    mail.setContent(content);
-                                    mail.setOut(false); // indicate that this mail is not an outgoing email (sent to booker) but an ingoing mail (sent to registration team)
-                                    History history = updateStore.insertEntity(History.class); // new server history entry
-                                    history.setDocument(doc);
-                                    history.setMail(mail);
-                                    history.setUsername("online");
-                                    history.setComment("Sent '" + subjectTextField.getText() + "'");
-                                    updateStore.executeUpdate().setHandler(ar -> {
-                                        if (ar.failed())
-                                            Logger.log("Error", ar.cause());
-                                        else {
-                                            dialogCallback.closeDialog();
-                                        }
-                                    });
-                                },
-                                "Cancel", DialogCallback::closeDialog)
-                , (Pane) getNode(), 0.9, 0.8);
+        new RouteToContactUsRequest(selectedWorkingDocument.getDocument(), getHistory()).execute();
     }
 
 /*
@@ -362,16 +318,16 @@ final class CartActivity extends CartBasedActivity {
     }
 */
 
-    private void addBooking() {
-        new RouteToFeesRequest(getEventId(), getHistory()).execute();
+    private void addAnotherBooking() {
+        new RouteToStartBookingRequest(getEventId(), getHistory()).execute();
+    }
+
+    private void makePayment() {
+        new RouteToPaymentRequest(getCartUuid(), getHistory()).execute();
     }
 
     private void showPayments() {
         paymentsPanel.setVisible(true);
         showPaymentsAction.setVisible(false);
-    }
-
-    private void makePayment() {
-        new RouteToPaymentRequest(getCartUuid(), getHistory()).execute();
     }
 }

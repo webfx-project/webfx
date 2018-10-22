@@ -74,5 +74,7 @@
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
     <orderEntry type="module" module-name="mongoose-client-bookingoptionspanel" />
     <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-startbooking-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-contactus-routing" />
   </component>
 </module>

@@ -29,6 +29,10 @@ public final class MongooseRoutingUtil {
         return interpolateParamInPath(":cartUuid", cartUuid, path);
     }
 
+    public static String interpolateDocumentIdInPath(Object documentId, String path) {
+        return interpolateParamInPath(":documentId", toPk(documentId), path);
+    }
+
     public static Object toPk(Object id) {
         if (id instanceof Entity)
             return ((Entity) id).getId().getPrimaryKey();

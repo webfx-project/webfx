@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 108 108"
+   style="enable-background:new 0 0 108 108;"
+   xml:space="preserve"
+   sodipodi:docname="send-circle.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><metadata
+   id="metadata4015"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs4013" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1600"
+   inkscape:window-height="877"
+   id="namedview4011"
+   showgrid="false"
+   inkscape:zoom="2.1851852"
+   inkscape:cx="55.372881"
+   inkscape:cy="54"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_1" />
+<style
+   type="text/css"
+   id="style4002">
+	.st0{fill:#F2F2F2;}
+</style>
+<circle
+   class="st0"
+   cx="54"
+   cy="54"
+   r="51"
+   id="circle4004" />
+<g
+   id="g4008">
+	<path
+   d="M105.6,54h-2.4c0,13.6-5.5,25.9-14.4,34.8c-8.9,8.9-21.2,14.4-34.8,14.4c-13.6,0-25.9-5.5-34.8-14.4   C10.4,79.9,4.9,67.6,4.9,54c0-13.6,5.5-25.8,14.4-34.8C28.2,10.4,40.4,4.9,54,4.9c13.6,0,25.8,5.5,34.8,14.4   c8.9,8.9,14.4,21.2,14.4,34.8H105.6h2.4c0-29.8-24.2-54-54-54C24.2,0,0,24.2,0,54c0,29.8,24.2,54,54,54c29.8,0,54-24.2,54-54H105.6   L105.6,54z"
+   id="path4006" />
+</g>
+<polygon
+   points="48,213.333 346,256 48,298.667 48,448 464,256 48,64 "
+   id="polygon3984"
+   transform="matrix(0.14786709,0,0,0.14786709,23.868482,15.001957)" /></svg>

@@ -11,7 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-cart-routing" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-contactus-routing" />
     <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
     <orderEntry type="module" module-name="webfx-framework-shared-router" />
     <orderEntry type="module" module-name="webfx-framework-shared-authn" />
@@ -35,7 +35,6 @@
     <orderEntry type="module" module-name="mongoose-shared-time" />
     <orderEntry type="module" module-name="webfx-framework-client-layouts" />
     <orderEntry type="module" module-name="webfx-framework-client-util" />
-    <orderEntry type="module" module-name="mongoose-client-icons" />
     <orderEntry type="module" module-name="mongoose-client-util" />
     <orderEntry type="module" module-name="mongoose-client-authn" />
     <orderEntry type="module" module-name="mongoose-client-validation" />
@@ -65,15 +64,9 @@
     <orderEntry type="module" module-name="webfx-platform-shared-bus" />
     <orderEntry type="module" module-name="webfx-platform-client-websocket" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-fees-routing" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-payment-routing" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-terms-routing" />
-    <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
-    <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
-    <orderEntry type="module" module-name="mongoose-client-bookingoptionspanel" />
+    <orderEntry type="module" module-name="mongoose-frontend-activities-cart-routing" />
     <orderEntry type="module" module-name="mongoose-client-sectionpanel" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-startbooking-routing" />
-    <orderEntry type="module" module-name="mongoose-frontend-activities-contactus-routing" />
+    <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
+    <orderEntry type="module" module-name="mongoose-client-icons" />
   </component>
 </module>

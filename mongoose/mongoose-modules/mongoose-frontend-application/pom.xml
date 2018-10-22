@@ -73,6 +73,12 @@
             <version>${mongoose.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>mongoose-frontend-activities-contactus</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
 
     </dependencies>
 
