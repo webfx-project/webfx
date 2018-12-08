@@ -83,7 +83,7 @@ public abstract class MapBasedJsonObject implements WritableJsonObject, ListMapB
 
     @Override
     public MapBasedJsonObject copy() {
-        MapBasedJsonObject copy = (MapBasedJsonObject) nativeToJavaJsonArray(getNativeElement());
+        MapBasedJsonObject copy = (MapBasedJsonObject) nativeToJavaJsonObject(getNativeElement());
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;
