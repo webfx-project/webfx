@@ -27,8 +27,6 @@
         <module>mongoose-backend-activities-letter-routing</module>
         <module>mongoose-backend-activities-letters</module>
         <module>mongoose-backend-activities-letters-routing</module>
-        <module>mongoose-backend-activities-loadtester-jp</module>
-        <module>mongoose-backend-activities-loadtester-jp-routing</module>
         <module>mongoose-backend-activities-monitor</module>
         <module>mongoose-backend-activities-monitor-routing</module>
         <module>mongoose-backend-activities-operations</module>
@@ -96,5 +94,19 @@
         <module>mongoose-shared-time</module>
 
     </modules>
+
+    <profiles>
+        <profile>
+            <id>mongoose-backend-activities-loadtester-jp</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-activities-loadtester-jp</module>
+                <module>mongoose-backend-activities-loadtester-jp-routing</module>
+            </modules>
+        </profile>
+
+    </profiles>
 
 </project>

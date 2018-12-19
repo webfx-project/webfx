@@ -121,4 +121,23 @@
         </plugins>
     </build>
 
+    <profiles>
+
+        <profile>
+            <id>mongoose-backend-activities-loadtester-jp</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <dependencies>
+                <dependency>
+                    <artifactId>mongoose-backend-activities-loadtester-jp</artifactId>
+                    <groupId>${mongoose.groupId}</groupId>
+                    <version>${mongoose.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+    </profiles>
+
 </project>
