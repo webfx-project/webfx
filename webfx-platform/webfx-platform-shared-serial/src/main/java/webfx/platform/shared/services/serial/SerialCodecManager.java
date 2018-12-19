@@ -2,6 +2,7 @@ package webfx.platform.shared.services.serial;
 
 import webfx.platform.shared.services.json.*;
 import webfx.platform.shared.services.serial.spi.SerialCodec;
+import webfx.platform.shared.services.serial.spi.impl.ExceptionSerialCodec;
 import webfx.platform.shared.util.Dates;
 import webfx.platform.shared.util.Numbers;
 
@@ -24,6 +25,9 @@ public final class SerialCodecManager {
     private static final Map<String, SerialCodec> decoders = new HashMap<>();
     private static final Map<String, Class> javaClasses = new HashMap<>();
 
+    static {
+        registerSerialCodec(new ExceptionSerialCodec());
+    }
 
     public static void registerSerialCodec(SerialCodec codec) {
         Class javaClass = codec.getJavaClass();
@@ -38,15 +42,12 @@ public final class SerialCodecManager {
     } */
 
     public static <J> SerialCodec<J> getSerialEncoder(Class<J> javaClass) {
-        return encoders.get(javaClass);
-        /* getSuperclass() is not supported in J2ME CLDC
         for (Class c = javaClass; c != null; c = c.getSuperclass()) {
             SerialCodec<J> codec = encoders.get(c);
             if (codec != null)
                 return codec;
         }
         return null;
-        */
     }
 
     public static SerialCodec getSerialDecoder(String codecId) {

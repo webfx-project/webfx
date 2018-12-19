@@ -24,4 +24,15 @@ public final class Logger {
         getProvider().log(message, error);
     }
 
+    public static String captureStackTrace(Throwable exception) {
+/* Not GWT compatible
+        StringWriter sw = new StringWriter();
+        exception.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
+*/
+        StringBuilder sb = new StringBuilder();
+        for (StackTraceElement element : exception.getStackTrace())
+            sb.append(sb.length() == 0 ? "" : "\n").append("    ").append(element);
+        return sb.toString();
+    }
 }
