@@ -55,7 +55,7 @@ public class ConnectionChartGenerator {
                     +", "+ connectionList.get(rowCount-1).getConnected()
                     +" ]");
 */
-        UiScheduler.scheduleDeferred(() -> connectionListProperty.set(displayResult));
+        UiScheduler.runInUiThread(() -> connectionListProperty.set(displayResult));
         return displayResult;
     }
 
@@ -63,9 +63,9 @@ public class ConnectionChartGenerator {
         EventListener listener = EventListenerImpl.getInstance();
         ConnectionsChartData data = new ConnectionsChartData();
 
-        data.requestedProperty().setValue(listener.getRequested());
-        data.startedProperty().setValue(listener.getStarted());
-        data.connectedProperty().setValue(listener.getConnected());
+        data.setRequested(listener.getRequested());
+        data.setStarted(listener.getStarted());
+        data.setConnected(listener.getConnected());
         connectionList.add(data);
         createDisplayResult();
     }

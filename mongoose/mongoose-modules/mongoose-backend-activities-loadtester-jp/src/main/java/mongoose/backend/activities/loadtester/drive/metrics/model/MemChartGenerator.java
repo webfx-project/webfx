@@ -7,9 +7,8 @@ import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
 import webfx.fxkit.extra.type.PrimType;
-import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.services.scheduler.Scheduler;
 import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.scheduler.Scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,18 +37,20 @@ public class MemChartGenerator {
         for (int rowIndex=0 ; rowIndex<rowCount ; rowIndex++) {
             MemData data = memList.get(rowIndex);
             rsb.setValue(rowIndex, 0, rowIndex); // temporary taking rowIndex as X
-            rsb.setValue(rowIndex, 1, data.totalMemProperty().getValue());
-            rsb.setValue(rowIndex, 2, data.freeMemProperty().getValue());
-            rsb.setValue(rowIndex, 3, data.freePhMemProperty().getValue());
+            rsb.setValue(rowIndex, 1, data.totalMem());
+            rsb.setValue(rowIndex, 2, data.freeMem());
+            rsb.setValue(rowIndex, 3, data.freePhMem());
         }
         DisplayResult displayResult = rsb.build();
 //        Logger.log("Ok: " + displayResult);
+        /*
         Logger.log("Chart - [" + rowCount
-                    +", "+ memList.get(rowCount-1).totalMemProperty().getValue()
-                    +", "+ memList.get(rowCount-1).freeMemProperty().getValue()
-                    +", "+ memList.get(rowCount-1).freePhMemProperty().getValue()
+                    +", "+ memList.get(rowCount-1).totalMem()
+                    +", "+ memList.get(rowCount-1).freeMem()
+                    +", "+ memList.get(rowCount-1).freePhMem()
                     +" ]");
-        UiScheduler.scheduleDeferred(() -> memListProperty.set(displayResult));
+        */
+        UiScheduler.runInUiThread(() -> memListProperty.set(displayResult));
         return displayResult;
     }
 
