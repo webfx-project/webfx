@@ -1,13 +1,11 @@
 package mongoose.backend.activities.loadtester;
 
-import javafx.beans.property.Property;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import webfx.fxkit.util.properties.conversion.ConvertedProperty;
 import webfx.fxkit.extra.chart.LineChart;
 
 /**
@@ -19,22 +17,24 @@ final class LoadTesterPresentationViewActivity extends PresentationViewActivityI
     private Button saveTest;
     private VBox vBox;
 
+    private final int MAX_CONNECTIONS = 3000;
+
     @Override
     protected void createViewNodes(LoadTesterPresentationModel pm) {
         Slider requestedSlider = new Slider();
-        requestedSlider.setMin(0d);
-        requestedSlider.setMax(3000d);
+        requestedSlider.setMin(0);
+        requestedSlider.setMax(MAX_CONNECTIONS);
         Slider startedSlider = new Slider();
-        startedSlider.setMin(0d);
-        startedSlider.setMax(3000d);
+        startedSlider.setMin(0);
+        startedSlider.setMax(MAX_CONNECTIONS);
 
         connectionsChart = new LineChart();
         vBox = new VBox(requestedSlider, startedSlider);
         saveTest = new Button("Save Test");
 
         // Data binding
-        pm.requestedConnectionsProperty().bind(ConvertedProperty.doubleToIntegerProperty((Property) requestedSlider.valueProperty()));
-        startedSlider.valueProperty().bind(ConvertedProperty.integerToDoubleProperty(pm.startedConnectionsProperty()));
+        pm.requestedConnectionsProperty().bind(requestedSlider.valueProperty());
+        startedSlider.valueProperty().bind(pm.startedConnectionsProperty());
         connectionsChart.displayResultProperty().bind(pm.chartDisplayResultProperty());
     }
 

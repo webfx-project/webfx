@@ -1,8 +1,6 @@
 package mongoose.backend.activities.loadtester;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import webfx.fxkit.extra.displaydata.DisplayResult;
@@ -12,11 +10,11 @@ import webfx.fxkit.extra.displaydata.DisplayResult;
  */
 final class LoadTesterPresentationModel {
 
-    private final Property<Integer> requestedConnectionsProperty = new SimpleObjectProperty<>(0);
-    Property<Integer> requestedConnectionsProperty() { return requestedConnectionsProperty; }
+    private final IntegerProperty requestedConnectionsProperty = new SimpleIntegerProperty(0);
+    IntegerProperty requestedConnectionsProperty() { return requestedConnectionsProperty; }
 
-    private final Property<Integer> startedConnectionsProperty = new SimpleObjectProperty<>(0);
-    Property<Integer> startedConnectionsProperty() { return startedConnectionsProperty; }
+    private final IntegerProperty startedConnectionsProperty = new SimpleIntegerProperty(0);
+    IntegerProperty startedConnectionsProperty() { return startedConnectionsProperty; }
 
     private final Property<DisplayResult> chartDisplayResultProperty = new SimpleObjectProperty<>();
     Property<DisplayResult> chartDisplayResultProperty() { return chartDisplayResultProperty; }

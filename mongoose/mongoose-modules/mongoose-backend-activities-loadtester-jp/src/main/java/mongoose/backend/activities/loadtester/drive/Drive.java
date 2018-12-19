@@ -1,7 +1,7 @@
 package mongoose.backend.activities.loadtester.drive;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import mongoose.backend.activities.loadtester.drive.command.Command;
 import mongoose.backend.activities.loadtester.drive.connection.Connection;
 import mongoose.backend.activities.loadtester.drive.connection.WebSocketBusConnection;
@@ -15,10 +15,10 @@ import mongoose.backend.entities.loadtester.LtTestSet;
 import mongoose.backend.entities.loadtester.LtTestSetEntity;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.entity.UpdateStore;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.buscall.BusCallService;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.scheduler.Scheduler;
-import webfx.platform.client.services.uischeduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +29,10 @@ import java.util.List;
 public class Drive {
     private static final Drive instance = new Drive();   // singleton
 
-    private final Property<Integer> requestedConnectionCount = new SimpleObjectProperty<>(0);
-    public  Property<Integer> requestedConnectionCountProperty() {return requestedConnectionCount;}
-    private final Property<Integer> startedConnectionCount = new SimpleObjectProperty<>(0);
-    public  Property<Integer> startedConnectionCountProperty() {return startedConnectionCount;}
+    private final IntegerProperty requestedConnectionCount = new SimpleIntegerProperty(0);
+    public  IntegerProperty requestedConnectionCountProperty() {return requestedConnectionCount;}
+    private final IntegerProperty startedConnectionCount = new SimpleIntegerProperty(0);
+    public  IntegerProperty startedConnectionCountProperty() {return startedConnectionCount;}
     private final List<Connection> connexionList = new ArrayList<>();
     private int currentRequested = 0;
     private int started = 0;
@@ -56,20 +56,23 @@ public class Drive {
                 currentRequested = requested;
             }
             if (started != requested) {
-                if (started < requested) {
-                    // We must application new connections
-                    Connection cnx = new WebSocketBusConnection();
-                    connexionList.add(cnx);
-                    cnx.executeCommand(Command.OPEN);
-                    started++;
-                } else {
-                    // We must close existing connections
-                    Connection cnx = connexionList.get(nextToRemove);
-                    cnx.executeCommand(Command.CLOSE);
-                    nextToRemove++;
-                    started--;
+
+                for (int i = 0; i < 3 && started != requested; i++) {
+                    if (started < requested) {
+                        // We must application new connections
+                        Connection cnx = new WebSocketBusConnection();
+                        connexionList.add(cnx);
+                        cnx.executeCommand(Command.OPEN);
+                        started++;
+                    } else {
+                        // We must close existing connections
+                        Connection cnx = connexionList.get(nextToRemove);
+                        cnx.executeCommand(Command.CLOSE);
+                        nextToRemove++;
+                        started--;
+                    }
                 }
-                UiScheduler.scheduleDeferred(() -> startedConnectionCount.setValue(started));
+                UiScheduler.runInUiThread(() -> startedConnectionCount.setValue(started));
 
                 if (mode_console)
                     Logger.log("Drive - connections : R="+ requested
