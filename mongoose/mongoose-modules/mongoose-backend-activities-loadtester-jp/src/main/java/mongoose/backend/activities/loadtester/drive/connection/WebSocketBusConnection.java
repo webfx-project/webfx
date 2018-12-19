@@ -3,11 +3,10 @@ package mongoose.backend.activities.loadtester.drive.connection;
 import mongoose.backend.activities.loadtester.drive.command.Command;
 import mongoose.backend.activities.loadtester.drive.listener.ConnectionEvent;
 import mongoose.backend.activities.loadtester.drive.listener.EventType;
-import webfx.platform.shared.services.buscall.BusCallService;
+import webfx.platform.client.services.websocket.WebSocketListener;
 import webfx.platform.client.services.websocketbus.WebSocketBus;
 import webfx.platform.shared.services.bus.BusService;
 import webfx.platform.shared.services.json.JsonObject;
-import webfx.platform.client.services.websocket.WebSocketListener;
 import webfx.platform.shared.services.log.Logger;
 
 /**
@@ -25,12 +24,6 @@ public class WebSocketBusConnection extends ConnectionBase {
                 bus = (WebSocketBus) BusService.createBus();
                 bus.setWebSocketListener(createWebSocketListener());
                 event = new ConnectionEvent(EventType.CONNECTING);
-                long t0 = System.currentTimeMillis();
-                BusCallService.call("version", "ignored", bus).setHandler(asyncResult -> {
-                    long t1 = System.currentTimeMillis();
-                    String message = (asyncResult.succeeded() ? "Connected : "+bus.toString() : "Error : " + asyncResult.cause()) + " in " + (t1 - t0) + "ms";
-                    Logger.log(message);
-                });
                 break;
             case CLOSE:
                 event = new ConnectionEvent(EventType.DISCONNECTING);
