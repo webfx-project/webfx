@@ -14,12 +14,12 @@ public interface ViewDomainApplicationContext
         extends ViewApplicationContext<THIS>,
         ViewDomainActivityContext<THIS> {
 
-    static ViewDomainApplicationContextFinal createViewDomainApplicationContext(String[] mainArgs) {
-        return new ViewDomainApplicationContextFinal(mainArgs, ViewDomainActivityContext::create);
+    static ViewDomainApplicationContextFinal createViewDomainApplicationContext() {
+        return new ViewDomainApplicationContextFinal(ViewDomainActivityContext::create);
     }
 
-    static ViewDomainApplicationContextFinal createViewDomainApplicationContext(DataSourceModel dataSourceModel, String[] mainArgs) {
-        return createViewDomainApplicationContext(mainArgs).setDataSourceModel(dataSourceModel);
+    static ViewDomainApplicationContextFinal createViewDomainApplicationContext(DataSourceModel dataSourceModel) {
+        return createViewDomainApplicationContext().setDataSourceModel(dataSourceModel);
     }
 
 }

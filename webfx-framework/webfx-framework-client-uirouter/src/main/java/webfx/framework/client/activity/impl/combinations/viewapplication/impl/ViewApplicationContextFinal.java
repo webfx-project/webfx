@@ -7,7 +7,7 @@ import webfx.framework.client.activity.ActivityContextFactory;
  */
 public final class ViewApplicationContextFinal extends ViewApplicationContextBase<ViewApplicationContextFinal> {
 
-    public ViewApplicationContextFinal(String[] mainArgs, ActivityContextFactory contextFactory) {
-        super(mainArgs, contextFactory);
+    public ViewApplicationContextFinal(ActivityContextFactory contextFactory) {
+        super(contextFactory);
     }
 }

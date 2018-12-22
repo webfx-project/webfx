@@ -16,11 +16,7 @@ public interface ApplicationContext
         return (C) ApplicationContextBase.instance;
     }
 
-    default String[] getMainArgs() {
-        return ApplicationContextBase.mainArgs;
-    }
-
-    static ApplicationContextFinal create(String[] mainArgs) {
-        return new ApplicationContextFinal(mainArgs, ActivityContext::create);
+    static ApplicationContextFinal create() {
+        return new ApplicationContextFinal(ActivityContext::create);
     }
 }

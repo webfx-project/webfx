@@ -16,8 +16,8 @@ public class DomainApplicationContextBase
 
     private DataSourceModel dataSourceModel;
 
-    public DomainApplicationContextBase(String[] mainArgs, ActivityContextFactory contextFactory) {
-        super(mainArgs, contextFactory);
+    public DomainApplicationContextBase(ActivityContextFactory contextFactory) {
+        super(contextFactory);
     }
 
     @Override

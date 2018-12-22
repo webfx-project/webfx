@@ -20,15 +20,12 @@ public class ApplicationContextBase
      */
     public static ApplicationContext instance;
 
-    public static String[] mainArgs;
-
-    protected ApplicationContextBase(String[] mainArgs, ActivityContextFactory<THIS> contextFactory) {
+    protected ApplicationContextBase(ActivityContextFactory<THIS> contextFactory) {
         super(null, contextFactory);
-        registerRootFields(this, mainArgs);
+        registerRootFields(this);
     }
 
-    public static void registerRootFields(ApplicationContext rootInstance, String[] rootMainArgs) {
+    public static void registerRootFields(ApplicationContext rootInstance) {
         instance = rootInstance;
-        mainArgs = rootMainArgs;
     }
 }

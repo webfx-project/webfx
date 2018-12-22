@@ -16,8 +16,8 @@ public class ViewDomainApplicationContextBase
 
     private DataSourceModel dataSourceModel;
 
-    protected ViewDomainApplicationContextBase(String[] mainArgs, ActivityContextFactory contextFactory) {
-        super(mainArgs, contextFactory);
+    protected ViewDomainApplicationContextBase(ActivityContextFactory contextFactory) {
+        super(contextFactory);
     }
 
     @Override

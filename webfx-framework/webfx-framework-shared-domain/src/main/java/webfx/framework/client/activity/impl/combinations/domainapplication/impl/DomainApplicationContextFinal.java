@@ -7,11 +7,11 @@ import webfx.framework.client.activity.ActivityContext;
  */
 public final class DomainApplicationContextFinal extends DomainApplicationContextBase<DomainApplicationContextFinal> {
 
-    public DomainApplicationContextFinal(String[] mainArgs) {
-        super(mainArgs, DomainApplicationContextFinal::new);
+    public DomainApplicationContextFinal() {
+        super(DomainApplicationContextFinal::new);
     }
 
-    public DomainApplicationContextFinal(ActivityContext parentContext) {
-        super(mainArgs, DomainApplicationContextFinal::new);
+    private DomainApplicationContextFinal(ActivityContext parentContext) {
+        super(DomainApplicationContextFinal::new);
     }
 }

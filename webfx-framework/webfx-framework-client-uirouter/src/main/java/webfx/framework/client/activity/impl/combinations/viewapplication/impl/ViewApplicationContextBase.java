@@ -2,18 +2,12 @@ package webfx.framework.client.activity.impl.combinations.viewapplication.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import webfx.framework.client.activity.impl.elementals.view.impl.ViewActivityContextBase;
-import webfx.framework.client.activity.impl.combinations.viewapplication.ViewApplicationContext;
-import webfx.framework.client.ui.uirouter.UiRouter;
-import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.framework.client.activity.ActivityContextFactory;
+import webfx.framework.client.activity.impl.combinations.viewapplication.ViewApplicationContext;
 import webfx.framework.client.activity.impl.elementals.application.ApplicationContext;
 import webfx.framework.client.activity.impl.elementals.application.impl.ApplicationContextBase;
+import webfx.framework.client.activity.impl.elementals.view.impl.ViewActivityContextBase;
+import webfx.framework.client.ui.uirouter.UiRouter;
 import webfx.platform.client.services.windowhistory.WindowHistory;
 import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 
@@ -27,9 +21,10 @@ public class ViewApplicationContextBase
         implements ViewApplicationContext<C>,
         ApplicationContext<C> {
 
-    public ViewApplicationContextBase(String[] mainArgs, ActivityContextFactory contextFactory) {
+    public ViewApplicationContextBase(ActivityContextFactory contextFactory) {
         super(null, contextFactory);
-        ApplicationContextBase.registerRootFields(this, mainArgs);
+        ApplicationContextBase.registerRootFields(this);
+        /*
         nodeProperty().addListener((observable, oldValue, node) -> {
             Parent root = (Parent) node;
             Stage primaryStage = FxKitLauncher.getPrimaryStage();
@@ -47,6 +42,7 @@ public class ViewApplicationContextBase
             }
             windowBoundProperty.setValue(true);
         });
+        */
     }
 
     @Override
@@ -63,11 +59,4 @@ public class ViewApplicationContextBase
             return WindowHistory.getProvider();
         return super.getHistory();
     }
-
-    private Property<Boolean> windowBoundProperty = new SimpleObjectProperty<>(false);
-    @Override
-    public Property<Boolean> windowBoundProperty() {
-        return windowBoundProperty;
-    }
-
 }

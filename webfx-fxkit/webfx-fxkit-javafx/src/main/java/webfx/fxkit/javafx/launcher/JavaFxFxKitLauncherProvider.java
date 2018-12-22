@@ -18,6 +18,13 @@ public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase
     private static List<Runnable> readyRunnables = new ArrayList<>();
     private static Factory<Application> applicationFactory;
 
+    private static Stage primaryStage;
+
+    @Override
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     @Override
     public String getUserAgent() {
         return "JavaFx";
@@ -81,6 +88,7 @@ public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase
 
         @Override
         public void start(Stage primaryStage) throws Exception {
+            JavaFxFxKitLauncherProvider.primaryStage = primaryStage;
             onJavaFxToolkitReady();
             if (application != null)
                 application.start(primaryStage);
