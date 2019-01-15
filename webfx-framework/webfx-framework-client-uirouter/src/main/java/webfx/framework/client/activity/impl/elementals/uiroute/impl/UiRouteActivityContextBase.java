@@ -9,6 +9,8 @@ import webfx.framework.client.ui.uirouter.UiRouter;
 import webfx.framework.client.activity.ActivityContext;
 import webfx.framework.client.activity.ActivityContextFactory;
 import webfx.framework.client.activity.impl.ActivityContextBase;
+import webfx.platform.client.services.windowhistory.WindowHistory;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
 
@@ -36,12 +38,27 @@ public class UiRouteActivityContextBase
 
     @Override
     public UiRouter getUiRouter() {
+        UiRouter thisOrParentUiRouter = getThisOrParentUiRouter();
+        if (thisOrParentUiRouter == null)
+            setUiRouter(thisOrParentUiRouter = UiRouter.create(this));
+        return thisOrParentUiRouter;
+    }
+
+    private UiRouter getThisOrParentUiRouter() {
         if (uiRouter != null)
             return uiRouter;
         ActivityContext parentContext = getParentContext();
         if (parentContext instanceof UiRouteActivityContext)
             return ((UiRouteActivityContext) parentContext).getUiRouter();
         return null;
+    }
+
+    @Override
+    public BrowsingHistory getHistory() {
+        UiRouter thisOrParentUiRouter = getThisOrParentUiRouter();
+        if (thisOrParentUiRouter == null)
+            return WindowHistory.getProvider();
+        return thisOrParentUiRouter.getHistory();
     }
 
     public void setParams(JsonObject params) {

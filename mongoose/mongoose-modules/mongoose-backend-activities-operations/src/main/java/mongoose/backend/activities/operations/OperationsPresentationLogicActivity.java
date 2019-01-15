@@ -2,10 +2,10 @@ package mongoose.backend.activities.operations;
 
 import javafx.scene.layout.Pane;
 import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivityBase;
-import webfx.framework.client.activity.impl.combinations.viewapplication.ViewApplicationContext;
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.client.ui.controls.sheet.PropertySheet;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.platform.shared.util.function.Factory;
 
 /**
@@ -40,7 +40,8 @@ final class OperationsPresentationLogicActivity
     }
 
     private void editOperation(Entity operation) {
-        Pane parent = (Pane) ViewApplicationContext.getViewApplicationContext().getNode();
+        //Pane parent = (Pane) ViewApplicationContext.getViewApplicationContext().getNode();
+        Pane parent = (Pane) FxKitLauncher.getPrimaryStage().getScene().getRoot();
         PropertySheet.editEntity(operation, expressionColumns, parent);
     }
 }

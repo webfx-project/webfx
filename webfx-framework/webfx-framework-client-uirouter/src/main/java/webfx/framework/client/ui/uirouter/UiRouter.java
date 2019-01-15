@@ -4,10 +4,10 @@ import webfx.framework.client.activity.Activity;
 import webfx.framework.client.activity.ActivityContext;
 import webfx.framework.client.activity.ActivityContextFactory;
 import webfx.framework.client.activity.ActivityManager;
-import webfx.framework.client.activity.impl.elementals.application.ApplicationContext;
 import webfx.framework.client.activity.impl.elementals.uiroute.UiRouteActivityContext;
 import webfx.framework.client.activity.impl.elementals.uiroute.impl.UiRouteActivityContextBase;
 import webfx.framework.client.activity.impl.elementals.view.HasMountNodeProperty;
+import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.framework.shared.router.Route;
 import webfx.framework.shared.router.Router;
 import webfx.framework.shared.router.RoutingContext;
@@ -18,16 +18,15 @@ import webfx.framework.shared.router.session.UserSessionHandler;
 import webfx.framework.shared.router.session.impl.MemorySessionStore;
 import webfx.framework.shared.router.session.impl.UserHolder;
 import webfx.framework.shared.router.session.impl.UserSessionHandlerImpl;
-import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasNodeProperty;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
+import webfx.platform.client.services.windowhistory.spi.impl.SubBrowsingHistory;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.services.log.Logger;
-import webfx.platform.client.services.uischeduler.UiScheduler;
-import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
-import webfx.platform.client.services.windowhistory.spi.impl.SubBrowsingHistory;
 import webfx.platform.shared.util.async.Handler;
 import webfx.platform.shared.util.collection.Collections;
 import webfx.platform.shared.util.function.Converter;
@@ -321,16 +320,16 @@ public final class UiRouter extends HistoryRouter {
             // (ex: changing :x parameter in activity1 and then pressing a navigation button in a parent container activity
             // that goes to /:x/activity2 => the parent container can get the last :x value changed by activity1)
             WritableJsonObject localParams = null;
-            UiRouteActivityContext uiAppContext = ApplicationContext.get();
-            WritableJsonObject appParams = (WritableJsonObject) uiAppContext.getParams();
+            //UiRouteActivityContext uiAppContext = ApplicationContext.get();
+            //WritableJsonObject appParams = (WritableJsonObject) uiAppContext.getParams();
             JsonArray keys = routingContextParams.keys();
             for (int i = 0, size = keys.size(); i < size; i++) {
                 String key = keys.getString(i);
                 Object value = routingContextParams.getNativeElement(key);
                 boolean localParameter = true; //"refresh".equals(key);
-                if (!localParameter)
+                /*if (!localParameter)
                     appParams.setNativeElement(key, value);
-                else {
+                else*/ {
                     if (localParams == null)
                         localParams = Json.createObject();
                     localParams.set(key, value);

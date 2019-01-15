@@ -12,7 +12,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.client.activity.ActivityManager;
-import webfx.framework.client.activity.impl.combinations.viewdomainapplication.ViewDomainApplicationContext;
+import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainActivityContext;
 import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.launcher.FxKitLauncher;
@@ -26,16 +26,16 @@ import java.util.function.Consumer;
  */
 public class MongooseClientApplication extends Application {
 
-    private final MongooseClientActivity mongooseApplication;
+    private final MongooseClientActivity mongooseClientActivity;
 
-    public MongooseClientApplication(MongooseClientActivity mongooseApplication) {
-        this.mongooseApplication = mongooseApplication;
+    public MongooseClientApplication(MongooseClientActivity mongooseClientActivity) {
+        this.mongooseClientActivity = mongooseClientActivity;
     }
 
     @Override
     public void init() {
-        ActivityManager.runActivity(mongooseApplication,
-                ViewDomainApplicationContext.createViewDomainApplicationContext(DomainModelSnapshotLoader.getDataSourceModel())
+        ActivityManager.runActivity(mongooseClientActivity,
+                ViewDomainActivityContext.createViewDomainActivityContext(DomainModelSnapshotLoader.getDataSourceModel())
         );
     }
 
@@ -47,8 +47,8 @@ public class MongooseClientApplication extends Application {
         double height = screenVisualBounds.getHeight() * 0.9;
         Scene scene = new Scene(root, width, height);
         scene.getStylesheets().addAll("mongoose/client/css/mongoose.css");
-        //root.centerProperty().bind(mongooseApplication.nodeProperty()); //
-        scene.rootProperty().bind(Properties.compute(mongooseApplication.nodeProperty(), n -> (Parent) n));
+        //root.centerProperty().bind(mongooseClientActivity.nodeProperty()); //
+        scene.rootProperty().bind(Properties.compute(mongooseClientActivity.nodeProperty(), n -> (Parent) n));
         // Activating focus owner auto scroll
         SceneUtil.installSceneFocusOwnerAutoScroll(scene);
         primaryStage.setScene(scene);
