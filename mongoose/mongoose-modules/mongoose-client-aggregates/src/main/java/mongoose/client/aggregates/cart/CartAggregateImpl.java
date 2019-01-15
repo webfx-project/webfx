@@ -1,8 +1,6 @@
-package mongoose.client.aggregates;
+package mongoose.client.aggregates.cart;
 
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
-import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
-import mongoose.client.businesslogic.workingdocument.WorkingDocumentLoader;
+import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.shared.entities.*;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.entity.EntityId;
@@ -12,7 +10,6 @@ import webfx.framework.shared.orm.entity.EntityStoreQuery;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.async.Future;
-import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +19,11 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-final class CartAggregateImpl implements CartAggregate {
+public final class CartAggregateImpl implements CartAggregate {
+
+    public final static String DOCUMENT_LINE_LOAD_QUERY = "select <frontend_cart>,document.<frontend_cart> from DocumentLine where site!=null and document=? order by document desc";
+    public final static String ATTENDANCE_LOAD_QUERY = "select documentLine.id,date from Attendance where documentLine.document=? order by date";
+    private final static String PAYMENT_LOAD_QUERY = "select <frontend_cart> from MoneyTransfer where document=? order by date desc";
 
     private final static Map<Object, CartAggregate> aggregates = new HashMap<>();
 
@@ -31,7 +32,8 @@ final class CartAggregateImpl implements CartAggregate {
     private String uuid;
     private Cart cart;
     private List<Document> cartDocuments;
-    private List<WorkingDocument> cartWorkingDocuments;
+    private EntityList<DocumentLine> cartDocumentLines;
+    private EntityList<Attendance> cartAttendances;
     private EntityList<MoneyTransfer> cartPayments;
     private EventAggregate eventAggregate;
     private boolean loading;
@@ -81,7 +83,7 @@ final class CartAggregateImpl implements CartAggregate {
         if (uuid == null)
             aggregates.put(uuid = cart.getUuid(), this);
         if (eventAggregate != null)
-            eventAggregate.setCurrentCart(cart);
+            eventAggregate.setActiveCart(cart);
     }
 
     @Override
@@ -94,9 +96,12 @@ final class CartAggregateImpl implements CartAggregate {
         return cartDocuments;
     }
 
-    @Override
-    public List<WorkingDocument> getCartWorkingDocuments() {
-        return cartWorkingDocuments;
+    public EntityList<DocumentLine> getCartDocumentLines() {
+        return cartDocumentLines;
+    }
+
+    public EntityList<Attendance> getCartAttendances() {
+        return cartAttendances;
     }
 
     @Override
@@ -107,7 +112,8 @@ final class CartAggregateImpl implements CartAggregate {
     @Override
     public void unload() {
         cartDocuments = null;
-        cartWorkingDocuments = null;
+        cartDocumentLines = null;
+        cartAttendances = null;
         cartPayments = null;
     }
 
@@ -125,42 +131,34 @@ final class CartAggregateImpl implements CartAggregate {
     public Future<Cart> onCart() {
         if (isLoaded())
             return Future.succeededFuture(cart);
+        loading = true;
         String documentCondition = "document.cart." + (id != null ? "id=?" : "uuid=?");
         Object[] parameter = new Object[]{id != null ? id : uuid};
         return store.executeQueryBatch(
-              new EntityStoreQuery(Strings.replaceAll(WorkingDocumentLoader.DOCUMENT_LINE_LOAD_QUERY, "document=?", documentCondition), parameter)
-            , new EntityStoreQuery(Strings.replaceAll(WorkingDocumentLoader.ATTENDANCE_LOAD_QUERY, "document=?", documentCondition), parameter)
-            , new EntityStoreQuery(Strings.replaceAll(WorkingDocumentLoader.PAYMENT_LOAD_QUERY, "document=?", documentCondition), parameter)
+              new EntityStoreQuery(Strings.replaceAll(DOCUMENT_LINE_LOAD_QUERY, "document=?", documentCondition), parameter)
+            , new EntityStoreQuery(Strings.replaceAll(ATTENDANCE_LOAD_QUERY, "document=?", documentCondition), parameter)
+            , new EntityStoreQuery(Strings.replaceAll(PAYMENT_LOAD_QUERY, "document=?", documentCondition), parameter)
         ).compose((entityLists, future) -> {
-            EntityList<DocumentLine> dls = entityLists[0];
-            EntityList<Attendance> as = entityLists[1];
-            cartPayments = entityLists[2];
             cartDocuments = new ArrayList<>();
-            cartWorkingDocuments = new ArrayList<>();
-            if (dls.isEmpty()) {
+            cartDocumentLines = entityLists[0];
+            cartAttendances = entityLists[1];
+            cartPayments = entityLists[2];
+            if (cartDocumentLines.isEmpty()) {
                 loading = false;
                 future.complete();
             }
-            eventAggregate = EventAggregate.getOrCreateFromDocument(dls.get(0).getDocument());
+            eventAggregate = EventAggregate.getOrCreateFromDocument(cartDocumentLines.get(0).getDocument());
             eventAggregate.onEventOptions().setHandler(ar -> {
                 if (!cartDocuments.isEmpty()) {
                     Logger.log("Warning: CartAggregate.onCart() has been called again before the first call is finished");
                     cartDocuments.clear();
-                    cartWorkingDocuments.clear();
                 }
                 Document currentDocument = null;
-                List<WorkingDocumentLine> wdls = null;
-                for (DocumentLine dl : dls) {
+                for (DocumentLine dl : cartDocumentLines) {
                     Document document = dl.getDocument();
-                    if (document != currentDocument) {
-                        if (currentDocument != null)
-                            addWorkingDocument(currentDocument, wdls);
+                    if (document != currentDocument)
                         cartDocuments.add(currentDocument = document);
-                        wdls = new ArrayList<>();
-                    }
-                    wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventAggregate));
                 }
-                addWorkingDocument(currentDocument, wdls);
                 setCart(cartDocuments.get(0).getCart());
                 loading = false;
                 future.complete(cart);
@@ -168,18 +166,9 @@ final class CartAggregateImpl implements CartAggregate {
         });
     }
 
-    private void addWorkingDocument(Document document, List<WorkingDocumentLine> wdls) {
-        cartWorkingDocuments.add(new WorkingDocument(new WorkingDocument(eventAggregate, document, wdls)));
-    }
-
     @Override
     public Future<List<Document>> onCartDocuments() {
         return onCart().map(cart -> cartDocuments);
-    }
-
-    @Override
-    public Future<List<WorkingDocument>> onCartWorkingDocuments() {
-        return onCart().map(cart -> cartWorkingDocuments);
     }
 
     @Override

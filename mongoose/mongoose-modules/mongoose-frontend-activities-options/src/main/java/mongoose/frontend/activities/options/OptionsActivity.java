@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import mongoose.client.activities.shared.FeesGroup;
+import mongoose.client.businesslogic.fees.FeesGroup;
 import mongoose.client.bookingcalendar.BookingCalendar;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
@@ -40,7 +40,7 @@ public class OptionsActivity extends BookingProcessActivity {
     @Override
     public void onPause() {
         super.onPause();
-        lastWorkingDocument = getWorkingDocument();
+        lastWorkingDocument = getEventActiveWorkingDocument();
     }
 
     @Override
@@ -51,14 +51,14 @@ public class OptionsActivity extends BookingProcessActivity {
                 Logger.log(ar.cause());
             else {
                 OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
-                WorkingDocument workingDocument = getWorkingDocument();
+                WorkingDocument workingDocument = getEventActiveWorkingDocument();
                 // Detecting if it's a new booking
                 if (workingDocument == null || selectedOptionsPreselection != null && selectedOptionsPreselection.getWorkingDocument() == workingDocument) {
                     // Using no accommodation option by default if no preselection was selected
                     if (selectedOptionsPreselection == null)
                         setSelectedOptionsPreselection(selectedOptionsPreselection = findNoAccommodationOptionsPreselection(ar.result()));
                     // Ensuring the working document is a duplication of the preselection one to not alter the original one
-                    setWorkingDocument(selectedOptionsPreselection.createNewWorkingDocument(null));
+                    selectedOptionsPreselection.createNewWorkingDocument(null).setEventActive(); // And make it active
                 }
                 if (lastWorkingDocument != workingDocument) {
                     if (verticalScrollPane != null)
@@ -103,7 +103,7 @@ public class OptionsActivity extends BookingProcessActivity {
     private final OptionTree optionTree = new OptionTree(this);
 
     void createOrUpdateOptionPanelsIfReady(boolean forceRefresh) {
-        WorkingDocument workingDocument = getWorkingDocument();
+        WorkingDocument workingDocument = getEventActiveWorkingDocument();
         if (workingDocument != null && bookingCalendar != null) {
             bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, forceRefresh);
 

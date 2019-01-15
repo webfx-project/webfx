@@ -3,18 +3,16 @@ package mongoose.client.businesslogic.workingdocument;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import mongoose.client.aggregates.EventAggregate;
+import mongoose.client.aggregates.cart.CartAggregate;
+import mongoose.client.aggregates.cart.CartAggregateImpl;
+import mongoose.client.aggregates.event.EventAggregate;
+import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.pricing.WorkingDocumentPricing;
-import mongoose.shared.time.DateTimeRange;
-import mongoose.shared.entities.Document;
-import mongoose.shared.entities.Option;
-import mongoose.shared.entities.Person;
+import mongoose.shared.entities.*;
 import mongoose.shared.entities.markers.EntityHasPersonalDetails;
 import mongoose.shared.entities.markers.HasPersonalDetails;
-import webfx.framework.shared.orm.entity.Entities;
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.framework.shared.orm.entity.UpdateStore;
+import mongoose.shared.time.DateTimeRange;
+import webfx.framework.shared.orm.entity.*;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
@@ -329,4 +327,74 @@ public final class WorkingDocument {
         );
     }
 
+    // Events active working documents storage
+
+    private final static Map<EntityId, WorkingDocument> eventsActiveWorkingDocuments = new HashMap<>();
+
+    public void setEventActive() {
+        setEventActiveWorkingDocument(this);
+    }
+
+    public static void setEventActiveWorkingDocument(WorkingDocument workingDocument) {
+        setEventActiveWorkingDocument(workingDocument, workingDocument.getEventAggregate());
+    }
+
+    public static void setEventActiveWorkingDocument(WorkingDocument workingDocument, EventAggregate eventAggregate) {
+        setEventActiveWorkingDocument(workingDocument, eventAggregate.getEvent());
+    }
+
+    public static void setEventActiveWorkingDocument(WorkingDocument workingDocument, Event event) {
+        setEventActiveWorkingDocument(workingDocument, event.getId());
+    }
+
+    public static void setEventActiveWorkingDocument(WorkingDocument workingDocument, EntityId eventId) {
+        eventsActiveWorkingDocuments.put(eventId, workingDocument);
+    }
+
+    public static WorkingDocument getEventActiveWorkingDocument(EventAggregate eventAggregate) {
+        return getEventActiveWorkingDocument(eventAggregate.getEvent());
+    }
+
+    public static WorkingDocument getEventActiveWorkingDocument(Event event) {
+        return getEventActiveWorkingDocument(event.getId());
+    }
+
+    public static WorkingDocument getEventActiveWorkingDocument(EntityId eventId) {
+        WorkingDocument workingDocument = eventsActiveWorkingDocuments.get(eventId);
+        if (workingDocument == null) {
+            OptionsPreselection selectedOptionsPreselection = OptionsPreselection.getSelectedOptionsPreselection(EventAggregate.get(eventId));
+            if (selectedOptionsPreselection != null)
+                workingDocument = selectedOptionsPreselection.getWorkingDocument();
+        }
+        return workingDocument;
+    }
+
+    // Carts working documents storage
+
+    private final static Map<EntityId, List<WorkingDocument>> cartsWorkingDocuments = new HashMap<>();
+
+    public static List<WorkingDocument> getCartWorkingDocuments(CartAggregate cartAggregate) {
+        return getCartWorkingDocuments(cartAggregate.getCart());
+    }
+
+    public static List<WorkingDocument> getCartWorkingDocuments(Cart cart) {
+        return getCartWorkingDocuments(cart.getId());
+    }
+
+    public static List<WorkingDocument> getCartWorkingDocuments(EntityId cartId) {
+        List<WorkingDocument> workingDocuments = cartsWorkingDocuments.get(cartId);
+        if (workingDocuments == null) {
+            CartAggregateImpl cartAggregate = (CartAggregateImpl) CartAggregate.get(cartId);
+            EventAggregate eventAggregate = cartAggregate.getEventAggregate();
+            workingDocuments = Collections.map(cartAggregate.getCartDocuments(), document ->
+                new WorkingDocument(new WorkingDocument(eventAggregate, document,
+                        Collections.map(Collections.filter(cartAggregate.getCartDocumentLines(), dl -> dl.getDocument() == document), documentLine ->
+                            new WorkingDocumentLine(documentLine, Collections.filter(cartAggregate.getCartAttendances(), a -> a.getDocumentLine() == documentLine), eventAggregate)
+                        )
+                ))
+            );
+            cartsWorkingDocuments.put(cartId, workingDocuments);
+        }
+        return workingDocuments;
+    }
 }

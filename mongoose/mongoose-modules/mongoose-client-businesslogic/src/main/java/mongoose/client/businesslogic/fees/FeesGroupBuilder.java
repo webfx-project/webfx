@@ -1,4 +1,4 @@
-package mongoose.client.activities.shared;
+package mongoose.client.businesslogic.fees;
 
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.preselection.OptionsPreselectionBuilder;
@@ -7,7 +7,7 @@ import mongoose.shared.entities.DateInfo;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
-import mongoose.client.aggregates.EventAggregate;
+import mongoose.client.aggregates.event.EventAggregate;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;

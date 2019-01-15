@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mongooses-core-shared-aggregates</artifactId>
+    <artifactId>mongoose-client-aggregates</artifactId>
 
     <dependencies>
 
@@ -17,6 +17,12 @@
             <artifactId>mongoose-shared-entities</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-client-websocketbus</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
 
     </dependencies>

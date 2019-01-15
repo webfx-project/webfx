@@ -1,6 +1,6 @@
 package mongoose.client.businesslogic.workingdocument;
 
-import mongoose.client.aggregates.EventAggregate;
+import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.businesslogic.option.OptionLogic;
 import mongoose.client.businesslogic.preselection.OptionPreselection;
 import mongoose.shared.time.DateTimeRange;

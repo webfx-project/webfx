@@ -44,7 +44,7 @@ public final class OptionTree {
     }
 
     WorkingDocument getWorkingDocument() {
-        return activity.getWorkingDocument();
+        return activity.getEventActiveWorkingDocument();
     }
 
     WorkingDocumentTransaction getWorkingDocumentTransaction() {

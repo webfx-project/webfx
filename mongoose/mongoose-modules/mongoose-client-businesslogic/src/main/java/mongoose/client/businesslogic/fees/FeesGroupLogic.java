@@ -1,20 +1,18 @@
 package mongoose.client.businesslogic.fees;
 
-import mongoose.client.activities.shared.FeesGroup;
-import mongoose.client.activities.shared.FeesGroupBuilder;
-import mongoose.client.aggregates.EventAggregate;
+import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.businesslogic.option.OptionLogic;
 import mongoose.shared.entities.DateInfo;
+import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Site;
 import mongoose.shared.util.Labels;
+import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityList;
+import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Bruno Salmon
@@ -55,4 +53,31 @@ public final class FeesGroupLogic {
                 .setAddNoAccommodationOption(addNoAccommodationOption)
                 .build();
     }
+
+    // Events fees groups storage
+
+    private final static Map<EntityId, FeesGroup[]> eventsFeesGroups = new HashMap<>();
+
+    public static FeesGroup[] getFeesGroups(EventAggregate eventAggregate) {
+        return getFeesGroups(eventAggregate.getEvent());
+    }
+
+    public static FeesGroup[] getFeesGroups(Event event) {
+        return getFeesGroups(event.getId());
+    }
+
+    public static FeesGroup[] getFeesGroups(EntityId eventId) {
+        FeesGroup[] feesGroups = eventsFeesGroups.get(eventId);
+        if (feesGroups == null)
+            eventsFeesGroups.put(eventId, feesGroups = createFeesGroups(EventAggregate.get(eventId)));
+        return feesGroups;
+    }
+
+    public static Future<FeesGroup[]> onFeesGroups(EventAggregate eventAggregate) {
+        FeesGroup[] feesGroups = eventsFeesGroups.get(eventAggregate.getEvent().getId());
+        if (feesGroups != null)
+            return Future.succeededFuture(feesGroups);
+        return eventAggregate.onEventOptions().map(ignored -> getFeesGroups(eventAggregate));
+    }
+
 }

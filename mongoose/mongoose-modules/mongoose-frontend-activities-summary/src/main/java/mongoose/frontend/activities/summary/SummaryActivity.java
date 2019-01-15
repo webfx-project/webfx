@@ -102,7 +102,7 @@ final class SummaryActivity extends BookingProcessActivity {
     }
 
     private void syncUiFromModel() {
-        WorkingDocument workingDocument = getWorkingDocument();
+        WorkingDocument workingDocument = getEventActiveWorkingDocument();
         if (workingDocument != null) {
             bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, true);
             bookingOptionsPanel.syncUiFromModel(workingDocument);
@@ -111,7 +111,7 @@ final class SummaryActivity extends BookingProcessActivity {
     }
 
     private void syncModelFromUi() {
-        WorkingDocument workingDocument = getWorkingDocument();
+        WorkingDocument workingDocument = getEventActiveWorkingDocument();
         if (workingDocument != null)
             personalDetailsPanel.syncModelFromUi(workingDocument.getDocument());
     }
@@ -131,14 +131,14 @@ final class SummaryActivity extends BookingProcessActivity {
     @Override
     protected void onNextButtonPressed(ActionEvent event) {
         if (validationSupport.isValid())
-            WorkingDocumentSubmitter.submit(getWorkingDocument(), commentTextArea.getText()).setHandler(ar -> {
+            WorkingDocumentSubmitter.submit(getEventActiveWorkingDocument(), commentTextArea.getText()).setHandler(ar -> {
                 if (ar.failed())
                     Logger.log("Error submitting booking", ar.cause());
                 else {
                     Document document = ar.result();
                     Cart cart = document.getCart();
                     if (cart == null) {
-                        WorkingDocument workingDocument = getWorkingDocument();
+                        WorkingDocument workingDocument = getEventActiveWorkingDocument();
                         if (workingDocument.getLoadedWorkingDocument() != null)
                             workingDocument = workingDocument.getLoadedWorkingDocument();
                         document = workingDocument.getDocument();

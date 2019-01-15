@@ -1,11 +1,11 @@
-package mongoose.client.activities.shared;
+package mongoose.client.businesslogic.fees;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
-import mongoose.client.aggregates.EventAggregate;
+import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.icons.MongooseIcons;
 import mongoose.shared.entities.Event;

@@ -81,13 +81,13 @@ final class PersonActivity extends BookingProcessActivity {
     }
 
     private void syncUiFromModel() {
-        WorkingDocument workingDocument = getWorkingDocument();
+        WorkingDocument workingDocument = getEventActiveWorkingDocument();
         if (workingDocument != null)
             personalDetailsPanel.syncUiFromModel(workingDocument.getDocument());
     }
 
     private void syncModelFromUi() {
-        WorkingDocument workingDocument = getWorkingDocument();
+        WorkingDocument workingDocument = getEventActiveWorkingDocument();
         if (workingDocument != null)
             personalDetailsPanel.syncModelFromUi(workingDocument.getDocument());
     }
@@ -109,7 +109,7 @@ final class PersonActivity extends BookingProcessActivity {
         super.onPause();
         syncModelFromUi();
         // Clearing the computed price cache on leaving this page in case a personal detail affecting the price (such as age) has been changed
-        WorkingDocument workingDocument = getWorkingDocument();
+        WorkingDocument workingDocument = getEventActiveWorkingDocument();
         if (workingDocument != null)
             workingDocument.clearComputedPrice();
     }

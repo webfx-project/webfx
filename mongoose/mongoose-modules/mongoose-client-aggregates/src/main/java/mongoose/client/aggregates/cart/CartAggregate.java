@@ -1,12 +1,12 @@
-package mongoose.client.aggregates;
+package mongoose.client.aggregates.cart;
 
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
+import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.MoneyTransfer;
-import webfx.platform.shared.util.async.Future;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.entity.EntityList;
+import webfx.platform.shared.util.async.Future;
 
 import java.util.List;
 
@@ -38,10 +38,6 @@ public interface CartAggregate {
     Future<List<Document>> onCartDocuments();
 
     List<Document> getCartDocuments();
-
-    Future<List<WorkingDocument>> onCartWorkingDocuments();
-
-    List<WorkingDocument> getCartWorkingDocuments();
 
     Future<EntityList> onCartPayments();
 

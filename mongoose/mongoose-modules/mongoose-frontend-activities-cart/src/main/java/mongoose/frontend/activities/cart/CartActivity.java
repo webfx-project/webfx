@@ -42,6 +42,7 @@ import webfx.fxkit.extra.type.PrimType;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Arrays;
+import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
@@ -136,10 +137,20 @@ final class CartActivity extends CartBasedActivity {
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
             int selectedRow = selection == null ? -1 : selection.getSelectedRow();
             if (selectedRow != -1) {
-                setSelectedWorkingDocument(Collections.get(cartAggregate().getCartWorkingDocuments(), selectedRow));
-                displayBookingOptions();
+                onCartWorkingDocuments().setHandler(ar -> {
+                    setSelectedWorkingDocument(Collections.get(getCartWorkingDocuments(), selectedRow));
+                    displayBookingOptions();
+                });
             }
         });
+    }
+
+    private Future<List<WorkingDocument>> onCartWorkingDocuments() {
+        return cartAggregate().onCartDocuments().map(this::getCartWorkingDocuments);
+    }
+
+    private List<WorkingDocument> getCartWorkingDocuments() {
+        return WorkingDocument.getCartWorkingDocuments(cartAggregate());
     }
 
     private void setSelectedWorkingDocument(WorkingDocument selectedWorkingDocument) {
@@ -155,7 +166,7 @@ final class CartActivity extends CartBasedActivity {
         UiScheduler.runInUiThread(() -> {
             int selectedIndex = indexOfWorkingDocument(selectedWorkingDocument);
             if (selectedIndex == -1 && eventAggregate() != null)
-                selectedIndex = indexOfWorkingDocument(eventAggregate().getWorkingDocument());
+                selectedIndex = indexOfWorkingDocument(WorkingDocument.getEventActiveWorkingDocument(getEvent()));
             documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
             updatePaymentsVisibility();
         });
@@ -231,7 +242,7 @@ final class CartActivity extends CartBasedActivity {
     private int indexOfWorkingDocument(WorkingDocument workingDocument) {
         if (workingDocument == null)
             return -1;
-        return Collections.indexOf(cartAggregate().getCartWorkingDocuments(), wd -> Entities.sameId(wd.getDocument(), workingDocument.getDocument()));
+        return Collections.indexOf(getCartWorkingDocuments(), wd -> Entities.sameId(wd.getDocument(), workingDocument.getDocument()));
     }
 
     private void disableBookinOptionsButtons(boolean disable) {

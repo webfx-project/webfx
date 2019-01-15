@@ -1,7 +1,7 @@
 package mongoose.frontend.activities.program;
 
 import javafx.scene.layout.BorderPane;
-import mongoose.client.activities.shared.FeesGroup;
+import mongoose.client.businesslogic.fees.FeesGroup;
 import mongoose.client.bookingcalendar.BookingCalendar;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;

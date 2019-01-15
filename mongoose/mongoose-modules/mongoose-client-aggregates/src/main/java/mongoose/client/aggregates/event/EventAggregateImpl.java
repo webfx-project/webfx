@@ -1,15 +1,12 @@
-package mongoose.client.aggregates;
+package mongoose.client.aggregates.event;
 
-import mongoose.client.activities.shared.FeesGroup;
-import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
-import mongoose.client.businesslogic.fees.FeesGroupLogic;
+import mongoose.client.aggregates.person.PersonAggregate;
 import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Rate;
-import webfx.framework.shared.orm.entity.*;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.entity.*;
 import webfx.platform.client.services.websocketbus.WebSocketBusOptions;
 import webfx.platform.shared.services.bus.BusService;
 import webfx.platform.shared.services.query.QueryArgument;
@@ -20,11 +17,11 @@ import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.async.FutureBroadcaster;
 import webfx.platform.shared.util.collection.Collections;
-import java.util.function.Predicate;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * @author Bruno Salmon
@@ -155,7 +152,6 @@ final class EventAggregateImpl implements EventAggregate {
     @Override
     public void clearEventOptions() {
         clearEntityList(OPTIONS_LIST_ID);
-        feesGroups = null;
         eventOptionsFutureBroadcaster = null;
     }
 
@@ -214,24 +210,6 @@ final class EventAggregateImpl implements EventAggregate {
         return hasFacilityFeeRate;
     }
 
-    // Fees groups loading method
-
-    private FeesGroup[] feesGroups;
-
-    @Override
-    public FeesGroup[] getFeesGroups() {
-        if (feesGroups == null)
-            feesGroups = FeesGroupLogic.createFeesGroups(this);
-        return feesGroups;
-    }
-
-    @Override
-    public Future<FeesGroup[]> onFeesGroups() {
-        if (feesGroups != null)
-            return Future.succeededFuture(feesGroups);
-        return onEventOptions().map(this::getFeesGroups);
-    }
-
     // Event availability loading method
     private FutureBroadcaster<QueryResult> eventAvailabilitiesFutureBroadcaster;
 
@@ -268,37 +246,13 @@ final class EventAggregateImpl implements EventAggregate {
         return ((WebSocketBusOptions) BusService.getBusOptions()).getServerHost();
     }
 
-    private OptionsPreselection selectedOptionsPreselection;
     @Override
-    public void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection) {
-        this.selectedOptionsPreselection = selectedOptionsPreselection;
-    }
-
-    @Override
-    public OptionsPreselection getSelectedOptionsPreselection() {
-        return selectedOptionsPreselection;
-    }
-
-    private WorkingDocument workingDocument;
-    @Override
-    public void setWorkingDocument(WorkingDocument workingDocument) {
-        this.workingDocument = workingDocument;
-    }
-
-    @Override
-    public WorkingDocument getWorkingDocument() {
-        if (workingDocument == null && selectedOptionsPreselection != null)
-            workingDocument = selectedOptionsPreselection.getWorkingDocument();
-        return workingDocument;
-    }
-
-    @Override
-    public Cart getCurrentCart() {
+    public Cart getActiveCart() {
         return currentCart;
     }
 
     @Override
-    public void setCurrentCart(Cart currentCart) {
-        this.currentCart = currentCart;
+    public void setActiveCart(Cart activeCart) {
+        this.currentCart = activeCart;
     }
 }

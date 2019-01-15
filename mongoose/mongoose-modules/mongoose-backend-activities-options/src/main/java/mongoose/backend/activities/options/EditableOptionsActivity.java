@@ -13,7 +13,7 @@ import mongoose.client.actions.MongooseActions;
 import mongoose.backend.multilangeditor.MultiLanguageEditor;
 import mongoose.frontend.activities.options.OptionsActivity;
 import mongoose.client.bookingcalendar.BookingCalendar;
-import mongoose.client.activities.shared.FeesGroup;
+import mongoose.client.businesslogic.fees.FeesGroup;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
@@ -100,7 +100,7 @@ final class EditableOptionsActivity extends OptionsActivity {
                         else {
                             dialogCallback.closeDialog();
                             // Updating the UI
-                            getWorkingDocument().getWorkingDocumentLines().removeIf(line -> getTopParentOption(line.getOption()) == option);
+                            getEventActiveWorkingDocument().getWorkingDocumentLines().removeIf(line -> getTopParentOption(line.getOption()) == option);
                             getSelectedOptionsPreselection().getOptionPreselections().removeIf(optionPreselection -> getTopParentOption(optionPreselection.getOption()) == option);
                             clearEventOptions();
                             startLogic();
@@ -153,7 +153,7 @@ final class EditableOptionsActivity extends OptionsActivity {
                                 for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
                                     if (optionsPreselection.getLabel() == selectedOptionsPreselection.getLabel()) {
                                         setSelectedOptionsPreselection(optionsPreselection);
-                                        setWorkingDocument(optionsPreselection.getWorkingDocument());
+                                        optionsPreselection.getWorkingDocument().setEventActive();
                                         startLogic();
                                         return;
                                     }

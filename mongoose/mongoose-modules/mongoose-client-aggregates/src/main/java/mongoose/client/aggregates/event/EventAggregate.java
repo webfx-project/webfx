@@ -1,8 +1,6 @@
-package mongoose.client.aggregates;
+package mongoose.client.aggregates.event;
 
-import mongoose.client.activities.shared.FeesGroup;
-import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
+import mongoose.client.aggregates.person.PersonAggregate;
 import mongoose.shared.entities.*;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
@@ -117,12 +115,6 @@ public interface EventAggregate extends HasDataSourceModel {
 
     boolean hasFacilityFeeRate();
 
-    // Fees groups loading method
-
-    Future<FeesGroup[]> onFeesGroups();
-
-    FeesGroup[] getFeesGroups();
-
     // Event availability loading method
 
     Future<QueryResult> onEventAvailabilities();
@@ -135,18 +127,8 @@ public interface EventAggregate extends HasDataSourceModel {
 
     QueryResult getEventAvailabilities();
 
-    // Setter and getter to store the booking process working document
+    void setActiveCart(Cart activeCart);
 
-    void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection);
-
-    OptionsPreselection getSelectedOptionsPreselection();
-
-    void setWorkingDocument(WorkingDocument workingDocument);
-
-    WorkingDocument getWorkingDocument();
-
-    void setCurrentCart(Cart currentCart);
-
-    Cart getCurrentCart();
+    Cart getActiveCart();
 
 }

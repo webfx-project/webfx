@@ -1,11 +1,11 @@
 package webfx.platform.shared.util.async;
 
-import java.util.function.BiConsumer;
 import webfx.platform.shared.util.function.Callable;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import webfx.platform.shared.util.tuples.Unit;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -262,8 +262,15 @@ public interface Future<T> extends AsyncResult<T> {
         return ret;
     }
 
-    default <U> Future<U> map(Callable<U> mapper) {
-        return map(arg -> mapper.call());
+    default <V> Future<V> map(Callable<V> mapper) {
+        Future<V> ret = Future.future();
+        setHandler(ar -> {
+            if (ar.succeeded())
+                ret.complete(mapper.call());
+            else
+                ret.fail(ar.cause());
+        });
+        return ret;
     }
 
     /**

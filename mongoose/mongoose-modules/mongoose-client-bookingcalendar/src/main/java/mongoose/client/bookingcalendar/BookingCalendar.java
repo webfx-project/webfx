@@ -4,7 +4,8 @@ import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
-import mongoose.client.activities.shared.FeesGroup;
+import mongoose.client.businesslogic.fees.FeesGroup;
+import mongoose.client.businesslogic.fees.FeesGroupLogic;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentCalendarExtractor;
 import mongoose.client.calendar.Calendar;
 import mongoose.client.calendargraphic.CalendarCell;
@@ -16,7 +17,7 @@ import mongoose.shared.time.TimeInterval;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentMerger;
-import mongoose.client.aggregates.EventAggregate;
+import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.client.util.log.PerformanceLogger;
 import webfx.framework.shared.orm.entity.Entities;
@@ -105,7 +106,7 @@ public class BookingCalendar {
     }
 
     protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange, boolean applyBusinessRules) {
-        OptionsPreselection selectedOptionsPreselection = workingDocument.getEventAggregate().getSelectedOptionsPreselection();
+        OptionsPreselection selectedOptionsPreselection = OptionsPreselection.getSelectedOptionsPreselection(workingDocument.getEventAggregate());
         if (selectedOptionsPreselection == null)
             selectedOptionsPreselection = findWorkingDocumentOptionsPreselection();
         WorkingDocument newWorkingDocument = selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange);
@@ -115,7 +116,7 @@ public class BookingCalendar {
     }
 
     private OptionsPreselection findWorkingDocumentOptionsPreselection() {
-        for (FeesGroup feesGroup : workingDocument.getEventAggregate().getFeesGroups()) {
+        for (FeesGroup feesGroup : FeesGroupLogic.getFeesGroups(workingDocument.getEventAggregate())) {
             for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
                 if (workingDocumentMatchesOptionsPreselection(optionsPreselection))
                     return optionsPreselection;
@@ -188,7 +189,8 @@ public class BookingCalendar {
         //Logger.log("newCalendarWorkingDocument: " + newCalendarWorkingDocument.getDateTimeRange().getText());
         WorkingDocument newWorkingDocument = WorkingDocumentMerger.mergeWorkingDocuments(workingDocument, newCalendarWorkingDocument, newWorkingDocumentDateTimeRange);
         //Logger.log("newWorkingDocument: " + newWorkingDocument.getDateTimeRange().getText());
-        eventAggregate.setWorkingDocument(workingDocument = newWorkingDocument);
+        workingDocument = newWorkingDocument;
+        workingDocument.setEventActive();
     }
 
     private void displayWorkingTotalPrice() {

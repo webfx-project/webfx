@@ -1,8 +1,6 @@
-package mongoose.client.aggregates;
+package mongoose.client.aggregates.event;
 
-import mongoose.client.activities.shared.FeesGroup;
-import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
+import mongoose.client.aggregates.person.PersonAggregate;
 import mongoose.shared.entities.*;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityList;
@@ -145,14 +143,6 @@ public interface EventAggregateMixin extends EventAggregate {
         return getEventService().hasFacilityFeeRate();
     }
 
-    default Future<FeesGroup[]> onFeesGroups() {
-        return getEventService().onFeesGroups();
-    }
-
-    default FeesGroup[] getFeesGroups() {
-        return getEventService().getFeesGroups();
-    }
-
     @Override
     default Future<QueryResult> onEventAvailabilities() {
         return getEventService().onEventAvailabilities();
@@ -168,34 +158,13 @@ public interface EventAggregateMixin extends EventAggregate {
         return getEventService().getEventAvailabilities();
     }
 
-
     @Override
-    default void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection) {
-        getEventService().setSelectedOptionsPreselection(selectedOptionsPreselection);
+    default void setActiveCart(Cart activeCart) {
+        getEventService().setActiveCart(activeCart);
     }
 
     @Override
-    default OptionsPreselection getSelectedOptionsPreselection() {
-        return getEventService().getSelectedOptionsPreselection();
-    }
-
-    @Override
-    default void setWorkingDocument(WorkingDocument workingDocument) {
-        getEventService().setWorkingDocument(workingDocument);
-    }
-
-    @Override
-    default WorkingDocument getWorkingDocument() {
-        return getEventService().getWorkingDocument();
-    }
-
-    @Override
-    default void setCurrentCart(Cart currentCart) {
-        getEventService().setCurrentCart(currentCart);
-    }
-
-    @Override
-    default Cart getCurrentCart() {
-        return getEventService().getCurrentCart();
+    default Cart getActiveCart() {
+        return getEventService().getActiveCart();
     }
 }

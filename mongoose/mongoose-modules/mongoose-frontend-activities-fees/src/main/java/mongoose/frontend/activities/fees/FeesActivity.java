@@ -10,7 +10,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import mongoose.client.activities.shared.FeesGroup;
+import mongoose.client.businesslogic.fees.FeesGroup;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.icons.MongooseIcons;

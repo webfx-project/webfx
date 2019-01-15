@@ -1,4 +1,4 @@
-package mongoose.client.activities.shared;
+package mongoose.client.businesslogic.fees;
 
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;

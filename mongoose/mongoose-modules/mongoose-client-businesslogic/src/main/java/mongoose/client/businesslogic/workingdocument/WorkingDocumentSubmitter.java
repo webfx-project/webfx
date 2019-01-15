@@ -1,6 +1,6 @@
 package mongoose.client.businesslogic.workingdocument;
 
-import mongoose.client.aggregates.EventAggregate;
+import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.shared.time.DaysArray;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.Cart;
@@ -30,7 +30,7 @@ public final class WorkingDocumentSubmitter {
         else {
             du = store.insertEntity(Document.class);
             du.setEvent(eventAggregate.getEvent());
-            Cart cart = eventAggregate.getCurrentCart();
+            Cart cart = eventAggregate.getActiveCart();
             if (cart == null) {
                 cart = store.insertEntity(Cart.class);
                 cart.setUuid(Uuid.randomUuid());

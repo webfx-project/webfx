@@ -1,4 +1,4 @@
-package mongoose.client.aggregates;
+package mongoose.client.aggregates.person;
 
 import mongoose.shared.entities.Person;
 import webfx.framework.shared.orm.entity.EntityStore;
