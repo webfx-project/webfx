@@ -3,7 +3,7 @@ package mongoose.client.activity.eventdependent;
 import mongoose.client.businesslogic.fees.FeesGroup;
 import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.aggregates.event.EventAggregateMixin;
-import mongoose.client.businesslogic.fees.FeesGroupLogic;
+import mongoose.client.businesslogic.fees.FeesGroupsByEventStore;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import webfx.framework.client.activity.impl.elementals.domain.DomainActivityContext;
@@ -37,8 +37,8 @@ public interface EventDependentActivityMixin
         return WorkingDocument.getEventActiveWorkingDocument(this);
     }
 
-    default Future<FeesGroup[]> onFeesGroups() {
-        return FeesGroupLogic.onFeesGroups(this);
+    default Future<FeesGroup[]> onEventFeesGroups() {
+        return FeesGroupsByEventStore.onEventFeesGroups(this);
     }
 
     default void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection) {

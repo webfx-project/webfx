@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public final class FeesGroupBuilder {
+final class FeesGroupBuilder {
 
     private final EventAggregate eventAggregate;
     private DateInfo dateInfo;
@@ -31,11 +31,11 @@ public final class FeesGroupBuilder {
     private Iterable<Option> accommodationOptions;
     private boolean addNoAccommodationOption;
 
-    public FeesGroupBuilder(EventAggregate eventAggregate) {
+    FeesGroupBuilder(EventAggregate eventAggregate) {
         this.eventAggregate = eventAggregate;
     }
 
-    public FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
+    FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
         this.dateInfo = dateInfo;
         if (dateInfo != null) {
             id = dateInfo.getId();
@@ -47,12 +47,12 @@ public final class FeesGroupBuilder {
         return this;
     }
 
-    public FeesGroupBuilder setLabel(Label label) {
+    FeesGroupBuilder setLabel(Label label) {
         this.label = label;
         return this;
     }
 
-    public FeesGroupBuilder setI18nKey(String i18nKey) {
+    FeesGroupBuilder setI18nKey(String i18nKey) {
         this.i18nKey = i18nKey;
         return this;
     }
@@ -61,22 +61,22 @@ public final class FeesGroupBuilder {
         return eventAggregate.getEvent();
     }
 
-    public FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
+    FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
         this.defaultOptions = defaultOptions;
         return this;
     }
 
-    public FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
+    FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
         this.accommodationOptions = accommodationOptions;
         return this;
     }
 
-    public FeesGroupBuilder setAddNoAccommodationOption(boolean addNoAccommodationOption) {
+    FeesGroupBuilder setAddNoAccommodationOption(boolean addNoAccommodationOption) {
         this.addNoAccommodationOption = addNoAccommodationOption;
         return this;
     }
 
-    public FeesGroup build() {
+    FeesGroup build() {
         DateTimeRange dateTimeRange = dateInfo == null ? null : dateInfo.getParsedDateTimeRange();
         if (dateTimeRange == null)
             dateTimeRange = getEvent().getParsedDateTimeRange();

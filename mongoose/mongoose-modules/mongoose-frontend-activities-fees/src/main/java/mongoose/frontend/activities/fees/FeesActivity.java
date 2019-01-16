@@ -113,7 +113,7 @@ final class FeesActivity extends BookingProcessActivity {
 
     private void loadAndDisplayFeesGroups() {
         lastLoadedEventOptions = null;
-        onFeesGroups().setHandler(ar -> {
+        onEventFeesGroups().setHandler(ar -> {
             lastLoadedEventOptions = getEventOptions();
             if (ar.failed())
                 Logger.log(ar.cause());

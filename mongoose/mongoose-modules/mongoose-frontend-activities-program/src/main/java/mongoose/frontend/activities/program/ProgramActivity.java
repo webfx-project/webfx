@@ -35,7 +35,7 @@ final class ProgramActivity extends BookingProcessActivity {
 
     @Override
     protected void startLogic() {
-        onFeesGroups().setHandler(ar -> {
+        onEventFeesGroups().setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
             else {

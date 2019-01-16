@@ -5,7 +5,7 @@ import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import mongoose.client.businesslogic.fees.FeesGroup;
-import mongoose.client.businesslogic.fees.FeesGroupLogic;
+import mongoose.client.businesslogic.fees.FeesGroupsByEventStore;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentCalendarExtractor;
 import mongoose.client.calendar.Calendar;
 import mongoose.client.calendargraphic.CalendarCell;
@@ -116,7 +116,7 @@ public class BookingCalendar {
     }
 
     private OptionsPreselection findWorkingDocumentOptionsPreselection() {
-        for (FeesGroup feesGroup : FeesGroupLogic.getFeesGroups(workingDocument.getEventAggregate())) {
+        for (FeesGroup feesGroup : FeesGroupsByEventStore.getEventFeesGroups(workingDocument.getEventAggregate())) {
             for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
                 if (workingDocumentMatchesOptionsPreselection(optionsPreselection))
                     return optionsPreselection;
