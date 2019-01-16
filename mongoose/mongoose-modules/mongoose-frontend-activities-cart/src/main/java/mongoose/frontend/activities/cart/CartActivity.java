@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import mongoose.client.businesslogic.workingdocument.ActiveWorkingDocumentsByEventStore;
 import mongoose.client.util.functions.TranslateFunction;
 import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
@@ -166,7 +167,7 @@ final class CartActivity extends CartBasedActivity {
         UiScheduler.runInUiThread(() -> {
             int selectedIndex = indexOfWorkingDocument(selectedWorkingDocument);
             if (selectedIndex == -1 && eventAggregate() != null)
-                selectedIndex = indexOfWorkingDocument(WorkingDocument.getEventActiveWorkingDocument(getEvent()));
+                selectedIndex = indexOfWorkingDocument(ActiveWorkingDocumentsByEventStore.getEventActiveWorkingDocument(getEvent()));
             documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
             updatePaymentsVisibility();
         });

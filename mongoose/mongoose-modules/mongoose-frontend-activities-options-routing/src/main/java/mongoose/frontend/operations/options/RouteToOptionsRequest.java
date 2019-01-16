@@ -1,6 +1,7 @@
 package mongoose.frontend.operations.options;
 
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
+import mongoose.client.businesslogic.workingdocument.ActiveWorkingDocumentsByEventStore;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.frontend.activities.options.routing.OptionsRouting;
 import webfx.framework.client.operations.route.RoutePushRequest;
@@ -33,7 +34,7 @@ public final class RouteToOptionsRequest extends RoutePushRequest {
         if (eventId == null)
             eventId = workingDocument.getEventAggregate().getEvent().getId();
         OptionsPreselection.setSelectedOptionsPreselection(optionsPreselection, eventId);
-        WorkingDocument.setEventActiveWorkingDocument(optionsPreselection == null ? workingDocument : null, eventId);
+        ActiveWorkingDocumentsByEventStore.setEventActiveWorkingDocument(optionsPreselection == null ? workingDocument : null, eventId);
         return eventId;
     }
 

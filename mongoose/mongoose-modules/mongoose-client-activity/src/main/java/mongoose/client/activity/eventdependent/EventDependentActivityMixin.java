@@ -5,6 +5,7 @@ import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.aggregates.event.EventAggregateMixin;
 import mongoose.client.businesslogic.fees.FeesGroupsByEventStore;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
+import mongoose.client.businesslogic.workingdocument.ActiveWorkingDocumentsByEventStore;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import webfx.framework.client.activity.impl.elementals.domain.DomainActivityContext;
 import webfx.framework.client.activity.impl.elementals.domain.DomainActivityContextMixin;
@@ -34,7 +35,7 @@ public interface EventDependentActivityMixin
     }
 
     default WorkingDocument getEventActiveWorkingDocument() {
-        return WorkingDocument.getEventActiveWorkingDocument(this);
+        return ActiveWorkingDocumentsByEventStore.getEventActiveWorkingDocument(this);
     }
 
     default Future<FeesGroup[]> onEventFeesGroups() {
