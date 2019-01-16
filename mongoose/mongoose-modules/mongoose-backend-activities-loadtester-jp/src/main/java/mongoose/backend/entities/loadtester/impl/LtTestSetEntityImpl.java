@@ -4,6 +4,7 @@ import mongoose.backend.entities.loadtester.LtTestSetEntity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
+import webfx.framework.shared.orm.entity.impl.EntityFactoryProviderImpl;
 
 import java.time.Instant;
 
@@ -44,5 +45,11 @@ public final class LtTestSetEntityImpl extends DynamicEntity implements LtTestSe
     @Override
     public void setComment(String comment) {
         setFieldValue("comment", comment);
+    }
+
+    public static final class ProvidedFactory extends EntityFactoryProviderImpl<LtTestSetEntity> {
+        public ProvidedFactory() {
+            super(LtTestSetEntity.class, LtTestSetEntityImpl::new);
+        }
     }
 }

@@ -1,11 +1,12 @@
 package mongoose.shared.entities.impl;
 
+import mongoose.shared.entities.Option;
 import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.time.DayTimeRange;
-import mongoose.shared.entities.Option;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
+import webfx.framework.shared.orm.entity.impl.EntityFactoryProviderImpl;
 
 /**
  * @author Bruno Salmon
@@ -39,5 +40,11 @@ public final class OptionImpl extends DynamicEntity implements Option {
         if (parsedDateTimeRangeOrParent == null)
             parsedDateTimeRangeOrParent = DateTimeRange.parse(getDateTimeRangeOrParent());
         return parsedDateTimeRangeOrParent;
+    }
+
+    public static final class ProvidedFactory extends EntityFactoryProviderImpl<Option> {
+        public ProvidedFactory() {
+            super(Option.class, OptionImpl::new);
+        }
     }
 }

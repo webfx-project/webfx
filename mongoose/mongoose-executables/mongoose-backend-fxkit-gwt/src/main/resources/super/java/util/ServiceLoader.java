@@ -1,8 +1,7 @@
 package java.util;
 
+import java.util.Iterator;
 import java.util.logging.Logger;
-
-import mongoose.backend.application.MongooseBackendApplication;
 import webfx.platform.shared.util.function.Factory;
 
 public class ServiceLoader<S> implements Iterable<S> {
@@ -11,7 +10,7 @@ public class ServiceLoader<S> implements Iterable<S> {
         switch (serviceClass.getName()) {
             // Single SPI providers
             case "webfx.fxkit.launcher.spi.FxKitLauncherProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.launcher.GwtFxKitLauncherProvider::new);
-            case "javafx.application.Application": return new ServiceLoader<S>(MongooseBackendApplication::new);
+            case "javafx.application.Application": return new ServiceLoader<S>(mongoose.backend.application.MongooseBackendApplication::new);
             case "webfx.fxkit.mapper.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
             case "webfx.platform.shared.services.resource.spi.ResourceServiceProvider": return new ServiceLoader<S>(webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceServiceProvider::new);
             case "webfx.platform.shared.services.query.spi.QueryServiceProvider": return new ServiceLoader<S>(webfx.platform.shared.services.query.spi.impl.LocalOrRemoteQueryServiceProvider::new);
@@ -35,6 +34,7 @@ public class ServiceLoader<S> implements Iterable<S> {
             case "webfx.framework.client.services.push.spi.PushClientServiceProvider": return new ServiceLoader<S>(webfx.framework.client.services.push.spi.impl.simple.SimplePushClientServiceProvider::new);
             case "webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider": return new ServiceLoader<S>(webfx.framework.shared.services.querypush.spi.impl.LocalOrRemoteQueryPushServiceProvider::new);
             // Multiple SPI providers
+            case "webfx.framework.shared.orm.entity.EntityFactoryProvider": return new ServiceLoader<S>(mongoose.shared.entities.impl.AttendanceImpl.ProvidedFactory::new, mongoose.shared.entities.impl.CartImpl.ProvidedFactory::new, mongoose.shared.entities.impl.CountryImpl.ProvidedFactory::new, mongoose.shared.entities.impl.DateInfoImpl.ProvidedFactory::new, mongoose.shared.entities.impl.DocumentImpl.ProvidedFactory::new, mongoose.shared.entities.impl.DocumentLineImpl.ProvidedFactory::new, mongoose.shared.entities.impl.EventImpl.ProvidedFactory::new, mongoose.shared.entities.impl.GatewayParameterImpl.ProvidedFactory::new, mongoose.shared.entities.impl.HistoryImpl.ProvidedFactory::new, mongoose.shared.entities.impl.ImageImpl.ProvidedFactory::new, mongoose.shared.entities.impl.ItemFamilyImpl.ProvidedFactory::new, mongoose.shared.entities.impl.ItemImpl.ProvidedFactory::new, mongoose.shared.entities.impl.LabelImpl.ProvidedFactory::new, mongoose.shared.entities.impl.MailImpl.ProvidedFactory::new, mongoose.shared.entities.impl.MethodImpl.ProvidedFactory::new, mongoose.shared.entities.impl.MoneyTransferImpl.ProvidedFactory::new, mongoose.shared.entities.impl.OptionImpl.ProvidedFactory::new, mongoose.shared.entities.impl.OrganizationImpl.ProvidedFactory::new, mongoose.shared.entities.impl.OrganizationTypeImpl.ProvidedFactory::new, mongoose.shared.entities.impl.PersonImpl.ProvidedFactory::new, mongoose.shared.entities.impl.RateImpl.ProvidedFactory::new, mongoose.shared.entities.impl.SiteImpl.ProvidedFactory::new, mongoose.shared.entities.impl.SystemMetricsEntityImpl.ProvidedFactory::new, mongoose.shared.entities.impl.TeacherImpl.ProvidedFactory::new);
             case "webfx.framework.client.operations.i18n.ChangeLanguageRequestEmitter": return new ServiceLoader<S>(mongoose.client.operations.i18n.ChangeLanguageToEnglishRequest.ProvidedEmitter::new, mongoose.client.operations.i18n.ChangeLanguageToFrenchRequest.ProvidedEmitter::new);
             case "webfx.framework.client.ui.uirouter.UiRoute": return new ServiceLoader<S>(mongoose.client.activities.login.LoginUiRoute::new, mongoose.client.activities.unauthorized.UnauthorizedUiRoute::new, mongoose.backend.activities.authorizations.AuthorizationsUiRoute::new, mongoose.backend.activities.organizations.OrganizationsUiRoute::new, mongoose.backend.activities.operations.OperationsUiRoute::new, mongoose.backend.activities.monitor.MonitorUiRoute::new, mongoose.backend.activities.letters.LettersUiRoute::new, mongoose.backend.activities.letter.LetterUiRoute::new, mongoose.backend.activities.events.EventsUiRoute::new, mongoose.backend.activities.bookings.BookingsUiRoute::new, mongoose.backend.activities.cloneevent.CloneEventUiRoute::new);
             case "webfx.framework.client.operations.route.RouteRequestEmitter": return new ServiceLoader<S>(mongoose.backend.operations.authorizations.RouteToAuthorizationsRequest.ProvidedEmitter::new, mongoose.backend.operations.organizations.RouteToOrganizationsRequest.ProvidedEmitter::new, mongoose.backend.operations.operations.RouteToOperationsRequest.ProvidedEmitter::new, mongoose.backend.operations.monitor.RouteToMonitorRequest.ProvidedEmitter::new, mongoose.backend.operations.letters.RouteToLettersRequest.ProvidedEmitter::new, mongoose.backend.operations.events.RouteToEventsRequest.ProvidedEmitter::new, mongoose.backend.operations.bookings.RouteToBookingsRequest.ProvidedEmitter::new);

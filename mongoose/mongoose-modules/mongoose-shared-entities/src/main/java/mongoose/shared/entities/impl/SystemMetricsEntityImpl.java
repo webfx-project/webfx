@@ -4,6 +4,7 @@ import mongoose.shared.entities.SystemMetricsEntity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
+import webfx.framework.shared.orm.entity.impl.EntityFactoryProviderImpl;
 
 import java.time.Instant;
 
@@ -79,5 +80,11 @@ public final class SystemMetricsEntityImpl extends DynamicEntity implements Syst
     @Override
     public Long getMemoryUsed() {
         return getLongFieldValue("memoryUsed");
+    }
+
+    public static final class ProvidedFactory extends EntityFactoryProviderImpl<SystemMetricsEntity> {
+        public ProvidedFactory() {
+            super(SystemMetricsEntity.class, "Metrics", SystemMetricsEntityImpl::new);
+        }
     }
 }

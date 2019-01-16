@@ -1,10 +1,11 @@
 package mongoose.shared.entities.impl;
 
-import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.entities.Event;
+import mongoose.shared.time.DateTimeRange;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
+import webfx.framework.shared.orm.entity.impl.EntityFactoryProviderImpl;
 
 /**
  * @author Bruno Salmon
@@ -37,5 +38,11 @@ public final class EventImpl extends DynamicEntity implements Event {
         if (parsedMaxDateTimeRange == null)
             parsedMaxDateTimeRange = DateTimeRange.parse(getMaxDateTimeRange());
         return parsedMaxDateTimeRange;
+    }
+
+    public static final class ProvidedFactory extends EntityFactoryProviderImpl<Event> {
+        public ProvidedFactory() {
+            super(Event.class, EventImpl::new);
+        }
     }
 }
