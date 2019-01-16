@@ -19,7 +19,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-client-businesslogic</artifactId>
+            <artifactId>mongoose-client-activity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
