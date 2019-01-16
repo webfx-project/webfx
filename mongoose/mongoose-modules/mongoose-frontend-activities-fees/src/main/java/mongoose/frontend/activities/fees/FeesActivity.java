@@ -15,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import mongoose.client.activity.MongooseButtonFactoryMixin;
 import mongoose.client.aggregates.event.EventAggregate;
-import mongoose.client.businesslogic.fees.BadgeFactory;
 import mongoose.client.businesslogic.fees.FeesGroup;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
@@ -190,7 +189,7 @@ final class FeesActivity extends BookingProcessActivity {
                             button.setOnAction(e -> bookHandler.handle(optionsPreselection));
                             if (availability == null || !showBadges)
                                 return button;
-                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(BadgeFactory.createBadge(TextRenderer.SINGLETON.renderValue(availability, ValueRenderingContext.DEFAULT_READONLY_CONTEXT)), button);
+                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(createBadge(TextRenderer.SINGLETON.renderValue(availability, ValueRenderingContext.DEFAULT_READONLY_CONTEXT)), button);
                             hBox.setAlignment(Pos.CENTER);
                             return hBox;
                         }).build()});
@@ -202,6 +201,11 @@ final class FeesActivity extends BookingProcessActivity {
         }
         return rsb.build();
     }
+
+    private static Node createBadge(Node... badgeNodes) {
+        return new HBox(badgeNodes);
+    }
+
 
     private Node renderFeesGroupHeader(Pair<JsonObject, String> pair) {
         boolean hasUnemployedRate = hasUnemployedRate();
