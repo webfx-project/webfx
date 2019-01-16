@@ -3,7 +3,7 @@ package mongoose.client.application;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
+import mongoose.client.util.ui.controls.button.MongooseButtonFactoryMixin;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.shared.operation.HasOperationCode;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;

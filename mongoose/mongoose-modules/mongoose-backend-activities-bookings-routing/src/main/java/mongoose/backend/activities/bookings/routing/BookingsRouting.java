@@ -1,6 +1,6 @@
 package mongoose.backend.activities.bookings.routing;
 
-import mongoose.client.activities.generic.routing.MongooseRoutingUtil;
+import mongoose.client.util.routing.MongooseRoutingUtil;
 
 import java.time.LocalDate;
 

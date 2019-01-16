@@ -1,6 +1,6 @@
 package mongoose.backend.activities.letters;
 
-import mongoose.client.activities.generic.eventdependent.EventDependentPresentationLogicActivity;
+import mongoose.client.activity.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.backend.operations.letter.RouteToLetterRequest;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 

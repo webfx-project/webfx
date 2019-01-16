@@ -1,7 +1,7 @@
 package mongoose.frontend.activities.options;
 
 import javafx.scene.Node;
-import mongoose.client.activities.shared.TranslateFunction;
+import mongoose.client.util.functions.TranslateFunction;
 import mongoose.client.validation.MongooseValidationSupport;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentTransaction;

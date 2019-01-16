@@ -50,12 +50,6 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-shared-entities</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-framework-client-i18n</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

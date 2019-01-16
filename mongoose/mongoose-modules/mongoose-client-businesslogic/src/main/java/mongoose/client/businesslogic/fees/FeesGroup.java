@@ -1,27 +1,11 @@
 package mongoose.client.businesslogic.fees;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
-import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.client.icons.MongooseIcons;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Label;
 import mongoose.shared.util.Labels;
-import webfx.framework.client.services.i18n.I18n;
-import webfx.fxkit.extra.cell.collator.NodeCollatorRegistry;
-import webfx.fxkit.extra.cell.renderer.TextRenderer;
-import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
-import webfx.fxkit.extra.displaydata.*;
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.util.ImageStore;
 import webfx.platform.shared.util.Numbers;
 import webfx.platform.shared.util.Objects;
-import webfx.platform.shared.util.async.Handler;
-import webfx.platform.shared.util.tuples.Pair;
 
 /**
  * @author Bruno Salmon
@@ -46,6 +30,10 @@ public final class FeesGroup {
         this.feesPopupLabel = feesPopupLabel;
         this.forceSoldout = forceSoldout;
         this.optionsPreselections = optionsPreselections;
+    }
+
+    public Event getEvent() {
+        return event;
     }
 
     public Object getId() {
@@ -80,45 +68,6 @@ public final class FeesGroup {
         return Labels.instantTranslateLabel(label, language);
     }
 
-    public DisplayResult generateDisplayResult(MongooseButtonFactoryMixin buttonFactory, EventAggregate eventAggregate, Handler<OptionsPreselection> bookHandler, ColumnWidthCumulator[] cumulators) {
-        boolean showBadges = Objects.areEquals(eventAggregate.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
-        int optionsCount = optionsPreselections.length;
-        boolean singleOption = optionsCount == 1;
-        DisplayResultBuilder rsb = DisplayResultBuilder.create(optionsCount, new DisplayColumn[]{
-                DisplayColumnBuilder.create(I18n.instantTranslate(singleOption ? (isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
-                DisplayColumnBuilder.create(I18n.instantTranslate("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
-                DisplayColumnBuilder.create(I18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
-                        .setValueRenderer((p, context) -> {
-                            Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
-                            if (pair == null || !eventAggregate.areEventAvailabilitiesLoaded())
-                                return new ImageView(ImageStore.getOrCreateImage(MongooseIcons.spinnerIcon16Url, 16, 16));
-                            Object availability = pair.get1();
-                            OptionsPreselection optionsPreselection = pair.get2();
-                            // Availability is null when there is no online room at all. In this case...
-                            if (availability == null && optionsPreselection.hasAccommodationExcludingSharing()) // ... if it's an accommodation option (but not just sharing)
-                                availability = 0; // we show it as sold out - otherwise (if it's a sharing option or no accommodation) we show it as available
-                            boolean soldout = availability != null && Numbers.doubleValue(availability) <= 0 || // Showing sold out if the availability is zero
-                                    optionsPreselection.isForceSoldout() || // or if the option has been forced as sold out in the backend
-                                    isForceSoldout(); // or if the whole FeesGroup has been forced as sold out
-                            if (soldout)
-                                return buttonFactory.newSoldoutButton();
-                            Button button = buttonFactory.newBookButton();
-                            button.setOnAction(e -> bookHandler.handle(optionsPreselection));
-                            if (availability == null || !showBadges)
-                                return button;
-                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(BadgeFactory.createBadge(TextRenderer.SINGLETON.renderValue(availability, ValueRenderingContext.DEFAULT_READONLY_CONTEXT)), button);
-                            hBox.setAlignment(Pos.CENTER);
-                            return hBox;
-                        }).build()});
-        int rowIndex = 0;
-        for (OptionsPreselection optionsPreselection : optionsPreselections) {
-            rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Objects.coalesce(label, Labels.bestLabelOrName(event))) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName());
-            rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice());
-            rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventAggregate), optionsPreselection));
-        }
-        return rsb.build();
-    }
-
     public String getFeesBottomText() {
         if (isInternationalFestival())
             return null;
@@ -126,7 +75,7 @@ public final class FeesGroup {
         return Labels.instantTranslateLabel(feesBottomLabel, "FeesExplanation");
     }
 
-    private boolean isFestival() {
+    public boolean isFestival() {
         return event.getName().toLowerCase().contains("festival");
     }
 

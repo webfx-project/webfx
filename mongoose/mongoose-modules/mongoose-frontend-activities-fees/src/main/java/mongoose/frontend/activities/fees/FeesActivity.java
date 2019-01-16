@@ -5,11 +5,17 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import mongoose.client.util.ui.controls.button.MongooseButtonFactoryMixin;
+import mongoose.client.aggregates.event.EventAggregate;
+import mongoose.client.businesslogic.fees.BadgeFactory;
 import mongoose.client.businesslogic.fees.FeesGroup;
 import mongoose.client.bookingprocess.activity.BookingProcessActivity;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
@@ -18,15 +24,21 @@ import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.operations.options.RouteToOptionsRequest;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Person;
+import mongoose.shared.util.Labels;
 import webfx.framework.client.services.i18n.Dictionary;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.fxkit.extra.cell.collator.GridCollator;
+import webfx.fxkit.extra.cell.collator.NodeCollatorRegistry;
+import webfx.fxkit.extra.cell.renderer.TextRenderer;
+import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
 import webfx.fxkit.extra.control.DataGrid;
 import webfx.fxkit.extra.control.SkinnedDataGrid;
 import webfx.fxkit.extra.displaydata.*;
+import webfx.fxkit.extra.type.PrimType;
 import webfx.fxkit.extra.type.SpecializedTextType;
+import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.json.Json;
@@ -35,6 +47,9 @@ import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.Objects;
+import webfx.platform.shared.util.async.Handler;
 import webfx.platform.shared.util.tuples.Pair;
 
 import static webfx.framework.client.ui.util.image.JsonImageViews.createImageView;
@@ -138,12 +153,54 @@ final class FeesActivity extends BookingProcessActivity {
         for (int i = 0; i < n; i++) {
             FeesGroup feesGroup = feesGroups[i];
             rsb.setValue(i, 0, new Pair<>(jsonImage, feesGroup.getDisplayName()));
-            rsb.setValue(i, 1, feesGroup.generateDisplayResult(this, this, this::onBookButtonPressed, cumulators));
+            rsb.setValue(i, 1, generateFeesGroupDisplayResult(feesGroup, this::onBookButtonPressed, cumulators));
             if (i == n - 1) // Showing the fees bottom text only on the last fees group
                 rsb.setValue(i, 2, feesGroup.getFeesBottomText());
         }
         DisplayResult rs = rsb.build();
         rsProperty.setValue(rs);
+    }
+
+    private DisplayResult generateFeesGroupDisplayResult(FeesGroup feesGroup, Handler<OptionsPreselection> bookHandler, ColumnWidthCumulator[] cumulators) {
+        MongooseButtonFactoryMixin buttonFactory = this;
+        EventAggregate eventAggregate = this;
+        boolean showBadges = Objects.areEquals(eventAggregate.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
+        OptionsPreselection[] optionsPreselections = feesGroup.getOptionsPreselections();
+        int optionsCount = optionsPreselections.length;
+        boolean singleOption = optionsCount == 1;
+        DisplayResultBuilder rsb = DisplayResultBuilder.create(optionsCount, new DisplayColumn[]{
+                DisplayColumnBuilder.create(I18n.instantTranslate(singleOption ? (feesGroup.isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
+                DisplayColumnBuilder.create(I18n.instantTranslate("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
+                DisplayColumnBuilder.create(I18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
+                        .setValueRenderer((p, context) -> {
+                            Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
+                            if (pair == null || !eventAggregate.areEventAvailabilitiesLoaded())
+                                return new ImageView(ImageStore.getOrCreateImage(MongooseIcons.spinnerIcon16Url, 16, 16));
+                            Object availability = pair.get1();
+                            OptionsPreselection optionsPreselection = pair.get2();
+                            // Availability is null when there is no online room at all. In this case...
+                            if (availability == null && optionsPreselection.hasAccommodationExcludingSharing()) // ... if it's an accommodation option (but not just sharing)
+                                availability = 0; // we show it as sold out - otherwise (if it's a sharing option or no accommodation) we show it as available
+                            boolean soldout = availability != null && Numbers.doubleValue(availability) <= 0 || // Showing sold out if the availability is zero
+                                    optionsPreselection.isForceSoldout() || // or if the option has been forced as sold out in the backend
+                                    feesGroup.isForceSoldout(); // or if the whole FeesGroup has been forced as sold out
+                            if (soldout)
+                                return buttonFactory.newSoldoutButton();
+                            Button button = buttonFactory.newBookButton();
+                            button.setOnAction(e -> bookHandler.handle(optionsPreselection));
+                            if (availability == null || !showBadges)
+                                return button;
+                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(BadgeFactory.createBadge(TextRenderer.SINGLETON.renderValue(availability, ValueRenderingContext.DEFAULT_READONLY_CONTEXT)), button);
+                            hBox.setAlignment(Pos.CENTER);
+                            return hBox;
+                        }).build()});
+        int rowIndex = 0;
+        for (OptionsPreselection optionsPreselection : optionsPreselections) {
+            rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Objects.coalesce(feesGroup.getLabel(), Labels.bestLabelOrName(feesGroup.getEvent()))) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName());
+            rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice());
+            rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventAggregate), optionsPreselection));
+        }
+        return rsb.build();
     }
 
     private Node renderFeesGroupHeader(Pair<JsonObject, String> pair) {

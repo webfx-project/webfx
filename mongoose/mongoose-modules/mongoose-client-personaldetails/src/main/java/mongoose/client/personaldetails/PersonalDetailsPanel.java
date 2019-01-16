@@ -7,7 +7,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.*;
-import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
+import mongoose.client.util.ui.controls.button.MongooseButtonFactoryMixin;
 import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.client.services.authn.MongooseUserPrincipal;
 import mongoose.client.validation.MongooseValidationSupport;

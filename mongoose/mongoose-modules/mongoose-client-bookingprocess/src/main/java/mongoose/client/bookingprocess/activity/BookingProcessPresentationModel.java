@@ -4,7 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import mongoose.client.activities.generic.eventdependent.EventDependentPresentationModelImpl;
+import mongoose.client.activity.eventdependent.EventDependentPresentationModelImpl;
 
 /**
  * @author Bruno Salmon

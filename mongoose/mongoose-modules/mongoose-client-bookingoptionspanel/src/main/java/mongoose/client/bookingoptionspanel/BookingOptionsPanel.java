@@ -1,7 +1,7 @@
 package mongoose.client.bookingoptionspanel;
 
 import javafx.scene.layout.BorderPane;
-import mongoose.client.activities.shared.TranslateFunction;
+import mongoose.client.util.functions.TranslateFunction;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.client.sectionpanel.SectionPanelFactory;

@@ -1,6 +1,6 @@
 package mongoose.backend.activities.operations;
 
-import mongoose.client.activities.generic.table.GenericTablePresentationViewActivity;
+import mongoose.client.activity.table.GenericTablePresentationViewActivity;
 
 /**
  * @author Bruno Salmon

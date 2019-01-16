@@ -1,7 +1,7 @@
 package mongoose.backend.activities.operations;
 
 import javafx.scene.layout.Pane;
-import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivityBase;
+import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
 import webfx.framework.client.ui.controls.sheet.PropertySheet;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.shared.orm.entity.Entity;

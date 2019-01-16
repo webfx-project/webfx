@@ -2,7 +2,7 @@ package mongoose.backend.activities.loadtester;
 
 import mongoose.backend.activities.loadtester.drive.Drive;
 import mongoose.backend.activities.loadtester.drive.model.ConnectionChartGenerator;
-import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivityBase;
+import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
 
 /**
  * @author Bruno Salmon

@@ -1,6 +1,6 @@
 package mongoose.backend.activities.letter.routing;
 
-import mongoose.client.activities.generic.routing.MongooseRoutingUtil;
+import mongoose.client.util.routing.MongooseRoutingUtil;
 
 /**
  * @author Bruno Salmon

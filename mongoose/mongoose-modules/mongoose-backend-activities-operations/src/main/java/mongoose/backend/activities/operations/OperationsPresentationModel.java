@@ -1,6 +1,6 @@
 package mongoose.backend.activities.operations;
 
-import mongoose.client.activities.generic.table.GenericTablePresentationModel;
+import mongoose.client.activity.table.GenericTablePresentationModel;
 
 /**
  * @author Bruno Salmon

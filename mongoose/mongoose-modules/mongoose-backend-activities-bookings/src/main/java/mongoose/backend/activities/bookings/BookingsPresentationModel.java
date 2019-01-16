@@ -1,7 +1,7 @@
 package mongoose.backend.activities.bookings;
 
 import javafx.beans.property.*;
-import mongoose.client.activities.generic.eventdependent.EventDependentGenericTablePresentationModel;
+import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 
 import java.time.LocalDate;
 

@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import mongoose.client.logic.ui.theme.Theme;
+import mongoose.client.util.ui.theme.Theme;
 import mongoose.shared.domainmodel.formatters.DateFormatter;
 import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;

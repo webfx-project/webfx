@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
+import mongoose.client.util.ui.controls.button.MongooseButtonFactoryMixin;
 import mongoose.client.validation.MongooseValidationSupport;
 import mongoose.frontend.activities.cart.routing.CartRouting;
 import mongoose.shared.entities.Document;

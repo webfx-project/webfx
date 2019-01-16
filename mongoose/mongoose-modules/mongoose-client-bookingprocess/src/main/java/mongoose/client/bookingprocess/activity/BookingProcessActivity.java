@@ -8,7 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import mongoose.client.activities.generic.eventdependent.EventDependentViewDomainActivity;
+import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.entities.Event;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.util.background.BackgroundUtil;

@@ -6,7 +6,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
+import mongoose.client.util.ui.controls.button.MongooseButtonFactoryMixin;
 import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.shared.entities.Event;

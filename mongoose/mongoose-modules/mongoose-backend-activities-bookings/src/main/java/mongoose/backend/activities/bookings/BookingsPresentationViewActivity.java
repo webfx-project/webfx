@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
-import mongoose.client.activities.generic.table.GenericTablePresentationViewActivity;
+import mongoose.client.activity.table.GenericTablePresentationViewActivity;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 

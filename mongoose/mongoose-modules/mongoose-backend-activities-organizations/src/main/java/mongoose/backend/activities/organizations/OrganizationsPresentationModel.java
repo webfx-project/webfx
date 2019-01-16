@@ -2,7 +2,7 @@ package mongoose.backend.activities.organizations;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import mongoose.client.activities.generic.table.GenericTablePresentationModel;
+import mongoose.client.activity.table.GenericTablePresentationModel;
 
 /**
  * @author Bruno Salmon

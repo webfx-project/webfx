@@ -3,7 +3,7 @@ package mongoose.frontend.activities.cart;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Region;
-import mongoose.client.activities.generic.MongooseButtonFactoryMixin;
+import mongoose.client.util.ui.controls.button.MongooseButtonFactoryMixin;
 import mongoose.client.aggregates.cart.CartAggregate;
 import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.shared.entities.Event;

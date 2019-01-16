@@ -1,7 +1,7 @@
 package mongoose.backend.activities.saveloadtest;
 
 import mongoose.backend.activities.loadtester.drive.Drive;
-import mongoose.client.activities.generic.MongooseDomainPresentationLogicActivityBase;
+import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
 
 /**
  * @author Bruno Salmon

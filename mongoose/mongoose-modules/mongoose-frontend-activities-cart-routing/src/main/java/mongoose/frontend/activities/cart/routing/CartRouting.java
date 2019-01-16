@@ -1,6 +1,6 @@
 package mongoose.frontend.activities.cart.routing;
 
-import mongoose.client.activities.generic.routing.MongooseRoutingUtil;
+import mongoose.client.util.routing.MongooseRoutingUtil;
 import mongoose.shared.entities.Document;
 
 /**

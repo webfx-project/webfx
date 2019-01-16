@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import mongoose.client.activities.shared.TranslateFunction;
+import mongoose.client.util.functions.TranslateFunction;
 import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.sectionpanel.SectionPanelFactory;

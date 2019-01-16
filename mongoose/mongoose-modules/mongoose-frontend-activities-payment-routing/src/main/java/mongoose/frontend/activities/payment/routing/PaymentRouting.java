@@ -1,7 +1,7 @@
 package mongoose.frontend.activities.payment.routing;
 
 import mongoose.frontend.activities.cart.routing.CartRouting;
-import mongoose.client.activities.generic.routing.MongooseRoutingUtil;
+import mongoose.client.util.routing.MongooseRoutingUtil;
 
 /**
  * @author Bruno Salmon
