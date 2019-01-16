@@ -13,7 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import mongoose.client.util.ui.controls.button.MongooseButtonFactoryMixin;
+import mongoose.client.activity.MongooseButtonFactoryMixin;
 import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.businesslogic.fees.BadgeFactory;
 import mongoose.client.businesslogic.fees.FeesGroup;

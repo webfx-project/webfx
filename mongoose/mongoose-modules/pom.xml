@@ -59,6 +59,7 @@
         <module>mongoose-frontend-application</module>
         <module>mongoose-client-activities-login</module>
         <module>mongoose-client-activities-unauthorized</module>
+        <module>mongoose-client-activity</module>
         <module>mongoose-client-aggregates</module>
         <module>mongoose-client-application</module>
         <module>mongoose-client-navigationarrows-java</module>

@@ -1,4 +1,4 @@
-package mongoose.client.util.ui.theme;
+package mongoose.client.activity.themes;
 
 /**
  * @author Bruno Salmon

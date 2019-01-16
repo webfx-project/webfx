@@ -44,7 +44,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>mongoose-client-businesslogic</artifactId>
+            <artifactId>mongoose-client-activity</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

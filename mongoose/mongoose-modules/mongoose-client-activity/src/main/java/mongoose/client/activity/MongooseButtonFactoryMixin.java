@@ -1,7 +1,7 @@
-package mongoose.client.util.ui.controls.button;
+package mongoose.client.activity;
 
 import javafx.scene.control.Button;
-import mongoose.client.util.ui.theme.Theme;
+import mongoose.client.activity.themes.Theme;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.button.ButtonBuilder;
 import webfx.framework.client.ui.controls.MaterialFactoryMixin;

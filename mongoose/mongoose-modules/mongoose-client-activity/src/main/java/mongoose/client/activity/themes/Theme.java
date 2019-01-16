@@ -1,4 +1,4 @@
-package mongoose.client.util.ui.theme;
+package mongoose.client.activity.themes;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;

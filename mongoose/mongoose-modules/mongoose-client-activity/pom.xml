@@ -9,30 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mongoose-backend-activities-bookings</artifactId>
+    <artifactId>mongoose-client-activity</artifactId>
 
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-backend-activities-bookings-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-backend-activities-cloneevent-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>mongoose-client-activity</artifactId>
+            <artifactId>mongoose-client-businesslogic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
