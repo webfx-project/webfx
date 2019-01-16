@@ -14,6 +14,12 @@
     <dependencies>
 
         <dependency>
+            <artifactId>mongoose-shared-domain</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>mongoose-shared-time</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -26,19 +32,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-framework-client-util</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-framework-client-action</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>webfx-platform-shared-resource</artifactId>
+            <artifactId>webfx-framework-client-i18n</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

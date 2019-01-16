@@ -19,6 +19,12 @@
             <version>${mongoose.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>webfx-framework-client-action</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -5,12 +5,14 @@ import mongoose.shared.domainmodel.formatters.DateTimeFormatter;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.domainmodel.functions.DateIntervalFormat;
+import webfx.framework.client.ui.util.formatter.FormatterRegistry;
 import webfx.framework.shared.expression.terms.function.DomainClassType;
 import webfx.framework.shared.expression.terms.function.Function;
 import webfx.framework.shared.expression.terms.function.InlineFunction;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.domainmodel.loader.DomainModelLoader;
+import webfx.framework.shared.orm.entity.EntityFactoryRegistry;
 import webfx.fxkit.extra.type.PrimType;
 import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.services.json.Json;
@@ -20,9 +22,6 @@ import webfx.platform.shared.services.resource.ResourceService;
 import webfx.platform.shared.services.serial.SerialCodecManager;
 import webfx.platform.shared.util.async.Batch;
 import webfx.platform.shared.util.async.Future;
-
-import static webfx.framework.client.ui.util.formatter.FormatterRegistry.registerFormatter;
-import static webfx.framework.shared.orm.entity.EntityFactoryRegistry.registerProvidedEntityFactories;
 
 /**
  * @author Bruno Salmon
@@ -51,11 +50,11 @@ public class DomainModelSnapshotLoader {
     public static DomainModel loadDomainModelFromSnapshot() {
         try {
             // Registering formats
-            registerFormatter("price", PriceFormatter.INSTANCE);
-            registerFormatter("date", DateFormatter.SINGLETON);
-            registerFormatter("dateTime", DateTimeFormatter.SINGLETON);
+            FormatterRegistry.registerFormatter("price", PriceFormatter.INSTANCE);
+            FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
+            FormatterRegistry.registerFormatter("dateTime", DateTimeFormatter.SINGLETON);
             // Registering entity java classes
-            registerProvidedEntityFactories();
+            EntityFactoryRegistry.registerProvidedEntityFactories();
             // Loading the model from the resource snapshot
             Future<String> text = ResourceService.getText("mongoose/shared/domainmodel/DomainModelSnapshot.json");
             String jsonString = text.result(); // LZString.decompressFromBase64(text.result());
