@@ -1,28 +1,28 @@
 package mongoose.client.bookingoptionspanel;
 
 import javafx.scene.layout.BorderPane;
-import mongoose.client.util.functions.TranslateFunction;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.client.sectionpanel.SectionPanelFactory;
-import mongoose.shared.domainmodel.formatters.PriceFormatter;
+import mongoose.client.util.functions.TranslateFunction;
+import mongoose.shared.entities.formatters.EventPriceFormatter;
 import mongoose.shared.entities.DocumentLine;
 import mongoose.shared.entities.Item;
 import mongoose.shared.time.DaysArray;
 import mongoose.shared.time.DaysArrayBuilder;
+import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.terms.function.AggregateFunction;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.mapping.EntityListToDisplayResultMapper;
-import webfx.framework.client.services.i18n.I18n;
-import webfx.fxkit.util.properties.Properties;
 import webfx.fxkit.extra.control.DataGrid;
 import webfx.fxkit.extra.control.SkinnedDataGrid;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.SelectionMode;
 import webfx.fxkit.extra.type.PrimType;
+import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.collection.Collections;
 
@@ -60,7 +60,7 @@ public final class BookingOptionsPanel {
     }
 
     public void syncUiFromModel(WorkingDocument workingDocument) {
-        registerFormatter("priceWithCurrency", new PriceFormatter(workingDocument.getEventAggregate().getEvent()));
+        registerFormatter("priceWithCurrency", new EventPriceFormatter(workingDocument.getEventAggregate().getEvent()));
         workingDocument.getComputedPrice(); // ensuring the price has been computed
         //Doesn't work on Android: syncUiFromModel(workingDocument.getWorkingDocumentLines().stream().map(BookingOptionsPanel::createDocumentLine).filter(Objects::nonNull).collect(Collectors.toList()), workingDocument.getDocument().getStore());
         syncUiFromModel(Collections.mapFilter(workingDocument.getWorkingDocumentLines(), BookingOptionsPanel::createDocumentLine, Objects::nonNull), workingDocument.getDocument().getStore());

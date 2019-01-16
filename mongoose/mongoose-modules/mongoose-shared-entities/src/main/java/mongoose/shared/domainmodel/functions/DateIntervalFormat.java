@@ -12,7 +12,7 @@ import java.time.Month;
 /**
  * @author Bruno Salmon
  */
-public class DateIntervalFormat extends Function {
+public final class DateIntervalFormat extends Function {
 
     public DateIntervalFormat() {
         super("dateIntervalFormat", new String[] {"date1", "date2"}, new Type[] {null, null}, PrimType.STRING, true);

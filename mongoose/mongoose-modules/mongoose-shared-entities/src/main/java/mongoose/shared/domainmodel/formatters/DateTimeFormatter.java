@@ -9,7 +9,7 @@ import webfx.framework.client.ui.util.formatter.Formatter;
 /**
  * @author Bruno Salmon
  */
-public class DateTimeFormatter implements Formatter {
+public final class DateTimeFormatter implements Formatter {
 
     public static final DateTimeFormatter SINGLETON = new DateTimeFormatter();
 

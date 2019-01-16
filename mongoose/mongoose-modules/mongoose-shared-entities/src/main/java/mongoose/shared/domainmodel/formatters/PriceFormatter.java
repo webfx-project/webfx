@@ -1,11 +1,9 @@
 package mongoose.shared.domainmodel.formatters;
 
-import mongoose.shared.entities.Event;
+import webfx.framework.client.ui.util.formatter.Formatter;
 import webfx.fxkit.extra.type.PrimType;
 import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.Numbers;
-import webfx.framework.shared.orm.entity.EntityId;
-import webfx.framework.client.ui.util.formatter.Formatter;
 
 /**
  * @author Bruno Salmon
@@ -17,15 +15,11 @@ public class PriceFormatter implements Formatter {
     private final String currencySymbol;
 
     public PriceFormatter() {
-        this((String) null);
+        this(null);
     }
 
     public PriceFormatter(String currencySymbol) {
         this.currencySymbol = currencySymbol;
-    }
-
-    public PriceFormatter(Event event) {
-        this(getEventCurrencySymbol(event));
     }
 
     @Override
@@ -50,24 +44,7 @@ public class PriceFormatter implements Formatter {
     }
 
     public static String formatWithoutCurrency(Object value) {
-        return format(value, null, false);
-    }
-
-    public static String formatWithCurrency(Object value, Event event) {
-        return formatWithCurrency(value, getEventCurrencySymbol(event));
-    }
-
-    public static String format(Object value, Event event, boolean withCurrency) {
-        return formatWithCurrency(value, withCurrency ? getEventCurrencySymbol(event) : "");
-    }
-
-    public static String getEventCurrencySymbol(Event event) {
-        // Temporary hard coded
-        EntityId organizationId = event == null ? null : event.getOrganizationId();
-        if (organizationId == null)
-            return null;
-        boolean isKMCF = Numbers.toInteger(organizationId.getPrimaryKey()) == 2;
-        return isKMCF ? " €" : "£";
+        return formatWithCurrency(value, "");
     }
 
     public static String formatWithCurrency(Object value, String currencySymbol) {

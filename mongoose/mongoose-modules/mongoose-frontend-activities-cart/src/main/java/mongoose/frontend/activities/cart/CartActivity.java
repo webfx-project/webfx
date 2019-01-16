@@ -8,16 +8,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import mongoose.client.businesslogic.workingdocument.ActiveWorkingDocumentsByEventStore;
-import mongoose.client.businesslogic.workingdocument.WorkingDocumentsByCartStore;
-import mongoose.client.util.functions.TranslateFunction;
 import mongoose.client.bookingoptionspanel.BookingOptionsPanel;
+import mongoose.client.businesslogic.workingdocument.ActiveWorkingDocumentsByEventStore;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
+import mongoose.client.businesslogic.workingdocument.WorkingDocumentsByCartStore;
 import mongoose.client.sectionpanel.SectionPanelFactory;
+import mongoose.client.util.functions.TranslateFunction;
 import mongoose.frontend.operations.contactus.RouteToContactUsRequest;
 import mongoose.frontend.operations.options.RouteToOptionsRequest;
 import mongoose.frontend.operations.payment.RouteToPaymentRequest;
 import mongoose.frontend.operations.startbooking.RouteToStartBookingRequest;
+import mongoose.shared.entities.formatters.EventPriceFormatter;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.Event;
@@ -185,7 +186,7 @@ final class CartActivity extends CartBasedActivity {
         super.onCartLoaded(); // Applying the css background of the event if provided
         Event event = getEvent();
         if (event != null) {
-            PriceFormatter priceFormatter = new PriceFormatter(event);
+            PriceFormatter priceFormatter = new EventPriceFormatter(event);
             registerFormatter("priceWithCurrency", priceFormatter);
             new Function("formatPrice", PrimType.STRING, true, false) {
                 @Override

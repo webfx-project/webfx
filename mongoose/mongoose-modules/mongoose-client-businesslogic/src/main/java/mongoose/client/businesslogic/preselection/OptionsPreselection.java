@@ -3,7 +3,7 @@ package mongoose.client.businesslogic.preselection;
 import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
-import mongoose.shared.domainmodel.formatters.PriceFormatter;
+import mongoose.shared.entities.formatters.EventPriceFormatter;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
@@ -98,7 +98,7 @@ public final class OptionsPreselection {
     }
 
     public Object getDisplayPrice() {
-        return PriceFormatter.formatWithCurrency(computePrice(), eventAggregate.getEvent());
+        return EventPriceFormatter.formatWithCurrency(computePrice(), eventAggregate.getEvent());
     }
 
     public Object getDisplayAvailability(EventAggregate eventAggregate) {

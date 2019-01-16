@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.client.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.activities.cart.CartBasedActivity;
+import mongoose.shared.entities.formatters.EventPriceFormatter;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.*;
 import mongoose.shared.entities.markers.EntityHasName;
@@ -96,7 +97,7 @@ final class PaymentActivity extends CartBasedActivity {
     }
 
     private String formatCurrency(int amount) {
-        return PriceFormatter.formatWithCurrency(amount, getEvent());
+        return EventPriceFormatter.formatWithCurrency(amount, getEvent());
     }
 
     private static final int CENTS = 100;

@@ -12,13 +12,13 @@ import mongoose.client.calendargraphic.CalendarCell;
 import mongoose.client.calendargraphic.CalendarClickEvent;
 import mongoose.client.calendargraphic.CalendarGraphic;
 import mongoose.client.businesslogic.preselection.OptionsPreselection;
+import mongoose.shared.entities.formatters.EventPriceFormatter;
 import mongoose.shared.time.DateTimeRange;
 import mongoose.shared.time.TimeInterval;
 import mongoose.client.businesslogic.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
 import mongoose.client.businesslogic.workingdocument.WorkingDocumentMerger;
 import mongoose.client.aggregates.event.EventAggregate;
-import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.client.util.log.PerformanceLogger;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.platform.shared.services.log.Logger;
@@ -196,6 +196,6 @@ public class BookingCalendar {
     private void displayWorkingTotalPrice() {
         int documentPrice = workingDocument.getComputedPrice();
         bookingPrice.setValue(documentPrice);
-        formattedBookingPrice.setValue(PriceFormatter.formatWithCurrency(documentPrice, workingDocument.getEventAggregate().getEvent()));
+        formattedBookingPrice.setValue(EventPriceFormatter.formatWithCurrency(documentPrice, workingDocument.getEventAggregate().getEvent()));
     }
 }

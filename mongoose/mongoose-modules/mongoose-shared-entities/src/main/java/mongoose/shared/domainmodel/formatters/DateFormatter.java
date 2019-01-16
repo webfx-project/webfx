@@ -12,7 +12,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public class DateFormatter implements Formatter {
+public final class DateFormatter implements Formatter {
 
     public static final DateFormatter SINGLETON = new DateFormatter();
     public static final StringConverter<LocalDate> LOCAL_DATE_STRING_CONVERTER =  new StringConverter<LocalDate>() {
