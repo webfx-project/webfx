@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import mongoose.client.businessdata.feesgroup.FeesGroup;
 import mongoose.client.businessdata.feesgroup.FeesGroupsByEventStore;
+import mongoose.client.businessdata.preselection.ActiveOptionsPreselectionsByEventStore;
 import mongoose.client.businessdata.workingdocument.WorkingDocumentCalendarExtractor;
 import mongoose.client.businessdata.calendar.Calendar;
 import mongoose.client.controls.calendargraphic.CalendarCell;
@@ -106,7 +107,7 @@ public class BookingCalendar {
     }
 
     protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange, boolean applyBusinessRules) {
-        OptionsPreselection selectedOptionsPreselection = OptionsPreselection.getSelectedOptionsPreselection(workingDocument.getEventAggregate());
+        OptionsPreselection selectedOptionsPreselection = ActiveOptionsPreselectionsByEventStore.getActiveOptionsPreselection(workingDocument.getEventAggregate());
         if (selectedOptionsPreselection == null)
             selectedOptionsPreselection = findWorkingDocumentOptionsPreselection();
         WorkingDocument newWorkingDocument = selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange);

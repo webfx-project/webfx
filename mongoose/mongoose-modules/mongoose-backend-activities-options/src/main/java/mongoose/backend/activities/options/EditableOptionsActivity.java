@@ -101,7 +101,7 @@ final class EditableOptionsActivity extends OptionsActivity {
                             dialogCallback.closeDialog();
                             // Updating the UI
                             getEventActiveWorkingDocument().getWorkingDocumentLines().removeIf(line -> getTopParentOption(line.getOption()) == option);
-                            getSelectedOptionsPreselection().getOptionPreselections().removeIf(optionPreselection -> getTopParentOption(optionPreselection.getOption()) == option);
+                            getEventActiveOptionsPreselection().getOptionPreselections().removeIf(optionPreselection -> getTopParentOption(optionPreselection.getOption()) == option);
                             clearEventOptions();
                             startLogic();
                         }
@@ -145,14 +145,14 @@ final class EditableOptionsActivity extends OptionsActivity {
                     addOptionDialogCallback.showException(ar.cause());
                 else {
                     closeAddOptionDialog();
-                    OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
+                    OptionsPreselection selectedOptionsPreselection = getEventActiveOptionsPreselection();
                     clearEventOptions();
                     onEventFeesGroups().setHandler(ar2 -> {
                         if (ar2.succeeded()) {
                             for (FeesGroup feesGroup : ar2.result()) {
                                 for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
                                     if (optionsPreselection.getLabel() == selectedOptionsPreselection.getLabel()) {
-                                        setSelectedOptionsPreselection(optionsPreselection);
+                                        optionsPreselection.setEventActive();
                                         optionsPreselection.getWorkingDocument().setEventActive();
                                         startLogic();
                                         return;
@@ -183,7 +183,7 @@ final class EditableOptionsActivity extends OptionsActivity {
 
     private DialogCallback labelDialogCallback;
 
-    void showLabelDialog(Label label) {
+    private void showLabelDialog(Label label) {
         if (labelDialogCallback == null)
             labelDialogCallback = DialogUtil.showModalNodeInGoldLayout(
                     new MultiLanguageEditor(this, label, lang -> lang, null)

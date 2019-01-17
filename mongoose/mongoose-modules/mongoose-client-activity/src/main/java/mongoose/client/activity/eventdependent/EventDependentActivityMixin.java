@@ -4,6 +4,7 @@ import mongoose.client.businessdata.feesgroup.FeesGroup;
 import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.aggregates.event.EventAggregateMixin;
 import mongoose.client.businessdata.feesgroup.FeesGroupsByEventStore;
+import mongoose.client.businessdata.preselection.ActiveOptionsPreselectionsByEventStore;
 import mongoose.client.businessdata.preselection.OptionsPreselection;
 import mongoose.client.businessdata.workingdocument.ActiveWorkingDocumentsByEventStore;
 import mongoose.client.businessdata.workingdocument.WorkingDocument;
@@ -42,12 +43,8 @@ public interface EventDependentActivityMixin
         return FeesGroupsByEventStore.onEventFeesGroups(this);
     }
 
-    default void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection) {
-        OptionsPreselection.setSelectedOptionsPreselection(selectedOptionsPreselection, this);
-    }
-
-    default OptionsPreselection getSelectedOptionsPreselection() {
-        return OptionsPreselection.getSelectedOptionsPreselection(this);
+    default OptionsPreselection getEventActiveOptionsPreselection() {
+        return ActiveOptionsPreselectionsByEventStore.getActiveOptionsPreselection(this);
     }
 
 }

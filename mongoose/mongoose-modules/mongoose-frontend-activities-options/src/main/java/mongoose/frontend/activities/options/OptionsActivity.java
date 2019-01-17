@@ -50,13 +50,15 @@ public class OptionsActivity extends BookingProcessActivity {
             if (ar.failed())
                 Logger.log(ar.cause());
             else {
-                OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
+                OptionsPreselection selectedOptionsPreselection = getEventActiveOptionsPreselection();
                 WorkingDocument workingDocument = getEventActiveWorkingDocument();
                 // Detecting if it's a new booking
                 if (workingDocument == null || selectedOptionsPreselection != null && selectedOptionsPreselection.getWorkingDocument() == workingDocument) {
                     // Using no accommodation option by default if no preselection was selected
-                    if (selectedOptionsPreselection == null)
-                        setSelectedOptionsPreselection(selectedOptionsPreselection = findNoAccommodationOptionsPreselection(ar.result()));
+                    if (selectedOptionsPreselection == null) {
+                        selectedOptionsPreselection = findNoAccommodationOptionsPreselection(ar.result());
+                        selectedOptionsPreselection.setEventActive();
+                    }
                     // Ensuring the working document is a duplication of the preselection one to not alter the original one
                     selectedOptionsPreselection.createNewWorkingDocument(null).setEventActive(); // And make it active
                 }

@@ -3,20 +3,16 @@ package mongoose.client.businessdata.preselection;
 import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.businessdata.workingdocument.WorkingDocument;
 import mongoose.client.businessdata.workingdocument.WorkingDocumentLine;
-import mongoose.shared.entities.formatters.EventPriceFormatter;
-import mongoose.shared.entities.Event;
+import mongoose.shared.businessdata.time.DateTimeRange;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
-import mongoose.shared.businessdata.time.DateTimeRange;
+import mongoose.shared.entities.formatters.EventPriceFormatter;
 import mongoose.shared.entities.util.Labels;
-import webfx.framework.shared.orm.entity.EntityId;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.collection.Collections;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -117,37 +113,12 @@ public final class OptionsPreselection {
         return null;
     }
 
+    public void setEventActive() {
+        ActiveOptionsPreselectionsByEventStore.setActiveOptionsPreselection(this, eventAggregate);
+    }
+
     @Override
     public String toString() {
         return getDisplayName("en");
     }
-
-    // Events selected options preselections storage
-
-    private final static Map<EntityId, OptionsPreselection> eventsSelectedOptionsPreselections = new HashMap<>();
-
-    public static void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection, EventAggregate eventAggregate) {
-        setSelectedOptionsPreselection(selectedOptionsPreselection, eventAggregate.getEvent());
-    }
-
-    public static void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection, Event event) {
-        setSelectedOptionsPreselection(selectedOptionsPreselection, event.getId());
-    }
-
-    public static void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection, EntityId eventId) {
-        eventsSelectedOptionsPreselections.put(eventId, selectedOptionsPreselection);
-    }
-
-    public static OptionsPreselection getSelectedOptionsPreselection(EventAggregate eventAggregate) {
-        return getSelectedOptionsPreselection(eventAggregate.getEvent());
-    }
-
-    public static OptionsPreselection getSelectedOptionsPreselection(Event event) {
-        return getSelectedOptionsPreselection(event.getId());
-    }
-
-    public static OptionsPreselection getSelectedOptionsPreselection(EntityId eventId) {
-        return eventsSelectedOptionsPreselections.get(eventId);
-    }
-
 }

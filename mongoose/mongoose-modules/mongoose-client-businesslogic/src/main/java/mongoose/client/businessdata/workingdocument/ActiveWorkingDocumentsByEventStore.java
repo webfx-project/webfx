@@ -1,6 +1,7 @@
 package mongoose.client.businessdata.workingdocument;
 
 import mongoose.client.aggregates.event.EventAggregate;
+import mongoose.client.businessdata.preselection.ActiveOptionsPreselectionsByEventStore;
 import mongoose.client.businessdata.preselection.OptionsPreselection;
 import mongoose.shared.entities.Event;
 import webfx.framework.shared.orm.entity.EntityId;
@@ -42,7 +43,7 @@ public class ActiveWorkingDocumentsByEventStore {
     public static WorkingDocument getEventActiveWorkingDocument(EntityId eventId) {
         WorkingDocument workingDocument = activeWorkingDocumentsByEventMap.get(eventId);
         if (workingDocument == null) {
-            OptionsPreselection selectedOptionsPreselection = OptionsPreselection.getSelectedOptionsPreselection(EventAggregate.get(eventId));
+            OptionsPreselection selectedOptionsPreselection = ActiveOptionsPreselectionsByEventStore.getActiveOptionsPreselection(EventAggregate.get(eventId));
             if (selectedOptionsPreselection != null)
                 workingDocument = selectedOptionsPreselection.getWorkingDocument();
         }
