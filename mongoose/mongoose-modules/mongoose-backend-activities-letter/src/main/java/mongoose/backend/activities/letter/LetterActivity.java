@@ -3,7 +3,7 @@ package mongoose.backend.activities.letter;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
-import mongoose.backend.multilangeditor.MultiLanguageEditor;
+import mongoose.backend.controls.multilangeditor.MultiLanguageEditor;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.fxkit.util.properties.Properties;

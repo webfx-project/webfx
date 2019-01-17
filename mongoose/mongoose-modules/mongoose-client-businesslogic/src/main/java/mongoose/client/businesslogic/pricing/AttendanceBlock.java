@@ -1,6 +1,6 @@
 package mongoose.client.businesslogic.pricing;
 
-import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
+import mongoose.client.businessdata.workingdocument.WorkingDocumentLine;
 
 import java.time.LocalDate;
 

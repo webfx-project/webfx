@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import mongoose.client.activity.MongooseButtonFactoryMixin;
-import mongoose.client.sectionpanel.SectionPanelFactory;
+import mongoose.client.controls.sectionpanel.SectionPanelFactory;
 import mongoose.client.validation.MongooseValidationSupport;
 import webfx.framework.shared.services.authn.AuthenticationRequest;
 import webfx.framework.shared.services.authn.UsernamePasswordCredentials;

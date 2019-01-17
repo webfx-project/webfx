@@ -1,8 +1,8 @@
 package mongoose.frontend.operations.options;
 
-import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.client.businesslogic.workingdocument.ActiveWorkingDocumentsByEventStore;
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
+import mongoose.client.businessdata.preselection.OptionsPreselection;
+import mongoose.client.businessdata.workingdocument.ActiveWorkingDocumentsByEventStore;
+import mongoose.client.businessdata.workingdocument.WorkingDocument;
 import mongoose.frontend.activities.options.routing.OptionsRouting;
 import webfx.framework.client.operations.route.RoutePushRequest;
 import webfx.framework.shared.orm.entity.EntityId;

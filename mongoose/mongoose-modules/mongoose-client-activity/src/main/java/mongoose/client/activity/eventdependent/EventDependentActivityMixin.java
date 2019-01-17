@@ -1,12 +1,12 @@
 package mongoose.client.activity.eventdependent;
 
-import mongoose.client.businesslogic.fees.FeesGroup;
+import mongoose.client.businessdata.feesgroup.FeesGroup;
 import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.client.aggregates.event.EventAggregateMixin;
-import mongoose.client.businesslogic.fees.FeesGroupsByEventStore;
-import mongoose.client.businesslogic.preselection.OptionsPreselection;
-import mongoose.client.businesslogic.workingdocument.ActiveWorkingDocumentsByEventStore;
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
+import mongoose.client.businessdata.feesgroup.FeesGroupsByEventStore;
+import mongoose.client.businessdata.preselection.OptionsPreselection;
+import mongoose.client.businessdata.workingdocument.ActiveWorkingDocumentsByEventStore;
+import mongoose.client.businessdata.workingdocument.WorkingDocument;
 import webfx.framework.client.activity.impl.elementals.domain.DomainActivityContext;
 import webfx.framework.client.activity.impl.elementals.domain.DomainActivityContextMixin;
 import webfx.framework.client.activity.impl.elementals.uiroute.UiRouteActivityContext;

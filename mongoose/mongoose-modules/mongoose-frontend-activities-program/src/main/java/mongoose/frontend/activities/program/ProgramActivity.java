@@ -1,12 +1,12 @@
 package mongoose.frontend.activities.program;
 
 import javafx.scene.layout.BorderPane;
-import mongoose.client.businesslogic.fees.FeesGroup;
-import mongoose.client.bookingcalendar.BookingCalendar;
-import mongoose.client.bookingprocess.activity.BookingProcessActivity;
-import mongoose.client.businesslogic.preselection.OptionsPreselection;
+import mongoose.client.businessdata.feesgroup.FeesGroup;
+import mongoose.client.controls.bookingcalendar.BookingCalendar;
+import mongoose.client.activity.bookingprocess.BookingProcessActivity;
+import mongoose.client.businessdata.preselection.OptionsPreselection;
 import mongoose.client.icons.MongooseIcons;
-import mongoose.client.sectionpanel.SectionPanelFactory;
+import mongoose.client.controls.sectionpanel.SectionPanelFactory;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.platform.shared.services.log.Logger;
 

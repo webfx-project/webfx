@@ -1,8 +1,8 @@
 package mongoose.client.businesslogic.option;
 
 import mongoose.client.aggregates.event.EventAggregate;
-import mongoose.shared.time.DayTimeRange;
-import mongoose.shared.time.TimeInterval;
+import mongoose.shared.businessdata.time.DayTimeRange;
+import mongoose.shared.businessdata.time.TimeInterval;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Site;

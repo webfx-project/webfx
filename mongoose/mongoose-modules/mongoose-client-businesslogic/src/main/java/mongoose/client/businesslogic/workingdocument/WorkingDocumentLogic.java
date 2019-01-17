@@ -1,5 +1,6 @@
 package mongoose.client.businesslogic.workingdocument;
 
+import mongoose.client.businessdata.workingdocument.WorkingDocument;
 import mongoose.client.businesslogic.rules.*;
 import webfx.platform.shared.util.Arrays;
 

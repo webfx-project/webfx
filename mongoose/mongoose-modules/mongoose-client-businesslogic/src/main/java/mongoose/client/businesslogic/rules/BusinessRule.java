@@ -1,7 +1,7 @@
 package mongoose.client.businesslogic.rules;
 
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
-import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
+import mongoose.client.businessdata.workingdocument.WorkingDocument;
+import mongoose.client.businessdata.workingdocument.WorkingDocumentLine;
 import mongoose.shared.entities.Option;
 
 /**

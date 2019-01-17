@@ -2,7 +2,7 @@ package mongoose.frontend.activities.terms;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import mongoose.client.bookingprocess.activity.BookingProcessPresentationModel;
+import mongoose.client.activity.bookingprocess.BookingProcessPresentationModel;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 
 /**

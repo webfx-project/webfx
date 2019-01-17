@@ -1,6 +1,6 @@
 package mongoose.shared.entities.markers;
 
-import mongoose.shared.time.DateTimeRange;
+import mongoose.shared.businessdata.time.DateTimeRange;
 
 /**
  * @author Bruno Salmon

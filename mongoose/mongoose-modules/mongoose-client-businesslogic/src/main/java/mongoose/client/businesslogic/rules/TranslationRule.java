@@ -1,6 +1,6 @@
 package mongoose.client.businesslogic.rules;
 
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
+import mongoose.client.businessdata.workingdocument.WorkingDocument;
 
 /**
  * @author Bruno Salmon

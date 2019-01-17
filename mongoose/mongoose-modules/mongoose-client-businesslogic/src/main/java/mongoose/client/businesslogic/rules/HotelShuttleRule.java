@@ -1,8 +1,8 @@
 package mongoose.client.businesslogic.rules;
 
-import mongoose.shared.time.DaysArray;
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
-import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
+import mongoose.shared.businessdata.time.DaysArray;
+import mongoose.client.businessdata.workingdocument.WorkingDocument;
+import mongoose.client.businessdata.workingdocument.WorkingDocumentLine;
 import mongoose.client.businesslogic.workingdocument.BusinessType;
 import mongoose.client.businesslogic.option.OptionLogic;
 import mongoose.shared.entities.Option;

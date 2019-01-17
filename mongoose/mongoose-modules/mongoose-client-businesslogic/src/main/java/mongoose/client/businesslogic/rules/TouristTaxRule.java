@@ -1,6 +1,6 @@
 package mongoose.client.businesslogic.rules;
 
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
+import mongoose.client.businessdata.workingdocument.WorkingDocument;
 import mongoose.shared.entities.Option;
 
 import static mongoose.client.businesslogic.option.OptionLogic.isTouristTaxOption;

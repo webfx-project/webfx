@@ -1,7 +1,7 @@
 package mongoose.backend.activities.bookings;
 
 import mongoose.client.activity.eventdependent.EventDependentPresentationLogicActivity;
-import mongoose.client.businesslogic.workingdocument.WorkingDocumentLoader;
+import mongoose.client.businessdata.workingdocument.WorkingDocumentLoader;
 import mongoose.frontend.operations.options.RouteToOptionsRequest;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;

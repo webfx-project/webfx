@@ -3,9 +3,9 @@ package mongoose.frontend.activities.terms;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import mongoose.client.bookingprocess.activity.BookingProcessPresentationViewActivity;
+import mongoose.client.activity.bookingprocess.BookingProcessPresentationViewActivity;
 import mongoose.client.icons.MongooseIcons;
-import mongoose.client.sectionpanel.SectionPanelFactory;
+import mongoose.client.controls.sectionpanel.SectionPanelFactory;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.fxkit.extra.cell.collator.GridCollator;
 

@@ -1,7 +1,7 @@
 package mongoose.client.businesslogic.pricing;
 
-import mongoose.client.businesslogic.workingdocument.WorkingDocument;
-import mongoose.client.businesslogic.workingdocument.WorkingDocumentLine;
+import mongoose.client.businessdata.workingdocument.WorkingDocument;
+import mongoose.client.businessdata.workingdocument.WorkingDocumentLine;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.Item;
 import mongoose.shared.entities.Rate;
