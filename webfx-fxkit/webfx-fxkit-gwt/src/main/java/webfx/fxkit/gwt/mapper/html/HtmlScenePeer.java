@@ -1,13 +1,13 @@
 package webfx.fxkit.gwt.mapper.html;
 
 import elemental2.dom.*;
-import emul.javafx.collections.ListChangeListener;
-import emul.javafx.event.EventType;
-import emul.javafx.scene.Node;
-import emul.javafx.scene.Parent;
-import emul.javafx.scene.Scene;
-import emul.javafx.scene.input.MouseButton;
-import emul.javafx.scene.text.TextFlow;
+import javafx.collections.ListChangeListener;
+import javafx.event.EventType;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
+import javafx.scene.text.TextFlow;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlHtmlTextPeer;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlNodePeer;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
@@ -144,7 +144,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     private boolean atLeastOneAnimationFrameOccurredSinceLastMousePressed = true;
 
     private void passHtmlMouseEventOnToFx(elemental2.dom.MouseEvent e, String type) {
-        emul.javafx.scene.input.MouseEvent fxMouseEvent = toFxMouseEvent(e, type);
+        javafx.scene.input.MouseEvent fxMouseEvent = toFxMouseEvent(e, type);
         if (fxMouseEvent != null) {
             // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFx stack
             Scene scene = getScene();
@@ -152,11 +152,11 @@ public final class HtmlScenePeer extends ScenePeerBase {
             // treated in the same animation frame, which prevents the button pressed state (ex: a background bound to
             // the button pressedProperty) to appear before the action (which might be time consuming) is fired, so the
             // user doesn't know if the button has been successfully pressed or not during the action execution.
-            if (fxMouseEvent.getEventType() == emul.javafx.scene.input.MouseEvent.MOUSE_RELEASED && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
+            if (fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_RELEASED && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
                 UiScheduler.scheduleInFutureAnimationFrame(1, () -> scene.impl_processMouseEvent(fxMouseEvent), AnimationFramePass.UI_UPDATE_PASS);
             else {
                 scene.impl_processMouseEvent(fxMouseEvent);
-                if (fxMouseEvent.getEventType() == emul.javafx.scene.input.MouseEvent.MOUSE_PRESSED) {
+                if (fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_PRESSED) {
                     atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
                     UiScheduler.scheduleInFutureAnimationFrame(1, () -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, AnimationFramePass.UI_UPDATE_PASS);
                 }
@@ -166,7 +166,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     private static final boolean[] BUTTON_DOWN_STATES = {false, false, false, false};
 
-    private emul.javafx.scene.input.MouseEvent toFxMouseEvent(elemental2.dom.MouseEvent me, String type) {
+    private javafx.scene.input.MouseEvent toFxMouseEvent(elemental2.dom.MouseEvent me, String type) {
         MouseButton button;
         switch (me.button) {
             case 0: button = MouseButton.PRIMARY; break;
@@ -174,16 +174,16 @@ public final class HtmlScenePeer extends ScenePeerBase {
             case 2: button = MouseButton.SECONDARY; break;
             default: button = MouseButton.NONE;
         }
-        EventType<emul.javafx.scene.input.MouseEvent> eventType;
+        EventType<javafx.scene.input.MouseEvent> eventType;
         switch (type) {
-            case "mousedown": eventType = emul.javafx.scene.input.MouseEvent.MOUSE_PRESSED; BUTTON_DOWN_STATES[button.ordinal()] = true; break;
-            case "mouseup": eventType = emul.javafx.scene.input.MouseEvent.MOUSE_RELEASED; BUTTON_DOWN_STATES[button.ordinal()] = false; break;
-            case "mouseenter": eventType = emul.javafx.scene.input.MouseEvent.MOUSE_ENTERED; break;
-            case "mouseleave": eventType = emul.javafx.scene.input.MouseEvent.MOUSE_EXITED; break;
-            case "mousemove": eventType = BUTTON_DOWN_STATES[button.ordinal()] ? emul.javafx.scene.input.MouseEvent.MOUSE_DRAGGED : emul.javafx.scene.input.MouseEvent.MOUSE_MOVED; break;
+            case "mousedown": eventType = javafx.scene.input.MouseEvent.MOUSE_PRESSED; BUTTON_DOWN_STATES[button.ordinal()] = true; break;
+            case "mouseup": eventType = javafx.scene.input.MouseEvent.MOUSE_RELEASED; BUTTON_DOWN_STATES[button.ordinal()] = false; break;
+            case "mouseenter": eventType = javafx.scene.input.MouseEvent.MOUSE_ENTERED; break;
+            case "mouseleave": eventType = javafx.scene.input.MouseEvent.MOUSE_EXITED; break;
+            case "mousemove": eventType = BUTTON_DOWN_STATES[button.ordinal()] ? javafx.scene.input.MouseEvent.MOUSE_DRAGGED : javafx.scene.input.MouseEvent.MOUSE_MOVED; break;
             default: return null;
         }
-        return new emul.javafx.scene.input.MouseEvent(null, null, eventType, me.pageX, me.pageY, me.screenX, me.screenY, button,
+        return new javafx.scene.input.MouseEvent(null, null, eventType, me.pageX, me.pageY, me.screenX, me.screenY, button,
                 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey,
                 BUTTON_DOWN_STATES[MouseButton.PRIMARY.ordinal()],
                 BUTTON_DOWN_STATES[MouseButton.MIDDLE.ordinal()],

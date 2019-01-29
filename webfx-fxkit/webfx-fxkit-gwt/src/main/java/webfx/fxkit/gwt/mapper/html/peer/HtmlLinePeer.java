@@ -2,7 +2,7 @@ package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.CSSProperties;
 import elemental2.dom.HTMLElement;
-import emul.javafx.scene.shape.Line;
+import javafx.scene.shape.Line;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.mapper.spi.impl.peer.LinePeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.LinePeerMixin;

@@ -1,11 +1,11 @@
 package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.*;
-import emul.javafx.scene.Node;
-import emul.javafx.scene.Parent;
-import emul.javafx.scene.control.CheckBox;
-import emul.javafx.scene.layout.HBox;
-import emul.javafx.scene.layout.Region;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import webfx.fxkit.extra.displaydata.*;
 import webfx.fxkit.gwt.mapper.util.DomType;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;

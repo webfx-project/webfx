@@ -3,14 +3,14 @@ package webfx.fxkit.gwt.mapper.html.peer;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
-import emul.javafx.geometry.Insets;
+import javafx.geometry.Insets;
 import webfx.fxkit.mapper.spi.impl.peer.RegionPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.RegionPeerMixin;
 import webfx.platform.shared.util.collection.Collections;
 import webfx.fxkit.gwt.mapper.util.DomType;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;
-import emul.javafx.scene.layout.*;
-import emul.javafx.scene.paint.Paint;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 
 import java.util.List;

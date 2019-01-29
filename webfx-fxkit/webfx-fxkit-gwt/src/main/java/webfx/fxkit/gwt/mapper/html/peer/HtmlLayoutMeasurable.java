@@ -3,9 +3,9 @@ package webfx.fxkit.gwt.mapper.html.peer;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
-import emul.javafx.geometry.BoundingBox;
-import emul.javafx.geometry.Bounds;
-import emul.javafx.scene.LayoutMeasurable;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.scene.LayoutMeasurable;
 
 /**
  * @author Bruno Salmon

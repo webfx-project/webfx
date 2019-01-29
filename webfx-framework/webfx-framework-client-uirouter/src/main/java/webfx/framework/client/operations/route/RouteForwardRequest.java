@@ -29,11 +29,4 @@ public final class RouteForwardRequest
         return RouteForwardExecutor::executeRequest;
     }
 
-    public static final class ProvidedEmitter implements RouteRequestEmitter {
-        @Override
-        public RouteRequest instantiateRouteRequest(UiRouteActivityContext context) {
-            return new RouteForwardRequest(context.getHistory());
-        }
-    }
-
 }

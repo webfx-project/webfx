@@ -3,7 +3,7 @@ package webfx.fxkit.gwt.mapper.html.peer;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.HTMLElement;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import emul.javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Rectangle;
 import webfx.fxkit.mapper.spi.impl.peer.RectanglePeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.RectanglePeerMixin;
 

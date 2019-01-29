@@ -31,6 +31,16 @@
             <version>${mongoose.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+        </dependency>
+
+        <dependency> <!-- TODO: remove this (comes from expression module that depends on type which is in fxkit-extra which depends on fxkit-launcher) -->
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!-- Making the jar file executable with its associated lib directory -->
@@ -41,6 +51,40 @@
         <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
         <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
     </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-module-infos</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>add-module-infos-overridden</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>add-module-info</goal>
+                        </goals>
+                        <configuration>
+                            <module>
+                                <moduleInfoSource>
+                                    module mongoose.server.platform.vertx {
+                                    // TODO: complete this module definition
+                                    }
+                                </moduleInfoSource>
+                            </module>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 
     <profiles>
 

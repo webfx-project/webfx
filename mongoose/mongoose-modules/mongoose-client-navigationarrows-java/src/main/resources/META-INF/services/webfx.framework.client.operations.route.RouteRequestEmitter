@@ -1,2 +1,2 @@
-webfx.framework.client.operations.route.RouteBackwardRequest$ProvidedEmitter
-webfx.framework.client.operations.route.RouteForwardRequest$ProvidedEmitter
+mongoose.client.navigationarrows.RouteBackwardRequestEmitter
+mongoose.client.navigationarrows.RouteForwardRequestEmitter

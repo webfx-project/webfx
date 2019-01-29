@@ -31,10 +31,28 @@
             <version>${webfx.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency> <!-- required by webfx.framework.client.util -->
+            <artifactId>webfx-fxkit-extra</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+            </plugin>
 
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>

@@ -1,6 +1,6 @@
 package webfx.fxkit.gwt.mapper.html.peer;
 
-import emul.javafx.geometry.Bounds;
+import javafx.geometry.Bounds;
 
 /**
  * @author Bruno Salmon

@@ -26,6 +26,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>2.3.8</version>
@@ -37,10 +43,18 @@
 
     <build>
         <plugins>
+
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+            </plugin>
+
             <!-- Generating the source artifact -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
+
         </plugins>
     </build>
 

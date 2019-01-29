@@ -1,1 +1,1 @@
-mongoose.backend.operations.bookings.RouteToBookingsRequest$ProvidedEmitter
+mongoose.backend.activities.bookings.RouteToBookingsRequestEmitter

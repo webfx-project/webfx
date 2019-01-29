@@ -1,8 +1,8 @@
 package webfx.fxkit.gwt.launcher;
 
 import elemental2.dom.DomGlobal;
-import emul.javafx.geometry.Rectangle2D;
-import emul.javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import webfx.fxkit.launcher.spi.impl.FxKitLauncherProviderBase;
 
 

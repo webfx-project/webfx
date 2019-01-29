@@ -1,1 +1,1 @@
-mongoose.backend.operations.letters.RouteToLettersRequest$ProvidedEmitter
+mongoose.backend.activities.letters.RouteToLettersRequestEmitter

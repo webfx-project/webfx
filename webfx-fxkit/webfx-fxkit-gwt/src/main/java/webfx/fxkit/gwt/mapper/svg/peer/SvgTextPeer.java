@@ -4,10 +4,10 @@ import webfx.fxkit.mapper.spi.impl.peer.TextPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.TextPeerMixin;
 import webfx.platform.shared.util.Numbers;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import emul.javafx.geometry.VPos;
-import emul.javafx.scene.text.Font;
-import emul.javafx.scene.text.Text;
-import emul.javafx.scene.text.TextAlignment;
+import javafx.geometry.VPos;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon

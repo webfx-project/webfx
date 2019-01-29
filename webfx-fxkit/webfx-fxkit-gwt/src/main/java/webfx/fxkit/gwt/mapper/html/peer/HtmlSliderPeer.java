@@ -7,7 +7,7 @@ import webfx.fxkit.mapper.spi.impl.peer.SliderPeerMixin;
 import webfx.platform.shared.util.Numbers;
 import webfx.platform.shared.util.Strings;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import emul.javafx.scene.control.Slider;
+import javafx.scene.control.Slider;
 
 /**
  * @author Bruno Salmon

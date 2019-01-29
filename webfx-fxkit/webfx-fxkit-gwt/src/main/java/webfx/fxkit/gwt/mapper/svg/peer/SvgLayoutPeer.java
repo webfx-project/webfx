@@ -1,10 +1,10 @@
 package webfx.fxkit.gwt.mapper.svg.peer;
 
-import emul.javafx.geometry.Insets;
+import javafx.geometry.Insets;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import emul.javafx.scene.layout.Background;
-import emul.javafx.scene.layout.Border;
-import emul.javafx.scene.layout.Region;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.Region;
 import webfx.fxkit.mapper.spi.impl.peer.RegionPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.RegionPeerMixin;
 

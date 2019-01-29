@@ -1,16 +1,16 @@
 package webfx.fxkit.gwt.mapper.svg;
 
-import emul.javafx.scene.Group;
-import emul.javafx.scene.Scene;
-import emul.javafx.scene.control.Button;
-import emul.javafx.scene.control.CheckBox;
-import emul.javafx.scene.control.TextField;
-import emul.javafx.scene.layout.Region;
-import emul.javafx.scene.shape.Circle;
-import emul.javafx.scene.shape.Rectangle;
-import emul.javafx.scene.text.Text;
-import emul.javafx.stage.Stage;
-import emul.javafx.stage.Window;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import webfx.fxkit.gwt.mapper.shared.GwtPrimaryStagePeer;
 import webfx.fxkit.gwt.mapper.shared.GwtSecondaryStagePeer;
 import webfx.fxkit.gwt.mapper.html.HtmlScenePeer;

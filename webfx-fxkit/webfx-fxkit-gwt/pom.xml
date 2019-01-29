@@ -17,14 +17,14 @@
             <artifactId>webfx-fxkit-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-            <classifier>emul</classifier>
+            <!--classifier>emul</classifier-->
         </dependency>
 
         <dependency>
             <artifactId>webfx-fxkit-extra</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-            <classifier>emul</classifier>
+            <!--classifier>emul</classifier-->
         </dependency>
 
         <dependency>
@@ -74,45 +74,39 @@
     <build>
         <plugins>
 
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-module-infos</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>add-module-infos-overridden</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>add-module-info</goal>
+                        </goals>
+                        <configuration>
+                            <module>
+                                <moduleInfoSource>
+                                    module webfx.fxkit.gwt {
+                                    // TODO: complete this module definition
+                                    }
+                                </moduleInfoSource>
+                            </module>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
-            <!-- Relocating the emul.javafx package to javafx for both classes and sources -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <artifactSet>
-                                <includes> <!-- We want only the project artifact, not the artifact dependencies -->
-                                    <include>${project.groupId}:webfx-fxkit*</include>
-                                </includes>
-                            </artifactSet>
-                            <relocations>
-                                <relocation>
-                                    <pattern>emul.javafx</pattern>
-                                    <shadedPattern>javafx</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>emul.com.sun</pattern>
-                                    <shadedPattern>com.sun</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <createSourcesJar>true</createSourcesJar>
-                            <shadeSourcesContent>true</shadeSourcesContent>
-                            <shadedClassifierName>javafx</shadedClassifierName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 

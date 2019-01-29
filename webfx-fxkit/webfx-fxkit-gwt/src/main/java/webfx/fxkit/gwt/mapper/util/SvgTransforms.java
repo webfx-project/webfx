@@ -1,7 +1,7 @@
 package webfx.fxkit.gwt.mapper.util;
 
 import webfx.platform.shared.util.collection.Collections;
-import emul.javafx.scene.transform.*;
+import javafx.scene.transform.*;
 
 import java.util.Collection;
 

@@ -2,7 +2,7 @@ package webfx.fxkit.gwt.mapper.svg.peer;
 
 import elemental2.dom.Element;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import emul.javafx.scene.shape.Circle;
+import javafx.scene.shape.Circle;
 import webfx.fxkit.mapper.spi.impl.peer.CirclePeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.CirclePeerMixin;
 

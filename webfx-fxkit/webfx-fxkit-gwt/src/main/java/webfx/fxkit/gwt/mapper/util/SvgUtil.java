@@ -2,13 +2,13 @@ package webfx.fxkit.gwt.mapper.util;
 
 import elemental2.dom.Element;
 import webfx.platform.shared.util.collection.Collections;
-import emul.javafx.scene.paint.Color;
-import emul.javafx.scene.paint.CycleMethod;
-import emul.javafx.scene.paint.LinearGradient;
-import emul.javafx.scene.paint.Stop;
-import emul.javafx.scene.shape.StrokeLineCap;
-import emul.javafx.scene.shape.StrokeLineJoin;
-import emul.javafx.scene.shape.StrokeType;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 
 import static elemental2.dom.DomGlobal.document;
 

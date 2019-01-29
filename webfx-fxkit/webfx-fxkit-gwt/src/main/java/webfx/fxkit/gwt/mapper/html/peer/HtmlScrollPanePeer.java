@@ -2,10 +2,10 @@ package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
-import emul.javafx.geometry.BoundingBox;
-import emul.javafx.geometry.Bounds;
-import emul.javafx.scene.Node;
-import emul.javafx.scene.control.ScrollPane;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.fxkit.mapper.spi.impl.peer.ScrollPanePeerBase;

@@ -31,6 +31,12 @@
             <version>${webfx.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- SVG support for JavaFx -->
 
         <dependency> <!-- This module is actually not used by webfx-fxkit-javafx but it is listed here (above javafxsvg) because javafxsvg uses an older version of javacup (ie < 11b) that may interfere with other modules (such as webfx-platforms-xxx or webfx-framework-xxx modules) that requires javacup 11b API -->
@@ -45,5 +51,41 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+
+        <plugins>
+
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-module-infos</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>add-module-infos-overridden</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>add-module-info</goal>
+                        </goals>
+                        <configuration>
+                            <module>
+                                <moduleInfoSource>
+                                    module webfx.fxkit.javafx {
+                                    // TODO: complete this module definition
+                                    }
+                                </moduleInfoSource>
+                            </module>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
 
 </project>

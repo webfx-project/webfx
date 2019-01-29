@@ -19,14 +19,21 @@
             <version>${mongoose.version}</version>
         </dependency>
 
+        <dependency> <!-- Required by webfx.fxkit.extra -->
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
-
         <plugins>
-            <!-- Generating the source artifact for GWT compilation -->
+
+            <!-- Generating module-info.java from maven dependencies -->
             <plugin>
-                <artifactId>maven-source-plugin</artifactId>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
             </plugin>
 
         </plugins>

@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.HTMLOptionElement;
 import elemental2.dom.HTMLSelectElement;
-import emul.javafx.collections.ListChangeListener;
-import emul.javafx.scene.control.ChoiceBox;
+import javafx.collections.ListChangeListener;
+import javafx.scene.control.ChoiceBox;
 import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.mapper.spi.impl.peer.ChoiceBoxPeerBase;

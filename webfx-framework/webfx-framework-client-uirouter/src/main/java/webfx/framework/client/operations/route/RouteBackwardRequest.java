@@ -1,8 +1,6 @@
 package webfx.framework.client.operations.route;
 
-import webfx.framework.client.activity.impl.elementals.uiroute.UiRouteActivityContext;
 import webfx.framework.shared.operation.HasOperationCode;
-import webfx.framework.shared.router.auth.authz.RouteRequest;
 import webfx.platform.client.services.windowhistory.spi.BrowsingHistory;
 import webfx.platform.shared.util.async.AsyncFunction;
 
@@ -29,10 +27,4 @@ public final class RouteBackwardRequest
         return RouteBackwardExecutor::executeRequest;
     }
 
-    public static final class ProvidedEmitter implements RouteRequestEmitter {
-        @Override
-        public RouteRequest instantiateRouteRequest(UiRouteActivityContext context) {
-            return new RouteBackwardRequest(context.getHistory());
-        }
-    }
 }

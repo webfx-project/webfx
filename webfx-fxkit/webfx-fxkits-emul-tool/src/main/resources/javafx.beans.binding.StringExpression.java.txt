@@ -1,9 +1,9 @@
 >>>TEXT<<<
     /**
      * Returns a {@code StringExpression} that wraps a
-     * {@link emul.javafx.beans.value.ObservableValue}. If the
+     * {@link javafx.beans.value.ObservableValue}. If the
      * {@code ObservableValue} is already a {@code StringExpression}, it will be
-     * returned. Otherwise a new {@link emul.javafx.beans.binding.StringBinding} is
+     * returned. Otherwise a new {@link javafx.beans.binding.StringBinding} is
      * created that holds the value of the {@code ObservableValue} converted to
      * a {@code String}.
      *
@@ -29,7 +29,7 @@
      * If the value of this {@code StringExpression} changes, the value of the
      * resulting {@code StringExpression} is updated automatically. Also if the
      * other {@code Object} is an implementation of
-     * {@link emul.javafx.beans.value.ObservableValue}, changes in the other
+     * {@link javafx.beans.value.ObservableValue}, changes in the other
      * {@code Object} are reflected automatically in the resulting
      * {@code StringExpression}.
      *
@@ -42,8 +42,8 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if this and another {@link emul.javafx.beans.value.ObservableStringValue} are
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if this and another {@link javafx.beans.value.ObservableStringValue} are
      * equal.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -58,7 +58,7 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is equal to a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -73,8 +73,8 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if this and another {@link emul.javafx.beans.value.ObservableStringValue} are
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if this and another {@link javafx.beans.value.ObservableStringValue} are
      * not equal.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -89,7 +89,7 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is not equal to a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -104,8 +104,8 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if this and another {@link emul.javafx.beans.value.ObservableStringValue} are
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if this and another {@link javafx.beans.value.ObservableStringValue} are
      * equal ignoring case.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -120,7 +120,7 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is equal to a constant value ignoring
      * case.
      * <p>
@@ -136,8 +136,8 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if this and another {@link emul.javafx.beans.value.ObservableStringValue} are
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if this and another {@link javafx.beans.value.ObservableStringValue} are
      * not equal ignoring case.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -153,7 +153,7 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is not equal to a constant value
      * ignoring case.
      * <p>
@@ -169,9 +169,9 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is greater than another
-     * {@link emul.javafx.beans.value.ObservableStringValue}.
+     * {@link javafx.beans.value.ObservableStringValue}.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -185,7 +185,7 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is greater than a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -200,9 +200,9 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is less than another
-     * {@link emul.javafx.beans.value.ObservableStringValue}.
+     * {@link javafx.beans.value.ObservableStringValue}.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -216,7 +216,7 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is less than a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -231,9 +231,9 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is greater than or equal to another
-     * {@link emul.javafx.beans.value.ObservableStringValue}.
+     * {@link javafx.beans.value.ObservableStringValue}.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -247,7 +247,7 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is greater than or equal to a constant
      * value.
      * <p>
@@ -263,9 +263,9 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is less than or equal to another
-     * {@link emul.javafx.beans.value.ObservableStringValue}.
+     * {@link javafx.beans.value.ObservableStringValue}.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -279,7 +279,7 @@
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if this {@code StringExpression} is less than or equal to a constant
      * value.
      * <p>

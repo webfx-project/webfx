@@ -1,7 +1,7 @@
 package webfx.fxkit.javafx.mapper.peer;
 
-import com.sun.javafx.scene.control.skin.TableViewSkin;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+import javafx.scene.control.skin.TableViewSkin;
+import javafx.scene.control.skin.VirtualFlow;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -64,12 +64,12 @@ public final class FxDataGridPeer
                 @Override
                 protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
                     double pw = leftInset + rightInset;
-                    for (TableColumn<Integer, ?> tc : getVisibleLeafColumns()) {
+                    for (TableColumn<Integer, ?> tc : tableView.getVisibleLeafColumns()) {
                         if (!tc.isResizable())
                             pw += tc.getWidth();
                         else {
-                            List<?> items = itemsProperty().get();
-                            if (items == null || items.isEmpty()) continue;
+                            int rows = getItemCount();
+                            if (rows == 0) continue;
 
                             Callback/*<TableColumn<T, ?>, TableCell<T,?>>*/ cellFactory = tc.getCellFactory();
                             if (cellFactory == null) continue;
@@ -89,7 +89,7 @@ public final class FxDataGridPeer
                                 padding = r.snappedLeftInset() + r.snappedRightInset();
                             }
 
-                            int rows = items.size(); //maxRows == -1 ? items.size() : Math.min(items.size(), maxRows);
+                            //int rows = items.size(); //maxRows == -1 ? items.size() : Math.min(items.size(), maxRows);
                             double maxWidth = 0;
                             for (int row = 0; row < rows; row++) {
                                 cell.updateTableColumn(tc);

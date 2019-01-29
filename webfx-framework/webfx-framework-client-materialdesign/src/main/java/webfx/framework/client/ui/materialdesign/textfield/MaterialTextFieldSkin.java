@@ -1,7 +1,7 @@
 package webfx.framework.client.ui.materialdesign.textfield;
 
-import com.sun.javafx.scene.control.skin.TextFieldSkin;
-import com.sun.javafx.scene.text.HitInfo;
+import javafx.scene.control.skin.TextFieldSkin;
+import javafx.scene.text.HitInfo;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;

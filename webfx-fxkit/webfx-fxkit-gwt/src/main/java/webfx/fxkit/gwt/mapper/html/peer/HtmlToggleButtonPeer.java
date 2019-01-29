@@ -1,7 +1,7 @@
 package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.HTMLElement;
-import emul.javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleButton;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.mapper.spi.impl.peer.ToggleButtonPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.ToggleButtonPeerMixin;

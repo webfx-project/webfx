@@ -11,5 +11,16 @@
 
     <artifactId>mongoose-client-css-java</artifactId>
 
+    <build>
+        <plugins>
+
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>

@@ -1,8 +1,8 @@
 package webfx.fxkit.gwt.mapper.shared;
 
-import emul.com.sun.javafx.tk.TKStageListener;
-import emul.javafx.stage.Stage;
-import emul.javafx.stage.Window;
+import com.sun.javafx.tk.TKStageListener;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import webfx.fxkit.gwt.mapper.html.HtmlScenePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.mapper.spi.StagePeer;

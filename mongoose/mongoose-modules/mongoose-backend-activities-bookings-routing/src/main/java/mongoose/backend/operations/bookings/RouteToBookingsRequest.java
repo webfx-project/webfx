@@ -24,11 +24,4 @@ public final class RouteToBookingsRequest extends RoutePushRequest implements Ha
         return OPERATION_CODE;
     }
 
-    public static final class ProvidedEmitter implements RouteRequestEmitter {
-        @Override
-        public RouteRequest instantiateRouteRequest(UiRouteActivityContext context) {
-            return new RouteToBookingsRequest(context.getParameter("eventId"), context.getHistory());
-        }
-    }
-
 }

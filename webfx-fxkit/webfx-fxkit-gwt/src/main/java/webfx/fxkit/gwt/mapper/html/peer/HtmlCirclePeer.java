@@ -4,7 +4,7 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import emul.javafx.scene.shape.Circle;
+import javafx.scene.shape.Circle;
 import webfx.fxkit.mapper.spi.impl.peer.CirclePeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.CirclePeerMixin;
 

@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
-import emul.javafx.geometry.Insets;
-import emul.javafx.scene.control.Control;
+import javafx.geometry.Insets;
+import javafx.scene.control.Control;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.mapper.spi.impl.peer.ControlPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.ControlPeerMixin;

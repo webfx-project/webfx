@@ -6,23 +6,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import emul.javafx.beans.InvalidationListener;
-import emul.javafx.beans.Observable;
-import emul.javafx.beans.property.Property;
-import emul.javafx.beans.value.ObservableBooleanValue;
-import emul.javafx.beans.value.ObservableDoubleValue;
-import emul.javafx.beans.value.ObservableFloatValue;
-import emul.javafx.beans.value.ObservableIntegerValue;
-import emul.javafx.beans.value.ObservableLongValue;
-import emul.javafx.beans.value.ObservableNumberValue;
-import emul.javafx.beans.value.ObservableObjectValue;
-import emul.javafx.beans.value.ObservableStringValue;
-import emul.javafx.beans.value.ObservableValue;
-import emul.javafx.collections.FXCollections;
-import emul.javafx.collections.ObservableList;
-import emul.javafx.collections.ObservableMap;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.Property;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableDoubleValue;
+import javafx.beans.value.ObservableFloatValue;
+import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.ObservableLongValue;
+import javafx.beans.value.ObservableNumberValue;
+import javafx.beans.value.ObservableObjectValue;
+import javafx.beans.value.ObservableStringValue;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
-import emul.javafx.util.StringConverter;
+import javafx.util.StringConverter;
 import emul.com.sun.javafx.binding.BidirectionalBinding;
 import emul.com.sun.javafx.binding.BidirectionalContentBinding;
 import emul.com.sun.javafx.binding.ContentBinding;
@@ -36,13 +36,13 @@ import emul.com.sun.javafx.binding.SelectBinding;
 import emul.com.sun.javafx.binding.StringConstant;
 
 import emul.com.sun.javafx.collections.ImmutableObservableList;
-import emul.javafx.collections.ObservableArray;
-import emul.javafx.collections.ObservableFloatArray;
-import emul.javafx.collections.ObservableIntegerArray;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableFloatArray;
+import javafx.collections.ObservableIntegerArray;
 >>>REPLACE<<<
-import emul.javafx.beans.property.Property;
+import javafx.beans.property.Property;
 import emul.com.sun.javafx.binding.BidirectionalBinding;
-import emul.javafx.util.StringConverter;
+import javafx.util.StringConverter;
 
 >>>TEXT<<<
     // =================================================================================================================
@@ -345,7 +345,7 @@ import emul.javafx.util.StringConverter;
      *
      * @param <T> the type of the wrapped {@code Object}
      * @param root
-     *            The root {@link emul.javafx.beans.value.ObservableValue}
+     *            The root {@link javafx.beans.value.ObservableValue}
      * @param steps
      *            The property names to reach the final property
      * @return the created {@link ObjectBinding}
@@ -365,7 +365,7 @@ import emul.javafx.util.StringConverter;
      * Note: since 8.0, JavaBeans properties are supported and might be in the chain.
      *
      * @param root
-     *            The root {@link emul.javafx.beans.value.ObservableValue}
+     *            The root {@link javafx.beans.value.ObservableValue}
      * @param steps
      *            The property names to reach the final property
      * @return the created {@link DoubleBinding}
@@ -385,7 +385,7 @@ import emul.javafx.util.StringConverter;
      * Note: since 8.0, JavaBeans properties are supported and might be in the chain.
      *
      * @param root
-     *            The root {@link emul.javafx.beans.value.ObservableValue}
+     *            The root {@link javafx.beans.value.ObservableValue}
      * @param steps
      *            The property names to reach the final property
      * @return the created {@link FloatBinding}
@@ -405,7 +405,7 @@ import emul.javafx.util.StringConverter;
      * Note: since 8.0, JavaBeans properties are supported and might be in the chain.
      *
      * @param root
-     *            The root {@link emul.javafx.beans.value.ObservableValue}
+     *            The root {@link javafx.beans.value.ObservableValue}
      * @param steps
      *            The property names to reach the final property
      * @return the created {@link IntegerBinding}
@@ -425,7 +425,7 @@ import emul.javafx.util.StringConverter;
      * Note: since 8.0, JavaBeans properties are supported and might be in the chain.
      *
      * @param root
-     *            The root {@link emul.javafx.beans.value.ObservableValue}
+     *            The root {@link javafx.beans.value.ObservableValue}
      * @param steps
      *            The property names to reach the final property
      * @return the created {@link LongBinding}
@@ -445,7 +445,7 @@ import emul.javafx.util.StringConverter;
      * Note: since 8.0, JavaBeans properties are supported and might be in the chain.
      *
      * @param root
-     *            The root {@link emul.javafx.beans.value.ObservableValue}
+     *            The root {@link javafx.beans.value.ObservableValue}
      * @param steps
      *            The property names to reach the final property
      * @return the created {@link ObjectBinding}
@@ -465,7 +465,7 @@ import emul.javafx.util.StringConverter;
      * Note: since 8.0, JavaBeans properties are supported and might be in the chain.
      *
      * @param root
-     *            The root {@link emul.javafx.beans.value.ObservableValue}
+     *            The root {@link javafx.beans.value.ObservableValue}
      * @param steps
      *            The property names to reach the final property
      * @return the created {@link ObjectBinding}
@@ -482,7 +482,7 @@ import emul.javafx.util.StringConverter;
      * <p>
      * All classes and properties used in a select-binding have to be public.
      *
-     * If root has JavaFX properties, this call is equivalent to {@link #select(emul.javafx.beans.value.ObservableValue, java.lang.String[])},
+     * If root has JavaFX properties, this call is equivalent to {@link #select(javafx.beans.value.ObservableValue, java.lang.String[])},
      * with the {@code root} and {@code step[0]} being substituted with the relevant property object.
      *
      * @param <T> the type of the wrapped {@code Object}
@@ -506,7 +506,7 @@ import emul.javafx.util.StringConverter;
      * <p>
      * All classes and properties used in a select-binding have to be public.
      *
-     * If root has JavaFX properties, this call is equivalent to {@link #selectDouble(emul.javafx.beans.value.ObservableValue, java.lang.String[])},
+     * If root has JavaFX properties, this call is equivalent to {@link #selectDouble(javafx.beans.value.ObservableValue, java.lang.String[])},
      * with the {@code root} and {@code step[0]} being substituted with the relevant property object.
      *
      * @param root
@@ -529,7 +529,7 @@ import emul.javafx.util.StringConverter;
      * <p>
      * All classes and properties used in a select-binding have to be public.
      *
-     * If root has JavaFX properties, this call is equivalent to {@link #selectFloat(emul.javafx.beans.value.ObservableValue, java.lang.String[])},
+     * If root has JavaFX properties, this call is equivalent to {@link #selectFloat(javafx.beans.value.ObservableValue, java.lang.String[])},
      * with the {@code root} and {@code step[0]} being substituted with the relevant property object.
      *
      * @param root
@@ -552,7 +552,7 @@ import emul.javafx.util.StringConverter;
      * <p>
      * All classes and properties used in a select-binding have to be public.
      *
-     * If root has JavaFX properties, this call is equivalent to {@link #selectInteger(emul.javafx.beans.value.ObservableValue, java.lang.String[])},
+     * If root has JavaFX properties, this call is equivalent to {@link #selectInteger(javafx.beans.value.ObservableValue, java.lang.String[])},
      * with the {@code root} and {@code step[0]} being substituted with the relevant property object.
      *
      * @param root
@@ -575,7 +575,7 @@ import emul.javafx.util.StringConverter;
      * <p>
      * All classes and properties used in a select-binding have to be public.
      *
-     * If root has JavaFX properties, this call is equivalent to {@link #selectLong(emul.javafx.beans.value.ObservableValue, java.lang.String[])},
+     * If root has JavaFX properties, this call is equivalent to {@link #selectLong(javafx.beans.value.ObservableValue, java.lang.String[])},
      * with the {@code root} and {@code step[0]} being substituted with the relevant property object.
      *
      * @param root
@@ -598,7 +598,7 @@ import emul.javafx.util.StringConverter;
      * <p>
      * All classes and properties used in a select-binding have to be public.
      *
-     * If root has JavaFX properties, this call is equivalent to {@link #selectBoolean(emul.javafx.beans.value.ObservableValue, java.lang.String[])},
+     * If root has JavaFX properties, this call is equivalent to {@link #selectBoolean(javafx.beans.value.ObservableValue, java.lang.String[])},
      * with the {@code root} and {@code step[0]} being substituted with the relevant property object.
      *
      * @param root
@@ -621,7 +621,7 @@ import emul.javafx.util.StringConverter;
      * <p>
      * All classes and properties used in a select-binding have to be public.
      *
-     * If root has JavaFX properties, this call is equivalent to {@link #selectString(emul.javafx.beans.value.ObservableValue, java.lang.String[])},
+     * If root has JavaFX properties, this call is equivalent to {@link #selectString(javafx.beans.value.ObservableValue, java.lang.String[])},
      * with the {@code root} and {@code step[0]} being substituted with the relevant property object.
      *
      * @param root
@@ -655,7 +655,7 @@ import emul.javafx.util.StringConverter;
 
     /**
      * Generates a bidirectional binding (or "bind with inverse") between two
-     * instances of {@link emul.javafx.beans.property.Property}.
+     * instances of {@link javafx.beans.property.Property}.
      * <p>
      * A bidirectional binding is a binding that works in both directions. If
      * two properties {@code a} and {@code b} are linked with a bidirectional
@@ -710,7 +710,7 @@ import emul.javafx.util.StringConverter;
     /**
      * Delete a bidirectional binding that was previously defined with
      * {@link #bindBidirectional(Property, Property)} or
-     * {@link #bindBidirectional(emul.javafx.beans.property.Property, emul.javafx.beans.property.Property, java.text.Format)}.
+     * {@link #bindBidirectional(javafx.beans.property.Property, javafx.beans.property.Property, java.text.Format)}.
      *
      * @param property1
      *            the first {@code Property<T>}
@@ -728,7 +728,7 @@ import emul.javafx.util.StringConverter;
 
     /**
      * Generates a bidirectional binding (or "bind with inverse") between a
-     * {@code String}-{@link emul.javafx.beans.property.Property} and another {@code Property}
+     * {@code String}-{@link javafx.beans.property.Property} and another {@code Property}
      * using the specified {@code Format} for conversion.
      * <p>
      * A bidirectional binding is a binding that works in both directions. If
@@ -765,8 +765,8 @@ import emul.javafx.util.StringConverter;
 
     /**
      * Generates a bidirectional binding (or "bind with inverse") between a
-     * {@code String}-{@link emul.javafx.beans.property.Property} and another {@code Property}
-     * using the specified {@link emul.javafx.util.StringConverter} for conversion.
+     * {@code String}-{@link javafx.beans.property.Property} and another {@code Property}
+     * using the specified {@link javafx.util.StringConverter} for conversion.
      * <p>
      * A bidirectional binding is a binding that works in both directions. If
      * two properties {@code a} and {@code b} are linked with a bidirectional
@@ -803,7 +803,7 @@ import emul.javafx.util.StringConverter;
 
     /**
      * Generates a bidirectional binding (or "bind with inverse") between two
-     * instances of {@link emul.javafx.collections.ObservableList}.
+     * instances of {@link javafx.collections.ObservableList}.
      * <p>
      * A bidirectional binding is a binding that works in both directions. If
      * two properties {@code a} and {@code b} are linked with a bidirectional
@@ -842,7 +842,7 @@ import emul.javafx.util.StringConverter;
 
     /**
      * Generates a bidirectional binding (or "bind with inverse") between two
-     * instances of {@link emul.javafx.collections.ObservableSet}.
+     * instances of {@link javafx.collections.ObservableSet}.
      * <p>
      * A bidirectional binding is a binding that works in both directions. If
      * two properties {@code a} and {@code b} are linked with a bidirectional
@@ -881,7 +881,7 @@ import emul.javafx.util.StringConverter;
 
     /**
      * Generates a bidirectional binding (or "bind with inverse") between two
-     * instances of {@link emul.javafx.collections.ObservableMap}.
+     * instances of {@link javafx.collections.ObservableMap}.
      * <p>
      * A bidirectional binding is a binding that works in both directions. If
      * two properties {@code a} and {@code b} are linked with a bidirectional
@@ -930,7 +930,7 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Generates a content binding between an {@link emul.javafx.collections.ObservableList} and a {@link java.util.List}.
+     * Generates a content binding between an {@link javafx.collections.ObservableList} and a {@link java.util.List}.
      * <p>
      * A content binding ensures that the {@code List} contains the same elements as the {@code ObservableList}.
      * If the content of the {@code ObservableList} changes, the {@code List} will be updated automatically.
@@ -953,7 +953,7 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Generates a content binding between an {@link emul.javafx.collections.ObservableSet} and a {@link java.util.Set}.
+     * Generates a content binding between an {@link javafx.collections.ObservableSet} and a {@link java.util.Set}.
      * <p>
      * A content binding ensures that the {@code Set} contains the same elements as the {@code ObservableSet}.
      * If the content of the {@code ObservableSet} changes, the {@code Set} will be updated automatically.
@@ -980,7 +980,7 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Generates a content binding between an {@link emul.javafx.collections.ObservableMap} and a {@link java.util.Map}.
+     * Generates a content binding between an {@link javafx.collections.ObservableMap} and a {@link java.util.Map}.
      * <p>
      * A content binding ensures that the {@code Map} contains the same elements as the {@code ObservableMap}.
      * If the content of the {@code ObservableMap} changes, the {@code Map} will be updated automatically.
@@ -1031,8 +1031,8 @@ import emul.javafx.util.StringConverter;
     // Negation
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
-     * the negation of a {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
+     * the negation of a {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param value
      *            the operand
@@ -1237,9 +1237,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the sum of the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the first operand
@@ -1254,9 +1254,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the sum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -1271,9 +1271,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the sum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1288,9 +1288,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the sum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -1305,9 +1305,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the sum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1322,9 +1322,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the sum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -1339,9 +1339,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the sum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1356,9 +1356,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the sum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -1373,9 +1373,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the sum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1494,9 +1494,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the difference of the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the first operand
@@ -1511,9 +1511,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the difference of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -1528,9 +1528,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the difference of a constant value and the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -1545,9 +1545,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the difference of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1562,9 +1562,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the difference of a constant value and the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -1579,9 +1579,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the difference of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1596,9 +1596,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the difference of a constant value and the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -1613,9 +1613,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the difference of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1630,9 +1630,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the difference of a constant value and the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -1751,9 +1751,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the product of the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the first operand
@@ -1768,9 +1768,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the product of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -1785,9 +1785,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the product of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1802,9 +1802,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the product of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1819,9 +1819,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the product of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1836,9 +1836,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the product of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1853,9 +1853,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the product of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1870,9 +1870,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the product of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -1887,9 +1887,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the product of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -2008,9 +2008,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the division of the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the first operand
@@ -2025,9 +2025,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the division of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -2042,9 +2042,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the division of a constant value and the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -2059,9 +2059,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the division of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -2076,9 +2076,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the division of a constant value and the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -2093,9 +2093,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the division of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -2110,9 +2110,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the division of a constant value and the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -2127,9 +2127,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the division of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -2144,9 +2144,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the division of a constant value and the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -2265,9 +2265,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue} are equal (with a
+     * {@link javafx.beans.value.ObservableNumberValue} are equal (with a
      * tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2291,9 +2291,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue} are equal.
+     * {@link javafx.beans.value.ObservableNumberValue} are equal.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
      * {@link #equal(ObservableNumberValue, ObservableNumberValue, double)
@@ -2312,8 +2312,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2337,8 +2337,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2362,8 +2362,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2387,8 +2387,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2412,8 +2412,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2437,8 +2437,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
@@ -2458,8 +2458,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2483,8 +2483,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
@@ -2504,8 +2504,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2529,8 +2529,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
@@ -2550,8 +2550,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2575,8 +2575,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * equal to a constant value.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
@@ -2700,9 +2700,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue} are not equal (with a
+     * {@link javafx.beans.value.ObservableNumberValue} are not equal (with a
      * tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2726,9 +2726,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue} are not equal.
+     * {@link javafx.beans.value.ObservableNumberValue} are not equal.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
      * {@link #notEqual(ObservableNumberValue, ObservableNumberValue, double)
@@ -2747,8 +2747,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2772,8 +2772,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2797,8 +2797,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2822,8 +2822,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2847,8 +2847,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2872,8 +2872,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
@@ -2893,8 +2893,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2918,8 +2918,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
@@ -2939,8 +2939,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -2964,8 +2964,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
@@ -2985,8 +2985,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value (with a tolerance).
      * <p>
      * Two operands {@code a} and {@code b} are considered equal if
@@ -3010,8 +3010,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is not
      * equal to a constant value.
      * <p>
      * When comparing floating-point numbers it is recommended to use the
@@ -3135,9 +3135,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the value of the first
-     * {@link emul.javafx.beans.value.ObservableNumberValue} is greater than the
+     * {@link javafx.beans.value.ObservableNumberValue} is greater than the
      * value of the second.
      *
      * @param op1
@@ -3153,8 +3153,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * greater than a constant value.
      *
      * @param op1
@@ -3170,9 +3170,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is greater than the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3187,8 +3187,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * greater than a constant value.
      *
      * @param op1
@@ -3204,9 +3204,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is greater than the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3221,8 +3221,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * greater than a constant value.
      *
      * @param op1
@@ -3238,9 +3238,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is greater than the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3255,8 +3255,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * greater than a constant value.
      *
      * @param op1
@@ -3272,9 +3272,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is greater than the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3296,9 +3296,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the value of the first
-     * {@link emul.javafx.beans.value.ObservableNumberValue} is less than the value
+     * {@link javafx.beans.value.ObservableNumberValue} is less than the value
      * of the second.
      *
      * @param op1
@@ -3314,8 +3314,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * less than a constant value.
      *
      * @param op1
@@ -3331,9 +3331,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3348,8 +3348,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * less than a constant value.
      *
      * @param op1
@@ -3365,9 +3365,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3382,8 +3382,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * less than a constant value.
      *
      * @param op1
@@ -3399,9 +3399,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3416,8 +3416,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * less than a constant value.
      *
      * @param op1
@@ -3433,9 +3433,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3554,9 +3554,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the value of the first
-     * {@link emul.javafx.beans.value.ObservableNumberValue} is greater than or equal
+     * {@link javafx.beans.value.ObservableNumberValue} is greater than or equal
      * to the value of the second.
      *
      * @param op1
@@ -3572,8 +3572,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * greater than or equal to a constant value.
      *
      * @param op1
@@ -3589,9 +3589,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is greater than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3606,8 +3606,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * greater than or equal to a constant value.
      *
      * @param op1
@@ -3623,9 +3623,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is greater than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3640,8 +3640,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * greater than or equal to a constant value.
      *
      * @param op1
@@ -3657,9 +3657,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is greater than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3674,8 +3674,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * greater than or equal to a constant value.
      *
      * @param op1
@@ -3691,9 +3691,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is greater than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3716,9 +3716,9 @@ import emul.javafx.util.StringConverter;
 
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the value of the first
-     * {@link emul.javafx.beans.value.ObservableNumberValue} is less than or equal to
+     * {@link javafx.beans.value.ObservableNumberValue} is less than or equal to
      * the value of the second.
      *
      * @param op1
@@ -3734,8 +3734,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * less than or equal to a constant value.
      *
      * @param op1
@@ -3751,9 +3751,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3768,8 +3768,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * less than or equal to a constant value.
      *
      * @param op1
@@ -3785,9 +3785,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3802,8 +3802,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * less than or equal to a constant value.
      *
      * @param op1
@@ -3819,9 +3819,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3836,8 +3836,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableNumberValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableNumberValue} is
      * less than or equal to a constant value.
      *
      * @param op1
@@ -3853,9 +3853,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the constant value
@@ -3974,9 +3974,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the minimum of the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the first operand
@@ -3991,9 +3991,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the minimum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -4008,9 +4008,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the minimum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -4025,9 +4025,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the minimum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -4042,9 +4042,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the minimum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -4059,9 +4059,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the minimum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -4076,9 +4076,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the minimum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -4093,9 +4093,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the minimum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -4110,9 +4110,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the minimum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -4231,9 +4231,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the maximum of the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableNumberValue}.
+     * {@link javafx.beans.value.ObservableNumberValue}.
      *
      * @param op1
      *            the first operand
@@ -4248,9 +4248,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the maximum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -4265,9 +4265,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that calculates
      * the maximum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -4282,9 +4282,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the maximum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -4299,9 +4299,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the maximum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -4316,9 +4316,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the maximum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -4333,9 +4333,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the maximum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -4350,9 +4350,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the maximum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the {@code ObservableNumberValue}
@@ -4367,9 +4367,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
      * the maximum of the value of a
-     * {@link emul.javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -4449,7 +4449,7 @@ import emul.javafx.util.StringConverter;
     /**
      * Creates a {@link BooleanBinding} that calculates the conditional-AND
      * operation on the value of two instance of
-     * {@link emul.javafx.beans.value.ObservableBooleanValue}.
+     * {@link javafx.beans.value.ObservableBooleanValue}.
      *
      * @param op1
      *            first {@code ObservableBooleanValue}
@@ -4529,7 +4529,7 @@ import emul.javafx.util.StringConverter;
     /**
      * Creates a {@link BooleanBinding} that calculates the conditional-OR
      * operation on the value of two instance of
-     * {@link emul.javafx.beans.value.ObservableBooleanValue}.
+     * {@link javafx.beans.value.ObservableBooleanValue}.
      *
      * @param op1
      *            first {@code ObservableBooleanValue}
@@ -4549,7 +4549,7 @@ import emul.javafx.util.StringConverter;
 
     /**
      * Creates a {@link BooleanBinding} that calculates the inverse of the value
-     * of a {@link emul.javafx.beans.value.ObservableBooleanValue}.
+     * of a {@link javafx.beans.value.ObservableBooleanValue}.
      *
      * @param op
      *            the {@code ObservableBooleanValue}
@@ -4586,7 +4586,7 @@ import emul.javafx.util.StringConverter;
 
     /**
      * Creates a new {@link BooleanBinding} that holds {@code true} if the values of two
-     * instances of {@link emul.javafx.beans.value.ObservableBooleanValue} are equal.
+     * instances of {@link javafx.beans.value.ObservableBooleanValue} are equal.
      *
      * @param op1
      *            the first operand
@@ -4625,7 +4625,7 @@ import emul.javafx.util.StringConverter;
 
     /**
      * Creates a new {@link BooleanBinding} that holds {@code true} if the values of two
-     * instances of {@link emul.javafx.beans.value.ObservableBooleanValue} are not
+     * instances of {@link javafx.beans.value.ObservableBooleanValue} are not
      * equal.
      *
      * @param op1
@@ -4667,10 +4667,10 @@ import emul.javafx.util.StringConverter;
     // =================================================================================================================
 
     /**
-     * Returns a {@link emul.javafx.beans.binding.StringExpression} that wraps a
-     * {@link emul.javafx.beans.value.ObservableValue}. If the
+     * Returns a {@link javafx.beans.binding.StringExpression} that wraps a
+     * {@link javafx.beans.value.ObservableValue}. If the
      * {@code ObservableValue} is already a {@code StringExpression}, it will be
-     * returned. Otherwise a new {@link emul.javafx.beans.binding.StringBinding} is
+     * returned. Otherwise a new {@link javafx.beans.binding.StringBinding} is
      * created that holds the value of the {@code ObservableValue} converted to
      * a {@code String}.
      *
@@ -4686,11 +4686,11 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Returns a {@link emul.javafx.beans.binding.StringExpression} that holds the
+     * Returns a {@link javafx.beans.binding.StringExpression} that holds the
      * value of the concatenation of multiple {@code Objects}.
      * <p>
      * If one of the arguments implements
-     * {@link emul.javafx.beans.value.ObservableValue} and the value of this
+     * {@link javafx.beans.value.ObservableValue} and the value of this
      * {@code ObservableValue} changes, the change is automatically reflected in
      * the {@code StringExpression}.
      * <p>
@@ -4707,12 +4707,12 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a {@link emul.javafx.beans.binding.StringExpression} that holds the
+     * Creates a {@link javafx.beans.binding.StringExpression} that holds the
      * value of multiple {@code Objects} formatted according to a format
      * {@code String}.
      * <p>
      * If one of the arguments implements
-     * {@link emul.javafx.beans.value.ObservableValue} and the value of this
+     * {@link javafx.beans.value.ObservableValue} and the value of this
      * {@code ObservableValue} changes, the change is automatically reflected in
      * the {@code StringExpression}.
      * <p>
@@ -4730,12 +4730,12 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a {@link emul.javafx.beans.binding.StringExpression} that holds the
+     * Creates a {@link javafx.beans.binding.StringExpression} that holds the
      * value of multiple {@code Objects} formatted according to a format
      * {@code String} and a specified {@code Locale}
      * <p>
      * If one of the arguments implements
-     * {@link emul.javafx.beans.value.ObservableValue} and the value of this
+     * {@link javafx.beans.value.ObservableValue} and the value of this
      * {@code ObservableValue} changes, the change is automatically reflected in
      * the {@code StringExpression}.
      * <p>
@@ -4793,9 +4793,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableStringValue} are equal.
+     * {@link javafx.beans.value.ObservableStringValue} are equal.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -4813,8 +4813,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is
      * equal to a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -4833,8 +4833,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is
      * equal to a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -4885,9 +4885,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableStringValue} are not equal.
+     * {@link javafx.beans.value.ObservableStringValue} are not equal.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -4905,8 +4905,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is not
      * equal to a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -4925,8 +4925,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is not
      * equal to a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -4977,9 +4977,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableStringValue} are equal ignoring case.
+     * {@link javafx.beans.value.ObservableStringValue} are equal ignoring case.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -4997,8 +4997,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is
      * equal to a constant value ignoring case.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5017,8 +5017,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is
      * equal to a constant value ignoring case.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5069,9 +5069,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableStringValue} are not equal ignoring
+     * {@link javafx.beans.value.ObservableStringValue} are not equal ignoring
      * case.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5090,8 +5090,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is not
      * equal to a constant value ignoring case.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5110,8 +5110,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is not
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is not
      * equal to a constant value ignoring case.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5162,9 +5162,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the value of the first
-     * {@link emul.javafx.beans.value.ObservableStringValue} is greater than the
+     * {@link javafx.beans.value.ObservableStringValue} is greater than the
      * value of the second.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5183,8 +5183,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is
      * greater than a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5203,9 +5203,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the value of a constant value is greater than the value of a
-     * {@link emul.javafx.beans.value.ObservableStringValue}.
+     * {@link javafx.beans.value.ObservableStringValue}.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -5227,9 +5227,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the value of the first
-     * {@link emul.javafx.beans.value.ObservableStringValue} is less than the value
+     * {@link javafx.beans.value.ObservableStringValue} is less than the value
      * of the second.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5248,8 +5248,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is
      * less than a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5268,9 +5268,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than the value of a
-     * {@link emul.javafx.beans.value.ObservableStringValue}.
+     * {@link javafx.beans.value.ObservableStringValue}.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -5320,9 +5320,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the value of the first
-     * {@link emul.javafx.beans.value.ObservableStringValue} is greater than or equal
+     * {@link javafx.beans.value.ObservableStringValue} is greater than or equal
      * to the value of the second.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5341,8 +5341,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is
      * greater than or equal to a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5361,9 +5361,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is greater than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableStringValue}.
+     * {@link javafx.beans.value.ObservableStringValue}.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -5385,9 +5385,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the value of the first
-     * {@link emul.javafx.beans.value.ObservableStringValue} is less than or equal to
+     * {@link javafx.beans.value.ObservableStringValue} is less than or equal to
      * the value of the second.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5406,8 +5406,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is
      * less than or equal to a constant value.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
@@ -5426,9 +5426,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if a constant value is less than or equal to the value of a
-     * {@link emul.javafx.beans.value.ObservableStringValue}.
+     * {@link javafx.beans.value.ObservableStringValue}.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered equal to an empty {@code String}.
@@ -5446,8 +5446,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that holds the length of a
-     * {@link emul.javafx.beans.value.ObservableStringValue}.
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that holds the length of a
+     * {@link javafx.beans.value.ObservableStringValue}.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered to have a length of {@code 0}.
@@ -5487,8 +5487,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is empty.
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is empty.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered to be empty.
@@ -5528,8 +5528,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link emul.javafx.beans.value.ObservableStringValue} is not empty.
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is not empty.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered to be empty.
@@ -5604,9 +5604,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableObjectValue} are equal.
+     * {@link javafx.beans.value.ObservableObjectValue} are equal.
      *
      * @param op1
      *            the first operand
@@ -5621,8 +5621,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link emul.javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
      * equal to a constant value.
      *
      * @param op1
@@ -5638,8 +5638,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link emul.javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
      * equal to a constant value.
      *
      * @param op1
@@ -5687,9 +5687,9 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link emul.javafx.beans.value.ObservableObjectValue} are not equal.
+     * {@link javafx.beans.value.ObservableObjectValue} are not equal.
      *
      * @param op1
      *            the first operand
@@ -5704,8 +5704,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link emul.javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
      * not equal to a constant value.
      *
      * @param op1
@@ -5721,8 +5721,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link emul.javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
      * not equal to a constant value.
      *
      * @param op1
@@ -5738,8 +5738,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link emul.javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
      * {@code null}.
      *
      * @param op
@@ -5776,8 +5776,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link emul.javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
      * not {@code null}.
      *
      * @param op
@@ -5817,8 +5817,8 @@ import emul.javafx.util.StringConverter;
     // =================================================================================================================
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the size
-     * of an {@link emul.javafx.collections.ObservableList}.
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the size
+     * of an {@link javafx.collections.ObservableList}.
      *
      * @param op
      *            the {@code ObservableList}
@@ -5856,8 +5856,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if a given {@link emul.javafx.collections.ObservableList} is empty.
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if a given {@link javafx.collections.ObservableList} is empty.
      *
      * @param op
      *            the {@code ObservableList}
@@ -5895,8 +5895,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if a given {@link emul.javafx.collections.ObservableList} is not empty.
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if a given {@link javafx.collections.ObservableList} is not empty.
      *
      * @param op
      *            the {@code ObservableList}
@@ -5934,8 +5934,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.ObjectBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code ObjectBinding}
+     * Creates a new {@link javafx.beans.binding.ObjectBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code ObjectBinding}
      * will contain {@code null}, if the {@code index} points behind the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -5982,8 +5982,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.ObjectBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code ObjectBinding}
+     * Creates a new {@link javafx.beans.binding.ObjectBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code ObjectBinding}
      * will contain {@code null}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -5998,8 +5998,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.ObjectBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code ObjectBinding}
+     * Creates a new {@link javafx.beans.binding.ObjectBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code ObjectBinding}
      * will contain {@code null}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6042,8 +6042,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code BooleanBinding}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code BooleanBinding}
      * will hold {@code false}, if the {@code index} points behind the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6094,8 +6094,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code BooleanBinding}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code BooleanBinding}
      * will hold {@code false}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6109,8 +6109,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code BooleanBinding}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code BooleanBinding}
      * will hold {@code false}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6157,8 +6157,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code DoubleBinding}
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code DoubleBinding}
      * will hold {@code 0.0}, if the {@code index} points behind the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6209,8 +6209,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code DoubleBinding}
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code DoubleBinding}
      * will hold {@code 0.0}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6224,8 +6224,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code DoubleBinding}
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code DoubleBinding}
      * will hold {@code 0.0}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6272,8 +6272,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.FloatBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code FloatBinding}
+     * Creates a new {@link javafx.beans.binding.FloatBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code FloatBinding}
      * will hold {@code 0.0f}, if the {@code index} points behind the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6324,8 +6324,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.FloatBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code FloatBinding}
+     * Creates a new {@link javafx.beans.binding.FloatBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code FloatBinding}
      * will hold {@code 0.0f}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6339,8 +6339,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.FloatBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code FloatBinding}
+     * Creates a new {@link javafx.beans.binding.FloatBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code FloatBinding}
      * will hold {@code 0.0f}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6387,8 +6387,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code IntegerBinding}
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code IntegerBinding}
      * will hold {@code 0}, if the {@code index} points behind the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6439,8 +6439,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code IntegerBinding}
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code IntegerBinding}
      * will hold {@code 0}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6454,8 +6454,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code IntegerBinding}
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code IntegerBinding}
      * will hold {@code 0}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6502,8 +6502,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.LongBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code LongBinding}
+     * Creates a new {@link javafx.beans.binding.LongBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code LongBinding}
      * will hold {@code 0L}, if the {@code index} points behind the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6554,8 +6554,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.LongBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code LongBinding}
+     * Creates a new {@link javafx.beans.binding.LongBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code LongBinding}
      * will hold {@code 0L}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6569,8 +6569,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.LongBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code LongBinding}
+     * Creates a new {@link javafx.beans.binding.LongBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code LongBinding}
      * will hold {@code 0L}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6617,8 +6617,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.StringBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code StringBinding}
+     * Creates a new {@link javafx.beans.binding.StringBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code StringBinding}
      * will hold {@code null}, if the {@code index} points behind the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6664,8 +6664,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.StringBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code StringBinding}
+     * Creates a new {@link javafx.beans.binding.StringBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code StringBinding}
      * will hold {@code ""}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6679,8 +6679,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.StringBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableList} at the specified position. The {@code StringBinding}
+     * Creates a new {@link javafx.beans.binding.StringBinding} that contains the element
+     * of an {@link javafx.collections.ObservableList} at the specified position. The {@code StringBinding}
      * will hold {@code ""}, if the {@code index} is outside of the {@code ObservableList}.
      *
      * @param op the {@code ObservableList}
@@ -6725,8 +6725,8 @@ import emul.javafx.util.StringConverter;
     // =================================================================================================================
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the size
-     * of an {@link emul.javafx.collections.ObservableSet}.
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the size
+     * of an {@link javafx.collections.ObservableSet}.
      *
      * @param op
      *            the {@code ObservableSet}
@@ -6764,8 +6764,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if a given {@link emul.javafx.collections.ObservableSet} is empty.
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if a given {@link javafx.collections.ObservableSet} is empty.
      *
      * @param op
      *            the {@code ObservableSet}
@@ -6803,8 +6803,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if a given {@link emul.javafx.collections.ObservableSet} is not empty.
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if a given {@link javafx.collections.ObservableSet} is not empty.
      *
      * @param op
      *            the {@code ObservableSet}
@@ -6845,8 +6845,8 @@ import emul.javafx.util.StringConverter;
     // =================================================================================================================
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the size
-     * of an {@link emul.javafx.collections.ObservableArray}.
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the size
+     * of an {@link javafx.collections.ObservableArray}.
      *
      * @param op the {@code ObservableArray}
      * @return the new {@code IntegerBinding}
@@ -6882,8 +6882,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.FloatBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableArray} at the specified position. The {@code FloatBinding}
+     * Creates a new {@link javafx.beans.binding.FloatBinding} that contains the element
+     * of an {@link javafx.collections.ObservableArray} at the specified position. The {@code FloatBinding}
      * will hold {@code 0.0f}, if the {@code index} points behind the {@code ObservableArray}.
      *
      * @param op the {@code ObservableArray}
@@ -6929,8 +6929,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.FloatBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableArray} at the specified position. The {@code FloatBinding}
+     * Creates a new {@link javafx.beans.binding.FloatBinding} that contains the element
+     * of an {@link javafx.collections.ObservableArray} at the specified position. The {@code FloatBinding}
      * will hold {@code 0.0f}, if the {@code index} is outside of the {@code ObservableArray}.
      *
      * @param op the {@code ObservableArray}
@@ -6944,8 +6944,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.FloatBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableArray} at the specified position. The {@code FloatBinding}
+     * Creates a new {@link javafx.beans.binding.FloatBinding} that contains the element
+     * of an {@link javafx.collections.ObservableArray} at the specified position. The {@code FloatBinding}
      * will hold {@code 0.0f}, if the {@code index} is outside of the {@code ObservableArray}.
      *
      * @param op the {@code ObservableArray}
@@ -6987,8 +6987,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableArray} at the specified position. The {@code IntegerBinding}
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the element
+     * of an {@link javafx.collections.ObservableArray} at the specified position. The {@code IntegerBinding}
      * will hold {@code 0}, if the {@code index} points behind the {@code ObservableArray}.
      *
      * @param op the {@code ObservableArray}
@@ -7034,8 +7034,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableArray} at the specified position. The {@code IntegerBinding}
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the element
+     * of an {@link javafx.collections.ObservableArray} at the specified position. The {@code IntegerBinding}
      * will hold {@code 0}, if the {@code index} is outside of the {@code ObservableArray}.
      *
      * @param op the {@code ObservableArray}
@@ -7049,8 +7049,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the element
-     * of an {@link emul.javafx.collections.ObservableArray} at the specified position. The {@code IntegerBinding}
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the element
+     * of an {@link javafx.collections.ObservableArray} at the specified position. The {@code IntegerBinding}
      * will hold {@code 0}, if the {@code index} is outside of the {@code ObservableArray}.
      *
      * @param op the {@code ObservableArray}
@@ -7095,8 +7095,8 @@ import emul.javafx.util.StringConverter;
     // =================================================================================================================
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the size
-     * of an {@link emul.javafx.collections.ObservableMap}.
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the size
+     * of an {@link javafx.collections.ObservableMap}.
      *
      * @param op
      *            the {@code ObservableMap}
@@ -7136,8 +7136,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if a given {@link emul.javafx.collections.ObservableMap} is empty.
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if a given {@link javafx.collections.ObservableMap} is empty.
      *
      * @param op
      *            the {@code ObservableMap}
@@ -7176,8 +7176,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if a given {@link emul.javafx.collections.ObservableMap} is not empty.
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if a given {@link javafx.collections.ObservableMap} is not empty.
      *
      * @param op
      *            the {@code ObservableMap}
@@ -7216,8 +7216,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.ObjectBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}.
+     * Creates a new {@link javafx.beans.binding.ObjectBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}.
      *
      * @param op the {@code ObservableMap}
      * @param key the key in the {@code Map}
@@ -7264,8 +7264,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.ObjectBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}.
+     * Creates a new {@link javafx.beans.binding.ObjectBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}.
      *
      * @param op the {@code ObservableMap}
      * @param key the key in the {@code Map}
@@ -7312,8 +7312,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code BooleanBinding}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code BooleanBinding}
      * will hold {@code false}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7365,8 +7365,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.BooleanBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code BooleanBinding}
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code BooleanBinding}
      * will hold {@code false}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7418,8 +7418,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code DoubleBinding}
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code DoubleBinding}
      * will hold {@code 0.0}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7471,8 +7471,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.DoubleBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code DoubleBinding}
+     * Creates a new {@link javafx.beans.binding.DoubleBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code DoubleBinding}
      * will hold {@code 0.0}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7524,8 +7524,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.FloatBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code FloatBinding}
+     * Creates a new {@link javafx.beans.binding.FloatBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code FloatBinding}
      * will hold {@code 0.0f}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7577,8 +7577,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.FloatBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code FloatBinding}
+     * Creates a new {@link javafx.beans.binding.FloatBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code FloatBinding}
      * will hold {@code 0.0f}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7630,8 +7630,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code IntegerBinding}
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code IntegerBinding}
      * will hold {@code 0}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7683,8 +7683,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.IntegerBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code IntegerBinding}
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code IntegerBinding}
      * will hold {@code 0}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7736,8 +7736,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.LongBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code LongBinding}
+     * Creates a new {@link javafx.beans.binding.LongBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code LongBinding}
      * will hold {@code 0L}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7789,8 +7789,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.LongBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code LongBinding}
+     * Creates a new {@link javafx.beans.binding.LongBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code LongBinding}
      * will hold {@code 0L}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7842,8 +7842,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.StringBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code StringBinding}
+     * Creates a new {@link javafx.beans.binding.StringBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code StringBinding}
      * will hold {@code null}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}
@@ -7890,8 +7890,8 @@ import emul.javafx.util.StringConverter;
     }
 
     /**
-     * Creates a new {@link emul.javafx.beans.binding.StringBinding} that contains the mapping of a specific key
-     * in an {@link emul.javafx.collections.ObservableMap}. The {@code StringBinding}
+     * Creates a new {@link javafx.beans.binding.StringBinding} that contains the mapping of a specific key
+     * in an {@link javafx.collections.ObservableMap}. The {@code StringBinding}
      * will hold {@code ""}, if the {@code key} cannot be found in the {@code ObservableMap}.
      *
      * @param op the {@code ObservableMap}

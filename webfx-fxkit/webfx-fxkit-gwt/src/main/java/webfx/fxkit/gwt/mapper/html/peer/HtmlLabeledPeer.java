@@ -2,11 +2,11 @@ package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
-import emul.javafx.scene.Node;
-import emul.javafx.scene.control.Labeled;
-import emul.javafx.scene.paint.Paint;
-import emul.javafx.scene.text.Font;
-import emul.javafx.scene.text.TextAlignment;
+import javafx.scene.Node;
+import javafx.scene.control.Labeled;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;

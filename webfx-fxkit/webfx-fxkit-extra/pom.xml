@@ -34,6 +34,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <properties>
@@ -46,41 +52,17 @@
     <build>
         <plugins>
 
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+            </plugin>
+
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
-            <!-- Relocating the javafx package to emul.javafx for both classes and sources -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <keepDependenciesWithProvidedScope>false</keepDependenciesWithProvidedScope>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <relocations>
-                                <relocation>
-                                    <pattern>javafx</pattern>
-                                    <shadedPattern>emul.javafx</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.sun</pattern>
-                                    <shadedPattern>emul.com.sun</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <createSourcesJar>true</createSourcesJar>
-                            <shadeSourcesContent>true</shadeSourcesContent>
-                            <shadedClassifierName>emul</shadedClassifierName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 

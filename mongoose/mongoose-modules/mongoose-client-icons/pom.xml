@@ -25,10 +25,22 @@
             <version>${webfx.version}</version>
         </dependency>
 
+        <dependency> <!-- Required by webfx.framework.client.action -->
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+            </plugin>
 
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>

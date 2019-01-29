@@ -2,7 +2,7 @@ package webfx.fxkit.gwt.mapper.svg.peer;
 
 import elemental2.dom.Element;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import emul.javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Rectangle;
 import webfx.fxkit.mapper.spi.impl.peer.RectanglePeerMixin;
 import webfx.fxkit.mapper.spi.impl.peer.RectanglePeerBase;
 

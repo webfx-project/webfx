@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class MapJsonObject extends MapBasedJsonObject {
+public class MapJsonObject extends MapBasedJsonObject {
 
     protected Map<String, Object> map;
 

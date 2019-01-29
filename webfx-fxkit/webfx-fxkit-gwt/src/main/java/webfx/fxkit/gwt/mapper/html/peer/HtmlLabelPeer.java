@@ -1,6 +1,6 @@
 package webfx.fxkit.gwt.mapper.html.peer;
 
-import emul.javafx.scene.control.Label;
+import javafx.scene.control.Label;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.mapper.spi.impl.peer.LabelPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.LabelPeerMixin;

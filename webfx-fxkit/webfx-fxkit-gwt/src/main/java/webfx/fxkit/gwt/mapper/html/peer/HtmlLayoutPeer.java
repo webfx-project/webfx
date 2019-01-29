@@ -1,7 +1,7 @@
 package webfx.fxkit.gwt.mapper.html.peer;
 
-import emul.javafx.geometry.Insets;
-import emul.javafx.scene.layout.Region;
+import javafx.geometry.Insets;
+import javafx.scene.layout.Region;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.mapper.spi.impl.peer.RegionPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.RegionPeerMixin;

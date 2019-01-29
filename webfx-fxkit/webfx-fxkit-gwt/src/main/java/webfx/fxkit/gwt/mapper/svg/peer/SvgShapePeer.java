@@ -5,11 +5,11 @@ import webfx.fxkit.mapper.spi.impl.peer.ShapePeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.ShapePeerMixin;
 import webfx.platform.shared.util.collection.Collections;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import emul.javafx.scene.paint.Paint;
-import emul.javafx.scene.shape.Shape;
-import emul.javafx.scene.shape.StrokeLineCap;
-import emul.javafx.scene.shape.StrokeLineJoin;
-import emul.javafx.scene.shape.StrokeType;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 
 import java.util.List;
 

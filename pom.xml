@@ -16,6 +16,7 @@
         <module>webfx-platform</module>
         <module>webfx-fxkit</module>
         <module>webfx-framework</module>
+        <!-- Mongoose app (will move to another repo once webfx API will be stable) -->
         <module>mongoose</module>
     </modules>
 
@@ -25,8 +26,9 @@
         <webfx.version>0.1.0-SNAPSHOT</webfx.version>
 
         <!-- java version -->
-        <java.version>9</java.version>
-        <java.level>1.${java.version}</java.level>
+        <java.version>11</java.version>
+        <java.level>${java.version}</java.level>
+        <gwt.sourceLevel>1.8</gwt.sourceLevel> <!-- GWT 2.8.2 supports Java 8 source level only (the experimental GWT HEAD-SNAPSHOT now supports Java 10) -->
 
         <!-- Applying compiler settings -->
         <maven.compiler.source>${java.level}</maven.compiler.source>
@@ -34,7 +36,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- libraries versions -->
-        <lib.gwt.version>2.8.2</lib.gwt.version> <!-- For Java 9 compilation -->
+        <lib.openjfx.version>11.0.2</lib.openjfx.version>
+        <lib.gwt.version>2.8.2</lib.gwt.version> <!-- can be switched to HEAD-SNAPSHOT on development machines to test the latest GWT version -->
         <lib.elemental2.version>1.0.0-RC1</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
         <lib.vertx.version>3.6.2</lib.vertx.version>
@@ -46,23 +49,22 @@
         -->
 
         <lib.javafxsvg.version>1.2.1</lib.javafxsvg.version>
-        <lib.batik-transcoder.version>1.8</lib.batik-transcoder.version>
-        <lib.xmlgraphics-commons.version>1.5</lib.xmlgraphics-commons.version>
 
         <lib.junit.version>4.12</lib.junit.version>
 
-        <!-- plugins versions -->
-        <plugin.compiler.version>3.7.0</plugin.compiler.version>
-        <plugin.jar.version>3.0.2</plugin.jar.version>
+        <!-- Maven plugins versions -->
+        <plugin.compiler.version>3.8.0</plugin.compiler.version>
+        <plugin.jar.version>3.1.1</plugin.jar.version>
         <plugin.source.version>3.0.1</plugin.source.version>
-        <plugin.dependency.version>3.0.2</plugin.dependency.version>
-        <plugin.shade.version>3.1.0</plugin.shade.version>
+        <plugin.dependency.version>3.1.1</plugin.dependency.version>
+        <plugin.shade.version>3.2.1</plugin.shade.version>
 
+        <!-- Third-party plugins versions -->
         <plugin.javacup.version>11b-20151001</plugin.javacup.version>
-        <plugin.jflex.version>1.6.1</plugin.jflex.version>
-        <plugin.proguard.version>2.0.11</plugin.proguard.version>
-        <plugin.retrolambda.version>2.1.0</plugin.retrolambda.version>
-        <plugin.gwt.version>1.0-rc-9</plugin.gwt.version> <!-- For Java 9 compilation -->
+        <plugin.jflex.version>1.7.0</plugin.jflex.version>
+        <plugin.proguard.version>2.0.14</plugin.proguard.version>
+        <plugin.moditect.version>1.0.0.Beta2</plugin.moditect.version>
+        <plugin.gwt.version>1.0-rc-10</plugin.gwt.version>
 
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
         <plugin.compiler.param.exclude></plugin.compiler.param.exclude>
@@ -80,6 +82,7 @@
         <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
+        <plugin.moditect.outputDirectory>${project.build.directory}/modules</plugin.moditect.outputDirectory>
 
         <application.name>${project.name}</application.name>
         <application.version>${project.version}</application.version>
@@ -104,7 +107,7 @@
     </pluginRepositories>
 
     <repositories>
-        <!-- Adding Snapshots repository which is required to get the GWT 2.8.0-SNAPSHOT libraries -->
+        <!-- Adding snapshots repository which is required to get the GWT SNAPSHOT libraries -->
         <repository>
             <id>snapshots-repo</id>
             <url>https://oss.sonatype.org/content/repositories/google-snapshots</url>
@@ -247,7 +250,37 @@
              ***************************************************
              -->
 
-            <!-- JavaFx 8 libraries -->
+            <!-- JavaFx maven modules provided by OpenJFX (since Java 11) -->
+
+            <!-- javafx.base module -->
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-base</artifactId>
+                <version>${lib.openjfx.version}</version>
+            </dependency>
+
+            <!-- javafx.graphics module -->
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-graphics</artifactId>
+                <version>${lib.openjfx.version}</version>
+            </dependency>
+
+            <!-- javafx.controls module -->
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-controls</artifactId>
+                <version>${lib.openjfx.version}</version>
+            </dependency>
+
+            <!-- javafx.web module -->
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-web</artifactId>
+                <version>${lib.openjfx.version}</version>
+            </dependency>
+
+            <!-- JavaFx third-party libraries -->
 
             <!-- Javafxsvg is a library (based on Apache Batik) for adding SVG support to JavaFX -->
             <dependency>
@@ -269,6 +302,13 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${plugin.compiler.version}</version>
+                    <configuration>
+                        <!--release>9</release-->
+                        <compilerArgs>
+                            <compilerArg>--module-path</compilerArg>
+                            <compilerArg>${plugin.moditect.outputDirectory}</compilerArg>
+                        </compilerArgs>
+                    </configuration>
                 </plugin>
 
 
@@ -366,6 +406,34 @@
                                 <outputDirectory>${project.build.directory}/lib</outputDirectory>
                                 <overWriteReleases>true</overWriteReleases>
                                 <overWriteSnapshots>true</overWriteSnapshots>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.moditect</groupId>
+                    <artifactId>moditect-maven-plugin</artifactId>
+                    <version>${plugin.moditect.version}</version>
+                    <configuration>
+                        <outputDirectory>${plugin.moditect.outputDirectory}</outputDirectory>
+                        <overwriteExistingFiles>true</overwriteExistingFiles>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>add-module-infos</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>add-module-info</goal>
+                            </goals>
+                            <configuration>
+                                <module>
+                                    <moduleInfo>
+                                        <exports>
+                                            *;
+                                        </exports>
+                                    </moduleInfo>
+                                </module>
                             </configuration>
                         </execution>
                     </executions>
@@ -522,6 +590,7 @@
                         <failOnError>true</failOnError>
                         <draftCompile>${plugin.gwt.param.draftCompile}</draftCompile>
                         <optimize>${plugin.gwt.param.optimize}</optimize>
+                        <sourceLevel>${gwt.sourceLevel}</sourceLevel>
                         <compilerArgs>
                             <!-- Setting value to return when compiling System.getProperty("application.name") -->
                             <compilerArg>-setProperty</compilerArg>

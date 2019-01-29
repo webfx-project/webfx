@@ -2,11 +2,11 @@ package webfx.fxkit.gwt.mapper.html.peer;
 
 import elemental2.dom.HTMLElement;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;
-import emul.javafx.scene.paint.Paint;
-import emul.javafx.scene.shape.Shape;
-import emul.javafx.scene.shape.StrokeLineCap;
-import emul.javafx.scene.shape.StrokeLineJoin;
-import emul.javafx.scene.shape.StrokeType;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 import webfx.fxkit.mapper.spi.impl.peer.ShapePeerMixin;
 import webfx.fxkit.mapper.spi.impl.peer.ShapePeerBase;
 

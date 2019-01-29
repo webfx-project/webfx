@@ -1,1 +1,1 @@
-mongoose.backend.operations.authorizations.RouteToAuthorizationsRequest$ProvidedEmitter
+mongoose.backend.activities.authorizations.RouteToAuthorizationsRequestEmitter

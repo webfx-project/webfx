@@ -24,11 +24,4 @@ public final class RouteToMonitorRequest extends RoutePushRequest implements Has
         return OPERATION_CODE;
     }
 
-    public static final class ProvidedEmitter implements RouteRequestEmitter {
-        @Override
-        public RouteRequest instantiateRouteRequest(UiRouteActivityContext context) {
-            return new RouteToMonitorRequest(context.getHistory());
-        }
-    }
-
 }

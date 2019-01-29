@@ -23,13 +23,6 @@
             <artifactId>webfx-fxkit-mapper</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-            <classifier>emul</classifier>
-            <exclusions> <!-- Excluding all the transitive dependencies (because they were not relocated to emul) -->
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>
@@ -37,6 +30,34 @@
     <build>
         <plugins>
 
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-module-infos</id>
+                        <phase/>
+                    </execution>
+                    <execution>
+                        <id>add-module-infos-overridden</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>add-module-info</goal>
+                        </goals>
+                        <configuration>
+                            <module>
+                                <moduleInfoSource>
+                                    module javafx.controls {
+                                    }
+                                </moduleInfoSource>
+                            </module>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Generating the source artifact -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>

@@ -13,10 +13,16 @@
 
     <dependencies>
 
-        <dependency> <!-- Only because of the type package -->
+        <dependency> <!-- Only because of the type package - TODO: make separate type module -->
             <artifactId>webfx-fxkit-extra</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency> <!-- Required when using webfx-fxkit-extra - TODO: remove this dependency -->
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency> <!-- For JsonObjectExpression -->
@@ -73,6 +79,12 @@
                         <lexDefinition>src/main/java/webfx/framework/shared/expression/parser/jflex/ExpressionLexer.flex</lexDefinition>
                     </lexDefinitions>
                 </configuration>
+            </plugin>
+
+            <!-- Generating module-info.java from maven dependencies -->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
             </plugin>
 
             <!-- Generating the source artifact for GWT compilation -->

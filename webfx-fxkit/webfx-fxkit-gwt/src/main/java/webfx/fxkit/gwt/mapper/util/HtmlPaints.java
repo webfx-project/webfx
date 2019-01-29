@@ -1,6 +1,6 @@
 package webfx.fxkit.gwt.mapper.util;
 
-import emul.javafx.scene.paint.*;
+import javafx.scene.paint.*;
 
 import java.util.List;
 

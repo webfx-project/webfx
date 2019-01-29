@@ -28,10 +28,4 @@ public final class RouteToEventsRequest extends RoutePushRequest implements HasO
         return OPERATION_CODE;
     }
 
-    public static final class ProvidedEmitter implements RouteRequestEmitter {
-        @Override
-        public RouteRequest instantiateRouteRequest(UiRouteActivityContext context) {
-            return new RouteToEventsRequest(context.getHistory());
-        }
-    }
 }

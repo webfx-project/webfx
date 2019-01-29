@@ -5,20 +5,20 @@ import elemental2.dom.Element;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.KeyboardEvent;
-import emul.com.sun.javafx.event.EventUtil;
-import emul.javafx.collections.ListChangeListener;
-import emul.javafx.event.EventType;
-import emul.javafx.scene.Cursor;
-import emul.javafx.scene.LayoutMeasurable;
-import emul.javafx.scene.Node;
-import emul.javafx.scene.Scene;
-import emul.javafx.scene.effect.BlendMode;
-import emul.javafx.scene.effect.Effect;
-import emul.javafx.scene.input.KeyCode;
-import emul.javafx.scene.input.KeyEvent;
-import emul.javafx.scene.text.Font;
-import emul.javafx.scene.text.FontPosture;
-import emul.javafx.scene.transform.Transform;
+import com.sun.javafx.event.EventUtil;
+import javafx.collections.ListChangeListener;
+import javafx.event.EventType;
+import javafx.scene.Cursor;
+import javafx.scene.LayoutMeasurable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.Effect;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.transform.Transform;
 import webfx.fxkit.gwt.mapper.svg.peer.SvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.DomType;
 import webfx.fxkit.gwt.mapper.util.SvgTransforms;
@@ -80,7 +80,7 @@ public abstract class HtmlSvgNodePeer
         if (nodePeer != null) {
             Node node = nodePeer.getNode();
             while (node != null) {
-                emul.javafx.scene.Parent parent = node.getParent();
+                javafx.scene.Parent parent = node.getParent();
                 if (parent == null && node.getScene().getRoot() != node)
                     return getPeerFromElementOrParents((Element) ((HtmlSvgNodePeer) node.getNodePeer()).element.parentNode);
                 node = parent;
@@ -108,11 +108,11 @@ public abstract class HtmlSvgNodePeer
         installKeyboardListeners();
     }
 
-    private boolean passOnToFx(emul.javafx.event.Event fxEvent) {
+    private boolean passOnToFx(javafx.event.Event fxEvent) {
         return isFxEventConsumed(EventUtil.fireEvent(getNode(), fxEvent));
     }
 
-    private boolean isFxEventConsumed(emul.javafx.event.Event fxEvent) {
+    private boolean isFxEventConsumed(javafx.event.Event fxEvent) {
         return fxEvent != null && fxEvent.isConsumed();
     }
 

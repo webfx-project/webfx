@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class LocalOrRemoteQueryPushServiceProvider implements QueryPushServiceProvider {
+public class LocalOrRemoteQueryPushServiceProvider implements QueryPushServiceProvider {
 
     @Override
     public Future<Object> executeQueryPush(QueryPushArgument argument) {
