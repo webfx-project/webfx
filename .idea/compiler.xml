@@ -88,6 +88,7 @@
         <module name="mongoose-backend-teavm" />
         <module name="mongoose-client-activities-login" />
         <module name="mongoose-client-activities-unauthorized" />
+        <module name="mongoose-client-activity" />
         <module name="mongoose-client-aggregates" />
         <module name="mongoose-client-application" />
         <module name="mongoose-client-authn" />
@@ -298,100 +299,102 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="mongoose" target="1.8" />
+      <module name="load-tester" target="1.8" />
+      <module name="mongoose" target="11" />
       <module name="mongoose-backend" target="1.8" />
-      <module name="mongoose-backend-activities-authorizations" target="1.8" />
-      <module name="mongoose-backend-activities-authorizations-routing" target="1.8" />
-      <module name="mongoose-backend-activities-bookings" target="1.8" />
-      <module name="mongoose-backend-activities-bookings-routing" target="1.8" />
-      <module name="mongoose-backend-activities-cloneevent" target="1.8" />
-      <module name="mongoose-backend-activities-cloneevent-routing" target="1.8" />
-      <module name="mongoose-backend-activities-events" target="1.8" />
-      <module name="mongoose-backend-activities-events-routing" target="1.8" />
-      <module name="mongoose-backend-activities-letter" target="1.8" />
-      <module name="mongoose-backend-activities-letter-routing" target="1.8" />
-      <module name="mongoose-backend-activities-letters" target="1.8" />
-      <module name="mongoose-backend-activities-letters-routing" target="1.8" />
+      <module name="mongoose-backend-activities-authorizations" target="11" />
+      <module name="mongoose-backend-activities-authorizations-routing" target="11" />
+      <module name="mongoose-backend-activities-bookings" target="11" />
+      <module name="mongoose-backend-activities-bookings-routing" target="11" />
+      <module name="mongoose-backend-activities-cloneevent" target="11" />
+      <module name="mongoose-backend-activities-cloneevent-routing" target="11" />
+      <module name="mongoose-backend-activities-events" target="11" />
+      <module name="mongoose-backend-activities-events-routing" target="11" />
+      <module name="mongoose-backend-activities-letter" target="11" />
+      <module name="mongoose-backend-activities-letter-routing" target="11" />
+      <module name="mongoose-backend-activities-letters" target="11" />
+      <module name="mongoose-backend-activities-letters-routing" target="11" />
       <module name="mongoose-backend-activities-loadtester-jp" target="1.8" />
       <module name="mongoose-backend-activities-loadtester-jp-routing" target="1.8" />
-      <module name="mongoose-backend-activities-monitor" target="1.8" />
-      <module name="mongoose-backend-activities-monitor-routing" target="1.8" />
-      <module name="mongoose-backend-activities-operations" target="1.8" />
-      <module name="mongoose-backend-activities-operations-routing" target="1.8" />
-      <module name="mongoose-backend-activities-options" target="1.8" />
-      <module name="mongoose-backend-activities-organizations" target="1.8" />
-      <module name="mongoose-backend-activities-organizations-routing" target="1.8" />
-      <module name="mongoose-backend-application" target="1.8" />
-      <module name="mongoose-backend-fxkit-gwt" target="1.8" />
-      <module name="mongoose-backend-fxkit-javafx" target="1.8" />
-      <module name="mongoose-backend-multilangeditor" target="1.8" />
-      <module name="mongoose-client-activities-login" target="1.8" />
-      <module name="mongoose-client-activities-unauthorized" target="1.8" />
-      <module name="mongoose-client-aggregates" target="1.8" />
-      <module name="mongoose-client-application" target="1.8" />
-      <module name="mongoose-client-authn" target="1.8" />
-      <module name="mongoose-client-authz" target="1.8" />
-      <module name="mongoose-client-bookingcalendar" target="1.8" />
-      <module name="mongoose-client-bookingoptionspanel" target="1.8" />
-      <module name="mongoose-client-bookingprocess" target="1.8" />
-      <module name="mongoose-client-busconfig" target="1.8" />
-      <module name="mongoose-client-busconfig-gwt" target="1.8" />
-      <module name="mongoose-client-businesslogic" target="1.8" />
-      <module name="mongoose-client-calendar" target="1.8" />
-      <module name="mongoose-client-css-java" target="1.8" />
-      <module name="mongoose-client-css-web" target="1.8" />
-      <module name="mongoose-client-i18n" target="1.8" />
-      <module name="mongoose-client-i18n-gwt" target="1.8" />
-      <module name="mongoose-client-icons" target="1.8" />
-      <module name="mongoose-client-icons-gwt" target="1.8" />
-      <module name="mongoose-client-navigationarrows-java" target="1.8" />
+      <module name="mongoose-backend-activities-monitor" target="11" />
+      <module name="mongoose-backend-activities-monitor-routing" target="11" />
+      <module name="mongoose-backend-activities-operations" target="11" />
+      <module name="mongoose-backend-activities-operations-routing" target="11" />
+      <module name="mongoose-backend-activities-options" target="11" />
+      <module name="mongoose-backend-activities-organizations" target="11" />
+      <module name="mongoose-backend-activities-organizations-routing" target="11" />
+      <module name="mongoose-backend-application" target="11" />
+      <module name="mongoose-backend-fxkit-gwt" target="11" />
+      <module name="mongoose-backend-fxkit-javafx" target="11" />
+      <module name="mongoose-backend-multilangeditor" target="11" />
+      <module name="mongoose-client-activities-login" target="11" />
+      <module name="mongoose-client-activities-unauthorized" target="11" />
+      <module name="mongoose-client-activity" target="11" />
+      <module name="mongoose-client-aggregates" target="11" />
+      <module name="mongoose-client-application" target="11" />
+      <module name="mongoose-client-authn" target="11" />
+      <module name="mongoose-client-authz" target="11" />
+      <module name="mongoose-client-bookingcalendar" target="11" />
+      <module name="mongoose-client-bookingoptionspanel" target="11" />
+      <module name="mongoose-client-bookingprocess" target="11" />
+      <module name="mongoose-client-busconfig" target="11" />
+      <module name="mongoose-client-busconfig-gwt" target="11" />
+      <module name="mongoose-client-businesslogic" target="11" />
+      <module name="mongoose-client-calendar" target="11" />
+      <module name="mongoose-client-css-java" target="11" />
+      <module name="mongoose-client-css-web" target="11" />
+      <module name="mongoose-client-i18n" target="11" />
+      <module name="mongoose-client-i18n-gwt" target="11" />
+      <module name="mongoose-client-icons" target="11" />
+      <module name="mongoose-client-icons-gwt" target="11" />
+      <module name="mongoose-client-navigationarrows-java" target="11" />
       <module name="mongoose-client-operationactions" target="1.8" />
-      <module name="mongoose-client-operationactionsloading" target="1.8" />
-      <module name="mongoose-client-personaldetails" target="1.8" />
-      <module name="mongoose-client-sectionpanel" target="1.8" />
-      <module name="mongoose-client-sessionrecorder" target="1.8" />
-      <module name="mongoose-client-util" target="1.8" />
-      <module name="mongoose-client-validation" target="1.8" />
+      <module name="mongoose-client-operationactionsloading" target="11" />
+      <module name="mongoose-client-personaldetails" target="11" />
+      <module name="mongoose-client-sectionpanel" target="11" />
+      <module name="mongoose-client-sessionrecorder" target="11" />
+      <module name="mongoose-client-util" target="11" />
+      <module name="mongoose-client-validation" target="11" />
       <module name="mongoose-core" target="1.8" />
-      <module name="mongoose-executables" target="1.8" />
+      <module name="mongoose-executables" target="11" />
       <module name="mongoose-frontend" target="1.8" />
       <module name="mongoose-frontend-actions" target="1.8" />
-      <module name="mongoose-frontend-activities-cart" target="1.8" />
-      <module name="mongoose-frontend-activities-cart-routing" target="1.8" />
-      <module name="mongoose-frontend-activities-contactus" target="1.8" />
-      <module name="mongoose-frontend-activities-contactus-routing" target="1.8" />
-      <module name="mongoose-frontend-activities-fees" target="1.8" />
-      <module name="mongoose-frontend-activities-fees-routing" target="1.8" />
-      <module name="mongoose-frontend-activities-options" target="1.8" />
-      <module name="mongoose-frontend-activities-options-routing" target="1.8" />
-      <module name="mongoose-frontend-activities-payment" target="1.8" />
-      <module name="mongoose-frontend-activities-payment-routing" target="1.8" />
-      <module name="mongoose-frontend-activities-person" target="1.8" />
-      <module name="mongoose-frontend-activities-person-routing" target="1.8" />
-      <module name="mongoose-frontend-activities-program" target="1.8" />
-      <module name="mongoose-frontend-activities-program-routing" target="1.8" />
-      <module name="mongoose-frontend-activities-startbooking" target="1.8" />
-      <module name="mongoose-frontend-activities-startbooking-routing" target="1.8" />
-      <module name="mongoose-frontend-activities-summary" target="1.8" />
-      <module name="mongoose-frontend-activities-summary-routing" target="1.8" />
-      <module name="mongoose-frontend-activities-terms" target="1.8" />
-      <module name="mongoose-frontend-activities-terms-routing" target="1.8" />
-      <module name="mongoose-frontend-application" target="1.8" />
-      <module name="mongoose-frontend-fxkit-gwt" target="1.8" />
-      <module name="mongoose-frontend-fxkit-javafx" target="1.8" />
-      <module name="mongoose-modules" target="1.8" />
+      <module name="mongoose-frontend-activities-cart" target="11" />
+      <module name="mongoose-frontend-activities-cart-routing" target="11" />
+      <module name="mongoose-frontend-activities-contactus" target="11" />
+      <module name="mongoose-frontend-activities-contactus-routing" target="11" />
+      <module name="mongoose-frontend-activities-fees" target="11" />
+      <module name="mongoose-frontend-activities-fees-routing" target="11" />
+      <module name="mongoose-frontend-activities-options" target="11" />
+      <module name="mongoose-frontend-activities-options-routing" target="11" />
+      <module name="mongoose-frontend-activities-payment" target="11" />
+      <module name="mongoose-frontend-activities-payment-routing" target="11" />
+      <module name="mongoose-frontend-activities-person" target="11" />
+      <module name="mongoose-frontend-activities-person-routing" target="11" />
+      <module name="mongoose-frontend-activities-program" target="11" />
+      <module name="mongoose-frontend-activities-program-routing" target="11" />
+      <module name="mongoose-frontend-activities-startbooking" target="11" />
+      <module name="mongoose-frontend-activities-startbooking-routing" target="11" />
+      <module name="mongoose-frontend-activities-summary" target="11" />
+      <module name="mongoose-frontend-activities-summary-routing" target="11" />
+      <module name="mongoose-frontend-activities-terms" target="11" />
+      <module name="mongoose-frontend-activities-terms-routing" target="11" />
+      <module name="mongoose-frontend-application" target="11" />
+      <module name="mongoose-frontend-fxkit-gwt" target="11" />
+      <module name="mongoose-frontend-fxkit-javafx" target="11" />
+      <module name="mongoose-modules" target="11" />
       <module name="mongoose-server" target="1.8" />
-      <module name="mongoose-server-application" target="1.8" />
-      <module name="mongoose-server-datasource" target="1.8" />
-      <module name="mongoose-server-platform-vertx" target="1.8" />
-      <module name="mongoose-server-sessioncloser" target="1.8" />
+      <module name="mongoose-server-application" target="11" />
+      <module name="mongoose-server-datasource" target="11" />
+      <module name="mongoose-server-platform-vertx" target="11" />
+      <module name="mongoose-server-sessioncloser" target="11" />
       <module name="mongoose-server-start" target="1.8" />
-      <module name="mongoose-server-systemmetrics" target="1.8" />
-      <module name="mongoose-server-systemmetrics-java" target="1.8" />
-      <module name="mongoose-shared-domain" target="1.8" />
-      <module name="mongoose-shared-domain-gwt" target="1.8" />
-      <module name="mongoose-shared-entities" target="1.8" />
-      <module name="mongoose-shared-time" target="1.8" />
+      <module name="mongoose-server-systemmetrics" target="11" />
+      <module name="mongoose-server-systemmetrics-java" target="11" />
+      <module name="mongoose-shared-domain" target="11" />
+      <module name="mongoose-shared-domain-gwt" target="11" />
+      <module name="mongoose-shared-entities" target="11" />
+      <module name="mongoose-shared-time" target="11" />
       <module name="mongooses-backend" target="1.8" />
       <module name="mongooses-core" target="1.8" />
       <module name="mongooses-core-all" target="1.8" />
@@ -415,123 +418,123 @@
       <module name="mongooses-test" target="1.8" />
       <module name="mongooses-web-sharedends-activities" target="1.8" />
       <module name="webfx" target="1.8" />
-      <module name="webfx-framework" target="1.8" />
+      <module name="webfx-framework" target="11" />
       <module name="webfx-framework-athn" target="1.8" />
-      <module name="webfx-framework-client-action" target="1.8" />
-      <module name="webfx-framework-client-activity" target="1.8" />
-      <module name="webfx-framework-client-all" target="1.8" />
-      <module name="webfx-framework-client-controls" target="1.8" />
-      <module name="webfx-framework-client-i18n" target="1.8" />
-      <module name="webfx-framework-client-layouts" target="1.8" />
-      <module name="webfx-framework-client-materialdesign" target="1.8" />
-      <module name="webfx-framework-client-push" target="1.8" />
-      <module name="webfx-framework-client-push-simple" target="1.8" />
-      <module name="webfx-framework-client-querypush" target="1.8" />
-      <module name="webfx-framework-client-querypush-simple" target="1.8" />
-      <module name="webfx-framework-client-uifilter" target="1.8" />
-      <module name="webfx-framework-client-uirouter" target="1.8" />
-      <module name="webfx-framework-client-util" target="1.8" />
-      <module name="webfx-framework-server-all" target="1.8" />
-      <module name="webfx-framework-server-push" target="1.8" />
-      <module name="webfx-framework-server-push-simple" target="1.8" />
-      <module name="webfx-framework-server-querypush" target="1.8" />
-      <module name="webfx-framework-server-querypush-simple" target="1.8" />
-      <module name="webfx-framework-shared-authn" target="1.8" />
-      <module name="webfx-framework-shared-authz" target="1.8" />
-      <module name="webfx-framework-shared-domain" target="1.8" />
-      <module name="webfx-framework-shared-entity" target="1.8" />
-      <module name="webfx-framework-shared-expression" target="1.8" />
-      <module name="webfx-framework-shared-operation" target="1.8" />
-      <module name="webfx-framework-shared-push" target="1.8" />
-      <module name="webfx-framework-shared-querypush" target="1.8" />
-      <module name="webfx-framework-shared-router" target="1.8" />
-      <module name="webfx-fxkit" target="1.8" />
-      <module name="webfx-fxkit-emul-javafxbase" target="1.8" />
-      <module name="webfx-fxkit-emul-javafxcontrols" target="1.8" />
-      <module name="webfx-fxkit-emul-javafxgraphics" target="1.8" />
-      <module name="webfx-fxkit-extra" target="1.8" />
-      <module name="webfx-fxkit-gwt" target="1.8" />
-      <module name="webfx-fxkit-javafx" target="1.8" />
-      <module name="webfx-fxkit-launcher" target="1.8" />
-      <module name="webfx-fxkit-mapper" target="1.8" />
-      <module name="webfx-fxkit-util" target="1.8" />
+      <module name="webfx-framework-client-action" target="11" />
+      <module name="webfx-framework-client-activity" target="11" />
+      <module name="webfx-framework-client-all" target="11" />
+      <module name="webfx-framework-client-controls" target="11" />
+      <module name="webfx-framework-client-i18n" target="11" />
+      <module name="webfx-framework-client-layouts" target="11" />
+      <module name="webfx-framework-client-materialdesign" target="11" />
+      <module name="webfx-framework-client-push" target="11" />
+      <module name="webfx-framework-client-push-simple" target="11" />
+      <module name="webfx-framework-client-querypush" target="11" />
+      <module name="webfx-framework-client-querypush-simple" target="11" />
+      <module name="webfx-framework-client-uifilter" target="11" />
+      <module name="webfx-framework-client-uirouter" target="11" />
+      <module name="webfx-framework-client-util" target="11" />
+      <module name="webfx-framework-server-all" target="11" />
+      <module name="webfx-framework-server-push" target="11" />
+      <module name="webfx-framework-server-push-simple" target="11" />
+      <module name="webfx-framework-server-querypush" target="11" />
+      <module name="webfx-framework-server-querypush-simple" target="11" />
+      <module name="webfx-framework-shared-authn" target="11" />
+      <module name="webfx-framework-shared-authz" target="11" />
+      <module name="webfx-framework-shared-domain" target="11" />
+      <module name="webfx-framework-shared-entity" target="11" />
+      <module name="webfx-framework-shared-expression" target="11" />
+      <module name="webfx-framework-shared-operation" target="11" />
+      <module name="webfx-framework-shared-push" target="11" />
+      <module name="webfx-framework-shared-querypush" target="11" />
+      <module name="webfx-framework-shared-router" target="11" />
+      <module name="webfx-fxkit" target="11" />
+      <module name="webfx-fxkit-emul-javafxbase" target="11" />
+      <module name="webfx-fxkit-emul-javafxcontrols" target="11" />
+      <module name="webfx-fxkit-emul-javafxgraphics" target="11" />
+      <module name="webfx-fxkit-extra" target="11" />
+      <module name="webfx-fxkit-gwt" target="11" />
+      <module name="webfx-fxkit-javafx" target="11" />
+      <module name="webfx-fxkit-launcher" target="11" />
+      <module name="webfx-fxkit-mapper" target="11" />
+      <module name="webfx-fxkit-util" target="11" />
       <module name="webfx-fxkits-core" target="1.8" />
       <module name="webfx-fxkits-emul" target="1.8" />
-      <module name="webfx-fxkits-emul-tool" target="1.8" />
+      <module name="webfx-fxkits-emul-tool" target="11" />
       <module name="webfx-javafxportable" target="1.8" />
       <module name="webfx-javafxportable-fxlibs" target="1.8" />
-      <module name="webfx-lib-controlsfx-validation" target="1.8" />
-      <module name="webfx-lib-flexboxfx" target="1.8" />
-      <module name="webfx-lib-javacupruntime" target="1.8" />
-      <module name="webfx-lib-javafastpfor" target="1.8" />
-      <module name="webfx-lib-mvvmfx-validation" target="1.8" />
-      <module name="webfx-lib-rxjava" target="1.8" />
-      <module name="webfx-libs" target="1.8" />
-      <module name="webfx-platform" target="1.8" />
-      <module name="webfx-platform-client-all-gwt" target="1.8" />
-      <module name="webfx-platform-client-all-java" target="1.8" />
-      <module name="webfx-platform-client-storage" target="1.8" />
-      <module name="webfx-platform-client-storage-gwt" target="1.8" />
-      <module name="webfx-platform-client-storage-java" target="1.8" />
-      <module name="webfx-platform-client-uischeduler" target="1.8" />
-      <module name="webfx-platform-client-uischeduler-gwt" target="1.8" />
-      <module name="webfx-platform-client-websocket" target="1.8" />
-      <module name="webfx-platform-client-websocket-gwt" target="1.8" />
-      <module name="webfx-platform-client-websocket-java" target="1.8" />
-      <module name="webfx-platform-client-websocketbus" target="1.8" />
-      <module name="webfx-platform-client-websocketbus-web" target="1.8" />
-      <module name="webfx-platform-client-windowhistory" target="1.8" />
-      <module name="webfx-platform-client-windowhistory-gwt" target="1.8" />
-      <module name="webfx-platform-client-windowhistory-java" target="1.8" />
-      <module name="webfx-platform-client-windowhistory-web" target="1.8" />
-      <module name="webfx-platform-client-windowlocation" target="1.8" />
-      <module name="webfx-platform-client-windowlocation-gwt" target="1.8" />
-      <module name="webfx-platform-client-windowlocation-java" target="1.8" />
+      <module name="webfx-lib-controlsfx-validation" target="11" />
+      <module name="webfx-lib-flexboxfx" target="11" />
+      <module name="webfx-lib-javacupruntime" target="11" />
+      <module name="webfx-lib-javafastpfor" target="11" />
+      <module name="webfx-lib-mvvmfx-validation" target="11" />
+      <module name="webfx-lib-rxjava" target="11" />
+      <module name="webfx-libs" target="11" />
+      <module name="webfx-platform" target="11" />
+      <module name="webfx-platform-client-all-gwt" target="11" />
+      <module name="webfx-platform-client-all-java" target="11" />
+      <module name="webfx-platform-client-storage" target="11" />
+      <module name="webfx-platform-client-storage-gwt" target="11" />
+      <module name="webfx-platform-client-storage-java" target="11" />
+      <module name="webfx-platform-client-uischeduler" target="11" />
+      <module name="webfx-platform-client-uischeduler-gwt" target="11" />
+      <module name="webfx-platform-client-websocket" target="11" />
+      <module name="webfx-platform-client-websocket-gwt" target="11" />
+      <module name="webfx-platform-client-websocket-java" target="11" />
+      <module name="webfx-platform-client-websocketbus" target="11" />
+      <module name="webfx-platform-client-websocketbus-web" target="11" />
+      <module name="webfx-platform-client-windowhistory" target="11" />
+      <module name="webfx-platform-client-windowhistory-gwt" target="11" />
+      <module name="webfx-platform-client-windowhistory-java" target="11" />
+      <module name="webfx-platform-client-windowhistory-web" target="11" />
+      <module name="webfx-platform-client-windowlocation" target="11" />
+      <module name="webfx-platform-client-windowlocation-gwt" target="11" />
+      <module name="webfx-platform-client-windowlocation-java" target="11" />
       <module name="webfx-platform-gwt" target="1.8" />
       <module name="webfx-platform-gwt-scheduler" target="1.8" />
-      <module name="webfx-platform-providers-gwt-emul-javabase" target="1.8" />
-      <module name="webfx-platform-providers-gwt-emul-javatime" target="1.8" />
-      <module name="webfx-platform-providers-gwt-serviceloadergenerator" target="1.8" />
-      <module name="webfx-platform-providers-java-queryupdate" target="1.8" />
-      <module name="webfx-platform-providers-vertx-instance" target="1.8" />
-      <module name="webfx-platform-providers-vertx-queryupdate" target="1.8" />
-      <module name="webfx-platform-server-all-vertx" target="1.8" />
-      <module name="webfx-platform-server-buscalljob" target="1.8" />
-      <module name="webfx-platform-server-updatelistener" target="1.8" />
-      <module name="webfx-platform-shared-appcontainer" target="1.8" />
-      <module name="webfx-platform-shared-appcontainer-gwt" target="1.8" />
-      <module name="webfx-platform-shared-appcontainer-java" target="1.8" />
-      <module name="webfx-platform-shared-appcontainer-vertx" target="1.8" />
-      <module name="webfx-platform-shared-bus" target="1.8" />
-      <module name="webfx-platform-shared-bus-vertx" target="1.8" />
-      <module name="webfx-platform-shared-buscall" target="1.8" />
-      <module name="webfx-platform-shared-datasource" target="1.8" />
-      <module name="webfx-platform-shared-json" target="1.8" />
-      <module name="webfx-platform-shared-json-gwt" target="1.8" />
-      <module name="webfx-platform-shared-json-java" target="1.8" />
-      <module name="webfx-platform-shared-json-vertx" target="1.8" />
-      <module name="webfx-platform-shared-log" target="1.8" />
-      <module name="webfx-platform-shared-log-gwt" target="1.8" />
-      <module name="webfx-platform-shared-log-simple" target="1.8" />
-      <module name="webfx-platform-shared-query" target="1.8" />
-      <module name="webfx-platform-shared-query-java" target="1.8" />
-      <module name="webfx-platform-shared-query-vertx" target="1.8" />
+      <module name="webfx-platform-providers-gwt-emul-javabase" target="11" />
+      <module name="webfx-platform-providers-gwt-emul-javatime" target="11" />
+      <module name="webfx-platform-providers-gwt-serviceloadergenerator" target="11" />
+      <module name="webfx-platform-providers-java-queryupdate" target="11" />
+      <module name="webfx-platform-providers-vertx-instance" target="11" />
+      <module name="webfx-platform-providers-vertx-queryupdate" target="11" />
+      <module name="webfx-platform-server-all-vertx" target="11" />
+      <module name="webfx-platform-server-buscalljob" target="11" />
+      <module name="webfx-platform-server-updatelistener" target="11" />
+      <module name="webfx-platform-shared-appcontainer" target="11" />
+      <module name="webfx-platform-shared-appcontainer-gwt" target="11" />
+      <module name="webfx-platform-shared-appcontainer-java" target="11" />
+      <module name="webfx-platform-shared-appcontainer-vertx" target="11" />
+      <module name="webfx-platform-shared-bus" target="11" />
+      <module name="webfx-platform-shared-bus-vertx" target="11" />
+      <module name="webfx-platform-shared-buscall" target="11" />
+      <module name="webfx-platform-shared-datasource" target="11" />
+      <module name="webfx-platform-shared-json" target="11" />
+      <module name="webfx-platform-shared-json-gwt" target="11" />
+      <module name="webfx-platform-shared-json-java" target="11" />
+      <module name="webfx-platform-shared-json-vertx" target="11" />
+      <module name="webfx-platform-shared-log" target="11" />
+      <module name="webfx-platform-shared-log-gwt" target="11" />
+      <module name="webfx-platform-shared-log-simple" target="11" />
+      <module name="webfx-platform-shared-query" target="11" />
+      <module name="webfx-platform-shared-query-java" target="11" />
+      <module name="webfx-platform-shared-query-vertx" target="11" />
       <module name="webfx-platform-shared-queryupdate-java" target="1.8" />
       <module name="webfx-platform-shared-queryupdate-vertx" target="1.8" />
-      <module name="webfx-platform-shared-resource" target="1.8" />
-      <module name="webfx-platform-shared-resource-gwt" target="1.8" />
-      <module name="webfx-platform-shared-resource-java" target="1.8" />
-      <module name="webfx-platform-shared-scheduler" target="1.8" />
-      <module name="webfx-platform-shared-scheduler-java" target="1.8" />
-      <module name="webfx-platform-shared-scheduler-vertx" target="1.8" />
-      <module name="webfx-platform-shared-serial" target="1.8" />
-      <module name="webfx-platform-shared-shutdown" target="1.8" />
-      <module name="webfx-platform-shared-shutdown-gwt" target="1.8" />
-      <module name="webfx-platform-shared-shutdown-java" target="1.8" />
-      <module name="webfx-platform-shared-update" target="1.8" />
-      <module name="webfx-platform-shared-update-java" target="1.8" />
-      <module name="webfx-platform-shared-update-vertx" target="1.8" />
-      <module name="webfx-platform-shared-util" target="1.8" />
+      <module name="webfx-platform-shared-resource" target="11" />
+      <module name="webfx-platform-shared-resource-gwt" target="11" />
+      <module name="webfx-platform-shared-resource-java" target="11" />
+      <module name="webfx-platform-shared-scheduler" target="11" />
+      <module name="webfx-platform-shared-scheduler-java" target="11" />
+      <module name="webfx-platform-shared-scheduler-vertx" target="11" />
+      <module name="webfx-platform-shared-serial" target="11" />
+      <module name="webfx-platform-shared-shutdown" target="11" />
+      <module name="webfx-platform-shared-shutdown-gwt" target="11" />
+      <module name="webfx-platform-shared-shutdown-java" target="11" />
+      <module name="webfx-platform-shared-update" target="11" />
+      <module name="webfx-platform-shared-update-java" target="11" />
+      <module name="webfx-platform-shared-update-vertx" target="11" />
+      <module name="webfx-platform-shared-util" target="11" />
       <module name="webfx-platform-vertx" target="1.8" />
       <module name="webfx-platforms-core" target="1.8" />
       <module name="webfx-platforms-core-buscallclient" target="1.8" />
@@ -543,8 +546,199 @@
       <module name="webfx-platforms-emul" target="1.8" />
       <module name="webfx-platforms-java" target="1.8" />
       <module name="webfx-platforms-web" target="1.8" />
-      <module name="webfx-root" target="1.8" />
+      <module name="webfx-root" target="11" />
       <module name="webfxplatformgwtlog" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mongoose-backend-activities-authorizations" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-authorizations\target/modules" />
+      <module name="mongoose-backend-activities-authorizations-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-authorizations-routing\target/modules" />
+      <module name="mongoose-backend-activities-bookings" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-bookings\target/modules" />
+      <module name="mongoose-backend-activities-bookings-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-bookings-routing\target/modules" />
+      <module name="mongoose-backend-activities-cloneevent" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-cloneevent\target/modules" />
+      <module name="mongoose-backend-activities-cloneevent-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-cloneevent-routing\target/modules" />
+      <module name="mongoose-backend-activities-events" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-events\target/modules" />
+      <module name="mongoose-backend-activities-events-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-events-routing\target/modules" />
+      <module name="mongoose-backend-activities-letter" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-letter\target/modules" />
+      <module name="mongoose-backend-activities-letter-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-letter-routing\target/modules" />
+      <module name="mongoose-backend-activities-letters" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-letters\target/modules" />
+      <module name="mongoose-backend-activities-letters-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-letters-routing\target/modules" />
+      <module name="mongoose-backend-activities-monitor" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-monitor\target/modules" />
+      <module name="mongoose-backend-activities-monitor-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-monitor-routing\target/modules" />
+      <module name="mongoose-backend-activities-operations" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-operations\target/modules" />
+      <module name="mongoose-backend-activities-operations-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-operations-routing\target/modules" />
+      <module name="mongoose-backend-activities-options" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-options\target/modules" />
+      <module name="mongoose-backend-activities-organizations" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-organizations\target/modules" />
+      <module name="mongoose-backend-activities-organizations-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-activities-organizations-routing\target/modules" />
+      <module name="mongoose-backend-application" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-application\target/modules" />
+      <module name="mongoose-backend-fxkit-gwt" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-executables\mongoose-backend-fxkit-gwt\target/modules" />
+      <module name="mongoose-backend-fxkit-javafx" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-executables\mongoose-backend-fxkit-javafx\target/modules" />
+      <module name="mongoose-backend-multilangeditor" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-backend-multilangeditor\target/modules" />
+      <module name="mongoose-client-activities-login" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-activities-login\target/modules" />
+      <module name="mongoose-client-activities-unauthorized" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-activities-unauthorized\target/modules" />
+      <module name="mongoose-client-activity" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-activity\target/modules" />
+      <module name="mongoose-client-aggregates" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-aggregates\target/modules" />
+      <module name="mongoose-client-application" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-application\target/modules" />
+      <module name="mongoose-client-authn" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-authn\target/modules" />
+      <module name="mongoose-client-authz" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-authz\target/modules" />
+      <module name="mongoose-client-bookingcalendar" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-bookingcalendar\target/modules" />
+      <module name="mongoose-client-bookingoptionspanel" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-bookingoptionspanel\target/modules" />
+      <module name="mongoose-client-bookingprocess" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-bookingprocess\target/modules" />
+      <module name="mongoose-client-busconfig" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-busconfig\target/modules" />
+      <module name="mongoose-client-busconfig-gwt" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-busconfig-gwt\target/modules" />
+      <module name="mongoose-client-businesslogic" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-businesslogic\target/modules" />
+      <module name="mongoose-client-calendar" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-calendar\target/modules" />
+      <module name="mongoose-client-css-java" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-css-java\target/modules" />
+      <module name="mongoose-client-css-web" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-css-web\target/modules" />
+      <module name="mongoose-client-i18n" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-i18n\target/modules" />
+      <module name="mongoose-client-i18n-gwt" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-i18n-gwt\target/modules" />
+      <module name="mongoose-client-icons" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-icons\target/modules" />
+      <module name="mongoose-client-icons-gwt" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-icons-gwt\target/modules" />
+      <module name="mongoose-client-navigationarrows-java" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-navigationarrows-java\target/modules" />
+      <module name="mongoose-client-operationactionsloading" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-operationactionsloading\target/modules" />
+      <module name="mongoose-client-personaldetails" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-personaldetails\target/modules" />
+      <module name="mongoose-client-sectionpanel" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-sectionpanel\target/modules" />
+      <module name="mongoose-client-sessionrecorder" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-sessionrecorder\target/modules" />
+      <module name="mongoose-client-util" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-util\target/modules" />
+      <module name="mongoose-client-validation" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-client-validation\target/modules" />
+      <module name="mongoose-frontend-activities-cart" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-cart\target/modules" />
+      <module name="mongoose-frontend-activities-cart-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-cart-routing\target/modules" />
+      <module name="mongoose-frontend-activities-contactus" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-contactus\target/modules" />
+      <module name="mongoose-frontend-activities-contactus-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-contactus-routing\target/modules" />
+      <module name="mongoose-frontend-activities-fees" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-fees\target/modules" />
+      <module name="mongoose-frontend-activities-fees-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-fees-routing\target/modules" />
+      <module name="mongoose-frontend-activities-options" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-options\target/modules" />
+      <module name="mongoose-frontend-activities-options-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-options-routing\target/modules" />
+      <module name="mongoose-frontend-activities-payment" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-payment\target/modules" />
+      <module name="mongoose-frontend-activities-payment-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-payment-routing\target/modules" />
+      <module name="mongoose-frontend-activities-person" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-person\target/modules" />
+      <module name="mongoose-frontend-activities-person-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-person-routing\target/modules" />
+      <module name="mongoose-frontend-activities-program" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-program\target/modules" />
+      <module name="mongoose-frontend-activities-program-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-program-routing\target/modules" />
+      <module name="mongoose-frontend-activities-startbooking" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-startbooking\target/modules" />
+      <module name="mongoose-frontend-activities-startbooking-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-startbooking-routing\target/modules" />
+      <module name="mongoose-frontend-activities-summary" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-summary\target/modules" />
+      <module name="mongoose-frontend-activities-summary-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-summary-routing\target/modules" />
+      <module name="mongoose-frontend-activities-terms" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-terms\target/modules" />
+      <module name="mongoose-frontend-activities-terms-routing" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-activities-terms-routing\target/modules" />
+      <module name="mongoose-frontend-application" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-frontend-application\target/modules" />
+      <module name="mongoose-frontend-fxkit-gwt" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-executables\mongoose-frontend-fxkit-gwt\target/modules" />
+      <module name="mongoose-frontend-fxkit-javafx" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-executables\mongoose-frontend-fxkit-javafx\target/modules" />
+      <module name="mongoose-server-application" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-server-application\target/modules" />
+      <module name="mongoose-server-datasource" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-server-datasource\target/modules" />
+      <module name="mongoose-server-platform-vertx" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-executables\mongoose-server-platform-vertx\target/modules" />
+      <module name="mongoose-server-sessioncloser" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-server-sessioncloser\target/modules" />
+      <module name="mongoose-server-systemmetrics" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-server-systemmetrics\target/modules" />
+      <module name="mongoose-server-systemmetrics-java" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-server-systemmetrics-java\target/modules" />
+      <module name="mongoose-shared-domain" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-shared-domain\target/modules" />
+      <module name="mongoose-shared-domain-gwt" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-shared-domain-gwt\target/modules" />
+      <module name="mongoose-shared-entities" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-shared-entities\target/modules" />
+      <module name="mongoose-shared-time" options="--module-path C:\dev\git-repos\webfx\mongoose\mongoose-modules\mongoose-shared-time\target/modules" />
+      <module name="webfx-framework-client-action" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-action\target/modules" />
+      <module name="webfx-framework-client-activity" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-activity\target/modules" />
+      <module name="webfx-framework-client-all" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-all\target/modules" />
+      <module name="webfx-framework-client-controls" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-controls\target/modules" />
+      <module name="webfx-framework-client-i18n" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-i18n\target/modules" />
+      <module name="webfx-framework-client-layouts" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-layouts\target/modules" />
+      <module name="webfx-framework-client-materialdesign" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-materialdesign\target/modules" />
+      <module name="webfx-framework-client-push" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-push\target/modules" />
+      <module name="webfx-framework-client-push-simple" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-push-simple\target/modules" />
+      <module name="webfx-framework-client-querypush" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-querypush\target/modules" />
+      <module name="webfx-framework-client-querypush-simple" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-querypush-simple\target/modules" />
+      <module name="webfx-framework-client-uifilter" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-uifilter\target/modules" />
+      <module name="webfx-framework-client-uirouter" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-uirouter\target/modules" />
+      <module name="webfx-framework-client-util" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-client-util\target/modules" />
+      <module name="webfx-framework-server-all" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-server-all\target/modules" />
+      <module name="webfx-framework-server-push" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-server-push\target/modules" />
+      <module name="webfx-framework-server-push-simple" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-server-push-simple\target/modules" />
+      <module name="webfx-framework-server-querypush" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-server-querypush\target/modules" />
+      <module name="webfx-framework-server-querypush-simple" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-server-querypush-simple\target/modules" />
+      <module name="webfx-framework-shared-authn" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-shared-authn\target/modules" />
+      <module name="webfx-framework-shared-authz" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-shared-authz\target/modules" />
+      <module name="webfx-framework-shared-domain" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-shared-domain\target/modules" />
+      <module name="webfx-framework-shared-entity" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-shared-entity\target/modules" />
+      <module name="webfx-framework-shared-expression" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-shared-expression\target/modules" />
+      <module name="webfx-framework-shared-operation" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-shared-operation\target/modules" />
+      <module name="webfx-framework-shared-push" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-shared-push\target/modules" />
+      <module name="webfx-framework-shared-querypush" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-shared-querypush\target/modules" />
+      <module name="webfx-framework-shared-router" options="--module-path C:\dev\git-repos\webfx\webfx-framework\webfx-framework-shared-router\target/modules" />
+      <module name="webfx-fxkit-emul-javafxbase" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-emul-javafxbase\target/modules" />
+      <module name="webfx-fxkit-emul-javafxcontrols" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-emul-javafxcontrols\target/modules" />
+      <module name="webfx-fxkit-emul-javafxgraphics" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-emul-javafxgraphics\target/modules" />
+      <module name="webfx-fxkit-extra" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-extra\target/modules" />
+      <module name="webfx-fxkit-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-gwt\target/modules" />
+      <module name="webfx-fxkit-javafx" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-javafx\target/modules" />
+      <module name="webfx-fxkit-launcher" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-launcher\target/modules" />
+      <module name="webfx-fxkit-mapper" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-mapper\target/modules" />
+      <module name="webfx-fxkit-util" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-util\target/modules" />
+      <module name="webfx-fxkits-emul-tool" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkits-emul-tool\target/modules" />
+      <module name="webfx-lib-controlsfx-validation" options="--module-path C:\dev\git-repos\webfx\webfx-libs\webfx-lib-controlsfx-validation\target/modules" />
+      <module name="webfx-lib-flexboxfx" options="--module-path C:\dev\git-repos\webfx\webfx-libs\webfx-lib-flexboxfx\target/modules" />
+      <module name="webfx-lib-javacupruntime" options="--module-path C:\dev\git-repos\webfx\webfx-libs\webfx-lib-javacupruntime\target/modules" />
+      <module name="webfx-lib-javafastpfor" options="--module-path C:\dev\git-repos\webfx\webfx-libs\webfx-lib-javafastpfor\target/modules" />
+      <module name="webfx-lib-mvvmfx-validation" options="--module-path C:\dev\git-repos\webfx\webfx-libs\webfx-lib-mvvmfx-validation\target/modules" />
+      <module name="webfx-lib-rxjava" options="--module-path C:\dev\git-repos\webfx\webfx-libs\webfx-lib-rxjava\target/modules" />
+      <module name="webfx-platform-client-all-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-all-gwt\target/modules" />
+      <module name="webfx-platform-client-all-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-all-java\target/modules" />
+      <module name="webfx-platform-client-storage" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-storage\target/modules" />
+      <module name="webfx-platform-client-storage-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-storage-gwt\target/modules" />
+      <module name="webfx-platform-client-storage-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-storage-java\target/modules" />
+      <module name="webfx-platform-client-uischeduler" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-uischeduler\target/modules" />
+      <module name="webfx-platform-client-uischeduler-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-uischeduler-gwt\target/modules" />
+      <module name="webfx-platform-client-websocket" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-websocket\target/modules" />
+      <module name="webfx-platform-client-websocket-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-websocket-gwt\target/modules" />
+      <module name="webfx-platform-client-websocket-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-websocket-java\target/modules" />
+      <module name="webfx-platform-client-websocketbus" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-websocketbus\target/modules" />
+      <module name="webfx-platform-client-websocketbus-web" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-websocketbus-web\target/modules" />
+      <module name="webfx-platform-client-windowhistory" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-windowhistory\target/modules" />
+      <module name="webfx-platform-client-windowhistory-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-windowhistory-gwt\target/modules" />
+      <module name="webfx-platform-client-windowhistory-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-windowhistory-java\target/modules" />
+      <module name="webfx-platform-client-windowhistory-web" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-windowhistory-web\target/modules" />
+      <module name="webfx-platform-client-windowlocation" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-windowlocation\target/modules" />
+      <module name="webfx-platform-client-windowlocation-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-windowlocation-gwt\target/modules" />
+      <module name="webfx-platform-client-windowlocation-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-windowlocation-java\target/modules" />
+      <module name="webfx-platform-providers-gwt-emul-javabase" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-gwt-emul-javabase\target/modules" />
+      <module name="webfx-platform-providers-gwt-emul-javatime" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-gwt-emul-javatime\target/modules" />
+      <module name="webfx-platform-providers-gwt-serviceloadergenerator" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-gwt-serviceloadergenerator\target/modules" />
+      <module name="webfx-platform-providers-java-queryupdate" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-java-queryupdate\target/modules" />
+      <module name="webfx-platform-providers-vertx-instance" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-vertx-instance\target/modules" />
+      <module name="webfx-platform-providers-vertx-queryupdate" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-vertx-queryupdate\target/modules" />
+      <module name="webfx-platform-server-all-vertx" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-server-all-vertx\target/modules" />
+      <module name="webfx-platform-server-buscalljob" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-server-buscalljob\target/modules" />
+      <module name="webfx-platform-server-updatelistener" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-server-updatelistener\target/modules" />
+      <module name="webfx-platform-shared-appcontainer" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-appcontainer\target/modules" />
+      <module name="webfx-platform-shared-appcontainer-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-appcontainer-gwt\target/modules" />
+      <module name="webfx-platform-shared-appcontainer-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-appcontainer-java\target/modules" />
+      <module name="webfx-platform-shared-appcontainer-vertx" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-appcontainer-vertx\target/modules" />
+      <module name="webfx-platform-shared-bus" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-bus\target/modules" />
+      <module name="webfx-platform-shared-bus-vertx" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-bus-vertx\target/modules" />
+      <module name="webfx-platform-shared-buscall" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-buscall\target/modules" />
+      <module name="webfx-platform-shared-datasource" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-datasource\target/modules" />
+      <module name="webfx-platform-shared-json" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-json\target/modules" />
+      <module name="webfx-platform-shared-json-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-json-gwt\target/modules" />
+      <module name="webfx-platform-shared-json-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-json-java\target/modules" />
+      <module name="webfx-platform-shared-json-vertx" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-json-vertx\target/modules" />
+      <module name="webfx-platform-shared-log" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-log\target/modules" />
+      <module name="webfx-platform-shared-log-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-log-gwt\target/modules" />
+      <module name="webfx-platform-shared-log-simple" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-log-simple\target/modules" />
+      <module name="webfx-platform-shared-query" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-query\target/modules" />
+      <module name="webfx-platform-shared-query-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-query-java\target/modules" />
+      <module name="webfx-platform-shared-query-vertx" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-query-vertx\target/modules" />
+      <module name="webfx-platform-shared-resource" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-resource\target/modules" />
+      <module name="webfx-platform-shared-resource-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-resource-gwt\target/modules" />
+      <module name="webfx-platform-shared-resource-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-resource-java\target/modules" />
+      <module name="webfx-platform-shared-scheduler" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-scheduler\target/modules" />
+      <module name="webfx-platform-shared-scheduler-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-scheduler-java\target/modules" />
+      <module name="webfx-platform-shared-scheduler-vertx" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-scheduler-vertx\target/modules" />
+      <module name="webfx-platform-shared-serial" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-serial\target/modules" />
+      <module name="webfx-platform-shared-shutdown" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-shutdown\target/modules" />
+      <module name="webfx-platform-shared-shutdown-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-shutdown-gwt\target/modules" />
+      <module name="webfx-platform-shared-shutdown-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-shutdown-java\target/modules" />
+      <module name="webfx-platform-shared-update" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-update\target/modules" />
+      <module name="webfx-platform-shared-update-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-update-java\target/modules" />
+      <module name="webfx-platform-shared-update-vertx" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-update-vertx\target/modules" />
+      <module name="webfx-platform-shared-util" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-util\target/modules" />
+    </option>
   </component>
 </project>

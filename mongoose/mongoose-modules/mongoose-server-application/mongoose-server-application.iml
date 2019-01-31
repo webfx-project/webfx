@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -13,13 +13,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongoose-server-datasource" />
     <orderEntry type="module" module-name="mongoose-shared-entities" />
-    <orderEntry type="module" module-name="mongoose-shared-time" />
+    <orderEntry type="module" module-name="mongoose-shared-domain" />
     <orderEntry type="module" module-name="webfx-framework-client-util" />
-    <orderEntry type="module" module-name="webfx-fxkit-util" />
-    <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
-    <orderEntry type="module" module-name="webfx-framework-client-action" />
+    <orderEntry type="module" module-name="mongoose-shared-time" />
     <orderEntry type="module" module-name="webfx-framework-client-i18n" />
-    <orderEntry type="module" module-name="webfx-framework-shared-authz" />
+    <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
     <orderEntry type="module" module-name="webfx-platform-shared-resource" />
     <orderEntry type="module" module-name="mongoose-server-sessioncloser" />
     <orderEntry type="module" module-name="webfx-platform-shared-update" />
@@ -46,9 +44,11 @@
     <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
     <orderEntry type="module" module-name="webfx-framework-shared-router" />
     <orderEntry type="module" module-name="webfx-framework-shared-authn" />
+    <orderEntry type="module" module-name="webfx-framework-shared-authz" />
     <orderEntry type="module" module-name="webfx-framework-client-activity" />
     <orderEntry type="module" module-name="webfx-fxkit-launcher" />
     <orderEntry type="module" module-name="webfx-fxkit-mapper" />
+    <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
     <orderEntry type="module" module-name="webfx-framework-shared-entity" />
@@ -58,5 +58,11 @@
     <orderEntry type="module" module-name="webfx-framework-server-querypush" />
     <orderEntry type="module" module-name="webfx-framework-shared-querypush" />
     <orderEntry type="module" module-name="webfx-platform-server-updatelistener" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-controls:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-controls:win:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-graphics:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-graphics:win:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-base:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-base:win:11.0.2" level="project" />
   </component>
 </module>

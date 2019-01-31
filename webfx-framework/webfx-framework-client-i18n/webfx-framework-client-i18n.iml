@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -15,8 +15,14 @@
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
-    <orderEntry type="module" module-name="webfx-platform-shared-resource" scope="PROVIDED" />
+    <orderEntry type="module" module-name="webfx-platform-shared-resource" />
     <orderEntry type="module" module-name="webfx-platform-shared-json" scope="PROVIDED" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" scope="PROVIDED" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-controls:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-controls:win:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-graphics:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-graphics:win:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-base:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-base:win:11.0.2" level="project" />
   </component>
 </module>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -23,6 +23,8 @@
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
     <orderEntry type="module" module-name="webfx-platform-shared-update" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-base:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-base:win:11.0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.zaxxer:HikariCP:2.3.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:1.7.10" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.javassist:javassist:3.18.2-GA" level="project" />

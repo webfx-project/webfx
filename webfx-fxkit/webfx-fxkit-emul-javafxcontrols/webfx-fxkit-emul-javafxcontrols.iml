@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -11,8 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="webfx-fxkit-mapper-0.1.0-SNAPSHOT-emul" level="project" />
-    <orderEntry type="library" name="webfx-fxkit-util-0.1.0-SNAPSHOT-emul" level="project" />
     <orderEntry type="module" module-name="webfx-fxkit-emul-javafxgraphics" />
     <orderEntry type="module" module-name="webfx-fxkit-emul-javafxbase" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
@@ -20,6 +18,8 @@
     <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
     <orderEntry type="module" module-name="webfx-fxkit-launcher" />
+    <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-fxkit-mapper" />
   </component>

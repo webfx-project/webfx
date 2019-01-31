@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -17,23 +17,25 @@
     <orderEntry type="module" module-name="webfx-framework-client-i18n" />
     <orderEntry type="module" module-name="webfx-framework-shared-operation" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
+    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="mongoose-client-authz" />
     <orderEntry type="module" module-name="mongoose-shared-entities" />
+    <orderEntry type="module" module-name="mongoose-shared-domain" />
+    <orderEntry type="module" module-name="webfx-platform-shared-resource" />
     <orderEntry type="module" module-name="mongoose-shared-time" />
     <orderEntry type="module" module-name="webfx-platform-shared-json" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="module" module-name="webfx-framework-shared-entity" />
     <orderEntry type="module" module-name="webfx-framework-shared-domain" />
     <orderEntry type="module" module-name="webfx-framework-shared-expression" />
-    <orderEntry type="module" module-name="webfx-fxkit-extra" />
     <orderEntry type="module" module-name="webfx-platform-shared-update" />
     <orderEntry type="module" module-name="webfx-platform-shared-datasource" />
-    <orderEntry type="module" module-name="webfx-framework-client-util" />
-    <orderEntry type="module" module-name="webfx-framework-client-action" />
-    <orderEntry type="module" module-name="webfx-platform-shared-resource" />
     <orderEntry type="module" module-name="mongoose-client-authn" />
     <orderEntry type="module" module-name="webfx-framework-shared-authz" />
     <orderEntry type="module" module-name="mongoose-client-operationactionsloading" />
+    <orderEntry type="module" module-name="webfx-framework-client-action" />
+    <orderEntry type="module" module-name="webfx-framework-client-util" />
+    <orderEntry type="module" module-name="webfx-fxkit-extra" />
     <orderEntry type="module" module-name="mongoose-client-sessionrecorder" />
     <orderEntry type="module" module-name="webfx-platform-client-storage" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
@@ -41,23 +43,7 @@
     <orderEntry type="module" module-name="webfx-framework-shared-push" />
     <orderEntry type="module" module-name="webfx-platform-shared-buscall" />
     <orderEntry type="module" module-name="webfx-platform-shared-serial" />
-    <orderEntry type="module" module-name="mongoose-client-businesslogic" />
-    <orderEntry type="module" module-name="mongoose-client-calendar" />
-    <orderEntry type="module" module-name="webfx-framework-client-layouts" />
-    <orderEntry type="module" module-name="mongoose-client-icons" />
-    <orderEntry type="module" module-name="mongoose-client-util" />
-    <orderEntry type="module" module-name="webfx-platform-shared-log" />
-    <orderEntry type="module" module-name="mongoose-client-validation" />
-    <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
-    <orderEntry type="module" module-name="webfx-framework-client-controls" />
-    <orderEntry type="module" module-name="webfx-framework-client-materialdesign" />
-    <orderEntry type="module" module-name="webfx-framework-client-uifilter" />
-    <orderEntry type="module" module-name="webfx-lib-rxjava" />
-    <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
-    <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
-    <orderEntry type="module" module-name="webfx-platform-shared-bus" />
-    <orderEntry type="module" module-name="webfx-platform-client-websocket" />
-    <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
+    <orderEntry type="module" module-name="mongoose-client-activity" />
     <orderEntry type="module" module-name="mongoose-client-activities-login" />
     <orderEntry type="module" module-name="mongoose-client-bookingprocess" />
     <orderEntry type="module" module-name="mongoose-client-bookingcalendar" />
@@ -70,6 +56,7 @@
     <orderEntry type="module" module-name="webfx-platform-shared-query" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
     <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="mongoose-backend-activities-authorizations" />
     <orderEntry type="module" module-name="mongoose-backend-activities-authorizations-routing" />
     <orderEntry type="module" module-name="webfx-framework-client-uirouter" />
@@ -81,6 +68,22 @@
     <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-platform-client-windowhistory" />
     <orderEntry type="module" module-name="webfx-platform-client-windowlocation" />
+    <orderEntry type="module" module-name="mongoose-client-businesslogic" />
+    <orderEntry type="module" module-name="mongoose-client-calendar" />
+    <orderEntry type="module" module-name="webfx-framework-client-layouts" />
+    <orderEntry type="module" module-name="mongoose-client-icons" />
+    <orderEntry type="module" module-name="mongoose-client-util" />
+    <orderEntry type="module" module-name="mongoose-client-validation" />
+    <orderEntry type="module" module-name="webfx-lib-mvvmfx-validation" />
+    <orderEntry type="module" module-name="mongoose-client-aggregates" />
+    <orderEntry type="module" module-name="webfx-platform-client-websocketbus" />
+    <orderEntry type="module" module-name="webfx-platform-shared-bus" />
+    <orderEntry type="module" module-name="webfx-platform-client-websocket" />
+    <orderEntry type="module" module-name="webfx-framework-client-controls" />
+    <orderEntry type="module" module-name="webfx-framework-client-materialdesign" />
+    <orderEntry type="module" module-name="webfx-framework-client-uifilter" />
+    <orderEntry type="module" module-name="webfx-lib-rxjava" />
+    <orderEntry type="module" module-name="webfx-lib-controlsfx-validation" />
     <orderEntry type="module" module-name="mongoose-backend-activities-organizations" />
     <orderEntry type="module" module-name="mongoose-backend-activities-organizations-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-events-routing" />
@@ -100,5 +103,11 @@
     <orderEntry type="module" module-name="mongoose-frontend-activities-options-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent-routing" />
     <orderEntry type="module" module-name="mongoose-backend-activities-cloneevent" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-controls:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-controls:win:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-graphics:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-graphics:win:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-base:11.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-base:win:11.0.2" level="project" />
   </component>
 </module>
