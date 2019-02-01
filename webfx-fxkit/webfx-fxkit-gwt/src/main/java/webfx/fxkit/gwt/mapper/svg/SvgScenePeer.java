@@ -4,18 +4,22 @@ import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import javafx.collections.ListChangeListener;
-import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.mapper.spi.NodePeer;
-import webfx.fxkit.mapper.spi.impl.peer.ScenePeerBase;
-import webfx.platform.shared.util.Numbers;
-import webfx.platform.shared.util.collection.Collections;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Paint;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlNodePeer;
+import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
+import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
+import webfx.fxkit.mapper.spi.NodePeer;
+import webfx.fxkit.mapper.spi.impl.peer.ScenePeerBase;
+import webfx.fxkit.util.properties.Properties;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.collection.Collections;
 
 import static elemental2.dom.DomGlobal.document;
 
@@ -32,6 +36,7 @@ public final class SvgScenePeer extends ScenePeerBase {
         HtmlUtil.setAttribute(container, "width", "100%");
         Properties.runNowAndOnPropertiesChange(property -> updateContainerWidth(), scene.widthProperty());
         Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
+        Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
     }
 
     private void updateContainerWidth() {
@@ -54,6 +59,22 @@ public final class SvgScenePeer extends ScenePeerBase {
                                 scene.getRoot().prefHeight(-1) :
                                 0)
                         + "px");
+    }
+
+    private void updateContainerFill() {
+        HtmlUtil.setAttribute(container, "fill", toPaintAttribute(scene.getFill()));
+    }
+
+    private String toPaintAttribute(Paint paint) {
+        String value = null;
+        if (paint instanceof Color)
+            value = HtmlPaints.toSvgCssPaint(paint);
+        else if (paint instanceof LinearGradient) {
+            Element svgLinearGradient = addDef(SvgUtil.createLinearGradient());
+            SvgUtil.updateLinearGradient((LinearGradient) paint, svgLinearGradient);
+            value = SvgUtil.getDefUrl(svgLinearGradient);
+        }
+        return value;
     }
 
     public Element addDef(Element def) {

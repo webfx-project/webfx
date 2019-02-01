@@ -11,6 +11,7 @@ import javafx.scene.text.TextFlow;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlHtmlTextPeer;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlNodePeer;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
+import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.util.properties.Properties;
 import webfx.fxkit.mapper.spi.NodePeer;
@@ -34,6 +35,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         HtmlUtil.setStyleAttribute(container, "width", "100%");
         Properties.runNowAndOnPropertiesChange(property -> updateContainerWidth(), scene.widthProperty());
         Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
+        Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
     }
 
@@ -62,6 +64,10 @@ public final class HtmlScenePeer extends ScenePeerBase {
                                 scene.getRoot().prefHeight(-1) :
                                 0)
                         + "px");
+    }
+
+    private void updateContainerFill() {
+        container.style.background = HtmlPaints.toHtmlCssPaint(scene.getFill());
     }
 
     public elemental2.dom.Node getSceneNode() {
