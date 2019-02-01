@@ -1,7 +1,7 @@
 package javafx.scene.image;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasHeightProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasWidthProperty;
 
@@ -287,15 +287,15 @@ public class Image implements
         this.backgroundLoading = backgroundLoading;
     }
 
-    private final Property<Double> widthProperty = new SimpleObjectProperty<>(-1d);
+    private final DoubleProperty widthProperty = new SimpleDoubleProperty(-1d);
     @Override
-    public Property<Double> widthProperty() {
+    public DoubleProperty widthProperty() {
         return widthProperty;
     }
 
-    private final Property<Double> heightProperty = new SimpleObjectProperty<>(-1d);
+    private final DoubleProperty heightProperty = new SimpleDoubleProperty(-1d);
     @Override
-    public Property<Double> heightProperty() {
+    public DoubleProperty heightProperty() {
         return heightProperty;
     }
 }

@@ -53,7 +53,7 @@ public class ImageView extends Node implements
         return imageUrlProperty;
     }
 
-    private final Property<Double> fitWidthProperty = new SimpleObjectProperty<Double>(0d) {
+    private final DoubleProperty fitWidthProperty = new SimpleDoubleProperty(0d) {
         @Override
         protected void invalidated() {
             invalidateWidthHeight();
@@ -61,11 +61,11 @@ public class ImageView extends Node implements
         }
     };
     @Override
-    public Property<Double> fitWidthProperty() {
+    public DoubleProperty fitWidthProperty() {
         return fitWidthProperty;
     }
 
-    private final Property<Double> fitHeightProperty = new SimpleObjectProperty<Double>(0d) {
+    private final DoubleProperty fitHeightProperty = new SimpleDoubleProperty(0d) {
         @Override
         protected void invalidated() {
             invalidateWidthHeight();
@@ -73,19 +73,19 @@ public class ImageView extends Node implements
         }
     };
     @Override
-    public Property<Double> fitHeightProperty() {
+    public DoubleProperty fitHeightProperty() {
         return fitHeightProperty;
     }
 
-    private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty xProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> xProperty() {
+    public DoubleProperty xProperty() {
         return xProperty;
     }
 
-    private final Property<Double> yProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty yProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> yProperty() {
+    public DoubleProperty yProperty() {
         return yProperty;
     }
 

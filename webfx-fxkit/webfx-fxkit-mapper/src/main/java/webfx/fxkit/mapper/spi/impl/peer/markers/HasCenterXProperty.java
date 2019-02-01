@@ -1,15 +1,15 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasCenterXProperty {
 
-    Property<Double> centerXProperty();
+    DoubleProperty centerXProperty();
 
-    default void setCenterX(Double centerX) {
+    default void setCenterX(Number centerX) {
         centerXProperty().setValue(centerX);
     }
 

@@ -1,8 +1,9 @@
 package javafx.scene.transform;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
 import com.sun.javafx.geom.Point2D;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasXProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasYProperty;
 
@@ -25,7 +26,7 @@ public class Translate extends Transform implements
         setY(y);
     }
 
-    private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty xProperty = new SimpleDoubleProperty(0d);
 
     public static Translate create() {
         return new Translate();
@@ -40,13 +41,13 @@ public class Translate extends Transform implements
     }
 
     @Override
-    public Property<Double> xProperty() {
+    public DoubleProperty xProperty() {
         return xProperty;
     }
 
-    private final Property<Double> yProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty yProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> yProperty() {
+    public DoubleProperty yProperty() {
         return yProperty;
     }
 

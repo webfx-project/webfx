@@ -1,14 +1,14 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasPrefHeightProperty {
 
-    Property<Double> prefHeightProperty();
-    default void setPrefHeight(Double prefHeight) { prefHeightProperty().setValue(prefHeight); }
+    DoubleProperty prefHeightProperty();
+    default void setPrefHeight(Number prefHeight) { prefHeightProperty().setValue(prefHeight); }
     default Double getPrefHeight() { return prefHeightProperty().getValue(); }
 
 }

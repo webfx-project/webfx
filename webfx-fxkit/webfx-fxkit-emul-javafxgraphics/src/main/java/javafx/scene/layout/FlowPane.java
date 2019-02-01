@@ -1,10 +1,12 @@
 package javafx.scene.layout;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.util.Callback;
 import javafx.geometry.*;
 import javafx.scene.Node;
+import javafx.util.Callback;
 import webfx.fxkit.mapper.spi.impl.peer.markers.*;
 
 import java.util.ArrayList;
@@ -162,21 +164,21 @@ public class FlowPane extends Pane implements
         return orientationProperty;
     }
 
-    private final Property<Double> hgapProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty hgapProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> hgapProperty() {
+    public DoubleProperty hgapProperty() {
         return hgapProperty;
     }
 
-    private final Property<Double> vgapProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty vgapProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> vgapProperty() {
+    public DoubleProperty vgapProperty() {
         return vgapProperty;
     }
 
-    private final Property<Double> prefWrapLengthProperty = new SimpleObjectProperty<>(400d);
+    private final DoubleProperty prefWrapLengthProperty = new SimpleDoubleProperty(400d);
     @Override
-    public Property<Double> prefWrapLengthProperty() {
+    public DoubleProperty prefWrapLengthProperty() {
         return prefWrapLengthProperty;
     }
 

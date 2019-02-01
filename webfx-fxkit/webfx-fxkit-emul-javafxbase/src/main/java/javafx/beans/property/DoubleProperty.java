@@ -114,7 +114,7 @@ public abstract class DoubleProperty extends ReadOnlyDoubleProperty implements
      * @since JavaFX 8.0
      */
 /*
-    public static DoubleProperty doubleProperty(final Property<Double> property) {
+    public static DoubleProperty doubleProperty(final DoubleProperty property) {
         if (property == null) {
             throw new NullPointerException("Property cannot be null");
         }

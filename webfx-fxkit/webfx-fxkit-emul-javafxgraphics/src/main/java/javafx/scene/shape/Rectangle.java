@@ -1,6 +1,8 @@
 package javafx.scene.shape;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
@@ -42,39 +44,39 @@ public class Rectangle extends Shape implements
             setFill(fill);
     }
 
-    private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty xProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> xProperty() {
+    public DoubleProperty xProperty() {
         return xProperty;
     }
 
-    private final Property<Double> yProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty yProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> yProperty() {
+    public DoubleProperty yProperty() {
         return yProperty;
     }
 
-    private final Property<Double> widthProperty = new SimpleObjectProperty<>(0d);
+    private final SimpleDoubleProperty widthProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> widthProperty() {
+    public DoubleProperty widthProperty() {
         return widthProperty;
     }
 
-    private final Property<Double> heightProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty heightProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> heightProperty() {
+    public DoubleProperty heightProperty() {
         return heightProperty;
     }
 
-    private final Property<Double> arcWidthProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty arcWidthProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> arcWidthProperty() {
+    public DoubleProperty arcWidthProperty() {
         return arcWidthProperty;
     }
 
-    private final Property<Double> arcHeightProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty arcHeightProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> arcHeightProperty() {
+    public DoubleProperty arcHeightProperty() {
         return arcHeightProperty;
     }
 

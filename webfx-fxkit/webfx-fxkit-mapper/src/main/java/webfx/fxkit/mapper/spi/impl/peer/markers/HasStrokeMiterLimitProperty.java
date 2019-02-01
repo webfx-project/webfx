@@ -1,14 +1,14 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasStrokeMiterLimitProperty {
 
-    Property<Double> strokeMiterLimitProperty();
-    default void setStrokeMiterLimit(Double strokeMiterLimit) { strokeMiterLimitProperty().setValue(strokeMiterLimit); }
+    DoubleProperty strokeMiterLimitProperty();
+    default void setStrokeMiterLimit(Number strokeMiterLimit) { strokeMiterLimitProperty().setValue(strokeMiterLimit); }
     default Double getStrokeMiterLimit() { return strokeMiterLimitProperty().getValue(); }
 
 }

@@ -1,8 +1,9 @@
 package javafx.scene.transform;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
 import com.sun.javafx.geom.Point2D;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasXProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasYProperty;
 
@@ -27,16 +28,16 @@ public class Scale extends PivotTransform implements
     }
 
 
-    private final Property<Double> xProperty = new SimpleObjectProperty<>(1d);
+    private final DoubleProperty xProperty = new SimpleDoubleProperty(1d);
 
     @Override
-    public Property<Double> xProperty() {
+    public DoubleProperty xProperty() {
         return xProperty;
     }
 
-    private final Property<Double> yProperty = new SimpleObjectProperty<>(1d);
+    private final DoubleProperty yProperty = new SimpleDoubleProperty(1d);
     @Override
-    public Property<Double> yProperty() {
+    public DoubleProperty yProperty() {
         return yProperty;
     }
 

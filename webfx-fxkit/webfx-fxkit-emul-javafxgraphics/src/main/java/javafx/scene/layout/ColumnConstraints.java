@@ -93,7 +93,7 @@ public class ColumnConstraints extends ConstraintsBase {
      * The default value is USE_COMPUTED_SIZE, which means the minimum width
      * will be computed to be the largest minimum width of the column's content.
      */
-    private Property<Double> minWidth;
+    private DoubleProperty minWidth;
 
     public final void setMinWidth(double value) {
         minWidthProperty().setValue(value);
@@ -103,9 +103,9 @@ public class ColumnConstraints extends ConstraintsBase {
         return minWidth == null ? USE_COMPUTED_SIZE : minWidth.getValue();
     }
 
-    public final Property<Double> minWidthProperty() {
+    public final DoubleProperty minWidthProperty() {
         if (minWidth == null) {
-            minWidth = new SimpleObjectProperty<Double>(USE_COMPUTED_SIZE) {
+            minWidth = new SimpleDoubleProperty(USE_COMPUTED_SIZE) {
 
                 @Override
                 protected void invalidated() {
@@ -133,7 +133,7 @@ public class ColumnConstraints extends ConstraintsBase {
      * The default value is USE_COMPUTED_SIZE, which means the preferred width
      * will be computed to be the largest preferred width of the column's content.
      */
-    private Property<Double> prefWidth;
+    private DoubleProperty prefWidth;
 
     public final void setPrefWidth(double value) {
         prefWidthProperty().setValue(value);
@@ -143,9 +143,9 @@ public class ColumnConstraints extends ConstraintsBase {
         return prefWidth == null ? USE_COMPUTED_SIZE : prefWidth.getValue();
     }
 
-    public final Property<Double> prefWidthProperty() {
+    public final DoubleProperty prefWidthProperty() {
         if (prefWidth == null) {
-            prefWidth = new SimpleObjectProperty<Double>(USE_COMPUTED_SIZE) {
+            prefWidth = new SimpleDoubleProperty(USE_COMPUTED_SIZE) {
 
                 @Override
                 protected void invalidated() {
@@ -173,7 +173,7 @@ public class ColumnConstraints extends ConstraintsBase {
      * The default value is USE_COMPUTED_SIZE, which means the maximum width
      * will be computed to be the smallest maximum width of the column's content.
      */
-    private Property<Double> maxWidth;
+    private DoubleProperty maxWidth;
 
     public final void setMaxWidth(double value) {
         maxWidthProperty().setValue(value);
@@ -183,9 +183,9 @@ public class ColumnConstraints extends ConstraintsBase {
         return maxWidth == null ? USE_COMPUTED_SIZE : maxWidth.getValue();
     }
 
-    public final Property<Double> maxWidthProperty() {
+    public final DoubleProperty maxWidthProperty() {
         if (maxWidth == null) {
-            maxWidth = new SimpleObjectProperty<Double>(USE_COMPUTED_SIZE) {
+            maxWidth = new SimpleDoubleProperty(USE_COMPUTED_SIZE) {
 
                 @Override
                 protected void invalidated() {
@@ -214,7 +214,7 @@ public class ColumnConstraints extends ConstraintsBase {
      *
      * The default value is -1, which means the percentage will be ignored.
      */
-    private Property<Double> percentWidth;
+    private DoubleProperty percentWidth;
 
     public final void setPercentWidth(double value) {
         percentWidthProperty().setValue(value);
@@ -224,9 +224,9 @@ public class ColumnConstraints extends ConstraintsBase {
         return percentWidth == null ? -1 : percentWidth.getValue();
     }
 
-    public final Property<Double> percentWidthProperty() {
+    public final DoubleProperty percentWidthProperty() {
         if (percentWidth == null) {
-            percentWidth = new SimpleObjectProperty<Double>(-1d) {
+            percentWidth = new SimpleDoubleProperty(-1d) {
 
                 @Override
                 protected void invalidated() {

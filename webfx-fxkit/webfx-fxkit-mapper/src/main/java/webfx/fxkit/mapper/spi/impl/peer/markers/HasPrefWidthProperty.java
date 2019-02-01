@@ -1,14 +1,14 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasPrefWidthProperty {
 
-    Property<Double> prefWidthProperty();
-    default void setPrefWidth(Double prefWidth) { prefWidthProperty().setValue(prefWidth); }
+    DoubleProperty prefWidthProperty();
+    default void setPrefWidth(Number prefWidth) { prefWidthProperty().setValue(prefWidth); }
     default Double getPrefWidth() { return prefWidthProperty().getValue(); }
 
 }

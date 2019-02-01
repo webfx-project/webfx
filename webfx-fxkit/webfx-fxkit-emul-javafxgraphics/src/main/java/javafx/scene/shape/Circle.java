@@ -1,9 +1,9 @@
 package javafx.scene.shape;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Paint;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasCenterXProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasCenterYProperty;
@@ -40,21 +40,21 @@ public class Circle extends Shape implements
             setFill(fill);
     }
 
-    private final Property<Double> centerXProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty centerXProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> centerXProperty() {
+    public DoubleProperty centerXProperty() {
         return centerXProperty;
     }
 
-    private final Property<Double> centerYProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty centerYProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> centerYProperty() {
+    public DoubleProperty centerYProperty() {
         return centerYProperty;
     }
 
-    private final Property<Double> radiusProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty radiusProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> radiusProperty() {
+    public DoubleProperty radiusProperty() {
         return radiusProperty;
     }
 

@@ -515,8 +515,8 @@ public abstract class PopupWindow extends Window {
      *
      * @since JavaFX 8.0
      */
-    private final Property<Double> anchorX =
-            new SimpleObjectProperty<>(this, "anchorX", Double.NaN);
+    private final DoubleProperty anchorX =
+            new SimpleDoubleProperty(this, "anchorX", Double.NaN);
 
     public final void setAnchorX(final double value) {
         updateWindow(value, getAnchorY());
@@ -524,7 +524,7 @@ public abstract class PopupWindow extends Window {
     public final double getAnchorX() {
         return anchorX.getValue();
     }
-    public final ReadOnlyProperty<Double> anchorXProperty() {
+    public final ReadOnlyDoubleProperty anchorXProperty() {
         return anchorX/*.getReadOnlyProperty()*/;
     }
 
@@ -536,8 +536,8 @@ public abstract class PopupWindow extends Window {
      *
      * @since JavaFX 8.0
      */
-    private final Property<Double> anchorY =
-            new SimpleObjectProperty<>(this, "anchorY", Double.NaN);
+    private final DoubleProperty anchorY =
+            new SimpleDoubleProperty(this, "anchorY", Double.NaN);
 
     public final void setAnchorY(final double value) {
         updateWindow(getAnchorX(), value);
@@ -545,7 +545,7 @@ public abstract class PopupWindow extends Window {
     public final double getAnchorY() {
         return anchorY.getValue();
     }
-    public final ReadOnlyProperty<Double> anchorYProperty() {
+    public final ReadOnlyDoubleProperty anchorYProperty() {
         return anchorY/*.getReadOnlyProperty()*/;
     }
 

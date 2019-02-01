@@ -1,6 +1,7 @@
 package javafx.scene.control;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -128,9 +129,9 @@ class HeavyweightDialog extends FXDialog {
     @Override public void show() {
         scene.setRoot(dialogPane);
         if (dialogPane.prefHeight(-1) == 0) {
-            scene.heightProperty().addListener(new ChangeListener<Double>() {
+            scene.heightProperty().addListener(new ChangeListener<Number>() {
                 @Override
-                public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                     observable.removeListener(this);
                     setX(Double.NaN);
                     setY(Double.NaN);
@@ -181,7 +182,7 @@ class HeavyweightDialog extends FXDialog {
         stage.setX(x);
     }
 
-    @Override public ReadOnlyProperty<Double> xProperty() {
+    @Override public ReadOnlyDoubleProperty xProperty() {
         return stage.xProperty();
     }
 
@@ -194,11 +195,11 @@ class HeavyweightDialog extends FXDialog {
         stage.setY(y);
     }
 
-    @Override public ReadOnlyProperty<Double> yProperty() {
+    @Override public ReadOnlyDoubleProperty yProperty() {
         return stage.yProperty();
     }
 
-    @Override ReadOnlyProperty<Double> heightProperty() {
+    @Override ReadOnlyDoubleProperty heightProperty() {
         return stage.heightProperty();
     }
 
@@ -210,7 +211,7 @@ class HeavyweightDialog extends FXDialog {
         return scene == null ? 0 : scene.getHeight();
     }
 
-    @Override ReadOnlyProperty<Double> widthProperty() {
+    @Override ReadOnlyDoubleProperty widthProperty() {
         return stage.widthProperty();
     }
 

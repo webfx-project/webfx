@@ -93,7 +93,7 @@ public class RowConstraints extends ConstraintsBase {
      * The default value is USE_COMPUTED_SIZE, which means the minimum height
      * will be computed to be the largest minimum height of the row's content.
      */
-    private Property<Double> minHeight;
+    private DoubleProperty minHeight;
 
     public final void setMinHeight(double value) {
         minHeightProperty().setValue(value);
@@ -103,9 +103,9 @@ public class RowConstraints extends ConstraintsBase {
         return minHeight == null ? USE_COMPUTED_SIZE : minHeight.getValue();
     }
 
-    public final Property<Double> minHeightProperty() {
+    public final DoubleProperty minHeightProperty() {
         if (minHeight == null) {
-            minHeight = new SimpleObjectProperty<Double>(USE_COMPUTED_SIZE) {
+            minHeight = new SimpleDoubleProperty(USE_COMPUTED_SIZE) {
 
                 @Override
                 protected void invalidated() {
@@ -133,7 +133,7 @@ public class RowConstraints extends ConstraintsBase {
      * The default value is USE_COMPUTED_SIZE, which means the preferred height
      * will be computed to be the largest preferred height of the row's content.
      */
-    private Property<Double> prefHeight;
+    private DoubleProperty prefHeight;
 
     public final void setPrefHeight(double value) {
         prefHeightProperty().setValue(value);
@@ -143,9 +143,9 @@ public class RowConstraints extends ConstraintsBase {
         return prefHeight == null ? USE_COMPUTED_SIZE : prefHeight.getValue();
     }
 
-    public final Property<Double> prefHeightProperty() {
+    public final DoubleProperty prefHeightProperty() {
         if (prefHeight == null) {
-            prefHeight = new SimpleObjectProperty<Double>(USE_COMPUTED_SIZE) {
+            prefHeight = new SimpleDoubleProperty(USE_COMPUTED_SIZE) {
 
                 @Override
                 protected void invalidated() {
@@ -173,7 +173,7 @@ public class RowConstraints extends ConstraintsBase {
      * The default value is USE_COMPUTED_SIZE, which means the maximum height
      * will be computed to be the smallest maximum height of the row's content.
      */
-    private Property<Double> maxHeight;
+    private DoubleProperty maxHeight;
 
     public final void setMaxHeight(double value) {
         maxHeightProperty().setValue(value);
@@ -183,9 +183,9 @@ public class RowConstraints extends ConstraintsBase {
         return maxHeight == null ? USE_COMPUTED_SIZE : maxHeight.getValue();
     }
 
-    public final Property<Double> maxHeightProperty() {
+    public final DoubleProperty maxHeightProperty() {
         if (maxHeight == null) {
-            maxHeight = new SimpleObjectProperty<Double>(USE_COMPUTED_SIZE) {
+            maxHeight = new SimpleDoubleProperty(USE_COMPUTED_SIZE) {
 
                 @Override
                 protected void invalidated() {
@@ -214,7 +214,7 @@ public class RowConstraints extends ConstraintsBase {
      *
      * The default value is -1, which means the percentage will be ignored.
      */
-    private Property<Double> percentHeight;
+    private DoubleProperty percentHeight;
 
     public final void setPercentHeight(double value) {
         percentHeightProperty().setValue(value);
@@ -224,9 +224,9 @@ public class RowConstraints extends ConstraintsBase {
         return percentHeight == null ? -1 : percentHeight.getValue();
     }
 
-    public final Property<Double> percentHeightProperty() {
+    public final DoubleProperty percentHeightProperty() {
         if (percentHeight == null) {
-            percentHeight = new SimpleObjectProperty<Double>(-1d) {
+            percentHeight = new SimpleDoubleProperty(-1d) {
 
                 @Override
                 protected void invalidated() {

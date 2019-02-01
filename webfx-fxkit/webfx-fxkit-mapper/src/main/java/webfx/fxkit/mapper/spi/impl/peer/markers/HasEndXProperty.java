@@ -1,15 +1,15 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasEndXProperty {
 
-    Property<Double> endXProperty();
+    DoubleProperty endXProperty();
 
-    default void setEndX(Double endX) {
+    default void setEndX(Number endX) {
         endXProperty().setValue(endX);
     }
 

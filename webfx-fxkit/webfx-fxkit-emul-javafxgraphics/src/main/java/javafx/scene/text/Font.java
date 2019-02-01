@@ -5,15 +5,38 @@ package javafx.scene.text;
  */
 public class Font {
 
+    private static final String DEFAULT_FAMILY = "System";
+
     private final String family;
     private final FontWeight weight;
     private final FontPosture posture;
     private final double size;
 
+    /**
+     * Constructs a font using the default face "System".
+     * The underlying font used is determined by the implementation
+     * based on the typical UI font for the current UI environment.
+     *
+     * @param size the font size to use
+     */
+    public Font(double size) {
+        this(null, size);
+    }
+
+
+    /**
+     * Constructs a font using the specified full face name and size
+     * @param name full name of the font.
+     * @param size the font size to use
+     */
+    public Font(String name, double size) {
+        this(name, null, null, size);
+    }
+
     public Font(String family, FontWeight weight, FontPosture posture, double size) {
-        this.family = family;
-        this.weight = weight;
-        this.posture = posture;
+        this.family = family != null ? family : DEFAULT_FAMILY;
+        this.weight = weight != null ? weight : FontWeight.NORMAL;
+        this.posture = posture != null ? posture : FontPosture.REGULAR;
         this.size = size;
     }
 

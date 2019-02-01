@@ -74,7 +74,7 @@ public class Scene implements EventTarget,
         clickGenerator = new ClickGenerator();
     }
 
-    private final Property<Double> widthProperty = new SimpleObjectProperty<Double>(0d) {
+    private final DoubleProperty widthProperty = new SimpleDoubleProperty(0d) {
         @Override
         protected void invalidated() {
             Parent _root = getRoot();
@@ -85,11 +85,11 @@ public class Scene implements EventTarget,
     };
 
     @Override
-    public Property<Double> widthProperty() {
+    public DoubleProperty widthProperty() {
         return widthProperty;
     }
 
-    private final Property<Double> heightProperty = new SimpleObjectProperty<Double>(0d) {
+    private final DoubleProperty heightProperty = new SimpleDoubleProperty(0d) {
         @Override
         protected void invalidated() {
             Parent _root = getRoot();
@@ -99,7 +99,7 @@ public class Scene implements EventTarget,
         }
     };
     @Override
-    public Property<Double> heightProperty() {
+    public DoubleProperty heightProperty() {
         return heightProperty;
     }
 
@@ -123,7 +123,7 @@ public class Scene implements EventTarget,
     /**
      * The horizontal location of this {@code Scene} on the {@code Window}.
      */
-    private Property<Double> x;
+    private DoubleProperty x;
 
     private final void setX(double value) {
         xPropertyImpl().setValue(value);
@@ -133,13 +133,13 @@ public class Scene implements EventTarget,
         return x == null ? 0.0 : x.getValue();
     }
 
-    public final ReadOnlyProperty<Double> xProperty() {
+    public final ReadOnlyDoubleProperty xProperty() {
         return xPropertyImpl()/*.getReadOnlyProperty()*/;
     }
 
-    private Property<Double> xPropertyImpl() {
+    private DoubleProperty xPropertyImpl() {
         if (x == null) {
-            x = new SimpleObjectProperty<>(this, "x", 0d);
+            x = new SimpleDoubleProperty(this, "x", 0d);
         }
         return x;
     }
@@ -147,7 +147,7 @@ public class Scene implements EventTarget,
     /**
      * The vertical location of this {@code Scene} on the {@code Window}.
      */
-    private Property<Double> y;
+    private DoubleProperty y;
 
     private void setY(double value) {
         yPropertyImpl().setValue(value);
@@ -157,13 +157,13 @@ public class Scene implements EventTarget,
         return y == null ? 0.0 : y.getValue();
     }
 
-    public final ReadOnlyProperty<Double> yProperty() {
+    public final ReadOnlyDoubleProperty yProperty() {
         return yPropertyImpl()/*.getReadOnlyProperty()*/;
     }
 
-    private Property<Double> yPropertyImpl() {
+    private DoubleProperty yPropertyImpl() {
         if (y == null) {
-            y = new SimpleObjectProperty<>(this, "y", 0d);
+            y = new SimpleDoubleProperty(this, "y", 0d);
         }
         return y;
     }

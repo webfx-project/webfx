@@ -1,6 +1,8 @@
 package javafx.scene.shape;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,9 +49,9 @@ public abstract class Shape extends Node implements
         return strokeTypeProperty;
     }
 
-    private final Property<Double> strokeWidthProperty = new SimpleObjectProperty<>(1d);
+    private final DoubleProperty strokeWidthProperty = new SimpleDoubleProperty(1d);
     @Override
-    public Property<Double> strokeWidthProperty() {
+    public DoubleProperty strokeWidthProperty() {
         return strokeWidthProperty;
     }
 
@@ -65,15 +67,15 @@ public abstract class Shape extends Node implements
         return strokeLineJoinProperty;
     }
 
-    private final Property<Double> strokeMiterLimitProperty = new SimpleObjectProperty<>(1d);
+    private final DoubleProperty strokeMiterLimitProperty = new SimpleDoubleProperty(1d);
     @Override
-    public Property<Double> strokeMiterLimitProperty() {
+    public DoubleProperty strokeMiterLimitProperty() {
         return strokeMiterLimitProperty;
     }
 
-    private final Property<Double> strokeDashOffsetProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty strokeDashOffsetProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> strokeDashOffsetProperty() {
+    public DoubleProperty strokeDashOffsetProperty() {
         return strokeDashOffsetProperty;
     }
 

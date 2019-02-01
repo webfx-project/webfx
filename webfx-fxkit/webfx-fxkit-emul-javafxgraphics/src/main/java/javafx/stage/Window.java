@@ -151,8 +151,8 @@ public class Window implements EventTarget,
      * by the underlying platform and therefore must not be bindable.
      * </p>
      */
-    private Property<Double> width =
-            new SimpleObjectProperty<>(this, "width", Double.NaN);
+    private DoubleProperty width =
+            new SimpleDoubleProperty(this, "width", Double.NaN);
 
     public final void setWidth(double value) {
         width.setValue(value);
@@ -160,7 +160,7 @@ public class Window implements EventTarget,
         widthExplicit = true;
     }
     //public final double getWidth() { return width.getValue(); }
-    public final Property<Double> widthProperty() { return width/*.getReadOnlyProperty()*/; }
+    public final DoubleProperty widthProperty() { return width/*.getReadOnlyProperty()*/; }
 
     private boolean heightExplicit = false;
     /**
@@ -176,8 +176,8 @@ public class Window implements EventTarget,
      * by the underlying platform and therefore must not be bindable.
      * </p>
      */
-    private Property<Double> height =
-            new SimpleObjectProperty<>(this, "height", Double.NaN);
+    private DoubleProperty height =
+            new SimpleDoubleProperty(this, "height", Double.NaN);
 
     public final void setHeight(double value) {
         height.setValue(value);
@@ -185,7 +185,7 @@ public class Window implements EventTarget,
         heightExplicit = true;
     }
     //public final double getHeight() { return height.get(); }
-    public final Property<Double> heightProperty() { return height/*.getReadOnlyProperty()*/; }
+    public final DoubleProperty heightProperty() { return height/*.getReadOnlyProperty()*/; }
 
     /**
      * Notification from the windowing system that the window's size has
@@ -207,14 +207,14 @@ public class Window implements EventTarget,
      * {@code fullScreen} is true, but will be honored by the {@code Stage} once
      * {@code fullScreen} becomes false.
      */
-    private Property<Double> x =
-            new SimpleObjectProperty<>(this, "x", Double.NaN);
+    private DoubleProperty x =
+            new SimpleDoubleProperty(this, "x", Double.NaN);
 
     public final void setX(double value) {
         setXInternal(value);
     }
     public final double getX() { return x.getValue(); }
-    public final ReadOnlyProperty<Double> xProperty() { return x/*.getReadOnlyProperty()*/; }
+    public final ReadOnlyDoubleProperty xProperty() { return x/*.getReadOnlyProperty()*/; }
 
     void setXInternal(double value) {
         x.setValue(value);
@@ -230,14 +230,14 @@ public class Window implements EventTarget,
      * {@code fullScreen} is true, but will be honored by the {@code Stage} once
      * {@code fullScreen} becomes false.
      */
-    private Property<Double> y =
-            new SimpleObjectProperty<>(this, "y", Double.NaN);
+    private DoubleProperty y =
+            new SimpleDoubleProperty(this, "y", Double.NaN);
 
     public final void setY(double value) {
         setYInternal(value);
     }
     public final double getY() { return y.getValue(); }
-    public final ReadOnlyProperty<Double> yProperty() { return y/*.getReadOnlyProperty()*/; }
+    public final ReadOnlyDoubleProperty yProperty() { return y/*.getReadOnlyProperty()*/; }
 
     void setYInternal(double value) {
         y.setValue(value);

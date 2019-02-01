@@ -2,17 +2,15 @@ package javafx.scene.layout;
 
 import com.sun.javafx.collections.TrackableObservableList;
 import javafx.beans.Observable;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.util.Callback;
 import javafx.geometry.*;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.util.Callback;
 
 import java.util.*;
 
@@ -674,9 +672,9 @@ public class GridPane extends Pane {
     /**
      * The width of the horizontal gaps between columns.
      */
-    public final Property<Double> hgapProperty() {
+    public final DoubleProperty hgapProperty() {
         if (hgap == null) {
-            hgap = new SimpleObjectProperty<Double>(0d) {
+            hgap = new SimpleDoubleProperty(0d) {
                 @Override
                 public void invalidated() {
                     requestLayout();
@@ -686,16 +684,16 @@ public class GridPane extends Pane {
         return hgap;
     }
 
-    private Property<Double> hgap;
+    private DoubleProperty hgap;
     public final void setHgap(double value) { hgapProperty().setValue(value); }
     public final double getHgap() { return hgap == null ? 0 : hgap.getValue(); }
 
     /**
      * The height of the vertical gaps between rows.
      */
-    public final Property<Double> vgapProperty() {
+    public final DoubleProperty vgapProperty() {
         if (vgap == null) {
-            vgap = new SimpleObjectProperty<Double>(0d) {
+            vgap = new SimpleDoubleProperty(0d) {
                 @Override
                 public void invalidated() {
                     requestLayout();
@@ -705,7 +703,7 @@ public class GridPane extends Pane {
         return vgap;
     }
 
-    private Property<Double> vgap;
+    private DoubleProperty vgap;
     public final void setVgap(double value) { vgapProperty().setValue(value); }
     public final double getVgap() { return vgap == null ? 0 : vgap.getValue(); }
 
