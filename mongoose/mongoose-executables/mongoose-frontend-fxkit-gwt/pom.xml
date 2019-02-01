@@ -223,6 +223,7 @@
             <artifactId>webfx-platform-providers-gwt-serviceloadergenerator</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>

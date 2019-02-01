@@ -1,0 +1,5 @@
+<module rename-to='webfx_platform_providers_gwt_emul_javatime'>
+
+    <super-source path="" includes="java/time/"/>
+
+</module>
