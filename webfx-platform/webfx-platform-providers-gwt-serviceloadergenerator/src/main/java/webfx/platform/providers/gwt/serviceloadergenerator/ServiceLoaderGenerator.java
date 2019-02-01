@@ -14,7 +14,7 @@ import java.util.*;
  */
 public final class ServiceLoaderGenerator {
 
-    private final static String TEMPLATE = "package java.util;\n" +
+    private final static String SERVICE_LOADER_JAVA_TEMPLATE = "package java.util;\n" +
             "\n" +
             "import java.util.Iterator;\n" +
             "import java.util.logging.Logger;\n" +
@@ -24,7 +24,7 @@ public final class ServiceLoaderGenerator {
             "\n" +
             "    public static <S> ServiceLoader<S> load(Class<S> serviceClass) {\n" +
             "        switch (serviceClass.getName()) {\n" +
-            "${generatedCode}" +
+            "${generatedCasesCode}" +
             "            // SPI NOT FOUND\n" +
             "            default:\n" +
             "               Logger.getLogger(ServiceLoader.class.getName()).warning(\"SPI not found for \" + serviceClass);\n" +
@@ -54,34 +54,83 @@ public final class ServiceLoaderGenerator {
             "    }\n" +
             "}";
 
+    private final static String ARRAY_JAVA_TEMPLATE = "package java.lang.reflect;\n" +
+            "\n" +
+            "import webfx.platform.shared.services.log.Logger;\n" +
+            "\n" +
+            "public final class Array {\n" +
+            "\n" +
+            "    public static Object newInstance(Class<?> componentType, int length) throws NegativeArraySizeException {\n" +
+            "        switch (componentType.getName()) {\n" +
+            "${generatedCasesCode}" +
+            "            // TYPE NOT FOUND\n" +
+            "            default:\n" +
+            "               Logger.log(\"GWT super source Array.newInstance() has no case for type \" + componentType + \", so new Object[] is returned but this may cause a ClassCastException.\");\n" +
+            "               return new Object[length];\n" +
+            "        }\n" +
+            "    }\n" +
+            "\n" +
+            "}";
+
     public static void main(String[] args) {
+        generateServiceLoaderEmulationCode();
+        log("");
+        generateArrayEmulationCode();
+    }
+
+    private static void generateArrayEmulationCode() {
+        StringBuilder sb = new StringBuilder();
+        appendArrayCasesCode(sb);
+        writeJavaTemplateSuperSourceFile(ARRAY_JAVA_TEMPLATE, sb, "java/lang/reflect/Array.java");
+    }
+
+    private static void appendArrayCasesCode(StringBuilder sb) {
+        log("************************************************************************");
+        log("***** Generating java.lang.reflect.Array.java super source for GWT *****");
+        log("************************************************************************");
+        for (String className: loadProviderClassNames("Array.newInstance", true)) {
+            sb.append("            case \"").append(className).append("\": return new ").append(className).append("[length];\n");
+        }
+    }
+
+    private static void generateServiceLoaderEmulationCode() {
+        log("************************************************************************");
+        log("***** Generating java.util.ServiceLoader.java super source for GWT *****");
+        log("************************************************************************");
         StringBuilder sb = new StringBuilder();
         sb.append("            // Single SPI providers\n");
-        generateCode(sb, "exports.spi.single", true);
+        appendServiceLoaderCasesCode(sb, "exports.spi.single", true);
         sb.append("            // Multiple SPI providers\n");
-        generateCode(sb, "exports.spi.multiple", false);
-        String serviceLoaderJavaCode = TEMPLATE.replace("${generatedCode}", sb);
-        String serviceLoaderPath = System.getProperty("user.dir") + "/src/main/resources/super/java/util/ServiceLoader.java";
-        System.out.println("Writing " + serviceLoaderPath);
+        appendServiceLoaderCasesCode(sb, "exports.spi.multiple", false);
+        writeJavaTemplateSuperSourceFile(SERVICE_LOADER_JAVA_TEMPLATE, sb, "java/util/ServiceLoader.java");
+    }
+
+    private static void writeJavaTemplateSuperSourceFile(String javaTemplate, CharSequence generatedCasesCode, String javaFileRelativePath) {
+        writeJavaSuperSourceFile(javaTemplate.replace("${generatedCasesCode}", generatedCasesCode), javaFileRelativePath);
+    }
+
+    private static void writeJavaSuperSourceFile(String javaFileContent, String javaFileRelativePath) {
+        String javaFileAbsolutePath = System.getProperty("user.dir") + "/src/main/resources/super/" + javaFileRelativePath;
         try {
-            writeTextFile(serviceLoaderPath, serviceLoaderJavaCode);
+            log(">>> Writing " + javaFileAbsolutePath);
+            writeTextFile(javaFileAbsolutePath, javaFileContent);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void generateCode(StringBuilder sb, String spiPath, boolean single) {
+    private static void appendServiceLoaderCasesCode(StringBuilder sb, String spiPath, boolean single) {
         for (String spiClassName: loadProviderClassNames(spiPath, true)) {
             List<String> providerClassNames = loadProviderClassNames(spiClassName, false);
             if (providerClassNames.isEmpty())
-                System.out.println("WARNING: No provider found for " + spiClassName);
+                log("WARNING: No provider found for " + spiClassName);
             else {
                 sb.append("            case \"").append(spiClassName).append("\": return new ServiceLoader<S>(");
                 for (String providerClassName : providerClassNames) {
                     String firstProvider = providerClassNames.get(0);
                     if (providerClassName != firstProvider)
                         if (single) {
-                            System.out.println("INFO: Keeping single provider " + firstProvider + ", skipping provider " + spiClassName);
+                            log("INFO: Keeping single provider " + firstProvider + ", skipping provider " + spiClassName);
                             continue;
                         } else
                             sb.append(", ");
@@ -192,6 +241,10 @@ public final class ServiceLoaderGenerator {
         writer.flush();
         writer.close();
         return path;
+    }
+    
+    private static void log(String message) {
+        System.out.println(message);
     }
 
 }
