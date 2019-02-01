@@ -23,8 +23,10 @@ public final class GwtPrimaryStagePeer implements StagePeer {
 
     public GwtPrimaryStagePeer(Stage stage) {
         this.stage = stage;
-        // Disabling horizontal and vertical scroll bars
+        // Disabling browser horizontal and vertical scroll bars
         HtmlUtil.setStyleAttribute(document.documentElement, "overflow", "hidden");
+        // Removing the default margin around the body so it fills the whole browser tab
+        HtmlUtil.setStyleAttribute(document.body, "margin", "0");
         // Checking the window size on each pulse (window.onsize is not enough because it doesn't detect vertical scroll bar apparition)
         UiScheduler.schedulePeriodicInAnimationFrame(this::changedWindowSize, AnimationFramePass.PROPERTY_CHANGE_PASS);
     }
