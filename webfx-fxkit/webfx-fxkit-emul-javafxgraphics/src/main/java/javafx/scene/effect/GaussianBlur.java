@@ -20,7 +20,11 @@ public class GaussianBlur implements Effect {
     }
 
     public double getSigma() {
-        return (getRadius() + 1) / Math.sqrt(2 * Math.log(255));
+        return getSigma(getRadius());
+    }
+
+    public static double getSigma(double radius) {
+        return (radius + 1) / Math.sqrt(2 * Math.log(255));
     }
 
 }
