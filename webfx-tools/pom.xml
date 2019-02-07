@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>webfx-tool-emultranslator</module>
         <module>webfx-tool-gwtsupersourcegenerator</module>
     </modules>
 

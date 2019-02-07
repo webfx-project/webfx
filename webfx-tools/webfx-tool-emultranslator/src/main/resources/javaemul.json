@@ -1,19 +1,14 @@
 {
   "variables": {
-    "jdk9-src": "C:/Program Files/Java/jdk-9/src.zip",
-    "webfx-platforms-emul-dir": "C:/dev/git-repos/webfx/webfx-platform/webfx-platforms-emul"
+    "javafx-src": "C:/Program Files/Java/jdk1.8.0_191/javafx-src.zip",
+    "webfx-parent-dir": "C:/dev/git-repos/webfx/webfx-fxkit"
   },
   "modules": {
     "javaemul-javafxbase": {
-      "jdk-src": "${jdk9-src}",
+      "jdk-src": "${javafx-src}",
       "jdk-module": "javafx.base",
       "webfx-module": "webfx-fxkit-emul-javafxbase",
-      "webfx-src": "${webfx-platforms-emul-dir}/${webfx-module}/src/main/java",
-      "relocations": {
-        "javafx": "emul.javafx",
-        "com.sun": "emul.com.sun",
-        "sun.util": "emul.sun.util"
-      },
+      "webfx-src": "${webfx-parent-dir}/${webfx-module}/src/main/java",
       "includes": [
         "javafx/event/*",
         "javafx/beans/NamedArg.java",
@@ -81,16 +76,16 @@
         ""
       ],
       "replacements": {
-        "import emul.com.sun.javafx.binding.StringFormatter;": "",
-        "import emul.com.sun.com.sun.javafx.collections.annotations.ReturnsUnmodifiableCollection;": "",
-        "import emul.javafx.collections.ObservableSet;": "",
-        "import emul.sun.util.logging.PlatformLogger;": "",
-        "import emul.com.sun.javafx.collections.SetListenerHelper;": "",
-        "import emul.com.sun.javafx.collections.ObservableSetWrapper;": "",
-        "import emul.com.sun.javafx.collections.MapAdapterChange;": "",
-        "import emul.com.sun.javafx.collections.ObservableFloatArrayImpl;": "",
-        "import emul.com.sun.javafx.collections.ObservableIntegerArrayImpl;": "",
-        "import emul.com.sun.javafx.collections.SetAdapterChange;": "",
+        "import com.sun.javafx.binding.StringFormatter;": "",
+        "import com.sun.com.sun.javafx.collections.annotations.ReturnsUnmodifiableCollection;": "",
+        "import javafx.collections.ObservableSet;": "",
+        "import sun.util.logging.PlatformLogger;": "",
+        "import com.sun.javafx.collections.SetListenerHelper;": "",
+        "import com.sun.javafx.collections.ObservableSetWrapper;": "",
+        "import com.sun.javafx.collections.MapAdapterChange;": "",
+        "import com.sun.javafx.collections.ObservableFloatArrayImpl;": "",
+        "import com.sun.javafx.collections.ObservableIntegerArrayImpl;": "",
+        "import com.sun.javafx.collections.SetAdapterChange;": "",
         "import java.util.Locale;": "",
         "regex:import java\\.text\\..*": "",
         "regex:Logging\\.getLogger().*": "//$0",
@@ -102,14 +97,10 @@
       }
     },
     "javaemul-javafxgraphics": {
-      "jdk-src": "${jdk9-src}",
+      "jdk-src": "${javafx-src}",
       "jdk-module": "javafx.graphics",
       "webfx-module": "webfx-fxkit-emul-javafxgraphics",
-      "webfx-src": "${webfx-platforms-emul-dir}/${webfx-module}/src/main/java",
-      "relocations": {
-        "javafx": "emul.javafx",
-        "com.sun": "emul.com.sun"
-      },
+      "webfx-src": "${webfx-parent-dir}/${webfx-module}/src/main/java",
       "includes": [
         "javafx/animation/KeyFrame.java",
         "com/sun/javafx/util/WeakReferenceQueue.java"

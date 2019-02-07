@@ -1,4 +1,4 @@
-package webfx.fxkit.emul.tool;
+package webfx.tool.emultranslator;
 
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonArray;
@@ -7,6 +7,7 @@ import webfx.platform.shared.services.json.JsonObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
 /**
  * @author Bruno Salmon
  */
-public final class EmulTool {
+public final class EmulTranslator {
 
     public static void main(String[] args) {
         processJsonFile("/javaemul.json");
@@ -41,8 +42,8 @@ public final class EmulTool {
     }
 
     private static String readTextFile(String file) {
-        InputStream is = EmulTool.class.getResourceAsStream(file);
-        return is == null ? null : new Scanner(is, "UTF-8").useDelimiter("\\A").next();
+        InputStream is = EmulTranslator.class.getResourceAsStream(file);
+        return is == null ? null : new Scanner(is, StandardCharsets.UTF_8).useDelimiter("\\A").next();
     }
 
     private static void processModule(JsonObject module, JsonObject variables) {
@@ -50,7 +51,7 @@ public final class EmulTool {
         String jdkModule = resolveVariables(module, "jdk-module", variables, module);
         String webfxSrc = resolveVariables(module, "webfx-src", variables, module);
         JsonObject relocations = module.getObject("relocations");
-        JsonArray relocationKeys = relocations.keys();
+        JsonArray relocationKeys = relocations == null ? null : relocations.keys();
         JsonArray includes = module.getArray("includes");
         JsonArray excludes = module.getArray("excludes");
         JsonObject replacements = module.getObject("replacements");
@@ -75,7 +76,7 @@ public final class EmulTool {
         /* Path inside ZIP File */
         int p = includePattern.indexOf('*');
         if (p == -1) {
-            Path javaFilePath = zipfs.getPath("/" + jdkModule + "/" + includePattern);
+            Path javaFilePath = zipfs.getPath(/*"/" + jdkModule +*/ "/" + includePattern);
             processJavaFilePath(javaFilePath, includePattern, webfxSrc, relocations, relocationKeys, excludes, replacements);
         } else {
             String searchRoot = includePattern.substring(0, p++);
@@ -83,9 +84,9 @@ public final class EmulTool {
             p = searchRoot.lastIndexOf('/');
             if (p != -1)
                 searchRoot = searchRoot.substring(0, p);
-            Path searchRootPath = zipfs.getPath("/" + jdkModule + "/" + searchRoot);
-            int relativePathStartIndex = jdkModule.length() + 2;
-            Files.walkFileTree(searchRootPath, new FileVisitor<Path>() {
+            Path searchRootPath = zipfs.getPath(/*"/" + jdkModule + */ "/" + searchRoot);
+            int relativePathStartIndex = 1; //jdkModule.length() + 2;
+            Files.walkFileTree(searchRootPath, new FileVisitor<>() {
                 @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
                     return dir == searchRootPath || recurse ? FileVisitResult.CONTINUE : FileVisitResult.SKIP_SUBTREE;
@@ -118,24 +119,28 @@ public final class EmulTool {
             return;
         }
         String relocatedPath = relativePath;
-        for (int j = 0; j < relocationKeys.size(); j++) {
-            String relocateSrc = relocationKeys.getString(j);
-            String relocateSrcPath = packageToPath(relocateSrc);
-            if (relativePath.startsWith(relocateSrcPath)) {
-                String relocateDst = relocations.getString(relocateSrc);
-                relocatedPath = relocatedPath.replace(relocateSrcPath, packageToPath(relocateDst));
-                break;
+        boolean hasRelocation = relocations != null && relocationKeys != null;
+        if (hasRelocation) {
+            for (int j = 0; j < relocationKeys.size(); j++) {
+                String relocateSrc = relocationKeys.getString(j);
+                String relocateSrcPath = packageToPath(relocateSrc);
+                if (relativePath.startsWith(relocateSrcPath)) {
+                    String relocateDst = relocations.getString(relocateSrc);
+                    relocatedPath = relocatedPath.replace(relocateSrcPath, packageToPath(relocateDst));
+                    break;
+                }
             }
         }
         Path webfxFilePath = Paths.get(webfxSrc, relocatedPath);
         Files.createDirectories(webfxFilePath.getParent());
         String content = new String(Files.readAllBytes(javaFilePath));
-        for (int j = 0; j < relocationKeys.size(); j++) {
-            String relocateSrc = relocationKeys.getString(j);
-            String relocateDst = relocations.getString(relocateSrc);
-            content = content.replace(" " + relocateSrc, " " + relocateDst);
-            content = content.replace("(" + relocateSrc, "(" + relocateDst);
-        }
+        if (hasRelocation)
+            for (int j = 0; j < relocationKeys.size(); j++) {
+                String relocateSrc = relocationKeys.getString(j);
+                String relocateDst = relocations.getString(relocateSrc);
+                content = content.replace(" " + relocateSrc, " " + relocateDst);
+                content = content.replace("(" + relocateSrc, "(" + relocateDst);
+            }
         int globalReplacementCount = 0;
         if (replacements != null) {
             JsonArray keys = replacements.keys();
