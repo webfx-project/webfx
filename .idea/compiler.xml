@@ -228,11 +228,8 @@
         <module name="webfx-fxkit-launcher" />
         <module name="webfx-fxkit-mapper" />
         <module name="webfx-fxkit-util" />
-        <module name="webfx-fxkits-emul-tool" />
         <module name="webfx-lib-controlsfx-validation" />
-        <module name="webfx-lib-flexboxfx" />
         <module name="webfx-lib-javacupruntime" />
-        <module name="webfx-lib-javafastpfor" />
         <module name="webfx-lib-mvvmfx-validation" />
         <module name="webfx-lib-rxjava" />
         <module name="webfx-platform-client-all-gwt" />
@@ -256,7 +253,6 @@
         <module name="webfx-platform-client-windowlocation-java" />
         <module name="webfx-platform-providers-gwt-emul-javabase" />
         <module name="webfx-platform-providers-gwt-emul-javatime" />
-        <module name="webfx-platform-providers-gwt-serviceloadergenerator" />
         <module name="webfx-platform-providers-java-queryupdate" />
         <module name="webfx-platform-providers-vertx-instance" />
         <module name="webfx-platform-providers-vertx-queryupdate" />
@@ -295,6 +291,14 @@
         <module name="webfx-platform-shared-update-java" />
         <module name="webfx-platform-shared-update-vertx" />
         <module name="webfx-platform-shared-util" />
+        <module name="webfx-tool-emultranslator" />
+        <module name="webfx-tool-gwtsupersourcegenerator" />
+        <module name="webfx-tutorial-colorfulcircles-fxkit-gwt" />
+        <module name="webfx-tutorial-colorfulcircles-fxkit-javafx" />
+        <module name="webfx-tutorial-colorfulcircles-module" />
+        <module name="webfx-tutorial-helloworld-fxkit-gwt" />
+        <module name="webfx-tutorial-helloworld-fxkit-javafx" />
+        <module name="webfx-tutorial-helloworld-module" />
         <module name="webfxplatformgwtlog" />
       </profile>
     </annotationProcessing>
@@ -460,7 +464,6 @@
       <module name="webfx-fxkit-util" target="11" />
       <module name="webfx-fxkits-core" target="1.8" />
       <module name="webfx-fxkits-emul" target="1.8" />
-      <module name="webfx-fxkits-emul-tool" target="11" />
       <module name="webfx-javafxportable" target="1.8" />
       <module name="webfx-javafxportable-fxlibs" target="1.8" />
       <module name="webfx-lib-controlsfx-validation" target="11" />
@@ -494,7 +497,6 @@
       <module name="webfx-platform-gwt-scheduler" target="1.8" />
       <module name="webfx-platform-providers-gwt-emul-javabase" target="11" />
       <module name="webfx-platform-providers-gwt-emul-javatime" target="11" />
-      <module name="webfx-platform-providers-gwt-serviceloadergenerator" target="11" />
       <module name="webfx-platform-providers-java-queryupdate" target="11" />
       <module name="webfx-platform-providers-vertx-instance" target="11" />
       <module name="webfx-platform-providers-vertx-queryupdate" target="11" />
@@ -547,6 +549,20 @@
       <module name="webfx-platforms-java" target="1.8" />
       <module name="webfx-platforms-web" target="1.8" />
       <module name="webfx-root" target="11" />
+      <module name="webfx-tool-emultranslator" target="11" />
+      <module name="webfx-tool-gwtsupersourcegenerator" target="11" />
+      <module name="webfx-tools" target="11" />
+      <module name="webfx-tutorial-colorfulcircles" target="11" />
+      <module name="webfx-tutorial-colorfulcircles-executables" target="11" />
+      <module name="webfx-tutorial-colorfulcircles-fxkit-gwt" target="11" />
+      <module name="webfx-tutorial-colorfulcircles-fxkit-javafx" target="11" />
+      <module name="webfx-tutorial-colorfulcircles-module" target="11" />
+      <module name="webfx-tutorial-helloworld" target="11" />
+      <module name="webfx-tutorial-helloworld-executables" target="11" />
+      <module name="webfx-tutorial-helloworld-fxkit-gwt" target="11" />
+      <module name="webfx-tutorial-helloworld-fxkit-javafx" target="11" />
+      <module name="webfx-tutorial-helloworld-module" target="11" />
+      <module name="webfx-tutorials" target="11" />
       <module name="webfxplatformgwtlog" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -672,7 +688,6 @@
       <module name="webfx-fxkit-launcher" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-launcher\target/modules" />
       <module name="webfx-fxkit-mapper" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-mapper\target/modules" />
       <module name="webfx-fxkit-util" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkit-util\target/modules" />
-      <module name="webfx-fxkits-emul-tool" options="--module-path C:\dev\git-repos\webfx\webfx-fxkit\webfx-fxkits-emul-tool\target/modules" />
       <module name="webfx-lib-controlsfx-validation" options="--module-path C:\dev\git-repos\webfx\webfx-libs\webfx-lib-controlsfx-validation\target/modules" />
       <module name="webfx-lib-flexboxfx" options="--module-path C:\dev\git-repos\webfx\webfx-libs\webfx-lib-flexboxfx\target/modules" />
       <module name="webfx-lib-javacupruntime" options="--module-path C:\dev\git-repos\webfx\webfx-libs\webfx-lib-javacupruntime\target/modules" />
@@ -700,7 +715,6 @@
       <module name="webfx-platform-client-windowlocation-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-client-windowlocation-java\target/modules" />
       <module name="webfx-platform-providers-gwt-emul-javabase" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-gwt-emul-javabase\target/modules" />
       <module name="webfx-platform-providers-gwt-emul-javatime" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-gwt-emul-javatime\target/modules" />
-      <module name="webfx-platform-providers-gwt-serviceloadergenerator" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-gwt-serviceloadergenerator\target/modules" />
       <module name="webfx-platform-providers-java-queryupdate" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-java-queryupdate\target/modules" />
       <module name="webfx-platform-providers-vertx-instance" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-vertx-instance\target/modules" />
       <module name="webfx-platform-providers-vertx-queryupdate" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-providers-vertx-queryupdate\target/modules" />
@@ -739,6 +753,20 @@
       <module name="webfx-platform-shared-update-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-update-java\target/modules" />
       <module name="webfx-platform-shared-update-vertx" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-update-vertx\target/modules" />
       <module name="webfx-platform-shared-util" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-util\target/modules" />
+      <module name="webfx-tool-emultranslator" options="--module-path C:\dev\git-repos\webfx\webfx-tools\webfx-tool-emultranslator\target/modules" />
+      <module name="webfx-tool-gwtsupersourcegenerator" options="--module-path C:\dev\git-repos\webfx\webfx-tools\webfx-tool-gwtsupersourcegenerator\target/modules" />
+      <module name="webfx-tools" options="--module-path C:\dev\git-repos\webfx\webfx-tools\target/modules" />
+      <module name="webfx-tutorial-colorfulcircles" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-colorfulcircles\target/modules" />
+      <module name="webfx-tutorial-colorfulcircles-executables" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-colorfulcircles\webfx-tutorial-colorfulcircles-executables\target/modules" />
+      <module name="webfx-tutorial-colorfulcircles-fxkit-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-colorfulcircles\webfx-tutorial-colorfulcircles-executables\webfx-tutorial-colorfulcircles-fxkit-gwt\target/modules" />
+      <module name="webfx-tutorial-colorfulcircles-fxkit-javafx" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-colorfulcircles\webfx-tutorial-colorfulcircles-executables\webfx-tutorial-colorfulcircles-fxkit-javafx\target/modules" />
+      <module name="webfx-tutorial-colorfulcircles-module" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-colorfulcircles\webfx-tutorial-colorfulcircles-module\target/modules" />
+      <module name="webfx-tutorial-helloworld" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-helloworld\target/modules" />
+      <module name="webfx-tutorial-helloworld-executables" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-helloworld\webfx-tutorial-helloworld-executables\target/modules" />
+      <module name="webfx-tutorial-helloworld-fxkit-gwt" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-helloworld\webfx-tutorial-helloworld-executables\webfx-tutorial-helloworld-fxkit-gwt\target/modules" />
+      <module name="webfx-tutorial-helloworld-fxkit-javafx" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-helloworld\webfx-tutorial-helloworld-executables\webfx-tutorial-helloworld-fxkit-javafx\target/modules" />
+      <module name="webfx-tutorial-helloworld-module" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\webfx-tutorial-helloworld\webfx-tutorial-helloworld-module\target/modules" />
+      <module name="webfx-tutorials" options="--module-path C:\dev\git-repos\webfx\webfx-tutorials\target/modules" />
     </option>
   </component>
 </project>

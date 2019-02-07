@@ -40,7 +40,6 @@
     <orderEntry type="library" name="Maven: com.google.elemental2:elemental2-promise:1.0.0-RC1" level="project" />
     <orderEntry type="module" module-name="webfx-platform-client-storage-gwt" />
     <orderEntry type="module" module-name="webfx-platform-client-storage" />
-    <orderEntry type="library" name="Maven: org.webfx:webfx-platform-providers-gwt-serviceloadergenerator:0.1.0-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler-gwt" />
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
     <orderEntry type="module" module-name="webfx-platform-client-websocket-gwt" />

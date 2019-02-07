@@ -15,12 +15,14 @@
     <orderEntry type="module" module-name="webfx-platform-client-uischeduler" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer" />
-    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
-    <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-platform-shared-util" />
     <orderEntry type="module" module-name="webfx-fxkit-mapper" />
     <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-fxkit-extra" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown-java" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log-simple" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-web:11.0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-web:win:11.0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjfx:javafx-controls:11.0.2" level="project" />

@@ -91,6 +91,10 @@
     <orderEntry type="module" module-name="webfx-fxkit-mapper" />
     <orderEntry type="module" module-name="webfx-fxkit-util" />
     <orderEntry type="module" module-name="webfx-fxkit-extra" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown-java" />
+    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log-simple" />
+    <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-lib-javacupruntime" />
     <orderEntry type="library" name="Maven: de.codecentric.centerdevice:javafxsvg:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlgraphics:batik-transcoder:1.8" level="project" />
@@ -115,10 +119,8 @@
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.0.4" level="project" />
     <orderEntry type="module" module-name="webfx-platform-client-all-java" />
     <orderEntry type="module" module-name="webfx-platform-shared-appcontainer-java" />
-    <orderEntry type="module" module-name="webfx-platform-shared-log" />
     <orderEntry type="module" module-name="webfx-platform-shared-json-java" />
     <orderEntry type="module" module-name="webfx-platform-shared-json" />
-    <orderEntry type="module" module-name="webfx-platform-shared-log-simple" />
     <orderEntry type="module" module-name="webfx-platform-shared-query-java" />
     <orderEntry type="module" module-name="webfx-platform-providers-java-queryupdate" />
     <orderEntry type="module" module-name="webfx-platform-shared-query" />
@@ -131,8 +133,6 @@
     <orderEntry type="module" module-name="webfx-platform-shared-resource" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler-java" />
     <orderEntry type="module" module-name="webfx-platform-shared-scheduler" />
-    <orderEntry type="module" module-name="webfx-platform-shared-shutdown-java" />
-    <orderEntry type="module" module-name="webfx-platform-shared-shutdown" />
     <orderEntry type="module" module-name="webfx-platform-client-storage-java" />
     <orderEntry type="module" module-name="webfx-platform-client-storage" />
     <orderEntry type="module" module-name="webfx-platform-client-websocket-java" />

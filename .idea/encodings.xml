@@ -129,7 +129,6 @@
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-launcher" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-mapper" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkit-util" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-fxkit/webfx-fxkits-emul-tool" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-libs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-controlsfx-validation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-libs/webfx-lib-flexboxfx" charset="UTF-8" />
@@ -159,7 +158,6 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-client-windowlocation-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-providers-gwt-emul-javabase" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-providers-gwt-emul-javatime" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-providers-gwt-serviceloadergenerator" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-providers-java-queryupdate" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-providers-vertx-instance" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-providers-vertx-queryupdate" charset="UTF-8" />
@@ -198,6 +196,20 @@
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-update-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-update-vertx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tools" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tools/webfx-tool-emultranslator" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tools/webfx-tool-gwtsupersourcegenerator" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-colorfulcircles" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-colorfulcircles/webfx-tutorial-colorfulcircles-executables" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-colorfulcircles/webfx-tutorial-colorfulcircles-executables/webfx-tutorial-colorfulcircles-fxkit-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-colorfulcircles/webfx-tutorial-colorfulcircles-executables/webfx-tutorial-colorfulcircles-fxkit-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-colorfulcircles/webfx-tutorial-colorfulcircles-module" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-helloworld" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-helloworld/webfx-tutorial-helloworld-executables" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-helloworld/webfx-tutorial-helloworld-executables/webfx-tutorial-helloworld-fxkit-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-helloworld/webfx-tutorial-helloworld-executables/webfx-tutorial-helloworld-fxkit-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webfx-tutorials/webfx-tutorial-helloworld/webfx-tutorial-helloworld-module" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
