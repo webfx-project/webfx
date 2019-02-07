@@ -18,6 +18,7 @@
         <module>webfx-fxkit</module>
         <module>webfx-framework</module>
         <module>webfx-tutorials</module>
+        <module>webfx-tools</module>
 
         <!-- Mongoose app (will move to another repo once webfx API will be stable) -->
         <module>mongoose</module>

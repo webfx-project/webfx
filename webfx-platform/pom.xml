@@ -67,7 +67,6 @@
 
         <module>webfx-platform-providers-gwt-emul-javabase</module>
         <module>webfx-platform-providers-gwt-emul-javatime</module>
-        <module>webfx-platform-providers-gwt-serviceloadergenerator</module>
 
         <module>webfx-platform-shared-appcontainer-gwt</module>
         <module>webfx-platform-shared-json-gwt</module>

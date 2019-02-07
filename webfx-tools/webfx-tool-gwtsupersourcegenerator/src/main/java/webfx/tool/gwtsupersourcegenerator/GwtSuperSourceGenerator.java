@@ -1,4 +1,4 @@
-package webfx.platform.providers.gwt.serviceloadergenerator;
+package webfx.tool.gwtsupersourcegenerator;
 
 import java.io.*;
 import java.net.URL;
@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-public final class ServiceLoaderGenerator {
+public final class GwtSuperSourceGenerator {
 
     private final static String SERVICE_LOADER_JAVA_TEMPLATE = "package java.util;\n" +
             "\n" +
@@ -73,12 +73,12 @@ public final class ServiceLoaderGenerator {
             "}";
 
     public static void main(String[] args) {
-        generateServiceLoaderEmulationCode();
+        generateServiceLoaderSuperSource();
         log("");
-        generateArrayEmulationCode();
+        generateArraySuperSource();
     }
 
-    private static void generateArrayEmulationCode() {
+    private static void generateArraySuperSource() {
         StringBuilder sb = new StringBuilder();
         appendArrayCasesCode(sb);
         writeJavaTemplateSuperSourceFile(ARRAY_JAVA_TEMPLATE, sb, "java/lang/reflect/Array.java");
@@ -93,7 +93,7 @@ public final class ServiceLoaderGenerator {
         }
     }
 
-    private static void generateServiceLoaderEmulationCode() {
+    private static void generateServiceLoaderSuperSource() {
         log("************************************************************************");
         log("***** Generating java.util.ServiceLoader.java super source for GWT *****");
         log("************************************************************************");

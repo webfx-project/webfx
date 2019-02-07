@@ -56,12 +56,6 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-providers-gwt-serviceloadergenerator</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-platform-client-uischeduler-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

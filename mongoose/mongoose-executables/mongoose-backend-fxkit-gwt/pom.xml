@@ -220,7 +220,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-platform-providers-gwt-serviceloadergenerator</artifactId>
+            <artifactId>webfx-tool-gwtsupersourcegenerator</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <scope>runtime</scope>
