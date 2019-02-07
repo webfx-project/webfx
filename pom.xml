@@ -45,7 +45,7 @@
         <lib.gwt.version>2.8.2</lib.gwt.version> <!-- can be switched to HEAD-SNAPSHOT on development machines to test the latest GWT version -->
         <lib.elemental2.version>1.0.0-RC1</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
-        <lib.vertx.version>3.6.2</lib.vertx.version>
+        <lib.vertx.version>3.6.3</lib.vertx.version>
         <lib.javawebsocket.version>1.3.9</lib.javawebsocket.version>
 
          <!--
