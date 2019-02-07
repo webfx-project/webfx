@@ -19,7 +19,6 @@
 
         <module>webfx-lib-controlsfx-validation</module>
         <module>webfx-lib-mvvmfx-validation</module>
-        <module>webfx-lib-flexboxfx</module>
     </modules>
 
 </project>
