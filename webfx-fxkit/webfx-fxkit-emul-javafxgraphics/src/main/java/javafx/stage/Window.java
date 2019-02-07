@@ -308,8 +308,11 @@ public class Window implements EventTarget,
                     if (getScene() != null) {
                         getScene().impl_initPeer();
                         //impl_peer.setScene(getScene().getPeer());
-                        getScene().impl_preferredSize();
-                        // Ugly workaround to fix a wrong window positioning that occurs on first showing while the node sizes are not yet correct
+                        if (Window.this instanceof Stage && !FxKitLauncher.getProvider().isStageProgrammaticallyRelocatableAndResizable())
+                            ((Stage) Window.this).resizeSceneToStage();
+                        else
+                            getScene().impl_preferredSize();
+                        // Ugly webfx workaround to fix a wrong window positioning that occurs on first showing while the node sizes are not yet correct
                         if (firstShowing && Window.this != FxKitLauncher.getPrimaryStage()) {
                             impl_peer.setBounds(100_000, 100_000, true, true, -1, -1, -1, -1, 0, 0);
                             impl_peer.setVisible(true);

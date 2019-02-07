@@ -13,6 +13,8 @@ public interface FxKitLauncherProvider {
 
     String getUserAgent();
 
+    boolean isStageProgrammaticallyRelocatableAndResizable();
+
     default Screen getPrimaryScreen() {
         return Screen.getPrimary();
     }

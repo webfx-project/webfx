@@ -11,4 +11,5 @@ public interface StagePeer extends WindowPeer {
         return (Stage) getWindow();
     }
 
+    void changedWindowSize();
 }

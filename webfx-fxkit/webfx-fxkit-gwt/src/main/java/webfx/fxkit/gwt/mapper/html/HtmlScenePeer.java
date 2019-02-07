@@ -8,17 +8,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
+import webfx.fxkit.extra.control.HtmlText;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlHtmlTextPeer;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlNodePeer;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.util.properties.Properties;
 import webfx.fxkit.mapper.spi.NodePeer;
 import webfx.fxkit.mapper.spi.impl.peer.ScenePeerBase;
-import webfx.fxkit.extra.control.HtmlText;
-import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.fxkit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.collection.Collections;
 
 import static elemental2.dom.DomGlobal.document;
@@ -32,16 +32,10 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     public HtmlScenePeer(Scene scene) {
         super(scene);
-        HtmlUtil.setStyleAttribute(container, "width", "100%");
         Properties.runNowAndOnPropertiesChange(property -> updateContainerWidth(), scene.widthProperty());
         Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
         Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
-    }
-
-    public void changedWindowSize(float width, float height) {
-        if (listener != null)
-            listener.changedSize(width, height);
     }
 
     private void updateContainerWidth() {

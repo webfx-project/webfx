@@ -1,13 +1,13 @@
 package webfx.fxkit.gwt.mapper.shared;
 
-import com.sun.javafx.tk.TKStageListener;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import webfx.fxkit.gwt.mapper.html.HtmlScenePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.StagePeer;
-import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.fxkit.mapper.spi.impl.peer.ScenePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.StagePeerBase;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 import static elemental2.dom.DomGlobal.document;
 import static elemental2.dom.DomGlobal.window;
@@ -16,57 +16,38 @@ import static elemental2.dom.DomGlobal.window;
 /**
  * @author Bruno Salmon
  */
-public final class GwtPrimaryStagePeer implements StagePeer {
-
-    private final Stage stage;
-    private TKStageListener listener;
+public final class GwtPrimaryStagePeer extends StagePeerBase {
 
     public GwtPrimaryStagePeer(Stage stage) {
-        this.stage = stage;
+        super(stage);
         // Disabling browser horizontal and vertical scroll bars
         HtmlUtil.setStyleAttribute(document.documentElement, "overflow", "hidden");
         // Removing the default margin around the body so it fills the whole browser tab
         HtmlUtil.setStyleAttribute(document.body, "margin", "0");
         // Checking the window size on each pulse (window.onsize is not enough because it doesn't detect vertical scroll bar apparition)
+        changedWindowSize();
         UiScheduler.schedulePeriodicInAnimationFrame(this::changedWindowSize, AnimationFramePass.PROPERTY_CHANGE_PASS);
     }
 
     @Override
-    public void setTKStageListener(TKStageListener listener) {
-        this.listener = listener;
-        listener.changedLocation(0, 0);
-        lastWidth = lastHeight = 0; // to force listener call in changedWindowSize()
-        UiScheduler.requestNextScenePulse(); // to ensure changedWindowSize() will be called very soon
+    protected ScenePeerBase getScenePeer() {
+        Scene scene = stage.getScene();
+        return scene == null ? null : (ScenePeerBase) scene.impl_getPeer();
     }
 
     @Override
-    public void setBounds(float x, float y, boolean xSet, boolean ySet, float w, float h, float cw, float ch, float xGravity, float yGravity) {
-        //Logger.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
-        changedWindowSize();
+    protected double getPeerWindowWidth() {
+        return window.innerWidth;
     }
 
-    private float lastWidth, lastHeight;
-
-    private void changedWindowSize() {
-        float width = (float) window.innerWidth;
-        float height = (float) window.innerHeight;
-        if (width == lastWidth && height == lastHeight)
-            return;
-        if (listener != null)
-            listener.changedSize(width, height);
-        ((HtmlScenePeer) stage.getScene().impl_getPeer()).changedWindowSize(width, height);
-        lastWidth = width;
-        lastHeight = height;
+    @Override
+    protected double getPeerWindowHeight() {
+        return window.innerHeight;
     }
 
     @Override
     public void setTitle(String title) {
         document.title = title;
-    }
-
-    @Override
-    public Window getWindow() {
-        return stage;
     }
 
     @Override

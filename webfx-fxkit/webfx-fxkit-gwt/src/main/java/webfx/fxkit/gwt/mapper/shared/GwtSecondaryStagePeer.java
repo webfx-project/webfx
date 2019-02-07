@@ -4,37 +4,46 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLBodyElement;
 import elemental2.dom.HTMLElement;
-import com.sun.javafx.tk.TKStageListener;
+import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import webfx.fxkit.gwt.mapper.html.HtmlScenePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.StagePeer;
+import webfx.fxkit.mapper.spi.impl.peer.ScenePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.StagePeerBase;
 
 import static elemental2.dom.DomGlobal.document;
 
 /**
  * @author Bruno Salmon
  */
-public final class GwtSecondaryStagePeer implements StagePeer {
+public final class GwtSecondaryStagePeer extends StagePeerBase {
 
-    private final Stage stage;
-    private TKStageListener listener;
     private HTMLElement modalBackgroundDiv;
     private final HTMLElement stageDiv = HtmlUtil.createDivElement();
     private final CSSStyleDeclaration stageDivStyle = stageDiv.style;
 
     public GwtSecondaryStagePeer(Stage stage) {
-        this.stage = stage;
+        super(stage);
         stageDivStyle.position = "absolute";
         stageDivStyle.overflow = "hidden";
         stageDivStyle.border = "orange 3px solid";
     }
 
     @Override
-    public void setTKStageListener(TKStageListener listener) {
-        this.listener = listener;
+    protected ScenePeerBase getScenePeer() {
+        Scene scene = stage.getScene();
+        return scene == null ? null : (ScenePeerBase) scene.impl_getPeer();
+    }
+
+    @Override
+    protected double getPeerWindowWidth() {
+        return stageDiv.clientWidth;
+    }
+
+    @Override
+    protected double getPeerWindowHeight() {
+        return stageDiv.clientHeight;
     }
 
     @Override
@@ -55,21 +64,8 @@ public final class GwtSecondaryStagePeer implements StagePeer {
         changedWindowSize();
     }
 
-    private void changedWindowSize() {
-        float clientWidth = (float) stageDiv.clientWidth;
-        float clientHeight = (float) stageDiv.clientHeight;
-        if (listener != null)
-            listener.changedSize(clientWidth, clientHeight);
-        ((HtmlScenePeer) stage.getScene().impl_getPeer()).changedWindowSize(clientWidth, clientHeight);
-    }
-
     @Override
     public void setTitle(String title) {
-    }
-
-    @Override
-    public Window getWindow() {
-        return stage;
     }
 
     private boolean visible;
