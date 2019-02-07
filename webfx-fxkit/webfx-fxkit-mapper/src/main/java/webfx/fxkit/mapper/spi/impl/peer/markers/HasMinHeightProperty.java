@@ -1,14 +1,14 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasMinHeightProperty {
 
-    Property<Double> minHeightProperty();
-    default void setMinHeight(Double minHeight) { minHeightProperty().setValue(minHeight); }
+    DoubleProperty minHeightProperty();
+    default void setMinHeight(Number minHeight) { minHeightProperty().setValue(minHeight); }
     default Double getMinHeight() { return minHeightProperty().getValue(); }
 
 }

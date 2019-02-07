@@ -7,6 +7,7 @@ import elemental2.dom.HTMLElement;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.shape.Circle;
@@ -74,6 +75,9 @@ public abstract class HtmlNodePeer
             return null;
         if (effect instanceof GaussianBlur) {
             return "blur(" + ((GaussianBlur) effect).getSigma() + "px)";
+        } else if (effect instanceof BoxBlur) {
+            // Not supported by browser so doing a gaussian blur instead
+            return "blur(" + GaussianBlur.getSigma(((BoxBlur) effect).getWidth()) + "px)";
         }
         return null;
     }

@@ -1,12 +1,14 @@
 package javafx.scene.layout;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.util.Callback;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.util.Callback;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasAlignmentProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasSpacingProperty;
 
@@ -75,9 +77,9 @@ abstract class Box extends Pane implements
         getChildren().addAll(children);
     }
 
-    private final Property<Double> spacingProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty spacingProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> spacingProperty() {
+    public DoubleProperty spacingProperty() {
         return spacingProperty;
     }
 

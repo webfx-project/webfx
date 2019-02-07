@@ -1,15 +1,15 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasXProperty {
 
-    Property<Double> xProperty();
+    DoubleProperty xProperty();
 
-    default void setX(Double x) {
+    default void setX(Number x) {
         xProperty().setValue(x);
     }
 

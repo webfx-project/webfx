@@ -1,7 +1,7 @@
 package javafx.scene.transform;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasPivotXProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasPivotYProperty;
 
@@ -20,15 +20,15 @@ abstract class PivotTransform extends Transform implements
         setPivotY(pivotY);
     }
 
-    final Property<Double> pivotXProperty = new SimpleObjectProperty<>(0d);
+    final DoubleProperty pivotXProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> pivotXProperty() {
+    public DoubleProperty pivotXProperty() {
         return pivotXProperty;
     }
 
-    final Property<Double> pivotYProperty = new SimpleObjectProperty<>(0d);
+    final DoubleProperty pivotYProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> pivotYProperty() {
+    public DoubleProperty pivotYProperty() {
         return pivotYProperty;
     }
 

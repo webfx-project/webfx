@@ -1,15 +1,15 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasRadiusProperty {
 
-    Property<Double> radiusProperty();
+    DoubleProperty radiusProperty();
 
-    default void setRadius(Double height) {
+    default void setRadius(Number height) {
         radiusProperty().setValue(height);
     }
 

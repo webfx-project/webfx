@@ -516,11 +516,11 @@ public class ButtonBar extends Control {
     /**
      * Specifies the minimum width of all buttons placed in this button bar.
      */
-    public final Property<Double> buttonMinWidthProperty() {
+    public final DoubleProperty buttonMinWidthProperty() {
         return buttonMinWidthProperty;
     }
-    private final Property<Double> buttonMinWidthProperty =
-            new SimpleObjectProperty<>(this, "buttonMinWidthProperty", 0d); //$NON-NLS-1$
+    private final DoubleProperty buttonMinWidthProperty =
+            new SimpleDoubleProperty(this, "buttonMinWidthProperty", 0d); //$NON-NLS-1$
 
     /**
      * Sets the minimum width of all buttons placed in this button bar.

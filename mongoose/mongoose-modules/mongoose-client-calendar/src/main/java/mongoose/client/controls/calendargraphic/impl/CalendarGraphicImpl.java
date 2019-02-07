@@ -92,7 +92,7 @@ public final class CalendarGraphicImpl implements CalendarGraphic {
         boolean create = horizontalDayPositioner == null;
         if (create) {
             horizontalDayPositioner = new HorizontalDayPositioner(calendar);
-            verticalDayPositioner = new VerticalDayTimePositioner((Property) rootNode.prefHeightProperty());
+            verticalDayPositioner = new VerticalDayTimePositioner(rootNode.prefHeightProperty());
             rootNode.minHeightProperty().bind(rootNode.prefHeightProperty());
         } else {
             horizontalDayPositioner.setCalendar(calendar);

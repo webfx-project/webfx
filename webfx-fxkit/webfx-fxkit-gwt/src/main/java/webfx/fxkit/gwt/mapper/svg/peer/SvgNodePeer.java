@@ -1,19 +1,20 @@
 package webfx.fxkit.gwt.mapper.svg.peer;
 
 import elemental2.dom.Element;
-import webfx.fxkit.gwt.mapper.svg.SvgScenePeer;
-import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
-import webfx.fxkit.gwt.mapper.util.HtmlPaints;
-import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.gwt.mapper.util.SvgUtil;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
+import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
+import webfx.fxkit.gwt.mapper.svg.SvgScenePeer;
+import webfx.fxkit.gwt.mapper.util.HtmlPaints;
+import webfx.fxkit.gwt.mapper.util.HtmlUtil;
+import webfx.fxkit.gwt.mapper.util.SvgUtil;
 import webfx.fxkit.mapper.spi.NodePeer;
 import webfx.fxkit.mapper.spi.impl.peer.NodePeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.NodePeerMixin;
@@ -72,6 +73,13 @@ public abstract class SvgNodePeer
             Element fe = SvgUtil.createSvgElement("feGaussianBlur");
             fe.setAttribute("in", "SourceGraphic");
             fe.setAttribute("stdDeviation", ((GaussianBlur) effect).getSigma());
+            return fe;
+        }
+        if (effect instanceof BoxBlur) {
+            // Is it supported by SVG? For now doing a gaussian blur instead
+            Element fe = SvgUtil.createSvgElement("feGaussianBlur");
+            fe.setAttribute("in", "SourceGraphic");
+            fe.setAttribute("stdDeviation", GaussianBlur.getSigma(((BoxBlur) effect).getWidth()));
             return fe;
         }
         return null;

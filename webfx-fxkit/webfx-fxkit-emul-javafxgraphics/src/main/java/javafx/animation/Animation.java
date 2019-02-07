@@ -144,13 +144,13 @@ public abstract class Animation {
         }
     };
 
-    private class CurrentRateProperty extends SimpleObjectProperty<Double> {
+    private class CurrentRateProperty extends SimpleDoubleProperty {
 
         public CurrentRateProperty() {
             super(Animation.this, "currentRate");
         }
 
-        private void set(double value) {
+        public void set(double value) {
             super.set(value);
             fireValueChangedEvent();
         }
@@ -199,7 +199,7 @@ public abstract class Animation {
      * {@code Animation} to reverse direction in place and play back over the
      * portion of the {@code Animation} that has already elapsed.
      */
-    private Property<Double> rate;
+    private DoubleProperty rate;
     private static final double DEFAULT_RATE = 1.0;
 
     public final void setRate(double value) {
@@ -211,9 +211,9 @@ public abstract class Animation {
         return (rate == null)? DEFAULT_RATE : rate.getValue();
     }
 
-    public final Property<Double> rateProperty() {
+    public final DoubleProperty rateProperty() {
         if (rate == null)
-            rate = new SimpleObjectProperty<Double>(DEFAULT_RATE) {
+            rate = new SimpleDoubleProperty(DEFAULT_RATE) {
 
                 @Override
                 public void invalidated() {
@@ -274,7 +274,7 @@ public abstract class Animation {
      * stopped. {@code currentRate} may also point to different direction during
      * reverse cycles when {@code autoReverse} is {@code true}
      */
-    private ReadOnlyProperty<Double> currentRate;
+    private ReadOnlyDoubleProperty currentRate;
     private static final double DEFAULT_CURRENT_RATE = 0.0;
 
     private void setCurrentRate(double value) {
@@ -286,7 +286,7 @@ public abstract class Animation {
         return (currentRate == null)? DEFAULT_CURRENT_RATE : currentRate.getValue();
     }
 
-    public final ReadOnlyProperty<Double> currentRateProperty() {
+    public final ReadOnlyDoubleProperty currentRateProperty() {
         if (currentRate == null)
             currentRate = new CurrentRateProperty();
         return currentRate;

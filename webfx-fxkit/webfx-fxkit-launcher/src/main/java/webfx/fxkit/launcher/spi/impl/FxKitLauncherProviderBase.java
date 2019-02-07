@@ -12,7 +12,28 @@ import webfx.platform.shared.util.function.Factory;
  */
 public abstract class FxKitLauncherProviderBase implements FxKitLauncherProvider {
 
+    private final String userAgent;
+    private final boolean stageProgrammaticallyRelocatableAndResizable;
     private Stage primaryStage;
+
+    public FxKitLauncherProviderBase(String userAgent) {
+        this(userAgent, false);
+    }
+
+    public FxKitLauncherProviderBase(String userAgent, boolean stageProgrammaticallyRelocatableAndResizable) {
+        this.userAgent = userAgent;
+        this.stageProgrammaticallyRelocatableAndResizable = stageProgrammaticallyRelocatableAndResizable;
+    }
+
+    @Override
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    @Override
+    public boolean isStageProgrammaticallyRelocatableAndResizable() {
+        return stageProgrammaticallyRelocatableAndResizable;
+    }
 
     @Override
     public Stage getPrimaryStage() {

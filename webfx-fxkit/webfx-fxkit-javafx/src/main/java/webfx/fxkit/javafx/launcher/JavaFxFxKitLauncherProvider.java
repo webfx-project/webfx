@@ -20,14 +20,13 @@ public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase
 
     private static Stage primaryStage;
 
-    @Override
-    public Stage getPrimaryStage() {
-        return primaryStage;
+    public JavaFxFxKitLauncherProvider(String userAgent) {
+        super("JavaFx", true);
     }
 
     @Override
-    public String getUserAgent() {
-        return "JavaFx";
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 
     @Override

@@ -1,14 +1,14 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasMinWidthProperty {
 
-    Property<Double> minWidthProperty();
-    default void setMinWidth(Double minWidth) { minWidthProperty().setValue(minWidth); }
+    DoubleProperty minWidthProperty();
+    default void setMinWidth(Number minWidth) { minWidthProperty().setValue(minWidth); }
     default Double getMinWidth() { return minWidthProperty().getValue(); }
 
 }

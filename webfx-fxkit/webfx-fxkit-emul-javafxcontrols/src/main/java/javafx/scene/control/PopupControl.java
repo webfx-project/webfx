@@ -336,7 +336,7 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      * <code>getMinWidth(forHeight)</code> to return the control's preferred width,
      * enabling applications to easily restrict the resizability of the control.
      */
-    private Property<Double> minWidth;
+    private DoubleProperty minWidth;
 
     /**
      * Property for overriding the control's computed minimum width.
@@ -367,9 +367,9 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      * enabling applications to easily restrict the resizability of the control.
      */
     public final double getMinWidth() { return minWidth == null ? USE_COMPUTED_SIZE : minWidth.getValue(); }
-    public final Property<Double> minWidthProperty() {
+    public final DoubleProperty minWidthProperty() {
         if (minWidth == null) {
-            minWidth = new SimpleObjectProperty<>(USE_COMPUTED_SIZE)/* {
+            minWidth = new SimpleDoubleProperty(USE_COMPUTED_SIZE)/* {
                 @Override public void invalidated() {
                     if (isShowing()) bridge.requestLayout();
                 }
@@ -403,7 +403,7 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      * enabling applications to easily restrict the resizability of the control.
      *
      */
-    private Property<Double> minHeight;
+    private DoubleProperty minHeight;
 
     /**
      * Property for overriding the control's computed minimum height.
@@ -436,9 +436,9 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      *
      */
     public final double getMinHeight() { return minHeight == null ? USE_COMPUTED_SIZE : minHeight.getValue(); }
-    public final Property<Double> minHeightProperty() {
+    public final DoubleProperty minHeightProperty() {
         if (minHeight == null) {
-            minHeight = new SimpleObjectProperty<>(USE_COMPUTED_SIZE)/* {
+            minHeight = new SimpleDoubleProperty(USE_COMPUTED_SIZE)/* {
                 @Override public void invalidated() {
                     if (isShowing()) bridge.requestLayout();
                 }
@@ -481,7 +481,7 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      * <code>getPrefWidth(forHeight)</code> will return the control's internally
      * computed preferred width.
      */
-    private Property<Double> prefWidth;
+    private DoubleProperty prefWidth;
 
     /**
      * Property for overriding the control's computed preferred width.
@@ -504,9 +504,9 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      * computed preferred width.
      */
     public final double getPrefWidth() { return prefWidth == null ? USE_COMPUTED_SIZE : prefWidth.getValue(); }
-    public final Property<Double> prefWidthProperty() {
+    public final DoubleProperty prefWidthProperty() {
         if (prefWidth == null) {
-            prefWidth = new SimpleObjectProperty<>(USE_COMPUTED_SIZE)/* {
+            prefWidth = new SimpleDoubleProperty(USE_COMPUTED_SIZE)/* {
                 @Override public void invalidated() {
                     if (isShowing()) bridge.requestLayout();
                 }
@@ -535,7 +535,7 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      * computed preferred width.
      *
      */
-    private Property<Double> prefHeight;
+    private DoubleProperty prefHeight;
 
     /**
      * Property for overriding the control's computed preferred height.
@@ -560,9 +560,9 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      *
      */
     public final double getPrefHeight() { return prefHeight == null ? USE_COMPUTED_SIZE : prefHeight.getValue(); }
-    public final Property<Double> prefHeightProperty() {
+    public final DoubleProperty prefHeightProperty() {
         if (prefHeight == null) {
-            prefHeight = new SimpleObjectProperty<>(USE_COMPUTED_SIZE)/* {
+            prefHeight = new SimpleDoubleProperty(USE_COMPUTED_SIZE)/* {
                 @Override public void invalidated() {
                     if (isShowing()) bridge.requestLayout();
                 }
@@ -609,7 +609,7 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      * <code>getMaxWidth(forHeight)</code> to return the control's preferred width,
      * enabling applications to easily restrict the resizability of the control.
      */
-    private Property<Double> maxWidth;
+    private DoubleProperty maxWidth;
 
     /**
      * Property for overriding the control's computed maximum width.
@@ -640,9 +640,9 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      * enabling applications to easily restrict the resizability of the control.
      */
     public final double getMaxWidth() { return maxWidth == null ? USE_COMPUTED_SIZE : maxWidth.getValue(); }
-    public final Property<Double> maxWidthProperty() {
+    public final DoubleProperty maxWidthProperty() {
         if (maxWidth == null) {
-            maxWidth = new SimpleObjectProperty<>(USE_COMPUTED_SIZE)/* {
+            maxWidth = new SimpleDoubleProperty(USE_COMPUTED_SIZE)/* {
                 @Override public void invalidated() {
                     if (isShowing()) bridge.requestLayout();
                 }
@@ -675,7 +675,7 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      * enabling applications to easily restrict the resizability of the control.
      *
      */
-    private Property<Double> maxHeight;
+    private DoubleProperty maxHeight;
 
     /**
      * Property for overriding the control's computed maximum height.
@@ -708,9 +708,9 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      *
      */
     public final double getMaxHeight() { return maxHeight == null ? USE_COMPUTED_SIZE : maxHeight.getValue(); }
-    public final Property<Double> maxHeightProperty() {
+    public final DoubleProperty maxHeightProperty() {
         if (maxHeight == null) {
-            maxHeight = new SimpleObjectProperty<>(USE_COMPUTED_SIZE)/* {
+            maxHeight = new SimpleDoubleProperty(USE_COMPUTED_SIZE)/* {
                 @Override public void invalidated() {
                     if (isShowing()) bridge.requestLayout();
                 }

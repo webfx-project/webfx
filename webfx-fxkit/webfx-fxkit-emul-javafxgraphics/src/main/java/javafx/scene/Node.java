@@ -121,9 +121,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
 
-    private final Property<Double> opacityProperty = new SimpleObjectProperty<>(1d);
+    private final DoubleProperty opacityProperty = new SimpleDoubleProperty(1d);
     @Override
-    public Property<Double> opacityProperty() {
+    public DoubleProperty opacityProperty() {
         return opacityProperty;
     }
 

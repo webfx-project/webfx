@@ -1,12 +1,14 @@
 package mongoose.client.controls.calendargraphic.impl;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.text.Font;
 import mongoose.shared.businessdata.time.TimeInterval;
 import webfx.platform.shared.util.collection.Collections;
 import webfx.platform.shared.util.collection.HashList;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -16,11 +18,11 @@ final class VerticalDayTimePositioner {
     final static double slotHeight = 35d;
     final static Font slotFont = Font.font("Verdana", 13);
 
-    private final Property<Double> containerHeightProperty;
+    private final DoubleProperty containerHeightProperty;
     private long firstDisplayedMinute;
     private long lastDisplayedMinute;
 
-    VerticalDayTimePositioner(Property<Double> containerHeightProperty) {
+    VerticalDayTimePositioner(DoubleProperty containerHeightProperty) {
         this.containerHeightProperty = containerHeightProperty;
         init();
     }

@@ -247,9 +247,9 @@ public abstract class Labeled extends Control implements
      * Specifies the space in pixel between lines.
      * @since JavaFX 8.0
      */
-    public final Property<Double> lineSpacingProperty() {
+    public final DoubleProperty lineSpacingProperty() {
         if (lineSpacing == null) {
-            lineSpacing = new SimpleObjectProperty<>(0d)/* {
+            lineSpacing = new SimpleDoubleProperty(0d)/* {
 
                 @Override
                 public CssMetaData<Labeled,Number> getCssMetaData() {
@@ -269,7 +269,7 @@ public abstract class Labeled extends Control implements
         }
         return lineSpacing;
     }
-    private Property<Double> lineSpacing;
+    private DoubleProperty lineSpacing;
     public final void setLineSpacing(double value) { lineSpacingProperty().setValue(value); }
     public final double getLineSpacing() { return lineSpacing == null ? 0 : lineSpacing.getValue(); }
 
@@ -370,9 +370,9 @@ public abstract class Labeled extends Control implements
     /**
      * The amount of space between the graphic and text
      */
-    public final Property<Double> graphicTextGapProperty() {
+    public final DoubleProperty graphicTextGapProperty() {
         if (graphicTextGap == null) {
-            graphicTextGap = new SimpleObjectProperty<>(4d)/* {
+            graphicTextGap = new SimpleDoubleProperty(4d)/* {
 
                 @Override
                 public CssMetaData<Labeled,Number> getCssMetaData() {
@@ -393,7 +393,7 @@ public abstract class Labeled extends Control implements
         return graphicTextGap;
     }
 
-    private Property<Double> graphicTextGap;
+    private DoubleProperty graphicTextGap;
 
     public final void setGraphicTextGap(double value) {
         graphicTextGapProperty().setValue(value);

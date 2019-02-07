@@ -11,13 +11,17 @@
     <packaging>pom</packaging>
 
     <modules>
+
         <!-- Webfx modules -->
         <module>webfx-libs</module>
         <module>webfx-platform</module>
         <module>webfx-fxkit</module>
         <module>webfx-framework</module>
+        <module>webfx-tutorials</module>
+
         <!-- Mongoose app (will move to another repo once webfx API will be stable) -->
         <module>mongoose</module>
+
     </modules>
 
     <properties>

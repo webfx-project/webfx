@@ -3,10 +3,7 @@ package javafx.scene.text;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.BoxBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.geometry.VPos;
 import javafx.scene.shape.Shape;
 import webfx.fxkit.mapper.spi.impl.peer.markers.*;
@@ -30,9 +27,9 @@ public class Text extends Shape implements
         setText(text);
     }
 
-    private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty xProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> xProperty() {
+    public DoubleProperty xProperty() {
         return xProperty;
     }
 
@@ -48,15 +45,15 @@ public class Text extends Shape implements
         return textAlignmentProperty;
     }
 
-    private final Property<Double> wrappingWidthProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty wrappingWidthProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> wrappingWidthProperty() {
+    public DoubleProperty wrappingWidthProperty() {
         return wrappingWidthProperty;
     }
 
-    private final Property<Double> yProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty yProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> yProperty() {
+    public DoubleProperty yProperty() {
         return yProperty;
     }
 

@@ -1,14 +1,14 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasArcWidthProperty {
 
-    Property<Double> arcWidthProperty();
-    default void setArcWidth(Double arcWidth) { arcWidthProperty().setValue(arcWidth); }
+    DoubleProperty arcWidthProperty();
+    default void setArcWidth(Number arcWidth) { arcWidthProperty().setValue(arcWidth); }
     default Double getArcWidth() { return arcWidthProperty().getValue(); }
 
 }

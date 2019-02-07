@@ -1,14 +1,14 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasWrappingWidthProperty {
 
-    Property<Double> wrappingWidthProperty();
-    default void setWrappingWidth(Double wrappingWidth) { wrappingWidthProperty().setValue(wrappingWidth); }
+    DoubleProperty wrappingWidthProperty();
+    default void setWrappingWidth(Number wrappingWidth) { wrappingWidthProperty().setValue(wrappingWidth); }
     default Double getWrappingWidth() { return wrappingWidthProperty().getValue(); }
 
 }

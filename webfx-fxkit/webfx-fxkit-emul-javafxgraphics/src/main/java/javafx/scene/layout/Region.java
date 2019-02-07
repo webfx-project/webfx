@@ -6,7 +6,9 @@ import com.sun.javafx.geom.Vec2d;
 import com.sun.javafx.geom.transform.BaseTransform;
 import com.sun.javafx.util.TempState;
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.*;
@@ -17,9 +19,9 @@ import webfx.fxkit.mapper.spi.impl.peer.markers.HasBackgroundProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasBorderProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasPaddingProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasSnapToPixelProperty;
-import java.util.function.Function;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon
@@ -38,7 +40,7 @@ public class Region extends Parent implements
         super(nodes);
     }
 
-    private final Property<Double> widthProperty = new SimpleObjectProperty<Double>(0d) {
+    private final DoubleProperty widthProperty = new SimpleDoubleProperty(0d) {
         private double lastValue = -1;
         @Override
         protected void invalidated() {
@@ -50,11 +52,11 @@ public class Region extends Parent implements
         }
     };
     @Override
-    public Property<Double> widthProperty() {
+    public DoubleProperty widthProperty() {
         return widthProperty;
     }
 
-    private final Property<Double> heightProperty = new SimpleObjectProperty<Double>(0d) {
+    private final DoubleProperty heightProperty = new SimpleDoubleProperty(0d) {
         private double lastValue = -1;
         @Override
         protected void invalidated() {
@@ -66,43 +68,43 @@ public class Region extends Parent implements
         }
     };
     @Override
-    public Property<Double> heightProperty() {
+    public DoubleProperty heightProperty() {
         return heightProperty;
     }
 
-    private final Property<Double> maxWidthProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
+    private final DoubleProperty maxWidthProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
     @Override
-    public Property<Double> maxWidthProperty() {
+    public DoubleProperty maxWidthProperty() {
         return maxWidthProperty;
     }
 
-    private final Property<Double> minWidthProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
+    private final DoubleProperty minWidthProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
     @Override
-    public Property<Double> minWidthProperty() {
+    public DoubleProperty minWidthProperty() {
         return minWidthProperty;
     }
 
-    private final Property<Double> maxHeightProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
+    private final DoubleProperty maxHeightProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
     @Override
-    public Property<Double> maxHeightProperty() {
+    public DoubleProperty maxHeightProperty() {
         return maxHeightProperty;
     }
 
-    private final Property<Double> minHeightProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
+    private final DoubleProperty minHeightProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
     @Override
-    public Property<Double> minHeightProperty() {
+    public DoubleProperty minHeightProperty() {
         return minHeightProperty;
     }
 
-    private final Property<Double> prefWidthProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
+    private final DoubleProperty prefWidthProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
     @Override
-    public Property<Double> prefWidthProperty() {
+    public DoubleProperty prefWidthProperty() {
         return prefWidthProperty;
     }
 
-    private final Property<Double> prefHeightProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
+    private final DoubleProperty prefHeightProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
     @Override
-    public Property<Double> prefHeightProperty() {
+    public DoubleProperty prefHeightProperty() {
         return prefHeightProperty;
     }
 

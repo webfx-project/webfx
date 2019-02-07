@@ -11,9 +11,8 @@ import webfx.fxkit.launcher.spi.impl.FxKitLauncherProviderBase;
  */
 public final class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
 
-    @Override
-    public String getUserAgent() {
-        return DomGlobal.navigator.userAgent;
+    public GwtFxKitLauncherProvider() {
+        super(DomGlobal.navigator.userAgent);
     }
 
     @Override

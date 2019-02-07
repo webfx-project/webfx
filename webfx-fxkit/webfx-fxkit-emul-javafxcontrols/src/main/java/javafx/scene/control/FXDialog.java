@@ -1,6 +1,7 @@
 package javafx.scene.control;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.scene.Node;
 import javafx.stage.Modality;
@@ -117,12 +118,12 @@ abstract class FXDialog {
     // --- x
     public abstract double getX();
     public abstract void setX(double x);
-    public abstract ReadOnlyProperty<Double> xProperty();
+    public abstract ReadOnlyDoubleProperty xProperty();
 
     // --- y
     public abstract double getY();
     public abstract void setY(double y);
-    public abstract ReadOnlyProperty<Double> yProperty();
+    public abstract ReadOnlyDoubleProperty yProperty();
 
     // --- resizable
     abstract Property<Boolean> resizableProperty();
@@ -146,7 +147,7 @@ abstract class FXDialog {
     /**
      * Property representing the width of the dialog.
      */
-    abstract ReadOnlyProperty<Double> widthProperty();
+    abstract ReadOnlyDoubleProperty widthProperty();
 
     abstract void setWidth(double width);
 
@@ -155,7 +156,7 @@ abstract class FXDialog {
     /**
      * Property representing the height of the dialog.
      */
-    abstract ReadOnlyProperty<Double> heightProperty();
+    abstract ReadOnlyDoubleProperty heightProperty();
 
     abstract void setHeight(double height);
 

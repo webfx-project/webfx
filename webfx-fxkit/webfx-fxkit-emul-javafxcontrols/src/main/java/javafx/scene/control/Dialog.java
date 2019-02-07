@@ -1,18 +1,18 @@
 package javafx.scene.control;
 
+import com.sun.javafx.event.EventHandlerManager;
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.collections.ListChangeListener;
-import javafx.util.Callback;
-import javafx.event.*;
+import javafx.event.Event;
+import javafx.event.EventDispatchChain;
+import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.scene.Node;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import com.sun.javafx.event.EventHandlerManager;
+import javafx.util.Callback;
 
 import java.lang.ref.WeakReference;
 import java.util.Optional;
@@ -736,7 +736,7 @@ public class Dialog<R> implements EventTarget {
     /**
      * Property representing the width of the dialog.
      */
-    public final ReadOnlyProperty<Double> widthProperty() {
+    public final ReadOnlyDoubleProperty widthProperty() {
         return dialog.widthProperty();
     }
 
@@ -759,7 +759,7 @@ public class Dialog<R> implements EventTarget {
     /**
      * Property representing the height of the dialog.
      */
-    public final ReadOnlyProperty<Double> heightProperty() {
+    public final ReadOnlyDoubleProperty heightProperty() {
         return dialog.heightProperty();
     }
 
@@ -814,7 +814,7 @@ public class Dialog<R> implements EventTarget {
      * The horizontal location of this {@code Dialog}. Changing this attribute
      * will move the {@code Dialog} horizontally.
      */
-    public final ReadOnlyProperty<Double> xProperty() {
+    public final ReadOnlyDoubleProperty xProperty() {
         return dialog.xProperty();
     }
 
@@ -831,7 +831,7 @@ public class Dialog<R> implements EventTarget {
      * The vertical location of this {@code Dialog}. Changing this attribute
      * will move the {@code Dialog} vertically.
      */
-    public final ReadOnlyProperty<Double> yProperty() {
+    public final ReadOnlyDoubleProperty yProperty() {
         return dialog.yProperty();
     }
 

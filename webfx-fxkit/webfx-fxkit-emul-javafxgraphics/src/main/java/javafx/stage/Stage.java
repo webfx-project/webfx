@@ -5,6 +5,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
+import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.fxkit.mapper.FxKitMapper;
 import webfx.fxkit.mapper.spi.StagePeer;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasTitleProperty;
@@ -204,6 +205,15 @@ public class Stage extends Window implements HasTitleProperty {
     @Override final public void setScene(Scene value) {
         //Toolkit.getToolkit().checkFxUserThread();
         super.setScene(value);
+         /* Webfx addition: if the stage is not resizable (ex: browser window), we actually resize the scene to the
+         stage right now so the user code can read back the scene width and height final values (ex: in application start
+          method) before showing the stage. See ColorfulCircle tutorial as example. */
+        if (!FxKitLauncher.getProvider().isStageProgrammaticallyRelocatableAndResizable())
+            resizeSceneToStage();
+    }
+
+    void resizeSceneToStage() { // Webfx addition
+        impl_getPeer().changedWindowSize(); // Will do the job
     }
 
     /**

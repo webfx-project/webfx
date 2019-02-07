@@ -1,5 +1,12 @@
 <module rename-to='webfx_platform_providers_gwt_emul_javabase'>
 
+    <super-source path="" includes="java/io/"/>
+    <super-source path="" includes="java/lang/"/>
+    <super-source path="" includes="java/nio/"/>
+    <super-source path="" includes="java/security/"/>
+    <super-source path="" includes="java/text/"/>
+    <super-source path="" includes="java/util/"/>
+
     <public path="public"/>
 
 </module>

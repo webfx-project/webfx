@@ -1,9 +1,9 @@
 package javafx.scene.shape;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasEndXProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasEndYProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasStartXProperty;
@@ -21,28 +21,28 @@ public class Line extends Shape implements
     public Line() {
     }
 
-    private final Property<Double> startXProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty startXProperty = new SimpleDoubleProperty(0d);
 
     @Override
-    public Property<Double> startXProperty() {
+    public DoubleProperty startXProperty() {
         return startXProperty;
     }
 
-    private final Property<Double> startYProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty startYProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> startYProperty() {
+    public DoubleProperty startYProperty() {
         return startYProperty;
     }
 
-    private final Property<Double> endXProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty endXProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> endXProperty() {
+    public DoubleProperty endXProperty() {
         return endXProperty;
     }
 
-    private final Property<Double> endYProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty endYProperty = new SimpleDoubleProperty(0d);
     @Override
-    public Property<Double> endYProperty() {
+    public DoubleProperty endYProperty() {
         return endYProperty;
     }
 

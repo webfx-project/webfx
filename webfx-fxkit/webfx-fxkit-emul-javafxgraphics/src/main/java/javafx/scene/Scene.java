@@ -21,6 +21,7 @@ import javafx.event.EventTarget;
 import javafx.geometry.Orientation;
 import javafx.scene.input.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -29,14 +30,15 @@ import webfx.fxkit.mapper.spi.NodePeer;
 import webfx.fxkit.mapper.spi.ScenePeer;
 import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.fxkit.mapper.spi.StagePeer;
+import webfx.fxkit.mapper.spi.impl.peer.markers.HasFillProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasHeightProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasRootProperty;
 import webfx.fxkit.mapper.spi.impl.peer.markers.HasWidthProperty;
 import webfx.fxkit.util.properties.ObservableLists;
 import webfx.fxkit.util.properties.Properties;
-import webfx.platform.shared.services.scheduler.Scheduled;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.scheduler.Scheduled;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.*;
@@ -47,7 +49,8 @@ import java.util.*;
 public class Scene implements EventTarget,
         HasRootProperty,
         HasWidthProperty,
-        HasHeightProperty {
+        HasHeightProperty,
+        HasFillProperty {
 
     private double widthSetByUser = -1.0;
     private double heightSetByUser = -1.0;
@@ -57,8 +60,13 @@ public class Scene implements EventTarget,
     }
 
     public Scene(Parent root, double width, double height) {
+        this(root, width, height, Color.WHITE);
+    }
+
+    public Scene(Parent root, double width, double height, Paint fill) {
         setRoot(root);
         init(width, height);
+        setFill(fill);
     }
 
     private void init(double width, double height) {
@@ -74,7 +82,7 @@ public class Scene implements EventTarget,
         clickGenerator = new ClickGenerator();
     }
 
-    private final Property<Double> widthProperty = new SimpleObjectProperty<Double>(0d) {
+    private final DoubleProperty widthProperty = new SimpleDoubleProperty(0d) {
         @Override
         protected void invalidated() {
             Parent _root = getRoot();
@@ -85,11 +93,11 @@ public class Scene implements EventTarget,
     };
 
     @Override
-    public Property<Double> widthProperty() {
+    public DoubleProperty widthProperty() {
         return widthProperty;
     }
 
-    private final Property<Double> heightProperty = new SimpleObjectProperty<Double>(0d) {
+    private final DoubleProperty heightProperty = new SimpleDoubleProperty(0d) {
         @Override
         protected void invalidated() {
             Parent _root = getRoot();
@@ -99,12 +107,62 @@ public class Scene implements EventTarget,
         }
     };
     @Override
-    public Property<Double> heightProperty() {
+    public DoubleProperty heightProperty() {
         return heightProperty;
     }
 
     void resizeRootOnSceneSizeChange(double newWidth, double newHeight) {
         getRoot().resize(newWidth, newHeight);
+    }
+
+    /**
+     * Defines the background fill of this {@code Scene}. Both a {@code null}
+     * value meaning 'paint no background' and a {@link javafx.scene.paint.Paint}
+     * with transparency are supported. The default fill of the Scene is
+     * {@link Color#WHITE}, but it is more commonly the case that the initial
+     * color shown to users is the background fill of the
+     * {@link #rootProperty() root node} of the {@code Scene}, as it typically is
+     * stretched to take up all available space in the {@code Scene}. The
+     * root node of the {@code Scene} is given the CSS style class 'root', and
+     * the default user agent stylesheets that ship with JavaFX (presently
+     * Caspian and Modena) apply styling on to this root style class. In the
+     * case of Caspian this does not impact the background fill color of the
+     * root node, but in the case of Modena the default fill is set to be a
+     * light gray color.
+     *
+     * @defaultValue WHITE
+     */
+    private ObjectProperty<Paint> fill;
+
+    public final void setFill(Paint value) {
+        fillProperty().set(value);
+    }
+
+    public final Paint getFill() {
+        return fill == null ? Color.WHITE : fill.get();
+    }
+
+    public final ObjectProperty<Paint> fillProperty() {
+        if (fill == null) {
+            fill = new ObjectPropertyBase<Paint>(Color.WHITE) {
+
+                /*@Override
+                protected void invalidated() {
+                    markDirty(DirtyBits.FILL_DIRTY);
+                }*/
+
+                @Override
+                public Object getBean() {
+                    return Scene.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "fill";
+                }
+            };
+        }
+        return fill;
     }
 
     private final Property<Parent> rootProperty = new SimpleObjectProperty<Parent>() {
@@ -123,7 +181,7 @@ public class Scene implements EventTarget,
     /**
      * The horizontal location of this {@code Scene} on the {@code Window}.
      */
-    private Property<Double> x;
+    private DoubleProperty x;
 
     private final void setX(double value) {
         xPropertyImpl().setValue(value);
@@ -133,13 +191,13 @@ public class Scene implements EventTarget,
         return x == null ? 0.0 : x.getValue();
     }
 
-    public final ReadOnlyProperty<Double> xProperty() {
+    public final ReadOnlyDoubleProperty xProperty() {
         return xPropertyImpl()/*.getReadOnlyProperty()*/;
     }
 
-    private Property<Double> xPropertyImpl() {
+    private DoubleProperty xPropertyImpl() {
         if (x == null) {
-            x = new SimpleObjectProperty<>(this, "x", 0d);
+            x = new SimpleDoubleProperty(this, "x", 0d);
         }
         return x;
     }
@@ -147,7 +205,7 @@ public class Scene implements EventTarget,
     /**
      * The vertical location of this {@code Scene} on the {@code Window}.
      */
-    private Property<Double> y;
+    private DoubleProperty y;
 
     private void setY(double value) {
         yPropertyImpl().setValue(value);
@@ -157,13 +215,13 @@ public class Scene implements EventTarget,
         return y == null ? 0.0 : y.getValue();
     }
 
-    public final ReadOnlyProperty<Double> yProperty() {
+    public final ReadOnlyDoubleProperty yProperty() {
         return yPropertyImpl()/*.getReadOnlyProperty()*/;
     }
 
-    private Property<Double> yPropertyImpl() {
+    private DoubleProperty yPropertyImpl() {
         if (y == null) {
-            y = new SimpleObjectProperty<>(this, "y", 0d);
+            y = new SimpleDoubleProperty(this, "y", 0d);
         }
         return y;
     }

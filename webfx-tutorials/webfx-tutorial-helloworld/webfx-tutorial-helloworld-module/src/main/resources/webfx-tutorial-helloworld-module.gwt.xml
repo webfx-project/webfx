@@ -1,0 +1,5 @@
+<module rename-to="webfx_tutorial_helloworld_module">
+
+    <source path="webfx/tutorial/helloworld"/>
+
+</module>

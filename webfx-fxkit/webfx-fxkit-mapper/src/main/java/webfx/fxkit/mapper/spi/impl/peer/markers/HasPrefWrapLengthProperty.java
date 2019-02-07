@@ -1,14 +1,14 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasPrefWrapLengthProperty {
 
-    Property<Double> prefWrapLengthProperty();
-    default void setPrefWrapLength(Double prefWrapLength) { prefWrapLengthProperty().setValue(prefWrapLength); }
+    DoubleProperty prefWrapLengthProperty();
+    default void setPrefWrapLength(Number prefWrapLength) { prefWrapLengthProperty().setValue(prefWrapLength); }
     default Double getPrefWrapLength() { return prefWrapLengthProperty().getValue(); }
 
 }

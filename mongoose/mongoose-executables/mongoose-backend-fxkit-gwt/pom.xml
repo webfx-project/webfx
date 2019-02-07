@@ -86,7 +86,7 @@
             <classifier>fat-sources</classifier>
         </dependency>
 
-        <dependency>
+        <dependency> <!-- Only because its gwt xml module is referenced - TODO: remove this dependency -->
             <artifactId>webfx-framework-client-all</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -223,6 +223,7 @@
             <artifactId>webfx-platform-providers-gwt-serviceloadergenerator</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>

@@ -1,13 +1,13 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasMaxWidthProperty {
 
-    Property<Double> maxWidthProperty();
+    DoubleProperty maxWidthProperty();
     default void setMaxWidth(Double maxWidth) { maxWidthProperty().setValue(maxWidth); }
     default Double getMaxWidth() { return maxWidthProperty().getValue(); }
 

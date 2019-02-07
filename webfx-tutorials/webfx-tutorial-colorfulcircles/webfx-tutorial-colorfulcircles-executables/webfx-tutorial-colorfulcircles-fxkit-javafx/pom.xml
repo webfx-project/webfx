@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>webfx-tutorial-colorfulcircles-executables</artifactId>
+        <groupId>org.webfx</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>webfx-tutorial-colorfulcircles-fxkit-javafx</artifactId>
+
+    <dependencies>
+
+        <!-- The dependencies order matters for module initialization sequence -->
+
+        <dependency>
+            <artifactId>webfx-tutorial-colorfulcircles-module</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkit-javafx</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <!-- Making the jar file executable with its associated lib directory -->
+
+    <properties>
+        <plugins.param.jre.mainClass>webfx.platform.shared.services.appcontainer.ApplicationContainer</plugins.param.jre.mainClass>
+        <!-- disabling classes-dependencies unpack to avoid including them again in the jar -->
+        <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
+    </properties>
+
+</project>

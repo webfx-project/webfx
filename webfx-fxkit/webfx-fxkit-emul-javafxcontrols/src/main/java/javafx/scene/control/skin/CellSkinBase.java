@@ -1,10 +1,10 @@
 package javafx.scene.control.skin;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.Cell;
 import com.sun.javafx.scene.control.behaviour.BehaviorBase;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.Cell;
 
 /**
  * A base skin implementation, specifically for ListCellSkin and TreeCellSkin.
@@ -17,19 +17,19 @@ public class CellSkinBase<C extends Cell, B extends BehaviorBase<C>> extends Lab
      * this is the height, for a horizontal ListView this is the width. This
      * is settable from CSS
      */
-    private Property<Double> cellSize;
+    private DoubleProperty cellSize;
 
     public final double getCellSize() {
         return cellSize == null ? DEFAULT_CELL_SIZE : cellSize.getValue();
     }
 
-    public final ReadOnlyProperty<Double> cellSizeProperty() {
+    public final ReadOnlyDoubleProperty cellSizeProperty() {
         return cellSizePropertyImpl();
     }
 
-    private Property<Double> cellSizePropertyImpl() {
+    private DoubleProperty cellSizePropertyImpl() {
         if (cellSize == null) {
-            cellSize = new SimpleObjectProperty<>(DEFAULT_CELL_SIZE)/* {
+            cellSize = new SimpleDoubleProperty(DEFAULT_CELL_SIZE)/* {
 
                 @Override
                 public void applyStyle(StyleOrigin origin, Number value) {

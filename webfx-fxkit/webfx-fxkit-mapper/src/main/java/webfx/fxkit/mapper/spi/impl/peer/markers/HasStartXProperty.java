@@ -1,15 +1,15 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasStartXProperty {
 
-    Property<Double> startXProperty();
+    DoubleProperty startXProperty();
 
-    default void setStartX(Double startX) {
+    default void setStartX(Number startX) {
         startXProperty().setValue(startX);
     }
 

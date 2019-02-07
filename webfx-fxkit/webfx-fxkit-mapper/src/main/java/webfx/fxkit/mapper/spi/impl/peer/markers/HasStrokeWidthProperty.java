@@ -1,14 +1,14 @@
 package webfx.fxkit.mapper.spi.impl.peer.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasStrokeWidthProperty {
 
-    Property<Double> strokeWidthProperty();
-    default void setStrokeWidth(Double strokeWidth) { strokeWidthProperty().setValue(strokeWidth); }
+    DoubleProperty strokeWidthProperty();
+    default void setStrokeWidth(Number strokeWidth) { strokeWidthProperty().setValue(strokeWidth); }
     default Double getStrokeWidth() { return strokeWidthProperty().getValue(); }
 
 }
