@@ -195,6 +195,7 @@
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-update-vertx/webfx-platform-shared-update-vertx.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platform-shared-update-vertx/webfx-platform-shared-update-vertx.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-platform/webfx-platform-shared-util/webfx-platform-shared-util.iml" filepath="$PROJECT_DIR$/webfx-platform/webfx-platform-shared-util/webfx-platform-shared-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-root.iml" filepath="$PROJECT_DIR$/webfx-root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfx-tools/webfx-tool-buildhelper/webfx-tool-buildhelper.iml" filepath="$PROJECT_DIR$/webfx-tools/webfx-tool-buildhelper/webfx-tool-buildhelper.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-tools/webfx-tool-emultranslator/webfx-tool-emultranslator.iml" filepath="$PROJECT_DIR$/webfx-tools/webfx-tool-emultranslator/webfx-tool-emultranslator.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-tools/webfx-tool-gwtsupersourcegenerator/webfx-tool-gwtsupersourcegenerator.iml" filepath="$PROJECT_DIR$/webfx-tools/webfx-tool-gwtsupersourcegenerator/webfx-tool-gwtsupersourcegenerator.iml" />
       <module fileurl="file://$PROJECT_DIR$/webfx-tools/webfx-tools.iml" filepath="$PROJECT_DIR$/webfx-tools/webfx-tools.iml" />

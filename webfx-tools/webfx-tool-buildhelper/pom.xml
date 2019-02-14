@@ -3,19 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>webfx-root</artifactId>
+        <artifactId>webfx-tools</artifactId>
         <groupId>org.webfx</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webfx-tools</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>webfx-tool-buildhelper</artifactId>
 
-    <modules>
-        <module>webfx-tool-emultranslator</module>
-        <module>webfx-tool-gwtsupersourcegenerator</module>
-        <module>webfx-tool-buildhelper</module>
-    </modules>
 
 </project>
