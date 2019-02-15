@@ -1,5 +1,6 @@
 package webfx.tool.buildtool.util.spliterable.operable.impl;
 
+import webfx.tool.buildtool.util.spliterable.Spliterable;
 import webfx.tool.buildtool.util.spliterable.ThrowableSpliterable;
 import webfx.tool.buildtool.util.spliterable.operable.OperableSpliterable;
 
@@ -37,6 +38,11 @@ public final class OperableSpliterableImpl<T> implements OperableSpliterable<T> 
     @Override
     public <R> OperableSpliterable<R> map(Function<? super T, ? extends R> mapper) {
         return OperableSpliterable.create(() -> new MappedSpliterator<>(spliterator(), mapper));
+    }
+
+    @Override
+    public <R> OperableSpliterable<R> flatMap(Function<? super T, ? extends Spliterable<? extends R>> mapper) {
+        return OperableSpliterable.create(() -> new FlatMappedSpliterator<>(spliterator(), mapper));
     }
 
     @Override

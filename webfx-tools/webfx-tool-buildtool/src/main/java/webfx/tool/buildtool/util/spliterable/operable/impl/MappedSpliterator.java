@@ -10,12 +10,12 @@ import java.util.function.Function;
  */
 final class MappedSpliterator<T, R> implements Spliterator<R> {
 
-    private final Spliterator<T> spliterator;
+    private final Spliterator<T> underlyingSpliterator;
     private final Function<? super T, ? extends R> mapper;
 
 
-    MappedSpliterator(Spliterator<T> spliterator, Function<? super T, ? extends R> mapper) {
-        this.spliterator = spliterator;
+    MappedSpliterator(Spliterator<T> underlyingSpliterator, Function<? super T, ? extends R> mapper) {
+        this.underlyingSpliterator = underlyingSpliterator;
         this.mapper = mapper;
     }
 
@@ -25,7 +25,7 @@ final class MappedSpliterator<T, R> implements Spliterator<R> {
 
     @Override
     public boolean tryAdvance(Consumer<? super R> action) {
-        return spliterator.tryAdvance(mappedAction(action));
+        return underlyingSpliterator.tryAdvance(mappedAction(action));
     }
 
     @Override
@@ -35,27 +35,27 @@ final class MappedSpliterator<T, R> implements Spliterator<R> {
 
     @Override
     public long estimateSize() {
-        return spliterator.estimateSize();
+        return underlyingSpliterator.estimateSize();
     }
 
     @Override
     public int characteristics() {
-        return spliterator.characteristics();
+        return underlyingSpliterator.characteristics();
     }
 
     @Override
     public void forEachRemaining(Consumer<? super R> action) {
-        spliterator.forEachRemaining(mappedAction(action));
+        underlyingSpliterator.forEachRemaining(mappedAction(action));
     }
 
     @Override
     public long getExactSizeIfKnown() {
-        return spliterator.getExactSizeIfKnown();
+        return underlyingSpliterator.getExactSizeIfKnown();
     }
 
     @Override
     public boolean hasCharacteristics(int characteristics) {
-        return spliterator.hasCharacteristics(characteristics);
+        return underlyingSpliterator.hasCharacteristics(characteristics);
     }
 
     @Override
