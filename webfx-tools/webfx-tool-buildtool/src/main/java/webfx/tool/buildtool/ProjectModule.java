@@ -102,7 +102,7 @@ class ProjectModule extends ModuleImpl {
     ///// Modules
 
     Stream<ProjectModule> getChildrenModulesStream() {
-        return childrenModulesCache.buildStream();
+        return childrenModulesCache.stream();
     }
 
     Stream<ProjectModule> getChildrenModulesInDepthStream() {
@@ -117,7 +117,7 @@ class ProjectModule extends ModuleImpl {
     ///// Java classes
 
     Stream<JavaClass> getJavaClassesStream() {
-        return javaClassesCache.buildStream();
+        return javaClassesCache.stream();
     }
 
 

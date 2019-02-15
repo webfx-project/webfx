@@ -20,7 +20,7 @@ final class CachedSpliterable<T> implements Spliterable<T> {
     }
 
     @Override
-    public Spliterator<T> buildSpliterator() {
+    public Spliterator<T> spliterator() {
         return new DelegatingSpliterator<>(spliterator) {
 
             private int cacheIndex;

@@ -1,5 +1,7 @@
 package webfx.tool.buildtool;
 
+import webfx.tool.buildtool.util.spliterable.operable.OperableSpliterable;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -13,13 +15,13 @@ import java.util.stream.Stream;
  */
 final class JavaClass {
 
-    private static Pattern javaPackagePattern = Pattern.compile("(.*[\\s(])([a-z]+(\\.[a-z]+)+)(\\.[A-Z])");
+    private static Pattern javaPackagePattern = Pattern.compile("([\\s(])([a-z]+(\\.[a-z]+)+)(\\.[A-Z])");
 
     private final Path javaFilePath;
     private final ProjectModule projectModule;
     private String packageName;
     private String className;
-    private final StreamCache<String> usedJavaPackagesNamesStreamCache;
+    private final OperableSpliterable<String> usedJavaPackagesNamesCache;
 
     /***********************
      ***** Constructor *****
@@ -28,11 +30,10 @@ final class JavaClass {
     JavaClass(Path javaFilePath, ProjectModule projectModule) {
         this.javaFilePath = javaFilePath;
         this.projectModule = projectModule;
-        // Stream cache is instantiated now (because declared final)
-        usedJavaPackagesNamesStreamCache = StreamCache.hashSetStreamCache(() ->
-                Files.lines(javaFilePath)
-                        .flatMap(line -> extractPackagesFromJavaLine(line).stream())
-        );
+        // Cache is instantiated now (because declared final)
+        usedJavaPackagesNamesCache = OperableSpliterable.create(() ->
+                extractPackagesFromJavaContent(new String(Files.readAllBytes(javaFilePath))).spliterator()
+        ).cache();
     }
 
 
@@ -68,7 +69,7 @@ final class JavaClass {
      ******************************/
 
     Stream<String> analyzeUsedJavaPackagesNames() {
-        return usedJavaPackagesNamesStreamCache.stream();
+        return usedJavaPackagesNamesCache.stream();
     }
 
 
@@ -86,36 +87,38 @@ final class JavaClass {
      ***** Java file parsing methods *****
      *************************************/
 
-    private Collection<String> extractPackagesFromJavaLine(String javaLine) {
+    private Collection<String> extractPackagesFromJavaContent(String javaContent) {
         Collection<String> packages = new ArrayList<>();
-        if (blockCommentOpen || !javaLine.startsWith("package") && !javaLine.startsWith("//")) {
-            Matcher matcher = javaPackagePattern.matcher(javaLine);
+        if (!blockCommentOpen) {
+            Matcher matcher = javaPackagePattern.matcher(javaContent);
             while (matcher.find()) {
-                if (!isInsideComment(javaLine, matcher.start(2))) {
+                if (!isInsideComment(javaContent, matcher.start(2))) {
                     String packageName = matcher.group(2);
-                    packages.add(packageName);
+                    if (!packages.contains(packageName))
+                        packages.add(packageName);
                 }
             }
         }
         if (packages.isEmpty())
-            isInsideComment(javaLine, 0); // Necessary call to update the comment state
+            isInsideComment(javaContent, 0); // Necessary call to update the comment state
         return packages;
     }
 
-    private String lastLine;
+    private String lastJavaContent;
     private boolean blockCommentOpen; // Set to true when index was in a block comment on last isInsideComment() call
     private int blockCommentStartIndex;
     private int blockCommentEndIndex;
     private int inlineCommentStartIndex;
 
-    private boolean isInsideComment(String javaLine, int index) {
-        if (javaLine != lastLine) {
-            if (lastLine != null)
-                updateBlockCommentState(lastLine.length());
-            lastLine = javaLine;
-            inlineCommentStartIndex = javaLine.indexOf("//");
-            blockCommentStartIndex = javaLine.indexOf("/*");
-            blockCommentEndIndex = javaLine.indexOf("*/");
+    private boolean isInsideComment(String javaContent, int index) {
+        if (javaContent != lastJavaContent) {
+            if (lastJavaContent != null)
+                updateBlockCommentState(lastJavaContent.length());
+            lastJavaContent = javaContent;
+            blockCommentOpen = false;
+            inlineCommentStartIndex = javaContent.indexOf("//");
+            blockCommentStartIndex = javaContent.indexOf("/*");
+            blockCommentEndIndex = javaContent.indexOf("*/");
         }
         updateBlockCommentState(index);
         return blockCommentOpen || inlineCommentStartIndex >= 0 && index > inlineCommentStartIndex;
@@ -129,25 +132,25 @@ final class JavaClass {
                     return; // then returning with still blockCommentOpen = false
                 // A new block comment has started before the index, now searching the end of this block
                 if (blockCommentEndIndex != -1 && blockCommentEndIndex < blockCommentStartIndex) // The condition to require an update of blockCommentEndIndex
-                    blockCommentEndIndex = lastLine.indexOf("*/", blockCommentStartIndex);
+                    blockCommentEndIndex = lastJavaContent.indexOf("*/", blockCommentStartIndex);
                 if (blockCommentEndIndex == -1 || blockCommentEndIndex > index) { // If no end of the block comment on this line,
                     blockCommentOpen = true; // then returning with blockCommentOpen = true
                     return;
                 }
                 // Updating blockCommentStartIndex before looping
-                blockCommentStartIndex = lastLine.indexOf("/*", blockCommentEndIndex);
+                blockCommentStartIndex = lastJavaContent.indexOf("/*", blockCommentEndIndex);
             } else {
                 if (blockCommentEndIndex == -1 || blockCommentEndIndex > index) // Means the comment is still not close
                     return; // So exiting the loop with still blockCommentOpen = true
                 // End of comment was reached but perhaps a new comment was reopen after, so updating inlineCommentStartIndex to know
                 if (blockCommentStartIndex != -1 && blockCommentStartIndex < blockCommentEndIndex) // the condition to be updated
-                    blockCommentStartIndex = lastLine.indexOf("/*", blockCommentEndIndex);
+                    blockCommentStartIndex = lastJavaContent.indexOf("/*", blockCommentEndIndex);
                 if (blockCommentStartIndex == -1 || blockCommentStartIndex > index) { // Means no new comment on that line
                     blockCommentOpen = false;
                     return;
                 }
                 // Updating blockCommentEndIndex before looping
-                blockCommentEndIndex = lastLine.indexOf("*/", blockCommentStartIndex);
+                blockCommentEndIndex = lastJavaContent.indexOf("*/", blockCommentStartIndex);
             }
         }
     }

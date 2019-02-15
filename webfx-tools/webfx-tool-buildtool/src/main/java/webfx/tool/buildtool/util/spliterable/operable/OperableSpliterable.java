@@ -1,6 +1,7 @@
 package webfx.tool.buildtool.util.spliterable.operable;
 
 import webfx.tool.buildtool.util.spliterable.Spliterable;
+import webfx.tool.buildtool.util.spliterable.ThrowableSpliterable;
 import webfx.tool.buildtool.util.spliterable.operable.impl.OperableSpliterableImpl;
 
 import java.util.function.Function;
@@ -17,7 +18,7 @@ public interface OperableSpliterable<T> extends Spliterable<T> {
 
     OperableSpliterable<T> cache();
 
-    static <T> OperableSpliterable<T> create(Spliterable<T> builder) {
+    static <T> OperableSpliterable<T> create(ThrowableSpliterable<T> builder) {
         return new OperableSpliterableImpl<>(builder);
     }
 }

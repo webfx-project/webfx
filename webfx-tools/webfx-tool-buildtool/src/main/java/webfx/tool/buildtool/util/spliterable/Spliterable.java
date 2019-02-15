@@ -9,12 +9,12 @@ import java.util.stream.StreamSupport;
  */
 
 @FunctionalInterface
-public interface Spliterable<T> {
+public interface Spliterable<T> extends ThrowableSpliterable<T> {
 
-    Spliterator<T> buildSpliterator();
+    Spliterator<T> spliterator();
 
-    default Stream<T> buildStream() {
-        return StreamSupport.stream(buildSpliterator(), false);
+    default Stream<T> stream() {
+        return StreamSupport.stream(spliterator(), false);
     }
 
 }
