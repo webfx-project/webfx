@@ -1,5 +1,8 @@
 package webfx.tool.buildhelper;
 
+import webfx.tool.buildhelper.util.spliterable.operable.OperableSpliterable;
+import webfx.tool.buildhelper.util.splitfiles.SplitFiles;
+
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -8,6 +11,7 @@ import java.nio.file.PathMatcher;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,8 +26,8 @@ class ProjectModule extends ModuleImpl {
     private final Path homeDirectoryPath;
     private final ProjectModule parentModule;
     private final RootModule rootModule;
-    private final StreamCache<ProjectModule> childrenModulesStreamCache;
-    private final StreamCache<JavaClass> javaClassesStreamCache;
+    private final OperableSpliterable<ProjectModule> childrenModulesCache;
+    private final OperableSpliterable<JavaClass> javaClassesCache;
     private final StreamCache<Module> directDependenciesStreamCache;
 
     /************************
@@ -40,19 +44,16 @@ class ProjectModule extends ModuleImpl {
         this.homeDirectoryPath = homeDirectoryPath;
         rootModule = parentModule != null ? parentModule.getRootModule() : (RootModule) this;
         // Streams cache are instantiated now (because declared final)
-        childrenModulesStreamCache = StreamCache.hashSetStreamCache(() ->
-                Files.walk(homeDirectoryPath, 1)
-                        .filter(path -> !isSameFile(path, homeDirectoryPath))
-                        .filter(Files::isDirectory)
-                        .filter(path -> Files.exists(path.resolve("pom.xml")))
-                        .map(path -> new ProjectModule(path, this))
-        );
-        javaClassesStreamCache = StreamCache.hashSetStreamCache(() ->
-                !Files.exists(getJavaSourceDirectoryPath()) ? null :
-                        Files.walk(getJavaSourceDirectoryPath())
-                                .filter(javaFileMatcher::matches)
-                                .map(path -> new JavaClass(path, this))
-        );
+        childrenModulesCache = OperableSpliterable.create(() -> SplitFiles.walk(homeDirectoryPath, 1))
+                .filter(path -> !isSameFile(path, homeDirectoryPath))
+                .filter(Files::isDirectory)
+                .filter(path -> Files.exists(path.resolve("pom.xml")))
+                .map(path -> new ProjectModule(path, this))
+                .cache();
+        javaClassesCache = OperableSpliterable.create(Files.exists(getJavaSourceDirectoryPath()) ? () -> SplitFiles.walk(getJavaSourceDirectoryPath()) : Spliterators::emptySpliterator)
+                .filter(javaFileMatcher::matches)
+                .map(path -> new JavaClass(path, this))
+                .cache();
         directDependenciesStreamCache = StreamCache.hashSetStreamCache(() ->
                 analyzeUsedJavaPackagesNames()
                         .map(rootModule::getJavaPackageNameModule)
@@ -101,7 +102,7 @@ class ProjectModule extends ModuleImpl {
     ///// Modules
 
     Stream<ProjectModule> getChildrenModulesStream() {
-        return childrenModulesStreamCache.stream();
+        return childrenModulesCache.buildStream();
     }
 
     Stream<ProjectModule> getChildrenModulesInDepthStream() {
@@ -116,7 +117,7 @@ class ProjectModule extends ModuleImpl {
     ///// Java classes
 
     Stream<JavaClass> getJavaClassesStream() {
-        return javaClassesStreamCache.stream();
+        return javaClassesCache.buildStream();
     }
 
 
