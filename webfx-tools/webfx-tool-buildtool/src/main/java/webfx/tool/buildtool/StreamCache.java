@@ -1,4 +1,4 @@
-package webfx.tool.buildhelper;
+package webfx.tool.buildtool;
 
 import java.util.Collection;
 import java.util.HashSet;

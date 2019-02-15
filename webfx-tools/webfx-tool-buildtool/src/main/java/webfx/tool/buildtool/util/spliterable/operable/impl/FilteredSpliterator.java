@@ -1,4 +1,4 @@
-package webfx.tool.buildhelper.util.spliterable.operable.impl;
+package webfx.tool.buildtool.util.spliterable.operable.impl;
 
 import java.util.Spliterator;
 import java.util.function.Consumer;

@@ -1,7 +1,7 @@
-package webfx.tool.buildhelper.util.spliterable.operable.impl;
+package webfx.tool.buildtool.util.spliterable.operable.impl;
 
-import webfx.tool.buildhelper.util.spliterable.Spliterable;
-import webfx.tool.buildhelper.util.spliterable.operable.OperableSpliterable;
+import webfx.tool.buildtool.util.spliterable.Spliterable;
+import webfx.tool.buildtool.util.spliterable.operable.OperableSpliterable;
 
 import java.util.Spliterator;
 import java.util.function.Function;

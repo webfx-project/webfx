@@ -1,4 +1,4 @@
-package webfx.tool.buildhelper.util.splitfiles;
+package webfx.tool.buildtool.util.splitfiles;
 
 import java.io.Closeable;
 import java.io.IOException;

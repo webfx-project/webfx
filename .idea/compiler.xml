@@ -291,7 +291,7 @@
         <module name="webfx-platform-shared-update-java" />
         <module name="webfx-platform-shared-update-vertx" />
         <module name="webfx-platform-shared-util" />
-        <module name="webfx-tool-buildhelper" />
+        <module name="webfx-tool-buildtool" />
         <module name="webfx-tool-emultranslator" />
         <module name="webfx-tool-gwtsupersourcegenerator" />
         <module name="webfx-tutorial-colorfulcircles-fxkit-gwt" />
@@ -550,7 +550,7 @@
       <module name="webfx-platforms-java" target="1.8" />
       <module name="webfx-platforms-web" target="1.8" />
       <module name="webfx-root" target="11" />
-      <module name="webfx-tool-buildhelper" target="11" />
+      <module name="webfx-tool-buildtool" target="11" />
       <module name="webfx-tool-emultranslator" target="11" />
       <module name="webfx-tool-gwtsupersourcegenerator" target="11" />
       <module name="webfx-tools" target="11" />
@@ -755,7 +755,7 @@
       <module name="webfx-platform-shared-update-java" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-update-java\target/modules" />
       <module name="webfx-platform-shared-update-vertx" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-update-vertx\target/modules" />
       <module name="webfx-platform-shared-util" options="--module-path C:\dev\git-repos\webfx\webfx-platform\webfx-platform-shared-util\target/modules" />
-      <module name="webfx-tool-buildhelper" options="--module-path C:\dev\git-repos\webfx\webfx-tools\webfx-tool-buildhelper\target/modules" />
+      <module name="webfx-tool-buildtool" options="--module-path C:\dev\git-repos\webfx\webfx-tools\webfx-tool-buildtool\target/modules" />
       <module name="webfx-tool-emultranslator" options="--module-path C:\dev\git-repos\webfx\webfx-tools\webfx-tool-emultranslator\target/modules" />
       <module name="webfx-tool-gwtsupersourcegenerator" options="--module-path C:\dev\git-repos\webfx\webfx-tools\webfx-tool-gwtsupersourcegenerator\target/modules" />
       <module name="webfx-tools" options="--module-path C:\dev\git-repos\webfx\webfx-tools\target/modules" />

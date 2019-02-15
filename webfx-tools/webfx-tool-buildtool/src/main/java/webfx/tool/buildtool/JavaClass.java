@@ -1,4 +1,4 @@
-package webfx.tool.buildhelper;
+package webfx.tool.buildtool;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

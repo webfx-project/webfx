@@ -1,4 +1,4 @@
-package webfx.tool.buildhelper.util.spliterable;
+package webfx.tool.buildtool.util.spliterable;
 
 import java.util.Spliterator;
 import java.util.stream.Stream;

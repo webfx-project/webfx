@@ -1,4 +1,4 @@
-package webfx.tool.buildhelper;
+package webfx.tool.buildtool;
 
 /**
  * @author Bruno Salmon

@@ -15,7 +15,7 @@
     <modules>
         <module>webfx-tool-emultranslator</module>
         <module>webfx-tool-gwtsupersourcegenerator</module>
-        <module>webfx-tool-buildhelper</module>
+        <module>webfx-tool-buildtool</module>
     </modules>
 
 </project>

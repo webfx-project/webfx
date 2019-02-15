@@ -1,7 +1,7 @@
-package webfx.tool.buildhelper;
+package webfx.tool.buildtool;
 
-import webfx.tool.buildhelper.util.spliterable.operable.OperableSpliterable;
-import webfx.tool.buildhelper.util.splitfiles.SplitFiles;
+import webfx.tool.buildtool.util.spliterable.operable.OperableSpliterable;
+import webfx.tool.buildtool.util.splitfiles.SplitFiles;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
