@@ -28,7 +28,8 @@ class ProjectModule extends ModuleImpl {
     private final RootModule rootModule;
     private final OperableSpliterable<ProjectModule> childrenModulesCache;
     private final OperableSpliterable<JavaClass> javaClassesCache;
-    private final StreamCache<Module> directDependenciesStreamCache;
+    private final OperableSpliterable<String> usedJavaPackagesNamesCache;
+    private final OperableSpliterable<Module> directDependenciesCache;
 
     /************************
      ***** Constructors *****
@@ -54,12 +55,15 @@ class ProjectModule extends ModuleImpl {
                 .filter(javaFileMatcher::matches)
                 .map(path -> new JavaClass(path, this))
                 .cache();
-        directDependenciesStreamCache = StreamCache.hashSetStreamCache(() ->
-                analyzeUsedJavaPackagesNames()
-                        .map(rootModule::getJavaPackageNameModule)
-                        .filter(module -> module != null && module != this && !module.getArtifactId().equals(getArtifactId()))
-                        .distinct()
-        );
+        usedJavaPackagesNamesCache = javaClassesCache
+                .flatMap(JavaClass::getUsedJavaPackagesNamesCache)
+                .distinct()
+                .cache();
+        directDependenciesCache = usedJavaPackagesNamesCache
+                .map(rootModule::getJavaPackageNameModule)
+                .filter(module -> module != null && module != this && !module.getArtifactId().equals(getArtifactId()))
+                .distinct()
+                .cache();
     }
 
 
@@ -116,6 +120,11 @@ class ProjectModule extends ModuleImpl {
 
     ///// Java classes
 
+
+    public OperableSpliterable<JavaClass> getJavaClassesCache() {
+        return javaClassesCache;
+    }
+
     Stream<JavaClass> getJavaClassesStream() {
         return javaClassesCache.stream();
     }
@@ -128,7 +137,7 @@ class ProjectModule extends ModuleImpl {
     ///// Modules
 
     Stream<Module> analyzeDirectDependencies() {
-        return directDependenciesStreamCache.stream();
+        return directDependenciesCache.stream();
     }
 
     Stream<ProjectModule> analyzeThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
@@ -159,15 +168,12 @@ class ProjectModule extends ModuleImpl {
     ///// Packages (names)
 
     Stream<String> analyzeUsedJavaPackagesNames() {
-        return getJavaClassesStream()
-                .flatMap(JavaClass::analyzeUsedJavaPackagesNames)
-                .distinct()
-                ;
+        return usedJavaPackagesNamesCache.stream();
     }
 
     Stream<JavaClass> analyzeJavaClassesDependingOn(String destinationModule) {
         return getJavaClassesStream()
-                        .filter(jc -> jc.analyzeUsedJavaPackagesNames().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId())))
+                .filter(jc -> jc.analyzeUsedJavaPackagesNames().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId())))
                 ;
     }
 

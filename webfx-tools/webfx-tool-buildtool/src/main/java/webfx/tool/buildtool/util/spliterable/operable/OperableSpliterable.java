@@ -18,6 +18,8 @@ public interface OperableSpliterable<T> extends Spliterable<T> {
 
     <R> OperableSpliterable<R> flatMap(Function<? super T, ? extends Spliterable<? extends R>> mapper);
 
+    OperableSpliterable<T> distinct();
+
     OperableSpliterable<T> cache();
 
     static <T> OperableSpliterable<T> create(ThrowableSpliterable<T> builder) {

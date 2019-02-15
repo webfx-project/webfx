@@ -46,6 +46,11 @@ public final class OperableSpliterableImpl<T> implements OperableSpliterable<T> 
     }
 
     @Override
+    public OperableSpliterable<T> distinct() {
+        return OperableSpliterable.create(() -> new DistinctSpliterator<>(spliterator()));
+    }
+
+    @Override
     public OperableSpliterable<T> cache() {
         return OperableSpliterable.create(new CachedSpliterable<>(spliterator()));
     }

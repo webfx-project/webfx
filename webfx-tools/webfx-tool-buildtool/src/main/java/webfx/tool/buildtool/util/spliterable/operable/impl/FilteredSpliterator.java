@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 /**
  * @author Bruno Salmon
  */
-final class FilteredSpliterator<T> extends DelegatingSpliterator<T> {
+class FilteredSpliterator<T> extends DelegatingSpliterator<T> {
 
     private final Predicate<? super T> predicate;
 

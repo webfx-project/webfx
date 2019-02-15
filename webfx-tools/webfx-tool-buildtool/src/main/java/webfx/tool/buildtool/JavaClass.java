@@ -68,6 +68,10 @@ final class JavaClass {
      ***** Analyzing streams  *****
      ******************************/
 
+    OperableSpliterable<String> getUsedJavaPackagesNamesCache() {
+        return usedJavaPackagesNamesCache;
+    }
+
     Stream<String> analyzeUsedJavaPackagesNames() {
         return usedJavaPackagesNamesCache.stream();
     }
