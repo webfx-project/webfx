@@ -1,6 +1,6 @@
 package webfx.tool.buildtool;
 
-import webfx.tool.buildtool.util.spliterable.operable.OperableSpliterable;
+import webfx.tool.buildtool.util.streamable.Streamable;
 import webfx.tool.buildtool.util.splitfiles.SplitFiles;
 
 import java.io.IOException;
@@ -26,10 +26,10 @@ class ProjectModule extends ModuleImpl {
     private final Path homeDirectoryPath;
     private final ProjectModule parentModule;
     private final RootModule rootModule;
-    private final OperableSpliterable<ProjectModule> childrenModulesCache;
-    private final OperableSpliterable<JavaClass> javaClassesCache;
-    private final OperableSpliterable<String> usedJavaPackagesNamesCache;
-    private final OperableSpliterable<Module> directDependenciesCache;
+    private final Streamable<ProjectModule> childrenModulesCache;
+    private final Streamable<JavaClass> javaClassesCache;
+    private final Streamable<String> usedJavaPackagesNamesCache;
+    private final Streamable<Module> directDependenciesCache;
 
     /************************
      ***** Constructors *****
@@ -45,13 +45,13 @@ class ProjectModule extends ModuleImpl {
         this.homeDirectoryPath = homeDirectoryPath;
         rootModule = parentModule != null ? parentModule.getRootModule() : (RootModule) this;
         // Streams cache are instantiated now (because declared final)
-        childrenModulesCache = OperableSpliterable.fromSpliterable(() -> SplitFiles.walk(homeDirectoryPath, 1))
+        childrenModulesCache = Streamable.fromSpliterable(() -> SplitFiles.walk(homeDirectoryPath, 1))
                 .filter(path -> !isSameFile(path, homeDirectoryPath))
                 .filter(Files::isDirectory)
                 .filter(path -> Files.exists(path.resolve("pom.xml")))
                 .map(path -> new ProjectModule(path, this))
                 .cache();
-        javaClassesCache = OperableSpliterable.fromSpliterable(Files.exists(getJavaSourceDirectoryPath()) ? () -> SplitFiles.walk(getJavaSourceDirectoryPath()) : Spliterators::emptySpliterator)
+        javaClassesCache = Streamable.fromSpliterable(Files.exists(getJavaSourceDirectoryPath()) ? () -> SplitFiles.walk(getJavaSourceDirectoryPath()) : Spliterators::emptySpliterator)
                 .filter(javaFileMatcher::matches)
                 .map(path -> new JavaClass(path, this))
                 .cache();
@@ -121,7 +121,7 @@ class ProjectModule extends ModuleImpl {
     ///// Java classes
 
 
-    public OperableSpliterable<JavaClass> getJavaClassesCache() {
+    public Streamable<JavaClass> getJavaClassesCache() {
         return javaClassesCache;
     }
 

@@ -1,6 +1,6 @@
 package webfx.tool.buildtool;
 
-import webfx.tool.buildtool.util.spliterable.operable.OperableSpliterable;
+import webfx.tool.buildtool.util.streamable.Streamable;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +21,7 @@ final class JavaClass {
     private final ProjectModule projectModule;
     private String packageName;
     private String className;
-    private final OperableSpliterable<String> usedJavaPackagesNamesCache;
+    private final Streamable<String> usedJavaPackagesNamesCache;
 
     /***********************
      ***** Constructor *****
@@ -31,7 +31,7 @@ final class JavaClass {
         this.javaFilePath = javaFilePath;
         this.projectModule = projectModule;
         // Cache is instantiated now (because declared final)
-        usedJavaPackagesNamesCache = OperableSpliterable.fromSpliterable(() ->
+        usedJavaPackagesNamesCache = Streamable.fromSpliterable(() ->
                 extractPackagesFromJavaContent(new String(Files.readAllBytes(javaFilePath))).spliterator()
         ).cache();
     }
@@ -68,7 +68,7 @@ final class JavaClass {
      ***** Analyzing streams  *****
      ******************************/
 
-    OperableSpliterable<String> getUsedJavaPackagesNamesCache() {
+    Streamable<String> getUsedJavaPackagesNamesCache() {
         return usedJavaPackagesNamesCache;
     }
 

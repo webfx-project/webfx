@@ -1,4 +1,4 @@
-package webfx.tool.buildtool.util.spliterable.operable.impl;
+package webfx.tool.buildtool.util.streamable.impl;
 
 import webfx.tool.buildtool.util.spliterable.Spliterable;
 
