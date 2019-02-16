@@ -28,8 +28,8 @@ final class RootModule extends ProjectModule {
 
     private void registerThirdPartyModules() {
         // JDK
-        registerJavaPackageModule(new ModuleImpl("java.base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.logging", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic");
-        registerJavaPackageModule(new ModuleImpl("java.sql"), "javax.sql");
+        registerJavaPackageModule(new ModuleImpl("java.base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.logging", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic", "java.xml");
+        registerJavaPackageModule(new ModuleImpl("java.sql"), "java.sql", "javax.sql");
         registerJavaPackageModule(new ModuleImpl("jdk.management"), "com.sun.management");
         registerJavaPackageModule(new ModuleImpl("jdk.jsobject"), "netscape.javascript");
 
@@ -47,7 +47,7 @@ final class RootModule extends ProjectModule {
         registerJavaPackageModule(new ModuleImpl("jsinterop-annotations"), "jsinterop.annotations");
 
         // GWT charts
-        registerJavaPackageModule(new ModuleImpl("gwt-charts"), "com.googlecode.gwt.charts.client.corechart");
+        registerJavaPackageModule(new ModuleImpl("gwt-charts"), "com.googlecode.gwt.charts.client", "com.googlecode.gwt.charts.client.corechart");
 
         // Vert.x
         registerJavaPackageModule(new ModuleImpl("vertx-core"), "io.vertx.core", "io.vertx.core.eventbus", "io.vertx.core.http", "io.vertx.core.json", "io.vertx.core.net");
