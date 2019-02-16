@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.Spliterators;
 import java.util.function.Consumer;
@@ -231,15 +230,16 @@ class ProjectModule extends ModuleImpl {
      ***************************/
 
     void logModuleWithDirectDependencies() {
-        log(this + " direct dependencies: " + toListAndClose(analyzeDirectDependencies()));
+        log(this + " direct dependencies: " + analyzeDirectDependencies()
+                .collect(Collectors.toList()));
     }
 
     void logJavaClassWithPackagesDependingOn(JavaClass jc, String destinationModule) {
         log(jc + " through packages " +
-                toListAndClose(jc.analyzeUsedJavaPackagesNames()
+                jc.analyzeUsedJavaPackagesNames()
                         .filter(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId()))
                         .distinct()
-                ));
+                        .collect(Collectors.toList()));
     }
 
 
@@ -253,7 +253,7 @@ class ProjectModule extends ModuleImpl {
 
     static <T> void listStreamElements(String section, Stream<T> stream, Consumer<? super T> elementLogger) {
         logSection(section);
-        forEachAndClose(stream, elementLogger);
+        stream.forEach(elementLogger);
     }
 
     static void logSection(String section) {
@@ -278,18 +278,6 @@ class ProjectModule extends ModuleImpl {
             return Files.isSameFile(path1, path2);
         } catch (IOException e) {
             return false;
-        }
-    }
-
-    static <T> void forEachAndClose(Stream<T> stream, Consumer<? super T> action) {
-        try (Stream<T> s = stream) {
-            s.forEach(action);
-        }
-    }
-
-    static <T> List<T> toListAndClose(Stream<T> stream) {
-        try (Stream<T> s = stream) {
-            return s.collect(Collectors.toList());
         }
     }
 }

@@ -74,11 +74,11 @@ final class RootModule extends ProjectModule {
     }
 
     void registerJavaPackagesProjectModule(ProjectModule module) {
-        forEachAndClose(module.getJavaClassesStream(), javaClass -> registerJavaPackageModule(javaClass.getPackageName(), module));
+        module.getJavaClassesStream().forEach(javaClass -> registerJavaPackageModule(javaClass.getPackageName(), module));
     }
 
     private void registerAllJavaPackagesProjectModules() {
-        forEachAndClose(getThisAndChildrenModulesInDepthStream(), this::registerJavaPackagesProjectModule);
+        getThisAndChildrenModulesInDepthStream().forEach(this::registerJavaPackagesProjectModule);
     }
 
     Module getJavaPackageNameModule(String javaPackageName) {
@@ -112,10 +112,9 @@ final class RootModule extends ProjectModule {
             if (destinationModule == sourceModule)
                 paths.add(extendedPath);
             else if (sourceModule instanceof ProjectModule)
-                forEachAndClose(
-                        ((ProjectModule) sourceModule).analyzeDirectDependencies()
+                ((ProjectModule) sourceModule).analyzeDirectDependencies()
                         .map(depModule -> analyzeDependenciesPathsBetween(extendedPath, depModule, destinationModule))
-                        , paths::addAll);
+                        .forEach(paths::addAll);
         }
         return paths;
     }
@@ -143,10 +142,9 @@ final class RootModule extends ProjectModule {
             paths.add(cyclicPath);
         } else if (module instanceof ProjectModule) {
             List<Module> extendedPath = extendModuleCollection(parentPath, module);
-            forEachAndClose(
-                    ((ProjectModule) module).analyzeDirectDependencies()
-                            .map(depModule -> analyzeCyclicDependenciesPaths(extendedPath, depModule))
-                    , paths::addAll);
+            ((ProjectModule) module).analyzeDirectDependencies()
+                    .map(depModule -> analyzeCyclicDependenciesPaths(extendedPath, depModule))
+                    .forEach(paths::addAll);
         }
         return paths;
     }

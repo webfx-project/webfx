@@ -1,8 +1,11 @@
-package webfx.tool.buildtool;
+package webfx.tool.buildtool.util;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -45,4 +48,15 @@ final class StreamCache<T> {
         return new StreamCache<>(streamFactory, HashSet::new);
     }
 
+    static <T> void forEachAndClose(Stream<T> stream, Consumer<? super T> action) {
+        try (Stream<T> s = stream) {
+            s.forEach(action);
+        }
+    }
+
+    static <T> List<T> toListAndClose(Stream<T> stream) {
+        try (Stream<T> s = stream) {
+            return s.collect(Collectors.toList());
+        }
+    }
 }
