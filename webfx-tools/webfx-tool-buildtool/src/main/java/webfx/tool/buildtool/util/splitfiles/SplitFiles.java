@@ -12,40 +12,35 @@ import java.util.Spliterators;
  */
 public class SplitFiles {
 
-    public static Spliterator<Path> walk(Path start, FileVisitOption... options) {
+    public static Spliterator<Path> walk(Path start, FileVisitOption... options) throws IOException {
         return walk(start, Integer.MAX_VALUE, options);
     }
 
-    public static Spliterator<Path> walk(Path start, int maxDepth, FileVisitOption... options) {
+    public static Spliterator<Path> walk(Path start, int maxDepth, FileVisitOption... options) throws IOException {
+        FileTreeIterator iterator = new FileTreeIterator(start, maxDepth, options);
         try {
-            FileTreeIterator iterator = new FileTreeIterator(start, maxDepth, options);
-            try {
-                return Spliterators.spliteratorUnknownSize(new Iterator<>() {
-                    private boolean closed;
-                    @Override
-                    public boolean hasNext() {
-                        if (closed)
-                            return false;
-                        if (iterator.hasNext())
-                            return true;
-                        iterator.close();
-                        closed = true;
+            return Spliterators.spliteratorUnknownSize(new Iterator<>() {
+                private boolean closed;
+
+                @Override
+                public boolean hasNext() {
+                    if (closed)
                         return false;
-                    }
+                    if (iterator.hasNext())
+                        return true;
+                    iterator.close();
+                    closed = true;
+                    return false;
+                }
 
-                    @Override
-                    public Path next() {
-                        return iterator.next().file();
-                    }
-                }, Spliterator.DISTINCT);
-            } catch (Error|RuntimeException e) {
-                iterator.close();
-                //throw e;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+                @Override
+                public Path next() {
+                    return iterator.next().file();
+                }
+            }, Spliterator.DISTINCT);
+        } catch (Error | RuntimeException e) {
+            iterator.close();
+            throw e;
         }
-        return Spliterators.emptySpliterator();
     }
-
 }

@@ -1,7 +1,5 @@
 package webfx.tool.buildtool.util.spliterable.operable.impl;
 
-import webfx.tool.buildtool.util.spliterable.Spliterable;
-
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -13,10 +11,10 @@ import java.util.function.Function;
 final class FlatMappedSpliterator<T, R> implements Spliterator<R> {
 
     private final Spliterator<T> originalSpliterator;
-    private final Function<? super T, ? extends Spliterable<? extends R>> mapper;
+    private final Function<? super T, ? extends Iterable<? extends R>> mapper;
     private Spliterator<? extends R> runningSpliterator;
 
-    FlatMappedSpliterator(Spliterator<T> underlyingSpliterator, Function<? super T, ? extends Spliterable<? extends R>> mapper) {
+    FlatMappedSpliterator(Spliterator<T> underlyingSpliterator, Function<? super T, ? extends Iterable<? extends R>> mapper) {
         this.originalSpliterator = underlyingSpliterator;
         this.mapper = mapper;
     }

@@ -31,7 +31,7 @@ final class JavaClass {
         this.javaFilePath = javaFilePath;
         this.projectModule = projectModule;
         // Cache is instantiated now (because declared final)
-        usedJavaPackagesNamesCache = OperableSpliterable.create(() ->
+        usedJavaPackagesNamesCache = OperableSpliterable.fromSpliterable(() ->
                 extractPackagesFromJavaContent(new String(Files.readAllBytes(javaFilePath))).spliterator()
         ).cache();
     }
