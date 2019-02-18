@@ -9,50 +9,68 @@ import java.util.function.Consumer;
  */
 abstract class DelegatingSpliterator<T> implements Spliterator<T> {
 
-    private final Spliterator<T> delegateSpliterator;
+    private Spliterator<T> delegate;
 
-    DelegatingSpliterator(Spliterator<T> delegateSpliterator) {
-        this.delegateSpliterator = delegateSpliterator;
+    DelegatingSpliterator(Spliterator<T> delegate) {
+        this.delegate = delegate;
+    }
+
+    private void onDelegateFullyTraversed() { // Called when the delegate spliterator is finished (is fully traversed)
+        delegate = null; // Forgetting the reference to it so it can be garbage collected to release memory usage
+    }
+
+    private boolean hasDelegateBeenFullyTraversed() {
+        return delegate == null;
     }
 
     @Override
     public boolean tryAdvance(Consumer<? super T> action) {
-        return delegateSpliterator.tryAdvance(action);
+        boolean processed;
+        if (hasDelegateBeenFullyTraversed())
+            processed = false;
+        else {
+            processed = delegate.tryAdvance(action);
+            if (!processed)
+                onDelegateFullyTraversed();
+        }
+        return processed;
     }
 
     @Override
     public Spliterator<T> trySplit() {
-        //return getSpliterator().trySplit();
         throw new UnsupportedOperationException();
     }
 
     @Override
     public long estimateSize() {
-        return delegateSpliterator.estimateSize();
+        return hasDelegateBeenFullyTraversed() ? 0 : delegate.estimateSize();
     }
 
     @Override
     public int characteristics() {
-        return delegateSpliterator.characteristics();
+        return hasDelegateBeenFullyTraversed() ? 0 : delegate.characteristics();
     }
 
     @Override
     public void forEachRemaining(Consumer<? super T> action) {
-        delegateSpliterator.forEachRemaining(action);
+        if (!hasDelegateBeenFullyTraversed()) {
+            delegate.forEachRemaining(action);
+            onDelegateFullyTraversed();
+        }
     }
 
     @Override
     public long getExactSizeIfKnown() {
-        return delegateSpliterator.getExactSizeIfKnown();
+        return hasDelegateBeenFullyTraversed() ? 0 : delegate.getExactSizeIfKnown();
     }
 
     @Override
     public boolean hasCharacteristics(int characteristics) {
-        return delegateSpliterator.hasCharacteristics(characteristics);
+        return !hasDelegateBeenFullyTraversed() && delegate.hasCharacteristics(characteristics);
     }
 
     @Override
     public Comparator<? super T> getComparator() {
-        return delegateSpliterator.getComparator();
+        return hasDelegateBeenFullyTraversed() ? null : delegate.getComparator();
     }
 }
