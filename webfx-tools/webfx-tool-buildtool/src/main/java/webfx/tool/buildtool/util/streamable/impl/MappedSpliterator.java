@@ -29,6 +29,11 @@ final class MappedSpliterator<T, R> implements Spliterator<R> {
     }
 
     @Override
+    public void forEachRemaining(Consumer<? super R> action) {
+        underlyingSpliterator.forEachRemaining(mappedAction(action));
+    }
+
+    @Override
     public Spliterator<R> trySplit() {
         throw new UnsupportedOperationException();
     }
@@ -41,11 +46,6 @@ final class MappedSpliterator<T, R> implements Spliterator<R> {
     @Override
     public int characteristics() {
         return underlyingSpliterator.characteristics();
-    }
-
-    @Override
-    public void forEachRemaining(Consumer<? super R> action) {
-        underlyingSpliterator.forEachRemaining(mappedAction(action));
     }
 
     @Override

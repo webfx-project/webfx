@@ -8,41 +8,42 @@ import java.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-final class FlatMappedSpliterator<T, R> implements Spliterator<R> {
+class FlatMappedSpliterator<T, R> implements Spliterator<R> {
 
-    private final Spliterator<T> originalSpliterator;
+    private final Spliterator<T> sourceSpliterator;
     private final Function<? super T, ? extends Iterable<? extends R>> mapper;
-    private Spliterator<? extends R> runningSpliterator;
+    private Spliterator<? extends R> runningMappedSpliterator;
 
-    FlatMappedSpliterator(Spliterator<T> underlyingSpliterator, Function<? super T, ? extends Iterable<? extends R>> mapper) {
-        this.originalSpliterator = underlyingSpliterator;
+    FlatMappedSpliterator(Spliterator<T> sourceSpliterator, Function<? super T, ? extends Iterable<? extends R>> mapper) {
+        this.sourceSpliterator = sourceSpliterator;
         this.mapper = mapper;
     }
 
-    private void nextRunningSpliterator(T t) {
-        runningSpliterator = mapper.apply(t).spliterator();
+    private void setNextRunningMappedSpliterator(T t) {
+        runningMappedSpliterator = mapper.apply(t).spliterator();
+    }
+
+    private boolean goToNextRunningMappedSpliterator() {
+        runningMappedSpliterator = null;
+        sourceSpliterator.tryAdvance(this::setNextRunningMappedSpliterator);
+        return runningMappedSpliterator != null;
     }
 
     @Override
     public boolean tryAdvance(Consumer<? super R> action) {
-        while (true) {
-            if (runningSpliterator != null && runningSpliterator.tryAdvance(action))
+        do {
+            if (runningMappedSpliterator != null && runningMappedSpliterator.tryAdvance(action))
                 return true;
-            runningSpliterator = null;
-            if (!originalSpliterator.tryAdvance(this::nextRunningSpliterator))
-                return false;
-        }
+        } while (goToNextRunningMappedSpliterator());
+        return false;
     }
 
     @Override
     public void forEachRemaining(Consumer<? super R> action) {
-        while (true) {
-            if (runningSpliterator != null)
-                runningSpliterator.forEachRemaining(action);
-            runningSpliterator = null;
-            if (!originalSpliterator.tryAdvance(this::nextRunningSpliterator))
-                return;
-        }
+        do {
+            if (runningMappedSpliterator != null)
+                runningMappedSpliterator.forEachRemaining(action);
+        } while (goToNextRunningMappedSpliterator());
     }
 
     @Override
@@ -52,24 +53,22 @@ final class FlatMappedSpliterator<T, R> implements Spliterator<R> {
 
     @Override
     public long estimateSize() {
-        return originalSpliterator.estimateSize();
+        return sourceSpliterator.estimateSize() == 0 ? 0 : -1;
     }
 
     @Override
     public int characteristics() {
-        return originalSpliterator.characteristics() & ~SIZED;
+        return sourceSpliterator.characteristics() & ~SIZED;
     }
 
     @Override
     public long getExactSizeIfKnown() {
-        if (originalSpliterator.getExactSizeIfKnown() == 0)
-            return 0;
-        return -1;
+        return sourceSpliterator.getExactSizeIfKnown() == 0 ? 0 : -1;
     }
 
     @Override
     public boolean hasCharacteristics(int characteristics) {
-        return (characteristics & SIZED) == 0 && originalSpliterator.hasCharacteristics(characteristics);
+        return (characteristics & SIZED) == 0 && sourceSpliterator.hasCharacteristics(characteristics);
     }
 
     @Override

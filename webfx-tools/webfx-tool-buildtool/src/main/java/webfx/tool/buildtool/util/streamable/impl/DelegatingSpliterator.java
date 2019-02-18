@@ -21,7 +21,7 @@ abstract class DelegatingSpliterator<T> implements Spliterator<T> {
         this.unsized = unsized;
     }
 
-    private void onDelegateFullyTraversed() { // Called when the delegate spliterator is finished (is fully traversed)
+    protected void onDelegateFullyTraversed() { // Called when the delegate spliterator is finished (is fully traversed)
         delegate = null; // Forgetting the reference to it so it can be garbage collected to release memory usage
     }
 

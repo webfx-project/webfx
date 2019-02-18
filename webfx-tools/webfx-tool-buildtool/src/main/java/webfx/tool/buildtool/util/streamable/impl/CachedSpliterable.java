@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  */
 final class CachedSpliterable<T> implements Spliterable<T> {
 
-    private final Spliterator<T> spliterator;
+    private Spliterator<T> spliterator;
     private final List<T> cache = new ArrayList<>();
 
     CachedSpliterable(Spliterator<T> spliterator) {
@@ -27,39 +27,54 @@ final class CachedSpliterable<T> implements Spliterable<T> {
                     action.accept(t);
                 }) {
 
-            private int cacheIndex;
+            private int nextCacheIndex;
+
+            @Override
+            protected void onDelegateFullyTraversed() {
+                super.onDelegateFullyTraversed();
+                spliterator = null;
+            }
 
             private boolean tryAdvanceCache(Consumer<? super T> action) {
-                if (cacheIndex >= cache.size())
+                if (nextCacheIndex >= cache.size())
                     return false;
                 //System.err.print('|');
-                action.accept(cache.get(cacheIndex++));
+                action.accept(cache.get(nextCacheIndex++));
                 return true;
             }
 
             @Override
             public boolean tryAdvance(Consumer<? super T> action) {
-                return tryAdvanceCache(action) || super.tryAdvance(action);
+                if (tryAdvanceCache(action))
+                    return true;
+                boolean processed = super.tryAdvance(action);
+                updateIndexWhenEndOfCacheIsReached(); // Necessary to update the cache index in case the last call added an element
+                return processed;
+            }
+
+            private void updateIndexWhenEndOfCacheIsReached() {
+                nextCacheIndex = cache.size();
             }
 
             @Override
             public void forEachRemaining(Consumer<? super T> action) {
                 //noinspection StatementWithEmptyBody
-                while (tryAdvanceCache(action)) ;
+                while (tryAdvanceCache(action));
                 super.forEachRemaining(action);
+                updateIndexWhenEndOfCacheIsReached();
             }
 
             @Override
             public long getExactSizeIfKnown() {
-                return sizePlusCache(super.getExactSizeIfKnown());
+                return cacheAugmentedSize(super.getExactSizeIfKnown());
             }
 
             @Override
             public long estimateSize() {
-                return sizePlusCache(super.estimateSize());
+                return cacheAugmentedSize(super.estimateSize());
             }
 
-            private long sizePlusCache(long size) {
+            private long cacheAugmentedSize(long size) {
                 return size == -1 ? -1 : size + cache.size();
             }
         };
