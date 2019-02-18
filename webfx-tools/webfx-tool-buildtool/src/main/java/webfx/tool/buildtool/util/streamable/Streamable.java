@@ -2,6 +2,7 @@ package webfx.tool.buildtool.util.streamable;
 
 import webfx.tool.buildtool.util.streamable.impl.StreamableImpl;
 
+import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -34,6 +35,11 @@ public interface Streamable<T> extends Spliterable<T> {
 
     static <T> Streamable<T> fromSpliterable(Spliterable<T> spliterable) {
         return fromIterable(spliterable);
+    }
+
+    @SafeVarargs
+    static <T> Streamable<T> of(T... array) {
+        return fromIterable(Arrays.asList(array));
     }
 
     static <T> Streamable<T> concat(Streamable<T> a, Iterable<? extends T> b) {
