@@ -1,6 +1,5 @@
 package webfx.tool.buildtool.util.streamable;
 
-import webfx.tool.buildtool.util.spliterable.ThrowableSpliterable;
 import webfx.tool.buildtool.util.streamable.impl.StreamableImpl;
 
 import java.util.function.Function;
@@ -11,7 +10,7 @@ import java.util.stream.StreamSupport;
 /**
  * @author Bruno Salmon
  */
-public interface Streamable<T> extends Iterable<T> {
+public interface Streamable<T> extends Spliterable<T> {
 
     Streamable<T> filter(Predicate<? super T> predicate);
 
@@ -31,7 +30,7 @@ public interface Streamable<T> extends Iterable<T> {
         return new StreamableImpl<>(iterable);
     }
 
-    static <T> Streamable<T> fromSpliterable(ThrowableSpliterable<T> throwableSpliterable) {
-        return fromIterable(throwableSpliterable.toSpliterable());
+    static <T> Streamable<T> fromSpliterable(Spliterable<T> spliterable) {
+        return fromIterable(spliterable);
     }
 }

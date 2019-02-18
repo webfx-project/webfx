@@ -1,4 +1,4 @@
-package webfx.tool.buildtool.util.spliterable;
+package webfx.tool.buildtool.util.streamable;
 
 import java.util.Iterator;
 import java.util.Spliterator;
@@ -8,7 +8,7 @@ import java.util.Spliterators;
  * @author Bruno Salmon
  */
 @FunctionalInterface
-public interface Spliterable<T> extends ThrowableSpliterable<T>, Iterable<T> {
+public interface Spliterable<T> extends Iterable<T> {
 
     Spliterator<T> spliterator();
 
@@ -17,7 +17,4 @@ public interface Spliterable<T> extends ThrowableSpliterable<T>, Iterable<T> {
         return Spliterators.iterator(spliterator());
     }
 
-    default Spliterable<T> toSpliterable() {
-        return this;
-    }
 }
