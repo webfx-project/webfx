@@ -52,4 +52,10 @@ public final class StreamableImpl<T> implements Streamable<T> {
     public Streamable<T> cache() {
         return Streamable.fromSpliterable(new CachedSpliterable<>(spliterator()));
     }
+
+    @Override
+    @SafeVarargs
+    public final Streamable<T> concat(Iterable<? extends T>... iterables) {
+        return Streamable.fromSpliterable(() -> new ConcatSpliterator<>(spliterator(), iterables));
+    }
 }

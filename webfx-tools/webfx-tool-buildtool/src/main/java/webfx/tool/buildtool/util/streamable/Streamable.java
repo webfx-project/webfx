@@ -22,6 +22,8 @@ public interface Streamable<T> extends Spliterable<T> {
 
     Streamable<T> cache();
 
+    Streamable<T> concat(Iterable<? extends T>... iterables);
+
     default Stream<T> stream() {
         return StreamSupport.stream(spliterator(), false);
     }
@@ -33,4 +35,9 @@ public interface Streamable<T> extends Spliterable<T> {
     static <T> Streamable<T> fromSpliterable(Spliterable<T> spliterable) {
         return fromIterable(spliterable);
     }
+
+    static <T> Streamable<T> concat(Streamable<T> a, Iterable<? extends T> b) {
+        return a.concat(b);
+    }
+
 }
