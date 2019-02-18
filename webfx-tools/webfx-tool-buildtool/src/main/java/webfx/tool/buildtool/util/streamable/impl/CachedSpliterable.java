@@ -21,7 +21,11 @@ final class CachedSpliterable<T> implements Spliterable<T> {
 
     @Override
     public Spliterator<T> spliterator() {
-        return new DelegatingSpliterator<>(spliterator) {
+        return new ActionMapperDelegatingSpliterator<>(spliterator, action ->
+                t -> {
+                    cache.add(t);
+                    action.accept(t);
+                }) {
 
             private int cacheIndex;
 
@@ -33,36 +37,30 @@ final class CachedSpliterable<T> implements Spliterable<T> {
                 return true;
             }
 
-            private Consumer<T> cachingAction(Consumer<? super T> action) {
-                return t -> {
-                    cache.add(t);
-                    action.accept(t);
-                };
-            }
-
             @Override
             public boolean tryAdvance(Consumer<? super T> action) {
-                return tryAdvanceCache(action) || super.tryAdvance(cachingAction(action));
+                return tryAdvanceCache(action) || super.tryAdvance(action);
             }
 
             @Override
             public void forEachRemaining(Consumer<? super T> action) {
                 //noinspection StatementWithEmptyBody
-                while (tryAdvanceCache(action));
-                super.forEachRemaining(cachingAction(action));
+                while (tryAdvanceCache(action)) ;
+                super.forEachRemaining(action);
             }
 
             @Override
             public long getExactSizeIfKnown() {
-                long exactSize = spliterator.getExactSizeIfKnown();
-                if (exactSize != -1)
-                    exactSize += cache.size();
-                return exactSize;
+                return sizePlusCache(super.getExactSizeIfKnown());
             }
 
             @Override
             public long estimateSize() {
-                return cache.size() + super.estimateSize();
+                return sizePlusCache(super.estimateSize());
+            }
+
+            private long sizePlusCache(long size) {
+                return size == -1 ? -1 : size + cache.size();
             }
         };
     }

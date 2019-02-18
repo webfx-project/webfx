@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 final class DistinctSpliterator<T> extends FilteredSpliterator<T> {
 
     DistinctSpliterator(Spliterator<T> spliterator) {
-        super(spliterator, new Predicate<T>() {
+        super(spliterator, new Predicate<>() {
             private final Set<T> values = new HashSet<>();
             @Override
             public boolean test(T t) {
