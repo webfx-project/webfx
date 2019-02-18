@@ -5,7 +5,6 @@ import webfx.tool.buildtool.util.javacode.JavaCodePatternFinder;
 import webfx.tool.buildtool.util.streamable.Streamable;
 
 import java.nio.file.Path;
-import java.util.stream.Stream;
 
 /**
  * @author Bruno Salmon
@@ -63,12 +62,8 @@ final class JavaClass {
      ***** Analyzing streams  *****
      ******************************/
 
-    Streamable<String> getUsedJavaPackagesNamesCache() {
+    Streamable<String> analyzeUsedJavaPackagesNames() {
         return usedJavaPackagesNamesCache;
-    }
-
-    Stream<String> analyzeUsedJavaPackagesNames() {
-        return usedJavaPackagesNamesCache.stream();
     }
 
 

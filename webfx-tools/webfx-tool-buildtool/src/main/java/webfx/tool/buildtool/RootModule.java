@@ -1,8 +1,9 @@
 package webfx.tool.buildtool;
 
+import webfx.tool.buildtool.util.streamable.Streamable;
+
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * @author Bruno Salmon
@@ -28,7 +29,8 @@ final class RootModule extends ProjectModule {
 
     private void registerThirdPartyModules() {
         // JDK
-        registerJavaPackageModule(new ModuleImpl("java.base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.logging", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic", "java.xml");
+        registerJavaPackageModule(new ModuleImpl("java.base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.logging", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic");
+        registerJavaPackageModule(new ModuleImpl("java.xml"), "javax.xml");
         registerJavaPackageModule(new ModuleImpl("java.sql"), "java.sql", "javax.sql");
         registerJavaPackageModule(new ModuleImpl("jdk.management"), "com.sun.management");
         registerJavaPackageModule(new ModuleImpl("jdk.jsobject"), "netscape.javascript");
@@ -74,11 +76,11 @@ final class RootModule extends ProjectModule {
     }
 
     void registerJavaPackagesProjectModule(ProjectModule module) {
-        module.getJavaClassesStream().forEach(javaClass -> registerJavaPackageModule(javaClass.getPackageName(), module));
+        module.getJavaClasses().forEach(javaClass -> registerJavaPackageModule(javaClass.getPackageName(), module));
     }
 
     private void registerAllJavaPackagesProjectModules() {
-        getThisAndChildrenModulesInDepthStream().forEach(this::registerJavaPackagesProjectModule);
+        getThisAndChildrenModulesInDepth().forEach(this::registerJavaPackagesProjectModule);
     }
 
     Module getJavaPackageNameModule(String javaPackageName) {
@@ -101,8 +103,8 @@ final class RootModule extends ProjectModule {
      ***** Analyzing streams *****
      *****************************/
 
-    static Stream<Collection<Module>> analyzeDependenciesPathsBetween(Module sourceModule, Module destinationModule) {
-        return analyzeDependenciesPathsBetween(new ArrayList<>(), sourceModule, destinationModule).stream();
+    static Collection<Collection<Module>> analyzeDependenciesPathsBetween(Module sourceModule, Module destinationModule) {
+        return analyzeDependenciesPathsBetween(new ArrayList<>(), sourceModule, destinationModule);
     }
 
     private static Collection<Collection<Module>> analyzeDependenciesPathsBetween(Collection<Module> parentPath, Module sourceModule, Module destinationModule) {
@@ -120,15 +122,15 @@ final class RootModule extends ProjectModule {
     }
 
 
-    Stream<Collection<Module>> analyzeCyclicDependenciesPaths() {
-        return getThisAndChildrenModulesInDepthStream()
+    Streamable<Collection<Module>> analyzeCyclicDependenciesPaths() {
+        return getThisAndChildrenModulesInDepth()
                 .flatMap(RootModule::analyzeCyclicDependenciesPaths)
                 .distinct()
                 ;
     }
 
-    static Stream<Collection<Module>> analyzeCyclicDependenciesPaths(Module module) {
-        return analyzeCyclicDependenciesPaths(new ArrayList<>(), module).stream().distinct();
+    static List<Collection<Module>> analyzeCyclicDependenciesPaths(Module module) {
+        return analyzeCyclicDependenciesPaths(new ArrayList<>(), module);
     }
 
     private static List<Collection<Module>> analyzeCyclicDependenciesPaths(List<Module> parentPath, Module module) {
@@ -176,13 +178,13 @@ final class RootModule extends ProjectModule {
     }
 
     private static void listDependenciesPathsBetween(Module sourceModule, Module destinationModule) {
-        listStreamElements("Listing dependency paths between " + sourceModule + " and " + destinationModule,
+        listIterableElements("Listing dependency paths between " + sourceModule + " and " + destinationModule,
                 analyzeDependenciesPathsBetween(sourceModule, destinationModule)
         );
     }
 
     void listCyclicDependenciesPaths() {
-        listStreamElements("Listing cyclic dependency paths",
+        listIterableElements("Listing cyclic dependency paths",
                 analyzeCyclicDependenciesPaths()
         );
     }

@@ -22,13 +22,36 @@ class ProjectModule extends ModuleImpl {
 
     private final static PathMatcher javaFileMatcher = FileSystems.getDefault().getPathMatcher("glob:**.java");
 
+    private final Streamable<ProjectModule> childrenModulesCache = Streamable.fromSpliterable(() -> SplitFiles.uncheckedWalk(getHomeDirectoryPath(), 1))
+            .filter(path -> !isSameFile(path, getHomeDirectoryPath()))
+            .filter(Files::isDirectory)
+            .filter(path -> Files.exists(path.resolve("pom.xml")))
+            .map(path -> new ProjectModule(path, this))
+            .cache()
+            ;
+    private final Streamable<ProjectModule> childrenModulesInDepthCache = childrenModulesCache
+            .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
+            //.cache()
+            ;
+    private final Streamable<JavaClass> javaClassesCache = Streamable.fromSpliterable(() -> Files.exists(getJavaSourceDirectoryPath()) ? SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators.emptySpliterator())
+            .filter(javaFileMatcher::matches)
+            .map(path -> new JavaClass(path, this))
+            .cache()
+            ;
+    private final Streamable<String> usedJavaPackagesNamesCache = javaClassesCache
+            .flatMap(JavaClass::analyzeUsedJavaPackagesNames)
+            .distinct()
+            .cache()
+            ;
+    private final Streamable<Module> directDependenciesCache = usedJavaPackagesNamesCache
+            .map(m -> getRootModule().getJavaPackageNameModule(m))
+            .filter(module -> module != null && module != this && !module.getArtifactId().equals(getArtifactId()))
+            .distinct()
+            .cache()
+            ;
     private final Path homeDirectoryPath;
     private final ProjectModule parentModule;
     private final RootModule rootModule;
-    private final Streamable<ProjectModule> childrenModulesCache;
-    private final Streamable<JavaClass> javaClassesCache;
-    private final Streamable<String> usedJavaPackagesNamesCache;
-    private final Streamable<Module> directDependenciesCache;
 
     /************************
      ***** Constructors *****
@@ -38,31 +61,11 @@ class ProjectModule extends ModuleImpl {
         this(homeDirectoryPath, null);
     }
 
-    ProjectModule(Path homeDirectoryPath, ProjectModule parentModule) {
+    private ProjectModule(Path homeDirectoryPath, ProjectModule parentModule) {
         super(parentModule == null ? null : parentModule.getGroupId(), homeDirectoryPath.getFileName().toString(), parentModule == null ? null : parentModule.getVersion());
         this.parentModule = parentModule;
         this.homeDirectoryPath = homeDirectoryPath;
         rootModule = parentModule != null ? parentModule.getRootModule() : (RootModule) this;
-        // Streams cache are instantiated now (because declared final)
-        childrenModulesCache = Streamable.fromSpliterable(() -> SplitFiles.uncheckedWalk(homeDirectoryPath, 1))
-                .filter(path -> !isSameFile(path, homeDirectoryPath))
-                .filter(Files::isDirectory)
-                .filter(path -> Files.exists(path.resolve("pom.xml")))
-                .map(path -> new ProjectModule(path, this))
-                .cache();
-        javaClassesCache = Streamable.fromSpliterable(Files.exists(getJavaSourceDirectoryPath()) ? () -> SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators::emptySpliterator)
-                .filter(javaFileMatcher::matches)
-                .map(path -> new JavaClass(path, this))
-                .cache();
-        usedJavaPackagesNamesCache = javaClassesCache
-                .flatMap(JavaClass::getUsedJavaPackagesNamesCache)
-                .distinct()
-                .cache();
-        directDependenciesCache = usedJavaPackagesNamesCache
-                .map(rootModule::getJavaPackageNameModule)
-                .filter(module -> module != null && module != this && !module.getArtifactId().equals(getArtifactId()))
-                .distinct()
-                .cache();
     }
 
 
@@ -87,8 +90,9 @@ class ProjectModule extends ModuleImpl {
     }
 
     ProjectModule getChildModuleInDepth(String artifactId) {
-        return getThisAndChildrenModulesInDepthStream()
+        return getThisAndChildrenModulesInDepth()
                 .filter(module -> module.getArtifactId().equals(artifactId))
+                .stream()
                 .findFirst()
                 .orElse(null);
     }
@@ -104,29 +108,24 @@ class ProjectModule extends ModuleImpl {
 
     ///// Modules
 
-    Stream<ProjectModule> getChildrenModulesStream() {
-        return childrenModulesCache.stream();
+    Streamable<ProjectModule> getChildrenModules() {
+        return childrenModulesCache;
     }
 
-    Stream<ProjectModule> getChildrenModulesInDepthStream() {
-        return getChildrenModulesStream()
-                .flatMap(ProjectModule::getThisAndChildrenModulesInDepthStream);
+    Streamable<ProjectModule> getChildrenModulesInDepth() {
+        return childrenModulesInDepthCache;
     }
 
-    Stream<ProjectModule> getThisAndChildrenModulesInDepthStream() {
-        return Stream.concat(Stream.of(this), getChildrenModulesInDepthStream());
+    Streamable<ProjectModule> getThisAndChildrenModulesInDepth() {
+        return Streamable.of(this).concat(getChildrenModulesInDepth());
     }
+
 
     ///// Java classes
 
-    public Streamable<JavaClass> getJavaClassesCache() {
+    Streamable<JavaClass> getJavaClasses() {
         return javaClassesCache;
     }
-
-    Stream<JavaClass> getJavaClassesStream() {
-        return javaClassesCache.stream();
-    }
-
 
     /******************************
      ***** Analyzing streams  *****
@@ -134,22 +133,22 @@ class ProjectModule extends ModuleImpl {
 
     ///// Modules
 
-    Stream<Module> analyzeDirectDependencies() {
-        return directDependenciesCache.stream();
+    Streamable<Module> analyzeDirectDependencies() {
+        return directDependenciesCache;
     }
 
-    Stream<ProjectModule> analyzeThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
-        return getThisAndChildrenModulesInDepthStream()
-                .filter(module -> module.analyzeDirectDependencies().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId())))
+    Streamable<ProjectModule> analyzeThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
+        return getThisAndChildrenModulesInDepth()
+                .filter(module -> module.analyzeDirectDependencies().stream().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId())))
                 ;
     }
 
-    Stream<Module> analyzeThisAndChildrenModulesInDepthTransitiveDependencies() {
+    Set<Module> analyzeThisAndChildrenModulesInDepthTransitiveDependencies() {
         if (transitiveDependenciesModules == null) {
             transitiveDependenciesModules = new HashSet<>();
             addTransitiveDependencies(this, false);
         }
-        return transitiveDependenciesModules.stream();
+        return transitiveDependenciesModules;
     }
 
     private Set<Module> transitiveDependenciesModules;
@@ -165,13 +164,13 @@ class ProjectModule extends ModuleImpl {
 
     ///// Packages (names)
 
-    Stream<String> analyzeUsedJavaPackagesNames() {
-        return usedJavaPackagesNamesCache.stream();
+    Streamable<String> analyzeUsedJavaPackagesNames() {
+        return usedJavaPackagesNamesCache;
     }
 
-    Stream<JavaClass> analyzeJavaClassesDependingOn(String destinationModule) {
-        return getJavaClassesStream()
-                .filter(jc -> jc.analyzeUsedJavaPackagesNames().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId())))
+    Streamable<JavaClass> analyzeJavaClassesDependingOn(String destinationModule) {
+        return getJavaClasses()
+                .filter(jc -> jc.analyzeUsedJavaPackagesNames().stream().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId())))
                 ;
     }
 
@@ -180,44 +179,44 @@ class ProjectModule extends ModuleImpl {
      ***************************/
 
     void listJavaClasses() {
-        listStreamElements("Listing " + this + " module java classes",
-                getJavaClassesStream()
+        listIterableElements("Listing " + this + " module java classes",
+                getJavaClasses()
         );
     }
 
     void listDirectDependencies() {
-        listStreamElements("Listing " + this + " module direct dependencies",
+        listIterableElements("Listing " + this + " module direct dependencies",
                 analyzeDirectDependencies()
         );
     }
 
     void listChildrenModulesInDepth() {
-        listStreamElements("Listing " + this + " children modules (in depth)",
-                getChildrenModulesInDepthStream()
+        listIterableElements("Listing " + this + " children modules (in depth)",
+                getChildrenModulesInDepth()
         );
     }
 
     void listThisAndChildrenModulesInDepthWithTheirDirectDependencies() {
-        listStreamElements("Listing " + this + " and children modules (in depth) with their direct dependencies",
-                getThisAndChildrenModulesInDepthStream(),
+        listIterableElements("Listing " + this + " and children modules (in depth) with their direct dependencies",
+                getThisAndChildrenModulesInDepth(),
                 ProjectModule::logModuleWithDirectDependencies
         );
     }
 
     void listThisAndChildrenModulesInDepthTransitiveDependencies() {
-        listStreamElements("Listing " + this + " and children modules (in depth) transitive dependencies",
+        listIterableElements("Listing " + this + " and children modules (in depth) transitive dependencies",
                 analyzeThisAndChildrenModulesInDepthTransitiveDependencies()
         );
     }
 
     void listOrAndChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
-        listStreamElements("Listing " + this + " or children modules (in depth) directly depending on " + moduleArtifactId,
+        listIterableElements("Listing " + this + " or children modules (in depth) directly depending on " + moduleArtifactId,
                 analyzeThisOrChildrenModulesInDepthDirectlyDependingOn(moduleArtifactId)
         );
     }
 
     void listJavaClassesDependingOn(String destinationModule) {
-        listStreamElements("Listing " + this + " module java classes depending on " + destinationModule,
+        listIterableElements("Listing " + this + " module java classes depending on " + destinationModule,
                 analyzeJavaClassesDependingOn(destinationModule)
                 , jc -> logJavaClassWithPackagesDependingOn(jc, destinationModule)
         );
@@ -228,17 +227,17 @@ class ProjectModule extends ModuleImpl {
      ***** Logging methods *****
      ***************************/
 
-    void logModuleWithDirectDependencies() {
+    private void logModuleWithDirectDependencies() {
         log(this + " direct dependencies: " + analyzeDirectDependencies()
-                .collect(Collectors.toList()));
+                .stream().collect(Collectors.toList()));
     }
 
-    void logJavaClassWithPackagesDependingOn(JavaClass jc, String destinationModule) {
+    private void logJavaClassWithPackagesDependingOn(JavaClass jc, String destinationModule) {
         log(jc + " through packages " +
                 jc.analyzeUsedJavaPackagesNames()
                         .filter(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId()))
                         .distinct()
-                        .collect(Collectors.toList()));
+                        .stream().collect(Collectors.toList()));
     }
 
 
@@ -246,16 +245,16 @@ class ProjectModule extends ModuleImpl {
      ***** Static utility methods *****
      **********************************/
 
-    static void listStreamElements(String section, Stream stream) {
-        listStreamElements(section, stream, ProjectModule::log);
+    static <T> void listIterableElements(String section, Iterable<T> iterable) {
+        listIterableElements(section, iterable, ProjectModule::log);
     }
 
-    static <T> void listStreamElements(String section, Stream<T> stream, Consumer<? super T> elementLogger) {
+    private static <T> void listIterableElements(String section, Iterable<T> iterable, Consumer<? super T> elementLogger) {
         logSection(section);
-        stream.forEach(elementLogger);
+        iterable.forEach(elementLogger);
     }
 
-    static void logSection(String section) {
+    private static void logSection(String section) {
         String middle = "***** " + section + " *****";
         String starsLine = Stream.generate(() -> "*").limit(middle.length()).collect(Collectors.joining());
         log("");
