@@ -1,7 +1,7 @@
 package webfx.tool.buildtool;
 
 import webfx.tool.buildtool.util.javacode.JavaCodePattern;
-import webfx.tool.buildtool.util.javacode.PatternInJavaCodeFinder;
+import webfx.tool.buildtool.util.javacode.JavaCodePatternFinder;
 import webfx.tool.buildtool.util.streamable.Streamable;
 
 import java.nio.file.Path;
@@ -26,7 +26,7 @@ final class JavaClass {
         this.javaFilePath = javaFilePath;
         this.projectModule = projectModule;
         // Cache is instantiated now (because declared final)
-        usedJavaPackagesNamesCache = Streamable.fromIterable(new PatternInJavaCodeFinder(JavaCodePattern.PACKAGE_PATTERN, javaFilePath))
+        usedJavaPackagesNamesCache = Streamable.fromIterable(new JavaCodePatternFinder(JavaCodePattern.PACKAGE_PATTERN, javaFilePath))
                 .distinct()
                 .cache();
     }

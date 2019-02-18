@@ -9,16 +9,16 @@ import java.util.regex.Matcher;
 /**
  * @author Bruno Salmon
  */
-public final class PatternInJavaCodeFinder implements Iterable<String> {
+public final class JavaCodePatternFinder implements Iterable<String> {
 
     private final String javaCode;
     private final JavaCodePattern javaCodePattern;
 
-    public PatternInJavaCodeFinder(JavaCodePattern javaCodePattern, Path javaFilePath) {
+    public JavaCodePatternFinder(JavaCodePattern javaCodePattern, Path javaFilePath) {
         this(javaCodePattern, loadJavaCode(javaFilePath));
     }
 
-    private PatternInJavaCodeFinder(JavaCodePattern javaCodePattern, String javaCode) {
+    private JavaCodePatternFinder(JavaCodePattern javaCodePattern, String javaCode) {
         this.javaCode = javaCode;
         this.javaCodePattern = javaCodePattern;
     }
