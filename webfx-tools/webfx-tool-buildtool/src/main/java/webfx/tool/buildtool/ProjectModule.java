@@ -44,13 +44,13 @@ class ProjectModule extends ModuleImpl {
         this.homeDirectoryPath = homeDirectoryPath;
         rootModule = parentModule != null ? parentModule.getRootModule() : (RootModule) this;
         // Streams cache are instantiated now (because declared final)
-        childrenModulesCache = Streamable.fromSpliterable(() -> SplitFiles.walk(homeDirectoryPath, 1))
+        childrenModulesCache = Streamable.fromSpliterable(() -> SplitFiles.uncheckedWalk(homeDirectoryPath, 1))
                 .filter(path -> !isSameFile(path, homeDirectoryPath))
                 .filter(Files::isDirectory)
                 .filter(path -> Files.exists(path.resolve("pom.xml")))
                 .map(path -> new ProjectModule(path, this))
                 .cache();
-        javaClassesCache = Streamable.fromSpliterable(Files.exists(getJavaSourceDirectoryPath()) ? () -> SplitFiles.walk(getJavaSourceDirectoryPath()) : Spliterators::emptySpliterator)
+        javaClassesCache = Streamable.fromSpliterable(Files.exists(getJavaSourceDirectoryPath()) ? () -> SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators::emptySpliterator)
                 .filter(javaFileMatcher::matches)
                 .map(path -> new JavaClass(path, this))
                 .cache();
@@ -118,7 +118,6 @@ class ProjectModule extends ModuleImpl {
     }
 
     ///// Java classes
-
 
     public Streamable<JavaClass> getJavaClassesCache() {
         return javaClassesCache;

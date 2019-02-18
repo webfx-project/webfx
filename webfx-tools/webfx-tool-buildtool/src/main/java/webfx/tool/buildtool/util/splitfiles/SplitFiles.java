@@ -43,4 +43,17 @@ public class SplitFiles {
             throw e;
         }
     }
+
+    public static Spliterator<Path> uncheckedWalk(Path start, FileVisitOption... options) throws RuntimeException {
+        return uncheckedWalk(start, Integer.MAX_VALUE, options);
+    }
+
+    public static Spliterator<Path> uncheckedWalk(Path start, int maxDepth, FileVisitOption... options) throws RuntimeException {
+        try {
+            return walk(start, maxDepth, options);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
