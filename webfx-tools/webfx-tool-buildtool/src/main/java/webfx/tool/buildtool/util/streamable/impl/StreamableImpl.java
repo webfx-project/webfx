@@ -44,13 +44,23 @@ public final class StreamableImpl<T> implements Streamable<T> {
     }
 
     @Override
+    public Streamable<T> takeWhile(Predicate<? super T> predicate) {
+        return Streamable.fromSpliterable(() -> new TakeWhileSpliterator<>(spliterator(), predicate));
+    }
+
+    @Override
     public Streamable<T> distinct() {
         return Streamable.fromSpliterable(() -> new DistinctSpliterator<>(spliterator()));
     }
 
     @Override
+    public Streamable<T> resume() {
+        return Streamable.fromSpliterable(new ResumeSpliterable<>(this));
+    }
+
+    @Override
     public Streamable<T> cache() {
-        return Streamable.fromSpliterable(new CachedSpliterable<>(spliterator()));
+        return Streamable.fromSpliterable(new CachedSpliterable<>(this));
     }
 
     @Override

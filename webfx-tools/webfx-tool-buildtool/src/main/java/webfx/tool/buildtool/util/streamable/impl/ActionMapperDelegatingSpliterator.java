@@ -22,7 +22,7 @@ abstract class ActionMapperDelegatingSpliterator<T> extends DelegatingSpliterato
         this.actionMapper = actionMapper;
     }
 
-    private Consumer<? super T> getMappedAction(Consumer<? super T> action) {
+    protected Consumer<? super T> getMappedAction(Consumer<? super T> action) {
         return action == lastAction ? lastMappedAction : (lastMappedAction = actionMapper.apply(lastAction = action));
     }
 

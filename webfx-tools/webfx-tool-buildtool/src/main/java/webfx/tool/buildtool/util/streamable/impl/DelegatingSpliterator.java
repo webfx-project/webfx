@@ -25,7 +25,7 @@ abstract class DelegatingSpliterator<T> implements Spliterator<T> {
         delegate = null; // Forgetting the reference to it so it can be garbage collected to release memory usage
     }
 
-    private boolean hasDelegateBeenFullyTraversed() {
+    protected boolean hasDelegateBeenFullyTraversed() {
         return delegate == null;
     }
 

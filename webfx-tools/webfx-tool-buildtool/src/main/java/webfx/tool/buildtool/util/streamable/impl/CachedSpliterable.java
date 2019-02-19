@@ -12,16 +12,16 @@ import java.util.function.Consumer;
  */
 final class CachedSpliterable<T> implements Spliterable<T> {
 
-    private Spliterator<T> spliterator;
+    private Spliterable<T> spliterable;
     private final List<T> cache = new ArrayList<>();
 
-    CachedSpliterable(Spliterator<T> spliterator) {
-        this.spliterator = spliterator;
+    CachedSpliterable(Spliterable<T> spliterable) {
+        this.spliterable = spliterable;
     }
 
     @Override
     public Spliterator<T> spliterator() {
-        return new ActionMapperDelegatingSpliterator<>(spliterator, action ->
+        return new ActionMapperDelegatingSpliterator<>(spliterable == null ? null : spliterable.spliterator(), action ->
                 t -> {
                     cache.add(t);
                     action.accept(t);
@@ -32,7 +32,7 @@ final class CachedSpliterable<T> implements Spliterable<T> {
             @Override
             protected void onDelegateFullyTraversed() {
                 super.onDelegateFullyTraversed();
-                spliterator = null;
+                spliterable = null;
             }
 
             private boolean tryAdvanceCache(Consumer<? super T> action) {

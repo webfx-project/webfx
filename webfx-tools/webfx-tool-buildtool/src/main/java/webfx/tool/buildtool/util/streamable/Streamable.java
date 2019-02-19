@@ -19,7 +19,11 @@ public interface Streamable<T> extends Spliterable<T> {
 
     <R> Streamable<R> flatMap(Function<? super T, ? extends Iterable<? extends R>> mapper);
 
+    Streamable<T> takeWhile(Predicate<? super T> predicate);
+
     Streamable<T> distinct();
+
+    Streamable<T> resume();
 
     Streamable<T> cache();
 
