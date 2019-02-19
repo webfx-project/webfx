@@ -1,0 +1,30 @@
+package webfx.tool.buildtool.util.streamable.impl;
+
+import webfx.tool.buildtool.util.streamable.Spliterable;
+
+import java.util.Spliterator;
+
+/**
+ * @author Bruno Salmon
+ */
+final class ResumeOperator<T> extends Operator<T, T> {
+
+    private Spliterator<T> oneUseOperandSpliterator;
+
+    ResumeOperator(Spliterable<T> operandSpliterable) {
+        super(operandSpliterable);
+    }
+
+    @Override
+    public Spliterator<T> spliterator() {
+        if (oneUseOperandSpliterator == null)
+            oneUseOperandSpliterator = operandSpliterable.spliterator();
+        return oneUseOperandSpliterator;
+    }
+
+    @Override
+    Operation<T, T> newOperation() {
+        return null;
+    }
+
+}

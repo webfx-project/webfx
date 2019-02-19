@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 public final class BuildTool {
 
     public static void main(String[] args) {
+        long t0 = System.currentTimeMillis();
         RootModule webfxRootModule = new RootModule(getWebfxRootPath());
         webfxRootModule.listChildrenModulesInDepth();
         webfxRootModule.listThisAndChildrenModulesInDepthWithTheirDirectDependencies();
@@ -20,6 +21,8 @@ public final class BuildTool {
         webfxRootModule.listProjectModuleJavaClassesDependingOn("webfx-fxkit-extra", "webfx-fxkit-gwt");
         webfxRootModule.listCyclicDependenciesPaths();
         webfxRootModule.listProjectModuleJavaClassesDependingOn("webfx-framework-shared-entity", "webfx-framework-client-uifilter");
+        long t1 = System.currentTimeMillis();
+        System.out.println("Executed in " + (t1 - t0) + "ms");
     }
 
     private static Path getWebfxRootPath() {

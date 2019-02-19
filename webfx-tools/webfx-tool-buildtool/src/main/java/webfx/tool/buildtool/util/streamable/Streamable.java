@@ -33,12 +33,12 @@ public interface Streamable<T> extends Spliterable<T> {
         return StreamSupport.stream(spliterator(), false);
     }
 
-    static <T> Streamable<T> fromIterable(Iterable<T> iterable) {
-        return new StreamableImpl<>(iterable);
+    static <T> Streamable<T> create(Spliterable<T> spliterable) {
+        return fromIterable(spliterable);
     }
 
-    static <T> Streamable<T> fromSpliterable(Spliterable<T> spliterable) {
-        return fromIterable(spliterable);
+    static <T> Streamable<T> fromIterable(Iterable<T> iterable) {
+        return new StreamableImpl<>(iterable);
     }
 
     @SafeVarargs

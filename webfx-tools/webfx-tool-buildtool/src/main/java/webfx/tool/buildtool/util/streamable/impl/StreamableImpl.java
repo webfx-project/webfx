@@ -30,42 +30,42 @@ public final class StreamableImpl<T> implements Streamable<T> {
 
     @Override
     public Streamable<T> filter(Predicate<? super T> predicate) {
-        return Streamable.fromSpliterable(() -> new FilteredSpliterator<>(spliterator(), predicate));
+        return Streamable.create(new FilterOperator<>(this, predicate));
     }
 
     @Override
     public <R> Streamable<R> map(Function<? super T, ? extends R> mapper) {
-        return Streamable.fromSpliterable(() -> new MappedSpliterator<>(spliterator(), mapper));
+        return Streamable.create(new MapOperator<>(this, mapper));
     }
 
     @Override
     public <R> Streamable<R> flatMap(Function<? super T, ? extends Iterable<? extends R>> mapper) {
-        return Streamable.fromSpliterable(() -> new FlatMappedSpliterator<>(spliterator(), mapper));
+        return Streamable.create(new FlatMapOperator<>(this, mapper));
     }
 
     @Override
     public Streamable<T> takeWhile(Predicate<? super T> predicate) {
-        return Streamable.fromSpliterable(() -> new TakeWhileSpliterator<>(spliterator(), predicate));
+        return Streamable.create(new TakeWhileOperator<>(this, predicate));
     }
 
     @Override
     public Streamable<T> distinct() {
-        return Streamable.fromSpliterable(() -> new DistinctSpliterator<>(spliterator()));
+        return Streamable.create(new DistinctOperator<>(this));
     }
 
     @Override
     public Streamable<T> resume() {
-        return Streamable.fromSpliterable(new ResumeSpliterable<>(this));
+        return Streamable.create(new ResumeOperator<>(this));
     }
 
     @Override
     public Streamable<T> cache() {
-        return Streamable.fromSpliterable(new CachedSpliterable<>(this));
+        return Streamable.create(new CacheOperator<>(this));
     }
 
     @Override
     @SafeVarargs
     public final Streamable<T> concat(Iterable<? extends T>... iterables) {
-        return Streamable.fromSpliterable(() -> new ConcatSpliterator<>(spliterator(), iterables));
+        return Streamable.create(new ConcatOperator<>(this, iterables));
     }
 }

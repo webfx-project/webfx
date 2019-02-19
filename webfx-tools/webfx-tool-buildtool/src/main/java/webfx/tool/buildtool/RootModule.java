@@ -11,7 +11,7 @@ import java.util.*;
 final class RootModule extends ProjectModule {
 
     private final Map<String /* package name */, Module> javaPackagesModules = new HashMap<>();
-    private boolean allJavaClassesProjectModulesAreRegistered;
+    private final Streamable<ProjectModule> thisAndChildrenModulesInDepthResume = getThisAndChildrenModulesInDepth().resume();
 
     /***********************
      ***** Constructor *****
@@ -79,23 +79,14 @@ final class RootModule extends ProjectModule {
         module.getJavaClasses().forEach(javaClass -> registerJavaPackageModule(javaClass.getPackageName(), module));
     }
 
-    private void registerAllJavaPackagesProjectModules() {
-        getThisAndChildrenModulesInDepth().forEach(this::registerJavaPackagesProjectModule);
-    }
-
     Module getJavaPackageNameModule(String javaPackageName) {
-        checkAllJavaClassesProjectModulesAreRegistered();
         Module module = javaPackagesModules.get(javaPackageName);
+        if (module == null)
+            thisAndChildrenModulesInDepthResume.takeWhile(m -> javaPackagesModules.get(javaPackageName) == null).forEach(this::registerJavaPackagesProjectModule);
+        module = javaPackagesModules.get(javaPackageName);
         if (module == null)
             warning("Unknown module for package " + javaPackageName);
         return module;
-    }
-
-    private void checkAllJavaClassesProjectModulesAreRegistered() {
-        if (!allJavaClassesProjectModulesAreRegistered) {
-            registerAllJavaPackagesProjectModules();
-            allJavaClassesProjectModulesAreRegistered = true;
-        }
     }
 
 

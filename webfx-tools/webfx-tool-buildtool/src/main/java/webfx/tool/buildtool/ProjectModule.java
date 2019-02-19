@@ -22,7 +22,7 @@ class ProjectModule extends ModuleImpl {
 
     private final static PathMatcher javaFileMatcher = FileSystems.getDefault().getPathMatcher("glob:**.java");
 
-    private final Streamable<ProjectModule> childrenModulesCache = Streamable.fromSpliterable(() -> SplitFiles.uncheckedWalk(getHomeDirectoryPath(), 1))
+    private final Streamable<ProjectModule> childrenModulesCache = Streamable.create(() -> SplitFiles.uncheckedWalk(getHomeDirectoryPath(), 1))
             .filter(path -> !isSameFile(path, getHomeDirectoryPath()))
             .filter(Files::isDirectory)
             .filter(path -> Files.exists(path.resolve("pom.xml")))
@@ -33,7 +33,7 @@ class ProjectModule extends ModuleImpl {
             .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
             //.cache()
             ;
-    private final Streamable<JavaClass> javaClassesCache = Streamable.fromSpliterable(() -> Files.exists(getJavaSourceDirectoryPath()) ? SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators.emptySpliterator())
+    private final Streamable<JavaClass> javaClassesCache = Streamable.create(() -> Files.exists(getJavaSourceDirectoryPath()) ? SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators.emptySpliterator())
             .filter(javaFileMatcher::matches)
             .map(path -> new JavaClass(path, this))
             .cache()
