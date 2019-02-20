@@ -18,7 +18,7 @@ final class ResumeOperator<T> extends Operator<T, T> {
     @Override
     public Spliterator<T> spliterator() {
         if (oneUseOperandSpliterator == null)
-            oneUseOperandSpliterator = operandSpliterable.spliterator();
+            oneUseOperandSpliterator = new PushBackSpliterator<>(operandSpliterable.spliterator());
         return oneUseOperandSpliterator;
     }
 

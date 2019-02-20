@@ -2,6 +2,7 @@ package webfx.tool.buildtool.util.streamable.impl;
 
 import webfx.tool.buildtool.util.streamable.Spliterable;
 
+import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -11,7 +12,6 @@ import java.util.function.Predicate;
 final class TakeWhileOperator<T> extends SpliteratorTransformOperator<T, T> {
 
     private final Predicate<? super T> predicate;
-    private static Object lastFailedElement;
 
     TakeWhileOperator(Spliterable<T> operandSpliterable, Predicate<? super T> predicate) {
         super(operandSpliterable);
@@ -25,26 +25,30 @@ final class TakeWhileOperator<T> extends SpliteratorTransformOperator<T, T> {
 
     final class TakeWhileOperation<_T extends T> extends SpliteratorTransformOperation<_T, _T> {
 
-        private boolean lastTestResult = true;
+        private _T rejectedElement;
 
         @Override
         Consumer<? super _T> createMappedAction(Consumer<? super _T> action) {
             return t -> {
-                lastFailedElement = null;
-                if (lastTestResult &= predicate.test(t))
+                if (predicate.test(t))
                     action.accept(t);
-                else
-                    lastFailedElement = t;
+                else {
+                    Spliterator<_T> operandSpliterator = getOperandSpliterator();
+                    if (operandSpliterator instanceof PushBackSpliterator)
+                        ((PushBackSpliterator<T>) operandSpliterator).pushBackElement(rejectedElement = t);
+                }
             };
         }
 
         @Override
         public boolean tryAdvance(Consumer<? super _T> action) {
-            if (lastFailedElement != null) {
-                getMappedAction(action).accept((_T) lastFailedElement);
-                return lastTestResult;
-            }
-            return super.tryAdvance(action) && lastTestResult;
+            if (rejectedElement != null)
+                onOperandSpliteratorFullyTraversed();
+            else if (!super.tryAdvance(action))
+                return false;
+            else if (rejectedElement != null)
+                onOperandSpliteratorFullyTraversed();
+            return rejectedElement == null;
         }
 
         @Override
