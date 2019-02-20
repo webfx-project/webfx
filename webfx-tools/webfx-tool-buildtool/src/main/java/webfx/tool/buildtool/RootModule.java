@@ -1,6 +1,6 @@
 package webfx.tool.buildtool;
 
-import webfx.tool.buildtool.util.streamable.Streamable;
+import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -11,7 +11,7 @@ import java.util.*;
 final class RootModule extends ProjectModule {
 
     private final Map<String /* package name */, Module> javaPackagesModules = new HashMap<>();
-    private final Streamable<ProjectModule> thisAndChildrenModulesInDepthResume = getThisAndChildrenModulesInDepth().resume();
+    private final ReusableStream<ProjectModule> thisAndChildrenModulesInDepthResume = getThisAndChildrenModulesInDepth().resume();
 
     /***********************
      ***** Constructor *****
@@ -113,7 +113,7 @@ final class RootModule extends ProjectModule {
     }
 
 
-    Streamable<Collection<Module>> analyzeCyclicDependenciesPaths() {
+    ReusableStream<Collection<Module>> analyzeCyclicDependenciesPaths() {
         return getThisAndChildrenModulesInDepth()
                 .flatMap(RootModule::analyzeCyclicDependenciesPaths)
                 .distinct()

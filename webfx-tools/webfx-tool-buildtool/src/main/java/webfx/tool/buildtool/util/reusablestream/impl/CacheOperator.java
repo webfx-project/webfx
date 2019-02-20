@@ -1,6 +1,6 @@
-package webfx.tool.buildtool.util.streamable.impl;
+package webfx.tool.buildtool.util.reusablestream.impl;
 
-import webfx.tool.buildtool.util.streamable.Spliterable;
+import webfx.tool.buildtool.util.reusablestream.Spliterable;
 
 import java.util.ArrayList;
 import java.util.List;

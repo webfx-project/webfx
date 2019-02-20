@@ -1,6 +1,6 @@
 package webfx.tool.buildtool;
 
-import webfx.tool.buildtool.util.streamable.Streamable;
+import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 import webfx.tool.buildtool.util.splitfiles.SplitFiles;
 
 import java.io.IOException;
@@ -22,28 +22,28 @@ class ProjectModule extends ModuleImpl {
 
     private final static PathMatcher javaFileMatcher = FileSystems.getDefault().getPathMatcher("glob:**.java");
 
-    private final Streamable<ProjectModule> childrenModulesCache = Streamable.create(() -> SplitFiles.uncheckedWalk(getHomeDirectoryPath(), 1))
+    private final ReusableStream<ProjectModule> childrenModulesCache = ReusableStream.create(() -> SplitFiles.uncheckedWalk(getHomeDirectoryPath(), 1))
             .filter(path -> !isSameFile(path, getHomeDirectoryPath()))
             .filter(Files::isDirectory)
             .filter(path -> Files.exists(path.resolve("pom.xml")))
             .map(path -> new ProjectModule(path, this))
             .cache()
             ;
-    private final Streamable<ProjectModule> childrenModulesInDepthCache = childrenModulesCache
+    private final ReusableStream<ProjectModule> childrenModulesInDepthCache = childrenModulesCache
             .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
             //.cache()
             ;
-    private final Streamable<JavaClass> javaClassesCache = Streamable.create(() -> Files.exists(getJavaSourceDirectoryPath()) ? SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators.emptySpliterator())
+    private final ReusableStream<JavaClass> javaClassesCache = ReusableStream.create(() -> Files.exists(getJavaSourceDirectoryPath()) ? SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators.emptySpliterator())
             .filter(javaFileMatcher::matches)
             .map(path -> new JavaClass(path, this))
             .cache()
             ;
-    private final Streamable<String> usedJavaPackagesNamesCache = javaClassesCache
+    private final ReusableStream<String> usedJavaPackagesNamesCache = javaClassesCache
             .flatMap(JavaClass::analyzeUsedJavaPackagesNames)
             .distinct()
             .cache()
             ;
-    private final Streamable<Module> directDependenciesCache = usedJavaPackagesNamesCache
+    private final ReusableStream<Module> directDependenciesCache = usedJavaPackagesNamesCache
             .map(m -> getRootModule().getJavaPackageNameModule(m))
             .filter(module -> module != null && module != this && !module.getArtifactId().equals(getArtifactId()))
             .distinct()
@@ -107,22 +107,22 @@ class ProjectModule extends ModuleImpl {
 
     ///// Modules
 
-    Streamable<ProjectModule> getChildrenModules() {
+    ReusableStream<ProjectModule> getChildrenModules() {
         return childrenModulesCache;
     }
 
-    Streamable<ProjectModule> getChildrenModulesInDepth() {
+    ReusableStream<ProjectModule> getChildrenModulesInDepth() {
         return childrenModulesInDepthCache;
     }
 
-    Streamable<ProjectModule> getThisAndChildrenModulesInDepth() {
-        return Streamable.of(this).concat(getChildrenModulesInDepth());
+    ReusableStream<ProjectModule> getThisAndChildrenModulesInDepth() {
+        return ReusableStream.of(this).concat(getChildrenModulesInDepth());
     }
 
 
     ///// Java classes
 
-    Streamable<JavaClass> getJavaClasses() {
+    ReusableStream<JavaClass> getJavaClasses() {
         return javaClassesCache;
     }
 
@@ -132,11 +132,11 @@ class ProjectModule extends ModuleImpl {
 
     ///// Modules
 
-    Streamable<Module> analyzeDirectDependencies() {
+    ReusableStream<Module> analyzeDirectDependencies() {
         return directDependenciesCache;
     }
 
-    Streamable<ProjectModule> analyzeThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
+    ReusableStream<ProjectModule> analyzeThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
         return getThisAndChildrenModulesInDepth()
                 .filter(module -> module.analyzeDirectDependencies().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId())))
                 ;
@@ -163,11 +163,11 @@ class ProjectModule extends ModuleImpl {
 
     ///// Packages (names)
 
-    Streamable<String> analyzeUsedJavaPackagesNames() {
+    ReusableStream<String> analyzeUsedJavaPackagesNames() {
         return usedJavaPackagesNamesCache;
     }
 
-    Streamable<JavaClass> analyzeJavaClassesDependingOn(String destinationModule) {
+    ReusableStream<JavaClass> analyzeJavaClassesDependingOn(String destinationModule) {
         return getJavaClasses()
                 .filter(jc -> jc.analyzeUsedJavaPackagesNames().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId())))
                 ;

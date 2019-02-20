@@ -2,7 +2,7 @@ package webfx.tool.buildtool;
 
 import webfx.tool.buildtool.util.javacode.JavaCodePattern;
 import webfx.tool.buildtool.util.javacode.JavaCodePatternFinder;
-import webfx.tool.buildtool.util.streamable.Streamable;
+import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 
 import java.nio.file.Path;
 
@@ -15,7 +15,7 @@ final class JavaClass {
     private final ProjectModule projectModule;
     private String packageName;
     private String className;
-    private final Streamable<String> usedJavaPackagesNamesCache;
+    private final ReusableStream<String> usedJavaPackagesNamesCache;
 
     /***********************
      ***** Constructor *****
@@ -25,7 +25,7 @@ final class JavaClass {
         this.javaFilePath = javaFilePath;
         this.projectModule = projectModule;
         // Cache is instantiated now (because declared final)
-        usedJavaPackagesNamesCache = Streamable.fromIterable(new JavaCodePatternFinder(JavaCodePattern.PACKAGE_PATTERN, javaFilePath))
+        usedJavaPackagesNamesCache = ReusableStream.fromIterable(new JavaCodePatternFinder(JavaCodePattern.PACKAGE_PATTERN, javaFilePath))
                 .distinct()
                 .cache();
     }
@@ -62,7 +62,7 @@ final class JavaClass {
      ***** Analyzing streams  *****
      ******************************/
 
-    Streamable<String> analyzeUsedJavaPackagesNames() {
+    ReusableStream<String> analyzeUsedJavaPackagesNames() {
         return usedJavaPackagesNamesCache;
     }
 

@@ -1,4 +1,4 @@
-package webfx.tool.buildtool.util.streamable.impl;
+package webfx.tool.buildtool.util.reusablestream.impl;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

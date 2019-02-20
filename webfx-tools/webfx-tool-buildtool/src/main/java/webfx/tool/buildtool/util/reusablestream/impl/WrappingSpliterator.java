@@ -1,4 +1,4 @@
-package webfx.tool.buildtool.util.streamable.impl;
+package webfx.tool.buildtool.util.reusablestream.impl;
 
 import java.util.Comparator;
 import java.util.Spliterator;

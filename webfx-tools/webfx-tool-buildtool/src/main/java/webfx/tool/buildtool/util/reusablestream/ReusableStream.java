@@ -1,6 +1,6 @@
-package webfx.tool.buildtool.util.streamable;
+package webfx.tool.buildtool.util.reusablestream;
 
-import webfx.tool.buildtool.util.streamable.impl.StreamableImpl;
+import webfx.tool.buildtool.util.reusablestream.impl.ReusableStreamImpl;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,27 +13,31 @@ import java.util.stream.StreamSupport;
 /**
  * @author Bruno Salmon
  */
-public interface Streamable<T> extends Spliterable<T> {
+public interface ReusableStream<T> extends Spliterable<T> {
 
-    Streamable<T> filter(Predicate<? super T> predicate);
+    // API Specific methods (not shared with Stream)
 
-    <R> Streamable<R> map(Function<? super T, ? extends R> mapper);
+    ReusableStream<T> cache();
 
-    <R> Streamable<R> flatMap(Function<? super T, ? extends Iterable<? extends R>> mapper);
+    ReusableStream<T> resume();
 
-    Streamable<T> takeWhile(Predicate<? super T> predicate);
-
-    Streamable<T> distinct();
-
-    Streamable<T> resume();
-
-    Streamable<T> cache();
-
-    Streamable<T> concat(Iterable<? extends T>... iterables);
+    ReusableStream<T> concat(Iterable<? extends T>... iterables);
 
     default Stream<T> stream() {
         return StreamSupport.stream(spliterator(), false);
     }
+
+    // Methods shared with Stream API
+
+    ReusableStream<T> filter(Predicate<? super T> predicate);
+
+    <R> ReusableStream<R> map(Function<? super T, ? extends R> mapper);
+
+    <R> ReusableStream<R> flatMap(Function<? super T, ? extends Iterable<? extends R>> mapper);
+
+    ReusableStream<T> takeWhile(Predicate<? super T> predicate);
+
+    ReusableStream<T> distinct();
 
     // Terminal operations (forwarded to stream)
 
@@ -71,23 +75,25 @@ public interface Streamable<T> extends Spliterable<T> {
 
     default Optional<T> findAny() { return stream().findAny(); }
 
-    // Static factory methods
 
-    static <T> Streamable<T> create(Spliterable<T> spliterable) {
+    /**************************
+     * Static factory methods *
+     *************************/
+
+    static <T> ReusableStream<T> create(Spliterable<T> spliterable) {
         return fromIterable(spliterable);
     }
 
-    static <T> Streamable<T> fromIterable(Iterable<T> iterable) {
-        return new StreamableImpl<>(iterable);
+    static <T> ReusableStream<T> fromIterable(Iterable<T> iterable) {
+        return new ReusableStreamImpl<>(iterable);
     }
 
     @SafeVarargs
-    static <T> Streamable<T> of(T... array) {
+    static <T> ReusableStream<T> of(T... array) {
         return fromIterable(Arrays.asList(array));
     }
 
-    static <T> Streamable<T> concat(Streamable<T> a, Iterable<? extends T> b) {
+    static <T> ReusableStream<T> concat(ReusableStream<T> a, Iterable<? extends T> b) {
         return a.concat(b);
     }
-
 }
