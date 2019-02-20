@@ -92,7 +92,6 @@ class ProjectModule extends ModuleImpl {
     ProjectModule getChildModuleInDepth(String artifactId) {
         return getThisAndChildrenModulesInDepth()
                 .filter(module -> module.getArtifactId().equals(artifactId))
-                .stream()
                 .findFirst()
                 .orElse(null);
     }
@@ -139,7 +138,7 @@ class ProjectModule extends ModuleImpl {
 
     Streamable<ProjectModule> analyzeThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
         return getThisAndChildrenModulesInDepth()
-                .filter(module -> module.analyzeDirectDependencies().stream().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId())))
+                .filter(module -> module.analyzeDirectDependencies().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId())))
                 ;
     }
 
@@ -170,7 +169,7 @@ class ProjectModule extends ModuleImpl {
 
     Streamable<JavaClass> analyzeJavaClassesDependingOn(String destinationModule) {
         return getJavaClasses()
-                .filter(jc -> jc.analyzeUsedJavaPackagesNames().stream().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId())))
+                .filter(jc -> jc.analyzeUsedJavaPackagesNames().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId())))
                 ;
     }
 
@@ -229,7 +228,7 @@ class ProjectModule extends ModuleImpl {
 
     private void logModuleWithDirectDependencies() {
         log(this + " direct dependencies: " + analyzeDirectDependencies()
-                .stream().collect(Collectors.toList()));
+                .collect(Collectors.toList()));
     }
 
     private void logJavaClassWithPackagesDependingOn(JavaClass jc, String destinationModule) {
@@ -237,7 +236,7 @@ class ProjectModule extends ModuleImpl {
                 jc.analyzeUsedJavaPackagesNames()
                         .filter(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId()))
                         .distinct()
-                        .stream().collect(Collectors.toList()));
+                        .collect(Collectors.toList()));
     }
 
 
