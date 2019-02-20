@@ -9,12 +9,12 @@ import java.util.function.Predicate;
 /**
  * @author Bruno Salmon
  */
-final class TakeWhileOperator<T> extends SpliteratorTransformOperator<T, T> {
+final class TakeWhileOperator<T> extends Operator<T, T> {
 
     private final Predicate<? super T> predicate;
 
-    TakeWhileOperator(Spliterable<T> operandSpliterable, Predicate<? super T> predicate) {
-        super(operandSpliterable);
+    TakeWhileOperator(Spliterable<T> wrappedSpliterable, Predicate<? super T> predicate) {
+        super(wrappedSpliterable);
         this.predicate = predicate;
     }
 
@@ -23,19 +23,20 @@ final class TakeWhileOperator<T> extends SpliteratorTransformOperator<T, T> {
         return new TakeWhileOperation<>();
     }
 
-    final class TakeWhileOperation<_T extends T> extends SpliteratorTransformOperation<_T, _T> {
+    final class TakeWhileOperation<_T extends T> extends Operation<_T, _T> {
 
         private _T rejectedElement;
 
         @Override
-        Consumer<? super _T> createMappedAction(Consumer<? super _T> action) {
+        Consumer<? super _T> createWrappedAction(Consumer<? super _T> action) {
             return t -> {
                 if (predicate.test(t))
                     action.accept(t);
                 else {
-                    Spliterator<_T> operandSpliterator = getOperandSpliterator();
-                    if (operandSpliterator instanceof PushBackSpliterator)
-                        ((PushBackSpliterator<T>) operandSpliterator).pushBackElement(rejectedElement = t);
+                    rejectedElement = t;
+                    Spliterator<_T> wrappedSpliterator = getWrappedSpliterator();
+                    if (wrappedSpliterator instanceof PushBackSpliterator)
+                        ((PushBackSpliterator<T, ?>) wrappedSpliterator).pushBackLastElement();
                 }
             };
         }
@@ -43,20 +44,20 @@ final class TakeWhileOperator<T> extends SpliteratorTransformOperator<T, T> {
         @Override
         public boolean tryAdvance(Consumer<? super _T> action) {
             if (rejectedElement != null)
-                onOperandSpliteratorFullyTraversed();
+                onWrappedSpliteratorFullyTraversed();
             else if (!super.tryAdvance(action))
                 return false;
             else if (rejectedElement != null)
-                onOperandSpliteratorFullyTraversed();
+                onWrappedSpliteratorFullyTraversed();
             return rejectedElement == null;
         }
 
         @Override
         public void forEachRemaining(Consumer<? super _T> action) {
-            if (!hasOperandSpliteratorBeenFullyTraversed()) {
+            if (!hasWrappedSpliteratorBeenFullyTraversed()) {
                 //noinspection StatementWithEmptyBody
                 while (tryAdvance(action)) ;
-                onOperandSpliteratorFullyTraversed();
+                onWrappedSpliteratorFullyTraversed();
             }
         }
     }

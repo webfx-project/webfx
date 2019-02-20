@@ -7,18 +7,20 @@ import java.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-interface WrappingSpliterator<T> extends Spliterator<T> {
+interface WrappingSpliterator<T, R> extends Spliterator<R> {
 
     Spliterator<T> getWrappedSpliterator();
 
+    Consumer<? super T> getWrappedAction(Consumer<? super R> action);
+
     @Override
-    default boolean tryAdvance(Consumer<? super T> action) {
-        return getWrappedSpliterator().tryAdvance(action);
+    default boolean tryAdvance(Consumer<? super R> action) {
+        return getWrappedSpliterator().tryAdvance(getWrappedAction(action));
     }
 
     @Override
-    default Spliterator<T> trySplit() {
-        return getWrappedSpliterator().trySplit();
+    default void forEachRemaining(Consumer<? super R> action) {
+        getWrappedSpliterator().forEachRemaining(getWrappedAction(action));
     }
 
     @Override
@@ -32,11 +34,6 @@ interface WrappingSpliterator<T> extends Spliterator<T> {
     }
 
     @Override
-    default void forEachRemaining(Consumer<? super T> action) {
-        getWrappedSpliterator().forEachRemaining(action);
-    }
-
-    @Override
     default long getExactSizeIfKnown() {
         return getWrappedSpliterator().getExactSizeIfKnown();
     }
@@ -47,7 +44,12 @@ interface WrappingSpliterator<T> extends Spliterator<T> {
     }
 
     @Override
-    default Comparator<? super T> getComparator() {
-        return getWrappedSpliterator().getComparator();
+    default Spliterator<R> trySplit() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    default Comparator<? super R> getComparator() {
+        throw new UnsupportedOperationException();
     }
 }

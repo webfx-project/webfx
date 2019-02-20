@@ -8,12 +8,12 @@ import java.util.function.Predicate;
 /**
  * @author Bruno Salmon
  */
-class FilterOperator<T> extends SpliteratorTransformOperator<T, T> {
+class FilterOperator<T> extends Operator<T, T> {
 
     private final Predicate<? super T> predicate;
 
-    FilterOperator(Spliterable<T> operandSpliterable, Predicate<? super T> predicate) {
-        super(operandSpliterable, true);
+    FilterOperator(Spliterable<T> wrappedSpliterable, Predicate<? super T> predicate) {
+        super(wrappedSpliterable, true);
         this.predicate = predicate;
     }
 
@@ -22,7 +22,7 @@ class FilterOperator<T> extends SpliteratorTransformOperator<T, T> {
         return new FilterOperation<>();
     }
 
-    final class FilterOperation<_T extends T> extends SpliteratorTransformOperation<_T, _T> {
+    final class FilterOperation<_T extends T> extends Operation<_T, _T> {
 
         private boolean lastTestResult;
         private final Predicate<? super _T> predicate;
@@ -36,7 +36,7 @@ class FilterOperator<T> extends SpliteratorTransformOperator<T, T> {
         }
 
         @Override
-        Consumer<? super _T> createMappedAction(Consumer<? super _T> action) {
+        Consumer<? super _T> createWrappedAction(Consumer<? super _T> action) {
             return t -> {
                 if (lastTestResult = predicate.test(t))
                     action.accept(t);

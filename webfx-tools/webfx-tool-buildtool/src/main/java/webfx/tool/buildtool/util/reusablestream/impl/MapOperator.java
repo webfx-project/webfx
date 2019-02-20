@@ -8,12 +8,12 @@ import java.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-final class MapOperator<T, R> extends SpliteratorTransformOperator<T, R> {
+final class MapOperator<T, R> extends Operator<T, R> {
 
     private final Function<? super T, ? extends R> mapper;
 
-    MapOperator(Spliterable<T> deferredProvidedSpliteratorGetter, Function<? super T, ? extends R> mapper) {
-        super(deferredProvidedSpliteratorGetter);
+    MapOperator(Spliterable<T> wrappedSpliterable, Function<? super T, ? extends R> mapper) {
+        super(wrappedSpliterable);
         this.mapper = mapper;
     }
 
@@ -22,10 +22,9 @@ final class MapOperator<T, R> extends SpliteratorTransformOperator<T, R> {
         return new MapOperation<>();
     }
 
-    final class MapOperation<_T extends T, _R extends R> extends SpliteratorTransformOperation<_T, _R> {
-
+    final class MapOperation<_T extends T, _R extends R> extends Operation<_T, _R> {
         @Override
-        Consumer<? super T> createMappedAction(Consumer<? super _R> action) {
+        Consumer<? super T> createWrappedAction(Consumer<? super _R> action) {
             return t -> action.accept((_R) mapper.apply(t));
         }
     }

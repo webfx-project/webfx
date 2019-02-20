@@ -10,29 +10,34 @@ import java.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-final class CacheOperator<T> extends SpliteratorTransformOperator<T, T> {
+final class CacheOperator<T> extends Operator<T, T> {
 
     private final List<T> cache = new ArrayList<>();
-    private Spliterator<T> oneUseOperandSpliterator;
+    private Spliterator<T> oneSinglePassWrappedSpliterator;
 
-    CacheOperator(Spliterable<T> operandSpliterable) {
-        super(operandSpliterable);
+    CacheOperator(Spliterable<T> wrappedSpliterable) {
+        super(wrappedSpliterable);
     }
 
     @Override
     CacheOperation<T> newOperation() {
-        if (oneUseOperandSpliterator == null && operandSpliterable != null)
-            oneUseOperandSpliterator = operandSpliterable.spliterator();
-        operandSpliterable = null;
+        if (oneSinglePassWrappedSpliterator == null && wrappedSpliterable != null)
+            oneSinglePassWrappedSpliterator = wrappedSpliterable.spliterator();
+        wrappedSpliterable = null;
         return new CacheOperation<>();
     }
 
-    final class CacheOperation<_T extends T> extends SpliteratorTransformOperation<_T, _T> {
+    final class CacheOperation<_T extends T> extends Operation<_T, _T> {
 
         private int nextCacheIndex;
 
         @Override
-        Consumer<? super _T> createMappedAction(Consumer<? super _T> action) {
+        public Spliterator<_T> getWrappedSpliterator() {
+            return (Spliterator<_T>) oneSinglePassWrappedSpliterator;
+        }
+
+        @Override
+        Consumer<? super _T> createWrappedAction(Consumer<? super _T> action) {
             return t -> {
                 cache.add(t);
                 action.accept(t);
@@ -69,21 +74,6 @@ final class CacheOperator<T> extends SpliteratorTransformOperator<T, T> {
         }
 
         @Override
-        Spliterator<_T> getOperandSpliterator() {
-            return (Spliterator<_T>) oneUseOperandSpliterator;
-        }
-
-        @Override
-        protected void onOperandSpliteratorFullyTraversed() {
-            oneUseOperandSpliterator = null;
-        }
-
-        @Override
-        boolean hasOperandSpliteratorBeenFullyTraversed() {
-            return oneUseOperandSpliterator == null;
-        }
-
-        @Override
         public long getExactSizeIfKnown() {
             return cacheAugmentedSize(super.getExactSizeIfKnown());
         }
@@ -95,6 +85,16 @@ final class CacheOperator<T> extends SpliteratorTransformOperator<T, T> {
 
         private long cacheAugmentedSize(long size) {
             return size == -1 ? -1 : size + cache.size();
+        }
+
+        @Override
+        protected void onWrappedSpliteratorFullyTraversed() {
+            oneSinglePassWrappedSpliterator = null;
+        }
+
+        @Override
+        boolean hasWrappedSpliteratorBeenFullyTraversed() {
+            return oneSinglePassWrappedSpliterator == null;
         }
     }
 }

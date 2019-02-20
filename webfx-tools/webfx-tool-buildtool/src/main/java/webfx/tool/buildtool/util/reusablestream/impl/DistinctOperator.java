@@ -11,8 +11,8 @@ import java.util.function.Predicate;
  */
 final class DistinctOperator<T> extends FilterOperator<T> {
 
-    DistinctOperator(Spliterable<T> operandSpliterable) {
-        super(operandSpliterable, null);
+    DistinctOperator(Spliterable<T> wrappedSpliterable) {
+        super(wrappedSpliterable, null);
     }
 
     @Override

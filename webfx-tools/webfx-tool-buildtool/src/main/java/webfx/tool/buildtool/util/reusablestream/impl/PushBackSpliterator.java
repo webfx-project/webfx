@@ -1,65 +1,64 @@
 package webfx.tool.buildtool.util.reusablestream.impl;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon
  */
-final class PushBackSpliterator<T> implements WrappingSpliterator<T> {
+abstract class PushBackSpliterator<T, R> implements WrappingSpliterator<T, R> {
 
-    private final Spliterator<T> wrappedSpliterator;
-    private Deque<T> pushBackDeque;
+    private T lastElement;
+    boolean pushBackRequested;
 
-    PushBackSpliterator(Spliterator<T> wrappedSpliterator) {
-        this.wrappedSpliterator = wrappedSpliterator;
+    void pushBackLastElement() {
+        Spliterator<T> wrappedSpliterator = getWrappedSpliterator();
+        if (wrappedSpliterator instanceof PushBackSpliterator) {
+            ((PushBackSpliterator) wrappedSpliterator).pushBackLastElement();
+            return;
+        }
+        pushBackRequested = true;
+    }
+
+    private Consumer<? super T> getPushBackWrappedAction(Consumer<? super R> action) {
+        return t -> getWrappedAction(action).accept(lastElement = t);
     }
 
     @Override
-    public Spliterator<T> getWrappedSpliterator() {
-        return wrappedSpliterator;
-    }
-
-    void pushBackElement(T element) {
-        if (pushBackDeque == null)
-            pushBackDeque = new ArrayDeque<>();
-        pushBackDeque.add(element);
+    public boolean tryAdvance(Consumer<? super R> action) {
+        Consumer<? super T> wrappedAction = getPushBackWrappedAction(action);
+        return tryAdvancePushBack(wrappedAction) || getWrappedSpliterator().tryAdvance(wrappedAction);
     }
 
     @Override
-    public boolean tryAdvance(Consumer<? super T> action) {
-        return tryAdvancePushBack(action) || getWrappedSpliterator().tryAdvance(action);
-    }
-
-    @Override
-    public void forEachRemaining(Consumer<? super T> action) {
+    public void forEachRemaining(Consumer<? super R> action) {
+        Consumer<? super T> wrappedAction = getPushBackWrappedAction(action);
         //noinspection StatementWithEmptyBody
-        while (tryAdvancePushBack(action));
-        getWrappedSpliterator().forEachRemaining(action);
+        while (tryAdvancePushBack(wrappedAction));
+        getWrappedSpliterator().forEachRemaining(wrappedAction);
     }
 
-    private boolean tryAdvancePushBack(Consumer<? super T> action) {
-        if (pushBackDeque == null)
+    private boolean tryAdvancePushBack(Consumer<? super T> wrappedAction) {
+        if (!pushBackRequested)
             return false;
-        action.accept(pushBackDeque.removeLast());
-        if (pushBackDeque.isEmpty())
-            pushBackDeque = null;
+        wrappedAction.accept(lastElement);
+        pushBackRequested = false;
         return true;
     }
 
     @Override
     public long estimateSize() {
-        return augmentedSize(getWrappedSpliterator().estimateSize());
+        Spliterator<T> wrappedSpliterator = getWrappedSpliterator();
+        return wrappedSize(wrappedSpliterator == null ? 0 : wrappedSpliterator.estimateSize());
     }
 
     @Override
     public long getExactSizeIfKnown() {
-        return augmentedSize(getWrappedSpliterator().getExactSizeIfKnown());
+        Spliterator<T> wrappedSpliterator = getWrappedSpliterator();
+        return wrappedSize(wrappedSpliterator == null ? 0 : wrappedSpliterator.getExactSizeIfKnown());
     }
 
-    private long augmentedSize(long size) {
-        return size == -1 ? -1 : size + (pushBackDeque == null ? 0 : pushBackDeque.size());
+    long wrappedSize(long size) {
+        return size == -1 ? -1 : size + (pushBackRequested ? 1 : 0);
     }
 }

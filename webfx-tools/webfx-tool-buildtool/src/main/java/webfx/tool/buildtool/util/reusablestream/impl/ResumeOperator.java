@@ -9,22 +9,30 @@ import java.util.Spliterator;
  */
 final class ResumeOperator<T> extends Operator<T, T> {
 
-    private Spliterator<T> oneUseOperandSpliterator;
+    private Spliterator<T> singleOperation;
 
-    ResumeOperator(Spliterable<T> operandSpliterable) {
-        super(operandSpliterable);
+    ResumeOperator(Spliterable<T> wrappedSpliterable) {
+        super(wrappedSpliterable);
     }
 
     @Override
     public Spliterator<T> spliterator() {
-        if (oneUseOperandSpliterator == null)
-            oneUseOperandSpliterator = new PushBackSpliterator<>(operandSpliterable.spliterator());
-        return oneUseOperandSpliterator;
+        if (singleOperation == null)
+            singleOperation = newOperation();
+        return singleOperation;
     }
 
     @Override
-    Operation<T, T> newOperation() {
-        return null;
+    ResumeOperation<T> newOperation() {
+        return new ResumeOperation<>();
+    }
+
+    private final class ResumeOperation<_T extends T> extends Operation<_T, _T> {
+
+        @Override
+        void pushBackLastElement() {
+            pushBackRequested = true;
+        }
     }
 
 }

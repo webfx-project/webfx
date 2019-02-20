@@ -9,7 +9,7 @@ import java.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-class FlatMapOperator<T, R> extends SpliteratorTransformOperator<T, R> {
+class FlatMapOperator<T, R> extends Operator<T, R> {
 
     private final Function<? super T, ? extends Iterable<? extends R>> mapper;
 
@@ -19,11 +19,11 @@ class FlatMapOperator<T, R> extends SpliteratorTransformOperator<T, R> {
     }
 
     @Override
-    SpliteratorTransformOperation<T,R> newOperation() {
+    Operation<T,R> newOperation() {
         return new FlatMapOperation<>();
     }
 
-    final class FlatMapOperation<_T extends T, _R extends R> extends SpliteratorTransformOperation<_T, _R> {
+    final class FlatMapOperation<_T extends T, _R extends R> extends Operation<_T, _R> {
 
         private Spliterator<_R> runningMappedSpliterator;
 
@@ -46,7 +46,7 @@ class FlatMapOperator<T, R> extends SpliteratorTransformOperator<T, R> {
 
         private boolean goToNextRunningMappedSpliterator() {
             runningMappedSpliterator = null;
-            getOperandSpliterator().tryAdvance(this::setNextRunningMappedSpliterator);
+            getWrappedSpliterator().tryAdvance(this::setNextRunningMappedSpliterator);
             return runningMappedSpliterator != null;
         }
 
