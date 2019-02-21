@@ -2,6 +2,7 @@ package webfx.tool.buildtool.util.splitfiles;
 
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.Spliterator;
@@ -56,4 +57,11 @@ public class SplitFiles {
         }
     }
 
+    public static boolean uncheckedIsSameFile(Path path1, Path path2) throws RuntimeException {
+        try {
+            return Files.isSameFile(path1, path2);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

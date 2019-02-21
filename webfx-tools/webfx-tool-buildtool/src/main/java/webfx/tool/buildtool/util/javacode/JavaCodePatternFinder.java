@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 
 /**
@@ -11,31 +12,44 @@ import java.util.regex.Matcher;
  */
 public final class JavaCodePatternFinder implements Iterable<String> {
 
-    private final String javaCode;
     private final JavaCodePattern javaCodePattern;
+    private Supplier<Path> javaPathSupplier;
+    private Path javaFilePath;
+    private String javaCode;
+
+    public JavaCodePatternFinder(JavaCodePattern javaCodePattern, Supplier<Path> javaPathSupplier) {
+        this.javaCodePattern = javaCodePattern;
+        this.javaPathSupplier = javaPathSupplier;
+    }
 
     public JavaCodePatternFinder(JavaCodePattern javaCodePattern, Path javaFilePath) {
-        this(javaCodePattern, loadJavaCode(javaFilePath));
+        this.javaCodePattern = javaCodePattern;
+        this.javaFilePath = javaFilePath;
     }
 
     private JavaCodePatternFinder(JavaCodePattern javaCodePattern, String javaCode) {
-        this.javaCode = javaCode;
         this.javaCodePattern = javaCodePattern;
+        this.javaCode = javaCode;
     }
 
-    private static String loadJavaCode(Path javaFilePath) {
-        try {
-            return new String(Files.readAllBytes(javaFilePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
+    private String getJavaCode() {
+        if (javaCode == null) {
+            if (javaFilePath == null)
+                javaFilePath = javaPathSupplier.get();
+            try {
+                javaCode = new String(Files.readAllBytes(javaFilePath));
+            } catch (IOException e) {
+                e.printStackTrace();
+                javaCode = "";
+            }
         }
+        return javaCode;
     }
 
     @Override
     public Iterator<String> iterator() {
         return new Iterator<>() {
-            private final Matcher matcher = javaCodePattern.getPattern().matcher(javaCode);
+            private final Matcher matcher = javaCodePattern.getPattern().matcher(getJavaCode());
             private final CommentFinder blockCommentFinder = new CommentFinder("/*", "*/");
             private final CommentFinder inlineCommentFinder = new CommentFinder("//", "\n");
 

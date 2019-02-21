@@ -3,7 +3,6 @@ package webfx.tool.buildtool;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 import webfx.tool.buildtool.util.splitfiles.SplitFiles;
 
-import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,36 +21,42 @@ class ProjectModule extends ModuleImpl {
 
     private final static PathMatcher javaFileMatcher = FileSystems.getDefault().getPathMatcher("glob:**.java");
 
-    private final ReusableStream<ProjectModule> childrenModulesCache = ReusableStream.create(() -> SplitFiles.uncheckedWalk(getHomeDirectoryPath(), 1))
-            .filter(path -> !isSameFile(path, getHomeDirectoryPath()))
-            .filter(Files::isDirectory)
-            .filter(path -> Files.exists(path.resolve("pom.xml")))
-            .map(path -> new ProjectModule(path, this))
-            .cache()
+    private final ReusableStream<JavaClass> javaClassesCache =
+            ReusableStream.create(() -> isSourceModule() ? SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators.emptySpliterator())
+                    .filter(javaFileMatcher::matches)
+                    .map(path -> new JavaClass(path, this))
+                    .cache()
             ;
-    private final ReusableStream<ProjectModule> childrenModulesInDepthCache = childrenModulesCache
-            .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
-            //.cache()
+    private final ReusableStream<String> usedJavaPackagesNamesCache =
+            javaClassesCache
+                    .flatMap(JavaClass::analyzeUsedJavaPackagesNames)
+                    .distinct()
+                    .cache()
             ;
-    private final ReusableStream<JavaClass> javaClassesCache = ReusableStream.create(() -> Files.exists(getJavaSourceDirectoryPath()) ? SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators.emptySpliterator())
-            .filter(javaFileMatcher::matches)
-            .map(path -> new JavaClass(path, this))
-            .cache()
+    private final ReusableStream<Module> directDependenciesCache =
+            usedJavaPackagesNamesCache
+                    .map(m -> getRootModule().getJavaPackageNameModule(m))
+                    .filter(module -> module != null && module != this && !module.getArtifactId().equals(getArtifactId()))
+                    .distinct()
+                    .cache()
             ;
-    private final ReusableStream<String> usedJavaPackagesNamesCache = javaClassesCache
-            .flatMap(JavaClass::analyzeUsedJavaPackagesNames)
-            .distinct()
-            .cache()
+    private final ReusableStream<ProjectModule> childrenModulesCache =
+            ReusableStream.create(() -> SplitFiles.uncheckedWalk(getHomeDirectoryPath(), 1))
+                    .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getHomeDirectoryPath()))
+                    .filter(Files::isDirectory)
+                    .filter(path -> Files.exists(path.resolve("pom.xml")))
+                    .map(path -> new ProjectModule(path, this))
+                    .cache()
             ;
-    private final ReusableStream<Module> directDependenciesCache = usedJavaPackagesNamesCache
-            .map(m -> getRootModule().getJavaPackageNameModule(m))
-            .filter(module -> module != null && module != this && !module.getArtifactId().equals(getArtifactId()))
-            .distinct()
-            .cache()
+    private final ReusableStream<ProjectModule> childrenModulesInDepthCache =
+            childrenModulesCache
+                    .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
+                    //.cache()
             ;
     private final Path homeDirectoryPath;
     private final ProjectModule parentModule;
     private final RootModule rootModule;
+    private Boolean isSourceModule;
 
     /************************
      ***** Constructors *****
@@ -89,21 +94,22 @@ class ProjectModule extends ModuleImpl {
         return rootModule;
     }
 
-    ProjectModule getChildModuleInDepth(String artifactId) {
-        return getThisAndChildrenModulesInDepth()
-                .filter(module -> module.getArtifactId().equals(artifactId))
-                .findFirst()
-                .orElse(null);
-    }
-
-    ProjectModule getProjectModuleInDepth(String artifactId) {
-        return getRootModule().getChildModuleInDepth(artifactId);
+    boolean isSourceModule() {
+        if (isSourceModule == null)
+            isSourceModule = Files.exists(getJavaSourceDirectoryPath());
+        return isSourceModule;
     }
 
 
     /*************************
      ***** Basic streams *****
      *************************/
+
+    ///// Java classes
+
+    ReusableStream<JavaClass> getJavaClasses() {
+        return javaClassesCache;
+    }
 
     ///// Modules
 
@@ -119,11 +125,11 @@ class ProjectModule extends ModuleImpl {
         return ReusableStream.of(this).concat(getChildrenModulesInDepth());
     }
 
-
-    ///// Java classes
-
-    ReusableStream<JavaClass> getJavaClasses() {
-        return javaClassesCache;
+    ProjectModule getChildModuleInDepth(String artifactId) {
+        return getThisAndChildrenModulesInDepth()
+                .filter(module -> module.getArtifactId().equals(artifactId))
+                .findFirst()
+                .orElse(null);
     }
 
     /******************************
@@ -161,7 +167,8 @@ class ProjectModule extends ModuleImpl {
         }
     }
 
-    ///// Packages (names)
+
+    ///// Packages
 
     ReusableStream<String> analyzeUsedJavaPackagesNames() {
         return usedJavaPackagesNamesCache;
@@ -171,6 +178,58 @@ class ProjectModule extends ModuleImpl {
         return getJavaClasses()
                 .filter(jc -> jc.analyzeUsedJavaPackagesNames().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId())))
                 ;
+    }
+
+
+    ///// Platforms
+
+    ReusableStream<String> compatiblePlatforms() {
+        return knownPlatforms()
+                .filter(this::isPlatformCompatible)
+                ;
+    }
+
+    private static ReusableStream<String> knownPlatforms() {
+        return ReusableStream.of("jre", "gwt");
+    }
+
+    boolean isPlatformCompatible(String platformName) {
+        switch (platformName) {
+            case "jre" : return isJrePlatformCompatible();
+            case "gwt" : return isGwtPlatformCompatible();
+        }
+        return false;
+    }
+
+    boolean isJrePlatformCompatible() {
+        return isJrePlatformSpecific() || isPlatformGeneric();
+    }
+
+    boolean isGwtPlatformCompatible() {
+        return isGwtPlatformSpecific() || isPlatformGeneric();
+    }
+
+    private boolean isJrePlatformSpecific() {
+        String artifactId = getArtifactId();
+        if (artifactId.contains("-emul"))
+            return false;
+        if (artifactId.contains("-java")
+                || artifactId.contains("-jre")
+                || artifactId.contains("-vertx"))
+            return true;
+        return false;
+    }
+
+    private boolean isGwtPlatformSpecific() {
+        String artifactId = getArtifactId();
+        return artifactId.contains("-gwt")
+                || artifactId.contains("-web")
+                || artifactId.contains("-emul")
+                ;
+    }
+
+    private boolean isPlatformGeneric() {
+        return !isJrePlatformSpecific() && !isGwtPlatformSpecific() && isSourceModule();
     }
 
     /***************************
@@ -268,13 +327,5 @@ class ProjectModule extends ModuleImpl {
 
     static void warning(Object message) {
         System.err.println("WARNING: " + message);
-    }
-
-    private static boolean isSameFile(Path path1, Path path2) {
-        try {
-            return Files.isSameFile(path1, path2);
-        } catch (IOException e) {
-            return false;
-        }
     }
 }

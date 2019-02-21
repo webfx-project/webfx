@@ -11,4 +11,8 @@ interface Module {
 
     String getVersion();
 
+    static Module create(String artifactId) {
+        return new ModuleImpl(artifactId);
+    }
+
 }

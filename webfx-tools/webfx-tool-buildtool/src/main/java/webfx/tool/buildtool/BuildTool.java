@@ -2,6 +2,7 @@ package webfx.tool.buildtool;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
@@ -11,6 +12,8 @@ public final class BuildTool {
     public static void main(String[] args) {
         long t0 = System.currentTimeMillis();
         RootModule webfxRootModule = new RootModule(getWebfxRootPath());
+        webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.compatiblePlatforms().collect(Collectors.toList())));
+/*
         webfxRootModule.listChildrenModulesInDepth();
         webfxRootModule.listThisAndChildrenModulesInDepthWithTheirDirectDependencies();
         webfxRootModule.listOrAndChildrenModulesInDepthDirectlyDependingOn("gwt-user");
@@ -21,6 +24,7 @@ public final class BuildTool {
         webfxRootModule.listProjectModuleJavaClassesDependingOn("webfx-fxkit-extra", "webfx-fxkit-gwt");
         webfxRootModule.listCyclicDependenciesPaths();
         webfxRootModule.listProjectModuleJavaClassesDependingOn("webfx-framework-shared-entity", "webfx-framework-client-uifilter");
+*/
         long t1 = System.currentTimeMillis();
         System.out.println("Executed in " + (t1 - t0) + "ms");
     }

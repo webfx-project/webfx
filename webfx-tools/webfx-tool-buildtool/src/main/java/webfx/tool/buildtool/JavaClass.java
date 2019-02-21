@@ -15,7 +15,9 @@ final class JavaClass {
     private final ProjectModule projectModule;
     private String packageName;
     private String className;
-    private final ReusableStream<String> usedJavaPackagesNamesCache;
+    private final ReusableStream<String> usedJavaPackagesNamesCache = ReusableStream.fromIterable(new JavaCodePatternFinder(JavaCodePattern.PACKAGE_PATTERN, this::getJavaFilePath))
+            .distinct()
+            .cache();
 
     /***********************
      ***** Constructor *****
@@ -24,10 +26,6 @@ final class JavaClass {
     JavaClass(Path javaFilePath, ProjectModule projectModule) {
         this.javaFilePath = javaFilePath;
         this.projectModule = projectModule;
-        // Cache is instantiated now (because declared final)
-        usedJavaPackagesNamesCache = ReusableStream.fromIterable(new JavaCodePatternFinder(JavaCodePattern.PACKAGE_PATTERN, javaFilePath))
-                .distinct()
-                .cache();
     }
 
 
