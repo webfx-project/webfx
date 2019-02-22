@@ -64,4 +64,12 @@ public class SplitFiles {
             throw new RuntimeException(e);
         }
     }
+
+    public static String uncheckedReadTextFile(Path path) throws RuntimeException {
+        try {
+            return new String(Files.readAllBytes(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

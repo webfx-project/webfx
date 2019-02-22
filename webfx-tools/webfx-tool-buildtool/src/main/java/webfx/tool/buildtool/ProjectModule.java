@@ -7,9 +7,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,38 +23,60 @@ class ProjectModule extends ModuleImpl {
             ReusableStream.create(() -> isSourceModule() ? SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators.emptySpliterator())
                     .filter(javaFileMatcher::matches)
                     .map(path -> new JavaClass(path, this))
-                    .cache()
-            ;
-    private final ReusableStream<String> usedJavaPackagesNamesCache =
+                    .cache();
+    private final ReusableStream<String> usedJavaPackagesCache =
             javaClassesCache
-                    .flatMap(JavaClass::analyzeUsedJavaPackagesNames)
+                    .flatMap(JavaClass::getUsedJavaPackages)
                     .distinct()
-                    .cache()
-            ;
+                    .cache();
+    private final ReusableStream<String> usedRequiredJavaServicesCache =
+            javaClassesCache
+                    .flatMap(JavaClass::getUsedRequiredJavaServices)
+                    .distinct()
+                    .cache();
+    private final ReusableStream<String> usedOptionalJavaServicesCache =
+            javaClassesCache
+                    .flatMap(JavaClass::getUsedOptionalJavaServices)
+                    .distinct()
+                    .cache();
+    private final ReusableStream<String> declaredJavaServicesCache =
+            getUsedJavaServices()
+                    .filter(s -> javaClassesCache.anyMatch(jc -> s.equals(jc.getClassName())))
+                    .cache();
+    private final ReusableStream<String> providedJavaServicesCache =
+            ReusableStream.create(() -> hasMetaInfJavaServiceFolder() ? SplitFiles.uncheckedWalk(getMetaInfJavaServicePath(), 1) : Spliterators.emptySpliterator())
+                    .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getMetaInfJavaServicePath()))
+                    .map(path -> path.getFileName().toString())
+                    .cache();
     private final ReusableStream<Module> directDependenciesCache =
-            usedJavaPackagesNamesCache
-                    .map(m -> getRootModule().getJavaPackageNameModule(m))
-                    .filter(module -> module != null && module != this && !module.getArtifactId().equals(getArtifactId()))
+            usedJavaPackagesCache
+                    .map(m -> getRootModule().getJavaPackageModule(m))
+                    .filter(module -> module != this && !module.getArtifactId().equals(getArtifactId()))
                     .distinct()
-                    .cache()
-            ;
+                    .cache();
+    private final ReusableStream<Module> transitiveDependenciesCache =
+            directDependenciesCache
+                    .flatMap(m -> m instanceof ProjectModule ? ((ProjectModule) m).getNonCyclicThisAndTransitiveDependencies() : ReusableStream.of(m))
+                    .distinct()
+                    .cache();
     private final ReusableStream<ProjectModule> childrenModulesCache =
             ReusableStream.create(() -> SplitFiles.uncheckedWalk(getHomeDirectoryPath(), 1))
                     .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getHomeDirectoryPath()))
                     .filter(Files::isDirectory)
                     .filter(path -> Files.exists(path.resolve("pom.xml")))
                     .map(path -> new ProjectModule(path, this))
-                    .cache()
-            ;
+                    .cache();
     private final ReusableStream<ProjectModule> childrenModulesInDepthCache =
             childrenModulesCache
                     .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
-                    //.cache()
+            //.cache()
             ;
     private final Path homeDirectoryPath;
     private final ProjectModule parentModule;
     private final RootModule rootModule;
+    private Target target;
     private Boolean isSourceModule;
+    private Boolean hasMetaInfJavaServiceFolder;
 
     /************************
      ***** Constructors *****
@@ -86,6 +106,10 @@ class ProjectModule extends ModuleImpl {
         return homeDirectoryPath.resolve("src/main/java/");
     }
 
+    Path getMetaInfJavaServicePath() {
+        return homeDirectoryPath.resolve("src/main/resources/META-INF/services/");
+    }
+
     ProjectModule getParentModule() {
         return parentModule;
     }
@@ -94,10 +118,22 @@ class ProjectModule extends ModuleImpl {
         return rootModule;
     }
 
+    Target getTarget() {
+        if (target == null)
+            target = new Target(this);
+        return target;
+    }
+
     boolean isSourceModule() {
         if (isSourceModule == null)
             isSourceModule = Files.exists(getJavaSourceDirectoryPath());
         return isSourceModule;
+    }
+
+    boolean hasMetaInfJavaServiceFolder() {
+        if (hasMetaInfJavaServiceFolder == null)
+            hasMetaInfJavaServiceFolder = isSourceModule() && Files.exists(getMetaInfJavaServicePath());
+        return hasMetaInfJavaServiceFolder;
     }
 
 
@@ -117,6 +153,10 @@ class ProjectModule extends ModuleImpl {
         return childrenModulesCache;
     }
 
+    ReusableStream<ProjectModule> getThisAndChildrenModules() {
+        return ReusableStream.of(this).concat(getChildrenModules());
+    }
+
     ReusableStream<ProjectModule> getChildrenModulesInDepth() {
         return childrenModulesInDepthCache;
     }
@@ -126,11 +166,13 @@ class ProjectModule extends ModuleImpl {
     }
 
     ProjectModule getChildModuleInDepth(String artifactId) {
-        return getThisAndChildrenModulesInDepth()
+        return getChildrenModulesInDepth()
                 .filter(module -> module.getArtifactId().equals(artifactId))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("Unable to find " + artifactId + " module under " + getArtifactId() + " module"))
+                ;
     }
+
 
     /******************************
      ***** Analyzing streams  *****
@@ -138,99 +180,118 @@ class ProjectModule extends ModuleImpl {
 
     ///// Modules
 
-    ReusableStream<Module> analyzeDirectDependencies() {
+    ReusableStream<Module> getDirectDependencies() {
         return directDependenciesCache;
     }
 
-    ReusableStream<ProjectModule> analyzeThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
+    ReusableStream<Module> getThisAndDirectDependencies() {
+        return ReusableStream.of((Module) this).concat(directDependenciesCache);
+    }
+
+    ReusableStream<ProjectModule> getThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
         return getThisAndChildrenModulesInDepth()
-                .filter(module -> module.analyzeDirectDependencies().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId())))
+                .filter(module -> module.getDirectDependencies().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId())))
                 ;
     }
 
-    Set<Module> analyzeThisAndChildrenModulesInDepthTransitiveDependencies() {
-        if (transitiveDependenciesModules == null) {
-            transitiveDependenciesModules = new HashSet<>();
-            addTransitiveDependencies(this, false);
-        }
-        return transitiveDependenciesModules;
+    ReusableStream<Module> getTransitiveDependencies() {
+        return transitiveDependenciesCache;
     }
 
-    private Set<Module> transitiveDependenciesModules;
-
-    private void addTransitiveDependencies(Module module, boolean includeModule) {
-        if (!transitiveDependenciesModules.contains(module)) {
-            if (includeModule)
-                transitiveDependenciesModules.add(module);
-            if (module instanceof ProjectModule)
-                ((ProjectModule) module).analyzeDirectDependencies().forEach(m -> addTransitiveDependencies(m, true));
-        }
+    ReusableStream<Module> getThisAndTransitiveDependencies() {
+        return ReusableStream.of((Module) this).concat(transitiveDependenciesCache);
     }
 
+    private ReusableStream<Module> getNonCyclicThisAndTransitiveDependencies() {
+        return ReusableStream.of((Module) this).concat(
+                getDirectDependencies()
+                        .flatMap(m -> {
+                            Collection<Module> loop = getRootModule().getModulesInCyclicDependenciesLoop(this, m);
+                            return loop != null ? loop
+                                    : (m instanceof ProjectModule) ? ((ProjectModule) m).getNonCyclicThisAndTransitiveDependencies()
+                                    : List.of(m);
+                        })
+        );
+    }
 
     ///// Packages
 
-    ReusableStream<String> analyzeUsedJavaPackagesNames() {
-        return usedJavaPackagesNamesCache;
+    ReusableStream<String> getUsedJavaPackages() {
+        return usedJavaPackagesCache;
     }
 
-    ReusableStream<JavaClass> analyzeJavaClassesDependingOn(String destinationModule) {
+    ReusableStream<JavaClass> getJavaClassesDependingOn(String destinationModule) {
         return getJavaClasses()
-                .filter(jc -> jc.analyzeUsedJavaPackagesNames().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId())))
+                .filter(jc -> jc.getUsedJavaPackages().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getArtifactId())))
                 ;
     }
 
 
-    ///// Platforms
+    ///// Services
 
-    ReusableStream<String> compatiblePlatforms() {
-        return knownPlatforms()
-                .filter(this::isPlatformCompatible)
+
+    ReusableStream<String> getUsedRequiredJavaServices() {
+        return usedRequiredJavaServicesCache;
+    }
+
+    ReusableStream<String> getUsedOptionalJavaServices() {
+        return usedOptionalJavaServicesCache;
+    }
+
+    ReusableStream<String> getUsedJavaServices() {
+        return getUsedRequiredJavaServices().concat(getUsedOptionalJavaServices());
+    }
+
+    ReusableStream<String> getDeclaredJavaServices() {
+        return declaredJavaServicesCache;
+    }
+
+    boolean declaresJavaService(String javaService) {
+        return isSourceModule() && getDeclaredJavaServices()
+                .anyMatch(javaService::equals);
+    }
+
+    ReusableStream<String> getProvidedJavaServices() {
+        return providedJavaServicesCache;
+    }
+
+    boolean providesJavaService(String javaService) {
+        return getProvidedJavaServices()
+                .filter(javaService::equals)
+                .findAny()
+                .isPresent()
                 ;
     }
 
-    private static ReusableStream<String> knownPlatforms() {
-        return ReusableStream.of("jre", "gwt");
-    }
-
-    boolean isPlatformCompatible(String platformName) {
-        switch (platformName) {
-            case "jre" : return isJrePlatformCompatible();
-            case "gwt" : return isGwtPlatformCompatible();
-        }
-        return false;
-    }
-
-    boolean isJrePlatformCompatible() {
-        return isJrePlatformSpecific() || isPlatformGeneric();
-    }
-
-    boolean isGwtPlatformCompatible() {
-        return isGwtPlatformSpecific() || isPlatformGeneric();
-    }
-
-    private boolean isJrePlatformSpecific() {
-        String artifactId = getArtifactId();
-        if (artifactId.contains("-emul"))
-            return false;
-        if (artifactId.contains("-java")
-                || artifactId.contains("-jre")
-                || artifactId.contains("-vertx"))
-            return true;
-        return false;
-    }
-
-    private boolean isGwtPlatformSpecific() {
-        String artifactId = getArtifactId();
-        return artifactId.contains("-gwt")
-                || artifactId.contains("-web")
-                || artifactId.contains("-emul")
+    ReusableStream<String> getProvidedJavaServiceImplementations(String javaService) {
+        return getProvidedJavaServices()
+                .filter(javaService::equals)
+                .map(s -> getMetaInfJavaServicePath().resolve(s))
+                .map(SplitFiles::uncheckedReadTextFile)
+                .flatMap(content -> Arrays.asList(content.split("\\r?\\n")))
                 ;
     }
 
-    private boolean isPlatformGeneric() {
-        return !isJrePlatformSpecific() && !isGwtPlatformSpecific() && isSourceModule();
+    ReusableStream<String> findRequiredServices() {
+        return getTransitiveDependencies()
+                .map(m -> m instanceof ProjectModule ? (ProjectModule) m : null)
+                .filter(Objects::nonNull)
+                .flatMap(ProjectModule::getUsedJavaServices)
+                .distinct()
+                ;
     }
+
+    ReusableStream<ProjectModule> findModulesProvidingRequiredService(TargetTag... serviceTags) {
+        return findModulesProvidingRequiredService(new Target(serviceTags));
+    }
+
+    ReusableStream<ProjectModule> findModulesProvidingRequiredService(Target serviceTarget) {
+        return findRequiredServices()
+                .map(js -> getRootModule().findBestMatchModuleProvidingJavaService(js, serviceTarget))
+                .distinct()
+                ;
+    }
+
 
     /***************************
      ***** Listing methods *****
@@ -244,7 +305,7 @@ class ProjectModule extends ModuleImpl {
 
     void listDirectDependencies() {
         listIterableElements("Listing " + this + " module direct dependencies",
-                analyzeDirectDependencies()
+                getDirectDependencies()
         );
     }
 
@@ -263,19 +324,19 @@ class ProjectModule extends ModuleImpl {
 
     void listThisAndChildrenModulesInDepthTransitiveDependencies() {
         listIterableElements("Listing " + this + " and children modules (in depth) transitive dependencies",
-                analyzeThisAndChildrenModulesInDepthTransitiveDependencies()
+                getTransitiveDependencies()
         );
     }
 
     void listOrAndChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
         listIterableElements("Listing " + this + " or children modules (in depth) directly depending on " + moduleArtifactId,
-                analyzeThisOrChildrenModulesInDepthDirectlyDependingOn(moduleArtifactId)
+                getThisOrChildrenModulesInDepthDirectlyDependingOn(moduleArtifactId)
         );
     }
 
     void listJavaClassesDependingOn(String destinationModule) {
         listIterableElements("Listing " + this + " module java classes depending on " + destinationModule,
-                analyzeJavaClassesDependingOn(destinationModule)
+                getJavaClassesDependingOn(destinationModule)
                 , jc -> logJavaClassWithPackagesDependingOn(jc, destinationModule)
         );
     }
@@ -286,14 +347,14 @@ class ProjectModule extends ModuleImpl {
      ***************************/
 
     private void logModuleWithDirectDependencies() {
-        log(this + " direct dependencies: " + analyzeDirectDependencies()
+        log(this + " direct dependencies: " + getDirectDependencies()
                 .collect(Collectors.toList()));
     }
 
     private void logJavaClassWithPackagesDependingOn(JavaClass jc, String destinationModule) {
         log(jc + " through packages " +
-                jc.analyzeUsedJavaPackagesNames()
-                        .filter(p -> destinationModule.equals(rootModule.getJavaPackageNameModule(p).getArtifactId()))
+                jc.getUsedJavaPackages()
+                        .filter(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getArtifactId()))
                         .distinct()
                         .collect(Collectors.toList()));
     }

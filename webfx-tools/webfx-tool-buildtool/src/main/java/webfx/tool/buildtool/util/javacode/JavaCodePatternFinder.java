@@ -1,33 +1,34 @@
 package webfx.tool.buildtool.util.javacode;
 
-import java.io.IOException;
-import java.nio.file.Files;
+import webfx.tool.buildtool.util.splitfiles.SplitFiles;
+
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Bruno Salmon
  */
-public final class JavaCodePatternFinder implements Iterable<String> {
+class JavaCodePatternFinder implements Iterable<String> {
 
     private final JavaCodePattern javaCodePattern;
     private Supplier<Path> javaPathSupplier;
     private Path javaFilePath;
     private String javaCode;
 
-    public JavaCodePatternFinder(JavaCodePattern javaCodePattern, Supplier<Path> javaPathSupplier) {
+    JavaCodePatternFinder(JavaCodePattern javaCodePattern, Supplier<Path> javaPathSupplier) {
         this.javaCodePattern = javaCodePattern;
         this.javaPathSupplier = javaPathSupplier;
     }
 
-    public JavaCodePatternFinder(JavaCodePattern javaCodePattern, Path javaFilePath) {
+    JavaCodePatternFinder(JavaCodePattern javaCodePattern, Path javaFilePath) {
         this.javaCodePattern = javaCodePattern;
         this.javaFilePath = javaFilePath;
     }
 
-    private JavaCodePatternFinder(JavaCodePattern javaCodePattern, String javaCode) {
+    JavaCodePatternFinder(JavaCodePattern javaCodePattern, String javaCode) {
         this.javaCodePattern = javaCodePattern;
         this.javaCode = javaCode;
     }
@@ -36,12 +37,7 @@ public final class JavaCodePatternFinder implements Iterable<String> {
         if (javaCode == null) {
             if (javaFilePath == null)
                 javaFilePath = javaPathSupplier.get();
-            try {
-                javaCode = new String(Files.readAllBytes(javaFilePath));
-            } catch (IOException e) {
-                e.printStackTrace();
-                javaCode = "";
-            }
+            javaCode = SplitFiles.uncheckedReadTextFile(javaFilePath);
         }
         return javaCode;
     }
@@ -64,7 +60,7 @@ public final class JavaCodePatternFinder implements Iterable<String> {
 
             @Override
             public String next() {
-                return matcher.group(javaCodePattern.getMatchingGroup());
+                return mapFoundGroup(matcher.group(javaCodePattern.getMatchingGroup()));
             }
 
             private boolean isInsideComment(int index) {
@@ -131,5 +127,25 @@ public final class JavaCodePatternFinder implements Iterable<String> {
                 }
             }
         }
+    }
+
+
+    String mapFoundGroup(String group) {
+        return group;
+    }
+
+    String resolveFullClassName(String className) {
+        if (className.contains("."))
+            return className;
+        Iterator<String> classImportIterator = new JavaCodePatternFinder(new JavaCodePattern(Pattern.compile("^\\s*import\\s+([a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)*\\." + className + "\\s*)\\s*;", Pattern.MULTILINE), 1), getJavaCode()).iterator();
+        return classImportIterator.hasNext() ? classImportIterator.next()
+                : javaCodePackageName() + "." + className;
+    }
+
+    String javaCodePackageName() {
+        Iterator<String> packageIterator = new JavaCodePatternFinder(new JavaCodePattern(Pattern.compile("^\\s*package\\s+([a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)*)\\s*;", Pattern.MULTILINE), 1), getJavaCode()).iterator();
+        return packageIterator.hasNext() ?
+                packageIterator.next()
+                : null;
     }
 }

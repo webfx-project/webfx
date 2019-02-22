@@ -1,7 +1,8 @@
 package webfx.tool.buildtool;
 
-import webfx.tool.buildtool.util.javacode.JavaCodePattern;
-import webfx.tool.buildtool.util.javacode.JavaCodePatternFinder;
+import webfx.tool.buildtool.util.javacode.OptionalJavaServicesFinder;
+import webfx.tool.buildtool.util.javacode.JavaCodePackagesFinder;
+import webfx.tool.buildtool.util.javacode.RequiredJavaServicesFinder;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 
 import java.nio.file.Path;
@@ -15,9 +16,18 @@ final class JavaClass {
     private final ProjectModule projectModule;
     private String packageName;
     private String className;
-    private final ReusableStream<String> usedJavaPackagesNamesCache = ReusableStream.fromIterable(new JavaCodePatternFinder(JavaCodePattern.PACKAGE_PATTERN, this::getJavaFilePath))
-            .distinct()
-            .cache();
+    private final ReusableStream<String> usedJavaPackagesCache =
+            ReusableStream.fromIterable(new JavaCodePackagesFinder(this::getJavaFilePath))
+                    .distinct()
+                    .cache();
+    private final ReusableStream<String> usedRequiredJavaServicesCache =
+            ReusableStream.fromIterable(new RequiredJavaServicesFinder(this::getJavaFilePath))
+                    .distinct()
+                    .cache();
+    private final ReusableStream<String> usedOptionalJavaServicesCache =
+            ReusableStream.fromIterable(new OptionalJavaServicesFinder(this::getJavaFilePath))
+                    .distinct()
+                    .cache();
 
     /***********************
      ***** Constructor *****
@@ -60,8 +70,20 @@ final class JavaClass {
      ***** Analyzing streams  *****
      ******************************/
 
-    ReusableStream<String> analyzeUsedJavaPackagesNames() {
-        return usedJavaPackagesNamesCache;
+    ReusableStream<String> getUsedJavaPackages() {
+        return usedJavaPackagesCache;
+    }
+
+    ReusableStream<String> getUsedRequiredJavaServices() {
+        return usedRequiredJavaServicesCache;
+    }
+
+    ReusableStream<String> getUsedOptionalJavaServices() {
+        return usedOptionalJavaServicesCache;
+    }
+
+    ReusableStream<String> getUsedJavaServices() {
+        return getUsedRequiredJavaServices().concat(getUsedOptionalJavaServices());
     }
 
 

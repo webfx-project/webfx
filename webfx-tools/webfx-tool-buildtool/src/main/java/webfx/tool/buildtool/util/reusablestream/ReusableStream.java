@@ -3,6 +3,7 @@ package webfx.tool.buildtool.util.reusablestream;
 import webfx.tool.buildtool.util.reusablestream.impl.ReusableStreamImpl;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.*;
@@ -41,7 +42,7 @@ public interface ReusableStream<T> extends Spliterable<T> {
 
     // Terminal operations (forwarded to stream)
 
-    // default void forEach(Consumer<? super T> action) { stream().forEach(action); }
+    // default void forEach(Consumer<? super T> action) { stream().forEach(action); } // Not necessary as Iterable already has a forEach() default implementation
 
     default void forEachOrdered(Consumer<? super T> action) { stream().forEachOrdered(action); }
 
@@ -86,6 +87,10 @@ public interface ReusableStream<T> extends Spliterable<T> {
 
     static <T> ReusableStream<T> fromIterable(Iterable<T> iterable) {
         return new ReusableStreamImpl<>(iterable);
+    }
+
+    static <T> ReusableStream<T> empty() {
+        return fromIterable(Collections.emptyList());
     }
 
     @SafeVarargs

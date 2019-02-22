@@ -13,8 +13,12 @@ final class RootModule extends ProjectModule {
     private final Map<String /* package name */, Module> javaPackagesModules = new HashMap<>();
     private final ReusableStream<ProjectModule> thisAndChildrenModulesInDepthResume =
             getThisAndChildrenModulesInDepth()
-                    .resume()
-            ;
+                    .resume();
+    private final ReusableStream<Collection<Module>> cyclicDependencyLoopsCache =
+            getThisAndChildrenModulesInDepth()
+                    .flatMap(RootModule::analyzeCyclicDependenciesLoops)
+                    .distinct()
+                    .cache();
 
     /***********************
      ***** Constructor *****
@@ -50,6 +54,7 @@ final class RootModule extends ProjectModule {
         // GWT
         registerJavaPackageModule(Module.create("gwt-user"), "com.google.gwt.user.client", "com.google.gwt.core.client", "com.google.gwt.resources.client", "com.google.gwt.regexp.shared", "com.google.gwt.storage.client");
         registerJavaPackageModule(Module.create("jsinterop-annotations"), "jsinterop.annotations");
+        registerJavaPackageModule(Module.create("elemental2-dom"), "elemental2.dom");
 
         // GWT charts
         registerJavaPackageModule(Module.create("gwt-charts"), "com.googlecode.gwt.charts.client", "com.googlecode.gwt.charts.client.corechart");
@@ -65,30 +70,30 @@ final class RootModule extends ProjectModule {
         registerJavaPackageModule(Module.create("HikariCP"), "com.zaxxer.hikari");
     }
 
-    void registerJavaPackageModule(Module module, String... javaPackageNames) {
-        for (String javaPackageName : javaPackageNames)
-            registerJavaPackageModule(javaPackageName, module);
+    void registerJavaPackageModule(Module module, String... javaPackages) {
+        for (String javaPackage : javaPackages)
+            registerJavaPackageModule(javaPackage, module);
     }
 
-    void registerJavaPackageModule(String javaPackageName, Module module) {
-        Module m = javaPackagesModules.get(javaPackageName);
+    void registerJavaPackageModule(String javaPackage, Module module) {
+        Module m = javaPackagesModules.get(javaPackage);
         if (m != null && m != module)
-            warning(module + " and " + m + " share the same package " + javaPackageName);
+            warning(module + " and " + m + " share the same package " + javaPackage);
         else
-            javaPackagesModules.put(javaPackageName, module);
+            javaPackagesModules.put(javaPackage, module);
     }
 
     void registerJavaPackagesProjectModule(ProjectModule module) {
         module.getJavaClasses().forEach(javaClass -> registerJavaPackageModule(javaClass.getPackageName(), module));
     }
 
-    Module getJavaPackageNameModule(String javaPackageName) {
-        Module module = javaPackagesModules.get(javaPackageName);
+    Module getJavaPackageModule(String javaPackage) {
+        Module module = javaPackagesModules.get(javaPackage);
         if (module == null)
-            thisAndChildrenModulesInDepthResume.takeWhile(m -> javaPackagesModules.get(javaPackageName) == null).forEach(this::registerJavaPackagesProjectModule);
-        module = javaPackagesModules.get(javaPackageName);
+            thisAndChildrenModulesInDepthResume.takeWhile(m -> javaPackagesModules.get(javaPackage) == null).forEach(this::registerJavaPackagesProjectModule);
+        module = javaPackagesModules.get(javaPackage);
         if (module == null)
-            warning("Unknown module for package " + javaPackageName);
+            throw new IllegalArgumentException("Unknown module for package " + javaPackage);
         return module;
     }
 
@@ -108,25 +113,22 @@ final class RootModule extends ProjectModule {
             if (destinationModule == sourceModule)
                 paths.add(extendedPath);
             else if (sourceModule instanceof ProjectModule)
-                ((ProjectModule) sourceModule).analyzeDirectDependencies()
+                ((ProjectModule) sourceModule).getDirectDependencies()
                         .map(depModule -> analyzeDependenciesPathsBetween(extendedPath, depModule, destinationModule))
                         .forEach(paths::addAll);
         }
         return paths;
     }
 
-    ReusableStream<Collection<Module>> analyzeCyclicDependenciesPaths() {
-        return getThisAndChildrenModulesInDepth()
-                .flatMap(RootModule::analyzeCyclicDependenciesPaths)
-                .distinct()
-                ;
+    ReusableStream<Collection<Module>> analyzeCyclicDependenciesLoops() {
+        return cyclicDependencyLoopsCache;
     }
 
-    static List<Collection<Module>> analyzeCyclicDependenciesPaths(Module module) {
-        return analyzeCyclicDependenciesPaths(new ArrayList<>(), module);
+    static List<Collection<Module>> analyzeCyclicDependenciesLoops(Module module) {
+        return analyzeCyclicDependenciesLoops(new ArrayList<>(), module);
     }
 
-    private static List<Collection<Module>> analyzeCyclicDependenciesPaths(List<Module> parentPath, Module module) {
+    private static List<Collection<Module>> analyzeCyclicDependenciesLoops(List<Module> parentPath, Module module) {
         List<Collection<Module>> paths = new ArrayList<>();
         int index = parentPath.indexOf(module);
         if (index != -1) { // Cyclic dependency found
@@ -137,11 +139,45 @@ final class RootModule extends ProjectModule {
             paths.add(cyclicPath);
         } else if (module instanceof ProjectModule) {
             List<Module> extendedPath = extendModuleCollection(parentPath, module);
-            ((ProjectModule) module).analyzeDirectDependencies()
-                    .map(depModule -> analyzeCyclicDependenciesPaths(extendedPath, depModule))
+            ((ProjectModule) module).getDirectDependencies()
+                    .map(depModule -> analyzeCyclicDependenciesLoops(extendedPath, depModule))
                     .forEach(paths::addAll);
         }
         return paths;
+    }
+
+    Collection<Module> getModulesInCyclicDependenciesLoop(Module m1, Module m2) {
+        return analyzeCyclicDependenciesLoops()
+                .filter(loop -> loop.contains(m1) && loop.contains(m2))
+                .findFirst()
+                .orElse(null);
+    }
+
+    ProjectModule findModuleDeclaringJavaService(String javaService) {
+        return getThisAndChildrenModulesInDepth()
+                .filter(m -> m.declaresJavaService(javaService))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unable to find " + javaService + " service declaration module"))
+                ;
+    }
+
+    ReusableStream<ProjectModule> findModulesProvidingJavaService(String javaService) {
+        return getThisAndChildrenModulesInDepth()
+                .filter(m -> m.providesJavaService(javaService))
+                ;
+    }
+
+    ProjectModule findBestMatchModuleProvidingJavaService(String javaService, TargetTag... tags) {
+        return findBestMatchModuleProvidingJavaService(javaService, new Target(tags));
+    }
+
+    ProjectModule findBestMatchModuleProvidingJavaService(String javaService, Target requestedTarget) {
+        return getThisAndChildrenModulesInDepth()
+                .filter(m -> m.getTarget().gradeTargetMatch(requestedTarget) >= 0)
+                .filter(m -> m.providesJavaService(javaService))
+                .max(Comparator.comparingInt(m -> m.getTarget().gradeTargetMatch(requestedTarget)))
+                .orElseThrow(() -> new IllegalArgumentException("Unable to find " + javaService + " service implementation for requested target " + requestedTarget))
+                ;
     }
 
     /***************************
@@ -178,7 +214,7 @@ final class RootModule extends ProjectModule {
 
     void listCyclicDependenciesPaths() {
         listIterableElements("Listing cyclic dependency paths",
-                analyzeCyclicDependenciesPaths()
+                analyzeCyclicDependenciesLoops()
         );
     }
 
