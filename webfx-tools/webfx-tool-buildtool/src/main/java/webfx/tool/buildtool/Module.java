@@ -3,7 +3,7 @@ package webfx.tool.buildtool;
 /**
  * @author Bruno Salmon
  */
-interface Module {
+public interface Module {
 
     String getGroupId();
 

@@ -36,15 +36,17 @@ final class RootModule extends ProjectModule {
 
     private void registerThirdPartyModules() {
         // JDK
-        registerJavaPackageModule(Module.create("java.base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.logging", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic");
+        registerJavaPackageModule(Module.create("java.base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic");
         registerJavaPackageModule(Module.create("java.xml"), "javax.xml");
         registerJavaPackageModule(Module.create("java.sql"), "java.sql", "javax.sql");
+        registerJavaPackageModule(Module.create("java.logging"), "java.util.logging");
         registerJavaPackageModule(Module.create("jdk.management"), "com.sun.management");
         registerJavaPackageModule(Module.create("jdk.jsobject"), "netscape.javascript");
 
         // JavaFx
-        registerJavaPackageModule(Module.create("javafx.graphics"), "com.sun.prism", "javafx.concurrent");
-        registerJavaPackageModule(Module.create("javafx.control"), "com.sun.javafx.scene.control.behavior", "javafx.scene.chart");
+        registerJavaPackageModule(Module.create("javafx.base"), "javafx.beans", "javafx.beans.binding", "javafx.beans.property", "javafx.beans.value", "javafx.collections", "javafx.collections.transformation", "javafx.event", "javafx.util");
+        registerJavaPackageModule(Module.create("javafx.graphics"), "javafx.animation", "javafx.application", "javafx.css", "javafx.concurrent", "javafx.geometry", "javafx.scene", "javafx.scene.effect", "javafx.scene.image", "javafx.scene.input", "javafx.scene.layout", "javafx.scene.paint", "javafx.scene.shape", "javafx.scene.text", "javafx.scene.transform", "javafx.stage");
+        registerJavaPackageModule(Module.create("javafx.controls"), "javafx.scene.control", "javafx.scene.control.skin", "javafx.scene.chart");
         registerJavaPackageModule(Module.create("javafx.web"), "javafx.scene.web");
         registerJavaPackageModule(Module.create("javafx.swing"), "javafx.embed.swing");
 
@@ -61,10 +63,14 @@ final class RootModule extends ProjectModule {
 
         // Vert.x
         registerJavaPackageModule(Module.create("vertx-core"), "io.vertx.core", "io.vertx.core.eventbus", "io.vertx.core.http", "io.vertx.core.json", "io.vertx.core.net");
-        registerJavaPackageModule(Module.create("vertx-web"), "io.vertx.ext.bridge", "io.vertx.ext.web", "io.vertx.ext.web.handler", "io.vertx.ext.web.handler.sockjs");
+        registerJavaPackageModule(Module.create("vertx-web"), "io.vertx.ext.web", "io.vertx.ext.web.handler", "io.vertx.ext.web.handler.sockjs");
+        registerJavaPackageModule(Module.create("vertx-bridge-common"), "io.vertx.ext.bridge");
         registerJavaPackageModule(Module.create("vertx-sql-common"), "io.vertx.ext.sql");
         registerJavaPackageModule(Module.create("vertx-jdbc-client"), "io.vertx.ext.jdbc");
         registerJavaPackageModule(Module.create("vertx-mysql-postgresql-client"), "io.vertx.ext.asyncsql");
+
+        // JavaWebSocket
+        registerJavaPackageModule(Module.create("Java.WebSocket"), "org.java_websocket.client", "org.java_websocket.drafts", "org.java_websocket.enums", "org.java_websocket.handshake");
 
         // HikariCP
         registerJavaPackageModule(Module.create("HikariCP"), "com.zaxxer.hikari");
@@ -84,7 +90,7 @@ final class RootModule extends ProjectModule {
     }
 
     void registerJavaPackagesProjectModule(ProjectModule module) {
-        module.getJavaClasses().forEach(javaClass -> registerJavaPackageModule(javaClass.getPackageName(), module));
+        module.getDeclaredJavaClasses().forEach(javaClass -> registerJavaPackageModule(javaClass.getPackageName(), module));
     }
 
     Module getJavaPackageModule(String javaPackage) {

@@ -25,7 +25,7 @@ final class ModuleReporter {
 
     void listJavaClasses() {
         listIterableElements("Listing " + projectModule + " module java classes",
-                projectModule.getJavaClasses()
+                projectModule.getDeclaredJavaClasses()
         );
     }
 

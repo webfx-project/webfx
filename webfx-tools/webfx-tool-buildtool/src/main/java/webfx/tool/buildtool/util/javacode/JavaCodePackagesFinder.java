@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public final class JavaCodePackagesFinder extends JavaCodePatternFinder {
 
     private final static JavaCodePattern PACKAGE_PATTERN =
-            new JavaCodePattern(Pattern.compile("[\\s(]([a-z0-9]+(\\.[a-z0-9]+)*)(\\.[A-Z*])"), 1);
+            new JavaCodePattern(Pattern.compile("[\\s(]([a-z_0-9]+(\\.[a-z_0-9]+)*)(\\.(\\*;|(lr_parser|[A-Z][A-Za-z_0-9]*)[\\s()<;]))"), 1);
 
     public JavaCodePackagesFinder(Supplier<Path> javaPathSupplier) {
         super(PACKAGE_PATTERN, javaPathSupplier);

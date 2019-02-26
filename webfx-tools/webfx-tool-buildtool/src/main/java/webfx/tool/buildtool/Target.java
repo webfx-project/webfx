@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * @author Bruno Salmon
  */
-final class Target {
+public final class Target {
 
     private final ProjectModule module;
     private final TargetTag[] tags;
@@ -27,6 +27,10 @@ final class Target {
 
     TargetTag[] getTags() {
         return tags;
+    }
+
+    public boolean isPlatformSupported(Platform platform) {
+        return Arrays.stream(getTags()).allMatch(tag -> tag.isPlatformSupported(platform));
     }
 
     int gradeTargetMatch(Target requestedTarget) {

@@ -3,7 +3,7 @@ package webfx.tool.buildtool;
 /**
  * @author Bruno Salmon
  */
-enum Platform {
+public enum Platform {
 
     /**************************************
      * Supported target platforms for now *

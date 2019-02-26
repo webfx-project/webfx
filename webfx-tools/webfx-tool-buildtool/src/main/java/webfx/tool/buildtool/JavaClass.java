@@ -54,7 +54,8 @@ final class JavaClass {
     String getPackageName() {
         if (packageName == null) {
             getClassName();
-            packageName = className.substring(0, className.lastIndexOf('.'));
+            int lastDotIndex = className.lastIndexOf('.');
+            packageName = className.substring(0, lastDotIndex);
         }
         return packageName;
     }

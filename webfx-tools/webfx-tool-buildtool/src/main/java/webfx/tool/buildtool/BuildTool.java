@@ -1,7 +1,5 @@
 package webfx.tool.buildtool;
 
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -13,6 +11,19 @@ public final class BuildTool {
     public static void main(String[] args) {
         long t0 = System.currentTimeMillis();
         RootModule webfxRootModule = new RootModule(getWebfxRootDirectory());
+/*
+        webfxRootModule.getChildModuleInDepth("webfx-platform-shared-appcontainer-vertx")
+            .getUsedJavaPackages()
+                .forEach(System.out::println);
+*/
+        webfxRootModule.getChildModuleInDepth("mongoose")
+                .getThisAndChildrenModulesInDepth()
+                .filter(ProjectModule::isSourceModule)
+                .filter(m -> m.getTarget().isPlatformSupported(Platform.JRE))
+                //.filter(m -> !m.isDirectlyDependingOn("jsinterop-annotations"))
+                .forEach(m -> m.getJavaModuleFile().writeFile())
+        ;
+/*
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.compatiblePlatforms().collect(Collectors.toList())));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.getUsedJavaServices().collect(Collectors.toList())));
         ReusableStream<Module> transitiveDependencies = webfxRootModule.getChildModuleInDepth("mongoose-backend-application")
@@ -43,6 +54,7 @@ public final class BuildTool {
         reporter.listProjectModuleJavaClassesDependingOn("webfx-fxkit-extra", "webfx-fxkit-gwt");
         reporter.listCyclicDependenciesPaths();
         reporter.listProjectModuleJavaClassesDependingOn("webfx-framework-shared-entity", "webfx-framework-client-uifilter");
+*/
 
         long t1 = System.currentTimeMillis();
         System.out.println("Executed in " + (t1 - t0) + "ms");

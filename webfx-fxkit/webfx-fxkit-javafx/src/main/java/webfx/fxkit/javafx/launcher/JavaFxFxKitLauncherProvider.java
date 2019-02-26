@@ -20,7 +20,7 @@ public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase
 
     private static Stage primaryStage;
 
-    public JavaFxFxKitLauncherProvider(String userAgent) {
+    public JavaFxFxKitLauncherProvider() {
         super("JavaFx", true);
     }
 

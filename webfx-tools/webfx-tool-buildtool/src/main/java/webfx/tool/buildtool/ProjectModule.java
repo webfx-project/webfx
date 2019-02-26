@@ -1,5 +1,9 @@
 package webfx.tool.buildtool;
 
+import webfx.tool.buildtool.modulefiles.GwtModuleFile;
+import webfx.tool.buildtool.modulefiles.JavaModuleFile;
+import webfx.tool.buildtool.modulefiles.MavenModuleFile;
+import webfx.tool.buildtool.modulefiles.WebfxModuleFile;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 import webfx.tool.buildtool.util.splitfiles.SplitFiles;
 
@@ -12,33 +16,39 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-class ProjectModule extends ModuleImpl {
+public class ProjectModule extends ModuleImpl {
 
     private final static PathMatcher javaFileMatcher = FileSystems.getDefault().getPathMatcher("glob:**.java");
 
-    private final ReusableStream<JavaClass> javaClassesCache =
+    private final ReusableStream<JavaClass> declaredJavaClassesCache =
             ReusableStream.create(() -> isSourceModule() ? SplitFiles.uncheckedWalk(getJavaSourceDirectory()) : Spliterators.emptySpliterator())
                     .filter(javaFileMatcher::matches)
+                    .filter(path -> !"module-info.java".equals(path.getFileName().toString()))
                     .map(path -> new JavaClass(path, this))
                     .cache();
+    private final ReusableStream<String> declaredJavaPackagesCache =
+            declaredJavaClassesCache
+                .map(JavaClass::getPackageName)
+                .distinct()
+            ;
     private final ReusableStream<String> usedJavaPackagesCache =
-            javaClassesCache
+            declaredJavaClassesCache
                     .flatMap(JavaClass::getUsedJavaPackages)
                     .distinct()
                     .cache();
     private final ReusableStream<String> usedRequiredJavaServicesCache =
-            javaClassesCache
+            declaredJavaClassesCache
                     .flatMap(JavaClass::getUsedRequiredJavaServices)
                     .distinct()
                     .cache();
     private final ReusableStream<String> usedOptionalJavaServicesCache =
-            javaClassesCache
+            declaredJavaClassesCache
                     .flatMap(JavaClass::getUsedOptionalJavaServices)
                     .distinct()
                     .cache();
     private final ReusableStream<String> declaredJavaServicesCache =
             getUsedJavaServices()
-                    .filter(s -> javaClassesCache.anyMatch(jc -> s.equals(jc.getClassName())))
+                    .filter(s -> declaredJavaClassesCache.anyMatch(jc -> s.equals(jc.getClassName())))
                     .cache();
     private final ReusableStream<String> providedJavaServicesCache =
             ReusableStream.create(() -> hasMetaInfJavaServicesDirectory() ? SplitFiles.uncheckedWalk(getMetaInfJavaServicesDirectory(), 1) : Spliterators.emptySpliterator())
@@ -74,6 +84,10 @@ class ProjectModule extends ModuleImpl {
     private Target target;
     private Boolean isSourceModule;
     private Boolean hasMetaInfJavaServicesDirectory;
+    private WebfxModuleFile webfxModuleFile;
+    private JavaModuleFile javaModuleFile;
+    private GwtModuleFile gwtModuleFile;
+    private MavenModuleFile mavenModuleFile;
 
     /************************
      ***** Constructors *****
@@ -95,20 +109,16 @@ class ProjectModule extends ModuleImpl {
      ***** Basic getters *****
      *************************/
 
-    Path getHomeDirectory() {
+    public Path getHomeDirectory() {
         return homeDirectory;
     }
 
-    Path getJavaSourceDirectory() {
+    public Path getJavaSourceDirectory() {
         return homeDirectory.resolve("src/main/java/");
     }
 
     Path getMetaInfJavaServicesDirectory() {
         return homeDirectory.resolve("src/main/resources/META-INF/services/");
-    }
-
-    Path getWebfxXmlModuleFilePath() {
-        return homeDirectory.resolve("src/main/resources/META-INF/webfx.xml");
     }
 
     ProjectModule getParentModule() {
@@ -119,7 +129,7 @@ class ProjectModule extends ModuleImpl {
         return rootModule;
     }
 
-    Target getTarget() {
+    public Target getTarget() {
         if (target == null)
             target = new Target(this);
         return target;
@@ -137,6 +147,29 @@ class ProjectModule extends ModuleImpl {
         return hasMetaInfJavaServicesDirectory;
     }
 
+    WebfxModuleFile getWebfxModuleFile() {
+        if (webfxModuleFile == null)
+            webfxModuleFile = new WebfxModuleFile(this);
+        return webfxModuleFile;
+    }
+
+    JavaModuleFile getJavaModuleFile() {
+        if (javaModuleFile == null)
+            javaModuleFile = new JavaModuleFile(this);
+        return javaModuleFile;
+    }
+
+    GwtModuleFile getGwtModuleFile() {
+        if (gwtModuleFile == null)
+            gwtModuleFile = new GwtModuleFile(this);
+        return gwtModuleFile;
+    }
+
+    public MavenModuleFile getMavenModuleFile() {
+        if (mavenModuleFile == null)
+            mavenModuleFile = new MavenModuleFile(this);
+        return mavenModuleFile;
+    }
 
     /*************************
      ***** Basic streams *****
@@ -144,9 +177,16 @@ class ProjectModule extends ModuleImpl {
 
     ///// Java classes
 
-    ReusableStream<JavaClass> getJavaClasses() {
-        return javaClassesCache;
+    ReusableStream<JavaClass> getDeclaredJavaClasses() {
+        return declaredJavaClassesCache;
     }
+
+    ///// Java packages
+
+    public ReusableStream<String> getDeclaredJavaPackages() {
+        return declaredJavaPackagesCache;
+    }
+
 
     ///// Modules
 
@@ -181,7 +221,7 @@ class ProjectModule extends ModuleImpl {
 
     ///// Modules
 
-    ReusableStream<Module> getDirectDependencies() {
+    public ReusableStream<Module> getDirectDependencies() {
         return directDependenciesCache;
     }
 
@@ -191,8 +231,12 @@ class ProjectModule extends ModuleImpl {
 
     ReusableStream<ProjectModule> getThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
         return getThisAndChildrenModulesInDepth()
-                .filter(module -> module.getDirectDependencies().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId())))
+                .filter(module -> module.isDirectlyDependingOn(moduleArtifactId))
                 ;
+    }
+
+    boolean isDirectlyDependingOn(String moduleArtifactId) {
+        return getDirectDependencies().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId()));
     }
 
     ReusableStream<Module> getTransitiveDependencies() {
@@ -217,12 +261,12 @@ class ProjectModule extends ModuleImpl {
 
     ///// Packages
 
-    ReusableStream<String> getUsedJavaPackages() {
+    public ReusableStream<String> getUsedJavaPackages() {
         return usedJavaPackagesCache;
     }
 
     ReusableStream<JavaClass> getJavaClassesDependingOn(String destinationModule) {
-        return getJavaClasses()
+        return getDeclaredJavaClasses()
                 .filter(jc -> jc.getUsedJavaPackages().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getArtifactId())))
                 ;
     }
@@ -239,7 +283,7 @@ class ProjectModule extends ModuleImpl {
         return usedOptionalJavaServicesCache;
     }
 
-    ReusableStream<String> getUsedJavaServices() {
+    public ReusableStream<String> getUsedJavaServices() {
         return getUsedRequiredJavaServices().concat(getUsedOptionalJavaServices());
     }
 
@@ -252,7 +296,7 @@ class ProjectModule extends ModuleImpl {
                 .anyMatch(javaService::equals);
     }
 
-    ReusableStream<String> getProvidedJavaServices() {
+    public ReusableStream<String> getProvidedJavaServices() {
         return providedJavaServicesCache;
     }
 
@@ -264,12 +308,13 @@ class ProjectModule extends ModuleImpl {
                 ;
     }
 
-    ReusableStream<String> getProvidedJavaServiceImplementations(String javaService) {
+    public ReusableStream<String> getProvidedJavaServiceImplementations(String javaService) {
         return getProvidedJavaServices()
                 .filter(javaService::equals)
                 .map(s -> getMetaInfJavaServicesDirectory().resolve(s))
                 .map(SplitFiles::uncheckedReadTextFile)
                 .flatMap(content -> Arrays.asList(content.split("\\r?\\n")))
+                .map(s -> s.replace('$', '.'))
                 ;
     }
 
