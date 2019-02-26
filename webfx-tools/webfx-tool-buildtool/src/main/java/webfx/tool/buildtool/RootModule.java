@@ -24,8 +24,8 @@ final class RootModule extends ProjectModule {
      ***** Constructor *****
      ***********************/
 
-    RootModule(Path rootDirectoryPath) {
-        super(rootDirectoryPath);
+    RootModule(Path rootDirectory) {
+        super(rootDirectory);
         registerThirdPartyModules();
     }
 
@@ -180,45 +180,6 @@ final class RootModule extends ProjectModule {
                 ;
     }
 
-    /***************************
-     ***** Listing methods *****
-     ***************************/
-
-    //// Listing methods that are just forwarders to the target project module
-
-    void listProjectModuleJavaClasses(String projectModule) {
-        getChildModuleInDepth(projectModule).listJavaClasses();
-    }
-
-    void listProjectModuleJavaClassesDependingOn(String projectModule, String destinationModule) {
-        getChildModuleInDepth(projectModule).listJavaClassesDependingOn(destinationModule);
-    }
-
-    void listProjectModuleDirectDependencies(String moduleArtifactId) {
-        getChildModuleInDepth(moduleArtifactId).listDirectDependencies();
-    }
-
-    void listInDepthTransitiveDependencies(String moduleArtifactId) {
-        getChildModuleInDepth(moduleArtifactId).listThisAndChildrenModulesInDepthTransitiveDependencies();
-    }
-
-    void listDependenciesPathsBetween(String sourceModule, String destinationModule) {
-        listDependenciesPathsBetween(getChildModuleInDepth(sourceModule), getChildModuleInDepth(destinationModule));
-    }
-
-    private static void listDependenciesPathsBetween(Module sourceModule, Module destinationModule) {
-        listIterableElements("Listing dependency paths between " + sourceModule + " and " + destinationModule,
-                analyzeDependenciesPathsBetween(sourceModule, destinationModule)
-        );
-    }
-
-    void listCyclicDependenciesPaths() {
-        listIterableElements("Listing cyclic dependency paths",
-                analyzeCyclicDependenciesLoops()
-        );
-    }
-
-
     /**********************************
      ***** Static utility methods *****
      **********************************/
@@ -227,5 +188,9 @@ final class RootModule extends ProjectModule {
         List<Module> newCollection = new ArrayList<>(parentPath);
         newCollection.add(module);
         return newCollection;
+    }
+
+    private static void warning(Object message) {
+        System.err.println("WARNING: " + message);
     }
 }

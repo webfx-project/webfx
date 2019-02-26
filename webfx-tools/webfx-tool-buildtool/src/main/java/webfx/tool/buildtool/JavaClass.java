@@ -61,7 +61,7 @@ final class JavaClass {
 
     String getClassName() {
         if (className == null)
-            className = javaFilePath.toString().substring(projectModule.getJavaSourceDirectoryPath().toString().length() + 1, javaFilePath.toString().length() - 5).replaceAll("[/\\\\]", ".");
+            className = javaFilePath.toString().substring(projectModule.getJavaSourceDirectory().toString().length() + 1, javaFilePath.toString().length() - 5).replaceAll("[/\\\\]", ".");
         return className;
     }
 

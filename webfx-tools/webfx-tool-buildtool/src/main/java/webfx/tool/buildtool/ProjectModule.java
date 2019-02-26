@@ -8,9 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Bruno Salmon
@@ -20,7 +17,7 @@ class ProjectModule extends ModuleImpl {
     private final static PathMatcher javaFileMatcher = FileSystems.getDefault().getPathMatcher("glob:**.java");
 
     private final ReusableStream<JavaClass> javaClassesCache =
-            ReusableStream.create(() -> isSourceModule() ? SplitFiles.uncheckedWalk(getJavaSourceDirectoryPath()) : Spliterators.emptySpliterator())
+            ReusableStream.create(() -> isSourceModule() ? SplitFiles.uncheckedWalk(getJavaSourceDirectory()) : Spliterators.emptySpliterator())
                     .filter(javaFileMatcher::matches)
                     .map(path -> new JavaClass(path, this))
                     .cache();
@@ -44,8 +41,8 @@ class ProjectModule extends ModuleImpl {
                     .filter(s -> javaClassesCache.anyMatch(jc -> s.equals(jc.getClassName())))
                     .cache();
     private final ReusableStream<String> providedJavaServicesCache =
-            ReusableStream.create(() -> hasMetaInfJavaServiceFolder() ? SplitFiles.uncheckedWalk(getMetaInfJavaServicePath(), 1) : Spliterators.emptySpliterator())
-                    .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getMetaInfJavaServicePath()))
+            ReusableStream.create(() -> hasMetaInfJavaServicesDirectory() ? SplitFiles.uncheckedWalk(getMetaInfJavaServicesDirectory(), 1) : Spliterators.emptySpliterator())
+                    .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getMetaInfJavaServicesDirectory()))
                     .map(path -> path.getFileName().toString())
                     .cache();
     private final ReusableStream<Module> directDependenciesCache =
@@ -60,8 +57,8 @@ class ProjectModule extends ModuleImpl {
                     .distinct()
                     .cache();
     private final ReusableStream<ProjectModule> childrenModulesCache =
-            ReusableStream.create(() -> SplitFiles.uncheckedWalk(getHomeDirectoryPath(), 1))
-                    .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getHomeDirectoryPath()))
+            ReusableStream.create(() -> SplitFiles.uncheckedWalk(getHomeDirectory(), 1))
+                    .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getHomeDirectory()))
                     .filter(Files::isDirectory)
                     .filter(path -> Files.exists(path.resolve("pom.xml")))
                     .map(path -> new ProjectModule(path, this))
@@ -71,25 +68,25 @@ class ProjectModule extends ModuleImpl {
                     .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
             //.cache()
             ;
-    private final Path homeDirectoryPath;
+    private final Path homeDirectory;
     private final ProjectModule parentModule;
     private final RootModule rootModule;
     private Target target;
     private Boolean isSourceModule;
-    private Boolean hasMetaInfJavaServiceFolder;
+    private Boolean hasMetaInfJavaServicesDirectory;
 
     /************************
      ***** Constructors *****
      ************************/
 
-    ProjectModule(Path homeDirectoryPath) {
-        this(homeDirectoryPath, null);
+    ProjectModule(Path homeDirectory) {
+        this(homeDirectory, null);
     }
 
-    private ProjectModule(Path homeDirectoryPath, ProjectModule parentModule) {
-        super(parentModule == null ? null : parentModule.getGroupId(), homeDirectoryPath.getFileName().toString(), parentModule == null ? null : parentModule.getVersion());
+    private ProjectModule(Path homeDirectory, ProjectModule parentModule) {
+        super(parentModule == null ? null : parentModule.getGroupId(), homeDirectory.getFileName().toString(), parentModule == null ? null : parentModule.getVersion());
         this.parentModule = parentModule;
-        this.homeDirectoryPath = homeDirectoryPath;
+        this.homeDirectory = homeDirectory;
         rootModule = parentModule != null ? parentModule.getRootModule() : (RootModule) this;
     }
 
@@ -98,16 +95,20 @@ class ProjectModule extends ModuleImpl {
      ***** Basic getters *****
      *************************/
 
-    Path getHomeDirectoryPath() {
-        return homeDirectoryPath;
+    Path getHomeDirectory() {
+        return homeDirectory;
     }
 
-    Path getJavaSourceDirectoryPath() {
-        return homeDirectoryPath.resolve("src/main/java/");
+    Path getJavaSourceDirectory() {
+        return homeDirectory.resolve("src/main/java/");
     }
 
-    Path getMetaInfJavaServicePath() {
-        return homeDirectoryPath.resolve("src/main/resources/META-INF/services/");
+    Path getMetaInfJavaServicesDirectory() {
+        return homeDirectory.resolve("src/main/resources/META-INF/services/");
+    }
+
+    Path getWebfxXmlModuleFilePath() {
+        return homeDirectory.resolve("src/main/resources/META-INF/webfx.xml");
     }
 
     ProjectModule getParentModule() {
@@ -126,14 +127,14 @@ class ProjectModule extends ModuleImpl {
 
     boolean isSourceModule() {
         if (isSourceModule == null)
-            isSourceModule = Files.exists(getJavaSourceDirectoryPath());
+            isSourceModule = Files.exists(getJavaSourceDirectory());
         return isSourceModule;
     }
 
-    boolean hasMetaInfJavaServiceFolder() {
-        if (hasMetaInfJavaServiceFolder == null)
-            hasMetaInfJavaServiceFolder = isSourceModule() && Files.exists(getMetaInfJavaServicePath());
-        return hasMetaInfJavaServiceFolder;
+    boolean hasMetaInfJavaServicesDirectory() {
+        if (hasMetaInfJavaServicesDirectory == null)
+            hasMetaInfJavaServicesDirectory = isSourceModule() && Files.exists(getMetaInfJavaServicesDirectory());
+        return hasMetaInfJavaServicesDirectory;
     }
 
 
@@ -266,7 +267,7 @@ class ProjectModule extends ModuleImpl {
     ReusableStream<String> getProvidedJavaServiceImplementations(String javaService) {
         return getProvidedJavaServices()
                 .filter(javaService::equals)
-                .map(s -> getMetaInfJavaServicePath().resolve(s))
+                .map(s -> getMetaInfJavaServicesDirectory().resolve(s))
                 .map(SplitFiles::uncheckedReadTextFile)
                 .flatMap(content -> Arrays.asList(content.split("\\r?\\n")))
                 ;
@@ -290,103 +291,5 @@ class ProjectModule extends ModuleImpl {
                 .map(js -> getRootModule().findBestMatchModuleProvidingJavaService(js, serviceTarget))
                 .distinct()
                 ;
-    }
-
-
-    /***************************
-     ***** Listing methods *****
-     ***************************/
-
-    void listJavaClasses() {
-        listIterableElements("Listing " + this + " module java classes",
-                getJavaClasses()
-        );
-    }
-
-    void listDirectDependencies() {
-        listIterableElements("Listing " + this + " module direct dependencies",
-                getDirectDependencies()
-        );
-    }
-
-    void listChildrenModulesInDepth() {
-        listIterableElements("Listing " + this + " children modules (in depth)",
-                getChildrenModulesInDepth()
-        );
-    }
-
-    void listThisAndChildrenModulesInDepthWithTheirDirectDependencies() {
-        listIterableElements("Listing " + this + " and children modules (in depth) with their direct dependencies",
-                getThisAndChildrenModulesInDepth(),
-                ProjectModule::logModuleWithDirectDependencies
-        );
-    }
-
-    void listThisAndChildrenModulesInDepthTransitiveDependencies() {
-        listIterableElements("Listing " + this + " and children modules (in depth) transitive dependencies",
-                getTransitiveDependencies()
-        );
-    }
-
-    void listOrAndChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
-        listIterableElements("Listing " + this + " or children modules (in depth) directly depending on " + moduleArtifactId,
-                getThisOrChildrenModulesInDepthDirectlyDependingOn(moduleArtifactId)
-        );
-    }
-
-    void listJavaClassesDependingOn(String destinationModule) {
-        listIterableElements("Listing " + this + " module java classes depending on " + destinationModule,
-                getJavaClassesDependingOn(destinationModule)
-                , jc -> logJavaClassWithPackagesDependingOn(jc, destinationModule)
-        );
-    }
-
-
-    /***************************
-     ***** Logging methods *****
-     ***************************/
-
-    private void logModuleWithDirectDependencies() {
-        log(this + " direct dependencies: " + getDirectDependencies()
-                .collect(Collectors.toList()));
-    }
-
-    private void logJavaClassWithPackagesDependingOn(JavaClass jc, String destinationModule) {
-        log(jc + " through packages " +
-                jc.getUsedJavaPackages()
-                        .filter(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getArtifactId()))
-                        .distinct()
-                        .collect(Collectors.toList()));
-    }
-
-
-    /**********************************
-     ***** Static utility methods *****
-     **********************************/
-
-    static <T> void listIterableElements(String section, Iterable<T> iterable) {
-        listIterableElements(section, iterable, ProjectModule::log);
-    }
-
-    private static <T> void listIterableElements(String section, Iterable<T> iterable, Consumer<? super T> elementLogger) {
-        logSection(section);
-        iterable.forEach(elementLogger);
-    }
-
-    private static void logSection(String section) {
-        String middle = "***** " + section + " *****";
-        String starsLine = Stream.generate(() -> "*").limit(middle.length()).collect(Collectors.joining());
-        log("");
-        log(starsLine);
-        log(middle);
-        log(starsLine);
-    }
-
-    static void log(Object message) {
-        System.out.println(message.toString());
-    }
-
-    static void warning(Object message) {
-        System.err.println("WARNING: " + message);
     }
 }
