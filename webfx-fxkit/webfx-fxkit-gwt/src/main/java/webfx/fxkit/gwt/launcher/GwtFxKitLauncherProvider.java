@@ -1,9 +1,13 @@
 package webfx.fxkit.gwt.launcher;
 
+import com.sun.javafx.application.ParametersImpl;
 import elemental2.dom.DomGlobal;
+import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 import webfx.fxkit.launcher.spi.impl.FxKitLauncherProviderBase;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.function.Factory;
 
 
 /**
@@ -23,5 +27,18 @@ public final class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
 
     private static Rectangle2D toRectangle2D(double width, double height) {
         return new Rectangle2D(0, 0, width, height);
+    }
+
+    @Override
+    public void launchApplication(Factory<Application> applicationFactory, String... args) {
+        Application application = applicationFactory.create();
+        if (application != null)
+            try {
+                ParametersImpl.registerParameters(application, new ParametersImpl(args));
+                application.init();
+                application.start(getPrimaryStage());
+            } catch (Exception e) {
+                Logger.log("Error while launching the JavaFx application", e);
+            }
     }
 }

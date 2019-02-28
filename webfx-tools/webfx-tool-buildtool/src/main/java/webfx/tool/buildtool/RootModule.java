@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-final class RootModule extends ProjectModule {
+public final class RootModule extends ProjectModule {
 
     private final Map<String /* package name */, Module> javaPackagesModules = new HashMap<>();
     private final ReusableStream<ProjectModule> thisAndChildrenModulesInDepthResume =
@@ -37,7 +37,7 @@ final class RootModule extends ProjectModule {
     private void registerThirdPartyModules() {
         // JDK
         registerJavaPackageModule(Module.create("java.base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic");
-        registerJavaPackageModule(Module.create("java.xml"), "javax.xml");
+        registerJavaPackageModule(Module.create("java.xml"), "javax.xml", "javax.xml.parsers", "javax.xml.transform", "javax.xml.transform.dom", "javax.xml.transform.stream", "org.w3c.dom");
         registerJavaPackageModule(Module.create("java.sql"), "java.sql", "javax.sql");
         registerJavaPackageModule(Module.create("java.logging"), "java.util.logging");
         registerJavaPackageModule(Module.create("jdk.management"), "com.sun.management");
@@ -70,7 +70,7 @@ final class RootModule extends ProjectModule {
         registerJavaPackageModule(Module.create("vertx-mysql-postgresql-client"), "io.vertx.ext.asyncsql");
 
         // JavaWebSocket
-        registerJavaPackageModule(Module.create("Java.WebSocket"), "org.java_websocket.client", "org.java_websocket.drafts", "org.java_websocket.enums", "org.java_websocket.handshake");
+        registerJavaPackageModule(Module.create("Java.WebSocket"), "org.java_websocket", "org.java_websocket.client", "org.java_websocket.drafts", "org.java_websocket.enums", "org.java_websocket.handshake");
 
         // HikariCP
         registerJavaPackageModule(Module.create("HikariCP"), "com.zaxxer.hikari");

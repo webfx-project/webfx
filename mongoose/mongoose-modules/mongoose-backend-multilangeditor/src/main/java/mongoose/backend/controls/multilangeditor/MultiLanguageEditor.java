@@ -11,7 +11,7 @@ import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.extra.control.HtmlTextEditor;
+import webfx.fxkit.extra.controls.html.HtmlTextEditor;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.async.Handler;

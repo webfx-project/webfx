@@ -68,7 +68,6 @@
         <plugin.javacup.version>11b-20151001</plugin.javacup.version>
         <plugin.jflex.version>1.7.0</plugin.jflex.version>
         <plugin.proguard.version>2.0.14</plugin.proguard.version>
-        <plugin.moditect.version>1.0.0.Beta2</plugin.moditect.version>
         <plugin.gwt.version>1.0-rc-10</plugin.gwt.version>
 
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
@@ -87,7 +86,6 @@
         <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
-        <plugin.moditect.outputDirectory>${project.build.directory}/modules</plugin.moditect.outputDirectory>
 
         <application.name>${project.name}</application.name>
         <application.version>${project.version}</application.version>
@@ -205,7 +203,7 @@
             <!-- Vert.x postgres and mysql really-asynchronous client -->
             <dependency>
                 <groupId>io.vertx</groupId>
-                <artifactId>vertx-mysql-postgresql-client</artifactId>
+                <artifactId>vertx-mysql-postgresql-client-jasync</artifactId>
                 <version>${lib.vertx.version}</version>
             </dependency>
 
@@ -308,11 +306,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${plugin.compiler.version}</version>
                     <configuration>
-                        <!--release>9</release-->
-                        <compilerArgs>
-                            <compilerArg>--module-path</compilerArg>
-                            <compilerArg>${plugin.moditect.outputDirectory}</compilerArg>
-                        </compilerArgs>
+                        <release>${java.version}</release>
                     </configuration>
                 </plugin>
 
@@ -411,34 +405,6 @@
                                 <outputDirectory>${project.build.directory}/lib</outputDirectory>
                                 <overWriteReleases>true</overWriteReleases>
                                 <overWriteSnapshots>true</overWriteSnapshots>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.moditect</groupId>
-                    <artifactId>moditect-maven-plugin</artifactId>
-                    <version>${plugin.moditect.version}</version>
-                    <configuration>
-                        <outputDirectory>${plugin.moditect.outputDirectory}</outputDirectory>
-                        <overwriteExistingFiles>true</overwriteExistingFiles>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>add-module-infos</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>add-module-info</goal>
-                            </goals>
-                            <configuration>
-                                <module>
-                                    <moduleInfo>
-                                        <exports>
-                                            *;
-                                        </exports>
-                                    </moduleInfo>
-                                </module>
                             </configuration>
                         </execution>
                     </executions>
@@ -641,91 +607,9 @@
                     </configuration>
                 </plugin>
 
-                <!--
-                 ******************************
-                 * Grunt plugin configuration *
-                 ******************************
-                 -->
-                <plugin>
-                    <groupId>pl.allegro</groupId>
-                    <artifactId>grunt-maven-plugin</artifactId>
-                    <version>1.4.1</version>
-                    <configuration>
-                        <!--gruntBuildDirectory>${basedir}/target-grunt</gruntBuildDirectory>
-                        <sourceDirectory>${basedir}/src/main/webapp</sourceDirectory>
-                        <jsSourceDirectory>static</jsSourceDirectory-->
-                        <gruntOptions>
-                            <gruntOption>--verbose</gruntOption>
-                        </gruntOptions>
-                        <disabled>${plugin.grunt.disabled}</disabled>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <phase>prepare-package</phase>
-                            <goals>
-                                <!--goal>create-resources</goal-->
-                                <goal>npm</goal>
-                                <!--goal>bower</goal-->
-                                <goal>grunt</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
             </plugins>
         </pluginManagement>
 
     </build>
-
-    <profiles>
-
-        <profile>
-            <id>java8</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <java.version>8</java.version>
-                <plugin.compiler.param.exclude>module-info.java</plugin.compiler.param.exclude>
-            </properties>
-            <build>
-                <pluginManagement>
-                <!-- plugins listed here are just pre-configured for a possible use in a module -->
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-compiler-plugin</artifactId>
-                            <version>${plugin.compiler.version}</version>
-                            <executions>
-                                <execution>
-                                    <id>default-compile</id>
-                                    <goals>
-                                        <goal>compile</goal>
-                                    </goals>
-                                    <!-- recompile everything for target VM except the module-info.java -->
-                                    <configuration>
-                                        <excludes>
-                                            <exclude>module-info.java</exclude>
-                                        </excludes>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <profile>
-            <id>grunt</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <plugin.grunt.disabled>false</plugin.grunt.disabled>
-            </properties>
-        </profile>
-
-    </profiles>
 
 </project>

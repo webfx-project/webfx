@@ -14,7 +14,6 @@ import java.util.List;
 
 import static javafx.geometry.Orientation.HORIZONTAL;
 import static javafx.geometry.Orientation.VERTICAL;
-
 /**
  * @author Bruno Salmon
  */

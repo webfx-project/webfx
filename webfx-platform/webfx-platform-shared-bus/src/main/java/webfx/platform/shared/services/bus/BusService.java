@@ -1,7 +1,9 @@
 package webfx.platform.shared.services.bus;
 
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 import webfx.platform.shared.services.bus.spi.BusServiceProvider;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -9,7 +11,7 @@ import webfx.platform.shared.services.bus.spi.BusServiceProvider;
 public final class BusService {
 
     public static BusServiceProvider getProvider() {
-        return SingleServiceLoader.loadService(BusServiceProvider.class);
+        return SingleServiceProvider.getProvider(BusServiceProvider.class, () -> ServiceLoader.load(BusServiceProvider.class));
     }
 
     public static BusFactory busFactory() {

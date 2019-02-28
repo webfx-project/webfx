@@ -24,6 +24,7 @@ import org.java_websocket.handshake.ServerHandshake;
 import webfx.platform.client.services.websocket.WebSocket;
 import webfx.platform.client.services.websocket.WebSocketListener;
 import webfx.platform.shared.services.json.Json;
+import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.services.log.Logger;
 
 import java.net.URI;
@@ -95,8 +96,13 @@ public final class JavaWebSocket implements WebSocket {
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-                if (listener != null)
-                    listener.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote));
+                if (listener != null) {
+                    WritableJsonObject object = Json.createObject();
+                    object.set("code", code);
+                    object.set("reason", reason);
+                    object.set("remote", remote);
+                    listener.onClose(object);
+                }
             }
         };
 

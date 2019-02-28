@@ -5,8 +5,9 @@ import javafx.collections.ObservableMap;
 import javafx.geometry.Bounds;
 import javafx.geometry.Orientation;
 import javafx.scene.transform.Transform;
-import webfx.fxkit.mapper.spi.impl.peer.markers.*;
 import webfx.fxkit.mapper.spi.NodePeer;
+
+import webfx.fxkit.mapper.spi.impl.peer.markers.*;
 
 import java.util.List;
 

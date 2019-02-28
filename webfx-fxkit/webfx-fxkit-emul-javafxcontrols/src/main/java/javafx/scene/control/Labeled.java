@@ -3,8 +3,6 @@ package javafx.scene.control;
 import javafx.beans.property.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import webfx.fxkit.mapper.spi.impl.peer.markers.*;
-import webfx.fxkit.util.properties.Properties;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,7 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-
+import webfx.fxkit.util.properties.Properties;
+import webfx.fxkit.mapper.spi.impl.peer.markers.*;
 /**
  * @author Bruno Salmon
  */

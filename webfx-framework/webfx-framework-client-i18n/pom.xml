@@ -29,15 +29,19 @@
             <artifactId>webfx-platform-shared-resource</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
+<!--
             <optional>true</optional>
+-->
         </dependency>
 
         <dependency>
             <artifactId>webfx-platform-shared-json</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
+<!--
             <scope>provided</scope>
             <optional>true</optional>
+-->
         </dependency>
 
         <dependency>
@@ -50,12 +54,6 @@
 
     <build>
         <plugins>
-
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-            </plugin>
 
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>

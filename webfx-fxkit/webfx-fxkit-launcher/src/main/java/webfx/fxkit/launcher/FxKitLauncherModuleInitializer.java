@@ -3,7 +3,9 @@ package webfx.fxkit.launcher;
 import javafx.application.Application;
 import webfx.platform.shared.services.appcontainer.ApplicationContainer;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -22,7 +24,7 @@ public final class FxKitLauncherModuleInitializer implements ApplicationModuleIn
 
     @Override
     public void initModule() {
-        FxKitLauncher.launchApplication(() -> SingleServiceLoader.loadService(Application.class, SingleServiceLoader.NotFoundPolicy.TRACE_AND_RETURN_NULL), ApplicationContainer.getMainArgs());
+        FxKitLauncher.launchApplication(() ->  SingleServiceProvider.getProvider(Application.class, () -> ServiceLoader.load(Application.class), SingleServiceProvider.NotFoundPolicy.RETURN_NULL), ApplicationContainer.getMainArgs());
     }
 
     @Override

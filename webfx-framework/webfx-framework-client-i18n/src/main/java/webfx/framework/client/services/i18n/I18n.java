@@ -7,17 +7,22 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
 import webfx.framework.client.operations.i18n.ChangeLanguageRequestEmitter;
 import webfx.framework.client.services.i18n.spi.I18nProvider;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
 
 import java.util.Collection;
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
  */
 public final class I18n {
 
+    static {
+        SingleServiceProvider.register(I18nProvider.class, () -> ServiceLoader.load(I18nProvider.class));
+    }
+
     public static I18nProvider getProvider() {
-        return SingleServiceLoader.loadService(I18nProvider.class);
+        return SingleServiceProvider.getProvider(I18nProvider.class);
     }
 
     public static Property<Object> languageProperty() {

@@ -2,7 +2,6 @@ package javafx.scene.layout;
 
 import javafx.scene.INode;
 import webfx.fxkit.mapper.spi.impl.peer.markers.*;
-
 /**
  * @author Bruno Salmon
  */

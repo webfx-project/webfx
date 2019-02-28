@@ -24,13 +24,7 @@
     <build>
         <plugins>
 
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-            </plugin>
-
-            <!-- Generating the source artifact -->
+<!-- Generating the source artifact -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>

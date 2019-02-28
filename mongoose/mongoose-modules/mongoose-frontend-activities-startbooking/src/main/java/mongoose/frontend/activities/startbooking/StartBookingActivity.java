@@ -83,9 +83,10 @@ final class StartBookingActivity extends BookingProcessActivity {
                     Image image = ImageStore.getOrCreateImage(imageUrl);
                     eventImageView.setImage(image);
                     eventImageView.setPreserveRatio(true);
-                    eventImageView.fitWidthProperty().bind(Properties.combine(eventImageViewContainer.widthProperty(), image.widthProperty(),
-                            (w1, w2) -> Math.min(w1.doubleValue(), w2.doubleValue())));
-                    if (!image.isBackgroundLoading())
+                    if (image != null)
+                        eventImageView.fitWidthProperty().bind(Properties.combine(eventImageViewContainer.widthProperty(), image.widthProperty(),
+                                (w1, w2) -> Math.min(w1.doubleValue(), w2.doubleValue())));
+                    if (image == null || !image.isBackgroundLoading())
                         runFadeInAnimation();
                     else
                         image.heightProperty().addListener(observable -> runFadeInAnimation());

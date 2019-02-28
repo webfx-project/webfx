@@ -20,7 +20,25 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-framework-client-i18n</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-client-util</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-platform-shared-update</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkit-extracontrols</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -35,12 +53,6 @@
 
     <build>
         <plugins>
-
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-            </plugin>
 
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>

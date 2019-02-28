@@ -105,34 +105,6 @@
     <build>
         <plugins>
 
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-module-infos</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>add-module-infos-overridden</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>add-module-info</goal>
-                        </goals>
-                        <configuration>
-                            <module>
-                                <moduleInfoSource>
-                                    module mongoose.frontend.application {
-                                    // TODO: complete this module definition
-                                    }
-                                </moduleInfoSource>
-                            </module>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>

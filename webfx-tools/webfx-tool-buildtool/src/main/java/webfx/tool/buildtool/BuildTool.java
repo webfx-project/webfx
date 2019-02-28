@@ -12,11 +12,15 @@ public final class BuildTool {
         long t0 = System.currentTimeMillis();
         RootModule webfxRootModule = new RootModule(getWebfxRootDirectory());
 /*
+        webfxRootModule.getThisAndChildrenModulesInDepth()
+                .forEach(ProjectModule::deleteIdeFiles);
+*/
+/*
         webfxRootModule.getChildModuleInDepth("webfx-platform-shared-appcontainer-vertx")
             .getUsedJavaPackages()
                 .forEach(System.out::println);
 */
-        webfxRootModule.getChildModuleInDepth("mongoose")
+        webfxRootModule.getChildModuleInDepth("webfx-tutorials")
                 .getThisAndChildrenModulesInDepth()
                 .filter(ProjectModule::isSourceModule)
                 .filter(m -> m.getTarget().isPlatformSupported(Platform.JRE))
@@ -51,7 +55,7 @@ public final class BuildTool {
         reporter.listDependenciesPathsBetween("mongoose-backend-application", "webfx-fxkit-gwt");
         reporter.listProjectModuleDirectDependencies("webfx-fxkit-emul-javafxgraphics");
         reporter.listProjectModuleJavaClasses("webfx-fxkit-emul-javafxbase");
-        reporter.listProjectModuleJavaClassesDependingOn("webfx-fxkit-extra", "webfx-fxkit-gwt");
+        reporter.listProjectModuleJavaClassesDependingOn("webfx-fxkit-extracontrols", "webfx-fxkit-gwt");
         reporter.listCyclicDependenciesPaths();
         reporter.listProjectModuleJavaClassesDependingOn("webfx-framework-shared-entity", "webfx-framework-client-uifilter");
 */

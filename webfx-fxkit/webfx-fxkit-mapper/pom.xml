@@ -21,7 +21,7 @@
 
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
+            <artifactId>javafx-graphics</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -30,12 +30,6 @@
     <build>
 
         <plugins>
-
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-            </plugin>
 
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>

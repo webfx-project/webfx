@@ -36,9 +36,9 @@ import webfx.framework.shared.expression.terms.function.Function;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.framework.shared.orm.mapping.EntityListToDisplayResultMapper;
-import webfx.fxkit.extra.control.DataGrid;
-import webfx.fxkit.extra.control.SkinnedDataGrid;
+import webfx.framework.shared.orm.mapping.entity_display.EntityListToDisplayResultMapper;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.fxkit.extra.controls.displaydata.datagrid.SkinnedDataGrid;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
 import webfx.fxkit.extra.type.PrimType;
@@ -140,10 +140,10 @@ final class CartActivity extends CartBasedActivity {
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
             int selectedRow = selection == null ? -1 : selection.getSelectedRow();
             if (selectedRow != -1) {
-                onCartWorkingDocuments().setHandler(ar -> {
+                onCartWorkingDocuments().setHandler(ar -> UiScheduler.runInUiThread(() -> {
                     setSelectedWorkingDocument(Collections.get(getCartWorkingDocuments(), selectedRow));
                     displayBookingOptions();
-                });
+                }));
             }
         });
     }

@@ -1,5 +1,6 @@
 package mongoose.frontend.activities.contactus;
 
+import mongoose.frontend.activities.contactus.routing.ContactUsRouting;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import webfx.framework.client.ui.uirouter.UiRoute;
 import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;

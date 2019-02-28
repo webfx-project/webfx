@@ -7,7 +7,6 @@ import javafx.beans.property.*;
 import javafx.geometry.VPos;
 import javafx.scene.shape.Shape;
 import webfx.fxkit.mapper.spi.impl.peer.markers.*;
-
 /**
  * @author Bruno Salmon
  */

@@ -37,12 +37,6 @@
             <version>${webfx.version}</version>
         </dependency>
 
-        <dependency> <!-- Just because of HasNodeProperty -->
-            <artifactId>webfx-fxkit-mapper</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
         <dependency>
             <artifactId>webfx-fxkit-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
@@ -65,12 +59,6 @@
 
     <build>
         <plugins>
-
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-            </plugin>
 
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>

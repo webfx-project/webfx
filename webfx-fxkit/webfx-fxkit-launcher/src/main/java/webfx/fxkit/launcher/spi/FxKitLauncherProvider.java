@@ -31,4 +31,7 @@ public interface FxKitLauncherProvider {
         UiScheduler.runInUiThread(runnable);
     }
 
+    default double getVerticalScrollbarExtraWidth() {
+        return 0;
+    }
 }

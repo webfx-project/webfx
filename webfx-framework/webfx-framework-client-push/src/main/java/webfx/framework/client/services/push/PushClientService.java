@@ -3,12 +3,13 @@ package webfx.framework.client.services.push;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import webfx.framework.client.services.push.spi.PushClientServiceProvider;
+import webfx.framework.shared.services.push.ClientPushBusAddressesSharedByBothClientAndServer;
 import webfx.platform.shared.services.bus.Registration;
 import webfx.platform.shared.services.buscall.BusCallService;
 import webfx.platform.shared.services.log.Logger;
-import webfx.framework.shared.services.push.ClientPushBusAddressesSharedByBothClientAndServer;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
 
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -40,7 +41,7 @@ public final class PushClientService {
     }
 
     public static PushClientServiceProvider getProvider() {
-        return SingleServiceLoader.loadService(PushClientServiceProvider.class);
+        return SingleServiceProvider.getProvider(PushClientServiceProvider.class, () -> ServiceLoader.load(PushClientServiceProvider.class));
     }
 
     public static Registration listenServerPushCalls(Object pushClientId) {

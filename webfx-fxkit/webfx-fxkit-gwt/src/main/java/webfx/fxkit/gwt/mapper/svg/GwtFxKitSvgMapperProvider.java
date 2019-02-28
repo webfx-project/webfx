@@ -14,10 +14,10 @@ import javafx.stage.Window;
 import webfx.fxkit.gwt.mapper.shared.GwtPrimaryStagePeer;
 import webfx.fxkit.gwt.mapper.shared.GwtSecondaryStagePeer;
 import webfx.fxkit.gwt.mapper.html.HtmlScenePeer;
-import webfx.fxkit.gwt.mapper.html.peer.HtmlButtonPeer;
-import webfx.fxkit.gwt.mapper.html.peer.HtmlCheckBoxPeer;
-import webfx.fxkit.gwt.mapper.html.peer.HtmlTextFieldPeer;
-import webfx.fxkit.gwt.mapper.svg.peer.*;
+import webfx.fxkit.gwt.mapper.html.peer.javafxcontrols.HtmlButtonPeer;
+import webfx.fxkit.gwt.mapper.html.peer.javafxcontrols.HtmlCheckBoxPeer;
+import webfx.fxkit.gwt.mapper.html.peer.javafxcontrols.HtmlTextFieldPeer;
+import webfx.fxkit.gwt.mapper.svg.peer.javafxgraphics.*;
 import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.fxkit.mapper.spi.NodePeer;
 import webfx.fxkit.mapper.spi.ScenePeer;
@@ -61,10 +61,4 @@ public final class GwtFxKitSvgMapperProvider extends FxKitMapperProviderBase {
     public ScenePeer createScenePeer(Scene scene) {
         return new HtmlScenePeer(scene);
     }
-
-    @Override
-    public double getVerticalScrollbarExtraWidth() {
-        return 0; // Perfect scrollbar library is used and the transparent scrollbar overlays the view port (so no extra width)
-    }
-
 }

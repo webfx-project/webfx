@@ -7,7 +7,7 @@ import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
 import webfx.framework.shared.orm.entity.impl.EntityStoreImpl;
-import webfx.framework.shared.orm.mapping.QueryResultToEntityListMapper;
+import webfx.framework.shared.orm.mapping.query_entity.QueryResultToEntityListMapper;
 import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryService;
 import webfx.platform.shared.util.Arrays;

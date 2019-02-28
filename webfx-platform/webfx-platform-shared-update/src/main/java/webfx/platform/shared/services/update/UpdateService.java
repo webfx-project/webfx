@@ -1,9 +1,11 @@
 package webfx.platform.shared.services.update;
 
 import webfx.platform.shared.services.update.spi.UpdateServiceProvider;
-import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.async.Batch;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.async.Future;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -14,7 +16,7 @@ public final class UpdateService {
     public static final String UPDATE_BATCH_SERVICE_ADDRESS = "service/update/batch";
 
     public static UpdateServiceProvider getProvider() {
-        return SingleServiceLoader.loadService(UpdateServiceProvider.class);
+        return SingleServiceProvider.getProvider(UpdateServiceProvider.class, () -> ServiceLoader.load(UpdateServiceProvider.class));
     }
 
     public static Future<UpdateResult> executeUpdate(UpdateArgument argument) {

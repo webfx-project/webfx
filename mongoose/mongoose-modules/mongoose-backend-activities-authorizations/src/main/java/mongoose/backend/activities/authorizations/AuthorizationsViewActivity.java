@@ -12,7 +12,7 @@ import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.client.ui.controls.sheet.PropertySheet;
 import webfx.framework.client.ui.layouts.FlexBox;
-import webfx.fxkit.extra.control.DataGrid;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
 /**
  * @author Bruno Salmon

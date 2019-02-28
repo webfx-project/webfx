@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
-import webfx.fxkit.gwt.mapper.html.peer.HtmlNodePeer;
+import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.HtmlNodePeer;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;

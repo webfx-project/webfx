@@ -20,13 +20,13 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-fxkit-mapper</artifactId>
+            <artifactId>webfx-fxkit-mapper-javafxcontrols</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
 
         <dependency>
-            <artifactId>webfx-fxkit-extra</artifactId>
+            <artifactId>webfx-fxkit-mapper-extracontrols</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -49,9 +49,10 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- SVG support for JavaFx -->
+<!--
+        &lt;!&ndash; SVG support for JavaFx &ndash;&gt;
 
-        <dependency> <!-- This module is actually not used by webfx-fxkit-javafx but it is listed here (above javafxsvg) because javafxsvg uses an older version of javacup (ie < 11b) that may interfere with other modules (such as webfx-platforms-xxx or webfx-framework-xxx modules) that requires javacup 11b API -->
+        <dependency> &lt;!&ndash; This module is actually not used by webfx-fxkit-javafx but it is listed here (above javafxsvg) because javafxsvg uses an older version of javacup (ie < 11b) that may interfere with other modules (such as webfx-platforms-xxx or webfx-framework-xxx modules) that requires javacup 11b API &ndash;&gt;
             <artifactId>webfx-lib-javacupruntime</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -61,43 +62,8 @@
             <artifactId>javafxsvg</artifactId>
             <groupId>de.codecentric.centerdevice</groupId>
         </dependency>
+-->
 
     </dependencies>
-
-    <build>
-
-        <plugins>
-
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-module-infos</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>add-module-infos-overridden</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>add-module-info</goal>
-                        </goals>
-                        <configuration>
-                            <module>
-                                <moduleInfoSource>
-                                    module webfx.fxkit.javafx {
-                                    // TODO: complete this module definition
-                                    }
-                                </moduleInfoSource>
-                            </module>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
-
-    </build>
 
 </project>

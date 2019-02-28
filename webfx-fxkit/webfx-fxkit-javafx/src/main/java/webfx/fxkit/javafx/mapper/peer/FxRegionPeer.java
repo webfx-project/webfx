@@ -1,25 +1,23 @@
 package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.geometry.Insets;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-import webfx.fxkit.mapper.spi.impl.peer.RegionPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.RegionPeerMixin;
-import webfx.platform.shared.util.Numbers;
-
-import java.lang.reflect.Method;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.Region;
+import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.RegionPeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.RegionPeerMixin;
 
 /**
  * @author Bruno Salmon
  */
-abstract class FxRegionPeer
+public abstract class FxRegionPeer
         <FxN extends javafx.scene.layout.Region, N extends Region, NB extends RegionPeerBase<N, NB, NM>, NM extends RegionPeerMixin<N, NB, NM>>
 
         extends FxNodePeer<FxN, N, NB, NM>
         implements RegionPeerMixin<N, NB, NM> {
 
 
-    FxRegionPeer(NB base) {
+    protected FxRegionPeer(NB base) {
         super(base);
 /*
         FxN region = getFxNode();
@@ -34,65 +32,31 @@ abstract class FxRegionPeer
 
     @Override
     public void updateWidth(Number width) {
-        double w = Numbers.doubleValue(width);
-        if (w != getFxNode().getWidth())
-            callRegionSetter("setWidth", w);
+        double w = width.doubleValue();
+        FxN fxNode = getFxNode();
+        fxNode.resize(w, fxNode.getHeight());
     }
 
     @Override
     public void updateHeight(Number height) {
-        double h = Numbers.doubleValue(height);
-        if (h != getFxNode().getHeight())
-            callRegionSetter("setHeight", h);
+        double h = height.doubleValue();
+        FxN fxNode = getFxNode();
+        fxNode.resize(fxNode.getWidth(), h);
     }
 
     @Override
     public void updateBackground(Background background) {
         if (background != null)
-            getFxNode().setBackground(toFxBackground(background));
+            getFxNode().setBackground(background);
     }
 
     @Override
     public void updateBorder(Border border) {
-        getFxNode().setBorder(toFxBorder(border));
+        getFxNode().setBorder(border);
     }
 
     @Override
     public void updatePadding(Insets padding) {
         getFxNode().setPadding(padding);
-    }
-
-    private static javafx.scene.layout.Background toFxBackground(Background bg) {
-        return bg;
-    }
-
-    private static javafx.scene.layout.CornerRadii toFxRadii(CornerRadii radii) {
-        return radii;
-    }
-
-    private static javafx.geometry.Insets toFxInsets(Insets insets) {
-        return insets;
-    }
-
-    private static javafx.scene.image.Image toFxImage(Image image) {
-        return image;
-    }
-
-    private static javafx.scene.layout.Border toFxBorder(Border border) {
-        return border;
-    }
-
-    private void callRegionSetter(String setterName, Double value) {
-        try {
-            Method regionSetter = javafx.scene.layout.Region.class.getDeclaredMethod(setterName, double.class);
-            regionSetter.setAccessible(true);
-            try {
-                regionSetter.invoke(getFxNode(), value);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -28,7 +28,7 @@ import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.fxkit.extra.control.DataGrid;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
 import webfx.fxkit.extra.displaydata.DisplayStyle;

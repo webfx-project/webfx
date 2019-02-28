@@ -17,14 +17,17 @@
         <module>webfx-fxkit-util</module>
         <module>webfx-fxkit-launcher</module>
         <module>webfx-fxkit-mapper</module>
+        <module>webfx-fxkit-mapper-javafxgraphics</module>
+        <module>webfx-fxkit-mapper-javafxcontrols</module>
 
-        <module>webfx-fxkit-extra</module>
+        <module>webfx-fxkit-extracontrols</module>
+        <module>webfx-fxkit-mapper-extracontrols</module>
+
+        <module>webfx-fxkit-javafx</module>
 
         <module>webfx-fxkit-emul-javafxbase</module>
         <module>webfx-fxkit-emul-javafxgraphics</module>
         <module>webfx-fxkit-emul-javafxcontrols</module>
-
-        <module>webfx-fxkit-javafx</module>
         <module>webfx-fxkit-gwt</module>
 
     </modules>

@@ -1,9 +1,10 @@
 package webfx.platform.client.services.windowhistory.spi.impl.web;
 
-import webfx.platform.shared.util.async.Handler;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 import webfx.platform.shared.services.json.JsonObject;
+import webfx.platform.shared.util.async.Handler;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
 
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -14,7 +15,7 @@ import java.util.function.Function;
 public interface JsWindowHistory {
 
     static JsWindowHistory get() {
-        return SingleServiceLoader.loadService(JsWindowHistory.class);
+        return SingleServiceProvider.getProvider(JsWindowHistory.class, () -> ServiceLoader.load(JsWindowHistory.class));
     }
 
     /**

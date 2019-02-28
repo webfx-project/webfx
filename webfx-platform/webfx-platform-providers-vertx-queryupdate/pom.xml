@@ -39,7 +39,7 @@
 
         <dependency>
             <groupId>io.vertx</groupId>
-            <artifactId>vertx-mysql-postgresql-client</artifactId>
+            <artifactId>vertx-mysql-postgresql-client-jasync</artifactId>
         </dependency>
 
         <dependency>
@@ -56,73 +56,5 @@
         </dependency>
 
     </dependencies>
-
-    <build>
-        <plugins>
-
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-module-infos</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>add-module-infos-overridden</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>add-module-info</goal>
-                        </goals>
-                        <configuration>
-                            <modules>
-                                <module>
-                                    <artifact>
-                                        <groupId>com.github.mauricio</groupId>
-                                        <artifactId>db-async-common_2.12</artifactId>
-                                        <version>0.2.21</version>
-                                    </artifact>
-                                    <moduleInfo>
-                                        <name>com.github.mauricio.db.async.common</name>
-                                    </moduleInfo>
-                                </module>
-                                <module>
-                                    <artifact>
-                                        <groupId>com.github.mauricio</groupId>
-                                        <artifactId>postgresql-async_2.12</artifactId>
-                                        <version>0.2.21</version>
-                                    </artifact>
-                                    <moduleInfo>
-                                        <name>com.github.mauricio.postgresql.async</name>
-                                    </moduleInfo>
-                                </module>
-                                <module>
-                                    <artifact>
-                                        <groupId>com.github.mauricio</groupId>
-                                        <artifactId>mysql-async_2.12</artifactId>
-                                        <version>0.2.21</version>
-                                    </artifact>
-                                    <moduleInfo>
-                                        <name>com.github.mauricio.mysql.async</name>
-                                    </moduleInfo>
-                                </module>
-                            </modules>
-                            <module>
-                                <moduleInfoSource>
-                                    module webfx.platform.providers.vertx.queryupdate {
-                                        requires com.github.mauricio.postgresql.async;
-                                        requires com.github.mauricio.mysql.async;
-                                        // TODO: complete this module definition
-                                    }
-                                </moduleInfoSource>
-                            </module>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
-    </build>
 
 </project>

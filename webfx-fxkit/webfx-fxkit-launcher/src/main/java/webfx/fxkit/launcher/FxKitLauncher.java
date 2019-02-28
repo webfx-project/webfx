@@ -5,7 +5,9 @@ import javafx.stage.Stage;
 import webfx.fxkit.launcher.spi.FxKitLauncherProvider;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.function.Factory;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +15,7 @@ import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 public final class FxKitLauncher {
 
     public static synchronized FxKitLauncherProvider getProvider() {
-        return SingleServiceLoader.loadService(FxKitLauncherProvider.class);
+        return SingleServiceProvider.getProvider(FxKitLauncherProvider.class, () -> ServiceLoader.load(FxKitLauncherProvider.class));
     }
 
     public static String getUserAgent() {
@@ -41,6 +43,10 @@ public final class FxKitLauncher {
 
     public static void onReady(Runnable runnable) {
         getProvider().onReady(runnable);
+    }
+
+    public static  double getVerticalScrollbarExtraWidth() {
+        return getProvider().getVerticalScrollbarExtraWidth();
     }
 
 }

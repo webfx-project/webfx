@@ -6,7 +6,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import webfx.fxkit.extra.chart.LineChart;
+import webfx.fxkit.extra.controls.displaydata.chart.LineChart;
 
 /**
  * @author Bruno Salmon

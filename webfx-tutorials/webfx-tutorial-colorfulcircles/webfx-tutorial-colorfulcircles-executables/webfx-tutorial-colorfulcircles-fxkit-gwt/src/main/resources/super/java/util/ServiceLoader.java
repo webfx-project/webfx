@@ -10,10 +10,11 @@ public class ServiceLoader<S> implements Iterable<S> {
         switch (serviceClass.getName()) {
             // Single SPI providers
             case "webfx.fxkit.launcher.spi.FxKitLauncherProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.launcher.GwtFxKitLauncherProvider::new);
+            case "webfx.fxkit.mapper.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
             case "javafx.application.Application": return new ServiceLoader<S>(webfx.tutorial.colorfulcircles.ColorfulCircles4::new);
             case "webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider": return new ServiceLoader<S>(webfx.platform.client.services.uischeduler.spi.impl.gwt.GwtUiSchedulerProvider::new);
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider": return new ServiceLoader<S>(webfx.platform.shared.services.appcontainer.spi.impl.SimpleApplicationContainerProvider::new);
-            case "webfx.fxkit.mapper.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
+            case "FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
             case "webfx.platform.shared.services.log.spi.LoggerProvider": return new ServiceLoader<S>(webfx.platform.shared.services.log.spi.impl.gwt.GwtLoggerProvider::new);
             case "webfx.platform.shared.services.shutdown.spi.ShutdownProvider": return new ServiceLoader<S>(webfx.platform.shared.services.shutdown.spi.impl.gwt.GwtShutdownProvider::new);
             case "webfx.platform.shared.services.scheduler.spi.SchedulerProvider": return new ServiceLoader<S>(webfx.platform.client.services.uischeduler.spi.impl.gwt.GwtUiSchedulerProvider::new);

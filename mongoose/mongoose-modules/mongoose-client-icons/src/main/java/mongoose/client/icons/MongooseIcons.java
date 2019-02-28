@@ -9,12 +9,12 @@ import webfx.fxkit.extra.util.ImageStore;
  */
 public class MongooseIcons {
 
-    public final static String addIcon16Url = "images/16/actions/add.png";
-    public final static String removeIcon16Url = "images/16/actions/remove.png";
-    public final static String attendanceIcon16Url = "images/16/itemFamilies/attendance.png";
-    public final static String checkedIcon16Url = "images/16/checked.png";
-    public final static String uncheckedIcon16Url = "images/16/unchecked.png";
-    public final static String spinnerIcon16Url = "images/16/spinner.gif";
+    public final static String addIcon16Url = "images/s16/actions/add.png";
+    public final static String removeIcon16Url = "images/s16/actions/remove.png";
+    public final static String attendanceIcon16Url = "images/s16/itemFamilies/attendance.png";
+    public final static String checkedIcon16Url = "images/s16/checked.png";
+    public final static String uncheckedIcon16Url = "images/s16/unchecked.png";
+    public final static String spinnerIcon16Url = "images/s16/spinner.gif";
 
     public final static String certificateMonoSvgUrl = "images/svg/mono/certificate.svg";
     public final static String calendarMonoSvgUrl = "images/svg/mono/calendar.svg";
@@ -35,10 +35,10 @@ public class MongooseIcons {
     }
 
     public static ImageView getLanguageIcon32(Object language) {
-        return ImageStore.createImageView("images/32/system/lang_" + language + ".png", 32, 32);
+        return ImageStore.createImageView("images/s32/system/lang_" + language + ".png", 32, 32);
     }
 
     public static ImageView getItemFamilyIcon16(Option option) {
-        return ImageStore.createImageView("images/16/itemFamilies/" + option.getItemFamilyCode() + ".png", 16, 16);
+        return ImageStore.createImageView("images/s16/itemFamilies/" + option.getItemFamilyCode() + ".png", 16, 16);
     }
 }

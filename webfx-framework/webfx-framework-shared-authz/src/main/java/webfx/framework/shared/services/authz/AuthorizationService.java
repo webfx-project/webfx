@@ -2,7 +2,9 @@ package webfx.framework.shared.services.authz;
 
 import webfx.framework.shared.services.authz.spi.AuthorizationServiceProvider;
 import webfx.platform.shared.util.async.Future;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -14,6 +16,6 @@ public final class AuthorizationService {
     }
 
     public static AuthorizationServiceProvider getProvider() {
-        return SingleServiceLoader.loadService(AuthorizationServiceProvider.class);
+        return SingleServiceProvider.getProvider(AuthorizationServiceProvider.class, () -> ServiceLoader.load(AuthorizationServiceProvider.class));
     }
 }

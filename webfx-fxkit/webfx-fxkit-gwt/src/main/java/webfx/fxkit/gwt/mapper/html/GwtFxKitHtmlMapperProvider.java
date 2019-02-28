@@ -13,19 +13,21 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import webfx.fxkit.extra.chart.*;
+import webfx.fxkit.extra.controls.displaydata.chart.*;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.fxkit.extra.controls.html.HtmlText;
+import webfx.fxkit.extra.controls.html.HtmlTextEditor;
+import webfx.fxkit.gwt.mapper.html.peer.extra.*;
+import webfx.fxkit.gwt.mapper.html.peer.javafxcontrols.*;
+import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.*;
 import webfx.fxkit.gwt.mapper.shared.GwtPrimaryStagePeer;
 import webfx.fxkit.gwt.mapper.shared.GwtSecondaryStagePeer;
-import webfx.fxkit.gwt.mapper.html.peer.*;
 import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.fxkit.mapper.spi.NodePeer;
 import webfx.fxkit.mapper.spi.ScenePeer;
 import webfx.fxkit.mapper.spi.StagePeer;
 import webfx.fxkit.mapper.spi.WindowPeer;
 import webfx.fxkit.mapper.spi.impl.FxKitMapperProviderBase;
-import webfx.fxkit.extra.control.DataGrid;
-import webfx.fxkit.extra.control.HtmlText;
-import webfx.fxkit.extra.control.HtmlTextEditor;
 
 /**
  * @author Bruno Salmon
@@ -85,10 +87,4 @@ public final class GwtFxKitHtmlMapperProvider extends FxKitMapperProviderBase {
     public ScenePeer createScenePeer(Scene scene) {
         return new HtmlScenePeer(scene);
     }
-
-    @Override
-    public double getVerticalScrollbarExtraWidth() {
-        return 0; // Perfect scrollbar library is used and the transparent scrollbar overlays the view port (so no extra width)
-    }
-
 }

@@ -24,7 +24,7 @@ import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.EntityStoreQuery;
 import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.fxkit.extra.control.HtmlText;
+import webfx.fxkit.extra.controls.html.HtmlText;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.client.services.websocketbus.WebSocketBus;
 import webfx.platform.client.services.windowlocation.WindowLocation;

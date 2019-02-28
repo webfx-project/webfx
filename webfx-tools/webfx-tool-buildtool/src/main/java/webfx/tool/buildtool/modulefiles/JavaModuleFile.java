@@ -42,18 +42,29 @@ public class JavaModuleFile extends ModuleFile {
         module.getDirectDependencies()
                 .map(JavaModuleFile::getJavaModuleName)
                 .distinct()
+                .stream()
+                .sorted()
                 .forEach(m -> sb.append("    requires ").append(m).append(";\n"));
         sb.append("\n    // Exported packages\n");
-        module.getDeclaredJavaPackages().forEach(p -> sb.append("    exports ").append(p).append(";\n"));
+        module.getDeclaredJavaPackages()
+                .stream()
+                .sorted()
+                .forEach(p -> sb.append("    exports ").append(p).append(";\n"));
         ReusableStream<String> usedJavaServices = module.getUsedJavaServices();
         if (usedJavaServices.count() > 0) {
             sb.append("\n    // Used services\n");
-            usedJavaServices.forEach(s -> sb.append("    uses ").append(s).append(";\n"));
+            usedJavaServices
+                    .stream()
+                    .sorted()
+                    .forEach(s -> sb.append("    uses ").append(s).append(";\n"));
         }
         ReusableStream<String> providedJavaServices = module.getProvidedJavaServices();
         if (module.getTarget().isPlatformSupported(Platform.JRE) && providedJavaServices.count() > 0) {
             sb.append("\n    // Provided services\n");
-            providedJavaServices.forEach(s -> sb.append("    provides ").append(s).append(" with ").append(module.getProvidedJavaServiceImplementations(s).collect(Collectors.joining(", "))).append(";\n"));
+            providedJavaServices
+                    .stream()
+                    .sorted()
+                    .forEach(s -> sb.append("    provides ").append(s).append(" with ").append(module.getProvidedJavaServiceImplementations(s).collect(Collectors.joining(", "))).append(";\n"));
         }
         sb.append("\n}");
 
@@ -70,12 +81,16 @@ public class JavaModuleFile extends ModuleFile {
     }
 
     private static String getJavaModuleName(Module module) {
+        return getJavaModuleName(module, false);
+    }
+
+    private static String getJavaModuleName(Module module, boolean addTransitiveIfApplicable) {
         String artifactId = module.getArtifactId();
         switch (artifactId) {
             case "webfx-fxkit-emul-javafxbase" :        return "javafx.base";
             case "webfx-fxkit-emul-javafxcontrols" :    return "javafx.controls";
             case "webfx-fxkit-emul-javafxgraphics" :    return "javafx.graphics";
-            default: return artifactId.replaceAll("[^a-zA-Z0-9]", ".");
+            default: return (addTransitiveIfApplicable && module instanceof ProjectModule ? "transitive " : "") + artifactId.replaceAll("[^a-zA-Z0-9]", ".");
         }
     }
 }

@@ -1,7 +1,5 @@
 package webfx.platform.shared.util.serviceloader;
 
-import webfx.platform.shared.util.function.Factory;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,18 +14,8 @@ public final class SingleServiceLoader {
 
     public enum NotFoundPolicy {RETURN_NULL, TRACE_AND_RETURN_NULL, THROW_EXCEPTION}
 
-    private final static Map<Class, Factory> DEFAULT_SERVICE_FACTORIES = new HashMap<>();
     private final static Map<Class, Object> SERVICE_INSTANCES_CACHE = new HashMap<>();
 
-
-    public static <T> void registerDefaultServiceFactory(Class<T> serviceClass, Factory<T> serviceFactory) {
-        DEFAULT_SERVICE_FACTORIES.put(serviceClass, serviceFactory);
-    }
-
-    public static <T> T instantiateDefaultService(Class<T> serviceClass) {
-        Factory factory = DEFAULT_SERVICE_FACTORIES.get(serviceClass);
-        return factory == null ? null : (T) factory.create();
-    }
 
     public static <T> void cacheServiceInstance(Class<T> serviceClass, T serviceInstance) {
         SERVICE_INSTANCES_CACHE.put(serviceClass, serviceInstance);
@@ -45,7 +33,7 @@ public final class SingleServiceLoader {
         T serviceInstance = (T) SERVICE_INSTANCES_CACHE.get(serviceClass);
         if (serviceInstance == null) {
             Iterator<T> it = ServiceLoader.load(serviceClass).iterator();
-            serviceInstance =  it.hasNext() ? it.next() : instantiateDefaultService(serviceClass);
+            serviceInstance =  it.hasNext() ? it.next() : null;
         }
         if (serviceInstance == null) {
             if (policy != NotFoundPolicy.RETURN_NULL) {

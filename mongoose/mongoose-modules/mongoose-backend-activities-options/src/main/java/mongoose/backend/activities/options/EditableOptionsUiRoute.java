@@ -8,13 +8,13 @@ import webfx.framework.client.ui.uirouter.impl.UiRouteImpl;
 /**
  * @author Bruno Salmon
  */
-public final class EditableOptionsUiRoute extends UiRouteImpl {
+public final class EditableOptionsUiRoute extends UiRouteImpl<ViewDomainActivityContextFinal> {
 
     public EditableOptionsUiRoute() {
         super(uiRoute());
     }
 
-    public static UiRoute<?> uiRoute() {
+    public static UiRoute<ViewDomainActivityContextFinal> uiRoute() {
         return UiRoute.create(OptionsRouting.getPath()
                 , false
                 , EditableOptionsActivity::new

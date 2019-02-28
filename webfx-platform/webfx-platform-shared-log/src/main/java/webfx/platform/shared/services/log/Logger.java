@@ -1,7 +1,9 @@
 package webfx.platform.shared.services.log;
 
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 import webfx.platform.shared.services.log.spi.LoggerProvider;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -9,7 +11,7 @@ import webfx.platform.shared.services.log.spi.LoggerProvider;
 public final class Logger {
 
     public static LoggerProvider getProvider() {
-        return SingleServiceLoader.loadService(LoggerProvider.class);
+        return SingleServiceProvider.getProvider(LoggerProvider.class, () -> ServiceLoader.load(LoggerProvider.class));
     }
 
     public static void log(Object message) {

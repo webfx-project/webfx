@@ -1,9 +1,10 @@
 package webfx.platform.shared.services.scheduler;
 
 import webfx.platform.shared.services.scheduler.spi.SchedulerProvider;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
 
+import java.util.ServiceLoader;
 import java.util.function.Consumer;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -11,7 +12,7 @@ import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 public final class Scheduler {
 
     public static SchedulerProvider getProvider() {
-        return SingleServiceLoader.loadService(SchedulerProvider.class);
+        return SingleServiceProvider.getProvider(SchedulerProvider.class, () -> ServiceLoader.load(SchedulerProvider.class));
     }
 
     /**

@@ -1,9 +1,10 @@
 package webfx.platform.client.services.storage;
 
 import webfx.platform.client.services.storage.spi.LocalStorageProvider;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
 
 import java.util.Iterator;
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -11,7 +12,7 @@ import java.util.Iterator;
 public final class LocalStorage {
 
     public static LocalStorageProvider getProvider() {
-        return SingleServiceLoader.loadService(LocalStorageProvider.class);
+        return SingleServiceProvider.getProvider(LocalStorageProvider.class, () -> ServiceLoader.load(LocalStorageProvider.class));
     }
 
     public static void setItem(String key, String value) {

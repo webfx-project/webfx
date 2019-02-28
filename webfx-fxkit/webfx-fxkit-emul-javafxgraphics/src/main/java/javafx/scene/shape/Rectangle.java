@@ -1,14 +1,11 @@
 package javafx.scene.shape;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Paint;
 import webfx.fxkit.mapper.spi.impl.peer.markers.*;
-
 /**
  * @author Bruno Salmon
  */

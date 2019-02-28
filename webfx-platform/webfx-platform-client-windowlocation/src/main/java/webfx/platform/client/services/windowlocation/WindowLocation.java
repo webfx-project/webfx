@@ -2,7 +2,9 @@ package webfx.platform.client.services.windowlocation;
 
 import webfx.platform.client.services.windowlocation.spi.WindowLocationProvider;
 import webfx.platform.shared.util.Strings;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -10,7 +12,7 @@ import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 public final class WindowLocation {
 
     public static WindowLocationProvider getProvider() { // Returns the browser window location
-        return SingleServiceLoader.loadService(WindowLocationProvider.class);
+        return SingleServiceProvider.getProvider(WindowLocationProvider.class, () -> ServiceLoader.load(WindowLocationProvider.class));
     }
 
     /**

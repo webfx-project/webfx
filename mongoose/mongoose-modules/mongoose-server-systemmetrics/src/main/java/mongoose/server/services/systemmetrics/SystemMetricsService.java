@@ -2,7 +2,9 @@ package mongoose.server.services.systemmetrics;
 
 import mongoose.server.services.systemmetrics.spi.SystemMetricsServiceProvider;
 import mongoose.shared.services.systemmetrics.SystemMetrics;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -10,7 +12,7 @@ import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 public final class SystemMetricsService {
 
     public static SystemMetricsServiceProvider getProvider() {
-        return SingleServiceLoader.loadService(SystemMetricsServiceProvider.class, SingleServiceLoader.NotFoundPolicy.TRACE_AND_RETURN_NULL);
+        return SingleServiceProvider.getProvider(SystemMetricsServiceProvider.class, () -> ServiceLoader.load(SystemMetricsServiceProvider.class), SingleServiceProvider.NotFoundPolicy.TRACE_AND_RETURN_NULL);
     }
 
     public static void takeSystemMetricsSnapshot(SystemMetrics systemMetrics) {

@@ -5,5 +5,5 @@ import webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvi
 /**
  * @author Bruno Salmon
  */
-public final class SimpleApplicationContainerProvider implements ApplicationContainerProvider {
+public class SimpleApplicationContainerProvider implements ApplicationContainerProvider {
 }

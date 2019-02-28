@@ -63,12 +63,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-            </plugin>
-
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>

@@ -14,8 +14,9 @@ public class ServiceLoader<S> implements Iterable<S> {
             case "webfx.platform.shared.services.scheduler.spi.SchedulerProvider": return new ServiceLoader<S>(webfx.platform.client.services.uischeduler.spi.impl.gwt.GwtUiSchedulerProvider::new);
             case "webfx.platform.shared.services.log.spi.LoggerProvider": return new ServiceLoader<S>(webfx.platform.shared.services.log.spi.impl.gwt.GwtLoggerProvider::new);
             case "webfx.fxkit.launcher.spi.FxKitLauncherProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.launcher.GwtFxKitLauncherProvider::new);
-            case "javafx.application.Application": return new ServiceLoader<S>(mongoose.frontend.application.MongooseFrontendApplication::new);
             case "webfx.fxkit.mapper.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
+            case "javafx.application.Application": return new ServiceLoader<S>(mongoose.frontend.application.MongooseFrontendApplication::new);
+            case "FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
             case "webfx.platform.shared.services.query.spi.QueryServiceProvider": return new ServiceLoader<S>(webfx.platform.shared.services.query.spi.impl.LocalOrRemoteQueryServiceProvider::new);
             case "webfx.platform.shared.services.update.spi.UpdateServiceProvider": return new ServiceLoader<S>(webfx.platform.shared.services.update.spi.impl.LocalOrRemoteUpdateServiceProvider::new);
             case "webfx.framework.client.services.i18n.spi.I18nProvider": return new ServiceLoader<S>(mongoose.client.services.i18n.MongooseI18nProvider::new);

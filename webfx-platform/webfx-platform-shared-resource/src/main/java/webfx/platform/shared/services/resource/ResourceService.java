@@ -2,7 +2,9 @@ package webfx.platform.shared.services.resource;
 
 import webfx.platform.shared.services.resource.spi.ResourceServiceProvider;
 import webfx.platform.shared.util.async.Future;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +15,7 @@ public final class ResourceService {
 
     public static ResourceServiceProvider getProvider() {
         if (PROVIDER == null)
-            registerProvider(SingleServiceLoader.loadService(ResourceServiceProvider.class));
+            registerProvider(SingleServiceProvider.getProvider(ResourceServiceProvider.class, () -> ServiceLoader.load(ResourceServiceProvider.class)));
         return PROVIDER;
     }
 

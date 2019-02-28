@@ -3,7 +3,9 @@ package webfx.framework.server.services.push;
 import webfx.framework.server.services.push.spi.PushServerServiceProvider;
 import webfx.platform.shared.services.bus.Bus;
 import webfx.platform.shared.util.async.Future;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -11,7 +13,7 @@ import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 public final class PushServerService {
 
     public static PushServerServiceProvider getProvider() {
-        return SingleServiceLoader.loadService(PushServerServiceProvider.class);
+        return SingleServiceProvider.getProvider(PushServerServiceProvider.class, () -> ServiceLoader.load(PushServerServiceProvider.class));
     }
 
     public static <T> Future<T> callClientService(String serviceAddress, Object javaArgument, Bus bus, Object pushClientId) {

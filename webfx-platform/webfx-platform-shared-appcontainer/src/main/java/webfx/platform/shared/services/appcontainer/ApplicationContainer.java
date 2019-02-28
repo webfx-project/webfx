@@ -1,8 +1,10 @@
 package webfx.platform.shared.services.appcontainer;
 
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -10,7 +12,7 @@ import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
 public final class ApplicationContainer {
 
     public static ApplicationContainerProvider getProvider() {
-        return SingleServiceLoader.loadService(ApplicationContainerProvider.class);
+        return SingleServiceProvider.getProvider(ApplicationContainerProvider.class, () -> ServiceLoader.load(ApplicationContainerProvider.class));
     }
 
     public static void startApplicationJob(ApplicationJob applicationJob) {
@@ -29,7 +31,7 @@ public final class ApplicationContainer {
 
     public static void start(ApplicationContainerProvider provider, String[] mainArgs) {
         // Caching this instance to make the ApplicationContainer work
-        SingleServiceLoader.cacheServiceInstance(ApplicationContainerProvider.class, provider);
+        SingleServiceProvider.cacheServiceInstance(ApplicationContainerProvider.class, provider);
         start(mainArgs);
     }
 

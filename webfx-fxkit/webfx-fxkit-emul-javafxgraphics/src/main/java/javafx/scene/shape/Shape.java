@@ -10,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import webfx.fxkit.mapper.spi.impl.peer.markers.*;
-
 /**
  * @author Bruno Salmon
  */

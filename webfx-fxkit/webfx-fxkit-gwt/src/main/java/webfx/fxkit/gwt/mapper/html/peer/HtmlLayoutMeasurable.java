@@ -6,6 +6,7 @@ import elemental2.dom.HTMLElement;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.LayoutMeasurable;
+import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.HtmlNodePeer;
 
 /**
  * @author Bruno Salmon

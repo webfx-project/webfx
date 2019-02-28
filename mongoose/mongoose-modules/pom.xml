@@ -93,6 +93,7 @@
         <module>mongoose-shared-domain-gwt</module>
         <module>mongoose-shared-entities</module>
         <module>mongoose-shared-time</module>
+        <module>mongoose-client-css</module>
 
     </modules>
 

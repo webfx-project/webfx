@@ -7,7 +7,7 @@
     <!-- Inherit the WebFx modules  -->
     <inherits name="webfx-fxkit-launcher"/>
     <inherits name="webfx-fxkit-mapper"/>
-    <inherits name="webfx-fxkit-extra"/>
+    <inherits name="webfx-fxkit-extracontrols"/>
     <inherits name="webfx-fxkit-emul-javafxcontrols"/>
     <inherits name="webfx-platform-shared-resource"/>
 

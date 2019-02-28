@@ -1,10 +1,12 @@
 package webfx.platform.shared.services.json;
 
-import webfx.platform.shared.util.noreflect.IndexedArray;
-import webfx.platform.shared.util.noreflect.KeyObject;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
 import webfx.platform.shared.services.json.spi.JsonProvider;
 import webfx.platform.shared.services.json.spi.impl.listmap.MapJsonObject;
+import webfx.platform.shared.util.noreflect.IndexedArray;
+import webfx.platform.shared.util.noreflect.KeyObject;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Bruno Salmon
@@ -52,7 +54,7 @@ public final class Json {
 
     public static JsonProvider getProvider() {
         if (PROVIDER == null) {
-            registerProvider(SingleServiceLoader.loadService(JsonProvider.class, SingleServiceLoader.NotFoundPolicy.TRACE_AND_RETURN_NULL));
+            registerProvider(SingleServiceProvider.getProvider(JsonProvider.class, () -> ServiceLoader.load(JsonProvider.class), SingleServiceProvider.NotFoundPolicy.TRACE_AND_RETURN_NULL));
             if (PROVIDER == null) {
                 System.out.println("Using default built-in JSON factory which is not interoperable with the underlying platform! Be sure you haven't forgot to call Json.registerProvider().");
                 PROVIDER = new MapJsonObject();

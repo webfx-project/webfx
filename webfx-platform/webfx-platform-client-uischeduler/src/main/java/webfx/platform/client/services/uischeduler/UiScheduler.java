@@ -1,11 +1,12 @@
 package webfx.platform.client.services.uischeduler;
 
+import webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider;
 import webfx.platform.shared.services.scheduler.Scheduled;
 import webfx.platform.shared.services.scheduler.Scheduler;
 import webfx.platform.shared.services.scheduler.spi.SchedulerProvider;
-import webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider;
-import webfx.platform.shared.util.serviceloader.SingleServiceLoader;
+import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
 
+import java.util.ServiceLoader;
 import java.util.function.Consumer;
 
 /**
@@ -16,11 +17,11 @@ public final class UiScheduler {
     static {
         SchedulerProvider schedulerProvider = Scheduler.getProvider();
         if (schedulerProvider instanceof UiSchedulerProvider)
-            SingleServiceLoader.cacheServiceInstance(UiSchedulerProvider.class, (UiSchedulerProvider) schedulerProvider);
+            SingleServiceProvider.cacheServiceInstance(UiSchedulerProvider.class, (UiSchedulerProvider) schedulerProvider);
     }
 
     public static UiSchedulerProvider getProvider() {
-        return SingleServiceLoader.loadService(UiSchedulerProvider.class);
+        return SingleServiceProvider.getProvider(UiSchedulerProvider.class, () -> ServiceLoader.load(UiSchedulerProvider.class));
     }
 
     public static boolean isUiThread() {

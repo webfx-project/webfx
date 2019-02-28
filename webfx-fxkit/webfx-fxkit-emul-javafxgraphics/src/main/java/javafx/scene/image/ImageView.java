@@ -5,7 +5,6 @@ import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.*;
 import javafx.scene.Node;
 import webfx.fxkit.mapper.spi.impl.peer.markers.*;
-
 /**
  * @author Bruno Salmon
  */

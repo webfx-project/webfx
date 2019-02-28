@@ -10,7 +10,7 @@ import webfx.framework.client.activity.impl.elementals.presentation.view.impl.Pr
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.extra.control.DataGrid;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
 /**
  * @author Bruno Salmon

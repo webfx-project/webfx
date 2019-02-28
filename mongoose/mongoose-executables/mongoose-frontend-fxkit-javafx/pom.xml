@@ -54,40 +54,6 @@
         <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
     </properties>
 
-    <build>
-        <plugins>
-
-            <!-- Generating module-info.java from maven dependencies -->
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-module-infos</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>add-module-infos-overridden</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>add-module-info</goal>
-                        </goals>
-                        <configuration>
-                            <module>
-                                <moduleInfoSource>
-                                    module mongoose.frontend.fxkit.javafx {
-                                    // TODO: complete this module definition
-                                    }
-                                </moduleInfoSource>
-                            </module>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
-    </build>
-
     <profiles>
 
         <!-- profile to make a non fat standalone executable jar with all dependent libraries unpacked in lib folder -->

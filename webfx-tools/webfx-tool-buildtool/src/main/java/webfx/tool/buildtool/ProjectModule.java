@@ -7,6 +7,7 @@ import webfx.tool.buildtool.modulefiles.WebfxModuleFile;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 import webfx.tool.buildtool.util.splitfiles.SplitFiles;
 
+import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -125,7 +126,7 @@ public class ProjectModule extends ModuleImpl {
         return parentModule;
     }
 
-    RootModule getRootModule() {
+    public RootModule getRootModule() {
         return rootModule;
     }
 
@@ -206,7 +207,7 @@ public class ProjectModule extends ModuleImpl {
         return ReusableStream.of(this).concat(getChildrenModulesInDepth());
     }
 
-    ProjectModule getChildModuleInDepth(String artifactId) {
+    public ProjectModule getChildModuleInDepth(String artifactId) {
         return getChildrenModulesInDepth()
                 .filter(module -> module.getArtifactId().equals(artifactId))
                 .findFirst()
@@ -336,5 +337,38 @@ public class ProjectModule extends ModuleImpl {
                 .map(js -> getRootModule().findBestMatchModuleProvidingJavaService(js, serviceTarget))
                 .distinct()
                 ;
+    }
+
+    void deleteIdeFiles() {
+        deleteFile(getArtifactId() + ".iml");
+        deleteFolder(".settings");
+        deleteFile(".project");
+        deleteFile(".classpath");
+    }
+
+    private void deleteFile(String name) {
+        deleteFile(name, false);
+    }
+
+    private void deleteFolder(String name) {
+        deleteFile(name, true);
+    }
+
+    private void deleteFile(String name, boolean folder) {
+        try {
+            Path path = getHomeDirectory().resolve(name);
+            if (folder && Files.exists(path))
+                Files.walk(path).forEach(p -> {
+                    if (!p.equals(path))
+                        try {
+                            Files.delete(p);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                });
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
