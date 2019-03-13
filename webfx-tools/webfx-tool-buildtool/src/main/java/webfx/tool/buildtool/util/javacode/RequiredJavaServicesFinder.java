@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public final class RequiredJavaServicesFinder extends JavaCodePatternFinder {
 
     private static JavaCodePattern SERVICE_PATTERN =
-            new JavaCodePattern(Pattern.compile("SingleServiceLoader\\s*\\.\\s*[a-zA-Z]+\\s*\\(\\s*([a-z0-9A-Z.]+)\\.class\\s*[),]"), 1);
+            new JavaCodePattern(Pattern.compile("SingleServiceProvider\\s*\\.\\s*getProvider\\s*\\(\\s*([a-z0-9A-Z.]+)\\.class"), 1);
 
     public RequiredJavaServicesFinder(Supplier<Path> javaPathSupplier) {
         super(SERVICE_PATTERN, javaPathSupplier);

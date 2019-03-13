@@ -29,9 +29,8 @@ public class ProjectModule extends ModuleImpl {
                     .cache();
     private final ReusableStream<String> declaredJavaPackagesCache =
             declaredJavaClassesCache
-                .map(JavaClass::getPackageName)
-                .distinct()
-            ;
+                    .map(JavaClass::getPackageName)
+                    .distinct();
     private final ReusableStream<String> usedJavaPackagesCache =
             declaredJavaClassesCache
                     .flatMap(JavaClass::getUsedJavaPackages)
@@ -58,13 +57,15 @@ public class ProjectModule extends ModuleImpl {
                     .cache();
     private final ReusableStream<Module> directDependenciesCache =
             usedJavaPackagesCache
-                    .map(m -> getRootModule().getJavaPackageModule(m))
+                    .map(p -> getRootModule().getJavaPackageModule(p))
+                    .map(this::replaceModuleWithEmulatedIfApplicable)
                     .filter(module -> module != this && !module.getArtifactId().equals(getArtifactId()))
                     .distinct()
                     .cache();
     private final ReusableStream<Module> transitiveDependenciesCache =
             directDependenciesCache
                     .flatMap(m -> m instanceof ProjectModule ? ((ProjectModule) m).getNonCyclicThisAndTransitiveDependencies() : ReusableStream.of(m))
+                    .flatMap(this::replaceModuleWithEmulatedAndTransitiveDependenciesIfApplicable)
                     .distinct()
                     .cache();
     private final ReusableStream<ProjectModule> childrenModulesCache =
@@ -79,6 +80,22 @@ public class ProjectModule extends ModuleImpl {
                     .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
             //.cache()
             ;
+    private final ReusableStream<ProjectModule> transitiveProjectModulesCache =
+            ProjectModule.filterProjectModules(transitiveDependenciesCache);
+    private final ReusableStream<ProjectModule> implementationScope =
+            ReusableStream.concat(transitiveProjectModulesCache,
+                    ReusableStream.create(() -> getRootModule().getChildModuleInDepth("webfx-platform").getThisAndChildrenModulesInDepth().spliterator()))
+                    .distinct()
+                    .cache();
+    private final ReusableStream<ProjectModule> transitiveRequiredJavaServicesImplementationModules =
+            transitiveProjectModulesCache
+                    .flatMap(ProjectModule::getUsedRequiredJavaServices)
+                    .distinct()
+                    //.filter(s -> transitiveProjectModulesCache.noneMatch(m -> m.providesJavaService(s)))
+                    .map(s -> RootModule.findBestMatchModuleProvidingJavaService(implementationScope, s, getTarget()))
+                    .distinct()
+                    .cache();
+
     private final Path homeDirectory;
     private final ProjectModule parentModule;
     private final RootModule rootModule;
@@ -118,8 +135,12 @@ public class ProjectModule extends ModuleImpl {
         return homeDirectory.resolve("src/main/java/");
     }
 
+    public Path getResourcesDirectory() {
+        return homeDirectory.resolve("src/main/resources/");
+    }
+
     Path getMetaInfJavaServicesDirectory() {
-        return homeDirectory.resolve("src/main/resources/META-INF/services/");
+        return getResourcesDirectory().resolve("META-INF/services/");
     }
 
     ProjectModule getParentModule() {
@@ -172,6 +193,27 @@ public class ProjectModule extends ModuleImpl {
         return mavenModuleFile;
     }
 
+    private Module replaceModuleWithEmulatedIfApplicable(Module m) {
+        if (getTarget().isPlatformSupported(Platform.GWT) && !getTarget().isPlatformSupported(Platform.JRE)) {
+            switch (m.getArtifactId()) {
+                case "javafx-base":
+                case "javafx-graphics":
+                case "javafx-controls":
+                    //    return getRootModule().getChildModuleInDepth("webfx-fxkit-emul-" + m.getArtifactId().replace("-", ""));
+                    return getRootModule().getChildModuleInDepth("webfx-fxkit-gwt");
+            }
+        }
+        return m;
+    }
+
+    private ReusableStream<Module> replaceModuleWithEmulatedAndTransitiveDependenciesIfApplicable(Module m) {
+        Module emulatedModule = replaceModuleWithEmulatedIfApplicable(m);
+        if (emulatedModule != m)
+            return ((ProjectModule) emulatedModule).getNonCyclicThisAndTransitiveDependencies()
+                    .map(this::replaceModuleWithEmulatedIfApplicable);
+        return ReusableStream.of(m);
+    }
+
     /*************************
      ***** Basic streams *****
      *************************/
@@ -221,7 +263,6 @@ public class ProjectModule extends ModuleImpl {
      ******************************/
 
     ///// Modules
-
     public ReusableStream<Module> getDirectDependencies() {
         return directDependenciesCache;
     }
@@ -240,11 +281,11 @@ public class ProjectModule extends ModuleImpl {
         return getDirectDependencies().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId()));
     }
 
-    ReusableStream<Module> getTransitiveDependencies() {
+    public ReusableStream<Module> getTransitiveDependencies() {
         return transitiveDependenciesCache;
     }
 
-    ReusableStream<Module> getThisAndTransitiveDependencies() {
+    public ReusableStream<Module> getThisAndTransitiveDependencies() {
         return ReusableStream.of((Module) this).concat(transitiveDependenciesCache);
     }
 
@@ -258,6 +299,14 @@ public class ProjectModule extends ModuleImpl {
                                     : List.of(m);
                         })
         );
+    }
+
+    public ReusableStream<ProjectModule> getImplementationScope() {
+        return implementationScope;
+    }
+
+    public ReusableStream<ProjectModule> getTransitiveRequiredJavaServicesImplementationModules() {
+        return transitiveRequiredJavaServicesImplementationModules;
     }
 
     ///// Packages
@@ -276,11 +325,11 @@ public class ProjectModule extends ModuleImpl {
     ///// Services
 
 
-    ReusableStream<String> getUsedRequiredJavaServices() {
+    public ReusableStream<String> getUsedRequiredJavaServices() {
         return usedRequiredJavaServicesCache;
     }
 
-    ReusableStream<String> getUsedOptionalJavaServices() {
+    public ReusableStream<String> getUsedOptionalJavaServices() {
         return usedOptionalJavaServicesCache;
     }
 
@@ -370,5 +419,13 @@ public class ProjectModule extends ModuleImpl {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //// Static
+
+    public static ReusableStream<ProjectModule> filterProjectModules(ReusableStream<Module> modules) {
+        return modules
+                .filter(m -> m instanceof ProjectModule)
+                .map(m -> (ProjectModule) m);
     }
 }

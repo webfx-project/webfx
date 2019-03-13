@@ -13,8 +13,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>webfx-tutorial-helloworld-module</module>
-        <module>webfx-tutorial-helloworld-executables</module>
+        <module>webfx-tutorial-helloworld-application</module>
+        <module>webfx-tutorial-helloworld-application-javafx</module>
+        <module>webfx-tutorial-helloworld-application-gwt</module>
     </modules>
 
 

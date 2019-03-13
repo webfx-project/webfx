@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>webfx-tutorial-helloworld-executables</artifactId>
+        <artifactId>webfx-tutorial-helloworld</artifactId>
         <groupId>org.webfx</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webfx-tutorial-helloworld-fxkit-gwt</artifactId>
+    <artifactId>webfx-tutorial-helloworld-application-gwt</artifactId>
     <packaging>gwt-app</packaging>
 
     <dependencies>
@@ -164,6 +164,13 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-platform-shared-resource-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
             <artifactId>webfx-platform-shared-shutdown</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -192,10 +199,9 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-tool-gwtsupersourcegenerator</artifactId>
+            <artifactId>webfx-tutorial-helloworld-module</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>

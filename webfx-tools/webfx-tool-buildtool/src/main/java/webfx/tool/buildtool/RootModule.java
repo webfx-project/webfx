@@ -36,19 +36,19 @@ public final class RootModule extends ProjectModule {
 
     private void registerThirdPartyModules() {
         // JDK
-        registerJavaPackageModule(Module.create("java.base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic");
-        registerJavaPackageModule(Module.create("java.xml"), "javax.xml", "javax.xml.parsers", "javax.xml.transform", "javax.xml.transform.dom", "javax.xml.transform.stream", "org.w3c.dom");
-        registerJavaPackageModule(Module.create("java.sql"), "java.sql", "javax.sql");
-        registerJavaPackageModule(Module.create("java.logging"), "java.util.logging");
-        registerJavaPackageModule(Module.create("jdk.management"), "com.sun.management");
-        registerJavaPackageModule(Module.create("jdk.jsobject"), "netscape.javascript");
+        registerJavaPackageModule(Module.create("java-base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic");
+        registerJavaPackageModule(Module.create("java-xml"), "javax.xml", "javax.xml.parsers", "javax.xml.transform", "javax.xml.transform.dom", "javax.xml.transform.stream", "org.w3c.dom");
+        registerJavaPackageModule(Module.create("java-sql"), "java.sql", "javax.sql");
+        registerJavaPackageModule(Module.create("java-logging"), "java.util.logging");
+        registerJavaPackageModule(Module.create("jdk-management"), "com.sun.management");
+        registerJavaPackageModule(Module.create("jdk-jsobject"), "netscape.javascript");
 
         // JavaFx
-        registerJavaPackageModule(Module.create("javafx.base"), "javafx.beans", "javafx.beans.binding", "javafx.beans.property", "javafx.beans.value", "javafx.collections", "javafx.collections.transformation", "javafx.event", "javafx.util");
-        registerJavaPackageModule(Module.create("javafx.graphics"), "javafx.animation", "javafx.application", "javafx.css", "javafx.concurrent", "javafx.geometry", "javafx.scene", "javafx.scene.effect", "javafx.scene.image", "javafx.scene.input", "javafx.scene.layout", "javafx.scene.paint", "javafx.scene.shape", "javafx.scene.text", "javafx.scene.transform", "javafx.stage");
-        registerJavaPackageModule(Module.create("javafx.controls"), "javafx.scene.control", "javafx.scene.control.skin", "javafx.scene.chart");
-        registerJavaPackageModule(Module.create("javafx.web"), "javafx.scene.web");
-        registerJavaPackageModule(Module.create("javafx.swing"), "javafx.embed.swing");
+        registerJavaPackageModule(Module.create("javafx-base"), "javafx.beans", "javafx.beans.binding", "javafx.beans.property", "javafx.beans.value", "javafx.collections", "javafx.collections.transformation", "javafx.event", "javafx.util");
+        registerJavaPackageModule(Module.create("javafx-graphics"), "javafx.animation", "javafx.application", "javafx.css", "javafx.concurrent", "javafx.geometry", "javafx.scene", "javafx.scene.effect", "javafx.scene.image", "javafx.scene.input", "javafx.scene.layout", "javafx.scene.paint", "javafx.scene.shape", "javafx.scene.text", "javafx.scene.transform", "javafx.stage");
+        registerJavaPackageModule(Module.create("javafx-controls"), "javafx.scene.control", "javafx.scene.control.skin", "javafx.scene.chart");
+        registerJavaPackageModule(Module.create("javafx-web"), "javafx.scene.web");
+        registerJavaPackageModule(Module.create("javafx-swing"), "javafx.embed.swing");
 
         // JavaFx SVG
         registerJavaPackageModule(Module.create("javafxsvg"), "de.codecentric.centerdevice.javafxsvg");
@@ -70,7 +70,7 @@ public final class RootModule extends ProjectModule {
         registerJavaPackageModule(Module.create("vertx-mysql-postgresql-client"), "io.vertx.ext.asyncsql");
 
         // JavaWebSocket
-        registerJavaPackageModule(Module.create("Java.WebSocket"), "org.java_websocket", "org.java_websocket.client", "org.java_websocket.drafts", "org.java_websocket.enums", "org.java_websocket.handshake");
+        registerJavaPackageModule(Module.create("Java-WebSocket"), "org.java_websocket", "org.java_websocket.client", "org.java_websocket.drafts", "org.java_websocket.enums", "org.java_websocket.handshake");
 
         // HikariCP
         registerJavaPackageModule(Module.create("HikariCP"), "com.zaxxer.hikari");
@@ -90,7 +90,7 @@ public final class RootModule extends ProjectModule {
     }
 
     void registerJavaPackagesProjectModule(ProjectModule module) {
-        module.getDeclaredJavaClasses().forEach(javaClass -> registerJavaPackageModule(javaClass.getPackageName(), module));
+        module.getDeclaredJavaPackages().forEach(javaPackage -> registerJavaPackageModule(javaPackage, module));
     }
 
     Module getJavaPackageModule(String javaPackage) {
@@ -178,13 +178,29 @@ public final class RootModule extends ProjectModule {
     }
 
     ProjectModule findBestMatchModuleProvidingJavaService(String javaService, Target requestedTarget) {
-        return getThisAndChildrenModulesInDepth()
-                .filter(m -> m.getTarget().gradeTargetMatch(requestedTarget) >= 0)
-                .filter(m -> m.providesJavaService(javaService))
-                .max(Comparator.comparingInt(m -> m.getTarget().gradeTargetMatch(requestedTarget)))
-                .orElseThrow(() -> new IllegalArgumentException("Unable to find " + javaService + " service implementation for requested target " + requestedTarget))
-                ;
+        return findBestMatchModuleProvidingJavaService(getThisAndChildrenModulesInDepth(), javaService, requestedTarget);
     }
+
+    static ProjectModule findBestMatchModuleProvidingJavaService(ReusableStream<ProjectModule> implementationScope, String javaService, TargetTag... tags) {
+        return findBestMatchModuleProvidingJavaService(implementationScope, javaService, new Target(tags));
+    }
+
+    static ProjectModule findBestMatchModuleProvidingJavaService(ReusableStream<ProjectModule> implementationScope, String javaService, Target requestedTarget) {
+        return findModulesProvidingJavaService(implementationScope, javaService, requestedTarget, true).iterator().next();
+    }
+
+    public static ReusableStream<ProjectModule> findModulesProvidingJavaService(ReusableStream<ProjectModule> implementationScope, String javaService, Target requestedTarget, boolean keepBestOnly) {
+        ReusableStream<ProjectModule> modules = implementationScope
+                .filter(m -> m.getTarget().gradeTargetMatch(requestedTarget) >= 0)
+                .filter(m -> m.providesJavaService(javaService));
+        if (keepBestOnly)
+            modules = ReusableStream.of(modules
+                    .max(Comparator.comparingInt(m -> m.getTarget().gradeTargetMatch(requestedTarget)))
+                    .orElseThrow(() -> new IllegalArgumentException("Unable to find " + javaService + " service implementation for requested target " + requestedTarget))
+            );
+        return modules;
+    }
+
 
     /**********************************
      ***** Static utility methods *****

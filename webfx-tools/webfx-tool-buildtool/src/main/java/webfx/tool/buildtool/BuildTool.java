@@ -1,5 +1,7 @@
 package webfx.tool.buildtool;
 
+import webfx.tool.buildtool.sourcegenerators.GwtServiceLoaderSuperSourceGenerator;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -20,6 +22,7 @@ public final class BuildTool {
             .getUsedJavaPackages()
                 .forEach(System.out::println);
 */
+/*
         webfxRootModule.getChildModuleInDepth("webfx-tutorials")
                 .getThisAndChildrenModulesInDepth()
                 .filter(ProjectModule::isSourceModule)
@@ -27,22 +30,34 @@ public final class BuildTool {
                 //.filter(m -> !m.isDirectlyDependingOn("jsinterop-annotations"))
                 .forEach(m -> m.getJavaModuleFile().writeFile())
         ;
-/*
+*/
+        GwtServiceLoaderSuperSourceGenerator.generateServiceLoaderSuperSource(webfxRootModule.getChildModuleInDepth("webfx-tutorial-colorfulcircles-fxkit-gwt"));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.compatiblePlatforms().collect(Collectors.toList())));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.getUsedJavaServices().collect(Collectors.toList())));
-        ReusableStream<Module> transitiveDependencies = webfxRootModule.getChildModuleInDepth("mongoose-backend-application")
-                .getThisAndTransitiveDependencies();
-        //transitiveDependencies.forEach(System.out::println);
-        ReusableStream<ProjectModule> transitiveProjectModules = transitiveDependencies
-                .filter(m -> m instanceof ProjectModule)
-                .map(m -> (ProjectModule) m);
+        //webfxRootModule.getChildModuleInDepth("webfx-tutorial-helloworld-fxkit-gwt").getTransitiveRequiredJavaServicesImplementationModules().forEach(System.out::println);
+
+/*
+        ReusableStream<Module> transitiveDependencies =
+                webfxRootModule.getChildModuleInDepth("webfx-tutorial-helloworld-fxkit-gwt").getThisAndTransitiveDependencies()
+                ;
+        transitiveDependencies.forEach(System.out::println);
+        ReusableStream<ProjectModule> transitiveProjectModules = ProjectModule.filterProjectModules(transitiveDependencies);
+        ReusableStream<ProjectModule> implementationScopeProjectModules = transitiveProjectModules
+                .concat(webfxRootModule.getChildModuleInDepth("webfx-platform").getThisAndChildrenModulesInDepth())
+                ;
         transitiveProjectModules
                 .flatMap(ProjectModule::getUsedRequiredJavaServices)
                 .distinct()
-                .filter(s -> transitiveProjectModules.noneMatch(m -> m.providesJavaService(s)))
-                .forEach(s -> System.out.println(s + " -> " + webfxRootModule.findBestMatchModuleProvidingJavaService(s, TargetTag.GWT)))
+                //.filter(s -> transitiveProjectModules.noneMatch(m -> m.providesJavaService(s)))
+                .forEach(s -> {
+                    ProjectModule m = RootModule.findBestMatchModuleProvidingJavaService(implementationScopeProjectModules, s, TargetTag.GWT);
+                    System.out.println(s + " -> " + m);
+                    //System.out.println(s + " -> " + (m == null ? "null" : m.getProvidedJavaServiceImplementations(s).collect(Collectors.toList())));
+                })
         ;
+*/
 
+/*
         webfxRootModule.getChildModuleInDepth("mongoose-backend-application")
                 .findModulesProvidingRequiredService(TargetTag.GWT)
                 .forEach(System.out::println);
