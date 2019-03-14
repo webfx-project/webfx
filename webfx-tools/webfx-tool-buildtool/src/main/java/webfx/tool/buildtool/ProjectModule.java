@@ -55,13 +55,28 @@ public class ProjectModule extends ModuleImpl {
                     .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getMetaInfJavaServicesDirectory()))
                     .map(path -> path.getFileName().toString())
                     .cache();
-    private final ReusableStream<Module> directDependenciesCache =
+    private final ReusableStream<Module> sourceDirectDependenciesCache =
             usedJavaPackagesCache
                     .map(p -> getRootModule().getJavaPackageModule(p))
                     .map(this::replaceModuleWithEmulatedIfApplicable)
                     .filter(module -> module != this && !module.getArtifactId().equals(getArtifactId()))
                     .distinct()
                     .cache();
+    private final ReusableStream<Module> moduleDirectDependenciesCache =
+            ReusableStream.create(() -> {
+                List<Module> implicitModules = new ArrayList<>();
+                String artifactId = getArtifactId();
+                if (artifactId.endsWith("application-gwt")) {
+                    ProjectModule applicationModule = getRootModule().getChildModuleInDepth(artifactId.substring(0, artifactId.length() - 4));
+                    if (applicationModule != null)
+                        implicitModules.add(applicationModule);
+                }
+                return implicitModules.spliterator();
+            });
+    private final ReusableStream<Module> directDependenciesCache =
+            ReusableStream.concat(sourceDirectDependenciesCache, moduleDirectDependenciesCache)
+            .distinct()
+            .cache();
     private final ReusableStream<Module> transitiveDependenciesCache =
             directDependenciesCache
                     .flatMap(m -> m instanceof ProjectModule ? ((ProjectModule) m).getNonCyclicThisAndTransitiveDependencies() : ReusableStream.of(m))

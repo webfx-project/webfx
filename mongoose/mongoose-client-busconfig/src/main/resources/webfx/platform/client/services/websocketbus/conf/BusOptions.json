@@ -1,0 +1,7 @@
+{
+  "serverHost": "localhost",
+  "serverPort": 9090,
+  "serverSSL": false,
+  "busPrefix": "eventbus",
+  "pingInterval": 5000
+}

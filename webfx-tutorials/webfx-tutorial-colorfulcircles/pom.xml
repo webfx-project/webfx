@@ -13,8 +13,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>webfx-tutorial-colorfulcircles-module</module>
-        <module>webfx-tutorial-colorfulcircles-executables</module>
+        <module>webfx-tutorial-colorfulcircles-application</module>
+        <module>webfx-tutorial-colorfulcircles-application-javafx</module>
+        <module>webfx-tutorial-colorfulcircles-application-gwt</module>
     </modules>
 
 

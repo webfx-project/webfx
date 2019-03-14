@@ -15,9 +15,86 @@
 
     <modules>
 
-        <module>mongoose-modules</module>
-        <module>mongoose-executables</module>
-
+        <module>mongoose-backend-activities-authorizations-routing</module>
+        <module>mongoose-backend-activities-authorizations</module>
+        <module>mongoose-backend-activities-bookings</module>
+        <module>mongoose-backend-activities-bookings-routing</module>
+        <module>mongoose-backend-activities-cloneevent</module>
+        <module>mongoose-backend-activities-cloneevent-routing</module>
+        <module>mongoose-backend-activities-events</module>
+        <module>mongoose-backend-activities-events-routing</module>
+        <module>mongoose-backend-activities-letter</module>
+        <module>mongoose-backend-activities-letter-routing</module>
+        <module>mongoose-backend-activities-letters</module>
+        <module>mongoose-backend-activities-letters-routing</module>
+        <module>mongoose-backend-activities-monitor</module>
+        <module>mongoose-backend-activities-monitor-routing</module>
+        <module>mongoose-backend-activities-operations</module>
+        <module>mongoose-backend-activities-operations-routing</module>
+        <module>mongoose-backend-activities-options</module>
+        <module>mongoose-backend-activities-organizations</module>
+        <module>mongoose-backend-activities-organizations-routing</module>
+        <module>mongoose-backend-application</module>
+        <module>mongoose-backend-multilangeditor</module>
+        <module>mongoose-frontend-activities-cart</module>
+        <module>mongoose-frontend-activities-cart-routing</module>
+        <module>mongoose-frontend-activities-contactus</module>
+        <module>mongoose-frontend-activities-contactus-routing</module>
+        <module>mongoose-frontend-activities-fees</module>
+        <module>mongoose-frontend-activities-fees-routing</module>
+        <module>mongoose-frontend-activities-options</module>
+        <module>mongoose-frontend-activities-options-routing</module>
+        <module>mongoose-frontend-activities-person</module>
+        <module>mongoose-frontend-activities-person-routing</module>
+        <module>mongoose-frontend-activities-payment</module>
+        <module>mongoose-frontend-activities-payment-routing</module>
+        <module>mongoose-frontend-activities-program</module>
+        <module>mongoose-frontend-activities-program-routing</module>
+        <module>mongoose-frontend-activities-startbooking</module>
+        <module>mongoose-frontend-activities-startbooking-routing</module>
+        <module>mongoose-frontend-activities-summary</module>
+        <module>mongoose-frontend-activities-summary-routing</module>
+        <module>mongoose-frontend-activities-terms</module>
+        <module>mongoose-frontend-activities-terms-routing</module>
+        <module>mongoose-frontend-application</module>
+        <module>mongoose-client-activities-login</module>
+        <module>mongoose-client-activities-unauthorized</module>
+        <module>mongoose-client-activity</module>
+        <module>mongoose-client-aggregates</module>
+        <module>mongoose-client-application</module>
+        <module>mongoose-client-navigationarrows-java</module>
+        <module>mongoose-client-authn</module>
+        <module>mongoose-client-authz</module>
+        <module>mongoose-client-busconfig</module>
+        <module>mongoose-client-busconfig-gwt</module>
+        <module>mongoose-client-bookingcalendar</module>
+        <module>mongoose-client-bookingoptionspanel</module>
+        <module>mongoose-client-bookingprocess</module>
+        <module>mongoose-client-businesslogic</module>
+        <module>mongoose-client-calendar</module>
+        <module>mongoose-client-css-java</module>
+        <module>mongoose-client-css-web</module>
+        <module>mongoose-client-i18n</module>
+        <module>mongoose-client-i18n-gwt</module>
+        <module>mongoose-client-icons</module>
+        <module>mongoose-client-icons-gwt</module>
+        <module>mongoose-client-operationactionsloading</module>
+        <module>mongoose-client-personaldetails</module>
+        <module>mongoose-client-sectionpanel</module>
+        <module>mongoose-client-sessionrecorder</module>
+        <module>mongoose-client-util</module>
+        <module>mongoose-client-validation</module>
+        <module>mongoose-server-sessioncloser</module>
+        <module>mongoose-server-datasource</module>
+        <module>mongoose-server-systemmetrics</module>
+        <module>mongoose-server-systemmetrics-java</module>
+        <module>mongoose-server-application</module>
+        <module>mongoose-server-application-vertx</module>
+        <module>mongoose-shared-domain</module>
+        <module>mongoose-shared-domain-gwt</module>
+        <module>mongoose-shared-entities</module>
+        <module>mongoose-shared-time</module>
+        <module>mongoose-client-css</module>
     </modules>
 
     <properties>
@@ -25,5 +102,62 @@
         <mongoose.groupId>${webfx.groupId}</mongoose.groupId>
         <mongoose.version>${webfx.version}</mongoose.version>
     </properties>
+
+    <profiles>
+        <!-- JRE profiles (JavaFx) -->
+        <profile>
+            <id>mongoose-backend-application-javafx</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-application-javafx</module>
+            </modules>
+        </profile>
+
+        <!-- Web profiles (GWT, TeaVM) -->
+        <profile>
+            <id>mongoose-backend-application-gwt</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-application-gwt</module>
+            </modules>
+        </profile>
+
+        <!-- JRE profiles (JavaFx) -->
+        <profile>
+            <id>mongoose-frontend-application-javafx</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-frontend-application-javafx</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>mongoose-frontend-application-gwt</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-frontend-application-gwt</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>mongoose-backend-activities-loadtester-jp</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-activities-loadtester-jp</module>
+                <module>mongoose-backend-activities-loadtester-jp-routing</module>
+            </modules>
+        </profile>
+
+    </profiles>
 
 </project>

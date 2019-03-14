@@ -16,7 +16,7 @@
         <!-- The dependencies order matters for module initialization sequence -->
 
         <dependency>
-            <artifactId>webfx-tutorial-helloworld-module</artifactId>
+            <artifactId>webfx-tutorial-helloworld-application</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -28,8 +28,14 @@
         </dependency>
 
         <dependency>
+            <artifactId>webfx-platform-shared-appcontainer-java</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
+            <artifactId>javafx-web</artifactId>
         </dependency>
 
     </dependencies>

@@ -31,7 +31,11 @@ public final class BuildTool {
                 .forEach(m -> m.getJavaModuleFile().writeFile())
         ;
 */
-        GwtServiceLoaderSuperSourceGenerator.generateServiceLoaderSuperSource(webfxRootModule.getChildModuleInDepth("webfx-tutorial-colorfulcircles-fxkit-gwt"));
+        webfxRootModule.getThisAndChildrenModulesInDepth()
+                .filter(m -> m.getArtifactId().startsWith("webfx-tutorial"))
+                .filter(m -> m.getArtifactId().endsWith("application-gwt"))
+                .forEach(GwtServiceLoaderSuperSourceGenerator::generateServiceLoaderSuperSource);
+        //GwtServiceLoaderSuperSourceGenerator.generateServiceLoaderSuperSource(webfxRootModule.getChildModuleInDepth("webfx-tutorial-colorfulcircles-application-gwt"));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.compatiblePlatforms().collect(Collectors.toList())));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.getUsedJavaServices().collect(Collectors.toList())));
         //webfxRootModule.getChildModuleInDepth("webfx-tutorial-helloworld-fxkit-gwt").getTransitiveRequiredJavaServicesImplementationModules().forEach(System.out::println);

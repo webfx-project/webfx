@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.webfx</groupId>
+        <artifactId>mongoose</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongoose-server-platform-vertx</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>webfx-platform-server-all-vertx</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-server-application</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-server-systemmetrics-java</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+        </dependency>
+
+        <dependency> <!-- TODO: remove this (comes from expression module that depends on type which is in fxkit-extracontrols which depends on fxkit-launcher) -->
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <!-- Making the jar file executable with its associated lib directory -->
+
+    <properties>
+        <plugins.param.jre.mainClass>webfx.platform.shared.services.appcontainer.spi.impl.vertx.VertxApplicationContainerVerticle</plugins.param.jre.mainClass>
+        <!-- disabling classes and sources dependencies unpack to avoid including them again in the jar -->
+        <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
+        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
+    </properties>
+
+    <profiles>
+
+        <!-- profile to make a non fat standalone executable jar with all dependent libraries unpacked in lib folder -->
+        <profile>
+            <id>mongoose-server-platform-vertx-nonfat</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+
+                    <!-- Setting the main class and classpath in the manifest file to make it executable (with java -jar) -->
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${plugins.param.jre.mainClass}</mainClass>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>lib/</classpathPrefix>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Unpacking all dependent libraries in the lib folder -->
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- profile to make a fat standalone executable jar with all dependent libraries included inside -->
+        <profile>
+            <id>mongoose-server-platform-vertx-fat</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <shadedArtifactAttached>false</shadedArtifactAttached>
+                                    <transformers>
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <manifestEntries>
+                                                <Main-Class>io.vertx.core.Launcher</Main-Class>
+                                                <Main-Verticle>${plugins.param.jre.mainClass}</Main-Verticle>
+                                            </manifestEntries>
+                                        </transformer>
+                                    </transformers>
+                                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+</project>

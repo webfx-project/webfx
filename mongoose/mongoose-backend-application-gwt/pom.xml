@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.webfx</groupId>
+        <artifactId>mongoose</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongoose-backend-application-gwt</artifactId>
+    <packaging>gwt-app</packaging>
+
+    <dependencies>
+
+        <!-- Now listing the sources for GWT compilation -->
+
+        <dependency> <!-- Listing it first to ensure to have the GridCollator gwt version -->
+            <artifactId>webfx-fxkit-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkit-emul-javafxbase</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkit-emul-javafxgraphics</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkit-emul-javafxcontrols</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkit-mapper-javafxgraphics</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkit-mapper-javafxcontrols</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-fxkit-mapper-extracontrols</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-client-css-web</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-client-busconfig-gwt</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-client-i18n-gwt</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-client-icons-gwt</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-shared-domain-gwt</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-backend-application</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>fat-sources</classifier>
+        </dependency>
+
+        <dependency> <!-- Only because its gwt xml module is referenced - TODO: remove this dependency -->
+            <artifactId>webfx-framework-client-all</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-shared-appcontainer-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-client-websocketbus-web</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-shared-json-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-client-uischeduler-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-shared-log-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-shared-shutdown-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-client-windowlocation-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-client-windowhistory-web</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-client-windowhistory-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-shared-resource-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-client-storage-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-client-websocket-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-providers-gwt-emul-javabase</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>shaded-sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-platform-providers-gwt-emul-javatime</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>shaded-sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-client-push</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-client-push-simple</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-client-querypush</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>webfx-framework-client-querypush-simple</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <!-- Setting the GWT plugin configuration parameters -->
+        <plugin.gwt.param.module>mongoose-backend-application-gwt</plugin.gwt.param.module>
+        <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>
+        <!-- Changing parameters to speed up compilation time while in development -->
+        <plugin.gwt.param.draftCompile>true</plugin.gwt.param.draftCompile>
+        <plugin.gwt.param.optimize>0</plugin.gwt.param.optimize>
+        <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
+        <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Generating the source artifact for another GWT compilation (ex: KBS) -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- profile to compile the java code into javascript using GWT -->
+        <profile>
+            <id>gwt-compile</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <properties>
+                <plugin.gwt.param.skipCompilation>false</plugin.gwt.param.skipCompilation>
+            </properties>
+
+        </profile>
+    </profiles>
+
+</project>

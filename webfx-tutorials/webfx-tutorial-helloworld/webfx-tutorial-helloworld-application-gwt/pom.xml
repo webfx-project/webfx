@@ -17,7 +17,7 @@
         <!-- Now listing the sources for GWT compilation -->
 
         <dependency>
-            <artifactId>webfx-tutorial-helloworld-module</artifactId>
+            <artifactId>webfx-tutorial-helloworld-application</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -199,12 +199,6 @@
         </dependency>
 
         <dependency>
-            <artifactId>webfx-tutorial-helloworld-module</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
         </dependency>
@@ -218,7 +212,7 @@
 
     <properties>
         <!-- Setting the GWT plugin configuration parameters -->
-        <plugin.gwt.param.module>webfx-tutorial-helloworld-fxkit-gwt</plugin.gwt.param.module>
+        <plugin.gwt.param.module>webfx-tutorial-helloworld-application-gwt</plugin.gwt.param.module>
         <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>
         <!-- Changing parameters to speed up compilation time while in development -->
         <plugin.gwt.param.draftCompile>true</plugin.gwt.param.draftCompile>

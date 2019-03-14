@@ -1,4 +1,4 @@
-<module rename-to="webfx_tutorial_helloworld_fxkit_gwt">
+<module rename-to="webfx_tutorial_helloworld_application_gwt">
 
     <!-- Configuring logging (must be in first position) -->
     <inherits name="com.google.gwt.logging.Logging" />
@@ -14,7 +14,7 @@
     <define-configuration-property name="application.build.number" is_multi_valued="false"/>
     <define-configuration-property name="application.build.timestamp" is_multi_valued="false"/>
 
-    <inherits name="webfx-tutorial-helloworld-module"/>
+    <inherits name="webfx-tutorial-helloworld-application"/>
     <inherits name="webfx-fxkit-gwt"/>
     <inherits name="webfx-platform-client-uischeduler-gwt"/>
     <inherits name="webfx-platform-shared-log-gwt"/>
