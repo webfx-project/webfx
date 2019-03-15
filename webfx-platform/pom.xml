@@ -83,6 +83,7 @@
         <module>webfx-platform-server-all-vertx</module>
         <module>webfx-platform-client-all-gwt</module>
         <module>webfx-platform-server-updatelistener</module>
+        <module>webfx-platform-shared-query-remote</module>
 
     </modules>
 

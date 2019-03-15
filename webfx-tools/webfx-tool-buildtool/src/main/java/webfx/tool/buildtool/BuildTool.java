@@ -1,7 +1,5 @@
 package webfx.tool.buildtool;
 
-import webfx.tool.buildtool.sourcegenerators.GwtServiceLoaderSuperSourceGenerator;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -14,6 +12,13 @@ public final class BuildTool {
         long t0 = System.currentTimeMillis();
         RootModule webfxRootModule = new RootModule(getWebfxRootDirectory());
 /*
+        webfxRootModule.findProjectModule("mongoose-backend-application")
+                //.getDirectDependencies()
+                //.getWebfxModuleFile().getSourceModules()
+                //.forEach(System.out::println);
+        .getJavaModuleFile().writeFile();
+*/
+/*
         webfxRootModule.getThisAndChildrenModulesInDepth()
                 .forEach(ProjectModule::deleteIdeFiles);
 */
@@ -22,19 +27,20 @@ public final class BuildTool {
             .getUsedJavaPackages()
                 .forEach(System.out::println);
 */
-/*
-        webfxRootModule.getChildModuleInDepth("webfx-tutorials")
+        webfxRootModule
+                //.findProjectModule("mongoose")
                 .getThisAndChildrenModulesInDepth()
                 .filter(ProjectModule::isSourceModule)
                 .filter(m -> m.getTarget().isPlatformSupported(Platform.JRE))
                 //.filter(m -> !m.isDirectlyDependingOn("jsinterop-annotations"))
                 .forEach(m -> m.getJavaModuleFile().writeFile())
         ;
-*/
+/*
         webfxRootModule.getThisAndChildrenModulesInDepth()
-                .filter(m -> m.getArtifactId().startsWith("webfx-tutorial"))
+                //.filter(m -> m.getArtifactId().startsWith("webfx-tutorial"))
                 .filter(m -> m.getArtifactId().endsWith("application-gwt"))
                 .forEach(GwtServiceLoaderSuperSourceGenerator::generateServiceLoaderSuperSource);
+*/
         //GwtServiceLoaderSuperSourceGenerator.generateServiceLoaderSuperSource(webfxRootModule.getChildModuleInDepth("webfx-tutorial-colorfulcircles-application-gwt"));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.compatiblePlatforms().collect(Collectors.toList())));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.getUsedJavaServices().collect(Collectors.toList())));

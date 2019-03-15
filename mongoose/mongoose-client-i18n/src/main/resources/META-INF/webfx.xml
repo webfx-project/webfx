@@ -1,0 +1,15 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx.platform.shared.util</module>
+        </source-modules>
+
+    </dependencies>
+
+    <resource-packages>
+        <package>mongoose.client.services.i18n.dictionaries</package>
+    </resource-packages>
+
+</module>

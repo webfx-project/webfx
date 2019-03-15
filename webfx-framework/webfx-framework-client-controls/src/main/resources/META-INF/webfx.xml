@@ -1,0 +1,15 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx.platform.shared.update</module>
+        </source-modules>
+
+    </dependencies>
+
+    <resource-packages>
+        <package>images.s16.controls</package>
+    </resource-packages>
+
+</module>

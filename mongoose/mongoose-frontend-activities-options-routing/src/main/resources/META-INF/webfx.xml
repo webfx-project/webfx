@@ -1,0 +1,12 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>mongoose.client.aggregates</module>
+            <module>mongoose.shared.entities</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

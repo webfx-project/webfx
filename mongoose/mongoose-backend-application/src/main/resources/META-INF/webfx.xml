@@ -1,0 +1,23 @@
+<module application-class="mongoose.backend.application.MongooseBackendApplication">
+
+    <dependencies>
+
+        <source-modules>
+            <module>javafx.graphics</module>
+        </source-modules>
+
+        <plugin-modules>
+            <module>mongoose-backend-activities-authorizations</module>
+            <module>mongoose-backend-activities-organizations</module>
+            <module>mongoose-backend-activities-operations</module>
+            <module>mongoose-backend-activities-monitor</module>
+            <module>mongoose-backend-activities-letters</module>
+            <module>mongoose-backend-activities-letter</module>
+            <module>mongoose-backend-activities-events</module>
+            <module>mongoose-backend-activities-bookings</module>
+            <module>mongoose-backend-activities-cloneevent</module>
+        </plugin-modules>
+
+    </dependencies>
+
+</module>

@@ -1,0 +1,13 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>mongoose.client.aggregates</module>
+            <module>webfx.framework.client.activity</module>
+            <module>webfx.platform.shared.update</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

@@ -60,6 +60,7 @@ public class ProjectModule extends ModuleImpl {
                     .map(p -> getRootModule().getJavaPackageModule(p))
                     .map(this::replaceModuleWithEmulatedIfApplicable)
                     .filter(module -> module != this && !module.getArtifactId().equals(getArtifactId()))
+                    .concat(ReusableStream.create(() -> getWebfxModuleFile().getSourceModules()))
                     .distinct()
                     .cache();
     private final ReusableStream<Module> moduleDirectDependenciesCache =
@@ -67,7 +68,7 @@ public class ProjectModule extends ModuleImpl {
                 List<Module> implicitModules = new ArrayList<>();
                 String artifactId = getArtifactId();
                 if (artifactId.endsWith("application-gwt")) {
-                    ProjectModule applicationModule = getRootModule().getChildModuleInDepth(artifactId.substring(0, artifactId.length() - 4));
+                    ProjectModule applicationModule = getRootModule().findProjectModule(artifactId.substring(0, artifactId.length() - 4));
                     if (applicationModule != null)
                         implicitModules.add(applicationModule);
                 }
@@ -75,8 +76,8 @@ public class ProjectModule extends ModuleImpl {
             });
     private final ReusableStream<Module> directDependenciesCache =
             ReusableStream.concat(sourceDirectDependenciesCache, moduleDirectDependenciesCache)
-            .distinct()
-            .cache();
+                    .distinct()
+                    .cache();
     private final ReusableStream<Module> transitiveDependenciesCache =
             directDependenciesCache
                     .flatMap(m -> m instanceof ProjectModule ? ((ProjectModule) m).getNonCyclicThisAndTransitiveDependencies() : ReusableStream.of(m))
@@ -98,8 +99,12 @@ public class ProjectModule extends ModuleImpl {
     private final ReusableStream<ProjectModule> transitiveProjectModulesCache =
             ProjectModule.filterProjectModules(transitiveDependenciesCache);
     private final ReusableStream<ProjectModule> implementationScope =
-            ReusableStream.concat(transitiveProjectModulesCache,
-                    ReusableStream.create(() -> getRootModule().getChildModuleInDepth("webfx-platform").getThisAndChildrenModulesInDepth().spliterator()))
+            ReusableStream.concat(
+                    transitiveProjectModulesCache,
+                    ReusableStream.create(() -> getRootModule().findProjectModule("webfx-platform").getThisAndChildrenModulesInDepth().filter(m -> m.getTarget().gradeTargetMatch(getTarget()) >= 0)),
+                    ReusableStream.create(() -> getRootModule().findProjectModule("webfx-framework").getThisAndChildrenModulesInDepth().filter(m -> m.getTarget().gradeTargetMatch(getTarget()) >= 0)),
+                    ReusableStream.create(() -> getParentModule().getThisAndChildrenModulesInDepth().filter(m -> m.getTarget().gradeTargetMatch(getTarget()) >= 0))
+            )
                     .distinct()
                     .cache();
     private final ReusableStream<ProjectModule> transitiveRequiredJavaServicesImplementationModules =
@@ -184,7 +189,7 @@ public class ProjectModule extends ModuleImpl {
         return hasMetaInfJavaServicesDirectory;
     }
 
-    WebfxModuleFile getWebfxModuleFile() {
+    public WebfxModuleFile getWebfxModuleFile() {
         if (webfxModuleFile == null)
             webfxModuleFile = new WebfxModuleFile(this);
         return webfxModuleFile;
@@ -215,7 +220,7 @@ public class ProjectModule extends ModuleImpl {
                 case "javafx-graphics":
                 case "javafx-controls":
                     //    return getRootModule().getChildModuleInDepth("webfx-fxkit-emul-" + m.getArtifactId().replace("-", ""));
-                    return getRootModule().getChildModuleInDepth("webfx-fxkit-gwt");
+                    return getRootModule().findProjectModule("webfx-fxkit-gwt");
             }
         }
         return m;
@@ -253,7 +258,7 @@ public class ProjectModule extends ModuleImpl {
     }
 
     ReusableStream<ProjectModule> getThisAndChildrenModules() {
-        return ReusableStream.of(this).concat(getChildrenModules());
+        return ReusableStream.concat(ReusableStream.of(this), getChildrenModules());
     }
 
     ReusableStream<ProjectModule> getChildrenModulesInDepth() {
@@ -261,15 +266,30 @@ public class ProjectModule extends ModuleImpl {
     }
 
     ReusableStream<ProjectModule> getThisAndChildrenModulesInDepth() {
-        return ReusableStream.of(this).concat(getChildrenModulesInDepth());
+        return  ReusableStream.concat(ReusableStream.of(this), getChildrenModulesInDepth());
     }
 
-    public ProjectModule getChildModuleInDepth(String artifactId) {
-        return getChildrenModulesInDepth()
+    ProjectModule findProjectModule(String artifactId) {
+        return findProjectModule(artifactId, false);
+    }
+
+    ProjectModule findProjectModule(String artifactId, boolean silent) {
+        Optional<ProjectModule> projectModule = getChildrenModulesInDepth()
                 .filter(module -> module.getArtifactId().equals(artifactId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unable to find " + artifactId + " module under " + getArtifactId() + " module"))
-                ;
+                .findFirst();
+        if (projectModule.isPresent())
+            return projectModule.get();
+        if (silent)
+            return null;
+        throw new IllegalArgumentException("Unable to find " + artifactId + " module under " + getArtifactId() + " module");
+    }
+
+    public ReusableStream<Module> getResourceModules() {
+        return getWebfxModuleFile().getResourceModules();
+    }
+
+    public ReusableStream<String> getResourcePackages() {
+        return getWebfxModuleFile().getResourcePackages();
     }
 
 

@@ -1,0 +1,7 @@
+<module>
+
+    <resource-packages>
+        <package>mongoose.shared.domainmodel</package>
+    </resource-packages>
+
+</module>

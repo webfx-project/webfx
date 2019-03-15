@@ -1,0 +1,11 @@
+<module executable="true" application-module="mongoose-backend-application">
+
+    <dependencies>
+
+        <plugin-modules>
+            <module>mongoose-backend-application</module>
+        </plugin-modules>
+
+    </dependencies>
+
+</module>

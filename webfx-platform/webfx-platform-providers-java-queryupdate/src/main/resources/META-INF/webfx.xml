@@ -1,0 +1,11 @@
+<module>
+
+    <dependencies>
+
+        <optional-modules>
+            <module>HikariCP</module>
+        </optional-modules>
+
+    </dependencies>
+
+</module>

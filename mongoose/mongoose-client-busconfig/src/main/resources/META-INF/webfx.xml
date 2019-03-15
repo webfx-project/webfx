@@ -1,0 +1,7 @@
+<module>
+
+    <resource-packages>
+        <package>webfx.platform.client.services.websocketbus.conf</package>
+    </resource-packages>
+
+</module>

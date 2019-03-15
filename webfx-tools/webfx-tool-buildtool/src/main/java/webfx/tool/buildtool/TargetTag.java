@@ -140,7 +140,7 @@ enum TargetTag {
     }
 
     boolean isPlatformCompatible(TargetTag requestedTag) {
-        return Arrays.stream(requestedTag.getSupportedPlatforms()).allMatch(this::isPlatformSupported);
+        return Arrays.stream(requestedTag.getSupportedPlatforms()).anyMatch(this::isPlatformSupported);
     }
 
     int gradeCompatibility(TargetTag requestedTag) {

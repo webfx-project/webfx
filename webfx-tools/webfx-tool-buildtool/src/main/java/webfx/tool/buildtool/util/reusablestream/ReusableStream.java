@@ -85,6 +85,10 @@ public interface ReusableStream<T> extends Spliterable<T> {
         return fromIterable(spliterable);
     }
 
+    static <T> ReusableStream<T> create(Supplier<ReusableStream<T>> factory) {
+        return create(() -> factory.get().spliterator());
+    }
+
     static <T> ReusableStream<T> fromIterable(Iterable<T> iterable) {
         return new ReusableStreamImpl<>(iterable);
     }
@@ -100,5 +104,13 @@ public interface ReusableStream<T> extends Spliterable<T> {
 
     static <T> ReusableStream<T> concat(ReusableStream<T> a, Iterable<? extends T> b) {
         return a.concat(b);
+    }
+
+    static <T> ReusableStream<T> concat(ReusableStream<T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
+        return a.concat(b).concat(c);
+    }
+
+    static <T> ReusableStream<T> concat(ReusableStream<T> a, Iterable<? extends T> b, Iterable<? extends T> c, Iterable<? extends T> d) {
+        return a.concat(b).concat(c).concat(d);
     }
 }

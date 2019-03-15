@@ -1,0 +1,18 @@
+<module>
+
+    <resource-packages>
+        <package>images.s16</package>
+        <package>images.s16.actions</package>
+        <package>images.s16.continents</package>
+        <package>images.s16.countries</package>
+        <package>images.s16.itemFamilies</package>
+        <package>images.s16.multipleBookings</package>
+        <package>images.s16.organizations</package>
+        <package>images.s16.system</package>
+        <package>images.s16.validation</package>
+        <package>images.s32.system</package>
+        <package>images.svg.color</package>
+        <package>images.svg.mono</package>
+    </resource-packages>
+
+</module>

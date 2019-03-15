@@ -1,0 +1,11 @@
+<module executable="true" application-module="mongoose-backend-application">
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx.platform.shared.update</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

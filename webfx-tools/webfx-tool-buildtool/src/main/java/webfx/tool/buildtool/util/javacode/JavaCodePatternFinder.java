@@ -46,13 +46,14 @@ class JavaCodePatternFinder implements Iterable<String> {
     public Iterator<String> iterator() {
         return new Iterator<>() {
             private final Matcher matcher = javaCodePattern.getPattern().matcher(getJavaCode());
-            private final CommentFinder blockCommentFinder = new CommentFinder("/*", "*/");
-            private final CommentFinder inlineCommentFinder = new CommentFinder("//", "\n");
+            private final StringOrCommentFinder blockCommentFinder = new StringOrCommentFinder("/*", "*/");
+            private final StringOrCommentFinder inlineCommentFinder = new StringOrCommentFinder("//", "\n");
+            private final StringOrCommentFinder stringFinder = new StringOrCommentFinder("\"", "\"");
 
             @Override
             public boolean hasNext() {
                 while (matcher.find()) {
-                    if (!isInsideComment(matcher.start(javaCodePattern.getMatchingGroup())))
+                    if (!isInsideStringOrComment(matcher.start(javaCodePattern.getMatchingGroup())))
                         return true;
                 }
                 return false;
@@ -63,67 +64,80 @@ class JavaCodePatternFinder implements Iterable<String> {
                 return mapFoundGroup(matcher.group(javaCodePattern.getMatchingGroup()));
             }
 
-            private boolean isInsideComment(int index) {
-                return blockCommentFinder.isInsideComment(index) || inlineCommentFinder.isInsideComment(index) && inlineCommentFinder.commentStartIndex > blockCommentFinder.commentEndIndex;
+            private boolean isInsideStringOrComment(int index) {
+                return blockCommentFinder.isInsideStringOrComment(index)
+                        || inlineCommentFinder.isInsideStringOrComment(index) && inlineCommentFinder.stringOrCommentStartIndex > blockCommentFinder.stringOrCommentEndIndex
+                        || stringFinder.isInsideStringOrComment(index) && stringFinder.stringOrCommentStartIndex > blockCommentFinder.stringOrCommentEndIndex
+                        ;
             }
         };
     }
 
-    private class CommentFinder {
-        private final String commentStartingToken;
-        private final String commentEndingToken;
+    private class StringOrCommentFinder {
+        private final String stringOrCommentStartingToken;
+        private final String stringOrCommentEndingToken;
 
-        private boolean commentOpen; // Set to true when index is in a block comment on last isInsideComment() call
-        private int commentStartIndex;
-        private int commentEndIndex;
+        private boolean stringOrCommentOpen; // Set to true when index is in a block comment on last isInsideComment() call
+        private int stringOrCommentStartIndex;
+        private int stringOrCommentEndIndex;
 
-        private CommentFinder(String commentStartingToken, String commentEndingToken) {
-            this.commentStartingToken = commentStartingToken;
-            this.commentEndingToken = commentEndingToken;
-            updateCommentStartIndex();
-            updateCommentEndIndex();
+        private StringOrCommentFinder(String stringOrCommentStartingToken, String stringOrCommentEndingToken) {
+            this.stringOrCommentStartingToken = stringOrCommentStartingToken;
+            this.stringOrCommentEndingToken = stringOrCommentEndingToken;
+            updateStringOrCommentStartIndex();
+            updateStringOrCommentEndIndex();
         }
 
-        private void updateCommentStartIndex() {
-            commentStartIndex = javaCode.indexOf(commentStartingToken, commentEndIndex);
+        private void updateStringOrCommentStartIndex() {
+            int fromIndex = stringOrCommentEndIndex;
+            if (fromIndex > 0 && stringOrCommentEndingToken.equals(stringOrCommentStartingToken))
+                fromIndex++;
+            stringOrCommentStartIndex = javaCode.indexOf(stringOrCommentStartingToken, fromIndex);
         }
 
-        private void updateCommentEndIndex() {
-            commentEndIndex = javaCode.indexOf(commentEndingToken, commentStartIndex);
-        }
-
-        private boolean isInsideComment(int index) {
-            updateCommentState(index);
-            return commentOpen;
-        }
-
-        private void updateCommentState(int index) {
+        private void updateStringOrCommentEndIndex() {
+            int fromIndex = stringOrCommentStartIndex + 1;
             while (true) {
-                if (!commentOpen) { // If no block comment so far
+                stringOrCommentEndIndex = javaCode.indexOf(stringOrCommentEndingToken, fromIndex);
+                if (stringOrCommentEndIndex > 1 && stringOrCommentEndingToken.equals(stringOrCommentStartingToken) && javaCode.charAt(stringOrCommentEndIndex) == '\\') {
+                    fromIndex = stringOrCommentEndIndex + 1;
+                } else
+                    break;
+            }
+        }
+
+        private boolean isInsideStringOrComment(int index) {
+            updateStateToIndex(index);
+            return stringOrCommentOpen;
+        }
+
+        private void updateStateToIndex(int index) {
+            while (true) {
+                if (!stringOrCommentOpen) { // If no block comment so far
                     // if no more comment on the line or after the index,
-                    if (commentStartIndex == -1 || commentStartIndex > index)
+                    if (stringOrCommentStartIndex == -1 || stringOrCommentStartIndex > index)
                         return; // then returning with still blockCommentOpen = false
                     // A new comment has started before the index, now searching the end of this comment
-                    if (commentEndIndex != -1 && commentEndIndex < commentStartIndex) // The condition to require an update of commentEndIndex
-                        updateCommentEndIndex();
-                    if (commentEndIndex == -1 || commentEndIndex > index) { // If no end of the comment on this line,
-                        commentOpen = true; // then returning with commentOpen = true
+                    if (stringOrCommentEndIndex != -1 && stringOrCommentEndIndex < stringOrCommentStartIndex) // The condition to require an update of stringOrCommentEndIndex
+                        updateStringOrCommentEndIndex();
+                    if (stringOrCommentEndIndex == -1 || stringOrCommentEndIndex > index) { // If no end of the comment on this line,
+                        stringOrCommentOpen = true; // then returning with stringOrCommentOpen = true
                         return;
                     }
-                    // Updating commentStartIndex before looping
-                    updateCommentStartIndex();
+                    // Updating stringOrCommentStartIndex before looping
+                    updateStringOrCommentStartIndex();
                 } else {
-                    if (commentEndIndex == -1 || commentEndIndex > index) // Means the comment is still not closed
-                        return; // So exiting the loop with still commentOpen = true
-                    // End of comment was reached but perhaps a new comment was reopen after, so updating commentStartIndex to know
-                    if (commentStartIndex != -1 && commentStartIndex < commentEndIndex) // the condition to be updated
-                        updateCommentStartIndex();
-                    if (commentStartIndex == -1 || commentStartIndex > index) { // Means no new comment on that line
-                        commentOpen = false;
+                    if (stringOrCommentEndIndex == -1 || stringOrCommentEndIndex > index) // Means the comment is still not closed
+                        return; // So exiting the loop with still stringOrCommentOpen = true
+                    // End of comment was reached but perhaps a new comment was reopen after, so updating stringOrCommentStartIndex to know
+                    if (stringOrCommentStartIndex != -1 && stringOrCommentStartIndex < stringOrCommentEndIndex) // the condition to be updated
+                        updateStringOrCommentStartIndex();
+                    if (stringOrCommentStartIndex == -1 || stringOrCommentStartIndex > index) { // Means no new comment on that line
+                        stringOrCommentOpen = false;
                         return;
                     }
-                    // Updating blockCommentEndIndex before looping
-                    updateCommentEndIndex();
+                    // Updating stringOrCommentEndingToken before looping
+                    updateStringOrCommentEndIndex();
                 }
             }
         }

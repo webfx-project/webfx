@@ -1,0 +1,21 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx.framework.shared.router</module>
+        </source-modules>
+
+        <resource-modules>
+            <module>mongoose.client.css</module>
+            <module>mongoose.client.busconfig</module>
+        </resource-modules>
+
+    </dependencies>
+
+    <resource-packages>
+        <package>mongoose.client.images</package>
+        <package>images.buddhas</package>
+    </resource-packages>
+
+</module>

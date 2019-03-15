@@ -1,0 +1,12 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx.framework.client.activity</module>
+            <module>webfx.platform.shared.query</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>
