@@ -5,13 +5,23 @@ module mongoose.client.application {
     // Direct dependencies modules
     requires java.base;
     requires javafx.graphics;
+    requires mongoose.client.activities.login;
+    requires mongoose.client.activities.unauthorized;
     requires mongoose.client.activity;
+    requires mongoose.client.authz;
+    requires mongoose.client.busconfig;
+    requires mongoose.client.css;
+    requires mongoose.client.i18n;
     requires mongoose.client.icons;
+    requires mongoose.client.operationactionsloading;
+    requires mongoose.client.sessionrecorder;
     requires mongoose.shared.domain;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
+    requires webfx.framework.client.push.simple;
+    requires webfx.framework.client.querypush.simple;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.operation;
@@ -21,10 +31,6 @@ module mongoose.client.application {
     requires webfx.fxkit.util;
     requires webfx.platform.shared.buscall;
     requires webfx.platform.shared.util;
-
-    // Resources modules
-    requires mongoose.client.busconfig;
-    requires mongoose.client.css;
 
     // Exported packages
     exports mongoose.client.application;

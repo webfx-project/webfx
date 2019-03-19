@@ -15,4 +15,11 @@
         <package>images.svg.mono</package>
     </resource-packages>
 
+    <embed-resources>
+        <resource>images/svg/mono/certificate.svg</resource>
+        <resource>images/svg/mono/calendar.svg</resource>
+        <resource>images/svg/mono/price-tag.svg</resource>
+        <resource>images/svg/color/price-tag.svg</resource>
+    </embed-resources>
+
 </module>

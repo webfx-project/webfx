@@ -3,11 +3,19 @@
     <dependencies>
 
         <source-modules>
-            <module>javafx.base</module>
+            <module>javafx-base</module>
             <module>webfx.platform.shared.update</module>
             <module>webfx.platform.shared.util</module>
         </source-modules>
 
     </dependencies>
+
+    <system-properties>
+        <property>application.name</property>
+        <property>application.version</property>
+        <property>application.build.tool</property>
+        <property>application.build.number</property>
+        <property>application.build.timestamp</property>
+    </system-properties>
 
 </module>

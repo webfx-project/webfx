@@ -2,4 +2,36 @@
 
 module mongoose.frontend.application.javafx {
 
+    // Direct dependencies modules
+    requires mongoose.client.authn;
+    requires mongoose.client.authz;
+    requires mongoose.client.i18n;
+    requires mongoose.client.operationactionsloading;
+    requires mongoose.frontend.activities.contactus;
+    requires mongoose.frontend.application;
+    requires mongoose.shared.entities;
+    requires webfx.framework.client.push.simple;
+    requires webfx.framework.client.querypush.simple;
+    requires webfx.framework.shared.querypush;
+    requires webfx.fxkit.javafx;
+    requires webfx.fxkit.launcher;
+    requires webfx.platform.client.storage.java;
+    requires webfx.platform.client.websocket.java;
+    requires webfx.platform.client.websocketbus;
+    requires webfx.platform.client.windowhistory.java;
+    requires webfx.platform.client.windowlocation.java;
+    requires webfx.platform.shared.appcontainer;
+    requires webfx.platform.shared.appcontainer.java;
+    requires webfx.platform.shared.buscall;
+    requires webfx.platform.shared.json.java;
+    requires webfx.platform.shared.log.simple;
+    requires webfx.platform.shared.query;
+    requires webfx.platform.shared.query.java;
+    requires webfx.platform.shared.resource.java;
+    requires webfx.platform.shared.scheduler.java;
+    requires webfx.platform.shared.serial;
+    requires webfx.platform.shared.shutdown.java;
+    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.update.java;
+
 }

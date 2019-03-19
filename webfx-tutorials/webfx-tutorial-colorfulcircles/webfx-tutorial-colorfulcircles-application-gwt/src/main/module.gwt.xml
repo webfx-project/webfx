@@ -1,33 +1,172 @@
-<module rename-to="webfx_tutorial_colorfulcircles_application_gwt">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module rename-to="webfx_tutorial_colorfulcircles_application_gwt">
 
     <!-- Configuring logging (must be in first position) -->
-    <inherits name="com.google.gwt.logging.Logging" />
-    <set-property name="gwt.logging.enabled" value="TRUE" />
-    <set-property name="gwt.logging.logLevel" value="FINEST" />
-    <set-property name="gwt.logging.consoleHandler" value="ENABLED" />
+    <inherits name="com.google.gwt.logging.Logging"/>
+    <set-property name="gwt.logging.enabled" value="TRUE"/>
+    <set-property name="gwt.logging.logLevel" value="FINEST"/>
+    <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
 
-    <!-- Declaring application properties so they can be accessed through System.getProperty()  -->
-    <!-- Note: these properties are set with the -setProperty GWT compiler argument when calling the GWT plugin in the root pom.xml -->
-    <define-configuration-property name="application.name" is_multi_valued="false"/>
-    <define-configuration-property name="application.version" is_multi_valued="false"/>
-    <define-configuration-property name="application.build.tool" is_multi_valued="false"/>
-    <define-configuration-property name="application.build.number" is_multi_valued="false"/>
-    <define-configuration-property name="application.build.timestamp" is_multi_valued="false"/>
+    <inherits name="com.google.gwt.user.User"/>
+    <inherits name="com.googlecode.gwt.charts.Charts"/>
+    <inherits name="elemental2.core.Core"/>
+    <inherits name="elemental2.dom.Dom"/>
 
-    <inherits name="webfx-tutorial-colorfulcircles-application"/>
-    <inherits name="webfx-fxkit-gwt"/>
-    <inherits name="webfx-platform-client-uischeduler-gwt"/>
-    <inherits name="webfx-platform-shared-log-gwt"/>
-    <inherits name="webfx-platform-shared-shutdown-gwt"/>
-    <inherits name="webfx-platform-providers-gwt-emul-javabase"/>
-    <inherits name="webfx-platform-providers-gwt-emul-javatime"/>
+    <!-- Listing modules sources -->
+    <!--==========================< webfx-fxkit-emul-javafxbase >===========================-->
+    <source path="com/sun/javafx"/>
+    <source path="com/sun/javafx/binding"/>
+    <source path="com/sun/javafx/collections"/>
+    <source path="com/sun/javafx/event"/>
+    <source path="javafx/beans"/>
+    <source path="javafx/beans/binding"/>
+    <source path="javafx/beans/property"/>
+    <source path="javafx/beans/value"/>
+    <source path="javafx/collections"/>
+    <source path="javafx/collections/transformation"/>
+    <source path="javafx/event"/>
+    <source path="javafx/util"/>
+    <!--========================< webfx-fxkit-emul-javafxcontrols >=========================-->
+    <source path="com/sun/javafx/scene/control"/>
+    <source path="com/sun/javafx/scene/control/behaviour"/>
+    <source path="com/sun/javafx/scene/control/skin"/>
+    <source path="javafx/scene/control"/>
+    <source path="javafx/scene/control/skin"/>
+    <!--========================< webfx-fxkit-emul-javafxgraphics >=========================-->
+    <source path="com/sun/javafx/application"/>
+    <source path="com/sun/javafx/cursor"/>
+    <source path="com/sun/javafx/geom"/>
+    <source path="com/sun/javafx/geom/transform"/>
+    <source path="com/sun/javafx/scene"/>
+    <source path="com/sun/javafx/scene/input"/>
+    <source path="com/sun/javafx/scene/text"/>
+    <source path="com/sun/javafx/scene/traversal"/>
+    <source path="com/sun/javafx/stage"/>
+    <source path="com/sun/javafx/tk"/>
+    <source path="com/sun/javafx/util"/>
+    <source path="com/sun/scenario/animation"/>
+    <source path="javafx/animation"/>
+    <source path="javafx/application"/>
+    <source path="javafx/css"/>
+    <source path="javafx/geometry"/>
+    <source path="javafx/scene"/>
+    <source path="javafx/scene/effect"/>
+    <source path="javafx/scene/image"/>
+    <source path="javafx/scene/input"/>
+    <source path="javafx/scene/layout"/>
+    <source path="javafx/scene/paint"/>
+    <source path="javafx/scene/shape"/>
+    <source path="javafx/scene/text"/>
+    <source path="javafx/scene/transform"/>
+    <source path="javafx/stage"/>
+    <source path="webfx/fxkit/mapper"/>
+    <source path="webfx/fxkit/mapper/spi"/>
+    <source path="webfx/fxkit/mapper/spi/impl"/>
+    <source path="webfx/fxkit/mapper/spi/impl/peer"/>
+    <!--===========================< webfx-fxkit-extracontrols >============================-->
+    <source path="webfx/fxkit/extra/cell/collator"/>
+    <source path="webfx/fxkit/extra/cell/renderer"/>
+    <source path="webfx/fxkit/extra/cell/rowstyle"/>
+    <source path="webfx/fxkit/extra/controls/displaydata"/>
+    <source path="webfx/fxkit/extra/controls/displaydata/chart"/>
+    <source path="webfx/fxkit/extra/controls/displaydata/datagrid"/>
+    <source path="webfx/fxkit/extra/controls/html"/>
+    <source path="webfx/fxkit/extra/displaydata"/>
+    <source path="webfx/fxkit/extra/displaydata/impl"/>
+    <source path="webfx/fxkit/extra/type"/>
+    <source path="webfx/fxkit/extra/util"/>
+    <!--================================< webfx-fxkit-gwt >=================================-->
+    <source path="webfx/fxkit/extra/cell/collator/grid"/>
+    <source path="webfx/fxkit/gwt/launcher"/>
+    <source path="webfx/fxkit/gwt/mapper/html"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer/extra"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer/javafxcontrols"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer/javafxgraphics"/>
+    <source path="webfx/fxkit/gwt/mapper/shared"/>
+    <source path="webfx/fxkit/gwt/mapper/svg"/>
+    <source path="webfx/fxkit/gwt/mapper/svg/peer/javafxgraphics"/>
+    <source path="webfx/fxkit/gwt/mapper/util"/>
+    <!--==============================< webfx-fxkit-launcher >==============================-->
+    <source path="webfx/fxkit/launcher"/>
+    <source path="webfx/fxkit/launcher/spi"/>
+    <source path="webfx/fxkit/launcher/spi/impl"/>
+    <!--===============================< webfx-fxkit-mapper >===============================-->
+    <source path="webfx/fxkit/mapper/spi"/>
+    <source path="webfx/fxkit/mapper/spi/impl/peer/markers"/>
+    <!--========================< webfx-fxkit-mapper-extracontrols >========================-->
+    <source path="webfx/fxkit/extra/cell/collator/grid"/>
+    <source path="webfx/fxkit/extra/mapper/spi/peer/impl/extra"/>
+    <!--=======================< webfx-fxkit-mapper-javafxcontrols >========================-->
+    <source path="webfx/fxkit/mapper/spi/impl/peer/javafxcontrols"/>
+    <!--=======================< webfx-fxkit-mapper-javafxgraphics >========================-->
+    <source path="webfx/fxkit/mapper/spi/impl/peer/javafxgraphics"/>
+    <!--================================< webfx-fxkit-util >================================-->
+    <source path="webfx/fxkit/util/properties"/>
+    <source path="webfx/fxkit/util/properties/conversion"/>
+    <!--=======================< webfx-platform-client-uischeduler >========================-->
+    <source path="webfx/platform/client/services/uischeduler"/>
+    <source path="webfx/platform/client/services/uischeduler/spi"/>
+    <source path="webfx/platform/client/services/uischeduler/spi/impl"/>
+    <!--=====================< webfx-platform-client-uischeduler-gwt >======================-->
+    <source path="webfx/platform/client/services/uischeduler/spi/impl/gwt"/>
+    <!--=======================< webfx-platform-shared-appcontainer >=======================-->
+    <source path="webfx/platform/shared/services/appcontainer"/>
+    <source path="webfx/platform/shared/services/appcontainer/spi"/>
+    <source path="webfx/platform/shared/services/appcontainer/spi/impl"/>
+    <!--=====================< webfx-platform-shared-appcontainer-gwt >=====================-->
+    <source path="webfx/platform/shared/services/appcontainer/spi/impl/gwt"/>
+    <!--===========================< webfx-platform-shared-log >============================-->
+    <source path="webfx/platform/shared/services/log"/>
+    <source path="webfx/platform/shared/services/log/spi"/>
+    <!--=========================< webfx-platform-shared-log-gwt >==========================-->
+    <source path="webfx/platform/shared/services/log/spi/impl/gwt"/>
+    <!--=========================< webfx-platform-shared-resource >=========================-->
+    <source path="webfx/platform/shared/services/resource"/>
+    <source path="webfx/platform/shared/services/resource/spi"/>
+    <!--=======================< webfx-platform-shared-resource-gwt >=======================-->
+    <source path="webfx/platform/shared/services/resource/spi/impl/gwt"/>
+    <!--========================< webfx-platform-shared-scheduler >=========================-->
+    <source path="webfx/platform/shared/services/scheduler"/>
+    <source path="webfx/platform/shared/services/scheduler/spi"/>
+    <!--=========================< webfx-platform-shared-shutdown >=========================-->
+    <source path="webfx/platform/shared/services/shutdown"/>
+    <source path="webfx/platform/shared/services/shutdown/spi"/>
+    <source path="webfx/platform/shared/services/shutdown/spi/impl"/>
+    <!--=======================< webfx-platform-shared-shutdown-gwt >=======================-->
+    <source path="webfx/platform/shared/services/shutdown/spi/impl/gwt"/>
+    <!--===========================< webfx-platform-shared-util >===========================-->
+    <source path="webfx/platform/shared/util"/>
+    <source path="webfx/platform/shared/util/async"/>
+    <source path="webfx/platform/shared/util/collection"/>
+    <source path="webfx/platform/shared/util/function"/>
+    <source path="webfx/platform/shared/util/noreflect"/>
+    <source path="webfx/platform/shared/util/serviceloader"/>
+    <source path="webfx/platform/shared/util/tuples"/>
+    <source path="webfx/platform/shared/util/uuid"/>
+    <!--===================< webfx-tutorial-colorfulcircles-application >===================-->
+    <source path="webfx/tutorial/colorfulcircles"/>
+    <!--=================< webfx-tutorial-colorfulcircles-application-gwt >=================-->
+
+    <source path="mongoose/client/services/bus/conf/gwt"/>
+    <source path="mongoose/shared/domainmodel/gwt"/>
+    <source path="mongoose/client/icons/gwt"/>
 
     <!-- Speeding up GWT compilation time in development mode -->
     <set-property name="user.agent" value="safari"/> <!-- to make only 1 permutation for testing with Chrome -->
+    <set-property name="jre.checks.checkLevel" value="MINIMAL"/>
 
     <!-- Specify the app entry point class. -->
     <entry-point class="webfx.platform.shared.services.appcontainer.spi.impl.gwt.GwtApplicationContainerProvider"/>
 
     <super-source path="super"/>
+    <super-source includes="java/io/" path=""/>
+    <super-source includes="java/lang/" path=""/>
+    <super-source includes="java/nio/" path=""/>
+    <super-source includes="java/security/" path=""/>
+    <super-source includes="java/text/" path=""/>
+    <super-source includes="java/util/" path=""/>
+    <super-source includes="java/time/" path=""/>
+
+    <public path="public"/>
 
 </module>

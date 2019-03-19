@@ -39,7 +39,7 @@ public final class RootModule extends ProjectModule {
     private void registerThirdPartyModules() {
         // JDK
         registerJavaPackageModule(createThirdPartyModule("java-base"), "java.io", "java.lang", "java.lang.annotation", "java.lang.management", "java.lang.ref", "java.lang.reflect", "java.math", "java.net", "java.nio", "java.nio.charset", "java.nio.file", "java.nio.file.attribute", "java.security", "java.text", "java.time", "java.time.format", "java.time.temporal", "java.util", "java.util.function", "java.util.regex", "java.util.stream", "java.util.concurrent", "java.util.concurrent.atomic");
-        registerJavaPackageModule(createThirdPartyModule("java-xml"), "javax.xml", "javax.xml.parsers", "javax.xml.transform", "javax.xml.transform.dom", "javax.xml.transform.stream", "javax.xml.xpath", "org.w3c.dom");
+        registerJavaPackageModule(createThirdPartyModule("java-xml"), "javax.xml", "javax.xml.parsers", "javax.xml.transform", "javax.xml.transform.dom", "javax.xml.transform.stream", "javax.xml.namespace", "javax.xml.xpath", "org.w3c.dom", "org.xml.sax");
         registerJavaPackageModule(createThirdPartyModule("java-sql"), "java.sql", "javax.sql");
         registerJavaPackageModule(createThirdPartyModule("java-logging"), "java.util.logging");
         registerJavaPackageModule(createThirdPartyModule("jdk-management"), "com.sun.management");
@@ -242,9 +242,5 @@ public final class RootModule extends ProjectModule {
         List<Module> newCollection = new ArrayList<>(parentPath);
         newCollection.add(module);
         return newCollection;
-    }
-
-    private static void warning(Object message) {
-        System.err.println("WARNING: " + message);
     }
 }

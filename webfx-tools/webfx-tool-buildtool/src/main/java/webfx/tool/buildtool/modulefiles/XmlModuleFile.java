@@ -1,21 +1,23 @@
 package webfx.tool.buildtool.modulefiles;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import webfx.tool.buildtool.ProjectModule;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
@@ -27,45 +29,76 @@ import java.util.function.Function;
 abstract class XmlModuleFile extends ModuleFile {
 
     private Document document;
+    private final boolean readFileIfExists;
 
-    XmlModuleFile(ProjectModule module) {
+    XmlModuleFile(ProjectModule module, boolean readFileIfExists) {
         super(module);
-    }
-
-    void createDocument() {
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            document = dBuilder.newDocument();
-            // root element
-            Element rootElement = document.createElement("module");
-            document.appendChild(rootElement);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.readFileIfExists = readFileIfExists;
     }
 
     Document getDocument() {
-        if (document == null)
+        if (document == null & readFileIfExists)
             readFile();
         if (document == null)
             createDocument();
         return document;
     }
 
+    void createDocument() {
+        document = createInitialDocument();
+        updateDocument(document);
+    }
+
+    Document createInitialDocument() {
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            return dBuilder.newDocument();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    void updateDocument(Document document) {
+        clearDocument(document);
+        document.appendChild(document.createElement("module"));
+    }
+
+    void clearDocument(Document document) {
+        Node firstChild;
+        while ((firstChild = document.getFirstChild()) != null)
+            document.removeChild(firstChild);
+    }
+
     @Override
     public void readFile() {
+        document = parseXmlFile(getModuleFile());
+    }
+
+    Document parseXmlSource(InputSource is) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             try {
-                document = dBuilder.parse(getModuleFile());
+                return dBuilder.parse(is);
             } catch (IOException e) {
-                document = dBuilder.newDocument();
+                return dBuilder.newDocument();
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
+    }
+
+    Document parseXmlFile(File xmlFile) {
+        return parseXmlSource(new InputSource(xmlFile.toURI().toASCIIString()));
+    }
+
+    Document parseXmlString(String xmlString) {
+        InputSource is = new InputSource();
+        is.setCharacterStream(new StringReader(xmlString));
+        return parseXmlSource(is);
     }
 
     @Override
@@ -73,8 +106,9 @@ abstract class XmlModuleFile extends ModuleFile {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            //transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.setOutputProperty("http://www.oracle.com/xml/is-standalone", "yes"); // This is to fix the missing line feed after xml declaration
             Document document = getDocument();
             document.getDocumentElement().normalize();
             DOMSource source = new DOMSource(document);
@@ -86,11 +120,19 @@ abstract class XmlModuleFile extends ModuleFile {
     }
 
     NodeList lookupNodeList(String xpathExpression) {
+        return lookup(xpathExpression, XPathConstants.NODESET);
+    }
+
+    Node lookupNode(String xpathExpression) {
+        return lookup(xpathExpression, XPathConstants.NODE);
+    }
+
+    private <T> T lookup(String xpathExpression, QName returnType) {
         XPathFactory xpf = XPathFactory.newInstance();
         XPath xpath = xpf.newXPath();
         try {
             XPathExpression expression = xpath.compile(xpathExpression);
-            return (NodeList) expression.evaluate(getDocument(), XPathConstants.NODESET);
+            return (T) expression.evaluate(getDocument(), returnType);
         } catch (XPathExpressionException e) {
             throw new RuntimeException(e);
         }
@@ -110,11 +152,13 @@ abstract class XmlModuleFile extends ModuleFile {
         });
     }
 
-    ReusableStream<String> lookupTextContent(String xPathExpression) {
+    ReusableStream<String> lookupNodeListTextContent(String xPathExpression) {
         return nodeListToReusableStream(lookupNodeList(xPathExpression), Node::getTextContent);
     }
 
     ReusableStream<webfx.tool.buildtool.Module> lookupModules(String xPathExpression) {
-        return lookupTextContent(xPathExpression).map(moduleName -> getModule().getRootModule().findModule(moduleName));
+        return lookupNodeListTextContent(xPathExpression)
+                .map(moduleName -> getModule().getRootModule().findModule(moduleName))
+                ;
     }
 }

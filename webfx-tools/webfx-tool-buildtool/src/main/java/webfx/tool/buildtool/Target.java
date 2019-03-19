@@ -29,8 +29,21 @@ public final class Target {
         return tags;
     }
 
+    public Platform[] getSupportedPlatforms() {
+        return Arrays.stream(Platform.values()).filter(this::isPlatformSupported).toArray(Platform[]::new);
+    }
+
     public boolean isPlatformSupported(Platform platform) {
         return Arrays.stream(getTags()).allMatch(tag -> tag.isPlatformSupported(platform));
+    }
+
+    public boolean isMonoPlatform() {
+        return getSupportedPlatforms().length == 1;
+    }
+
+    public boolean isMonoPlatform(Platform platform) {
+        Platform[] supportedPlatforms = getSupportedPlatforms();
+        return supportedPlatforms.length == 1 && supportedPlatforms[0] == platform;
     }
 
     int gradeTargetMatch(Target requestedTarget) {
@@ -38,7 +51,7 @@ public final class Target {
         for (TargetTag requestedTag : requestedTarget.getTags()) {
             for (TargetTag tag : getTags()) {
                 int tagGrade = tag.gradeCompatibility(requestedTag);
-                if (tagGrade < 0)
+                if (tagGrade < 0 && tag.gradeCompatibility(requestedTag) < 0)
                     return tagGrade;
                 grade += tagGrade;
             }

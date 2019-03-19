@@ -562,43 +562,6 @@
                         <draftCompile>${plugin.gwt.param.draftCompile}</draftCompile>
                         <optimize>${plugin.gwt.param.optimize}</optimize>
                         <sourceLevel>${gwt.sourceLevel}</sourceLevel>
-                        <compilerArgs>
-                            <!-- Setting value to return when compiling System.getProperty("application.name") -->
-                            <compilerArg>-setProperty</compilerArg>
-                            <compilerArg>application.name=${application.name}</compilerArg>
-                            <!-- Setting value to return when compiling System.getProperty("application.version") -->
-                            <compilerArg>-setProperty</compilerArg>
-                            <compilerArg>application.version=${application.version}</compilerArg>
-                            <!-- Setting value to return when compiling System.getProperty("application.build.tool") -->
-                            <compilerArg>-setProperty</compilerArg>
-                            <compilerArg>application.build.tool=${application.build.tool}</compilerArg>
-                            <!-- Setting value to return when compiling System.getProperty("application.build.number") -->
-                            <compilerArg>-setProperty</compilerArg>
-                            <compilerArg>application.build.number=${application.build.number}</compilerArg>
-                            <!-- Setting value to return when compiling System.getProperty("application.build.timestamp") -->
-                            <compilerArg>-setProperty</compilerArg>
-                            <compilerArg>application.build.timestamp=${application.build.timestamp}</compilerArg>
-                            <!--compilerArg>-style</compilerArg>
-                            <compilerArg>DETAILED</compilerArg-->
-                        </compilerArgs>
-                        <!-- Doing the same for the code server (when compiling in super dev mode) -->
-                        <codeserverArgs>
-                            <!-- Setting value to return when compiling System.getProperty("application.name") -->
-                            <codeserverArg>-setProperty</codeserverArg>
-                            <codeserverArg>application.name=${application.name}</codeserverArg>
-                            <!-- Setting value to return when compiling System.getProperty("application.version") -->
-                            <codeserverArg>-setProperty</codeserverArg>
-                            <codeserverArg>application.version=${application.version}</codeserverArg>
-                            <!-- Setting value to return when compiling System.getProperty("application.build.tool") -->
-                            <codeserverArg>-setProperty</codeserverArg>
-                            <codeserverArg>application.build.tool=${application.build.tool}</codeserverArg>
-                            <!-- Setting value to return when compiling System.getProperty("application.build.number") -->
-                            <codeserverArg>-setProperty</codeserverArg>
-                            <codeserverArg>application.build.number=${application.build.number}</codeserverArg>
-                            <!-- Setting value to return when compiling System.getProperty("application.build.timestamp") -->
-                            <codeserverArg>-setProperty</codeserverArg>
-                            <codeserverArg>application.build.timestamp=${application.build.timestamp}</codeserverArg>
-                        </codeserverArgs>
                         <!-- Trying to solve a java heap OutOfMemoryError on the server -->
                         <jvmArgs>
                             <jvmArg>-Xmx1024m</jvmArg>

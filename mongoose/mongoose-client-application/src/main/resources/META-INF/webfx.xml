@@ -3,13 +3,24 @@
     <dependencies>
 
         <source-modules>
-            <module>webfx.framework.shared.router</module>
+            <module>webfx-framework-shared-router</module>
         </source-modules>
 
         <resource-modules>
-            <module>mongoose.client.css</module>
-            <module>mongoose.client.busconfig</module>
+            <module>mongoose-client-css</module>
+            <module>mongoose-client-busconfig</module>
         </resource-modules>
+
+        <plugin-modules>
+            <module>mongoose-client-i18n</module>
+            <module>mongoose-client-authz</module>
+            <module>mongoose-client-operationactionsloading</module>
+            <module>mongoose-client-sessionrecorder</module>
+            <module>mongoose-client-activities-login</module>
+            <module>mongoose-client-activities-unauthorized</module>
+            <module>webfx-framework-client-push-simple</module>
+            <module>webfx-framework-client-querypush-simple</module>
+        </plugin-modules>
 
     </dependencies>
 

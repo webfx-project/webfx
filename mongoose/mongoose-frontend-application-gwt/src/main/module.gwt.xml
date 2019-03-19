@@ -1,37 +1,559 @@
-<module rename-to="mongoose_frontend_application_gwt">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module rename-to="mongoose_frontend_application_gwt">
 
     <!-- Configuring logging (must be in first position) -->
-    <inherits name="com.google.gwt.logging.Logging" />
-    <set-property name="gwt.logging.enabled" value="TRUE" />
-    <set-property name="gwt.logging.logLevel" value="FINEST" />
-    <set-property name="gwt.logging.consoleHandler" value="ENABLED" />
+    <inherits name="com.google.gwt.logging.Logging"/>
+    <set-property name="gwt.logging.enabled" value="TRUE"/>
+    <set-property name="gwt.logging.logLevel" value="FINEST"/>
+    <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
 
-    <inherits name="mongoose-frontend-application"/>
-    <inherits name="webfx-fxkit-gwt"/>
-    <inherits name="webfx-platform-client-websocketbus-web"/>
-    <inherits name="webfx-platform-shared-appcontainer-gwt"/>
-    <inherits name="webfx-platform-shared-json-gwt"/>
-    <inherits name="webfx-platform-client-uischeduler-gwt"/>
-    <inherits name="webfx-platform-shared-log-gwt"/>
-    <inherits name="webfx-platform-shared-resource-gwt"/>
-    <inherits name="webfx-platform-shared-shutdown-gwt"/>
-    <inherits name="webfx-platform-client-storage-gwt"/>
-    <inherits name="webfx-platform-client-websocket-gwt"/>
-    <inherits name="webfx-platform-client-windowlocation-gwt"/>
-    <inherits name="webfx-platform-client-windowhistory-gwt"/>
-    <inherits name="webfx-platform-providers-gwt-emul-javabase"/>
-    <inherits name="webfx-platform-providers-gwt-emul-javatime"/>
-    <inherits name="webfx-framework-client-push-simple"/>
-    <inherits name="webfx-framework-client-querypush-simple"/>
-    <inherits name="webfx-lib-controlsfx-validation" />
-    <inherits name="webfx-lib-javacupruntime" />
+    <inherits name="com.google.gwt.user.User"/>
+    <inherits name="com.googlecode.gwt.charts.Charts"/>
+    <inherits name="elemental2.core.Core"/>
+    <inherits name="elemental2.dom.Dom"/>
+
+    <!-- Listing modules sources -->
+    <!--========================< mongoose-client-activities-login >========================-->
+    <source path="mongoose/client/activities/login"/>
+    <!--====================< mongoose-client-activities-unauthorized >=====================-->
+    <source path="mongoose/client/activities/unauthorized"/>
+    <!--============================< mongoose-client-activity >============================-->
+    <source path="mongoose/client/activity"/>
+    <source path="mongoose/client/activity/eventdependent"/>
+    <source path="mongoose/client/activity/organizationdependent"/>
+    <source path="mongoose/client/activity/table"/>
+    <source path="mongoose/client/activity/themes"/>
+    <!--===========================< mongoose-client-aggregates >===========================-->
+    <source path="mongoose/client/aggregates/cart"/>
+    <source path="mongoose/client/aggregates/event"/>
+    <source path="mongoose/client/aggregates/person"/>
+    <!--==========================< mongoose-client-application >===========================-->
+    <source path="mongoose/client/application"/>
+    <resource path="images/buddhas"/>
+    <public includes="images/buddhas/" path=""/>
+    <resource path="mongoose/client/images"/>
+    <public includes="mongoose/client/images/" path=""/>
+    <!--=============================< mongoose-client-authn >==============================-->
+    <source path="mongoose/client/services/authn"/>
+    <!--=============================< mongoose-client-authz >==============================-->
+    <source path="mongoose/client/services/authz"/>
+    <!--========================< mongoose-client-bookingcalendar >=========================-->
+    <source path="mongoose/client/controls/bookingcalendar"/>
+    <!--======================< mongoose-client-bookingoptionspanel >=======================-->
+    <source path="mongoose/client/controls/bookingoptionspanel"/>
+    <!--=========================< mongoose-client-bookingprocess >=========================-->
+    <source path="mongoose/client/activity/bookingprocess"/>
+    <!--===========================< mongoose-client-busconfig >============================-->
+    <resource path="webfx/platform/client/services/websocketbus/conf"/>
+    <public includes="webfx/platform/client/services/websocketbus/conf/" path=""/>
+    <!--=========================< mongoose-client-businesslogic >==========================-->
+    <source path="mongoose/client/businessdata/feesgroup"/>
+    <source path="mongoose/client/businessdata/preselection"/>
+    <source path="mongoose/client/businessdata/workingdocument"/>
+    <source path="mongoose/client/businesslogic/feesgroup"/>
+    <source path="mongoose/client/businesslogic/option"/>
+    <source path="mongoose/client/businesslogic/pricing"/>
+    <source path="mongoose/client/businesslogic/rules"/>
+    <source path="mongoose/client/businesslogic/workingdocument"/>
+    <!--============================< mongoose-client-calendar >============================-->
+    <source path="mongoose/client/businessdata/calendar"/>
+    <source path="mongoose/client/businessdata/calendar/impl"/>
+    <source path="mongoose/client/controls/calendargraphic"/>
+    <source path="mongoose/client/controls/calendargraphic/impl"/>
+    <!--==============================< mongoose-client-css >===============================-->
+    <!--==============================< mongoose-client-i18n >==============================-->
+    <source path="mongoose/client/operations/i18n"/>
+    <source path="mongoose/client/services/i18n"/>
+    <resource path="mongoose/client/services/i18n/dictionaries"/>
+    <public includes="mongoose/client/services/i18n/dictionaries/" path=""/>
+    <!--=============================< mongoose-client-icons >==============================-->
+    <source path="mongoose/client/actions"/>
+    <source path="mongoose/client/icons"/>
+    <resource path="images/s16"/>
+    <public includes="images/s16/" path=""/>
+    <resource path="images/s16/actions"/>
+    <public includes="images/s16/actions/" path=""/>
+    <resource path="images/s16/continents"/>
+    <public includes="images/s16/continents/" path=""/>
+    <resource path="images/s16/countries"/>
+    <public includes="images/s16/countries/" path=""/>
+    <resource path="images/s16/itemFamilies"/>
+    <public includes="images/s16/itemFamilies/" path=""/>
+    <resource path="images/s16/multipleBookings"/>
+    <public includes="images/s16/multipleBookings/" path=""/>
+    <resource path="images/s16/organizations"/>
+    <public includes="images/s16/organizations/" path=""/>
+    <resource path="images/s16/system"/>
+    <public includes="images/s16/system/" path=""/>
+    <resource path="images/s16/validation"/>
+    <public includes="images/s16/validation/" path=""/>
+    <resource path="images/s32/system"/>
+    <public includes="images/s32/system/" path=""/>
+    <resource path="images/svg/color"/>
+    <public includes="images/svg/color/" path=""/>
+    <resource path="images/svg/mono"/>
+    <public includes="images/svg/mono/" path=""/>
+    <!--====================< mongoose-client-operationactionsloading >=====================-->
+    <source path="mongoose/client/operationactionsloading"/>
+    <!--========================< mongoose-client-personaldetails >=========================-->
+    <source path="mongoose/client/controls/personaldetails"/>
+    <!--==========================< mongoose-client-sectionpanel >==========================-->
+    <source path="mongoose/client/controls/sectionpanel"/>
+    <!--========================< mongoose-client-sessionrecorder >=========================-->
+    <source path="mongoose/client/jobs/sessionrecorder"/>
+    <define-configuration-property is_multi_valued="false" name="application.build.number"/>
+    <define-configuration-property is_multi_valued="false" name="application.build.timestamp"/>
+    <define-configuration-property is_multi_valued="false" name="application.build.tool"/>
+    <define-configuration-property is_multi_valued="false" name="application.name"/>
+    <define-configuration-property is_multi_valued="false" name="application.version"/>
+    <!--==============================< mongoose-client-util >==============================-->
+    <source path="mongoose/client/util/functions"/>
+    <source path="mongoose/client/util/log"/>
+    <source path="mongoose/client/util/routing"/>
+    <!--===========================< mongoose-client-validation >===========================-->
+    <source path="mongoose/client/validation"/>
+    <!--=======================< mongoose-frontend-activities-cart >========================-->
+    <source path="mongoose/frontend/activities/cart"/>
+    <!--===================< mongoose-frontend-activities-cart-routing >====================-->
+    <source path="mongoose/frontend/activities/cart/routing"/>
+    <source path="mongoose/frontend/operations/cart"/>
+    <!--=====================< mongoose-frontend-activities-contactus >=====================-->
+    <source path="mongoose/frontend/activities/contactus"/>
+    <!--=================< mongoose-frontend-activities-contactus-routing >=================-->
+    <source path="mongoose/frontend/activities/contactus/routing"/>
+    <source path="mongoose/frontend/operations/contactus"/>
+    <!--=======================< mongoose-frontend-activities-fees >========================-->
+    <source path="mongoose/frontend/activities/fees"/>
+    <!--===================< mongoose-frontend-activities-fees-routing >====================-->
+    <source path="mongoose/frontend/activities/fees/routing"/>
+    <source path="mongoose/frontend/operations/fees"/>
+    <!--======================< mongoose-frontend-activities-options >======================-->
+    <source path="mongoose/frontend/activities/options"/>
+    <!--==================< mongoose-frontend-activities-options-routing >==================-->
+    <source path="mongoose/frontend/activities/options/routing"/>
+    <source path="mongoose/frontend/operations/options"/>
+    <!--======================< mongoose-frontend-activities-payment >======================-->
+    <source path="mongoose/frontend/activities/payment"/>
+    <!--==================< mongoose-frontend-activities-payment-routing >==================-->
+    <source path="mongoose/frontend/activities/payment/routing"/>
+    <source path="mongoose/frontend/operations/payment"/>
+    <!--======================< mongoose-frontend-activities-person >=======================-->
+    <source path="mongoose/frontend/activities/person"/>
+    <!--==================< mongoose-frontend-activities-person-routing >===================-->
+    <source path="mongoose/frontend/activities/person/routing"/>
+    <source path="mongoose/frontend/operations/person"/>
+    <!--======================< mongoose-frontend-activities-program >======================-->
+    <source path="mongoose/frontend/activities/program"/>
+    <!--==================< mongoose-frontend-activities-program-routing >==================-->
+    <source path="mongoose/frontend/activities/program/routing"/>
+    <source path="mongoose/frontend/operations/program"/>
+    <!--===================< mongoose-frontend-activities-startbooking >====================-->
+    <source path="mongoose/frontend/activities/startbooking"/>
+    <!--===============< mongoose-frontend-activities-startbooking-routing >================-->
+    <source path="mongoose/frontend/activities/startbooking/routing"/>
+    <source path="mongoose/frontend/operations/startbooking"/>
+    <!--======================< mongoose-frontend-activities-summary >======================-->
+    <source path="mongoose/frontend/activities/summary"/>
+    <!--==================< mongoose-frontend-activities-summary-routing >==================-->
+    <source path="mongoose/frontend/activities/summary/routing"/>
+    <source path="mongoose/frontend/operations/summary"/>
+    <!--=======================< mongoose-frontend-activities-terms >=======================-->
+    <source path="mongoose/frontend/activities/terms"/>
+    <!--===================< mongoose-frontend-activities-terms-routing >===================-->
+    <source path="mongoose/frontend/activities/terms/routing"/>
+    <source path="mongoose/frontend/operations/terms"/>
+    <!--=========================< mongoose-frontend-application >==========================-->
+    <source path="mongoose/frontend/application"/>
+    <!--=======================< mongoose-frontend-application-gwt >========================-->
+    <!--=============================< mongoose-shared-domain >=============================-->
+    <source path="mongoose/shared/domainmodel/formatters"/>
+    <source path="mongoose/shared/domainmodel/functions"/>
+    <source path="mongoose/shared/domainmodel/loader"/>
+    <resource path="mongoose/shared/domainmodel"/>
+    <public includes="mongoose/shared/domainmodel/" path=""/>
+    <!--============================< mongoose-shared-entities >============================-->
+    <source path="mongoose/shared/entities"/>
+    <source path="mongoose/shared/entities/formatters"/>
+    <source path="mongoose/shared/entities/impl"/>
+    <source path="mongoose/shared/entities/markers"/>
+    <source path="mongoose/shared/entities/util"/>
+    <source path="mongoose/shared/services/systemmetrics"/>
+    <!--==============================< mongoose-shared-time >==============================-->
+    <source path="mongoose/shared/businessdata/time"/>
+    <!--=========================< webfx-framework-client-action >==========================-->
+    <source path="webfx/framework/client/operation/action"/>
+    <source path="webfx/framework/client/ui/action"/>
+    <source path="webfx/framework/client/ui/action/impl"/>
+    <!--========================< webfx-framework-client-activity >=========================-->
+    <source path="webfx/framework/client/activity"/>
+    <source path="webfx/framework/client/activity/impl"/>
+    <source path="webfx/framework/client/activity/impl/composition"/>
+    <source path="webfx/framework/client/activity/impl/composition/impl"/>
+    <source path="webfx/framework/client/activity/impl/elementals/activeproperty"/>
+    <source path="webfx/framework/client/activity/impl/elementals/activeproperty/impl"/>
+    <!--========================< webfx-framework-client-controls >=========================-->
+    <source path="webfx/framework/client/ui/controls"/>
+    <source path="webfx/framework/client/ui/controls/alert"/>
+    <source path="webfx/framework/client/ui/controls/button"/>
+    <source path="webfx/framework/client/ui/controls/dialog"/>
+    <source path="webfx/framework/client/ui/controls/sheet"/>
+    <resource path="images/s16/controls"/>
+    <public includes="images/s16/controls/" path=""/>
+    <!--==========================< webfx-framework-client-i18n >===========================-->
+    <source path="webfx/framework/client/operations/i18n"/>
+    <source path="webfx/framework/client/services/i18n"/>
+    <source path="webfx/framework/client/services/i18n/spi"/>
+    <source path="webfx/framework/client/services/i18n/spi/impl"/>
+    <!--=========================< webfx-framework-client-layouts >=========================-->
+    <source path="webfx/framework/client/ui/layouts"/>
+    <!--=====================< webfx-framework-client-materialdesign >======================-->
+    <source path="webfx/framework/client/ui/materialdesign/textfield"/>
+    <source path="webfx/framework/client/ui/materialdesign/util"/>
+    <!--==========================< webfx-framework-client-push >===========================-->
+    <source path="webfx/framework/client/services/push"/>
+    <source path="webfx/framework/client/services/push/spi"/>
+    <!--=======================< webfx-framework-client-push-simple >=======================-->
+    <source path="webfx/framework/client/services/push/spi/impl/simple"/>
+    <!--========================< webfx-framework-client-querypush >========================-->
+    <source path="webfx/framework/client/services/querypush"/>
+    <!--====================< webfx-framework-client-querypush-simple >=====================-->
+    <source path="webfx/framework/client/jobs/querypush"/>
+    <!--========================< webfx-framework-client-uifilter >=========================-->
+    <source path="webfx/framework/client/ui/filter"/>
+    <source path="webfx/framework/client/ui/filter/rx"/>
+    <source path="webfx/framework/shared/orm/mapping/entity_display"/>
+    <!--========================< webfx-framework-client-uirouter >=========================-->
+    <source path="webfx/framework/client/activity/impl/elementals/presentation"/>
+    <source path="webfx/framework/client/activity/impl/elementals/presentation/impl"/>
+    <source path="webfx/framework/client/activity/impl/elementals/presentation/logic"/>
+    <source path="webfx/framework/client/activity/impl/elementals/presentation/logic/impl"/>
+    <source path="webfx/framework/client/activity/impl/elementals/presentation/view"/>
+    <source path="webfx/framework/client/activity/impl/elementals/presentation/view/impl"/>
+    <source path="webfx/framework/client/activity/impl/elementals/uiroute"/>
+    <source path="webfx/framework/client/activity/impl/elementals/uiroute/impl"/>
+    <source path="webfx/framework/client/activity/impl/elementals/view"/>
+    <source path="webfx/framework/client/activity/impl/elementals/view/impl"/>
+    <source path="webfx/framework/client/operations/route"/>
+    <source path="webfx/framework/client/ui/uirouter"/>
+    <source path="webfx/framework/client/ui/uirouter/impl"/>
+    <source path="webfx/framework/client/ui/uirouter/uisession"/>
+    <source path="webfx/framework/client/ui/uirouter/uisession/impl"/>
+    <!--==========================< webfx-framework-client-util >===========================-->
+    <source path="webfx/framework/client/ui/util/anim"/>
+    <source path="webfx/framework/client/ui/util/background"/>
+    <source path="webfx/framework/client/ui/util/border"/>
+    <source path="webfx/framework/client/ui/util/formatter"/>
+    <source path="webfx/framework/client/ui/util/image"/>
+    <source path="webfx/framework/client/ui/util/paint"/>
+    <!--==========================< webfx-framework-shared-authn >==========================-->
+    <source path="webfx/framework/shared/services/authn"/>
+    <source path="webfx/framework/shared/services/authn/spi"/>
+    <!--==========================< webfx-framework-shared-authz >==========================-->
+    <source path="webfx/framework/shared/operation/authz"/>
+    <source path="webfx/framework/shared/services/authz"/>
+    <source path="webfx/framework/shared/services/authz/mixin"/>
+    <source path="webfx/framework/shared/services/authz/spi"/>
+    <source path="webfx/framework/shared/services/authz/spi/impl"/>
+    <source path="webfx/framework/shared/services/authz/spi/impl/inmemory"/>
+    <source path="webfx/framework/shared/services/authz/spi/impl/inmemory/parser"/>
+    <!--=========================< webfx-framework-shared-domain >==========================-->
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation"/>
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation/impl"/>
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentationlogic/impl"/>
+    <source path="webfx/framework/client/activity/impl/combinations/viewdomain"/>
+    <source path="webfx/framework/client/activity/impl/combinations/viewdomain/impl"/>
+    <source path="webfx/framework/client/activity/impl/elementals/domain"/>
+    <source path="webfx/framework/client/activity/impl/elementals/domain/impl"/>
+    <source path="webfx/framework/shared/orm/domainmodel"/>
+    <source path="webfx/framework/shared/orm/domainmodel/builder"/>
+    <source path="webfx/framework/shared/orm/domainmodel/lciimpl"/>
+    <source path="webfx/framework/shared/orm/domainmodel/loader"/>
+    <!--=========================< webfx-framework-shared-entity >==========================-->
+    <source path="webfx/framework/shared/orm/entity"/>
+    <source path="webfx/framework/shared/orm/entity/impl"/>
+    <source path="webfx/framework/shared/orm/entity/lciimpl"/>
+    <source path="webfx/framework/shared/orm/entity/result"/>
+    <source path="webfx/framework/shared/orm/entity/result/impl"/>
+    <source path="webfx/framework/shared/orm/mapping/query_entity"/>
+    <!--=======================< webfx-framework-shared-expression >========================-->
+    <source path="webfx/framework/shared/expression"/>
+    <source path="webfx/framework/shared/expression/builder"/>
+    <source path="webfx/framework/shared/expression/builder/terms"/>
+    <source path="webfx/framework/shared/expression/lci"/>
+    <source path="webfx/framework/shared/expression/lci/mocks"/>
+    <source path="webfx/framework/shared/expression/parser"/>
+    <source path="webfx/framework/shared/expression/parser/javacup"/>
+    <source path="webfx/framework/shared/expression/parser/jflex"/>
+    <source path="webfx/framework/shared/expression/sqlcompiler"/>
+    <source path="webfx/framework/shared/expression/sqlcompiler/mapping"/>
+    <source path="webfx/framework/shared/expression/sqlcompiler/sql"/>
+    <source path="webfx/framework/shared/expression/sqlcompiler/sql/dbms"/>
+    <source path="webfx/framework/shared/expression/sqlcompiler/terms"/>
+    <source path="webfx/framework/shared/expression/terms"/>
+    <source path="webfx/framework/shared/expression/terms/function"/>
+    <source path="webfx/framework/shared/expression/terms/function/java"/>
+    <!--========================< webfx-framework-shared-operation >========================-->
+    <source path="webfx/framework/shared/operation"/>
+    <!--==========================< webfx-framework-shared-push >===========================-->
+    <source path="webfx/framework/shared/services/push"/>
+    <!--========================< webfx-framework-shared-querypush >========================-->
+    <source path="webfx/framework/shared/services/querypush"/>
+    <source path="webfx/framework/shared/services/querypush/diff"/>
+    <source path="webfx/framework/shared/services/querypush/diff/impl"/>
+    <source path="webfx/framework/shared/services/querypush/spi"/>
+    <source path="webfx/framework/shared/services/querypush/spi/impl"/>
+    <!--=========================< webfx-framework-shared-router >==========================-->
+    <source path="webfx/framework/shared/router"/>
+    <source path="webfx/framework/shared/router/auth"/>
+    <source path="webfx/framework/shared/router/auth/authz"/>
+    <source path="webfx/framework/shared/router/auth/impl"/>
+    <source path="webfx/framework/shared/router/impl"/>
+    <source path="webfx/framework/shared/router/session"/>
+    <source path="webfx/framework/shared/router/session/impl"/>
+    <source path="webfx/framework/shared/router/util"/>
+    <!--==========================< webfx-fxkit-emul-javafxbase >===========================-->
+    <source path="com/sun/javafx"/>
+    <source path="com/sun/javafx/binding"/>
+    <source path="com/sun/javafx/collections"/>
+    <source path="com/sun/javafx/event"/>
+    <source path="javafx/beans"/>
+    <source path="javafx/beans/binding"/>
+    <source path="javafx/beans/property"/>
+    <source path="javafx/beans/value"/>
+    <source path="javafx/collections"/>
+    <source path="javafx/collections/transformation"/>
+    <source path="javafx/event"/>
+    <source path="javafx/util"/>
+    <!--========================< webfx-fxkit-emul-javafxcontrols >=========================-->
+    <source path="com/sun/javafx/scene/control"/>
+    <source path="com/sun/javafx/scene/control/behaviour"/>
+    <source path="com/sun/javafx/scene/control/skin"/>
+    <source path="javafx/scene/control"/>
+    <source path="javafx/scene/control/skin"/>
+    <!--========================< webfx-fxkit-emul-javafxgraphics >=========================-->
+    <source path="com/sun/javafx/application"/>
+    <source path="com/sun/javafx/cursor"/>
+    <source path="com/sun/javafx/geom"/>
+    <source path="com/sun/javafx/geom/transform"/>
+    <source path="com/sun/javafx/scene"/>
+    <source path="com/sun/javafx/scene/input"/>
+    <source path="com/sun/javafx/scene/text"/>
+    <source path="com/sun/javafx/scene/traversal"/>
+    <source path="com/sun/javafx/stage"/>
+    <source path="com/sun/javafx/tk"/>
+    <source path="com/sun/javafx/util"/>
+    <source path="com/sun/scenario/animation"/>
+    <source path="javafx/animation"/>
+    <source path="javafx/application"/>
+    <source path="javafx/css"/>
+    <source path="javafx/geometry"/>
+    <source path="javafx/scene"/>
+    <source path="javafx/scene/effect"/>
+    <source path="javafx/scene/image"/>
+    <source path="javafx/scene/input"/>
+    <source path="javafx/scene/layout"/>
+    <source path="javafx/scene/paint"/>
+    <source path="javafx/scene/shape"/>
+    <source path="javafx/scene/text"/>
+    <source path="javafx/scene/transform"/>
+    <source path="javafx/stage"/>
+    <source path="webfx/fxkit/mapper"/>
+    <source path="webfx/fxkit/mapper/spi"/>
+    <source path="webfx/fxkit/mapper/spi/impl"/>
+    <source path="webfx/fxkit/mapper/spi/impl/peer"/>
+    <!--===========================< webfx-fxkit-extracontrols >============================-->
+    <source path="webfx/fxkit/extra/cell/collator"/>
+    <source path="webfx/fxkit/extra/cell/renderer"/>
+    <source path="webfx/fxkit/extra/cell/rowstyle"/>
+    <source path="webfx/fxkit/extra/controls/displaydata"/>
+    <source path="webfx/fxkit/extra/controls/displaydata/chart"/>
+    <source path="webfx/fxkit/extra/controls/displaydata/datagrid"/>
+    <source path="webfx/fxkit/extra/controls/html"/>
+    <source path="webfx/fxkit/extra/displaydata"/>
+    <source path="webfx/fxkit/extra/displaydata/impl"/>
+    <source path="webfx/fxkit/extra/type"/>
+    <source path="webfx/fxkit/extra/util"/>
+    <!--================================< webfx-fxkit-gwt >=================================-->
+    <source path="webfx/fxkit/extra/cell/collator/grid"/>
+    <source path="webfx/fxkit/gwt/launcher"/>
+    <source path="webfx/fxkit/gwt/mapper/html"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer/extra"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer/javafxcontrols"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer/javafxgraphics"/>
+    <source path="webfx/fxkit/gwt/mapper/shared"/>
+    <source path="webfx/fxkit/gwt/mapper/svg"/>
+    <source path="webfx/fxkit/gwt/mapper/svg/peer/javafxgraphics"/>
+    <source path="webfx/fxkit/gwt/mapper/util"/>
+    <!--==============================< webfx-fxkit-launcher >==============================-->
+    <source path="webfx/fxkit/launcher"/>
+    <source path="webfx/fxkit/launcher/spi"/>
+    <source path="webfx/fxkit/launcher/spi/impl"/>
+    <!--===============================< webfx-fxkit-mapper >===============================-->
+    <source path="webfx/fxkit/mapper/spi"/>
+    <source path="webfx/fxkit/mapper/spi/impl/peer/markers"/>
+    <!--========================< webfx-fxkit-mapper-extracontrols >========================-->
+    <source path="webfx/fxkit/extra/cell/collator/grid"/>
+    <source path="webfx/fxkit/extra/mapper/spi/peer/impl/extra"/>
+    <!--=======================< webfx-fxkit-mapper-javafxcontrols >========================-->
+    <source path="webfx/fxkit/mapper/spi/impl/peer/javafxcontrols"/>
+    <!--=======================< webfx-fxkit-mapper-javafxgraphics >========================-->
+    <source path="webfx/fxkit/mapper/spi/impl/peer/javafxgraphics"/>
+    <!--================================< webfx-fxkit-util >================================-->
+    <source path="webfx/fxkit/util/properties"/>
+    <source path="webfx/fxkit/util/properties/conversion"/>
+    <!--========================< webfx-lib-controlsfx-validation >=========================-->
+    <source path="impl/org/controlsfx"/>
+    <source path="impl/org/controlsfx/skin"/>
+    <source path="org/controlsfx/control/decoration"/>
+    <source path="org/controlsfx/tools"/>
+    <source path="org/controlsfx/validation"/>
+    <source path="org/controlsfx/validation/decoration"/>
+    <resource path="impl/org/controlsfx/control/validation"/>
+    <public includes="impl/org/controlsfx/control/validation/" path=""/>
+    <!--============================< webfx-lib-javacupruntime >============================-->
+    <source path="java_cup/runtime"/>
+    <!--==========================< webfx-lib-mvvmfx-validation >===========================-->
+    <source path="de/saxsys/mvvmfx/utils/validation"/>
+    <source path="de/saxsys/mvvmfx/utils/validation/visualization"/>
+    <!--================================< webfx-lib-rxjava >================================-->
+    <source path="rx"/>
+    <source path="rx/annotations"/>
+    <source path="rx/exceptions"/>
+    <source path="rx/functions"/>
+    <source path="rx/internal/operators"/>
+    <source path="rx/internal/producers"/>
+    <source path="rx/internal/util"/>
+    <source path="rx/internal/util/atomic"/>
+    <source path="rx/internal/util/unsafe"/>
+    <source path="rx/observers"/>
+    <source path="rx/plugins"/>
+    <source path="rx/subjects"/>
+    <source path="rx/subscriptions"/>
+    <!--=========================< webfx-platform-client-storage >==========================-->
+    <source path="webfx/platform/client/services/storage"/>
+    <source path="webfx/platform/client/services/storage/spi"/>
+    <!--=======================< webfx-platform-client-storage-gwt >========================-->
+    <source path="webfx/platform/client/services/storage/spi/impl/gwt"/>
+    <!--=======================< webfx-platform-client-uischeduler >========================-->
+    <source path="webfx/platform/client/services/uischeduler"/>
+    <source path="webfx/platform/client/services/uischeduler/spi"/>
+    <source path="webfx/platform/client/services/uischeduler/spi/impl"/>
+    <!--=====================< webfx-platform-client-uischeduler-gwt >======================-->
+    <source path="webfx/platform/client/services/uischeduler/spi/impl/gwt"/>
+    <!--========================< webfx-platform-client-websocket >=========================-->
+    <source path="webfx/platform/client/services/websocket"/>
+    <source path="webfx/platform/client/services/websocket/spi"/>
+    <!--======================< webfx-platform-client-websocket-gwt >=======================-->
+    <source path="webfx/platform/client/services/websocket/spi/impl/gwt"/>
+    <!--=======================< webfx-platform-client-websocketbus >=======================-->
+    <source path="webfx/platform/client/services/websocketbus"/>
+    <!--=====================< webfx-platform-client-websocketbus-web >=====================-->
+    <source path="webfx/platform/client/services/websocketbus/web"/>
+    <!--======================< webfx-platform-client-windowhistory >=======================-->
+    <source path="webfx/platform/client/services/windowhistory"/>
+    <source path="webfx/platform/client/services/windowhistory/spi"/>
+    <source path="webfx/platform/client/services/windowhistory/spi/impl"/>
+    <!--====================< webfx-platform-client-windowhistory-gwt >=====================-->
+    <source path="webfx/platform/client/services/windowhistory/spi/impl/gwt"/>
+    <source path="webfx/platform/client/services/windowhistory/spi/impl/gwt/jsinterop"/>
+    <!--====================< webfx-platform-client-windowhistory-web >=====================-->
+    <source path="webfx/platform/client/services/windowhistory/spi/impl/web"/>
+    <!--======================< webfx-platform-client-windowlocation >======================-->
+    <source path="webfx/platform/client/services/windowlocation"/>
+    <source path="webfx/platform/client/services/windowlocation/spi"/>
+    <source path="webfx/platform/client/services/windowlocation/spi/impl"/>
+    <!--====================< webfx-platform-client-windowlocation-gwt >====================-->
+    <source path="webfx/platform/client/services/windowlocation/spi/impl/gwt"/>
+    <source path="webfx/platform/client/services/windowlocation/spi/impl/gwt/jsinterop"/>
+    <!--=======================< webfx-platform-shared-appcontainer >=======================-->
+    <source path="webfx/platform/shared/services/appcontainer"/>
+    <source path="webfx/platform/shared/services/appcontainer/spi"/>
+    <source path="webfx/platform/shared/services/appcontainer/spi/impl"/>
+    <!--=====================< webfx-platform-shared-appcontainer-gwt >=====================-->
+    <source path="webfx/platform/shared/services/appcontainer/spi/impl/gwt"/>
+    <!--===========================< webfx-platform-shared-bus >============================-->
+    <source path="webfx/platform/shared/services/bus"/>
+    <source path="webfx/platform/shared/services/bus/spi"/>
+    <source path="webfx/platform/shared/services/bus/spi/impl"/>
+    <!--=========================< webfx-platform-shared-buscall >==========================-->
+    <source path="webfx/platform/shared/services/buscall"/>
+    <source path="webfx/platform/shared/services/buscall/spi"/>
+    <!--========================< webfx-platform-shared-datasource >========================-->
+    <source path="webfx/platform/shared/datasource"/>
+    <!--===========================< webfx-platform-shared-json >===========================-->
+    <source path="webfx/platform/shared/services/json"/>
+    <source path="webfx/platform/shared/services/json/parser"/>
+    <source path="webfx/platform/shared/services/json/parser/javacup"/>
+    <source path="webfx/platform/shared/services/json/parser/jflex"/>
+    <source path="webfx/platform/shared/services/json/spi"/>
+    <source path="webfx/platform/shared/services/json/spi/impl/listmap"/>
+    <!--=========================< webfx-platform-shared-json-gwt >=========================-->
+    <source path="webfx/platform/shared/services/json/spi/impl/gwt"/>
+    <!--===========================< webfx-platform-shared-log >============================-->
+    <source path="webfx/platform/shared/services/log"/>
+    <source path="webfx/platform/shared/services/log/spi"/>
+    <!--=========================< webfx-platform-shared-log-gwt >==========================-->
+    <source path="webfx/platform/shared/services/log/spi/impl/gwt"/>
+    <!--==========================< webfx-platform-shared-query >===========================-->
+    <source path="webfx/platform/shared/services/query"/>
+    <source path="webfx/platform/shared/services/query/compression"/>
+    <source path="webfx/platform/shared/services/query/compression/repeat"/>
+    <source path="webfx/platform/shared/services/query/spi"/>
+    <source path="webfx/platform/shared/services/query/spi/impl"/>
+    <!--=======================< webfx-platform-shared-query-remote >=======================-->
+    <source path="webfx/platform/shared/services/query/spi/impl/remote"/>
+    <!--=========================< webfx-platform-shared-resource >=========================-->
+    <source path="webfx/platform/shared/services/resource"/>
+    <source path="webfx/platform/shared/services/resource/spi"/>
+    <!--=======================< webfx-platform-shared-resource-gwt >=======================-->
+    <source path="webfx/platform/shared/services/resource/spi/impl/gwt"/>
+    <!--========================< webfx-platform-shared-scheduler >=========================-->
+    <source path="webfx/platform/shared/services/scheduler"/>
+    <source path="webfx/platform/shared/services/scheduler/spi"/>
+    <!--==========================< webfx-platform-shared-serial >==========================-->
+    <source path="webfx/platform/shared/services/serial"/>
+    <source path="webfx/platform/shared/services/serial/spi"/>
+    <source path="webfx/platform/shared/services/serial/spi/impl"/>
+    <!--=========================< webfx-platform-shared-shutdown >=========================-->
+    <source path="webfx/platform/shared/services/shutdown"/>
+    <source path="webfx/platform/shared/services/shutdown/spi"/>
+    <source path="webfx/platform/shared/services/shutdown/spi/impl"/>
+    <!--=======================< webfx-platform-shared-shutdown-gwt >=======================-->
+    <source path="webfx/platform/shared/services/shutdown/spi/impl/gwt"/>
+    <!--==========================< webfx-platform-shared-update >==========================-->
+    <source path="webfx/platform/shared/services/update"/>
+    <source path="webfx/platform/shared/services/update/spi"/>
+    <source path="webfx/platform/shared/services/update/spi/impl"/>
+    <!--===========================< webfx-platform-shared-util >===========================-->
+    <source path="webfx/platform/shared/util"/>
+    <source path="webfx/platform/shared/util/async"/>
+    <source path="webfx/platform/shared/util/collection"/>
+    <source path="webfx/platform/shared/util/function"/>
+    <source path="webfx/platform/shared/util/noreflect"/>
+    <source path="webfx/platform/shared/util/serviceloader"/>
+    <source path="webfx/platform/shared/util/tuples"/>
+    <source path="webfx/platform/shared/util/uuid"/>
+
+    <source path="mongoose/client/services/bus/conf/gwt"/>
+    <source path="mongoose/shared/domainmodel/gwt"/>
+    <source path="mongoose/client/icons/gwt"/>
 
     <!-- Speeding up GWT compilation time in development mode -->
     <set-property name="user.agent" value="safari"/> <!-- to make only 1 permutation for testing with Chrome -->
+    <set-property name="jre.checks.checkLevel" value="MINIMAL"/>
 
     <!-- Specify the app entry point class. -->
     <entry-point class="webfx.platform.shared.services.appcontainer.spi.impl.gwt.GwtApplicationContainerProvider"/>
 
     <super-source path="super"/>
+    <super-source includes="java/io/" path=""/>
+    <super-source includes="java/lang/" path=""/>
+    <super-source includes="java/nio/" path=""/>
+    <super-source includes="java/security/" path=""/>
+    <super-source includes="java/text/" path=""/>
+    <super-source includes="java/util/" path=""/>
+    <super-source includes="java/time/" path=""/>
+
+    <public path="public"/>
 
 </module>

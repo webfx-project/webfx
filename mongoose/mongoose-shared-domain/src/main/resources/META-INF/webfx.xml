@@ -4,4 +4,8 @@
         <package>mongoose.shared.domainmodel</package>
     </resource-packages>
 
+    <embed-resources>
+        <resource>mongoose/shared/domainmodel/DomainModelSnapshot.json</resource>
+    </embed-resources>
+
 </module>

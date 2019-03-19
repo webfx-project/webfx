@@ -3,7 +3,7 @@ package webfx.tool.buildtool;
 /**
  * @author Bruno Salmon
  */
-public interface Module {
+public interface Module extends Comparable<Module> {
 
     String getGroupId();
 
@@ -15,4 +15,8 @@ public interface Module {
         return new ModuleImpl(artifactId);
     }
 
+    @Override
+    default int compareTo(Module m) {
+        return getArtifactId().compareTo(m.getArtifactId());
+    }
 }

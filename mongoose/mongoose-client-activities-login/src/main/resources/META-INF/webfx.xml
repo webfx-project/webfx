@@ -3,8 +3,8 @@
     <dependencies>
 
         <source-modules>
-            <module>webfx.framework.client.activity</module>
-            <module>webfx.platform.shared.util</module>
+            <module>webfx-framework-client-activity</module>
+            <module>webfx-platform-shared-util</module>
         </source-modules>
 
     </dependencies>

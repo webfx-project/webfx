@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module>mongoose.client.aggregates</module>
+            <module>mongoose-client-aggregates</module>
         </source-modules>
 
     </dependencies>

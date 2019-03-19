@@ -1,5 +1,7 @@
 package webfx.tool.buildtool;
 
+import webfx.tool.buildtool.sourcegenerators.GwtFilesGenerator;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -12,11 +14,11 @@ public final class BuildTool {
         long t0 = System.currentTimeMillis();
         RootModule webfxRootModule = new RootModule(getWebfxRootDirectory());
 /*
-        webfxRootModule.findProjectModule("mongoose-backend-application")
-                //.getDirectDependencies()
+        webfxRootModule.findProjectModule("mongoose-backend-application-gwt")
+                .getThisAndTransitiveDependencies()
                 //.getWebfxModuleFile().getSourceModules()
-                //.forEach(System.out::println);
-        .getJavaModuleFile().writeFile();
+                .stream().map(Module::getArtifactId).sorted()
+                .forEach(System.out::println);
 */
 /*
         webfxRootModule.getThisAndChildrenModulesInDepth()
@@ -35,12 +37,10 @@ public final class BuildTool {
                 //.filter(m -> !m.isDirectlyDependingOn("jsinterop-annotations"))
                 .forEach(m -> m.getJavaModuleFile().writeFile())
         ;
-/*
         webfxRootModule.getThisAndChildrenModulesInDepth()
                 //.filter(m -> m.getArtifactId().startsWith("webfx-tutorial"))
-                .filter(m -> m.getArtifactId().endsWith("application-gwt"))
-                .forEach(GwtServiceLoaderSuperSourceGenerator::generateServiceLoaderSuperSource);
-*/
+                .filter(m -> m.isExecutable(Platform.GWT))
+                .forEach(GwtFilesGenerator::generateGwtFiles);
         //GwtServiceLoaderSuperSourceGenerator.generateServiceLoaderSuperSource(webfxRootModule.getChildModuleInDepth("webfx-tutorial-colorfulcircles-application-gwt"));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.compatiblePlatforms().collect(Collectors.toList())));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.getUsedJavaServices().collect(Collectors.toList())));

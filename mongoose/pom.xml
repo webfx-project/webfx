@@ -66,7 +66,6 @@
         <module>mongoose-client-authn</module>
         <module>mongoose-client-authz</module>
         <module>mongoose-client-busconfig</module>
-        <module>mongoose-client-busconfig-gwt</module>
         <module>mongoose-client-bookingcalendar</module>
         <module>mongoose-client-bookingoptionspanel</module>
         <module>mongoose-client-bookingprocess</module>
@@ -75,9 +74,7 @@
         <module>mongoose-client-css-java</module>
         <module>mongoose-client-css-web</module>
         <module>mongoose-client-i18n</module>
-        <module>mongoose-client-i18n-gwt</module>
         <module>mongoose-client-icons</module>
-        <module>mongoose-client-icons-gwt</module>
         <module>mongoose-client-operationactionsloading</module>
         <module>mongoose-client-personaldetails</module>
         <module>mongoose-client-sectionpanel</module>
@@ -91,7 +88,6 @@
         <module>mongoose-server-application</module>
         <module>mongoose-server-application-vertx</module>
         <module>mongoose-shared-domain</module>
-        <module>mongoose-shared-domain-gwt</module>
         <module>mongoose-shared-entities</module>
         <module>mongoose-shared-time</module>
         <module>mongoose-client-css</module>

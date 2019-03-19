@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module>java.sql</module> <!-- Module required by vertx.mysql.postgresql.client.jasync -->
+            <module>java-sql</module> <!-- Module required by vertx-mysql-postgresql-client-jasync -->
         </source-modules>
 
     </dependencies>

@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module>webfx.platform.client.windowhistory</module>
+            <module>webfx-platform-client-windowhistory</module>
         </source-modules>
 
     </dependencies>

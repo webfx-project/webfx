@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module>javafx.graphics</module>
+            <module>javafx-graphics</module>
         </source-modules>
 
         <plugin-modules>

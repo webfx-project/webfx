@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module>webfx.platform.shared.util</module>
+            <module>webfx-platform-shared-util</module>
         </source-modules>
 
     </dependencies>
@@ -11,5 +11,10 @@
     <resource-packages>
         <package>mongoose.client.services.i18n.dictionaries</package>
     </resource-packages>
+
+    <embed-resources>
+        <resource>mongoose/client/services/i18n/dictionaries/en.json</resource>
+        <resource>mongoose/client/services/i18n/dictionaries/fr.json</resource>
+    </embed-resources>
 
 </module>

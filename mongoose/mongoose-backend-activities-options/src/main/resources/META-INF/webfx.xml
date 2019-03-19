@@ -3,9 +3,9 @@
     <dependencies>
 
         <source-modules>
-            <module>mongoose.client.aggregates</module>
-            <module>webfx.framework.client.activity</module>
-            <module>webfx.platform.shared.util</module>
+            <module>mongoose-client-aggregates</module>
+            <module>webfx-framework-client-activity</module>
+            <module>webfx-platform-shared-util</module>
         </source-modules>
 
     </dependencies>

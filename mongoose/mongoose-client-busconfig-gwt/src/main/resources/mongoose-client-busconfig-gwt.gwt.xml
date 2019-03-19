@@ -1,8 +1,0 @@
-<module rename-to="mongoose_client_busconfig_gwt">
-
-    <!-- Specifying the paths for translatable code -->
-    <source path="mongoose/client/services/bus/conf/gwt"/>
-
-    <resource path="webfx/platform/client/services/websocketbus/conf"/>
-
-</module>

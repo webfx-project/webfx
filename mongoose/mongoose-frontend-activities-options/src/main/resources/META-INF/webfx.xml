@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module>webfx.framework.client.activity</module>
+            <module>webfx-framework-client-activity</module>
         </source-modules>
 
     </dependencies>

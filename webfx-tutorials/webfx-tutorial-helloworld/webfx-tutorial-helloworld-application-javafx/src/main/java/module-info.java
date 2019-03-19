@@ -2,4 +2,7 @@
 
 module webfx.tutorial.helloworld.application.javafx {
 
+    // Direct dependencies modules
+    requires webfx.tutorial.helloworld.application;
+
 }

@@ -1,0 +1,8 @@
+<module rename-to="webfx_platform_shared_query_remote">
+
+    <inherits name="webfx-platform-shared-query"/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path="webfx/platform/shared/services/query/spi/impl/remote"/>
+
+</module>
