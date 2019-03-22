@@ -4,8 +4,8 @@
 
         <source-modules>
             <module>javafx-base</module>
-            <module>webfx.platform.shared.update</module>
-            <module>webfx.platform.shared.util</module>
+            <module>webfx-platform-shared-update</module>
+            <module>webfx-platform-shared-util</module>
         </source-modules>
 
     </dependencies>

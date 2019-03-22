@@ -5,11 +5,7 @@ package webfx.tool.buildtool;
  */
 public interface Module extends Comparable<Module> {
 
-    String getGroupId();
-
-    String getArtifactId();
-
-    String getVersion();
+    String getName();
 
     static Module create(String artifactId) {
         return new ModuleImpl(artifactId);
@@ -17,6 +13,6 @@ public interface Module extends Comparable<Module> {
 
     @Override
     default int compareTo(Module m) {
-        return getArtifactId().compareTo(m.getArtifactId());
+        return getName().compareTo(m.getName());
     }
 }

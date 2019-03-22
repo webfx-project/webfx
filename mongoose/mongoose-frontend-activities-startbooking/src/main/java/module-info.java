@@ -6,6 +6,7 @@ module mongoose.frontend.activities.startbooking {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.bookingprocess;
+    requires mongoose.client.entities;
     requires mongoose.client.icons;
     requires mongoose.frontend.activities.fees.routing;
     requires mongoose.frontend.activities.options.routing;
@@ -15,10 +16,10 @@ module mongoose.frontend.activities.startbooking {
     requires mongoose.shared.entities;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
-    requires webfx.framework.shared.domain;
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;

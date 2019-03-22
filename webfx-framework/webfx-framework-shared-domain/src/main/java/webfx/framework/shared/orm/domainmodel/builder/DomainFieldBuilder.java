@@ -6,7 +6,7 @@ import webfx.framework.shared.expression.builder.terms.ExpressionBuilder;
 import webfx.framework.shared.expression.sqlcompiler.ExpressionSqlCompiler;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
-import webfx.fxkit.extra.displaydata.Label;
+import webfx.fxkit.extra.label.Label;
 
 /**
  * @author Bruno Salmon

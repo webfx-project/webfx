@@ -4,14 +4,15 @@ module mongoose.backend.activities.events {
 
     // Direct dependencies modules
     requires javafx.base;
+    requires javafx.graphics;
     requires mongoose.backend.activities.bookings.routing;
     requires mongoose.backend.activities.events.routing;
     requires mongoose.client.activity;
     requires mongoose.shared.entities;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.domain;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
     requires webfx.framework.shared.router;
     requires webfx.platform.shared.util;
 

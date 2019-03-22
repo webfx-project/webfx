@@ -4,11 +4,8 @@ module mongoose.shared.entities {
 
     // Direct dependencies modules
     requires java.base;
-    requires javafx.base;
-    requires javafx.controls;
     requires mongoose.shared.domain;
     requires mongoose.shared.time;
-    requires webfx.framework.client.i18n;
     requires webfx.framework.shared.entity;
     requires webfx.platform.shared.util;
 
@@ -17,7 +14,6 @@ module mongoose.shared.entities {
     exports mongoose.shared.entities.formatters;
     exports mongoose.shared.entities.impl;
     exports mongoose.shared.entities.markers;
-    exports mongoose.shared.entities.util;
     exports mongoose.shared.services.systemmetrics;
 
     // Provided services

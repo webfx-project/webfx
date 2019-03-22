@@ -8,7 +8,7 @@ import webfx.framework.shared.expression.terms.Dot;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
-import webfx.framework.client.ui.util.formatter.Formatter;
+import webfx.framework.shared.util.formatter.Formatter;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayColumnBuilder;

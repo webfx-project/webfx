@@ -4,7 +4,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import webfx.tool.buildtool.ModuleDependency;
 import webfx.tool.buildtool.ProjectModule;
+import webfx.tool.buildtool.Target;
+import webfx.tool.buildtool.TargetTag;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 
 import javax.xml.namespace.QName;
@@ -66,9 +69,13 @@ abstract class XmlModuleFile extends ModuleFile {
     }
 
     void clearDocument(Document document) {
+        clearNodeChildren(document);
+    }
+
+    void clearNodeChildren(Node node) {
         Node firstChild;
-        while ((firstChild = document.getFirstChild()) != null)
-            document.removeChild(firstChild);
+        while ((firstChild = node.getFirstChild()) != null)
+            node.removeChild(firstChild);
     }
 
     @Override
@@ -99,6 +106,11 @@ abstract class XmlModuleFile extends ModuleFile {
         InputSource is = new InputSource();
         is.setCharacterStream(new StringReader(xmlString));
         return parseXmlSource(is);
+    }
+
+    public void updateAndWrite() {
+        updateDocument(getDocument());
+        writeFile();
     }
 
     @Override
@@ -156,9 +168,32 @@ abstract class XmlModuleFile extends ModuleFile {
         return nodeListToReusableStream(lookupNodeList(xPathExpression), Node::getTextContent);
     }
 
-    ReusableStream<webfx.tool.buildtool.Module> lookupModules(String xPathExpression) {
-        return lookupNodeListTextContent(xPathExpression)
-                .map(moduleName -> getModule().getRootModule().findModule(moduleName))
-                ;
+    ReusableStream<ModuleDependency> lookupDependencies(String xPathExpression, ModuleDependency.Type type) {
+        return nodeListToReusableStream(lookupNodeList(xPathExpression), node ->
+                new ModuleDependency(
+                        getModule(),
+                        getModule().getRootModule().findModule(node.getTextContent()),
+                        type,
+                        getBooleanAttributeValue(node, "optional"),
+                        getAttributeValue(node, "scope"),
+                        getAttributeValue(node, "classifier"),
+                        getTargetAttributeValue(node, "executable-target")
+                ));
+    }
+
+    private static String getAttributeValue(Node node, String name) {
+        if (node == null)
+            return null;
+        Node namedItem = node.getAttributes().getNamedItem(name);
+        return namedItem == null ? null : namedItem.getNodeValue();
+    }
+
+    static boolean getBooleanAttributeValue(Node node, String name) {
+        return "true".equalsIgnoreCase(getAttributeValue(node, name));
+    }
+
+    private Target getTargetAttributeValue(Node node, String name) {
+        String stringValue = getAttributeValue(node, name);
+        return stringValue == null ? null : new Target(TargetTag.parseTags(stringValue));
     }
 }

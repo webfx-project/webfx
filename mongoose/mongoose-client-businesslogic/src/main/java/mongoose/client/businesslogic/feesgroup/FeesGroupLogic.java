@@ -7,7 +7,7 @@ import mongoose.client.businesslogic.option.OptionLogic;
 import mongoose.shared.entities.DateInfo;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Site;
-import mongoose.shared.entities.util.Labels;
+import mongoose.client.entities.util.Labels;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.platform.shared.util.collection.Collections;
 

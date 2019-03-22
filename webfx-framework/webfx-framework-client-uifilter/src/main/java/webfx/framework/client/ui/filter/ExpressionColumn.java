@@ -1,8 +1,8 @@
 package webfx.framework.client.ui.filter;
 
 import webfx.framework.shared.orm.domainmodel.DomainClass;
-import webfx.framework.client.ui.util.formatter.Formatter;
-import webfx.framework.client.ui.util.formatter.FormatterRegistry;
+import webfx.framework.shared.util.formatter.Formatter;
+import webfx.framework.shared.util.formatter.FormatterRegistry;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;

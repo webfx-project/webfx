@@ -4,7 +4,7 @@ import javafx.util.StringConverter;
 import webfx.fxkit.extra.type.PrimType;
 import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.Dates;
-import webfx.framework.client.ui.util.formatter.Formatter;
+import webfx.framework.shared.util.formatter.Formatter;
 
 import java.time.LocalDate;
 

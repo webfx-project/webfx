@@ -2,4 +2,11 @@
 
 module mongoose.server.application {
 
+    // Direct dependencies modules
+    requires mongoose.server.datasource;
+    requires mongoose.server.sessioncloser;
+    requires mongoose.server.systemmetrics;
+    requires webfx.framework.shared.querypush;
+    requires webfx.platform.server.buscalljob;
+
 }

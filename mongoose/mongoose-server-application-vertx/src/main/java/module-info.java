@@ -3,6 +3,19 @@
 module mongoose.server.application.vertx {
 
     // Direct dependencies modules
+    requires javafx.base;
     requires mongoose.server.application;
+    requires mongoose.server.systemmetrics.java;
+    requires webfx.framework.server.push.simple;
+    requires webfx.framework.server.querypush.simple;
+    requires webfx.platform.shared.appcontainer.vertx;
+    requires webfx.platform.shared.bus.vertx;
+    requires webfx.platform.shared.json.vertx;
+    requires webfx.platform.shared.log.simple;
+    requires webfx.platform.shared.query.vertx;
+    requires webfx.platform.shared.resource.java;
+    requires webfx.platform.shared.scheduler.vertx;
+    requires webfx.platform.shared.shutdown.java;
+    requires webfx.platform.shared.update.vertx;
 
 }

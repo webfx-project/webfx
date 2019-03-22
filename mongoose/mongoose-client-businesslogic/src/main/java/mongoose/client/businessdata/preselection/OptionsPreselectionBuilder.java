@@ -5,7 +5,7 @@ import mongoose.shared.businessdata.time.DateTimeRange;
 import mongoose.shared.businessdata.time.DayTimeRange;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
-import mongoose.shared.entities.util.Labels;
+import mongoose.client.entities.util.Labels;
 
 import java.util.ArrayList;
 import java.util.List;

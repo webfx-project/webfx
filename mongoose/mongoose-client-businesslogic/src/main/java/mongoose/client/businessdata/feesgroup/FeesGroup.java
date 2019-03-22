@@ -3,7 +3,7 @@ package mongoose.client.businessdata.feesgroup;
 import mongoose.client.businessdata.preselection.OptionsPreselection;
 import mongoose.shared.entities.Event;
 import mongoose.shared.entities.Label;
-import mongoose.shared.entities.util.Labels;
+import mongoose.client.entities.util.Labels;
 import webfx.platform.shared.util.Numbers;
 import webfx.platform.shared.util.Objects;
 

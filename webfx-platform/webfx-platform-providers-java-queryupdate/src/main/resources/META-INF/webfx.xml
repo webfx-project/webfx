@@ -2,9 +2,9 @@
 
     <dependencies>
 
-        <optional-modules>
-            <module>HikariCP</module>
-        </optional-modules>
+        <source-modules>
+            <module optional="true">HikariCP</module>
+        </source-modules>
 
     </dependencies>
 

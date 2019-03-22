@@ -7,6 +7,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import webfx.fxkit.extra.displaydata.*;
+import webfx.fxkit.extra.label.Label;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutMeasurable;
 import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.HtmlRegionPeer;
 import webfx.fxkit.gwt.mapper.util.DomType;

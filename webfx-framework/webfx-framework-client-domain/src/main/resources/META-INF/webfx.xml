@@ -1,0 +1,11 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-fxkit-emul-javafxbase</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

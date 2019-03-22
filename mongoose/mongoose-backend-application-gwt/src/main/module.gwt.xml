@@ -6,92 +6,153 @@
     <set-property name="gwt.logging.logLevel" value="FINEST"/>
     <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
 
-    <inherits name="com.google.gwt.user.User"/>
-    <inherits name="com.googlecode.gwt.charts.Charts"/>
-    <inherits name="elemental2.core.Core"/>
+    <!-- Listing transitive dependencies modules -->
+    <!--=================================< elemental2-dom >=================================-->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-shutdown-gwt (SOURCE) -->
     <inherits name="elemental2.dom.Dom"/>
-
-    <!-- Listing modules sources -->
+    <!--===================================< gwt-charts >===================================-->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <inherits name="com.googlecode.gwt.charts.Charts"/>
+    <!--====================================< gwt-user >====================================-->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <!-- used by webfx-platform-client-storage-gwt (SOURCE) -->
+    <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
+    <!-- used by webfx-platform-client-websocket-gwt (SOURCE) -->
+    <!-- used by webfx-platform-client-windowlocation-gwt (SOURCE) -->
+    <!-- used by webfx-platform-providers-gwt-emul-javabase (SOURCE) -->
+    <!-- used by webfx-platform-shared-appcontainer-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-json-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
+    <inherits name="com.google.gwt.user.User"/>
+    <!--===================================< java-base >====================================-->
+    <!-- used by webfx-fxkit-emul-javafxbase (SOURCE) -->
+    <!-- used by webfx-platform-providers-gwt-emul-javabase (SOURCE) -->
+    <!-- used by webfx-platform-providers-gwt-emul-javatime (SOURCE) -->
+    <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-util (SOURCE) -->
+    <!--==================================< java-logging >==================================-->
+    <!-- used by webfx-platform-shared-util (SOURCE) -->
+    <inherits name="com.google.gwt.logging.Logging"/>
+    <!--==================================< javafx-base >===================================-->
+    <!-- used by mongoose-client-i18n (SOURCE) -->
+    <!--================================< javafx-controls >=================================-->
+    <!-- used by mongoose-client-calendar (SOURCE) -->
+    <!--================================< javafx-graphics >=================================-->
+    <!-- used by mongoose-backend-application (SOURCE) -->
+    <!--=============================< jsinterop-annotations >==============================-->
+    <!-- used by webfx-platform-client-windowhistory-gwt (SOURCE) -->
+    <!-- used by webfx-platform-client-windowlocation-gwt (SOURCE) -->
     <!--===================< mongoose-backend-activities-authorizations >===================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/authorizations"/>
     <!--===============< mongoose-backend-activities-authorizations-routing >===============-->
+    <!-- used by mongoose-backend-activities-authorizations (SOURCE) -->
     <source path="mongoose/backend/activities/authorizations/routing"/>
     <source path="mongoose/backend/operations/authorizations"/>
     <!--======================< mongoose-backend-activities-bookings >======================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/bookings"/>
     <!--==================< mongoose-backend-activities-bookings-routing >==================-->
+    <!-- used by mongoose-backend-activities-events (SOURCE) -->
     <source path="mongoose/backend/activities/bookings/routing"/>
     <source path="mongoose/backend/operations/bookings"/>
     <!--=====================< mongoose-backend-activities-cloneevent >=====================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/cloneevent"/>
     <!--=================< mongoose-backend-activities-cloneevent-routing >=================-->
+    <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
     <source path="mongoose/backend/activities/cloneevent/routing"/>
     <source path="mongoose/backend/operations/cloneevent"/>
     <!--=======================< mongoose-backend-activities-events >=======================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/events"/>
     <!--===================< mongoose-backend-activities-events-routing >===================-->
+    <!-- used by mongoose-backend-activities-organizations (SOURCE) -->
     <source path="mongoose/backend/activities/events/routing"/>
     <source path="mongoose/backend/operations/events"/>
     <!--=======================< mongoose-backend-activities-letter >=======================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/letter"/>
     <!--===================< mongoose-backend-activities-letter-routing >===================-->
+    <!-- used by mongoose-backend-activities-letters (SOURCE) -->
     <source path="mongoose/backend/activities/letter/routing"/>
     <source path="mongoose/backend/operations/letter"/>
     <!--======================< mongoose-backend-activities-letters >=======================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/letters"/>
     <!--==================< mongoose-backend-activities-letters-routing >===================-->
+    <!-- used by mongoose-backend-activities-letters (SOURCE) -->
     <source path="mongoose/backend/activities/letters/routing"/>
     <source path="mongoose/backend/operations/letters"/>
     <!--======================< mongoose-backend-activities-monitor >=======================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/monitor"/>
     <!--==================< mongoose-backend-activities-monitor-routing >===================-->
+    <!-- used by mongoose-backend-activities-monitor (SOURCE) -->
     <source path="mongoose/backend/activities/monitor/routing"/>
     <source path="mongoose/backend/operations/monitor"/>
     <!--=====================< mongoose-backend-activities-operations >=====================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/operations"/>
     <!--=================< mongoose-backend-activities-operations-routing >=================-->
+    <!-- used by mongoose-backend-activities-operations (SOURCE) -->
     <source path="mongoose/backend/activities/operations/routing"/>
     <source path="mongoose/backend/operations/operations"/>
     <!--===================< mongoose-backend-activities-organizations >====================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/organizations"/>
     <!--===============< mongoose-backend-activities-organizations-routing >================-->
+    <!-- used by mongoose-backend-activities-organizations (SOURCE) -->
     <source path="mongoose/backend/activities/organizations/routing"/>
     <source path="mongoose/backend/operations/organizations"/>
     <!--==========================< mongoose-backend-application >==========================-->
+    <!-- used by mongoose-backend-application-gwt (APPLICATION) -->
+    <!-- used by mongoose-backend-application-gwt (PLUGIN) -->
     <source path="mongoose/backend/application"/>
-    <!--========================< mongoose-backend-application-gwt >========================-->
     <!--========================< mongoose-backend-multilangeditor >========================-->
+    <!-- used by mongoose-backend-activities-letter (SOURCE) -->
     <source path="mongoose/backend/controls/multilangeditor"/>
     <!--========================< mongoose-client-activities-login >========================-->
+    <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/activities/login"/>
     <!--====================< mongoose-client-activities-unauthorized >=====================-->
+    <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/activities/unauthorized"/>
     <!--============================< mongoose-client-activity >============================-->
+    <!-- used by mongoose-client-application (SOURCE) -->
     <source path="mongoose/client/activity"/>
     <source path="mongoose/client/activity/eventdependent"/>
     <source path="mongoose/client/activity/organizationdependent"/>
     <source path="mongoose/client/activity/table"/>
     <source path="mongoose/client/activity/themes"/>
     <!--===========================< mongoose-client-aggregates >===========================-->
+    <!-- used by mongoose-client-businesslogic (SOURCE) -->
     <source path="mongoose/client/aggregates/cart"/>
     <source path="mongoose/client/aggregates/event"/>
     <source path="mongoose/client/aggregates/person"/>
     <!--==========================< mongoose-client-application >===========================-->
+    <!-- used by mongoose-backend-application (SOURCE) -->
     <source path="mongoose/client/application"/>
     <resource path="images/buddhas"/>
     <public includes="images/buddhas/" path=""/>
     <resource path="mongoose/client/images"/>
     <public includes="mongoose/client/images/" path=""/>
     <!--=============================< mongoose-client-authn >==============================-->
+    <!-- used by mongoose-client-authz (SOURCE) -->
     <source path="mongoose/client/services/authn"/>
     <!--=============================< mongoose-client-authz >==============================-->
+    <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/services/authz"/>
     <!--========================< mongoose-client-bookingcalendar >=========================-->
+    <!-- used by mongoose-client-sectionpanel (SOURCE) -->
     <source path="mongoose/client/controls/bookingcalendar"/>
     <!--===========================< mongoose-client-busconfig >============================-->
+    <!-- used by mongoose-client-application (RESOURCE) -->
     <resource path="webfx/platform/client/services/websocketbus/conf"/>
     <public includes="webfx/platform/client/services/websocketbus/conf/" path=""/>
     <!--=========================< mongoose-client-businesslogic >==========================-->
+    <!-- used by mongoose-client-activity (SOURCE) -->
     <source path="mongoose/client/businessdata/feesgroup"/>
     <source path="mongoose/client/businessdata/preselection"/>
     <source path="mongoose/client/businessdata/workingdocument"/>
@@ -101,17 +162,24 @@
     <source path="mongoose/client/businesslogic/rules"/>
     <source path="mongoose/client/businesslogic/workingdocument"/>
     <!--============================< mongoose-client-calendar >============================-->
+    <!-- used by mongoose-client-businesslogic (SOURCE) -->
     <source path="mongoose/client/businessdata/calendar"/>
     <source path="mongoose/client/businessdata/calendar/impl"/>
     <source path="mongoose/client/controls/calendargraphic"/>
     <source path="mongoose/client/controls/calendargraphic/impl"/>
-    <!--==============================< mongoose-client-css >===============================-->
+    <!--============================< mongoose-client-css-web >=============================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
+    <!--============================< mongoose-client-entities >============================-->
+    <!-- used by mongoose-client-businesslogic (SOURCE) -->
+    <source path="mongoose/client/entities/util"/>
     <!--==============================< mongoose-client-i18n >==============================-->
+    <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/operations/i18n"/>
     <source path="mongoose/client/services/i18n"/>
     <resource path="mongoose/client/services/i18n/dictionaries"/>
     <public includes="mongoose/client/services/i18n/dictionaries/" path=""/>
     <!--=============================< mongoose-client-icons >==============================-->
+    <!-- used by mongoose-client-application (SOURCE) -->
     <source path="mongoose/client/actions"/>
     <source path="mongoose/client/icons"/>
     <resource path="images/s16"/>
@@ -139,10 +207,13 @@
     <resource path="images/svg/mono"/>
     <public includes="images/svg/mono/" path=""/>
     <!--====================< mongoose-client-operationactionsloading >=====================-->
+    <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/operationactionsloading"/>
     <!--==========================< mongoose-client-sectionpanel >==========================-->
+    <!-- used by mongoose-client-activities-login (SOURCE) -->
     <source path="mongoose/client/controls/sectionpanel"/>
     <!--========================< mongoose-client-sessionrecorder >=========================-->
+    <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/jobs/sessionrecorder"/>
     <define-configuration-property is_multi_valued="false" name="application.build.number"/>
     <define-configuration-property is_multi_valued="false" name="application.build.timestamp"/>
@@ -150,37 +221,45 @@
     <define-configuration-property is_multi_valued="false" name="application.name"/>
     <define-configuration-property is_multi_valued="false" name="application.version"/>
     <!--==============================< mongoose-client-util >==============================-->
+    <!-- used by mongoose-client-bookingcalendar (SOURCE) -->
     <source path="mongoose/client/util/functions"/>
     <source path="mongoose/client/util/log"/>
     <source path="mongoose/client/util/routing"/>
     <!--===========================< mongoose-client-validation >===========================-->
+    <!-- used by mongoose-client-activities-login (SOURCE) -->
     <source path="mongoose/client/validation"/>
     <!--===================< mongoose-frontend-activities-fees-routing >====================-->
+    <!-- used by mongoose-backend-activities-bookings-routing (SOURCE) -->
     <source path="mongoose/frontend/activities/fees/routing"/>
     <source path="mongoose/frontend/operations/fees"/>
     <!--==================< mongoose-frontend-activities-options-routing >==================-->
+    <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
     <source path="mongoose/frontend/activities/options/routing"/>
     <source path="mongoose/frontend/operations/options"/>
     <!--=============================< mongoose-shared-domain >=============================-->
+    <!-- used by mongoose-shared-entities (SOURCE) -->
     <source path="mongoose/shared/domainmodel/formatters"/>
     <source path="mongoose/shared/domainmodel/functions"/>
     <source path="mongoose/shared/domainmodel/loader"/>
     <resource path="mongoose/shared/domainmodel"/>
     <public includes="mongoose/shared/domainmodel/" path=""/>
     <!--============================< mongoose-shared-entities >============================-->
+    <!-- used by mongoose-client-icons (SOURCE) -->
     <source path="mongoose/shared/entities"/>
     <source path="mongoose/shared/entities/formatters"/>
     <source path="mongoose/shared/entities/impl"/>
     <source path="mongoose/shared/entities/markers"/>
-    <source path="mongoose/shared/entities/util"/>
     <source path="mongoose/shared/services/systemmetrics"/>
     <!--==============================< mongoose-shared-time >==============================-->
+    <!-- used by mongoose-shared-entities (SOURCE) -->
     <source path="mongoose/shared/businessdata/time"/>
     <!--=========================< webfx-framework-client-action >==========================-->
+    <!-- used by mongoose-client-icons (SOURCE) -->
     <source path="webfx/framework/client/operation/action"/>
     <source path="webfx/framework/client/ui/action"/>
     <source path="webfx/framework/client/ui/action/impl"/>
     <!--========================< webfx-framework-client-activity >=========================-->
+    <!-- used by mongoose-client-application (SOURCE) -->
     <source path="webfx/framework/client/activity"/>
     <source path="webfx/framework/client/activity/impl"/>
     <source path="webfx/framework/client/activity/impl/composition"/>
@@ -188,6 +267,7 @@
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty"/>
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty/impl"/>
     <!--========================< webfx-framework-client-controls >=========================-->
+    <!-- used by mongoose-client-activity (SOURCE) -->
     <source path="webfx/framework/client/ui/controls"/>
     <source path="webfx/framework/client/ui/controls/alert"/>
     <source path="webfx/framework/client/ui/controls/button"/>
@@ -195,30 +275,48 @@
     <source path="webfx/framework/client/ui/controls/sheet"/>
     <resource path="images/s16/controls"/>
     <public includes="images/s16/controls/" path=""/>
+    <!--=========================< webfx-framework-client-domain >==========================-->
+    <!-- used by mongoose-client-application (SOURCE) -->
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation"/>
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation/impl"/>
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentationlogic/impl"/>
+    <source path="webfx/framework/client/activity/impl/combinations/viewdomain"/>
+    <source path="webfx/framework/client/activity/impl/combinations/viewdomain/impl"/>
+    <source path="webfx/framework/client/activity/impl/elementals/domain"/>
+    <source path="webfx/framework/client/activity/impl/elementals/domain/impl"/>
     <!--==========================< webfx-framework-client-i18n >===========================-->
+    <!-- used by webfx-framework-client-action (SOURCE) -->
     <source path="webfx/framework/client/operations/i18n"/>
     <source path="webfx/framework/client/services/i18n"/>
     <source path="webfx/framework/client/services/i18n/spi"/>
     <source path="webfx/framework/client/services/i18n/spi/impl"/>
     <!--=========================< webfx-framework-client-layouts >=========================-->
+    <!-- used by mongoose-client-application (SOURCE) -->
     <source path="webfx/framework/client/ui/layouts"/>
     <!--=====================< webfx-framework-client-materialdesign >======================-->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/materialdesign/textfield"/>
     <source path="webfx/framework/client/ui/materialdesign/util"/>
     <!--==========================< webfx-framework-client-push >===========================-->
+    <!-- used by webfx-framework-client-uifilter (SOURCE) -->
     <source path="webfx/framework/client/services/push"/>
     <source path="webfx/framework/client/services/push/spi"/>
     <!--=======================< webfx-framework-client-push-simple >=======================-->
+    <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="webfx/framework/client/services/push/spi/impl/simple"/>
     <!--========================< webfx-framework-client-querypush >========================-->
+    <!-- used by webfx-framework-client-querypush-simple (SOURCE) -->
     <source path="webfx/framework/client/services/querypush"/>
     <!--====================< webfx-framework-client-querypush-simple >=====================-->
+    <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="webfx/framework/client/jobs/querypush"/>
     <!--========================< webfx-framework-client-uifilter >=========================-->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/filter"/>
     <source path="webfx/framework/client/ui/filter/rx"/>
     <source path="webfx/framework/shared/orm/mapping/entity_display"/>
     <!--========================< webfx-framework-client-uirouter >=========================-->
+    <!-- used by webfx-framework-client-domain (SOURCE) -->
     <source path="webfx/framework/client/activity/impl/elementals/presentation"/>
     <source path="webfx/framework/client/activity/impl/elementals/presentation/impl"/>
     <source path="webfx/framework/client/activity/impl/elementals/presentation/logic"/>
@@ -235,16 +333,18 @@
     <source path="webfx/framework/client/ui/uirouter/uisession"/>
     <source path="webfx/framework/client/ui/uirouter/uisession/impl"/>
     <!--==========================< webfx-framework-client-util >===========================-->
+    <!-- used by webfx-framework-client-action (SOURCE) -->
     <source path="webfx/framework/client/ui/util/anim"/>
     <source path="webfx/framework/client/ui/util/background"/>
     <source path="webfx/framework/client/ui/util/border"/>
-    <source path="webfx/framework/client/ui/util/formatter"/>
     <source path="webfx/framework/client/ui/util/image"/>
     <source path="webfx/framework/client/ui/util/paint"/>
     <!--==========================< webfx-framework-shared-authn >==========================-->
+    <!-- used by mongoose-client-authn (SOURCE) -->
     <source path="webfx/framework/shared/services/authn"/>
     <source path="webfx/framework/shared/services/authn/spi"/>
     <!--==========================< webfx-framework-shared-authz >==========================-->
+    <!-- used by webfx-framework-client-action (SOURCE) -->
     <source path="webfx/framework/shared/operation/authz"/>
     <source path="webfx/framework/shared/services/authz"/>
     <source path="webfx/framework/shared/services/authz/mixin"/>
@@ -253,18 +353,13 @@
     <source path="webfx/framework/shared/services/authz/spi/impl/inmemory"/>
     <source path="webfx/framework/shared/services/authz/spi/impl/inmemory/parser"/>
     <!--=========================< webfx-framework-shared-domain >==========================-->
-    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation"/>
-    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation/impl"/>
-    <source path="webfx/framework/client/activity/impl/combinations/domainpresentationlogic/impl"/>
-    <source path="webfx/framework/client/activity/impl/combinations/viewdomain"/>
-    <source path="webfx/framework/client/activity/impl/combinations/viewdomain/impl"/>
-    <source path="webfx/framework/client/activity/impl/elementals/domain"/>
-    <source path="webfx/framework/client/activity/impl/elementals/domain/impl"/>
+    <!-- used by webfx-framework-shared-entity (SOURCE) -->
     <source path="webfx/framework/shared/orm/domainmodel"/>
     <source path="webfx/framework/shared/orm/domainmodel/builder"/>
     <source path="webfx/framework/shared/orm/domainmodel/lciimpl"/>
     <source path="webfx/framework/shared/orm/domainmodel/loader"/>
     <!--=========================< webfx-framework-shared-entity >==========================-->
+    <!-- used by mongoose-shared-entities (SOURCE) -->
     <source path="webfx/framework/shared/orm/entity"/>
     <source path="webfx/framework/shared/orm/entity/impl"/>
     <source path="webfx/framework/shared/orm/entity/lciimpl"/>
@@ -272,6 +367,7 @@
     <source path="webfx/framework/shared/orm/entity/result/impl"/>
     <source path="webfx/framework/shared/orm/mapping/query_entity"/>
     <!--=======================< webfx-framework-shared-expression >========================-->
+    <!-- used by webfx-framework-shared-entity (SOURCE) -->
     <source path="webfx/framework/shared/expression"/>
     <source path="webfx/framework/shared/expression/builder"/>
     <source path="webfx/framework/shared/expression/builder/terms"/>
@@ -289,16 +385,20 @@
     <source path="webfx/framework/shared/expression/terms/function"/>
     <source path="webfx/framework/shared/expression/terms/function/java"/>
     <!--========================< webfx-framework-shared-operation >========================-->
+    <!-- used by webfx-framework-client-action (SOURCE) -->
     <source path="webfx/framework/shared/operation"/>
     <!--==========================< webfx-framework-shared-push >===========================-->
+    <!-- used by webfx-framework-client-push (SOURCE) -->
     <source path="webfx/framework/shared/services/push"/>
     <!--========================< webfx-framework-shared-querypush >========================-->
+    <!-- used by webfx-framework-client-uifilter (SOURCE) -->
     <source path="webfx/framework/shared/services/querypush"/>
     <source path="webfx/framework/shared/services/querypush/diff"/>
     <source path="webfx/framework/shared/services/querypush/diff/impl"/>
     <source path="webfx/framework/shared/services/querypush/spi"/>
     <source path="webfx/framework/shared/services/querypush/spi/impl"/>
     <!--=========================< webfx-framework-shared-router >==========================-->
+    <!-- used by webfx-framework-client-uirouter (SOURCE) -->
     <source path="webfx/framework/shared/router"/>
     <source path="webfx/framework/shared/router/auth"/>
     <source path="webfx/framework/shared/router/auth/authz"/>
@@ -307,7 +407,13 @@
     <source path="webfx/framework/shared/router/session"/>
     <source path="webfx/framework/shared/router/session/impl"/>
     <source path="webfx/framework/shared/router/util"/>
+    <!--==========================< webfx-framework-shared-util >===========================-->
+    <!-- used by mongoose-shared-domain (SOURCE) -->
+    <source path="webfx/framework/shared/util/formatter"/>
     <!--==========================< webfx-fxkit-emul-javafxbase >===========================-->
+    <!-- used by webfx-framework-client-action (SOURCE) -->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-buscall (SOURCE) -->
     <source path="com/sun/javafx"/>
     <source path="com/sun/javafx/binding"/>
     <source path="com/sun/javafx/collections"/>
@@ -321,12 +427,16 @@
     <source path="javafx/event"/>
     <source path="javafx/util"/>
     <!--========================< webfx-fxkit-emul-javafxcontrols >=========================-->
+    <!-- used by webfx-framework-client-action (SOURCE) -->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
     <source path="com/sun/javafx/scene/control"/>
     <source path="com/sun/javafx/scene/control/behaviour"/>
     <source path="com/sun/javafx/scene/control/skin"/>
     <source path="javafx/scene/control"/>
     <source path="javafx/scene/control/skin"/>
     <!--========================< webfx-fxkit-emul-javafxgraphics >=========================-->
+    <!-- used by webfx-framework-client-action (SOURCE) -->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
     <source path="com/sun/javafx/application"/>
     <source path="com/sun/javafx/cursor"/>
     <source path="com/sun/javafx/geom"/>
@@ -358,6 +468,8 @@
     <source path="webfx/fxkit/mapper/spi/impl"/>
     <source path="webfx/fxkit/mapper/spi/impl/peer"/>
     <!--===========================< webfx-fxkit-extracontrols >============================-->
+    <!-- used by webfx-framework-client-util (SOURCE) -->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
     <source path="webfx/fxkit/extra/cell/collator"/>
     <source path="webfx/fxkit/extra/cell/renderer"/>
     <source path="webfx/fxkit/extra/cell/rowstyle"/>
@@ -367,9 +479,13 @@
     <source path="webfx/fxkit/extra/controls/html"/>
     <source path="webfx/fxkit/extra/displaydata"/>
     <source path="webfx/fxkit/extra/displaydata/impl"/>
-    <source path="webfx/fxkit/extra/type"/>
     <source path="webfx/fxkit/extra/util"/>
+    <!--=============================< webfx-fxkit-extratype >==============================-->
+    <!-- used by webfx-fxkit-extracontrols (SOURCE) -->
+    <source path="webfx/fxkit/extra/label"/>
+    <source path="webfx/fxkit/extra/type"/>
     <!--================================< webfx-fxkit-gwt >=================================-->
+    <!-- used by mongoose-backend-application-gwt (EMULATION) -->
     <source path="webfx/fxkit/extra/cell/collator/grid"/>
     <source path="webfx/fxkit/gwt/launcher"/>
     <source path="webfx/fxkit/gwt/mapper/html"/>
@@ -382,23 +498,30 @@
     <source path="webfx/fxkit/gwt/mapper/svg/peer/javafxgraphics"/>
     <source path="webfx/fxkit/gwt/mapper/util"/>
     <!--==============================< webfx-fxkit-launcher >==============================-->
+    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
     <source path="webfx/fxkit/launcher"/>
     <source path="webfx/fxkit/launcher/spi"/>
     <source path="webfx/fxkit/launcher/spi/impl"/>
     <!--===============================< webfx-fxkit-mapper >===============================-->
+    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
     <source path="webfx/fxkit/mapper/spi"/>
     <source path="webfx/fxkit/mapper/spi/impl/peer/markers"/>
     <!--========================< webfx-fxkit-mapper-extracontrols >========================-->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
     <source path="webfx/fxkit/extra/cell/collator/grid"/>
     <source path="webfx/fxkit/extra/mapper/spi/peer/impl/extra"/>
     <!--=======================< webfx-fxkit-mapper-javafxcontrols >========================-->
+    <!-- used by webfx-fxkit-mapper-extracontrols (SOURCE) -->
     <source path="webfx/fxkit/mapper/spi/impl/peer/javafxcontrols"/>
     <!--=======================< webfx-fxkit-mapper-javafxgraphics >========================-->
+    <!-- used by webfx-fxkit-mapper-javafxcontrols (SOURCE) -->
     <source path="webfx/fxkit/mapper/spi/impl/peer/javafxgraphics"/>
     <!--================================< webfx-fxkit-util >================================-->
+    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
     <source path="webfx/fxkit/util/properties"/>
     <source path="webfx/fxkit/util/properties/conversion"/>
     <!--========================< webfx-lib-controlsfx-validation >=========================-->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="impl/org/controlsfx"/>
     <source path="impl/org/controlsfx/skin"/>
     <source path="org/controlsfx/control/decoration"/>
@@ -408,11 +531,14 @@
     <resource path="impl/org/controlsfx/control/validation"/>
     <public includes="impl/org/controlsfx/control/validation/" path=""/>
     <!--============================< webfx-lib-javacupruntime >============================-->
+    <!-- used by webfx-platform-shared-json (SOURCE) -->
     <source path="java_cup/runtime"/>
     <!--==========================< webfx-lib-mvvmfx-validation >===========================-->
+    <!-- used by mongoose-client-validation (SOURCE) -->
     <source path="de/saxsys/mvvmfx/utils/validation"/>
     <source path="de/saxsys/mvvmfx/utils/validation/visualization"/>
     <!--================================< webfx-lib-rxjava >================================-->
+    <!-- used by webfx-framework-client-uifilter (SOURCE) -->
     <source path="rx"/>
     <source path="rx/annotations"/>
     <source path="rx/exceptions"/>
@@ -427,57 +553,96 @@
     <source path="rx/subjects"/>
     <source path="rx/subscriptions"/>
     <!--=========================< webfx-platform-client-storage >==========================-->
+    <!-- used by mongoose-client-sessionrecorder (SOURCE) -->
+    <!-- used by webfx-platform-client-storage-gwt (SOURCE) -->
     <source path="webfx/platform/client/services/storage"/>
     <source path="webfx/platform/client/services/storage/spi"/>
     <!--=======================< webfx-platform-client-storage-gwt >========================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/client/services/storage/spi/impl/gwt"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
+    <!-- used by webfx-framework-shared-authz (SOURCE) -->
+    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
+    <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
+    <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <source path="webfx/platform/client/services/uischeduler"/>
     <source path="webfx/platform/client/services/uischeduler/spi"/>
     <source path="webfx/platform/client/services/uischeduler/spi/impl"/>
     <!--=====================< webfx-platform-client-uischeduler-gwt >======================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/client/services/uischeduler/spi/impl/gwt"/>
     <!--========================< webfx-platform-client-websocket >=========================-->
+    <!-- used by webfx-platform-client-websocket-gwt (SOURCE) -->
+    <!-- used by webfx-platform-client-websocketbus (SOURCE) -->
     <source path="webfx/platform/client/services/websocket"/>
     <source path="webfx/platform/client/services/websocket/spi"/>
     <!--======================< webfx-platform-client-websocket-gwt >=======================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/client/services/websocket/spi/impl/gwt"/>
     <!--=======================< webfx-platform-client-websocketbus >=======================-->
+    <!-- used by mongoose-client-aggregates (SOURCE) -->
+    <!-- used by webfx-platform-client-websocketbus-web (SOURCE) -->
     <source path="webfx/platform/client/services/websocketbus"/>
     <!--=====================< webfx-platform-client-websocketbus-web >=====================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/client/services/websocketbus/web"/>
     <!--======================< webfx-platform-client-windowhistory >=======================-->
+    <!-- used by webfx-framework-client-uirouter (SOURCE) -->
+    <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <source path="webfx/platform/client/services/windowhistory"/>
     <source path="webfx/platform/client/services/windowhistory/spi"/>
     <source path="webfx/platform/client/services/windowhistory/spi/impl"/>
     <!--====================< webfx-platform-client-windowhistory-gwt >=====================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/client/services/windowhistory/spi/impl/gwt"/>
     <source path="webfx/platform/client/services/windowhistory/spi/impl/gwt/jsinterop"/>
     <!--====================< webfx-platform-client-windowhistory-web >=====================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-platform-client-windowhistory-gwt (SOURCE) -->
     <source path="webfx/platform/client/services/windowhistory/spi/impl/web"/>
     <!--======================< webfx-platform-client-windowlocation >======================-->
+    <!-- used by webfx-platform-client-websocketbus-web (SOURCE) -->
+    <!-- used by webfx-platform-client-windowhistory (SOURCE) -->
+    <!-- used by webfx-platform-client-windowlocation-gwt (SOURCE) -->
     <source path="webfx/platform/client/services/windowlocation"/>
     <source path="webfx/platform/client/services/windowlocation/spi"/>
     <source path="webfx/platform/client/services/windowlocation/spi/impl"/>
     <!--====================< webfx-platform-client-windowlocation-gwt >====================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/client/services/windowlocation/spi/impl/gwt"/>
     <source path="webfx/platform/client/services/windowlocation/spi/impl/gwt/jsinterop"/>
     <!--=======================< webfx-platform-shared-appcontainer >=======================-->
+    <!-- used by webfx-fxkit-launcher (SOURCE) -->
+    <!-- used by webfx-platform-shared-appcontainer-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-serial (SOURCE) -->
     <source path="webfx/platform/shared/services/appcontainer"/>
     <source path="webfx/platform/shared/services/appcontainer/spi"/>
     <source path="webfx/platform/shared/services/appcontainer/spi/impl"/>
     <!--=====================< webfx-platform-shared-appcontainer-gwt >=====================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/appcontainer/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-bus >============================-->
+    <!-- used by webfx-platform-client-websocketbus-web (SOURCE) -->
+    <!-- used by webfx-platform-shared-buscall (SOURCE) -->
     <source path="webfx/platform/shared/services/bus"/>
     <source path="webfx/platform/shared/services/bus/spi"/>
     <source path="webfx/platform/shared/services/bus/spi/impl"/>
     <!--=========================< webfx-platform-shared-buscall >==========================-->
+    <!-- used by webfx-platform-shared-query (SOURCE) -->
     <source path="webfx/platform/shared/services/buscall"/>
     <source path="webfx/platform/shared/services/buscall/spi"/>
     <!--========================< webfx-platform-shared-datasource >========================-->
+    <!-- used by webfx-platform-shared-query (SOURCE) -->
     <source path="webfx/platform/shared/datasource"/>
     <!--===========================< webfx-platform-shared-json >===========================-->
+    <!-- used by webfx-framework-client-i18n (SOURCE) -->
+    <!-- used by webfx-platform-client-websocket (SOURCE) -->
+    <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
+    <!-- used by webfx-platform-client-windowlocation (SOURCE) -->
+    <!-- used by webfx-platform-shared-bus (SOURCE) -->
+    <!-- used by webfx-platform-shared-json-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-serial (SOURCE) -->
     <source path="webfx/platform/shared/services/json"/>
     <source path="webfx/platform/shared/services/json/parser"/>
     <source path="webfx/platform/shared/services/json/parser/javacup"/>
@@ -485,43 +650,77 @@
     <source path="webfx/platform/shared/services/json/spi"/>
     <source path="webfx/platform/shared/services/json/spi/impl/listmap"/>
     <!--=========================< webfx-platform-shared-json-gwt >=========================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-platform-client-windowhistory-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/json/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-log >============================-->
+    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
+    <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
+    <!-- used by webfx-platform-client-websocketbus (SOURCE) -->
+    <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
+    <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
+    <!-- used by webfx-platform-shared-log-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/log"/>
     <source path="webfx/platform/shared/services/log/spi"/>
     <!--=========================< webfx-platform-shared-log-gwt >==========================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/log/spi/impl/gwt"/>
     <!--==========================< webfx-platform-shared-query >===========================-->
+    <!-- used by webfx-framework-shared-domain (SOURCE) -->
+    <!-- used by webfx-platform-shared-query-remote (SOURCE) -->
     <source path="webfx/platform/shared/services/query"/>
     <source path="webfx/platform/shared/services/query/compression"/>
     <source path="webfx/platform/shared/services/query/compression/repeat"/>
     <source path="webfx/platform/shared/services/query/spi"/>
     <source path="webfx/platform/shared/services/query/spi/impl"/>
     <!--=======================< webfx-platform-shared-query-remote >=======================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/query/spi/impl/remote"/>
     <!--=========================< webfx-platform-shared-resource >=========================-->
+    <!-- used by webfx-framework-client-i18n (SOURCE) -->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <!-- used by webfx-platform-client-websocketbus (SOURCE) -->
+    <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/resource"/>
     <source path="webfx/platform/shared/services/resource/spi"/>
     <!--=======================< webfx-platform-shared-resource-gwt >=======================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/resource/spi/impl/gwt"/>
     <!--========================< webfx-platform-shared-scheduler >=========================-->
+    <!-- used by webfx-platform-client-uischeduler (SOURCE) -->
+    <!-- used by webfx-platform-client-websocketbus (SOURCE) -->
     <source path="webfx/platform/shared/services/scheduler"/>
     <source path="webfx/platform/shared/services/scheduler/spi"/>
     <!--==========================< webfx-platform-shared-serial >==========================-->
+    <!-- used by webfx-platform-shared-buscall (SOURCE) -->
     <source path="webfx/platform/shared/services/serial"/>
     <source path="webfx/platform/shared/services/serial/spi"/>
     <source path="webfx/platform/shared/services/serial/spi/impl"/>
     <!--=========================< webfx-platform-shared-shutdown >=========================-->
+    <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
+    <!-- used by webfx-platform-shared-shutdown-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/shutdown"/>
     <source path="webfx/platform/shared/services/shutdown/spi"/>
     <source path="webfx/platform/shared/services/shutdown/spi/impl"/>
     <!--=======================< webfx-platform-shared-shutdown-gwt >=======================-->
+    <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/shutdown/spi/impl/gwt"/>
     <!--==========================< webfx-platform-shared-update >==========================-->
+    <!-- used by webfx-framework-shared-entity (SOURCE) -->
     <source path="webfx/platform/shared/services/update"/>
     <source path="webfx/platform/shared/services/update/spi"/>
     <source path="webfx/platform/shared/services/update/spi/impl"/>
     <!--===========================< webfx-platform-shared-util >===========================-->
+    <!-- used by webfx-framework-shared-operation (SOURCE) -->
+    <!-- used by webfx-platform-client-storage (SOURCE) -->
+    <!-- used by webfx-platform-client-windowlocation (SOURCE) -->
+    <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
+    <!-- used by webfx-platform-shared-bus (SOURCE) -->
+    <!-- used by webfx-platform-shared-json (SOURCE) -->
+    <!-- used by webfx-platform-shared-log (SOURCE) -->
+    <!-- used by webfx-platform-shared-query (SOURCE) -->
+    <!-- used by webfx-platform-shared-scheduler (SOURCE) -->
+    <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
     <source path="webfx/platform/shared/util"/>
     <source path="webfx/platform/shared/util/async"/>
     <source path="webfx/platform/shared/util/collection"/>

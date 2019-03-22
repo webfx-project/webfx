@@ -5,41 +5,35 @@ package webfx.tool.buildtool;
  */
 class ModuleImpl implements Module {
 
-    private final String groupId;
-    private final String artifactId;
-    private final String version;
+    private final String name;
 
-    ModuleImpl(String artifactId) {
-        this(null, artifactId);
-    }
-
-    ModuleImpl(String groupId, String artifactId) {
-        this(groupId, artifactId, null);
-    }
-
-    ModuleImpl(String groupId, String artifactId, String version) {
-        this.groupId = groupId;
-        this.artifactId = artifactId;
-        this.version = version;
+    ModuleImpl(String name) {
+        this.name = name;
     }
 
     @Override
-    public String getGroupId() {
-        return groupId;
-    }
-
-    @Override
-    public String getArtifactId() {
-        return artifactId;
-    }
-
-    @Override
-    public String getVersion() {
-        return version;
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return getArtifactId();
+        return getName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ModuleImpl)) return false;
+
+        ModuleImpl module = (ModuleImpl) o;
+
+        return name.equals(module.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }

@@ -3,6 +3,7 @@
     <dependencies>
 
         <source-modules>
+            <module>mongoose-shared-entities</module>
             <module>webfx-framework-client-activity</module>
             <module>webfx-platform-shared-util</module>
         </source-modules>

@@ -6,8 +6,8 @@ import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.terms.Equals;
 import webfx.framework.shared.expression.terms.Parameter;
 import webfx.framework.shared.expression.terms.Symbol;
-import webfx.fxkit.extra.displaydata.HasLabel;
-import webfx.fxkit.extra.displaydata.Label;
+import webfx.fxkit.extra.label.HasLabel;
+import webfx.fxkit.extra.label.Label;
 
 /**
  * @author Bruno Salmon

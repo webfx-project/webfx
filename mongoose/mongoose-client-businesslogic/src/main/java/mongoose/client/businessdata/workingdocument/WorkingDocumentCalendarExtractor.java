@@ -14,7 +14,7 @@ import mongoose.shared.entities.Option;
 import mongoose.shared.entities.markers.HasItemFamilyType;
 import mongoose.shared.businessdata.time.DateTimeRange;
 import mongoose.shared.businessdata.time.DayTimeRange;
-import mongoose.shared.entities.util.Labels;
+import mongoose.client.entities.util.Labels;
 import webfx.platform.shared.util.Objects;
 
 import java.util.*;

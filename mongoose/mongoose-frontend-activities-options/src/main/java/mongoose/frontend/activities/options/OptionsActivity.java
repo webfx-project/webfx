@@ -15,7 +15,7 @@ import mongoose.client.icons.MongooseIcons;
 import mongoose.client.controls.sectionpanel.SectionPanelFactory;
 import mongoose.frontend.operations.person.RouteToPersonRequest;
 import mongoose.shared.entities.Option;
-import mongoose.shared.entities.util.Labels;
+import mongoose.client.entities.util.Labels;
 import webfx.framework.client.ui.layouts.FlexBox;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.log.Logger;

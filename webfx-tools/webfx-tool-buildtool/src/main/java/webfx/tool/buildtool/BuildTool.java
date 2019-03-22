@@ -14,33 +14,34 @@ public final class BuildTool {
         long t0 = System.currentTimeMillis();
         RootModule webfxRootModule = new RootModule(getWebfxRootDirectory());
 /*
-        webfxRootModule.findProjectModule("mongoose-backend-application-gwt")
-                .getThisAndTransitiveDependencies()
-                //.getWebfxModuleFile().getSourceModules()
-                .stream().map(Module::getArtifactId).sorted()
-                .forEach(System.out::println);
+        ModuleReporter reporter = new ModuleReporter(webfxRootModule);
+        //reporter.listDependenciesPathsBetween("mongoose-server-application-vertx", "webfx-fxkit-launcher");
+        reporter.listProjectModuleJavaClassesDependingOn("mongoose-shared-domain", "webfx-framework-client-util");
 */
-/*
-        webfxRootModule.getThisAndChildrenModulesInDepth()
-                .forEach(ProjectModule::deleteIdeFiles);
-*/
+
+        ProjectModule parentModule = webfxRootModule
+                //.findProjectModule("webfx-tutorials")
+                ;
+        parentModule
+                .getThisAndChildrenModulesInDepth()
+                .filter(ProjectModule::hasSourceDirectory)
+                .forEach(m -> m.getMavenModuleFile().updateAndWrite());
+        parentModule
+                .getThisAndChildrenModulesInDepth()
+                .filter(ProjectModule::hasSourceDirectory)
+                .filter(m -> m.getTarget().isPlatformSupported(Platform.JRE))
+                //.filter(m -> !m.isDirectlyDependingOn("jsinterop-annotations"))
+                .forEach(m -> m.getJavaModuleFile().writeFile())
+        ;
+        parentModule
+                .getThisAndChildrenModulesInDepth()
+                .filter(m -> m.isExecutable(Platform.GWT))
+                .forEach(GwtFilesGenerator::generateGwtFiles);
 /*
         webfxRootModule.getChildModuleInDepth("webfx-platform-shared-appcontainer-vertx")
             .getUsedJavaPackages()
                 .forEach(System.out::println);
 */
-        webfxRootModule
-                //.findProjectModule("mongoose")
-                .getThisAndChildrenModulesInDepth()
-                .filter(ProjectModule::isSourceModule)
-                .filter(m -> m.getTarget().isPlatformSupported(Platform.JRE))
-                //.filter(m -> !m.isDirectlyDependingOn("jsinterop-annotations"))
-                .forEach(m -> m.getJavaModuleFile().writeFile())
-        ;
-        webfxRootModule.getThisAndChildrenModulesInDepth()
-                //.filter(m -> m.getArtifactId().startsWith("webfx-tutorial"))
-                .filter(m -> m.isExecutable(Platform.GWT))
-                .forEach(GwtFilesGenerator::generateGwtFiles);
         //GwtServiceLoaderSuperSourceGenerator.generateServiceLoaderSuperSource(webfxRootModule.getChildModuleInDepth("webfx-tutorial-colorfulcircles-application-gwt"));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.compatiblePlatforms().collect(Collectors.toList())));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.getUsedJavaServices().collect(Collectors.toList())));

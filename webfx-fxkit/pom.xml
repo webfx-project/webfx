@@ -21,6 +21,7 @@
         <module>webfx-fxkit-mapper-javafxcontrols</module>
 
         <module>webfx-fxkit-extracontrols</module>
+        <module>webfx-fxkit-extratype</module>
         <module>webfx-fxkit-mapper-extracontrols</module>
 
         <module>webfx-fxkit-javafx</module>

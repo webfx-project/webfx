@@ -436,7 +436,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                         lastEntityListObservable = Observable.just(filteredList);
                     } else {
                         // Otherwise we compile the final string filter into sql
-                        SqlCompiled sqlCompiled = getDomainModel().compileSelect(stringFilter.toStringSelect());
+                        SqlCompiled sqlCompiled = getDomainModel().parseAndCompileSelect(stringFilter.toStringSelect());
                         // And extract the possible parameters
                         ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
                         parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();

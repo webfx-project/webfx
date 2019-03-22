@@ -33,11 +33,11 @@ final class GwtEmbedResourcesBundleSourceGenerator {
 
 
     static void generateGwtClientBundleSource(ProjectModule module) {
-        GwtFilesGenerator.logSection("Generating " + module.getArtifactId() + " module EmbedResourcesBundle super source for GWT");
+        GwtFilesGenerator.logSection("Generating " + module.getName() + " module EmbedResourcesBundle super source for GWT");
         StringBuilder resourceDeclaration = new StringBuilder();
         StringBuilder resourceRegistration = new StringBuilder();
         AtomicInteger resourceNumber = new AtomicInteger();
-        ProjectModule.filterProjectModules(module.getThisAndTransitiveDependencies())
+        ProjectModule.filterProjectModules(module.getThisAndTransitiveModules())
                 .flatMap(ProjectModule::getEmbedResources)
                 .stream().sorted()
                 .forEach(r -> {

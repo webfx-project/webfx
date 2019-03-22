@@ -8,12 +8,13 @@ module webfx.framework.client.uifilter {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.push;
-    requires webfx.framework.client.util;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.querypush;
+    requires webfx.framework.shared.util;
     requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.lib.rxjava;
     requires webfx.platform.client.uischeduler;

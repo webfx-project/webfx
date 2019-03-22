@@ -91,6 +91,7 @@
         <module>mongoose-shared-entities</module>
         <module>mongoose-shared-time</module>
         <module>mongoose-client-css</module>
+        <module>mongoose-client-entities</module>
     </modules>
 
     <properties>

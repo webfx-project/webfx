@@ -160,7 +160,7 @@ public interface EntityStore extends HasDataSourceModel {
     }
 
     default <E extends Entity> Future<EntityList<E>> executeQuery(String select, Object[] parameters, Object listId) {
-        SqlCompiled sqlCompiled = getDomainModel().compileSelect(select);
+        SqlCompiled sqlCompiled = getDomainModel().parseAndCompileSelect(select);
         return QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, getDataSourceId()))
                 .map(rs -> QueryResultToEntityListMapper.createEntityList(rs, sqlCompiled.getQueryMapping(), this, listId)
         );
@@ -171,7 +171,7 @@ public interface EntityStore extends HasDataSourceModel {
     }
 
     default Future<EntityList[]> executeQueryBatch(EntityStoreQuery... queries) {
-        SqlCompiled[] sqlCompileds = Arrays.map(queries, query -> getDomainModel().compileSelect(query.select), SqlCompiled[]::new);
+        SqlCompiled[] sqlCompileds = Arrays.map(queries, query -> getDomainModel().parseAndCompileSelect(query.select), SqlCompiled[]::new);
         return QueryService.executeQueryBatch(new Batch<>(Arrays.map(queries, (i, query) -> new QueryArgument(sqlCompileds[i].getSql(), query.parameters, getDataSourceId()), QueryArgument[]::new)))
                 .map(batchResult -> Arrays.map(batchResult.getArray(), (i, rs) -> QueryResultToEntityListMapper.createEntityList(rs, sqlCompileds[i].getQueryMapping(), this, queries[i].listId), EntityList[]::new));
     }

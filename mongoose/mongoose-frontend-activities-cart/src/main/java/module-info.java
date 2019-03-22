@@ -23,6 +23,7 @@ module mongoose.frontend.activities.cart {
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
+    requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;
@@ -31,7 +32,9 @@ module mongoose.frontend.activities.cart {
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
+    requires webfx.framework.shared.util;
     requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.log;

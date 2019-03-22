@@ -1,4 +1,4 @@
-<module executable="true" application-module="mongoose-backend-application">
+<module>
 
     <dependencies>
 

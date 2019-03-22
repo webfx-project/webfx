@@ -1,7 +1,6 @@
 package webfx.tool.buildtool;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * @author Bruno Salmon
@@ -13,10 +12,10 @@ public final class Target {
 
     Target(ProjectModule module) {
         this.module = module;
-        this.tags = getArtifactIdTags(module.getArtifactId());
+        this.tags = TargetTag.parseTags(module.getName());
     }
 
-    Target(TargetTag... tags) {
+    public Target(TargetTag... tags) {
         this.module = null;
         this.tags = tags;
     }
@@ -27,6 +26,10 @@ public final class Target {
 
     TargetTag[] getTags() {
         return tags;
+    }
+
+    public boolean hasTag(TargetTag tag) {
+        return Arrays.asList(tags).contains(tag);
     }
 
     public Platform[] getSupportedPlatforms() {
@@ -57,12 +60,5 @@ public final class Target {
             }
         }
         return grade;
-    }
-
-    private static TargetTag[] getArtifactIdTags(String artifactId) {
-        return Arrays.stream(artifactId.split("-"))
-                .map(TargetTag::fromTagBName)
-                .filter(Objects::nonNull)
-                .toArray(TargetTag[]::new);
     }
 }

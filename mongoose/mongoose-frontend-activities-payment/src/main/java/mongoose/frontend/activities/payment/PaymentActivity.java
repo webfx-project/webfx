@@ -15,7 +15,7 @@ import mongoose.shared.entities.formatters.EventPriceFormatter;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.*;
 import mongoose.shared.entities.markers.EntityHasName;
-import mongoose.shared.entities.util.Labels;
+import mongoose.client.entities.util.Labels;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;

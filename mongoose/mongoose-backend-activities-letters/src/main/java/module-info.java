@@ -3,13 +3,14 @@
 module mongoose.backend.activities.letters {
 
     // Direct dependencies modules
+    requires javafx.graphics;
     requires mongoose.backend.activities.letter.routing;
     requires mongoose.backend.activities.letters.routing;
     requires mongoose.client.activity;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.domain;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.router;
     requires webfx.platform.shared.util;

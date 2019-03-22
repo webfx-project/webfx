@@ -7,6 +7,7 @@ module webfx.fxkit.extracontrols {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
+    requires webfx.fxkit.extratype;
     requires webfx.fxkit.launcher;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
@@ -23,7 +24,6 @@ module webfx.fxkit.extracontrols {
     exports webfx.fxkit.extra.controls.html;
     exports webfx.fxkit.extra.displaydata;
     exports webfx.fxkit.extra.displaydata.impl;
-    exports webfx.fxkit.extra.type;
     exports webfx.fxkit.extra.util;
 
 }

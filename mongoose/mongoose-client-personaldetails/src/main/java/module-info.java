@@ -20,6 +20,7 @@ module mongoose.client.personaldetails {
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.util;

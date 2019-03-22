@@ -14,7 +14,7 @@ import webfx.framework.shared.orm.domainmodel.builder.DomainClassBuilder;
 import webfx.framework.shared.orm.domainmodel.builder.DomainFieldBuilder;
 import webfx.framework.shared.orm.domainmodel.builder.DomainFieldsGroupBuilder;
 import webfx.framework.shared.orm.domainmodel.builder.DomainModelBuilder;
-import webfx.fxkit.extra.displaydata.Label;
+import webfx.fxkit.extra.label.Label;
 import webfx.platform.shared.services.query.QueryArgument;
 
 import java.util.HashMap;

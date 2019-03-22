@@ -42,9 +42,8 @@
         <module>webfx-framework-client-querypush</module>
         <module>webfx-framework-client-querypush-simple</module>
         <module>webfx-framework-server-querypush-simple</module>
-
-        <module>webfx-framework-client-all</module>
-        <module>webfx-framework-server-all</module>
+        <module>webfx-framework-client-domain</module>
+        <module>webfx-framework-shared-util</module>
 
     </modules>
 

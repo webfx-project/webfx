@@ -12,10 +12,10 @@ module mongoose.frontend.activities.contactus {
     requires mongoose.shared.entities;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
-    requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.windowlocation;

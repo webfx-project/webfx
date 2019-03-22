@@ -1,6 +1,7 @@
 package mongoose.client.application;
 
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -17,6 +18,7 @@ import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.fxkit.util.properties.Properties;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.buscall.PendingBusCall;
 
 import java.util.function.Consumer;
@@ -57,9 +59,14 @@ public class MongooseClientApplication extends Application {
     }
 
     private static void setLoadingSpinnerVisibleConsumer(Consumer<Boolean> consumer) {
-        Properties.consumeInUiThread(Properties.compute(PendingBusCall.pendingCallsCountProperty(), pendingCallsCount -> pendingCallsCount > 0)
+        consumeInUiThread(Properties.compute(PendingBusCall.pendingCallsCountProperty(), pendingCallsCount -> pendingCallsCount > 0)
                 , consumer);
     }
+
+    public static <T> void consumeInUiThread(ObservableValue<T> property, Consumer<T> consumer) {
+        Properties.consume(property, arg -> UiScheduler.scheduleDeferred(() -> consumer.accept(arg)));
+    }
+
 
     private ImageView spinner;
 

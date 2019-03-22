@@ -7,7 +7,7 @@ import mongoose.shared.businessdata.time.DateTimeRange;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.formatters.EventPriceFormatter;
-import mongoose.shared.entities.util.Labels;
+import mongoose.client.entities.util.Labels;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.collection.Collections;

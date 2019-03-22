@@ -31,7 +31,7 @@ final class ModuleReporter {
 
     void listDirectDependencies() {
         listIterableElements("Listing " + projectModule + " module direct dependencies",
-                projectModule.getDirectDependencies()
+                projectModule.getDirectDependencies().map(ModuleDependency::getDestinationModule)
         );
     }
 
@@ -50,7 +50,7 @@ final class ModuleReporter {
 
     void listThisAndChildrenModulesInDepthTransitiveDependencies() {
         listIterableElements("Listing " + projectModule + " and children modules (in depth) transitive dependencies",
-                projectModule.getTransitiveDependencies()
+                projectModule.getTransitiveModules()
         );
     }
 
@@ -115,7 +115,7 @@ final class ModuleReporter {
      ***************************/
 
     private static void logModuleWithDirectDependencies(ProjectModule module) {
-        log(module + " direct dependencies: " + module.getDirectDependencies()
+        log(module + " direct dependencies: " + module.getDirectModules()
                 .collect(Collectors.toList()));
     }
 
@@ -123,7 +123,7 @@ final class ModuleReporter {
         RootModule rootModule = jc.getProjectModule().getRootModule();
         log(jc + " through packages " +
                 jc.getUsedJavaPackages()
-                        .filter(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getArtifactId()))
+                        .filter(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getName()))
                         .distinct()
                         .collect(Collectors.toList()));
     }

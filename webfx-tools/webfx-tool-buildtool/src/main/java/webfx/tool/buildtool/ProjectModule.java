@@ -19,108 +19,14 @@ import java.util.stream.Collectors;
  */
 public class ProjectModule extends ModuleImpl {
 
+    /**
+     * A path matcher for java files (filtering files with .java extension)
+     */
     private final static PathMatcher javaFileMatcher = FileSystems.getDefault().getPathMatcher("glob:**.java");
 
-    private final ReusableStream<JavaClass> declaredJavaClassesCache =
-            ReusableStream.create(() -> isSourceModule() ? SplitFiles.uncheckedWalk(getJavaSourceDirectory()) : Spliterators.emptySpliterator())
-                    .filter(javaFileMatcher::matches)
-                    .filter(path -> !"module-info.java".equals(path.getFileName().toString()))
-                    .map(path -> new JavaClass(path, this))
-                    .cache();
-    private final ReusableStream<String> declaredJavaPackagesCache =
-            declaredJavaClassesCache
-                    .map(JavaClass::getPackageName)
-                    .distinct();
-    private final ReusableStream<String> usedJavaPackagesCache =
-            declaredJavaClassesCache
-                    .flatMap(JavaClass::getUsedJavaPackages)
-                    .distinct()
-                    .cache();
-    private final ReusableStream<String> usedRequiredJavaServicesCache =
-            declaredJavaClassesCache
-                    .flatMap(JavaClass::getUsedRequiredJavaServices)
-                    .distinct()
-                    .cache();
-    private final ReusableStream<String> usedOptionalJavaServicesCache =
-            declaredJavaClassesCache
-                    .flatMap(JavaClass::getUsedOptionalJavaServices)
-                    .distinct()
-                    .cache();
-    private final ReusableStream<String> declaredJavaServicesCache =
-            getUsedJavaServices()
-                    .filter(s -> declaredJavaClassesCache.anyMatch(jc -> s.equals(jc.getClassName())))
-                    .cache();
-    private final ReusableStream<String> providedJavaServicesCache =
-            ReusableStream.create(() -> hasMetaInfJavaServicesDirectory() ? SplitFiles.uncheckedWalk(getMetaInfJavaServicesDirectory(), 1) : Spliterators.emptySpliterator())
-                    .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getMetaInfJavaServicesDirectory()))
-                    .map(path -> path.getFileName().toString())
-                    .cache();
-    private final ReusableStream<Module> findableSourceDirectDependenciesCache =
-            usedJavaPackagesCache
-                    .map(p -> getRootModule().getJavaPackageModule(p))
-                    .map(this::replaceModuleWithEmulatedIfApplicable)
-                    .filter(module -> module != this && !module.getArtifactId().equals(getArtifactId()))
-                    .distinct()
-                    .cache();
-    private final ReusableStream<Module> unfindableSourceDirectDependenciesCache =
-            ReusableStream.create(() -> getWebfxModuleFile().getSourceModules())
-                    .cache();
-    private final ReusableStream<Module> sourceDirectDependenciesCache =
-            ReusableStream.concat(
-                    findableSourceDirectDependenciesCache,
-                    unfindableSourceDirectDependenciesCache
-            );
-    private final ReusableStream<Module> resourceDirectDependenciesCache =
-            ReusableStream.create(() -> getWebfxModuleFile().getResourceModules())
-                    .cache();
-    private final ReusableStream<Module> implicitApplicationModuleDependencyCache =
-            ReusableStream.create(() -> {
-                List<Module> implicitModules = new ArrayList<>();
-                if (isExecutable()) {
-                    String artifactId = getArtifactId();
-                    ProjectModule applicationModule = getRootModule().findProjectModule(artifactId.substring(0, artifactId.lastIndexOf('-')));
-                    if (applicationModule != null)
-                        implicitModules.add(applicationModule);
-                }
-                return implicitModules.spliterator();
-            });
-    private final ReusableStream<Module> pluginDirectDependenciesCache =
-            ReusableStream.create(() -> getWebfxModuleFile().getPluginModules())
-                    .cache();
-    private final ReusableStream<Module> directDependenciesWithoutImplicitProvidersCache =
-            ReusableStream.concat(
-                    sourceDirectDependenciesCache,
-                    resourceDirectDependenciesCache,
-                    implicitApplicationModuleDependencyCache,
-                    pluginDirectDependenciesCache
-            )
-                    .distinct()
-                    .cache();
-    private final ReusableStream<Module> transitiveDependenciesWithoutImplicitProvidersCache =
-            directDependenciesWithoutImplicitProvidersCache
-                    .flatMap(ProjectModule::collectThisAndTransitiveDependencies)
-                    .flatMap(this::replaceModuleWithEmulatedAndTransitiveDependenciesIfApplicable)
-                    .distinct()
-                    .cache();
-    private final ReusableStream<Providers> executableProvidersCache =
-            ReusableStream.create(this::collectExecutableProviders)
-                    .cache();
-    private final ReusableStream<ProjectModule> executableProvidersModulesCache =
-            executableProvidersCache
-                    .flatMap(Providers::getProviderModules);
-    private final ReusableStream<Module> directDependenciesCache =
-            ReusableStream.concat(
-                    directDependenciesWithoutImplicitProvidersCache,
-                    executableProvidersModulesCache
-                    )
-                    .distinct()
-                    .cache();
-    private final ReusableStream<Module> transitiveDependenciesCache =
-            directDependenciesCache
-                    .flatMap(ProjectModule::collectThisAndTransitiveDependencies)
-                    .flatMap(this::replaceModuleWithEmulatedAndTransitiveDependenciesIfApplicable)
-                    .distinct()
-                    .cache();
+    /**
+     * Returns the children modules if any (only first level under this module).
+     */
     private final ReusableStream<ProjectModule> childrenModulesCache =
             ReusableStream.create(() -> SplitFiles.uncheckedWalk(getHomeDirectory(), 1))
                     .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getHomeDirectory()))
@@ -128,40 +34,328 @@ public class ProjectModule extends ModuleImpl {
                     .filter(path -> Files.exists(path.resolve("pom.xml")))
                     .map(path -> new ProjectModule(path, this))
                     .cache();
+
+    /**
+     * Returns the children modules if any (all levels under this module).
+     */
     private final ReusableStream<ProjectModule> childrenModulesInDepthCache =
             childrenModulesCache
                     .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
             //.cache()
             ;
-    private final ReusableStream<ProjectModule> transitiveProjectModulesWithoutImplicitProvidersCache =
-            ReusableStream.create(() -> ProjectModule.filterProjectModules(transitiveDependenciesWithoutImplicitProvidersCache));
-    private final ReusableStream<ProjectModule> requiredJavaServiceImplementationScopeCache =
+
+    /**
+     * Returns all java classes declared in this module (or empty if this is not a java source module).
+     */
+    private final ReusableStream<JavaClass> declaredJavaClassesCache =
+            ReusableStream.create(() -> hasJavaSourceDirectory() ? SplitFiles.uncheckedWalk(getJavaSourceDirectory()) : Spliterators.emptySpliterator())
+                    .filter(javaFileMatcher::matches)
+                    .filter(path -> !path.getFileName().toString().endsWith("-info.java")) // Ignoring module-info.java and package-info.java files
+                    .map(path -> new JavaClass(path, this))
+                    .cache();
+
+    /**
+     * Returns all packages declared in this module (or empty if this is not a java source module). These packages are
+     * simply deduced from the declared java classes.
+     */
+    private final ReusableStream<String> declaredJavaPackagesCache =
+            declaredJavaClassesCache
+                    .map(JavaClass::getPackageName)
+                    .distinct();
+
+    /**
+     * Returns all packages directly used in this module (or empty if this is not a java source module). These packages
+     * are found through a source code analyze of all java classes.
+     */
+    private final ReusableStream<String> usedJavaPackagesCache =
+            declaredJavaClassesCache
+                    .flatMap(JavaClass::getUsedJavaPackages)
+                    .distinct()
+                    .cache();
+
+    /**
+     * Returns all java services directly used by this module and that are required. Each service is returned as the
+     * full name of the SPI class.
+     */
+    private final ReusableStream<String> usedRequiredJavaServicesCache =
+            declaredJavaClassesCache
+                    .flatMap(JavaClass::getUsedRequiredJavaServices)
+                    .distinct()
+                    .cache();
+
+    /**
+     * Returns all java services directly used by this module and that are optional. Each service is returned as the
+     * full name of the SPI class.
+     */
+    private final ReusableStream<String> usedOptionalJavaServicesCache =
+            declaredJavaClassesCache
+                    .flatMap(JavaClass::getUsedOptionalJavaServices)
+                    .distinct()
+                    .cache();
+
+    /**
+     * Returns all java services directly used by this module (both required and optional). Each service is returned as
+     * the full name of the SPI class.
+     */
+    private final ReusableStream<String> usedJavaServicesCache =
             ReusableStream.concat(
-                    transitiveProjectModulesWithoutImplicitProvidersCache,
-                    ReusableStream.create(() -> getRootModule().findProjectModule("webfx-platform").getThisAndChildrenModulesInDepth().filter(m -> m.getTarget().gradeTargetMatch(getTarget()) >= 0)),
-                    ReusableStream.create(() -> getRootModule().findProjectModule("webfx-framework").getThisAndChildrenModulesInDepth().filter(m -> m.getTarget().gradeTargetMatch(getTarget()) >= 0)),
-                    ReusableStream.create(() -> getParentModule().getThisAndChildrenModulesInDepth().filter(m -> m.getTarget().gradeTargetMatch(getTarget()) >= 0))
+                    usedRequiredJavaServicesCache,
+                    usedOptionalJavaServicesCache
+            );
+
+    /**
+     * Returns all java services declared in this module (they are the directly used java services that are also a
+     * java class declared in this module)
+     */
+    private final ReusableStream<String> declaredJavaServicesCache =
+            usedJavaServicesCache
+                    .filter(s -> declaredJavaClassesCache.anyMatch(jc -> s.equals(jc.getClassName())))
+                    .cache();
+
+    /**
+     * Returns all java services provided by this module (returns the list of files under META-INF/services).
+     */
+    private final ReusableStream<String> providedJavaServicesCache =
+            ReusableStream.create(() -> hasMetaInfJavaServicesDirectory() ? SplitFiles.uncheckedWalk(getMetaInfJavaServicesDirectory(), 1) : Spliterators.emptySpliterator())
+                    .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getMetaInfJavaServicesDirectory()))
+                    .map(path -> path.getFileName().toString())
+                    .cache();
+
+    /**
+     * Returns all source module dependencies directly required by the source code of this module and that could be
+     * found by the source code analyzer.
+     */
+    private final ReusableStream<ModuleDependency> foundByCodeAnalyzerSourceDependenciesCache =
+            usedJavaPackagesCache
+                    .map(p -> getRootModule().getJavaPackageModule(p))
+                    //.map(this::replaceEmulatedModuleWithNativeIfApplicable)
+                    .filter(module -> module != this && !module.getName().equals(getName()))
+                    .distinct()
+                    .map(m -> ModuleDependency.createSourceDependency(this, m))
+                    .distinct()
+                    .cache();
+
+    /**
+     * Returns all source module dependencies directly required by the source code of this module but that couldn't be
+     * found by the source code analyzer (due to limitations of the current source code analyzer which is based on
+     * regular expressions). These source module dependencies not found by the source code analyzer must be listed in
+     * the webfx module file for now.
+     */
+    private final ReusableStream<ModuleDependency> notFoundByCodeAnalyzerSourceDependenciesCache =
+            ReusableStream.create(() -> getWebfxModuleFile().getSourceModuleDependencies())
+                    .cache();
+
+    /**
+     * Returns all source module dependencies directly required by the source code of this module (found or not by the
+     * source code analyzer).
+     */
+    private final ReusableStream<ModuleDependency> sourceDirectDependenciesCache =
+            ReusableStream.concat(
+                    foundByCodeAnalyzerSourceDependenciesCache,
+                    notFoundByCodeAnalyzerSourceDependenciesCache
+            );
+
+    /**
+     * Returns all resource module dependencies directly required by the source code of this module (must be listed in
+     * the webfx module file).
+     */
+    private final ReusableStream<ModuleDependency> resourceDirectDependenciesCache =
+            ReusableStream.create(() -> getWebfxModuleFile().getResourceModuleDependencies())
+                    .cache();
+
+    /**
+     * Returns the application module to be executed in case this module is executable (otherwise returns nothing). For
+     * now the application module is implicitly guessed from the executable module name (ex: if executable module is
+     * my-app-javafx or my-app-gwt, then the application module is my-app).
+     */
+    // Modules
+    private final ReusableStream<ModuleDependency> applicationDependencyCache =
+            ReusableStream.create(() -> {
+                ProjectModule applicationModule = null;
+                if (isExecutable()) {
+                    String moduleName = getName();
+                    applicationModule = getRootModule().findProjectModule(moduleName.substring(0, moduleName.lastIndexOf('-')));
+                }
+                return applicationModule != null ? ReusableStream.of(ModuleDependency.createApplicationDependency(this, applicationModule)) : ReusableStream.empty();
+            });
+
+    /**
+     * Returns the plugin module dependencies to be directly added to this module (must be listed in the webfx module
+     * file).
+     */
+    private final ReusableStream<ModuleDependency> pluginDirectDependenciesCache =
+            ReusableStream.create(() -> getWebfxModuleFile().getPluginModuleDependencies())
+                    .cache();
+
+    /**
+     * Returns all the direct module dependencies without emulation and implicit providers modules (such as platform
+     * provider modules). For executable modules, additional emulation modules may be required (ex: webfx-platform-
+     * providers-gwt-emul-javatime) for the final compilation and execution, as well as implicit providers (ex: webfx-
+     * platform-storage-gwt for a gwt application using webfx-platform-storage service module). This final missing
+     * modules will be added later.
+     */
+    private final ReusableStream<ModuleDependency> directDependenciesWithoutEmulationAndImplicitProvidersCache =
+            ReusableStream.concat(
+                    sourceDirectDependenciesCache,
+                    resourceDirectDependenciesCache,
+                    applicationDependencyCache,
+                    pluginDirectDependenciesCache
             )
                     .distinct()
                     .cache();
+
+    /**
+     * Returns all the transitive dependencies without emulation and implicit providers modules.
+     */
+    private final ReusableStream<ModuleDependency> transitiveDependenciesWithoutEmulationAndImplicitProvidersCache =
+            directDependenciesWithoutEmulationAndImplicitProvidersCache
+                    .flatMap(ModuleDependency::collectThisAndTransitiveDependencies)
+                    .distinct()
+                    .cache();
+
+    /**
+     * Returns the emulation modules required for this executable module (returns nothing if this module is not executable).
+     */
+    private final ReusableStream<ModuleDependency> executableEmulationDependenciesCaches =
+            ReusableStream.create(this::collectExecutableEmulationModules)
+                    .map(m -> ModuleDependency.createEmulationDependency(this, m))
+                    .cache();
+
+    /**
+     * Returns all direct dependencies without the implicit providers (but with emulation modules). This intermediate
+     * step is required in case the emulation modules use additional services (which will be resolved in the next step).
+     */
+    private final ReusableStream<ModuleDependency> directDependenciesWithoutImplicitProvidersCache =
+            ReusableStream.concat(
+                    directDependenciesWithoutEmulationAndImplicitProvidersCache,
+                    executableEmulationDependenciesCaches
+            )
+                    .distinct()
+                    .cache();
+
+    /**
+     * Returns the transitive dependencies without the implicit providers.
+     */
+    private final ReusableStream<ModuleDependency> transitiveDependenciesWithoutImplicitProvidersCache =
+            directDependenciesWithoutImplicitProvidersCache
+                    .flatMap(ModuleDependency::collectThisAndTransitiveDependencies)
+                    .distinct()
+                    .cache();
+
+    /**
+     * Returns the transitive project modules without the implicit providers.
+     */
+    private final ReusableStream<ProjectModule> transitiveProjectModulesWithoutImplicitProvidersCache =
+            filterDestinationProjectModules(transitiveDependenciesWithoutImplicitProvidersCache);
+
+    /**
+     * Defines the project modules scope to use when searching optional providers.
+     */
     private final ReusableStream<ProjectModule> optionalJavaServiceImplementationScopeCache =
-            requiredJavaServiceImplementationScopeCache
-                    .filter(m -> transitiveDependenciesCache.anyMatch(m2 -> m.getArtifactId().startsWith(m2.getArtifactId())))
-                    .cache();
-    private final ReusableStream<ProjectModule> transitiveRequiredJavaServicesImplementationModules =
-            transitiveProjectModulesWithoutImplicitProvidersCache
-                    .flatMap(ProjectModule::getUsedRequiredJavaServices)
+            transitiveProjectModulesWithoutImplicitProvidersCache;
+
+    /**
+     * Defines the project modules scope to use when searching required providers.
+     */
+    private final ReusableStream<ProjectModule> requiredJavaServiceImplementationScopeCache =
+            ReusableStream.concat(
+                    transitiveProjectModulesWithoutImplicitProvidersCache,
+                    ReusableStream.create(() -> ReusableStream.of(
+                            getRootModule().findProjectModule("webfx-platform"),
+                            getRootModule().findProjectModule("webfx-fxkit"),
+                            getRootModule().findProjectModule("webfx-framework"),
+                            getParentModule()))
+                            .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
+                            .filter(m -> m.isCompatibleWithTargetModule(this))
+            )
                     .distinct()
-                    //.filter(s -> transitiveProjectModulesWithoutImplicitProvidersCache.noneMatch(m -> m.providesJavaService(s)))
-                    .map(s -> RootModule.findBestMatchModuleProvidingJavaService(requiredJavaServiceImplementationScopeCache, s, getTarget()))
+                    .cache();
+
+    /**
+     * Resolves and returns all implicit providers required by this executable module (returns nothing if this
+     * module is not executable).
+     */
+    private final ReusableStream<Providers> executableImplicitProvidersCache =
+            ReusableStream.create(this::collectExecutableProviders)
+                    .cache();
+
+    /**
+     * Returns the additional dependencies needed to integrate the implicit providers into this executable module
+     * (returns nothing if this module is not executable).
+     */
+    private final ReusableStream<ModuleDependency> executableImplicitProvidersDependenciesCache =
+            executableImplicitProvidersCache
+                    .flatMap(Providers::getProviderModules)
+                    .filter(m -> transitiveDependenciesWithoutImplicitProvidersCache.noneMatch(dep -> dep.getDestinationModule() == m)) // Removing modules already in transitive dependencies (no need to repeat them)
+                    .map(m -> ModuleDependency.createImplicitProviderDependency(this, m))
+                    .cache();
+
+    /**
+     * Returns all the direct module dependencies (including the final emulation and implicit provider modules) but
+     * without the final resolutions required for executable modules.
+     */
+    private final ReusableStream<ModuleDependency> directDependenciesWithoutFinalExecutableResolutionsCache =
+            ReusableStream.concat(
+                    directDependenciesWithoutImplicitProvidersCache,
+                    executableImplicitProvidersDependenciesCache
+            )
                     .distinct()
                     .cache();
+
+    /**
+     * Returns all the transitive module dependencies (including the final emulation and implicit provider modules) but
+     * without the final resolutions required for executable modules.
+     */
+    private final ReusableStream<ModuleDependency> transitiveDependenciesWithoutFinalExecutableResolutionsCache =
+            directDependenciesWithoutFinalExecutableResolutionsCache
+                    .flatMap(ModuleDependency::collectThisAndTransitiveDependencies)
+                    .distinct()
+                    .cache();
+
+    /**
+     * Returns the final list of all the direct module dependencies. There are 2 changes made in this last step.
+     * 1) modules dependencies declared with an executable target (ex: my-module-if-java) are kept only if this module
+     * is executable and compatible with this target (if not, these dependencies are removed). Also these dependencies
+     * (if kept) are moved into the direct dependencies of this executable module even if they where initially in the
+     * transitive dependencies (ex: if my-module-if-java was a transitive dependency and this module is a java(fx) final
+     * executable module, my-module-if-java will finally be a direct dependency of this module and removed from the
+     * final transitive dependencies because they may not be designed for the java target only).
+     * 2) interface module dependencies are resolved which means replaced by concrete modules implementing these
+     * interface modules. This resolution is made only if this module is executable (otherwise the interface module is
+     * kept). For example, if my-app-css is an interface module and my-app-css-javafx & my-app-css-web are the concrete
+     * modules, my-app-css will be replaced by my-app-css-javafx in a final javafx application and by my-app-css-web in
+     * a final web application). For making this replacement work with the java module system, the concrete modules will
+     * be declared using the same name as the interface module in their module-info.java (See {@link JavaModuleFile} ).
+     */
+    private final ReusableStream<ModuleDependency> directDependenciesCache =
+            ReusableStream.concat(
+                    directDependenciesWithoutFinalExecutableResolutionsCache,
+                    // Moving transitive dependencies declared with an executable target to here (ie direct dependencies)
+                    transitiveDependenciesWithoutFinalExecutableResolutionsCache
+                            .filter(dep -> dep.getExecutableTarget() != null)
+            )
+                    // Removing dependencies declared with an executable target if this module is not executable or with incompatible target
+                    .filter(dep -> dep.getExecutableTarget() == null || isExecutable() && dep.getExecutableTarget().gradeTargetMatch(getTarget()) >= 0)
+                    .map(this::resolveAbstractDependencyIfExecutable) // Resolving abstract modules
+                    .cache();
+
+    /**
+     * Returns the final list of all the transitive module dependencies. @See {@link ProjectModule#directDependenciesCache}
+     * for an explanation of the changes made in this last step.
+     */
+    private final ReusableStream<ModuleDependency> transitiveDependenciesCache =
+            transitiveDependenciesWithoutFinalExecutableResolutionsCache
+                    .filter(dep -> dep.getExecutableTarget() == null) // Removing dependencies declared with an executable target (because moved to direct dependencies)
+                    .map(this::resolveAbstractDependencyIfExecutable) // Resolving abstract modules
+                    .cache();
+
 
     private final Path homeDirectory;
     private final ProjectModule parentModule;
     private final RootModule rootModule;
     private Target target;
-    private Boolean isSourceModule;
+    private Boolean hasSourceDirectory;
+    private Boolean hasJavaSourceDirectory;
     private Boolean hasMetaInfJavaServicesDirectory;
     private WebfxModuleFile webfxModuleFile;
     private JavaModuleFile javaModuleFile;
@@ -177,7 +371,7 @@ public class ProjectModule extends ModuleImpl {
     }
 
     private ProjectModule(Path homeDirectory, ProjectModule parentModule) {
-        super(parentModule == null ? null : parentModule.getGroupId(), homeDirectory.getFileName().toString(), parentModule == null ? null : parentModule.getVersion());
+        super(homeDirectory.getFileName().toString());
         this.parentModule = parentModule;
         this.homeDirectory = homeDirectory;
         rootModule = parentModule != null ? parentModule.getRootModule() : (RootModule) this;
@@ -190,6 +384,10 @@ public class ProjectModule extends ModuleImpl {
 
     public Path getHomeDirectory() {
         return homeDirectory;
+    }
+
+    public Path getSourceDirectory() {
+        return homeDirectory.resolve("src");
     }
 
     public Path getJavaSourceDirectory() {
@@ -218,15 +416,21 @@ public class ProjectModule extends ModuleImpl {
         return target;
     }
 
-    boolean isSourceModule() {
-        if (isSourceModule == null)
-            isSourceModule = Files.exists(getJavaSourceDirectory());
-        return isSourceModule;
+    boolean hasSourceDirectory() {
+        if (hasSourceDirectory == null)
+            hasSourceDirectory = Files.exists(getSourceDirectory());
+        return hasSourceDirectory;
+    }
+
+    private boolean hasJavaSourceDirectory() {
+        if (hasJavaSourceDirectory == null)
+            hasJavaSourceDirectory = hasSourceDirectory() && Files.exists(getJavaSourceDirectory());
+        return hasJavaSourceDirectory;
     }
 
     private boolean hasMetaInfJavaServicesDirectory() {
         if (hasMetaInfJavaServicesDirectory == null)
-            hasMetaInfJavaServicesDirectory = isSourceModule() && Files.exists(getMetaInfJavaServicesDirectory());
+            hasMetaInfJavaServicesDirectory = hasSourceDirectory() && Files.exists(getMetaInfJavaServicesDirectory());
         return hasMetaInfJavaServicesDirectory;
     }
 
@@ -254,37 +458,6 @@ public class ProjectModule extends ModuleImpl {
         return mavenModuleFile;
     }
 
-    private Module replaceModuleWithEmulatedIfApplicable(Module m) {
-        if (getTarget().isMonoPlatform(Platform.GWT)) {
-            switch (m.getArtifactId()) {
-                case "javafx-base":
-                case "javafx-graphics":
-                case "javafx-controls":
-                    //    return getRootModule().getChildModuleInDepth("webfx-fxkit-emul-" + m.getArtifactId().replace("-", ""));
-                    return getRootModule().findProjectModule("webfx-fxkit-gwt");
-            }
-        }
-        return m;
-    }
-
-    private ReusableStream<Module> replaceModuleWithEmulatedAndTransitiveDependenciesIfApplicable(Module m) {
-        Module emulatedModule = replaceModuleWithEmulatedIfApplicable(m);
-        if (emulatedModule == m) {
-            if (getTarget().isMonoPlatform(Platform.JRE))
-                switch (m.getArtifactId()) {
-                    case "javafx-base":
-                    case "javafx-graphics":
-                    case "javafx-controls":
-                        //    return getRootModule().getChildModuleInDepth("webfx-fxkit-emul-" + m.getArtifactId().replace("-", ""));
-                        return ReusableStream.of(m, getRootModule().findProjectModule("webfx-fxkit-javafx"));
-                }
-            return ReusableStream.of(m);
-        }
-        return ReusableStream.fromIterable(((ProjectModule) emulatedModule).collectThisAndTransitiveDependencies())
-                .map(this::replaceModuleWithEmulatedIfApplicable)
-                .distinct()
-                ;
-    }
 
     /*************************
      ***** Basic streams *****
@@ -321,23 +494,19 @@ public class ProjectModule extends ModuleImpl {
         return ReusableStream.concat(ReusableStream.of(this), getChildrenModulesInDepth());
     }
 
-    ProjectModule findProjectModule(String artifactId) {
-        return findProjectModule(artifactId, false);
+    ProjectModule findProjectModule(String name) {
+        return findProjectModule(name, false);
     }
 
-    ProjectModule findProjectModule(String artifactId, boolean silent) {
+    ProjectModule findProjectModule(String name, boolean silent) {
         Optional<ProjectModule> projectModule = getChildrenModulesInDepth()
-                .filter(module -> module.getArtifactId().equals(artifactId))
+                .filter(module -> module.getName().equals(name))
                 .findFirst();
         if (projectModule.isPresent())
             return projectModule.get();
         if (silent)
             return null;
-        throw new IllegalArgumentException("Unable to find " + artifactId + " module under " + getArtifactId() + " module");
-    }
-
-    public ReusableStream<Module> getResourceModules() {
-        return resourceDirectDependenciesCache;
+        throw new IllegalArgumentException("Unable to find " + name + " module under " + getName() + " module");
     }
 
     public ReusableStream<String> getResourcePackages() {
@@ -353,24 +522,39 @@ public class ProjectModule extends ModuleImpl {
     }
 
     public boolean isExecutable() {
-        return getArtifactId().contains("-application-") && getTarget().isMonoPlatform();
+        //return getArtifactId().contains("-application-") && getTarget().isMonoPlatform();
+        return getWebfxModuleFile().isExecutable();
     }
 
     public boolean isExecutable(Platform platform) {
         return isExecutable() && getTarget().isPlatformSupported(platform);
     }
 
+    private boolean isAbstract() {
+        return getWebfxModuleFile().isAbstract();
+    }
+
     /******************************
      ***** Analyzing streams  *****
      ******************************/
 
-    ///// Modules
-    public ReusableStream<Module> getDirectDependencies() {
+    ///// Dependencies
+    public ReusableStream<ModuleDependency> getDirectDependencies() {
         return directDependenciesCache;
     }
 
-    ReusableStream<Module> getThisAndDirectDependencies() {
-        return ReusableStream.concat(ReusableStream.of((Module) this), directDependenciesCache);
+    public ReusableStream<ModuleDependency> getTransitiveDependencies() {
+        return transitiveDependenciesCache;
+    }
+
+    ReusableStream<ModuleDependency> getDirectDependenciesWithoutFinalExecutableResolutions() {
+        return directDependenciesWithoutFinalExecutableResolutionsCache;
+    }
+
+    ///// Modules
+
+    public ReusableStream<Module> getDirectModules() {
+        return mapDestinationModules(directDependenciesCache);
     }
 
     ReusableStream<ProjectModule> getThisOrChildrenModulesInDepthDirectlyDependingOn(String moduleArtifactId) {
@@ -379,44 +563,31 @@ public class ProjectModule extends ModuleImpl {
                 ;
     }
 
-    boolean isDirectlyDependingOn(String moduleArtifactId) {
-        return getDirectDependencies().anyMatch(m -> moduleArtifactId.equals(m.getArtifactId()));
+    boolean isDirectlyDependingOn(String moduleName) {
+        return getDirectModules().anyMatch(m -> moduleName.equals(m.getName()));
     }
 
-    public ReusableStream<Module> getTransitiveDependencies() {
-        return transitiveDependenciesCache;
+    public ReusableStream<Module> getTransitiveModules() {
+        return mapDestinationModules(transitiveDependenciesCache);
     }
 
-    public ReusableStream<Module> getThisAndTransitiveDependencies() {
-        return ReusableStream.concat(ReusableStream.of((Module) this), transitiveDependenciesCache);
+    public ReusableStream<Module> getThisAndTransitiveModules() {
+        return ReusableStream.concat(
+                ReusableStream.of((Module) this),
+                transitiveDependenciesCache.map(ModuleDependency::getDestinationModule)
+        );
     }
 
-    private Set<Module> collectThisAndTransitiveDependencies() {
-        Set<Module> modules = new HashSet<>();
-        collectThisAndTransitiveDependencies(modules);
-        return modules;
-    }
-
-    private void collectThisAndTransitiveDependencies(Collection<Module> result) {
-        if (!result.contains(this)) {
-            result.add(this);
-            getDirectDependencies().forEach(m -> {
-                if ((m instanceof ProjectModule))
-                    ((ProjectModule) m).collectThisAndTransitiveDependencies(result);
-                else if (!result.contains(m))
-                    result.add(m);
-            });
+    private ReusableStream<Module> collectExecutableEmulationModules() {
+        if (isExecutable(Platform.GWT))
+            return ReusableStream.of(getRootModule().findModule("webfx-fxkit-gwt"), getRootModule().findModule("webfx-platform-providers-gwt-emul-javabase"), getRootModule().findModule("webfx-platform-providers-gwt-emul-javatime"));
+        if (isExecutable(Platform.JRE)) {
+            if (getTarget().hasTag(TargetTag.JAVAFX))
+                return ReusableStream.of(getRootModule().findModule("webfx-fxkit-javafx"));
+            return mapDestinationModules(transitiveDependenciesWithoutEmulationAndImplicitProvidersCache)
+                    .filter(m -> m.getName().startsWith("webfx-fxkit-emul-"));
         }
-    }
-
-    private static ReusableStream<Module> collectThisAndTransitiveDependencies(Module m) {
-        if (!(m instanceof ProjectModule))
-            return ReusableStream.of(m);
-        return ReusableStream.fromIterable(((ProjectModule) m).collectThisAndTransitiveDependencies());
-    }
-
-    public ReusableStream<ProjectModule> getTransitiveRequiredJavaServicesImplementationModules() {
-        return transitiveRequiredJavaServicesImplementationModules;
+        return ReusableStream.empty();
     }
 
     private ReusableStream<ProjectModule> getRequiredJavaServiceImplementationScope() {
@@ -428,7 +599,7 @@ public class ProjectModule extends ModuleImpl {
     }
 
     public ReusableStream<Providers> getExecutableProviders() {
-        return executableProvidersCache;
+        return executableImplicitProvidersCache;
     }
 
     private ReusableStream<Providers> collectExecutableProviders() {
@@ -451,8 +622,11 @@ public class ProjectModule extends ModuleImpl {
     }
 
     private ReusableStream<Providers> collectProviders(ProjectModule module, boolean single, Set<ProjectModule> allProviderModules, Set<String> allSpiClassNames) {
-        ReusableStream<ProjectModule> searchScope = single ? getRequiredJavaServiceImplementationScope() : getOptionalJavaServiceImplementationScope();
-        ReusableStream<Module> stackWithoutImplicitProviders = ReusableStream.concat(ReusableStream.of(module), module.transitiveDependenciesWithoutImplicitProvidersCache);
+        ReusableStream<ProjectModule> searchScope = single ?
+                getRequiredJavaServiceImplementationScope() :
+                /* Adding provider modules in the optional scope because they may also provide optional , ex: webfx-platform-shared-gwt also declares a module initializer   */
+                ReusableStream.concat(getOptionalJavaServiceImplementationScope(), ReusableStream.create(allProviderModules::spliterator)).distinct();
+        ReusableStream<Module> stackWithoutImplicitProviders = ReusableStream.concat(ReusableStream.of(module), mapDestinationModules(module.transitiveDependenciesWithoutImplicitProvidersCache));
         return ProjectModule.filterProjectModules(stackWithoutImplicitProviders)
                 .flatMap(m -> single ? m.getUsedRequiredJavaServices() : m.getUsedOptionalJavaServices())
                 .map(spiClassName -> {
@@ -462,13 +636,44 @@ public class ProjectModule extends ModuleImpl {
                     Providers providers = new Providers(spiClassName, RootModule.findModulesProvidingJavaService(searchScope, spiClassName, getTarget(), single));
                     providers.getProviderModules().collect(Collectors.toCollection(() -> allProviderModules));
                     if (providers.getProviderClassNames().count() == 0)
-                        warning("No provider found for " + spiClassName + " among " + searchScope.map(ProjectModule::getArtifactId).stream().sorted().collect(Collectors.toList()));
+                        warning("No provider found for " + spiClassName + " among " + searchScope.map(ProjectModule::getName).stream().sorted().collect(Collectors.toList()));
                     return providers;
                 })
                 .filter(Objects::nonNull) // Removing nulls
                 ;
     }
 
+    private ModuleDependency resolveAbstractDependencyIfExecutable(ModuleDependency dependency) {
+        if (isExecutable() && dependency.getDestinationModule() instanceof ProjectModule) {
+            ProjectModule module = (ProjectModule) dependency.getDestinationModule();
+            if (module.isAbstract()) {
+                ReusableStream<ProjectModule> searchScope = getRequiredJavaServiceImplementationScope();
+                ProjectModule concreteModule = searchScope
+                        .filter(m -> m.implementsModule(module))
+                        .filter(m -> isCompatibleWithTargetModule(this))
+                        .findFirst().orElse(null);
+                if (concreteModule != null)
+                    return ModuleDependency.createImplicitProviderDependency(this, concreteModule);
+            }
+        }
+        return dependency;
+    }
+
+    private boolean implementsModule(Module module) {
+        return this != module && getName().startsWith(module.getName());
+    }
+
+    private boolean isCompatibleWithTargetModule(ProjectModule targetModule) {
+        return isCompatibleWithTarget(targetModule.getTarget());
+    }
+
+    boolean isCompatibleWithTarget(Target target) {
+        return gradeTargetMatch(target) >= 0;
+    }
+
+    int gradeTargetMatch(Target target) {
+        return getTarget().gradeTargetMatch(target);
+    }
 
     ///// Packages
 
@@ -478,7 +683,7 @@ public class ProjectModule extends ModuleImpl {
 
     ReusableStream<JavaClass> getJavaClassesDependingOn(String destinationModule) {
         return getDeclaredJavaClasses()
-                .filter(jc -> jc.getUsedJavaPackages().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getArtifactId())))
+                .filter(jc -> jc.getUsedJavaPackages().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getName())))
                 ;
     }
 
@@ -495,7 +700,7 @@ public class ProjectModule extends ModuleImpl {
     }
 
     public ReusableStream<String> getUsedJavaServices() {
-        return getUsedRequiredJavaServices().concat(getUsedOptionalJavaServices());
+        return usedJavaServicesCache;
     }
 
     ReusableStream<String> getDeclaredJavaServices() {
@@ -503,7 +708,7 @@ public class ProjectModule extends ModuleImpl {
     }
 
     boolean declaresJavaService(String javaService) {
-        return isSourceModule() && getDeclaredJavaServices()
+        return hasSourceDirectory() && getDeclaredJavaServices()
                 .anyMatch(javaService::equals);
     }
 
@@ -528,9 +733,7 @@ public class ProjectModule extends ModuleImpl {
     }
 
     ReusableStream<String> findRequiredServices() {
-        return getTransitiveDependencies()
-                .map(m -> m instanceof ProjectModule ? (ProjectModule) m : null)
-                .filter(Objects::nonNull)
+        return filterDestinationProjectModules(getTransitiveDependencies())
                 .flatMap(ProjectModule::getUsedJavaServices)
                 .distinct()
                 ;
@@ -553,6 +756,14 @@ public class ProjectModule extends ModuleImpl {
         return modules
                 .filter(m -> m instanceof ProjectModule)
                 .map(m -> (ProjectModule) m);
+    }
+
+    private static ReusableStream<ProjectModule> filterDestinationProjectModules(ReusableStream<ModuleDependency> dependencies) {
+        return filterProjectModules(mapDestinationModules(dependencies));
+    }
+
+    private static ReusableStream<Module> mapDestinationModules(ReusableStream<ModuleDependency> dependencies) {
+        return dependencies.map(ModuleDependency::getDestinationModule);
     }
 
     static void warning(Object message) {

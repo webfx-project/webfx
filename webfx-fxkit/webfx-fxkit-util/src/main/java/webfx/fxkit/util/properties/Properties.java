@@ -4,14 +4,13 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.collection.Collections;
-import java.util.function.Consumer;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import java.util.Collection;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * @author Bruno Salmon
@@ -76,10 +75,6 @@ public final class Properties {
 
     public static <T> void consume(ObservableValue<T> property, Consumer<T> consumer) {
         runNowAndOnPropertiesChange(p -> consumer.accept(property.getValue()), property);
-    }
-
-    public static <T> void consumeInUiThread(ObservableValue<T> property, Consumer<T> consumer) {
-        consume(property, arg -> UiScheduler.scheduleDeferred(() -> consumer.accept(arg)));
     }
 
     public static <T> void setIfNotBound(Property<T> property, T value) {

@@ -14,7 +14,6 @@ module webfx.framework.client.util {
     exports webfx.framework.client.ui.util.anim;
     exports webfx.framework.client.ui.util.background;
     exports webfx.framework.client.ui.util.border;
-    exports webfx.framework.client.ui.util.formatter;
     exports webfx.framework.client.ui.util.image;
     exports webfx.framework.client.ui.util.paint;
 

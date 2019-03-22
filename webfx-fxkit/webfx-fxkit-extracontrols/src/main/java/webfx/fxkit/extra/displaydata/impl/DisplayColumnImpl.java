@@ -4,7 +4,7 @@ import webfx.fxkit.extra.cell.renderer.ValueRenderer;
 import webfx.fxkit.extra.displaydata.ColumnWidthCumulator;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayStyle;
-import webfx.fxkit.extra.displaydata.Label;
+import webfx.fxkit.extra.label.Label;
 import webfx.fxkit.extra.type.Type;
 
 /**

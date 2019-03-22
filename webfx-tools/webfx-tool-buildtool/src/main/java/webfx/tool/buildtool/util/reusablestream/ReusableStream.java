@@ -113,4 +113,12 @@ public interface ReusableStream<T> extends Spliterable<T> {
     static <T> ReusableStream<T> concat(ReusableStream<T> a, Iterable<? extends T> b, Iterable<? extends T> c, Iterable<? extends T> d) {
         return a.concat(b).concat(c).concat(d);
     }
+
+    static <T> ReusableStream<T> concat(ReusableStream<T> a, Iterable<? extends T> b, Iterable<? extends T> c, Iterable<? extends T> d, Iterable<? extends T> e) {
+        return a.concat(b).concat(c).concat(d).concat(e);
+    }
+
+    static <T> ReusableStream<T> concat(ReusableStream<T> a, Iterable<? extends T> b, Iterable<? extends T> c, Iterable<? extends T> d, Iterable<? extends T> e, Iterable<? extends T> f) {
+        return a.concat(b).concat(c).concat(d).concat(e).concat(f);
+    }
 }

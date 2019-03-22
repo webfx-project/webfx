@@ -24,7 +24,7 @@ import mongoose.client.controls.sectionpanel.SectionPanelFactory;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
 import mongoose.shared.businessdata.time.DateTimeRange;
-import mongoose.shared.entities.util.Labels;
+import mongoose.client.entities.util.Labels;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.layouts.LayoutUtil;

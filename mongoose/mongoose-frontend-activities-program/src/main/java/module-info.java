@@ -3,6 +3,7 @@
 module mongoose.frontend.activities.program {
 
     // Direct dependencies modules
+    requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.bookingcalendar;
     requires mongoose.client.bookingprocess;
@@ -11,9 +12,9 @@ module mongoose.frontend.activities.program {
     requires mongoose.client.sectionpanel;
     requires mongoose.frontend.activities.program.routing;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;
 

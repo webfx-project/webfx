@@ -1,6 +1,6 @@
 package mongoose.shared.domainmodel.formatters;
 
-import webfx.framework.client.ui.util.formatter.Formatter;
+import webfx.framework.shared.util.formatter.Formatter;
 import webfx.fxkit.extra.type.PrimType;
 import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.Numbers;

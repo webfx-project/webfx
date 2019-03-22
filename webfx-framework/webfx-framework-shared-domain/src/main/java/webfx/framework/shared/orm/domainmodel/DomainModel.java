@@ -57,11 +57,11 @@ public final class DomainModel {
         return ExpressionParser.parseSelect(definition, parserDomainModelReader);
     }
 
-    public SqlCompiled compileSelect(String stringSelect) {
-        return compileSelect(stringSelect, null);
+    public SqlCompiled parseAndCompileSelect(String stringSelect) {
+        return parseAndCompileSelect(stringSelect, null);
     }
 
-    public SqlCompiled compileSelect(String stringSelect, Object[] parameterValues) {
+    public SqlCompiled parseAndCompileSelect(String stringSelect, Object[] parameterValues) {
         return compileSelect(parseSelect(stringSelect), parameterValues);
     }
 

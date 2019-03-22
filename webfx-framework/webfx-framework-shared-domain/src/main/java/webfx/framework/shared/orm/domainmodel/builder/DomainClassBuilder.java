@@ -7,7 +7,7 @@ import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.domainmodel.FieldsGroup;
-import webfx.fxkit.extra.displaydata.Label;
+import webfx.fxkit.extra.label.Label;
 
 import java.util.HashMap;
 import java.util.Map;

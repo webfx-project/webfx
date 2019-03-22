@@ -6,7 +6,7 @@ import javafx.scene.paint.*;
 import webfx.fxkit.extra.cell.renderer.*;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.Label;
+import webfx.fxkit.extra.label.Label;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 

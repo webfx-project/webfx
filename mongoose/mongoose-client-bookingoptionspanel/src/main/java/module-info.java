@@ -4,6 +4,7 @@ module mongoose.client.bookingoptionspanel {
 
     // Direct dependencies modules
     requires java.base;
+    requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.aggregates;
     requires mongoose.client.businesslogic;
@@ -13,10 +14,11 @@ module mongoose.client.bookingoptionspanel {
     requires mongoose.shared.time;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uifilter;
-    requires webfx.framework.client.util;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
+    requires webfx.framework.shared.util;
     requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.shared.util;
 

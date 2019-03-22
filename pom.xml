@@ -200,7 +200,19 @@
                 <version>${lib.vertx.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-bridge-common</artifactId>
+                <version>${lib.vertx.version}</version>
+            </dependency>
+
             <!-- Vert.x postgres and mysql really-asynchronous client -->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-sql-common</artifactId>
+                <version>${lib.vertx.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-mysql-postgresql-client-jasync</artifactId>

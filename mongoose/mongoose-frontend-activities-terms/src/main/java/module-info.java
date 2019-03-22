@@ -4,17 +4,18 @@ module mongoose.frontend.activities.terms {
 
     // Direct dependencies modules
     requires javafx.base;
+    requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.bookingprocess;
     requires mongoose.client.icons;
     requires mongoose.client.sectionpanel;
     requires mongoose.frontend.activities.terms.routing;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.mapper.extracontrols;
     requires webfx.platform.shared.util;

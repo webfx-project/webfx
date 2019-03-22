@@ -4,7 +4,6 @@ import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
@@ -46,9 +45,11 @@ public final class RootModule extends ProjectModule {
         registerJavaPackageModule(createThirdPartyModule("jdk-jsobject"), "netscape.javascript");
 
         // JavaFx
-        registerJavaPackageModule(createThirdPartyModule("javafx-base"), "javafx.beans", "javafx.beans.binding", "javafx.beans.property", "javafx.beans.value", "javafx.collections", "javafx.collections.transformation", "javafx.event", "javafx.util");
-        registerJavaPackageModule(createThirdPartyModule("javafx-graphics"), "javafx.animation", "javafx.application", "javafx.css", "javafx.concurrent", "javafx.geometry", "javafx.scene", "javafx.scene.effect", "javafx.scene.image", "javafx.scene.input", "javafx.scene.layout", "javafx.scene.paint", "javafx.scene.shape", "javafx.scene.text", "javafx.scene.transform", "javafx.stage");
-        registerJavaPackageModule(createThirdPartyModule("javafx-controls"), "javafx.scene.control", "javafx.scene.control.skin", "javafx.scene.chart");
+        //registerJavaPackageModule(createThirdPartyModule("javafx-base"), "javafx.beans", "javafx.beans.binding", "javafx.beans.property", "javafx.beans.value", "javafx.collections", "javafx.collections.transformation", "javafx.event", "javafx.util");
+        //registerJavaPackageModule(createThirdPartyModule("javafx-graphics"), "javafx.animation", "javafx.application", "javafx.css", "javafx.concurrent", "javafx.geometry", "javafx.scene", "javafx.scene.effect", "javafx.scene.image", "javafx.scene.input", "javafx.scene.layout", "javafx.scene.paint", "javafx.scene.shape", "javafx.scene.text", "javafx.scene.transform", "javafx.stage");
+        //registerJavaPackageModule(createThirdPartyModule("javafx-controls"), "javafx.scene.control", "javafx.scene.control.skin", "javafx.scene.chart");
+        registerJavaPackageModule(createThirdPartyModule("javafx-graphics"), "javafx.concurrent");
+        registerJavaPackageModule(createThirdPartyModule("javafx-controls"), "javafx.scene.chart");
         registerJavaPackageModule(createThirdPartyModule("javafx-web"), "javafx.scene.web");
         registerJavaPackageModule(createThirdPartyModule("javafx-swing"), "javafx.embed.swing");
 
@@ -109,12 +110,12 @@ public final class RootModule extends ProjectModule {
     }
 
 
-    public Module findModule(String artifactId) {
-        Module module = thirdPartyModules.get(artifactId);
+    public Module findModule(String name) {
+        Module module = thirdPartyModules.get(name);
         if (module == null) {
-            module = javaPackagesModules.values().stream().filter(m -> m.getArtifactId().equals(artifactId)).findFirst().orElseGet(() -> findProjectModule(artifactId, true));
+            module = javaPackagesModules.values().stream().filter(m -> m.getName().equals(name)).findFirst().orElseGet(() -> findProjectModule(name, true));
             if (module == null)
-                module = getOrCreateThirdPartyModule(artifactId);
+                module = getOrCreateThirdPartyModule(name);
         }
         return module;
     }
@@ -151,7 +152,7 @@ public final class RootModule extends ProjectModule {
             if (destinationModule == sourceModule)
                 paths.add(extendedPath);
             else if (sourceModule instanceof ProjectModule)
-                ((ProjectModule) sourceModule).getDirectDependencies()
+                ((ProjectModule) sourceModule).getDirectModules()
                         .map(depModule -> analyzeDependenciesPathsBetween(extendedPath, depModule, destinationModule))
                         .forEach(paths::addAll);
         }
@@ -177,7 +178,7 @@ public final class RootModule extends ProjectModule {
             paths.add(cyclicPath);
         } else if (module instanceof ProjectModule) {
             List<Module> extendedPath = extendModuleCollection(parentPath, module);
-            ((ProjectModule) module).getDirectDependencies()
+            ((ProjectModule) module).getDirectModules()
                     .map(depModule -> analyzeCyclicDependenciesLoops(extendedPath, depModule))
                     .forEach(paths::addAll);
         }
@@ -223,13 +224,14 @@ public final class RootModule extends ProjectModule {
 
     public static ReusableStream<ProjectModule> findModulesProvidingJavaService(ReusableStream<ProjectModule> implementationScope, String javaService, Target requestedTarget, boolean keepBestOnly) {
         ReusableStream<ProjectModule> modules = implementationScope
-                .filter(m -> m.getTarget().gradeTargetMatch(requestedTarget) >= 0)
+                .filter(m -> m.isCompatibleWithTarget(requestedTarget))
                 .filter(m -> m.providesJavaService(javaService));
         if (keepBestOnly)
             modules = ReusableStream.of(modules
-                    .max(Comparator.comparingInt(m -> m.getTarget().gradeTargetMatch(requestedTarget)))
-                    .orElseThrow(() -> new IllegalArgumentException("Unable to find " + javaService + " service implementation for requested target " + requestedTarget + " within " + implementationScope.collect(Collectors.toList())))
-            );
+                    .max(Comparator.comparingInt(m -> m.gradeTargetMatch(requestedTarget)))
+                    .orElse(null)
+                    //.orElseThrow(() -> new IllegalArgumentException("Unable to find " + javaService + " service implementation for requested target " + requestedTarget + " within " + implementationScope.collect(Collectors.toList())))
+            ).filter(Objects::nonNull);
         return modules;
     }
 

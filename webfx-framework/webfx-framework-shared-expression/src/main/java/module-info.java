@@ -4,7 +4,7 @@ module webfx.framework.shared.expression {
 
     // Direct dependencies modules
     requires java.base;
-    requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.extratype;
     requires webfx.lib.javacupruntime;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.util;

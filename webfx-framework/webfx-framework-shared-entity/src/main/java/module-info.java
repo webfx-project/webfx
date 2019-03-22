@@ -6,7 +6,7 @@ module webfx.framework.shared.entity {
     requires java.base;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.expression;
-    requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.extratype;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.query;
     requires webfx.platform.shared.update;

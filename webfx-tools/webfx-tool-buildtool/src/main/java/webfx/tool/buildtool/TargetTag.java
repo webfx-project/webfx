@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * @author Bruno Salmon
  */
-enum TargetTag {
+public enum TargetTag {
 
     PLAT_API_PARTITION(),
     JAVA            ("java", PLAT_API_PARTITION, Platform.JRE /*, Platform.ANDROID*/),
@@ -195,5 +195,12 @@ enum TargetTag {
                 .filter(tag -> tagName.equals(tag.getTagName()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public static TargetTag[] parseTags(String text) {
+        return Arrays.stream(text.split("-"))
+                .map(TargetTag::fromTagBName)
+                .filter(Objects::nonNull)
+                .toArray(TargetTag[]::new);
     }
 }

@@ -13,11 +13,11 @@ import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.filter.ExpressionColumn;
-import webfx.framework.client.ui.util.formatter.Formatter;
+import webfx.framework.shared.util.formatter.Formatter;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
-import webfx.fxkit.extra.displaydata.Label;
+import webfx.fxkit.extra.label.Label;
 import webfx.platform.shared.util.Arrays;
 
 import java.util.HashMap;

@@ -7,6 +7,7 @@ module mongoose.frontend.activities.payment {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.aggregates;
+    requires mongoose.client.entities;
     requires mongoose.client.sectionpanel;
     requires mongoose.frontend.activities.cart;
     requires mongoose.frontend.activities.payment.routing;
@@ -15,10 +16,10 @@ module mongoose.frontend.activities.payment {
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
+    requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.uischeduler;

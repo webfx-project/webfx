@@ -8,6 +8,7 @@ module webfx.framework.client.controls {
     requires javafx.controls;
     requires javafx.graphics;
     requires webfx.framework.client.action;
+    requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.materialdesign;
@@ -17,6 +18,7 @@ module webfx.framework.client.controls {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.lib.controlsfx.validation;
     requires webfx.platform.client.uischeduler;

@@ -1,6 +1,7 @@
 package webfx.fxkit.extra.displaydata;
 
 import webfx.fxkit.extra.cell.renderer.ValueRenderer;
+import webfx.fxkit.extra.label.Label;
 import webfx.fxkit.extra.type.Type;
 import webfx.fxkit.extra.displaydata.impl.DisplayColumnImpl;
 

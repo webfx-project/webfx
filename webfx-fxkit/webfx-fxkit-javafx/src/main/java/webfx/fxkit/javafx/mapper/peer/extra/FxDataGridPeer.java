@@ -19,6 +19,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.util.Callback;
+import webfx.fxkit.extra.label.Label;
 import webfx.fxkit.javafx.mapper.peer.FxLayoutMeasurable;
 import webfx.fxkit.javafx.mapper.peer.FxRegionPeer;
 import webfx.fxkit.util.properties.Properties;
@@ -227,7 +228,7 @@ public final class FxDataGridPeer
     public void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
         TableColumn<Integer, ?> gridColumn = gridColumnIndex < currentColumns.size() ? currentColumns.get(gridColumnIndex) : new TableColumn<>();
         newColumns.add(gridColumn);
-        webfx.fxkit.extra.displaydata.Label label = displayColumn.getLabel();
+        Label label = displayColumn.getLabel();
         gridColumn.setText(label.getText());
         gridColumn.setGraphic(ImageStore.createImageView(label.getIconPath()));
         Double prefWidth = displayColumn.getStyle().getPrefWidth();

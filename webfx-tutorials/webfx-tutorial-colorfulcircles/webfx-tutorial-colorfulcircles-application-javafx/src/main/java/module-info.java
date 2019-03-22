@@ -3,6 +3,7 @@
 module webfx.tutorial.colorfulcircles.application.javafx {
 
     // Direct dependencies modules
+    requires webfx.fxkit.javafx;
     requires webfx.tutorial.colorfulcircles.application;
 
 }

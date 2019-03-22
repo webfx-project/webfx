@@ -5,7 +5,7 @@ import mongoose.shared.domainmodel.formatters.DateTimeFormatter;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.domainmodel.functions.DateIntervalFormat;
-import webfx.framework.client.ui.util.formatter.FormatterRegistry;
+import webfx.framework.shared.util.formatter.FormatterRegistry;
 import webfx.framework.shared.expression.terms.function.DomainClassType;
 import webfx.framework.shared.expression.terms.function.Function;
 import webfx.framework.shared.expression.terms.function.InlineFunction;

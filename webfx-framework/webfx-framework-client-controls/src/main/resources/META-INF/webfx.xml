@@ -3,6 +3,8 @@
     <dependencies>
 
         <source-modules>
+            <module>webfx-framework-client-activity</module>
+            <module>webfx-fxkit-extratype</module>
             <module>webfx-platform-shared-update</module>
         </source-modules>
 

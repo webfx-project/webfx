@@ -10,6 +10,7 @@ module mongoose.frontend.activities.options {
     requires mongoose.client.bookingcalendar;
     requires mongoose.client.bookingprocess;
     requires mongoose.client.businesslogic;
+    requires mongoose.client.entities;
     requires mongoose.client.icons;
     requires mongoose.client.sectionpanel;
     requires mongoose.client.util;
@@ -20,10 +21,10 @@ module mongoose.frontend.activities.options {
     requires mongoose.shared.time;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
+    requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
