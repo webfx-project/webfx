@@ -1,6 +1,0 @@
-<module rename-to="webfx_fxkit_emul_javafxcontrols">
-    <inherits name="webfx-fxkit-emul-javafxgraphics" />
-    <!-- Specify the paths for translatable code -->
-    <source path="com/sun/javafx"/>
-    <source path="javafx"/>
-</module>

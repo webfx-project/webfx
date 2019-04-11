@@ -1,8 +1,0 @@
-<module rename-to="webfx_framework_shared_operation">
-
-    <inherits name="webfx-platform-shared-util"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/framework/shared/operation"/>
-
-</module>

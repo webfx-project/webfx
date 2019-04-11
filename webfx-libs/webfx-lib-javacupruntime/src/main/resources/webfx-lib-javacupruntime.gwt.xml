@@ -1,4 +1,0 @@
-<module rename-to="webfx_lib_javacupruntime">
-    <!-- Specify the paths for translatable code -->
-    <source path="java_cup/runtime"/>
-</module>

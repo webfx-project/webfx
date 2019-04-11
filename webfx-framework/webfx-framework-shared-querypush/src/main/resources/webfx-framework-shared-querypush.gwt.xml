@@ -1,9 +1,0 @@
-<module rename-to="webfx_framework_shared_querypush">
-
-    <inherits name="webfx-framework-shared-push"/>
-    <inherits name="webfx-platform-shared-query"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/framework/shared/services/querypush"/>
-
-</module>

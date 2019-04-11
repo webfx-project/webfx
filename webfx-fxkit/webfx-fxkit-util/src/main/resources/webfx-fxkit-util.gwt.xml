@@ -1,5 +1,0 @@
-<module rename-to="webfx_fxkit_util">
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/fxkit/util"/>
-</module>

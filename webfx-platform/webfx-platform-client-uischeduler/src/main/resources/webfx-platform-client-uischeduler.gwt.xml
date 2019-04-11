@@ -1,8 +1,0 @@
-<module rename-to="webfx_platform_client_uischeduler">
-
-    <inherits name="webfx-platform-shared-scheduler"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/platform/client/services/uischeduler"/>
-
-</module>

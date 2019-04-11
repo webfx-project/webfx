@@ -1,8 +1,0 @@
-<module rename-to="webfx_lib_mvvmfx_validation">
-
-    <inherits name="webfx-lib-controlsfx-validation"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="de/saxsys/mvvmfx/utils/validation"/>   <!-- source path to javacup-runtime library (webfx-lib-javacupruntime) -->
-
-</module>

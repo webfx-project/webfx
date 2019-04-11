@@ -1,9 +1,0 @@
-<module rename-to="webfx_framework_client_activity">
-
-    <inherits name="webfx-platform-shared-appcontainer"/>
-    <inherits name="webfx-platform-shared-util"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/framework/client/activity"/>
-
-</module>

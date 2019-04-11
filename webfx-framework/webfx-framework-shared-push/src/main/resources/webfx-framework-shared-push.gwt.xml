@@ -1,9 +1,0 @@
-<module rename-to="webfx_framework_shared_push">
-
-    <inherits name="webfx-platform-shared-buscall"/>
-    <inherits name="webfx-platform-shared-scheduler"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/framework/shared/services/push"/>
-
-</module>

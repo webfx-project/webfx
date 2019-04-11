@@ -1,8 +1,0 @@
-<module rename-to="webfx_platform_shared_datasource">
-
-    <inherits name="webfx-platform-shared-json"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/platform/shared/datasource"/>
-
-</module>

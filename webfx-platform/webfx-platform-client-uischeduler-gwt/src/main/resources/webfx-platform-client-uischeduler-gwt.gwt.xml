@@ -1,9 +1,0 @@
-<module rename-to='webfx_platform_client_uischeduler_gwt'>
-
-    <inherits name="webfx-platform-client-uischeduler"/>
-    <inherits name="com.google.gwt.user.User"/>
-
-    <!-- Specify the paths for translatable code -->
-    <source path="webfx/platform/client/services/uischeduler/spi/impl/gwt"/>
-
-</module>
