@@ -23,8 +23,8 @@ public final class WebfxModuleFile extends XmlModuleFile {
         return getBooleanAttributeValue(getDocument().getDocumentElement(), "executable");
     }
 
-    public boolean isAbstract() {
-        return getBooleanAttributeValue(getDocument().getDocumentElement(), "abstract");
+    public boolean isInterface() {
+        return getBooleanAttributeValue(getDocument().getDocumentElement(), "interface");
     }
 
     public ReusableStream<ModuleDependency> getSourceModuleDependencies() {

@@ -336,7 +336,7 @@ public class ProjectModule extends ModuleImpl {
             )
                     // Removing dependencies declared with an executable target if this module is not executable or with incompatible target
                     .filter(dep -> dep.getExecutableTarget() == null || isExecutable() && dep.getExecutableTarget().gradeTargetMatch(getTarget()) >= 0)
-                    .map(this::resolveAbstractDependencyIfExecutable) // Resolving abstract modules
+                    .map(this::resolveInterfaceDependencyIfExecutable) // Resolving interface modules
                     .cache();
 
     /**
@@ -346,7 +346,7 @@ public class ProjectModule extends ModuleImpl {
     private final ReusableStream<ModuleDependency> transitiveDependenciesCache =
             transitiveDependenciesWithoutFinalExecutableResolutionsCache
                     .filter(dep -> dep.getExecutableTarget() == null) // Removing dependencies declared with an executable target (because moved to direct dependencies)
-                    .map(this::resolveAbstractDependencyIfExecutable) // Resolving abstract modules
+                    .map(this::resolveInterfaceDependencyIfExecutable) // Resolving interface modules
                     .cache();
 
 
@@ -530,8 +530,8 @@ public class ProjectModule extends ModuleImpl {
         return isExecutable() && getTarget().isPlatformSupported(platform);
     }
 
-    private boolean isAbstract() {
-        return getWebfxModuleFile().isAbstract();
+    private boolean isInterface() {
+        return getWebfxModuleFile().isInterface();
     }
 
     /******************************
@@ -643,10 +643,10 @@ public class ProjectModule extends ModuleImpl {
                 ;
     }
 
-    private ModuleDependency resolveAbstractDependencyIfExecutable(ModuleDependency dependency) {
+    private ModuleDependency resolveInterfaceDependencyIfExecutable(ModuleDependency dependency) {
         if (isExecutable() && dependency.getDestinationModule() instanceof ProjectModule) {
             ProjectModule module = (ProjectModule) dependency.getDestinationModule();
-            if (module.isAbstract()) {
+            if (module.isInterface()) {
                 ReusableStream<ProjectModule> searchScope = getRequiredJavaServiceImplementationScope();
                 ProjectModule concreteModule = searchScope
                         .filter(m -> m.implementsModule(module))
