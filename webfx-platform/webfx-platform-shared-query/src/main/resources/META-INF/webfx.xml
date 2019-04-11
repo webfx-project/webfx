@@ -1,0 +1,9 @@
+<module>
+
+    <reflect>
+        <array-new-instance>
+            <class>webfx.platform.shared.services.query.QueryResult</class>
+        </array-new-instance>
+    </reflect>
+
+</module>

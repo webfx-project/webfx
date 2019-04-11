@@ -51,4 +51,7 @@ public final class WebfxModuleFile extends XmlModuleFile {
         return lookupNodeListTextContent("/module/system-properties//property");
     }
 
+    public ReusableStream<String> getArrayNewInstanceClasses() {
+        return lookupNodeListTextContent("/module/reflect/array-new-instance//class");
+    }
 }

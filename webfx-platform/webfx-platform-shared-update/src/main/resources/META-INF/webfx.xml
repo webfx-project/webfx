@@ -1,0 +1,9 @@
+<module>
+
+    <reflect>
+        <array-new-instance>
+            <class>webfx.platform.shared.services.update.UpdateResult</class>
+        </array-new-instance>
+    </reflect>
+
+</module>
