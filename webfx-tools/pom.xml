@@ -13,9 +13,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>webfx-tool-emultranslator</module>
-        <module>webfx-tool-gwtsupersourcegenerator</module>
         <module>webfx-tool-buildtool</module>
+        <module>webfx-tool-emultranslator</module>
     </modules>
 
 </project>
