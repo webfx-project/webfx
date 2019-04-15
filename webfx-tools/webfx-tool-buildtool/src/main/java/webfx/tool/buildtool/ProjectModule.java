@@ -530,7 +530,7 @@ public class ProjectModule extends ModuleImpl {
         return isExecutable() && getTarget().isPlatformSupported(platform);
     }
 
-    private boolean isInterface() {
+    public boolean isInterface() {
         return getWebfxModuleFile().isInterface();
     }
 
@@ -583,7 +583,7 @@ public class ProjectModule extends ModuleImpl {
             return ReusableStream.of(getRootModule().findModule("webfx-fxkit-gwt"), getRootModule().findModule("webfx-platform-providers-gwt-emul-javabase"), getRootModule().findModule("webfx-platform-providers-gwt-emul-javatime"));
         if (isExecutable(Platform.JRE)) {
             if (getTarget().hasTag(TargetTag.JAVAFX))
-                return ReusableStream.of(getRootModule().findModule("webfx-fxkit-javafx"));
+                return ReusableStream.of(getRootModule().findModule("webfx-fxkit-javafx"), getRootModule().findModule("webfx-platform-shared-appcontainer-java"));
             return mapDestinationModules(transitiveDependenciesWithoutEmulationAndImplicitProvidersCache)
                     .filter(m -> m.getName().startsWith("webfx-fxkit-emul-"));
         }

@@ -2,6 +2,7 @@ package webfx.tool.buildtool.modulefiles;
 
 import webfx.tool.buildtool.Module;
 import webfx.tool.buildtool.ModuleDependency;
+import webfx.tool.buildtool.ProjectModule;
 
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,7 @@ final class ArtifactResolver {
             case "Java-WebSocket": return "org.java-websocket";
             case "HikariCP": return "com.zaxxer";
             case "slf4j-api": return "org.slf4j";
+            case "javafxsvg" : return "de.codecentric.centerdevice";
         }
         if (moduleName.startsWith("javafx-") || !isForGwt && moduleName.startsWith("webfx-fxkit-emul-javafx"))
             return "org.openjfx";
@@ -68,6 +70,7 @@ final class ArtifactResolver {
         switch (moduleName) {
             case "elemental2-dom": return null; // Managed by root pom
             case "Java-WebSocket": return null; // Managed by root pom
+            case "javafxsvg": return null; // Managed by root pom
             case "HikariCP": return "2.3.8";
             case "slf4j-api": return "1.7.15";
         }
@@ -88,10 +91,12 @@ final class ArtifactResolver {
         String scope = moduleGroup.getValue().stream().map(ModuleDependency::getScope).filter(Objects::nonNull).findAny().orElse(null);
         if (scope != null)
             return scope;
-        if (moduleGroup.getValue().stream().anyMatch(ModuleDependency::isOptional))
+        Module module = moduleGroup.getKey();
+        // Setting scope to "provided" for interface modules and optional dependencies
+        if (module instanceof ProjectModule && ((ProjectModule) module).isInterface() || moduleGroup.getValue().stream().anyMatch(ModuleDependency::isOptional))
             return "provided";
         if (!isForGwt && !isForJavaFx && !isExecutable)
-            switch (moduleGroup.getKey().getName()) {
+            switch (module.getName()) {
                 case "webfx-fxkit-emul-javafxbase":
                 case "webfx-fxkit-emul-javafxgraphics":
                 case "webfx-fxkit-emul-javafxcontrols":
