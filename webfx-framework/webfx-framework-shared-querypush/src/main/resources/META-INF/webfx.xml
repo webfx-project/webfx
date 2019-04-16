@@ -1,0 +1,10 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.buscall.spi.BusCallEndpoint">webfx.framework.shared.services.querypush.ExecuteQueryPushBusCallEndpoint</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.framework.shared.services.querypush.QueryPushArgument$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.framework.shared.services.querypush.QueryPushResult$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.framework.shared.services.querypush.diff.impl.QueryResultTranslation$ProvidedSerialCodec</provider>
+    </providers>
+
+</module>

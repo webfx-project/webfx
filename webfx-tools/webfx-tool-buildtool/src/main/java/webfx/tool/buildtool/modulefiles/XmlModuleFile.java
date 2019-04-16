@@ -168,6 +168,10 @@ abstract class XmlModuleFile extends ModuleFile {
         return nodeListToReusableStream(lookupNodeList(xPathExpression), Node::getTextContent);
     }
 
+    ReusableStream<String> lookupNodeListAttribute(String xPathExpression, String attribute) {
+        return nodeListToReusableStream(lookupNodeList(xPathExpression), node -> getAttributeValue(node, attribute));
+    }
+
     ReusableStream<ModuleDependency> lookupDependencies(String xPathExpression, ModuleDependency.Type type) {
         return nodeListToReusableStream(lookupNodeList(xPathExpression), node ->
                 new ModuleDependency(

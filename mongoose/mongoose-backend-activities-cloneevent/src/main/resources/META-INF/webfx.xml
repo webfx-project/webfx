@@ -10,4 +10,8 @@
 
     </dependencies>
 
+    <providers>
+        <provider spi="webfx.framework.client.ui.uirouter.UiRoute">mongoose.backend.activities.cloneevent.CloneEventUiRoute</provider>
+    </providers>
+
 </module>

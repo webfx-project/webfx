@@ -9,4 +9,9 @@
 
     </dependencies>
 
+    <providers>
+        <provider spi="webfx.framework.client.ui.uirouter.UiRoute">mongoose.backend.activities.events.EventsUiRoute</provider>
+        <provider spi="webfx.framework.client.operations.route.RouteRequestEmitter">mongoose.backend.activities.events.RouteToEventsRequestEmitter</provider>
+    </providers>
+
 </module>

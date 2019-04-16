@@ -1,0 +1,10 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">webfx.platform.shared.services.buscall.BusCallModuleInitializer</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.buscall.BusCallArgument$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.buscall.BusCallResult$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.buscall.SerializableAsyncResult$ProvidedSerialCodec</provider>
+    </providers>
+
+</module>

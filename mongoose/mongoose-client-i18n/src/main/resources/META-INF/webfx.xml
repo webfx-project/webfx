@@ -1,5 +1,11 @@
 <module>
 
+    <providers>
+        <provider spi="webfx.framework.client.operations.i18n.ChangeLanguageRequestEmitter">mongoose.client.operations.i18n.ChangeLanguageToEnglishRequest$ProvidedEmitter</provider>
+        <provider spi="webfx.framework.client.operations.i18n.ChangeLanguageRequestEmitter">mongoose.client.operations.i18n.ChangeLanguageToFrenchRequest$ProvidedEmitter</provider>
+        <provider spi="webfx.framework.client.services.i18n.spi.I18nProvider">mongoose.client.services.i18n.MongooseI18nProvider</provider>
+    </providers>
+
     <dependencies>
 
         <source-modules>

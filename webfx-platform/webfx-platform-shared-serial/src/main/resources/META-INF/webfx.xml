@@ -1,0 +1,8 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">webfx.platform.shared.services.serial.SerialCodecModuleInitializer</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.serial.spi.impl.ProvidedBatchSerialCodec</provider>
+    </providers>
+
+</module>

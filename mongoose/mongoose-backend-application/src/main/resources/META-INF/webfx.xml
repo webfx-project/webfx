@@ -1,4 +1,8 @@
-<module application-class="mongoose.backend.application.MongooseBackendApplication">
+<module>
+
+    <providers>
+        <provider spi="javafx.application.Application">mongoose.backend.application.MongooseBackendApplication</provider>
+    </providers>
 
     <dependencies>
 

@@ -116,9 +116,8 @@ public class ProjectModule extends ModuleImpl {
      * Returns all java services provided by this module (returns the list of files under META-INF/services).
      */
     private final ReusableStream<String> providedJavaServicesCache =
-            ReusableStream.create(() -> hasMetaInfJavaServicesDirectory() ? SplitFiles.uncheckedWalk(getMetaInfJavaServicesDirectory(), 1) : Spliterators.emptySpliterator())
-                    .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getMetaInfJavaServicesDirectory()))
-                    .map(path -> path.getFileName().toString())
+            ReusableStream.create(() -> getWebfxModuleFile().providedJavaServices())
+                    .distinct()
                     .cache();
 
     /**
@@ -723,13 +722,10 @@ public class ProjectModule extends ModuleImpl {
     }
 
     public ReusableStream<String> getProvidedJavaServiceImplementations(String javaService) {
-        return getProvidedJavaServices()
-                .filter(javaService::equals)
-                .map(s -> getMetaInfJavaServicesDirectory().resolve(s))
-                .map(SplitFiles::uncheckedReadTextFile)
-                .flatMap(content -> Arrays.asList(content.split("\\r?\\n")))
-                .map(s -> s.replace('$', '.'))
-                ;
+        // Providers declared in the webfx module file
+        return getWebfxModuleFile().providedJavaServicesProviders(javaService)
+                .map(s -> s.replace('$', '.'));
+
     }
 
     ReusableStream<String> findRequiredServices() {

@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider">webfx.framework.server.services.querypush.spi.impl.simple.SimpleInMemoryServerQueryPushServiceProvider</provider>
+    </providers>
+
+</module>

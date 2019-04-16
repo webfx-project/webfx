@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.bus.spi.BusServiceProvider">webfx.platform.client.services.websocketbus.WebsocketBusServiceProvider</provider>
+    </providers>
+
+</module>

@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.framework.server.services.push.spi.PushServerServiceProvider">webfx.framework.server.services.push.spi.impl.simple.SimplePushServerServiceProvider</provider>
+    </providers>
+
+</module>

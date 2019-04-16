@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">webfx.fxkit.launcher.FxKitLauncherModuleInitializer</provider>
+    </providers>
+
+</module>

@@ -1,5 +1,9 @@
 <module>
 
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">mongoose.server.application.MongooseServerDatasourceModuleInitializer</provider>
+    </providers>
+
     <dependencies>
 
         <source-modules>

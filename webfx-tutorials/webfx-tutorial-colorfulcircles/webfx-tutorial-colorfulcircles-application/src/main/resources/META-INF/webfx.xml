@@ -1,3 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <module>
+
+    <providers>
+        <provider spi="javafx.application.Application">webfx.tutorial.colorfulcircles.ColorfulCircles4</provider>
+    </providers>
+
 </module>

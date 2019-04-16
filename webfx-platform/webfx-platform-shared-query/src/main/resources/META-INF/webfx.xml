@@ -1,5 +1,12 @@
 <module>
 
+    <providers>
+        <provider spi="webfx.platform.shared.services.buscall.spi.BusCallEndpoint">webfx.platform.shared.services.query.ExecuteQueryBusCallEndpoint</provider>
+        <provider spi="webfx.platform.shared.services.buscall.spi.BusCallEndpoint">webfx.platform.shared.services.query.ExecuteQueryBatchBusCallEndpoint</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.query.QueryArgument$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.query.QueryResult$ProvidedSerialCodec</provider>
+    </providers>
+
     <reflect>
         <array-new-instance>
             <class>webfx.platform.shared.services.query.QueryResult</class>

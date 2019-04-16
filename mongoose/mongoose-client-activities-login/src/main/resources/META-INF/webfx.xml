@@ -9,4 +9,8 @@
 
     </dependencies>
 
+    <providers>
+        <provider spi="webfx.framework.client.ui.uirouter.UiRoute">mongoose.client.activities.login.LoginUiRoute</provider>
+    </providers>
+
 </module>

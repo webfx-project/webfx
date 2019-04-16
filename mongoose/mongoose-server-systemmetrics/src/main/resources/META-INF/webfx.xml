@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationJob">mongoose.server.jobs.systemmetrics.SystemMetricsRecorderJob</provider>
+    </providers>
+
+</module>

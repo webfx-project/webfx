@@ -1,5 +1,9 @@
 <module>
 
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationJob">mongoose.client.jobs.sessionrecorder.ClientSessionRecorderJob</provider>
+    </providers>
+
     <dependencies>
 
         <source-modules>

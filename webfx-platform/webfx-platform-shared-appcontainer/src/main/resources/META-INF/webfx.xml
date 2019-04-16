@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">webfx.platform.shared.services.appcontainer.spi.impl.ApplicationJobsStarter</provider>
+    </providers>
+
+</module>

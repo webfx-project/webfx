@@ -4,6 +4,9 @@ module webfx.tutorial.colorfulcircles.application.javafx {
 
     // Direct dependencies modules
     requires webfx.fxkit.javafx;
+    requires webfx.platform.shared.appcontainer.java;
+    requires webfx.platform.shared.log.simple;
+    requires webfx.platform.shared.shutdown.java;
     requires webfx.tutorial.colorfulcircles.application;
 
 }

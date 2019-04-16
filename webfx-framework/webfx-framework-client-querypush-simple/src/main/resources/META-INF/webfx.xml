@@ -1,0 +1,8 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider">webfx.framework.client.jobs.querypush.QueryPushClientServiceProvider</provider>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationJob">webfx.framework.client.jobs.querypush.QueryPushClientJob</provider>
+    </providers>
+
+</module>

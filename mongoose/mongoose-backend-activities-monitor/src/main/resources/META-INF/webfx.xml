@@ -1,5 +1,10 @@
 <module>
 
+    <providers>
+        <provider spi="webfx.framework.client.ui.uirouter.UiRoute">mongoose.backend.activities.monitor.MonitorUiRoute</provider>
+        <provider spi="webfx.framework.client.operations.route.RouteRequestEmitter">mongoose.backend.activities.monitor.RouteToMonitorRequestEmitter</provider>
+    </providers>
+
     <dependencies>
 
         <source-modules>

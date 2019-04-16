@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.query.spi.QueryServiceProvider">webfx.platform.shared.services.query.spi.impl.remote.RemoteQueryServiceProvider</provider>
+    </providers>
+
+</module>

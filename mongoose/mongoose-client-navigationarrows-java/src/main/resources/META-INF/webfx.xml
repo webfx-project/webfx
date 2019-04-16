@@ -1,0 +1,8 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.framework.client.operations.route.RouteRequestEmitter">mongoose.client.navigationarrows.RouteBackwardRequestEmitter</provider>
+        <provider spi="webfx.framework.client.operations.route.RouteRequestEmitter">mongoose.client.navigationarrows.RouteForwardRequestEmitter</provider>
+    </providers>
+
+</module>

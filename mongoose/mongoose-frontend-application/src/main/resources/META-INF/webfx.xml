@@ -21,4 +21,8 @@
 
     </dependencies>
 
+    <providers>
+        <provider spi="javafx.application.Application">mongoose.frontend.application.MongooseFrontendApplication</provider>
+    </providers>
+
 </module>

@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.server.services.updatelistener.UpdateListener">webfx.framework.server.services.querypush.QueryPushServerService$ProvidedUpdateListener</provider>
+    </providers>
+
+</module>

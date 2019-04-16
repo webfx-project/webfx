@@ -1,0 +1,8 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.fxkit.launcher.spi.FxKitLauncherProvider">webfx.fxkit.gwt.launcher.GwtFxKitLauncherProvider</provider>
+        <provider spi="webfx.fxkit.mapper.spi.FxKitMapperProvider">webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider</provider>
+    </providers>
+
+</module>

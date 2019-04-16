@@ -1,0 +1,8 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.scheduler.spi.SchedulerProvider">webfx.platform.client.services.uischeduler.spi.impl.gwt.GwtUiSchedulerProvider</provider>
+        <provider spi="webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider">webfx.platform.client.services.uischeduler.spi.impl.gwt.GwtUiSchedulerProvider</provider>
+    </providers>
+
+</module>

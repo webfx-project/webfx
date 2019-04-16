@@ -54,4 +54,12 @@ public final class WebfxModuleFile extends XmlModuleFile {
     public ReusableStream<String> getArrayNewInstanceClasses() {
         return lookupNodeListTextContent("/module/reflect/array-new-instance//class");
     }
+
+    public ReusableStream<String> providedJavaServices() {
+        return lookupNodeListAttribute("/module/providers//provider", "spi").distinct();
+    }
+
+    public ReusableStream<String> providedJavaServicesProviders(String javaService) {
+        return lookupNodeListTextContent("/module/providers//provider[@spi='" + javaService + "']");
+    }
 }

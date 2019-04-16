@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.client.services.windowhistory.spi.impl.web.JsWindowHistory">webfx.platform.client.services.windowhistory.spi.impl.gwt.GwtJsWindowHistory</provider>
+    </providers>
+
+</module>

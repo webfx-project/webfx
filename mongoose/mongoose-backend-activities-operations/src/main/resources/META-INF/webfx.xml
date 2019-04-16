@@ -8,4 +8,9 @@
 
     </dependencies>
 
+    <providers>
+        <provider spi="webfx.framework.client.ui.uirouter.UiRoute">mongoose.backend.activities.operations.OperationsUiRoute</provider>
+        <provider spi="webfx.framework.client.operations.route.RouteRequestEmitter">mongoose.backend.activities.operations.RouteToOperationsRequestEmitter</provider>
+    </providers>
+
 </module>

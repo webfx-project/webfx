@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.framework.shared.services.authn.spi.AuthenticationServiceProvider">mongoose.client.services.authn.MongooseAuthenticationServiceProvider</provider>
+    </providers>
+
+</module>

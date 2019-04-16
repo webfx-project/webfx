@@ -1,5 +1,14 @@
 <module>
 
+    <providers>
+        <provider spi="webfx.platform.shared.services.buscall.spi.BusCallEndpoint">webfx.platform.shared.services.update.ExecuteUpdateBusCallEndpoint</provider>
+        <provider spi="webfx.platform.shared.services.buscall.spi.BusCallEndpoint">webfx.platform.shared.services.update.ExecuteUpdateBatchBusCallEndpoint</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.update.UpdateArgument$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.update.UpdateResult$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.update.GeneratedKeyBatchIndex$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.update.spi.UpdateServiceProvider">webfx.platform.shared.services.update.spi.impl.LocalOrRemoteUpdateServiceProvider</provider>
+    </providers>
+
     <reflect>
         <array-new-instance>
             <class>webfx.platform.shared.services.update.UpdateResult</class>
