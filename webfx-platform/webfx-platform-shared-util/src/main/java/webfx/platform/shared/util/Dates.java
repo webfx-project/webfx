@@ -153,12 +153,16 @@ public final class Dates {
             s = Strings.replaceAll(s, "MM", Numbers.twoDigits(dateTime.getMonthValue()));
         if (pattern.contains("yyyy"))
             s = Strings.replaceAll(s, "yyyy", Numbers.twoDigits(dateTime.getYear()));
+        if (pattern.contains("hh"))
+            s = Strings.replaceAll(s, "hh", Numbers.twoDigits(dateTime.getHour()));
         if (pattern.contains("HH"))
             s = Strings.replaceAll(s, "HH", Numbers.twoDigits(dateTime.getHour()));
         if (pattern.contains("mm"))
             s = Strings.replaceAll(s, "mm", Numbers.twoDigits(dateTime.getMinute()));
         if (pattern.contains("ss"))
             s = Strings.replaceAll(s, "ss", Numbers.twoDigits(dateTime.getSecond()));
+        if (pattern.contains("a"))
+            s = Strings.replaceAll(s, "a", dateTime.getHour() <= 12 ? "AM" : "PM");
         return s;
     }
 
@@ -168,6 +172,29 @@ public final class Dates {
 
     public static String format(Object date, String pattern) {
         return format(toLocalDateTime(date), pattern);
+    }
+
+    public static String format(ZonedDateTime dateTime, String pattern) {
+        if (dateTime == null || pattern == null)
+            return null;
+        String s = pattern;
+        if (pattern.contains("dd"))
+            s = Strings.replaceAll(s, "dd", Numbers.twoDigits(dateTime.getDayOfMonth()));
+        if (pattern.contains("MM"))
+            s = Strings.replaceAll(s, "MM", Numbers.twoDigits(dateTime.getMonthValue()));
+        if (pattern.contains("yyyy"))
+            s = Strings.replaceAll(s, "yyyy", Numbers.twoDigits(dateTime.getYear()));
+        if (pattern.contains("hh"))
+            s = Strings.replaceAll(s, "hh", Numbers.twoDigits(dateTime.getHour() <= 12 ? dateTime.getHour() : dateTime.getHour() - 12));
+        if (pattern.contains("HH"))
+            s = Strings.replaceAll(s, "HH", Numbers.twoDigits(dateTime.getHour()));
+        if (pattern.contains("mm"))
+            s = Strings.replaceAll(s, "mm", Numbers.twoDigits(dateTime.getMinute()));
+        if (pattern.contains("ss"))
+            s = Strings.replaceAll(s, "ss", Numbers.twoDigits(dateTime.getSecond()));
+        if (pattern.contains("a"))
+            s = Strings.replaceAll(s, "a", dateTime.getHour() <= 12 ? "AM" : "PM");
+        return s;
     }
 
 }
