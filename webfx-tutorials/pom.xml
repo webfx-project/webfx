@@ -16,6 +16,7 @@
         <module>webfx-tutorial-helloworld</module>
         <module>webfx-tutorial-colorfulcircles</module>
         <module>webfx-tutorial-service</module>
+        <module>webfx-tutorial-responsivedesign</module>
     </modules>
 
 </project>
