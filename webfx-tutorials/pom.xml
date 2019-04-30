@@ -15,6 +15,7 @@
     <modules>
         <module>webfx-tutorial-helloworld</module>
         <module>webfx-tutorial-colorfulcircles</module>
+        <module>webfx-tutorial-service</module>
     </modules>
 
 </project>
