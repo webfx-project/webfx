@@ -62,17 +62,17 @@ public final class LocalDateTime extends DefaultInterfaceChronoLocalDateTime<ISO
 
   /**
    * Constant for the local date-time of midnight at the start of the minimum date. This combines
-   * {@link LocalDate#MIN_DATE} and {@link LocalTime#MIN_TIME}. This could be used by an application as a
+   * {@link LocalDate#MIN_DATE} and {@link LocalTime#MIN}. This could be used by an application as a
    * "far past" date-time.
    */
-  public static final LocalDateTime MIN_DATE_TIME = LocalDateTime.of(LocalDate.MIN_DATE, LocalTime.MIN_TIME);
+  public static final LocalDateTime MIN_DATE_TIME = LocalDateTime.of(LocalDate.MIN_DATE, LocalTime.MIN);
 
   /**
    * Constant for the local date-time just before midnight at the end of the maximum date. This combines
-   * {@link LocalDate#MAX_DATE} and {@link LocalTime#MAX_TIME}. This could be used by an application as a
+   * {@link LocalDate#MAX_DATE} and {@link LocalTime#MAX}. This could be used by an application as a
    * "far future" date-time.
    */
-  public static final LocalDateTime MAX_DATE_TIME = LocalDateTime.of(LocalDate.MAX_DATE, LocalTime.MAX_TIME);
+  public static final LocalDateTime MAX_DATE_TIME = LocalDateTime.of(LocalDate.MAX_DATE, LocalTime.MAX);
 
   /**
    * Serialization version.

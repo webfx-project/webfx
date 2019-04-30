@@ -60,12 +60,12 @@ public final class LocalTime extends DefaultInterfaceDateTimeAccessor implements
   /**
    * Constant for the local time of midnight, 00:00.
    */
-  public static final LocalTime MIN_TIME;
+  public static final LocalTime MIN;
 
   /**
    * Constant for the local time just before midnight, 23:59:59.999999999.
    */
-  public static final LocalTime MAX_TIME;
+  public static final LocalTime MAX;
 
   /**
    * Constant for the local time of midnight, 00:00.
@@ -87,8 +87,8 @@ public final class LocalTime extends DefaultInterfaceDateTimeAccessor implements
     }
     MIDNIGHT = HOURS[0];
     NOON = HOURS[12];
-    MIN_TIME = HOURS[0];
-    MAX_TIME = new LocalTime(23, 59, 59, 999999999);
+    MIN = HOURS[0];
+    MAX = new LocalTime(23, 59, 59, 999999999);
   }
 
   /**
