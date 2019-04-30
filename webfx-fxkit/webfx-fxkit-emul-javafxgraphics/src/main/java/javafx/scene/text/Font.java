@@ -7,6 +7,7 @@ public class Font {
 
     private static final String DEFAULT_FAMILY = "System";
 
+    private final String name;
     private final String family;
     private final FontWeight weight;
     private final FontPosture posture;
@@ -34,10 +35,19 @@ public class Font {
     }
 
     public Font(String family, FontWeight weight, FontPosture posture, double size) {
+        this(family, family, weight, posture, size);
+    }
+
+    public Font(String name, String family, FontWeight weight, FontPosture posture, double size) {
+        this.name = name;
         this.family = family != null ? family : DEFAULT_FAMILY;
         this.weight = weight != null ? weight : FontWeight.NORMAL;
         this.posture = posture != null ? posture : FontPosture.REGULAR;
         this.size = size;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getFamily() {
@@ -61,7 +71,11 @@ public class Font {
     }
 
     public static Font font(String family, double size) {
-        return font(family, null, null, size);
+        return new Font(family, size);
+    }
+
+    public static Font font(double size) {
+        return new Font(size);
     }
 
     private static Font DEFAULT;

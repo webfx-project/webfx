@@ -1235,7 +1235,7 @@ public class Region extends Parent implements
      * @param halignment the horizontal alignment for the child within the area
      * @param valignment the vertical alignment for the child within the area
      */
-    void layoutInArea(Node child, double areaX, double areaY,
+    protected void layoutInArea(Node child, double areaX, double areaY,
                                 double areaWidth, double areaHeight,
                                 double areaBaselineOffset,
                                 Insets margin,
@@ -1294,7 +1294,7 @@ public class Region extends Parent implements
      * @param halignment the horizontal alignment for the child within the area
      * @param valignment the vertical alignment for the child within the area
      */
-    void layoutInArea(Node child, double areaX, double areaY,
+    protected void layoutInArea(Node child, double areaX, double areaY,
                                 double areaWidth, double areaHeight,
                                 double areaBaselineOffset,
                                 Insets margin, boolean fillWidth, boolean fillHeight,

@@ -105,7 +105,7 @@ public final class Identity extends BaseTransform {
         dst.set(src);
         return dst;
     }
-
+    */
     public void transform(float[] srcPts, int srcOff,
                           float[] dstPts, int dstOff,
                           int numPts)
@@ -114,7 +114,7 @@ public final class Identity extends BaseTransform {
             System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts * 2);
         }
     }
-
+    /*
     public void transform(double[] srcPts, int srcOff,
                           double[] dstPts, int dstOff,
                           int numPts)

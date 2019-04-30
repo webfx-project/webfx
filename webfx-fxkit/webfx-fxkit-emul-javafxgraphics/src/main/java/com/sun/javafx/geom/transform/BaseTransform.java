@@ -340,10 +340,10 @@ public abstract class BaseTransform /*implements CanTransformVec3d */{
         throws NoninvertibleTransformException;
     public abstract Vec3d inverseDeltaTransform(Vec3d src, Vec3d dst)
         throws NoninvertibleTransformException;
-
+    */
     public abstract void transform(float[] srcPts, int srcOff,
                                    float[] dstPts, int dstOff,
-                                   int numPts);
+                                   int numPts); /*
     public abstract void transform(double[] srcPts, int srcOff,
                                    double[] dstPts, int dstOff,
                                    int numPts);

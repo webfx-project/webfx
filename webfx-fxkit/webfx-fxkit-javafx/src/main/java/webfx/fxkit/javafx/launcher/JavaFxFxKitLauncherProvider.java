@@ -43,6 +43,11 @@ public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase
     }
 
     @Override
+    public double getVerticalScrollbarExtraWidth() {
+        return 16;
+    }
+
+    @Override
     public Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -58,7 +63,7 @@ public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase
 
     private static void onJavaFxToolkitReady() {
         // Activating SVG support
-        //SvgImageLoaderFactory.install();
+        // de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory.install();
         executeReadyRunnables();
     }
 
