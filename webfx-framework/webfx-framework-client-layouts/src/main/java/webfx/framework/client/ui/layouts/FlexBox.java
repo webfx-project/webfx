@@ -3,6 +3,9 @@ package webfx.framework.client.ui.layouts;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import webfx.platform.shared.util.collection.Collections;
@@ -18,6 +21,7 @@ import java.util.Map;
 public final class FlexBox extends Pane {
     private static final String ORDER_CONSTRAINT = "flexbox-order";
     private static final String GROW_CONSTRAINT = "flexbox-grow";
+    private static final String MARGIN_CONSTRAINT = "flexbox-margin";
     private final DoubleProperty horizontalSpace = new SimpleDoubleProperty(0);
     private final DoubleProperty verticalSpace = new SimpleDoubleProperty(0);
     private double computedMinHeight;
@@ -103,6 +107,15 @@ public final class FlexBox extends Pane {
         return o == null ? 1 : (double) o;
     }
 
+    public static void setMargin(Node child, Insets value) {
+        setConstraint(child, MARGIN_CONSTRAINT, value);
+    }
+
+    public static Insets getMargin(Node child) {
+        return (Insets) getConstraint(child, MARGIN_CONSTRAINT);
+    }
+
+    // Writing setConstraint() again as Pane.setConstraint() is package private
     private static void setConstraint(Node node, Object key, Object value) {
         if (value == null)
             node.getProperties().remove(key);
@@ -112,6 +125,7 @@ public final class FlexBox extends Pane {
             node.getParent().requestLayout();
     }
 
+    // Writing getConstraint() again as Pane.getConstraint() is package private
     private static Object getConstraint(Node node, Object key) {
         if (node.hasProperties())
             return node.getProperties().get(key);
@@ -233,7 +247,7 @@ public final class FlexBox extends Pane {
 
                 double h = rowNode.prefHeight(rowNodeWidth);
                 if (apply)
-                    rowNode.resizeRelocate(snapPosition(x), snapPosition(y), snapSize(x + rowNodeWidth) - snapPosition(x), snapSize(h));
+                    layoutInArea(rowNode, snapPosition(x), snapPosition(y), snapSize(x + rowNodeWidth) - snapPosition(x), snapSize(h), 0, flexBoxItem.margin, HPos.LEFT, VPos.TOP);
                 rowMaxHeight = Math.max(rowMaxHeight, h);
                 x += rowNodeWidth + horizontalSpace;
             }
@@ -258,12 +272,14 @@ public final class FlexBox extends Pane {
         final int order;
         final double grow;
         final double minWidth;
+        final Insets margin;
 
         FlexBoxItem(Node node) {
             this.node = node;
             minWidth = node.minWidth(-1);
             order = getOrder(node);
             grow = getGrow(node);
+            margin = getMargin(node);
         }
     }
 
