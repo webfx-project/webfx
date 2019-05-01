@@ -132,6 +132,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
             setScene(getScene()); // This will propagate the scene into the clip
         }
     };
+
     @Override
     public Property<Node> clipProperty() {
         return clipProperty;
@@ -159,6 +160,40 @@ public abstract class Node implements INode, EventTarget, Styleable {
     @Override
     public DoubleProperty layoutYProperty() {
         return layoutYProperty;
+    }
+
+    // Cache property (only for JavaFx API compatibility - currently ignored by implementation)
+    private BooleanProperty cacheProperty;
+
+    public final BooleanProperty cacheProperty() {
+        if (cacheProperty == null)
+            cacheProperty = new SimpleBooleanProperty();
+        return cacheProperty;
+    }
+
+    public final void setCache(boolean value) {
+        cacheProperty().setValue(value);
+    }
+
+    public final boolean isCache() {
+        return cacheProperty().getValue();
+    }
+
+    // CacheHint property (only for JavaFx API compatibility - currently ignored by implementation)
+    private Property<CacheHint> cacheHintProperty;
+
+    public final Property<CacheHint> cacheHintProperty() {
+        if (cacheHintProperty == null)
+            cacheHintProperty = new SimpleObjectProperty<CacheHint>();
+        return cacheHintProperty;
+    }
+
+    public final void setCacheHint(CacheHint value) {
+        cacheHintProperty().setValue(value);
+    }
+
+    public final CacheHint getCacheHint() {
+        return cacheHintProperty().getValue();
     }
 
     /**
