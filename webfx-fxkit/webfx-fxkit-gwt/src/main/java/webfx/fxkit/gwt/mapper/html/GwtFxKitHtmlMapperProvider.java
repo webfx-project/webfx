@@ -4,6 +4,8 @@ import com.sun.javafx.scene.control.skin.LabeledText;
 import com.sun.javafx.scene.control.skin.ToolkitTextBox;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
@@ -35,15 +37,19 @@ import webfx.fxkit.mapper.spi.impl.FxKitMapperProviderBase;
 public final class GwtFxKitHtmlMapperProvider extends FxKitMapperProviderBase {
 
     public GwtFxKitHtmlMapperProvider() {
-        registerNodePeerFactory(ScrollPane.class, HtmlScrollPanePeer::new);
+        // Graphics
+        registerNodePeerFactory(Group.class, HtmlGroupPeer::new);
         registerNodePeerFactory(Rectangle.class, HtmlRectanglePeer::new);
         registerNodePeerFactory(Circle.class, HtmlCirclePeer::new);
         registerNodePeerFactory(Line.class, HtmlLinePeer::new);
         registerNodePeerFactory(Text.class, HtmlTextPeer::new);
+        registerNodePeerFactory(ImageView.class, HtmlImageViewPeer::new);
+        registerNodePeerFactory(Canvas.class, HtmlCanvasPeer::new);
+
+        // Controls
         registerNodePeerFactory(LabeledText.class, HtmlTextPeer::new);
         registerNodePeerFactory(Label.class, HtmlLabelPeer::new);
         registerNodePeerFactory(Hyperlink.class, HtmlHyperlinkPeer::new);
-        registerNodePeerFactory(Group.class, HtmlGroupPeer::new);
         registerNodePeerFactory(Button.class, HtmlButtonPeer::new);
         registerNodePeerFactory(ToggleButton.class, HtmlToggleButtonPeer::new);
         registerNodePeerFactory(CheckBox.class, HtmlCheckBoxPeer::new);
@@ -53,11 +59,13 @@ public final class GwtFxKitHtmlMapperProvider extends FxKitMapperProviderBase {
         registerNodePeerFactory(PasswordField.class, HtmlTextFieldPeer::new);
         registerNodePeerFactory(ToolkitTextBox.class, HtmlTextFieldPeer::createHtmlTextBoxPeer);
         registerNodePeerFactory(TextArea.class, HtmlTextAreaPeer::new);
-        registerNodePeerFactory(HtmlText.class, HtmlHtmlTextPeer::new);
-        registerNodePeerFactory(HtmlTextEditor.class, HtmlHtmlTextEditorPeer::new);
         registerNodePeerFactory(ChoiceBox.class, HtmlChoiceBoxPeer::new);
         registerNodePeerFactory(DatePicker.class, HtmlDatePickerPeer::new);
-        registerNodePeerFactory(ImageView.class, HtmlImageViewPeer::new);
+        registerNodePeerFactory(ScrollPane.class, HtmlScrollPanePeer::new);
+
+        // Extra
+        registerNodePeerFactory(HtmlText.class, HtmlHtmlTextPeer::new);
+        registerNodePeerFactory(HtmlTextEditor.class, HtmlHtmlTextEditorPeer::new);
         registerNodePeerFactory(DataGrid.class, HtmlDataGridPeer::new);
         registerNodePeerFactory(LineChart.class, HtmlLineChartPeer::new);
         registerNodePeerFactory(AreaChart.class, HtmlAreaChartPeer::new);
@@ -86,5 +94,10 @@ public final class GwtFxKitHtmlMapperProvider extends FxKitMapperProviderBase {
     @Override
     public ScenePeer createScenePeer(Scene scene) {
         return new HtmlScenePeer(scene);
+    }
+
+    @Override
+    public GraphicsContext getGraphicsContext2D(Canvas canvas) {
+        return new HtmlGraphicsContext(canvas);
     }
 }

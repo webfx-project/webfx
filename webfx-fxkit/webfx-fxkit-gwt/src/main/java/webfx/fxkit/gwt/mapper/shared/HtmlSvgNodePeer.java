@@ -1,11 +1,11 @@
 package webfx.fxkit.gwt.mapper.shared;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.sun.javafx.event.EventUtil;
 import elemental2.dom.Element;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.KeyboardEvent;
-import com.sun.javafx.event.EventUtil;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventType;
 import javafx.scene.Cursor;
@@ -17,15 +17,11 @@ import javafx.scene.effect.Effect;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.transform.Transform;
 import webfx.fxkit.gwt.mapper.svg.peer.javafxgraphics.SvgNodePeer;
-import webfx.fxkit.gwt.mapper.util.DomType;
-import webfx.fxkit.gwt.mapper.util.SvgTransforms;
-import webfx.fxkit.mapper.spi.SceneRequester;
-import webfx.fxkit.gwt.mapper.util.HtmlTransforms;
-import webfx.fxkit.gwt.mapper.util.HtmlUtil;
+import webfx.fxkit.gwt.mapper.util.*;
 import webfx.fxkit.mapper.spi.NodePeer;
+import webfx.fxkit.mapper.spi.SceneRequester;
 import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.NodePeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.NodePeerImpl;
 import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.NodePeerMixin;
@@ -454,12 +450,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setFontAttributes(Font font) {
-        if (font != null) {
-            setElementAttribute("font-family", font.getFamily());
-            setElementAttribute("font-style", font.getPosture() == FontPosture.ITALIC ? "italic" : "normal");
-            setElementAttribute("font-weight", font.getWeight() == null ? 0d : font.getWeight().getWeight());
-            setElementAttribute("font-size", toPx(font.getSize()));
-        }
+        HtmlFonts.setHtmlFontStyleAttributes(font, container);
     }
 
     private static String toSvgBlendMode(BlendMode blendMode) {

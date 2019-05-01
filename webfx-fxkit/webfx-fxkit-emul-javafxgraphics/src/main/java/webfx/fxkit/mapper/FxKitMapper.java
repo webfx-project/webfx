@@ -2,6 +2,8 @@ package webfx.fxkit.mapper;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import webfx.fxkit.mapper.spi.NodePeer;
@@ -36,5 +38,9 @@ public final class FxKitMapper {
 
     public static <N extends Node, V extends NodePeer<N>> V createNodePeer(N node) {
         return getProvider().createNodePeer(node);
+    }
+
+    public static GraphicsContext getGraphicsContext2D(Canvas canvas) {
+        return getProvider().getGraphicsContext2D(canvas);
     }
 }
