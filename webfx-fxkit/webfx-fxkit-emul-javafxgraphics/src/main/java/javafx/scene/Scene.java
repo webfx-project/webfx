@@ -42,6 +42,7 @@ import webfx.platform.shared.services.scheduler.Scheduled;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * @author Bruno Salmon
@@ -2065,7 +2066,14 @@ public class Scene implements EventTarget,
 
     private void pick(TargetWrapper target, final double x, final double y) {
         NodePeer nodePeer = impl_getPeer().pickPeer(x, y);
-        PickResult pickResult = nodePeer == null ? null : new PickResult(nodePeer.getNode(), x, y);
+        PickResult pickResult = null;
+        if (nodePeer != null) {
+            Node node = nodePeer.getNode();
+            if (node == null) // Happens for any reason with HtmlPathNodePeer
+                Logger.getGlobal().warning("Scene.pick() detected that nodePeer.getNode() is null for nodePeer " + nodePeer);
+            else
+                pickResult = new PickResult(node, x, y);
+        }
         target.setNodeResult(pickResult);
 /*
         final PickRay pickRay = getEffectiveCamera().computePickRay(

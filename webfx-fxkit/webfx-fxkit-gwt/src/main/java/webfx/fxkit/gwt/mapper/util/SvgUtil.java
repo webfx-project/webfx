@@ -39,6 +39,10 @@ public final class SvgUtil {
         return createSvgElement("circle");
     }
 
+    public static Element createSvgPath() {
+        return createSvgElement("path");
+    }
+
     public static Element createSvgText() {
         return createSvgElement("text");
     }

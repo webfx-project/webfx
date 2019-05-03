@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -45,6 +46,7 @@ public final class GwtFxKitHtmlMapperProvider extends FxKitMapperProviderBase {
         registerNodePeerFactory(Text.class, HtmlTextPeer::new);
         registerNodePeerFactory(ImageView.class, HtmlImageViewPeer::new);
         registerNodePeerFactory(Canvas.class, HtmlCanvasPeer::new);
+        registerNodePeerFactory(Path.class, HtmlPathPeer::new);
 
         // Controls
         registerNodePeerFactory(LabeledText.class, HtmlTextPeer::new);

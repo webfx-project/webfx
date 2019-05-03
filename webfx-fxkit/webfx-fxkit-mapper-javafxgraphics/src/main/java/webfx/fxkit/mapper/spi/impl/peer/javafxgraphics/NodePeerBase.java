@@ -63,6 +63,10 @@ public abstract class NodePeerBase
         return node;
     }
 
+    public void setNode(N node) {
+        this.node = node;
+    }
+
     @Override
     public void requestFocus() {
 
