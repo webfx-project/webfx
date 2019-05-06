@@ -2,42 +2,78 @@ package webfx.tutorial.customcontrol;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.stage.Stage;
+import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.tutorial.customcontrol.clock.Clock;
-import webfx.tutorial.customcontrol.clock.ClockBuilder;
+import webfx.tutorial.customcontrol.clock.skins.ClockSkin;
+import webfx.tutorial.customcontrol.clock.skins.DBClockSkin;
 
 /**
  * @author Bruno Salmon
  */
 public class CustomControlApplication extends Application {
 
+    private final BorderPane borderPane = new BorderPane();
+    private CheckBox discreteCheckbox = new CheckBox("Discrete");
+    private Clock clock;
+
     @Override
     public void start(Stage stage) {
-        Clock clock = ClockBuilder.create()
-                .secondsVisible(true)
-                .secondColor(Color.RED)
-                .skinType(Clock.ClockSkinType.YOTA2)
-                .build();
+        ToggleGroup skinGroup = new ToggleGroup();
 
-        StackPane pane = new StackPane(clock);
-        pane.setPadding(new Insets(10));
+        ToggleButton yota2Button = new ToggleButton("Yota2");
+        yota2Button.setToggleGroup(skinGroup);
+        yota2Button.setOnAction(e -> createYota2Clock());
+
+        ToggleButton dbButton = new ToggleButton("DB");
+        dbButton.setToggleGroup(skinGroup);
+        dbButton.setOnAction(e -> createDBClock());
+
+        discreteCheckbox.setSelected(true);
+
+        createYota2Clock();
+
+        borderPane.setTop(new HBox(10, yota2Button, dbButton, discreteCheckbox));
 
         stage.setTitle("Custom control");
-        stage.setScene(new Scene(pane));
+        stage.setScene(new Scene(borderPane));
         stage.show();
 
-        UiScheduler.schedulePeriodic(1000, () -> clock.setTime(System.currentTimeMillis() / 1000));
+        UiScheduler.schedulePeriodicInAnimationFrame(() -> clock.setTimeMs(System.currentTimeMillis()), AnimationFramePass.PROPERTY_CHANGE_PASS);
+    }
+
+    private void createClock() {
+        clock = new Clock();
+        clock.setSecondsVisible(true);
+        clock.setSecondColor(Color.RED);
+        clock.discreteSecondsProperty().bind(discreteCheckbox.selectedProperty());
+        BorderPane.setMargin(clock, new Insets(10));
+        borderPane.setCenter(clock);
+    }
+
+    private void createDBClock() {
+        createClock();
+        clock.setSkin(new DBClockSkin(clock));
+    }
+
+    private void createYota2Clock() {
+        createClock();
+        clock.setBackgroundPaint(Color.rgb(40, 42, 48));
+        clock.setHourTickMarkColor(Color.rgb(255, 255, 255));
+        clock.setMinuteTickMarkColor(Color.rgb(255, 255, 255, 0.5));
+        clock.setHourColor(Color.WHITE);
+        clock.setMinuteColor(Color.WHITE);
+        clock.setKnobColor(Color.WHITE);
+        clock.setTextColor(Color.rgb(255, 255, 255, 0.5));
+        clock.setDateColor(Color.rgb(255, 255, 255));
+        clock.setSkin(new ClockSkin(clock));
     }
 }
