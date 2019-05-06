@@ -13,6 +13,13 @@ import webfx.fxkit.mapper.spi.impl.peer.markers.HasSelectedProperty;
 public class CheckBox extends ButtonBase implements
         HasSelectedProperty {
 
+    public CheckBox() {
+    }
+
+    public CheckBox(String text) {
+        super(text);
+    }
+
     private final BooleanProperty selectedProperty = new SimpleBooleanProperty(false);
     @Override
     public BooleanProperty selectedProperty() {

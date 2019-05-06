@@ -438,6 +438,8 @@
     <source path="com/sun/javafx/scene/control/skin"/>
     <source path="javafx/scene/control"/>
     <source path="javafx/scene/control/skin"/>
+    <resource path="images/checkbox"/>
+    <public includes="images/checkbox/" path=""/>
     <!--========================< webfx-fxkit-emul-javafxgraphics >=========================-->
     <!-- used by webfx-framework-client-action (SOURCE) -->
     <!-- used by webfx-fxkit-gwt (SOURCE) -->
@@ -458,6 +460,7 @@
     <source path="javafx/css"/>
     <source path="javafx/geometry"/>
     <source path="javafx/scene"/>
+    <source path="javafx/scene/canvas"/>
     <source path="javafx/scene/effect"/>
     <source path="javafx/scene/image"/>
     <source path="javafx/scene/input"/>
