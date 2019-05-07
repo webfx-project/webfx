@@ -254,6 +254,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.google.elemental2</groupId>
+                <artifactId>elemental2-svg</artifactId>
+                <version>${lib.elemental2.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.googlecode.gwt-charts</groupId>
                 <artifactId>gwt-charts</artifactId>
                 <version>${lib.gwt-charts.version}</version>

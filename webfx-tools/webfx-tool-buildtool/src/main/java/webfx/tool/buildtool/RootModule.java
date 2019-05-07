@@ -60,6 +60,7 @@ public final class RootModule extends ProjectModule {
         registerJavaPackageModule(createThirdPartyModule("gwt-user"), "com.google.gwt.user.client", "com.google.gwt.core.client", "com.google.gwt.resources.client", "com.google.gwt.regexp.shared", "com.google.gwt.storage.client");
         registerJavaPackageModule(createThirdPartyModule("jsinterop-annotations"), "jsinterop.annotations");
         registerJavaPackageModule(createThirdPartyModule("elemental2-dom"), "elemental2.dom");
+        registerJavaPackageModule(createThirdPartyModule("elemental2-svg"), "elemental2.svg");
 
         // GWT charts
         registerJavaPackageModule(createThirdPartyModule("gwt-charts"), "com.googlecode.gwt.charts.client", "com.googlecode.gwt.charts.client.corechart");

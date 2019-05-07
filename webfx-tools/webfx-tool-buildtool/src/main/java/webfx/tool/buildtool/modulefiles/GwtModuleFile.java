@@ -143,6 +143,7 @@ public final class GwtModuleFile extends XmlModuleFile {
             case "java-logging": return "com.google.gwt.logging.Logging";
             case "elemental2-core": return "elemental2.core.Core";
             case "elemental2-dom": return "elemental2.dom.Dom";
+            case "elemental2-svg": return "elemental2.svg.Svg";
             case "gwt-charts": return "com.googlecode.gwt.charts.Charts";
             default: return null;
         }
