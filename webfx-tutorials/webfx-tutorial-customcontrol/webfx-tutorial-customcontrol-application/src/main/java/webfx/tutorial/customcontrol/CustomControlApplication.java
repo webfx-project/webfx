@@ -2,6 +2,7 @@ package webfx.tutorial.customcontrol;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
@@ -15,6 +16,7 @@ import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.tutorial.customcontrol.clock.Clock;
 import webfx.tutorial.customcontrol.clock.skins.ClockSkin;
 import webfx.tutorial.customcontrol.clock.skins.DBClockSkin;
+import webfx.tutorial.customcontrol.clock.skins.TileClockSkin;
 
 /**
  * @author Bruno Salmon
@@ -29,19 +31,25 @@ public class CustomControlApplication extends Application {
     public void start(Stage stage) {
         ToggleGroup skinGroup = new ToggleGroup();
 
-        ToggleButton yota2Button = new ToggleButton("Yota2");
-        yota2Button.setToggleGroup(skinGroup);
-        yota2Button.setOnAction(e -> createYota2Clock());
+        ToggleButton skin1Button = new ToggleButton("Skin 1");
+        skin1Button.setToggleGroup(skinGroup);
+        skin1Button.setOnAction(e -> createTileClock());
 
-        ToggleButton dbButton = new ToggleButton("DB");
-        dbButton.setToggleGroup(skinGroup);
-        dbButton.setOnAction(e -> createDBClock());
+        ToggleButton skin2Button = new ToggleButton("Skin 2");
+        skin2Button.setToggleGroup(skinGroup);
+        skin2Button.setOnAction(e -> createYota2Clock());
 
-        discreteCheckbox.setSelected(true);
+        ToggleButton skin3Button = new ToggleButton("Skin 3");
+        skin3Button.setToggleGroup(skinGroup);
+        skin3Button.setOnAction(e -> createDBClock());
 
-        createYota2Clock();
+        skin1Button.fire();
 
-        borderPane.setTop(new HBox(10, yota2Button, dbButton, discreteCheckbox));
+        HBox.setMargin(discreteCheckbox, new Insets(0, 0, 0, 10));
+        discreteCheckbox.setAlignment(Pos.CENTER);
+        HBox hBox = new HBox(skin1Button, skin2Button, skin3Button, discreteCheckbox);
+        hBox.setAlignment(Pos.CENTER);
+        borderPane.setTop(hBox);
 
         stage.setTitle("Custom control");
         stage.setScene(new Scene(borderPane));
@@ -75,5 +83,24 @@ public class CustomControlApplication extends Application {
         clock.setTextColor(Color.rgb(255, 255, 255, 0.5));
         clock.setDateColor(Color.rgb(255, 255, 255));
         clock.setSkin(new ClockSkin(clock));
+    }
+
+    private void createTileClock() {
+        createClock();
+        clock.setBackgroundPaint(Color.rgb(42,42,42));
+        clock.setHourColor(Color.rgb(238, 238, 238));
+        clock.setMinuteColor(Color.rgb(238, 238, 238));
+        //clock.setSecondColor(Color.rgb(238, 238, 238));
+        clock.setKnobColor(Color.rgb(238, 238, 238));
+        clock.setHourTickMarkColor(Color.rgb(238, 238, 238));
+        clock.setMinuteTickMarkColor(Color.rgb(238, 238, 238));
+        clock.setDateColor(Color.rgb(238, 238, 238));
+        clock.setDateVisible(false);
+        //clock.setSecondsVisible(false);
+        clock.setTextVisible(false);
+        clock.setTextColor(Color.rgb(238, 238, 238));
+        clock.setTitleVisible(true);
+        clock.setTitleColor(Color.rgb(238, 238, 238));
+        clock.setSkin(new TileClockSkin(clock));
     }
 }
