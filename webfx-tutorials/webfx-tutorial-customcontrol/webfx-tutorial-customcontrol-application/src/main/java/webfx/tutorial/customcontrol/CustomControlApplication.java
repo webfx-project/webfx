@@ -1,5 +1,6 @@
 package webfx.tutorial.customcontrol;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,11 +12,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import webfx.platform.client.services.uischeduler.AnimationFramePass;
-import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.tutorial.customcontrol.clock.Clock;
 import webfx.tutorial.customcontrol.clock.skins.ClockSkin;
 import webfx.tutorial.customcontrol.clock.skins.DBClockSkin;
+import webfx.tutorial.customcontrol.clock.skins.MorphingClockSkin;
 import webfx.tutorial.customcontrol.clock.skins.TileClockSkin;
 
 /**
@@ -43,11 +43,15 @@ public class CustomControlApplication extends Application {
         skin3Button.setToggleGroup(skinGroup);
         skin3Button.setOnAction(e -> createDBClock());
 
+        ToggleButton skin4Button = new ToggleButton("Skin 4");
+        skin4Button.setToggleGroup(skinGroup);
+        skin4Button.setOnAction(e -> createMorphingClock());
+
         skin1Button.fire();
 
         HBox.setMargin(discreteCheckbox, new Insets(0, 0, 0, 10));
         discreteCheckbox.setAlignment(Pos.CENTER);
-        HBox hBox = new HBox(skin1Button, skin2Button, skin3Button, discreteCheckbox);
+        HBox hBox = new HBox(skin1Button, skin2Button, skin3Button, skin4Button, discreteCheckbox);
         hBox.setAlignment(Pos.CENTER);
         borderPane.setTop(hBox);
 
@@ -55,7 +59,12 @@ public class CustomControlApplication extends Application {
         stage.setScene(new Scene(borderPane));
         stage.show();
 
-        UiScheduler.schedulePeriodicInAnimationFrame(() -> clock.setTimeMs(System.currentTimeMillis()), AnimationFramePass.PROPERTY_CHANGE_PASS);
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                clock.setTimeMs(System.currentTimeMillis());
+            }
+        }.start();
     }
 
     private void createClock() {
@@ -70,6 +79,13 @@ public class CustomControlApplication extends Application {
     private void createDBClock() {
         createClock();
         clock.setSkin(new DBClockSkin(clock));
+    }
+
+    private void createMorphingClock() {
+        createClock();
+        clock.setMinuteColor(Color.BLUE);
+        clock.setHourColor(Color.GREEN);
+        clock.setSkin(new MorphingClockSkin(clock));
     }
 
     private void createYota2Clock() {
