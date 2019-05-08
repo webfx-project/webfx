@@ -21,6 +21,10 @@ import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.collection.Collections;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static elemental2.dom.DomGlobal.document;
 
 /**
@@ -36,6 +40,39 @@ public final class HtmlScenePeer extends ScenePeerBase {
         Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
         Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
+        installStylesheetsListener(scene);
+    }
+
+    private void installStylesheetsListener(Scene scene) {
+        scene.getStylesheets().addListener((ListChangeListener<String>) change -> {
+            while (change.next()) {
+                if (change.wasRemoved())
+                    removeStyleSheet(change.getRemoved());
+                if (change.wasAdded())
+                    addStyleSheet(change.getAddedSubList());
+            }
+        });
+    }
+
+    private Map<String /* href  => */, Element /* link */> stylesheetLinks = new HashMap<>();
+
+    private void addStyleSheet(List<? extends String> hrefs) {
+        hrefs.forEach(href -> {
+            Element link = document.createElement("link");
+            link.setAttribute("rel", "stylesheet");
+            link.setAttribute("type", "text/css");
+            link.setAttribute("href", href);
+            document.body.appendChild(link);
+            stylesheetLinks.put(href, link); // Keeping a reference to the link for eventual removal
+        });
+    }
+
+    private void removeStyleSheet(List<? extends String> hrefs) {
+        hrefs.forEach(href -> {
+            Element link = stylesheetLinks.remove(href);
+            if (link != null)
+                link.parentNode.removeChild(link);
+        });
     }
 
     private void updateContainerWidth() {
