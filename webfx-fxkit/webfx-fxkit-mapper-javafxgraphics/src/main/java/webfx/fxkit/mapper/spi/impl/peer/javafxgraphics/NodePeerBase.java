@@ -42,6 +42,7 @@ public abstract class NodePeerBase
         requestUpdateList(sceneRequester, null, null);
         requestUpdateOnListsChange(sceneRequester, node.getTransforms(), node.getStyleClass());
         requestUpdateOnPropertiesChange(sceneRequester
+                , node.idProperty()
                 , node.visibleProperty()
                 , node.opacityProperty()
                 , node.disabledProperty()
@@ -95,6 +96,7 @@ public abstract class NodePeerBase
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
         return updateProperty(node.mouseTransparentProperty(), changedProperty, mixin::updateMouseTransparent)
+                || updateProperty(node.idProperty(), changedProperty, mixin::updateId)
                 || updateProperty(node.visibleProperty(), changedProperty, mixin::updateVisible)
                 || updateProperty(node.disabledProperty(), changedProperty, mixin::updateDisabled)
                 || updateProperty(node.opacityProperty(), changedProperty, p-> mixin.updateOpacity(p.doubleValue()))

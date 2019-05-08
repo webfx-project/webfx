@@ -59,6 +59,8 @@ public interface NodePeerMixin
 
     void updateMouseTransparent(Boolean mouseTransparent);
 
+    void updateId(String id);
+
     void updateVisible(Boolean visible);
 
     void updateOpacity(Double opacity);

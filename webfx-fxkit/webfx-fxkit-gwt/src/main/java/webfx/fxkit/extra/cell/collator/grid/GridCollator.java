@@ -191,6 +191,10 @@ public final class GridCollator extends DataGrid {
         }
 
         @Override
+        public void updateId(String id) {
+        }
+
+        @Override
         public void updateVisible(Boolean visible) {
             container.setVisible(visible);
         }

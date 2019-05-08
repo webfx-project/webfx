@@ -63,6 +63,11 @@ public abstract class FxNodePeer
     }
 
     @Override
+    public void updateId(String id) {
+        fxNode.setId(id);
+    }
+
+    @Override
     public void updateVisible(Boolean visible) {
         fxNode.setVisible(visible);
     }

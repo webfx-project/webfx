@@ -208,6 +208,11 @@ public abstract class HtmlSvgNodePeer
     }
 
     @Override
+    public void updateId(String id) {
+        setElementAttribute("id", id);
+    }
+
+    @Override
     public void updateVisible(Boolean visible) {
         setElementAttribute("visibility", visible ? null : "hidden");
     }
