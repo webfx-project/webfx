@@ -33,15 +33,15 @@ public class CustomControlApplication extends Application {
 
         ToggleButton skin1Button = new ToggleButton("Skin 1");
         skin1Button.setToggleGroup(skinGroup);
-        skin1Button.setOnAction(e -> createTileClock());
+        skin1Button.setOnAction(e -> createYota2Clock());
 
         ToggleButton skin2Button = new ToggleButton("Skin 2");
         skin2Button.setToggleGroup(skinGroup);
-        skin2Button.setOnAction(e -> createYota2Clock());
+        skin2Button.setOnAction(e -> createDBClock());
 
         ToggleButton skin3Button = new ToggleButton("Skin 3");
         skin3Button.setToggleGroup(skinGroup);
-        skin3Button.setOnAction(e -> createDBClock());
+        skin3Button.setOnAction(e -> createTileClock());
 
         ToggleButton skin4Button = new ToggleButton("Skin 4");
         skin4Button.setToggleGroup(skinGroup);

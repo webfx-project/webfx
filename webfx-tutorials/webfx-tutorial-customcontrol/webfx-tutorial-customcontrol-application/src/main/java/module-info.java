@@ -7,7 +7,6 @@ module webfx.tutorial.customcontrol.application {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.util;
 
     // Exported packages
