@@ -22,6 +22,7 @@ module webfx.fxkit.extracontrols {
     exports webfx.fxkit.extra.controls.displaydata.chart;
     exports webfx.fxkit.extra.controls.displaydata.datagrid;
     exports webfx.fxkit.extra.controls.html;
+    exports webfx.fxkit.extra.controls.svg;
     exports webfx.fxkit.extra.displaydata;
     exports webfx.fxkit.extra.displaydata.impl;
     exports webfx.fxkit.extra.util;

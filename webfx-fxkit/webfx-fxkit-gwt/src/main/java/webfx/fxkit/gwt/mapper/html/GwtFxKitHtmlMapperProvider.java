@@ -20,6 +20,7 @@ import webfx.fxkit.extra.controls.displaydata.chart.*;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.controls.html.HtmlText;
 import webfx.fxkit.extra.controls.html.HtmlTextEditor;
+import webfx.fxkit.extra.controls.svg.SvgText;
 import webfx.fxkit.gwt.mapper.html.peer.extra.*;
 import webfx.fxkit.gwt.mapper.html.peer.javafxcontrols.*;
 import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.*;
@@ -66,6 +67,7 @@ public final class GwtFxKitHtmlMapperProvider extends FxKitMapperProviderBase {
         registerNodePeerFactory(ScrollPane.class, HtmlScrollPanePeer::new);
 
         // Extra
+        registerNodePeerFactory(SvgText.class, HtmlSvgTextPeer::new);
         registerNodePeerFactory(HtmlText.class, HtmlHtmlTextPeer::new);
         registerNodePeerFactory(HtmlTextEditor.class, HtmlHtmlTextEditorPeer::new);
         registerNodePeerFactory(DataGrid.class, HtmlDataGridPeer::new);

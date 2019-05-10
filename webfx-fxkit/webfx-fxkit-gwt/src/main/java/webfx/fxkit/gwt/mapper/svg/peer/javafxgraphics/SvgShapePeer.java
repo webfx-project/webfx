@@ -1,16 +1,20 @@
 package webfx.fxkit.gwt.mapper.svg.peer.javafxgraphics;
 
 import elemental2.dom.Element;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.ShapePeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.ShapePeerMixin;
-import webfx.platform.shared.util.collection.Collections;
-import webfx.fxkit.gwt.mapper.util.SvgUtil;
+import elemental2.svg.SVGRect;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
+import webfx.fxkit.gwt.mapper.util.SvgUtil;
+import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.ShapePeerBase;
+import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.ShapePeerMixin;
+import webfx.platform.shared.util.collection.Collections;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,4 +93,24 @@ abstract class SvgShapePeer
         setElementAttribute("stroke-dasharray", hasStroke ? Collections.toStringWithNoBrackets(n.getStrokeDashArray()) : null);
         setElementAttribute("stroke-alignment", hasStroke ? SvgUtil.toSvgStrokeAlignment(n.getStrokeType()) : null);
     }
+
+    @Override
+    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+        // Before transformation, the top left corner of the container refers to the axis origin (0,0) in SVG whereas it
+        // refers to the top left corner of the path in JavaFx. So to emulate the same behaviour as JavaFx, we need to
+        // add a translation of the shape so it appears on the top left corner.
+        SVGRect bBox = getBBox();
+        if (bBox != null) {
+            List<Transform> forSvgTransforms = new ArrayList<>(localToParentTransforms.size() + 1);
+            forSvgTransforms.add(new Translate(-bBox.x, -bBox.y));
+            forSvgTransforms.addAll(localToParentTransforms);
+            localToParentTransforms = forSvgTransforms;
+        }
+        super.updateLocalToParentTransforms(localToParentTransforms);
+    }
+
+    protected SVGRect getBBox() {
+        return null;
+    }
+
 }

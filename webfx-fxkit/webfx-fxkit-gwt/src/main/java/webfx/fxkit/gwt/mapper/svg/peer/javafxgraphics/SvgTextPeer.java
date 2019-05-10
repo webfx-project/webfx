@@ -1,5 +1,7 @@
 package webfx.fxkit.gwt.mapper.svg.peer.javafxgraphics;
 
+import elemental2.svg.SVGRect;
+import elemental2.svg.SVGTextElement;
 import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.TextPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.TextPeerMixin;
 import webfx.platform.shared.util.Numbers;
@@ -70,5 +72,10 @@ public final class SvgTextPeer
     @Override
     public void updateFont(Font font) {
         setFontAttributes(font);
+    }
+
+    @Override
+    protected SVGRect getBBox() {
+        return ((SVGTextElement) getElement()).getBBox();
     }
 }

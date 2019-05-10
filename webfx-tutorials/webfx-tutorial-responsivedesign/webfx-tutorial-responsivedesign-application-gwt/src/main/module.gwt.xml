@@ -114,6 +114,7 @@
     <source path="webfx/fxkit/extra/controls/displaydata/chart"/>
     <source path="webfx/fxkit/extra/controls/displaydata/datagrid"/>
     <source path="webfx/fxkit/extra/controls/html"/>
+    <source path="webfx/fxkit/extra/controls/svg"/>
     <source path="webfx/fxkit/extra/displaydata"/>
     <source path="webfx/fxkit/extra/displaydata/impl"/>
     <source path="webfx/fxkit/extra/util"/>
