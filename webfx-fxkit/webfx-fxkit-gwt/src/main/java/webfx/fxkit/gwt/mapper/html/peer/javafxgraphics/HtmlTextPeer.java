@@ -5,6 +5,8 @@ import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
 import javafx.geometry.VPos;
 import javafx.scene.HasSizeChangedCallback;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -43,6 +45,17 @@ public final class HtmlTextPeer
         this.sizeChangedCallback = sizeChangedCallback;
     }
 
+    @Override
+    public void updateEffect(Effect effect) {
+        if (effect instanceof DropShadow)
+            getElement().style.textShadow = toCssTextShadow((DropShadow) effect);
+        else
+            super.updateEffect(effect);
+    }
+
+    private String toCssTextShadow(DropShadow shadow) {
+        return toPx(shadow.getOffsetX()) + " " + toPx(shadow.getOffsetY()) + " " + toPx(shadow.getRadius()) + " " + HtmlPaints.toHtmlCssPaint(shadow.getColor());
+    }
 
     @Override
     public void updateText(String text) {
