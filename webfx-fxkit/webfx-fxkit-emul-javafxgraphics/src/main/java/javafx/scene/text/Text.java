@@ -26,6 +26,12 @@ public class Text extends Shape implements
         setText(text);
     }
 
+    public Text(double x, double y, String text) {
+        this(text);
+        setX(x);
+        setY(y);
+    }
+
     private final DoubleProperty xProperty = new SimpleDoubleProperty(0d);
     @Override
     public DoubleProperty xProperty() {
