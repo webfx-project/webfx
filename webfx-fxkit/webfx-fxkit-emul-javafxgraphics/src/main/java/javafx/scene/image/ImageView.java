@@ -174,7 +174,7 @@ public class ImageView extends Node implements
     }
 
     @Override
-    protected void onPeerSizeChanged() {
+    public void onPeerSizeChanged() {
         invalidateWidthHeight();
         super.onPeerSizeChanged();
     }

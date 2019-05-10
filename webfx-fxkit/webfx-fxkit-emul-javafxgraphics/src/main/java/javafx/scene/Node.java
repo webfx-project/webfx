@@ -1213,7 +1213,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return true;
     }
 
-    protected void onPeerSizeChanged() {
+    public void onPeerSizeChanged() {
         markDirtyLayoutBranch();
         impl_geomChanged(); // will call parent.requestLayout()
         layoutBounds.setValue(getLayoutBounds());

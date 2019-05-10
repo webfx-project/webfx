@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.LayoutFlags;
 import javafx.scene.text.TextFlow;
 import webfx.fxkit.extra.controls.html.HtmlText;
 import webfx.fxkit.gwt.mapper.html.peer.extra.HtmlHtmlTextPeer;
@@ -46,9 +47,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
     private void installStylesheetsListener(Scene scene) {
         scene.getStylesheets().addListener((ListChangeListener<String>) change -> {
             while (change.next()) {
-                if (change.wasRemoved())
+                if (change.wasRemoved() || change.wasUpdated())
                     removeStyleSheet(change.getRemoved());
-                if (change.wasAdded())
+                if (change.wasAdded() || change.wasUpdated())
                     addStyleSheet(change.getAddedSubList());
             }
         });
@@ -62,6 +63,10 @@ public final class HtmlScenePeer extends ScenePeerBase {
             link.setAttribute("rel", "stylesheet");
             link.setAttribute("type", "text/css");
             link.setAttribute("href", href);
+            link.onload = e -> {
+                updateSceneGraphLayout();
+                return null;
+            };
             document.body.appendChild(link);
             stylesheetLinks.put(href, link); // Keeping a reference to the link for eventual removal
         });
@@ -73,6 +78,21 @@ public final class HtmlScenePeer extends ScenePeerBase {
             if (link != null)
                 link.parentNode.removeChild(link);
         });
+    }
+
+    private void updateSceneGraphLayout() {
+        Parent root = scene.getRoot();
+        clearLayoutCache(root);
+        root.onPeerSizeChanged();
+    }
+
+    private static void clearLayoutCache(Node node) {
+        node.clearCache();
+        if (node instanceof Parent) {
+            Parent parent = (Parent) node;
+            parent.setLayoutFlag(LayoutFlags.NEEDS_LAYOUT);
+            parent.getChildren().forEach(HtmlScenePeer::clearLayoutCache);
+        }
     }
 
     private void updateContainerWidth() {

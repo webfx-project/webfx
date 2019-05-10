@@ -150,7 +150,7 @@ public class Parent extends Node {
     private double minWidthCache = -1;
     private double minHeightCache = -1;
 
-    void setLayoutFlag(LayoutFlags flag) {
+    public void setLayoutFlag(LayoutFlags flag) {
         if (needsLayout != null)
             needsLayout.setValue(flag == LayoutFlags.NEEDS_LAYOUT);
         layoutFlag = flag;
