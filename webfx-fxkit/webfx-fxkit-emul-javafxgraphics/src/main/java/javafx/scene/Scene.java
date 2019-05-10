@@ -175,6 +175,7 @@ public class Scene implements EventTarget,
             Parent root = getValue();
             root.setScene(Scene.this);
             root.setSceneRoot(true);
+            resizeRootOnSceneSizeChange(getWidth(), getHeight()); // Necessary when root changed without scene being resized
             createAndBindRootNodePeerAndChildren(getRoot());
         }
     };
