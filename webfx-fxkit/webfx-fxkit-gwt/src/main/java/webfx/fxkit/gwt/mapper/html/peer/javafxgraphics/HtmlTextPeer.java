@@ -112,6 +112,16 @@ public final class HtmlTextPeer
         updateYOnNextPulse();
     }
 
+    @Override
+    protected void updateStroke() {
+        N shape = getNode();
+        String color = HtmlPaints.toHtmlCssPaint(shape.getStroke());
+        Double strokeWidth = shape.getStrokeWidth();
+        boolean hasStroke = color != null && strokeWidth > 0;
+        setElementStyleAttribute("-webkit-text-stroke-color", hasStroke ? color : null);
+        setElementStyleAttribute("-webkit-text-stroke-width", hasStroke ? toPx(strokeWidth) : null);
+    }
+
     private static final HTMLCanvasElement canvas = HtmlUtil.createElement("canvas");
     private String lastFont;
     private JavaScriptObject currentTextMetrics;
