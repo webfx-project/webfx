@@ -8,9 +8,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
 import javafx.stage.Stage;
 import webfx.tutorial.customcontrol.clock.Clock;
 import webfx.tutorial.customcontrol.clock.skins.ClockSkin;
@@ -55,8 +58,11 @@ public class CustomControlApplication extends Application {
         hBox.setAlignment(Pos.CENTER);
         borderPane.setTop(hBox);
 
+        borderPane.setBackground(new Background(new BackgroundFill(LinearGradient.valueOf("linear-gradient(to right, #43cea2, #185a9d)"), null, null)));
+        discreteCheckbox.setTextFill(Color.WHITE);
+
         stage.setTitle("Custom control");
-        stage.setScene(new Scene(borderPane));
+        stage.setScene(new Scene(borderPane, 600, 600));
         stage.show();
 
         new AnimationTimer() {

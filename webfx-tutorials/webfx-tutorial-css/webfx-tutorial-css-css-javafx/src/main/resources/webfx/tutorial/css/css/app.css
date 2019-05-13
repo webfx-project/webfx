@@ -24,5 +24,5 @@
 }
 
 .withShadow {
-    -fx-effect: dropshadow(three-pass-box, grey, 10, 0, 0, 15);
+    -fx-effect: dropshadow(gaussian, grey, 10, 0, 0, 15);
 }
