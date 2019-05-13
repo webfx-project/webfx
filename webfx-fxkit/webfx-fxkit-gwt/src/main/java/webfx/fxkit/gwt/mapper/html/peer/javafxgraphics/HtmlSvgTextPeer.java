@@ -8,6 +8,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutCache;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutMeasurableNoHGrow;
+import webfx.fxkit.gwt.mapper.shared.SvgRoot;
+import webfx.fxkit.gwt.mapper.shared.SvgRootBase;
 import webfx.fxkit.gwt.mapper.svg.peer.javafxgraphics.SvgTextPeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
@@ -36,13 +38,15 @@ public final class HtmlSvgTextPeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         getNodePeerBase().setNode(node);
-        svgTextPeer.bind(node, sceneRequester);
         Element svgElement = SvgUtil.createSvgElement("svg");
+        SvgRoot svgRoot = new SvgRootBase();
+        node.getProperties().put("svgRoot", svgRoot);
         // Setting arbitrary large size to avoid the path to be cropped by the svg tag
         svgElement.setAttribute("width", 100_000);
         svgElement.setAttribute("height", 100_000);
-        HtmlUtil.setChild(svgElement, svgTextPeer.getElement());
+        HtmlUtil.setChildren(svgElement, svgRoot.getDefsElement(), svgTextPeer.getElement());
         HtmlUtil.setChild(getElement(), svgElement);
+        svgTextPeer.bind(node, sceneRequester);
     }
 
     @Override

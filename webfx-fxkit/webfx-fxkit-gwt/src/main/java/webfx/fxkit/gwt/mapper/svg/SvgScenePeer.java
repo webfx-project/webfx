@@ -12,6 +12,8 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.HtmlNodePeer;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
+import webfx.fxkit.gwt.mapper.shared.SvgRoot;
+import webfx.fxkit.gwt.mapper.shared.SvgRootBase;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
@@ -26,10 +28,10 @@ import static elemental2.dom.DomGlobal.document;
 /**
  * @author Bruno Salmon
  */
-public final class SvgScenePeer extends ScenePeerBase {
+public final class SvgScenePeer extends ScenePeerBase implements SvgRoot {
 
     private final Element container = SvgUtil.createSvgElement();
-    private final Element defsElement = SvgUtil.createSvgDefs();
+    private final SvgRoot svgRootDelegate = new SvgRootBase();
 
     public SvgScenePeer(Scene scene) {
         super(scene);
@@ -77,9 +79,14 @@ public final class SvgScenePeer extends ScenePeerBase {
         return value;
     }
 
+    @Override
+    public Element getDefsElement() {
+        return svgRootDelegate.getDefsElement();
+    }
+
+    @Override
     public Element addDef(Element def) {
-        defsElement.appendChild(def);
-        return def;
+        return svgRootDelegate.addDef(def);
     }
 
     @Override
@@ -90,7 +97,7 @@ public final class SvgScenePeer extends ScenePeerBase {
 
     @Override
     public void onRootBound() {
-        HtmlUtil.setChildren(container, defsElement, HtmlSvgNodePeer.toContainerElement(scene.getRoot(), scene));
+        HtmlUtil.setChildren(container, getDefsElement(), HtmlSvgNodePeer.toContainerElement(scene.getRoot(), scene));
     }
 
     @Override
