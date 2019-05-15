@@ -22,6 +22,8 @@ public final class HtmlPaints {
             return toCssColor((Color) paint);
         if (paint instanceof LinearGradient)
             return toCssLinearGradient((LinearGradient) paint, domType);
+        if (paint instanceof RadialGradient)
+            return toCssRadialGradient((RadialGradient) paint, domType);
         return null;
     }
 
@@ -66,6 +68,17 @@ public final class HtmlPaints {
         return sb.toString();
     }
 
+    public static String toCssRadialGradient(RadialGradient rg, DomType domType) {
+        CycleMethod m = rg.getCycleMethod();
+        StringBuilder sb = new StringBuilder(m == CycleMethod.REPEAT ? "repeating-" : "");
+        sb.append("radial-gradient(circle at ");
+        appendOffset(rg.getCenterX(), rg.getRadius(), rg.isProportional(), sb);
+        appendOffset(rg.getCenterY(), rg.getRadius(), rg.isProportional(), sb.append(' '));
+        toCssStops(rg.getStops(), rg.getRadius(), rg.isProportional(), sb);
+        sb.append(')');
+        return sb.toString();
+    }
+
     private static void toCssStops(List<Stop> stops, double length, boolean proportional, StringBuilder sb) {
         for (Stop stop : stops)
             toCssStop(stop, length, proportional, sb.append(", "));
@@ -73,10 +86,14 @@ public final class HtmlPaints {
 
     private static void toCssStop(Stop stop, double length, boolean proportional, StringBuilder sb) {
         toCssColor(stop.getColor(), sb).append(' ');
+        appendOffset(stop.getOffset(), length, proportional, sb);
+    }
+
+    private static void appendOffset(double offset, double length, boolean proportional, StringBuilder sb) {
         if (proportional)
-            sb.append(stop.getOffset() * 100).append("%");
+            sb.append(offset * 100).append("%");
         else
-            sb.append(stop.getOffset() * length).append("px");
+            sb.append(offset * length).append("px");
     }
 
     private static int to8bits(double value) {
