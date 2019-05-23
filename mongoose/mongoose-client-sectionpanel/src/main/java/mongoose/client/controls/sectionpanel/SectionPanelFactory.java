@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import mongoose.client.controls.bookingcalendar.BookingCalendar;
@@ -49,16 +48,7 @@ public final class SectionPanelFactory {
     }
 
     public static BorderPane createSectionPanel(String iconImageUrl, String translationKey) {
-        BorderPane panel = new BorderPane();
-        panel.getStyleClass().add("section-panel");
-        panel.setBorder(BorderUtil.newBorder(Color.grayRgb(0x0d), 5, 1));
-        panel.setBackground(BackgroundUtil.WHITE_BACKGROUND);
-        HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(createImageView(iconImageUrl), I18n.translateText(new Label(), translationKey));
-        hBox.setBackground(BackgroundUtil.newVerticalLinearGradientBackground("0xF0F0F0", "0xE0E0E0",5));
-        hBox.setMinHeight(40d);
-        hBox.setPadding(new Insets(0, 10, 0 , 10));
-        panel.setTop(hBox);
-        return panel;
+        return createSectionPanel(createImageView(iconImageUrl), I18n.translateText(new Label(), translationKey));
     }
 
     public static BorderPane createSectionPanel(Node... headerNodes) {
