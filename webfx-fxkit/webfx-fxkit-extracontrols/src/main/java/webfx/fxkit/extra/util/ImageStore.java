@@ -72,7 +72,7 @@ public final class ImageStore {
     }
 
     private static void runOnImageLoaded(Image image, Runnable runnable) {
-        image.widthProperty().addListener(new ChangeListener<Number>() {
+        image.widthProperty().addListener(new ChangeListener<Number>() { // just diamond <> doesn't compile with GWT for any reason
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 observable.removeListener(this);
