@@ -5,7 +5,7 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutMeasurable;
 import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.HtmlRegionPeer;
-import webfx.fxkit.mapper.spi.SceneRequester;
+import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.Strings;

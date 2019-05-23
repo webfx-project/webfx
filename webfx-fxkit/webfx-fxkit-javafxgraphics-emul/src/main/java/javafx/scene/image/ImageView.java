@@ -4,7 +4,7 @@ import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.*;
 import javafx.scene.Node;
-import webfx.fxkit.mapper.spi.impl.peer.markers.*;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
 /**
  * @author Bruno Salmon
  */

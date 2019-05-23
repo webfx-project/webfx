@@ -4,8 +4,8 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.Region;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.RegionPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.RegionPeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.RegionPeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.RegionPeerMixin;
 
 /**
  * @author Bruno Salmon

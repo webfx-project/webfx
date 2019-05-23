@@ -10,8 +10,8 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.ShapePeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.ShapePeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.ShapePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.ShapePeerMixin;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;

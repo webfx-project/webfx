@@ -2,8 +2,8 @@ package webfx.fxkit.mapper.spi.impl.peer.javafxcontrols;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ScrollPane;
-import webfx.fxkit.mapper.spi.SceneRequester;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.RegionPeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.RegionPeerBase;
 
 /**
  * @author Bruno Salmon

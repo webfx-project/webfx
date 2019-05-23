@@ -91,6 +91,7 @@ public final class RootModule extends ProjectModule {
             warning(module + " and " + m + " share the same package " + javaPackage);
             // Should always return, the exception is a hack to replace m = webfx-fxkit-gwt with module = webfx-fxkit-mapper-extracontrols (they share the same package webfx.fxkit.extra.cell.collator.grid)
             if (!(m instanceof ProjectModule) || ((ProjectModule) m).getTarget().isPlatformSupported(Platform.JRE))
+            //if (m.getName().equals("webfx-fxkit-gwt") && module.getName().equals("webfx-fxkit-mapper-extracontrols"))
                 return;
         }
         javaPackagesModules.put(javaPackage, module);
@@ -245,5 +246,14 @@ public final class RootModule extends ProjectModule {
         List<Module> newCollection = new ArrayList<>(parentPath);
         newCollection.add(module);
         return newCollection;
+    }
+
+
+    public static boolean isJavaFxEmulModule(Module module) {
+        return isJavaFxEmulModule(module.getName());
+    }
+
+    public static boolean isJavaFxEmulModule(String moduleName) {
+        return moduleName.startsWith("webfx-fxkit-javafx") &&moduleName.endsWith("-emul");
     }
 }

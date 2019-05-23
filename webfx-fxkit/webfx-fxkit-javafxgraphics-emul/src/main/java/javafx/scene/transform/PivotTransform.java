@@ -2,8 +2,8 @@ package javafx.scene.transform;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasPivotXProperty;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasPivotYProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasPivotXProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasPivotYProperty;
 
 /**
  * @author Bruno Salmon

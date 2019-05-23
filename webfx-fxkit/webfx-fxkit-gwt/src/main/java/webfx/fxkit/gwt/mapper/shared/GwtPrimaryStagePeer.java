@@ -4,8 +4,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import webfx.fxkit.gwt.mapper.html.HtmlScenePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.impl.peer.ScenePeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.StagePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.ScenePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.StagePeerBase;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 

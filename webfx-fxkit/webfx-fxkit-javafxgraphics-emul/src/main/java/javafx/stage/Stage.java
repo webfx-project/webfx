@@ -6,9 +6,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import webfx.fxkit.launcher.FxKitLauncher;
-import webfx.fxkit.mapper.FxKitMapper;
-import webfx.fxkit.mapper.spi.StagePeer;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasTitleProperty;
+import webfx.fxkit.javafxgraphics.mapper.FxKitMapper;
+import webfx.fxkit.javafxgraphics.mapper.spi.StagePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasTitleProperty;
 
 /**
  * The JavaFX {@code Stage} class is the top level JavaFX container.

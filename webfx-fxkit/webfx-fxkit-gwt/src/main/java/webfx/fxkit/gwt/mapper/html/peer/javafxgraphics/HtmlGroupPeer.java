@@ -3,8 +3,8 @@ package webfx.fxkit.gwt.mapper.html.peer.javafxgraphics;
 import elemental2.dom.HTMLElement;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import javafx.scene.Group;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.GroupPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.GroupPeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.GroupPeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.GroupPeerMixin;
 
 /**
  * @author Bruno Salmon

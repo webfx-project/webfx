@@ -16,8 +16,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Transform;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlTransforms;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.NodePeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.NodePeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.NodePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.NodePeerMixin;
 import webfx.platform.shared.util.Strings;
 
 import java.util.List;

@@ -17,13 +17,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-launcher</artifactId>
+            <artifactId>webfx-fxkit-javafxgraphics-mapper</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-mapper</artifactId>
+            <artifactId>webfx-fxkit-launcher</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

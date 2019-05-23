@@ -13,9 +13,9 @@ import webfx.fxkit.gwt.mapper.shared.SvgRootBase;
 import webfx.fxkit.gwt.mapper.svg.peer.javafxgraphics.SvgTextPeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import webfx.fxkit.mapper.spi.SceneRequester;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.TextPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.TextPeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.TextPeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.TextPeerMixin;
 
 /**
  * @author Bruno Salmon

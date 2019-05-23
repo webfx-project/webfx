@@ -19,11 +19,11 @@ import webfx.fxkit.gwt.mapper.html.peer.javafxcontrols.HtmlCheckBoxPeer;
 import webfx.fxkit.gwt.mapper.html.peer.javafxcontrols.HtmlTextFieldPeer;
 import webfx.fxkit.gwt.mapper.svg.peer.javafxgraphics.*;
 import webfx.fxkit.launcher.FxKitLauncher;
-import webfx.fxkit.mapper.spi.NodePeer;
-import webfx.fxkit.mapper.spi.ScenePeer;
-import webfx.fxkit.mapper.spi.StagePeer;
-import webfx.fxkit.mapper.spi.WindowPeer;
-import webfx.fxkit.mapper.spi.impl.FxKitMapperProviderBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.ScenePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.StagePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.WindowPeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.FxKitMapperProviderBase;
 
 /**
  * @author Bruno Salmon

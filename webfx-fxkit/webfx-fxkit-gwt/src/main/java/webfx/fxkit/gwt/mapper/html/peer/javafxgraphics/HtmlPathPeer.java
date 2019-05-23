@@ -9,9 +9,9 @@ import javafx.scene.shape.PathElement;
 import webfx.fxkit.gwt.mapper.svg.peer.javafxgraphics.SvgPathPeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import webfx.fxkit.mapper.spi.SceneRequester;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.PathPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.PathPeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.PathPeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.PathPeerMixin;
 
 import java.util.List;
 

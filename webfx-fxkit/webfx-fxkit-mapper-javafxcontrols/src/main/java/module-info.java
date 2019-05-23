@@ -7,8 +7,8 @@ module webfx.fxkit.mapper.javafxcontrols {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires webfx.fxkit.mapper;
-    requires webfx.fxkit.mapper.javafxgraphics;
+    requires webfx.fxkit.javafxgraphics.mapper;
+    requires webfx.fxkit.javafxgraphics.mapper.base;
 
     // Exported packages
     exports webfx.fxkit.mapper.spi.impl.peer.javafxcontrols;

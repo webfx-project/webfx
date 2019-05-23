@@ -2,8 +2,8 @@ package javafx.scene.image;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasHeightProperty;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasWidthProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasHeightProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasWidthProperty;
 
 /**
  * The {@code Image} class represents graphical images and is used for loading

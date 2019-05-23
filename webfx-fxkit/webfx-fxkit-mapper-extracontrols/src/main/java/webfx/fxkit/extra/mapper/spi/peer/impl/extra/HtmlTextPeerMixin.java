@@ -1,6 +1,6 @@
 package webfx.fxkit.extra.mapper.spi.peer.impl.extra;
 
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.RegionPeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.RegionPeerMixin;
 import webfx.fxkit.extra.controls.html.HtmlText;
 
 /**

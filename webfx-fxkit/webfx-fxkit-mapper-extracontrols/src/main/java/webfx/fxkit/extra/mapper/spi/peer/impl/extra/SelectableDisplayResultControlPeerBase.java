@@ -2,7 +2,7 @@ package webfx.fxkit.extra.mapper.spi.peer.impl.extra;
 
 import javafx.beans.value.ObservableValue;
 import webfx.fxkit.extra.controls.displaydata.SelectableDisplayResultControl;
-import webfx.fxkit.mapper.spi.SceneRequester;
+import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 
 /**
  * @author Bruno Salmon

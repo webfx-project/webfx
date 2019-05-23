@@ -9,8 +9,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import webfx.fxkit.gwt.mapper.html.HtmlScenePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.impl.peer.ScenePeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.StagePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.ScenePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.StagePeerBase;
 
 import static elemental2.dom.DomGlobal.document;
 

@@ -5,7 +5,7 @@ import elemental2.dom.HTMLSelectElement;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutMeasurableNoGrow;
-import webfx.fxkit.mapper.spi.SceneRequester;
+import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ChoiceBoxPeerBase;
 import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ChoiceBoxPeerMixin;

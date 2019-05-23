@@ -5,9 +5,9 @@ import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Paint;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasCenterXProperty;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasCenterYProperty;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasRadiusProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasCenterXProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasCenterYProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasRadiusProperty;
 
 /**
  * @author Bruno Salmon

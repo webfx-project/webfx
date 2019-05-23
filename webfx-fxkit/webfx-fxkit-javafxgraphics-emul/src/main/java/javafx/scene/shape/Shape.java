@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import webfx.fxkit.mapper.spi.impl.peer.markers.*;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
 /**
  * @author Bruno Salmon
  */

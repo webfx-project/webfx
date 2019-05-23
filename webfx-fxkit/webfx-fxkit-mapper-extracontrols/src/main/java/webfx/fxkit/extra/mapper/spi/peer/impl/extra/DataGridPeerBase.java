@@ -9,8 +9,8 @@ import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayResult;
+import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 import webfx.platform.shared.util.Strings;
-import webfx.fxkit.mapper.spi.SceneRequester;
 
 /**
  * @author Bruno Salmon

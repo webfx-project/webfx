@@ -6,7 +6,7 @@ import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.*;
 import javafx.geometry.VPos;
 import javafx.scene.shape.Shape;
-import webfx.fxkit.mapper.spi.impl.peer.markers.*;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
 /**
  * @author Bruno Salmon
  */

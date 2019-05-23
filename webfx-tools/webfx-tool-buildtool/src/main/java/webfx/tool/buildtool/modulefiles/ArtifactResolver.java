@@ -3,6 +3,7 @@ package webfx.tool.buildtool.modulefiles;
 import webfx.tool.buildtool.Module;
 import webfx.tool.buildtool.ModuleDependency;
 import webfx.tool.buildtool.ProjectModule;
+import webfx.tool.buildtool.RootModule;
 
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,7 @@ final class ArtifactResolver {
             case "slf4j-api": return "org.slf4j";
             case "javafxsvg" : return "de.codecentric.centerdevice";
         }
-        if (moduleName.startsWith("javafx-") || !isForGwt && moduleName.startsWith("webfx-fxkit-javafx") && moduleName.endsWith("-emul"))
+        if (moduleName.startsWith("javafx-") || !isForGwt && RootModule.isJavaFxEmulModule(moduleName))
             return "org.openjfx";
         if (moduleName.startsWith("gwt-"))
             return "com.google.gwt";
@@ -78,7 +79,7 @@ final class ArtifactResolver {
             case "HikariCP": return "2.3.8";
             case "slf4j-api": return "1.7.15";
         }
-        if (moduleName.startsWith("javafx-") || !isForGwt && moduleName.startsWith("webfx-fxkit-javafx") && moduleName.endsWith("-emul"))
+        if (moduleName.startsWith("javafx-") || !isForGwt && RootModule.isJavaFxEmulModule(moduleName))
             return "${lib.openjfx.version}";
         if (moduleName.startsWith("gwt-"))
             return null; // Managed by root pom

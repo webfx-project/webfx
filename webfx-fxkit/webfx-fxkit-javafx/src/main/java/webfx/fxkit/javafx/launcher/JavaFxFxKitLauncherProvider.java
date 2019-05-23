@@ -14,7 +14,7 @@ import webfx.platform.shared.util.function.Factory;
 import java.util.ArrayList;
 import java.util.List;
 
-import static webfx.fxkit.mapper.spi.NodePeerFactoryRegistry.registerNodePeerFactory;
+import static webfx.fxkit.javafxgraphics.mapper.spi.NodePeerFactoryRegistry.registerNodePeerFactory;
 
 /**
  * @author Bruno Salmon

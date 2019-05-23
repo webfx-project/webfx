@@ -5,7 +5,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.GeometryUtil;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasAngleProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasAngleProperty;
 
 /**
  * @author Bruno Salmon

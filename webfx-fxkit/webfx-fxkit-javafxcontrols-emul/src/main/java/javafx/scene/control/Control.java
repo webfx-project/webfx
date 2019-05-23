@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.LayoutMeasurable;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
-import webfx.fxkit.mapper.spi.NodePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
 
 /**
  * @author Bruno Salmon

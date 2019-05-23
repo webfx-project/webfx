@@ -16,8 +16,8 @@
 
         <module>webfx-fxkit-util</module>
         <module>webfx-fxkit-launcher</module>
-        <module>webfx-fxkit-mapper</module>
-        <module>webfx-fxkit-mapper-javafxgraphics</module>
+        <module>webfx-fxkit-javafxgraphics-mapper</module>
+        <module>webfx-fxkit-javafxgraphics-mapper-base</module>
         <module>webfx-fxkit-mapper-javafxcontrols</module>
 
         <module>webfx-fxkit-extracontrols</module>

@@ -79,7 +79,7 @@ public final class BuildTool {
         reporter.listOrAndChildrenModulesInDepthDirectlyDependingOn("gwt-user");
         reporter.listInDepthTransitiveDependencies("mongoose-backend-application");
         reporter.listDependenciesPathsBetween("mongoose-backend-application", "webfx-fxkit-gwt");
-        reporter.listProjectModuleDirectDependencies("webfx-fxkit-javafxgraphics-emul");
+        reporter.listProjectModuleDirectDependencies("webfx-fxkit-base-emul");
         reporter.listProjectModuleJavaClasses("webfx-fxkit-javafxbase-emul");
         reporter.listProjectModuleJavaClassesDependingOn("webfx-fxkit-extracontrols", "webfx-fxkit-gwt");
         reporter.listCyclicDependenciesPaths();

@@ -7,8 +7,8 @@ import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.ShapePeerMixin;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.ShapePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.ShapePeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.ShapePeerBase;
 
 import java.util.List;
 

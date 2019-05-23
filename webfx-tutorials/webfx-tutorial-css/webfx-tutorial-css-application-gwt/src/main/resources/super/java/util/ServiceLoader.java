@@ -10,8 +10,8 @@ public class ServiceLoader<S> implements Iterable<S> {
     public static <S> ServiceLoader<S> load(Class<S> serviceClass) {
         switch (serviceClass.getName()) {
             case "javafx.application.Application": return new ServiceLoader<S>(webfx.tutorial.css.CssApplication::new);
+            case "webfx.fxkit.javafxgraphics.mapper.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
             case "webfx.fxkit.launcher.spi.FxKitLauncherProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.launcher.GwtFxKitLauncherProvider::new);
-            case "webfx.fxkit.mapper.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
             case "webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider": return new ServiceLoader<S>(webfx.platform.client.services.uischeduler.spi.impl.gwt.GwtUiSchedulerProvider::new);
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider": return new ServiceLoader<S>(webfx.platform.shared.services.appcontainer.spi.impl.gwt.GwtApplicationContainerProvider::new);
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationJob": return new ServiceLoader<S>();

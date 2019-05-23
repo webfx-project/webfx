@@ -4,8 +4,8 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.HTMLElement;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import javafx.scene.shape.Rectangle;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.RectanglePeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.RectanglePeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.RectanglePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.RectanglePeerMixin;
 
 /**
  * @author Bruno Salmon

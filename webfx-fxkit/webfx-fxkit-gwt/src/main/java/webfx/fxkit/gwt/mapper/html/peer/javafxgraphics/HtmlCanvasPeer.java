@@ -4,8 +4,8 @@ import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
 import javafx.scene.canvas.Canvas;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.CanvasPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.CanvasPeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.CanvasPeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.CanvasPeerMixin;
 
 /**
  * @author Bruno Salmon

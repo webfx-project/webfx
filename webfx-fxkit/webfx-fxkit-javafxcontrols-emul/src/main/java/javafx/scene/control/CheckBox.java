@@ -5,7 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasSelectedProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasSelectedProperty;
 
 /**
  * @author Bruno Salmon

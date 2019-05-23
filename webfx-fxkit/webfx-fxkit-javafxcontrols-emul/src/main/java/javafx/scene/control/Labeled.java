@@ -12,7 +12,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.mapper.spi.impl.peer.markers.*;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
 /**
  * @author Bruno Salmon
  */

@@ -1,7 +1,7 @@
 package webfx.fxkit.mapper.spi.impl.peer.javafxcontrols;
 
 import javafx.scene.control.Control;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.RegionPeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.RegionPeerMixin;
 
 /**
  * @author Bruno Salmon

@@ -3,7 +3,7 @@ package webfx.fxkit.mapper.spi.impl.peer.javafxcontrols;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
-import webfx.fxkit.mapper.spi.SceneRequester;
+import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 
 /**
  * @author Bruno Salmon

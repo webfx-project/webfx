@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.util.Callback;
-import webfx.fxkit.mapper.spi.impl.peer.markers.*;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
 
 import java.util.ArrayList;
 import java.util.List;

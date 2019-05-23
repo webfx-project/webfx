@@ -6,8 +6,8 @@ import elemental2.svg.SVGRect;
 import javafx.collections.ListChangeListener;
 import javafx.scene.shape.*;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.PathPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.PathPeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.PathPeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.PathPeerMixin;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;

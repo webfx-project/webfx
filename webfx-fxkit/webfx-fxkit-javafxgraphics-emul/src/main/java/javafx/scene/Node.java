@@ -25,8 +25,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
-import webfx.fxkit.mapper.spi.NodePeer;
-import webfx.fxkit.mapper.spi.impl.peer.markers.*;
+import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 
 import java.util.ArrayList;

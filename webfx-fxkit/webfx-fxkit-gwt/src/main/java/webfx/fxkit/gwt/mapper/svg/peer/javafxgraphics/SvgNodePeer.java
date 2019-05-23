@@ -16,10 +16,10 @@ import webfx.fxkit.gwt.mapper.shared.SvgRoot;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
-import webfx.fxkit.mapper.spi.NodePeer;
-import webfx.fxkit.mapper.spi.ScenePeer;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.NodePeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.NodePeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.ScenePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.NodePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.NodePeerMixin;
 
 import java.util.*;
 

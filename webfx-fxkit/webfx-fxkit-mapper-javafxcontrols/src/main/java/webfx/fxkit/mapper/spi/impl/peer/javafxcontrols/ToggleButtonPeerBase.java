@@ -2,7 +2,7 @@ package webfx.fxkit.mapper.spi.impl.peer.javafxcontrols;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ToggleButton;
-import webfx.fxkit.mapper.spi.SceneRequester;
+import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 
 /**
  * @author Bruno Salmon

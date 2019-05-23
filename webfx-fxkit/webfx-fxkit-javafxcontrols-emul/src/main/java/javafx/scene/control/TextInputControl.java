@@ -5,9 +5,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.text.Font;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasFontProperty;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasPromptTextProperty;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasTextProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasFontProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasPromptTextProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasTextProperty;
 
 /**
  * @author Bruno Salmon

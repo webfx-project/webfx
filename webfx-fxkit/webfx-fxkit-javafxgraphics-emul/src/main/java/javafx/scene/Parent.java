@@ -9,7 +9,7 @@ import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.RectBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
 import webfx.fxkit.util.properties.ObservableLists;
-import webfx.fxkit.mapper.spi.impl.peer.markers.HasManagedProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasManagedProperty;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.layout.PreferenceResizableNode;
 

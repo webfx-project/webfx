@@ -7,6 +7,65 @@
     <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
 
     <!-- Listing transitive dependencies modules -->
+    <!--==========================< webfx-fxkit-javafxbase-emul >===========================-->
+    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <source path="com/sun/javafx"/>
+    <source path="com/sun/javafx/binding"/>
+    <source path="com/sun/javafx/collections"/>
+    <source path="com/sun/javafx/event"/>
+    <source path="javafx/beans"/>
+    <source path="javafx/beans/binding"/>
+    <source path="javafx/beans/property"/>
+    <source path="javafx/beans/value"/>
+    <source path="javafx/collections"/>
+    <source path="javafx/collections/transformation"/>
+    <source path="javafx/event"/>
+    <source path="javafx/util"/>
+    <!--========================< webfx-fxkit-javafxcontrols-emul >=========================-->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <!-- used by webfx-tutorial-customcontrol-application (SOURCE) -->
+    <source path="com/sun/javafx/scene/control"/>
+    <source path="com/sun/javafx/scene/control/behaviour"/>
+    <source path="com/sun/javafx/scene/control/skin"/>
+    <source path="javafx/scene/control"/>
+    <source path="javafx/scene/control/skin"/>
+    <resource path="images/checkbox"/>
+    <public includes="images/checkbox/" path=""/>
+    <!--========================< webfx-fxkit-javafxgraphics-emul >=========================-->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <!-- used by webfx-tutorial-customcontrol-application (SOURCE) -->
+    <source path="com/sun/javafx/application"/>
+    <source path="com/sun/javafx/cursor"/>
+    <source path="com/sun/javafx/geom"/>
+    <source path="com/sun/javafx/geom/transform"/>
+    <source path="com/sun/javafx/scene"/>
+    <source path="com/sun/javafx/scene/input"/>
+    <source path="com/sun/javafx/scene/text"/>
+    <source path="com/sun/javafx/scene/traversal"/>
+    <source path="com/sun/javafx/stage"/>
+    <source path="com/sun/javafx/tk"/>
+    <source path="com/sun/javafx/util"/>
+    <source path="com/sun/scenario/animation"/>
+    <source path="javafx/animation"/>
+    <source path="javafx/application"/>
+    <source path="javafx/css"/>
+    <source path="javafx/geometry"/>
+    <source path="javafx/scene"/>
+    <source path="javafx/scene/canvas"/>
+    <source path="javafx/scene/effect"/>
+    <source path="javafx/scene/image"/>
+    <source path="javafx/scene/input"/>
+    <source path="javafx/scene/layout"/>
+    <source path="javafx/scene/paint"/>
+    <source path="javafx/scene/shape"/>
+    <source path="javafx/scene/text"/>
+    <source path="javafx/scene/transform"/>
+    <source path="javafx/stage"/>
+    <source path="webfx/fxkit/javafxgraphics/mapper"/>
+    <source path="webfx/fxkit/javafxgraphics/mapper/spi"/>
+    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl"/>
+    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer"/>
     <!--=================================< elemental2-dom >=================================-->
     <!-- used by webfx-fxkit-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown-gwt (SOURCE) -->
@@ -64,74 +123,18 @@
     <source path="webfx/fxkit/gwt/mapper/svg"/>
     <source path="webfx/fxkit/gwt/mapper/svg/peer/javafxgraphics"/>
     <source path="webfx/fxkit/gwt/mapper/util"/>
-    <!--==========================< webfx-fxkit-javafxbase-emul >===========================-->
-    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <!--=======================< webfx-fxkit-javafxgraphics-mapper >========================-->
     <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
-    <source path="com/sun/javafx"/>
-    <source path="com/sun/javafx/binding"/>
-    <source path="com/sun/javafx/collections"/>
-    <source path="com/sun/javafx/event"/>
-    <source path="javafx/beans"/>
-    <source path="javafx/beans/binding"/>
-    <source path="javafx/beans/property"/>
-    <source path="javafx/beans/value"/>
-    <source path="javafx/collections"/>
-    <source path="javafx/collections/transformation"/>
-    <source path="javafx/event"/>
-    <source path="javafx/util"/>
-    <!--========================< webfx-fxkit-javafxcontrols-emul >=========================-->
-    <!-- used by webfx-fxkit-gwt (SOURCE) -->
-    <!-- used by webfx-tutorial-customcontrol-application (SOURCE) -->
-    <source path="com/sun/javafx/scene/control"/>
-    <source path="com/sun/javafx/scene/control/behaviour"/>
-    <source path="com/sun/javafx/scene/control/skin"/>
-    <source path="javafx/scene/control"/>
-    <source path="javafx/scene/control/skin"/>
-    <resource path="images/checkbox"/>
-    <public includes="images/checkbox/" path=""/>
-    <!--========================< webfx-fxkit-javafxgraphics-emul >=========================-->
-    <!-- used by webfx-fxkit-gwt (SOURCE) -->
-    <!-- used by webfx-tutorial-customcontrol-application (SOURCE) -->
-    <source path="com/sun/javafx/application"/>
-    <source path="com/sun/javafx/cursor"/>
-    <source path="com/sun/javafx/geom"/>
-    <source path="com/sun/javafx/geom/transform"/>
-    <source path="com/sun/javafx/scene"/>
-    <source path="com/sun/javafx/scene/input"/>
-    <source path="com/sun/javafx/scene/text"/>
-    <source path="com/sun/javafx/scene/traversal"/>
-    <source path="com/sun/javafx/stage"/>
-    <source path="com/sun/javafx/tk"/>
-    <source path="com/sun/javafx/util"/>
-    <source path="com/sun/scenario/animation"/>
-    <source path="javafx/animation"/>
-    <source path="javafx/application"/>
-    <source path="javafx/css"/>
-    <source path="javafx/geometry"/>
-    <source path="javafx/scene"/>
-    <source path="javafx/scene/canvas"/>
-    <source path="javafx/scene/effect"/>
-    <source path="javafx/scene/image"/>
-    <source path="javafx/scene/input"/>
-    <source path="javafx/scene/layout"/>
-    <source path="javafx/scene/paint"/>
-    <source path="javafx/scene/shape"/>
-    <source path="javafx/scene/text"/>
-    <source path="javafx/scene/transform"/>
-    <source path="javafx/stage"/>
-    <source path="webfx/fxkit/mapper"/>
-    <source path="webfx/fxkit/mapper/spi"/>
-    <source path="webfx/fxkit/mapper/spi/impl"/>
-    <source path="webfx/fxkit/mapper/spi/impl/peer"/>
+    <source path="webfx/fxkit/javafxgraphics/mapper/spi"/>
+    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/markers"/>
+    <!--=====================< webfx-fxkit-javafxgraphics-mapper-base >=====================-->
+    <!-- used by webfx-fxkit-mapper-javafxcontrols (SOURCE) -->
+    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/base"/>
     <!--==============================< webfx-fxkit-launcher >==============================-->
     <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/fxkit/launcher"/>
     <source path="webfx/fxkit/launcher/spi"/>
     <source path="webfx/fxkit/launcher/spi/impl"/>
-    <!--===============================< webfx-fxkit-mapper >===============================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
-    <source path="webfx/fxkit/mapper/spi"/>
-    <source path="webfx/fxkit/mapper/spi/impl/peer/markers"/>
     <!--========================< webfx-fxkit-mapper-extracontrols >========================-->
     <!-- used by webfx-fxkit-gwt (SOURCE) -->
     <source path="webfx/fxkit/extra/cell/collator/grid"/>
@@ -139,9 +142,6 @@
     <!--=======================< webfx-fxkit-mapper-javafxcontrols >========================-->
     <!-- used by webfx-fxkit-mapper-extracontrols (SOURCE) -->
     <source path="webfx/fxkit/mapper/spi/impl/peer/javafxcontrols"/>
-    <!--=======================< webfx-fxkit-mapper-javafxgraphics >========================-->
-    <!-- used by webfx-fxkit-mapper-javafxcontrols (SOURCE) -->
-    <source path="webfx/fxkit/mapper/spi/impl/peer/javafxgraphics"/>
     <!--================================< webfx-fxkit-util >================================-->
     <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/fxkit/util/properties"/>

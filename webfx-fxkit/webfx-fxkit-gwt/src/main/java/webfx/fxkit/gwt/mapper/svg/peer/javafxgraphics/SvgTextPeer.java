@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.svg.peer.javafxgraphics;
 
 import elemental2.svg.SVGRect;
 import elemental2.svg.SVGTextElement;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.TextPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxgraphics.TextPeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.TextPeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.TextPeerMixin;
 import webfx.platform.shared.util.Numbers;
 import webfx.fxkit.gwt.mapper.util.SvgUtil;
 import javafx.geometry.VPos;
