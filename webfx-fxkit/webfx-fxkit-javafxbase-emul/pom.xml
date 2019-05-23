@@ -6,7 +6,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webfx-fxkit-emul-javafxbase</artifactId>
+    <artifactId>webfx-fxkit-javafxbase-emul</artifactId>
 
     <build>
         <plugins>

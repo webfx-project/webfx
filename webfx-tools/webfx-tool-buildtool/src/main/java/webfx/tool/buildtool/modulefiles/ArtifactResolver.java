@@ -21,11 +21,11 @@ final class ArtifactResolver {
             //case "gwt-charts":
             case "jsinterop-annotations":
                 return null;
-            case "webfx-fxkit-emul-javafxbase":
+            case "webfx-fxkit-javafxbase-emul":
                 return isForGwt ? moduleName : "javafx-base";
-            case "webfx-fxkit-emul-javafxgraphics":
+            case "webfx-fxkit-javafxgraphics-emul":
                 return isForGwt ? moduleName : "javafx-graphics";
-            case "webfx-fxkit-emul-javafxcontrols":
+            case "webfx-fxkit-javafxcontrols-emul":
                 return isForGwt ? moduleName : "javafx-controls";
         }
         if (isForGwt && isExecutable) {
@@ -54,7 +54,7 @@ final class ArtifactResolver {
             case "slf4j-api": return "org.slf4j";
             case "javafxsvg" : return "de.codecentric.centerdevice";
         }
-        if (moduleName.startsWith("javafx-") || !isForGwt && moduleName.startsWith("webfx-fxkit-emul-javafx"))
+        if (moduleName.startsWith("javafx-") || !isForGwt && moduleName.startsWith("webfx-fxkit-javafx") && moduleName.endsWith("-emul"))
             return "org.openjfx";
         if (moduleName.startsWith("gwt-"))
             return "com.google.gwt";
@@ -78,7 +78,7 @@ final class ArtifactResolver {
             case "HikariCP": return "2.3.8";
             case "slf4j-api": return "1.7.15";
         }
-        if (moduleName.startsWith("javafx-") || !isForGwt && moduleName.startsWith("webfx-fxkit-emul-javafx"))
+        if (moduleName.startsWith("javafx-") || !isForGwt && moduleName.startsWith("webfx-fxkit-javafx") && moduleName.endsWith("-emul"))
             return "${lib.openjfx.version}";
         if (moduleName.startsWith("gwt-"))
             return null; // Managed by root pom
@@ -101,9 +101,9 @@ final class ArtifactResolver {
             return "provided";
         if (!isForGwt && !isForJavaFx && !isExecutable)
             switch (module.getName()) {
-                case "webfx-fxkit-emul-javafxbase":
-                case "webfx-fxkit-emul-javafxgraphics":
-                case "webfx-fxkit-emul-javafxcontrols":
+                case "webfx-fxkit-javafxbase-emul":
+                case "webfx-fxkit-javafxgraphics-emul":
+                case "webfx-fxkit-javafxcontrols-emul":
                 case "javafx-base":
                 case "javafx-graphics":
                 case "javafx-controls":

@@ -26,9 +26,9 @@
 
         <module>webfx-fxkit-javafx</module>
 
-        <module>webfx-fxkit-emul-javafxbase</module>
-        <module>webfx-fxkit-emul-javafxgraphics</module>
-        <module>webfx-fxkit-emul-javafxcontrols</module>
+        <module>webfx-fxkit-javafxbase-emul</module>
+        <module>webfx-fxkit-javafxgraphics-emul</module>
+        <module>webfx-fxkit-javafxcontrols-emul</module>
         <module>webfx-fxkit-gwt</module>
 
     </modules>

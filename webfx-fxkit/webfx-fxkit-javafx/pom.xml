@@ -29,12 +29,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>javafx-base</artifactId>
-            <groupId>org.openjfx</groupId>
-            <version>${lib.openjfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-fxkit-extracontrols</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -44,6 +38,12 @@
             <artifactId>webfx-fxkit-extratype</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>javafx-base</artifactId>
+            <groupId>org.openjfx</groupId>
+            <version>${lib.openjfx.version}</version>
         </dependency>
         
         <dependency>

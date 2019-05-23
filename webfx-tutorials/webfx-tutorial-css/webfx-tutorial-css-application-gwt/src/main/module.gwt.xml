@@ -25,8 +25,8 @@
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
     <inherits name="com.google.gwt.user.User"/>
     <!--===================================< java-base >====================================-->
-    <!-- used by webfx-fxkit-emul-javafxbase (SOURCE) -->
-    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxbase-emul (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javabase (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javatime (SOURCE) -->
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
@@ -34,9 +34,40 @@
     <!--==================================< java-logging >==================================-->
     <!-- used by webfx-platform-shared-util (SOURCE) -->
     <inherits name="com.google.gwt.logging.Logging"/>
-    <!--==========================< webfx-fxkit-emul-javafxbase >===========================-->
-    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
+    <!--===========================< webfx-fxkit-extracontrols >============================-->
     <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <!-- used by webfx-tutorial-css-application (SOURCE) -->
+    <source path="webfx/fxkit/extra/cell/collator"/>
+    <source path="webfx/fxkit/extra/cell/renderer"/>
+    <source path="webfx/fxkit/extra/cell/rowstyle"/>
+    <source path="webfx/fxkit/extra/controls/displaydata"/>
+    <source path="webfx/fxkit/extra/controls/displaydata/chart"/>
+    <source path="webfx/fxkit/extra/controls/displaydata/datagrid"/>
+    <source path="webfx/fxkit/extra/controls/html"/>
+    <source path="webfx/fxkit/extra/controls/svg"/>
+    <source path="webfx/fxkit/extra/displaydata"/>
+    <source path="webfx/fxkit/extra/displaydata/impl"/>
+    <source path="webfx/fxkit/extra/util"/>
+    <!--=============================< webfx-fxkit-extratype >==============================-->
+    <!-- used by webfx-fxkit-extracontrols (SOURCE) -->
+    <source path="webfx/fxkit/extra/label"/>
+    <source path="webfx/fxkit/extra/type"/>
+    <!--================================< webfx-fxkit-gwt >=================================-->
+    <!-- used by webfx-tutorial-css-application-gwt (EMULATION) -->
+    <source path="webfx/fxkit/extra/cell/collator/grid"/>
+    <source path="webfx/fxkit/gwt/launcher"/>
+    <source path="webfx/fxkit/gwt/mapper/html"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer/extra"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer/javafxcontrols"/>
+    <source path="webfx/fxkit/gwt/mapper/html/peer/javafxgraphics"/>
+    <source path="webfx/fxkit/gwt/mapper/shared"/>
+    <source path="webfx/fxkit/gwt/mapper/svg"/>
+    <source path="webfx/fxkit/gwt/mapper/svg/peer/javafxgraphics"/>
+    <source path="webfx/fxkit/gwt/mapper/util"/>
+    <!--==========================< webfx-fxkit-javafxbase-emul >===========================-->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <source path="com/sun/javafx"/>
     <source path="com/sun/javafx/binding"/>
     <source path="com/sun/javafx/collections"/>
@@ -49,7 +80,7 @@
     <source path="javafx/collections/transformation"/>
     <source path="javafx/event"/>
     <source path="javafx/util"/>
-    <!--========================< webfx-fxkit-emul-javafxcontrols >=========================-->
+    <!--========================< webfx-fxkit-javafxcontrols-emul >=========================-->
     <!-- used by webfx-fxkit-extracontrols (SOURCE) -->
     <!-- used by webfx-fxkit-gwt (SOURCE) -->
     <source path="com/sun/javafx/scene/control"/>
@@ -59,7 +90,7 @@
     <source path="javafx/scene/control/skin"/>
     <resource path="images/checkbox"/>
     <public includes="images/checkbox/" path=""/>
-    <!--========================< webfx-fxkit-emul-javafxgraphics >=========================-->
+    <!--========================< webfx-fxkit-javafxgraphics-emul >=========================-->
     <!-- used by webfx-fxkit-gwt (SOURCE) -->
     <!-- used by webfx-tutorial-css-application (SOURCE) -->
     <source path="com/sun/javafx/application"/>
@@ -93,44 +124,13 @@
     <source path="webfx/fxkit/mapper/spi"/>
     <source path="webfx/fxkit/mapper/spi/impl"/>
     <source path="webfx/fxkit/mapper/spi/impl/peer"/>
-    <!--===========================< webfx-fxkit-extracontrols >============================-->
-    <!-- used by webfx-fxkit-gwt (SOURCE) -->
-    <!-- used by webfx-tutorial-css-application (SOURCE) -->
-    <source path="webfx/fxkit/extra/cell/collator"/>
-    <source path="webfx/fxkit/extra/cell/renderer"/>
-    <source path="webfx/fxkit/extra/cell/rowstyle"/>
-    <source path="webfx/fxkit/extra/controls/displaydata"/>
-    <source path="webfx/fxkit/extra/controls/displaydata/chart"/>
-    <source path="webfx/fxkit/extra/controls/displaydata/datagrid"/>
-    <source path="webfx/fxkit/extra/controls/html"/>
-    <source path="webfx/fxkit/extra/controls/svg"/>
-    <source path="webfx/fxkit/extra/displaydata"/>
-    <source path="webfx/fxkit/extra/displaydata/impl"/>
-    <source path="webfx/fxkit/extra/util"/>
-    <!--=============================< webfx-fxkit-extratype >==============================-->
-    <!-- used by webfx-fxkit-extracontrols (SOURCE) -->
-    <source path="webfx/fxkit/extra/label"/>
-    <source path="webfx/fxkit/extra/type"/>
-    <!--================================< webfx-fxkit-gwt >=================================-->
-    <!-- used by webfx-tutorial-css-application-gwt (EMULATION) -->
-    <source path="webfx/fxkit/extra/cell/collator/grid"/>
-    <source path="webfx/fxkit/gwt/launcher"/>
-    <source path="webfx/fxkit/gwt/mapper/html"/>
-    <source path="webfx/fxkit/gwt/mapper/html/peer"/>
-    <source path="webfx/fxkit/gwt/mapper/html/peer/extra"/>
-    <source path="webfx/fxkit/gwt/mapper/html/peer/javafxcontrols"/>
-    <source path="webfx/fxkit/gwt/mapper/html/peer/javafxgraphics"/>
-    <source path="webfx/fxkit/gwt/mapper/shared"/>
-    <source path="webfx/fxkit/gwt/mapper/svg"/>
-    <source path="webfx/fxkit/gwt/mapper/svg/peer/javafxgraphics"/>
-    <source path="webfx/fxkit/gwt/mapper/util"/>
     <!--==============================< webfx-fxkit-launcher >==============================-->
-    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/fxkit/launcher"/>
     <source path="webfx/fxkit/launcher/spi"/>
     <source path="webfx/fxkit/launcher/spi/impl"/>
     <!--===============================< webfx-fxkit-mapper >===============================-->
-    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/fxkit/mapper/spi"/>
     <source path="webfx/fxkit/mapper/spi/impl/peer/markers"/>
     <!--========================< webfx-fxkit-mapper-extracontrols >========================-->
@@ -144,11 +144,11 @@
     <!-- used by webfx-fxkit-mapper-javafxcontrols (SOURCE) -->
     <source path="webfx/fxkit/mapper/spi/impl/peer/javafxgraphics"/>
     <!--================================< webfx-fxkit-util >================================-->
-    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/fxkit/util/properties"/>
     <source path="webfx/fxkit/util/properties/conversion"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
-    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <source path="webfx/platform/client/services/uischeduler"/>
     <source path="webfx/platform/client/services/uischeduler/spi"/>
@@ -167,7 +167,7 @@
     <!-- used by webfx-tutorial-css-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/appcontainer/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-log >============================-->
-    <!-- used by webfx-fxkit-emul-javafxgraphics (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <!-- used by webfx-platform-shared-log-gwt (SOURCE) -->

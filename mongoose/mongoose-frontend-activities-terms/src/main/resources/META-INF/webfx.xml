@@ -9,7 +9,7 @@
         <source-modules>
             <module>webfx-framework-client-activity</module>
             <module>webfx-platform-shared-util</module>
-            <module>webfx-fxkit-emul-javafxcontrols</module>
+            <module>webfx-fxkit-javafxcontrols-emul</module>
         </source-modules>
 
     </dependencies>

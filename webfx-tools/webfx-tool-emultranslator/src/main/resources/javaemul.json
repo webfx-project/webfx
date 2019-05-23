@@ -7,7 +7,7 @@
     "javaemul-javafxbase": {
       "jdk-src": "${javafx-src}",
       "jdk-module": "javafx.base",
-      "webfx-module": "webfx-fxkit-emul-javafxbase",
+      "webfx-module": "webfx-fxkit-javafxbase-emul",
       "webfx-src": "${webfx-parent-dir}/${webfx-module}/src/main/java",
       "includes": [
         "javafx/event/*",
@@ -99,7 +99,7 @@
     "javaemul-javafxgraphics": {
       "jdk-src": "${javafx-src}",
       "jdk-module": "javafx.graphics",
-      "webfx-module": "webfx-fxkit-emul-javafxgraphics",
+      "webfx-module": "webfx-fxkit-javafxgraphics-emul",
       "webfx-src": "${webfx-parent-dir}/${webfx-module}/src/main/java",
       "includes": [
         "javafx/animation/KeyFrame.java",

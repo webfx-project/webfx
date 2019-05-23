@@ -584,7 +584,7 @@ public class ProjectModule extends ModuleImpl {
             if (getTarget().hasTag(TargetTag.JAVAFX))
                 return ReusableStream.of(getRootModule().findModule("webfx-fxkit-javafx"), getRootModule().findModule("webfx-platform-shared-appcontainer-java"));
             return mapDestinationModules(transitiveDependenciesWithoutEmulationAndImplicitProvidersCache)
-                    .filter(m -> m.getName().startsWith("webfx-fxkit-emul-"));
+                    .filter(m -> m.getName().startsWith("webfx-fxkit-javafx") && m.getName().endsWith("-emul"));
         }
         return ReusableStream.empty();
     }
