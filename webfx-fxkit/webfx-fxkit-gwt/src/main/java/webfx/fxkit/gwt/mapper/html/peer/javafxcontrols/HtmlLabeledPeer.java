@@ -12,8 +12,8 @@ import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.HtmlNodePeer;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.LabeledPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.LabeledPeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.LabeledPeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.LabeledPeerMixin;
 import webfx.platform.shared.util.Strings;
 
 /**

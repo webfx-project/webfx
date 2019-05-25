@@ -18,7 +18,7 @@
         <module>webfx-fxkit-launcher</module>
         <module>webfx-fxkit-javafxgraphics-mapper</module>
         <module>webfx-fxkit-javafxgraphics-mapper-base</module>
-        <module>webfx-fxkit-mapper-javafxcontrols</module>
+        <module>webfx-fxkit-javafxcontrols-mapper-base</module>
 
         <module>webfx-fxkit-extracontrols</module>
         <module>webfx-fxkit-extratype</module>

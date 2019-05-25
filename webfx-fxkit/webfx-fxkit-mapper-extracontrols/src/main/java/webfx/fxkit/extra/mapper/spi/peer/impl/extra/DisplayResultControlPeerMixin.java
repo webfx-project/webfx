@@ -2,7 +2,7 @@ package webfx.fxkit.extra.mapper.spi.peer.impl.extra;
 
 import webfx.fxkit.extra.controls.displaydata.DisplayResultControl;
 import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ControlPeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ControlPeerMixin;
 
 /**
  * @author Bruno Salmon

@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.html.peer.javafxcontrols;
 
 import elemental2.dom.HTMLElement;
 import javafx.scene.control.ButtonBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ButtonBasePeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ButtonBasePeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ButtonBasePeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ButtonBasePeerMixin;
 
 /**
  * @author Bruno Salmon

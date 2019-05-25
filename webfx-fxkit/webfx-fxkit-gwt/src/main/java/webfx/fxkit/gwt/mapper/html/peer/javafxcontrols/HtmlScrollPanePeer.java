@@ -10,8 +10,8 @@ import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutMeasurable;
 import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.HtmlRegionPeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ScrollPanePeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ScrollPanePeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ScrollPanePeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ScrollPanePeerMixin;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**

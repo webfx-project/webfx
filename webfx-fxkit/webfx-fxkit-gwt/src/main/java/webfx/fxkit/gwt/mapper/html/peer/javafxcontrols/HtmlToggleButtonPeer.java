@@ -5,8 +5,8 @@ import javafx.scene.control.ToggleButton;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutCache;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutMeasurable;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ToggleButtonPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ToggleButtonPeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ToggleButtonPeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ToggleButtonPeerMixin;
 
 /**
  * @author Bruno Salmon

@@ -3,7 +3,7 @@ package webfx.fxkit.extra.mapper.spi.peer.impl.extra;
 import javafx.beans.value.ObservableValue;
 import webfx.fxkit.extra.controls.displaydata.DisplayResultControl;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ControlPeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ControlPeerBase;
 
 /**
  * @author Bruno Salmon

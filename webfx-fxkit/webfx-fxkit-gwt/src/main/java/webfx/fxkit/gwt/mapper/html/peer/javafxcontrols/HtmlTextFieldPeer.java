@@ -14,8 +14,8 @@ import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutMeasurable;
 import webfx.fxkit.gwt.mapper.shared.HtmlSvgNodePeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.TextFieldPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.TextFieldPeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.TextFieldPeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.TextFieldPeerMixin;
 
 /**
  * @author Bruno Salmon

@@ -9,9 +9,9 @@ module webfx.fxkit.mapper.extracontrols {
     requires javafx.graphics;
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.extratype;
+    requires webfx.fxkit.javafxcontrols.mapper.base;
     requires webfx.fxkit.javafxgraphics.mapper;
     requires webfx.fxkit.javafxgraphics.mapper.base;
-    requires webfx.fxkit.mapper.javafxcontrols;
     requires webfx.platform.shared.util;
 
     // Exported packages

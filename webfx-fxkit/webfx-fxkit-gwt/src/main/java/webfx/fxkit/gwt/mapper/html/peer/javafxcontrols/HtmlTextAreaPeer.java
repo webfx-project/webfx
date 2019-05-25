@@ -4,8 +4,8 @@ import elemental2.dom.HTMLElement;
 import javafx.scene.control.TextArea;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutMeasurable;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.TextAreaPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.TextAreaPeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.TextAreaPeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.TextAreaPeerMixin;
 
 /**
  * @author Bruno Salmon

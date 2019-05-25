@@ -3,8 +3,8 @@ package webfx.fxkit.gwt.mapper.html.peer.javafxcontrols;
 import elemental2.dom.HTMLElement;
 import javafx.scene.control.CheckBox;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.CheckBoxPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.CheckBoxPeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.CheckBoxPeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.CheckBoxPeerMixin;
 
 /**
  * @author Bruno Salmon

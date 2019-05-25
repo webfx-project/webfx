@@ -6,8 +6,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Control;
 import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.HtmlRegionPeer;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ControlPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.ControlPeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ControlPeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ControlPeerMixin;
 
 /**
  * @author Bruno Salmon

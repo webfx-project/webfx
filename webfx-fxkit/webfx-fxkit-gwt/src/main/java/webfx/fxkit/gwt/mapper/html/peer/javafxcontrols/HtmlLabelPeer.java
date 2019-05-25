@@ -3,8 +3,8 @@ package webfx.fxkit.gwt.mapper.html.peer.javafxcontrols;
 import javafx.scene.control.Label;
 import webfx.fxkit.gwt.mapper.html.peer.HtmlLayoutMeasurableNoGrow;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.LabelPeerBase;
-import webfx.fxkit.mapper.spi.impl.peer.javafxcontrols.LabelPeerMixin;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.LabelPeerBase;
+import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.LabelPeerMixin;
 
 /**
  * @author Bruno Salmon

@@ -61,6 +61,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-fxkit-javafxcontrols-mapper-base</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-fxkit-javafxgraphics-mapper</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -80,12 +86,6 @@
         
         <dependency>
             <artifactId>webfx-fxkit-mapper-extracontrols</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-fxkit-mapper-javafxcontrols</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
