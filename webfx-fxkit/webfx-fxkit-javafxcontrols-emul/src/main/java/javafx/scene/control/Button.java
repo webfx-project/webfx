@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -147,5 +148,9 @@ public class Button extends ButtonBase {
         setBackground(BACKGROUND);
         setPadding(PADDING);
         setAlignment(Pos.CENTER);
+    }
+
+    static {
+        JavaFxControlsRegistry.registerButton();
     }
 }

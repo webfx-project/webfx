@@ -5,6 +5,7 @@ import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import webfx.fxkit.util.properties.ObservableLists;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -36,6 +37,10 @@ public class ToolkitTextBox extends TextField {
     {
         setPadding(Insets.EMPTY);
         setBackground(Background.EMPTY);
+    }
+
+    static {
+        JavaFxControlsRegistry.registerToolkitTextBox();
     }
 
 }

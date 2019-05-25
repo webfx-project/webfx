@@ -48,6 +48,7 @@ public final class MavenModuleFile extends XmlModuleFile {
         boolean isForGwt = module.getTarget().isMonoPlatform(Platform.GWT);
         boolean isForJavaFx = module.getTarget().isMonoPlatform(Platform.JRE) && module.getTarget().hasTag(TargetTag.JAVAFX);
         boolean isExecutable = module.isExecutable();
+        boolean isRegistry = module.getName().contains("-registry-") || module.getName().endsWith("-registry");
         Set<String> alreadyListedArtifactIds = new HashSet<>(); // Will be used to prevent duplicates (in case 2 different modules have the same artifactId)
         ReusableStream<ModuleDependency> dependencies = isForGwt && isExecutable ? module.getTransitiveDependencies() :
                 ReusableStream.concat(
@@ -58,9 +59,9 @@ public final class MavenModuleFile extends XmlModuleFile {
                 .stream().collect(Collectors.groupingBy(ModuleDependency::getDestinationModule)).entrySet()
                 .stream().sorted(Comparator.comparing(Map.Entry::getKey))
                 .forEach(moduleGroup -> {
-                    Node moduleDependencyNode = createModuleDependencyNode(moduleGroup, document, isForGwt, isForJavaFx, isExecutable);
+                    Node moduleDependencyNode = createModuleDependencyNode(moduleGroup, document, isForGwt, isForJavaFx, isExecutable, isRegistry);
                     if (moduleDependencyNode != null) {
-                        String artifactId = ArtifactResolver.getArtifactId(moduleGroup.getKey(), isForGwt, isExecutable);
+                        String artifactId = ArtifactResolver.getArtifactId(moduleGroup.getKey(), isForGwt, isExecutable, isRegistry);
                         if (!alreadyListedArtifactIds.contains(artifactId)) {
                             finalDependenciesNode.appendChild(document.createTextNode(newDependencyIndentedLine));
                             finalDependenciesNode.appendChild(document.createTextNode(newDependencyIndentedLine));
@@ -73,9 +74,9 @@ public final class MavenModuleFile extends XmlModuleFile {
         dependenciesNode.appendChild(document.createTextNode(newDependenciesIndentedLine));
     }
 
-    private static Node createModuleDependencyNode(Map.Entry<Module, List<ModuleDependency>> moduleGroup, Document document, boolean isForGwt, boolean isForJavaFx, boolean isExecutable) {
+    private static Node createModuleDependencyNode(Map.Entry<Module, List<ModuleDependency>> moduleGroup, Document document, boolean isForGwt, boolean isForJavaFx, boolean isExecutable, boolean isRegistry) {
         Module module = moduleGroup.getKey();
-        String artifactId = ArtifactResolver.getArtifactId(module, isForGwt, isExecutable);
+        String artifactId = ArtifactResolver.getArtifactId(module, isForGwt, isExecutable, isRegistry);
         if (artifactId == null)
             return null;
         Element dependencyNode = document.createElement("dependency");
@@ -83,19 +84,19 @@ public final class MavenModuleFile extends XmlModuleFile {
         artifactIdElement.setTextContent(artifactId);
         dependencyNode.appendChild(document.createTextNode(newDependencyElementIndentedLine));
         dependencyNode.appendChild(artifactIdElement);
-        String groupId = ArtifactResolver.getGroupId(module, isForGwt);
+        String groupId = ArtifactResolver.getGroupId(module, isForGwt, isRegistry);
         Element groupIdElement = document.createElement("groupId");
         groupIdElement.setTextContent(groupId);
         dependencyNode.appendChild(document.createTextNode(newDependencyElementIndentedLine));
         dependencyNode.appendChild(groupIdElement);
-        String version = ArtifactResolver.getVersion(module, isForGwt);
+        String version = ArtifactResolver.getVersion(module, isForGwt, isRegistry);
         if (version != null) {
             Element versionElement = document.createElement("version");
             versionElement.setTextContent(version);
             dependencyNode.appendChild(document.createTextNode(newDependencyElementIndentedLine));
             dependencyNode.appendChild(versionElement);
         }
-        String scope = ArtifactResolver.getScope(moduleGroup, isForGwt, isForJavaFx, isExecutable);
+        String scope = ArtifactResolver.getScope(moduleGroup, isForGwt, isForJavaFx, isExecutable, isRegistry);
         if (scope != null) {
             Element scopeElement = document.createElement("scope");
             scopeElement.setTextContent(scope);

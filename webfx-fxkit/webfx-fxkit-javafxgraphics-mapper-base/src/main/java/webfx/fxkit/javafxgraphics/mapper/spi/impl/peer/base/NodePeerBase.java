@@ -15,10 +15,10 @@ import webfx.fxkit.util.properties.ObservableLists;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.collection.Collections;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

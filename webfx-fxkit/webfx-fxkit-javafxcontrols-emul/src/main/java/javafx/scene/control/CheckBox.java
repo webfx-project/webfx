@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasSelectedProperty;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -76,4 +77,7 @@ public class CheckBox extends ButtonBase implements
     }
 */
 
+    static {
+        JavaFxControlsRegistry.registerCheckBox();
+    }
 }

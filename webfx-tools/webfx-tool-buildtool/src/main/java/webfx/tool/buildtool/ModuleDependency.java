@@ -78,9 +78,11 @@ public final class ModuleDependency implements Comparable<ModuleDependency> {
     }
 
     ReusableStream<ModuleDependency> collectThisAndTransitiveDependencies() {
-        Set<ModuleDependency> dependencies = new LinkedHashSet<>();
-        collectThisAndTransitiveDependencies(dependencies, sourceModule instanceof ProjectModule ? (ProjectModule) sourceModule : null);
-        return ReusableStream.fromIterable(dependencies);
+        try (SourceModuleDependencyThreadContext context = SourceModuleDependencyThreadContext.open(sourceModule)) {
+            Set<ModuleDependency> dependencies = new LinkedHashSet<>();
+            collectThisAndTransitiveDependencies(dependencies, sourceModule instanceof ProjectModule ? (ProjectModule) sourceModule : null);
+            return ReusableStream.fromIterable(dependencies);
+        }
     }
 
     private void collectThisAndTransitiveDependencies(Collection<ModuleDependency> dependencies, ProjectModule targetModule) {

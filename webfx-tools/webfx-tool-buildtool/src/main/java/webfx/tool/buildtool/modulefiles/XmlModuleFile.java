@@ -185,7 +185,7 @@ abstract class XmlModuleFile extends ModuleFile {
                 ));
     }
 
-    private static String getAttributeValue(Node node, String name) {
+    static String getAttributeValue(Node node, String name) {
         if (node == null)
             return null;
         Node namedItem = node.getAttributes().getNamedItem(name);

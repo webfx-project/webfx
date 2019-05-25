@@ -7,7 +7,9 @@ module webfx.fxkit.extracontrols {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
+    requires webfx.fxkit.extracontrols.registry;
     requires webfx.fxkit.extratype;
+    requires webfx.fxkit.javafxgraphics.mapper;
     requires webfx.fxkit.launcher;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;

@@ -4,8 +4,8 @@ import com.sun.javafx.geom.Point2D;
 import javafx.collections.ListChangeListener;
 import javafx.scene.input.PickResult;
 import javafx.scene.transform.Transform;
-import webfx.fxkit.javafxgraphics.mapper.spi.CanvasNodePeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.ScenePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.CanvasNodePeer;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.impl.ScenePeerBase;
 
 import java.util.Collection;
 import java.util.List;

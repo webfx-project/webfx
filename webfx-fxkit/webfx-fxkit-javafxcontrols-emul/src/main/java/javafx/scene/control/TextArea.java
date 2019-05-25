@@ -1,5 +1,7 @@
 package javafx.scene.control;
 
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
+
 /**
  * @author Bruno Salmon
  */
@@ -22,5 +24,9 @@ public class TextArea extends TextInputControl {
         getStyleClass().add("text-field");
         //setAccessibleRole(AccessibleRole.TEXT_FIELD);
         setText(text);
+    }
+
+    static {
+        JavaFxControlsRegistry.registerTextArea();
     }
 }

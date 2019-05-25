@@ -27,13 +27,13 @@ package javafx.scene.shape;
 
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.BoxBounds;
-import com.sun.javafx.geom.RectBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Paint;
+import webfx.javafxgraphics.registry.JavaFxGraphicsRegistry;
 
 import java.util.Collection;
 
@@ -391,5 +391,9 @@ public class Path extends Shape {
         }
 
         return sb.append("]").toString();
+    }
+
+    static {
+        JavaFxGraphicsRegistry.registerPath();
     }
 }

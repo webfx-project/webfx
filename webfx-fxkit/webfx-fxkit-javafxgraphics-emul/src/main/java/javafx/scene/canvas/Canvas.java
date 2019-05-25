@@ -31,7 +31,8 @@ import javafx.scene.Node;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.RectBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
-import webfx.fxkit.javafxgraphics.mapper.FxKitMapper;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.FxKitMapper;
+import webfx.javafxgraphics.registry.JavaFxGraphicsRegistry;
 
 /**
  * {@code Canvas} is an image that can be drawn on using a set of graphics
@@ -306,5 +307,9 @@ public class Canvas extends Node {
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
         return doComputeGeomBounds(bounds, tx);
+    }
+
+    static {
+        JavaFxGraphicsRegistry.registerCanvas();
     }
 }

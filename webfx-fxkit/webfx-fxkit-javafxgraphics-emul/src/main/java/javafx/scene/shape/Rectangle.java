@@ -6,6 +6,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Paint;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
+import webfx.javafxgraphics.registry.JavaFxGraphicsRegistry;
+
 /**
  * @author Bruno Salmon
  */
@@ -81,5 +83,9 @@ public class Rectangle extends Shape implements
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
         bounds.setBoundsAndSort(getX().floatValue(), getY().floatValue(), 0, (float) (getX() + getWidth()), (float) (getY() + getHeight()), 0);
         return bounds;
+    }
+
+    static {
+        JavaFxGraphicsRegistry.registerRectangle();
     }
 }

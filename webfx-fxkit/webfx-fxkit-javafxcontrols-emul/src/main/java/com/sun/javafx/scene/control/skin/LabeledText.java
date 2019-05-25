@@ -2,6 +2,7 @@ package com.sun.javafx.scene.control.skin;
 
 import javafx.scene.control.Labeled;
 import javafx.scene.text.Text;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * LabeledText allows the Text to be styled by the CSS properties of Labeled
@@ -279,4 +280,7 @@ public class LabeledText extends Text {
     }
 */
 
+    static  {
+        JavaFxControlsRegistry.registerLabeledText();
+    }
 }

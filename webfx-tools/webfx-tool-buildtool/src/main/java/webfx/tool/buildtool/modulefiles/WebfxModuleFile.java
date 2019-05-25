@@ -27,6 +27,10 @@ public final class WebfxModuleFile extends XmlModuleFile {
         return getBooleanAttributeValue(getDocument().getDocumentElement(), "interface");
     }
 
+    public String implementingInterface() {
+        return getAttributeValue(getDocument().getDocumentElement(), "implements-module");
+    }
+
     public ReusableStream<ModuleDependency> getSourceModuleDependencies() {
         return lookupDependencies("/module/dependencies/source-modules//module", ModuleDependency.Type.SOURCE);
     }

@@ -19,6 +19,7 @@ import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasBackgroundProp
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasBorderProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasPaddingProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasSnapToPixelProperty;
+import webfx.javafxgraphics.registry.JavaFxGraphicsRegistry;
 
 import java.util.List;
 import java.util.function.Function;
@@ -1635,4 +1636,7 @@ public class Region extends Parent implements
         setMaxHeight(maxHeight);
     }
 
+    static {
+        JavaFxGraphicsRegistry.registerRegion();
+    }
 }

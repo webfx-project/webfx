@@ -2,6 +2,7 @@ package javafx.scene.control;
 
 import javafx.scene.control.skin.RadioButtonSkin;
 import javafx.scene.Node;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -43,5 +44,9 @@ public class RadioButton extends ToggleButton {
     @Override
     public boolean shouldUseLayoutMeasurable() {
         return true;
+    }
+
+    static {
+        JavaFxControlsRegistry.registerRadioButton();
     }
 }

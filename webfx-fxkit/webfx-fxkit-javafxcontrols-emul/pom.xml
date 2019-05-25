@@ -23,6 +23,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-fxkit-javafxcontrols-registry</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-fxkit-javafxgraphics-mapper</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

@@ -5,6 +5,7 @@ import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import javafx.beans.property.*;
 import javafx.geometry.*;
 import javafx.scene.Node;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -287,4 +288,7 @@ public class ScrollPane extends Control {
         AS_NEEDED
     }
 
+    static {
+        JavaFxControlsRegistry.registerScrollPane();
+    }
 }

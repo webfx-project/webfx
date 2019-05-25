@@ -3,7 +3,7 @@ package javafx.stage;
 import javafx.beans.property.*;
 import javafx.event.*;
 import webfx.fxkit.launcher.FxKitLauncher;
-import webfx.fxkit.javafxgraphics.mapper.FxKitMapper;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.FxKitMapper;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.shared.services.scheduler.Scheduled;
@@ -13,8 +13,8 @@ import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasHeightProperty
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasSceneProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasWidthProperty;
 import javafx.scene.Scene;
-import webfx.fxkit.javafxgraphics.mapper.spi.StagePeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.WindowPeer;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.StagePeer;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.WindowPeer;
 import com.sun.javafx.stage.WindowEventDispatcher;
 import com.sun.javafx.stage.WindowHelper;
 import com.sun.javafx.stage.WindowPeerListener;
@@ -120,7 +120,7 @@ public class Window implements EventTarget,
 
 
     protected WindowPeer createPeer() {
-        return FxKitMapper.getProvider().createWindowPeer(this);
+        return FxKitMapper.createWindowPeer(this);
     }
 
     private final Property<Scene> sceneProperty = new SimpleObjectProperty<Scene>() {

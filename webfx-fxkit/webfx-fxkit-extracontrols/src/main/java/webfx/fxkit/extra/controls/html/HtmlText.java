@@ -3,11 +3,13 @@ package webfx.fxkit.extra.controls.html;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Control;
+import webfx.fxkit.extra.controls.registry.ExtraControlsRegistry;
+import webfx.fxkit.javafxgraphics.mapper.spi.HasNoChildrenPeers;
 
 /**
  * @author Bruno Salmon
  */
-public class HtmlText extends Control {
+public class HtmlText extends Control implements HasNoChildrenPeers {
 
     public HtmlText() {
     }
@@ -46,4 +48,8 @@ public class HtmlText extends Control {
         return (LayoutMeasurable) getPeer();
     }
 */
+
+    static {
+        ExtraControlsRegistry.registerHtmlText();
+    }
 }

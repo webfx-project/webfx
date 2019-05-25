@@ -19,8 +19,8 @@ public class ServiceLoader<S> implements Iterable<S> {
             case "webfx.framework.shared.services.authn.spi.AuthenticationServiceProvider": return new ServiceLoader<S>(mongoose.client.services.authn.MongooseAuthenticationServiceProvider::new);
             case "webfx.framework.shared.services.authz.spi.AuthorizationServiceProvider": return new ServiceLoader<S>(mongoose.client.services.authz.MongooseAuthorizationServiceProvider::new);
             case "webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider": return new ServiceLoader<S>(webfx.framework.client.jobs.querypush.QueryPushClientServiceProvider::new);
-            case "webfx.fxkit.javafxgraphics.mapper.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.mapper.html.GwtFxKitHtmlMapperProvider::new);
-            case "webfx.fxkit.launcher.spi.FxKitLauncherProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.launcher.GwtFxKitLauncherProvider::new);
+            case "webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.GwtFxKitHtmlMapperProvider::new);
+            case "webfx.fxkit.launcher.spi.FxKitLauncherProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.GwtFxKitLauncherProvider::new);
             case "webfx.platform.client.services.storage.spi.LocalStorageProvider": return new ServiceLoader<S>(webfx.platform.client.services.storage.spi.impl.gwt.GwtLocalStorageProvider::new);
             case "webfx.platform.client.services.storage.spi.SessionStorageProvider": return new ServiceLoader<S>(webfx.platform.client.services.storage.spi.impl.gwt.GwtSessionStorageProvider::new);
             case "webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider": return new ServiceLoader<S>(webfx.platform.client.services.uischeduler.spi.impl.gwt.GwtUiSchedulerProvider::new);

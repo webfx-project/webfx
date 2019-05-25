@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 final class ArtifactResolver {
 
-    static String getArtifactId(Module module, boolean isForGwt, boolean isExecutable) {
+    static String getArtifactId(Module module, boolean isForGwt, boolean isExecutable, boolean isRegistry) {
         String moduleName = module.getName();
         if (moduleName.startsWith("java-") || moduleName.startsWith("jdk-"))
             return null;
@@ -23,12 +23,14 @@ final class ArtifactResolver {
             case "jsinterop-annotations":
                 return null;
             case "webfx-fxkit-javafxbase-emul":
-                return isForGwt ? moduleName : "javafx-base";
+                return isForGwt || isRegistry ? moduleName : "javafx-base";
             case "webfx-fxkit-javafxgraphics-emul":
-                return isForGwt ? moduleName : "javafx-graphics";
+                return isForGwt || isRegistry ? moduleName : "javafx-graphics";
             case "webfx-fxkit-javafxcontrols-emul":
-                return isForGwt ? moduleName : "javafx-controls";
+                return isForGwt || isRegistry ? moduleName : "javafx-controls";
         }
+        if (isRegistry && "javafx-graphics".equals(moduleName))
+            return "webfx-fxkit-javafxgraphics-emul";
         if (isForGwt && isExecutable) {
             switch (moduleName) {
                 case "elemental2-dom":
@@ -43,7 +45,7 @@ final class ArtifactResolver {
         return moduleName;
     }
 
-    static String getGroupId(Module module, boolean isForGwt) {
+    static String getGroupId(Module module, boolean isForGwt, boolean isRegistry) {
         String moduleName = module.getName();
         switch (moduleName) {
             case "elemental2-dom":
@@ -55,7 +57,7 @@ final class ArtifactResolver {
             case "slf4j-api": return "org.slf4j";
             case "javafxsvg" : return "de.codecentric.centerdevice";
         }
-        if (moduleName.startsWith("javafx-") || !isForGwt && RootModule.isJavaFxEmulModule(moduleName))
+        if (moduleName.startsWith("javafx-") || !isForGwt && !isRegistry && RootModule.isJavaFxEmulModule(moduleName))
             return "org.openjfx";
         if (moduleName.startsWith("gwt-"))
             return "com.google.gwt";
@@ -68,7 +70,7 @@ final class ArtifactResolver {
         return "???";
     }
 
-    static String getVersion(Module module, boolean isForGwt) {
+    static String getVersion(Module module, boolean isForGwt, boolean isRegistry) {
         String moduleName = module.getName();
         switch (moduleName) {
             case "elemental2-dom":
@@ -79,7 +81,7 @@ final class ArtifactResolver {
             case "HikariCP": return "2.3.8";
             case "slf4j-api": return "1.7.15";
         }
-        if (moduleName.startsWith("javafx-") || !isForGwt && RootModule.isJavaFxEmulModule(moduleName))
+        if (moduleName.startsWith("javafx-") || !isForGwt && !isRegistry && RootModule.isJavaFxEmulModule(moduleName))
             return "${lib.openjfx.version}";
         if (moduleName.startsWith("gwt-"))
             return null; // Managed by root pom
@@ -92,7 +94,7 @@ final class ArtifactResolver {
         return "???";
     }
 
-    static String getScope(Map.Entry<Module, List<ModuleDependency>> moduleGroup, boolean isForGwt, boolean isForJavaFx, boolean isExecutable) {
+    static String getScope(Map.Entry<Module, List<ModuleDependency>> moduleGroup, boolean isForGwt, boolean isForJavaFx, boolean isExecutable, boolean isRegistry) {
         String scope = moduleGroup.getValue().stream().map(ModuleDependency::getScope).filter(Objects::nonNull).findAny().orElse(null);
         if (scope != null)
             return scope;
@@ -100,7 +102,7 @@ final class ArtifactResolver {
         // Setting scope to "provided" for interface modules and optional dependencies
         if (module instanceof ProjectModule && ((ProjectModule) module).isInterface() || moduleGroup.getValue().stream().anyMatch(ModuleDependency::isOptional))
             return "provided";
-        if (!isForGwt && !isForJavaFx && !isExecutable)
+        if (!isForGwt && !isForJavaFx && !isExecutable && !isRegistry)
             switch (module.getName()) {
                 case "webfx-fxkit-javafxbase-emul":
                 case "webfx-fxkit-javafxgraphics-emul":

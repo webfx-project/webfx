@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasMaxProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasMinProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasValueProperty;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -46,5 +47,9 @@ public class Slider extends Control implements
     @Override
     public DoubleProperty valueProperty() {
         return valueProperty;
+    }
+
+    static {
+        JavaFxControlsRegistry.registerSlider();
     }
 }

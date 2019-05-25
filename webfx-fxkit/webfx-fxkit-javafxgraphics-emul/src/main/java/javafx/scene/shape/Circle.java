@@ -8,6 +8,7 @@ import javafx.scene.paint.Paint;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasCenterXProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasCenterYProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasRadiusProperty;
+import webfx.javafxgraphics.registry.JavaFxGraphicsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -64,5 +65,9 @@ public class Circle extends Shape implements
         Double centerX = getCenterX();
         Double centerY = getCenterY();
         return bounds.deriveWithNewBounds((float) (centerX - radius), (float) (centerY - radius), 0, (float) (centerX + radius), (float) (centerY + radius), 0);
+    }
+
+    static {
+        JavaFxGraphicsRegistry.registerCircle();
     }
 }

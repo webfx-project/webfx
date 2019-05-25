@@ -13,6 +13,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.util.StringConverter;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * The ChoiceBox is used for presenting the user with a relatively small set of
@@ -580,4 +581,7 @@ public class ChoiceBox<T> extends Control {
         }
     }*/
 
+    static {
+        JavaFxControlsRegistry.registerCheckBox();
+    }
 }

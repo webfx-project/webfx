@@ -11,7 +11,7 @@ import java.util.*;
 public final class RootModule extends ProjectModule {
 
     private final Map<String, Module> thirdPartyModules = new HashMap<>();
-    private final Map<String /* package name */, Module> javaPackagesModules = new HashMap<>();
+    private final Map<String /* package name */, List<Module>> javaPackagesModules = new HashMap<>();
     private final ReusableStream<ProjectModule> thisAndChildrenModulesInDepthResume =
             getThisAndChildrenModulesInDepth()
                     .resume();
@@ -80,21 +80,23 @@ public final class RootModule extends ProjectModule {
         registerJavaPackageModule(createThirdPartyModule("HikariCP"), "com.zaxxer.hikari");
     }
 
-    void registerJavaPackageModule(Module module, String... javaPackages) {
+    private void registerJavaPackageModule(Module module, String... javaPackages) {
         for (String javaPackage : javaPackages)
             registerJavaPackageModule(javaPackage, module);
     }
 
-    void registerJavaPackageModule(String javaPackage, Module module) {
-        Module m = javaPackagesModules.get(javaPackage);
-        if (m != null && m != module) {
+    private void registerJavaPackageModule(String javaPackage, Module module) {
+        List<Module> lm = javaPackagesModules.get(javaPackage);
+        if (lm != null && !lm.contains(module)) {
+            Module m = lm.get(0);
             warning(module + " and " + m + " share the same package " + javaPackage);
             // Should always return, the exception is a hack to replace m = webfx-fxkit-gwt with module = webfx-fxkit-mapper-extracontrols (they share the same package webfx.fxkit.extra.cell.collator.grid)
-            if (!(m instanceof ProjectModule) || ((ProjectModule) m).getTarget().isPlatformSupported(Platform.JRE))
-            //if (m.getName().equals("webfx-fxkit-gwt") && module.getName().equals("webfx-fxkit-mapper-extracontrols"))
-                return;
+            //if (!(m instanceof ProjectModule) || ((ProjectModule) m).getTarget().isPlatformSupported(Platform.JRE))
+            //    return;
         }
-        javaPackagesModules.put(javaPackage, module);
+        if (lm == null)
+            javaPackagesModules.put(javaPackage, lm = new ArrayList<>(1));
+        lm.add(module);
     }
 
     void registerJavaPackagesProjectModule(ProjectModule module) {
@@ -102,20 +104,68 @@ public final class RootModule extends ProjectModule {
     }
 
     Module getJavaPackageModule(String javaPackage) {
-        Module module = javaPackagesModules.get(javaPackage);
-        if (module == null)
-            thisAndChildrenModulesInDepthResume.takeWhile(m -> javaPackagesModules.get(javaPackage) == null).forEach(this::registerJavaPackagesProjectModule);
-        module = javaPackagesModules.get(javaPackage);
-        if (module == null)
+        Module module = getJavaPackageModuleNow(javaPackage, true);
+        if (module != null)
+            return module;
+        thisAndChildrenModulesInDepthResume.takeWhile(m -> getJavaPackageModuleNow(javaPackage, true) == null).forEach(this::registerJavaPackagesProjectModule);
+        return getJavaPackageModuleNow(javaPackage, false);
+    }
+
+    private Module getJavaPackageModuleNow(String javaPackage, boolean canReturnNull) {
+        List<Module> lm = javaPackagesModules.get(javaPackage);
+        //ProjectModule spm = sourceProjectModule();
+        Module module = lm == null ? null : lm.stream().filter(this::isSuitableModule)
+                //.max(Comparator.comparingInt(m -> spm != null && m instanceof ProjectModule ? ((ProjectModule)m).gradeTargetMatch(spm.getTarget()) : 0 ))
+                .findFirst()
+                .orElse(null);
+        if (module == null) {
+            if (canReturnNull)
+                return null;
             throw new IllegalArgumentException("Unknown module for package " + javaPackage);
+        }
         return module;
     }
 
+    private boolean isSuitableModule(Module m) {
+        if (!(m instanceof ProjectModule))
+            return true;
+        ProjectModule pm = (ProjectModule) m;
+        String implementingInterface = pm.getWebfxModuleFile().implementingInterface();
+        if (implementingInterface != null) {
+            ProjectModule spm = sourceProjectModule();
+            boolean isForExecutableModule = spm != null && spm.isExecutable();
+            if (!isForExecutableModule)
+                return false;
+        }
+/*
+        ProjectModule spm = sourceProjectModule();
+        boolean isForExecutableModule = spm != null && spm.isExecutable();
+        if (isForExecutableModule) {
+            if (pm.isInterface())
+                return false;
+        } else {
+            String implementingInterface = pm.getWebfxModuleFile().implementingInterface();
+            if (implementingInterface != null)
+                return false;
+        }
+*/
+        return true;
+    }
+
+    private static Module sourceModule() {
+        SourceModuleDependencyThreadContext context = SourceModuleDependencyThreadContext.getInstance();
+        return context == null ? null : context.getSourceModule();
+    }
+
+    private static ProjectModule sourceProjectModule() {
+        Module sourceModule = sourceModule();
+        return sourceModule instanceof ProjectModule ? (ProjectModule) sourceModule : null;
+    }
 
     public Module findModule(String name) {
         Module module = thirdPartyModules.get(name);
         if (module == null) {
-            module = javaPackagesModules.values().stream().filter(m -> m.getName().equals(name)).findFirst().orElseGet(() -> findProjectModule(name, true));
+            module = javaPackagesModules.values().stream().flatMap(Collection::stream).filter(m -> m.getName().equals(name)).findFirst().orElseGet(() -> findProjectModule(name, true));
             if (module == null)
                 module = getOrCreateThirdPartyModule(name);
         }

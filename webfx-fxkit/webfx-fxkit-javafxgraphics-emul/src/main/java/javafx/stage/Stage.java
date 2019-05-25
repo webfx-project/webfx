@@ -6,8 +6,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import webfx.fxkit.launcher.FxKitLauncher;
-import webfx.fxkit.javafxgraphics.mapper.FxKitMapper;
-import webfx.fxkit.javafxgraphics.mapper.spi.StagePeer;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.FxKitMapper;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.StagePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasTitleProperty;
 
 /**
@@ -157,7 +157,7 @@ public class Stage extends Window implements HasTitleProperty {
 
     @Override
     protected StagePeer createPeer() {
-        return FxKitMapper.getProvider().createStagePeer(this);
+        return FxKitMapper.createStagePeer(this);
     }
 
     private final Property<String> titleProperty = new SimpleObjectProperty<String>() {

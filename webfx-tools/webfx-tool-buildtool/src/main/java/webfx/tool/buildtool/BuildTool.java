@@ -13,11 +13,13 @@ public final class BuildTool {
     public static void main(String[] args) {
         long t0 = System.currentTimeMillis();
         RootModule webfxRootModule = new RootModule(getWebfxRootDirectory());
+
 /*
         ModuleReporter reporter = new ModuleReporter(webfxRootModule);
-        //reporter.listDependenciesPathsBetween("mongoose-server-application-vertx", "webfx-fxkit-launcher");
-        reporter.listProjectModuleJavaClassesDependingOn("mongoose-shared-domain", "webfx-framework-client-util");
+        reporter.listDependenciesPathsBetween("webfx-fxkit-javafxgraphics-mapper-gwt", "webfx-fxkit-extracontrols");
+        reporter.listProjectModuleJavaClassesDependingOn("webfx-fxkit-javafxgraphics-mapper-gwt", "webfx-fxkit-extracontrols");
 */
+
 
         ProjectModule parentModule = webfxRootModule
                 //.findProjectModule("webfx-tutorials")
@@ -29,7 +31,9 @@ public final class BuildTool {
         parentModule
                 .getThisAndChildrenModulesInDepth()
                 .filter(ProjectModule::hasSourceDirectory)
+                .filter(ProjectModule::hasJavaSourceDirectory)
                 .filter(m -> m.getTarget().isPlatformSupported(Platform.JRE))
+                //.filter(m -> !m.getName().contains("-mapper"))
                 //.filter(m -> !m.isDirectlyDependingOn("jsinterop-annotations"))
                 .forEach(m -> m.getJavaModuleFile().writeFile())
         ;

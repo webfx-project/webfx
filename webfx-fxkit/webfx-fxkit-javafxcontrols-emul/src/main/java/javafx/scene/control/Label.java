@@ -3,6 +3,7 @@ package javafx.scene.control;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * Label is a non-editable text control. A Label is useful for displaying
@@ -109,5 +110,9 @@ public class Label extends Labeled {
 
     public final void setLabelFor(Node value) { labelForProperty().setValue(value); }
     public final Node getLabelFor() { return labelFor == null ? null : labelFor.getValue(); }
+
+    static {
+        JavaFxControlsRegistry.registerLabel();
+    }
 
 }

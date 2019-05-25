@@ -7,6 +7,8 @@ import javafx.beans.property.*;
 import javafx.geometry.VPos;
 import javafx.scene.shape.Shape;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
+import webfx.javafxgraphics.registry.JavaFxGraphicsRegistry;
+
 /**
  * @author Bruno Salmon
  */
@@ -129,5 +131,9 @@ public class Text extends Shape implements
         }
         return new BoxBounds();
         //throw new UnsupportedOperationException("Text.impl_computeGeomBounds() not implemented");
+    }
+
+    static {
+        JavaFxGraphicsRegistry.registerText();
     }
 }

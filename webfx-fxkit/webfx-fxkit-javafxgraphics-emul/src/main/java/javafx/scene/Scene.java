@@ -25,11 +25,11 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Window;
 import javafx.util.Duration;
-import webfx.fxkit.javafxgraphics.mapper.FxKitMapper;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.FxKitMapper;
 import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.ScenePeer;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.ScenePeer;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.StagePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
-import webfx.fxkit.javafxgraphics.mapper.spi.StagePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasFillProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasHeightProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasRootProperty;
@@ -762,7 +762,7 @@ public class Scene implements EventTarget,
     //@Deprecated
     public ScenePeer impl_getPeer() {
         if (impl_peer == null)
-            impl_peer = FxKitMapper.getProvider().createScenePeer(this);
+            impl_peer = FxKitMapper.createScenePeer(this);
         return impl_peer;
     }
 

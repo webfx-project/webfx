@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
 import javafx.scene.layout.LayoutFlags;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasAutoSizeChildrenProperty;
+import webfx.javafxgraphics.registry.JavaFxGraphicsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -100,5 +101,9 @@ public class Group extends Parent implements
             super.layout();
         else
             setLayoutFlag(LayoutFlags.CLEAN);
+    }
+
+    static {
+        JavaFxGraphicsRegistry.registerGroup();
     }
 }

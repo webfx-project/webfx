@@ -5,6 +5,8 @@ import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.*;
 import javafx.scene.Node;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
+import webfx.javafxgraphics.registry.JavaFxGraphicsRegistry;
+
 /**
  * @author Bruno Salmon
  */
@@ -221,5 +223,9 @@ public class ImageView extends Node implements
         destHeight = h;
 
         validWH = true;
+    }
+
+    static {
+        JavaFxGraphicsRegistry.registerImageView();
     }
 }

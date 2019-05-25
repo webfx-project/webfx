@@ -4,6 +4,7 @@ import javafx.util.StringConverter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 import java.time.LocalDate;
 
@@ -90,5 +91,9 @@ public class DatePicker extends TextField {
     public final void setConverter(StringConverter<LocalDate> value) { converterProperty().setValue(value); }
     public final StringConverter<LocalDate> getConverter() {
         return converterProperty().getValue();
+    }
+
+    static {
+        JavaFxControlsRegistry.registerDatePicker();
     }
 }

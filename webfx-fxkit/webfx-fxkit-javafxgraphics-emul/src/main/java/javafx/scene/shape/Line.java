@@ -8,6 +8,7 @@ import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasEndXProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasEndYProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasStartXProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasStartYProperty;
+import webfx.javafxgraphics.registry.JavaFxGraphicsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -152,5 +153,9 @@ public class Line extends Shape implements
                 (float)x2, (float)y2, 0.0f);
         return bounds;
 */
+    }
+
+    static {
+        JavaFxGraphicsRegistry.registerLine();
     }
 }

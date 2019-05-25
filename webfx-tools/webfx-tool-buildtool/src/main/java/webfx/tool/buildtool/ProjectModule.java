@@ -335,7 +335,8 @@ public class ProjectModule extends ModuleImpl {
             )
                     // Removing dependencies declared with an executable target if this module is not executable or with incompatible target
                     .filter(dep -> dep.getExecutableTarget() == null || isExecutable() && dep.getExecutableTarget().gradeTargetMatch(getTarget()) >= 0)
-                    .map(this::resolveInterfaceDependencyIfExecutable) // Resolving interface modules
+                    .flatMap(this::resolveInterfaceDependencyIfExecutable) // Resolving interface modules
+                    .distinct()
                     .cache();
 
     /**
@@ -345,7 +346,8 @@ public class ProjectModule extends ModuleImpl {
     private final ReusableStream<ModuleDependency> transitiveDependenciesCache =
             transitiveDependenciesWithoutFinalExecutableResolutionsCache
                     .filter(dep -> dep.getExecutableTarget() == null) // Removing dependencies declared with an executable target (because moved to direct dependencies)
-                    .map(this::resolveInterfaceDependencyIfExecutable) // Resolving interface modules
+                    .flatMap(this::resolveInterfaceDependencyIfExecutable) // Resolving interface modules
+                    .distinct()
                     .cache();
 
 
@@ -421,7 +423,7 @@ public class ProjectModule extends ModuleImpl {
         return hasSourceDirectory;
     }
 
-    private boolean hasJavaSourceDirectory() {
+    public boolean hasJavaSourceDirectory() {
         if (hasJavaSourceDirectory == null)
             hasJavaSourceDirectory = hasSourceDirectory() && Files.exists(getJavaSourceDirectory());
         return hasJavaSourceDirectory;
@@ -642,7 +644,7 @@ public class ProjectModule extends ModuleImpl {
                 ;
     }
 
-    private ModuleDependency resolveInterfaceDependencyIfExecutable(ModuleDependency dependency) {
+    private ReusableStream<ModuleDependency> resolveInterfaceDependencyIfExecutable(ModuleDependency dependency) {
         if (isExecutable() && dependency.getDestinationModule() instanceof ProjectModule) {
             ProjectModule module = (ProjectModule) dependency.getDestinationModule();
             if (module.isInterface()) {
@@ -652,10 +654,10 @@ public class ProjectModule extends ModuleImpl {
                         .filter(m -> isCompatibleWithTargetModule(this))
                         .findFirst().orElse(null);
                 if (concreteModule != null)
-                    return ModuleDependency.createImplicitProviderDependency(this, concreteModule);
+                    return ModuleDependency.createImplicitProviderDependency(this, concreteModule).collectThisAndTransitiveDependencies().filter(dep -> !(dep.getDestinationModule() instanceof ProjectModule && ((ProjectModule) dep.getDestinationModule()).isInterface()));
             }
         }
-        return dependency;
+        return ReusableStream.of(dependency);
     }
 
     private boolean implementsModule(Module module) {

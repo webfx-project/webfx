@@ -11,6 +11,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.paint.Color;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasAlignmentProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasTextAlignmentProperty;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -60,6 +61,10 @@ public class TextField extends TextInputControl implements HasAlignmentProperty,
     {
         setPadding(INITIAL_PADDING);
         setBackground(INITIAL_BACKGROUND);
+    }
+
+    static {
+        JavaFxControlsRegistry.registerTextField();
     }
 
 }

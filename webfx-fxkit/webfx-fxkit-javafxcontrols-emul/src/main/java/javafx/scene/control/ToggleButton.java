@@ -5,6 +5,7 @@ import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -193,4 +194,7 @@ public class ToggleButton extends ButtonBase
         return new ToggleButtonSkin(this);
     }
 
+    static {
+        JavaFxControlsRegistry.registerToggleButton();
+    }
 }

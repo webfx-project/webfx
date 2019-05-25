@@ -3,6 +3,7 @@ package webfx.fxkit.extra.controls.displaydata.datagrid;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import webfx.fxkit.extra.controls.displaydata.SelectableDisplayResultControl;
+import webfx.fxkit.extra.controls.registry.ExtraControlsRegistry;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 
 /**
@@ -45,4 +46,7 @@ public class DataGrid extends SelectableDisplayResultControl {
         this.fullHeightProperty.set(fullHeight);
     }
 
+    static {
+        ExtraControlsRegistry.registerDataGrid();
+    }
 }
