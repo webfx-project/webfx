@@ -6,8 +6,8 @@ import webfx.fxkit.extra.controls.displaydata.chart.Chart;
 import webfx.fxkit.javafx.mapper.peer.FxLayoutMeasurable;
 import webfx.fxkit.javafx.mapper.peer.FxRegionPeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.ChartPeerMixin;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.ChartPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.ChartPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.ChartPeerBase;
 import webfx.fxkit.extra.displaydata.SelectionMode;
 
 /**

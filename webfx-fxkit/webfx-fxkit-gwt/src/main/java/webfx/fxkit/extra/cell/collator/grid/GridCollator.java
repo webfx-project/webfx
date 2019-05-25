@@ -28,8 +28,8 @@ import webfx.fxkit.extra.displaydata.SelectionMode;
 import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 import webfx.fxkit.util.properties.ObservableLists;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.DataGridPeerBase;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.DataGridPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.DataGridPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.DataGridPeerMixin;
 
 import java.util.List;
 

@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.html.peer.extra;
 
 import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
 import webfx.fxkit.extra.controls.displaydata.chart.AreaChart;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.AreaChartPeerBase;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.AreaChartPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.AreaChartPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.AreaChartPeerMixin;
 
 /**
  * @author Bruno Salmon

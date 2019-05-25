@@ -10,11 +10,11 @@ module webfx.fxkit.javafx {
     requires javafx.web;
     requires jdk.jsobject;
     requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.extracontrols.mapper.base;
     requires webfx.fxkit.extratype;
     requires webfx.fxkit.javafxgraphics.mapper;
     requires webfx.fxkit.javafxgraphics.mapper.base;
     requires webfx.fxkit.launcher;
-    requires webfx.fxkit.mapper.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.util;

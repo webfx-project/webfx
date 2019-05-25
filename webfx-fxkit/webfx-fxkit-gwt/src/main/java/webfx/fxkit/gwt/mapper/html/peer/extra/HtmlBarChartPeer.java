@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.html.peer.extra;
 
 import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
 import webfx.fxkit.extra.controls.displaydata.chart.BarChart;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.BarChartPeerBase;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.BarChartPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.BarChartPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.BarChartPeerMixin;
 
 /**
  * @author Bruno Salmon

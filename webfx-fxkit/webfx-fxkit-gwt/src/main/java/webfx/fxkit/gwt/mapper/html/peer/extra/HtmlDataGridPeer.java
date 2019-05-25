@@ -15,8 +15,8 @@ import webfx.fxkit.gwt.mapper.util.HtmlPaints;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.extra.cell.renderer.ImageTextRenderer;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.DataGridPeerBase;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.DataGridPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.DataGridPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.DataGridPeerMixin;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.tuples.Unit;
 

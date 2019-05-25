@@ -24,8 +24,8 @@ module mongoose.frontend.activities.fees {
     requires webfx.framework.client.util;
     requires webfx.framework.shared.entity;
     requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.extracontrols.mapper.base;
     requires webfx.fxkit.extratype;
-    requires webfx.fxkit.mapper.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.json;

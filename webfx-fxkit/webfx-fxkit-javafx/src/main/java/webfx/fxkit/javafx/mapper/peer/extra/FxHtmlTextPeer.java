@@ -9,8 +9,8 @@ import webfx.platform.shared.util.Strings;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import webfx.fxkit.extra.controls.html.HtmlText;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.HtmlTextPeerBase;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.HtmlTextPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.HtmlTextPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.HtmlTextPeerMixin;
 
 /**
  * @author Bruno Salmon

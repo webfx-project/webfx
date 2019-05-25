@@ -17,7 +17,7 @@ module mongoose.frontend.activities.terms {
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
     requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.mapper.extracontrols;
+    requires webfx.fxkit.extracontrols.mapper.base;
     requires webfx.platform.shared.util;
 
     // Exported packages

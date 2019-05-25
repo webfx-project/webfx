@@ -1,8 +1,8 @@
 package webfx.fxkit.javafx.mapper.peer.extra;
 
 import webfx.fxkit.extra.controls.displaydata.chart.BarChart;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.BarChartPeerMixin;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.BarChartPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.BarChartPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.BarChartPeerBase;
 
 /**
  * @author Bruno Salmon

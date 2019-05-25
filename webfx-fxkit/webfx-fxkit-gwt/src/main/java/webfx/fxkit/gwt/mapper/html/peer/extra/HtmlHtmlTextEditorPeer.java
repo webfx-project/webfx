@@ -11,8 +11,8 @@ import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.Strings;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.extra.controls.html.HtmlTextEditor;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.HtmlTextEditorPeerBase;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.HtmlTextEditorPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.HtmlTextEditorPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.HtmlTextEditorPeerMixin;
 
 /**
  * @author Bruno Salmon

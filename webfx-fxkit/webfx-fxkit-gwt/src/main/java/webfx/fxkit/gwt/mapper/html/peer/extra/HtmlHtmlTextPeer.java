@@ -9,8 +9,8 @@ import webfx.fxkit.gwt.mapper.html.peer.javafxgraphics.HtmlRegionPeer;
 import webfx.platform.shared.util.Strings;
 import webfx.fxkit.gwt.mapper.util.HtmlUtil;
 import webfx.fxkit.extra.controls.html.HtmlText;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.HtmlTextPeerBase;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.HtmlTextPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.HtmlTextPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.HtmlTextPeerMixin;
 
 /**
  * @author Bruno Salmon

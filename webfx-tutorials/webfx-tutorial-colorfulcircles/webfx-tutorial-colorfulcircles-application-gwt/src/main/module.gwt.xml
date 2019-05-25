@@ -105,6 +105,10 @@
     <source path="webfx/fxkit/extra/displaydata"/>
     <source path="webfx/fxkit/extra/displaydata/impl"/>
     <source path="webfx/fxkit/extra/util"/>
+    <!--=====================< webfx-fxkit-extracontrols-mapper-base >======================-->
+    <!-- used by webfx-fxkit-gwt (SOURCE) -->
+    <source path="webfx/fxkit/extra/cell/collator/grid"/>
+    <source path="webfx/fxkit/extra/controls/mapper/spi/peer/impl/base"/>
     <!--=============================< webfx-fxkit-extratype >==============================-->
     <!-- used by webfx-fxkit-extracontrols (SOURCE) -->
     <source path="webfx/fxkit/extra/label"/>
@@ -123,7 +127,7 @@
     <source path="webfx/fxkit/gwt/mapper/svg/peer/javafxgraphics"/>
     <source path="webfx/fxkit/gwt/mapper/util"/>
     <!--=====================< webfx-fxkit-javafxcontrols-mapper-base >=====================-->
-    <!-- used by webfx-fxkit-mapper-extracontrols (SOURCE) -->
+    <!-- used by webfx-fxkit-extracontrols-mapper-base (SOURCE) -->
     <source path="webfx/fxkit/javafxcontrols/mapper/spi/impl/peer/base"/>
     <!--=======================< webfx-fxkit-javafxgraphics-mapper >========================-->
     <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
@@ -137,10 +141,6 @@
     <source path="webfx/fxkit/launcher"/>
     <source path="webfx/fxkit/launcher/spi"/>
     <source path="webfx/fxkit/launcher/spi/impl"/>
-    <!--========================< webfx-fxkit-mapper-extracontrols >========================-->
-    <!-- used by webfx-fxkit-gwt (SOURCE) -->
-    <source path="webfx/fxkit/extra/cell/collator/grid"/>
-    <source path="webfx/fxkit/extra/mapper/spi/peer/impl/extra"/>
     <!--================================< webfx-fxkit-util >================================-->
     <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/fxkit/util/properties"/>

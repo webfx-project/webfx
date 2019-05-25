@@ -2,8 +2,8 @@ package webfx.fxkit.gwt.mapper.html.peer.extra;
 
 import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
 import webfx.fxkit.extra.controls.displaydata.chart.LineChart;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.LineChartPeerBase;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.LineChartPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.LineChartPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.LineChartPeerMixin;
 
 /**
  * @author Bruno Salmon

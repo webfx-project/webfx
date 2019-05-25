@@ -140,13 +140,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-extratype</artifactId>
+            <artifactId>webfx-fxkit-extracontrols-mapper-base</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-mapper-extracontrols</artifactId>
+            <artifactId>webfx-fxkit-extratype</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

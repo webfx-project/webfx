@@ -6,8 +6,8 @@ import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.Numbers;
 import java.util.function.Function;
 import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.PieChartPeerMixin;
-import webfx.fxkit.extra.mapper.spi.peer.impl.extra.PieChartPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.PieChartPeerMixin;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.PieChartPeerBase;
 
 /**
  * @author Bruno Salmon
