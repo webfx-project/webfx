@@ -1,4 +1,4 @@
-package webfx.framework.client.services.i18n.spi.impl;
+package webfx.framework.client.services.i18n.spi.impl.json;
 
 import webfx.platform.shared.util.Strings;
 import webfx.framework.client.services.i18n.Dictionary;

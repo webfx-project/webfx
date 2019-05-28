@@ -1,0 +1,11 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>javafx-base</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

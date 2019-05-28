@@ -23,6 +23,7 @@
         <module>webfx-framework-shared-authn</module>
         <module>webfx-framework-shared-authz</module>
         <module>webfx-framework-client-i18n</module>
+        <module>webfx-framework-client-i18n-json</module>
         <module>webfx-framework-shared-router</module>
         <module>webfx-framework-client-uirouter</module>
 

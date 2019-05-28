@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * @author Bruno Salmon
  */
-interface DictionaryLoader {
+public interface DictionaryLoader {
 
     Future<Dictionary> loadDictionary(Object lang, Set keys);
 

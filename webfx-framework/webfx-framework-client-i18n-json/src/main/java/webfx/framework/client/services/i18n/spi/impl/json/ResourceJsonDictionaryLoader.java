@@ -1,6 +1,7 @@
-package webfx.framework.client.services.i18n.spi.impl;
+package webfx.framework.client.services.i18n.spi.impl.json;
 
 import webfx.framework.client.services.i18n.Dictionary;
+import webfx.framework.client.services.i18n.spi.impl.DictionaryLoader;
 import webfx.platform.shared.services.resource.ResourceService;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.async.Future;
@@ -10,11 +11,11 @@ import java.util.Set;
 /**
  * @author Bruno Salmon
  */
-public final class ResourceJsonDictionaryLoader implements DictionaryLoader {
+final class ResourceJsonDictionaryLoader implements DictionaryLoader {
 
     private final String jsonResourcePathWithLangPattern;
 
-    public ResourceJsonDictionaryLoader(String jsonResourcePathWithLangPattern) {
+    ResourceJsonDictionaryLoader(String jsonResourcePathWithLangPattern) {
         this.jsonResourcePathWithLangPattern = jsonResourcePathWithLangPattern;
     }
 
