@@ -7,22 +7,15 @@ module webfx.fxkit.javafx {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires javafx.web;
-    requires jdk.jsobject;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extracontrols.mapper.base;
-    requires webfx.fxkit.extratype;
     requires webfx.fxkit.javafxgraphics.mapper;
     requires webfx.fxkit.javafxgraphics.mapper.base;
     requires webfx.fxkit.launcher;
-    requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports webfx.fxkit.javafx.launcher;
     exports webfx.fxkit.javafx.mapper.peer;
-    exports webfx.fxkit.javafx.mapper.peer.extra;
     exports webfx.fxkit.javafx.mapper.peer.skin;
     exports webfx.fxkit.javafx.uischeduler;
 

@@ -1,15 +1,11 @@
 package webfx.tutorial.responsivedesign;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import webfx.framework.client.ui.layouts.FlexBox;
 
 /**
  * @author Bruno Salmon
@@ -19,6 +15,7 @@ public class FlexBoxResponsiveDesignApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("FlexBox Responsive Design");
+/* Commented to avoid dependency with extra controls
         FlexBox flexBox = new FlexBox(
                 createArea(Color.rgb(0, 52, 118), 480),
                 createArea(Color.rgb(0, 98, 210), 320),
@@ -29,6 +26,7 @@ public class FlexBoxResponsiveDesignApplication extends Application {
         flexBox.setMaxWidth(800);
         //primaryStage.setScene(new Scene(LayoutUtil.createVerticalScrollPane(new BorderPane(flexBox)), 850, 250));
         primaryStage.setScene(new Scene(new BorderPane(flexBox), 850, 250));
+*/
         primaryStage.show();
     }
 

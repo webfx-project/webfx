@@ -57,13 +57,13 @@
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
-        
+
         <dependency>
             <artifactId>webfx-framework-client-domain</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
-        
+
         <dependency>
             <artifactId>webfx-framework-client-uirouter</artifactId>
             <groupId>${webfx.groupId}</groupId>
@@ -75,7 +75,13 @@
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
-        
+
+        <dependency>
+            <artifactId>webfx-fxkit-extracontrols-registry-javafx</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+
         <dependency>
             <artifactId>webfx-platform-client-storage-java</artifactId>
             <groupId>${webfx.groupId}</groupId>

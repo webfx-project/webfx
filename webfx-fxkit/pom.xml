@@ -45,6 +45,8 @@
 
         <module>webfx-fxkit-javafx</module>
         <module>webfx-fxkit-gwt</module>
+        <module>webfx-fxkit-extracontrols-mapper-javafx</module>
+        <module>webfx-fxkit-extracontrols-registry-spi</module>
 
     </modules>
 

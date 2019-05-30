@@ -1,4 +1,4 @@
-package webfx.fxkit.javafx.mapper.peer.extra;
+package webfx.fxkit.extra.controls.mapper.spi.impl.peer.javafx;
 
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;

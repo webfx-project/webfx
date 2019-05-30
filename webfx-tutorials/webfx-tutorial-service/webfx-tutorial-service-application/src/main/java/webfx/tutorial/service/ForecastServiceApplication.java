@@ -12,8 +12,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import webfx.framework.client.ui.layouts.FlexBox;
-import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.tutorial.service.services.alert.AlertService;
 import webfx.tutorial.service.services.console.Console;
@@ -39,7 +37,7 @@ public final class ForecastServiceApplication extends Application {
 
 
     private final BorderPane borderPane = new BorderPane();
-    private final FlexBox flowPane = new FlexBox();
+    private final Pane flowPane = new FlowPane(); // new FlexBox();
 
     private Parent createForecastUi() {
         borderPane.setBottom(flowPane);
@@ -100,7 +98,7 @@ public final class ForecastServiceApplication extends Application {
         });
         setBackgroundAndBorder(container, unselectedBackgroundColor, unselectedBorderColor);
         if (thumb)
-            FlexBox.setMargin(container, margin);
+            FlowPane.setMargin(container, margin);
         else
             BorderPane.setMargin(container, margin);
         return container;
@@ -109,7 +107,11 @@ public final class ForecastServiceApplication extends Application {
     private ImageView createSkyStateImageView(ForecastMetrics.SkyState skyState) {
         boolean supportsSvg = !"JavaFx".equals(FxKitLauncher.getUserAgent());
         String imageExtension = supportsSvg ? ".svg" : ".png";
-        return ImageStore.createImageView("webfx/tutorial/service/services/forecast/images/" + skyState.name().toLowerCase() + imageExtension);
+        return createImageView("webfx/tutorial/service/services/forecast/images/" + skyState.name().toLowerCase() + imageExtension);
+    }
+
+    private ImageView createImageView(String url) {
+        return url == null ? new ImageView() : new ImageView(url);
     }
 
     private static void setBackgroundAndBorder(Region region, Paint backgroundFill, Paint borderFill) {

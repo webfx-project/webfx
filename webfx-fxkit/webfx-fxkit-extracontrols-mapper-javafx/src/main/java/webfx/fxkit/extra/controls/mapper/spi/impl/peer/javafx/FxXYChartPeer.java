@@ -1,4 +1,4 @@
-package webfx.fxkit.javafx.mapper.peer.extra;
+package webfx.fxkit.extra.controls.mapper.spi.impl.peer.javafx;
 
 import javafx.scene.chart.XYChart;
 import webfx.fxkit.extra.controls.displaydata.chart.Chart;

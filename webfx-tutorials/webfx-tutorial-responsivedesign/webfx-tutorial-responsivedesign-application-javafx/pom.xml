@@ -25,19 +25,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-json-java</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-platform-shared-log-simple</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-platform-shared-scheduler-java</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

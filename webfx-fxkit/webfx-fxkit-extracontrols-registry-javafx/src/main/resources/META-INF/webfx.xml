@@ -1,3 +1,17 @@
-<module implements-module="webfx-fxkit-extracontrols-registry">
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>javafx-controls</module>
+            <module>javafx-web</module>
+            <module>webfx-platform-shared-util</module>
+        </source-modules>
+
+    </dependencies>
+
+    <providers>
+        <provider spi="webfx.fxkit.extra.controls.registry.spi.ExtraControlsRegistryProvider">webfx.fxkit.extra.controls.registry.spi.impl.javafx.JavaFxExtraControlsRegistryProvider</provider>
+    </providers>
 
 </module>

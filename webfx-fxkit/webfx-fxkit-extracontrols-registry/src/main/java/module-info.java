@@ -4,5 +4,6 @@ module webfx.fxkit.extracontrols.registry {
 
     // Exported packages
     exports webfx.fxkit.extra.controls.registry;
+    exports webfx.fxkit.extra.controls.registry.spi;
 
 }
