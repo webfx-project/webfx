@@ -27,6 +27,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-client-layouts</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-fxkit-launcher</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

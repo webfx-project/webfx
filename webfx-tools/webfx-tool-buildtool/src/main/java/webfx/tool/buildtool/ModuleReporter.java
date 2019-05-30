@@ -123,7 +123,7 @@ final class ModuleReporter {
         RootModule rootModule = jc.getProjectModule().getRootModule();
         log(jc + " through packages " +
                 jc.getUsedJavaPackages()
-                        .filter(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getName()))
+                        .filter(p -> destinationModule.equals(rootModule.getJavaPackageModule(p, jc.getProjectModule()).getName()))
                         .distinct()
                         .collect(Collectors.toList()));
     }

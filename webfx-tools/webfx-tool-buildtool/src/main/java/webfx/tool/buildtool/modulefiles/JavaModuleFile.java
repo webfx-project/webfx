@@ -94,7 +94,8 @@ public class JavaModuleFile extends ModuleFile {
         String javaModuleName = getJavaModuleName(moduleGroup.getKey());
         if (moduleGroup.getValue().stream().anyMatch(ModuleDependency::isOptional))
             return "static " + javaModuleName;
-        if (javaModuleName.equals("slf4j.api"))
+        if (javaModuleName.equals("slf4j.api") ||
+                javaModuleName.equals(getJavaModuleName())) // May happen with modules implementing an interface module
             return null;
         return javaModuleName;
     }

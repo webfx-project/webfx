@@ -41,17 +41,17 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-javafxgraphics-mapper</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-
-        <dependency>
             <artifactId>webfx-fxkit-extracontrols-registry-spi</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
-
+        
+        <dependency>
+            <artifactId>webfx-fxkit-javafxgraphics-mapper</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
         <dependency>
             <artifactId>webfx-platform-shared-util</artifactId>
             <groupId>${webfx.groupId}</groupId>

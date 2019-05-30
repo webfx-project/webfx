@@ -4,7 +4,6 @@ module webfx.fxkit.extracontrols.registry {
 
     // Direct dependencies modules
     requires java.base;
-    //requires webfx.fxkit.extracontrols.registry;
     requires webfx.platform.shared.util;
 
     // Exported packages

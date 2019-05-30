@@ -6,6 +6,7 @@ module webfx.tutorial.css.application.javafx {
     requires webfx.fxkit.javafx;
     requires webfx.platform.shared.appcontainer.java;
     requires webfx.platform.shared.log.simple;
+    requires webfx.platform.shared.scheduler.java;
     requires webfx.platform.shared.shutdown.java;
     requires webfx.tutorial.css.application;
 

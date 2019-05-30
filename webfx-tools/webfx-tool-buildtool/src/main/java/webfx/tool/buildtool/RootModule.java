@@ -103,63 +103,48 @@ public final class RootModule extends ProjectModule {
         module.getDeclaredJavaPackages().forEach(javaPackage -> registerJavaPackageModule(javaPackage, module));
     }
 
-    Module getJavaPackageModule(String javaPackage) {
-        Module module = getJavaPackageModuleNow(javaPackage, true);
+    Module getJavaPackageModule(String packageToSearch, ProjectModule sourceModule) {
+        Module module = getJavaPackageModuleNow(packageToSearch, sourceModule, true);
         if (module != null)
             return module;
-        thisAndChildrenModulesInDepthResume.takeWhile(m -> getJavaPackageModuleNow(javaPackage, true) == null).forEach(this::registerJavaPackagesProjectModule);
-        return getJavaPackageModuleNow(javaPackage, false);
+        thisAndChildrenModulesInDepthResume.takeWhile(m -> getJavaPackageModuleNow(packageToSearch, sourceModule, true) == null).forEach(this::registerJavaPackagesProjectModule);
+        return getJavaPackageModuleNow(packageToSearch, sourceModule, false);
     }
 
-    private Module getJavaPackageModuleNow(String javaPackage, boolean canReturnNull) {
-        List<Module> lm = javaPackagesModules.get(javaPackage);
-        //ProjectModule spm = sourceProjectModule();
-        Module module = lm == null ? null : lm.stream().filter(this::isSuitableModule)
-                //.max(Comparator.comparingInt(m -> spm != null && m instanceof ProjectModule ? ((ProjectModule)m).gradeTargetMatch(spm.getTarget()) : 0 ))
+    private Module getJavaPackageModuleNow(String packageToSearch, ProjectModule sourceModule, boolean canReturnNull) {
+        List<Module> lm = javaPackagesModules.get(packageToSearch);
+        Module module = lm == null ? null : lm.stream().filter(m -> isSuitableModule(m, sourceModule))
                 .findFirst()
                 .orElse(null);
-        if (module == null) {
-            if (canReturnNull)
-                return null;
-            throw new IllegalArgumentException("Unknown module for package " + javaPackage);
+        if (module == null) { // Module not found :-(
+            // Last chance: the package was actually in the source package! (ex: webfx-fxkit-extracontrols-registry-spi
+            if (sourceModule.getDeclaredJavaPackages().anyMatch(p -> p.equals(packageToSearch)))
+                module = sourceModule;
+            else if (!canReturnNull) // Otherwise raising an exception (unless returning null is permitted)
+                throw new IllegalArgumentException("Unknown module for package " + packageToSearch + " (requested by " + sourceModule + ")");
         }
         return module;
     }
 
-    private boolean isSuitableModule(Module m) {
+    private boolean isSuitableModule(Module m, ProjectModule sourceModule) {
         if (!(m instanceof ProjectModule))
             return true;
         ProjectModule pm = (ProjectModule) m;
-        String implementingInterface = pm.getWebfxModuleFile().implementingInterface();
-        if (implementingInterface != null) {
-            ProjectModule spm = sourceProjectModule();
-            boolean isForExecutableModule = spm != null && spm.isExecutable();
-            if (!isForExecutableModule)
+        // First case: only executable source modules should include implementing interface modules (others should include the interface module instead)
+        if (pm.isImplementingInterface() && !sourceModule.isExecutable()) {
+            // Exception is however made for non executable source modules that implements a provider
+            // Ex: webfx-fxkit-extracontrols-registry-javafx can include webfx-fxkit-extracontrols-registry-spi (which implements webfx-fxkit-extracontrols-registry)
+            boolean exception = sourceModule.getProvidedJavaServices().anyMatch(s -> pm.getDeclaredJavaClasses().anyMatch(c -> c.getClassName().equals(s)));
+            if (!exception)
                 return false;
         }
-/*
-        ProjectModule spm = sourceProjectModule();
-        boolean isForExecutableModule = spm != null && spm.isExecutable();
-        if (isForExecutableModule) {
-            if (pm.isInterface())
-                return false;
-        } else {
-            String implementingInterface = pm.getWebfxModuleFile().implementingInterface();
-            if (implementingInterface != null)
+        // Second not permitted case:
+        // Ex: webfx-fxkit-extracontrols-registry-javafx should not include webfx-fxkit-extracontrols-registry (but webfx-fxkit-extracontrols-registry-spi instead)
+        if (pm.isInterface()) {
+            if (sourceModule.getName().startsWith(pm.getName()))
                 return false;
         }
-*/
         return true;
-    }
-
-    private static Module sourceModule() {
-        SourceModuleDependencyThreadContext context = SourceModuleDependencyThreadContext.getInstance();
-        return context == null ? null : context.getSourceModule();
-    }
-
-    private static ProjectModule sourceProjectModule() {
-        Module sourceModule = sourceModule();
-        return sourceModule instanceof ProjectModule ? (ProjectModule) sourceModule : null;
     }
 
     public Module findModule(String name) {
@@ -280,8 +265,8 @@ public final class RootModule extends ProjectModule {
                 .filter(m -> m.providesJavaService(javaService));
         if (keepBestOnly)
             modules = ReusableStream.of(modules
-                    .max(Comparator.comparingInt(m -> m.gradeTargetMatch(requestedTarget)))
-                    .orElse(null)
+                            .max(Comparator.comparingInt(m -> m.gradeTargetMatch(requestedTarget)))
+                            .orElse(null)
                     //.orElseThrow(() -> new IllegalArgumentException("Unable to find " + javaService + " service implementation for requested target " + requestedTarget + " within " + implementationScope.collect(Collectors.toList())))
             ).filter(Objects::nonNull);
         return modules;
@@ -304,6 +289,6 @@ public final class RootModule extends ProjectModule {
     }
 
     public static boolean isJavaFxEmulModule(String moduleName) {
-        return moduleName.startsWith("webfx-fxkit-javafx") &&moduleName.endsWith("-emul");
+        return moduleName.startsWith("webfx-fxkit-javafx") && moduleName.endsWith("-emul");
     }
 }

@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import webfx.framework.client.ui.layouts.FlexBox;
 import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.tutorial.service.services.alert.AlertService;
 import webfx.tutorial.service.services.console.Console;
@@ -37,7 +38,7 @@ public final class ForecastServiceApplication extends Application {
 
 
     private final BorderPane borderPane = new BorderPane();
-    private final Pane flowPane = new FlowPane(); // new FlexBox();
+    private final FlexBox flowPane = new FlexBox();
 
     private Parent createForecastUi() {
         borderPane.setBottom(flowPane);
@@ -98,7 +99,7 @@ public final class ForecastServiceApplication extends Application {
         });
         setBackgroundAndBorder(container, unselectedBackgroundColor, unselectedBorderColor);
         if (thumb)
-            FlowPane.setMargin(container, margin);
+            FlexBox.setMargin(container, margin);
         else
             BorderPane.setMargin(container, margin);
         return container;

@@ -78,18 +78,16 @@ public final class ModuleDependency implements Comparable<ModuleDependency> {
     }
 
     ReusableStream<ModuleDependency> collectThisAndTransitiveDependencies() {
-        try (SourceModuleDependencyThreadContext context = SourceModuleDependencyThreadContext.open(sourceModule)) {
-            Set<ModuleDependency> dependencies = new LinkedHashSet<>();
-            collectThisAndTransitiveDependencies(dependencies, sourceModule instanceof ProjectModule ? (ProjectModule) sourceModule : null);
-            return ReusableStream.fromIterable(dependencies);
-        }
+        Set<ModuleDependency> dependencies = new LinkedHashSet<>();
+        collectThisAndTransitiveDependencies(dependencies, sourceModule instanceof ProjectModule ? (ProjectModule) sourceModule : null);
+        return ReusableStream.fromIterable(dependencies);
     }
 
     private void collectThisAndTransitiveDependencies(Collection<ModuleDependency> dependencies, ProjectModule targetModule) {
         if (dependencies.stream().noneMatch(d -> d.destinationModule == destinationModule)) { // Avoiding infinite recursion
             dependencies.add(this);
             // We don't include the webfx-fxkit dependencies unless it is a GWT executable
-            if (destinationModule.getName().startsWith("webfx-fxkit-") && !targetModule.isExecutable(Platform.GWT))
+            if (destinationModule.getName().startsWith("webfx-fxkit-javafx") && !targetModule.isExecutable(Platform.GWT))
                 return;
             ProjectModule pm = destinationModule instanceof ProjectModule ? (ProjectModule) destinationModule : null;
             if (pm != null)

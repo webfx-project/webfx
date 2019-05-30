@@ -126,7 +126,7 @@ public class ProjectModule extends ModuleImpl {
      */
     private final ReusableStream<ModuleDependency> foundByCodeAnalyzerSourceDependenciesCache =
             usedJavaPackagesCache
-                    .map(p -> getRootModule().getJavaPackageModule(p))
+                    .map(p -> getRootModule().getJavaPackageModule(p, this))
                     //.map(this::replaceEmulatedModuleWithNativeIfApplicable)
                     .filter(module -> module != this && !module.getName().equals(getName()))
                     .distinct()
@@ -535,6 +535,10 @@ public class ProjectModule extends ModuleImpl {
         return getWebfxModuleFile().isInterface();
     }
 
+    public boolean isImplementingInterface() {
+        return getWebfxModuleFile().implementingInterface() != null;
+    }
+
     /******************************
      ***** Analyzing streams  *****
      ******************************/
@@ -684,7 +688,7 @@ public class ProjectModule extends ModuleImpl {
 
     ReusableStream<JavaClass> getJavaClassesDependingOn(String destinationModule) {
         return getDeclaredJavaClasses()
-                .filter(jc -> jc.getUsedJavaPackages().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageModule(p).getName())))
+                .filter(jc -> jc.getUsedJavaPackages().anyMatch(p -> destinationModule.equals(rootModule.getJavaPackageModule(p, this).getName())))
                 ;
     }
 
