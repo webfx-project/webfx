@@ -582,6 +582,6 @@ public class ChoiceBox<T> extends Control {
     }*/
 
     static {
-        JavaFxControlsRegistry.registerCheckBox();
+        JavaFxControlsRegistry.registerChoiceBox();
     }
 }

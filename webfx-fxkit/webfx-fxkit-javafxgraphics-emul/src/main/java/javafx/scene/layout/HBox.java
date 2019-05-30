@@ -191,42 +191,45 @@ public class HBox extends Box implements
     }
 
     private double growOrShrinkAreaWidths(List<Node>managed, double areaWidths[][], Priority priority, double extraWidth, double height) {
-        boolean shrinking = extraWidth < 0;
+        final boolean shrinking = extraWidth < 0;
         int adjustingNumber = 0;
 
         double[] usedWidths = areaWidths[0];
         double[] temp = areaWidths[1];
-        boolean shouldFillHeight = shouldFillHeight();
+        final boolean shouldFillHeight = shouldFillHeight();
 
         if (shrinking) {
             adjustingNumber = managed.size();
             for (int i = 0, size = managed.size(); i < size; i++) {
-                Node child = managed.get(i);
+                final Node child = managed.get(i);
                 temp[i] = computeChildMinAreaWidth(child, getMinBaselineComplement(), getMargin(child), height, shouldFillHeight);
             }
         } else {
             for (int i = 0, size = managed.size(); i < size; i++) {
-                Node child = managed.get(i);
+                final Node child = managed.get(i);
                 if (getHgrow(child) == priority) {
                     temp[i] = computeChildMaxAreaWidth(child, getMinBaselineComplement(), getMargin(child), height, shouldFillHeight);
                     adjustingNumber++;
-                } else
+                } else {
                     temp[i] = -1;
+                }
             }
         }
 
         double available = extraWidth; // will be negative in shrinking case
         outer:while (Math.abs(available) > 1 && adjustingNumber > 0) {
-            double portion = snapPortion(available / adjustingNumber); // negative in shrinking case
+            final double portion = snapPortionX(available / adjustingNumber); // negative in shrinking case
             for (int i = 0, size = managed.size(); i < size; i++) {
-                if (temp[i] == -1)
+                if (temp[i] == -1) {
                     continue;
-                double limit = temp[i] - usedWidths[i]; // negative in shrinking case
-                double change = Math.abs(limit) <= Math.abs(portion)? limit : portion;
+                }
+                final double limit = temp[i] - usedWidths[i]; // negative in shrinking case
+                final double change = Math.abs(limit) <= Math.abs(portion)? limit : portion;
                 usedWidths[i] += change;
                 available -= change;
-                if (Math.abs(available) < 1)
+                if (Math.abs(available) < 1) {
                     break outer;
+                }
                 if (Math.abs(change) < Math.abs(portion)) {
                     temp[i] = -1;
                     adjustingNumber--;

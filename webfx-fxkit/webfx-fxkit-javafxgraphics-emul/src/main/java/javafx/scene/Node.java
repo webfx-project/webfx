@@ -1782,4 +1782,46 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return eventHandlerProperties;
     }
 
+    public final void setOnMousePressed(
+            EventHandler<? super MouseEvent> value) {
+        onMousePressedProperty().set(value);
+    }
+
+    public final EventHandler<? super MouseEvent> getOnMousePressed() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnMousePressed();
+    }
+
+    /**
+     * Defines a function to be called when a mouse button
+     * has been pressed on this {@code Node}.
+     * @return the event handler that is called when a mouse button has been
+     * pressed on this {@code Node}
+     */
+    public final ObjectProperty<EventHandler<? super MouseEvent>>
+    onMousePressedProperty() {
+        return getEventHandlerProperties().onMousePressedProperty();
+    }
+
+    public final void setOnMouseDragged(
+            EventHandler<? super MouseEvent> value) {
+        onMouseDraggedProperty().set(value);
+    }
+
+    public final EventHandler<? super MouseEvent> getOnMouseDragged() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnMouseDragged();
+    }
+
+    /**
+     * Defines a function to be called when a mouse button is pressed
+     * on this {@code Node} and then dragged.
+     * @return the event handler that is called when a mouse button is pressed
+     * on this {@code Node} and then dragged
+     */
+    public final ObjectProperty<EventHandler<? super MouseEvent>>
+    onMouseDraggedProperty() {
+        return getEventHandlerProperties().onMouseDraggedProperty();
+    }
+
 }

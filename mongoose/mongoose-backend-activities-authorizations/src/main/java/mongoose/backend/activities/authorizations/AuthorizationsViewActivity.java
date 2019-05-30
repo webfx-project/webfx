@@ -3,15 +3,15 @@ package mongoose.backend.activities.authorizations;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import mongoose.client.services.authn.MongooseUserPrincipal;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
-import webfx.framework.shared.orm.entity.Entities;
-import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.client.ui.controls.sheet.PropertySheet;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.framework.client.ui.controls.sheet.PropertySheet;
-import webfx.framework.client.ui.layouts.FlexBox;
+import webfx.framework.shared.orm.entity.Entities;
+import webfx.framework.shared.orm.entity.Entity;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
 /**
@@ -36,7 +36,7 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase
             if (e.getClickCount() == 2)
                 PropertySheet.editEntity(assignmentFilter.getSelectedEntity(), assignmentColumns, (Pane) getNode());
         });
-        return new FlexBox(usersDataGrid, assignmentsDataGrid);
+        return new SplitPane(usersDataGrid, assignmentsDataGrid);
     }
 
 

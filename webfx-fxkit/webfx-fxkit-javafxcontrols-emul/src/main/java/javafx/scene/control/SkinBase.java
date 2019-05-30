@@ -1,5 +1,7 @@
 package javafx.scene.control;
 
+import com.sun.javafx.scene.control.LambdaMultiplePropertyChangeListenerHandler;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -8,6 +10,8 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
+
+import java.util.function.Consumer;
 
 /**
  * Base implementation class for defining the visual representation of user
@@ -38,7 +42,12 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
      */
     private ObservableList<Node> children;
 
-
+    /**
+     * This is part of the workaround introduced during delomboking. We probably will
+     * want to adjust the way listeners are added rather than continuing to use this
+     * map (although it doesn't really do much harm).
+     */
+    private LambdaMultiplePropertyChangeListenerHandler lambdaChangeListenerHandler;
 
     /***************************************************************************
      *                                                                         *
@@ -151,6 +160,38 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
     }
 
 
+    /**
+     * Subclasses can invoke this method to register that they want to listen to
+     * property change events for the given property. Registered {@link Consumer} instances
+     * will be executed in the order in which they are registered.
+     * @param property the property
+     * @param consumer the consumer
+     */
+    protected final void registerChangeListener(ObservableValue<?> property, Consumer<ObservableValue<?>> consumer) {
+        if (lambdaChangeListenerHandler == null) {
+            lambdaChangeListenerHandler = new LambdaMultiplePropertyChangeListenerHandler();
+        }
+        lambdaChangeListenerHandler.registerChangeListener(property, consumer);
+    }
+
+    /**
+     * Unregisters all change listeners that have been registered using {@link #registerChangeListener(ObservableValue, Consumer)}
+     * for the given property. The end result is that the given property is no longer observed by any of the change
+     * listeners, but it may still have additional listeners registered on it through means outside of
+     * {@link #registerChangeListener(ObservableValue, Consumer)}.
+     *
+     * @param property The property for which all listeners should be removed.
+     * @return A single chained {@link Consumer} consisting of all {@link Consumer consumers} registered through
+     *      {@link #registerChangeListener(ObservableValue, Consumer)}. If no consumers have been registered on this
+     *      property, null will be returned.
+     * @since 9
+     */
+    protected final Consumer<ObservableValue<?>> unregisterChangeListeners(ObservableValue<?> property) {
+        if (lambdaChangeListenerHandler == null) {
+            return null;
+        }
+        return lambdaChangeListenerHandler.unregisterChangeListeners(property);
+    }
 
     /***************************************************************************
      *                                                                         *
@@ -415,6 +456,36 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
     }
 
     /**
+     * Convenience method for accessing the
+     * {@link Region#snapSpaceX(double) snapSpaceX()}
+     * method on the skinnable.
+     * It is equivalent to calling
+     * {@code getSkinnable().snapSpaceX(value)}.
+     * @param value the space value to be snapped
+     * @return value rounded to nearest pixel
+     * @see Region#snapSpaceX(double)
+     * @since 9
+     */
+    protected double snapSpaceX(double value) {
+        return control.snapSpaceX(value);
+    }
+
+    /**
+     * Convenience method for accessing the
+     * {@link Region#snapSpaceY(double) snapSpaceY()}
+     * method on the skinnable.
+     * It is equivalent to calling
+     * {@code getSkinnable().snapSpaceY(value)}.
+     * @param value the space value to be snapped
+     * @return value rounded to nearest pixel
+     * @see Region#snapSpaceY(double)
+     * @since 9
+     */
+    protected double snapSpaceY(double value) {
+        return control.snapSpaceY(value);
+    }
+
+    /**
      * If this region's snapToPixel property is true, returns a value ceiled
      * to the nearest pixel, else returns the same value.
      * @param value the size value to be snapped
@@ -422,6 +493,36 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
      */
     protected double snapSize(double value) {
         return control.isSnapToPixel() ? Math.ceil(value) : value;
+    }
+
+    /**
+     * Convenience method for accessing the
+     * {@link Region#snapSizeX(double) snapSizeX()}
+     * method on the skinnable.
+     * It is equivalent to calling
+     * {@code getSkinnable().snapSizeX(value)}.
+     * @param value the size value to be snapped
+     * @return value ceiled to nearest pixel
+     * @see Region#snapSizeX(double)
+     * @since 9
+     */
+    protected double snapSizeX(double value) {
+        return control.snapSizeX(value);
+    }
+
+    /**
+     * Convenience method for accessing the
+     * {@link Region#snapSizeY(double) snapSizeY()}
+     * method on the skinnable.
+     * It is equivalent to calling
+     * {@code getSkinnable().snapSizeY(value)}.
+     * @param value the size value to be snapped
+     * @return value ceiled to nearest pixel
+     * @see Region#snapSizeY(double)
+     * @since 9
+     */
+    protected double snapSizeY(double value) {
+        return control.snapSizeY(value);
     }
 
     /**

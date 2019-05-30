@@ -55,7 +55,6 @@ public final class EventHandlerProperties {
         return onMouseClicked;
     }
 
-/*
     private EventHandlerProperty<MouseEvent> onMouseDragged;
 
     public final EventHandler<? super MouseEvent> getOnMouseDragged() {
@@ -72,7 +71,7 @@ public final class EventHandlerProperties {
         }
         return onMouseDragged;
     }
-
+/*
     private EventHandlerProperty<MouseEvent> onMouseEntered;
 
     public final EventHandler<? super MouseEvent> getOnMouseEntered() {
@@ -122,7 +121,7 @@ public final class EventHandlerProperties {
                     MouseEvent.MOUSE_MOVED);
         }
         return onMouseMoved;
-    }
+    }*/
 
     private EventHandlerProperty<MouseEvent> onMousePressed;
 
@@ -139,7 +138,7 @@ public final class EventHandlerProperties {
                     MouseEvent.MOUSE_PRESSED);
         }
         return onMousePressed;
-    }
+    }/*
 
     private EventHandlerProperty<MouseEvent> onMouseReleased;
 

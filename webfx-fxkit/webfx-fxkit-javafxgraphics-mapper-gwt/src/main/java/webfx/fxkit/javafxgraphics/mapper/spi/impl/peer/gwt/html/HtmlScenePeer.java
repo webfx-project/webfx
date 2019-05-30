@@ -190,6 +190,11 @@ public final class HtmlScenePeer extends ScenePeerBase {
         registerMouseListener("mouseenter");
         registerMouseListener("mouseleave");
         registerMouseListener("mousemove");
+        // Disabling default browser drag & drop as JavaFx has its own
+        document.body.setAttribute("ondragstart", "return false;");
+        document.body.setAttribute("ondrop", "return false;");
+        // Disabling default text selection (as in JavaFx) to avoid nasty selection graphical elements (buttons etc...)
+        HtmlUtil.setStyleAttribute(document.body, "user-select", "none");
     }
 
     private void registerMouseListener(String type) {

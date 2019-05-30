@@ -16,20 +16,6 @@ import static webfx.fxkit.javafxgraphics.mapper.spi.NodePeerFactoryRegistry.regi
 
 public class JavaFxGraphicsRegistry {
 
-    static {
-        NodePeerFactoryRegistry.registerDefaultRegionPeerFactory(node -> new HtmlLayoutPeer<>());
-/*
-        registerGroup();
-        registerRectangle();
-        registerCircle();
-        registerLine();
-        registerText();
-        registerImageView();
-        registerCanvas();
-        registerPath();
-*/
-    }
-
     public static void registerGroup() {
         registerNodePeerFactory(Group.class, HtmlGroupPeer::new);
     }
@@ -63,6 +49,7 @@ public class JavaFxGraphicsRegistry {
     }
 
     public static void registerRegion() {
+        NodePeerFactoryRegistry.registerDefaultRegionPeerFactory(node -> new HtmlLayoutPeer<>());
     }
 
 }

@@ -10,26 +10,6 @@ import static webfx.fxkit.javafxgraphics.mapper.spi.NodePeerFactoryRegistry.regi
 
 public class JavaFxControlsRegistry {
 
-    static {
-/*
-        registerLabeledText();
-        registerLabel();
-        registerHyperlink();
-        registerButton();
-        registerToggleButton();
-        registerCheckBox();
-        registerRadioButton();
-        registerSlider();
-        registerTextField();
-        registerPasswordField();
-        registerToolkitTextBox();
-        registerTextArea();
-        registerChoiceBox();
-        registerDatePicker();
-        registerScrollPane();
-*/
-    }
-
     public static void registerLabeledText() {
         registerNodePeerFactory(LabeledText.class, HtmlTextPeer::new);
     }
