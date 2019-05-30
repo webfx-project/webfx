@@ -1,6 +1,7 @@
 package webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.shared;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.sun.javafx.cursor.CursorType;
 import com.sun.javafx.event.EventUtil;
 import elemental2.dom.Element;
 import elemental2.dom.Event;
@@ -459,35 +460,32 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static String toSvgBlendMode(BlendMode blendMode) {
-        if (blendMode != null)
-            switch (blendMode) {
-                case SRC_OVER: return "";
-                case SRC_ATOP: return "";
-                case ADD: return "";
-                case MULTIPLY: return "multiply";
-                case SCREEN: return "screen";
-                case OVERLAY: return "overlay";
-                case DARKEN: return "darken";
-                case LIGHTEN: return "lighten";
-                case COLOR_DODGE: return "color-dodge";
-                case COLOR_BURN: return "color-burn";
-                case HARD_LIGHT: return "hard-light";
-                case SOFT_LIGHT: return "soft-light";
-                case DIFFERENCE: return "difference";
-                case EXCLUSION: return "exclusion";
-                case RED: return "";
-                case GREEN: return "";
-                case BLUE: return "";
-            }
-        return null;
+        // JavaFx use the same names as SVG for ADD, MULTIPLY, SCREEN, OVERLAY, DARKEN, COLOR_DODGE, COLOR_BURN, HARD_LIGHT, SOFT_LIGHT, DIFFERENCE, EXCLUSION
+        // SVG doesn't support (so far): SRC_OVER, SRC_ATOP, RED, GREEN, BLUE but we return them as is just in case it is supported in the future
+        return blendMode == null ? null : enumNameToCss(blendMode.name());
+    }
+
+    private static String enumNameToCss(String enumName) {
+        return enumName.toLowerCase().replace('_', '-');
     }
 
     private static String toCssCursor(Cursor cursor) {
-        if (cursor == Cursor.DEFAULT)
-            return "default";
-        if (cursor == Cursor.HAND)
-            return "pointer";
-        return null;
+        if (cursor == null)
+            return null;
+        CursorType cursorType = cursor.getCurrentFrame().getCursorType();
+        switch (cursorType) {
+            // Starting with differences of names between JavaFx and CSS:
+            case HAND: return "pointer";
+            case OPEN_HAND: return "grab";
+            case CLOSED_HAND: return "grabbing";
+            case H_RESIZE: return "ew-resize";
+            case V_RESIZE: return "ns-resize";
+            case IMAGE: // TODO: extract url from ImageCursorFrame
+            case DISAPPEAR: // What cursor is that ???
+            case NONE: return "none";
+            // Then all other cursors have the same name: DEFAULT, CROSSHAIR, TEXT, WAIT, SW_RESIZE, SE_RESIZE, NW_RESIZE, NE_RESIZE, N_RESIZE, S_RESIZE, W_RESIZE, E_RESIZE, MOVE
+            default: return enumNameToCss(cursorType.name());
+        }
     }
 
     static String toPx(double position) {

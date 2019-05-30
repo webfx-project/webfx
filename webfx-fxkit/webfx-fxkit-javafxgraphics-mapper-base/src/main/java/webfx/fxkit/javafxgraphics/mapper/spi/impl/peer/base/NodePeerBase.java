@@ -104,7 +104,8 @@ public abstract class NodePeerBase
                 || updateProperty(node.blendModeProperty(), changedProperty, mixin::updateBlendMode)
                 || updateProperty(node.effectProperty(), changedProperty, mixin::updateEffect)
                 || updateProperty(node.layoutXProperty(), changedProperty, p -> mixin.updateLayoutX(p.doubleValue()))
-                || updateProperty(node.layoutYProperty(), changedProperty, p-> mixin.updateLayoutY(p.doubleValue()))
+                || updateProperty(node.layoutYProperty(), changedProperty, p -> mixin.updateLayoutY(p.doubleValue()))
+                || updateProperty(node.cursorProperty(), changedProperty, mixin::updateCursor)
                 ;
     }
 

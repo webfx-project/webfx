@@ -1,6 +1,8 @@
 package javafx.scene;
 
+import com.sun.javafx.cursor.CursorFrame;
 import com.sun.javafx.cursor.CursorType;
+import com.sun.javafx.cursor.StandardCursorFrame;
 
 /**
  * A class to encapsulate the bitmap representation of the mouse cursor.
@@ -141,7 +143,7 @@ public abstract class Cursor {
         this.name = name;
     }
 
-    //abstract CursorFrame getCurrentFrame();
+    public abstract CursorFrame getCurrentFrame(); // Made public for webFx to access the cursor type when converting
 
     /**
      * Activates the cursor. Cursor should be activated to make sure
@@ -246,17 +248,17 @@ public abstract class Cursor {
     }*/
 
     private static final class StandardCursor extends Cursor {
-        //private final CursorFrame singleFrame;
+        private final CursorFrame singleFrame;
 
         public StandardCursor(final String name, final CursorType type) {
             super(name);
-            //singleFrame = new StandardCursorFrame(type);
+            singleFrame = new StandardCursorFrame(type);
         }
 
-        /*@Override
-        CursorFrame getCurrentFrame() {
+        @Override
+        public CursorFrame getCurrentFrame() {
             return singleFrame;
-        }*/
+        }
     }
 }
 
