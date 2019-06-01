@@ -6,19 +6,22 @@ module mongoose.backend.activities.monitor {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires mongoose.backend.activities.monitor.routing;
     requires mongoose.client.activity;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
+    requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
     requires webfx.fxkit.extracontrols;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.backend.activities.monitor;
+    exports mongoose.backend.activities.monitor.routing;
+    exports mongoose.backend.operations.monitor;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.monitor.RouteToMonitorRequestEmitter;

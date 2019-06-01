@@ -117,15 +117,11 @@
     <!--===================< mongoose-backend-activities-authorizations >===================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/authorizations"/>
-    <!--===============< mongoose-backend-activities-authorizations-routing >===============-->
-    <!-- used by mongoose-backend-activities-authorizations (SOURCE) -->
     <source path="mongoose/backend/activities/authorizations/routing"/>
-    <source path="mongoose/backend/operations/authorizations"/>
+    <source path="mongoose/backend/activities/operations/authorizations"/>
     <!--======================< mongoose-backend-activities-bookings >======================-->
-    <!-- used by mongoose-backend-application (PLUGIN) -->
-    <source path="mongoose/backend/activities/bookings"/>
-    <!--==================< mongoose-backend-activities-bookings-routing >==================-->
     <!-- used by mongoose-backend-activities-events (SOURCE) -->
+    <source path="mongoose/backend/activities/bookings"/>
     <source path="mongoose/backend/activities/bookings/routing"/>
     <source path="mongoose/backend/operations/bookings"/>
     <!--=====================< mongoose-backend-activities-cloneevent >=====================-->
@@ -136,45 +132,33 @@
     <source path="mongoose/backend/activities/cloneevent/routing"/>
     <source path="mongoose/backend/operations/cloneevent"/>
     <!--=======================< mongoose-backend-activities-events >=======================-->
-    <!-- used by mongoose-backend-application (PLUGIN) -->
-    <source path="mongoose/backend/activities/events"/>
-    <!--===================< mongoose-backend-activities-events-routing >===================-->
     <!-- used by mongoose-backend-activities-organizations (SOURCE) -->
+    <source path="mongoose/backend/activities/events"/>
     <source path="mongoose/backend/activities/events/routing"/>
     <source path="mongoose/backend/operations/events"/>
     <!--=======================< mongoose-backend-activities-letter >=======================-->
-    <!-- used by mongoose-backend-application (PLUGIN) -->
-    <source path="mongoose/backend/activities/letter"/>
-    <!--===================< mongoose-backend-activities-letter-routing >===================-->
     <!-- used by mongoose-backend-activities-letters (SOURCE) -->
+    <source path="mongoose/backend/activities/letter"/>
     <source path="mongoose/backend/activities/letter/routing"/>
     <source path="mongoose/backend/operations/letter"/>
     <!--======================< mongoose-backend-activities-letters >=======================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/letters"/>
-    <!--==================< mongoose-backend-activities-letters-routing >===================-->
-    <!-- used by mongoose-backend-activities-letters (SOURCE) -->
     <source path="mongoose/backend/activities/letters/routing"/>
     <source path="mongoose/backend/operations/letters"/>
     <!--======================< mongoose-backend-activities-monitor >=======================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/monitor"/>
-    <!--==================< mongoose-backend-activities-monitor-routing >===================-->
-    <!-- used by mongoose-backend-activities-monitor (SOURCE) -->
     <source path="mongoose/backend/activities/monitor/routing"/>
     <source path="mongoose/backend/operations/monitor"/>
     <!--=====================< mongoose-backend-activities-operations >=====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/operations"/>
-    <!--=================< mongoose-backend-activities-operations-routing >=================-->
-    <!-- used by mongoose-backend-activities-operations (SOURCE) -->
     <source path="mongoose/backend/activities/operations/routing"/>
     <source path="mongoose/backend/operations/operations"/>
     <!--===================< mongoose-backend-activities-organizations >====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/organizations"/>
-    <!--===============< mongoose-backend-activities-organizations-routing >================-->
-    <!-- used by mongoose-backend-activities-organizations (SOURCE) -->
     <source path="mongoose/backend/activities/organizations/routing"/>
     <source path="mongoose/backend/operations/organizations"/>
     <!--==========================< mongoose-backend-application >==========================-->
@@ -218,6 +202,12 @@
     <!--========================< mongoose-client-bookingcalendar >=========================-->
     <!-- used by mongoose-client-sectionpanel (SOURCE) -->
     <source path="mongoose/client/controls/bookingcalendar"/>
+    <!--======================< mongoose-client-bookingoptionspanel >=======================-->
+    <!-- used by mongoose-frontend-activities-summary (SOURCE) -->
+    <source path="mongoose/client/controls/bookingoptionspanel"/>
+    <!--=========================< mongoose-client-bookingprocess >=========================-->
+    <!-- used by mongoose-frontend-activities-fees (SOURCE) -->
+    <source path="mongoose/client/activity/bookingprocess"/>
     <!--===========================< mongoose-client-busconfig >============================-->
     <!-- used by mongoose-client-application (RESOURCE) -->
     <resource path="webfx/platform/client/services/websocketbus/conf"/>
@@ -280,6 +270,9 @@
     <!--====================< mongoose-client-operationactionsloading >=====================-->
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/operationactionsloading"/>
+    <!--========================< mongoose-client-personaldetails >=========================-->
+    <!-- used by mongoose-frontend-activities-person (SOURCE) -->
+    <source path="mongoose/client/controls/personaldetails"/>
     <!--==========================< mongoose-client-sectionpanel >==========================-->
     <!-- used by mongoose-client-activities-login (SOURCE) -->
     <source path="mongoose/client/controls/sectionpanel"/>
@@ -299,14 +292,31 @@
     <!--===========================< mongoose-client-validation >===========================-->
     <!-- used by mongoose-client-activities-login (SOURCE) -->
     <source path="mongoose/client/validation"/>
-    <!--===================< mongoose-frontend-activities-fees-routing >====================-->
-    <!-- used by mongoose-backend-activities-bookings-routing (SOURCE) -->
+    <!--===================< mongoose-frontend-activities-cart-routing >====================-->
+    <!-- used by mongoose-frontend-activities-summary (SOURCE) -->
+    <source path="mongoose/frontend/activities/cart/base"/>
+    <source path="mongoose/frontend/activities/cart/routing"/>
+    <source path="mongoose/frontend/operations/cart"/>
+    <!--=======================< mongoose-frontend-activities-fees >========================-->
+    <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
+    <source path="mongoose/frontend/activities/fees"/>
     <source path="mongoose/frontend/activities/fees/routing"/>
     <source path="mongoose/frontend/operations/fees"/>
-    <!--==================< mongoose-frontend-activities-options-routing >==================-->
-    <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
+    <!--======================< mongoose-frontend-activities-options >======================-->
+    <!-- used by mongoose-frontend-activities-fees (SOURCE) -->
+    <source path="mongoose/frontend/activities/options"/>
     <source path="mongoose/frontend/activities/options/routing"/>
     <source path="mongoose/frontend/operations/options"/>
+    <!--======================< mongoose-frontend-activities-person >=======================-->
+    <!-- used by mongoose-frontend-activities-options (SOURCE) -->
+    <source path="mongoose/frontend/activities/person"/>
+    <source path="mongoose/frontend/activities/person/routing"/>
+    <source path="mongoose/frontend/operations/person"/>
+    <!--======================< mongoose-frontend-activities-summary >======================-->
+    <!-- used by mongoose-frontend-activities-person (SOURCE) -->
+    <source path="mongoose/frontend/activities/summary"/>
+    <source path="mongoose/frontend/activities/summary/routing"/>
+    <source path="mongoose/frontend/operations/summary"/>
     <!--=============================< mongoose-shared-domain >=============================-->
     <!-- used by mongoose-shared-entities (SOURCE) -->
     <source path="mongoose/shared/domainmodel/formatters"/>
@@ -503,6 +513,7 @@
     <source path="webfx/fxkit/extra/cell/collator/grid"/>
     <source path="webfx/fxkit/extra/controls/mapper/spi/impl/peer/gwt/html"/>
     <!--=====================< webfx-fxkit-extracontrols-mapper-base >======================-->
+    <!-- used by mongoose-frontend-activities-fees (SOURCE) -->
     <!-- used by webfx-fxkit-extracontrols-mapper-gwt (SOURCE) -->
     <source path="webfx/fxkit/extra/cell/collator/grid"/>
     <source path="webfx/fxkit/extra/controls/mapper/spi/peer/impl/base"/>

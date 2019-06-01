@@ -7,11 +7,11 @@ module mongoose.backend.activities.bookings {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires mongoose.backend.activities.bookings.routing;
     requires mongoose.backend.activities.cloneevent.routing;
     requires mongoose.client.activity;
-    requires mongoose.client.businesslogic;
-    requires mongoose.frontend.activities.options.routing;
+    requires mongoose.client.aggregates;
+    requires mongoose.client.util;
+    requires mongoose.frontend.activities.fees;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
     requires webfx.framework.client.action;
@@ -21,13 +21,18 @@ module mongoose.backend.activities.bookings {
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.expression;
+    requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
+    requires webfx.fxkit.extracontrols;
+    requires webfx.fxkit.util;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.json;
-    requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.backend.activities.bookings;
+    exports mongoose.backend.activities.bookings.routing;
+    exports mongoose.backend.operations.bookings;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.bookings.RouteToBookingsRequestEmitter;

@@ -25,19 +25,19 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-activities-bookings-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>mongoose-backend-activities-events-routing</artifactId>
+            <artifactId>mongoose-backend-activities-bookings</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
             <artifactId>mongoose-client-activity</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-client-util</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -73,7 +73,19 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-shared-operation</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-shared-router</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-client-windowhistory</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

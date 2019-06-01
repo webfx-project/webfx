@@ -9,8 +9,8 @@ module mongoose.frontend.activities.payment {
     requires mongoose.client.aggregates;
     requires mongoose.client.entities;
     requires mongoose.client.sectionpanel;
-    requires mongoose.frontend.activities.cart;
-    requires mongoose.frontend.activities.payment.routing;
+    requires mongoose.client.util;
+    requires mongoose.frontend.activities.cart.routing;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
     requires webfx.framework.client.action;
@@ -24,6 +24,7 @@ module mongoose.frontend.activities.payment {
     requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.websocketbus;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.client.windowlocation;
     requires webfx.platform.shared.bus;
     requires webfx.platform.shared.log;
@@ -32,6 +33,8 @@ module mongoose.frontend.activities.payment {
 
     // Exported packages
     exports mongoose.frontend.activities.payment;
+    exports mongoose.frontend.activities.payment.routing;
+    exports mongoose.frontend.operations.payment;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.frontend.activities.payment.PaymentUiRoute;

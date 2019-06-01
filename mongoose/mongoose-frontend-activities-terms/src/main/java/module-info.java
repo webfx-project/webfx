@@ -9,7 +9,7 @@ module mongoose.frontend.activities.terms {
     requires mongoose.client.bookingprocess;
     requires mongoose.client.icons;
     requires mongoose.client.sectionpanel;
-    requires mongoose.frontend.activities.terms.routing;
+    requires mongoose.client.util;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
@@ -18,10 +18,13 @@ module mongoose.frontend.activities.terms {
     requires webfx.framework.client.uirouter;
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.extracontrols.mapper.base;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.frontend.activities.terms;
+    exports mongoose.frontend.activities.terms.routing;
+    exports mongoose.frontend.operations.terms;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.frontend.activities.terms.TermsUiRoute;

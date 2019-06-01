@@ -243,69 +243,52 @@
     <source path="mongoose/frontend/activities/cart"/>
     <!--===================< mongoose-frontend-activities-cart-routing >====================-->
     <!-- used by mongoose-frontend-activities-summary (SOURCE) -->
+    <source path="mongoose/frontend/activities/cart/base"/>
     <source path="mongoose/frontend/activities/cart/routing"/>
     <source path="mongoose/frontend/operations/cart"/>
     <!--=====================< mongoose-frontend-activities-contactus >=====================-->
-    <!-- used by mongoose-frontend-application (PLUGIN) -->
-    <source path="mongoose/frontend/activities/contactus"/>
-    <!--=================< mongoose-frontend-activities-contactus-routing >=================-->
     <!-- used by mongoose-frontend-activities-cart (SOURCE) -->
+    <source path="mongoose/frontend/activities/contactus"/>
     <source path="mongoose/frontend/activities/contactus/routing"/>
     <source path="mongoose/frontend/operations/contactus"/>
     <!--=======================< mongoose-frontend-activities-fees >========================-->
-    <!-- used by mongoose-frontend-application (PLUGIN) -->
-    <source path="mongoose/frontend/activities/fees"/>
-    <!--===================< mongoose-frontend-activities-fees-routing >====================-->
     <!-- used by mongoose-frontend-activities-startbooking (SOURCE) -->
+    <source path="mongoose/frontend/activities/fees"/>
     <source path="mongoose/frontend/activities/fees/routing"/>
     <source path="mongoose/frontend/operations/fees"/>
     <!--======================< mongoose-frontend-activities-options >======================-->
-    <!-- used by mongoose-frontend-application (PLUGIN) -->
-    <source path="mongoose/frontend/activities/options"/>
-    <!--==================< mongoose-frontend-activities-options-routing >==================-->
     <!-- used by mongoose-frontend-activities-startbooking (SOURCE) -->
+    <source path="mongoose/frontend/activities/options"/>
     <source path="mongoose/frontend/activities/options/routing"/>
     <source path="mongoose/frontend/operations/options"/>
     <!--======================< mongoose-frontend-activities-payment >======================-->
-    <!-- used by mongoose-frontend-application (PLUGIN) -->
-    <source path="mongoose/frontend/activities/payment"/>
-    <!--==================< mongoose-frontend-activities-payment-routing >==================-->
     <!-- used by mongoose-frontend-activities-cart (SOURCE) -->
+    <source path="mongoose/frontend/activities/payment"/>
     <source path="mongoose/frontend/activities/payment/routing"/>
     <source path="mongoose/frontend/operations/payment"/>
     <!--======================< mongoose-frontend-activities-person >=======================-->
-    <!-- used by mongoose-frontend-application (PLUGIN) -->
-    <source path="mongoose/frontend/activities/person"/>
-    <!--==================< mongoose-frontend-activities-person-routing >===================-->
     <!-- used by mongoose-frontend-activities-options (SOURCE) -->
+    <source path="mongoose/frontend/activities/person"/>
     <source path="mongoose/frontend/activities/person/routing"/>
     <source path="mongoose/frontend/operations/person"/>
     <!--======================< mongoose-frontend-activities-program >======================-->
-    <!-- used by mongoose-frontend-application (PLUGIN) -->
-    <source path="mongoose/frontend/activities/program"/>
-    <!--==================< mongoose-frontend-activities-program-routing >==================-->
     <!-- used by mongoose-frontend-activities-startbooking (SOURCE) -->
+    <source path="mongoose/frontend/activities/program"/>
     <source path="mongoose/frontend/activities/program/routing"/>
     <source path="mongoose/frontend/operations/program"/>
     <!--===================< mongoose-frontend-activities-startbooking >====================-->
     <!-- used by mongoose-frontend-application (PLUGIN) -->
     <source path="mongoose/frontend/activities/startbooking"/>
-    <!--===============< mongoose-frontend-activities-startbooking-routing >================-->
-    <!-- used by mongoose-frontend-activities-startbooking (SOURCE) -->
     <source path="mongoose/frontend/activities/startbooking/routing"/>
     <source path="mongoose/frontend/operations/startbooking"/>
     <!--======================< mongoose-frontend-activities-summary >======================-->
-    <!-- used by mongoose-frontend-application (PLUGIN) -->
-    <source path="mongoose/frontend/activities/summary"/>
-    <!--==================< mongoose-frontend-activities-summary-routing >==================-->
     <!-- used by mongoose-frontend-activities-person (SOURCE) -->
+    <source path="mongoose/frontend/activities/summary"/>
     <source path="mongoose/frontend/activities/summary/routing"/>
     <source path="mongoose/frontend/operations/summary"/>
     <!--=======================< mongoose-frontend-activities-terms >=======================-->
-    <!-- used by mongoose-frontend-application (PLUGIN) -->
-    <source path="mongoose/frontend/activities/terms"/>
-    <!--===================< mongoose-frontend-activities-terms-routing >===================-->
     <!-- used by mongoose-frontend-activities-startbooking (SOURCE) -->
+    <source path="mongoose/frontend/activities/terms"/>
     <source path="mongoose/frontend/activities/terms/routing"/>
     <source path="mongoose/frontend/operations/terms"/>
     <!--=========================< mongoose-frontend-application >==========================-->

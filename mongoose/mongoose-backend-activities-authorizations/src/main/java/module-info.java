@@ -6,7 +6,6 @@ module mongoose.backend.activities.authorizations {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires mongoose.backend.activities.authorizations.routing;
     requires mongoose.client.authn;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
@@ -14,12 +13,16 @@ module mongoose.backend.activities.authorizations {
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
     requires webfx.fxkit.extracontrols;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.backend.activities.authorizations;
+    exports mongoose.backend.activities.authorizations.routing;
+    exports mongoose.backend.activities.operations.authorizations;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.authorizations.RouteToAuthorizationsRequestEmitter;

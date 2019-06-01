@@ -68,6 +68,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-client-util</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-client-validation</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -75,12 +81,6 @@
         
         <dependency>
             <artifactId>mongoose-frontend-activities-cart-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>mongoose-frontend-activities-summary-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -117,6 +117,12 @@
         
         <dependency>
             <artifactId>webfx-fxkit-util</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-client-windowhistory</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

@@ -25,13 +25,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-activities-letter-routing</artifactId>
+            <artifactId>mongoose-backend-multilangeditor</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-multilangeditor</artifactId>
+            <artifactId>mongoose-client-util</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -62,6 +62,12 @@
         
         <dependency>
             <artifactId>webfx-fxkit-util</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-client-windowhistory</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

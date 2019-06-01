@@ -13,8 +13,8 @@ module mongoose.frontend.activities.fees {
     requires mongoose.client.entities;
     requires mongoose.client.icons;
     requires mongoose.client.sectionpanel;
-    requires mongoose.frontend.activities.fees.routing;
-    requires mongoose.frontend.activities.options.routing;
+    requires mongoose.client.util;
+    requires mongoose.frontend.activities.options;
     requires mongoose.shared.entities;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
@@ -28,6 +28,7 @@ module mongoose.frontend.activities.fees {
     requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.query;
@@ -35,6 +36,8 @@ module mongoose.frontend.activities.fees {
 
     // Exported packages
     exports mongoose.frontend.activities.fees;
+    exports mongoose.frontend.activities.fees.routing;
+    exports mongoose.frontend.operations.fees;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.frontend.activities.fees.FeesUiRoute;

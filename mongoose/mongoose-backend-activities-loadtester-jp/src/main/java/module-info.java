@@ -7,7 +7,6 @@ module mongoose.backend.activities.loadtester.jp {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires mongoose.backend.activities.loadtester.jp.routing;
     requires mongoose.client.activity;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
@@ -16,6 +15,8 @@ module mongoose.backend.activities.loadtester.jp {
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.operation;
+    requires webfx.framework.shared.router;
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.extratype;
     requires webfx.platform.client.uischeduler;
@@ -40,9 +41,12 @@ module mongoose.backend.activities.loadtester.jp {
     exports mongoose.backend.activities.loadtester.drive.metrics.controller;
     exports mongoose.backend.activities.loadtester.drive.metrics.model;
     exports mongoose.backend.activities.loadtester.drive.model;
+    exports mongoose.backend.activities.loadtester.routing;
     exports mongoose.backend.activities.saveloadtest;
+    exports mongoose.backend.activities.saveloadtest.routing;
     exports mongoose.backend.entities.loadtester;
     exports mongoose.backend.entities.loadtester.impl;
+    exports mongoose.backend.operations.loadtester;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.operations.loadtester.RouteToTesterRequest.ProvidedEmitter;

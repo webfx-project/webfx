@@ -7,7 +7,7 @@ module mongoose.backend.activities.cloneevent {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires mongoose.backend.activities.bookings.routing;
+    requires mongoose.backend.activities.bookings;
     requires mongoose.backend.activities.cloneevent.routing;
     requires mongoose.client.activity;
     requires mongoose.shared.domain;

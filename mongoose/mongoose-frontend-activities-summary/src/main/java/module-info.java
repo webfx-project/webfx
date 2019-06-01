@@ -12,20 +12,23 @@ module mongoose.frontend.activities.summary {
     requires mongoose.client.businesslogic;
     requires mongoose.client.personaldetails;
     requires mongoose.client.sectionpanel;
+    requires mongoose.client.util;
     requires mongoose.client.validation;
     requires mongoose.frontend.activities.cart.routing;
-    requires mongoose.frontend.activities.summary.routing;
     requires mongoose.shared.entities;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uirouter;
     requires webfx.fxkit.util;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.frontend.activities.summary;
+    exports mongoose.frontend.activities.summary.routing;
+    exports mongoose.frontend.operations.summary;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.frontend.activities.summary.SummaryUiRoute;

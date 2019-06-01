@@ -14,7 +14,6 @@ module mongoose.backend.activities.options {
     requires mongoose.client.calendar;
     requires mongoose.client.icons;
     requires mongoose.frontend.activities.options;
-    requires mongoose.frontend.activities.options.routing;
     requires mongoose.shared.entities;
     requires mongoose.shared.time;
     requires webfx.framework.client.activity;

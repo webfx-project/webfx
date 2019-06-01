@@ -43,31 +43,31 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-fees-routing</artifactId>
+            <artifactId>mongoose-client-util</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-fees</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-program-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-options</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-startbooking-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-program</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-terms-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-terms</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -128,6 +128,12 @@
         
         <dependency>
             <artifactId>webfx-platform-client-uischeduler</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-client-windowhistory</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

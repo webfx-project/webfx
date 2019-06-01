@@ -32,6 +32,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-client-aggregates</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-client-bookingcalendar</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -80,13 +86,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>mongoose-frontend-activities-person-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-person</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -140,6 +140,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-shared-entity</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-fxkit-extracontrols</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -153,6 +159,12 @@
         
         <dependency>
             <artifactId>webfx-platform-client-uischeduler</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-client-windowhistory</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

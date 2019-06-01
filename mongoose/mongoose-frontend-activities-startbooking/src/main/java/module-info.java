@@ -8,11 +8,11 @@ module mongoose.frontend.activities.startbooking {
     requires mongoose.client.bookingprocess;
     requires mongoose.client.entities;
     requires mongoose.client.icons;
-    requires mongoose.frontend.activities.fees.routing;
-    requires mongoose.frontend.activities.options.routing;
-    requires mongoose.frontend.activities.program.routing;
-    requires mongoose.frontend.activities.startbooking.routing;
-    requires mongoose.frontend.activities.terms.routing;
+    requires mongoose.client.util;
+    requires mongoose.frontend.activities.fees;
+    requires mongoose.frontend.activities.options;
+    requires mongoose.frontend.activities.program;
+    requires mongoose.frontend.activities.terms;
     requires mongoose.shared.entities;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
@@ -23,10 +23,13 @@ module mongoose.frontend.activities.startbooking {
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.frontend.activities.startbooking;
+    exports mongoose.frontend.activities.startbooking.routing;
+    exports mongoose.frontend.operations.startbooking;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.frontend.activities.startbooking.StartBookingUiRoute;

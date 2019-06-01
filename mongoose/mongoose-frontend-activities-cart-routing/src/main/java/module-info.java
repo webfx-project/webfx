@@ -4,13 +4,23 @@ module mongoose.frontend.activities.cart.routing {
 
     // Direct dependencies modules
     requires java.base;
+    requires javafx.base;
+    requires javafx.graphics;
+    requires mongoose.client.activity;
+    requires mongoose.client.aggregates;
     requires mongoose.client.util;
     requires mongoose.shared.entities;
+    requires webfx.framework.client.domain;
+    requires webfx.framework.client.i18n;
     requires webfx.framework.client.uirouter;
+    requires webfx.framework.client.util;
+    requires webfx.fxkit.util;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.json;
+    requires webfx.platform.shared.util;
 
     // Exported packages
+    exports mongoose.frontend.activities.cart.base;
     exports mongoose.frontend.activities.cart.routing;
     exports mongoose.frontend.operations.cart;
 

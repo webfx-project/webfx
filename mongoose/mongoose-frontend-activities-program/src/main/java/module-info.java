@@ -10,16 +10,19 @@ module mongoose.frontend.activities.program {
     requires mongoose.client.businesslogic;
     requires mongoose.client.icons;
     requires mongoose.client.sectionpanel;
-    requires mongoose.frontend.activities.program.routing;
+    requires mongoose.client.util;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.frontend.activities.program;
+    exports mongoose.frontend.activities.program.routing;
+    exports mongoose.frontend.operations.program;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.frontend.activities.program.ProgramUiRoute;

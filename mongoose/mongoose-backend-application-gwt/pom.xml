@@ -55,21 +55,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-activities-authorizations-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
             <artifactId>mongoose-backend-activities-bookings</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
-            <artifactId>mongoose-backend-activities-bookings-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>
@@ -97,21 +83,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-activities-events-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
             <artifactId>mongoose-backend-activities-letter</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
-            <artifactId>mongoose-backend-activities-letter-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>
@@ -125,21 +97,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-activities-letters-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
             <artifactId>mongoose-backend-activities-monitor</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
-            <artifactId>mongoose-backend-activities-monitor-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>
@@ -153,21 +111,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-activities-operations-routing</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
             <artifactId>mongoose-backend-activities-organizations</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
-            <artifactId>mongoose-backend-activities-organizations-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>
@@ -244,6 +188,20 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-client-bookingoptionspanel</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-client-bookingprocess</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-client-busconfig</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -300,6 +258,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-client-personaldetails</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-client-sectionpanel</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -328,14 +293,35 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-fees-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-cart-routing</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-fees</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-frontend-activities-options</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-frontend-activities-person</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-frontend-activities-summary</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>

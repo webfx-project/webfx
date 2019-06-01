@@ -10,8 +10,8 @@ module mongoose.frontend.activities.person {
     requires mongoose.client.bookingprocess;
     requires mongoose.client.businesslogic;
     requires mongoose.client.personaldetails;
-    requires mongoose.frontend.activities.person.routing;
-    requires mongoose.frontend.activities.summary.routing;
+    requires mongoose.client.util;
+    requires mongoose.frontend.activities.summary;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
@@ -19,10 +19,13 @@ module mongoose.frontend.activities.person {
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
     requires webfx.fxkit.util;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.frontend.activities.person;
+    exports mongoose.frontend.activities.person.routing;
+    exports mongoose.frontend.operations.person;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.frontend.activities.person.PersonUiRoute;

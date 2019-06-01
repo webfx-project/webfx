@@ -50,7 +50,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-terms-routing</artifactId>
+            <artifactId>mongoose-client-util</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -99,6 +99,12 @@
         
         <dependency>
             <artifactId>webfx-fxkit-extracontrols-mapper-base</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-client-windowhistory</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

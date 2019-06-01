@@ -32,12 +32,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-client-activity</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>mongoose-client-aggregates</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -74,25 +68,25 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-contactus-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-contactus</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-options-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-options</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-payment-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-payment</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-frontend-activities-startbooking-routing</artifactId>
+            <artifactId>mongoose-frontend-activities-startbooking</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -158,12 +152,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-util</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-framework-shared-domain</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -195,12 +183,6 @@
         
         <dependency>
             <artifactId>webfx-fxkit-extratype</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-fxkit-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

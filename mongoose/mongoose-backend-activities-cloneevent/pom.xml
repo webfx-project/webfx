@@ -32,7 +32,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-activities-bookings-routing</artifactId>
+            <artifactId>mongoose-backend-activities-bookings</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

@@ -14,6 +14,7 @@ import mongoose.client.businessdata.workingdocument.WorkingDocument;
 import mongoose.client.businessdata.workingdocument.WorkingDocumentsByCartStore;
 import mongoose.client.controls.sectionpanel.SectionPanelFactory;
 import mongoose.client.util.functions.TranslateFunction;
+import mongoose.frontend.activities.cart.base.CartBasedActivity;
 import mongoose.frontend.operations.contactus.RouteToContactUsRequest;
 import mongoose.frontend.operations.options.RouteToOptionsRequest;
 import mongoose.frontend.operations.payment.RouteToPaymentRequest;

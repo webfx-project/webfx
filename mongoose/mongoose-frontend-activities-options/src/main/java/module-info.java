@@ -7,6 +7,7 @@ module mongoose.frontend.activities.options {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
+    requires mongoose.client.aggregates;
     requires mongoose.client.bookingcalendar;
     requires mongoose.client.bookingprocess;
     requires mongoose.client.businesslogic;
@@ -15,8 +16,7 @@ module mongoose.frontend.activities.options {
     requires mongoose.client.sectionpanel;
     requires mongoose.client.util;
     requires mongoose.client.validation;
-    requires mongoose.frontend.activities.options.routing;
-    requires mongoose.frontend.activities.person.routing;
+    requires mongoose.frontend.activities.person;
     requires mongoose.shared.entities;
     requires mongoose.shared.time;
     requires webfx.framework.client.activity;
@@ -25,14 +25,18 @@ module mongoose.frontend.activities.options {
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
+    requires webfx.framework.shared.entity;
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.frontend.activities.options;
+    exports mongoose.frontend.activities.options.routing;
+    exports mongoose.frontend.operations.options;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.frontend.activities.options.OptionsUiRoute;

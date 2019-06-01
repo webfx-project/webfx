@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.client.controls.sectionpanel.SectionPanelFactory;
-import mongoose.frontend.activities.cart.CartBasedActivity;
+import mongoose.frontend.activities.cart.base.CartBasedActivity;
 import mongoose.shared.entities.formatters.EventPriceFormatter;
 import mongoose.shared.domainmodel.formatters.PriceFormatter;
 import mongoose.shared.entities.*;

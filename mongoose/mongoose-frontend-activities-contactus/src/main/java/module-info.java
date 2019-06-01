@@ -6,9 +6,9 @@ module mongoose.frontend.activities.contactus {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.activity;
+    requires mongoose.client.util;
     requires mongoose.client.validation;
     requires mongoose.frontend.activities.cart.routing;
-    requires mongoose.frontend.activities.contactus.routing;
     requires mongoose.shared.entities;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
@@ -18,6 +18,7 @@ module mongoose.frontend.activities.contactus {
     requires webfx.framework.client.util;
     requires webfx.framework.shared.entity;
     requires webfx.platform.client.uischeduler;
+    requires webfx.platform.client.windowhistory;
     requires webfx.platform.client.windowlocation;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.update;
@@ -25,6 +26,8 @@ module mongoose.frontend.activities.contactus {
 
     // Exported packages
     exports mongoose.frontend.activities.contactus;
+    exports mongoose.frontend.activities.contactus.routing;
+    exports mongoose.frontend.operations.contactus;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.frontend.activities.contactus.ContactUsUiRoute;
