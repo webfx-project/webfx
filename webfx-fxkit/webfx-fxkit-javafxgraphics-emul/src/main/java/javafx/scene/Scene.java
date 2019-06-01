@@ -20,15 +20,17 @@ import javafx.event.EventDispatcher;
 import javafx.event.EventTarget;
 import javafx.geometry.Orientation;
 import javafx.scene.input.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import webfx.fxkit.javafxgraphics.mapper.highcoupling.FxKitMapper;
-import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
 import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.ScenePeer;
 import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.StagePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasFillProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasHeightProperty;
@@ -705,8 +707,10 @@ public class Scene implements EventTarget,
     }
 
     private Node createUnimplementedNodeReplacer(Node node) {
-        // Creating a rectangle as replacement (assuming the node peer factory at least implements a rectangle peer!)
-        Rectangle nodeReplacer = new Rectangle(10, 10, Color.LIGHTGRAY);
+        // Creating a region as replacement (assuming the node peer factory at least implements a region peer!)
+        Region nodeReplacer = new Region();
+        nodeReplacer.setPrefSize(10, 10);
+        nodeReplacer.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
         // TODO: add a text within the rectangle with the following message
         //String message = Strings.removeSuffix(node.getClass().getSimpleName(), "Impl") + " peer not provided";
         // Binding to allow the button to respond to the original node layout
