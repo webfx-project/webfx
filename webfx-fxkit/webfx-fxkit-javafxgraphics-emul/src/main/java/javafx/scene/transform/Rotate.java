@@ -13,12 +13,31 @@ import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasAngleProperty;
 public class Rotate extends PivotTransform implements
         HasAngleProperty {
 
+    /**
+     * Creates a default Rotate transform (identity).
+     */
     public Rotate() {
     }
 
-    public Rotate(double angle, double pivotX, double pivotY) {
-        super(pivotX, pivotY);
+    /**
+     * Creates a two-dimensional Rotate transform.
+     * The pivot point is set to (0,0)
+     * @param angle the angle of rotation measured in degrees
+     */
+    public Rotate(double angle) {
         setAngle(angle);
+    }
+
+    /**
+     * Creates a two-dimensional Rotate transform with pivot.
+     * @param angle the angle of rotation measured in degrees
+     * @param pivotX the X coordinate of the rotation pivot point
+     * @param pivotY the Y coordinate of the rotation pivot point
+     */
+    public Rotate(double angle, double pivotX, double pivotY) {
+        setAngle(angle);
+        setPivotX(pivotX);
+        setPivotY(pivotY);
     }
 
     private final DoubleProperty angleProperty = new SimpleDoubleProperty(0d);
