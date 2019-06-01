@@ -4,15 +4,14 @@ import javafx.beans.property.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import webfx.fxkit.util.properties.Properties;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
+import webfx.fxkit.util.properties.Properties;
 /**
  * @author Bruno Salmon
  */
@@ -402,20 +401,16 @@ public abstract class Labeled extends Control implements
         return graphicTextGap == null ? 4 : graphicTextGap.getValue();
     }
 
-    {
-        // Requesting a new layout pass on text and image properties change
-        Properties.runOnPropertiesChange(property -> {
-            Parent parent = getParent();
-            if (parent != null)
-                parent.requestLayout();
-        }, textProperty, graphicProperty, fontProperty(), alignmentProperty(), textAlignmentProperty());
-    }
-
     @Override
     public void setScene(Scene scene) {
         super.setScene(scene);
         Node graphic = getGraphic();
         if (graphic != null)
             graphic.setScene(scene);
+    }
+
+    { // WebFx
+        // Requesting a new layout pass on text and image properties change
+        Properties.runOnPropertiesChange(this::requestParentLayout, textProperty, graphicProperty, fontProperty(), alignmentProperty(), textAlignmentProperty());
     }
 }

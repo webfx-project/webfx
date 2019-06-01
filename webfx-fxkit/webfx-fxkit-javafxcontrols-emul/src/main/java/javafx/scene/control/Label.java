@@ -1,5 +1,6 @@
 package javafx.scene.control;
 
+import javafx.scene.control.skin.LabelSkin;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -110,6 +111,13 @@ public class Label extends Labeled {
 
     public final void setLabelFor(Node value) { labelForProperty().setValue(value); }
     public final Node getLabelFor() { return labelFor == null ? null : labelFor.getValue(); }
+
+    // WebFx addition
+
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return new LabelSkin(this);
+    }
 
     static {
         JavaFxControlsRegistry.registerLabel();
