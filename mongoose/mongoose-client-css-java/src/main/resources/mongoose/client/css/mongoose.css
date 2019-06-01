@@ -151,8 +151,8 @@ DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
     -fx-background-color:
         -fx-focus-color,
         -fx-cell-focus-inner-border,
-        linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
-        linear-gradient(from 0% 0% to 100% 0%, -stay-color 0%, -stay-color 40%, transparent 50%, transparent 100%),
+        linear-gradient(to bottom, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
+        linear-gradient(to right, -stay-color 0%, -stay-color 40%, transparent 50%, transparent 100%),
         linear-gradient(from 0px 0px to 5px 10px, reflect, -selection-color 30%, transparent 70%);
 }
 
