@@ -129,6 +129,8 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
                 // Sending only the diff to old clients (or sending the whole result if the comparator couldn't compute a diff)
                 if (hasChanged)
                     pushResultToClients(activeOldClients, queryResult, queryResultDiff);
+                else // Otherwise (no diff), marking new clients as old
+                    Collections.forEach(activeNewClients, si -> si.lastQueryResult = lastQueryResult);
             }
         }
 
