@@ -1,4 +1,4 @@
-package com.sun.javafx.scene.control.skin;
+package com.sun.javafx.scene.control;
 
 import javafx.scene.control.Labeled;
 import javafx.scene.text.Text;

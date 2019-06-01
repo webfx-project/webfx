@@ -2,7 +2,7 @@ package javafx.scene.control.skin;
 
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
-import com.sun.javafx.scene.control.skin.LabeledText;
+import com.sun.javafx.scene.control.LabeledText;
 import com.sun.javafx.scene.control.skin.Utils;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;

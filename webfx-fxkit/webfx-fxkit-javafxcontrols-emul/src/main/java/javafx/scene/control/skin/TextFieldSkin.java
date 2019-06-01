@@ -1,7 +1,6 @@
 package javafx.scene.control.skin;
 
 import com.sun.javafx.scene.control.behavior.TextFieldBehavior;
-import com.sun.javafx.scene.control.skin.ToolkitTextBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -17,7 +16,7 @@ public class TextFieldSkin extends TextInputControlSkin<TextField, TextFieldBeha
      * caret are each translated individually when horizontal
      * translation is needed to keep the caretPosition visible.
      */
-    private final ToolkitTextBox textGroup;
+    private final ToolkitTextBox textGroup; // WebFx change
 
     /**
      * Create a new TextFieldSkin.

@@ -4,7 +4,7 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
 import javafx.scene.control.skin.TextFieldSkin;
-import com.sun.javafx.scene.control.skin.ToolkitTextBox;
+import javafx.scene.control.skin.ToolkitTextBox;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.PasswordField;

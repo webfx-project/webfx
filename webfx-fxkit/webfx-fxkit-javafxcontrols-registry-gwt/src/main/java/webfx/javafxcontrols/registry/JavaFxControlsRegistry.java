@@ -1,7 +1,7 @@
 package webfx.javafxcontrols.registry;
 
-import com.sun.javafx.scene.control.skin.LabeledText;
-import com.sun.javafx.scene.control.skin.ToolkitTextBox;
+import com.sun.javafx.scene.control.LabeledText;
+import javafx.scene.control.skin.ToolkitTextBox;
 import javafx.scene.control.*;
 import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.gwt.html.*;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.HtmlTextPeer;

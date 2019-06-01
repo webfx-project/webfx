@@ -1,4 +1,4 @@
-package com.sun.javafx.scene.control.skin;
+package javafx.scene.control.skin;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Skin;
@@ -10,7 +10,7 @@ import webfx.javafxcontrols.registry.JavaFxControlsRegistry;
 /**
  * @author Bruno Salmon
  */
-public class ToolkitTextBox extends TextField {
+public class ToolkitTextBox extends TextField { // WebFx specific class (not part of JavaFx)
 
     private final TextField embeddingTextField;
 
