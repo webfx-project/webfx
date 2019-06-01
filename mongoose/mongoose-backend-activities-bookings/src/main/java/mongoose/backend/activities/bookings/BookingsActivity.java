@@ -3,7 +3,10 @@ package mongoose.backend.activities.bookings;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
@@ -13,6 +16,8 @@ import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.util.Booleans;
@@ -141,9 +146,21 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .displayResultInto(pm.genericDisplayResultProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> {
                     ObservableList<Node> items = genericTableView.getSplitPane().getItems();
-                    if (document != null)
-                        items.setAll(items.get(0), new Button(document.getFullName()));
-                    else if (items.size() >= 2)
+                    if (document != null) {
+                       Button button = new Button(document.getFullName());
+                        Object pk = document.getPrimaryKey();
+                        items.setAll(items.get(0), new VBox(button, new TabPane(
+                               createTab("Personal details", "images/s16/personalDetails.png"),
+                               createFilterTab("Options", "images/s16/options.png", "{class: 'DocumentLine', columns: `['site','item','dates','lockAllocation','resourceConfiguration','comment','price_isCustom',{expression: 'price_net', format:'price'},{expression: 'price_nonRefundable', format: 'price'},{expression: 'price_minDeposit', format: 'price'},{expression: 'price_deposit', format: 'price'}]`, where: 'document=" + pk + "', orderBy: 'item.family.ord,site..ord,item.ord'}"),
+                               createFilterTab("Payments", "images/s16/methods/generic.png", "{class: 'MoneyTransfer', columns: `['date','method','transactionRef','comment',{expression:'amount', format:'price'},'verified']`, where: 'document=" + pk + "', orderBy: 'date,id'}"),
+                               createTab("Comments", "images/s16/note.png"),
+                               createFilterTab("Cart", "images/s16/cart.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_net', format:'price'},{expression: 'price_deposit', format: 'price'},{expression: 'price_balance', format: 'price'}]`, where: 'cart=(select cart from Document where id=" + pk + ")', orderBy: 'ref'}"),
+                               createFilterTab("Multiple bookings", "images/s16/multipleBookings/redCross.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'multipleBooking=(select multipleBooking from Document where id=" + pk + ")', orderBy: 'ref'}"),
+                               createFilterTab("Children", "images/s16/child.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'person_carer1Document=" + pk + " or person_carer2Document=" + pk + "', orderBy: 'ref'}"),
+                               createFilterTab("Mails", "images/s16/mailbox.png", "{class: 'Mail', columns: 'date,subject,transmitted,error', where: 'document=" + pk + "', orderBy: 'date desc'}"),
+                                createFilterTab("History", "images/s16/history.png", "{class: 'History', columns: 'date,username,comment,request', where: 'document=" + pk + "', orderBy: 'date desc'}")
+                               )));
+                    } else if (items.size() >= 2)
                         items.setAll(items.get(0));
 
                 })
@@ -153,5 +170,27 @@ final class BookingsActivity extends EventDependentViewDomainActivity
     @Override
     protected void refreshDataOnActive() {
         filter.refreshWhenActive();
+    }
+
+    private static Tab createTab(String text, String iconUrl) {
+        Tab tab = new Tab(text);
+        tab.setGraphic(ImageStore.createImageView(iconUrl));
+        tab.setClosable(false);
+        return tab;
+    }
+
+    private static Tab createTab(String text, String iconUrl, Node node) {
+        Tab tab = createTab(text, iconUrl);
+        tab.setContent(node);
+        return tab;
+    }
+
+    private Tab createFilterTab(String text, String iconUrl, String filter) {
+        DataGrid table = new DataGrid();
+        createReactiveExpressionFilter(filter)
+                .applyDomainModelRowStyle()
+                .displayResultInto(table.displayResultProperty())
+                .start();
+        return createTab(text, iconUrl, table);
     }
 }

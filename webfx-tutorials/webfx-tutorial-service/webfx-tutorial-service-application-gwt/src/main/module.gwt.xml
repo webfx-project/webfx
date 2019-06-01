@@ -27,7 +27,7 @@
     <!-- used by webfx-fxkit-javafxcontrols-registry-gwt (SOURCE) -->
     <!-- used by webfx-tutorial-service-application (SOURCE) -->
     <source path="com/sun/javafx/scene/control"/>
-    <source path="com/sun/javafx/scene/control/behaviour"/>
+    <source path="com/sun/javafx/scene/control/behavior"/>
     <source path="com/sun/javafx/scene/control/skin"/>
     <source path="javafx/scene/control"/>
     <source path="javafx/scene/control/skin"/>
