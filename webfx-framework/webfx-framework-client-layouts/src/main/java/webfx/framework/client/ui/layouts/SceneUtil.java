@@ -88,7 +88,7 @@ public final class SceneUtil {
 
     public static boolean isAutoFocusEnabled(Scene scene) {
         // TODO: make it a user setting that can be stored in the device
-        // Default behaviour is to disable auto focus if this can cause a (probably unwanted) virtual keyboard to appear
+        // Default behavior is to disable auto focus if this can cause a (probably unwanted) virtual keyboard to appear
         return isVirtualKeyboardShowing(scene) || !willAVirtualKeyboardAppearOnFocus(scene);
     }
 

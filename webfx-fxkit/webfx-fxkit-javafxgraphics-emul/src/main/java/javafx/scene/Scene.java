@@ -169,7 +169,7 @@ public class Scene implements EventTarget,
     }
 
     private final Property<Parent> rootProperty = new SimpleObjectProperty<Parent>() {
-        // Temporary code to automatically assume the following behaviour:
+        // Temporary code to automatically assume the following behavior:
         // - the root node width is bound to the scene width
         // - the scene height is bound to the root node height (which eventually is bound to the preferred height)
         @Override

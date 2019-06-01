@@ -86,9 +86,9 @@
     </dependencies>
 
     <properties>
-        <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
+        <!-- Disabling the default behavior defined in the parent pom for the shade plugin -->
         <plugin.shade.param.fat.phase>none</plugin.shade.param.fat.phase>
-        <!-- Disabling the default behaviour defined in the parent pom for the dependency plugin -->
+        <!-- Disabling the default behavior defined in the parent pom for the dependency plugin -->
         <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
         <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>

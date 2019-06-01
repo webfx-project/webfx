@@ -1,6 +1,6 @@
 package javafx.scene.control.skin;
 
-import com.sun.javafx.scene.control.behaviour.ButtonBehavior;
+import com.sun.javafx.scene.control.behavior.ButtonBehavior;
 import com.sun.javafx.scene.control.skin.Utils;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;

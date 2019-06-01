@@ -7,7 +7,7 @@ import javafx.scene.control.Control;
 import com.sun.javafx.scene.control.MultiplePropertyChangeListenerHandler;
 import javafx.scene.control.SkinBase;
 import javafx.scene.input.MouseEvent;
-import com.sun.javafx.scene.control.behaviour.BehaviorBase;
+import com.sun.javafx.scene.control.behavior.BehaviorBase;
 
 /**
  *

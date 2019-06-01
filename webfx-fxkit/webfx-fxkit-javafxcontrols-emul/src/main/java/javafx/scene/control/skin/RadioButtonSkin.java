@@ -1,6 +1,6 @@
 package javafx.scene.control.skin;
 
-import com.sun.javafx.scene.control.behaviour.RadioButtonBehavior;
+import com.sun.javafx.scene.control.behavior.RadioButtonBehavior;
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import javafx.scene.control.RadioButton;
 

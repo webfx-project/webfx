@@ -9,7 +9,7 @@
     <artifactId>webfx-platform-providers-gwt-emul-javatime</artifactId>
 
     <properties>
-        <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
+        <!-- Disabling the default behavior defined in the parent pom for the shade plugin -->
         <plugin.shade.param.fat.phase>none</plugin.shade.param.fat.phase>
     </properties>
 

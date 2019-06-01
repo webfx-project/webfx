@@ -1,7 +1,7 @@
 package javafx.scene.text;
 
 /**
- * Specifies the behaviour of bounds reporting by {@code Text} nodes.
+ * Specifies the behavior of bounds reporting by {@code Text} nodes.
  * The setting affects {@code layoutBounds}, {@code boundsInLocal} and
  * {@code boundsInParent}
  *

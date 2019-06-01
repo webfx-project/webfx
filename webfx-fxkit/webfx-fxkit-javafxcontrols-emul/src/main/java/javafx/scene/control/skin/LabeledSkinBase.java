@@ -1,6 +1,6 @@
 package javafx.scene.control.skin;
 
-import com.sun.javafx.scene.control.behaviour.BehaviorBase;
+import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import com.sun.javafx.scene.control.skin.LabeledText;
 import com.sun.javafx.scene.control.skin.Utils;

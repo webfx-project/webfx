@@ -1,6 +1,6 @@
 package javafx.scene.control.skin;
 
-import com.sun.javafx.scene.control.behaviour.TextInputControlBehavior;
+import com.sun.javafx.scene.control.behavior.TextInputControlBehavior;
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import javafx.scene.control.TextInputControl;
 

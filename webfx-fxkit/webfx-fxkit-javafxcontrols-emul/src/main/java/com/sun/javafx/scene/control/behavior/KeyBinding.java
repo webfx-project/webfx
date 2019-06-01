@@ -1,11 +1,11 @@
-package com.sun.javafx.scene.control.behaviour;
+package com.sun.javafx.scene.control.behavior;
 
 import javafx.event.EventType;
 import javafx.scene.control.Control;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import static com.sun.javafx.scene.control.behaviour.OptionalBoolean.*;
+import static com.sun.javafx.scene.control.behavior.OptionalBoolean.*;
 
 /**
  * KeyBindings are used to describe which action should occur based on some

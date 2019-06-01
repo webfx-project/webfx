@@ -97,7 +97,7 @@ abstract class SvgShapePeer
     @Override
     public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
         // Before transformation, the top left corner of the container refers to the axis origin (0,0) in SVG whereas it
-        // refers to the top left corner of the path in JavaFx. So to emulate the same behaviour as JavaFx, we need to
+        // refers to the top left corner of the path in JavaFx. So to emulate the same behavior as JavaFx, we need to
         // add a translation of the shape so it appears on the top left corner.
         SVGRect bBox = getBBox();
         if (bBox != null) {

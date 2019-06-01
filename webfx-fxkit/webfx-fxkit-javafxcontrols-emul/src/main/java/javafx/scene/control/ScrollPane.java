@@ -1,6 +1,6 @@
 package javafx.scene.control;
 
-import com.sun.javafx.scene.control.behaviour.ScrollPaneBehavior;
+import com.sun.javafx.scene.control.behavior.ScrollPaneBehavior;
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import javafx.beans.property.*;
 import javafx.geometry.*;

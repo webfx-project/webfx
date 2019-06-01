@@ -31,7 +31,7 @@ public abstract class HtmlTextInputControlPeer
             return null;
         };
     /*
-    The behaviour when setting the style width/height on a text input seems different than on other html elements.
+    The behavior when setting the style width/height on a text input seems different than on other html elements.
     On other html elements (ex: a button) this will size the outer visual box (including padding and border) to the
     specified width/height. On a text input, this will size the inner visual box (excluding the padding and border).
 */

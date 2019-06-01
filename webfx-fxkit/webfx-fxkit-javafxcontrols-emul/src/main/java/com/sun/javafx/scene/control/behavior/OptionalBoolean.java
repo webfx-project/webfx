@@ -1,4 +1,4 @@
-package com.sun.javafx.scene.control.behaviour;
+package com.sun.javafx.scene.control.behavior;
 
 /**
  * A tri-state boolean used with KeyBinding.

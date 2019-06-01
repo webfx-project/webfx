@@ -1,6 +1,6 @@
 package javafx.scene.control.skin;
 
-import com.sun.javafx.scene.control.behaviour.ButtonBehavior;
+import com.sun.javafx.scene.control.behavior.ButtonBehavior;
 import javafx.scene.control.Hyperlink;
 
 /**
