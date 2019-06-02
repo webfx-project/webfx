@@ -1,6 +1,7 @@
 package mongoose.backend.activities.bookings;
 
-import javafx.collections.ObservableList;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -37,16 +38,16 @@ final class BookingsActivity extends EventDependentViewDomainActivity
 
     private GenericTableView genericTableView;
     private final BookingsPresentationModel pm = new BookingsPresentationModel();
+    private ObjectProperty<Document> selectedDocumentProperty = new SimpleObjectProperty<>();
 
     @Override
     public Node buildUi() {
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory())));
         Button cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
-        return (genericTableView = new GenericTableView() {
+        return (genericTableView = new GenericTableView(buildBookingDetails()) {
             @Override
-            public Node buildUi() {
-                Node node = super.buildUi();
-
+            public void initUi() {
+                super.initUi();
                 borderPane.setTop(new HBox(setUnmanagedWhenInvisible(newBookingButton), setHGrowable(searchBox), setUnmanagedWhenInvisible(cloneEventButton)));
 
                 // Initialization from the presentation model current state
@@ -61,10 +62,48 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 pm.genericDisplaySelectionProperty().bind(table.displaySelectionProperty());
                 // User outputs: the presentation model changes are transferred in the UI
                 table.displayResultProperty().bind(pm.genericDisplayResultProperty());
-
-                return node;
+                genericTableView.getMasterSlaveView().slaveVisibleProperty().bind(Properties.compute(selectedDocumentProperty, java.util.Objects::nonNull));
             }
         }).buildUi();
+    }
+
+    private Node buildBookingDetails() {
+//        Button button = new Button(document.getFullName());
+        return new VBox(/*button, */new TabPane(
+                createTab("Personal details", "images/s16/personalDetails.png"),
+                createFilterTab("Options", "images/s16/options.png", "{class: 'DocumentLine', columns: `['site','item','dates','lockAllocation','resourceConfiguration','comment','price_isCustom',{expression: 'price_net', format:'price'},{expression: 'price_nonRefundable', format: 'price'},{expression: 'price_minDeposit', format: 'price'},{expression: 'price_deposit', format: 'price'}]`, where: 'document=${selectedDocument}', orderBy: 'item.family.ord,site..ord,item.ord'}"),
+                createFilterTab("Payments", "images/s16/methods/generic.png", "{class: 'MoneyTransfer', columns: `['date','method','transactionRef','comment',{expression:'amount', format:'price'},'verified']`, where: 'document=${selectedDocument}', orderBy: 'date,id'}"),
+                createTab("Comments", "images/s16/note.png"),
+                createFilterTab("Cart", "images/s16/cart.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_net', format:'price'},{expression: 'price_deposit', format: 'price'},{expression: 'price_balance', format: 'price'}]`, where: 'cart=(select cart from Document where id=${selectedDocument})', orderBy: 'ref'}"),
+                createFilterTab("Multiple bookings", "images/s16/multipleBookings/redCross.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'multipleBooking=(select multipleBooking from Document where id=${selectedDocument})', orderBy: 'ref'}"),
+                createFilterTab("Children", "images/s16/child.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'person_carer1Document=${selectedDocument} or person_carer2Document=${selectedDocument}', orderBy: 'ref'}"),
+                createFilterTab("Mails", "images/s16/mailbox.png", "{class: 'Mail', columns: 'date,subject,transmitted,error', where: 'document=${selectedDocument}', orderBy: 'date desc'}"),
+                createFilterTab("History", "images/s16/history.png", "{class: 'History', columns: 'date,username,comment,request', where: 'document=${selectedDocument}', orderBy: 'date desc'}")
+        ));
+    }
+
+    private static Tab createTab(String text, String iconUrl) {
+        Tab tab = new Tab(text);
+        tab.setGraphic(ImageStore.createImageView(iconUrl));
+        tab.setClosable(false);
+        return tab;
+    }
+
+    private static Tab createTab(String text, String iconUrl, Node node) {
+        Tab tab = createTab(text, iconUrl);
+        tab.setContent(node);
+        return tab;
+    }
+
+    private Tab createFilterTab(String text, String iconUrl, String filter) {
+        DataGrid table = new DataGrid();
+        String classOnly = filter.substring(0, filter.indexOf(',')) + "}";
+        createReactiveExpressionFilter(classOnly)
+                .combineIfNotNullOtherwiseForceEmptyResult(selectedDocumentProperty, document -> Strings.replaceAll(filter, "${selectedDocument}", document.getPrimaryKey()))
+                .applyDomainModelRowStyle()
+                .displayResultInto(table.displayResultProperty())
+                .start();
+        return createTab(text, iconUrl, table);
     }
 
     @Override
@@ -144,26 +183,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .combineIfPositive(pm.limitProperty(), l -> "{limit: `" + l + "`}")
                 .applyDomainModelRowStyle()
                 .displayResultInto(pm.genericDisplayResultProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> {
-                    ObservableList<Node> items = genericTableView.getSplitPane().getItems();
-                    if (document != null) {
-                       Button button = new Button(document.getFullName());
-                        Object pk = document.getPrimaryKey();
-                        items.setAll(items.get(0), new VBox(button, new TabPane(
-                               createTab("Personal details", "images/s16/personalDetails.png"),
-                               createFilterTab("Options", "images/s16/options.png", "{class: 'DocumentLine', columns: `['site','item','dates','lockAllocation','resourceConfiguration','comment','price_isCustom',{expression: 'price_net', format:'price'},{expression: 'price_nonRefundable', format: 'price'},{expression: 'price_minDeposit', format: 'price'},{expression: 'price_deposit', format: 'price'}]`, where: 'document=" + pk + "', orderBy: 'item.family.ord,site..ord,item.ord'}"),
-                               createFilterTab("Payments", "images/s16/methods/generic.png", "{class: 'MoneyTransfer', columns: `['date','method','transactionRef','comment',{expression:'amount', format:'price'},'verified']`, where: 'document=" + pk + "', orderBy: 'date,id'}"),
-                               createTab("Comments", "images/s16/note.png"),
-                               createFilterTab("Cart", "images/s16/cart.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_net', format:'price'},{expression: 'price_deposit', format: 'price'},{expression: 'price_balance', format: 'price'}]`, where: 'cart=(select cart from Document where id=" + pk + ")', orderBy: 'ref'}"),
-                               createFilterTab("Multiple bookings", "images/s16/multipleBookings/redCross.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'multipleBooking=(select multipleBooking from Document where id=" + pk + ")', orderBy: 'ref'}"),
-                               createFilterTab("Children", "images/s16/child.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'person_carer1Document=" + pk + " or person_carer2Document=" + pk + "', orderBy: 'ref'}"),
-                               createFilterTab("Mails", "images/s16/mailbox.png", "{class: 'Mail', columns: 'date,subject,transmitted,error', where: 'document=" + pk + "', orderBy: 'date desc'}"),
-                                createFilterTab("History", "images/s16/history.png", "{class: 'History', columns: 'date,username,comment,request', where: 'document=" + pk + "', orderBy: 'date desc'}")
-                               )));
-                    } else if (items.size() >= 2)
-                        items.setAll(items.get(0));
-
-                })
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> selectedDocumentProperty.set(document))
                 .start();
     }
 
@@ -172,25 +192,4 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         filter.refreshWhenActive();
     }
 
-    private static Tab createTab(String text, String iconUrl) {
-        Tab tab = new Tab(text);
-        tab.setGraphic(ImageStore.createImageView(iconUrl));
-        tab.setClosable(false);
-        return tab;
-    }
-
-    private static Tab createTab(String text, String iconUrl, Node node) {
-        Tab tab = createTab(text, iconUrl);
-        tab.setContent(node);
-        return tab;
-    }
-
-    private Tab createFilterTab(String text, String iconUrl, String filter) {
-        DataGrid table = new DataGrid();
-        createReactiveExpressionFilter(filter)
-                .applyDomainModelRowStyle()
-                .displayResultInto(table.displayResultProperty())
-                .start();
-        return createTab(text, iconUrl, table);
-    }
 }
