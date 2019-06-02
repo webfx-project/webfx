@@ -87,10 +87,10 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             if (stringFilter.getColumns() != null) {
                 ExpressionColumn[] expressionColumns = ExpressionColumn.fromJsonArrayOrExpressionsDefinition(stringFilter.getColumns(), domainModel, domainClassId);
                 renderingExpression = new ExpressionArray<>(Arrays.map(expressionColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId).getDisplayExpression(), Expression[]::new));
-            } else if (stringFilter.getFields() != null)
-                renderingExpression = entityClass.parseExpression(stringFilter.getFields());
-            else
+            } else
                 renderingExpression = entityClass.getForeignFields();
+            if (renderingExpression == null && stringFilter.getFields() != null)
+                renderingExpression = entityClass.parseExpression(stringFilter.getFields());
             searchCondition = entityClass.getSearchCondition();
         }
         entityRenderer = renderingExpression == null ? null : ValueRendererFactory.getDefault().createValueRenderer(renderingExpression.getType());
@@ -169,27 +169,33 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             entityDialogFilter.setEntitiesHandler(entityList -> setSelectedItem(Collections.first(entityList)));
     }
 
+    private ReactiveExpressionFilter<E> getEntityDialogFilter() {
+        if (entityDialogFilter == null)
+            getOrCreateDialogContent();
+        return entityDialogFilter;
+    }
+
     @Override
     protected void setUpDialog(boolean show) {
         super.setUpDialog(show);
-        entityDialogFilter.setActive(true);
+        getEntityDialogFilter().setActive(true);
     }
 
     @Override
     protected void startLoading() {
-        if (!entityDialogFilter.isStarted())
+        if (!getEntityDialogFilter().isStarted())
             entityDialogFilter.start();
     }
 
     @Override
     protected void onDialogOk() {
-        setSelectedItem(entityDialogFilter.getSelectedEntity());
+        setSelectedItem(getEntityDialogFilter().getSelectedEntity());
         super.onDialogOk();
     }
 
     @Override
     protected void closeDialog() {
-        entityDialogFilter.setActive(false);
+        getEntityDialogFilter().setActive(false);
         super.closeDialog();
     }
 }

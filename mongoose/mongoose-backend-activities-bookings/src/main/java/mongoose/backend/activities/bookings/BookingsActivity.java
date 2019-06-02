@@ -16,11 +16,13 @@ import mongoose.client.controls.personaldetails.PersonalDetailsPanel;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.shared.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.impl.DynamicEntity;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.util.properties.Properties;
@@ -32,8 +34,7 @@ import webfx.platform.shared.util.Strings;
 import java.time.LocalDate;
 
 import static mongoose.backend.activities.bookings.routing.BookingsRouting.parseDayParam;
-import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
-import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
+import static webfx.framework.client.ui.layouts.LayoutUtil.*;
 import static webfx.framework.shared.expression.sqlcompiler.terms.ConstantSqlCompiler.toSqlDate;
 
 final class BookingsActivity extends EventDependentViewDomainActivity
@@ -52,7 +53,8 @@ final class BookingsActivity extends EventDependentViewDomainActivity
             @Override
             public void initUi() {
                 super.initUi();
-                borderPane.setTop(new HBox(setUnmanagedWhenInvisible(newBookingButton), setHGrowable(searchBox), setUnmanagedWhenInvisible(cloneEventButton)));
+                EntityButtonSelector<DynamicEntity> columnsSelector = new EntityButtonSelector<>("{class: 'Filter', fields: 'columns', where: `isColumns and class='Document'`, orderBy: 'name'}", this, borderPane, getDataSourceModel());
+                borderPane.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));
 
                 // Initialization from the presentation model current state
                 searchBox.setText(pm.searchTextProperty().getValue());
@@ -67,8 +69,13 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 // User outputs: the presentation model changes are transferred in the UI
                 table.displayResultProperty().bind(pm.genericDisplayResultProperty());
                 genericTableView.getMasterSlaveView().slaveVisibleProperty().bind(Properties.compute(selectedDocumentProperty, java.util.Objects::nonNull));
+                pm.columnsProperty().bind(Properties.compute(columnsSelector.selectedItemProperty(), filter -> filter == null ? null : filter.getStringFieldValue("columns")));
             }
         }).buildUi());
+    }
+
+    private String inlineFilter(DynamicEntity filter) {
+        return null;
     }
 
     private Node buildBookingDetails() {

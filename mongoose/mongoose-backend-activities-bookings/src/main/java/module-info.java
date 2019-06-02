@@ -33,6 +33,7 @@ module mongoose.backend.activities.bookings {
     requires webfx.platform.shared.util;
     requires mongoose.client.personaldetails;
     requires webfx.framework.client.controls;
+    requires webfx.framework.client.materialdesign;
 
     // Exported packages
     exports mongoose.backend.activities.bookings;
