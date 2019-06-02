@@ -21,6 +21,7 @@ module mongoose.backend.activities.bookings {
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.domain;
+    requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
@@ -30,7 +31,8 @@ module mongoose.backend.activities.bookings {
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.util;
-    requires webfx.framework.shared.entity;
+    requires mongoose.client.personaldetails;
+    requires webfx.framework.client.controls;
 
     // Exported packages
     exports mongoose.backend.activities.bookings;

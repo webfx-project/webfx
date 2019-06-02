@@ -151,7 +151,7 @@ public final class PersonalDetailsPanel implements MongooseButtonFactoryMixin {
     }
 
     private void updateUiEditable() {
-        boolean profileEditable = editable && personSelector.getSelectedItem() == null;
+        boolean profileEditable = editable && (personSelector == null || personSelector.getSelectedItem() == null);
         boolean profileDisable = !profileEditable;
         firstNameTextField.setEditable(profileEditable);
         lastNameTextField.setEditable(profileEditable);
@@ -210,12 +210,13 @@ public final class PersonalDetailsPanel implements MongooseButtonFactoryMixin {
 
     private VBox createPersonVBox() {
         VBox vBox = new VBox(15,
-                LayoutUtil.setUnmanagedWhenInvisible(personButton),
                 firstNameTextField,
                 lastNameTextField,
                 newMaterialRegion(genderBox, "Gender"),
                 newMaterialRegion(ageBox, "Age")
         );
+        if (personButton != null)
+            vBox.getChildren().add(0, LayoutUtil.setUnmanagedWhenInvisible(personButton));
         if (childRadioButton.isSelected())
             vBox.getChildren().addAll(
                     newMaterialRegion(birthDatePicker, "BirthDate"),

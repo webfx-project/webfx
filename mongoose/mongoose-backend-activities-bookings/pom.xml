@@ -116,6 +116,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-shared-entity</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-shared-expression</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

@@ -12,9 +12,12 @@ import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.activity.table.GenericTableView;
+import mongoose.client.controls.personaldetails.PersonalDetailsPanel;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.ui.controls.dialog.DialogContent;
+import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.shared.orm.entity.EntityId;
@@ -45,7 +48,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
     public Node buildUi() {
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory())));
         Button cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
-        return (genericTableView = new GenericTableView(buildBookingDetails()) {
+        return new StackPane((genericTableView = new GenericTableView(buildBookingDetails()) {
             @Override
             public void initUi() {
                 super.initUi();
@@ -65,7 +68,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 table.displayResultProperty().bind(pm.genericDisplayResultProperty());
                 genericTableView.getMasterSlaveView().slaveVisibleProperty().bind(Properties.compute(selectedDocumentProperty, java.util.Objects::nonNull));
             }
-        }).buildUi();
+        }).buildUi());
     }
 
     private Node buildBookingDetails() {
@@ -107,6 +110,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         gridPane.setHgap(0);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(20));
+        gridPane.setMinHeight(150);
 
         ColumnConstraints cc5p = new ColumnConstraints();
         cc5p.setPercentWidth(5);
@@ -135,8 +139,45 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         addFieldLabelAndValue(3, 7, 6, "person_carer1Name");
         addFieldLabelAndValue(4, 7, 6, "person_carer2Name");
 
-        gridPane.setMinHeight(150);
+        gridPane.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2)
+                editPersonalDetails();
+        });
+
         return gridPane;
+    }
+
+    private void editPersonalDetails() {
+        Document document = selectedDocumentProperty.get();
+        PersonalDetailsPanel details = new PersonalDetailsPanel(document.getEvent(), BookingsActivity.this, (Pane) getNode());
+        details.setEditable(true);
+        details.syncUiFromModel(document);
+        BorderPane sectionPanel = details.getSectionPanel();
+        ScrollPane scrollPane = new ScrollPane(sectionPanel);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sectionPanel.setPrefWidth(400);
+        scrollPane.setPrefWidth(400);
+        scrollPane.setPrefHeight(600);
+        //scrollPane.setFitToWidth(true);
+        DialogContent dialogContent = new DialogContent().setContent(scrollPane);
+        DialogUtil.showModalNodeInGoldLayout(dialogContent, (Pane) getNode(), 0, 0.9);
+        DialogUtil.armDialogContentButtons(dialogContent, dialogCallback -> {
+            details.isValid();
+            //dialogCallback.closeDialog();
+            /*
+            syncModelFromUi();
+            if (!updateStore.hasChanges())
+                dialogCallback.closeDialog();
+            else {
+                updateStore.executeUpdate().setHandler(ar -> {
+                    if (ar.failed())
+                        dialogCallback.showException(ar.cause());
+                    else
+                        dialogCallback.closeDialog();
+                });
+            }
+*/
+        });
     }
 
     private void addFieldLabelAndValue(int rowIndex, int columnIndex, int columnSpan, String fieldName) {
