@@ -1332,11 +1332,13 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
             updateBorderAndBackground();
         }
 
-        public void updateBorderAndBackground() { // WebFx addition
+        void updateBorderAndBackground() { // WebFx addition
             boolean selected = tab == selectedTab;
-            setBackground(new Background(new BackgroundFill(Color.grayRgb(selected ? 0xF5 : 0xE5), null, null)));
-            setBorder(new Border(new BorderStroke(
-                    Color.GRAY, Color.GRAY, selected ? Color.TRANSPARENT : Color.GRAY, Color.GRAY, null, null, null, null, CornerRadii.EMPTY, BorderStroke.THIN, Insets.EMPTY)));
+            CornerRadii radii = new CornerRadii(5, 5, 0, 0, false);
+            setBackground(new Background(new BackgroundFill(Color.grayRgb(selected ? 0xF5 : 0xE5), radii, null)));
+            Color borderColor = Color.GRAY;
+            BorderStrokeStyle borderStyle = BorderStrokeStyle.SOLID;
+            setBorder(new Border(new BorderStroke(borderColor, borderColor, selected ? Color.TRANSPARENT : borderColor, borderColor, borderStyle, borderStyle, borderStyle, borderStyle, radii, BorderStroke.THIN, Insets.EMPTY)));
         }
 
         private void handlePropertyChanged(final String p) {
