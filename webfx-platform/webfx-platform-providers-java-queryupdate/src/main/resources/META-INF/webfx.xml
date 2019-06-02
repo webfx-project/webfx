@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module optional="true">HikariCP</module>
+            <module optional="true">com-zaxxer-hikari</module>
         </source-modules>
 
     </dependencies>

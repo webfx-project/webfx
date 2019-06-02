@@ -5,7 +5,7 @@ module webfx.platform.providers.java.queryupdate {
     // Direct dependencies modules
     requires java.base;
     requires java.sql;
-    requires static HikariCP;
+    requires static com.zaxxer.hikari;
     requires webfx.platform.shared.datasource;
     requires webfx.platform.shared.query;
     requires webfx.platform.shared.update;

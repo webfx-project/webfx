@@ -28,6 +28,8 @@ final class ArtifactResolver {
                 return isForGwt || isRegistry ? moduleName : "javafx-graphics";
             case "webfx-fxkit-javafxcontrols-emul":
                 return isForGwt || isRegistry ? moduleName : "javafx-controls";
+            case "com-zaxxer-hikari":
+                return "HikariCP";
         }
         if (isRegistry && "javafx-graphics".equals(moduleName))
             return "webfx-fxkit-javafxgraphics-emul";
@@ -53,7 +55,7 @@ final class ArtifactResolver {
                 return "com.google.elemental2";
             case "gwt-charts": return "com.googlecode.gwt-charts";
             case "Java-WebSocket": return "org.java-websocket";
-            case "HikariCP": return "com.zaxxer";
+            case "com-zaxxer-hikari": return "com.zaxxer";
             case "slf4j-api": return "org.slf4j";
             case "javafxsvg" : return "de.codecentric.centerdevice";
         }
@@ -78,7 +80,7 @@ final class ArtifactResolver {
             case "Java-WebSocket":
             case "javafxsvg":
                 return null; // Managed by root pom
-            case "HikariCP": return "2.3.8";
+            case "com-zaxxer-hikari": return "3.3.1";
             case "slf4j-api": return "1.7.15";
         }
         if (moduleName.startsWith("javafx-") || !isForGwt && !isRegistry && RootModule.isJavaFxEmulModule(moduleName))

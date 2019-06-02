@@ -77,7 +77,7 @@ public final class RootModule extends ProjectModule {
         registerJavaPackageModule(createThirdPartyModule("Java-WebSocket"), "org.java_websocket", "org.java_websocket.client", "org.java_websocket.drafts", "org.java_websocket.enums", "org.java_websocket.handshake");
 
         // HikariCP
-        registerJavaPackageModule(createThirdPartyModule("HikariCP"), "com.zaxxer.hikari");
+        registerJavaPackageModule(createThirdPartyModule("com-zaxxer-hikari"), "com.zaxxer.hikari");
     }
 
     private void registerJavaPackageModule(Module module, String... javaPackages) {
