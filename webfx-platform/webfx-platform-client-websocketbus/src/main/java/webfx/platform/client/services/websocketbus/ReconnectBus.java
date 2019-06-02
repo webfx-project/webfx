@@ -43,7 +43,7 @@ public final class ReconnectBus extends WebSocketBus {
     private final List<JsonObject> queuedMessages = new ArrayList<>();
     private final WebSocketBusOptions options;
 
-    public ReconnectBus(BusOptions options) {
+    ReconnectBus(BusOptions options) {
         this((WebSocketBusOptions) options);
     }
 
@@ -132,7 +132,7 @@ public final class ReconnectBus extends WebSocketBus {
     }
 
     @Override
-    boolean shouldClearReplyHandlerNow(String replyAddress) {
+    protected boolean shouldClearReplyHandlerNow(String replyAddress) {
         // if it is a reply handler from a queued message, it should'nt be cleared now because the message has not been
         // sent yet! It will be sent as soon as the bus will open and the reply handler should be called at the time
         return Collections.noneMatch(queuedMessages, msg -> replyAddress.equals(msg.getString(REPLY_ADDRESS)));

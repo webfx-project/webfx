@@ -17,18 +17,19 @@
  */
 package webfx.platform.client.services.websocketbus;
 
-import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.services.scheduler.Scheduled;
-import webfx.platform.shared.services.scheduler.Scheduler;
 import webfx.platform.client.services.websocket.WebSocket;
 import webfx.platform.client.services.websocket.WebSocketListener;
 import webfx.platform.client.services.websocket.WebSocketService;
-import webfx.platform.shared.util.async.Handler;
 import webfx.platform.shared.services.bus.Message;
+import webfx.platform.shared.services.bus.spi.impl.SimpleBus;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonObject;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.scheduler.Scheduled;
+import webfx.platform.shared.services.scheduler.Scheduler;
 import webfx.platform.shared.util.async.AsyncResult;
+import webfx.platform.shared.util.async.Handler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +41,7 @@ import java.util.Map;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/WebSocketBus.java">Original Goodow class</a>
  */
 @SuppressWarnings("rawtypes")
-public class WebSocketBus extends SimpleClientBus {
+public class WebSocketBus extends SimpleBus {
 
     private static final String BODY = "body";
     private static final String ADDRESS = "address";
@@ -111,7 +112,7 @@ public class WebSocketBus extends SimpleClientBus {
         pingInterval = options.getPingInterval();
         sessionId = options.getSessionId();
         if (sessionId == null)
-            sessionId = idGenerator.next(23);
+            sessionId = makeUUID();
 
         if (webSocketListener == null)
             Logger.log("Connecting bus to " + serverUri);

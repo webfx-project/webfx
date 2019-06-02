@@ -5,6 +5,8 @@ module webfx.platform.shared.bus {
     // Direct dependencies modules
     requires java.base;
     requires webfx.platform.shared.json;
+    requires webfx.platform.shared.log;
+    requires webfx.platform.shared.scheduler;
     requires webfx.platform.shared.util;
 
     // Exported packages

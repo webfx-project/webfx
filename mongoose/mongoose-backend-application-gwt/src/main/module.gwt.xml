@@ -707,9 +707,9 @@
     <!--===========================< webfx-platform-shared-log >============================-->
     <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
-    <!-- used by webfx-platform-client-websocketbus (SOURCE) -->
     <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
+    <!-- used by webfx-platform-shared-bus (SOURCE) -->
     <!-- used by webfx-platform-shared-log-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/log"/>
     <source path="webfx/platform/shared/services/log/spi"/>
@@ -739,7 +739,7 @@
     <source path="webfx/platform/shared/services/resource/spi/impl/gwt"/>
     <!--========================< webfx-platform-shared-scheduler >=========================-->
     <!-- used by webfx-platform-client-uischeduler (SOURCE) -->
-    <!-- used by webfx-platform-client-websocketbus (SOURCE) -->
+    <!-- used by webfx-platform-shared-bus (SOURCE) -->
     <source path="webfx/platform/shared/services/scheduler"/>
     <source path="webfx/platform/shared/services/scheduler/spi"/>
     <!--==========================< webfx-platform-shared-serial >==========================-->
