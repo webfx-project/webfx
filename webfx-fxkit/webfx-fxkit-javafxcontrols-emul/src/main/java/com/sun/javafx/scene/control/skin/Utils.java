@@ -1,10 +1,8 @@
 package com.sun.javafx.scene.control.skin;
 
-import com.sun.javafx.scene.text.TextLayout;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextBoundsType;
 
 /**
  * BE REALLY CAREFUL WITH RESTORING OR RESETTING STATE OF helper NODE AS LEFTOVER
@@ -32,7 +30,7 @@ public class Utils {
      *
      * Note: This code assumes that TextBoundsType#VISUAL is never used by controls.
      * */
-    static final TextLayout layout = null; // Toolkit.getToolkit().getTextLayoutFactory().createLayout();
+    //static final TextLayout layout = Toolkit.getToolkit().getTextLayoutFactory().createLayout();
 
 /*
     static double getAscent(Font font, TextBoundsType boundsType) {
@@ -60,10 +58,9 @@ public class Utils {
         // RT-37092: Use the line bounds specifically, to include font leading.
         return layout.getLines()[0].getBounds().getHeight();
     }
-*/
 
     static double computeTextWidth(Font font, String text, double wrappingWidth) {
-        layout.setContent(text != null ? text : "", font/*.impl_getNativeFont()*/);
+        layout.setContent(text != null ? text : "", font/*.impl_getNativeFont());
         layout.setWrapWidth((float)wrappingWidth);
         return layout.getBounds().getWidth();
     }
@@ -74,7 +71,7 @@ public class Utils {
 
     @SuppressWarnings("deprecation")
     static double computeTextHeight(Font font, String text, double wrappingWidth, double lineSpacing, TextBoundsType boundsType) {
-        layout.setContent(text != null ? text : "", font/*.impl_getNativeFont()*/);
+        layout.setContent(text != null ? text : "", font/*.impl_getNativeFont());
         layout.setWrapWidth((float)wrappingWidth);
         layout.setLineSpacing((float)lineSpacing);
         if (boundsType == TextBoundsType.LOGICAL_VERTICAL_CENTER) {
@@ -85,7 +82,6 @@ public class Utils {
         return layout.getBounds().getHeight();
     }
 
-/*
     static int computeTruncationIndex(Font font, String text, double width) {
         helper.setText(text);
         helper.setFont(font);
