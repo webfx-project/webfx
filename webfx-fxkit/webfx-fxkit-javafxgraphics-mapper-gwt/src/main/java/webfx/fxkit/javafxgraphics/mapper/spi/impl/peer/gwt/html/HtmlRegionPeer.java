@@ -148,8 +148,6 @@ public abstract class HtmlRegionPeer
             style.borderTop = toCssBorder(firstStroke.getTopStroke(), firstStroke.getTopStyle(), widths.getTop(), widths.isTopAsPercentage());
             style.borderRight = toCssBorder(firstStroke.getRightStroke(), firstStroke.getRightStyle(), widths.getRight(), widths.isRightAsPercentage());
             style.borderBottom = toCssBorder(firstStroke.getBottomStroke(), firstStroke.getBottomStyle(), widths.getBottom(), widths.isBottomAsPercentage());
-            style.borderStyle = "solid";
-            style.borderWidth = CSSProperties.BorderWidthUnionType.of(toPx(firstStroke.getWidths().getLeft()));
             CornerRadii radii = firstStroke.getRadii();
             if (radii != null)
                 applyBorderRadii(radii);
@@ -183,7 +181,19 @@ public abstract class HtmlRegionPeer
     }
 
     private static StringBuilder toCssBorder(Paint stroke, BorderStrokeStyle style, double width, boolean isPercentage, StringBuilder sb) {
-        return sb.append(width).append(isPercentage ? "% " : "px ").append("solid ").append(HtmlPaints.toCssPaint(stroke, DomType.HTML));
+        return sb.append(width).append(isPercentage ? "% " : "px ").append(toCssBorderStyle(style)).append(' ').append(HtmlPaints.toCssPaint(stroke, DomType.HTML));
+    }
+
+    private static String toCssBorderStyle(BorderStrokeStyle style) {
+        if (style == BorderStrokeStyle.SOLID)
+            return "solid";
+        if (style == BorderStrokeStyle.DOTTED)
+            return "dotted";
+        if (style == BorderStrokeStyle.DASHED)
+            return "dashed";
+        if (style == BorderStrokeStyle.NONE)
+            return "none";
+        return null;
     }
 
     private static String toCssBackground(Background bg) {
