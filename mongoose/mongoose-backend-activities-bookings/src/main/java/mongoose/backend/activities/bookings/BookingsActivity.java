@@ -2,6 +2,7 @@ package mongoose.backend.activities.bookings;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -16,6 +17,7 @@ import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.shared.orm.entity.EntityId;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.util.properties.Properties;
@@ -69,7 +71,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
     private Node buildBookingDetails() {
 //        Button button = new Button(document.getFullName());
         return new VBox(/*button, */new TabPane(
-                createTab("Personal details", "images/s16/personalDetails.png"),
+                createTab("Personal details", "images/s16/personalDetails.png", buildPersonalDetailsView()),
                 createFilterTab("Options", "images/s16/options.png", "{class: 'DocumentLine', columns: `['site','item','dates','lockAllocation','resourceConfiguration','comment','price_isCustom',{expression: 'price_net', format:'price'},{expression: 'price_nonRefundable', format: 'price'},{expression: 'price_minDeposit', format: 'price'},{expression: 'price_deposit', format: 'price'}]`, where: 'document=${selectedDocument}', orderBy: 'item.family.ord,site..ord,item.ord'}"),
                 createFilterTab("Payments", "images/s16/methods/generic.png", "{class: 'MoneyTransfer', columns: `['date','method','transactionRef','comment',{expression:'amount', format:'price'},'verified']`, where: 'document=${selectedDocument}', orderBy: 'date,id'}"),
                 createTab("Comments", "images/s16/note.png", buildCommentView()),
@@ -81,16 +83,11 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         ));
     }
 
-    private static Tab createTab(String text, String iconUrl) {
+    private static Tab createTab(String text, String iconUrl, Node node) {
         Tab tab = new Tab(text);
         tab.setGraphic(ImageStore.createImageView(iconUrl));
-        tab.setClosable(false);
-        return tab;
-    }
-
-    private static Tab createTab(String text, String iconUrl, Node node) {
-        Tab tab = createTab(text, iconUrl);
         tab.setContent(node);
+        tab.setClosable(false);
         return tab;
     }
 
@@ -103,6 +100,64 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .displayResultInto(table.displayResultProperty())
                 .start();
         return createTab(text, iconUrl, table);
+    }
+
+    GridPane gridPane = new GridPane();
+    private Node buildPersonalDetailsView() {
+        gridPane.setHgap(0);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20));
+
+        ColumnConstraints cc5p = new ColumnConstraints();
+        cc5p.setPercentWidth(5);
+        cc5p.setHgrow(Priority.NEVER);
+        ColumnConstraints cc10p = new ColumnConstraints();
+        cc10p.setPercentWidth(10);
+        cc10p.setHgrow(Priority.NEVER);
+        ColumnConstraints cc15p = new ColumnConstraints();
+        cc15p.setPercentWidth(15);
+        cc15p.setHgrow(Priority.NEVER);
+
+        gridPane.getColumnConstraints().setAll(cc10p, cc10p, cc5p, cc5p, cc5p, cc10p, cc5p, cc10p, cc10p, cc5p, cc5p, cc5p, cc10p, cc5p);
+
+        RowConstraints rc = new RowConstraints();
+        rc.setMinHeight(3.5);
+        gridPane.getRowConstraints().setAll(rc, rc, rc, rc, rc);
+
+        addFieldLabelAndValue(0, 0, 6, "person_firstName");
+        addFieldLabelAndValue(1, 0, 6, "person_lastName");
+        addFieldLabelAndValue(2, 0, 1, "person_age");
+        addFieldLabelAndValue(3, 0, 6, "person_email");
+        addFieldLabelAndValue(4, 0, 6, "person_organization");
+        addFieldLabelAndValue(0, 7, 6, "person_phone");
+        addFieldLabelAndValue(1, 7, 6, "person_cityName");
+        addFieldLabelAndValue(2, 7, 6, "person_country");
+        addFieldLabelAndValue(3, 7, 6, "person_carer1Name");
+        addFieldLabelAndValue(4, 7, 6, "person_carer2Name");
+
+        gridPane.setMinHeight(150);
+        return gridPane;
+    }
+
+    private void addFieldLabelAndValue(int rowIndex, int columnIndex, int columnSpan, String fieldName) {
+        webfx.fxkit.extra.label.Label fieldLabel = getDomainModel().getClass("Document").getField(fieldName).getLabel();
+        ObservableValue<String> fieldValueProperty = Properties.compute(selectedDocumentProperty, document -> {
+            Object fieldValue = document == null ? null : document.getFieldValue(fieldName);
+            if (fieldValue instanceof EntityId)
+                fieldValue = document.getForeignEntity(fieldName).getFieldValue("name");
+            return fieldValue == null ? null : fieldValue.toString();
+        });
+        Label valueLabel = new Label();
+        valueLabel.textProperty().bind(fieldValueProperty);
+        addNodeToGrid(rowIndex, columnIndex, 1, new Label(fieldLabel.getText(), ImageStore.createImageView(fieldLabel.getIconPath())));
+        addNodeToGrid(rowIndex, columnIndex + 1, columnSpan, valueLabel);
+    }
+
+    private void addNodeToGrid(int rowIndex, int columnIndex, int columnSpan, Node node) {
+        GridPane.setRowIndex(node, rowIndex);
+        GridPane.setColumnIndex(node, columnIndex);
+        GridPane.setColumnSpan(node, columnSpan);
+        gridPane.getChildren().add(node);
     }
 
     private Node buildCommentView() {
@@ -191,6 +246,8 @@ final class BookingsActivity extends EventDependentViewDomainActivity
     @Override
     protected void startLogic() {
         filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid'}")
+                // Fields required for personal details
+                .combine("{fields: 'person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name'}")
                 // Columns to display
                 .combine(pm.columnsProperty(), columns -> "{columns: `" + Objects.coalesce(columns, DEFAULT_COLUMNS) + "`}")
                 // Condition clause

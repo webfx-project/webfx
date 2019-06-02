@@ -199,6 +199,8 @@
     <public includes="images/s16/countries/" path=""/>
     <resource path="images/s16/itemFamilies"/>
     <public includes="images/s16/itemFamilies/" path=""/>
+    <resource path="images/s16/languages"/>
+    <public includes="images/s16/languages/" path=""/>
     <resource path="images/s16/methods"/>
     <public includes="images/s16/methods/" path=""/>
     <resource path="images/s16/multipleBookings"/>
