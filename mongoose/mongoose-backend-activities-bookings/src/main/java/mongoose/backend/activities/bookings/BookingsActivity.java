@@ -2,12 +2,11 @@ package mongoose.backend.activities.bookings;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
@@ -73,7 +72,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 createTab("Personal details", "images/s16/personalDetails.png"),
                 createFilterTab("Options", "images/s16/options.png", "{class: 'DocumentLine', columns: `['site','item','dates','lockAllocation','resourceConfiguration','comment','price_isCustom',{expression: 'price_net', format:'price'},{expression: 'price_nonRefundable', format: 'price'},{expression: 'price_minDeposit', format: 'price'},{expression: 'price_deposit', format: 'price'}]`, where: 'document=${selectedDocument}', orderBy: 'item.family.ord,site..ord,item.ord'}"),
                 createFilterTab("Payments", "images/s16/methods/generic.png", "{class: 'MoneyTransfer', columns: `['date','method','transactionRef','comment',{expression:'amount', format:'price'},'verified']`, where: 'document=${selectedDocument}', orderBy: 'date,id'}"),
-                createTab("Comments", "images/s16/note.png"),
+                createTab("Comments", "images/s16/note.png", buildCommentView()),
                 createFilterTab("Cart", "images/s16/cart.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_net', format:'price'},{expression: 'price_deposit', format: 'price'},{expression: 'price_balance', format: 'price'}]`, where: 'cart=(select cart from Document where id=${selectedDocument})', orderBy: 'ref'}"),
                 createFilterTab("Multiple bookings", "images/s16/multipleBookings/redCross.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'multipleBooking=(select multipleBooking from Document where id=${selectedDocument})', orderBy: 'ref'}"),
                 createFilterTab("Children", "images/s16/child.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'person_carer1Document=${selectedDocument} or person_carer2Document=${selectedDocument}', orderBy: 'ref'}"),
@@ -104,6 +103,40 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .displayResultInto(table.displayResultProperty())
                 .start();
         return createTab(text, iconUrl, table);
+    }
+
+    private Node buildCommentView() {
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        //gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(5));
+
+        RowConstraints rc = new RowConstraints();
+        rc.setPercentHeight(100);
+        gridPane.getRowConstraints().add(rc);
+
+        ColumnConstraints cc = new ColumnConstraints();
+        cc.setPercentWidth(33.3333);
+        ObservableList<ColumnConstraints> columnConstraints = gridPane.getColumnConstraints();
+        columnConstraints.add(cc);
+        columnConstraints.add(cc);
+        columnConstraints.add(cc);
+
+        gridPane.getChildren().setAll(createComment("Person request", "request"), createComment("Registration comment", "comment"), createComment("Special needs", "specialNeeds"));
+
+        return gridPane;
+    }
+
+    private int columnIndex;
+    private Node createComment(String title, String commentField) {
+        TextArea textArea = new TextArea();
+        textArea.textProperty().bind(Properties.compute(selectedDocumentProperty, document -> document == null ? null : document.getStringFieldValue(commentField)));
+        textArea.setEditable(false);
+        TitledPane titledPane = new TitledPane(title, textArea);
+        titledPane.setCollapsible(false);
+        titledPane.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setColumnIndex(titledPane, columnIndex++);
+        return titledPane;
     }
 
     @Override
