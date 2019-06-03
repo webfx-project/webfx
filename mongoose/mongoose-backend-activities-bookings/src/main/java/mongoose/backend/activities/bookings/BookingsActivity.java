@@ -21,6 +21,8 @@ import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.ui.filter.StringFilter;
+import webfx.framework.client.ui.filter.StringFilterBuilder;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
@@ -50,11 +52,14 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory())));
         Button cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
         return new StackPane((genericTableView = new GenericTableView(buildBookingDetails()) {
+            private final static String FILTER_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'name'}";
             @Override
             public void initUi() {
                 super.initUi();
-                EntityButtonSelector<DynamicEntity> columnsSelector = new EntityButtonSelector<>("{class: 'Filter', fields: 'columns', where: `isColumns and class='Document'`, orderBy: 'name'}", this, borderPane, getDataSourceModel());
-                borderPane.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));
+                EntityButtonSelector<DynamicEntity> conditionSelector = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isCondition"), this, borderPane, getDataSourceModel());
+                EntityButtonSelector<DynamicEntity> groupSelector     = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isGroup"), this, borderPane, getDataSourceModel());
+                EntityButtonSelector<DynamicEntity> columnsSelector   = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isColumns"), this, borderPane, getDataSourceModel());
+                borderPane.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));
 
                 // Initialization from the presentation model current state
                 searchBox.setText(pm.searchTextProperty().getValue());
@@ -62,20 +67,37 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 // Binding the UI with the presentation model for further state changes
                 // User inputs: the UI state changes are transferred in the presentation model
                 pm.searchTextProperty().bind(searchBox.textProperty());
-                Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? 20 : -1), limitCheckBox.selectedProperty());
+                Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? 30 : -1), limitCheckBox.selectedProperty());
                 table.fullHeightProperty().bind(limitCheckBox.selectedProperty());
                 //pm.limitProperty().bind(limitCheckBox.selectedProperty());
                 pm.genericDisplaySelectionProperty().bind(table.displaySelectionProperty());
                 // User outputs: the presentation model changes are transferred in the UI
                 table.displayResultProperty().bind(pm.genericDisplayResultProperty());
                 genericTableView.getMasterSlaveView().slaveVisibleProperty().bind(Properties.compute(selectedDocumentProperty, java.util.Objects::nonNull));
-                pm.columnsProperty().bind(Properties.compute(columnsSelector.selectedItemProperty(), filter -> filter == null ? null : filter.getStringFieldValue("columns")));
+                pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), BookingsActivity::toStringJson));
+                pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), BookingsActivity::toStringJson));
+                pm.columnsStringFilterProperty()   .bind(Properties.compute(columnsSelector   .selectedItemProperty(), BookingsActivity::toStringJson));
             }
         }).buildUi());
     }
 
-    private String inlineFilter(DynamicEntity filter) {
-        return null;
+    private static StringFilter toStringFilter(DynamicEntity filter) {
+        if (filter == null)
+            return null;
+        StringFilterBuilder sfb = new StringFilterBuilder(filter.getFieldValue("class"));
+        sfb.setAlias(  filter.getStringFieldValue("alias"));
+        sfb.setFields( filter.getStringFieldValue("fields"));
+        sfb.setWhere(  filter.getStringFieldValue("whereClause"));
+        sfb.setGroupBy(filter.getStringFieldValue("groupByClause"));
+        sfb.setHaving( filter.getStringFieldValue("havingClause"));
+        sfb.setOrderBy(filter.getStringFieldValue("orderByClause"));
+        sfb.setLimit(  filter.getStringFieldValue("limitClause"));
+        sfb.setColumns(filter.getStringFieldValue("columns"));
+        return sfb.build();
+    }
+
+    private static String toStringJson(DynamicEntity filter) {
+        return filter == null ? null : toStringFilter(filter).toStringJson();
     }
 
     private Node buildBookingDetails() {
@@ -262,15 +284,15 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         LocalDate day;
         setActive(false);
         super.updateModelFromContextParameters(); // for eventId and organizationId
-        pm.setColumns(getParameter("columns"));
+        //pm.setColumns(getParameter("columns"));
         pm.setDay(day = parseDayParam(getParameter("day")));
         pm.setArrivals(day != null && Booleans.isTrue(getParameter("arrivals")));
         pm.setDepartures(day != null && Booleans.isTrue(getParameter("departures")));
         pm.setMinDay(parseDayParam(getParameter("minDay")));
         pm.setMaxDay(parseDayParam(getParameter("maxDay")));
-        pm.setFilter(getParameter("filter"));
-        pm.setGroupBy(getParameter("groupBy"));
-        pm.setOrderBy(getParameter("orderBy"));
+        //pm.setFilter(getParameter("filter"));
+        //pm.setGroupBy(getParameter("groupBy"));
+        //pm.setOrderBy(getParameter("orderBy"));
         pm.setEventId(getEventId());
         pm.setOrganizationId(getOrganizationId());
         setActive(true);
@@ -319,6 +341,10 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .combine(pm.orderByProperty(), orderBy -> "{orderBy: `" + Objects.coalesce(orderBy, DEFAULT_ORDER_BY) + "`}")
                 // Limit clause
                 .combineIfPositive(pm.limitProperty(), l -> "{limit: `" + l + "`}")
+                //
+                .combineIfNotNull(pm.conditionStringFilterProperty(), s -> s)
+                .combineIfNotNull(pm.groupStringFilterProperty(),     s -> s)
+                .combineIfNotNull(pm.columnsStringFilterProperty(),   s -> s)
                 .applyDomainModelRowStyle()
                 .displayResultInto(pm.genericDisplayResultProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> selectedDocumentProperty.set(document))

@@ -207,7 +207,7 @@ public final class StringFilterBuilder {
 
     public StringFilterBuilder mergeColumns(String columns) {
         if (columns != null)
-            setColumns(mergeFields(this.columns, columns));
+            setColumns(columns);
         return this;
     }
 

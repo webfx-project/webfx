@@ -99,6 +99,19 @@ public final class StringFilter {
                 (limit == null ? "" : " limit " + limit);
     }
 
+    public String toStringJson() {
+        return "{class: `" + domainClassId + '`' +
+                (fields == null ? "" : ", fields: `" + fields + '`') +
+                (columns == null ? "" : ", columns: `" + columns + '`') +
+                (alias == null ? "" : ", alias: `" + alias + '`') +
+                (where == null ? "" : ", where: `" + where + '`') +
+                (groupBy == null ? "" : ", groupBy: `" + groupBy + '`') +
+                (having == null ? "" : ", having: `" + having + '`') +
+                (orderBy == null ? "" : ", orderBy: `" + orderBy + '`') +
+                (limit == null ? "" : ", limit: `" + limit + '`') +
+                "}";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
