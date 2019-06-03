@@ -12,20 +12,6 @@ import static webfx.fxkit.javafxgraphics.mapper.spi.NodePeerFactoryRegistry.regi
 
 public class ExtraControlsRegistry {
 
-    static {
-/*
-        registerSvgText();
-        registerHtmlText();
-        registerHtmlTextEditor();
-        registerDataGrid();
-        registerLineChart();
-        registerAreaChart();
-        registerBarChart();
-        registerPieChart();
-        registerScatterChart();
-*/
-    }
-
     public static void registerSvgText() {
         registerNodePeerFactory(SvgText.class, HtmlSvgTextPeer::new);
     }
