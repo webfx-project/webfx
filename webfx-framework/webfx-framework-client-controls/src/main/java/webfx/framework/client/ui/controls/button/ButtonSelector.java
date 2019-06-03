@@ -9,17 +9,18 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import webfx.framework.client.ui.util.border.BorderUtil;
+import webfx.framework.client.ui.controls.MaterialFactoryMixin;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
-import webfx.framework.client.ui.controls.MaterialFactoryMixin;
-import webfx.framework.client.ui.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.layouts.SceneUtil;
+import webfx.framework.client.ui.materialdesign.textfield.MaterialTextFieldPane;
+import webfx.framework.client.ui.util.border.BorderUtil;
 import webfx.fxkit.util.properties.Properties;
-import webfx.platform.shared.services.scheduler.Scheduled;
-import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.scheduler.Scheduled;
+import webfx.platform.shared.services.scheduler.Scheduler;
 import webfx.platform.shared.util.function.Callable;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
@@ -40,6 +41,7 @@ public abstract class ButtonSelector<T> {
     private final Callable<Pane> parentGetter;
     private final Pane parent;
     private final ButtonFactoryMixin buttonFactory;
+    private boolean autoOpenOnMouseEntered;
     private boolean searchEnabled = true;
     private ObservableValue<?> loadedContentProperty;
     private BorderPane dialogPane;
@@ -69,6 +71,14 @@ public abstract class ButtonSelector<T> {
         this.parent = parent;
         this.buttonFactory = buttonFactory;
         Properties.runOnPropertiesChange(this::updateButtonContentOnNewSelectedItem, selectedItemProperty());
+    }
+
+    public boolean isAutoOpenOnMouseEntered() {
+        return autoOpenOnMouseEntered;
+    }
+
+    public void setAutoOpenOnMouseEntered(boolean autoOpenOnMouseEntered) {
+        this.autoOpenOnMouseEntered = autoOpenOnMouseEntered;
     }
 
     public boolean isSearchEnabled() {
@@ -138,6 +148,8 @@ public abstract class ButtonSelector<T> {
     public void setButton(Button button) {
         this.button = button;
         button.setOnAction(e -> onButtonClicked());
+        button.setOnMouseEntered(e -> onMouseEntered());
+        button.setOnMouseExited( e -> onMouseExited());
     }
 
     public MaterialTextFieldPane toMaterialButton(Object labelKey, Object placeholderKey) {
@@ -171,6 +183,28 @@ public abstract class ButtonSelector<T> {
 
     private boolean userJustPressedButtonInOrderToCloseDialog;
 
+    private boolean openDueToMouseEntered;
+    private void onMouseEntered() {
+        if (isAutoOpenOnMouseEntered()) {
+            openDueToMouseEntered = true;
+            showDialog();
+        }
+    }
+
+    private void onMouseExited() {
+        scheduleMouseExistedDialogClose();
+    }
+
+    private void scheduleMouseExistedDialogClose() {
+        if (openDueToMouseEntered) {
+            openDueToMouseEntered = false;
+            Scheduler.scheduleDelay(100, ()-> {
+                if (!openDueToMouseEntered)
+                    closeDialog();
+            });
+        }
+    }
+
     private void onButtonClicked() {
         if (userJustPressedButtonInOrderToCloseDialog)
             userJustPressedButtonInOrderToCloseDialog = false;
@@ -196,6 +230,8 @@ public abstract class ButtonSelector<T> {
             if (dialogContent == null)
                 return;
             dialogPane = new BorderPane(dialogContent);
+            dialogPane.setOnMouseExited(e -> scheduleMouseExistedDialogClose());
+            dialogPane.setOnMouseEntered(e-> onMouseEntered());
         }
         if (!isContentLoaded()) {
             setInitialHiddenDialogHeightPropertyForContentLoading();
