@@ -1,6 +1,8 @@
 package webfx.framework.client.ui.filter;
 
+import webfx.framework.shared.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
+import webfx.framework.shared.orm.domainmodel.FieldsGroup;
 import webfx.framework.shared.util.formatter.Formatter;
 import webfx.framework.shared.util.formatter.FormatterRegistry;
 import webfx.platform.shared.services.json.Json;
@@ -9,6 +11,8 @@ import webfx.platform.shared.services.json.JsonObject;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.expression.Expression;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
+
+import java.util.Arrays;
 
 /**
  * @author Bruno Salmon
@@ -127,14 +131,28 @@ public interface ExpressionColumn {
     }
 
     static ExpressionColumn[] fromExpressions(Expression[] columnExpressions) {
+        columnExpressions = expandFieldsGroups(columnExpressions);
         ExpressionColumn[] expressionColumns = new ExpressionColumn[columnExpressions.length];
         int columnIndex = 0;
         for (Expression columnExpression : columnExpressions)
-            expressionColumns[columnIndex++] = ExpressionColumn.create(columnExpression);
+            expressionColumns[columnIndex++] = create(columnExpression);
         return expressionColumns;
     }
 
-    static ExpressionColumn[] fromExpressionsDefinition(String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
+    static Expression[] expandFieldsGroups(Expression[] columnExpressions) {
+        return Arrays.stream(columnExpressions).flatMap(ce -> Arrays.stream(expandFieldsGroup(ce))).toArray(Expression[]::new);
+    }
+
+    static Expression[] expandFieldsGroup(Expression columnExpression) {
+        if (columnExpression instanceof FieldsGroup) {
+            columnExpression = ((FieldsGroup) columnExpression).getExpression();
+            if (columnExpression instanceof ExpressionArray)
+                return ((ExpressionArray) columnExpression).getExpressions();
+        }
+        return new Expression[]{columnExpression};
+    }
+
+        static ExpressionColumn[] fromExpressionsDefinition(String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
         return fromExpressions(domainModel.parseExpressionArray(columnExpressionsDefinition, classId).getExpressions());
     }
 
