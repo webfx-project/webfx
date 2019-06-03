@@ -22,6 +22,7 @@ module mongoose.client.icons {
     opens images.s16.methods;
     opens images.s16.multipleBookings;
     opens images.s16.organizations;
+    opens images.s16.security;
     opens images.s16.system;
     opens images.s16.validation;
     opens images.s32.system;

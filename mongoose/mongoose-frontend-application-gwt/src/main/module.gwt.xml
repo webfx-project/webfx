@@ -207,6 +207,8 @@
     <public includes="images/s16/multipleBookings/" path=""/>
     <resource path="images/s16/organizations"/>
     <public includes="images/s16/organizations/" path=""/>
+    <resource path="images/s16/security"/>
+    <public includes="images/s16/security/" path=""/>
     <resource path="images/s16/system"/>
     <public includes="images/s16/system/" path=""/>
     <resource path="images/s16/validation"/>

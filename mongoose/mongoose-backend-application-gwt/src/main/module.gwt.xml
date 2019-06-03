@@ -261,6 +261,8 @@
     <public includes="images/s16/multipleBookings/" path=""/>
     <resource path="images/s16/organizations"/>
     <public includes="images/s16/organizations/" path=""/>
+    <resource path="images/s16/security"/>
+    <public includes="images/s16/security/" path=""/>
     <resource path="images/s16/system"/>
     <public includes="images/s16/system/" path=""/>
     <resource path="images/s16/validation"/>
@@ -275,7 +277,7 @@
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/operationactionsloading"/>
     <!--========================< mongoose-client-personaldetails >=========================-->
-    <!-- used by mongoose-frontend-activities-person (SOURCE) -->
+    <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
     <source path="mongoose/client/controls/personaldetails"/>
     <!--==========================< mongoose-client-sectionpanel >==========================-->
     <!-- used by mongoose-client-activities-login (SOURCE) -->

@@ -10,6 +10,7 @@
         <package>images.s16.methods</package>
         <package>images.s16.multipleBookings</package>
         <package>images.s16.organizations</package>
+        <package>images.s16.security</package>
         <package>images.s16.system</package>
         <package>images.s16.validation</package>
         <package>images.s32.system</package>
