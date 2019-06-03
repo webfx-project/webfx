@@ -2,6 +2,8 @@ package mongoose.backend.activities.bookings;
 
 import javafx.beans.property.*;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
+import webfx.fxkit.extra.displaydata.DisplayResult;
+import webfx.fxkit.extra.displaydata.DisplaySelection;
 
 import java.time.LocalDate;
 
@@ -9,6 +11,12 @@ import java.time.LocalDate;
  * @author Bruno Salmon
  */
 final class BookingsPresentationModel extends EventDependentGenericTablePresentationModel {
+
+    private final Property<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
+    public Property<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
+
+    private final Property<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
+    public Property<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
 
     private final StringProperty columnsProperty = new SimpleStringProperty();
     final StringProperty columnsProperty() { return columnsProperty; }

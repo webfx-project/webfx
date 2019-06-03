@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -12,6 +13,7 @@ import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.activity.table.GenericTableView;
+import mongoose.client.activity.table.GroupMasterSlaveView;
 import mongoose.client.controls.personaldetails.PersonalDetailsPanel;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
@@ -43,29 +45,34 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         implements OperationActionFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
+    private GroupMasterSlaveView groupMasterSlaveView;
     private GenericTableView genericTableView;
-    private final BookingsPresentationModel pm = new BookingsPresentationModel();
+    private ObjectProperty<Document> selectedGroupProperty = new SimpleObjectProperty<>();
     private ObjectProperty<Document> selectedDocumentProperty = new SimpleObjectProperty<>();
 
+    private final BookingsPresentationModel pm = new BookingsPresentationModel();
+
+    private final static String FILTER_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'id'}";
     @Override
     public Node buildUi() {
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory())));
         Button cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
-        return new StackPane((genericTableView = new GenericTableView(buildBookingDetails()) {
-            private final static String FILTER_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'id'}";
+        BorderPane container = new BorderPane();
+        EntityButtonSelector<DynamicEntity> conditionSelector = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isCondition"), this, container, getDataSourceModel());
+        EntityButtonSelector<DynamicEntity> groupSelector     = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isGroup"), this, container, getDataSourceModel());
+        EntityButtonSelector<DynamicEntity> columnsSelector   = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isColumns"), this, container, getDataSourceModel());
+        conditionSelector .autoSelectFirstEntity(filter -> DEFAULT_CONDITION.equals(filter.getStringFieldValue("whereClause")));
+        groupSelector     .autoSelectFirstEntity(filter -> "".equals(filter.getStringFieldValue("name")));
+        columnsSelector   .autoSelectFirstEntity(filter -> DEFAULT_COLUMNS.equals(filter.getStringFieldValue("columns")));
+        conditionSelector .setAutoOpenOnMouseEntered(true);
+        groupSelector     .setAutoOpenOnMouseEntered(true);
+        columnsSelector   .setAutoOpenOnMouseEntered(true);
+        groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL, buildGroupView(), null, buildBookingDetails());
+        genericTableView = new GenericTableView(groupMasterSlaveView) {
             @Override
             public void initUi() {
                 super.initUi();
-                EntityButtonSelector<DynamicEntity> conditionSelector = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isCondition"), this, borderPane, getDataSourceModel());
-                EntityButtonSelector<DynamicEntity> groupSelector     = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isGroup"), this, borderPane, getDataSourceModel());
-                EntityButtonSelector<DynamicEntity> columnsSelector   = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isColumns"), this, borderPane, getDataSourceModel());
-                conditionSelector .autoSelectFirstEntity(filter -> DEFAULT_CONDITION.equals(filter.getStringFieldValue("whereClause")));
-                groupSelector     .autoSelectFirstEntity(filter -> "".equals(filter.getStringFieldValue("name")));
-                columnsSelector   .autoSelectFirstEntity(filter -> DEFAULT_COLUMNS.equals(filter.getStringFieldValue("columns")));
-                conditionSelector .setAutoOpenOnMouseEntered(true);
-                groupSelector     .setAutoOpenOnMouseEntered(true);
-                columnsSelector   .setAutoOpenOnMouseEntered(true);
-                borderPane.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));
+                borderPane.setTop(null);
 
                 // Initialization from the presentation model current state
                 searchBox.setText(pm.searchTextProperty().getValue());
@@ -79,12 +86,17 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 pm.genericDisplaySelectionProperty().bind(table.displaySelectionProperty());
                 // User outputs: the presentation model changes are transferred in the UI
                 table.displayResultProperty().bind(pm.genericDisplayResultProperty());
-                genericTableView.getMasterSlaveView().slaveVisibleProperty().bind(Properties.compute(selectedDocumentProperty, java.util.Objects::nonNull));
-                pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), BookingsActivity::toStringJson));
-                pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), BookingsActivity::toStringJson));
-                pm.columnsStringFilterProperty()   .bind(Properties.compute(columnsSelector   .selectedItemProperty(), BookingsActivity::toStringJson));
             }
-        }).buildUi());
+        };
+        container.setCenter(genericTableView.buildUi());
+        container.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(genericTableView.getSearchBox())), setUnmanagedWhenInvisible(cloneEventButton)));
+        groupMasterSlaveView.groupVisibleProperty() .bind(Properties.compute(pm.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
+        groupMasterSlaveView.masterVisibleProperty().bind(Properties.combine(groupMasterSlaveView.groupVisibleProperty(), selectedGroupProperty, (groupVisible, selectedGroup) -> !groupVisible || selectedGroup != null));
+        groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), selectedDocumentProperty, (masterVisible, selectedDocument) -> masterVisible && selectedDocument != null));
+        pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), BookingsActivity::toStringJson));
+        pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), BookingsActivity::toStringJson));
+        pm.columnsStringFilterProperty()   .bind(Properties.compute(columnsSelector   .selectedItemProperty(), BookingsActivity::toStringJson));
+        return container;
     }
 
     private static StringFilter toStringFilter(DynamicEntity filter) {
@@ -106,8 +118,14 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         return filter == null ? null : toStringFilter(filter).toStringJson();
     }
 
+    private Node buildGroupView() {
+        DataGrid groupTable = new DataGrid();
+        groupTable.displayResultProperty().bind(pm.groupDisplayResultProperty());
+        pm.groupDisplaySelectionProperty().bind(groupTable.displaySelectionProperty());
+        return groupTable;
+    }
+
     private Node buildBookingDetails() {
-//        Button button = new Button(document.getFullName());
         return new VBox(/*button, */new TabPane(
                 createTab("Personal details", "images/s16/personalDetails.png", buildPersonalDetailsView()),
                 createFilterTab("Options", "images/s16/options.png", "{class: 'DocumentLine', columns: `['site','item','dates','lockAllocation','resourceConfiguration','comment','price_isCustom',{expression: 'price_net', format:'price'},{expression: 'price_nonRefundable', format: 'price'},{expression: 'price_minDeposit', format: 'price'},{expression: 'price_deposit', format: 'price'}]`, where: 'document=${selectedDocument}', orderBy: 'item.family.ord,site..ord,item.ord'}"),
@@ -317,17 +335,27 @@ final class BookingsActivity extends EventDependentViewDomainActivity
             "]";
     private static final String DEFAULT_CONDITION = "!cancelled";
     private static final String DEFAULT_ORDER_BY = "ref desc";
-    private ReactiveExpressionFilter<Document> filter;
+    private ReactiveExpressionFilter<Document> groupFilter;
+    private ReactiveExpressionFilter<Document> masterFilter;
 
     @Override
     protected void startLogic() {
-        filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid'}")
+        groupFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd'}")
+                .combineIfNotNull(pm.organizationIdProperty(),
+                        organisationId -> "{where:  `event.organization=" + organisationId + "`}")
+                .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
+                .combineIfNotNull(pm.groupStringFilterProperty(),     s -> s)
+                .applyDomainModelRowStyle()
+                .displayResultInto(pm.groupDisplayResultProperty())
+                .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), document -> selectedGroupProperty.set(document))
+                .start();
+        masterFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid'}")
                 // Fields required for personal details
                 .combine("{fields: 'person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name'}")
                 // Columns to display
                 //.combine(pm.columnsProperty(), columns -> "{columns: `" + Objects.coalesce(columns, DEFAULT_COLUMNS) + "`}")
                 // Condition clause
-                //.combine(         pm.filterProperty(),   filter -> "{where: `" + Objects.coalesce(filter, DEFAULT_CONDITION) + "`}")
+                //.combine(         pm.filterProperty(),   masterFilter -> "{where: `" + Objects.coalesce(masterFilter, DEFAULT_CONDITION) + "`}")
                 .combineIfNotNull(pm.organizationIdProperty(),
                         organisationId -> "{where:  `event.organization=" + organisationId + "`}")
                 .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
@@ -350,17 +378,17 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 //
                 .combineIfNotNull(pm.conditionStringFilterProperty(), s -> s)
                 .combineIfNotNull(pm.columnsStringFilterProperty(),   s -> s)
-                .combineIfNotNull(pm.groupStringFilterProperty(),     s -> s)
                 .applyDomainModelRowStyle()
                 .displayResultInto(pm.genericDisplayResultProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> selectedDocumentProperty.set(document))
-                .setPush(false)
+                //.setPush(false)
                 .start();
     }
 
     @Override
     protected void refreshDataOnActive() {
-        filter.refreshWhenActive();
+        groupFilter.refreshWhenActive();
+        masterFilter.refreshWhenActive();
     }
 
 }

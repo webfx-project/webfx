@@ -166,7 +166,7 @@ public final class StringFilterBuilder {
     }
 
     public StringFilterBuilder mergeWhere(String where) {
-        if (where != null && !"true".equals(where) && !"false".equals(this.where))
+        if (where != null && !where.isEmpty() && !"true".equals(where) && !"false".equals(this.where))
             setWhere(this.where == null || "true".equals(this.where) || "false".equals(where) ? where : "(" + this.where + ") and (" + where + ")");
         return this;
     }
