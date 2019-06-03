@@ -68,7 +68,7 @@ DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
 
 .table-row-cell .text, .column-header .text, .grid .text, .grid Text { /* texts displayed in tables */
    -fx-font-family: "Roboto"; /* embedded font to be sure it can correctly render bold and italic on all systems */
-   -fx-font-size: 16px;
+   -fx-font-size: 12px;
    -fx-font-smoothing-type: gray;
    -fx-fill: rgba(0, 0, 0, 0.7);
 }
