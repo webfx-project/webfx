@@ -10,12 +10,14 @@ module mongoose.backend.activities.bookings {
     requires mongoose.backend.activities.cloneevent.routing;
     requires mongoose.client.activity;
     requires mongoose.client.aggregates;
+    requires mongoose.client.personaldetails;
     requires mongoose.client.util;
     requires mongoose.frontend.activities.fees;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;
@@ -31,9 +33,6 @@ module mongoose.backend.activities.bookings {
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.util;
-    requires mongoose.client.personaldetails;
-    requires webfx.framework.client.controls;
-    requires webfx.framework.client.materialdesign;
 
     // Exported packages
     exports mongoose.backend.activities.bookings;

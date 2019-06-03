@@ -52,13 +52,19 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory())));
         Button cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
         return new StackPane((genericTableView = new GenericTableView(buildBookingDetails()) {
-            private final static String FILTER_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'name'}";
+            private final static String FILTER_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'id'}";
             @Override
             public void initUi() {
                 super.initUi();
                 EntityButtonSelector<DynamicEntity> conditionSelector = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isCondition"), this, borderPane, getDataSourceModel());
                 EntityButtonSelector<DynamicEntity> groupSelector     = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isGroup"), this, borderPane, getDataSourceModel());
                 EntityButtonSelector<DynamicEntity> columnsSelector   = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isColumns"), this, borderPane, getDataSourceModel());
+                conditionSelector .autoSelectFirstEntity(filter -> DEFAULT_CONDITION.equals(filter.getStringFieldValue("whereClause")));
+                groupSelector     .autoSelectFirstEntity(filter -> "".equals(filter.getStringFieldValue("name")));
+                columnsSelector   .autoSelectFirstEntity(filter -> DEFAULT_COLUMNS.equals(filter.getStringFieldValue("columns")));
+                conditionSelector .setAutoOpenOnMouseEntered(true);
+                groupSelector     .setAutoOpenOnMouseEntered(true);
+                columnsSelector   .setAutoOpenOnMouseEntered(true);
                 borderPane.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));
 
                 // Initialization from the presentation model current state
@@ -309,7 +315,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
             "{expression: 'price_deposit', format: 'price'}," +
             "{expression: 'price_balance', format: 'price'}" +
             "]";
-    private static final String DEFAULT_FILTER = "!cancelled";
+    private static final String DEFAULT_CONDITION = "!cancelled";
     private static final String DEFAULT_ORDER_BY = "ref desc";
     private ReactiveExpressionFilter<Document> filter;
 
@@ -319,9 +325,9 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 // Fields required for personal details
                 .combine("{fields: 'person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name'}")
                 // Columns to display
-                .combine(pm.columnsProperty(), columns -> "{columns: `" + Objects.coalesce(columns, DEFAULT_COLUMNS) + "`}")
+                //.combine(pm.columnsProperty(), columns -> "{columns: `" + Objects.coalesce(columns, DEFAULT_COLUMNS) + "`}")
                 // Condition clause
-                .combine(         pm.filterProperty(),   filter -> "{where: `" + Objects.coalesce(filter, DEFAULT_FILTER) + "`}")
+                //.combine(         pm.filterProperty(),   filter -> "{where: `" + Objects.coalesce(filter, DEFAULT_CONDITION) + "`}")
                 .combineIfNotNull(pm.organizationIdProperty(),
                         organisationId -> "{where:  `event.organization=" + organisationId + "`}")
                 .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
@@ -343,11 +349,12 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .combineIfPositive(pm.limitProperty(), l -> "{limit: `" + l + "`}")
                 //
                 .combineIfNotNull(pm.conditionStringFilterProperty(), s -> s)
-                .combineIfNotNull(pm.groupStringFilterProperty(),     s -> s)
                 .combineIfNotNull(pm.columnsStringFilterProperty(),   s -> s)
+                .combineIfNotNull(pm.groupStringFilterProperty(),     s -> s)
                 .applyDomainModelRowStyle()
                 .displayResultInto(pm.genericDisplayResultProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> selectedDocumentProperty.set(document))
+                .setPush(false)
                 .start();
     }
 

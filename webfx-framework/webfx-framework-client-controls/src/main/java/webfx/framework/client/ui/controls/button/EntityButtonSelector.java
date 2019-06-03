@@ -9,6 +9,10 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import webfx.framework.client.ui.filter.ExpressionColumn;
+import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.client.ui.filter.StringFilter;
+import webfx.framework.client.ui.filter.StringFilterBuilder;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
@@ -16,10 +20,6 @@ import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.framework.client.ui.filter.ExpressionColumn;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.client.ui.filter.StringFilter;
-import webfx.framework.client.ui.filter.StringFilterBuilder;
 import webfx.fxkit.extra.cell.renderer.ValueRenderer;
 import webfx.fxkit.extra.cell.renderer.ValueRendererFactory;
 import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
@@ -28,10 +28,10 @@ import webfx.fxkit.extra.controls.displaydata.datagrid.SkinnedDataGrid;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.Strings;
-import webfx.platform.shared.util.collection.Collections;
 import webfx.platform.shared.util.function.Callable;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * @author Bruno Salmon
@@ -145,7 +145,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     }
 
     private int updateAdaptiveLimit(Number height) {
-        int maxNumberOfVisibleEntries = height.intValue() / 36;
+        int maxNumberOfVisibleEntries = height.intValue() / 28;
         if (maxNumberOfVisibleEntries > adaptiveLimit)
             adaptiveLimit = maxNumberOfVisibleEntries + (getDecidedShowMode() == ShowMode.MODAL_DIALOG ? 6 : 0); // extra 6 to avoid repetitive requests when resizing window
         return adaptiveLimit;
@@ -164,9 +164,16 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     }
 
     public void autoSelectFirstEntity() {
+        autoSelectFirstEntity(e -> true);
+    }
+
+    public void autoSelectFirstEntity(Predicate<E> predicate) {
         setUpDialog(false);
         if (entityDialogFilter != null)
-            entityDialogFilter.setEntitiesHandler(entityList -> setSelectedItem(Collections.first(entityList)));
+            entityDialogFilter.setEntitiesHandler(entityList -> {
+                setSelectedItem(entityList.stream().filter(predicate).findFirst().orElse(null));
+                entityDialogFilter.setEntitiesHandler(null);
+            });
     }
 
     private ReactiveExpressionFilter<E> getEntityDialogFilter() {
