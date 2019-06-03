@@ -75,14 +75,6 @@ public class MasterSlaveView {
         }
     };
 
-    private void updateView() {
-        updateSplitPane(getMasterView(), isSlaveVisible() ? getSlaveView() : null);
-    }
-
-    private void updateSplitPane(Node... views) {
-        splitPane.getItems().setAll(Arrays.stream(views).filter(Objects::nonNull).collect(Collectors.toList()));
-    }
-
     public BooleanProperty slaveVisibleProperty() {
         return slaveVisibleProperty;
     }
@@ -93,5 +85,13 @@ public class MasterSlaveView {
 
     public void setSlaveVisible(boolean slaveVisible) {
         slaveVisibleProperty().setValue(slaveVisible);
+    }
+
+    void updateView() {
+        updateSplitPane(getMasterView(), isSlaveVisible() ? getSlaveView() : null);
+    }
+
+    void updateSplitPane(Node... views) {
+        splitPane.getItems().setAll(Arrays.stream(views).filter(Objects::nonNull).collect(Collectors.toList()));
     }
 }
