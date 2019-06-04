@@ -27,15 +27,21 @@ import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.client.ui.filter.StringFilterBuilder;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
+import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.fxkit.extra.displaydata.DisplayColumn;
+import webfx.fxkit.extra.displaydata.DisplayColumnBuilder;
+import webfx.fxkit.extra.displaydata.DisplayResult;
+import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
+import webfx.fxkit.extra.type.PrimType;
 import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.util.Booleans;
-import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.Strings;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import static mongoose.backend.activities.bookings.routing.BookingsRouting.parseDayParam;
 import static webfx.framework.client.ui.layouts.LayoutUtil.*;
@@ -93,6 +99,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         groupMasterSlaveView.groupVisibleProperty() .bind(Properties.compute(pm.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
         groupMasterSlaveView.masterVisibleProperty().bind(Properties.combine(groupMasterSlaveView.groupVisibleProperty(), selectedGroupProperty, (groupVisible, selectedGroup) -> !groupVisible || selectedGroup != null));
         groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), selectedDocumentProperty, (masterVisible, selectedDocument) -> masterVisible && selectedDocument != null));
+        Properties.runOnPropertiesChange(this::updateSelectedGroupCondition, groupMasterSlaveView.groupVisibleProperty());
         pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), BookingsActivity::toStringJson));
         pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), BookingsActivity::toStringJson));
         pm.columnsStringFilterProperty()   .bind(Properties.compute(columnsSelector   .selectedItemProperty(), BookingsActivity::toStringJson));
@@ -122,7 +129,40 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         DataGrid groupTable = new DataGrid();
         groupTable.displayResultProperty().bind(pm.groupDisplayResultProperty());
         pm.groupDisplaySelectionProperty().bind(groupTable.displaySelectionProperty());
-        return groupTable;
+
+        PieChart groupChart = new PieChart();
+        pm.groupDisplayResultProperty().addListener((observable, oldValue, rs) -> {
+            DisplayResult pieDisplayResult = null;
+            if (rs != null) {
+                int rowCount = rs.getRowCount();
+                int colCount = rs.getColumnCount();
+                int nameCol = 1; // Skipping first column which is style
+                int valCol = colCount - 1; // The last column contains the number
+                DisplayResultBuilder rsb = new DisplayResultBuilder(rowCount, new DisplayColumn[]{new DisplayColumnBuilder(null, PrimType.STRING).setRole("series").build(), DisplayColumn.create(null, PrimType.INTEGER)});
+                for (int row = 0; row < rowCount; row++) {
+                    Object value = rs.getValue(row, nameCol);
+                    if (value instanceof Object[])  // probably icon, name => picking up name
+                        value = Arrays.stream((Object[]) value).filter(x -> x instanceof String).map(x -> (String) x).filter(s -> !s.startsWith("images/")).findFirst().orElse("?");
+                    if (value instanceof String && ((String) value).startsWith("images/") && row == 0 && nameCol < colCount - 1) {
+                        nameCol++;
+                        row--;
+                        continue;
+                    }
+                    rsb.setValue(row, 0, value);
+                    rsb.setValue(row, 1, rs.getValue(row, valCol));
+                }
+                pieDisplayResult = rsb.build();
+            }
+            groupChart.setDisplayResult(pieDisplayResult);
+        });
+
+        Tab tableTab = new Tab("table", groupTable);
+        tableTab.setGraphic(ImageStore.createImageView("images/s16/table.png"));
+        tableTab.setClosable(false);
+        Tab pieTab = new Tab("pie", groupChart);
+        pieTab.setGraphic(ImageStore.createImageView("images/s16/pieChart.png"));
+        pieTab.setClosable(false);
+        return new TabPane(pieTab, tableTab);
     }
 
     private Node buildBookingDetails() {
@@ -347,9 +387,10 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .combineIfNotNull(pm.groupStringFilterProperty(),     s -> s)
                 .applyDomainModelRowStyle()
                 .displayResultInto(pm.groupDisplayResultProperty())
-                .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), document -> selectedGroupProperty.set(document))
+                .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), this::onGroupSelection)
+                .setPush(false)
                 .start();
-        masterFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid'}")
+        masterFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid', orderBy: 'ref desc'}")
                 // Fields required for personal details
                 .combine("{fields: 'person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name'}")
                 // Columns to display
@@ -370,19 +411,46 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                                 : s.contains("@") ? "{where: `lower(person_email) like '%" + s.toLowerCase() + "%'`}"
                                 : "{where: `person_abcNames like '" + AbcNames.evaluate(s, true) + "'`}")
                 // Group by clause
-                .combineIfNotNull(pm.groupByProperty(), groupBy -> "{groupBy: `" + groupBy + "`}")
+                //.combineIfNotNull(pm.groupByProperty(), groupBy -> "{groupBy: `" + groupBy + "`}")
                 // Order by clause
-                .combine(pm.orderByProperty(), orderBy -> "{orderBy: `" + Objects.coalesce(orderBy, DEFAULT_ORDER_BY) + "`}")
-                // Limit clause
-                .combineIfPositive(pm.limitProperty(), l -> "{limit: `" + l + "`}")
+                //.combine(pm.orderByProperty(), orderBy -> "{orderBy: `" + Objects.coalesce(orderBy, DEFAULT_ORDER_BY) + "`}")
                 //
+                .combineIfNotNull(pm.selectedGroupConditionStringFilterProperty(), s -> s)
                 .combineIfNotNull(pm.conditionStringFilterProperty(), s -> s)
                 .combineIfNotNull(pm.columnsStringFilterProperty(),   s -> s)
+                // Limit clause
+                .combineIfPositive(pm.limitProperty(), l -> "{limit: `" + l + "`}")
                 .applyDomainModelRowStyle()
                 .displayResultInto(pm.genericDisplayResultProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> selectedDocumentProperty.set(document))
-                //.setPush(false)
+                .setPush(false)
                 .start();
+    }
+
+    private void onGroupSelection(Document group) {
+        selectedGroupProperty.set(group);
+        updateSelectedGroupCondition();
+    }
+
+    private void updateSelectedGroupCondition() {
+        Document group = selectedGroupProperty.get();
+        String sf = null;
+        String gsf = pm.getGroupStringFilter();
+        if (group != null && gsf != null) {
+            StringBuilder sb = new StringBuilder();
+            for (String groupToken : Strings.split(new StringFilter(gsf).getGroupBy(), ",")) {
+                if (sb.length() > 0)
+                    sb.append(" and ");
+                Object value = group.evaluate(groupToken);
+                if (value instanceof EntityId)
+                    value = ((EntityId) value).getPrimaryKey();
+                if (value instanceof String)
+                    value = "'" + value + "'";
+                sb.append(groupToken).append('=').append(value);
+            }
+            sf = "{where: `" + sb + "`}";
+        }
+        pm.selectedGroupConditionStringFilterProperty().set(sf);
     }
 
     @Override

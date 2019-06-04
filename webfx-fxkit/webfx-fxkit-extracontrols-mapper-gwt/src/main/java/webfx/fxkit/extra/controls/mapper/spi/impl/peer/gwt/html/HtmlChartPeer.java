@@ -173,6 +173,8 @@ abstract class HtmlChartPeer
     }
 
     private ColumnType toGoogleColumnType(PrimType primType) {
+        if (primType == null)
+            return null;
         if (primType.isBoolean())
             return ColumnType.BOOLEAN;
         if (primType.isString())

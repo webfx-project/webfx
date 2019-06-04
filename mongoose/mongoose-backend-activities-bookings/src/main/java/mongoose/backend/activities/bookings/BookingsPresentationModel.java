@@ -77,4 +77,8 @@ final class BookingsPresentationModel extends EventDependentGenericTablePresenta
     final StringProperty columnsStringFilterProperty() { return columnsStringFilterProperty; }
     final void setColumnsStringFilter(String value) { columnsStringFilterProperty().set(value); }
     final String getColumnsStringFilter() { return columnsStringFilterProperty().get(); }
+
+    private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
+    final StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
+
 }
