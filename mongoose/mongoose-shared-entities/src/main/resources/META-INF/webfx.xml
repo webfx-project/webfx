@@ -8,6 +8,7 @@
         <provider spi="webfx.framework.shared.orm.entity.EntityFactoryProvider">mongoose.shared.entities.impl.DocumentImpl$ProvidedFactory</provider>
         <provider spi="webfx.framework.shared.orm.entity.EntityFactoryProvider">mongoose.shared.entities.impl.DocumentLineImpl$ProvidedFactory</provider>
         <provider spi="webfx.framework.shared.orm.entity.EntityFactoryProvider">mongoose.shared.entities.impl.EventImpl$ProvidedFactory</provider>
+        <provider spi="webfx.framework.shared.orm.entity.EntityFactoryProvider">mongoose.shared.entities.impl.FilterImpl$ProvidedFactory</provider>
         <provider spi="webfx.framework.shared.orm.entity.EntityFactoryProvider">mongoose.shared.entities.impl.GatewayParameterImpl$ProvidedFactory</provider>
         <provider spi="webfx.framework.shared.orm.entity.EntityFactoryProvider">mongoose.shared.entities.impl.HistoryImpl$ProvidedFactory</provider>
         <provider spi="webfx.framework.shared.orm.entity.EntityFactoryProvider">mongoose.shared.entities.impl.ImageImpl$ProvidedFactory</provider>

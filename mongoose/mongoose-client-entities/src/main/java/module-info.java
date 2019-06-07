@@ -7,6 +7,7 @@ module mongoose.client.entities {
     requires javafx.controls;
     requires mongoose.shared.entities;
     requires webfx.framework.client.i18n;
+    requires webfx.framework.client.uifilter;
     requires webfx.platform.shared.util;
 
     // Exported packages

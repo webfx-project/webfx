@@ -14,7 +14,7 @@ import webfx.platform.shared.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class Labels {
+public final class Labels {
 
     public static Label bestLabel(Object o) {
         Label label = null;

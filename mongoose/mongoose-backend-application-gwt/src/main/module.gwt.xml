@@ -401,7 +401,7 @@
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="webfx/framework/client/jobs/querypush"/>
     <!--========================< webfx-framework-client-uifilter >=========================-->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
+    <!-- used by mongoose-client-entities (SOURCE) -->
     <source path="webfx/framework/client/ui/filter"/>
     <source path="webfx/framework/client/ui/filter/rx"/>
     <source path="webfx/framework/shared/orm/mapping/entity_display"/>
