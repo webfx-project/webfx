@@ -21,7 +21,7 @@ public interface ReactiveExpressionFilterFactoryMixin extends HasDataSourceModel
         return reactiveExpressionFilter
                 .setDataSourceModel(getDataSourceModel())
                 .bindActivePropertyTo(activeProperty())
-                .setPush(true) // Making server push notifications on by default
+                //.setPush(true) // Making server push notifications on by default
                 ;
     }
 

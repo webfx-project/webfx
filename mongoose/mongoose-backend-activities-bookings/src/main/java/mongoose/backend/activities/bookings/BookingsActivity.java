@@ -1,79 +1,66 @@
 package mongoose.backend.activities.bookings;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
+import mongoose.client.activity.eventdependent.EventDependentPresentationModel;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.activity.table.GenericTableView;
 import mongoose.client.activity.table.GroupMasterSlaveView;
-import mongoose.client.controls.personaldetails.PersonalDetailsPanel;
+import mongoose.client.entities.util.Filters;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
+import mongoose.shared.entities.Filter;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
-import webfx.framework.client.ui.controls.dialog.DialogContent;
-import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.client.ui.filter.StringFilter;
-import webfx.framework.client.ui.filter.StringFilterBuilder;
-import webfx.framework.shared.orm.entity.EntityId;
-import webfx.framework.shared.orm.entity.impl.DynamicEntity;
-import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.displaydata.DisplayColumn;
-import webfx.fxkit.extra.displaydata.DisplayColumnBuilder;
-import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.util.properties.Properties;
-import webfx.platform.shared.services.json.WritableJsonObject;
-import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Strings;
 
-import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.function.Predicate;
 
-import static mongoose.backend.activities.bookings.routing.BookingsRouting.parseDayParam;
 import static webfx.framework.client.ui.layouts.LayoutUtil.*;
-import static webfx.framework.shared.expression.sqlcompiler.terms.ConstantSqlCompiler.toSqlDate;
 
 final class BookingsActivity extends EventDependentViewDomainActivity
         implements OperationActionFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
-    private GroupMasterSlaveView groupMasterSlaveView;
     private GenericTableView genericTableView;
-    private ObjectProperty<Document> selectedGroupProperty = new SimpleObjectProperty<>();
-    private ObjectProperty<Document> selectedDocumentProperty = new SimpleObjectProperty<>();
 
     private final BookingsPresentationModel pm = new BookingsPresentationModel();
 
-    private final static String FILTER_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'id'}";
+    @Override
+    public EventDependentPresentationModel getPresentationModel() {
+        return pm; // eventId and organizationId will then be updated from route
+    }
+
+    private final static String FILTER_SELECTOR_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'id'}";
+
+    private EntityButtonSelector<Filter> createFilterButtonSelector(String conditionToken, Predicate<Filter> autoSelectPredicate, Pane parent) {
+        EntityButtonSelector<Filter> selector = new EntityButtonSelector<>(FILTER_SELECTOR_TEMPLATE.replace("${condition}", conditionToken), this, parent, getDataSourceModel());
+        selector.autoSelectFirstEntity(autoSelectPredicate);
+        selector.setAutoOpenOnMouseEntered(true);
+        return selector;
+    }
+
     @Override
     public Node buildUi() {
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory())));
         Button cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
         BorderPane container = new BorderPane();
-        EntityButtonSelector<DynamicEntity> conditionSelector = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isCondition"), this, container, getDataSourceModel());
-        EntityButtonSelector<DynamicEntity> groupSelector     = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isGroup"), this, container, getDataSourceModel());
-        EntityButtonSelector<DynamicEntity> columnsSelector   = new EntityButtonSelector<>(FILTER_TEMPLATE.replace("${condition}", "isColumns"), this, container, getDataSourceModel());
-        conditionSelector .autoSelectFirstEntity(filter -> DEFAULT_CONDITION.equals(filter.getStringFieldValue("whereClause")));
-        groupSelector     .autoSelectFirstEntity(filter -> "".equals(filter.getStringFieldValue("name")));
-        columnsSelector   .autoSelectFirstEntity(filter -> DEFAULT_COLUMNS.equals(filter.getStringFieldValue("columns")));
-        conditionSelector .setAutoOpenOnMouseEntered(true);
-        groupSelector     .setAutoOpenOnMouseEntered(true);
-        columnsSelector   .setAutoOpenOnMouseEntered(true);
-        groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL, buildGroupView(), null, buildBookingDetails());
+        EntityButtonSelector<Filter> conditionSelector = createFilterButtonSelector("isCondition", filter -> "!cancelled".equals(filter.getWhereClause()), container);
+        EntityButtonSelector<Filter> groupSelector     = createFilterButtonSelector("isGroup",     filter -> "".equals(filter.getName()), container);
+        EntityButtonSelector<Filter> columnsSelector   = createFilterButtonSelector("isColumns",   filter -> "prices".equals(filter.getName()), container);
+        GroupView groupView = new GroupView();
+        BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel((Pane) getNode(), this, getDataSourceModel());
+        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL, groupView.buildUi(), null, bookingDetailsPanel.buildUi());
         genericTableView = new GenericTableView(groupMasterSlaveView) {
             @Override
             public void initUi() {
@@ -97,235 +84,23 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         container.setCenter(genericTableView.buildUi());
         container.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(genericTableView.getSearchBox())), setUnmanagedWhenInvisible(cloneEventButton)));
         groupMasterSlaveView.groupVisibleProperty() .bind(Properties.compute(pm.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
-        groupMasterSlaveView.masterVisibleProperty().bind(Properties.combine(groupMasterSlaveView.groupVisibleProperty(), selectedGroupProperty, (groupVisible, selectedGroup) -> !groupVisible || selectedGroup != null));
-        groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), selectedDocumentProperty, (masterVisible, selectedDocument) -> masterVisible && selectedDocument != null));
-        Properties.runOnPropertiesChange(this::updateSelectedGroupCondition, groupMasterSlaveView.groupVisibleProperty());
-        pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), BookingsActivity::toStringJson));
-        pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), BookingsActivity::toStringJson));
-        pm.columnsStringFilterProperty()   .bind(Properties.compute(columnsSelector   .selectedItemProperty(), BookingsActivity::toStringJson));
+        groupMasterSlaveView.masterVisibleProperty().bind(Properties.combine(groupMasterSlaveView.groupVisibleProperty(),  pm.selectedGroupProperty(),    (groupVisible, selectedGroup)     -> !groupVisible || selectedGroup != null));
+        groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), pm.selectedDocumentProperty(), (masterVisible, selectedDocument) -> masterVisible && selectedDocument != null));
+
+        // Group view data binding
+        groupView.groupDisplayResultProperty().bind(pm.groupDisplayResultProperty());
+        groupView.visibleProperty().bind(groupMasterSlaveView.groupVisibleProperty());
+        groupView.selectedGroupProperty().bind(pm.selectedGroupProperty());
+        groupView.groupStringFilterProperty().bind(pm.groupStringFilterProperty());
+        pm.selectedGroupConditionStringFilterProperty().bind(groupView.selectedGroupConditionStringFilterProperty());
+        pm.groupDisplaySelectionProperty().bind(groupView.groupDisplaySelectionProperty());
+
+        pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), Filters::toStringJson));
+        pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), Filters::toStringJson));
+        pm.columnsStringFilterProperty()   .bind(Properties.compute(columnsSelector   .selectedItemProperty(), Filters::toStringJson));
+        bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
+        bookingDetailsPanel.activeProperty().bind(activeProperty());
         return container;
-    }
-
-    private static StringFilter toStringFilter(DynamicEntity filter) {
-        if (filter == null)
-            return null;
-        StringFilterBuilder sfb = new StringFilterBuilder(filter.getFieldValue("class"));
-        sfb.setAlias(  filter.getStringFieldValue("alias"));
-        sfb.setFields( filter.getStringFieldValue("fields"));
-        sfb.setWhere(  filter.getStringFieldValue("whereClause"));
-        sfb.setGroupBy(filter.getStringFieldValue("groupByClause"));
-        sfb.setHaving( filter.getStringFieldValue("havingClause"));
-        sfb.setOrderBy(filter.getStringFieldValue("orderByClause"));
-        sfb.setLimit(  filter.getStringFieldValue("limitClause"));
-        sfb.setColumns(filter.getStringFieldValue("columns"));
-        return sfb.build();
-    }
-
-    private static String toStringJson(DynamicEntity filter) {
-        return filter == null ? null : toStringFilter(filter).toStringJson();
-    }
-
-    private Node buildGroupView() {
-        DataGrid groupTable = new DataGrid();
-        groupTable.displayResultProperty().bind(pm.groupDisplayResultProperty());
-        pm.groupDisplaySelectionProperty().bind(groupTable.displaySelectionProperty());
-
-        PieChart groupChart = new PieChart();
-        pm.groupDisplayResultProperty().addListener((observable, oldValue, rs) -> {
-            DisplayResult pieDisplayResult = null;
-            if (rs != null) {
-                int rowCount = rs.getRowCount();
-                int colCount = rs.getColumnCount();
-                int nameCol = 1; // Skipping first column which is style
-                int valCol = colCount - 1; // The last column contains the number
-                DisplayResultBuilder rsb = new DisplayResultBuilder(rowCount, new DisplayColumn[]{new DisplayColumnBuilder(null, PrimType.STRING).setRole("series").build(), DisplayColumn.create(null, PrimType.INTEGER)});
-                for (int row = 0; row < rowCount; row++) {
-                    Object value = rs.getValue(row, nameCol);
-                    if (value instanceof Object[])  // probably icon, name => picking up name
-                        value = Arrays.stream((Object[]) value).filter(x -> x instanceof String).map(x -> (String) x).filter(s -> !s.startsWith("images/")).findFirst().orElse("?");
-                    if (value instanceof String && ((String) value).startsWith("images/") && row == 0 && nameCol < colCount - 1) {
-                        nameCol++;
-                        row--;
-                        continue;
-                    }
-                    rsb.setValue(row, 0, value);
-                    rsb.setValue(row, 1, rs.getValue(row, valCol));
-                }
-                pieDisplayResult = rsb.build();
-            }
-            groupChart.setDisplayResult(pieDisplayResult);
-        });
-
-        Tab tableTab = new Tab("table", groupTable);
-        tableTab.setGraphic(ImageStore.createImageView("images/s16/table.png"));
-        tableTab.setClosable(false);
-        Tab pieTab = new Tab("pie", groupChart);
-        pieTab.setGraphic(ImageStore.createImageView("images/s16/pieChart.png"));
-        pieTab.setClosable(false);
-        return new TabPane(pieTab, tableTab);
-    }
-
-    private Node buildBookingDetails() {
-        return new VBox(/*button, */new TabPane(
-                createTab("Personal details", "images/s16/personalDetails.png", buildPersonalDetailsView()),
-                createFilterTab("Options", "images/s16/options.png", "{class: 'DocumentLine', columns: `['site','item','dates','lockAllocation','resourceConfiguration','comment','price_isCustom',{expression: 'price_net', format:'price'},{expression: 'price_nonRefundable', format: 'price'},{expression: 'price_minDeposit', format: 'price'},{expression: 'price_deposit', format: 'price'}]`, where: 'document=${selectedDocument}', orderBy: 'item.family.ord,site..ord,item.ord'}"),
-                createFilterTab("Payments", "images/s16/methods/generic.png", "{class: 'MoneyTransfer', columns: `['date','method','transactionRef','comment',{expression:'amount', format:'price'},'verified']`, where: 'document=${selectedDocument}', orderBy: 'date,id'}"),
-                createTab("Comments", "images/s16/note.png", buildCommentView()),
-                createFilterTab("Cart", "images/s16/cart.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_net', format:'price'},{expression: 'price_deposit', format: 'price'},{expression: 'price_balance', format: 'price'}]`, where: 'cart=(select cart from Document where id=${selectedDocument})', orderBy: 'ref'}"),
-                createFilterTab("Multiple bookings", "images/s16/multipleBookings/redCross.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'multipleBooking=(select multipleBooking from Document where id=${selectedDocument})', orderBy: 'ref'}"),
-                createFilterTab("Children", "images/s16/child.png", "{class: 'Document', columns:`['ref','multipleBookingIcon','langIcon','genderIcon','person_firstName','person_lastName','person_age','noteIcon',{expression: 'price_deposit', format: 'price'},'plainOptions']`, where: 'person_carer1Document=${selectedDocument} or person_carer2Document=${selectedDocument}', orderBy: 'ref'}"),
-                createFilterTab("Mails", "images/s16/mailbox.png", "{class: 'Mail', columns: 'date,subject,transmitted,error', where: 'document=${selectedDocument}', orderBy: 'date desc'}"),
-                createFilterTab("History", "images/s16/history.png", "{class: 'History', columns: 'date,username,comment,request', where: 'document=${selectedDocument}', orderBy: 'date desc'}")
-        ));
-    }
-
-    private static Tab createTab(String text, String iconUrl, Node node) {
-        Tab tab = new Tab(text);
-        tab.setGraphic(ImageStore.createImageView(iconUrl));
-        tab.setContent(node);
-        tab.setClosable(false);
-        return tab;
-    }
-
-    private Tab createFilterTab(String text, String iconUrl, String filter) {
-        DataGrid table = new DataGrid();
-        String classOnly = filter.substring(0, filter.indexOf(',')) + "}";
-        createReactiveExpressionFilter(classOnly)
-                .combineIfNotNullOtherwiseForceEmptyResult(selectedDocumentProperty, document -> Strings.replaceAll(filter, "${selectedDocument}", document.getPrimaryKey()))
-                .applyDomainModelRowStyle()
-                .displayResultInto(table.displayResultProperty())
-                .start();
-        return createTab(text, iconUrl, table);
-    }
-
-    GridPane gridPane = new GridPane();
-    private Node buildPersonalDetailsView() {
-        gridPane.setHgap(0);
-        gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(20));
-        gridPane.setMinHeight(150);
-
-        ColumnConstraints cc5p = new ColumnConstraints();
-        cc5p.setPercentWidth(5);
-        cc5p.setHgrow(Priority.NEVER);
-        ColumnConstraints cc10p = new ColumnConstraints();
-        cc10p.setPercentWidth(10);
-        cc10p.setHgrow(Priority.NEVER);
-        ColumnConstraints cc15p = new ColumnConstraints();
-        cc15p.setPercentWidth(15);
-        cc15p.setHgrow(Priority.NEVER);
-
-        gridPane.getColumnConstraints().setAll(cc10p, cc10p, cc5p, cc5p, cc5p, cc10p, cc5p, cc10p, cc10p, cc5p, cc5p, cc5p, cc10p, cc5p);
-
-        RowConstraints rc = new RowConstraints();
-        rc.setMinHeight(3.5);
-        gridPane.getRowConstraints().setAll(rc, rc, rc, rc, rc);
-
-        addFieldLabelAndValue(0, 0, 6, "person_firstName");
-        addFieldLabelAndValue(1, 0, 6, "person_lastName");
-        addFieldLabelAndValue(2, 0, 1, "person_age");
-        addFieldLabelAndValue(3, 0, 6, "person_email");
-        addFieldLabelAndValue(4, 0, 6, "person_organization");
-        addFieldLabelAndValue(0, 7, 6, "person_phone");
-        addFieldLabelAndValue(1, 7, 6, "person_cityName");
-        addFieldLabelAndValue(2, 7, 6, "person_country");
-        addFieldLabelAndValue(3, 7, 6, "person_carer1Name");
-        addFieldLabelAndValue(4, 7, 6, "person_carer2Name");
-
-        gridPane.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2)
-                editPersonalDetails();
-        });
-
-        return gridPane;
-    }
-
-    private void editPersonalDetails() {
-        Document document = selectedDocumentProperty.get();
-        PersonalDetailsPanel details = new PersonalDetailsPanel(document.getEvent(), BookingsActivity.this, (Pane) getNode());
-        details.setEditable(true);
-        details.syncUiFromModel(document);
-        BorderPane sectionPanel = details.getSectionPanel();
-        ScrollPane scrollPane = new ScrollPane(sectionPanel);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sectionPanel.setPrefWidth(400);
-        scrollPane.setPrefWidth(400);
-        scrollPane.setPrefHeight(600);
-        //scrollPane.setFitToWidth(true);
-        DialogContent dialogContent = new DialogContent().setContent(scrollPane);
-        DialogUtil.showModalNodeInGoldLayout(dialogContent, (Pane) getNode(), 0, 0.9);
-        DialogUtil.armDialogContentButtons(dialogContent, dialogCallback -> {
-            details.isValid();
-            //dialogCallback.closeDialog();
-            /*
-            syncModelFromUi();
-            if (!updateStore.hasChanges())
-                dialogCallback.closeDialog();
-            else {
-                updateStore.executeUpdate().setHandler(ar -> {
-                    if (ar.failed())
-                        dialogCallback.showException(ar.cause());
-                    else
-                        dialogCallback.closeDialog();
-                });
-            }
-*/
-        });
-    }
-
-    private void addFieldLabelAndValue(int rowIndex, int columnIndex, int columnSpan, String fieldName) {
-        webfx.fxkit.extra.label.Label fieldLabel = getDomainModel().getClass("Document").getField(fieldName).getLabel();
-        ObservableValue<String> fieldValueProperty = Properties.compute(selectedDocumentProperty, document -> {
-            Object fieldValue = document == null ? null : document.getFieldValue(fieldName);
-            if (fieldValue instanceof EntityId)
-                fieldValue = document.getForeignEntity(fieldName).getFieldValue("name");
-            return fieldValue == null ? null : fieldValue.toString();
-        });
-        Label valueLabel = new Label();
-        valueLabel.textProperty().bind(fieldValueProperty);
-        addNodeToGrid(rowIndex, columnIndex, 1, new Label(fieldLabel.getText(), ImageStore.createImageView(fieldLabel.getIconPath())));
-        addNodeToGrid(rowIndex, columnIndex + 1, columnSpan, valueLabel);
-    }
-
-    private void addNodeToGrid(int rowIndex, int columnIndex, int columnSpan, Node node) {
-        GridPane.setRowIndex(node, rowIndex);
-        GridPane.setColumnIndex(node, columnIndex);
-        GridPane.setColumnSpan(node, columnSpan);
-        gridPane.getChildren().add(node);
-    }
-
-    private Node buildCommentView() {
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        //gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(5));
-
-        RowConstraints rc = new RowConstraints();
-        rc.setPercentHeight(100);
-        gridPane.getRowConstraints().add(rc);
-
-        ColumnConstraints cc = new ColumnConstraints();
-        cc.setPercentWidth(33.3333);
-        ObservableList<ColumnConstraints> columnConstraints = gridPane.getColumnConstraints();
-        columnConstraints.add(cc);
-        columnConstraints.add(cc);
-        columnConstraints.add(cc);
-
-        gridPane.getChildren().setAll(createComment("Person request", "request"), createComment("Registration comment", "comment"), createComment("Special needs", "specialNeeds"));
-
-        return gridPane;
-    }
-
-    private int columnIndex;
-    private Node createComment(String title, String commentField) {
-        TextArea textArea = new TextArea();
-        textArea.textProperty().bind(Properties.compute(selectedDocumentProperty, document -> document == null ? null : document.getStringFieldValue(commentField)));
-        textArea.setEditable(false);
-        TitledPane titledPane = new TitledPane(title, textArea);
-        titledPane.setCollapsible(false);
-        titledPane.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setColumnIndex(titledPane, columnIndex++);
-        return titledPane;
     }
 
     @Override
@@ -334,129 +109,57 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         genericTableView.onResume();
     }
 
-    @Override
-    protected void updateContextParametersFromRoute() {
-        super.updateContextParametersFromRoute();
-        String routingPath = getRoutingPath();
-        WritableJsonObject contextParams = (WritableJsonObject) getParams(); // not beautiful...
-        contextParams.set("arrivals", Strings.contains(routingPath, "/arrivals"));
-        contextParams.set("departures", Strings.contains(routingPath, "/departures"));
-    }
-
-    @Override
-    protected void updateModelFromContextParameters() {
-        LocalDate day;
-        setActive(false);
-        super.updateModelFromContextParameters(); // for eventId and organizationId
-        //pm.setColumns(getParameter("columns"));
-        pm.setDay(day = parseDayParam(getParameter("day")));
-        pm.setArrivals(day != null && Booleans.isTrue(getParameter("arrivals")));
-        pm.setDepartures(day != null && Booleans.isTrue(getParameter("departures")));
-        pm.setMinDay(parseDayParam(getParameter("minDay")));
-        pm.setMaxDay(parseDayParam(getParameter("maxDay")));
-        //pm.setFilter(getParameter("filter"));
-        //pm.setGroupBy(getParameter("groupBy"));
-        //pm.setOrderBy(getParameter("orderBy"));
-        pm.setEventId(getEventId());
-        pm.setOrganizationId(getOrganizationId());
-        setActive(true);
-    }
-
-    private static final String DEFAULT_COLUMNS = "[" +
-            "'ref'," +
-            "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
-            "'person_firstName'," +
-            "'person_lastName'," +
-            "'person_age','noteIcon'," +
-            "{expression: 'price_net', format: 'price'}," +
-            "{expression: 'price_minDeposit', format: 'price'}," +
-            "{expression: 'price_deposit', format: 'price'}," +
-            "{expression: 'price_balance', format: 'price'}" +
-            "]";
-    private static final String DEFAULT_CONDITION = "!cancelled";
-    private static final String DEFAULT_ORDER_BY = "ref desc";
     private ReactiveExpressionFilter<Document> groupFilter;
     private ReactiveExpressionFilter<Document> masterFilter;
 
     @Override
     protected void startLogic() {
+        // Setting up the group filter that controls the content displayed in the group view
         groupFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd'}")
-                .combineIfNotNull(pm.organizationIdProperty(),
-                        organisationId -> "{where:  `event.organization=" + organisationId + "`}")
-                .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
-                .combineIfNotNull(pm.groupStringFilterProperty(),     s -> s)
-                .applyDomainModelRowStyle()
+                // Applying the event condition
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
+                // Applying the condition and group selected by the user
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.conditionStringFilterProperty(), stringFilter -> stringFilter)
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.groupStringFilterProperty(), stringFilter -> stringFilter)
+                // Displaying the result in the group view
                 .displayResultInto(pm.groupDisplayResultProperty())
-                .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), this::onGroupSelection)
-                .setPush(false)
+                // Reacting to a group selection
+                .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), pm::setSelectedGroup)
+                // Everything set up, let's start now!
                 .start();
-        masterFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid', orderBy: 'ref desc'}")
-                // Fields required for personal details
-                .combine("{fields: 'person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name'}")
-                // Columns to display
-                //.combine(pm.columnsProperty(), columns -> "{columns: `" + Objects.coalesce(columns, DEFAULT_COLUMNS) + "`}")
-                // Condition clause
-                //.combine(         pm.filterProperty(),   masterFilter -> "{where: `" + Objects.coalesce(masterFilter, DEFAULT_CONDITION) + "`}")
-                .combineIfNotNull(pm.organizationIdProperty(),
-                        organisationId -> "{where:  `event.organization=" + organisationId + "`}")
-                .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
-                .combineIfNotNull(pm.dayProperty(),         day -> "{where:  `exists(select Attendance where documentLine.document=d and date="  + toSqlDate(day) + ")`}")
-                .combineIfTrue(   pm.arrivalsProperty(),     () -> "{where: `!exists(select Attendance where documentLine.document=d and date="  + toSqlDate(pm.getDay().minusDays(1)) + ")`}")
-                .combineIfTrue(   pm.departuresProperty(),   () -> "{where: `!exists(select Attendance where documentLine.document=d and date="  + toSqlDate(pm.getDay().plusDays(1)) + ")`}")
-                .combineIfNotNull(pm.minDayProperty(),   minDay -> "{where:  `exists(select Attendance where documentLine.document=d and date>=" + toSqlDate(minDay) + ")`}")
-                .combineIfNotNull(pm.maxDayProperty(),   maxDay -> "{where:  `exists(select Attendance where documentLine.document=d and date<=" + toSqlDate(maxDay) + ")`}")
-                // Search box condition
+
+        masterFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', orderBy: 'ref desc'}")
+                // Always loading the fields required for viewing the booking details
+                .combine(BookingDetailsPanel.REQUIRED_FIELDS_STRING_FILTER)
+                // Applying the event condition
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
+                // Applying the condition and columns selected by the user
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.conditionStringFilterProperty(), stringFilter -> stringFilter)
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.columnsStringFilterProperty(),   stringFilter -> stringFilter)
+                // Also, in case groups are showing and a group is selected, applying the condition associated with that group
+                .combineIfNotNull(pm.selectedGroupConditionStringFilterProperty(), s -> s)
+                // Applying the user search
                 .combineIfNotEmptyTrim(pm.searchTextProperty(), s ->
                         Character.isDigit(s.charAt(0)) ? "{where: `ref = " + s + "`}"
                                 : s.contains("@") ? "{where: `lower(person_email) like '%" + s.toLowerCase() + "%'`}"
                                 : "{where: `person_abcNames like '" + AbcNames.evaluate(s, true) + "'`}")
-                // Group by clause
-                //.combineIfNotNull(pm.groupByProperty(), groupBy -> "{groupBy: `" + groupBy + "`}")
-                // Order by clause
-                //.combine(pm.orderByProperty(), orderBy -> "{orderBy: `" + Objects.coalesce(orderBy, DEFAULT_ORDER_BY) + "`}")
-                //
-                .combineIfNotNull(pm.selectedGroupConditionStringFilterProperty(), s -> s)
-                .combineIfNotNull(pm.conditionStringFilterProperty(), s -> s)
-                .combineIfNotNull(pm.columnsStringFilterProperty(),   s -> s)
                 // Limit clause
-                .combineIfPositive(pm.limitProperty(), l -> "{limit: `" + l + "`}")
+                .combineIfPositive(pm.limitProperty(), limit -> "{limit: `" + limit + "`}")
+                // Colorizing the rows
                 .applyDomainModelRowStyle()
+                // Displaying the result in the master view
                 .displayResultInto(pm.genericDisplayResultProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> selectedDocumentProperty.set(document))
+                // Reacting the a booking selection
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), pm::setSelectedDocument)
+                // Activating server push notification
                 .setPush(false)
+                // Everything set up, let's start now!
                 .start();
-    }
-
-    private void onGroupSelection(Document group) {
-        selectedGroupProperty.set(group);
-        updateSelectedGroupCondition();
-    }
-
-    private void updateSelectedGroupCondition() {
-        Document group = selectedGroupProperty.get();
-        String sf = null;
-        String gsf = pm.getGroupStringFilter();
-        if (group != null && gsf != null) {
-            StringBuilder sb = new StringBuilder();
-            for (String groupToken : Strings.split(new StringFilter(gsf).getGroupBy(), ",")) {
-                if (sb.length() > 0)
-                    sb.append(" and ");
-                Object value = group.evaluate(groupToken);
-                if (value instanceof EntityId)
-                    value = ((EntityId) value).getPrimaryKey();
-                if (value instanceof String)
-                    value = "'" + value + "'";
-                sb.append(groupToken).append('=').append(value);
-            }
-            sf = "{where: `" + sb + "`}";
-        }
-        pm.selectedGroupConditionStringFilterProperty().set(sf);
     }
 
     @Override
     protected void refreshDataOnActive() {
-        groupFilter.refreshWhenActive();
+        groupFilter .refreshWhenActive();
         masterFilter.refreshWhenActive();
     }
-
 }
