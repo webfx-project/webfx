@@ -5,6 +5,7 @@ module webfx.framework.client.uifilter {
     // Direct dependencies modules
     requires java.base;
     requires javafx.base;
+    requires javafx.graphics;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.push;
@@ -16,8 +17,6 @@ module webfx.framework.client.uifilter {
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
-    requires webfx.lib.rxjava;
-    requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.query;
@@ -26,7 +25,6 @@ module webfx.framework.client.uifilter {
 
     // Exported packages
     exports webfx.framework.client.ui.filter;
-    exports webfx.framework.client.ui.filter.rx;
     exports webfx.framework.shared.orm.mapping.entity_display;
 
 }

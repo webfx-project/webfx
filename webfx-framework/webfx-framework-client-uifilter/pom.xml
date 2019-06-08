@@ -18,6 +18,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>javafx-graphics</artifactId>
+            <groupId>org.openjfx</groupId>
+            <version>${lib.openjfx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-activity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -79,18 +86,6 @@
         
         <dependency>
             <artifactId>webfx-fxkit-util</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-lib-rxjava</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-platform-client-uischeduler</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

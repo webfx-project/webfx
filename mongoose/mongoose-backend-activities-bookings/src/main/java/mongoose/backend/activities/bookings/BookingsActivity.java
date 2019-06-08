@@ -152,7 +152,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 // Reacting the a booking selection
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), pm::setSelectedDocument)
                 // Activating server push notification
-                .setPush(false)
+                .setPush(true)
                 // Everything set up, let's start now!
                 .start();
     }

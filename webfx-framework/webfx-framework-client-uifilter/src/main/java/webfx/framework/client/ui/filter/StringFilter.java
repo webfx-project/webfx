@@ -100,7 +100,7 @@ public final class StringFilter {
     }
 
     public String toStringJson() {
-        return "{class: `" + domainClassId + '`' +
+        return "{class: " + (domainClassId == null ? "null" : "`" + domainClassId + '`') +
                 (fields == null ? "" : ", fields: `" + fields + '`') +
                 (columns == null ? "" : ", columns: `" + columns + '`') +
                 (alias == null ? "" : ", alias: `" + alias + '`') +

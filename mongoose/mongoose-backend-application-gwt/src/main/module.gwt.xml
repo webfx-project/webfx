@@ -403,7 +403,6 @@
     <!--========================< webfx-framework-client-uifilter >=========================-->
     <!-- used by mongoose-client-entities (SOURCE) -->
     <source path="webfx/framework/client/ui/filter"/>
-    <source path="webfx/framework/client/ui/filter/rx"/>
     <source path="webfx/framework/shared/orm/mapping/entity_display"/>
     <!--========================< webfx-framework-client-uirouter >=========================-->
     <!-- used by webfx-framework-client-domain (SOURCE) -->
@@ -590,21 +589,6 @@
     <!-- used by mongoose-client-validation (SOURCE) -->
     <source path="de/saxsys/mvvmfx/utils/validation"/>
     <source path="de/saxsys/mvvmfx/utils/validation/visualization"/>
-    <!--================================< webfx-lib-rxjava >================================-->
-    <!-- used by webfx-framework-client-uifilter (SOURCE) -->
-    <source path="rx"/>
-    <source path="rx/annotations"/>
-    <source path="rx/exceptions"/>
-    <source path="rx/functions"/>
-    <source path="rx/internal/operators"/>
-    <source path="rx/internal/producers"/>
-    <source path="rx/internal/util"/>
-    <source path="rx/internal/util/atomic"/>
-    <source path="rx/internal/util/unsafe"/>
-    <source path="rx/observers"/>
-    <source path="rx/plugins"/>
-    <source path="rx/subjects"/>
-    <source path="rx/subscriptions"/>
     <!--=========================< webfx-platform-client-storage >==========================-->
     <!-- used by mongoose-client-sessionrecorder (SOURCE) -->
     <!-- used by webfx-platform-client-storage-gwt (SOURCE) -->
