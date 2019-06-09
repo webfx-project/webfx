@@ -88,6 +88,13 @@ final class BookingDetailsPanel implements ReactiveExpressionFilterFactoryMixin 
     private Tab createFilterTab(String text, String iconUrl, String filter) {
         DataGrid table = new DataGrid();
         Tab tab = createTab(text, iconUrl, table);
+        // The following is required only for gwt version for any reason (otherwise the table height is not resize when growing)
+        Properties.runOnPropertiesChange(() -> {
+            TabPane tabPane = tab.getTabPane();
+            if (tabPane != null)
+                tabPane.requestLayout();
+        }, table.displayResultProperty());
+        // Setting up the reactive filter
         String classOnly = filter.substring(0, filter.indexOf(',')) + "}";
         createReactiveExpressionFilter(classOnly)
                 .bindActivePropertyTo(tab.selectedProperty())
