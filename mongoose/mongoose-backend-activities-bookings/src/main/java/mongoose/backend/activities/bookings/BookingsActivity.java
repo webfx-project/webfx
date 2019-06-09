@@ -94,6 +94,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         groupView.groupStringFilterProperty().bind(pm.groupStringFilterProperty());
         pm.selectedGroupConditionStringFilterProperty().bind(groupView.selectedGroupConditionStringFilterProperty());
         pm.groupDisplaySelectionProperty().bind(groupView.groupDisplaySelectionProperty());
+        groupView.setReferenceResolver(groupFilter.getRootAliasReferenceResolver());
 
         pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), Filters::toStringJson));
         pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), Filters::toStringJson));

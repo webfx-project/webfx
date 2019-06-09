@@ -6,6 +6,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import mongoose.shared.entities.Document;
 import webfx.framework.client.ui.filter.StringFilter;
+import webfx.framework.shared.expression.builder.ReferenceResolver;
+import webfx.framework.shared.expression.builder.ThreadLocalReferenceResolver;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
@@ -57,6 +59,12 @@ final class GroupView {
         return visibleProperty;
     }
 
+    private ReferenceResolver referenceResolver;
+
+    public void setReferenceResolver(ReferenceResolver referenceResolver) {
+        this.referenceResolver = referenceResolver;
+    }
+
     Node buildUi() {
         DataGrid groupTable = new DataGrid();
         groupTable.displayResultProperty().bind(groupDisplayResultProperty());
@@ -103,16 +111,18 @@ final class GroupView {
         String gsf = getGroupStringFilter();
         if (group != null && gsf != null) {
             StringBuilder sb = new StringBuilder();
-            for (String groupToken : Strings.split(new StringFilter(gsf).getGroupBy(), ",")) {
-                if (sb.length() > 0)
-                    sb.append(" and ");
-                Object value = group.evaluate(groupToken);
-                if (value instanceof EntityId)
-                    value = ((EntityId) value).getPrimaryKey();
-                if (value instanceof String)
-                    value = "'" + value + "'";
-                sb.append(groupToken).append('=').append(value);
-            }
+            ThreadLocalReferenceResolver.executeCodeInvolvingReferenceResolver(() -> {
+                for (String groupToken : Strings.split(new StringFilter(gsf).getGroupBy(), ",")) {
+                    if (sb.length() > 0)
+                        sb.append(" and ");
+                    Object value = group.evaluate(groupToken);
+                    if (value instanceof EntityId)
+                        value = ((EntityId) value).getPrimaryKey();
+                    if (value instanceof String)
+                        value = "'" + value + "'";
+                    sb.append(groupToken).append('=').append(value);
+                }
+            }, referenceResolver);
             sf = "{where: `" + sb + "`}";
         }
         selectedGroupConditionStringFilterProperty().set(sf);
