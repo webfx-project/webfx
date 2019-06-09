@@ -227,9 +227,16 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
 
     public <T> ReactiveExpressionFilter<E> combine(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
         return combine(Properties.compute(property, t -> {
-                    String json = toJsonFilterConverter.convert(t);
-                    return json == null ? null : new StringFilter(json);
-                }));
+            // Calling the converter to get the json filter as String
+            String json = toJsonFilterConverter.convert(t);
+            // Converting it to a StringFilter that we will return. If different from last value, this will trigger a global change check
+            StringFilter stringFilter = json == null ? null : new StringFilter(json);
+            // However it's possible that the StringFilter hasn't changed but contains parameters that have changed (ex: name like ?search)
+            // In that case (StringFilter with parameter), we always schedule a global change check (which will consider parameters)
+            if (json != null && json.contains("?")) // Simple parameter test with ?
+                scheduleGlobalChangeCheck();
+            return stringFilter;
+        }));
     }
 
     public <T> ReactiveExpressionFilter<E> combineIfNotNull(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
@@ -414,7 +421,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                     refreshNow();
             }
         }, I18n.dictionaryProperty(), activeProperty);
-        Properties.runNowAndOnPropertiesChange(() -> sendNewQueryIfChanged(), (Collection<ObservableValue>) (Collection) stringFilterProperties);
+        Properties.runNowAndOnPropertiesChange(() -> scheduleGlobalChangeCheck(), (Collection<ObservableValue>) (Collection) stringFilterProperties);
         started = true;
         return this;
     }
@@ -499,18 +506,19 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
 
     private boolean sendNewQueryIfChangedScheduled;
 
-    private void sendNewQueryIfChanged() {
+    private void scheduleGlobalChangeCheck() {
         if (!sendNewQueryIfChangedScheduled) {
             sendNewQueryIfChangedScheduled = true;
             Platform.runLater(() -> {
                 sendNewQueryIfChangedScheduled = false;
-                sendNewQueryIfChangedNow();
+                doGlobalChangeCheck();
             });
         }
     }
 
-    private void sendNewQueryIfChangedNow() {
-        sendNewQueryIfChanged(mergeStringFilters());
+    private void doGlobalChangeCheck() {
+        StringFilter globalStringFilter = mergeStringFilters();
+        sendNewQueryIfChanged(globalStringFilter);
     }
 
     private QueryArgument lastQueryArgument; // Used for skipping possible too old query results
