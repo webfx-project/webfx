@@ -693,7 +693,11 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             filterDisplays.get(i).setDisplayResult(displayResults[i]);
     }
 
-    private ReferenceResolver getRootAliasReferenceResolver() {
+    private void executeParsingCode(Runnable parsingCode) {
+        ThreadLocalReferenceResolver.executeCodeInvolvingReferenceResolver(parsingCode, getRootAliasReferenceResolver());
+    }
+
+    public ReferenceResolver getRootAliasReferenceResolver() {
         if (rootAliasReferenceResolver == null) {
             // Before parsing, we prepare a ReferenceResolver to resolve possible references to root aliases
             Map<String, Alias> rootAliases = new HashMap<>();
@@ -709,9 +713,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                 // If fields contains for example (select ...) as xxx -> then xxx can be referenced in expression columns
                 String fields = baseFilter.getFields();
                 if (fields != null && fields.contains(" as ")) { // quick skipping if fields doesn't contains " as "
-                    try {
-                        ThreadLocalReferenceResolver.pushReferenceResolver(rootAliasReferenceResolver);
-                        // Now that the ReferenceResolver is ready, we can parse the expression columns
+                    executeParsingCode(() -> {
                         for (Expression field : getDomainModel().parseExpressionArray(fields, domainClassId).getExpressions()) {
                             if (field instanceof As) { // If a field is a As expression,
                                 As as = (As) field;
@@ -719,9 +721,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                                 rootAliases.put(as.getAlias(), new Alias(as.getAlias(), as.getType()));
                             }
                         }
-                    } finally {
-                        ThreadLocalReferenceResolver.popReferenceResolver();
-                    }
+                    });
                 }
             }
         }
@@ -810,7 +810,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         }
 
         void setExpressionColumnsPrivate(String jsonOrDefColumns) {
-            setExpressionColumnsPrivate(ExpressionColumn.fromJsonArrayOrExpressionsDefinition(jsonOrDefColumns, getDomainModel(), getDomainClassId()));
+            executeParsingCode(() -> setExpressionColumnsPrivate(ExpressionColumn.fromJsonArrayOrExpressionsDefinition(jsonOrDefColumns, getDomainModel(), getDomainClassId())));
             if (appliedDomainModelRowStyle)
                 applyDomainModelRowStyle();
         }
@@ -869,17 +869,13 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             if (columnsPersistentTerms == null) {
                 columnsPersistentTerms = new ArrayList<>();
                 if (expressionColumns != null)
-                    try {
+                    executeParsingCode(() -> {
                         DomainModel domainModel = getDomainModel();
-                        ThreadLocalReferenceResolver.pushReferenceResolver(getRootAliasReferenceResolver());
-                        // Now that the ReferenceResolver is ready, we can parse the expression columns
                         for (ExpressionColumn expressionColumn : expressionColumns) {
                             expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId);
                             expressionColumn.getDisplayExpression().collectPersistentTerms(columnsPersistentTerms);
                         }
-                    } finally {
-                        ThreadLocalReferenceResolver.popReferenceResolver();
-                    }
+                    });
             }
             return columnsPersistentTerms;
         }

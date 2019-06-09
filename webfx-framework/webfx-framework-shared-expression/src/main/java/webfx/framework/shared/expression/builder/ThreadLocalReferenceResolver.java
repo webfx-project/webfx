@@ -1,7 +1,8 @@
 package webfx.framework.shared.expression.builder;
 
-import java.util.Stack;
 import webfx.framework.shared.expression.Expression;
+
+import java.util.Stack;
 
 /**
  * @author Bruno Salmon
@@ -35,4 +36,15 @@ public final class ThreadLocalReferenceResolver {
         return null;
     }
 
+    public static void executeCodeInvolvingReferenceResolver(Runnable code, ReferenceResolver referenceResolver) {
+        try {
+            // Before calling the code, we push the reference resolver in the thread context
+            ThreadLocalReferenceResolver.pushReferenceResolver(referenceResolver);
+            // Now that the ReferenceResolver is set, we can call the code
+            code.run();
+        } finally {
+            // Now that the code is executed, we can pop the reference resolver
+            ThreadLocalReferenceResolver.popReferenceResolver();
+        }
+    }
 }
