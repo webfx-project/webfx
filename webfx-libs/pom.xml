@@ -15,7 +15,6 @@
     <modules>
         <!-- Java CUP parser runtime module (forked to make it compilable with transpilers) -->
         <module>webfx-lib-javacupruntime</module>
-        <module>webfx-lib-rxjava</module>
 
         <module>webfx-lib-controlsfx-validation</module>
         <module>webfx-lib-mvvmfx-validation</module>
