@@ -1,7 +1,5 @@
 package webfx.framework.client.ui.filter;
 
-import webfx.fxkit.extra.type.Type;
-import webfx.fxkit.extra.type.Types;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.terms.As;
 import webfx.framework.shared.expression.terms.Dot;
@@ -9,11 +7,13 @@ import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.util.formatter.Formatter;
-import webfx.platform.shared.services.json.JsonObject;
+import webfx.fxkit.extra.cell.renderer.ValueRenderer;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayColumnBuilder;
 import webfx.fxkit.extra.displaydata.DisplayStyleBuilder;
-import webfx.fxkit.extra.cell.renderer.ValueRenderer;
+import webfx.fxkit.extra.type.Type;
+import webfx.fxkit.extra.type.Types;
+import webfx.platform.shared.services.json.JsonObject;
 
 /**
  * @author Bruno Salmon
@@ -46,8 +46,12 @@ final class ExpressionColumnImpl implements ExpressionColumn {
     public DisplayColumn getDisplayColumn() {
         if (displayColumn == null) {
             Expression topRightExpression = getTopRightExpression(expression);
-            if (topRightExpression instanceof As)
-                topRightExpression = ((As) topRightExpression).getOperand();
+            if (topRightExpression instanceof As) {
+                As as = (As) topRightExpression;
+                topRightExpression = as.getOperand();
+                if (label == null)
+                    label = as.getAlias();
+            }
             if (label == null)
                 label = topRightExpression;
             Double prefWidth = null;
