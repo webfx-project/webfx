@@ -151,8 +151,6 @@ public final class SqlBuild {
                 }
                 Join.appendJoins(joins.get(tableAlias), sb);
             }
-            // temporary hack to make the statistics ceremony filter work for right dates
-            Join.appendNotYetAppendJoins(joins.get("a"), sb); // looking for alias a = Attendance and add it if present but not added (the join is missing because it refers to the parent select)
             sb//.append(_if(fromTablesCount > 1, ") "))
                     .append(_if(" set ", getClauseBuilder(SqlClause.UPDATE), "", sb))
                     .append(_if(" (", insert, ")", sb))
@@ -234,7 +232,7 @@ public final class SqlBuild {
         this.leftJoinMapping = leftJoinMapping;
     }
 
-    public StringBuilder getClauseBuilder(SqlClause clause) {
+    private StringBuilder getClauseBuilder(SqlClause clause) {
         return sqlClauseBuilders.get(clause);
     }
 
@@ -270,7 +268,7 @@ public final class SqlBuild {
         return true;
     }
 
-    public String getNewTableAlias(String tableName, String tableAlias, boolean join) {
+    private String getNewTableAlias(String tableName, String tableAlias, boolean join) {
         if (tableAlias == null) {
             char c = join ? 'j' : 't';
             StringBuilder sb = new StringBuilder();
@@ -288,10 +286,24 @@ public final class SqlBuild {
         return tableAlias.charAt(0) == 'j';
     }
 
+    private SqlBuild getLogicalAliasBuild(String logicalAlias) {
+        if (logicalAlias == null || logicalAlias.equals(tableAlias))
+            return this;
+        if (logicalAliases != null && logicalAliases.containsKey(logicalAlias))
+            return this;
+        if (parent != null)
+            return parent.getLogicalAliasBuild(logicalAlias);
+        return null;
+    }
+
     public String getSqlAlias(String logicalAlias) {
-        String sqlAlias = logicalAliases == null ? null : logicalAliases.get(logicalAlias);
-        if (sqlAlias == null && parent != null)
-            sqlAlias = parent.getSqlAlias(logicalAlias);
+        return getSqlAlias(logicalAlias, getLogicalAliasBuild(logicalAlias));
+    }
+
+    private String getSqlAlias(String logicalAlias, SqlBuild logicalAliasBuild) {
+        String sqlAlias = null;
+        if (logicalAliasBuild != null && logicalAliasBuild.logicalAliases != null)
+            sqlAlias = logicalAliasBuild.logicalAliases.get(logicalAlias);
         return sqlAlias != null ? sqlAlias : logicalAlias;
     }
 
@@ -328,7 +340,14 @@ public final class SqlBuild {
     }
 
     public String addJoinCondition(String table1Alias, String column1Name, String table2Alias, String table2Name, String column2Name, boolean leftOuter) {
-        table1Alias = getSqlAlias(table1Alias);
+        SqlBuild logicalAliasBuild = getLogicalAliasBuild(table1Alias);
+        if (logicalAliasBuild == null)
+            logicalAliasBuild = this;
+        return logicalAliasBuild.addJoinCondition2(table1Alias, column1Name, table2Alias, table2Name, column2Name, leftOuter);
+    }
+
+    private String addJoinCondition2(String table1Alias, String column1Name, String table2Alias, String table2Name, String column2Name, boolean leftOuter) {
+        table1Alias = getSqlAlias(table1Alias, this);
         Map<Join, Join> table1Joins = joins.get(table1Alias);
         if (table1Joins == null)
             joins.put(table1Alias, table1Joins =  new HashMap<>());
@@ -341,7 +360,9 @@ public final class SqlBuild {
             join.table2Alias = getNewTableAlias(table2Name, null, true);
             table1Joins.put(join, join);
         }
-        if (table2Alias != null && !table2Alias.equals(join.table2Alias)) {
+        if (table2Alias == null)
+            recordLogicalAlias(join.table2Alias, join.table2Alias);
+        else if (!table2Alias.equals(join.table2Alias)) {
             recordLogicalAlias(table2Alias, join.table2Alias);
             return table2Alias;
         }
@@ -375,10 +396,10 @@ public final class SqlBuild {
             if (column1Name.equals(column2Name)) // 'using' syntax when column names are identical
                 sb.append(" using ").append(column1Name);
             else { // 'on' syntax
-                sb.append(" on ");
+                sb.append(" on ").append(table2Alias).append('.').append(column2Name).append('=');
                 if (table1Alias != null)
                     sb.append(table1Alias).append('.');
-                sb.append(column1Name).append('=').append(table2Alias).append('.').append(column2Name);
+                sb.append(column1Name);
             }
         }
 
@@ -394,7 +415,7 @@ public final class SqlBuild {
                     StringBuilder sb2 = new StringBuilder();
                     join.appendTo(sb2);
                     String s2 = sb2.toString();
-                    if (sb.toString().indexOf(s2) == -1) // J2ME CLDC doesn't support contains()
+                    if (!sb.toString().contains(s2))
                         sb.append(s2);
                 }
         }

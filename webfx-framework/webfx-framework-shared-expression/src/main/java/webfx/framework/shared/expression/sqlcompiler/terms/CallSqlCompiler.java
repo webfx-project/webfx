@@ -27,7 +27,7 @@ public final class CallSqlCompiler extends AbstractTermSqlCompiler<Call> {
             Function f = call.getFunction();
             if (f instanceof InlineFunction) {
                 InlineFunction inline = (InlineFunction) f;
-                if (o.clause == SqlClause.SELECT)
+                if (o.clause == SqlClause.SELECT && o.readForeignFields)
                     compileExpressionPersistentTermsToSql(arg, o);
                 else
                     try {
@@ -47,7 +47,7 @@ public final class CallSqlCompiler extends AbstractTermSqlCompiler<Call> {
                 if (!f.isKeyword()) {
                     sb.append('(');
                     if (arg != null)
-                        compileChildExpressionToSql(arg, o.changeSeparatorGroupedGenerateQueryMapping(",", false, false));
+                        compileChildExpressionToSql(arg, o.changeSeparatorGroupedGenerateQueryMapping(",", false, false).changeReadForeignFields(o.readForeignFields && f.isEvaluable()));
                     if (call.getOrderBy() != null) {
                         sb.append(" order by ");
                         compileChildExpressionToSql(call.getOrderBy(), o.changeSeparatorGroupedGenerateQueryMapping(",", false, false));

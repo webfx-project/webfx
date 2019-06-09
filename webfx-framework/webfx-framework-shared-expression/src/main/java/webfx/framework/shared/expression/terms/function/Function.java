@@ -37,6 +37,7 @@ public class Function<T> {
         new Function("count", PrimType.LONG).register();
         new Function("min").register();
         new Function("max").register();
+        new Function("nullif").register();
 
         new Sum().register();
         new StringAgg().register();

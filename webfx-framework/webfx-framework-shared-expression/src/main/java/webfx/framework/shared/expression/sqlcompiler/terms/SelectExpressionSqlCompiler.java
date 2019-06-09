@@ -18,7 +18,7 @@ public final class SelectExpressionSqlCompiler extends AbstractTermSqlCompiler<S
         if (e instanceof Exists)
             leftBracket = "exists(";
         StringBuilder clauseBuilder = o.build.prepareAppend(o).append(leftBracket);
-        compileSelect(e.getSelect(), o);
+        compileSelect(e.getSelect(), o.changeReadForeignFields(false));
         clauseBuilder.append(')');
     }
 }

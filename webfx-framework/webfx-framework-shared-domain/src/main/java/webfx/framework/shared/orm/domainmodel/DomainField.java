@@ -1,6 +1,7 @@
 package webfx.framework.shared.orm.domainmodel;
 
 import webfx.framework.shared.expression.sqlcompiler.ExpressionSqlCompiler;
+import webfx.framework.shared.expression.terms.HasDomainClass;
 import webfx.fxkit.extra.type.Type;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.terms.Equals;
@@ -12,7 +13,7 @@ import webfx.fxkit.extra.label.Label;
 /**
  * @author Bruno Salmon
  */
-public final class DomainField extends Symbol implements HasLabel {
+public final class DomainField extends Symbol implements HasDomainClass, HasLabel {
     private final DomainClass domainClass;
     private final Object modelId;
     private final Object id;
@@ -60,6 +61,7 @@ public final class DomainField extends Symbol implements HasLabel {
         this.foreignTableFields = foreignTableFields;
     }
 
+    @Override
     public DomainClass getDomainClass() {
         return domainClass;
     }

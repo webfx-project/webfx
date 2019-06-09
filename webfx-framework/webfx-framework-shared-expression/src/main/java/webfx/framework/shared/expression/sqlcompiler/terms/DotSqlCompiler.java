@@ -40,7 +40,9 @@ public final class DotSqlCompiler extends AbstractTermSqlCompiler<Dot> {
             rightTableAlias = o.build.addJoinCondition(leftTableAlias, leftSql, asAlias, o.modelReader.getDomainClassSqlTableName(rightClass), o.modelReader.getDomainClassPrimaryKeySqlColumnName(rightClass), e.isOuterJoin() || o.clause == SqlClause.SELECT);
         } else if (left instanceof Alias) {
             leftSql = null;
-            rightTableAlias = ((Alias) left).getName();
+            Alias alias = (Alias) left;
+            rightClass = alias.getDomainClass();
+            rightTableAlias = alias.getName();
         } else // should never occur
             leftSql = rightTableAlias = null;
         QueryColumnToEntityFieldMapping leftJoinMapping = null;

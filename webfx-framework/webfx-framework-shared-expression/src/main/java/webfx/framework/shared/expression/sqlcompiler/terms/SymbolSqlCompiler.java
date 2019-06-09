@@ -3,6 +3,7 @@ package webfx.framework.shared.expression.sqlcompiler.terms;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.sqlcompiler.sql.SqlClause;
 import webfx.framework.shared.expression.terms.Dot;
+import webfx.framework.shared.expression.terms.HasDomainClass;
 import webfx.framework.shared.expression.terms.Symbol;
 import webfx.fxkit.extra.type.Types;
 
@@ -21,7 +22,7 @@ public final class SymbolSqlCompiler extends AbstractTermSqlCompiler<Symbol> {
             compileChildExpressionToSql(e.getExpression(), o);
         else {
             Expression foreignField = null;
-            Object termDomainClass = o.build.getCompilingClass();
+            Object termDomainClass = e instanceof HasDomainClass /*ex: domain field */ ? ((HasDomainClass) e).getDomainClass() : o.build.getCompilingClass();
             if (o.readForeignFields && o.clause == SqlClause.SELECT) {
                 Object foreignClass = o.modelReader.getSymbolForeignDomainClass(termDomainClass, e, false);
                 if (foreignClass != null /* && build.getJoinMapping() == null  to avoid infinite recursion, see item.icon*/)
