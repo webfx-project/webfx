@@ -87,13 +87,16 @@ final class BookingDetailsPanel implements ReactiveExpressionFilterFactoryMixin 
 
     private Tab createFilterTab(String text, String iconUrl, String filter) {
         DataGrid table = new DataGrid();
+        Tab tab = createTab(text, iconUrl, table);
         String classOnly = filter.substring(0, filter.indexOf(',')) + "}";
         createReactiveExpressionFilter(classOnly)
+                .bindActivePropertyTo(tab.selectedProperty())
                 .combineIfNotNullOtherwiseForceEmptyResult(selectedDocumentProperty, document -> Strings.replaceAll(filter, "${selectedDocument}", document.getPrimaryKey()))
                 .applyDomainModelRowStyle()
                 .displayResultInto(table.displayResultProperty())
+                .setPush(true)
                 .start();
-        return createTab(text, iconUrl, table);
+        return tab;
     }
 
     private Node buildPersonalDetailsView() {
