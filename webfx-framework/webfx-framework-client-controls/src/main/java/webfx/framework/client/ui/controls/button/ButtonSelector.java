@@ -314,6 +314,9 @@ public abstract class ButtonSelector<T> {
     }
 
     private void show() {
+        // Doing nothing if the dialog is already showing (otherwise same node inserted twice in scene graph => error)
+        if (dialogPane != null && dialogPane.getParent() != null) // May happen when quickly moving mouse over several
+            return; // entity buttons in auto open mode
         Region dialogContent = getOrCreateDialogContent();
         Pane parentNow = parentGetter != null ? parentGetter.call() : parent;
         TextField searchTextField = getSearchTextField(); // may return null in case search is not enabled
