@@ -41,7 +41,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         return pm; // eventId and organizationId will then be updated from route
     }
 
-    private final static String FILTER_SELECTOR_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'id'}";
+    private final static String FILTER_SELECTOR_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'ord,id'}";
 
     private EntityButtonSelector<Filter> createFilterButtonSelector(String conditionToken, Predicate<Filter> autoSelectPredicate, Pane parent) {
         EntityButtonSelector<Filter> selector = new EntityButtonSelector<>(FILTER_SELECTOR_TEMPLATE.replace("${condition}", conditionToken), this, parent, getDataSourceModel());
@@ -89,7 +89,6 @@ final class BookingsActivity extends EventDependentViewDomainActivity
 
         // Group view data binding
         groupView.groupDisplayResultProperty().bind(pm.groupDisplayResultProperty());
-        groupView.visibleProperty().bind(groupMasterSlaveView.groupVisibleProperty());
         groupView.selectedGroupProperty().bind(pm.selectedGroupProperty());
         groupView.groupStringFilterProperty().bind(pm.groupStringFilterProperty());
         pm.selectedGroupConditionStringFilterProperty().bind(groupView.selectedGroupConditionStringFilterProperty());
@@ -121,7 +120,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
                 // Applying the condition and group selected by the user
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.conditionStringFilterProperty(), stringFilter -> stringFilter)
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.groupStringFilterProperty(), stringFilter -> stringFilter)
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.groupStringFilterProperty(), stringFilter -> stringFilter.contains("groupBy") ? stringFilter : "{where: 'false'}")
                 // Displaying the result in the group view
                 .displayResultInto(pm.groupDisplayResultProperty())
                 // Reacting to a group selection

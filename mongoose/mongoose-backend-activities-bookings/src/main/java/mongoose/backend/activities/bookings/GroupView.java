@@ -49,16 +49,6 @@ final class GroupView {
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
     StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
 
-    private final BooleanProperty visibleProperty = new SimpleBooleanProperty() {
-        @Override
-        protected void invalidated() {
-            updateSelectedGroupCondition();
-        }
-    };
-    BooleanProperty visibleProperty() {
-        return visibleProperty;
-    }
-
     private ReferenceResolver referenceResolver;
 
     public void setReferenceResolver(ReferenceResolver referenceResolver) {
@@ -73,7 +63,7 @@ final class GroupView {
         PieChart groupChart = new PieChart();
         groupDisplayResultProperty().addListener((observable, oldValue, rs) -> {
             DisplayResult pieDisplayResult = null;
-            if (rs != null && visibleProperty.get()) {
+            if (rs != null) {
                 int rowCount = rs.getRowCount();
                 int colCount = rs.getColumnCount();
                 int nameCol = 0;
