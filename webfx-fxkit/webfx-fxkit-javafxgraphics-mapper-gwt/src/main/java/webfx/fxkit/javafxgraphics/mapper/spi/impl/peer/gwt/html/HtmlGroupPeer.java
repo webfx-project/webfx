@@ -16,7 +16,7 @@ public final class HtmlGroupPeer
         implements GroupPeerMixin<N, NB, NM> {
 
     public HtmlGroupPeer() {
-        this((NB) new GroupPeerBase(), HtmlUtil.createDivElement());
+        this((NB) new GroupPeerBase(), HtmlUtil.createElement("fx-group"));
     }
 
     public HtmlGroupPeer(NB base, HTMLElement element) {

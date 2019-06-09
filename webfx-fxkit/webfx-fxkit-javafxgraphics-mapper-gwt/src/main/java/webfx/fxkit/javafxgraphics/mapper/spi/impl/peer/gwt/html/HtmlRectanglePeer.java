@@ -17,7 +17,7 @@ public final class HtmlRectanglePeer
         implements RectanglePeerMixin<N, NB, NM> {
 
     public HtmlRectanglePeer() {
-        this((NB) new RectanglePeerBase(), HtmlUtil.createDivElement());
+        this((NB) new RectanglePeerBase(), HtmlUtil.createElement("fx-rectangle"));
     }
 
     public HtmlRectanglePeer(NB base, HTMLElement element) {

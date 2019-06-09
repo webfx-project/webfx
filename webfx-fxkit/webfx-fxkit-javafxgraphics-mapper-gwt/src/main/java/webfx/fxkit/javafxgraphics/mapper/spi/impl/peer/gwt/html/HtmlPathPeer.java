@@ -27,7 +27,7 @@ public final class HtmlPathPeer
     private SvgPathPeer svgPathPeer = new SvgPathPeer();
 
     public HtmlPathPeer() {
-        this((NB) new PathPeerBase(), HtmlUtil.createElement("div"));
+        this((NB) new PathPeerBase(), HtmlUtil.createElement("fx-path"));
     }
 
     public HtmlPathPeer(NB base, HTMLElement element) {

@@ -49,7 +49,12 @@ public class JavaFxGraphicsRegistry {
     }
 
     public static void registerRegion() {
-        NodePeerFactoryRegistry.registerDefaultRegionPeerFactory(node -> new HtmlLayoutPeer<>());
+        NodePeerFactoryRegistry.registerDefaultRegionPeerFactory(node -> {
+            // Generating the tag to use for the
+            String tag = "fx-" + node.getClass().getSimpleName().toLowerCase();
+            registerNodePeerFactory(node.getClass(), () -> new HtmlLayoutPeer<>(tag));
+            return new HtmlLayoutPeer<>(tag);
+        });
     }
 
 }

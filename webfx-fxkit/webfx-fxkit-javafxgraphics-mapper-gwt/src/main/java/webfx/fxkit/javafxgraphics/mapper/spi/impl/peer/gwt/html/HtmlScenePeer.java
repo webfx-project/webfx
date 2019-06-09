@@ -31,7 +31,7 @@ import static elemental2.dom.DomGlobal.document;
  */
 public final class HtmlScenePeer extends ScenePeerBase {
 
-    private final HTMLElement container = HtmlUtil.createDivElement();
+    private final HTMLElement container = HtmlUtil.createElement("fx-scene");
 
     public HtmlScenePeer(Scene scene) {
         super(scene);

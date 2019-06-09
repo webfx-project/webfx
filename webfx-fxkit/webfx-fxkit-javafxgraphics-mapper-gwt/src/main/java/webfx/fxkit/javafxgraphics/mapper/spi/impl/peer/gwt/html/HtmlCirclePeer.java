@@ -18,7 +18,7 @@ public final class HtmlCirclePeer
         implements CirclePeerMixin<N, NB, NM> {
 
     public HtmlCirclePeer() {
-        this((NB) new CirclePeerBase(), HtmlUtil.createDivElement());
+        this((NB) new CirclePeerBase(), HtmlUtil.createElement("fx-circle"));
     }
 
     public HtmlCirclePeer(NB base, HTMLElement element) {

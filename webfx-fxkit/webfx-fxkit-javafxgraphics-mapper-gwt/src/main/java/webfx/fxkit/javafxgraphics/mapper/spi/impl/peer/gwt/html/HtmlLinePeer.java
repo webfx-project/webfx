@@ -18,7 +18,7 @@ public final class HtmlLinePeer
         implements LinePeerMixin<N, NB, NM> {
 
     public HtmlLinePeer() {
-        this((NB) new LinePeerBase(), HtmlUtil.createDivElement());
+        this((NB) new LinePeerBase(), HtmlUtil.createElement("fx-line"));
     }
 
     public HtmlLinePeer(NB base, HTMLElement element) {

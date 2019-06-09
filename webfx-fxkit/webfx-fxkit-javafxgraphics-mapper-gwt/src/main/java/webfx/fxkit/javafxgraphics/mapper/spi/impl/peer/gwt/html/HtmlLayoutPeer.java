@@ -12,10 +12,11 @@ import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.RegionPeerMixin;
 public final class HtmlLayoutPeer
         <N extends Region, NB extends RegionPeerBase<N, NB, NM>, NM extends RegionPeerMixin<N, NB, NM>>
 
-        extends HtmlRegionPeer<N, NB, NM> {
+        extends HtmlRegionPeer<N, NB, NM>
+        implements NoWrapWhiteSpacePeer {
 
-    public HtmlLayoutPeer() {
-        super((NB) new RegionPeerBase<N, NB, NM>(), HtmlUtil.createSpanElement());
+    public HtmlLayoutPeer(String tag) {
+        super((NB) new RegionPeerBase<N, NB, NM>(), HtmlUtil.createElement(tag));
         subtractCssPaddingBorderWhenUpdatingSize = true;
     }
 
