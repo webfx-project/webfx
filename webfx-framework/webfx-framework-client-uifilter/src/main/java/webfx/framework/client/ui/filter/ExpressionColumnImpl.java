@@ -7,10 +7,13 @@ import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.util.formatter.Formatter;
+import webfx.framework.shared.util.formatter.FormatterRegistry;
 import webfx.fxkit.extra.cell.renderer.ValueRenderer;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayColumnBuilder;
 import webfx.fxkit.extra.displaydata.DisplayStyleBuilder;
+import webfx.fxkit.extra.type.DerivedType;
+import webfx.fxkit.extra.type.PrimType;
 import webfx.fxkit.extra.type.Type;
 import webfx.fxkit.extra.type.Types;
 import webfx.platform.shared.services.json.JsonObject;
@@ -37,6 +40,17 @@ final class ExpressionColumnImpl implements ExpressionColumn {
         this.expressionDefinition = expressionDefinition;
         this.expression = expression;
         this.label = label;
+        // If no display formatter is passed, trying to find one based on the expression type
+        if (displayFormatter == null && expression != null) {
+            Type type = expression.getType();
+            String formatterName = null;
+            // If the type is a derived type (ex: field with type Price), we try to find a formatter with same name (but lowercase). Ex: price
+            if (type == PrimType.DATE)
+                formatterName = "dateTime";
+            else if (type instanceof DerivedType)
+                formatterName = ((DerivedType) type).getName().toLowerCase();
+            displayFormatter = FormatterRegistry.getFormatter(formatterName);
+        }
         this.displayFormatter = displayFormatter;
         this.displayColumn = displayColumn;
         this.json = json;
