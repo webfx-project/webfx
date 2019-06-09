@@ -77,9 +77,24 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     private FilterDisplay filterDisplay;
     private final List<FilterDisplay> filterDisplays = new ArrayList<>();
     private ReferenceResolver rootAliasReferenceResolver;
-    private final BooleanProperty activeProperty = new SimpleBooleanProperty(true);
-    private final BooleanProperty pushProperty = new SimpleBooleanProperty(false);
-    private final ObjectProperty<Object> pushClientIdProperty = new SimpleObjectProperty<>();
+    private final BooleanProperty activeProperty = new SimpleBooleanProperty(true) {
+        @Override
+        protected void invalidated() {
+            scheduleGlobalChangeCheck();
+        }
+    };
+    private final BooleanProperty pushProperty = new SimpleBooleanProperty(false) {
+        @Override
+        protected void invalidated() {
+            scheduleGlobalChangeCheck();
+        }
+    };
+    private final ObjectProperty<Object> pushClientIdProperty = new SimpleObjectProperty<Object/*GWT*/>() {
+        @Override
+        protected void invalidated() {
+            scheduleGlobalChangeCheck();
+        }
+    };
     private Object queryStreamId;
     private ObservableValue<Boolean> boundActiveProperty;
     private boolean started;
@@ -387,9 +402,6 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     }
 
     public ReactiveExpressionFilter<E> start() {
-        combine(activeProperty, "{}");
-        combine(pushProperty, "{}");
-        combine(pushClientIdProperty, p -> "{}");
         // if autoRefresh is set, we combine the filter with a 5s tic tac property
         if (autoRefresh) {
             Property<Boolean> ticTacProperty = new SimpleObjectProperty<>(true);
@@ -507,7 +519,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     private boolean sendNewQueryIfChangedScheduled;
 
     private void scheduleGlobalChangeCheck() {
-        if (!sendNewQueryIfChangedScheduled) {
+        if (!sendNewQueryIfChangedScheduled && (isActive() || isPush())) {
             sendNewQueryIfChangedScheduled = true;
             Platform.runLater(() -> {
                 sendNewQueryIfChangedScheduled = false;
