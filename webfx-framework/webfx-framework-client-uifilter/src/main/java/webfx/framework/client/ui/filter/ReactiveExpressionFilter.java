@@ -334,6 +334,11 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return this;
     }
 
+    public ReactiveExpressionFilter<E> autoSelectSingleRow() {
+        getFilterDisplay().autoSelectSingleRow();
+        return this;
+    }
+
     public ReactiveExpressionFilter<E> selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
         getFilterDisplay().selectFirstRowOnFirstDisplay(displaySelectionProperty, onEachChangeProperty);
         return this;
@@ -753,6 +758,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         Property<DisplayResult> displayResultProperty;
         Property<DisplaySelection> displaySelectionProperty;
         boolean selectFirstRowOnFirstDisplay;
+        boolean autoSelectSingleRow;
         int stringFilterPropertyLastIndex = -1;
         List<Expression> columnsPersistentTerms;
         boolean appliedDomainModelRowStyle;
@@ -780,6 +786,10 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
 
         void selectFirstRowOnFirstDisplay() {
             selectFirstRowOnFirstDisplay = true;
+        }
+
+        void autoSelectSingleRow() {
+            autoSelectSingleRow = true;
         }
 
         void selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
@@ -858,7 +868,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
 
         void setDisplayResult(DisplayResult rs) {
             displayResultProperty.setValue(rs);
-            if (selectFirstRowOnFirstDisplay && rs.getRowCount() > 0) {
+            if (autoSelectSingleRow && rs.getRowCount() == 1 || selectFirstRowOnFirstDisplay && rs.getRowCount() > 0) {
                 selectFirstRowOnFirstDisplay = false;
                 displaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(0));
             }

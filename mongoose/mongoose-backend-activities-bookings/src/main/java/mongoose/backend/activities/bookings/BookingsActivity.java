@@ -76,7 +76,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? 30 : -1), limitCheckBox.selectedProperty());
                 table.fullHeightProperty().bind(limitCheckBox.selectedProperty());
                 //pm.limitProperty().bind(limitCheckBox.selectedProperty());
-                pm.genericDisplaySelectionProperty().bind(table.displaySelectionProperty());
+                pm.genericDisplaySelectionProperty().bindBidirectional(table.displaySelectionProperty());
                 // User outputs: the presentation model changes are transferred in the UI
                 table.displayResultProperty().bind(pm.genericDisplayResultProperty());
             }
@@ -149,6 +149,8 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .applyDomainModelRowStyle()
                 // Displaying the result in the master view
                 .displayResultInto(pm.genericDisplayResultProperty())
+                // When the result is a singe row, automatically select it
+                .autoSelectSingleRow()
                 // Reacting the a booking selection
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), pm::setSelectedDocument)
                 // Activating server push notification
