@@ -413,9 +413,6 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         }
         // The following call is to set stringFilterPropertyLastIndex on the latest filterDisplay
         goToNextFilterDisplayIfDisplayResultPropertyIsSet();
-        // Initializing the display with empty results (no rows but columns) so the component (probably a table) display the columns before calling the server
-        if (startsWithEmptyResult)
-            resetAllDisplayResults(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         Properties.runOnPropertiesChange(new Consumer<ObservableValue/*GWT*/>() {
             private boolean dictionaryChanged;
@@ -635,6 +632,9 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             }
         }
         memorizeAsLastQuery(stringFilter, parameterValues, active, push, pushClientId);
+        // Initializing the display with empty results (no rows but columns) so the component (probably a table) display the columns before calling the server
+        if (startsWithEmptyResult && Collections.isEmpty(getCurrentEntityList()))
+            resetAllDisplayResults(true);
     }
 
     private void log(String message) {
