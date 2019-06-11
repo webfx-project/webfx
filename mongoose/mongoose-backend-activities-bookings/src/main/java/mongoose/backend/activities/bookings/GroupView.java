@@ -6,15 +6,21 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import mongoose.shared.entities.Document;
 import webfx.framework.client.ui.filter.StringFilter;
+import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
 import webfx.framework.shared.expression.builder.ThreadLocalReferenceResolver;
+import webfx.framework.shared.expression.terms.As;
+import webfx.framework.shared.expression.terms.ExpressionArray;
+import webfx.framework.shared.expression.terms.function.Call;
 import webfx.framework.shared.orm.entity.EntityId;
+import webfx.fxkit.extra.controls.displaydata.SelectableDisplayResultControl;
+import webfx.fxkit.extra.controls.displaydata.chart.AreaChart;
+import webfx.fxkit.extra.controls.displaydata.chart.BarChart;
 import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.displaydata.*;
 import webfx.fxkit.extra.type.PrimType;
 import webfx.fxkit.extra.util.ImageStore;
-import webfx.platform.shared.util.Strings;
 
 import java.util.Arrays;
 
@@ -56,43 +62,51 @@ final class GroupView {
     }
 
     Node buildUi() {
-        DataGrid groupTable = new DataGrid();
-        groupTable.displayResultProperty().bind(groupDisplayResultProperty());
-        groupDisplaySelectionProperty().bind(groupTable.displaySelectionProperty());
+        return new TabPane(
+                createGroupTab("pie",   "images/s16/pieChart.png", new PieChart()),
+                createGroupTab("table", "images/s16/table.png",    new DataGrid()),
+                createGroupTab("bar",   "images/s16/barChart.png", new BarChart()),
+                createGroupTab("area",  "images/s16/barChart.png", new AreaChart())
+        );
+    }
 
-        PieChart groupChart = new PieChart();
-        groupDisplayResultProperty().addListener((observable, oldValue, rs) -> {
-            DisplayResult pieDisplayResult = null;
-            if (rs != null) {
-                int rowCount = rs.getRowCount();
-                int colCount = rs.getColumnCount();
-                int nameCol = 0;
-                int valCol = colCount - 1; // The last column contains the number
-                DisplayResultBuilder rsb = new DisplayResultBuilder(rowCount, new DisplayColumn[]{new DisplayColumnBuilder(null, PrimType.STRING).setRole("series").build(), DisplayColumn.create(null, PrimType.INTEGER)});
-                for (int row = 0; row < rowCount; row++) {
-                    Object value = rs.getValue(row, nameCol);
-                    if (value instanceof Object[])  // probably icon, name => picking up name
-                        value = Arrays.stream((Object[]) value).filter(x -> x instanceof String).map(x -> (String) x).filter(s -> !s.startsWith("images/")).findFirst().orElse("?");
-                    if (value instanceof String && ((String) value).startsWith("images/") && row == 0 && nameCol < colCount - 1) {
-                        nameCol++;
-                        row--;
-                        continue;
-                    }
-                    rsb.setValue(row, 0, value);
-                    rsb.setValue(row, 1, rs.getValue(row, valCol));
+    private Tab createGroupTab(String text, String iconPath, SelectableDisplayResultControl control) {
+        Tab tab = new Tab(text, control);
+        tab.setGraphic(ImageStore.createImageView(iconPath));
+        tab.setClosable(false);
+        if (control instanceof DataGrid) {
+            control.displayResultProperty().bind(groupDisplayResultProperty());
+            groupDisplaySelectionProperty().bind(control.displaySelectionProperty());
+        } else if (control != null)
+            groupDisplayResultProperty().addListener((observable, oldValue, rs) ->
+                    control.setDisplayResult(toSingleSeriesChartDisplayResult(rs, control instanceof PieChart))
+            );
+        return tab;
+    }
+
+    private DisplayResult toSingleSeriesChartDisplayResult(DisplayResult rs, boolean pie) {
+        DisplayResult result = null;
+        if (rs != null) {
+            int rowCount = rs.getRowCount();
+            int colCount = rs.getColumnCount();
+            int nameCol = 0;
+            int valCol = colCount - 1; // The last column contains the number
+            DisplayResultBuilder rsb = new DisplayResultBuilder(rowCount, new DisplayColumn[]{new DisplayColumnBuilder(null, PrimType.STRING).setRole(pie ? "series" : null).build(), DisplayColumn.create(null, PrimType.INTEGER)});
+            for (int row = 0; row < rowCount; row++) {
+                Object nameValue = rs.getValue(row, nameCol);
+                if (nameValue instanceof Object[])  // probably icon, name => picking up name
+                    nameValue = Arrays.stream((Object[]) nameValue).filter(x -> x instanceof String).map(x -> (String) x).filter(s -> !s.startsWith("images/")).findFirst().orElse("?");
+                if (nameValue instanceof String && ((String) nameValue).startsWith("images/") && row == 0 && nameCol < colCount - 1) {
+                    nameCol++;
+                    row--;
+                    continue;
                 }
-                pieDisplayResult = rsb.build();
+                rsb.setValue(row, 0, nameValue);
+                rsb.setValue(row, 1, rs.getValue(row, valCol));
             }
-            groupChart.setDisplayResult(pieDisplayResult);
-        });
-
-        Tab tableTab = new Tab("table", groupTable);
-        tableTab.setGraphic(ImageStore.createImageView("images/s16/table.png"));
-        tableTab.setClosable(false);
-        Tab pieTab = new Tab("pie", groupChart);
-        pieTab.setGraphic(ImageStore.createImageView("images/s16/pieChart.png"));
-        pieTab.setClosable(false);
-        return new TabPane(pieTab, tableTab);
+            result = rsb.build();
+        }
+        return result;
     }
 
     private void updateSelectedGroupCondition() {
@@ -102,19 +116,36 @@ final class GroupView {
         if (group != null && gsf != null) {
             StringBuilder sb = new StringBuilder();
             ThreadLocalReferenceResolver.executeCodeInvolvingReferenceResolver(() -> {
-                for (String groupToken : Strings.split(new StringFilter(gsf).getGroupBy(), ",")) {
+                ExpressionArray<Expression> columnsExpressionArray = group.getDomainClass().parseExpressionArray(new StringFilter(gsf).getColumns());
+                for (Expression columnExpression : columnsExpressionArray.getExpressions()) {
+                    if (isAggregateExpression(columnExpression))
+                        continue;
                     if (sb.length() > 0)
                         sb.append(" and ");
-                    Object value = group.evaluate(groupToken);
+                    Object value = group.evaluate(columnExpression);
                     if (value instanceof EntityId)
                         value = ((EntityId) value).getPrimaryKey();
                     if (value instanceof String)
                         value = "'" + value + "'";
-                    sb.append(groupToken).append('=').append(value);
+                    if (columnExpression instanceof As)
+                        columnExpression = ((As) columnExpression).getOperand();
+                    sb.append(columnExpression).append('=').append(value);
                 }
             }, referenceResolver);
             sf = "{where: `" + sb + "`}";
         }
         selectedGroupConditionStringFilterProperty().set(sf);
+    }
+
+    private boolean isAggregateExpression(Expression expression) {
+        if (expression instanceof As)
+            expression = ((As) expression).getOperand();
+        if (expression instanceof Call)
+            switch (((Call) expression).getFunctionName()) {
+                case "count":
+                case "sum":
+                    return true;
+        }
+        return false;
     }
 }
