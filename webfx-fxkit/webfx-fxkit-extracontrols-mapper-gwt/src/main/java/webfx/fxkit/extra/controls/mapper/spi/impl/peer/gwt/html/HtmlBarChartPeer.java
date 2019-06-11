@@ -23,6 +23,6 @@ public final class HtmlBarChartPeer
 
     @Override
     protected CoreChartWidget createChartWidget() {
-        return new com.googlecode.gwt.charts.client.corechart.BarChart();
+        return new com.googlecode.gwt.charts.client.corechart.ColumnChart(); // Vertical Bar chart
     }
 }
