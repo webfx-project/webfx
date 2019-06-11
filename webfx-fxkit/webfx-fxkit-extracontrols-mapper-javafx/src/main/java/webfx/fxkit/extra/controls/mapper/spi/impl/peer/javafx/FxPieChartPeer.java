@@ -2,12 +2,13 @@ package webfx.fxkit.extra.controls.mapper.spi.impl.peer.javafx;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.PieChartPeerBase;
+import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.PieChartPeerMixin;
 import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.Numbers;
+
 import java.util.function.Function;
-import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
-import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.PieChartPeerMixin;
-import webfx.fxkit.extra.controls.mapper.spi.peer.impl.base.PieChartPeerBase;
 
 /**
  * @author Bruno Salmon
@@ -29,6 +30,7 @@ public final class FxPieChartPeer
     protected FxN createFxNode() {
         javafx.scene.chart.PieChart pieChart = new javafx.scene.chart.PieChart();
         pieChart.setStartAngle(90);
+        pieChart.setLegendVisible(false);
         return (FxN) pieChart;
     }
 

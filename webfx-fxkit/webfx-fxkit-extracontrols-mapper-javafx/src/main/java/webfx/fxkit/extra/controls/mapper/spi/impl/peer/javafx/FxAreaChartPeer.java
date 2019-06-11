@@ -19,7 +19,9 @@ public final class FxAreaChartPeer
 
     @Override
     protected FxN createFxNode() {
-        javafx.scene.chart.AreaChart<Number, Number> areaChart = new javafx.scene.chart.AreaChart<>(createNumberAxis(), createNumberAxis());
+        // The API requires the axis to be defined now whereas we don't know the structure to display yet
+        // So assuming category on x axis and number on y axis (is it possible to generify that?)
+        javafx.scene.chart.AreaChart<String, Number> areaChart = new javafx.scene.chart.AreaChart<>(createCategoryAxis(), createNumberAxis());
         areaChart.setCreateSymbols(false);
         return (FxN) areaChart;
     }

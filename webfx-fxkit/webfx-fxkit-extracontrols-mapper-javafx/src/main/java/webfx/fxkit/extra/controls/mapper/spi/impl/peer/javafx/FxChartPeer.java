@@ -1,5 +1,6 @@
 package webfx.fxkit.extra.controls.mapper.spi.impl.peer.javafx;
 
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
 import webfx.fxkit.extra.controls.displaydata.chart.Chart;
@@ -39,6 +40,11 @@ abstract class FxChartPeer
     static NumberAxis createNumberAxis() {
         NumberAxis axis = new NumberAxis();
         axis.setForceZeroInRange(false);
+        return axis;
+    }
+
+    static CategoryAxis createCategoryAxis() {
+        CategoryAxis axis = new CategoryAxis();
         return axis;
     }
 }
