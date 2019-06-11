@@ -173,14 +173,14 @@ abstract class HtmlChartPeer
     }
 
     private ColumnType toGoogleColumnType(PrimType primType) {
-        if (primType == null)
-            return null;
-        if (primType.isBoolean())
-            return ColumnType.BOOLEAN;
-        if (primType.isString())
-            return ColumnType.STRING;
-        if (primType.isNumber())
-            return ColumnType.NUMBER;
-        return null;
+        if (primType != null) {
+            if (primType.isBoolean())
+                return ColumnType.BOOLEAN;
+            if (primType.isNumber())
+                return ColumnType.NUMBER;
+            if (primType.isDate())
+                return ColumnType.DATETIME;
+        }
+        return ColumnType.STRING;
     }
 }
