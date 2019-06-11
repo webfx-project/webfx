@@ -3,11 +3,15 @@
 module mongoose.client.entities {
 
     // Direct dependencies modules
+    requires java.base;
     requires javafx.base;
     requires javafx.controls;
+    requires javafx.graphics;
     requires mongoose.shared.entities;
+    requires webfx.framework.client.controls;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uifilter;
+    requires webfx.framework.shared.domain;
     requires webfx.platform.shared.util;
 
     // Exported packages

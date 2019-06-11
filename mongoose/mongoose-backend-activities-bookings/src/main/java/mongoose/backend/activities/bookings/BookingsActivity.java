@@ -1,8 +1,11 @@
 package mongoose.backend.activities.bookings;
 
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -10,8 +13,8 @@ import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentPresentationModel;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
-import mongoose.client.activity.table.GenericTableView;
 import mongoose.client.activity.table.GroupMasterSlaveView;
+import mongoose.client.entities.util.FilterButtonSelectorFactoryMixin;
 import mongoose.client.entities.util.Filters;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
@@ -21,18 +24,19 @@ import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.client.ui.filter.StringFilter;
+import webfx.framework.client.ui.layouts.SceneUtil;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
-
-import java.util.function.Predicate;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.*;
 
 final class BookingsActivity extends EventDependentViewDomainActivity
         implements OperationActionFactoryMixin,
+        FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
-    private GenericTableView genericTableView;
+    private TextField searchBox; // Keeping this reference to activate focus on activity resume
 
     private final BookingsPresentationModel pm = new BookingsPresentationModel();
 
@@ -41,48 +45,48 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         return pm; // eventId and organizationId will then be updated from route
     }
 
-    private final static String FILTER_SELECTOR_TEMPLATE = "{class: 'Filter', fields: 'class,alias,fields,whereClause,groupByClause,havingClause,orderByClause,limitClause,columns', where: `class='Document' and ${condition}`, orderBy: 'ord,id'}";
-
-    private EntityButtonSelector<Filter> createFilterButtonSelector(String conditionToken, Predicate<Filter> autoSelectPredicate, Pane parent) {
-        EntityButtonSelector<Filter> selector = new EntityButtonSelector<>(FILTER_SELECTOR_TEMPLATE.replace("${condition}", conditionToken), this, parent, getDataSourceModel());
-        selector.autoSelectFirstEntity(autoSelectPredicate);
-        selector.setAutoOpenOnMouseEntered(true);
-        return selector;
-    }
-
     @Override
     public Node buildUi() {
-        Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory())));
-        Button cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
         BorderPane container = new BorderPane();
-        EntityButtonSelector<Filter> conditionSelector = createFilterButtonSelector("isCondition", filter -> "!cancelled".equals(filter.getWhereClause()), container);
-        EntityButtonSelector<Filter> groupSelector     = createFilterButtonSelector("isGroup",     filter -> "".equals(filter.getName()), container);
-        EntityButtonSelector<Filter> columnsSelector   = createFilterButtonSelector("isColumns",   filter -> "prices".equals(filter.getName()), container);
+        // Building the top bar
+        Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory()))),
+               cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
+        EntityButtonSelector<Filter> conditionSelector = createDocumentConditionFilterButtonSelector(container),
+                                     groupSelector     = createDocumentGroupFilterButtonSelector(container),
+                                     columnsSelector   = createDocumentColumnsFilterButtonSelector(container);
+        searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
+        container.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));
+
+        // Building the main content, which is a group/master/slave view (group = group view, master = bookings table + limit checkbox, slave = booking details)
         GroupView groupView = new GroupView();
+
+        DataGrid bookingsTable = new DataGrid();
+        BorderPane.setAlignment(bookingsTable, Pos.TOP_CENTER);
+        CheckBox limitCheckBox = newCheckBox("LimitTo100");
+        limitCheckBox.setSelected(true);
+        BorderPane masterPane = new BorderPane(bookingsTable, null, null, limitCheckBox, null);
+
         BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel((Pane) getNode(), this, getDataSourceModel());
-        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL, groupView.buildUi(), null, bookingDetailsPanel.buildUi());
-        genericTableView = new GenericTableView(groupMasterSlaveView) {
-            @Override
-            public void initUi() {
-                super.initUi();
-                borderPane.setTop(null);
 
-                // Initialization from the presentation model current state
-                searchBox.setText(pm.searchTextProperty().getValue());
+        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL,
+                groupView.buildUi(),
+                masterPane,
+                bookingDetailsPanel.buildUi());
+        container.setCenter(groupMasterSlaveView.getSplitPane());
 
-                // Binding the UI with the presentation model for further state changes
-                // User inputs: the UI state changes are transferred in the presentation model
-                pm.searchTextProperty().bind(searchBox.textProperty());
-                Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? 30 : -1), limitCheckBox.selectedProperty());
-                table.fullHeightProperty().bind(limitCheckBox.selectedProperty());
-                //pm.limitProperty().bind(limitCheckBox.selectedProperty());
-                pm.genericDisplaySelectionProperty().bindBidirectional(table.displaySelectionProperty());
-                // User outputs: the presentation model changes are transferred in the UI
-                table.displayResultProperty().bind(pm.genericDisplayResultProperty());
-            }
-        };
-        container.setCenter(genericTableView.buildUi());
-        container.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(genericTableView.getSearchBox())), setUnmanagedWhenInvisible(cloneEventButton)));
+        // Initialization from the presentation model current state
+        searchBox.setText(pm.searchTextProperty().getValue());
+
+        // Binding the UI with the presentation model for further state changes
+        // User inputs: the UI state changes are transferred in the presentation model
+        pm.searchTextProperty().bind(searchBox.textProperty());
+        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? 30 : -1), limitCheckBox.selectedProperty());
+        bookingsTable.fullHeightProperty().bind(limitCheckBox.selectedProperty());
+        //pm.limitProperty().bind(limitCheckBox.selectedProperty());
+        pm.genericDisplaySelectionProperty().bindBidirectional(bookingsTable.displaySelectionProperty());
+        // User outputs: the presentation model changes are transferred in the UI
+        bookingsTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
+
         groupMasterSlaveView.groupVisibleProperty() .bind(Properties.compute(pm.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
         groupMasterSlaveView.masterVisibleProperty().bind(Properties.combine(groupMasterSlaveView.groupVisibleProperty(),  pm.selectedGroupProperty(),    (groupVisible, selectedGroup)     -> !groupVisible || selectedGroup != null));
         groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), pm.selectedDocumentProperty(), (masterVisible, selectedDocument) -> masterVisible && selectedDocument != null));
@@ -106,7 +110,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
     @Override
     public void onResume() {
         super.onResume();
-        genericTableView.onResume();
+        SceneUtil.autoFocusIfEnabled(searchBox);
     }
 
     private ReactiveExpressionFilter<Document> groupFilter;
@@ -127,7 +131,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), pm::setSelectedGroup)
                 // Everything set up, let's start now!
                 .start();
-
+        // Setting up the master filter that controls the content displayed in the master view
         masterFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', orderBy: 'ref desc'}")
                 // Always loading the fields required for viewing the booking details
                 .combine(BookingDetailsPanel.REQUIRED_FIELDS_STRING_FILTER)

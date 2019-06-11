@@ -331,7 +331,7 @@
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty"/>
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty/impl"/>
     <!--========================< webfx-framework-client-controls >=========================-->
-    <!-- used by mongoose-client-activity (SOURCE) -->
+    <!-- used by mongoose-client-entities (SOURCE) -->
     <source path="webfx/framework/client/ui/controls"/>
     <source path="webfx/framework/client/ui/controls/alert"/>
     <source path="webfx/framework/client/ui/controls/button"/>
@@ -378,7 +378,7 @@
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="webfx/framework/client/jobs/querypush"/>
     <!--========================< webfx-framework-client-uifilter >=========================-->
-    <!-- used by mongoose-client-entities (SOURCE) -->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/filter"/>
     <source path="webfx/framework/shared/orm/mapping/entity_display"/>
     <!--========================< webfx-framework-client-uirouter >=========================-->

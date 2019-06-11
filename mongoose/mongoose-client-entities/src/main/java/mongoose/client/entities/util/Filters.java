@@ -6,7 +6,6 @@ import webfx.framework.client.ui.filter.StringFilterBuilder;
 
 public final class Filters {
 
-
     public static StringFilter toStringFilter(Filter filter) {
         if (filter == null)
             return null;
