@@ -75,6 +75,7 @@
         <module>mongoose-shared-time</module>
         <module>mongoose-client-css</module>
         <module>mongoose-client-entities</module>
+        <module>mongoose-backend-activities-statistics</module>
     </modules>
 
     <properties>

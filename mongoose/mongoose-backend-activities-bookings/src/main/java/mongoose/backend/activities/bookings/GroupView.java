@@ -4,7 +4,6 @@ import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import mongoose.shared.entities.Document;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
@@ -12,6 +11,7 @@ import webfx.framework.shared.expression.builder.ThreadLocalReferenceResolver;
 import webfx.framework.shared.expression.terms.As;
 import webfx.framework.shared.expression.terms.ExpressionArray;
 import webfx.framework.shared.expression.terms.function.Call;
+import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.fxkit.extra.controls.displaydata.SelectableDisplayResultControl;
 import webfx.fxkit.extra.controls.displaydata.chart.AreaChart;
@@ -24,36 +24,36 @@ import webfx.fxkit.extra.util.ImageStore;
 
 import java.util.Arrays;
 
-final class GroupView {
+public final class GroupView<E extends Entity> {
 
     private final Property<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    Property<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
+    public Property<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
 
     private final Property<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
-    Property<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
+    public Property<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
-    StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
-    String getGroupStringFilter() { return groupStringFilterProperty().get(); }
+    public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
+    public String getGroupStringFilter() { return groupStringFilterProperty().get(); }
 
-    private final ObjectProperty<Document> selectedGroupProperty = new SimpleObjectProperty<Document>() { // GWT doesn't compile <>
+    private final ObjectProperty<E> selectedGroupProperty = new SimpleObjectProperty<E/*GWT*/>() {
         @Override
         protected void invalidated() {
             updateSelectedGroupCondition();
         }
     };
-    ObjectProperty<Document> selectedGroupProperty() {
+    public ObjectProperty<E> selectedGroupProperty() {
         return selectedGroupProperty;
     }
-    void setSelectedGroup(Document selectedGroup) {
+    public void setSelectedGroup(E selectedGroup) {
         selectedGroupProperty.set(selectedGroup);
     }
-    Document getSelectedGroup() {
+    public E getSelectedGroup() {
         return selectedGroupProperty.get();
     }
 
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
-    StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
+    public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
 
     private ReferenceResolver referenceResolver;
 
@@ -61,7 +61,7 @@ final class GroupView {
         this.referenceResolver = referenceResolver;
     }
 
-    Node buildUi() {
+    public Node buildUi() {
         return new TabPane(
                 createGroupTab("pie",   "images/s16/pieChart.png", new PieChart()),
                 createGroupTab("table", "images/s16/table.png",    new DataGrid()),
@@ -110,7 +110,7 @@ final class GroupView {
     }
 
     private void updateSelectedGroupCondition() {
-        Document group = getSelectedGroup();
+        E group = getSelectedGroup();
         String sf = null;
         String gsf = getGroupStringFilter();
         if (group != null && gsf != null) {

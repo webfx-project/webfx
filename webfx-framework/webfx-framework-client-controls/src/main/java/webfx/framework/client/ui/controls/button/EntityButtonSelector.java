@@ -168,6 +168,8 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     }
 
     public void autoSelectFirstEntity(Predicate<E> predicate) {
+        if (predicate == null)
+            return;
         setUpDialog(false);
         if (entityDialogFilter != null)
             entityDialogFilter.setEntitiesHandler(entityList -> {

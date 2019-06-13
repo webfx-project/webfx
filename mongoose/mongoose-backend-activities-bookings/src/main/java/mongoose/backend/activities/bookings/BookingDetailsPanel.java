@@ -23,9 +23,9 @@ import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
-final class BookingDetailsPanel implements ReactiveExpressionFilterFactoryMixin {
+public final class BookingDetailsPanel implements ReactiveExpressionFilterFactoryMixin {
 
-    static final String REQUIRED_FIELDS_STRING_FILTER = "{fields: 'person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name'}";
+    public static final String REQUIRED_FIELDS_STRING_FILTER = "person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name,event.startDate"; // event.startDate is required for the personal details panel
 
     private final ObjectProperty<Document> selectedDocumentProperty = new SimpleObjectProperty<>();
     private final BooleanProperty activeProperty = new SimpleBooleanProperty(true);
@@ -35,7 +35,7 @@ final class BookingDetailsPanel implements ReactiveExpressionFilterFactoryMixin 
     private final ButtonFactoryMixin buttonFactoryMixin;
     private final DataSourceModel dataSourceModel;
 
-    BookingDetailsPanel(Pane parent, ButtonFactoryMixin buttonFactoryMixin, DataSourceModel dataSourceModel) {
+    public BookingDetailsPanel(Pane parent, ButtonFactoryMixin buttonFactoryMixin, DataSourceModel dataSourceModel) {
         this.parent = parent;
         this.buttonFactoryMixin = buttonFactoryMixin;
         this.dataSourceModel = dataSourceModel;
@@ -63,7 +63,7 @@ final class BookingDetailsPanel implements ReactiveExpressionFilterFactoryMixin 
         selectedDocumentProperty.set(document);
     }
 
-    Node buildUi() {
+    public Node buildUi() {
         return new VBox(/*button, */new TabPane(
                 createTab("Personal details", "images/s16/personalDetails.png", buildPersonalDetailsView()),
                 createFilterTab("Options", "images/s16/options.png", "{class: 'DocumentLine', columns: `site,item,dates,lockAllocation,resourceConfiguration,comment,price_isCustom,price_net,price_nonRefundable,price_minDeposit,price_deposit`, where: 'document=${selectedDocument}', orderBy: 'item.family.ord,site..ord,item.ord'}"),

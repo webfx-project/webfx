@@ -31,15 +31,31 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
         return createFilterButtonSelector(domainClassId,"isColumns", autoSelectPredicate, parent);
     }
 
-    default EntityButtonSelector<Filter> createDocumentConditionFilterButtonSelector(Pane parent) {
-        return createConditionFilterButtonSelector("Document", filter -> "!cancelled".equals(filter.getWhereClause()), parent);
+    default EntityButtonSelector<Filter> createConditionFilterButtonSelector(String domainClassId, Pane parent) {
+        Predicate<Filter> predicate;
+        switch (domainClassId) {
+            case "Document" : predicate = filter -> "!cancelled".equals(filter.getWhereClause()); break;
+            default:          predicate = null;
+        }
+        return createConditionFilterButtonSelector(domainClassId, predicate, parent);
     }
 
-    default EntityButtonSelector<Filter> createDocumentGroupFilterButtonSelector(Pane parent) {
-        return createGroupFilterButtonSelector("Document", filter -> "".equals(filter.getName()), parent);
+    default EntityButtonSelector<Filter> createGroupFilterButtonSelector(String domainClassId, Pane parent) {
+        Predicate<Filter> predicate;
+        switch (domainClassId) {
+            case "Document" :     predicate = filter -> "".equals(filter.getName()); break;
+            case "DocumentLine" : predicate = filter -> "Family, site and item".equals(filter.getName()); break;
+            default:              predicate = null;
+        }
+        return createGroupFilterButtonSelector(domainClassId, predicate, parent);
     }
 
-    default EntityButtonSelector<Filter> createDocumentColumnsFilterButtonSelector(Pane parent) {
-        return createColumnsFilterButtonSelector("Document", filter -> "prices".equals(filter.getName()), parent);
+    default EntityButtonSelector<Filter> createColumnsFilterButtonSelector(String domainClassId, Pane parent) {
+        Predicate<Filter> predicate;
+        switch (domainClassId) {
+            case "Document" : predicate = filter -> "prices".equals(filter.getName()); break;
+            default:          predicate = null;
+        }
+        return createColumnsFilterButtonSelector(domainClassId, predicate, parent);
     }
 }

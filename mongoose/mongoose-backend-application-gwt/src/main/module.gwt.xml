@@ -161,6 +161,11 @@
     <source path="mongoose/backend/activities/organizations"/>
     <source path="mongoose/backend/activities/organizations/routing"/>
     <source path="mongoose/backend/operations/organizations"/>
+    <!--=====================< mongoose-backend-activities-statistics >=====================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
+    <source path="mongoose/backend/activities/statistics"/>
+    <source path="mongoose/backend/activities/statistics/routing"/>
+    <source path="mongoose/backend/operations/statistics"/>
     <!--==========================< mongoose-backend-application >==========================-->
     <!-- used by mongoose-backend-application-gwt (APPLICATION) -->
     <!-- used by mongoose-backend-application-gwt (PLUGIN) -->
