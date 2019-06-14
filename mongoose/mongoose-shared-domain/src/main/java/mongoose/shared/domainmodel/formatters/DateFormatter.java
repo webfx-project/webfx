@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public final class DateFormatter implements Formatter {
 
     public static final DateFormatter SINGLETON = new DateFormatter();
-    public static final StringConverter<LocalDate> LOCAL_DATE_STRING_CONVERTER =  new StringConverter<LocalDate>() {
+    public static final StringConverter<LocalDate> LOCAL_DATE_STRING_CONVERTER =  new StringConverter<LocalDate/*GWT*/>() {
         @Override
         public String toString(LocalDate date) {
             return (String) DateFormatter.SINGLETON.format(date);
@@ -28,7 +28,7 @@ public final class DateFormatter implements Formatter {
             int p;
             int dayOfMonth = Integer.parseInt(date.substring(0, p = date.indexOf('/')));
             int month = Integer.parseInt(date.substring(p + 1, p = date.indexOf('/', p + 1)));
-            int year = Integer.parseInt(date.substring(p + 1));
+            int year = Integer.parseInt(date.substring(p + 1, p + 5));
             return LocalDate.of(year, month, dayOfMonth);
         }
     };
