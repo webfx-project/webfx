@@ -34,7 +34,9 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
     default EntityButtonSelector<Filter> createConditionFilterButtonSelector(String domainClassId, Pane parent) {
         Predicate<Filter> predicate;
         switch (domainClassId) {
-            case "Document" : predicate = filter -> "!cancelled".equals(filter.getWhereClause()); break;
+            case "Document" :
+            case "DocumentLine" :
+                predicate = filter -> "!cancelled".equals(filter.getWhereClause()); break;
             default:          predicate = null;
         }
         return createConditionFilterButtonSelector(domainClassId, predicate, parent);
@@ -53,7 +55,8 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
     default EntityButtonSelector<Filter> createColumnsFilterButtonSelector(String domainClassId, Pane parent) {
         Predicate<Filter> predicate;
         switch (domainClassId) {
-            case "Document" : predicate = filter -> "prices".equals(filter.getName()); break;
+            case "Document"     : predicate = filter -> "prices".equals(filter.getName()); break;
+            case "DocumentLine" : predicate = filter -> "statistics".equals(filter.getName()); break;
             default:          predicate = null;
         }
         return createColumnsFilterButtonSelector(domainClassId, predicate, parent);

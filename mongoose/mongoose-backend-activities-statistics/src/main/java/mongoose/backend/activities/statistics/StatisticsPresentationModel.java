@@ -15,8 +15,8 @@ final class StatisticsPresentationModel extends EventDependentGenericTablePresen
     private final Property<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
     Property<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
 
-    private final Property<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    Property<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
+    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
+    ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
 
     private final StringProperty conditionStringFilterProperty = new SimpleStringProperty();
     final StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
