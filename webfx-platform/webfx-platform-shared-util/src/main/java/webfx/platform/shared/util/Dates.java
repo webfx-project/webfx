@@ -136,6 +136,14 @@ public final class Dates {
         return dateTime.toEpochSecond(offset) * 1000 + dateTime.get(MILLI_OF_SECOND);
     }
 
+    public static String format(Object date, String pattern) {
+        LocalDateTime localDateTime = toLocalDateTime(date);
+        if (localDateTime != null)
+            return format(localDateTime, pattern);
+        LocalDate localDate = toLocalDate(date);
+        return format(localDate, pattern);
+    }
+
     /**
      * Formats a date
      * @param dateTime the date to format
@@ -170,10 +178,6 @@ public final class Dates {
         return format(date, "yyyy-MM-ddTHH:mm:ss.00Z");
     }
 
-    public static String format(Object date, String pattern) {
-        return format(toLocalDateTime(date), pattern);
-    }
-
     public static String format(ZonedDateTime dateTime, String pattern) {
         if (dateTime == null || pattern == null)
             return null;
@@ -194,6 +198,29 @@ public final class Dates {
             s = Strings.replaceAll(s, "ss", Numbers.twoDigits(dateTime.getSecond()));
         if (pattern.contains("a"))
             s = Strings.replaceAll(s, "a", dateTime.getHour() <= 12 ? "AM" : "PM");
+        return s;
+    }
+
+    public static String format(LocalDate localDate, String pattern) {
+        if (localDate == null || pattern == null)
+            return null;
+        String s = pattern;
+        if (pattern.contains("dd"))
+            s = Strings.replaceAll(s, "dd", Numbers.twoDigits(localDate.getDayOfMonth()));
+        if (pattern.contains("MM"))
+            s = Strings.replaceAll(s, "MM", Numbers.twoDigits(localDate.getMonthValue()));
+        if (pattern.contains("yyyy"))
+            s = Strings.replaceAll(s, "yyyy", Numbers.twoDigits(localDate.getYear()));
+        if (pattern.contains("hh"))
+            s = Strings.replaceAll(s, "hh", "00");
+        if (pattern.contains("HH"))
+            s = Strings.replaceAll(s, "HH", "00");
+        if (pattern.contains("mm"))
+            s = Strings.replaceAll(s, "mm", "00");
+        if (pattern.contains("ss"))
+            s = Strings.replaceAll(s, "ss", "00");
+        if (pattern.contains("a"))
+            s = Strings.replaceAll(s, "a", "AM");
         return s;
     }
 
