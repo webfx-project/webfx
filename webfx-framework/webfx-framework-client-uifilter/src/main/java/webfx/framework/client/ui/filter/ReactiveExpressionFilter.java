@@ -364,6 +364,10 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return this;
     }
 
+    public ExpressionColumn[] getExpressionColumns() {
+        return getFilterDisplay().getExpressionColumns();
+    }
+
     public ReactiveExpressionFilter<E> applyDomainModelRowStyle() {
         getFilterDisplay().applyDomainModelRowStyle();
         return this;
@@ -848,6 +852,10 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         void setExpressionColumnsPrivate(ExpressionColumn... expressionColumns) {
             this.expressionColumns = expressionColumns;
             columnsPersistentTerms = null; // forcing re-computation on next collectColumnsPersistentTerms() call since the columns have changed
+        }
+
+        public ExpressionColumn[] getExpressionColumns() {
+            return expressionColumns;
         }
 
         void applyDomainModelRowStyle() {
