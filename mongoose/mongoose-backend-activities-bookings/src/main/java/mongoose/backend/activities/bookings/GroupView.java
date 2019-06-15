@@ -20,9 +20,8 @@ import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.displaydata.*;
 import webfx.fxkit.extra.type.PrimType;
+import webfx.fxkit.extra.type.Types;
 import webfx.fxkit.extra.util.ImageStore;
-
-import java.util.Arrays;
 
 public final class GroupView<E extends Entity> {
 
@@ -61,8 +60,18 @@ public final class GroupView<E extends Entity> {
         this.referenceResolver = referenceResolver;
     }
 
+    private final boolean tableOnly;
+
+    public GroupView() {
+        this(false);
+    }
+
+    public GroupView(boolean tableOnly) {
+        this.tableOnly = tableOnly;
+    }
+
     public Node buildUi() {
-        return new TabPane(
+        return tableOnly ? bindControl(new DataGrid()) : new TabPane(
                 createGroupTab("pie",   "images/s16/pieChart.png", new PieChart()),
                 createGroupTab("table", "images/s16/table.png",    new DataGrid()),
                 createGroupTab("bar",   "images/s16/barChart.png", new BarChart()),
@@ -71,9 +80,13 @@ public final class GroupView<E extends Entity> {
     }
 
     private Tab createGroupTab(String text, String iconPath, SelectableDisplayResultControl control) {
-        Tab tab = new Tab(text, control);
+        Tab tab = new Tab(text, bindControl(control));
         tab.setGraphic(ImageStore.createImageView(iconPath));
         tab.setClosable(false);
+        return tab;
+    }
+
+    private <C extends SelectableDisplayResultControl> C bindControl(C control) {
         if (control instanceof DataGrid) {
             control.displayResultProperty().bind(groupDisplayResultProperty());
             groupDisplaySelectionProperty().bind(control.displaySelectionProperty());
@@ -81,7 +94,7 @@ public final class GroupView<E extends Entity> {
             groupDisplayResultProperty().addListener((observable, oldValue, rs) ->
                     control.setDisplayResult(toSingleSeriesChartDisplayResult(rs, control instanceof PieChart))
             );
-        return tab;
+        return control;
     }
 
     private DisplayResult toSingleSeriesChartDisplayResult(DisplayResult rs, boolean pie) {
@@ -89,20 +102,21 @@ public final class GroupView<E extends Entity> {
         if (rs != null) {
             int rowCount = rs.getRowCount();
             int colCount = rs.getColumnCount();
-            int nameCol = 0;
-            int valCol = colCount - 1; // The last column contains the number
+            // Searching the value column where to extract figures of the series => simply choosing the first column where type is numeric
+            int valCol = colCount - 1; // in case it's not found for any reason, we take the last column by default
+            for (int col = 0; col < colCount; col++)
+                if (Types.isNumberType(rs.getColumns()[col].getType())) {
+                    valCol = col;
+                    break;
+                }
             DisplayResultBuilder rsb = new DisplayResultBuilder(rowCount, new DisplayColumn[]{new DisplayColumnBuilder(null, PrimType.STRING).setRole(pie ? "series" : null).build(), DisplayColumn.create(null, PrimType.INTEGER)});
             for (int row = 0; row < rowCount; row++) {
-                Object nameValue = rs.getValue(row, nameCol);
-                if (nameValue instanceof Object[])  // probably icon, name => picking up name
-                    nameValue = Arrays.stream((Object[]) nameValue).filter(x -> x instanceof String).map(x -> (String) x).filter(s -> !s.startsWith("images/")).findFirst().orElse("?");
-                if (nameValue instanceof String && ((String) nameValue).startsWith("images/") && row == 0 && nameCol < colCount - 1) {
-                    nameCol++;
-                    row--;
-                    continue;
-                }
-                rsb.setValue(row, 0, nameValue);
-                rsb.setValue(row, 1, rs.getValue(row, valCol));
+                // Generating the series name by concatenating text of all columns preceding the value column
+                StringBuilder sb = new StringBuilder();
+                for (int col = 0; col < valCol; col++)
+                    appendTextOnly(rs.getValue(row, col), sb);
+                rsb.setValue(row, 0, sb.toString());            // Series name
+                rsb.setValue(row, 1, rs.getValue(row, valCol)); // Series figure
             }
             result = rsb.build();
         }
@@ -147,5 +161,21 @@ public final class GroupView<E extends Entity> {
                     return true;
         }
         return false;
+    }
+
+    private static void appendTextOnly(Object value, StringBuilder sb) {
+        if (value == null)
+            return;
+        if (value instanceof Object[]) {
+            for (Object v : (Object[]) value)
+                appendTextOnly(v, sb);
+        } else {
+            String text = value.toString();
+            if (text != null && !text.isEmpty() && !text.startsWith("images/")) {
+                if (sb.length() > 0)
+                    sb.append(' ');
+                sb.append(text);
+            }
+        }
     }
 }
