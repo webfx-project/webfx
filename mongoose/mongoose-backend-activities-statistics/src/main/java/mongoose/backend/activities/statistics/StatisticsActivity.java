@@ -69,7 +69,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
         limitCheckBox.setSelected(true);
         BorderPane masterPane = new BorderPane(masterTable, null, null, limitCheckBox, null);
 
-        groupView = new GroupView<>();
+        groupView = new GroupView<>(true);
         BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(container, this, getDataSourceModel());
 
         GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL,
@@ -147,7 +147,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
                     String where = gsf.getWhere();
                     if (where == null)
                         return "{where: 'false'}";
-                    where = "documentLine.(" + where + ')';
+                    where = "a.[documentLine as dl].(" + where + ')';
                     return "{where: `" + where + "`}";
                 })
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.groupStringFilterProperty(), stringFilter -> {
@@ -162,7 +162,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
                 .displayResultInto(rightDisplayResultProperty)
                 .start();
         // Setting up the master filter for the content displayed in the master view
-        masterFilter = this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', alias: 'dl', orderBy: 'id desc'}")
+        masterFilter = this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', alias: 'dl', orderBy: 'document.ref,item.family.ord,site..ord,item.ord'}")
                 // Always loading the fields required for viewing the booking details
                 .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS_STRING_FILTER + ")`}")
                 // Applying the event condition
@@ -223,7 +223,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
         DisplayColumn[] columns = new DisplayColumn[leftColCount + rightColCount];
         System.arraycopy(leftResult.getColumns(), 0, columns, 0, leftColCount);
         for (int col = 0; col < rightColCount; col++)
-            columns[leftColCount + col] = DisplayColumn.create(Dates.format(dates.get(col), "dd/MM"), PrimType.INTEGER);
+            columns[leftColCount + col] = DisplayColumn.create(Dates.format(dates.get(col), "dd/MM"), PrimType.INTEGER); //, new DisplayStyleImpl(32d, "right"));
         DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, columns);
         for (int row = 0; row < rowCount; row++)
             for (int col = 0; col < leftColCount; col++)

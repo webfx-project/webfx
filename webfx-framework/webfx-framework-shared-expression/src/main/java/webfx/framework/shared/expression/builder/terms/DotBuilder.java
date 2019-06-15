@@ -1,12 +1,9 @@
 package webfx.framework.shared.expression.builder.terms;
 
 import webfx.framework.shared.expression.Expression;
-import webfx.framework.shared.expression.terms.Alias;
-import webfx.framework.shared.expression.terms.Dot;
-import webfx.framework.shared.expression.terms.ExpressionArray;
-import webfx.framework.shared.expression.terms.Symbol;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
 import webfx.framework.shared.expression.builder.ThreadLocalReferenceResolver;
+import webfx.framework.shared.expression.terms.*;
 
 /**
  * @author Bruno Salmon
@@ -26,8 +23,10 @@ public final class DotBuilder extends BinaryExpressionBuilder {
             Expression leftExpression = left.build(); // left should be a term when using dot
             if (leftExpression instanceof Alias)
                 right.buildingClass = ((Alias) leftExpression).getDomainClass();
-            else
-                right.buildingClass = getModelReader().getSymbolForeignDomainClass(left.buildingClass, (Symbol) leftExpression);
+            else {
+                Expression leftForeignSymbol = leftExpression instanceof As ? ((As) leftExpression).getOperand() : leftExpression;
+                right.buildingClass = getModelReader().getSymbolForeignDomainClass(left.buildingClass, (Symbol) leftForeignSymbol);
+            }
             boolean leftResolver = left instanceof ReferenceResolver;
             if (leftResolver)
                 ThreadLocalReferenceResolver.pushReferenceResolver((ReferenceResolver) left);

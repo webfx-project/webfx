@@ -1,13 +1,13 @@
 package webfx.framework.shared.expression.sqlcompiler.terms;
 
 import webfx.framework.shared.expression.Expression;
+import webfx.framework.shared.expression.sqlcompiler.mapping.QueryColumnToEntityFieldMapping;
+import webfx.framework.shared.expression.sqlcompiler.sql.SqlClause;
 import webfx.framework.shared.expression.terms.Alias;
 import webfx.framework.shared.expression.terms.As;
 import webfx.framework.shared.expression.terms.Dot;
 import webfx.framework.shared.expression.terms.Symbol;
 import webfx.framework.shared.expression.terms.function.ArgumentAlias;
-import webfx.framework.shared.expression.sqlcompiler.sql.SqlClause;
-import webfx.framework.shared.expression.sqlcompiler.mapping.QueryColumnToEntityFieldMapping;
 
 /**
  * @author Bruno Salmon
@@ -22,18 +22,18 @@ public final class DotSqlCompiler extends AbstractTermSqlCompiler<Dot> {
     public void compileExpressionToSql(Dot e, Options o) {
         Expression left = e.getLeft();
         Object leftClass = o.build.getCompilingClass();
-        Object rightClass = o.modelReader.getSymbolForeignDomainClass(leftClass, left, true); // was e.getType().getForeignClass();
-        final String leftTableAlias = o.build.getCompilingTableAlias();
-        final String leftSql;
-        final String rightTableAlias;
         String asAlias = null;
-        if (left instanceof ArgumentAlias)
-            left = (Expression) ((ArgumentAlias) left).getArgument();
         if (left instanceof As) {
             As as = (As) left;
             left = as.getOperand();
             asAlias = as.getAlias();
         }
+        Object rightClass = o.modelReader.getSymbolForeignDomainClass(leftClass, left, true); // was e.getType().getForeignClass();
+        final String leftTableAlias = o.build.getCompilingTableAlias();
+        final String leftSql;
+        final String rightTableAlias;
+        if (left instanceof ArgumentAlias)
+            left = (Expression) ((ArgumentAlias) left).getArgument();
         String leftSqlColumnName = o.modelReader.getSymbolSqlColumnName(leftClass, left);
         if (leftSqlColumnName != null) { // typically a persistent field
             leftSql = leftSqlColumnName;
