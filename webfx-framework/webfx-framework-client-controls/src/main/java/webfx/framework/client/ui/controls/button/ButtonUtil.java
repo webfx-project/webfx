@@ -7,8 +7,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.controls.Controls;
+import webfx.framework.client.ui.util.background.BackgroundUtil;
+import webfx.framework.client.ui.util.border.BorderUtil;
 import webfx.fxkit.util.properties.Properties;
 import webfx.fxkit.extra.util.ImageStore;
 import org.controlsfx.control.decoration.GraphicDecoration;
@@ -43,7 +46,11 @@ public final class ButtonUtil {
     }
 
     public static Button newDropDownButton() {
-        return decorateButtonWithDropDownArrow(new Button());
+        Button button = new Button();
+        int radius = 6;
+        button.setBorder(BorderUtil.newBorder(Color.LIGHTGRAY, radius, 1));
+        button.setBackground(BackgroundUtil.newVerticalLinearGradientBackground("white", "#E0E0E0", radius));
+        return decorateButtonWithDropDownArrow(button);
     }
 
     public static Button decorateButtonWithDropDownArrow(Button button) {
