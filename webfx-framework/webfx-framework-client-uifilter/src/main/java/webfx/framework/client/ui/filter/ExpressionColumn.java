@@ -147,7 +147,7 @@ public interface ExpressionColumn {
         if (columnExpression instanceof FieldsGroup) {
             columnExpression = ((FieldsGroup) columnExpression).getExpression();
             if (columnExpression instanceof ExpressionArray)
-                return ((ExpressionArray) columnExpression).getExpressions();
+                return expandFieldsGroups(((ExpressionArray) columnExpression).getExpressions());
         }
         return new Expression[]{columnExpression};
     }
