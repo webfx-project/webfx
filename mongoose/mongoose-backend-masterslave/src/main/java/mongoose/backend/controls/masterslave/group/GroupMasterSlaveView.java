@@ -1,4 +1,4 @@
-package mongoose.client.activity.table;
+package mongoose.backend.controls.masterslave.group;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
+import mongoose.backend.controls.masterslave.MasterSlaveView;
 
 public class GroupMasterSlaveView extends MasterSlaveView {
 
@@ -41,7 +42,7 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     }
 
     @Override
-    void updateView() {
+    protected void updateView() {
         updateSplitPane(isGroupVisible() ? getGroupView() : null, isMasterVisible() ? getMasterView() : null, isSlaveVisible() ? getSlaveView() : null);
     }
 

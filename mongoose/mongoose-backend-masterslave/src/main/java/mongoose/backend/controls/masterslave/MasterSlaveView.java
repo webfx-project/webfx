@@ -1,4 +1,4 @@
-package mongoose.client.activity.table;
+package mongoose.backend.controls.masterslave;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -87,11 +87,11 @@ public class MasterSlaveView {
         slaveVisibleProperty().setValue(slaveVisible);
     }
 
-    void updateView() {
+    protected void updateView() {
         updateSplitPane(getMasterView(), isSlaveVisible() ? getSlaveView() : null);
     }
 
-    void updateSplitPane(Node... views) {
+    protected void updateSplitPane(Node... views) {
         splitPane.getItems().setAll(Arrays.stream(views).filter(Objects::nonNull).collect(Collectors.toList()));
     }
 }

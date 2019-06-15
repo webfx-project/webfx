@@ -1,0 +1,11 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-framework-shared-domain</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

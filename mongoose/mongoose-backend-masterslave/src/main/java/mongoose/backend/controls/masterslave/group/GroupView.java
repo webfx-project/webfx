@@ -1,4 +1,4 @@
-package mongoose.backend.activities.bookings;
+package mongoose.backend.controls.masterslave.group;
 
 import javafx.beans.property.*;
 import javafx.scene.Node;
@@ -72,8 +72,8 @@ public final class GroupView<E extends Entity> {
 
     public Node buildUi() {
         return tableOnly ? bindControl(new DataGrid()) : new TabPane(
-                createGroupTab("pie",   "images/s16/pieChart.png", new PieChart()),
                 createGroupTab("table", "images/s16/table.png",    new DataGrid()),
+                createGroupTab("pie",   "images/s16/pieChart.png", new PieChart()),
                 createGroupTab("bar",   "images/s16/barChart.png", new BarChart()),
                 createGroupTab("area",  "images/s16/barChart.png", new AreaChart())
         );

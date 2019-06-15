@@ -32,13 +32,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-activities-bookings</artifactId>
+            <artifactId>mongoose-backend-bookingdetailspanel</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-bookingdetailspanel</artifactId>
+            <artifactId>mongoose-backend-masterslave</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
