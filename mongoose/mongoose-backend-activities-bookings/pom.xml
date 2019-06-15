@@ -38,6 +38,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-bookingdetailspanel</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-client-activity</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -51,12 +57,6 @@
         
         <dependency>
             <artifactId>mongoose-client-entities</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>mongoose-client-personaldetails</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

@@ -26,7 +26,9 @@
         <module>mongoose-backend-activities-operations</module>
         <module>mongoose-backend-activities-options</module>
         <module>mongoose-backend-activities-organizations</module>
+        <module>mongoose-backend-activities-statistics</module>
         <module>mongoose-backend-application</module>
+        <module>mongoose-backend-bookingdetailspanel</module>
         <module>mongoose-backend-multilangeditor</module>
         <module>mongoose-frontend-activities-cart</module>
         <module>mongoose-frontend-activities-cart-routing</module>
@@ -75,7 +77,6 @@
         <module>mongoose-shared-time</module>
         <module>mongoose-client-css</module>
         <module>mongoose-client-entities</module>
-        <module>mongoose-backend-activities-statistics</module>
     </modules>
 
     <properties>

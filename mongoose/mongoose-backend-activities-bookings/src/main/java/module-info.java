@@ -8,10 +8,10 @@ module mongoose.backend.activities.bookings {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.backend.activities.cloneevent.routing;
+    requires mongoose.backend.bookingdetailspanel;
     requires mongoose.client.activity;
     requires mongoose.client.aggregates;
     requires mongoose.client.entities;
-    requires mongoose.client.personaldetails;
     requires mongoose.client.util;
     requires mongoose.frontend.activities.fees;
     requires mongoose.shared.domain;

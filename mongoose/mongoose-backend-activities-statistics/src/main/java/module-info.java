@@ -8,6 +8,7 @@ module mongoose.backend.activities.statistics {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.backend.activities.bookings;
+    requires mongoose.backend.bookingdetailspanel;
     requires mongoose.client.activity;
     requires mongoose.client.entities;
     requires mongoose.client.util;

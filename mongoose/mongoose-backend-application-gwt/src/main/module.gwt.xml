@@ -170,6 +170,9 @@
     <!-- used by mongoose-backend-application-gwt (APPLICATION) -->
     <!-- used by mongoose-backend-application-gwt (PLUGIN) -->
     <source path="mongoose/backend/application"/>
+    <!--======================< mongoose-backend-bookingdetailspanel >======================-->
+    <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
+    <source path="mongoose/backend/controls/bookingdetailspanel"/>
     <!--========================< mongoose-backend-multilangeditor >========================-->
     <!-- used by mongoose-backend-activities-letter (SOURCE) -->
     <source path="mongoose/backend/controls/multilangeditor"/>
@@ -282,7 +285,7 @@
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/operationactionsloading"/>
     <!--========================< mongoose-client-personaldetails >=========================-->
-    <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
+    <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
     <source path="mongoose/client/controls/personaldetails"/>
     <!--==========================< mongoose-client-sectionpanel >==========================-->
     <!-- used by mongoose-client-activities-login (SOURCE) -->

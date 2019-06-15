@@ -1,4 +1,4 @@
-package mongoose.backend.activities.bookings;
+package mongoose.backend.controls.bookingdetailspanel;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
