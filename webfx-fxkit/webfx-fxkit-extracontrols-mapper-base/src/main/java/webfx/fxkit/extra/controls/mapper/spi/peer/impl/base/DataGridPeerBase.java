@@ -5,7 +5,6 @@ import javafx.scene.paint.*;
 import webfx.fxkit.extra.cell.renderer.ImageTextRenderer;
 import webfx.fxkit.extra.cell.renderer.TextRenderer;
 import webfx.fxkit.extra.cell.renderer.ValueRenderer;
-import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayResult;
@@ -117,7 +116,7 @@ public class DataGridPeerBase
                 return;
             }
         }
-        mixin.setCellContent(cell, valueRenderer.renderValue(cellValue, ValueRenderingContext.DEFAULT_READONLY_CONTEXT), displayColumn);
+        mixin.setCellContent(cell, valueRenderer.renderValue(cellValue, displayColumn.getValueRenderingContext()), displayColumn);
     }
 
     public int getRowStyleColumnIndex() {

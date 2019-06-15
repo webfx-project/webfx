@@ -1,6 +1,7 @@
 package webfx.fxkit.extra.displaydata;
 
 import webfx.fxkit.extra.cell.renderer.ValueRenderer;
+import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
 import webfx.fxkit.extra.label.Label;
 import webfx.fxkit.extra.type.Type;
 import webfx.fxkit.extra.displaydata.impl.DisplayColumnImpl;
@@ -46,6 +47,8 @@ public interface DisplayColumn {
      * @return The value renderer to be used for this column to transform the cell values into graphical nodes.
      */
     ValueRenderer getValueRenderer();
+
+    ValueRenderingContext getValueRenderingContext();
 
     ColumnWidthCumulator getCumulator();
 

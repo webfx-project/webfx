@@ -1,6 +1,7 @@
 package webfx.fxkit.extra.displaydata.impl;
 
 import webfx.fxkit.extra.cell.renderer.ValueRenderer;
+import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
 import webfx.fxkit.extra.displaydata.ColumnWidthCumulator;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayStyle;
@@ -18,6 +19,7 @@ public final class DisplayColumnImpl implements DisplayColumn {
     private final String role;
     private final DisplayStyle style;
     private ValueRenderer valueRenderer;
+    private final ValueRenderingContext valueRenderingContext;
     private final ColumnWidthCumulator cumulator;
 
     public DisplayColumnImpl(Object label, Type type) {
@@ -31,6 +33,7 @@ public final class DisplayColumnImpl implements DisplayColumn {
         this.role = role;
         this.style = style != null ? style : DisplayStyle.NO_STYLE;
         this.valueRenderer = valueRenderer;
+        valueRenderingContext = this.label == null ? ValueRenderingContext.DEFAULT_READONLY_CONTEXT : new ValueRenderingContext(true, this.label, null);
         this.cumulator = cumulator;
     }
 
@@ -69,6 +72,11 @@ public final class DisplayColumnImpl implements DisplayColumn {
         if (valueRenderer == null)
             valueRenderer = ValueRenderer.create(getType());
         return valueRenderer;
+    }
+
+    @Override
+    public ValueRenderingContext getValueRenderingContext() {
+        return valueRenderingContext;
     }
 
     @Override

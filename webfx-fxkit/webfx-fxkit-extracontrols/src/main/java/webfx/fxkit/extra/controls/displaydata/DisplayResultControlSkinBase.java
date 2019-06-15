@@ -177,7 +177,7 @@ public abstract class DisplayResultControlSkinBase<C extends DisplayResultContro
                 return;
             }
         }
-        setCellContent(cell, valueRenderer.renderValue(cellValue, ValueRenderingContext.DEFAULT_READONLY_CONTEXT), displayColumn);
+        setCellContent(cell, valueRenderer.renderValue(cellValue, displayColumn.getValueRenderingContext()), displayColumn);
     }
 
 
