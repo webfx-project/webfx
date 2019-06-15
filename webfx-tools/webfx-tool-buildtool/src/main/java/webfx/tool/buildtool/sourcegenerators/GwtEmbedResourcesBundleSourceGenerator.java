@@ -1,6 +1,7 @@
 package webfx.tool.buildtool.sourcegenerators;
 
 import webfx.tool.buildtool.ProjectModule;
+import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
 
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -33,7 +34,7 @@ final class GwtEmbedResourcesBundleSourceGenerator {
 
 
     static void generateGwtClientBundleSource(ProjectModule module) {
-        GwtFilesGenerator.logSection("Generating " + module.getName() + " module EmbedResourcesBundle super source for GWT");
+        //GwtFilesGenerator.logSection("Generating " + module.getName() + " module EmbedResourcesBundle super source for GWT");
         StringBuilder resourceDeclaration = new StringBuilder();
         StringBuilder resourceRegistration = new StringBuilder();
         AtomicInteger resourceNumber = new AtomicInteger();
@@ -54,7 +55,7 @@ final class GwtEmbedResourcesBundleSourceGenerator {
                         .replace("${package}", packageName)
                         .replace("${resourceDeclaration}", resourceDeclaration)
                         .replace("${resourceRegistration}", resourceRegistration);
-        GwtFilesGenerator.writeTextFile(getJavaFilePath(module), source);
+        TextFileReaderWriter.writeTextFileIfNewOrModified(source, getJavaFilePath(module));
     }
 
     static String getPackageName(ProjectModule module) {

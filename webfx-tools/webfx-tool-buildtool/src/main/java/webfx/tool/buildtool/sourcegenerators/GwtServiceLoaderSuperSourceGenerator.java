@@ -1,6 +1,7 @@
 package webfx.tool.buildtool.sourcegenerators;
 
 import webfx.tool.buildtool.ProjectModule;
+import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 
 import java.nio.file.Files;
@@ -53,7 +54,7 @@ final class GwtServiceLoaderSuperSourceGenerator {
             "}";
 
     static void generateServiceLoaderSuperSource(ProjectModule module) {
-        GwtFilesGenerator.logSection("Generating " + module.getName() + " module java.util.ServiceLoader.java super source for GWT");
+        //GwtFilesGenerator.logSection("Generating " + module.getName() + " module java.util.ServiceLoader.java super source for GWT");
         StringBuilder sb = new StringBuilder();
         module.getExecutableProviders()
                 .stream().sorted()
@@ -76,7 +77,7 @@ final class GwtServiceLoaderSuperSourceGenerator {
                     });
                     sb.append(");\n");
                 });
-        GwtFilesGenerator.writeTextFile(module.getResourcesDirectory().resolve("super/java/util/ServiceLoader.java"), TEMPLATE.replace("${generatedCasesCode}", sb));
+        TextFileReaderWriter.writeTextFileIfNewOrModified(TEMPLATE.replace("${generatedCasesCode}", sb), module.getResourcesDirectory().resolve("super/java/util/ServiceLoader.java"));
     }
 
     private static String getProviderConstructorReference(String providerClassName) {

@@ -8,6 +8,7 @@ import webfx.tool.buildtool.ModuleDependency;
 import webfx.tool.buildtool.ProjectModule;
 import webfx.tool.buildtool.Target;
 import webfx.tool.buildtool.TargetTag;
+import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 
 import javax.xml.namespace.QName;
@@ -21,6 +22,7 @@ import javax.xml.xpath.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
@@ -124,8 +126,10 @@ abstract class XmlModuleFile extends ModuleFile {
             Document document = getDocument();
             document.getDocumentElement().normalize();
             DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(getModuleFile());
+            StringWriter sw = new StringWriter();
+            StreamResult result = new StreamResult(sw);
             transformer.transform(source, result);
+            TextFileReaderWriter.writeTextFileIfNewOrModified(sw.toString(), getModulePath());
         } catch (Exception e) {
             e.printStackTrace();
         }

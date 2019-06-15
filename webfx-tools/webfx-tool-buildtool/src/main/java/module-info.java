@@ -14,5 +14,6 @@ module webfx.tool.buildtool {
     exports webfx.tool.buildtool.util.reusablestream;
     exports webfx.tool.buildtool.util.reusablestream.impl;
     exports webfx.tool.buildtool.util.splitfiles;
+    exports webfx.tool.buildtool.util.textfile;
 
 }

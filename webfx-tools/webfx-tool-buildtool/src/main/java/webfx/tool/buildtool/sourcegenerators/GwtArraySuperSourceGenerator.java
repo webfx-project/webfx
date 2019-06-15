@@ -1,6 +1,7 @@
 package webfx.tool.buildtool.sourcegenerators;
 
 import webfx.tool.buildtool.ProjectModule;
+import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
 
 /**
  * @author Bruno Salmon
@@ -29,13 +30,13 @@ final class GwtArraySuperSourceGenerator {
 
 
     static void generateArraySuperSource(ProjectModule module) {
-        GwtFilesGenerator.logSection("Generating " + module.getName() + " module java.lang.reflect.Array.java super source for GWT");
+        //GwtFilesGenerator.logSection("Generating " + module.getName() + " module java.lang.reflect.Array.java super source for GWT");
         StringBuilder sb = new StringBuilder();
         ProjectModule.filterProjectModules(module.getTransitiveModules())
                 .flatMap(m -> m.getWebfxModuleFile().getArrayNewInstanceClasses())
                 .distinct()
                 .stream().sorted()
                 .forEach(className -> sb.append("            case \"").append(className).append("\": return new ").append(className).append("[length];\n"));
-        GwtFilesGenerator.writeTextFile(module.getResourcesDirectory().resolve("super/java/lang/reflect/Array.java"), TEMPLATE.replace("${generatedCasesCode}", sb));
+        TextFileReaderWriter.writeTextFileIfNewOrModified(TEMPLATE.replace("${generatedCasesCode}", sb), module.getResourcesDirectory().resolve("super/java/lang/reflect/Array.java"));
     }
 }

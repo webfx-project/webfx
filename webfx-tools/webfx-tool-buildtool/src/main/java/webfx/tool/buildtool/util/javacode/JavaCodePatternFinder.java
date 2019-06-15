@@ -1,6 +1,6 @@
 package webfx.tool.buildtool.util.javacode;
 
-import webfx.tool.buildtool.util.splitfiles.SplitFiles;
+import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
 
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -37,7 +37,7 @@ class JavaCodePatternFinder implements Iterable<String> {
         if (javaCode == null) {
             if (javaFilePath == null)
                 javaFilePath = javaPathSupplier.get();
-            javaCode = SplitFiles.uncheckedReadTextFile(javaFilePath);
+            javaCode = TextFileReaderWriter.readTextFile(javaFilePath);
         }
         return javaCode;
     }

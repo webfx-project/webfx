@@ -5,12 +5,9 @@ import webfx.tool.buildtool.Module;
 import webfx.tool.buildtool.ModuleDependency;
 import webfx.tool.buildtool.Platform;
 import webfx.tool.buildtool.ProjectModule;
+import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -69,16 +66,7 @@ public class JavaModuleFile extends ModuleFile {
         }
         sb.append("\n}");
 
-        Path path = getModulePath();
-        try {
-            //Files.createDirectories(path.getParent()); // Creating all necessary directories
-            BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"));
-            writer.write(sb.toString());
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        TextFileReaderWriter.writeTextFileIfNewOrModified(sb.toString(), getModulePath());
     }
 
     private static void processSection(StringBuilder sb, String sectionName, String keyword, ReusableStream<String> tokens) {
