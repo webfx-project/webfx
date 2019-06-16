@@ -52,6 +52,8 @@ public interface DisplayColumn {
 
     ColumnWidthCumulator getCumulator();
 
+    Object getSource(); // Ex: ExpressionColumn
+
     /**
      * Quick factory method for a simple DisplayColumn creation with just a label and type. Use the DisplayColumnBuilder
      * for more complex cases.
@@ -61,10 +63,10 @@ public interface DisplayColumn {
     }
 
     static DisplayColumn create(Object label, Type type, DisplayStyle style) {
-        return new DisplayColumnImpl(label, label, type, null, style, null, null);
+        return new DisplayColumnImpl(label, label, type, null, style, null, null, null);
     }
 
     static DisplayColumn create(ValueRenderer valueRenderer) {
-        return new DisplayColumnImpl(null, null, null, null, null, valueRenderer, null);
+        return new DisplayColumnImpl(null, null, null, null, null, valueRenderer, null, null);
     }
 }

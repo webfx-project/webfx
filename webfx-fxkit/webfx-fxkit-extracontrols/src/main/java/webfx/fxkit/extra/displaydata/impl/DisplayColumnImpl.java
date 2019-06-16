@@ -21,12 +21,13 @@ public final class DisplayColumnImpl implements DisplayColumn {
     private ValueRenderer valueRenderer;
     private final ValueRenderingContext valueRenderingContext;
     private final ColumnWidthCumulator cumulator;
+    private final Object source;
 
     public DisplayColumnImpl(Object label, Type type) {
-        this(label, label, type, null, null, null, null);
+        this(label, label, type, null, null, null, null, null);
     }
 
-    public DisplayColumnImpl(Object headerValue, Object label, Type type, String role, DisplayStyle style, ValueRenderer valueRenderer, ColumnWidthCumulator cumulator) {
+    public DisplayColumnImpl(Object headerValue, Object label, Type type, String role, DisplayStyle style, ValueRenderer valueRenderer, ColumnWidthCumulator cumulator, Object source) {
         this.headerValue = headerValue;
         this.label = Label.from(label);
         this.type = type;
@@ -35,6 +36,7 @@ public final class DisplayColumnImpl implements DisplayColumn {
         this.valueRenderer = valueRenderer;
         valueRenderingContext = this.label == null ? ValueRenderingContext.DEFAULT_READONLY_CONTEXT : new ValueRenderingContext(true, this.label, null);
         this.cumulator = cumulator;
+        this.source = source;
     }
 
     @Override
@@ -82,5 +84,10 @@ public final class DisplayColumnImpl implements DisplayColumn {
     @Override
     public ColumnWidthCumulator getCumulator() {
         return cumulator;
+    }
+
+    @Override
+    public Object getSource() {
+        return source;
     }
 }

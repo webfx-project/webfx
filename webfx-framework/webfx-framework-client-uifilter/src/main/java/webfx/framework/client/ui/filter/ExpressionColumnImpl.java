@@ -103,6 +103,7 @@ final class ExpressionColumnImpl implements ExpressionColumn {
                     .setStyle(DisplayStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
                     .setRole(role)
                     .setValueRenderer(fxValueRenderer)
+                    .setSource(this)
                     .build();
         }
         return displayColumn;

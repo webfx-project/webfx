@@ -16,6 +16,7 @@ public final class DisplayColumnBuilder {
     private DisplayStyle style;
     private ValueRenderer valueRenderer;
     private ColumnWidthCumulator cumulator;
+    private Object source;
 
     public  DisplayColumnBuilder(Object label, Type type) {
         this.label = headerValue = label;
@@ -57,8 +58,13 @@ public final class DisplayColumnBuilder {
         return this;
     }
 
+    public DisplayColumnBuilder setSource(Object source) {
+        this.source = source;
+        return this;
+    }
+
     public DisplayColumn build() {
-        return new DisplayColumnImpl(headerValue, label, type, role, style, valueRenderer, cumulator);
+        return new DisplayColumnImpl(headerValue, label, type, role, style, valueRenderer, cumulator, source);
     }
 
     public static DisplayColumnBuilder create(Object label) {
