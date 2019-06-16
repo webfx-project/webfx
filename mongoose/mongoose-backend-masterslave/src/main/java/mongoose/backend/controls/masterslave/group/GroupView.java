@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
@@ -20,8 +21,10 @@ import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.displaydata.*;
 import webfx.fxkit.extra.type.PrimType;
+import webfx.fxkit.extra.type.Type;
 import webfx.fxkit.extra.type.Types;
 import webfx.fxkit.extra.util.ImageStore;
+import webfx.platform.shared.util.Numbers;
 
 public final class GroupView<E extends Entity> {
 
@@ -103,20 +106,33 @@ public final class GroupView<E extends Entity> {
             int rowCount = rs.getRowCount();
             int colCount = rs.getColumnCount();
             // Searching the value column where to extract figures of the series => simply choosing the first column where type is numeric
-            int valCol = colCount - 1; // in case it's not found for any reason, we take the last column by default
-            for (int col = 0; col < colCount; col++)
-                if (Types.isNumberType(rs.getColumns()[col].getType())) {
-                    valCol = col;
+            int valueCol = colCount - 1; // in case it's not found for any reason, we take the last column by default
+            for (int col = 0; col < colCount; col++) {
+                DisplayColumn column = rs.getColumns()[col];
+                Type type = column.getType();
+                boolean isNumber = Types.isNumberType(type);
+                // If not a number, it may be a formatted number (ex: Price), so checking if the source is an expression column with a numeric type
+                if (!isNumber && !Types.isArrayType(type) /*to ignore columns such as family, site, item*/ && column.getSource() instanceof ExpressionColumn) {
+                    type = ((ExpressionColumn) column.getSource()).getExpression().getType();
+                    isNumber = Types.isNumberType(type);
+                }
+                if (isNumber) {
+                    valueCol = col;
                     break;
                 }
+            }
             DisplayResultBuilder rsb = new DisplayResultBuilder(rowCount, new DisplayColumn[]{new DisplayColumnBuilder(null, PrimType.STRING).setRole(pie ? "series" : null).build(), DisplayColumn.create(null, PrimType.INTEGER)});
             for (int row = 0; row < rowCount; row++) {
                 // Generating the series name by concatenating text of all columns preceding the value column
                 StringBuilder sb = new StringBuilder();
-                for (int col = 0; col < valCol; col++)
+                for (int col = 0; col < valueCol; col++)
                     appendTextOnly(rs.getValue(row, col), sb);
-                rsb.setValue(row, 0, sb.toString());            // Series name
-                rsb.setValue(row, 1, rs.getValue(row, valCol)); // Series figure
+                rsb.setValue(row, 0, sb.toString());
+                // Generating the series value
+                Object value = rs.getValue(row, valueCol);
+                if (value != null && !(value instanceof Number)) // Ex: formatted price
+                    value = Numbers.doubleValue(value); // => extracting a double value
+                rsb.setValue(row, 1, value);
             }
             result = rsb.build();
         }
