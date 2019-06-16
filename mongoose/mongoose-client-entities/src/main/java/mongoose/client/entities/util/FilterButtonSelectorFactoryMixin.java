@@ -37,6 +37,8 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
             case "Document" :
             case "DocumentLine" :
                 predicate = filter -> "!cancelled".equals(filter.getWhereClause()); break;
+            case "MoneyTransfer":
+                predicate = filter -> "pending or successful".equals(filter.getWhereClause()); break;
             default:          predicate = null;
         }
         return createConditionFilterButtonSelector(activityName, domainClassId, predicate, parent);
@@ -47,7 +49,9 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
         if ("income".equals(activityName) && "DocumentLine".equals(domainClassId)) {
             predicate = filter -> "Family".equals(filter.getName());
         } else switch (domainClassId) {
-            case "Document" :     predicate = filter -> "".equals(filter.getName()); break;
+            case "Document" :
+            case "MoneyTransfer":
+                predicate = filter -> "".equals(filter.getName()); break;
             case "DocumentLine" : predicate = filter -> "Family, site and item".equals(filter.getName()); break;
             default:              predicate = null;
         }

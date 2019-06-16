@@ -139,7 +139,7 @@ DataGrid, LineChart, PieChart, BarChart, AreaChart, GridCollator, HtmlText, Html
 .closed { -color-base: #E0CDCD; }
 
 /* .table-row-cell { */
-.abandoned, .absent, .cancelled, .arrived, .arrivedWithBalance, .flagged, .changed, .passReady, .confirmed, .paidInFull, .overPaid, .noDeposit, .willPay, .paidUnderMinimal, .paidEnough, .nonStay, .workingVisitStay, .discoveryStay, .guestStay, .standardStay .pending, .successful, .failed, .kmc, .kbc, .branch, .closed {
+.abandoned, .absent, .cancelled, .arrived, .arrivedWithBalance, .flagged, .changed, .passReady, .confirmed, .paidInFull, .overPaid, .noDeposit, .willPay, .paidUnderMinimal, .paidEnough, .nonStay, .workingVisitStay, .discoveryStay, .guestStay, .standardStay, .pending, .successful, .failed, .kmc, .kbc, .branch, .closed {
     -fx-background-color:
         /*-fx-table-cell-border-color,*/
         linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),

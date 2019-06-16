@@ -166,6 +166,11 @@
     <source path="mongoose/backend/activities/organizations"/>
     <source path="mongoose/backend/activities/organizations/routing"/>
     <source path="mongoose/backend/operations/organizations"/>
+    <!--======================< mongoose-backend-activities-payments >======================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
+    <source path="mongoose/backend/activities/payments"/>
+    <source path="mongoose/backend/activities/payments/routing"/>
+    <source path="mongoose/backend/operations/payments"/>
     <!--=====================< mongoose-backend-activities-statistics >=====================-->
     <!-- used by mongoose-backend-activities-income (SOURCE) -->
     <source path="mongoose/backend/activities/statistics"/>
