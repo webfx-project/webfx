@@ -20,6 +20,7 @@
         <module>mongoose-backend-activities-cloneevent</module>
         <module>mongoose-backend-activities-cloneevent-routing</module>
         <module>mongoose-backend-activities-events</module>
+        <module>mongoose-backend-activities-income</module>
         <module>mongoose-backend-activities-letter</module>
         <module>mongoose-backend-activities-letters</module>
         <module>mongoose-backend-activities-monitor</module>

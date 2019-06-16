@@ -12,15 +12,16 @@
 
         <plugin-modules>
             <module>mongoose-backend-activities-authorizations</module>
-            <module>mongoose-backend-activities-organizations</module>
-            <module>mongoose-backend-activities-operations</module>
+            <module>mongoose-backend-activities-bookings</module>
+            <module>mongoose-backend-activities-cloneevent</module>
+            <module>mongoose-backend-activities-events</module>
+            <module>mongoose-backend-activities-income</module>
             <module>mongoose-backend-activities-monitor</module>
             <module>mongoose-backend-activities-letters</module>
             <module>mongoose-backend-activities-letter</module>
-            <module>mongoose-backend-activities-events</module>
-            <module>mongoose-backend-activities-bookings</module>
             <module>mongoose-backend-activities-statistics</module>
-            <module>mongoose-backend-activities-cloneevent</module>
+            <module>mongoose-backend-activities-operations</module>
+            <module>mongoose-backend-activities-organizations</module>
         </plugin-modules>
 
     </dependencies>

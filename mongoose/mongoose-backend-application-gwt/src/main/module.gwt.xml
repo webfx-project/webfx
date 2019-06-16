@@ -120,7 +120,7 @@
     <source path="mongoose/backend/activities/authorizations/routing"/>
     <source path="mongoose/backend/activities/operations/authorizations"/>
     <!--======================< mongoose-backend-activities-bookings >======================-->
-    <!-- used by mongoose-backend-activities-events (SOURCE) -->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/bookings"/>
     <source path="mongoose/backend/activities/bookings/routing"/>
     <source path="mongoose/backend/operations/bookings"/>
@@ -132,10 +132,15 @@
     <source path="mongoose/backend/activities/cloneevent/routing"/>
     <source path="mongoose/backend/operations/cloneevent"/>
     <!--=======================< mongoose-backend-activities-events >=======================-->
-    <!-- used by mongoose-backend-activities-organizations (SOURCE) -->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/events"/>
     <source path="mongoose/backend/activities/events/routing"/>
     <source path="mongoose/backend/operations/events"/>
+    <!--=======================< mongoose-backend-activities-income >=======================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
+    <source path="mongoose/backend/activities/income"/>
+    <source path="mongoose/backend/activities/income/routing"/>
+    <source path="mongoose/backend/operations/income"/>
     <!--=======================< mongoose-backend-activities-letter >=======================-->
     <!-- used by mongoose-backend-activities-letters (SOURCE) -->
     <source path="mongoose/backend/activities/letter"/>
@@ -162,7 +167,7 @@
     <source path="mongoose/backend/activities/organizations/routing"/>
     <source path="mongoose/backend/operations/organizations"/>
     <!--=====================< mongoose-backend-activities-statistics >=====================-->
-    <!-- used by mongoose-backend-application (PLUGIN) -->
+    <!-- used by mongoose-backend-activities-income (SOURCE) -->
     <source path="mongoose/backend/activities/statistics"/>
     <source path="mongoose/backend/activities/statistics/routing"/>
     <source path="mongoose/backend/operations/statistics"/>

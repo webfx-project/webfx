@@ -42,6 +42,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-activities-income</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-backend-activities-letter</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
