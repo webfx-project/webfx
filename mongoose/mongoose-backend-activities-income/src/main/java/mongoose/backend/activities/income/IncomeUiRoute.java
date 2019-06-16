@@ -16,7 +16,7 @@ public final class IncomeUiRoute extends UiRouteImpl {
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(IncomeRouting.getPath()
-                , false
+                , true
                 , IncomeActivity::new
                 , ViewDomainActivityContextFinal::new
         );

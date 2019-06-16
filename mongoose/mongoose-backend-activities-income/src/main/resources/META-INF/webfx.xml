@@ -5,6 +5,7 @@
         <source-modules>
             <module>webfx-framework-client-activity</module>
             <module>webfx-framework-shared-domain</module>
+            <module>webfx-fxkit-javafxcontrols-emul</module>
             <module>webfx-fxkit-extracontrols</module>
             <module>webfx-platform-shared-util</module>
         </source-modules>

@@ -3,12 +3,10 @@
 module mongoose.backend.activities.income {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.backend.activities.statistics;
-    requires mongoose.backend.bookingdetailspanel;
     requires mongoose.backend.masterslave;
     requires mongoose.client.activity;
     requires mongoose.client.entities;
@@ -21,12 +19,9 @@ module mongoose.backend.activities.income {
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.domain;
-    requires webfx.framework.shared.entity;
-    requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
     requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
