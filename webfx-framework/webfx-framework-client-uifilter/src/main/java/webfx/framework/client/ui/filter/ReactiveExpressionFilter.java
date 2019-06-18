@@ -547,8 +547,8 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         boolean push = isPush();
         Object pushClientId = getPushClientId();
         Object[] parameterValues = null;
-        // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
-        if ("false".equals(stringFilter.getWhere()) || "0".equals(stringFilter.getLimit()))
+        // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call) - unless we are in push mode already registered on the server
+        if ((!push || lastPushClientId == null) && ("false".equals(stringFilter.getWhere()) || "0".equals(stringFilter.getLimit())))
             entityListProperty.set(emptyFutureList());
         else if (restrictedFilterList != null) {
             EntityList<E> filteredList = emptyCurrentList();
