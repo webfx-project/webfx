@@ -11,8 +11,7 @@ import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.client.activity.eventdependent.EventDependentPresentationModel;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
-import mongoose.client.entities.util.FilterButtonSelectorFactoryMixin;
-import mongoose.client.entities.util.Filters;
+import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Filter;
 import mongoose.shared.entities.MoneyTransfer;
@@ -34,7 +33,9 @@ final class PaymentsActivity extends EventDependentViewDomainActivity
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
-    private TextField searchBox; // Keeping this reference to activate focus on activity resume
+    /*==================================================================================================================
+    ===================================================== UI layer =====================================================
+    ==================================================================================================================*/
 
     private final PaymentsPresentationModel pm = new PaymentsPresentationModel();
 
@@ -43,21 +44,23 @@ final class PaymentsActivity extends EventDependentViewDomainActivity
         return pm; // eventId and organizationId will then be updated from route
     }
 
+    private TextField searchBox; // Keeping this reference to activate focus on activity resume
+
     @Override
     public Node buildUi() {
         BorderPane container = new BorderPane();
         // Building the top bar
-        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector("payments","MoneyTransfer", container),
-                                     groupSelector     = createGroupFilterButtonSelector(    "payments","MoneyTransfer", container);
+        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector("payments","MoneyTransfer", container, pm),
+                                         groupSelector = createGroupFilterButtonSelector(    "payments","MoneyTransfer", container, pm);
         searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
         container.setTop(new HBox(10, conditionSelector.getButton(), groupSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox))));
 
         // Building the main content, which is a group/master/slave view (group = group view, master = bookings table + limit checkbox, slave = booking details)
         DataGrid masterTable = new DataGrid();
+        CheckBox masterLimitCheckBox = newCheckBox("LimitTo100");
+        masterLimitCheckBox.setSelected(true);
+        BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
         BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
-        CheckBox limitCheckBox = newCheckBox("LimitTo100");
-        limitCheckBox.setSelected(true);
-        BorderPane masterPane = new BorderPane(masterTable, null, null, limitCheckBox, null);
 
         GroupView<MoneyTransfer> groupView = new GroupView<>();
         DataGrid slaveTable = new DataGrid();
@@ -74,8 +77,8 @@ final class PaymentsActivity extends EventDependentViewDomainActivity
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         pm.searchTextProperty().bind(searchBox.textProperty());
-        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? 30 : -1), limitCheckBox.selectedProperty());
-        masterTable.fullHeightProperty().bind(limitCheckBox.selectedProperty());
+        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
+        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
         pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
         masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
@@ -93,8 +96,6 @@ final class PaymentsActivity extends EventDependentViewDomainActivity
         pm.groupDisplaySelectionProperty().bind(groupView.groupDisplaySelectionProperty());
         groupView.setReferenceResolver(groupFilter.getRootAliasReferenceResolver());
 
-        pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), Filters::toStringJson));
-        pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), Filters::toStringJson));
         return container;
     }
 
@@ -103,6 +104,11 @@ final class PaymentsActivity extends EventDependentViewDomainActivity
         super.onResume();
         SceneUtil.autoFocusIfEnabled(searchBox);
     }
+
+
+    /*==================================================================================================================
+    ==================================================== Logic layer ===================================================
+    ==================================================================================================================*/
 
     private ReactiveExpressionFilter<MoneyTransfer> groupFilter, masterFilter, slaveFilter;
 

@@ -2,6 +2,9 @@ package mongoose.backend.activities.statistics;
 
 import javafx.beans.property.*;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
+import mongoose.client.entities.util.filters.HasColumnsStringFilterProperty;
+import mongoose.client.entities.util.filters.HasConditionStringFilterProperty;
+import mongoose.client.entities.util.filters.HasGroupStringFilterProperty;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
 import webfx.fxkit.extra.displaydata.DisplayResult;
@@ -10,7 +13,10 @@ import webfx.fxkit.extra.displaydata.DisplaySelection;
 /**
  * @author Bruno Salmon
  */
-final class StatisticsPresentationModel extends EventDependentGenericTablePresentationModel {
+final class StatisticsPresentationModel extends EventDependentGenericTablePresentationModel implements
+        HasConditionStringFilterProperty,
+        HasGroupStringFilterProperty,
+        HasColumnsStringFilterProperty {
 
     private final Property<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
     Property<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
@@ -19,14 +25,13 @@ final class StatisticsPresentationModel extends EventDependentGenericTablePresen
     ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
 
     private final StringProperty conditionStringFilterProperty = new SimpleStringProperty();
-    final StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
+    public final StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
-    StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
-    String getGroupStringFilter() { return groupStringFilterProperty().get(); }
+    public final StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
 
     private final StringProperty columnsStringFilterProperty = new SimpleStringProperty();
-    StringProperty columnsStringFilterProperty() { return columnsStringFilterProperty; }
+    public final StringProperty columnsStringFilterProperty() { return columnsStringFilterProperty; }
 
     private final ObjectProperty<DocumentLine> selectedDocumentLineProperty = new SimpleObjectProperty<>();
     ObjectProperty<DocumentLine> selectedDocumentLineProperty() {

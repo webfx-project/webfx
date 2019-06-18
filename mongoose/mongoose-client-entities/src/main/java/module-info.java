@@ -12,9 +12,11 @@ module mongoose.client.entities {
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.shared.domain;
+    requires webfx.fxkit.util;
     requires webfx.platform.shared.util;
 
     // Exported packages
     exports mongoose.client.entities.util;
+    exports mongoose.client.entities.util.filters;
 
 }

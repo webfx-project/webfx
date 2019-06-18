@@ -9,14 +9,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
+import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
-import mongoose.client.activity.eventdependent.EventDependentPresentationModel;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
-import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
-import mongoose.client.entities.util.FilterButtonSelectorFactoryMixin;
-import mongoose.client.entities.util.Filters;
+import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.Filter;
@@ -37,14 +35,18 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
-    private TextField searchBox; // Keeping this reference to activate focus on activity resume
+    /*==================================================================================================================
+    ===================================================== UI layer =====================================================
+    ==================================================================================================================*/
 
     private final BookingsPresentationModel pm = new BookingsPresentationModel();
 
     @Override
-    public EventDependentPresentationModel getPresentationModel() {
+    public BookingsPresentationModel getPresentationModel() {
         return pm; // eventId and organizationId will then be updated from route
     }
+
+    private TextField searchBox; // Keeping this reference to activate focus on activity resume
 
     @Override
     public Node buildUi() {
@@ -52,18 +54,18 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         // Building the top bar
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory()))),
                cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
-        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector("bookings","Document", container),
-                                     groupSelector     = createGroupFilterButtonSelector(    "bookings","Document", container),
-                                     columnsSelector   = createColumnsFilterButtonSelector(  "bookings","Document", container);
+        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector("bookings","Document", container, pm),
+                                         groupSelector = createGroupFilterButtonSelector(    "bookings","Document", container, pm),
+                                       columnsSelector = createColumnsFilterButtonSelector(  "bookings","Document", container, pm);
         searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
         container.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));
 
         // Building the main content, which is a group/master/slave view (group = group view, master = bookings table + limit checkbox, slave = booking details)
         DataGrid masterTable = new DataGrid();
+        CheckBox masterLimitCheckBox = newCheckBox("LimitTo100");
+        masterLimitCheckBox.setSelected(true);
+        BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
         BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
-        CheckBox limitCheckBox = newCheckBox("LimitTo100");
-        limitCheckBox.setSelected(true);
-        BorderPane masterPane = new BorderPane(masterTable, null, null, limitCheckBox, null);
 
         GroupView<Document> groupView = new GroupView<>();
         BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(container, this, getDataSourceModel());
@@ -80,9 +82,9 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         pm.searchTextProperty().bind(searchBox.textProperty());
-        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? 30 : -1), limitCheckBox.selectedProperty());
-        masterTable.fullHeightProperty().bind(limitCheckBox.selectedProperty());
-        //pm.limitProperty().bind(limitCheckBox.selectedProperty());
+        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
+        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
+        //pm.limitProperty().bind(masterLimitCheckBox.selectedProperty());
         pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
         masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
@@ -99,9 +101,6 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         pm.groupDisplaySelectionProperty().bind(groupView.groupDisplaySelectionProperty());
         groupView.setReferenceResolver(groupFilter.getRootAliasReferenceResolver());
 
-        pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), Filters::toStringJson));
-        pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), Filters::toStringJson));
-        pm.columnsStringFilterProperty()   .bind(Properties.compute(columnsSelector   .selectedItemProperty(), Filters::toStringJson));
         bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
         bookingDetailsPanel.activeProperty().bind(activeProperty());
         return container;
@@ -113,8 +112,12 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         SceneUtil.autoFocusIfEnabled(searchBox);
     }
 
-    private ReactiveExpressionFilter<Document> groupFilter;
-    private ReactiveExpressionFilter<Document> masterFilter;
+
+    /*==================================================================================================================
+    ==================================================== Logic layer ===================================================
+    ==================================================================================================================*/
+
+    private ReactiveExpressionFilter<Document> groupFilter, masterFilter;
 
     @Override
     protected void startLogic() {

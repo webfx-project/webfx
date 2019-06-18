@@ -8,13 +8,11 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
-import mongoose.client.activity.eventdependent.EventDependentPresentationModel;
-import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
-import mongoose.client.entities.util.FilterButtonSelectorFactoryMixin;
-import mongoose.client.entities.util.Filters;
+import mongoose.backend.controls.masterslave.group.GroupView;
+import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
+import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
 import mongoose.shared.entities.Filter;
@@ -44,10 +42,14 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
+    /*==================================================================================================================
+    ===================================================== UI layer =====================================================
+    ==================================================================================================================*/
+
     private final StatisticsPresentationModel pm = new StatisticsPresentationModel();
 
     @Override
-    public EventDependentPresentationModel getPresentationModel() {
+    public StatisticsPresentationModel getPresentationModel() {
         return pm; // eventId and organizationId will then be updated from route
     }
 
@@ -58,16 +60,16 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
         BorderPane container = new BorderPane();
 
         // Building the top bar
-        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector("statistics", "DocumentLine", container),
-                                     groupSelector     = createGroupFilterButtonSelector(    "statistics", "DocumentLine", container),
-                                     columnsSelector   = createColumnsFilterButtonSelector(  "statistics", "DocumentLine", container);
+        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector("statistics", "DocumentLine", container, pm),
+                                         groupSelector = createGroupFilterButtonSelector(    "statistics", "DocumentLine", container, pm),
+                                       columnsSelector = createColumnsFilterButtonSelector(  "statistics", "DocumentLine", container, pm);
         container.setTop(new HBox(10, conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton()));
 
         DataGrid masterTable = new DataGrid();
+        CheckBox masterLimitCheckBox = newCheckBox("LimitTo100");
+        masterLimitCheckBox.setSelected(true);
+        BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
         BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
-        CheckBox limitCheckBox = newCheckBox("LimitTo100");
-        limitCheckBox.setSelected(true);
-        BorderPane masterPane = new BorderPane(masterTable, null, null, limitCheckBox, null);
 
         groupView = new GroupView<>(true);
         BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(container, this, getDataSourceModel());
@@ -78,16 +80,12 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
                 bookingDetailsPanel.buildUi());
         container.setCenter(groupMasterSlaveView.getSplitPane());
 
-        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? 30 : -1), limitCheckBox.selectedProperty());
-        masterTable.fullHeightProperty().bind(limitCheckBox.selectedProperty());
-        //pm.limitProperty().bind(limitCheckBox.selectedProperty());
+        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
+        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
+        //pm.limitProperty().bind(masterLimitCheckBox.selectedProperty());
         pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
         masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
-
-        pm.conditionStringFilterProperty() .bind(Properties.compute(conditionSelector .selectedItemProperty(), Filters::toStringJson));
-        pm.groupStringFilterProperty()     .bind(Properties.compute(groupSelector     .selectedItemProperty(), Filters::toStringJson));
-        pm.columnsStringFilterProperty()   .bind(Properties.compute(columnsSelector   .selectedItemProperty(), Filters::toStringJson));
 
         bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
         bookingDetailsPanel.activeProperty().bind(activeProperty());
@@ -105,6 +103,11 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
 
         return container;
     }
+
+
+    /*==================================================================================================================
+    ==================================================== Logic layer ===================================================
+    ==================================================================================================================*/
 
     private ReactiveExpressionFilter<DocumentLine> leftGroupFilter;
     private ReactiveExpressionFilter<Attendance> rightAttendanceFilter;
@@ -172,13 +175,6 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.columnsStringFilterProperty(),   stringFilter -> stringFilter)
                 // Also, in case groups are showing and a group is selected, applying the condition associated with that group
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedGroupConditionStringFilterProperty(), s -> s)
-                // Applying the user search
-/*
-                .combineIfNotEmptyTrim(pm.searchTextProperty(), s ->
-                        Character.isDigit(s.charAt(0)) ? "{where: `ref = " + s + "`}"
-                                : s.contains("@") ? "{where: `lower(person_email) like '%" + s.toLowerCase() + "%'`}"
-                                : "{where: `person_abcNames like '" + AbcNames.evaluate(s, true) + "'`}")
-*/
                 // Limit clause
                 .combineIfPositive(pm.limitProperty(), limit -> "{limit: `" + limit + "`}")
                 // Colorizing the rows

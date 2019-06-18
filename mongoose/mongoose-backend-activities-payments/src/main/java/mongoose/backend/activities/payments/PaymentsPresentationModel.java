@@ -2,6 +2,8 @@ package mongoose.backend.activities.payments;
 
 import javafx.beans.property.*;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
+import mongoose.client.entities.util.filters.HasConditionStringFilterProperty;
+import mongoose.client.entities.util.filters.HasGroupStringFilterProperty;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
@@ -9,7 +11,9 @@ import webfx.fxkit.extra.displaydata.DisplaySelection;
 /**
  * @author Bruno Salmon
  */
-final class PaymentsPresentationModel extends EventDependentGenericTablePresentationModel {
+final class PaymentsPresentationModel extends EventDependentGenericTablePresentationModel implements
+        HasConditionStringFilterProperty,
+        HasGroupStringFilterProperty {
 
     private final Property<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
     Property<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
@@ -21,11 +25,10 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
     Property<DisplayResult> slaveDisplayResultProperty() { return slaveDisplayResultProperty; }
 
     private final StringProperty conditionStringFilterProperty = new SimpleStringProperty();
-    final StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
+    public final StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
-    StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
-    String getGroupStringFilter() { return groupStringFilterProperty().get(); }
+    public final StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
 
     private final ObjectProperty<MoneyTransfer> selectedPaymentProperty = new SimpleObjectProperty<>();
     ObjectProperty<MoneyTransfer> selectedPaymentProperty() {

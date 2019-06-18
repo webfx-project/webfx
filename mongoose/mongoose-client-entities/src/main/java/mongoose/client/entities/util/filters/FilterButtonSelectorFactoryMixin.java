@@ -1,10 +1,12 @@
-package mongoose.client.entities.util;
+package mongoose.client.entities.util.filters;
 
+import javafx.beans.property.StringProperty;
 import javafx.scene.layout.Pane;
 import mongoose.shared.entities.Filter;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
+import webfx.fxkit.util.properties.Properties;
 
 import java.util.function.Predicate;
 
@@ -66,5 +68,36 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
             default:          predicate = null;
         }
         return createColumnsFilterButtonSelector(domainClassId, activityName, predicate, parent);
+    }
+
+
+    default EntityButtonSelector<Filter> createConditionFilterButtonSelector(String activityName, String domainClassId, Pane parent, StringProperty conditionStringFilterProperty) {
+        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector(activityName, domainClassId, parent);
+        conditionStringFilterProperty.bind(Properties.compute(conditionSelector.selectedItemProperty(), Filters::toStringJson));
+        return conditionSelector;
+    }
+
+    default EntityButtonSelector<Filter> createGroupFilterButtonSelector(String activityName, String domainClassId, Pane parent, StringProperty groupStringFilterProperty) {
+        EntityButtonSelector<Filter> conditionSelector = createGroupFilterButtonSelector(activityName, domainClassId, parent);
+        groupStringFilterProperty.bind(Properties.compute(conditionSelector.selectedItemProperty(), Filters::toStringJson));
+        return conditionSelector;
+    }
+
+    default EntityButtonSelector<Filter> createColumnsFilterButtonSelector(String activityName, String domainClassId, Pane parent, StringProperty columnsStringFilterProperty) {
+        EntityButtonSelector<Filter> conditionSelector = createColumnsFilterButtonSelector(activityName, domainClassId, parent);
+        columnsStringFilterProperty.bind(Properties.compute(conditionSelector.selectedItemProperty(), Filters::toStringJson));
+        return conditionSelector;
+    }
+
+    default EntityButtonSelector<Filter> createConditionFilterButtonSelector(String activityName, String domainClassId, Pane parent, HasConditionStringFilterProperty pm) {
+        return createConditionFilterButtonSelector(activityName, domainClassId, parent, pm.conditionStringFilterProperty());
+    }
+
+    default EntityButtonSelector<Filter> createGroupFilterButtonSelector(String activityName, String domainClassId, Pane parent, HasGroupStringFilterProperty pm) {
+        return createGroupFilterButtonSelector(activityName, domainClassId, parent, pm.groupStringFilterProperty());
+    }
+
+    default EntityButtonSelector<Filter> createColumnsFilterButtonSelector(String activityName, String domainClassId, Pane parent, HasColumnsStringFilterProperty pm) {
+        return createColumnsFilterButtonSelector(activityName, domainClassId, parent, pm.columnsStringFilterProperty());
     }
 }

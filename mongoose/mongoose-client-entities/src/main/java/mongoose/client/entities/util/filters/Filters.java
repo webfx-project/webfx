@@ -1,4 +1,4 @@
-package mongoose.client.entities.util;
+package mongoose.client.entities.util.filters;
 
 import mongoose.shared.entities.Filter;
 import webfx.framework.client.ui.filter.StringFilter;

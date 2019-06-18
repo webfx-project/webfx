@@ -255,6 +255,7 @@
     <!--============================< mongoose-client-entities >============================-->
     <!-- used by mongoose-client-businesslogic (SOURCE) -->
     <source path="mongoose/client/entities/util"/>
+    <source path="mongoose/client/entities/util/filters"/>
     <!--==============================< mongoose-client-i18n >==============================-->
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/operations/i18n"/>

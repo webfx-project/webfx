@@ -4,10 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import mongoose.backend.controls.masterslave.group.GroupView;
-import mongoose.client.activity.eventdependent.EventDependentPresentationModel;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
-import mongoose.client.entities.util.FilterButtonSelectorFactoryMixin;
-import mongoose.client.entities.util.Filters;
+import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
 import mongoose.shared.entities.Filter;
@@ -16,17 +14,20 @@ import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.util.properties.Properties;
 
 final class IncomeActivity extends EventDependentViewDomainActivity
         implements OperationActionFactoryMixin,
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
+    /*==================================================================================================================
+    ===================================================== UI layer =====================================================
+    ==================================================================================================================*/
+
     private final IncomePresentationModel pm = new IncomePresentationModel();
 
     @Override
-    public EventDependentPresentationModel getPresentationModel() {
+    public IncomePresentationModel getPresentationModel() {
         return pm; // eventId and organizationId will then be updated from route
     }
 
@@ -41,11 +42,9 @@ final class IncomeActivity extends EventDependentViewDomainActivity
         totalTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
 
         // Building the top bar
-        EntityButtonSelector<Filter> breakdownGroupSelector = createGroupFilterButtonSelector(    "income", "DocumentLine", container);
+        EntityButtonSelector<Filter> breakdownGroupSelector = createGroupFilterButtonSelector("income","DocumentLine", container, pm);
 
         breakdownGroupView = new GroupView<>();
-
-        pm.groupStringFilterProperty()     .bind(Properties.compute(breakdownGroupSelector     .selectedItemProperty(), Filters::toStringJson));
 
         breakdownGroupView.groupDisplayResultProperty().bind(pm.groupDisplayResultProperty());
         breakdownGroupView.groupStringFilterProperty().bind(pm.groupStringFilterProperty());
@@ -56,6 +55,11 @@ final class IncomeActivity extends EventDependentViewDomainActivity
         container.setCenter(breakdownGroupView.buildUi());
         return container;
     }
+
+
+    /*==================================================================================================================
+    ==================================================== Logic layer ===================================================
+    ==================================================================================================================*/
 
     private ReactiveExpressionFilter<Document> totalFilter;
     private ReactiveExpressionFilter<DocumentLine> breakdownFilter;

@@ -22,7 +22,6 @@ module mongoose.backend.activities.income {
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
     requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.util;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 
