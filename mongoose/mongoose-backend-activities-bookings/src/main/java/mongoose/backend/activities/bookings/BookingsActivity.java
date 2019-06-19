@@ -54,9 +54,9 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         // Building the top bar
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory()))),
                cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
-        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector("bookings","Document", container, pm),
-                                         groupSelector = createGroupFilterButtonSelector(    "bookings","Document", container, pm),
-                                       columnsSelector = createColumnsFilterButtonSelector(  "bookings","Document", container, pm);
+        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelectorAndBind("bookings","Document", container, pm),
+                                         groupSelector = createGroupFilterButtonSelectorAndBind(    "bookings","Document", container, pm),
+                                       columnsSelector = createColumnsFilterButtonSelectorAndBind(  "bookings","Document", container, pm);
         searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
         pm.searchTextProperty().bind(searchBox.textProperty());
         container.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));

@@ -40,7 +40,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity
         totalTable.setFullHeight(true);
         totalTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
         // Also putting the breakdown group selector just below the total table (also on top of the container)
-        EntityButtonSelector<Filter> breakdownGroupSelector = createGroupFilterButtonSelector("income","DocumentLine", container, pm);
+        EntityButtonSelector<Filter> breakdownGroupSelector = createGroupFilterButtonSelectorAndBind("income","DocumentLine", container, pm);
         container.setTop(new VBox(totalTable, breakdownGroupSelector.getButton()));
 
         // Creating the breakdown group view and put it in the center of the container

@@ -50,8 +50,8 @@ final class PaymentsActivity extends EventDependentViewDomainActivity
     public Node buildUi() {
         BorderPane container = new BorderPane();
         // Building the top bar
-        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector("payments","MoneyTransfer", container, pm),
-                                         groupSelector = createGroupFilterButtonSelector(    "payments","MoneyTransfer", container, pm);
+        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelectorAndBind("payments","MoneyTransfer", container, pm),
+                                         groupSelector = createGroupFilterButtonSelectorAndBind(    "payments","MoneyTransfer", container, pm);
         searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
         pm.searchTextProperty().bind(searchBox.textProperty());
         container.setTop(new HBox(10, conditionSelector.getButton(), groupSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox))));

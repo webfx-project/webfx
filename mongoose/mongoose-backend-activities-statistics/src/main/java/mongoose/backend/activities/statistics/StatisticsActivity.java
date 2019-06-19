@@ -58,9 +58,9 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
         BorderPane container = new BorderPane();
 
         // Building the top bar
-        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector("statistics", "DocumentLine", container, pm),
-                                         groupSelector = createGroupFilterButtonSelector(    "statistics", "DocumentLine", container, pm),
-                                       columnsSelector = createColumnsFilterButtonSelector(  "statistics", "DocumentLine", container, pm);
+        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelectorAndBind("statistics", "DocumentLine", container, pm),
+                                         groupSelector = createGroupFilterButtonSelectorAndBind(    "statistics", "DocumentLine", container, pm),
+                                       columnsSelector = createColumnsFilterButtonSelectorAndBind(  "statistics", "DocumentLine", container, pm);
         container.setTop(new HBox(10, conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton()));
 
         DataGrid masterTable = new DataGrid();

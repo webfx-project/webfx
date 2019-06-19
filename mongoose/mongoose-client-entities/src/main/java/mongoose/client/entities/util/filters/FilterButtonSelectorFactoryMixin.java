@@ -71,33 +71,33 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
     }
 
 
-    default EntityButtonSelector<Filter> createConditionFilterButtonSelector(String activityName, String domainClassId, Pane parent, StringProperty conditionStringFilterProperty) {
+    default EntityButtonSelector<Filter> createConditionFilterButtonSelectorAndBind(String activityName, String domainClassId, Pane parent, StringProperty conditionStringFilterProperty) {
         EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelector(activityName, domainClassId, parent);
         conditionStringFilterProperty.bind(Properties.compute(conditionSelector.selectedItemProperty(), Filters::toStringJson));
         return conditionSelector;
     }
 
-    default EntityButtonSelector<Filter> createGroupFilterButtonSelector(String activityName, String domainClassId, Pane parent, StringProperty groupStringFilterProperty) {
+    default EntityButtonSelector<Filter> createGroupFilterButtonSelectorAndBind(String activityName, String domainClassId, Pane parent, StringProperty groupStringFilterProperty) {
         EntityButtonSelector<Filter> conditionSelector = createGroupFilterButtonSelector(activityName, domainClassId, parent);
         groupStringFilterProperty.bind(Properties.compute(conditionSelector.selectedItemProperty(), Filters::toStringJson));
         return conditionSelector;
     }
 
-    default EntityButtonSelector<Filter> createColumnsFilterButtonSelector(String activityName, String domainClassId, Pane parent, StringProperty columnsStringFilterProperty) {
+    default EntityButtonSelector<Filter> createColumnsFilterButtonSelectorAndBind(String activityName, String domainClassId, Pane parent, StringProperty columnsStringFilterProperty) {
         EntityButtonSelector<Filter> conditionSelector = createColumnsFilterButtonSelector(activityName, domainClassId, parent);
         columnsStringFilterProperty.bind(Properties.compute(conditionSelector.selectedItemProperty(), Filters::toStringJson));
         return conditionSelector;
     }
 
-    default EntityButtonSelector<Filter> createConditionFilterButtonSelector(String activityName, String domainClassId, Pane parent, HasConditionStringFilterProperty pm) {
-        return createConditionFilterButtonSelector(activityName, domainClassId, parent, pm.conditionStringFilterProperty());
+    default EntityButtonSelector<Filter> createConditionFilterButtonSelectorAndBind(String activityName, String domainClassId, Pane parent, HasConditionStringFilterProperty pm) {
+        return createConditionFilterButtonSelectorAndBind(activityName, domainClassId, parent, pm.conditionStringFilterProperty());
     }
 
-    default EntityButtonSelector<Filter> createGroupFilterButtonSelector(String activityName, String domainClassId, Pane parent, HasGroupStringFilterProperty pm) {
-        return createGroupFilterButtonSelector(activityName, domainClassId, parent, pm.groupStringFilterProperty());
+    default EntityButtonSelector<Filter> createGroupFilterButtonSelectorAndBind(String activityName, String domainClassId, Pane parent, HasGroupStringFilterProperty pm) {
+        return createGroupFilterButtonSelectorAndBind(activityName, domainClassId, parent, pm.groupStringFilterProperty());
     }
 
-    default EntityButtonSelector<Filter> createColumnsFilterButtonSelector(String activityName, String domainClassId, Pane parent, HasColumnsStringFilterProperty pm) {
-        return createColumnsFilterButtonSelector(activityName, domainClassId, parent, pm.columnsStringFilterProperty());
+    default EntityButtonSelector<Filter> createColumnsFilterButtonSelectorAndBind(String activityName, String domainClassId, Pane parent, HasColumnsStringFilterProperty pm) {
+        return createColumnsFilterButtonSelectorAndBind(activityName, domainClassId, parent, pm.columnsStringFilterProperty());
     }
 }
