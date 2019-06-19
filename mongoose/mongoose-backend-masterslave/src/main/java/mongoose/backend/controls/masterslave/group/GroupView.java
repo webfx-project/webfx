@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import mongoose.client.entities.util.filters.HasGroupStringFilterProperty;
 import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.shared.expression.Expression;
@@ -26,17 +27,24 @@ import webfx.fxkit.extra.type.Types;
 import webfx.fxkit.extra.util.ImageStore;
 import webfx.platform.shared.util.Numbers;
 
-public final class GroupView<E extends Entity> {
+public final class GroupView<E extends Entity> implements
+        HasGroupDisplayResultProperty,
+        HasGroupDisplaySelectionProperty,
+        HasGroupStringFilterProperty,
+        HasSelectedGroupConditionStringFilterProperty,
+        HasSelectedGroupProperty<E> {
 
-    private final Property<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    public Property<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
+    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
+    @Override
+    public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
 
-    private final Property<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
-    public Property<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
+    private final ObjectProperty<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
+    @Override
+    public ObjectProperty<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
+    @Override
     public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
-    public String getGroupStringFilter() { return groupStringFilterProperty().get(); }
 
     private final ObjectProperty<E> selectedGroupProperty = new SimpleObjectProperty<E/*GWT*/>() {
         @Override
@@ -44,17 +52,11 @@ public final class GroupView<E extends Entity> {
             updateSelectedGroupCondition();
         }
     };
-    public ObjectProperty<E> selectedGroupProperty() {
-        return selectedGroupProperty;
-    }
-    public void setSelectedGroup(E selectedGroup) {
-        selectedGroupProperty.set(selectedGroup);
-    }
-    public E getSelectedGroup() {
-        return selectedGroupProperty.get();
-    }
+    @Override
+    public ObjectProperty<E> selectedGroupProperty() { return selectedGroupProperty; }
 
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
+    @Override
     public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
 
     private ReferenceResolver referenceResolver;
@@ -73,13 +75,83 @@ public final class GroupView<E extends Entity> {
         this.tableOnly = tableOnly;
     }
 
-    public Node buildUi() {
-        return tableOnly ? bindControl(new DataGrid()) : new TabPane(
-                createGroupTab("table", "images/s16/table.png",    new DataGrid()),
-                createGroupTab("pie",   "images/s16/pieChart.png", new PieChart()),
-                createGroupTab("bar",   "images/s16/barChart.png", new BarChart()),
-                createGroupTab("area",  "images/s16/barChart.png", new AreaChart())
+    public static <E extends Entity> GroupView<E> createAndBind(HasGroupDisplayResultProperty pm) {
+        GroupView<E> groupView = new GroupView<>();
+        groupView.doDataBinding(pm);
+        return groupView;
+    }
+
+    public static <E extends Entity> GroupView<E> createTableOnlyAndBind(HasGroupDisplayResultProperty pm) {
+        GroupView<E> groupView = new GroupView<>();
+        groupView.doDataBinding(pm);
+        return groupView;
+    }
+
+    public static <E extends Entity> GroupView<E> createAndBind(ObjectProperty<DisplayResult> sourceGroupDisplayResultProperty,
+                     ObjectProperty<DisplaySelection> targetGroupDisplaySelectionProperty,
+                     StringProperty sourceGroupStringFilterProperty,
+                     StringProperty targetSelectedGroupConditionStringFilterProperty,
+                     ObjectProperty<E> sourceSelectedGroupProperty) {
+        GroupView<E> groupView = new GroupView<>();
+        groupView.doDataBinding(sourceGroupDisplayResultProperty, targetGroupDisplaySelectionProperty, sourceGroupStringFilterProperty, targetSelectedGroupConditionStringFilterProperty, sourceSelectedGroupProperty);
+        return groupView;
+    }
+
+    public void doDataBinding(HasGroupDisplayResultProperty pm) {
+        doDataBinding(pm.groupDisplayResultProperty(),
+                pm instanceof HasGroupDisplaySelectionProperty ? ((HasGroupDisplaySelectionProperty) pm).groupDisplaySelectionProperty() : null,
+                pm instanceof HasGroupStringFilterProperty ? ((HasGroupStringFilterProperty) pm).groupStringFilterProperty() : null,
+                pm instanceof HasSelectedGroupConditionStringFilterProperty ? ((HasSelectedGroupConditionStringFilterProperty) pm).selectedGroupConditionStringFilterProperty() : null,
+                pm instanceof HasSelectedGroupProperty ? ((HasSelectedGroupProperty) pm).selectedGroupProperty() : null
         );
+    }
+
+    public void doDataBinding(ObjectProperty<DisplayResult> sourceGroupDisplayResultProperty,
+                              ObjectProperty<DisplaySelection> targetGroupDisplaySelectionProperty,
+                              StringProperty sourceGroupStringFilterProperty,
+                              StringProperty targetSelectedGroupConditionStringFilterProperty,
+                              ObjectProperty<E> sourceSelectedGroupProperty) {
+        bindWithSourceGroupDisplayResultProperty(sourceGroupDisplayResultProperty);
+        bindWithTargetGroupDisplaySelectionProperty(targetGroupDisplaySelectionProperty);
+        bindWithSourceGroupStringFilterProperty(sourceGroupStringFilterProperty);
+        bindWithTargetSelectedGroupConditionStringFilterProperty(targetSelectedGroupConditionStringFilterProperty);
+        bindWithSourceSelectedGroupProperty(sourceSelectedGroupProperty);
+    }
+
+    public void bindWithSourceGroupDisplayResultProperty(ObjectProperty<DisplayResult> sourceGroupDisplayResultProperty) {
+        if (sourceGroupDisplayResultProperty != null)
+            groupDisplayResultProperty.bind(sourceGroupDisplayResultProperty);
+    }
+
+    public void bindWithTargetGroupDisplaySelectionProperty(ObjectProperty<DisplaySelection> targetGroupDisplaySelectionProperty) {
+        if (targetGroupDisplaySelectionProperty != null)
+            targetGroupDisplaySelectionProperty.bind(groupDisplaySelectionProperty);
+    }
+
+    public void bindWithSourceGroupStringFilterProperty(StringProperty sourceGroupStringFilterProperty) {
+        if (sourceGroupStringFilterProperty != null)
+            groupStringFilterProperty.bind(sourceGroupStringFilterProperty);
+    }
+
+    public void bindWithTargetSelectedGroupConditionStringFilterProperty(StringProperty targetSelectedGroupConditionStringFilterProperty) {
+        if (targetSelectedGroupConditionStringFilterProperty != null)
+            targetSelectedGroupConditionStringFilterProperty.bind(selectedGroupConditionStringFilterProperty);
+    }
+
+    public void bindWithSourceSelectedGroupProperty(ObjectProperty<E> sourceSelectedGroupProperty) {
+        if (sourceSelectedGroupProperty != null)
+            selectedGroupProperty.bind(sourceSelectedGroupProperty);
+    }
+
+    public Node buildUi() {
+        Node ui = tableOnly ? bindControl(new DataGrid()) : new TabPane(
+                createGroupTab("table", "images/s16/table.png", new DataGrid()),
+                createGroupTab("pie", "images/s16/pieChart.png", new PieChart()),
+                createGroupTab("bar", "images/s16/barChart.png", new BarChart()),
+                createGroupTab("area", "images/s16/barChart.png", new AreaChart())
+        );
+        ui.getProperties().put("groupView", this); // This is to avoid GC
+        return ui;
     }
 
     private Tab createGroupTab(String text, String iconPath, SelectableDisplayResultControl control) {

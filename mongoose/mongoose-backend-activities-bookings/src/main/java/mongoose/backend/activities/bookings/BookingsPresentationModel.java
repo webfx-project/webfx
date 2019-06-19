@@ -1,6 +1,10 @@
 package mongoose.backend.activities.bookings;
 
 import javafx.beans.property.*;
+import mongoose.backend.controls.masterslave.group.HasGroupDisplayResultProperty;
+import mongoose.backend.controls.masterslave.group.HasGroupDisplaySelectionProperty;
+import mongoose.backend.controls.masterslave.group.HasSelectedGroupConditionStringFilterProperty;
+import mongoose.backend.controls.masterslave.group.HasSelectedGroupProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.entities.util.filters.HasColumnsStringFilterProperty;
 import mongoose.client.entities.util.filters.HasConditionStringFilterProperty;
@@ -15,22 +19,31 @@ import webfx.fxkit.extra.displaydata.DisplaySelection;
 final class BookingsPresentationModel extends EventDependentGenericTablePresentationModel implements
         HasConditionStringFilterProperty,
         HasGroupStringFilterProperty,
-        HasColumnsStringFilterProperty {
+        HasColumnsStringFilterProperty,
+        HasGroupDisplayResultProperty,
+        HasGroupDisplaySelectionProperty,
+        HasSelectedGroupConditionStringFilterProperty,
+        HasSelectedGroupProperty<Document> {
 
-    private final Property<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
-    Property<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
+    private final ObjectProperty<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
+    @Override
+    public ObjectProperty<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
 
-    private final Property<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    Property<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
+    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
+    @Override
+    public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
 
     private final StringProperty conditionStringFilterProperty = new SimpleStringProperty();
-    public final StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
+    @Override
+    public StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
-    public final StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
+    @Override
+    public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
 
     private final StringProperty columnsStringFilterProperty = new SimpleStringProperty();
-    public final StringProperty columnsStringFilterProperty() { return columnsStringFilterProperty; }
+    @Override
+    public StringProperty columnsStringFilterProperty() { return columnsStringFilterProperty; }
 
     private final ObjectProperty<Document> selectedDocumentProperty = new SimpleObjectProperty<>();
     ObjectProperty<Document> selectedDocumentProperty() {
@@ -41,17 +54,13 @@ final class BookingsPresentationModel extends EventDependentGenericTablePresenta
     }
 
     private final ObjectProperty<Document> selectedGroupProperty = new SimpleObjectProperty<>();
-    ObjectProperty<Document> selectedGroupProperty() {
+    @Override
+    public ObjectProperty<Document> selectedGroupProperty() {
         return selectedGroupProperty;
-    }
-    void setSelectedGroup(Document selectedGroup) {
-        selectedGroupProperty.set(selectedGroup);
-    }
-    Document getSelectedGroup() {
-        return selectedGroupProperty.get();
     }
 
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
-    StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
+    @Override
+    public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
 
 }

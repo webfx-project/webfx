@@ -58,6 +58,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                                          groupSelector = createGroupFilterButtonSelector(    "bookings","Document", container, pm),
                                        columnsSelector = createColumnsFilterButtonSelector(  "bookings","Document", container, pm);
         searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
+        pm.searchTextProperty().bind(searchBox.textProperty());
         container.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));
 
         // Building the main content, which is a group/master/slave view (group = group view, master = bookings table + limit checkbox, slave = booking details)
@@ -67,7 +68,8 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
         BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
 
-        GroupView<Document> groupView = new GroupView<>();
+        GroupView<Document> groupView = GroupView.createAndBind(pm);
+        groupView.setReferenceResolver(groupFilter.getRootAliasReferenceResolver());
         BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(container, this, getDataSourceModel());
 
         GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL,
@@ -76,15 +78,10 @@ final class BookingsActivity extends EventDependentViewDomainActivity
                 bookingDetailsPanel.buildUi());
         container.setCenter(groupMasterSlaveView.getSplitPane());
 
-        // Initialization from the presentation model current state
-        searchBox.setText(pm.searchTextProperty().getValue());
-
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
-        pm.searchTextProperty().bind(searchBox.textProperty());
         Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
         masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
-        //pm.limitProperty().bind(masterLimitCheckBox.selectedProperty());
         pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
         masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
@@ -92,14 +89,6 @@ final class BookingsActivity extends EventDependentViewDomainActivity
         groupMasterSlaveView.groupVisibleProperty() .bind(Properties.compute(pm.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
         groupMasterSlaveView.masterVisibleProperty().bind(Properties.combine(groupMasterSlaveView.groupVisibleProperty(),  pm.selectedGroupProperty(),    (groupVisible, selectedGroup)     -> !groupVisible || selectedGroup != null));
         groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), pm.selectedDocumentProperty(), (masterVisible, selectedDocument) -> masterVisible && selectedDocument != null));
-
-        // Group view data binding
-        groupView.groupDisplayResultProperty().bind(pm.groupDisplayResultProperty());
-        groupView.selectedGroupProperty().bind(pm.selectedGroupProperty());
-        groupView.groupStringFilterProperty().bind(pm.groupStringFilterProperty());
-        pm.selectedGroupConditionStringFilterProperty().bind(groupView.selectedGroupConditionStringFilterProperty());
-        pm.groupDisplaySelectionProperty().bind(groupView.groupDisplaySelectionProperty());
-        groupView.setReferenceResolver(groupFilter.getRootAliasReferenceResolver());
 
         bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
         bookingDetailsPanel.activeProperty().bind(activeProperty());

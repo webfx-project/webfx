@@ -172,7 +172,7 @@
     <source path="mongoose/backend/activities/payments/routing"/>
     <source path="mongoose/backend/operations/payments"/>
     <!--=====================< mongoose-backend-activities-statistics >=====================-->
-    <!-- used by mongoose-backend-activities-income (SOURCE) -->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/statistics"/>
     <source path="mongoose/backend/activities/statistics/routing"/>
     <source path="mongoose/backend/operations/statistics"/>

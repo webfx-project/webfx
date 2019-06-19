@@ -32,6 +32,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-client-entities</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-uifilter</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

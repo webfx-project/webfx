@@ -53,8 +53,6 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
         return pm; // eventId and organizationId will then be updated from route
     }
 
-    private GroupView<DocumentLine> groupView; // keeping reference to avoid GC
-
     @Override
     public Node buildUi() {
         BorderPane container = new BorderPane();
@@ -66,13 +64,23 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
         container.setTop(new HBox(10, conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton()));
 
         DataGrid masterTable = new DataGrid();
+        masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
+        pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
+
         CheckBox masterLimitCheckBox = newCheckBox("LimitTo100");
         masterLimitCheckBox.setSelected(true);
+        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
+        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
+
         BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
         BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
 
-        groupView = new GroupView<>(true);
+        GroupView<DocumentLine> groupView = GroupView.createTableOnlyAndBind(pm);
+        groupView.setReferenceResolver(leftGroupFilter.getRootAliasReferenceResolver());
+
         BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(container, this, getDataSourceModel());
+        bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
+        bookingDetailsPanel.activeProperty().bind(activeProperty());
 
         GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL,
                 groupView.buildUi(),
@@ -80,26 +88,9 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
                 bookingDetailsPanel.buildUi());
         container.setCenter(groupMasterSlaveView.getSplitPane());
 
-        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
-        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
-        //pm.limitProperty().bind(masterLimitCheckBox.selectedProperty());
-        pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
-        // User outputs: the presentation model changes are transferred in the UI
-        masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
-
-        bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
-        bookingDetailsPanel.activeProperty().bind(activeProperty());
-
         groupMasterSlaveView.setGroupVisible(true);
         groupMasterSlaveView.masterVisibleProperty().bind(Properties.compute(pm.selectedGroupProperty(), Objects::nonNull));
         groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), pm.selectedDocumentProperty(), (masterVisible, selectedDocument) -> masterVisible && selectedDocument != null));
-
-        groupView.groupDisplayResultProperty().bind(pm.groupDisplayResultProperty());
-        groupView.selectedGroupProperty().bind(pm.selectedGroupProperty());
-        groupView.groupStringFilterProperty().bind(pm.groupStringFilterProperty());
-        pm.selectedGroupConditionStringFilterProperty().bind(groupView.selectedGroupConditionStringFilterProperty());
-        pm.groupDisplaySelectionProperty().bind(groupView.groupDisplaySelectionProperty());
-        groupView.setReferenceResolver(leftGroupFilter.getRootAliasReferenceResolver());
 
         return container;
     }
@@ -109,9 +100,8 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
     ==================================================== Logic layer ===================================================
     ==================================================================================================================*/
 
-    private ReactiveExpressionFilter<DocumentLine> leftGroupFilter;
+    private ReactiveExpressionFilter<DocumentLine> leftGroupFilter, masterFilter;
     private ReactiveExpressionFilter<Attendance> rightAttendanceFilter;
-    private ReactiveExpressionFilter<DocumentLine> masterFilter;
     private final ObjectProperty<DisplayResult> leftDisplayResultProperty = new SimpleObjectProperty<DisplayResult/*GWT*/>() {
         @Override
         protected void invalidated() {

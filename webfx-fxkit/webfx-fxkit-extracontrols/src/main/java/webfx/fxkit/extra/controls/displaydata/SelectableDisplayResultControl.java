@@ -1,9 +1,9 @@
 package webfx.fxkit.extra.controls.displaydata;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import webfx.fxkit.extra.displaydata.HasDisplaySelectionProperty;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
+import webfx.fxkit.extra.displaydata.HasDisplaySelectionProperty;
 import webfx.fxkit.extra.displaydata.HasSelectionModeProperty;
 import webfx.fxkit.extra.displaydata.SelectionMode;
 
@@ -16,15 +16,15 @@ public abstract class SelectableDisplayResultControl extends DisplayResultContro
         HasDisplaySelectionProperty,
         HasSelectionModeProperty {
 
-    private final Property<DisplaySelection> displaySelectionProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<DisplaySelection> displaySelectionProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<DisplaySelection> displaySelectionProperty() {
+    public ObjectProperty<DisplaySelection> displaySelectionProperty() {
         return displaySelectionProperty;
     }
 
-    private final Property<SelectionMode> selectionModeProperty = new SimpleObjectProperty<>(SINGLE);
+    private final ObjectProperty<SelectionMode> selectionModeProperty = new SimpleObjectProperty<>(SINGLE);
     @Override
-    public Property<SelectionMode> selectionModeProperty() {
+    public ObjectProperty<SelectionMode> selectionModeProperty() {
         return selectionModeProperty;
     }
 }

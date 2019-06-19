@@ -6,7 +6,6 @@ module mongoose.backend.activities.income {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires mongoose.backend.activities.statistics;
     requires mongoose.backend.masterslave;
     requires mongoose.client.activity;
     requires mongoose.client.entities;

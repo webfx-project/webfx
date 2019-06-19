@@ -1,6 +1,6 @@
 package webfx.fxkit.extra.displaydata;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 
 /**
  * @author Bruno Salmon
@@ -8,7 +8,7 @@ import javafx.beans.property.Property;
 
 public interface HasDisplaySelectionProperty {
 
-    Property<DisplaySelection> displaySelectionProperty();
+    ObjectProperty<DisplaySelection> displaySelectionProperty();
     default void setDisplaySelection(DisplaySelection displaySelection) { displaySelectionProperty().setValue(displaySelection); }
     default DisplaySelection getDisplaySelection() { return displaySelectionProperty().getValue(); }
 

@@ -1,6 +1,10 @@
 package mongoose.backend.activities.payments;
 
 import javafx.beans.property.*;
+import mongoose.backend.controls.masterslave.group.HasGroupDisplayResultProperty;
+import mongoose.backend.controls.masterslave.group.HasGroupDisplaySelectionProperty;
+import mongoose.backend.controls.masterslave.group.HasSelectedGroupConditionStringFilterProperty;
+import mongoose.backend.controls.masterslave.group.HasSelectedGroupProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.entities.util.filters.HasConditionStringFilterProperty;
 import mongoose.client.entities.util.filters.HasGroupStringFilterProperty;
@@ -12,23 +16,37 @@ import webfx.fxkit.extra.displaydata.DisplaySelection;
  * @author Bruno Salmon
  */
 final class PaymentsPresentationModel extends EventDependentGenericTablePresentationModel implements
+        HasGroupDisplayResultProperty,
+        HasGroupDisplaySelectionProperty,
         HasConditionStringFilterProperty,
-        HasGroupStringFilterProperty {
+        HasGroupStringFilterProperty,
+        HasSelectedGroupProperty<MoneyTransfer>,
+        HasSelectedGroupConditionStringFilterProperty {
 
-    private final Property<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
-    Property<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
+    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
+    @Override
+    public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
 
-    private final Property<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    Property<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
-
-    private final Property<DisplayResult> slaveDisplayResultProperty = new SimpleObjectProperty<>();
-    Property<DisplayResult> slaveDisplayResultProperty() { return slaveDisplayResultProperty; }
+    private final ObjectProperty<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
+    @Override
+    public ObjectProperty<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
 
     private final StringProperty conditionStringFilterProperty = new SimpleStringProperty();
-    public final StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
+    @Override
+    public StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
-    public final StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
+    @Override
+    public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
+
+    private final ObjectProperty<MoneyTransfer> selectedGroupProperty = new SimpleObjectProperty<>();
+    public ObjectProperty<MoneyTransfer> selectedGroupProperty() {
+        return selectedGroupProperty;
+    }
+
+    private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
+    @Override
+    public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
 
     private final ObjectProperty<MoneyTransfer> selectedPaymentProperty = new SimpleObjectProperty<>();
     ObjectProperty<MoneyTransfer> selectedPaymentProperty() {
@@ -38,18 +56,7 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
         selectedPaymentProperty.set(document);
     }
 
-    private final ObjectProperty<MoneyTransfer> selectedGroupProperty = new SimpleObjectProperty<>();
-    ObjectProperty<MoneyTransfer> selectedGroupProperty() {
-        return selectedGroupProperty;
-    }
-    void setSelectedGroup(MoneyTransfer selectedGroup) {
-        selectedGroupProperty.set(selectedGroup);
-    }
-    MoneyTransfer getSelectedGroup() {
-        return selectedGroupProperty.get();
-    }
-
-    private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
-    StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
+    private final ObjectProperty<DisplayResult> slaveDisplayResultProperty = new SimpleObjectProperty<>();
+    public ObjectProperty<DisplayResult> slaveDisplayResultProperty() { return slaveDisplayResultProperty; }
 
 }

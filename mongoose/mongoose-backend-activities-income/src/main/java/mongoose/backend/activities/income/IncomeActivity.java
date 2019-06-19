@@ -31,28 +31,23 @@ final class IncomeActivity extends EventDependentViewDomainActivity
         return pm; // eventId and organizationId will then be updated from route
     }
 
-    private GroupView<DocumentLine> breakdownGroupView; // keeping reference to avoid GC
-
     @Override
     public Node buildUi() {
         BorderPane container = new BorderPane();
 
+        // Creating the total table that will be on top of the container
         DataGrid totalTable = new DataGrid();
         totalTable.setFullHeight(true);
         totalTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
-
-        // Building the top bar
+        // Also putting the breakdown group selector just below the total table (also on top of the container)
         EntityButtonSelector<Filter> breakdownGroupSelector = createGroupFilterButtonSelector("income","DocumentLine", container, pm);
-
-        breakdownGroupView = new GroupView<>();
-
-        breakdownGroupView.groupDisplayResultProperty().bind(pm.groupDisplayResultProperty());
-        breakdownGroupView.groupStringFilterProperty().bind(pm.groupStringFilterProperty());
-        pm.selectedGroupConditionStringFilterProperty().bind(breakdownGroupView.selectedGroupConditionStringFilterProperty());
-        breakdownGroupView.setReferenceResolver(breakdownFilter.getRootAliasReferenceResolver());
-
         container.setTop(new VBox(totalTable, breakdownGroupSelector.getButton()));
+
+        // Creating the breakdown group view and put it in the center of the container
+        GroupView<DocumentLine> breakdownGroupView = GroupView.createAndBind(pm);
+        breakdownGroupView.setReferenceResolver(breakdownFilter.getRootAliasReferenceResolver());
         container.setCenter(breakdownGroupView.buildUi());
+
         return container;
     }
 
