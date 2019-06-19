@@ -593,7 +593,6 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                             QueryArgument transmittedQueryArgument = queryStreamId != null && queryArgument.equals(lastQueryArgument) ? null : queryArgument;
                             waitingQueryStreamId = queryStreamId == null; // Setting the waitingQueryStreamId flag to true when queryStreamId is not yet known
                             lastQueryArgument = queryArgument; // Holding the query argument passed to the server for double check when receiving the result
-                            log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", resend=" + resend + ", queryArgument=" + transmittedQueryArgument);
                             QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, getDataSourceId(), active, resend, null, queryPushResult -> { // This consumer is called for each result pushed by the server
                                 // Double checking if the query argument is still the latest
                                 if (!queryArgument.equals(lastQueryArgument))
@@ -635,6 +634,11 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                                 } else
                                     resend = false;
                             });
+                            // Logging after the actual call (and not before) for optimization reason (better to log while the request is in process)
+                            log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", resend=" + resend + ", queryArgument=" + transmittedQueryArgument);
+                            // If the query argument hasn't changed, it's still possible that there is a change in the columns (but that didn't induce a change at the query level)
+                            if (transmittedQueryArgument == null) // Means the query argument hasn't change
+                                resetAllDisplayResults(false); // So we reset now the display results with the current entities (and eventually new columns)
                         }
                     }
                 }
