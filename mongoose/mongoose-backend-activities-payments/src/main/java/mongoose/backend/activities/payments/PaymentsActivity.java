@@ -19,11 +19,9 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.util.properties.Properties;
-import webfx.platform.shared.util.Strings;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
 import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxHeightToInfinite;
@@ -75,15 +73,13 @@ final class PaymentsActivity extends EventDependentViewDomainActivity
         DataGrid slaveTable = new DataGrid();
         slaveTable.displayResultProperty().bind(pm.slaveDisplayResultProperty());
 
-        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL,
-                groupView.buildUi(),
-                masterPane,
-                slaveTable);
-        container.setCenter(groupMasterSlaveView.getSplitPane());
-
-        groupMasterSlaveView.groupVisibleProperty() .bind(Properties.compute(pm.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
-        groupMasterSlaveView.masterVisibleProperty().bind(Properties.combine(groupMasterSlaveView.groupVisibleProperty(),  pm.selectedGroupProperty(),    (groupVisible, selectedGroup)     -> !groupVisible || selectedGroup != null));
-        groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), pm.selectedPaymentProperty(), (masterVisible, selectedPayment) -> masterVisible && selectedPayment != null && selectedPayment.getDocument() == null));
+        container.setCenter(
+                GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
+                        groupView,
+                        masterPane,
+                        slaveTable,
+                        pm.selectedPaymentProperty(), selectedPayment -> selectedPayment.getDocument() == null
+                ).getSplitPane());
 
         return container;
     }

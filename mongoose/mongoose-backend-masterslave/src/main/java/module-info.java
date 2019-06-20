@@ -15,6 +15,7 @@ module mongoose.backend.masterslave {
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.extratype;
     requires webfx.platform.shared.util;
+    requires webfx.fxkit.util;
 
     // Exported packages
     exports mongoose.backend.controls.masterslave;

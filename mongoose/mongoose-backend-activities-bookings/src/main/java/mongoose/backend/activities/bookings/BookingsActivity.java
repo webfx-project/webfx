@@ -22,11 +22,9 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.util.properties.Properties;
-import webfx.platform.shared.util.Strings;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.*;
 
@@ -63,35 +61,32 @@ final class BookingsActivity extends EventDependentViewDomainActivity
 
         // Building the main content, which is a group/master/slave view (group = group view, master = bookings table + limit checkbox, slave = booking details)
         DataGrid masterTable = new DataGrid();
+        masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
+        pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
+
         CheckBox masterLimitCheckBox = newCheckBox("LimitTo100");
         masterLimitCheckBox.setSelected(true);
+        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
+        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
+
         BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
         BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
 
         GroupView<Document> groupView = GroupView.createAndBind(pm);
         groupView.setReferenceResolver(groupFilter.getRootAliasReferenceResolver());
+
         BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(container, this, getDataSourceModel());
-
-        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL,
-                groupView.buildUi(),
-                masterPane,
-                bookingDetailsPanel.buildUi());
-        container.setCenter(groupMasterSlaveView.getSplitPane());
-
-        // Binding the UI with the presentation model for further state changes
-        // User inputs: the UI state changes are transferred in the presentation model
-        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
-        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
-        pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
-        // User outputs: the presentation model changes are transferred in the UI
-        masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
-
-        groupMasterSlaveView.groupVisibleProperty() .bind(Properties.compute(pm.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
-        groupMasterSlaveView.masterVisibleProperty().bind(Properties.combine(groupMasterSlaveView.groupVisibleProperty(),  pm.selectedGroupProperty(),    (groupVisible, selectedGroup)     -> !groupVisible || selectedGroup != null));
-        groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), pm.selectedDocumentProperty(), (masterVisible, selectedDocument) -> masterVisible && selectedDocument != null));
-
         bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
         bookingDetailsPanel.activeProperty().bind(activeProperty());
+
+        container.setCenter(
+                GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
+                        groupView,
+                        masterPane,
+                        bookingDetailsPanel.buildUi(),
+                        pm.selectedDocumentProperty()
+                ).getSplitPane());
+
         return container;
     }
 

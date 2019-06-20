@@ -82,15 +82,13 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
         bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
         bookingDetailsPanel.activeProperty().bind(activeProperty());
 
-        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(Orientation.VERTICAL,
-                groupView.buildUi(),
-                masterPane,
-                bookingDetailsPanel.buildUi());
-        container.setCenter(groupMasterSlaveView.getSplitPane());
-
-        groupMasterSlaveView.setGroupVisible(true);
-        groupMasterSlaveView.masterVisibleProperty().bind(Properties.compute(pm.selectedGroupProperty(), Objects::nonNull));
-        groupMasterSlaveView.slaveVisibleProperty() .bind(Properties.combine(groupMasterSlaveView.masterVisibleProperty(), pm.selectedDocumentProperty(), (masterVisible, selectedDocument) -> masterVisible && selectedDocument != null));
+        container.setCenter(
+                GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
+                        groupView,
+                        masterPane,
+                        bookingDetailsPanel.buildUi(),
+                        pm.selectedDocumentProperty()
+                ).getSplitPane());
 
         return container;
     }
