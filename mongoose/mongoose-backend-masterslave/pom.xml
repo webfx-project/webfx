@@ -32,7 +32,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-client-entities</artifactId>
+            <artifactId>mongoose-client-presentationmodel</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -69,6 +69,12 @@
         
         <dependency>
             <artifactId>webfx-fxkit-extratype</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-fxkit-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

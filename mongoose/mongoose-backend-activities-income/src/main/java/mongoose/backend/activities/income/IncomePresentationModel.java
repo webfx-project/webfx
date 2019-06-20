@@ -4,10 +4,10 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import mongoose.backend.controls.masterslave.group.HasGroupDisplayResultProperty;
-import mongoose.backend.controls.masterslave.group.HasSelectedGroupConditionStringFilterProperty;
+import mongoose.client.presentationmodel.HasGroupDisplayResultProperty;
+import mongoose.client.presentationmodel.HasSelectedGroupConditionStringFilterProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
-import mongoose.client.entities.util.filters.HasGroupStringFilterProperty;
+import mongoose.client.presentationmodel.HasGroupStringFilterProperty;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 
 /**

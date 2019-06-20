@@ -226,6 +226,9 @@
     <!--========================< mongoose-client-personaldetails >=========================-->
     <!-- used by mongoose-frontend-activities-person (SOURCE) -->
     <source path="mongoose/client/controls/personaldetails"/>
+    <!--=======================< mongoose-client-presentationmodel >========================-->
+    <!-- used by mongoose-client-entities (SOURCE) -->
+    <source path="mongoose/client/presentationmodel"/>
     <!--==========================< mongoose-client-sectionpanel >==========================-->
     <!-- used by mongoose-client-activities-login (SOURCE) -->
     <source path="mongoose/client/controls/sectionpanel"/>

@@ -1,14 +1,14 @@
 package mongoose.backend.activities.statistics;
 
 import javafx.beans.property.*;
-import mongoose.backend.controls.masterslave.group.HasGroupDisplayResultProperty;
-import mongoose.backend.controls.masterslave.group.HasGroupDisplaySelectionProperty;
-import mongoose.backend.controls.masterslave.group.HasSelectedGroupConditionStringFilterProperty;
-import mongoose.backend.controls.masterslave.group.HasSelectedGroupProperty;
+import mongoose.client.presentationmodel.HasGroupDisplayResultProperty;
+import mongoose.client.presentationmodel.HasGroupDisplaySelectionProperty;
+import mongoose.client.presentationmodel.HasSelectedGroupConditionStringFilterProperty;
+import mongoose.client.presentationmodel.HasSelectedGroupProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
-import mongoose.client.entities.util.filters.HasColumnsStringFilterProperty;
-import mongoose.client.entities.util.filters.HasConditionStringFilterProperty;
-import mongoose.client.entities.util.filters.HasGroupStringFilterProperty;
+import mongoose.client.presentationmodel.HasColumnsStringFilterProperty;
+import mongoose.client.presentationmodel.HasConditionStringFilterProperty;
+import mongoose.client.presentationmodel.HasGroupStringFilterProperty;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
 import webfx.fxkit.extra.displaydata.DisplayResult;

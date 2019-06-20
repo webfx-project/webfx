@@ -2,6 +2,9 @@ package mongoose.client.entities.util.filters;
 
 import javafx.beans.property.StringProperty;
 import javafx.scene.layout.Pane;
+import mongoose.client.presentationmodel.HasColumnsStringFilterProperty;
+import mongoose.client.presentationmodel.HasConditionStringFilterProperty;
+import mongoose.client.presentationmodel.HasGroupStringFilterProperty;
 import mongoose.shared.entities.Filter;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;

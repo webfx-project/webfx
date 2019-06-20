@@ -1,4 +1,4 @@
-package mongoose.client.activity.organizationdependent;
+package mongoose.client.presentationmodel;
 
 import javafx.beans.property.Property;
 

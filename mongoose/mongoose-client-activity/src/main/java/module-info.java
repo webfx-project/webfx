@@ -8,6 +8,7 @@ module mongoose.client.activity {
     requires javafx.graphics;
     requires mongoose.client.aggregates;
     requires mongoose.client.businesslogic;
+    requires mongoose.client.presentationmodel;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;

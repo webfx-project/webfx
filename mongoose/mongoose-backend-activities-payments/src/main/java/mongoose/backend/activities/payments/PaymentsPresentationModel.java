@@ -1,13 +1,13 @@
 package mongoose.backend.activities.payments;
 
 import javafx.beans.property.*;
-import mongoose.backend.controls.masterslave.group.HasGroupDisplayResultProperty;
-import mongoose.backend.controls.masterslave.group.HasGroupDisplaySelectionProperty;
-import mongoose.backend.controls.masterslave.group.HasSelectedGroupConditionStringFilterProperty;
-import mongoose.backend.controls.masterslave.group.HasSelectedGroupProperty;
+import mongoose.client.presentationmodel.HasGroupDisplayResultProperty;
+import mongoose.client.presentationmodel.HasGroupDisplaySelectionProperty;
+import mongoose.client.presentationmodel.HasSelectedGroupConditionStringFilterProperty;
+import mongoose.client.presentationmodel.HasSelectedGroupProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
-import mongoose.client.entities.util.filters.HasConditionStringFilterProperty;
-import mongoose.client.entities.util.filters.HasGroupStringFilterProperty;
+import mongoose.client.presentationmodel.HasConditionStringFilterProperty;
+import mongoose.client.presentationmodel.HasGroupStringFilterProperty;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;

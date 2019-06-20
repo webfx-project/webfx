@@ -4,7 +4,7 @@ import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import mongoose.client.entities.util.filters.HasGroupStringFilterProperty;
+import mongoose.client.presentationmodel.*;
 import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.shared.expression.Expression;

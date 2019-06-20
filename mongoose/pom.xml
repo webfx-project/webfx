@@ -50,7 +50,6 @@
         <module>mongoose-client-activity</module>
         <module>mongoose-client-aggregates</module>
         <module>mongoose-client-application</module>
-        <module>mongoose-client-navigationarrows-java</module>
         <module>mongoose-client-authn</module>
         <module>mongoose-client-authz</module>
         <module>mongoose-client-busconfig</module>
@@ -63,8 +62,10 @@
         <module>mongoose-client-css-web</module>
         <module>mongoose-client-i18n</module>
         <module>mongoose-client-icons</module>
+        <module>mongoose-client-navigationarrows-java</module>
         <module>mongoose-client-operationactionsloading</module>
         <module>mongoose-client-personaldetails</module>
+        <module>mongoose-client-presentationmodel</module>
         <module>mongoose-client-sectionpanel</module>
         <module>mongoose-client-sessionrecorder</module>
         <module>mongoose-client-util</module>

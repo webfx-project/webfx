@@ -44,6 +44,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-client-presentationmodel</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-controls</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

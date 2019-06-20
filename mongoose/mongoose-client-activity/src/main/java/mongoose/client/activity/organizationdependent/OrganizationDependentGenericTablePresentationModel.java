@@ -3,6 +3,7 @@ package mongoose.client.activity.organizationdependent;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.client.activity.table.GenericTablePresentationModel;
+import mongoose.client.presentationmodel.HasOrganizationIdProperty;
 
 /**
  * @author Bruno Salmon

@@ -1,4 +1,4 @@
-package mongoose.backend.controls.masterslave.group;
+package mongoose.client.presentationmodel;
 
 import javafx.beans.property.ObjectProperty;
 import webfx.fxkit.extra.displaydata.DisplayResult;

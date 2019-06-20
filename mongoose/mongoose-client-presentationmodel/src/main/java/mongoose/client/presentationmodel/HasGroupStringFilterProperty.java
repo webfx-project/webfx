@@ -1,4 +1,4 @@
-package mongoose.client.entities.util.filters;
+package mongoose.client.presentationmodel;
 
 import javafx.beans.property.StringProperty;
 

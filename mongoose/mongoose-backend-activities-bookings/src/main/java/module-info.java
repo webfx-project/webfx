@@ -13,6 +13,7 @@ module mongoose.backend.activities.bookings {
     requires mongoose.client.activity;
     requires mongoose.client.aggregates;
     requires mongoose.client.entities;
+    requires mongoose.client.presentationmodel;
     requires mongoose.client.util;
     requires mongoose.frontend.activities.fees;
     requires mongoose.shared.domain;
