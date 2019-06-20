@@ -1,13 +1,13 @@
 package mongoose.client.presentationmodel;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasOrganizationIdProperty {
 
-    Property<Object> organizationIdProperty();
+    ObjectProperty<Object> organizationIdProperty();
 
     default void setOrganizationId(Object organizationId) {
         this.organizationIdProperty().setValue(organizationId);

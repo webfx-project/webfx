@@ -37,13 +37,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-final class StatisticsActivity extends EventDependentViewDomainActivity
-        implements OperationActionFactoryMixin,
+final class StatisticsActivity extends EventDependentViewDomainActivity implements
+        OperationActionFactoryMixin,
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
     /*==================================================================================================================
-    ===================================================== UI layer =====================================================
+    ================================================= Graphical layer ==================================================
     ==================================================================================================================*/
 
     private final StatisticsPresentationModel pm = new StatisticsPresentationModel();
@@ -95,7 +95,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity
 
 
     /*==================================================================================================================
-    ==================================================== Logic layer ===================================================
+    =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
     private ReactiveExpressionFilter<DocumentLine> leftGroupFilter, masterFilter;

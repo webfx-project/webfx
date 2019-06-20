@@ -1,13 +1,13 @@
 package mongoose.client.presentationmodel;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasEventIdProperty {
 
-    Property<Object> eventIdProperty();
+    ObjectProperty<Object> eventIdProperty();
 
     default void setEventId(Object eventId) {
         eventIdProperty().setValue(eventId);

@@ -28,13 +28,13 @@ import webfx.fxkit.util.properties.Properties;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.*;
 
-final class BookingsActivity extends EventDependentViewDomainActivity
-        implements OperationActionFactoryMixin,
+final class BookingsActivity extends EventDependentViewDomainActivity implements
+        OperationActionFactoryMixin,
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
     /*==================================================================================================================
-    ===================================================== UI layer =====================================================
+    ================================================= Graphical layer ==================================================
     ==================================================================================================================*/
 
     private final BookingsPresentationModel pm = new BookingsPresentationModel();
@@ -98,7 +98,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity
 
 
     /*==================================================================================================================
-    ==================================================== Logic layer ===================================================
+    =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
     private ReactiveExpressionFilter<Document> groupFilter, masterFilter;

@@ -1,6 +1,6 @@
 package mongoose.client.activity.eventdependent;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 /**
@@ -8,12 +8,12 @@ import javafx.beans.property.SimpleObjectProperty;
  */
 public class EventDependentPresentationModelImpl implements EventDependentPresentationModel {
 
-    private final Property<Object> eventIdProperty = new SimpleObjectProperty<>();
-    public Property<Object> eventIdProperty() { return eventIdProperty; }
+    private final ObjectProperty<Object> eventIdProperty = new SimpleObjectProperty<>();
+    public ObjectProperty<Object> eventIdProperty() { return eventIdProperty; }
 
-    private final Property<Object> organizationIdProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Object> organizationIdProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Object> organizationIdProperty() {
+    public ObjectProperty<Object> organizationIdProperty() {
         return organizationIdProperty;
     }
 }

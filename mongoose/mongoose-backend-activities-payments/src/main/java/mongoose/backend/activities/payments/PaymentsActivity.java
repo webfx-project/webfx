@@ -26,13 +26,13 @@ import webfx.fxkit.util.properties.Properties;
 import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
 import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxHeightToInfinite;
 
-final class PaymentsActivity extends EventDependentViewDomainActivity
-        implements OperationActionFactoryMixin,
+final class PaymentsActivity extends EventDependentViewDomainActivity implements
+        OperationActionFactoryMixin,
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
     /*==================================================================================================================
-    ===================================================== UI layer =====================================================
+    ================================================= Graphical layer ==================================================
     ==================================================================================================================*/
 
     private final PaymentsPresentationModel pm = new PaymentsPresentationModel();
@@ -92,7 +92,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity
 
 
     /*==================================================================================================================
-    ==================================================== Logic layer ===================================================
+    =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
     private ReactiveExpressionFilter<MoneyTransfer> groupFilter, masterFilter, slaveFilter;
@@ -135,7 +135,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity
                 // When the result is a singe row, automatically select it
                 .autoSelectSingleRow()
                 // Reacting the a booking selection
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), pm::setSelectedDocument)
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), pm::setSelectedPayment)
                 // Activating server push notification
                 .setPush(true)
                 // Everything set up, let's start now!

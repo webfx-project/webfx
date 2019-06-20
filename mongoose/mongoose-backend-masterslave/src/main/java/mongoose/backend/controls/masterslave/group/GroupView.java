@@ -28,23 +28,20 @@ import webfx.fxkit.extra.util.ImageStore;
 import webfx.platform.shared.util.Numbers;
 
 public final class GroupView<E extends Entity> implements
+        HasGroupStringFilterProperty,
         HasGroupDisplayResultProperty,
         HasGroupDisplaySelectionProperty,
-        HasGroupStringFilterProperty,
-        HasSelectedGroupConditionStringFilterProperty,
-        HasSelectedGroupProperty<E> {
-
-    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    @Override
-    public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
-
-    private final ObjectProperty<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
-    @Override
-    public ObjectProperty<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
+        HasSelectedGroupProperty<E>,
+        HasSelectedGroupConditionStringFilterProperty {
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
-    @Override
-    public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
+    @Override public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
+
+    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
+
+    private final ObjectProperty<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
 
     private final ObjectProperty<E> selectedGroupProperty = new SimpleObjectProperty<E/*GWT*/>() {
         @Override
@@ -52,12 +49,10 @@ public final class GroupView<E extends Entity> implements
             updateSelectedGroupCondition();
         }
     };
-    @Override
-    public ObjectProperty<E> selectedGroupProperty() { return selectedGroupProperty; }
+    @Override public ObjectProperty<E> selectedGroupProperty() { return selectedGroupProperty; }
 
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
-    @Override
-    public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
+    @Override public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
 
     private ReferenceResolver referenceResolver;
 
@@ -145,10 +140,10 @@ public final class GroupView<E extends Entity> implements
 
     public Node buildUi() {
         Node ui = tableOnly ? bindControl(new DataGrid()) : new TabPane(
-                createGroupTab("table", "images/s16/table.png", new DataGrid()),
-                createGroupTab("pie", "images/s16/pieChart.png", new PieChart()),
-                createGroupTab("bar", "images/s16/barChart.png", new BarChart()),
-                createGroupTab("area", "images/s16/barChart.png", new AreaChart())
+                createGroupTab("table", "images/s16/table.png",    new DataGrid()),
+                createGroupTab("pie",   "images/s16/pieChart.png", new PieChart()),
+                createGroupTab("bar",   "images/s16/barChart.png", new BarChart()),
+                createGroupTab("area",  "images/s16/barChart.png", new AreaChart())
         );
         ui.getProperties().put("groupView", this); // This is to avoid GC
         return ui;

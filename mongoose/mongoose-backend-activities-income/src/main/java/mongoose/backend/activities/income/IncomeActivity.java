@@ -15,13 +15,13 @@ import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
-final class IncomeActivity extends EventDependentViewDomainActivity
-        implements OperationActionFactoryMixin,
+final class IncomeActivity extends EventDependentViewDomainActivity implements
+        OperationActionFactoryMixin,
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
     /*==================================================================================================================
-    ===================================================== UI layer =====================================================
+    ================================================= Graphical layer ==================================================
     ==================================================================================================================*/
 
     private final IncomePresentationModel pm = new IncomePresentationModel();
@@ -53,7 +53,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity
 
 
     /*==================================================================================================================
-    ==================================================== Logic layer ===================================================
+    =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
     private ReactiveExpressionFilter<Document> totalFilter;
