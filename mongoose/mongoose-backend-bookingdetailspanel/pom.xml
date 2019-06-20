@@ -38,9 +38,21 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-client-presentationmodel</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-shared-entities</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-client-activity</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
         
         <dependency>

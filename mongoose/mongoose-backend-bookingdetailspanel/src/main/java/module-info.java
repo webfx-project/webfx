@@ -7,7 +7,9 @@ module mongoose.backend.bookingdetailspanel {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.personaldetails;
+    requires mongoose.client.presentationmodel;
     requires mongoose.shared.entities;
+    requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.shared.domain;

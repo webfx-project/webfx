@@ -78,15 +78,11 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         GroupView<DocumentLine> groupView = GroupView.createTableOnlyAndBind(pm);
         groupView.setReferenceResolver(leftGroupFilter.getRootAliasReferenceResolver());
 
-        BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(container, this, getDataSourceModel());
-        bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
-        bookingDetailsPanel.activeProperty().bind(activeProperty());
-
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
                         groupView,
                         masterPane,
-                        bookingDetailsPanel.buildUi(),
+                        BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
                         pm.selectedDocumentProperty()
                 ).getSplitPane());
 

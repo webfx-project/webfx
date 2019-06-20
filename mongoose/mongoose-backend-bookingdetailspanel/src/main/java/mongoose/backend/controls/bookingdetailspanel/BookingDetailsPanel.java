@@ -11,12 +11,15 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import mongoose.client.controls.personaldetails.PersonalDetailsPanel;
+import mongoose.client.presentationmodel.HasSelectedDocumentProperty;
 import mongoose.shared.entities.Document;
+import webfx.framework.client.activity.impl.elementals.activeproperty.HasActiveProperty;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.util.ImageStore;
@@ -32,13 +35,25 @@ public final class BookingDetailsPanel implements ReactiveExpressionFilterFactor
 
     private final GridPane gridPane = new GridPane();
     private final Pane parent;
-    private final ButtonFactoryMixin buttonFactoryMixin;
+    private final ButtonFactoryMixin mixin;
     private final DataSourceModel dataSourceModel;
 
-    public BookingDetailsPanel(Pane parent, ButtonFactoryMixin buttonFactoryMixin, DataSourceModel dataSourceModel) {
+    public BookingDetailsPanel(Pane parent, ButtonFactoryMixin mixin, DataSourceModel dataSourceModel) {
         this.parent = parent;
-        this.buttonFactoryMixin = buttonFactoryMixin;
+        this.mixin = mixin;
         this.dataSourceModel = dataSourceModel;
+    }
+
+    public static <M extends ButtonFactoryMixin & HasDataSourceModel> BookingDetailsPanel createAndBind(Pane parent, M mixin, HasSelectedDocumentProperty pm) {
+        return createAndBind(parent, mixin, mixin.getDataSourceModel(), pm);
+    }
+
+    public static BookingDetailsPanel createAndBind(Pane parent, ButtonFactoryMixin mixin, DataSourceModel dataSourceModel, HasSelectedDocumentProperty pm) {
+        BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(parent, mixin, dataSourceModel);
+        bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
+        if (mixin instanceof HasActiveProperty)
+            bookingDetailsPanel.activeProperty().bind(((HasActiveProperty) mixin).activeProperty());
+        return bookingDetailsPanel;
     }
 
     @Override
@@ -149,7 +164,7 @@ public final class BookingDetailsPanel implements ReactiveExpressionFilterFactor
 
     private void editPersonalDetails() {
         Document document = selectedDocumentProperty.get();
-        PersonalDetailsPanel details = new PersonalDetailsPanel(document.getEvent(), buttonFactoryMixin, parent);
+        PersonalDetailsPanel details = new PersonalDetailsPanel(document.getEvent(), mixin, parent);
         details.setEditable(true);
         details.syncUiFromModel(document);
         BorderPane sectionPanel = details.getSectionPanel();
