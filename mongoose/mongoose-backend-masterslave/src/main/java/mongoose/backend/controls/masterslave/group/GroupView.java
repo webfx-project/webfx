@@ -1,6 +1,9 @@
 package mongoose.backend.controls.masterslave.group;
 
-import javafx.beans.property.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -10,6 +13,7 @@ import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
 import webfx.framework.shared.expression.builder.ThreadLocalReferenceResolver;
+import webfx.framework.shared.expression.sqlcompiler.terms.ConstantSqlCompiler;
 import webfx.framework.shared.expression.terms.As;
 import webfx.framework.shared.expression.terms.ExpressionArray;
 import webfx.framework.shared.expression.terms.function.Call;
@@ -26,6 +30,8 @@ import webfx.fxkit.extra.type.Type;
 import webfx.fxkit.extra.type.Types;
 import webfx.fxkit.extra.util.ImageStore;
 import webfx.platform.shared.util.Numbers;
+
+import java.util.Arrays;
 
 public final class GroupView<E extends Entity> implements
         HasGroupStringFilterProperty,
@@ -213,19 +219,26 @@ public final class GroupView<E extends Entity> implements
         if (group != null && gsf != null) {
             StringBuilder sb = new StringBuilder();
             ThreadLocalReferenceResolver.executeCodeInvolvingReferenceResolver(() -> {
-                ExpressionArray<Expression> columnsExpressionArray = group.getDomainClass().parseExpressionArray(new StringFilter(gsf).getColumns());
-                for (Expression columnExpression : columnsExpressionArray.getExpressions()) {
+                StringFilter stringFilter = new StringFilter(gsf);
+                ExpressionArray<Expression> groupByExpressionArray = group.getDomainClass().parseExpressionArray(stringFilter.getGroupBy());
+                ExpressionArray<Expression> columnsExpressionArray = null;
+                for (Expression columnExpression : groupByExpressionArray.getExpressions()) {
+                    if (columnExpression instanceof Call) {
+                        String definition = columnExpression.toString();
+                        if (columnsExpressionArray == null)
+                            columnsExpressionArray = group.getDomainClass().parseExpressionArray(stringFilter.getColumns());
+                        columnExpression = Arrays.stream(columnsExpressionArray.getExpressions()).filter(e -> e.toString().contains(definition)).findFirst().orElse(columnExpression);
+                    }
                     if (isAggregateExpression(columnExpression))
                         continue;
-                    if (sb.length() > 0)
-                        sb.append(" and ");
                     Object value = group.evaluate(columnExpression);
                     if (value instanceof EntityId)
                         value = ((EntityId) value).getPrimaryKey();
-                    if (value instanceof String)
-                        value = "'" + value + "'";
+                    value = ConstantSqlCompiler.toSqlConstant(value);
                     if (columnExpression instanceof As)
                         columnExpression = ((As) columnExpression).getOperand();
+                    if (sb.length() > 0)
+                        sb.append(" and ");
                     sb.append(columnExpression).append('=').append(value);
                 }
             }, referenceResolver);

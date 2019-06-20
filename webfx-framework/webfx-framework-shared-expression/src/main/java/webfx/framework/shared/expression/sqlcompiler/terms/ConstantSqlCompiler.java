@@ -5,6 +5,7 @@ import webfx.platform.shared.util.Dates;
 import webfx.platform.shared.util.Strings;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Bruno Salmon
@@ -30,6 +31,8 @@ public final class ConstantSqlCompiler extends AbstractTermSqlCompiler<Constant>
             return toSqlString((String) constant);
         if (constant instanceof LocalDate)
             return toSqlDate((LocalDate) constant);
+        if (constant instanceof LocalDateTime)
+            return toSqlDate((LocalDateTime) constant);
         return String.valueOf(constant);
     }
 
@@ -39,6 +42,10 @@ public final class ConstantSqlCompiler extends AbstractTermSqlCompiler<Constant>
 
     public static String toSqlDate(LocalDate date) {
         return Dates.format(date, "'yyyy-MM-dd'");
+    }
+
+    public static String toSqlDate(LocalDateTime date) {
+        return Dates.format(date, "'yyyy-MM-dd hh:mm:ss'");
     }
 
     private static String toSqlQuotedString(String s) {
