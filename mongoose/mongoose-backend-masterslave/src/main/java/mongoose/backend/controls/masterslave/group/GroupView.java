@@ -62,8 +62,9 @@ public final class GroupView<E extends Entity> implements
 
     private ReferenceResolver referenceResolver;
 
-    public void setReferenceResolver(ReferenceResolver referenceResolver) {
+    public GroupView<E> setReferenceResolver(ReferenceResolver referenceResolver) {
         this.referenceResolver = referenceResolver;
+        return this;
     }
 
     private final boolean tableOnly;
@@ -77,24 +78,16 @@ public final class GroupView<E extends Entity> implements
     }
 
     public static <E extends Entity> GroupView<E> createAndBind(HasGroupDisplayResultProperty pm) {
-        GroupView<E> groupView = new GroupView<>();
-        groupView.doDataBinding(pm);
-        return groupView;
+        return createAndBind(false, pm);
     }
 
     public static <E extends Entity> GroupView<E> createTableOnlyAndBind(HasGroupDisplayResultProperty pm) {
-        GroupView<E> groupView = new GroupView<>();
-        groupView.doDataBinding(pm);
-        return groupView;
+        return createAndBind(true, pm);
     }
 
-    public static <E extends Entity> GroupView<E> createAndBind(ObjectProperty<DisplayResult> sourceGroupDisplayResultProperty,
-                     ObjectProperty<DisplaySelection> targetGroupDisplaySelectionProperty,
-                     StringProperty sourceGroupStringFilterProperty,
-                     StringProperty targetSelectedGroupConditionStringFilterProperty,
-                     ObjectProperty<E> sourceSelectedGroupProperty) {
-        GroupView<E> groupView = new GroupView<>();
-        groupView.doDataBinding(sourceGroupDisplayResultProperty, targetGroupDisplaySelectionProperty, sourceGroupStringFilterProperty, targetSelectedGroupConditionStringFilterProperty, sourceSelectedGroupProperty);
+    public static <E extends Entity> GroupView<E> createAndBind(boolean tableOnly, HasGroupDisplayResultProperty pm) {
+        GroupView<E> groupView = new GroupView<>(tableOnly);
+        groupView.doDataBinding(pm);
         return groupView;
     }
 

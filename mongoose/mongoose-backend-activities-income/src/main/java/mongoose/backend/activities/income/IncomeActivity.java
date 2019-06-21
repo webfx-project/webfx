@@ -44,9 +44,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
         container.setTop(new VBox(totalTable, breakdownGroupSelector.getButton()));
 
         // Creating the breakdown group view and put it in the center of the container
-        GroupView<DocumentLine> breakdownGroupView = GroupView.createAndBind(pm);
-        breakdownGroupView.setReferenceResolver(breakdownFilter.getRootAliasReferenceResolver());
-        container.setCenter(breakdownGroupView.buildUi());
+        container.setCenter(GroupView.createAndBind(pm).setReferenceResolver(breakdownFilter.getRootAliasReferenceResolver()).buildUi());
 
         return container;
     }

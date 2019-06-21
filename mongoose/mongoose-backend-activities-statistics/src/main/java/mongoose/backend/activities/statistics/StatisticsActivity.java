@@ -75,12 +75,9 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
         BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
 
-        GroupView<DocumentLine> groupView = GroupView.createTableOnlyAndBind(pm);
-        groupView.setReferenceResolver(leftGroupFilter.getRootAliasReferenceResolver());
-
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
-                        groupView,
+                        GroupView.createTableOnlyAndBind(pm).setReferenceResolver(leftGroupFilter.getRootAliasReferenceResolver()),
                         masterPane,
                         BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
                         pm.selectedDocumentProperty()

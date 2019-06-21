@@ -67,15 +67,12 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
         BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
 
-        GroupView<MoneyTransfer> groupView = GroupView.createAndBind(pm);
-        groupView.setReferenceResolver(groupFilter.getRootAliasReferenceResolver());
-
         DataGrid slaveTable = new DataGrid();
         slaveTable.displayResultProperty().bind(pm.slaveDisplayResultProperty());
 
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
-                        groupView,
+                        GroupView.createAndBind(pm).setReferenceResolver(groupFilter.getRootAliasReferenceResolver()),
                         masterPane,
                         slaveTable,
                         pm.selectedPaymentProperty(), selectedPayment -> selectedPayment.getDocument() == null

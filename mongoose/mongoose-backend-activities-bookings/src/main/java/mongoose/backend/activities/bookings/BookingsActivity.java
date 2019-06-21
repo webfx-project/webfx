@@ -72,12 +72,9 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
         BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
         BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
 
-        GroupView<Document> groupView = GroupView.createAndBind(pm);
-        groupView.setReferenceResolver(groupFilter.getRootAliasReferenceResolver());
-
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
-                        groupView,
+                        GroupView.createAndBind(pm).setReferenceResolver(groupFilter.getRootAliasReferenceResolver()),
                         masterPane,
                         BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
                         pm.selectedDocumentProperty()
