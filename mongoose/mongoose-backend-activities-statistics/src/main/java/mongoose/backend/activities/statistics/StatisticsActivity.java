@@ -3,30 +3,27 @@ package mongoose.backend.activities.statistics;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
+import mongoose.backend.controls.masterslave.MasterTableView;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
-import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.orm.entity.EntityList;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
+import webfx.fxkit.extra.displaydata.DisplayStyle;
 import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Dates;
 
 import java.time.LocalDate;
@@ -35,7 +32,6 @@ import java.util.List;
 import java.util.Objects;
 
 final class StatisticsActivity extends EventDependentViewDomainActivity implements
-        OperationActionFactoryMixin,
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
@@ -57,22 +53,10 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         // Building the filter search bar and put it on top
         container.setTop(createFilterSearchBar("statistics", "DocumentLine", container, pm).buildUi());
 
-        DataGrid masterTable = new DataGrid();
-        masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
-        pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
-
-        CheckBox masterLimitCheckBox = newCheckBox("LimitTo100");
-        masterLimitCheckBox.setSelected(true);
-        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
-        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
-
-        BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
-        BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
-
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
                         GroupView.createTableOnlyAndBind(pm).setReferenceResolver(leftGroupFilter.getRootAliasReferenceResolver()),
-                        masterPane,
+                        MasterTableView.createAndBind(this, pm).buildUi(),
                         BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
                         pm.selectedDocumentProperty()
                 ).getSplitPane());
@@ -155,12 +139,9 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
                 // Displaying the result in the master view
-                .displayResultInto(pm.genericDisplayResultProperty())
+                .displayResultInto(pm.masterDisplayResultProperty())
                 // Reacting the a booking selection
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), dl -> {
-                    pm.setSelectedDocumentLine(dl);
-                    pm.setSelectedDocument(dl == null ? null : dl.getDocument());
-                })
+                .setSelectedEntityHandler(pm.masterDisplaySelectionProperty(), pm::setSelectedMaster)
                 // Everything set up, let's start now!
                 .start();
     }
@@ -194,7 +175,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         DisplayColumn[] columns = new DisplayColumn[leftColCount + rightColCount];
         System.arraycopy(leftResult.getColumns(), 0, columns, 0, leftColCount);
         for (int col = 0; col < rightColCount; col++)
-            columns[leftColCount + col] = DisplayColumn.create(Dates.format(dates.get(col), "dd/MM"), PrimType.INTEGER); //, new DisplayStyleImpl(32d, "right"));
+            columns[leftColCount + col] = DisplayColumn.create(Dates.format(dates.get(col), "dd/MM"), PrimType.INTEGER, DisplayStyle.RIGHT_STYLE); //, new DisplayStyleImpl(32d, "right"));
         DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, columns);
         for (int row = 0; row < rowCount; row++)
             for (int col = 0; col < leftColCount; col++)

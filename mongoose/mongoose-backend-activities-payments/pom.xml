@@ -18,13 +18,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>javafx-controls</artifactId>
-            <groupId>org.openjfx</groupId>
-            <version>${lib.openjfx.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
             <artifactId>javafx-graphics</artifactId>
             <groupId>org.openjfx</groupId>
             <version>${lib.openjfx.version}</version>
@@ -74,31 +67,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-action</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-framework-client-activity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-controls</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-framework-client-domain</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-framework-client-layouts</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -123,6 +98,12 @@
         
         <dependency>
             <artifactId>webfx-framework-shared-entity</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-shared-expression</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

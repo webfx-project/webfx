@@ -1,10 +1,10 @@
 package mongoose.backend.activities.payments;
 
 import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
+import mongoose.backend.controls.masterslave.MasterTableView;
+import mongoose.backend.controls.masterslave.SlaveTableView;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.client.activity.eventdependent.EventDependentPresentationModel;
@@ -13,14 +13,11 @@ import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.client.entities.util.filters.FilterSearchBar;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.MoneyTransfer;
-import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.util.properties.Properties;
 
 final class PaymentsActivity extends EventDependentViewDomainActivity implements
-        OperationActionFactoryMixin,
         FilterButtonSelectorFactoryMixin,
         ReactiveExpressionFilterFactoryMixin {
 
@@ -45,29 +42,13 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         filterSearchBar = createFilterSearchBar("payments", "MoneyTransfer", container, pm);
         container.setTop(filterSearchBar.buildUi());
 
-        // Building the main content, which is a group/master/slave view (group = group view, master = bookings table + limit checkbox, slave = booking details)
-        DataGrid masterTable = new DataGrid();
-        masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
-        pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
-
-        CheckBox masterLimitCheckBox = newCheckBox("LimitTo100");
-        masterLimitCheckBox.setSelected(true);
-        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
-        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
-
-        BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
-        BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
-
-        DataGrid slaveTable = new DataGrid();
-        slaveTable.displayResultProperty().bind(pm.slaveDisplayResultProperty());
-
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
                         GroupView.createAndBind(pm).setReferenceResolver(groupFilter.getRootAliasReferenceResolver()),
-                        masterPane,
-                        slaveTable,
+                        MasterTableView.createAndBind(this, pm).buildUi(),
+                        SlaveTableView.createAndBind(pm).buildUi(),
                         pm.selectedPaymentProperty(), selectedPayment -> selectedPayment.getDocument() == null
-                ).getSplitPane());
+                ).buildUi());
 
         return container;
     }
@@ -100,6 +81,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                 .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), pm::setSelectedGroup)
                 // Everything set up, let's start now!
                 .start();
+
         // Setting up the master filter that controls the content displayed in the master view
         masterFilter = this.<MoneyTransfer>createReactiveExpressionFilter("{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first'}")
                 .combine("{columns: 'date,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
@@ -119,15 +101,16 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
                 // Displaying the result in the master view
-                .displayResultInto(pm.genericDisplayResultProperty())
+                .displayResultInto(pm.masterDisplayResultProperty())
                 // When the result is a singe row, automatically select it
                 .autoSelectSingleRow()
                 // Reacting the a booking selection
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), pm::setSelectedPayment)
+                .setSelectedEntityHandler(pm.masterDisplaySelectionProperty(), pm::setSelectedMaster)
                 // Activating server push notification
                 .setPush(true)
                 // Everything set up, let's start now!
                 .start();
+
         // Slave filter
         slaveFilter = this.<MoneyTransfer>createReactiveExpressionFilter("{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first'}")
                 .combine("{columns: 'date,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")

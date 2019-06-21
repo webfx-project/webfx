@@ -16,8 +16,11 @@ final class BookingsPresentationModel extends EventDependentGenericTablePresenta
         HasColumnsStringFilterProperty,
         HasGroupDisplayResultProperty,
         HasGroupDisplaySelectionProperty,
-        HasSelectedGroupConditionStringFilterProperty,
         HasSelectedGroupProperty<Document>,
+        HasSelectedGroupConditionStringFilterProperty,
+        HasMasterDisplayResultProperty,
+        HasMasterDisplaySelectionProperty,
+        HasSelectedMasterProperty<Document>,
         HasSelectedDocumentProperty {
 
     private final StringProperty conditionStringFilterProperty = new SimpleStringProperty();
@@ -43,7 +46,15 @@ final class BookingsPresentationModel extends EventDependentGenericTablePresenta
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
 
-    private final ObjectProperty<Document> selectedDocumentProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<Document> selectedDocumentProperty() { return selectedDocumentProperty; }
+    private final ObjectProperty<DisplayResult> masterDisplayResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DisplayResult> masterDisplayResultProperty() { return masterDisplayResultProperty; }
+
+    private final ObjectProperty<DisplaySelection> masterDisplaySelectionProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DisplaySelection> masterDisplaySelectionProperty() { return masterDisplaySelectionProperty; }
+
+    private final ObjectProperty<Document> selectedMasterProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<Document> selectedMasterProperty() { return selectedMasterProperty; }
+
+    @Override public ObjectProperty<Document> selectedDocumentProperty() { return selectedMasterProperty(); }
 
 }

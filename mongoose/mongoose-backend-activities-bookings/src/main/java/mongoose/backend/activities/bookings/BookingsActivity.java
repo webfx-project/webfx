@@ -1,13 +1,12 @@
 package mongoose.backend.activities.bookings;
 
 import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
+import mongoose.backend.controls.masterslave.MasterTableView;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
@@ -20,8 +19,6 @@ import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.util.properties.Properties;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
 import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
@@ -56,26 +53,13 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                 setHGrowable(filterSearchBar.buildUi()),
                 setUnmanagedWhenInvisible(cloneEventButton)));
 
-        // Building the main content, which is a group/master/slave view (group = group view, master = bookings table + limit checkbox, slave = booking details)
-        DataGrid masterTable = new DataGrid();
-        masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
-        pm.genericDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
-
-        CheckBox masterLimitCheckBox = newCheckBox("LimitTo100");
-        masterLimitCheckBox.setSelected(true);
-        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(masterLimitCheckBox.isSelected() ? 30 : -1), masterLimitCheckBox.selectedProperty());
-        masterTable.fullHeightProperty().bind(masterLimitCheckBox.selectedProperty());
-
-        BorderPane masterPane = new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
-        BorderPane.setAlignment(masterTable, Pos.TOP_CENTER);
-
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
                         GroupView.createAndBind(pm).setReferenceResolver(groupFilter.getRootAliasReferenceResolver()),
-                        masterPane,
+                        MasterTableView.createAndBind(this, pm).buildUi(),
                         BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
                         pm.selectedDocumentProperty()
-                ).getSplitPane());
+                ).buildUi());
 
         return container;
     }
@@ -129,11 +113,11 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
                 // Displaying the result in the master view
-                .displayResultInto(pm.genericDisplayResultProperty())
+                .displayResultInto(pm.masterDisplayResultProperty())
                 // When the result is a singe row, automatically select it
                 .autoSelectSingleRow()
                 // Reacting the a booking selection
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), pm::setSelectedDocument)
+                .setSelectedEntityHandler(pm.masterDisplaySelectionProperty(), pm::setSelectedMaster)
                 // Activating server push notification
                 .setPush(true)
                 // Everything set up, let's start now!

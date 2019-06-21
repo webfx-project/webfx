@@ -30,6 +30,10 @@ public class MasterSlaveView {
         return splitPane;
     }
 
+    public Node buildUi() {
+        return getSplitPane();
+    }
+
     private final ObjectProperty<Node> masterViewProperty = new SimpleObjectProperty<Node>() { // GWT doesn't accept <>
         @Override
         protected void invalidated() {

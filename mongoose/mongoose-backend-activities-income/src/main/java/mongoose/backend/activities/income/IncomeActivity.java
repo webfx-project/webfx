@@ -39,8 +39,10 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
         DataGrid totalTable = new DataGrid();
         totalTable.setFullHeight(true);
         totalTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
+
         // Also putting the breakdown group selector just below the total table (also on top of the container)
         EntityButtonSelector<Filter> breakdownGroupSelector = createGroupFilterButtonSelectorAndBind("income","DocumentLine", container, pm);
+
         container.setTop(new VBox(totalTable, breakdownGroupSelector.getButton()));
 
         // Creating the breakdown group view and put it in the center of the container
@@ -54,7 +56,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveExpressionFilter<Document> totalFilter;
+    private ReactiveExpressionFilter<Document>     totalFilter;
     private ReactiveExpressionFilter<DocumentLine> breakdownFilter;
 
     @Override
@@ -65,6 +67,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
                 .combine("{columns: `null as Totals,sum(price_deposit) as Deposit,sum(price_net) as Invoiced,sum(price_minDeposit) as MinDeposit,sum(price_nonRefundable) as NonRefundable,sum(price_balance) as Balance,count(1) as Bookings,sum(price_balance!=0 ? 1 : 0) as Unreconciled`, groupBy: `event`}")
                 .displayResultInto(pm.genericDisplayResultProperty())
                 .start();
+
         // Setting up the left group filter for the left content displayed in the group view
         breakdownFilter = this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
@@ -79,7 +82,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
 
     @Override
     protected void refreshDataOnActive() {
-        totalFilter.refreshWhenActive();
+        totalFilter    .refreshWhenActive();
         breakdownFilter.refreshWhenActive();
     }
 }

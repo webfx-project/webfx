@@ -1,8 +1,11 @@
 package mongoose.backend.activities.payments;
 
-import javafx.beans.property.*;
-import mongoose.client.presentationmodel.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
+import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
@@ -17,6 +20,9 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
         HasGroupDisplaySelectionProperty,
         HasSelectedGroupProperty<MoneyTransfer>,
         HasSelectedGroupConditionStringFilterProperty,
+        HasMasterDisplayResultProperty,
+        HasMasterDisplaySelectionProperty,
+        HasSelectedMasterProperty<MoneyTransfer>,
         HasSelectedPaymentProperty,
         HasSlaveDisplayResultProperty {
 
@@ -38,8 +44,16 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
 
-    private final ObjectProperty<MoneyTransfer> selectedPaymentProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<MoneyTransfer> selectedPaymentProperty() { return selectedPaymentProperty; }
+    private final ObjectProperty<DisplayResult> masterDisplayResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DisplayResult> masterDisplayResultProperty() { return masterDisplayResultProperty; }
+
+    private final ObjectProperty<DisplaySelection> masterDisplaySelectionProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DisplaySelection> masterDisplaySelectionProperty() { return masterDisplaySelectionProperty; }
+
+    private final ObjectProperty<MoneyTransfer> selectedMasterProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<MoneyTransfer> selectedMasterProperty() { return selectedMasterProperty; }
+
+    @Override public ObjectProperty<MoneyTransfer> selectedPaymentProperty() { return selectedMasterProperty(); }
 
     private final ObjectProperty<DisplayResult> slaveDisplayResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<DisplayResult> slaveDisplayResultProperty() { return slaveDisplayResultProperty; }
