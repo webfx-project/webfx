@@ -110,12 +110,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-controls</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-framework-client-domain</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

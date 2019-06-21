@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
@@ -15,18 +14,17 @@ import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
+import mongoose.client.entities.util.filters.FilterSearchBar;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
-import mongoose.shared.entities.Filter;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.util.properties.Properties;
 
-import static webfx.framework.client.ui.layouts.LayoutUtil.*;
+import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
+import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
 final class BookingsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -44,7 +42,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
         return pm; // eventId and organizationId will then be updated from route
     }
 
-    private TextField searchBox; // Keeping this reference to activate focus on activity resume
+    private FilterSearchBar filterSearchBar; // Keeping this reference for activity resume
 
     @Override
     public Node buildUi() {
@@ -52,12 +50,11 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
         // Building the top bar
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory()))),
                cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
-        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelectorAndBind("bookings","Document", container, pm),
-                                         groupSelector = createGroupFilterButtonSelectorAndBind(    "bookings","Document", container, pm),
-                                       columnsSelector = createColumnsFilterButtonSelectorAndBind(  "bookings","Document", container, pm);
-        searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
-        pm.searchTextProperty().bind(searchBox.textProperty());
-        container.setTop(new HBox(10, setUnmanagedWhenInvisible(newBookingButton), conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox)), setUnmanagedWhenInvisible(cloneEventButton)));
+        filterSearchBar = createFilterSearchBar("bookings", "Document", container, pm);
+        container.setTop(new HBox(10,
+                setUnmanagedWhenInvisible(newBookingButton),
+                setHGrowable(filterSearchBar.buildUi()),
+                setUnmanagedWhenInvisible(cloneEventButton)));
 
         // Building the main content, which is a group/master/slave view (group = group view, master = bookings table + limit checkbox, slave = booking details)
         DataGrid masterTable = new DataGrid();
@@ -86,7 +83,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        SceneUtil.autoFocusIfEnabled(searchBox);
+        filterSearchBar.onResume(); // activate search text focus on activity resume
     }
 
 

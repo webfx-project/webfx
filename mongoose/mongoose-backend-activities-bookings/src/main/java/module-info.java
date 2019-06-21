@@ -20,7 +20,6 @@ module mongoose.backend.activities.bookings {
     requires mongoose.shared.entities;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;

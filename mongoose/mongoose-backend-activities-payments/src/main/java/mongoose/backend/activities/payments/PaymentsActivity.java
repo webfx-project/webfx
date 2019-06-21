@@ -4,27 +4,20 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.client.activity.eventdependent.EventDependentPresentationModel;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
+import mongoose.client.entities.util.filters.FilterSearchBar;
 import mongoose.shared.domainmodel.functions.AbcNames;
-import mongoose.shared.entities.Filter;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
-import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.util.properties.Properties;
-
-import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
-import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxHeightToInfinite;
 
 final class PaymentsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -42,17 +35,15 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         return pm; // eventId and organizationId will then be updated from route
     }
 
-    private TextField searchBox; // Keeping this reference to activate focus on activity resume
+    private FilterSearchBar filterSearchBar; // Keeping this reference for activity resume
 
     @Override
     public Node buildUi() {
         BorderPane container = new BorderPane();
-        // Building the top bar
-        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelectorAndBind("payments","MoneyTransfer", container, pm),
-                                         groupSelector = createGroupFilterButtonSelectorAndBind(    "payments","MoneyTransfer", container, pm);
-        searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
-        pm.searchTextProperty().bind(searchBox.textProperty());
-        container.setTop(new HBox(10, conditionSelector.getButton(), groupSelector.getButton(), setMaxHeightToInfinite(setHGrowable(searchBox))));
+
+        // Building the filter search bar and put it on top
+        filterSearchBar = createFilterSearchBar("payments", "MoneyTransfer", container, pm);
+        container.setTop(filterSearchBar.buildUi());
 
         // Building the main content, which is a group/master/slave view (group = group view, master = bookings table + limit checkbox, slave = booking details)
         DataGrid masterTable = new DataGrid();
@@ -84,7 +75,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        SceneUtil.autoFocusIfEnabled(searchBox);
+        filterSearchBar.onResume();
     }
 
 

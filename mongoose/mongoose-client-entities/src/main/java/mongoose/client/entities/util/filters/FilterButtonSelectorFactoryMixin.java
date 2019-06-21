@@ -103,4 +103,8 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
     default EntityButtonSelector<Filter> createColumnsFilterButtonSelectorAndBind(String activityName, String domainClassId, Pane parent, HasColumnsStringFilterProperty pm) {
         return createColumnsFilterButtonSelectorAndBind(activityName, domainClassId, parent, pm.columnsStringFilterProperty());
     }
+
+    default FilterSearchBar createFilterSearchBar(String activityName, String domainClassId, Pane parent, Object pm) {
+        return new FilterSearchBar(this, activityName, domainClassId, parent, pm);
+    }
 }

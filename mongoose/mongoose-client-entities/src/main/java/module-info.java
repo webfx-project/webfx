@@ -11,6 +11,7 @@ module mongoose.client.entities {
     requires mongoose.shared.entities;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.i18n;
+    requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.shared.domain;
     requires webfx.fxkit.util;

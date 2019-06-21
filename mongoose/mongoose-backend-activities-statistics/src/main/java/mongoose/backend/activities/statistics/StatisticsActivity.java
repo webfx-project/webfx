@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.backend.controls.masterslave.group.GroupView;
@@ -15,9 +14,7 @@ import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
-import mongoose.shared.entities.Filter;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
@@ -57,11 +54,8 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
     public Node buildUi() {
         BorderPane container = new BorderPane();
 
-        // Building the top bar
-        EntityButtonSelector<Filter> conditionSelector = createConditionFilterButtonSelectorAndBind("statistics", "DocumentLine", container, pm),
-                                         groupSelector = createGroupFilterButtonSelectorAndBind(    "statistics", "DocumentLine", container, pm),
-                                       columnsSelector = createColumnsFilterButtonSelectorAndBind(  "statistics", "DocumentLine", container, pm);
-        container.setTop(new HBox(10, conditionSelector.getButton(), groupSelector.getButton(), columnsSelector.getButton()));
+        // Building the filter search bar and put it on top
+        container.setTop(createFilterSearchBar("statistics", "DocumentLine", container, pm).buildUi());
 
         DataGrid masterTable = new DataGrid();
         masterTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
