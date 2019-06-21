@@ -44,7 +44,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
 
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
-                        GroupView.createAndBind(pm).setReferenceResolver(groupFilter.getRootAliasReferenceResolver()),
+                        GroupView.createAndBind(pm),
                         MasterTableView.createAndBind(this, pm).buildUi(),
                         SlaveTableView.createAndBind(pm).buildUi(),
                         pm.selectedPaymentProperty(), selectedPayment -> selectedPayment.getDocument() == null
@@ -81,6 +81,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                 .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), pm::setSelectedGroup)
                 // Everything set up, let's start now!
                 .start();
+        pm.setSelectedGroupReferenceResolver(groupFilter.getRootAliasReferenceResolver());
 
         // Setting up the master filter that controls the content displayed in the master view
         masterFilter = this.<MoneyTransfer>createReactiveExpressionFilter("{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first'}")

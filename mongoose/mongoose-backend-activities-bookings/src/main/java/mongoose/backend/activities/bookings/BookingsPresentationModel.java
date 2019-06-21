@@ -1,9 +1,11 @@
 package mongoose.backend.activities.bookings;
 
 import javafx.beans.property.*;
+import mongoose.client.presentationmodel.HasSelectedGroupReferenceResolver;
 import mongoose.client.presentationmodel.*;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.shared.entities.Document;
+import webfx.framework.shared.expression.builder.ReferenceResolver;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
 
@@ -18,6 +20,7 @@ final class BookingsPresentationModel extends EventDependentGenericTablePresenta
         HasGroupDisplaySelectionProperty,
         HasSelectedGroupProperty<Document>,
         HasSelectedGroupConditionStringFilterProperty,
+        HasSelectedGroupReferenceResolver,
         HasMasterDisplayResultProperty,
         HasMasterDisplaySelectionProperty,
         HasSelectedMasterProperty<Document>,
@@ -39,12 +42,14 @@ final class BookingsPresentationModel extends EventDependentGenericTablePresenta
     @Override public ObjectProperty<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
 
     private final ObjectProperty<Document> selectedGroupProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<Document> selectedGroupProperty() {
-        return selectedGroupProperty;
-    }
+    @Override public ObjectProperty<Document> selectedGroupProperty() { return selectedGroupProperty; }
 
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
+
+    private ReferenceResolver selectedGroupReferenceResolver;
+    @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }
+    public void setSelectedGroupReferenceResolver(ReferenceResolver referenceResolver) { this.selectedGroupReferenceResolver = referenceResolver; }
 
     private final ObjectProperty<DisplayResult> masterDisplayResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<DisplayResult> masterDisplayResultProperty() { return masterDisplayResultProperty; }

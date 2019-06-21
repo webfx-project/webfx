@@ -4,10 +4,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import mongoose.client.presentationmodel.HasSelectedGroupReferenceResolver;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
+import webfx.framework.shared.expression.builder.ReferenceResolver;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
 
@@ -17,11 +19,12 @@ import webfx.fxkit.extra.displaydata.DisplaySelection;
 final class StatisticsPresentationModel extends EventDependentGenericTablePresentationModel implements
         HasConditionStringFilterProperty,
         HasGroupStringFilterProperty,
+        HasColumnsStringFilterProperty,
         HasGroupDisplayResultProperty,
         HasGroupDisplaySelectionProperty,
         HasSelectedGroupProperty<DocumentLine>,
         HasSelectedGroupConditionStringFilterProperty,
-        HasColumnsStringFilterProperty,
+        HasSelectedGroupReferenceResolver,
         HasMasterDisplayResultProperty,
         HasMasterDisplaySelectionProperty,
         HasSelectedMasterProperty<DocumentLine>,
@@ -33,6 +36,9 @@ final class StatisticsPresentationModel extends EventDependentGenericTablePresen
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
     @Override public final StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
+
+    private final StringProperty columnsStringFilterProperty = new SimpleStringProperty();
+    @Override public final StringProperty columnsStringFilterProperty() { return columnsStringFilterProperty; }
 
     private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
@@ -48,8 +54,9 @@ final class StatisticsPresentationModel extends EventDependentGenericTablePresen
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
 
-    private final StringProperty columnsStringFilterProperty = new SimpleStringProperty();
-    @Override public final StringProperty columnsStringFilterProperty() { return columnsStringFilterProperty; }
+    private ReferenceResolver selectedGroupReferenceResolver;
+    @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }
+    public void setSelectedGroupReferenceResolver(ReferenceResolver referenceResolver) { this.selectedGroupReferenceResolver = referenceResolver; }
 
     private final ObjectProperty<DisplayResult> masterDisplayResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<DisplayResult> masterDisplayResultProperty() { return masterDisplayResultProperty; }

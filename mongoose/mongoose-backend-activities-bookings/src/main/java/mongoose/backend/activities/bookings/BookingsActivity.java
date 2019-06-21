@@ -55,7 +55,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
 
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
-                        GroupView.createAndBind(pm).setReferenceResolver(groupFilter.getRootAliasReferenceResolver()),
+                        GroupView.createAndBind(pm),
                         MasterTableView.createAndBind(this, pm).buildUi(),
                         BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
                         pm.selectedDocumentProperty()
@@ -92,6 +92,8 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                 .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), pm::setSelectedGroup)
                 // Everything set up, let's start now!
                 .start();
+        pm.setSelectedGroupReferenceResolver(groupFilter.getRootAliasReferenceResolver());
+
         // Setting up the master filter that controls the content displayed in the master view
         masterFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', orderBy: 'ref desc'}")
                 // Always loading the fields required for viewing the booking details

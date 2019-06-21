@@ -92,24 +92,17 @@ public final class GroupView<E extends Entity> implements
     }
 
     public void doDataBinding(HasGroupDisplayResultProperty pm) {
-        doDataBinding(pm.groupDisplayResultProperty(),
-                pm instanceof HasGroupDisplaySelectionProperty ? ((HasGroupDisplaySelectionProperty) pm).groupDisplaySelectionProperty() : null,
-                pm instanceof HasGroupStringFilterProperty ? ((HasGroupStringFilterProperty) pm).groupStringFilterProperty() : null,
-                pm instanceof HasSelectedGroupConditionStringFilterProperty ? ((HasSelectedGroupConditionStringFilterProperty) pm).selectedGroupConditionStringFilterProperty() : null,
-                pm instanceof HasSelectedGroupProperty ? ((HasSelectedGroupProperty) pm).selectedGroupProperty() : null
-        );
-    }
-
-    public void doDataBinding(ObjectProperty<DisplayResult> sourceGroupDisplayResultProperty,
-                              ObjectProperty<DisplaySelection> targetGroupDisplaySelectionProperty,
-                              StringProperty sourceGroupStringFilterProperty,
-                              StringProperty targetSelectedGroupConditionStringFilterProperty,
-                              ObjectProperty<E> sourceSelectedGroupProperty) {
-        bindWithSourceGroupDisplayResultProperty(sourceGroupDisplayResultProperty);
-        bindWithTargetGroupDisplaySelectionProperty(targetGroupDisplaySelectionProperty);
-        bindWithSourceGroupStringFilterProperty(sourceGroupStringFilterProperty);
-        bindWithTargetSelectedGroupConditionStringFilterProperty(targetSelectedGroupConditionStringFilterProperty);
-        bindWithSourceSelectedGroupProperty(sourceSelectedGroupProperty);
+        bindWithSourceGroupDisplayResultProperty(pm.groupDisplayResultProperty());
+        if (pm instanceof HasGroupDisplaySelectionProperty)
+            bindWithTargetGroupDisplaySelectionProperty(((HasGroupDisplaySelectionProperty) pm).groupDisplaySelectionProperty());
+        if (pm instanceof HasGroupStringFilterProperty)
+            bindWithSourceGroupStringFilterProperty(((HasGroupStringFilterProperty) pm).groupStringFilterProperty());
+        if (pm instanceof HasSelectedGroupConditionStringFilterProperty)
+            bindWithTargetSelectedGroupConditionStringFilterProperty(((HasSelectedGroupConditionStringFilterProperty) pm).selectedGroupConditionStringFilterProperty());
+        if (pm instanceof HasSelectedGroupProperty)
+            bindWithSourceSelectedGroupProperty(((HasSelectedGroupProperty) pm).selectedGroupProperty());
+        if (pm instanceof HasSelectedGroupReferenceResolver)
+            setReferenceResolver(((HasSelectedGroupReferenceResolver) pm).getSelectedGroupReferenceResolver());
     }
 
     public void bindWithSourceGroupDisplayResultProperty(ObjectProperty<DisplayResult> sourceGroupDisplayResultProperty) {

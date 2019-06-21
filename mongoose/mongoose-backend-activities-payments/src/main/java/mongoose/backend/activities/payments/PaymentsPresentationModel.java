@@ -4,9 +4,11 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import mongoose.client.presentationmodel.HasSelectedGroupReferenceResolver;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.MoneyTransfer;
+import webfx.framework.shared.expression.builder.ReferenceResolver;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
 
@@ -20,6 +22,7 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
         HasGroupDisplaySelectionProperty,
         HasSelectedGroupProperty<MoneyTransfer>,
         HasSelectedGroupConditionStringFilterProperty,
+        HasSelectedGroupReferenceResolver,
         HasMasterDisplayResultProperty,
         HasMasterDisplaySelectionProperty,
         HasSelectedMasterProperty<MoneyTransfer>,
@@ -43,6 +46,10 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
 
     private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
+
+    private ReferenceResolver selectedGroupReferenceResolver;
+    @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }
+    public void setSelectedGroupReferenceResolver(ReferenceResolver referenceResolver) { this.selectedGroupReferenceResolver = referenceResolver; }
 
     private final ObjectProperty<DisplayResult> masterDisplayResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<DisplayResult> masterDisplayResultProperty() { return masterDisplayResultProperty; }

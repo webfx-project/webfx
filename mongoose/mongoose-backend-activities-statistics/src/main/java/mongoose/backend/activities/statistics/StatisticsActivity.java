@@ -55,11 +55,11 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
 
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
-                        GroupView.createTableOnlyAndBind(pm).setReferenceResolver(leftGroupFilter.getRootAliasReferenceResolver()),
+                        GroupView.createTableOnlyAndBind(pm),
                         MasterTableView.createAndBind(this, pm).buildUi(),
                         BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
                         pm.selectedDocumentProperty()
-                ).getSplitPane());
+                ).buildUi());
 
         return container;
     }
@@ -100,6 +100,8 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                 .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), pm::setSelectedGroup)
                 // Everything set up, let's start now!
                 .start();
+        pm.setSelectedGroupReferenceResolver(leftGroupFilter.getRootAliasReferenceResolver());
+
         // Setting up the right group filter
         rightAttendanceFilter = this.<Attendance>createReactiveExpressionFilter("{class: 'Attendance', alias: 'a', where: 'present', orderBy: 'date'}")
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `documentLine.document.event=" + eventId + "`}")
@@ -123,6 +125,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                 // Displaying the result in the master view
                 .displayResultInto(rightDisplayResultProperty)
                 .start();
+
         // Setting up the master filter for the content displayed in the master view
         masterFilter = this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', alias: 'dl', orderBy: 'document.ref,item.family.ord,site..ord,item.ord'}")
                 // Always loading the fields required for viewing the booking details
