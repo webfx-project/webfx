@@ -17,21 +17,22 @@ public class MasterSlaveView {
     private final SplitPane splitPane = new SplitPane();
 
     public MasterSlaveView() {
-        this(Orientation.VERTICAL, null, null);
+        this(null, null);
     }
 
-    public MasterSlaveView(Orientation orientation, Node masterView, Node slaveView) {
-        splitPane.setOrientation(orientation);
+    public MasterSlaveView(Node masterView, Node slaveView) {
         setMasterView(masterView);
         setSlaveView(slaveView);
+        setOrientation(Orientation.VERTICAL); // Vertical orientation by default
     }
 
-    public SplitPane getSplitPane() {
-        return splitPane;
-    }
+    public MasterSlaveView setOrientation(Orientation orientation) {
+        splitPane.setOrientation(orientation);
+        return this;
+    };
 
     public Node buildUi() {
-        return getSplitPane();
+        return splitPane;
     }
 
     private final ObjectProperty<Node> masterViewProperty = new SimpleObjectProperty<Node>() { // GWT doesn't accept <>

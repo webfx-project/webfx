@@ -1,6 +1,5 @@
 package mongoose.backend.activities.bookings;
 
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -54,10 +53,10 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                 setUnmanagedWhenInvisible(cloneEventButton)));
 
         container.setCenter(
-                GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
+                GroupMasterSlaveView.createAndBind(
                         GroupView.createAndBind(pm),
-                        MasterTableView.createAndBind(this, pm).buildUi(),
-                        BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
+                        MasterTableView.createAndBind(pm, this).buildUi(),
+                        BookingDetailsPanel.createAndBind(pm, this, container).buildUi(),
                         pm
                 ).buildUi());
 

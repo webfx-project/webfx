@@ -44,11 +44,11 @@ public final class BookingDetailsPanel implements ReactiveExpressionFilterFactor
         this.dataSourceModel = dataSourceModel;
     }
 
-    public static <M extends ButtonFactoryMixin & HasDataSourceModel> BookingDetailsPanel createAndBind(Pane parent, M mixin, HasSelectedDocumentProperty pm) {
-        return createAndBind(parent, mixin, mixin.getDataSourceModel(), pm);
+    public static <M extends ButtonFactoryMixin & HasDataSourceModel> BookingDetailsPanel createAndBind(HasSelectedDocumentProperty pm, M mixin, Pane parent) {
+        return createAndBind(pm, mixin, parent, mixin.getDataSourceModel());
     }
 
-    public static BookingDetailsPanel createAndBind(Pane parent, ButtonFactoryMixin mixin, DataSourceModel dataSourceModel, HasSelectedDocumentProperty pm) {
+    public static BookingDetailsPanel createAndBind(HasSelectedDocumentProperty pm, ButtonFactoryMixin mixin, Pane parent, DataSourceModel dataSourceModel) {
         BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(parent, mixin, dataSourceModel);
         bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
         if (mixin instanceof HasActiveProperty)

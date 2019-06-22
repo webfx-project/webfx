@@ -2,7 +2,6 @@ package mongoose.backend.activities.statistics;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
@@ -54,10 +53,10 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         container.setTop(createFilterSearchBar("statistics", "DocumentLine", container, pm).buildUi());
 
         container.setCenter(
-                GroupMasterSlaveView.createAndBind(Orientation.VERTICAL,
+                GroupMasterSlaveView.createAndBind(
                         GroupView.createTableOnlyAndBind(pm),
-                        MasterTableView.createAndBind(this, pm).buildUi(),
-                        BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
+                        MasterTableView.createAndBind(pm, this).buildUi(),
+                        BookingDetailsPanel.createAndBind(pm, this, container).buildUi(),
                         pm
                 ).buildUi());
 

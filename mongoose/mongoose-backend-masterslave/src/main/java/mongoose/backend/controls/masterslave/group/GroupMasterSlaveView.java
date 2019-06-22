@@ -4,7 +4,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import mongoose.backend.controls.masterslave.MasterSlaveView;
 import mongoose.backend.controls.masterslave.MasterTableView;
@@ -19,12 +18,12 @@ import java.util.function.Function;
 
 public class GroupMasterSlaveView extends MasterSlaveView {
 
-    public GroupMasterSlaveView(Orientation orientation) {
-        this(orientation, null, null, null);
+    public GroupMasterSlaveView() {
+        this(null, null, null);
     }
 
-    public GroupMasterSlaveView(Orientation orientation, Node groupView, Node masterView, Node slaveView) {
-        super(orientation, null, null);
+    public GroupMasterSlaveView(Node groupView, Node masterView, Node slaveView) {
+        super(null, null);
         setGroupView(groupView);
         setMasterView(masterView);
         setSlaveView(slaveView);
@@ -32,24 +31,24 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     }
 
     public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSlaveDisplayResultProperty & HasSelectedMasterProperty>
-        GroupMasterSlaveView createAndBind(Orientation orientation, ControlFactoryMixin mixin, PM pm) {
-        return createAndBind(orientation,
+        GroupMasterSlaveView createAndBind(ControlFactoryMixin mixin, PM pm) {
+        return createAndBind(
                 GroupView.createAndBind(pm),
-                MasterTableView.createAndBind(mixin, pm).buildUi(),
+                MasterTableView.createAndBind(pm, mixin).buildUi(),
                 SlaveTableView.createAndBind(pm).buildUi(),
                 pm);
     }
 
-    public static <E> GroupMasterSlaveView createAndBind(Orientation orientation, GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty) {
-        return createAndBind(orientation, groupView, masterView, slaveView, masterSelectedEntityProperty, null);
+    public static <E> GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty) {
+        return createAndBind(groupView, masterView, slaveView, masterSelectedEntityProperty, null);
     }
 
-    public static GroupMasterSlaveView createAndBind(Orientation orientation, GroupView groupView, Node masterView, Node slaveView, HasSelectedMasterProperty pm) {
-        return createAndBind(orientation, groupView, masterView, slaveView, pm.selectedMasterProperty(), pm instanceof HasSlaveVisibilityCondition ? selectedMaster -> ((HasSlaveVisibilityCondition) pm).isSlaveVisible(selectedMaster) : null);
+    public static GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, HasSelectedMasterProperty pm) {
+        return createAndBind(groupView, masterView, slaveView, pm.selectedMasterProperty(), pm instanceof HasSlaveVisibilityCondition ? selectedMaster -> ((HasSlaveVisibilityCondition) pm).isSlaveVisible(selectedMaster) : null);
     }
 
-        public static <E> GroupMasterSlaveView createAndBind(Orientation orientation, GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
-        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(orientation, groupView.buildUi(), masterView, slaveView);
+        public static <E> GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
+        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(groupView.buildUi(), masterView, slaveView);
         groupMasterSlaveView.doDataBinding(groupView, masterSelectedEntityProperty, additionalSlaveVisibilityCondition);
         return groupMasterSlaveView;
     }

@@ -1,6 +1,5 @@
 package mongoose.backend.activities.payments;
 
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
@@ -38,7 +37,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         filterSearchBar = createFilterSearchBar("payments", "MoneyTransfer", container, pm);
         container.setTop(filterSearchBar.buildUi());
 
-        container.setCenter(GroupMasterSlaveView.createAndBind(Orientation.VERTICAL, this, pm).buildUi());
+        container.setCenter(GroupMasterSlaveView.createAndBind(this, pm).buildUi());
 
         return container;
     }

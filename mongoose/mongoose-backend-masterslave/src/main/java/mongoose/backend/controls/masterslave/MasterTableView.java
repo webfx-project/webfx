@@ -14,7 +14,7 @@ public final class MasterTableView {
     private final DataGrid masterTable = new DataGrid();
     private CheckBox masterLimitCheckBox;
 
-    private MasterTableView(ControlFactoryMixin mixin, HasMasterDisplayResultProperty pm) {
+    private MasterTableView(HasMasterDisplayResultProperty pm, ControlFactoryMixin mixin) {
         masterTable.displayResultProperty().bind(pm.masterDisplayResultProperty());
         if (pm instanceof HasMasterDisplaySelectionProperty)
             ((HasMasterDisplaySelectionProperty) pm).masterDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
@@ -33,7 +33,7 @@ public final class MasterTableView {
         return new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
     }
 
-    public static MasterTableView createAndBind(ControlFactoryMixin mixin, HasMasterDisplayResultProperty pm) {
-        return new MasterTableView(mixin, pm);
+    public static MasterTableView createAndBind(HasMasterDisplayResultProperty pm, ControlFactoryMixin mixin) {
+        return new MasterTableView(pm, mixin);
     }
 }
