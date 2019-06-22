@@ -7,8 +7,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import mongoose.backend.controls.masterslave.MasterSlaveView;
-import mongoose.client.presentationmodel.HasSelectedMasterProperty;
-import mongoose.client.presentationmodel.HasSlaveVisibilityCondition;
+import mongoose.backend.controls.masterslave.MasterTableView;
+import mongoose.backend.controls.masterslave.SlaveTableView;
+import mongoose.client.presentationmodel.*;
+import webfx.framework.client.ui.controls.ControlFactoryMixin;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
@@ -27,6 +29,15 @@ public class GroupMasterSlaveView extends MasterSlaveView {
         setMasterView(masterView);
         setSlaveView(slaveView);
         setMasterVisible(true);
+    }
+
+    public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSlaveDisplayResultProperty & HasSelectedMasterProperty>
+        GroupMasterSlaveView createAndBind(Orientation orientation, ControlFactoryMixin mixin, PM pm) {
+        return createAndBind(orientation,
+                GroupView.createAndBind(pm),
+                MasterTableView.createAndBind(mixin, pm).buildUi(),
+                SlaveTableView.createAndBind(pm).buildUi(),
+                pm);
     }
 
     public static <E> GroupMasterSlaveView createAndBind(Orientation orientation, GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty) {
