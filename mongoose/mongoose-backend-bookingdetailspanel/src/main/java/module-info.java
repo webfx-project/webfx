@@ -6,6 +6,7 @@ module mongoose.backend.bookingdetailspanel {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
+    requires mongoose.backend.masterslave;
     requires mongoose.client.personaldetails;
     requires mongoose.client.presentationmodel;
     requires mongoose.shared.entities;

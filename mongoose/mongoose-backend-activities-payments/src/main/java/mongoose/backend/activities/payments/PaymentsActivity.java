@@ -37,7 +37,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         filterSearchBar = createFilterSearchBar("payments", "MoneyTransfer", container, pm);
         container.setTop(filterSearchBar.buildUi());
 
-        container.setCenter(GroupMasterSlaveView.createAndBind(this, pm).buildUi());
+        container.setCenter(GroupMasterSlaveView.createAndBind(pm, this).buildUi());
 
         return container;
     }

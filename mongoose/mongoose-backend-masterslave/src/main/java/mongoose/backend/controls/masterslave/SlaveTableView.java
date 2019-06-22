@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import mongoose.client.presentationmodel.HasSlaveDisplayResultProperty;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
-public class SlaveTableView {
+public class SlaveTableView implements UiBuilder {
 
     private final DataGrid slaveTable = new DataGrid();
 
@@ -12,6 +12,7 @@ public class SlaveTableView {
         slaveTable.displayResultProperty().bind(pm.slaveDisplayResultProperty());
     }
 
+    @Override
     public Node buildUi() {
         return slaveTable;
     }

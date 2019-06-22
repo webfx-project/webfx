@@ -55,8 +55,8 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
         container.setCenter(
                 GroupMasterSlaveView.createAndBind(
                         GroupView.createAndBind(pm),
-                        MasterTableView.createAndBind(pm, this).buildUi(),
-                        BookingDetailsPanel.createAndBind(pm, this, container).buildUi(),
+                        MasterTableView.createAndBind(pm, this),
+                        BookingDetailsPanel.createAndBind(pm, this, container),
                         pm
                 ).buildUi());
 

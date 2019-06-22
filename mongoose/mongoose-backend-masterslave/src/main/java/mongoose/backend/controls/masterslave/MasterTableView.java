@@ -9,7 +9,7 @@ import webfx.framework.client.ui.controls.ControlFactoryMixin;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 import webfx.fxkit.util.properties.Properties;
 
-public final class MasterTableView {
+public final class MasterTableView implements UiBuilder {
 
     private final DataGrid masterTable = new DataGrid();
     private CheckBox masterLimitCheckBox;
@@ -26,6 +26,7 @@ public final class MasterTableView {
         }
     }
 
+    @Override
     public Node buildUi() {
         if (masterLimitCheckBox == null)
             return masterTable;

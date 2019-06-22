@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class MasterSlaveView {
+public class MasterSlaveView implements UiBuilder {
 
     private final SplitPane splitPane = new SplitPane();
 
@@ -29,8 +29,9 @@ public class MasterSlaveView {
     public MasterSlaveView setOrientation(Orientation orientation) {
         splitPane.setOrientation(orientation);
         return this;
-    };
+    }
 
+    @Override
     public Node buildUi() {
         return splitPane;
     }

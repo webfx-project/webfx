@@ -184,7 +184,7 @@
     <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
     <source path="mongoose/backend/controls/bookingdetailspanel"/>
     <!--==========================< mongoose-backend-masterslave >==========================-->
-    <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
+    <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
     <source path="mongoose/backend/controls/masterslave"/>
     <source path="mongoose/backend/controls/masterslave/group"/>
     <!--========================< mongoose-backend-multilangeditor >========================-->

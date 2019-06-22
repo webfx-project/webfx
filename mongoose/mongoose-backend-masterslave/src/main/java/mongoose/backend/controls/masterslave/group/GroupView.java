@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import mongoose.backend.controls.masterslave.UiBuilder;
 import mongoose.client.presentationmodel.*;
 import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.filter.StringFilter;
@@ -33,7 +34,7 @@ import webfx.platform.shared.util.Numbers;
 
 import java.util.Arrays;
 
-public final class GroupView<E extends Entity> implements
+public final class GroupView<E extends Entity> implements UiBuilder,
         HasGroupStringFilterProperty,
         HasGroupDisplayResultProperty,
         HasGroupDisplaySelectionProperty,
@@ -130,6 +131,7 @@ public final class GroupView<E extends Entity> implements
             selectedGroupProperty.bind(sourceSelectedGroupProperty);
     }
 
+    @Override
     public Node buildUi() {
         Node ui = tableOnly ? bindControl(new DataGrid()) : new TabPane(
                 createGroupTab("table", "images/s16/table.png",    new DataGrid()),

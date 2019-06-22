@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import mongoose.backend.controls.masterslave.MasterSlaveView;
 import mongoose.backend.controls.masterslave.MasterTableView;
 import mongoose.backend.controls.masterslave.SlaveTableView;
+import mongoose.backend.controls.masterslave.UiBuilder;
 import mongoose.client.presentationmodel.*;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
 import webfx.framework.client.ui.filter.StringFilter;
@@ -19,7 +20,11 @@ import java.util.function.Function;
 public class GroupMasterSlaveView extends MasterSlaveView {
 
     public GroupMasterSlaveView() {
-        this(null, null, null);
+        this((Node) null, null, null);
+    }
+
+    public GroupMasterSlaveView(UiBuilder groupView, UiBuilder masterView, UiBuilder slaveView) {
+        this(groupView.buildUi(), masterView.buildUi(), slaveView.buildUi());
     }
 
     public GroupMasterSlaveView(Node groupView, Node masterView, Node slaveView) {
@@ -31,7 +36,7 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     }
 
     public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSlaveDisplayResultProperty & HasSelectedMasterProperty>
-        GroupMasterSlaveView createAndBind(ControlFactoryMixin mixin, PM pm) {
+        GroupMasterSlaveView createAndBind(PM pm, ControlFactoryMixin mixin) {
         return createAndBind(
                 GroupView.createAndBind(pm),
                 MasterTableView.createAndBind(pm, mixin).buildUi(),
@@ -39,8 +44,8 @@ public class GroupMasterSlaveView extends MasterSlaveView {
                 pm);
     }
 
-    public static <E> GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty) {
-        return createAndBind(groupView, masterView, slaveView, masterSelectedEntityProperty, null);
+    public static GroupMasterSlaveView createAndBind(GroupView groupView, UiBuilder masterView, UiBuilder slaveView, HasSelectedMasterProperty pm) {
+        return createAndBind(groupView, masterView.buildUi(), slaveView.buildUi(), pm);
     }
 
     public static GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, HasSelectedMasterProperty pm) {

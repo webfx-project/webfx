@@ -32,6 +32,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-masterslave</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-client-personaldetails</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>

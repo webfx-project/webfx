@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import mongoose.backend.controls.masterslave.UiBuilder;
 import mongoose.client.controls.personaldetails.PersonalDetailsPanel;
 import mongoose.client.presentationmodel.HasSelectedDocumentProperty;
 import mongoose.shared.entities.Document;
@@ -26,7 +27,7 @@ import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
-public final class BookingDetailsPanel implements ReactiveExpressionFilterFactoryMixin {
+public final class BookingDetailsPanel implements ReactiveExpressionFilterFactoryMixin, UiBuilder {
 
     public static final String REQUIRED_FIELDS_STRING_FILTER = "person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name,event.startDate"; // event.startDate is required for the personal details panel
 
@@ -78,6 +79,7 @@ public final class BookingDetailsPanel implements ReactiveExpressionFilterFactor
         selectedDocumentProperty.set(document);
     }
 
+    @Override
     public Node buildUi() {
         return new VBox(/*button, */new TabPane(
                 createTab("Personal details", "images/s16/personalDetails.png", buildPersonalDetailsView()),
