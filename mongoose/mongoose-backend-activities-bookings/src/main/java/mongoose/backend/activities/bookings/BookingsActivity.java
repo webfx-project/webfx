@@ -58,7 +58,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                         GroupView.createAndBind(pm),
                         MasterTableView.createAndBind(this, pm).buildUi(),
                         BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
-                        pm.selectedDocumentProperty()
+                        pm
                 ).buildUi());
 
         return container;

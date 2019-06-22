@@ -7,7 +7,6 @@ import mongoose.backend.controls.masterslave.MasterTableView;
 import mongoose.backend.controls.masterslave.SlaveTableView;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.backend.controls.masterslave.group.GroupView;
-import mongoose.client.activity.eventdependent.EventDependentPresentationModel;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.client.entities.util.filters.FilterSearchBar;
@@ -28,7 +27,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
     private final PaymentsPresentationModel pm = new PaymentsPresentationModel();
 
     @Override
-    public EventDependentPresentationModel getPresentationModel() {
+    public PaymentsPresentationModel getPresentationModel() {
         return pm; // eventId and organizationId will then be updated from route
     }
 
@@ -47,7 +46,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                         GroupView.createAndBind(pm),
                         MasterTableView.createAndBind(this, pm).buildUi(),
                         SlaveTableView.createAndBind(pm).buildUi(),
-                        pm.selectedPaymentProperty(), selectedPayment -> selectedPayment.getDocument() == null
+                        pm
                 ).buildUi());
 
         return container;

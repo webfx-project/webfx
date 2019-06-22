@@ -27,7 +27,8 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
         HasMasterDisplaySelectionProperty,
         HasSelectedMasterProperty<MoneyTransfer>,
         HasSelectedPaymentProperty,
-        HasSlaveDisplayResultProperty {
+        HasSlaveDisplayResultProperty,
+        HasSlaveVisibilityCondition<MoneyTransfer> {
 
     private final StringProperty conditionStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
@@ -65,4 +66,8 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
     private final ObjectProperty<DisplayResult> slaveDisplayResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<DisplayResult> slaveDisplayResultProperty() { return slaveDisplayResultProperty; }
 
+    @Override
+    public boolean isSlaveVisible(MoneyTransfer selectedPayment) {
+        return selectedPayment.getDocument() == null;
+    }
 }

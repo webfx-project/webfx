@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import mongoose.backend.controls.masterslave.MasterSlaveView;
+import mongoose.client.presentationmodel.HasSelectedMasterProperty;
+import mongoose.client.presentationmodel.HasSlaveVisibilityCondition;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
@@ -31,7 +33,11 @@ public class GroupMasterSlaveView extends MasterSlaveView {
         return createAndBind(orientation, groupView, masterView, slaveView, masterSelectedEntityProperty, null);
     }
 
-    public static <E> GroupMasterSlaveView createAndBind(Orientation orientation, GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
+    public static GroupMasterSlaveView createAndBind(Orientation orientation, GroupView groupView, Node masterView, Node slaveView, HasSelectedMasterProperty pm) {
+        return createAndBind(orientation, groupView, masterView, slaveView, pm.selectedMasterProperty(), pm instanceof HasSlaveVisibilityCondition ? selectedMaster -> ((HasSlaveVisibilityCondition) pm).isSlaveVisible(selectedMaster) : null);
+    }
+
+        public static <E> GroupMasterSlaveView createAndBind(Orientation orientation, GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
         GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(orientation, groupView.buildUi(), masterView, slaveView);
         groupMasterSlaveView.doDataBinding(groupView, masterSelectedEntityProperty, additionalSlaveVisibilityCondition);
         return groupMasterSlaveView;

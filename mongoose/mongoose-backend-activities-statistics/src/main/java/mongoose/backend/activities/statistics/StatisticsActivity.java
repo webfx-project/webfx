@@ -58,7 +58,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                         GroupView.createTableOnlyAndBind(pm),
                         MasterTableView.createAndBind(this, pm).buildUi(),
                         BookingDetailsPanel.createAndBind(container,this, pm).buildUi(),
-                        pm.selectedDocumentProperty()
+                        pm
                 ).buildUi());
 
         return container;
