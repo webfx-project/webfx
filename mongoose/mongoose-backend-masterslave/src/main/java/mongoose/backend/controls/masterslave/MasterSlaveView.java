@@ -7,9 +7,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
+import mongoose.backend.controls.masterslave.group.GroupView;
+import webfx.fxkit.util.properties.Properties;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class MasterSlaveView implements UiBuilder {
@@ -100,4 +103,14 @@ public class MasterSlaveView implements UiBuilder {
     protected void updateSplitPane(Node... views) {
         splitPane.getItems().setAll(Arrays.stream(views).filter(Objects::nonNull).collect(Collectors.toList()));
     }
+
+
+    /*==================================================================================================================
+    =================================================== Data binding ===================================================
+    ==================================================================================================================*/
+
+    public <E> void doVisibilityBinding(GroupView groupView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
+        slaveVisibleProperty().bind(Properties.compute(masterSelectedEntityProperty, selectedEntity -> selectedEntity != null && (additionalSlaveVisibilityCondition == null || additionalSlaveVisibilityCondition.apply(selectedEntity))));
+    }
+
 }

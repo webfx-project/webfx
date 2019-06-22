@@ -5,9 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
-import mongoose.backend.controls.masterslave.MasterTableView;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
-import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.entities.Attendance;
@@ -52,13 +50,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         // Building the filter search bar and put it on top
         container.setTop(createFilterSearchBar("statistics", "DocumentLine", container, pm).buildUi());
 
-        container.setCenter(
-                GroupMasterSlaveView.createAndBind(
-                        GroupView.createTableOnlyAndBind(pm),
-                        MasterTableView.createAndBind(pm, this),
-                        BookingDetailsPanel.createAndBind(pm, this, container),
-                        pm
-                ).buildUi());
+        container.setCenter(GroupMasterSlaveView.createAndBind(BookingDetailsPanel.createAndBind(pm, this, container), pm, this).buildUi());
 
         return container;
     }

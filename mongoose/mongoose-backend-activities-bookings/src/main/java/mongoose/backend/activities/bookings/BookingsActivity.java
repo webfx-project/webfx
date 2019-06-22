@@ -5,9 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
-import mongoose.backend.controls.masterslave.MasterTableView;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
-import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
@@ -52,13 +50,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                 setHGrowable(filterSearchBar.buildUi()),
                 setUnmanagedWhenInvisible(cloneEventButton)));
 
-        container.setCenter(
-                GroupMasterSlaveView.createAndBind(
-                        GroupView.createAndBind(pm),
-                        MasterTableView.createAndBind(pm, this),
-                        BookingDetailsPanel.createAndBind(pm, this, container),
-                        pm
-                ).buildUi());
+        container.setCenter(GroupMasterSlaveView.createAndBind(BookingDetailsPanel.createAndBind(pm, this, container), pm, this).buildUi());
 
         return container;
     }

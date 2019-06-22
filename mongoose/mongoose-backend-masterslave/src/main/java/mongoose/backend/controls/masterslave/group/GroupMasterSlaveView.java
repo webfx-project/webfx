@@ -28,43 +28,12 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     }
 
     public GroupMasterSlaveView(Node groupView, Node masterView, Node slaveView) {
-        super(null, null);
+        super(masterView, slaveView);
         setGroupView(groupView);
-        setMasterView(masterView);
-        setSlaveView(slaveView);
         setMasterVisible(true);
     }
 
-    public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSlaveDisplayResultProperty & HasSelectedMasterProperty>
-        GroupMasterSlaveView createAndBind(PM pm, ControlFactoryMixin mixin) {
-        return createAndBind(
-                GroupView.createAndBind(pm),
-                MasterTableView.createAndBind(pm, mixin).buildUi(),
-                SlaveTableView.createAndBind(pm).buildUi(),
-                pm);
-    }
-
-    public static GroupMasterSlaveView createAndBind(GroupView groupView, UiBuilder masterView, UiBuilder slaveView, HasSelectedMasterProperty pm) {
-        return createAndBind(groupView, masterView.buildUi(), slaveView.buildUi(), pm);
-    }
-
-    public static GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, HasSelectedMasterProperty pm) {
-        return createAndBind(groupView, masterView, slaveView, pm.selectedMasterProperty(), pm instanceof HasSlaveVisibilityCondition ? selectedMaster -> ((HasSlaveVisibilityCondition) pm).isSlaveVisible(selectedMaster) : null);
-    }
-
-        public static <E> GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
-        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(groupView.buildUi(), masterView, slaveView);
-        groupMasterSlaveView.doDataBinding(groupView, masterSelectedEntityProperty, additionalSlaveVisibilityCondition);
-        return groupMasterSlaveView;
-    }
-
-    public <E> void doDataBinding(GroupView groupView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
-        groupVisibleProperty() .bind(Properties.compute(groupView.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
-        masterVisibleProperty().bind(Properties.combine(groupVisibleProperty(),  groupView.selectedGroupProperty(), (groupVisible, selectedGroup) -> !groupVisible || selectedGroup != null));
-        slaveVisibleProperty() .bind(Properties.combine(masterVisibleProperty(), masterSelectedEntityProperty, (masterVisible, selectedEntity) -> masterVisible && selectedEntity != null && (additionalSlaveVisibilityCondition == null || additionalSlaveVisibilityCondition.apply(selectedEntity))));
-    }
-
-    private final ObjectProperty<Node> groupViewProperty = new SimpleObjectProperty<Node>() { // GWT doesn't accept <>
+    private final ObjectProperty<Node> groupViewProperty = new SimpleObjectProperty<Node/*GWT*/>() {
         @Override
         protected void invalidated() {
             updateView();
@@ -126,4 +95,53 @@ public class GroupMasterSlaveView extends MasterSlaveView {
         masterVisibleProperty().setValue(masterVisible);
     }
 
+
+    /*==================================================================================================================
+    =================================================== Data binding ===================================================
+    ==================================================================================================================*/
+
+    @Override
+    public <E> void doVisibilityBinding(GroupView groupView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
+        groupVisibleProperty() .bind(Properties.compute(groupView.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
+        masterVisibleProperty().bind(Properties.combine(groupVisibleProperty(),  groupView.selectedGroupProperty(), (groupVisible, selectedGroup) -> !groupVisible || selectedGroup != null));
+        slaveVisibleProperty() .bind(Properties.combine(masterVisibleProperty(), masterSelectedEntityProperty, (masterVisible, selectedEntity) -> masterVisible && selectedEntity != null && (additionalSlaveVisibilityCondition == null || additionalSlaveVisibilityCondition.apply(selectedEntity))));
+    }
+
+
+    /*==================================================================================================================
+    ============================================== Static factory methods ==============================================
+    ==================================================================================================================*/
+
+    public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSlaveDisplayResultProperty & HasSelectedMasterProperty>
+    GroupMasterSlaveView createAndBind(PM pm, ControlFactoryMixin mixin) {
+        return createAndBind(SlaveTableView.createAndBind(pm), pm, mixin);
+    }
+
+    public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty>
+    GroupMasterSlaveView createAndBind(UiBuilder slaveUiFactory, PM pm, ControlFactoryMixin mixin) {
+        return createAndBind(MasterTableView.createAndBind(pm, mixin), slaveUiFactory, pm);
+    }
+
+    public static <PM extends HasGroupDisplayResultProperty & HasSelectedMasterProperty>
+    GroupMasterSlaveView createAndBind(UiBuilder masterUiFactory, UiBuilder slaveUiFactory, PM pm) {
+        return createAndBind(
+                GroupView.createAndBind(pm),
+                masterUiFactory,
+                slaveUiFactory,
+                pm);
+    }
+
+    public static GroupMasterSlaveView createAndBind(GroupView groupView, UiBuilder masterView, UiBuilder slaveView, HasSelectedMasterProperty pm) {
+        return createAndBind(groupView, masterView.buildUi(), slaveView.buildUi(), pm);
+    }
+
+    public static GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, HasSelectedMasterProperty pm) {
+        return createAndBind(groupView, masterView, slaveView, pm.selectedMasterProperty(), pm instanceof HasSlaveVisibilityCondition ? selectedMaster -> ((HasSlaveVisibilityCondition) pm).isSlaveVisible(selectedMaster) : null);
+    }
+
+    public static <E> GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
+        GroupMasterSlaveView groupMasterSlaveView = new GroupMasterSlaveView(groupView.buildUi(), masterView, slaveView);
+        groupMasterSlaveView.doVisibilityBinding(groupView, masterSelectedEntityProperty, additionalSlaveVisibilityCondition);
+        return groupMasterSlaveView;
+    }
 }
