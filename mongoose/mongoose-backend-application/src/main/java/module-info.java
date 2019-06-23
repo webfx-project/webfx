@@ -16,6 +16,8 @@ module mongoose.backend.application {
     requires mongoose.backend.activities.organizations;
     requires mongoose.backend.activities.payments;
     requires mongoose.backend.activities.statistics;
+    requires mongoose.backend.bookingdetailspanel;
+    requires mongoose.backend.masterslave;
     requires mongoose.client.application;
 
     // Exported packages

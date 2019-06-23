@@ -50,7 +50,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         // Building the filter search bar and put it on top
         container.setTop(createFilterSearchBar("statistics", "DocumentLine", container, pm).buildUi());
 
-        container.setCenter(GroupMasterSlaveView.createAndBind(BookingDetailsPanel.createAndBind(pm, this, container), pm, this).buildUi());
+        container.setCenter(GroupMasterSlaveView.createAndBind(pm, this, container).buildUi());
 
         return container;
     }

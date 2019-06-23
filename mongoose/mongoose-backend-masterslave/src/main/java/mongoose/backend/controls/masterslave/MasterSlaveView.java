@@ -7,10 +7,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
+import javafx.scene.layout.Pane;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import webfx.fxkit.util.properties.Properties;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -113,4 +116,23 @@ public class MasterSlaveView implements UiBuilder {
         slaveVisibleProperty().bind(Properties.compute(masterSelectedEntityProperty, selectedEntity -> selectedEntity != null && (additionalSlaveVisibilityCondition == null || additionalSlaveVisibilityCondition.apply(selectedEntity))));
     }
 
+
+    /*==================================================================================================================
+    =========================================== Slave view builder registry ============================================
+    ==================================================================================================================*/
+
+    @FunctionalInterface
+    public interface SlaveViewBuilder {
+        UiBuilder createAndBindSlaveViewIfApplicable(Object pm, Object mixin, Pane container);
+    }
+
+    private final static List<SlaveViewBuilder> slaveViewBuilders = new ArrayList<>();
+
+    public static void registerSlaveViewBuilder(SlaveViewBuilder slaveViewBuilder) {
+        slaveViewBuilders.add(slaveViewBuilder);
+    }
+
+    public static UiBuilder createAndBindSlaveViewIfApplicable(Object pm, Object mixin, Pane container) {
+        return slaveViewBuilders.stream().map(svb -> svb.createAndBindSlaveViewIfApplicable(pm, mixin, container)).filter(Objects::nonNull).findFirst().orElse(null);
+    }
 }

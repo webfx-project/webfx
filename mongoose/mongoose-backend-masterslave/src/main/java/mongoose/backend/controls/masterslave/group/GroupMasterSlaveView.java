@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import mongoose.backend.controls.masterslave.MasterSlaveView;
 import mongoose.backend.controls.masterslave.MasterTableView;
 import mongoose.backend.controls.masterslave.SlaveTableView;
@@ -30,7 +31,6 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     public GroupMasterSlaveView(Node groupView, Node masterView, Node slaveView) {
         super(masterView, slaveView);
         setGroupView(groupView);
-        setMasterVisible(true);
     }
 
     private final ObjectProperty<Node> groupViewProperty = new SimpleObjectProperty<Node/*GWT*/>() {
@@ -69,14 +69,15 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     }
 
     public boolean isGroupVisible() {
-        return groupVisibleProperty().get();
+        // Note: groupVisibleProperty is null on first call because not yet initialized (constructor -> set master/slave view -> updateView() -> isGroupVisible()))
+        return groupVisibleProperty != null && groupVisibleProperty.get();
     }
 
     public void setGroupVisible(boolean groupVisible) {
         groupVisibleProperty().setValue(groupVisible);
     }
 
-    private final BooleanProperty masterVisibleProperty = new SimpleBooleanProperty() {
+    private final BooleanProperty masterVisibleProperty = new SimpleBooleanProperty(true) {
         @Override
         protected void invalidated() {
             updateView();
@@ -88,7 +89,8 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     }
 
     public boolean isMasterVisible() {
-        return masterVisibleProperty().get();
+        // Note: masterVisibleProperty is null on first call because not yet initialized (constructor -> set master/slave view -> updateView() -> isMasterVisible())
+        return masterVisibleProperty == null || masterVisibleProperty.get();
     }
 
     public void setMasterVisible(boolean masterVisible) {
@@ -111,6 +113,14 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     /*==================================================================================================================
     ============================================== Static factory methods ==============================================
     ==================================================================================================================*/
+
+    public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty>
+    GroupMasterSlaveView createAndBind(PM pm, ControlFactoryMixin mixin, Pane container) {
+        UiBuilder slaveView = MasterSlaveView.createAndBindSlaveViewIfApplicable(pm, mixin, container);
+        if (slaveView == null && pm instanceof HasSlaveDisplayResultProperty)
+            slaveView = SlaveTableView.createAndBind((HasSlaveDisplayResultProperty) pm);
+        return createAndBind(slaveView, pm, mixin);
+    }
 
     public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSlaveDisplayResultProperty & HasSelectedMasterProperty>
     GroupMasterSlaveView createAndBind(PM pm, ControlFactoryMixin mixin) {

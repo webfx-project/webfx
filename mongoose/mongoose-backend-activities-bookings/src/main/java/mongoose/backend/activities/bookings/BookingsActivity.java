@@ -50,7 +50,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                 setHGrowable(filterSearchBar.buildUi()),
                 setUnmanagedWhenInvisible(cloneEventButton)));
 
-        container.setCenter(GroupMasterSlaveView.createAndBind(BookingDetailsPanel.createAndBind(pm, this, container), pm, this).buildUi());
+        container.setCenter(GroupMasterSlaveView.createAndBind(pm, this, container).buildUi());
 
         return container;
     }

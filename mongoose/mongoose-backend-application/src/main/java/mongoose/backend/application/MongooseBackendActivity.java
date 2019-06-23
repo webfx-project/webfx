@@ -1,5 +1,7 @@
 package mongoose.backend.application;
 
+import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
+import mongoose.backend.controls.masterslave.MasterSlaveView;
 import mongoose.client.application.MongooseClientActivity;
 
 /**
@@ -11,6 +13,7 @@ final class MongooseBackendActivity extends MongooseClientActivity {
 
     MongooseBackendActivity() {
         super(DEFAULT_START_PATH);
+        MasterSlaveView.registerSlaveViewBuilder(BookingDetailsPanel::createAndBindIfApplicable);
     }
 
 }

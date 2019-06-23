@@ -45,18 +45,6 @@ public final class BookingDetailsPanel implements ReactiveExpressionFilterFactor
         this.dataSourceModel = dataSourceModel;
     }
 
-    public static <M extends ButtonFactoryMixin & HasDataSourceModel> BookingDetailsPanel createAndBind(HasSelectedDocumentProperty pm, M mixin, Pane parent) {
-        return createAndBind(pm, mixin, parent, mixin.getDataSourceModel());
-    }
-
-    public static BookingDetailsPanel createAndBind(HasSelectedDocumentProperty pm, ButtonFactoryMixin mixin, Pane parent, DataSourceModel dataSourceModel) {
-        BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(parent, mixin, dataSourceModel);
-        bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
-        if (mixin instanceof HasActiveProperty)
-            bookingDetailsPanel.activeProperty().bind(((HasActiveProperty) mixin).activeProperty());
-        return bookingDetailsPanel;
-    }
-
     @Override
     public DataSourceModel getDataSourceModel() {
         return dataSourceModel;
@@ -250,6 +238,29 @@ public final class BookingDetailsPanel implements ReactiveExpressionFilterFactor
         titledPane.setMaxHeight(Double.MAX_VALUE);
         GridPane.setColumnIndex(titledPane, columnIndex++);
         return titledPane;
+    }
+
+    /*==================================================================================================================
+    ============================================== Static factory methods ==============================================
+    ==================================================================================================================*/
+
+    public static <M extends ButtonFactoryMixin & HasDataSourceModel> BookingDetailsPanel createAndBind(HasSelectedDocumentProperty pm, M mixin, Pane container) {
+        return createAndBind(pm, mixin, container, mixin.getDataSourceModel());
+    }
+
+    public static BookingDetailsPanel createAndBind(HasSelectedDocumentProperty pm, ButtonFactoryMixin mixin, Pane container, DataSourceModel dataSourceModel) {
+        BookingDetailsPanel bookingDetailsPanel = new BookingDetailsPanel(container, mixin, dataSourceModel);
+        bookingDetailsPanel.selectedDocumentProperty().bind(pm.selectedDocumentProperty());
+        if (mixin instanceof HasActiveProperty)
+            bookingDetailsPanel.activeProperty().bind(((HasActiveProperty) mixin).activeProperty());
+        return bookingDetailsPanel;
+    }
+
+
+    public static BookingDetailsPanel createAndBindIfApplicable(Object pm, Object mixin, Pane container) {
+        if (pm instanceof HasSelectedDocumentProperty && mixin instanceof  ButtonFactoryMixin && mixin instanceof HasDataSourceModel)
+            return createAndBind((HasSelectedDocumentProperty) pm, (ButtonFactoryMixin & HasDataSourceModel) mixin, container);
+        return null;
     }
 }
 
