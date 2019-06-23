@@ -9,7 +9,6 @@ module mongoose.backend.activities.statistics {
     requires mongoose.backend.bookingdetailspanel;
     requires mongoose.backend.masterslave;
     requires mongoose.client.activity;
-    requires mongoose.client.entities;
     requires mongoose.client.presentationmodel;
     requires mongoose.client.util;
     requires mongoose.shared.entities;

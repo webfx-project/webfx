@@ -7,7 +7,6 @@ module mongoose.backend.activities.payments {
     requires javafx.graphics;
     requires mongoose.backend.masterslave;
     requires mongoose.client.activity;
-    requires mongoose.client.entities;
     requires mongoose.client.presentationmodel;
     requires mongoose.client.util;
     requires mongoose.shared.domain;

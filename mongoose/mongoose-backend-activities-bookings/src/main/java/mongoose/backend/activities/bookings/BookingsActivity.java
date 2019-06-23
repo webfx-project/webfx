@@ -7,10 +7,10 @@ import javafx.scene.layout.HBox;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
 import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
+import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
-import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
@@ -21,7 +21,7 @@ import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvis
 
 final class BookingsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
-        FilterButtonSelectorFactoryMixin,
+        ConventionalUiBuilderMixin,
         ConventionalReactiveExpressionFilterFactoryMixin {
 
     /*==================================================================================================================
@@ -39,7 +39,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
 
     @Override
     public Node buildUi() {
-        ui = ConventionalUiBuilder.createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, this, "bookings", "Document");
+        ui = createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, "bookings", "Document");
         Node uiNode = ui.buildUi();
 
         // Adding new booking button on left and clone event on right of the filter search bar

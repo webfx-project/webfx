@@ -3,14 +3,14 @@ package mongoose.backend.activities.payments;
 import javafx.scene.Node;
 import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
+import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
-import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 
 final class PaymentsActivity extends EventDependentViewDomainActivity implements
-        FilterButtonSelectorFactoryMixin,
+        ConventionalUiBuilderMixin,
         ConventionalReactiveExpressionFilterFactoryMixin {
 
     /*==================================================================================================================
@@ -28,7 +28,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
 
     @Override
     public Node buildUi() {
-        ui = ConventionalUiBuilder.createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, this, "payments", "MoneyTransfer");
+        ui = createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, "payments", "MoneyTransfer");
         return ui.buildUi();
     }
 

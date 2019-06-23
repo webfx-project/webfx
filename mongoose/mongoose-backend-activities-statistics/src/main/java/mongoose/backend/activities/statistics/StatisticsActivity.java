@@ -5,9 +5,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
 import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
-import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
+import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
-import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
 import webfx.framework.client.ui.filter.ExpressionColumn;
@@ -28,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 final class StatisticsActivity extends EventDependentViewDomainActivity implements
-        FilterButtonSelectorFactoryMixin,
+        ConventionalUiBuilderMixin,
         ConventionalReactiveExpressionFilterFactoryMixin {
 
     /*==================================================================================================================
@@ -44,7 +43,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
 
     @Override
     public Node buildUi() {
-        return ConventionalUiBuilder.createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, this, "statistics", "DocumentLine").buildUi();
+        return createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, "statistics", "DocumentLine").buildUi();
     }
 
 
