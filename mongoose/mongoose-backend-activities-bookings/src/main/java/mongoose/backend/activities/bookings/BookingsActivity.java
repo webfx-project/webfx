@@ -5,12 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
-import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
+import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.operations.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
-import mongoose.client.entities.util.filters.FilterSearchBar;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
@@ -36,29 +35,29 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
         return pm; // eventId and organizationId will then be updated from route
     }
 
-    private FilterSearchBar filterSearchBar; // Keeping this reference for activity resume
+    private ConventionalUiBuilder ui; // Keeping this reference for activity resume
 
     @Override
     public Node buildUi() {
-        BorderPane container = new BorderPane();
-        // Building the top bar
+        ui = ConventionalUiBuilder.createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, this, "bookings", "Document");
+        Node uiNode = ui.buildUi();
+
+        // Adding new booking button on left and clone event on right of the filter search bar
+        BorderPane container = ui.getContainer();
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory()))),
                cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
-        filterSearchBar = createFilterSearchBar("bookings", "Document", container, pm);
         container.setTop(new HBox(10,
                 setUnmanagedWhenInvisible(newBookingButton),
-                setHGrowable(filterSearchBar.buildUi()),
+                setHGrowable(container.getTop()),
                 setUnmanagedWhenInvisible(cloneEventButton)));
 
-        container.setCenter(GroupMasterSlaveView.createAndBind(pm, this, container).buildUi());
-
-        return container;
+        return uiNode;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        filterSearchBar.onResume(); // activate search text focus on activity resume
+        ui.onResume(); // activate search text focus on activity resume
     }
 
 

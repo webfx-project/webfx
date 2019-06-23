@@ -3,9 +3,8 @@ package mongoose.backend.activities.statistics;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
+import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
-import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.entities.Attendance;
@@ -45,14 +44,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
 
     @Override
     public Node buildUi() {
-        BorderPane container = new BorderPane();
-
-        // Building the filter search bar and put it on top
-        container.setTop(createFilterSearchBar("statistics", "DocumentLine", container, pm).buildUi());
-
-        container.setCenter(GroupMasterSlaveView.createAndBind(pm, this, container).buildUi());
-
-        return container;
+        return ConventionalUiBuilder.createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, this, "statistics", "DocumentLine").buildUi();
     }
 
 

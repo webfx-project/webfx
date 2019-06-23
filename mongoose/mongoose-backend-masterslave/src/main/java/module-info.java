@@ -7,6 +7,7 @@ module mongoose.backend.masterslave {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
+    requires mongoose.client.entities;
     requires mongoose.client.presentationmodel;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.uifilter;

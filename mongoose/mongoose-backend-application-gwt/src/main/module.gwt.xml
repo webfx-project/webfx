@@ -253,7 +253,7 @@
     <!--============================< mongoose-client-css-web >=============================-->
     <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <!--============================< mongoose-client-entities >============================-->
-    <!-- used by mongoose-client-businesslogic (SOURCE) -->
+    <!-- used by mongoose-backend-masterslave (SOURCE) -->
     <source path="mongoose/client/entities/util"/>
     <source path="mongoose/client/entities/util/filters"/>
     <!--==============================< mongoose-client-i18n >==============================-->
@@ -303,7 +303,7 @@
     <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
     <source path="mongoose/client/controls/personaldetails"/>
     <!--=======================< mongoose-client-presentationmodel >========================-->
-    <!-- used by mongoose-backend-masterslave (SOURCE) -->
+    <!-- used by mongoose-client-entities (SOURCE) -->
     <source path="mongoose/client/presentationmodel"/>
     <!--==========================< mongoose-client-sectionpanel >==========================-->
     <!-- used by mongoose-client-personaldetails (SOURCE) -->
@@ -380,7 +380,7 @@
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty"/>
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty/impl"/>
     <!--========================< webfx-framework-client-controls >=========================-->
-    <!-- used by mongoose-backend-masterslave (SOURCE) -->
+    <!-- used by mongoose-client-entities (SOURCE) -->
     <source path="webfx/framework/client/ui/controls"/>
     <source path="webfx/framework/client/ui/controls/alert"/>
     <source path="webfx/framework/client/ui/controls/button"/>

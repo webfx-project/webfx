@@ -1,11 +1,9 @@
 package mongoose.backend.activities.payments;
 
 import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
-import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
+import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
-import mongoose.client.entities.util.filters.FilterSearchBar;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
@@ -27,25 +25,18 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         return pm; // eventId and organizationId will then be updated from route
     }
 
-    private FilterSearchBar filterSearchBar; // Keeping this reference for activity resume
+    private ConventionalUiBuilder ui; // Keeping this reference for activity resume
 
     @Override
     public Node buildUi() {
-        BorderPane container = new BorderPane();
-
-        // Building the filter search bar and put it on top
-        filterSearchBar = createFilterSearchBar("payments", "MoneyTransfer", container, pm);
-        container.setTop(filterSearchBar.buildUi());
-
-        container.setCenter(GroupMasterSlaveView.createAndBind(pm, this).buildUi());
-
-        return container;
+        ui = ConventionalUiBuilder.createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, this, "payments", "MoneyTransfer");
+        return ui.buildUi();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        filterSearchBar.onResume();
+        ui.onResume();
     }
 
 
