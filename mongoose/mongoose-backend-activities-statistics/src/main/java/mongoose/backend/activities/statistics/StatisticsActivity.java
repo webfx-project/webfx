@@ -3,15 +3,15 @@ package mongoose.backend.activities.statistics;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
-import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
+import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
+import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
 import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.orm.entity.EntityList;
@@ -29,7 +29,7 @@ import java.util.Objects;
 
 final class StatisticsActivity extends EventDependentViewDomainActivity implements
         FilterButtonSelectorFactoryMixin,
-        ReactiveExpressionFilterFactoryMixin {
+        ConventionalReactiveExpressionFilterFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -70,20 +70,13 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
     @Override
     protected void startLogic() {
         // Setting up the left group filter for the left content displayed in the group view
-        leftGroupFilter = this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', alias: 'dl'}")
+        leftGroupFilter = this.<DocumentLine>createGroupReactiveExpressionFilter(pm, "{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}")
-                // Applying the condition and group selected by the user
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.conditionStringFilterProperty(), stringFilter -> stringFilter)
-                //.combine("{where: '!cancelled'}")
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.groupStringFilterProperty(), stringFilter -> stringFilter.contains("groupBy") ? stringFilter : "{where: 'false'}")
                 // Displaying the result in the group view
                 .displayResultInto(leftDisplayResultProperty)
-                // Reacting to a group selection
-                .setSelectedEntityHandler(pm.groupDisplaySelectionProperty(), pm::setSelectedGroup)
                 // Everything set up, let's start now!
                 .start();
-        pm.setSelectedGroupReferenceResolver(leftGroupFilter.getRootAliasReferenceResolver());
 
         // Setting up the right group filter
         rightAttendanceFilter = this.<Attendance>createReactiveExpressionFilter("{class: 'Attendance', alias: 'a', where: 'present', orderBy: 'date'}")
@@ -110,24 +103,13 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                 .start();
 
         // Setting up the master filter for the content displayed in the master view
-        masterFilter = this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', alias: 'dl', orderBy: 'document.ref,item.family.ord,site..ord,item.ord'}")
+        masterFilter = this.<DocumentLine>createMasterReactiveExpressionFilter(pm, "{class: 'DocumentLine', alias: 'dl', orderBy: 'document.ref,item.family.ord,site..ord,item.ord'}")
                 // Always loading the fields required for viewing the booking details
                 .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS_STRING_FILTER + ")`}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}")
-                // Applying the condition and columns selected by the user
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.conditionStringFilterProperty(), stringFilter -> stringFilter)
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.columnsStringFilterProperty(),   stringFilter -> stringFilter)
-                // Also, in case groups are showing and a group is selected, applying the condition associated with that group
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedGroupConditionStringFilterProperty(), s -> s)
-                // Limit clause
-                .combineIfPositive(pm.limitProperty(), limit -> "{limit: `" + limit + "`}")
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
-                // Displaying the result in the master view
-                .displayResultInto(pm.masterDisplayResultProperty())
-                // Reacting the a booking selection
-                .setSelectedEntityHandler(pm.masterDisplaySelectionProperty(), pm::setSelectedMaster)
                 // Everything set up, let's start now!
                 .start();
     }
@@ -142,7 +124,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
     private DisplayResult lastLeftResult, lastRightResult;
 
     private void buildFinalGroupDisplayResultIfReady() {
-        DisplayResult leftResult = leftDisplayResultProperty.get();
+        DisplayResult leftResult  = leftDisplayResultProperty.get();
         DisplayResult rightResult = rightDisplayResultProperty.get();
         if (leftResult == lastLeftResult || rightResult == lastRightResult)
             return;

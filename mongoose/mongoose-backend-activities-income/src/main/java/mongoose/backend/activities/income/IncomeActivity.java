@@ -3,6 +3,7 @@ package mongoose.backend.activities.income;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
@@ -12,13 +13,12 @@ import mongoose.shared.entities.Filter;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
 final class IncomeActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
         FilterButtonSelectorFactoryMixin,
-        ReactiveExpressionFilterFactoryMixin {
+        ConventionalReactiveExpressionFilterFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -69,13 +69,9 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
                 .start();
 
         // Setting up the left group filter for the left content displayed in the group view
-        breakdownFilter = this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', alias: 'dl'}")
+        breakdownFilter = this.<DocumentLine>createGroupReactiveExpressionFilter(pm,"{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where: `document.event=" + eventId + "`}")
-                //.combine("{where: '!cancelled'}")
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.groupStringFilterProperty(), stringFilter -> stringFilter.contains("groupBy") ? stringFilter : "{where: 'false'}")
-                // Displaying the result in the group view
-                .displayResultInto(pm.groupDisplayResultProperty())
                 // Everything set up, let's start now!
                 .start();
     }

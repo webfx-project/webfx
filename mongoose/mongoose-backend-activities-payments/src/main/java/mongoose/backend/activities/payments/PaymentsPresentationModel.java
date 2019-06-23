@@ -50,7 +50,7 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
 
     private ReferenceResolver selectedGroupReferenceResolver;
     @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }
-    public void setSelectedGroupReferenceResolver(ReferenceResolver referenceResolver) { this.selectedGroupReferenceResolver = referenceResolver; }
+    @Override public void setSelectedGroupReferenceResolver(ReferenceResolver referenceResolver) { this.selectedGroupReferenceResolver = referenceResolver; }
 
     private final ObjectProperty<DisplayResult> masterDisplayResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<DisplayResult> masterDisplayResultProperty() { return masterDisplayResultProperty; }

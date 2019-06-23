@@ -5,4 +5,6 @@ import webfx.framework.shared.expression.builder.ReferenceResolver;
 public interface HasSelectedGroupReferenceResolver {
 
     ReferenceResolver getSelectedGroupReferenceResolver();
+
+    void setSelectedGroupReferenceResolver(ReferenceResolver referenceResolver);
 }

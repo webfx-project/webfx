@@ -303,7 +303,7 @@
     <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
     <source path="mongoose/client/controls/personaldetails"/>
     <!--=======================< mongoose-client-presentationmodel >========================-->
-    <!-- used by mongoose-client-entities (SOURCE) -->
+    <!-- used by mongoose-backend-masterslave (SOURCE) -->
     <source path="mongoose/client/presentationmodel"/>
     <!--==========================< mongoose-client-sectionpanel >==========================-->
     <!-- used by mongoose-client-personaldetails (SOURCE) -->
@@ -398,7 +398,7 @@
     <source path="webfx/framework/client/activity/impl/elementals/domain"/>
     <source path="webfx/framework/client/activity/impl/elementals/domain/impl"/>
     <!--==========================< webfx-framework-client-i18n >===========================-->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
+    <!-- used by webfx-framework-client-uifilter (SOURCE) -->
     <source path="webfx/framework/client/operations/i18n"/>
     <source path="webfx/framework/client/services/i18n"/>
     <source path="webfx/framework/client/services/i18n/spi"/>
@@ -427,7 +427,7 @@
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="webfx/framework/client/jobs/querypush"/>
     <!--========================< webfx-framework-client-uifilter >=========================-->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
+    <!-- used by mongoose-backend-masterslave (SOURCE) -->
     <source path="webfx/framework/client/ui/filter"/>
     <source path="webfx/framework/shared/orm/mapping/entity_display"/>
     <!--========================< webfx-framework-client-uirouter >=========================-->
