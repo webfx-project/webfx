@@ -2,8 +2,6 @@ package mongoose.backend.activities.bookings;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
 import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
@@ -16,7 +14,6 @@ import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 
-import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
 import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
 final class BookingsActivity extends EventDependentViewDomainActivity implements
@@ -40,18 +37,14 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
     @Override
     public Node buildUi() {
         ui = createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, "bookings", "Document");
-        Node uiNode = ui.buildUi();
 
         // Adding new booking button on left and clone event on right of the filter search bar
-        BorderPane container = ui.getContainer();
         Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory()))),
                cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
-        container.setTop(new HBox(10,
-                setUnmanagedWhenInvisible(newBookingButton),
-                setHGrowable(container.getTop()),
-                setUnmanagedWhenInvisible(cloneEventButton)));
+        ui.setLeftTopNodes(setUnmanagedWhenInvisible(newBookingButton));
+        ui.setRightTopNodes(setUnmanagedWhenInvisible(cloneEventButton));
 
-        return uiNode;
+        return ui.buildUi();
     }
 
     @Override

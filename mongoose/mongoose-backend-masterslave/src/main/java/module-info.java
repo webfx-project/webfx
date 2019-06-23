@@ -10,6 +10,7 @@ module mongoose.backend.masterslave {
     requires mongoose.client.entities;
     requires mongoose.client.presentationmodel;
     requires webfx.framework.client.controls;
+    requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
