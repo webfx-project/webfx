@@ -1,18 +1,18 @@
-package mongoose.backend.activities.payments;
+package mongoose.backend.activities.statements;
 
 import javafx.beans.property.*;
-import mongoose.client.presentationmodel.HasSelectedGroupReferenceResolver;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
+import webfx.framework.shared.orm.entity.Entity;
 import webfx.fxkit.extra.displaydata.DisplayResult;
 import webfx.fxkit.extra.displaydata.DisplaySelection;
 
 /**
  * @author Bruno Salmon
  */
-final class PaymentsPresentationModel extends EventDependentGenericTablePresentationModel implements
+final class StatementsPresentationModel extends EventDependentGenericTablePresentationModel implements
         HasConditionStringFilterProperty,
         HasGroupStringFilterProperty,
         HasGroupDisplayResultProperty,
@@ -27,8 +27,14 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
         HasSlaveDisplayResultProperty,
         HasSlaveVisibilityCondition<MoneyTransfer> {
 
+    private final ObjectProperty<Entity> selectedMoneyAccountProperty = new SimpleObjectProperty<>();
+    public ObjectProperty<Entity> selectedMoneyAccountProperty() { return selectedMoneyAccountProperty; }
+
     private final BooleanProperty flatPaymentsProperty = new SimpleBooleanProperty(true);
     public BooleanProperty flatPaymentsProperty() { return flatPaymentsProperty; }
+
+    private final BooleanProperty flatBatchesProperty = new SimpleBooleanProperty(false);
+    public BooleanProperty flatBatchesProperty() { return flatBatchesProperty; }
 
     private final StringProperty conditionStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }

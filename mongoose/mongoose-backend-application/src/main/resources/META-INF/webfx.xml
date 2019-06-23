@@ -21,6 +21,7 @@
             <module>mongoose-backend-activities-letter</module>
             <module>mongoose-backend-activities-payments</module>
             <module>mongoose-backend-activities-statistics</module>
+            <module>mongoose-backend-activities-statements</module>
             <module>mongoose-backend-activities-operations</module>
             <module>mongoose-backend-activities-organizations</module>
         </plugin-modules>

@@ -4,6 +4,7 @@ module mongoose.backend.activities.payments {
 
     // Direct dependencies modules
     requires javafx.base;
+    requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.backend.masterslave;
     requires mongoose.client.activity;
@@ -15,8 +16,6 @@ module mongoose.backend.activities.payments {
     requires webfx.framework.client.domain;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
-    requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;

@@ -5,9 +5,11 @@
         <package>images.s16.actions</package>
         <package>images.s16.continents</package>
         <package>images.s16.countries</package>
+        <package>images.s16.currencies</package>
         <package>images.s16.itemFamilies</package>
         <package>images.s16.languages</package>
         <package>images.s16.methods</package>
+        <package>images.s16.moneyAccountTypes</package>
         <package>images.s16.multipleBookings</package>
         <package>images.s16.organizations</package>
         <package>images.s16.security</package>

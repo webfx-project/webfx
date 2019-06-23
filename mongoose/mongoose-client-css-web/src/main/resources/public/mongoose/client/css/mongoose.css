@@ -1,184 +1,190 @@
-       /**************************
-         ***  Style adjustments ***
-         **************************/
+/**************************
+ ***  Style adjustments ***
+ **************************/
 
-         input[type="text"], input[type="password"] {
-            line-height: 100%;
-            border: none;
-            outline: none;
-            background-color: transparent;
-         }
+ input[type="text"], input[type="password"] {
+    line-height: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+ }
 
-         button:focus {
-            outline: 0;
-         }
+ button:focus {
+    outline: 0;
+ }
 
-        .section-panel {
-            overflow: hidden;
-        }
+.section-panel {
+    overflow: hidden;
+}
 
-        /***** Declaring some variables used in several selectors *****/
-        :root {
-            --grid-border-color: lightgray;
-            --grid-row-height: 28px;
-        }
+/***** Declaring some variables used in several selectors *****/
+:root {
+    --grid-border-color: lightgray;
+    --grid-row-height: 28px;
+}
 
-        body, input, textarea, keygen, select, button {
-            font-family: 'Roboto', 'Noto', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            font-size: 12px;
-            font-weight: 400;
-            line-height: 24px;
-            color: rgba(0, 0, 0, 0.87);
-        }
+body, input, textarea, keygen, select, button {
+    font-family: 'Roboto', 'Noto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 24px;
+    color: rgba(0, 0, 0, 0.87);
+}
 
-        button:disabled span {
-            color: gray;
-        }
+button:disabled span {
+    color: gray;
+}
 
-        table, th, td {
-            border: 1px solid var(--grid-border-color);
-        }
+table, th, td {
+    border: 1px solid var(--grid-border-color);
+}
 
-        table {
-            border-collapse: collapse;
-            cursor: pointer;
-        }
+table {
+    border-collapse: collapse;
+    cursor: pointer;
+}
 
-        thead {
-            border-top-style: solid;
-            border-top-color: var(--grid-border-color);
-            border-top-width: thin;
-            height: var(--grid-row-height);
-        }
+thead {
+    border-top-style: solid;
+    border-top-color: var(--grid-border-color);
+    border-top-width: thin;
+    height: var(--grid-row-height);
+}
 
-        thead td {
-            border-right-width: thin;
-            border-right-style: solid;
-            border-right-color: var(--grid-border-color);
-            height: var(--grid-row-height);
-            font-weight: bold;
-            text-align: center;
-        }
+thead td {
+    border-right-width: thin;
+    border-right-style: solid;
+    border-right-color: var(--grid-border-color);
+    height: var(--grid-row-height);
+    font-weight: bold;
+    text-align: center;
+}
 
-        tbody td {
-            border-bottom-color: var(--grid-border-color);
-        }
+tbody td {
+    border-bottom-color: var(--grid-border-color);
+}
 
-        tbody tr {
-            height: var(--grid-row-height);
-        }
+tbody tr {
+    height: var(--grid-row-height);
+}
 
-        thead td, tbody td {
-            padding: 0 5px 0 5px;
-            overflow: hidden;
-            max-width: 0;
-        }
+thead td, tbody td {
+    padding: 0 5px 0 5px;
+    overflow: hidden;
+    max-width: 0;
+}
 
-        /***********************************
-         *** Table header and row colors ***
-         ***********************************/
+/***********************************
+ *** Table header and row colors ***
+ ***********************************/
 
-        /*** Table header gray gradient ***/
+/*** Table header gray gradient ***/
 
-        thead tr {
-            background: linear-gradient( 180deg, white, lightgray 100%);
-        }
+thead tr {
+    background: linear-gradient( 180deg, white, lightgray 100%);
+}
 
-        th {
-            background: transparent;
-        }
+th {
+    background: transparent;
+}
 
 
-        /***** Declaring table row color variables with default values *****/
-        :root {
-            --color-light: white;
-            --color-dark: white;
-            --stay-color: transparent;
-            --selection-color: rgba(137, 169, 210, 0.5);
-        }
+/***** Declaring table row color variables with default values *****/
+:root {
+    --color-light: white;
+    --color-dark: white;
+    --stay-color: transparent;
+    --selection-color: rgba(137, 169, 210, 0.5);
+}
 
-        /***** Bookings colors *****/
-        .abandoned          { --color-light: #e3d2d2; --color-dark: #cab8b8; }
-        .absent             { --color-light: #ff8d8d; --color-dark: #e57373; }
-        .cancelled          { --color-light: #e3a9d3; --color-dark: #ca90b9; }
-        .arrived            { --color-light: #21f016; --color-dark: #0bd700; }
-        .arrivedWithBalance { --color-light: #17b6f0; --color-dark: #019ed7; }
-        .flagged            { --color-light: #ff941a; --color-dark: #e57a00; }
-        .changed            { --color-light: #b1b1ff; --color-dark: #9797e5; }
-        .passReady          { --color-light: #6bcfd2; --color-dark: #54b5b8; }
-        .confirmed          { --color-light: #b1b1ff; --color-dark: #9797e5; }
-        .paidInFull         { --color-light: #d5ff1a; --color-dark: #bbe500; }
-        .overPaid           { --color-light: #ffa366; --color-dark: #e58a4d; }
-        .noDeposit          { --color-light: #FFFFFF; --color-dark: #FFFFFF; }
-        .willPay            { --color-light: #e5e5e5; --color-dark: #cacaca; }
-        .paidUnderMinimal   { --color-light: #d7c26d; --color-dark: #bea956; }
-        .paidEnough         { --color-light: #fdfd29; --color-dark: #e4e400; }
+/***** Bookings colors *****/
+.abandoned          { --color-light: #e3d2d2; --color-dark: #cab8b8; }
+.absent             { --color-light: #ff8d8d; --color-dark: #e57373; }
+.cancelled          { --color-light: #e3a9d3; --color-dark: #ca90b9; }
+.arrived            { --color-light: #21f016; --color-dark: #0bd700; }
+.arrivedWithBalance { --color-light: #17b6f0; --color-dark: #019ed7; }
+.flagged            { --color-light: #ff941a; --color-dark: #e57a00; }
+.changed            { --color-light: #b1b1ff; --color-dark: #9797e5; }
+.passReady          { --color-light: #6bcfd2; --color-dark: #54b5b8; }
+.confirmed          { --color-light: #b1b1ff; --color-dark: #9797e5; }
+.paidInFull         { --color-light: #d5ff1a; --color-dark: #bbe500; }
+.overPaid           { --color-light: #ffa366; --color-dark: #e58a4d; }
+.noDeposit          { --color-light: #FFFFFF; --color-dark: #FFFFFF; }
+.willPay            { --color-light: #e5e5e5; --color-dark: #cacaca; }
+.paidUnderMinimal   { --color-light: #d7c26d; --color-dark: #bea956; }
+.paidEnough         { --color-light: #fdfd29; --color-dark: #e4e400; }
 
-        /***** Stay colors *****/
-        .workingVisitStay   { --stay-color: #E4399E; }
-        .discoveryStay      { --stay-color: #FF9A40; }
-        .guestStay          { --stay-color: #200772; }
-        .standardStay       { --stay-color: #9276EB; }
+/***** Stay colors *****/
+.workingVisitStay   { --stay-color: #E4399E; }
+.discoveryStay      { --stay-color: #FF9A40; }
+.guestStay          { --stay-color: #200772; }
+.standardStay       { --stay-color: #9276EB; }
 
-        /***** Payments colors *****/
-        .pending            { --color-light: #FAE7E7; --color-dark: #C7B4B4; }
-        .successful         { --color-light: #E6FF1A; --color-dark: #E6FF1A; }
-        .failed             { --color-light: #FF9A9A; --color-dark: #E66767; }
+/***** Payments colors *****/
+.pending            { --color-light: #FAE7E7; --color-dark: #C7B4B4; }
+.successful         { --color-light: #E6FF1A; --color-dark: #E6FF1A; }
+.failed             { --color-light: #FF9A9A; --color-dark: #E66767; }
+.batch              { --color-light: #FFF78D; --color-dark: #E6C45A; }
 
-        /***** Organizations colors *****/
-        .kmc                { --color-light: #F9C5FF; --color-dark: #C692E3; }
-        .kbc                { --color-light: #FFFFB0; --color-dark: #E4E57D; }
-        .branch             { --color-light: #E8FFFF; --color-dark: #B5DEE6; }
-        .closed             { --color-light: #E0CDCD; --color-dark: #E0CDCD; }
+/***** Organizations colors *****/
+.kmc                { --color-light: #F9C5FF; --color-dark: #C692E3; }
+.kbc                { --color-light: #FFFFB0; --color-dark: #E4E57D; }
+.branch             { --color-light: #E8FFFF; --color-dark: #B5DEE6; }
+.closed             { --color-light: #E0CDCD; --color-dark: #E0CDCD; }
 
-        /**** Applying styles to data table and grid ****/
+/**** Applying styles to data table and grid ****/
 
-        td {
-            background: transparent;
-        }
+td {
+    background: transparent;
+}
 
-        tbody {
-            background-color: transparent;
-        }
+tbody {
+    background-color: transparent;
+}
 
-        .grid-head, .grid-body, .grid-col, .grid-row {
-            overflow: hidden;
-        }
+.grid-head, .grid-body, .grid-col, .grid-row {
+    overflow: hidden;
+}
 
-        .grid-head, .grid-row {
-            border-bottom: 1px solid var(--grid-border-color);
-        }
+.grid-head, .grid-row {
+    border-bottom: 1px solid var(--grid-border-color);
+}
 
-        .grid-col {
-            border-right: 1px solid var(--grid-border-color);
-        }
+.grid-col {
+    border-right: 1px solid var(--grid-border-color);
+}
 
-        tr, .grid-row {
-            background: linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
-                        linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
-                        ;
-        }
+tr, .grid-row {
+    background: linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
+                linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
+                ;
+}
 
-        tr.selected, .grid-row.selected {
-            background: repeating-linear-gradient(145deg, var(--selection-color), transparent 5px, transparent 10px, var(--selection-color) 15px, var(--selection-color) 20px),
-                        linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
-                        linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
-                        ;
-        }
+tr.selected, .grid-row.selected {
+    background: repeating-linear-gradient(145deg, var(--selection-color), transparent 5px, transparent 10px, var(--selection-color) 15px, var(--selection-color) 20px),
+                linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
+                linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
+                ;
+}
 
-        tr.unread, .grid-row.unread {
-            font-weight: bold;
-        }
+tr.unread, .grid-row.unread {
+    font-weight: bold;
+}
 
-        tr.specialRate, .grid-row.specialRate {
-            font-style: italic;
-        }
+tr.specialRate, .grid-row.specialRate {
+    font-style: italic;
+}
 
-        tr.kmc, .grid-row.kmc {
-            font-weight: bold;
-        }
+tr.kmc, .grid-row.kmc {
+    font-weight: bold;
+}
 
-        tr.branch, .grid-row.branch {
-            font-style: italic;
-        }
+tr.branch, .grid-row.branch {
+    font-style: italic;
+}
+
+tr.child, .grid-row.child {
+    color: blue;
+    font-style: italic;
+}

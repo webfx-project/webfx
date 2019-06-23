@@ -131,6 +131,7 @@ DataGrid, LineChart, PieChart, BarChart, AreaChart, GridCollator, HtmlText, Html
 .pending { -color-base: #E0CDCD; }
 .successful { -color-base: #CCFF00; }
 .failed { -color-base: #FF8080; }
+.batch { -color-base: #FFDD73; }
 
 /* Organizations */
 .kmc { -color-base: #dfabfc; }
@@ -139,7 +140,7 @@ DataGrid, LineChart, PieChart, BarChart, AreaChart, GridCollator, HtmlText, Html
 .closed { -color-base: #E0CDCD; }
 
 /* .table-row-cell { */
-.abandoned, .absent, .cancelled, .arrived, .arrivedWithBalance, .flagged, .changed, .passReady, .confirmed, .paidInFull, .overPaid, .noDeposit, .willPay, .paidUnderMinimal, .paidEnough, .nonStay, .workingVisitStay, .discoveryStay, .guestStay, .standardStay, .pending, .successful, .failed, .kmc, .kbc, .branch, .closed {
+.abandoned, .absent, .cancelled, .arrived, .arrivedWithBalance, .flagged, .changed, .passReady, .confirmed, .paidInFull, .overPaid, .noDeposit, .willPay, .paidUnderMinimal, .paidEnough, .nonStay, .workingVisitStay, .discoveryStay, .guestStay, .standardStay, .pending, .successful, .failed, .batch, .kmc, .kbc, .branch, .closed {
     -fx-background-color:
         /*-fx-table-cell-border-color,*/
         linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
@@ -161,5 +162,11 @@ DataGrid, LineChart, PieChart, BarChart, AreaChart, GridCollator, HtmlText, Html
 }
 
 .specialRate, .branch {
+    -fx-font-style: italic;
+}
+
+.child .table-cell, .child .text {
+    -fx-text-fill: blue;
+    -fx-fill: blue;
     -fx-font-style: italic;
 }

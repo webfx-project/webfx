@@ -16,7 +16,6 @@ module mongoose.backend.activities.statistics {
     requires webfx.framework.client.domain;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;

@@ -171,6 +171,11 @@
     <source path="mongoose/backend/activities/payments"/>
     <source path="mongoose/backend/activities/payments/routing"/>
     <source path="mongoose/backend/operations/payments"/>
+    <!--=====================< mongoose-backend-activities-statements >=====================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
+    <source path="mongoose/backend/activities/statements"/>
+    <source path="mongoose/backend/activities/statements/routing"/>
+    <source path="mongoose/backend/operations/statements"/>
     <!--=====================< mongoose-backend-activities-statistics >=====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/statistics"/>
@@ -274,12 +279,16 @@
     <public includes="images/s16/continents/" path=""/>
     <resource path="images/s16/countries"/>
     <public includes="images/s16/countries/" path=""/>
+    <resource path="images/s16/currencies"/>
+    <public includes="images/s16/currencies/" path=""/>
     <resource path="images/s16/itemFamilies"/>
     <public includes="images/s16/itemFamilies/" path=""/>
     <resource path="images/s16/languages"/>
     <public includes="images/s16/languages/" path=""/>
     <resource path="images/s16/methods"/>
     <public includes="images/s16/methods/" path=""/>
+    <resource path="images/s16/moneyAccountTypes"/>
+    <public includes="images/s16/moneyAccountTypes/" path=""/>
     <resource path="images/s16/multipleBookings"/>
     <public includes="images/s16/multipleBookings/" path=""/>
     <resource path="images/s16/organizations"/>

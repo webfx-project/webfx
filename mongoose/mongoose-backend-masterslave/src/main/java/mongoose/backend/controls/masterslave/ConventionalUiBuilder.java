@@ -1,8 +1,10 @@
 package mongoose.backend.controls.masterslave;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.client.entities.util.filters.FilterSearchBar;
@@ -21,6 +23,7 @@ public class ConventionalUiBuilder implements UiBuilder {
     private final ControlFactoryMixin mixin;
     private Node[] leftTopNodes = {}, rightTopNodes = {};
     private FilterSearchBar filterSearchBar; // Keeping this reference for activity resume
+    private BorderPane container;
 
     private ConventionalUiBuilder(String activityName, String domainClassId, Object pm, ControlFactoryMixin mixin) {
         this.activityName = activityName;
@@ -38,24 +41,27 @@ public class ConventionalUiBuilder implements UiBuilder {
     }
 
     @Override
-    public Node buildUi() {
-        BorderPane container = new BorderPane();
+    public Pane buildUi() {
+        if (container == null) {
+            container = new BorderPane();
 
-        // Building the filter search bar and put it on top
-        if (mixin instanceof FilterButtonSelectorFactoryMixin) {
-            filterSearchBar = ((FilterButtonSelectorFactoryMixin) mixin).createFilterSearchBar(activityName, domainClassId, container, pm);
-            if (leftTopNodes.length == 0 && rightTopNodes.length == 0)
-                container.setTop(filterSearchBar.buildUi());
-            else {
-                HBox hbox = new HBox(10, leftTopNodes);
-                hbox.getChildren().add(setHGrowable(filterSearchBar.buildUi()));
-                hbox.getChildren().addAll(rightTopNodes);
-                container.setTop(hbox);
+            // Building the filter search bar and put it on top
+            if (mixin instanceof FilterButtonSelectorFactoryMixin) {
+                filterSearchBar = ((FilterButtonSelectorFactoryMixin) mixin).createFilterSearchBar(activityName, domainClassId, container, pm);
+                if (leftTopNodes.length == 0 && rightTopNodes.length == 0)
+                    container.setTop(filterSearchBar.buildUi());
+                else {
+                    HBox hbox = new HBox(10, leftTopNodes);
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+                    hbox.getChildren().add(setHGrowable(filterSearchBar.buildUi()));
+                    hbox.getChildren().addAll(rightTopNodes);
+                    container.setTop(hbox);
+                }
             }
-        }
 
-        if (pm instanceof HasGroupDisplayResultProperty && pm instanceof HasMasterDisplayResultProperty && pm instanceof HasSelectedMasterProperty)
-            container.setCenter(GroupMasterSlaveView.createAndBind((HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty) pm, mixin, container).buildUi());
+            if (pm instanceof HasGroupDisplayResultProperty && pm instanceof HasMasterDisplayResultProperty && pm instanceof HasSelectedMasterProperty)
+                container.setCenter(GroupMasterSlaveView.createAndBind((HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty) pm, mixin, container).buildUi());
+        }
 
         return container;
     }

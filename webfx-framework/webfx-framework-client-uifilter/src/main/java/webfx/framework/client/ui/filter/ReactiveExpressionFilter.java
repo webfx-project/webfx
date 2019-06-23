@@ -282,6 +282,10 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return combine(property, value -> Booleans.isTrue(value) ? toJsonFilterConverter.call() : null);
     }
 
+    public ReactiveExpressionFilter<E> combineIfFalse(ObservableValue<Boolean> property, Callable<String> toJsonFilterConverter) {
+        return combine(property, value -> Booleans.isFalse(value) ? toJsonFilterConverter.call() : null);
+    }
+
     public ReactiveExpressionFilter<E> combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
         return combine(ifProperty, stringFilterBuilder.build());
     }

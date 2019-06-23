@@ -1,4 +1,4 @@
-package mongoose.backend.activities.payments;
+package mongoose.backend.activities.statements;
 
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -8,9 +8,12 @@ import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.MoneyTransfer;
+import webfx.framework.client.ui.controls.button.ButtonSelector;
+import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.shared.orm.entity.Entity;
 
-final class PaymentsActivity extends EventDependentViewDomainActivity implements
+final class StatementsActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
         ConventionalReactiveExpressionFilterFactoryMixin {
 
@@ -18,10 +21,10 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
     ================================================= Graphical layer ==================================================
     ==================================================================================================================*/
 
-    private final PaymentsPresentationModel pm = new PaymentsPresentationModel();
+    private final StatementsPresentationModel pm = new StatementsPresentationModel();
 
     @Override
-    public PaymentsPresentationModel getPresentationModel() {
+    public StatementsPresentationModel getPresentationModel() {
         return pm; // eventId and organizationId will then be updated from route
     }
 
@@ -29,13 +32,28 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
 
     @Override
     public Node buildUi() {
-        ui = createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, "payments", "MoneyTransfer");
+        ui = createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, "statements", "MoneyTransfer");
+
+        EntityButtonSelector<Entity> moneyAccountSelector = new EntityButtonSelector<>("{class: 'MoneyAccount', alias: 'ma', columns: [{expression: `[icon,name,currency.icon]`}], where: 'type.internal=true', orderBy: 'closed,type desc,exists(select MoneyFlow where toMoneyAccount=ma and positiveAmounts) ? 0 : 1,id desc'}", this, ui::buildUi, getDataSourceModel());
+        moneyAccountSelector.autoSelectFirstEntity();
+        moneyAccountSelector.setAutoOpenOnMouseEntered(true);
+        moneyAccountSelector.setShowMode(ButtonSelector.ShowMode.DROP_DOWN);
+        moneyAccountSelector.getEntityDialogFilter()
+                //.combineIfNotNullOtherwiseForceEmptyResult(pm.organizationIdProperty(), organizationId -> "{where:  `organization=" + organizationId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `(event=" + eventId + " or event=null) and organization=(select organization from Event where id=" + eventId +")`}");
+        pm.selectedMoneyAccountProperty().bind(moneyAccountSelector.selectedItemProperty());
 
         CheckBox flatPaymentsCheckBox = newCheckBox("Flat payments");
         flatPaymentsCheckBox.setSelected(pm.flatPaymentsProperty().get());
         pm.flatPaymentsProperty().bind(flatPaymentsCheckBox.selectedProperty());
 
-        ui.setLeftTopNodes(flatPaymentsCheckBox);
+        CheckBox flatBatchesCheckBox = newCheckBox("Flat batches");
+        flatBatchesCheckBox.setSelected(pm.flatBatchesProperty().get());
+        pm.flatBatchesProperty().bind(flatBatchesCheckBox.selectedProperty());
+
+        ui.setLeftTopNodes(flatPaymentsCheckBox, moneyAccountSelector.getButton());
+        ui.setRightTopNodes(flatBatchesCheckBox);
+
         return ui.buildUi();
     }
 
@@ -55,20 +73,22 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
     @Override
     protected void startLogic() {
         // Setting up the group filter that controls the content displayed in the group view
-        groupFilter = this.<MoneyTransfer>createGroupReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first,id'}")
-                // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}")
+        groupFilter = this.<MoneyTransfer>createGroupReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
+                // Applying the money account condition
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedMoneyAccountProperty(), ma -> "{where: `parent = null and (fromMoneyAccount=" + ma.getPrimaryKey() + " or toMoneyAccount=" + ma.getPrimaryKey() + ") or parent != null and (parent..fromMoneyAccount=" + ma.getPrimaryKey() + " or parent..toMoneyAccount=" + ma.getPrimaryKey() + ")`}")
                 .combineIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
+                .combineIfFalse(pm.flatBatchesProperty(), () -> "{where: `transfer=null and (parent=null || parent..transfer=null)`}")
                 // Everything set up, let's start now!
                 .start();
 
         // Setting up the master filter that controls the content displayed in the master view
-        masterFilter = this.<MoneyTransfer>createMasterReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first,id'}")
-                .combine("{columns: 'date,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
-                // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document..event=" + eventId + " or document is null and exists(select MoneyTransfer where parent=mt and document.event=" + eventId + ")`}")
-                // Applying the flat mode
+        masterFilter = this.<MoneyTransfer>createMasterReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
+                .combine("{columns: 'date,document.event,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
+                // Applying the money account condition
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedMoneyAccountProperty(), ma -> "{where: `parent = null and (fromMoneyAccount=" + ma.getPrimaryKey() + " or toMoneyAccount=" + ma.getPrimaryKey() + ") or parent != null and (parent..fromMoneyAccount=" + ma.getPrimaryKey() + " or parent..toMoneyAccount=" + ma.getPrimaryKey() + ")`}")
+                // Applying the flat modes
                 .combineIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
+                .combineIfFalse(pm.flatBatchesProperty(), () -> "{where: `transfer=null and (parent=null || parent..transfer=null)`}")
                 // Applying the user search
                 .combineIfNotEmptyTrim(pm.searchTextProperty(), s ->
                         Character.isDigit(s.charAt(0)) ? "{where: `document.ref = " + s + "`}"
@@ -85,10 +105,10 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
 
         // Slave filter
         slaveFilter = this.<MoneyTransfer>createSlaveReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
-                .combine("{columns: 'date,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
+                .combine("{columns: 'date,document.event,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the selection condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedPaymentProperty(), mt -> "{where: 'parent=" + mt.getPrimaryKey() + "'}")
-                // Applying the flat mode
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedPaymentProperty(), mt -> "{where: 'parent=" + mt.getPrimaryKey() + " or transfer=" + mt.getPrimaryKey() + " or parent..transfer=" + mt.getPrimaryKey() + "'}")
+                // Applying the flat modes
                 .combineIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
                 // Colorizing the rows
                 .applyDomainModelRowStyle()

@@ -178,7 +178,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             });
     }
 
-    private ReactiveExpressionFilter<E> getEntityDialogFilter() {
+    public  ReactiveExpressionFilter<E> getEntityDialogFilter() {
         if (entityDialogFilter == null)
             getOrCreateDialogContent();
         return entityDialogFilter;

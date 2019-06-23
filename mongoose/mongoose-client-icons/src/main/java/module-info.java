@@ -17,9 +17,11 @@ module mongoose.client.icons {
     opens images.s16.actions;
     opens images.s16.continents;
     opens images.s16.countries;
+    opens images.s16.currencies;
     opens images.s16.itemFamilies;
     opens images.s16.languages;
     opens images.s16.methods;
+    opens images.s16.moneyAccountTypes;
     opens images.s16.multipleBookings;
     opens images.s16.organizations;
     opens images.s16.security;

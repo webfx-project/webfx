@@ -84,6 +84,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-activities-statements</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-backend-activities-statistics</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
