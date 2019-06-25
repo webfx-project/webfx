@@ -96,6 +96,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-activities-users</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-backend-bookingdetailspanel</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>

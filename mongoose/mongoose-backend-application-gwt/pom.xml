@@ -146,6 +146,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-activities-users</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-backend-application</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>

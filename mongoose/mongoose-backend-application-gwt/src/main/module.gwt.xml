@@ -181,6 +181,11 @@
     <source path="mongoose/backend/activities/statistics"/>
     <source path="mongoose/backend/activities/statistics/routing"/>
     <source path="mongoose/backend/operations/statistics"/>
+    <!--=======================< mongoose-backend-activities-users >========================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
+    <source path="mongoose/backend/activities/users"/>
+    <source path="mongoose/backend/activities/users/routing"/>
+    <source path="mongoose/backend/operations/users"/>
     <!--==========================< mongoose-backend-application >==========================-->
     <!-- used by mongoose-backend-application-gwt (APPLICATION) -->
     <!-- used by mongoose-backend-application-gwt (PLUGIN) -->

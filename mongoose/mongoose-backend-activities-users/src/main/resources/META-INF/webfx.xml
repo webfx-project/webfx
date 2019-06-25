@@ -1,0 +1,17 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-framework-client-activity</module>
+            <module>webfx-platform-shared-util</module>
+        </source-modules>
+
+    </dependencies>
+
+    <providers>
+        <provider spi="webfx.framework.client.ui.uirouter.UiRoute">mongoose.backend.activities.users.UsersUiRoute</provider>
+        <provider spi="webfx.framework.client.operations.route.RouteRequestEmitter">mongoose.backend.activities.users.RouteToUsersRequestEmitter</provider>
+    </providers>
+
+</module>

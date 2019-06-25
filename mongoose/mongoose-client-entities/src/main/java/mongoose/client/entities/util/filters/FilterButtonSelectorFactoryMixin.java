@@ -39,11 +39,12 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
     default EntityButtonSelector<Filter> createConditionFilterButtonSelector(String activityName, String domainClassId, Pane parent) {
         Predicate<Filter> predicate;
         switch (domainClassId) {
-            case "Document" :
-            case "DocumentLine" :
+            case "Document":
+            case "DocumentLine":
                 predicate = filter -> "!cancelled".equals(filter.getWhereClause()); break;
             case "MoneyTransfer":
                 predicate = filter -> "pending or successful".equals(filter.getWhereClause()); break;
+            case "Person": predicate = filter -> "All".equals(filter.getName()); break;
             default:          predicate = null;
         }
         return createConditionFilterButtonSelector(activityName, domainClassId, predicate, parent);
@@ -54,11 +55,8 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
         if ("income".equals(activityName) && "DocumentLine".equals(domainClassId)) {
             predicate = filter -> "Family".equals(filter.getName());
         } else switch (domainClassId) {
-            case "Document" :
-            case "MoneyTransfer":
-                predicate = filter -> "".equals(filter.getName()); break;
-            case "DocumentLine" : predicate = filter -> "Family, site and item".equals(filter.getName()); break;
-            default:              predicate = null;
+            case "DocumentLine": predicate = filter -> "Family, site and item".equals(filter.getName()); break;
+            default:             predicate = filter -> "".equals(filter.getName()); break;
         }
         return createGroupFilterButtonSelector(activityName, domainClassId, predicate, parent);
     }
@@ -68,6 +66,7 @@ public interface FilterButtonSelectorFactoryMixin extends ButtonFactoryMixin, Ha
         switch (domainClassId) {
             case "Document"     : predicate = filter -> "prices".equals(filter.getName()); break;
             case "DocumentLine" : predicate = filter -> "statistics".equals(filter.getName()); break;
+            case "Person"       : predicate = filter -> "Contact".equals(filter.getName()); break;
             default:          predicate = null;
         }
         return createColumnsFilterButtonSelector(domainClassId, activityName, predicate, parent);

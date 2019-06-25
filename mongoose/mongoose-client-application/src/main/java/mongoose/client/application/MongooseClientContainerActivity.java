@@ -48,6 +48,7 @@ public class MongooseClientContainerActivity extends ViewDomainActivityBase
                 "RouteToLetters",
                 "RouteToMonitor",
                 "RouteToTester",
+                "RouteToUsers",
                 "RouteToOperations",
                 "RouteToAuthorizations"
         };

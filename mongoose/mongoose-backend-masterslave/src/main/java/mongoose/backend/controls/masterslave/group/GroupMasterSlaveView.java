@@ -142,7 +142,7 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     }
 
     public static GroupMasterSlaveView createAndBind(GroupView groupView, UiBuilder masterView, UiBuilder slaveView, HasSelectedMasterProperty pm) {
-        return createAndBind(groupView, masterView.buildUi(), slaveView.buildUi(), pm);
+        return createAndBind(groupView, masterView.buildUi(), slaveView == null ? null : slaveView.buildUi(), pm);
     }
 
     public static GroupMasterSlaveView createAndBind(GroupView groupView, Node masterView, Node slaveView, HasSelectedMasterProperty pm) {
