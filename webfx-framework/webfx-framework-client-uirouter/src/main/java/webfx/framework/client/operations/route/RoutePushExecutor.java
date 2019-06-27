@@ -14,8 +14,9 @@ final class RoutePushExecutor {
     }
 
     private static Future<Void> execute(String routePath, BrowsingHistory history, JsonObject state) {
-        if (routePath != null)
-            history.push(routePath, state);
+        if (routePath == null)
+            return Future.failedFuture("Route request received with routePath = null!");
+        history.push(routePath, state);
         return Future.succeededFuture();
     }
 }
