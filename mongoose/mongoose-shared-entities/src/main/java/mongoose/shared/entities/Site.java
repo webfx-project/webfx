@@ -21,4 +21,6 @@ public interface Site extends Entity, EntityHasName, EntityHasLabel, EntityHasEv
         return getBooleanFieldValue("main");
     }
 
+    default String getIcon() { return (String) evaluate("icon"); }
+
 }

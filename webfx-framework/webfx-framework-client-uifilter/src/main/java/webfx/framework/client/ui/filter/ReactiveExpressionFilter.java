@@ -92,7 +92,8 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     private final ObjectProperty<Object> pushClientIdProperty = new SimpleObjectProperty<Object/*GWT*/>() {
         @Override
         protected void invalidated() {
-            scheduleGlobalChangeCheck();
+            if (isPush())
+                scheduleGlobalChangeCheck();
         }
     };
     private Object queryStreamId;
@@ -450,7 +451,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                     refreshNow();
             }
         }, I18n.dictionaryProperty(), activeProperty);
-        Properties.runNowAndOnPropertiesChange(() -> scheduleGlobalChangeCheck(), (Collection<ObservableValue>) (Collection) stringFilterProperties);
+        Properties.runNowAndOnPropertiesChange(this::scheduleGlobalChangeCheck, (Collection<ObservableValue>) (Collection) stringFilterProperties);
         started = true;
         return this;
     }

@@ -30,6 +30,7 @@ public class MasterSlaveView implements UiBuilder {
         setMasterView(masterView);
         setSlaveView(slaveView);
         setOrientation(Orientation.VERTICAL); // Vertical orientation by default
+        splitPane.getProperties().put("masterSlaveView", this); // just to prevent GC
     }
 
     public MasterSlaveView setOrientation(Orientation orientation) {

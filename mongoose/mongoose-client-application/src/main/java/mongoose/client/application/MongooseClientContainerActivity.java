@@ -46,6 +46,7 @@ public class MongooseClientContainerActivity extends ViewDomainActivityBase
                 "RouteToStatements",
                 "RouteToIncome",
                 "RouteToLetters",
+                "RouteToRoomsGraphic",
                 "RouteToDiningAreas",
                 "RouteToMonitor",
                 "RouteToTester",

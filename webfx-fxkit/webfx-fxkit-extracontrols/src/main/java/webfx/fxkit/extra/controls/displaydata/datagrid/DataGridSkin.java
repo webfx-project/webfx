@@ -37,7 +37,7 @@ public final class DataGridSkin extends SelectableDisplayResultControlSkinBase<D
     private final static Pane fakeCell = new Pane();
     private List<Node> fakeCellChildren;
 
-    private final static double rowHeight = 38;
+    private final static double rowHeight = 24;
     private final static double headerHeight = rowHeight;
 
     DataGridSkin(DataGrid dataGrid) {

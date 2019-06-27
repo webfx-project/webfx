@@ -90,6 +90,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-activities-roomsgraphic</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-backend-activities-statements</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>

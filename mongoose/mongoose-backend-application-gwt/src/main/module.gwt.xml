@@ -176,6 +176,11 @@
     <source path="mongoose/backend/activities/payments"/>
     <source path="mongoose/backend/activities/payments/routing"/>
     <source path="mongoose/backend/operations/payments"/>
+    <!--====================< mongoose-backend-activities-roomsgraphic >====================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
+    <source path="mongoose/backend/activities/roomsgraphic"/>
+    <source path="mongoose/backend/activities/roomsgraphic/routing"/>
+    <source path="mongoose/backend/operations/roomsgraphic"/>
     <!--=====================< mongoose-backend-activities-statements >=====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/statements"/>
