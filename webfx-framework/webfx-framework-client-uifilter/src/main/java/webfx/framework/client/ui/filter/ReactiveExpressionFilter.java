@@ -312,10 +312,17 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
 
     private FilterDisplay getFilterDisplay() {
         if (started)
-            filterDisplay = filterDisplays.get(0);
+            filterDisplay = getFilterDisplay(0);
         else if (filterDisplay == null)
             filterDisplays.add(filterDisplay = new FilterDisplay());
         return filterDisplay;
+    }
+
+
+    private FilterDisplay getFilterDisplay(int displayIndex) {
+        if (filterDisplays.isEmpty())
+            filterDisplays.add(filterDisplay = new FilterDisplay());
+        return filterDisplays.get(displayIndex);
     }
 
     public ReactiveExpressionFilter<E> setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
@@ -387,7 +394,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     }
 
     public Property<DisplaySelection> getDisplaySelectionProperty(int displayIndex) {
-        return filterDisplays.get(displayIndex).getDisplaySelectionProperty();
+        return getFilterDisplay(displayIndex).getDisplaySelectionProperty();
     }
 
     public E getSelectedEntity() {
@@ -395,7 +402,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     }
 
     public E getSelectedEntity(int displayIndex) {
-        return filterDisplays.get(displayIndex).getSelectedEntity();
+        return getFilterDisplay(displayIndex).getSelectedEntity();
     }
 
     public E getSelectedEntity(DisplaySelection selection) {
@@ -403,7 +410,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     }
 
     public E getSelectedEntity(int displayIndex, DisplaySelection selection) {
-        return filterDisplays.get(displayIndex).getSelectedEntity(selection);
+        return getFilterDisplay(displayIndex).getSelectedEntity(selection);
     }
 
     public EntityList<E> getCurrentEntityList() {
@@ -411,7 +418,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     }
 
     public EntityList<E> getCurrentEntityList(int displayIndex) {
-        return filterDisplays.get(displayIndex).getCurrentEntityList();
+        return getFilterDisplay(displayIndex).getCurrentEntityList();
     }
 
     public ReactiveExpressionFilter<E> start() {
@@ -883,7 +890,8 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         }
 
         void setDisplayResult(DisplayResult rs) {
-            displayResultProperty.setValue(rs);
+            if (displayResultProperty != null)
+                displayResultProperty.setValue(rs);
             if (autoSelectSingleRow && rs.getRowCount() == 1 || selectFirstRowOnFirstDisplay && rs.getRowCount() > 0) {
                 selectFirstRowOnFirstDisplay = false;
                 displaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(0));
@@ -893,12 +901,13 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         void resetDisplayResult(boolean empty) {
             if (empty)
                 setEmptyDisplayResult();
-            else
+            else if (displayResultProperty != null)
                 displayResultProperty.setValue(entitiesListToDisplayResult(getCurrentEntityList()));
         }
 
         void setEmptyDisplayResult() {
-            displayResultProperty.setValue(emptyDisplayResult());
+            if (displayResultProperty != null)
+                displayResultProperty.setValue(emptyDisplayResult());
         }
 
         DisplayResult entitiesListToDisplayResult(List<E> entities) {
