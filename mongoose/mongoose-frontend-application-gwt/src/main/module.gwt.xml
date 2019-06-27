@@ -677,6 +677,7 @@
     <source path="webfx/platform/shared/services/json/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-log >============================-->
     <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-framework-client-action (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->

@@ -7,6 +7,7 @@ module mongoose.backend.application {
     requires mongoose.backend.activities.authorizations;
     requires mongoose.backend.activities.bookings;
     requires mongoose.backend.activities.cloneevent;
+    requires mongoose.backend.activities.diningareas;
     requires mongoose.backend.activities.events;
     requires mongoose.backend.activities.income;
     requires mongoose.backend.activities.letter;

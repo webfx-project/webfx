@@ -76,6 +76,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-activities-diningareas</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-backend-activities-events</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>

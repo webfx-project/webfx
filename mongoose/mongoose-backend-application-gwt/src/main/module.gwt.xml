@@ -131,6 +131,11 @@
     <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
     <source path="mongoose/backend/activities/cloneevent/routing"/>
     <source path="mongoose/backend/operations/cloneevent"/>
+    <!--====================< mongoose-backend-activities-diningareas >=====================-->
+    <!-- used by mongoose-backend-application (PLUGIN) -->
+    <source path="mongoose/backend/activities/diningareas"/>
+    <source path="mongoose/backend/activities/diningareas/routing"/>
+    <source path="mongoose/backend/operations/diningareas"/>
     <!--=======================< mongoose-backend-activities-events >=======================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/events"/>
@@ -177,7 +182,7 @@
     <source path="mongoose/backend/activities/statements/routing"/>
     <source path="mongoose/backend/operations/statements"/>
     <!--=====================< mongoose-backend-activities-statistics >=====================-->
-    <!-- used by mongoose-backend-application (PLUGIN) -->
+    <!-- used by mongoose-backend-activities-diningareas (SOURCE) -->
     <source path="mongoose/backend/activities/statistics"/>
     <source path="mongoose/backend/activities/statistics/routing"/>
     <source path="mongoose/backend/operations/statistics"/>

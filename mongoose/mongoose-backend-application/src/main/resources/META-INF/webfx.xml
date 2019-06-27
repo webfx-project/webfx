@@ -14,6 +14,7 @@
             <module>mongoose-backend-activities-authorizations</module>
             <module>mongoose-backend-activities-bookings</module>
             <module>mongoose-backend-activities-cloneevent</module>
+            <module>mongoose-backend-activities-diningareas</module>
             <module>mongoose-backend-activities-events</module>
             <module>mongoose-backend-activities-income</module>
             <module>mongoose-backend-activities-monitor</module>
