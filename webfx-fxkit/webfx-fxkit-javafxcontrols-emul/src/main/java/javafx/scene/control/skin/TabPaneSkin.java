@@ -195,7 +195,11 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
     }
 
     private void updateSelectedTabBorderAndBackground() { // WebFx addition
-        ((TabHeaderSkin) selectedTab.getProperties().get("skin")).updateBorderAndBackground();
+        if (selectedTab != null) {
+            TabHeaderSkin skin = (TabHeaderSkin) selectedTab.getProperties().get("skin");
+            if (skin != null)
+                skin.updateBorderAndBackground();
+        }
     }
 
     public StackPane getSelectedTabContentRegion() {
