@@ -13,6 +13,7 @@ module webfx.framework.client.action {
     requires webfx.framework.shared.operation;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
+    requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;
 
     // Exported packages

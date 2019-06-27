@@ -5,6 +5,7 @@ import webfx.framework.shared.operation.OperationUtil;
 import webfx.framework.client.ui.action.impl.WritableAction;
 import webfx.platform.shared.util.async.AsyncFunction;
 import webfx.platform.shared.util.function.Factory;
+import webfx.platform.shared.services.log.Logger;
 import java.util.function.Function;
 
 /**
@@ -22,7 +23,14 @@ public final class OperationAction<Rq, Rs> extends WritableAction {
     public OperationAction(Function<ActionEvent, Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
         super(actionEvent -> {
             Rq operationRequest = operationRequestFactory.apply(actionEvent);
-            OperationUtil.executeOperation(operationRequest, topOperationExecutor);
+            Logger.log("Executing " + operationRequest);
+            long t0 = System.currentTimeMillis();
+            OperationUtil.executeOperation(operationRequest, topOperationExecutor).setHandler(ar -> {
+                if (ar.failed())
+                    Logger.log("Error while executing " + operationRequest, ar.cause());
+                else
+                    Logger.log("Executed " + operationRequest + " in " + (System.currentTimeMillis() - t0) + "ms");
+            });
         });
         this.operationRequestFactory = operationRequestFactory;
         OperationActionRegistry registry = getOperationActionRegistry();
