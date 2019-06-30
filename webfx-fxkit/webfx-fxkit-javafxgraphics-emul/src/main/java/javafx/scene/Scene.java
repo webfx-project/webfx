@@ -1105,6 +1105,50 @@ public class Scene implements EventTarget,
      *                                                                             *
      ******************************************************************************/
 
+    private void processMenuEvent(double x2, double y2, double xAbs, double yAbs, boolean isKeyboardTrigger) {
+        EventTarget eventTarget = null;
+/*
+        Scene.inMousePick = true;
+        if (isKeyboardTrigger) {
+            Node sceneFocusOwner = getFocusOwner();
+
+            // for keyboard triggers set coordinates inside focus owner
+            final double xOffset = xAbs - x2;
+            final double yOffset = yAbs - y2;
+            if (sceneFocusOwner != null) {
+                final Bounds bounds = sceneFocusOwner.localToScene(
+                        sceneFocusOwner.getBoundsInLocal());
+                x2 = bounds.getMinX() + bounds.getWidth() / 4;
+                y2 = bounds.getMinY() + bounds.getHeight() / 2;
+                eventTarget = sceneFocusOwner;
+            } else {
+                x2 = Scene.this.getWidth() / 4;
+                y2 = Scene.this.getWidth() / 2;
+                eventTarget = Scene.this;
+            }
+
+            xAbs = x2 + xOffset;
+            yAbs = y2 + yOffset;
+        }
+*/
+
+        final PickResult res = pick(x2, y2);
+
+        if (!isKeyboardTrigger) {
+            eventTarget = res.getIntersectedNode();
+            if (eventTarget == null) {
+                eventTarget = this;
+            }
+        }
+
+        if (eventTarget != null) {
+            ContextMenuEvent context = new ContextMenuEvent(ContextMenuEvent.CONTEXT_MENU_REQUESTED,
+                    x2, y2, xAbs, yAbs, isKeyboardTrigger, res);
+            Event.fireEvent(eventTarget, context);
+        }
+        //Scene.inMousePick = false;
+    }
+
     class ScenePeerListener implements TKSceneListener {
         @Override
         public void changedLocation(float x, float y) {
@@ -1151,12 +1195,12 @@ public class Scene implements EventTarget,
                     type, composed, committed, caretPosition);
             processInputMethodEvent(inputMethodEvent);
         }
-
+        */
         public void menuEvent(double x, double y, double xAbs, double yAbs,
                               boolean isKeyboardTrigger) {
             Scene.this.processMenuEvent(x, y, xAbs,yAbs, isKeyboardTrigger);
         }
-
+        /*
         @Override
         public void scrollEvent(
                 EventType<ScrollEvent> eventType,
@@ -2069,7 +2113,7 @@ public class Scene implements EventTarget,
         }
     }
 
-    private void pick(TargetWrapper target, final double x, final double y) {
+    private PickResult pick(final double x, final double y) {
         NodePeer nodePeer = impl_getPeer().pickPeer(x, y);
         PickResult pickResult = null;
         if (nodePeer != null) {
@@ -2079,7 +2123,11 @@ public class Scene implements EventTarget,
             else
                 pickResult = new PickResult(node, x, y);
         }
-        target.setNodeResult(pickResult);
+        return pickResult;
+    }
+
+    private void pick(TargetWrapper target, final double x, final double y) {
+        target.setNodeResult(pick(x, y));
 /*
         final PickRay pickRay = getEffectiveCamera().computePickRay(
                 x, y, null);

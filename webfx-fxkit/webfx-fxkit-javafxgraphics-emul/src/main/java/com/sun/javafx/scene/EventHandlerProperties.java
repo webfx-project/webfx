@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 
 public final class EventHandlerProperties {
@@ -19,7 +20,6 @@ public final class EventHandlerProperties {
         this.bean = bean;
     }
 
-/*
     private EventHandlerProperty<ContextMenuEvent> onMenuContextRequested;
 
     public final EventHandler<? super ContextMenuEvent> onContextMenuRequested() {
@@ -36,7 +36,6 @@ public final class EventHandlerProperties {
         }
         return onMenuContextRequested;
     }
-*/
 
     private EventHandlerProperty<MouseEvent> onMouseClicked;
 

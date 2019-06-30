@@ -193,6 +193,15 @@ public final class HtmlScenePeer extends ScenePeerBase {
         // Disabling default browser drag & drop as JavaFx has its own
         document.body.setAttribute("ondragstart", "return false;");
         document.body.setAttribute("ondrop", "return false;");
+        document.body.oncontextmenu = e -> {
+            if (e instanceof MouseEvent) {
+                MouseEvent me = (MouseEvent) e;
+                listener.menuEvent(me.pageX, me.pageY, me.screenX, me.screenY, false);
+            }
+            e.stopPropagation();
+            e.preventDefault();
+            return null;
+        };
         // Disabling default text selection (as in JavaFx) to avoid nasty selection graphical elements (buttons etc...)
         HtmlUtil.setStyleAttribute(document.body, "user-select", "none");
     }

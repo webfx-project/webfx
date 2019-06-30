@@ -21,6 +21,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.transform.Transform;
@@ -72,6 +73,28 @@ public abstract class Node implements INode, EventTarget, Styleable {
      * Parent node is a layout root or not.
      */
     void notifyManagedChanged() { }
+
+    public final void setOnContextMenuRequested(
+            EventHandler<? super ContextMenuEvent> value) {
+        onContextMenuRequestedProperty().set(value);
+    }
+
+    public final EventHandler<? super ContextMenuEvent> getOnContextMenuRequested() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.onContextMenuRequested();
+    }
+
+    /**
+     * Defines a function to be called when a context menu
+     * has been requested on this {@code Node}.
+     * @return the event handler that is called when a context menu has been
+     * requested on this {@code Node}
+     * @since JavaFX 2.1
+     */
+    public final ObjectProperty<EventHandler<? super ContextMenuEvent>>
+    onContextMenuRequestedProperty() {
+        return getEventHandlerProperties().onContextMenuRequestedProperty();
+    }
 
     /**
      * Defines a function to be called when a mouse button has been clicked

@@ -62,10 +62,8 @@ public interface TKSceneListener {
             boolean _direct, boolean _inertia);
 */
 
-/*
     void menuEvent(double x, double y, double xAbs, double yAbs,
                           boolean isKeyboardTrigger);
-*/
 
 /*
     void zoomEvent(

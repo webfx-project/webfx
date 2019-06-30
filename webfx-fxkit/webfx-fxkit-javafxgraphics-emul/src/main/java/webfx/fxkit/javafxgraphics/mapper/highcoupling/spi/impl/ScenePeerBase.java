@@ -11,7 +11,7 @@ import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.ScenePeer;
 public abstract class ScenePeerBase implements ScenePeer {
 
     protected final Scene scene;
-    private TKSceneListener listener;
+    protected TKSceneListener listener;
 
     public ScenePeerBase(Scene scene) {
         this.scene = scene;
