@@ -1,24 +1,23 @@
 package javafx.stage;
 
-import javafx.beans.property.*;
-import javafx.event.*;
-import webfx.fxkit.launcher.FxKitLauncher;
-import webfx.fxkit.javafxgraphics.mapper.highcoupling.FxKitMapper;
-import webfx.platform.client.services.uischeduler.UiScheduler;
-import webfx.platform.client.services.uischeduler.AnimationFramePass;
-import webfx.platform.shared.services.scheduler.Scheduled;
-import javafx.geometry.Rectangle2D;
-import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasHeightProperty;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasSceneProperty;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasWidthProperty;
-import javafx.scene.Scene;
-import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.StagePeer;
-import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.WindowPeer;
 import com.sun.javafx.stage.WindowEventDispatcher;
 import com.sun.javafx.stage.WindowHelper;
 import com.sun.javafx.stage.WindowPeerListener;
 import com.sun.javafx.tk.TKPulseListener;
+import javafx.beans.property.*;
+import javafx.event.*;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.FxKitMapper;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.WindowPeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasHeightProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasSceneProperty;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasWidthProperty;
+import webfx.fxkit.launcher.FxKitLauncher;
+import webfx.fxkit.util.properties.Properties;
+import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.scheduler.Scheduled;
 
 /**
  * @author Bruno Salmon
@@ -103,7 +102,7 @@ public class Window implements EventTarget,
      * impl_peer is initialized prior to subsequent initialization.
      */
     //@Deprecated
-    protected volatile StagePeer impl_peer;
+    protected volatile WindowPeer impl_peer;
 
     private TKBoundsConfigurator peerBoundsConfigurator =
             new TKBoundsConfigurator();
@@ -112,9 +111,9 @@ public class Window implements EventTarget,
      * Get Stage's peer
      */
     //@Deprecated
-    public StagePeer impl_getPeer() {
+    public WindowPeer impl_getPeer() {
         if (impl_peer == null)
-            impl_peer = (StagePeer) createPeer();
+            impl_peer = createPeer();
         return impl_peer;
     }
 
@@ -268,7 +267,7 @@ public class Window implements EventTarget,
     private Property<Boolean> showing = new SimpleObjectProperty<Boolean>(false) {
         private boolean oldVisible;
         private Scheduled pulseScheduled;
-        private boolean firstShowing = true;
+        //private boolean firstShowing = true;
 
         @Override protected void invalidated() {
             final boolean newVisible = get();
@@ -277,9 +276,9 @@ public class Window implements EventTarget,
             }
 
             if (!oldVisible && newVisible) {
-                //fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_SHOWING));
+                fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_SHOWING));
             } else {
-                //fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_HIDING));
+                fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_HIDING));
             }
 
             impl_visibleChanging(newVisible);
@@ -307,11 +306,13 @@ public class Window implements EventTarget,
 
                     if (getScene() != null) {
                         getScene().impl_initPeer();
+                        impl_getPeer().onSceneRootChanged(); // This call is necessary if this is the second time the window is shown (ex: second time a context menu is shown) otherwise this (new) window peer has no content (children not inserted into the DOM)
                         //impl_peer.setScene(getScene().getPeer());
                         if (Window.this instanceof Stage && !FxKitLauncher.getProvider().isStageProgrammaticallyRelocatableAndResizable())
                             ((Stage) Window.this).resizeSceneToStage();
                         else
                             getScene().impl_preferredSize();
+/*
                         // Ugly webfx workaround to fix a wrong window positioning that occurs on first showing while the node sizes are not yet correct
                         if (firstShowing && Window.this != FxKitLauncher.getPrimaryStage()) {
                             impl_peer.setBounds(100_000, 100_000, true, true, -1, -1, -1, -1, 0, 0);
@@ -325,6 +326,7 @@ public class Window implements EventTarget,
                             firstShowing = false;
                             return;
                         }
+*/
                     }
 
                     // Set peer bounds
@@ -346,12 +348,12 @@ public class Window implements EventTarget,
                     //impl_peer.setOpacity((float)getOpacity());
 
                     impl_peer.setVisible(true);
-                    //fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_SHOWN));
+                    fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_SHOWN));
                 } else {
                     impl_peer.setVisible(false);
 
                     // Call listener
-                    //fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_HIDDEN));
+                    fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_HIDDEN));
 
                     if (getScene() != null) {
                         //impl_peer.setScene(null);

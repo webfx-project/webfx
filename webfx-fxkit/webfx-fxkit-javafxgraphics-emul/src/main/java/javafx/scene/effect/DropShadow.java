@@ -9,7 +9,7 @@ public class DropShadow implements Effect {
 
     private BlurType blurType = BlurType.THREE_PASS_BOX;
     private Color color = Color.BLACK;
-    private double radius;
+    private double radius = 10;
     private double spread;
     private double offsetX;
     private double offsetY;

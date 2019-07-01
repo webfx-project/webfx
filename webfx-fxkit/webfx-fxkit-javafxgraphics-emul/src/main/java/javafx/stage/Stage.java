@@ -213,7 +213,7 @@ public class Stage extends Window implements HasTitleProperty {
     }
 
     void resizeSceneToStage() { // Webfx addition
-        impl_getPeer().changedWindowSize(); // Will do the job
+        ((StagePeer) impl_getPeer()).changedWindowSize(); // Will do the job
     }
 
     /**

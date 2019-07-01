@@ -8,6 +8,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.shape.Circle;
@@ -15,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Transform;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.shared.HtmlSvgNodePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlPaints;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlTransforms;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.NodePeerBase;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.NodePeerMixin;
@@ -73,11 +75,14 @@ public abstract class HtmlNodePeer
     protected String toFilter(Effect effect) {
         if (effect == null)
             return null;
-        if (effect instanceof GaussianBlur) {
+        if (effect instanceof GaussianBlur)
             return "blur(" + ((GaussianBlur) effect).getSigma() + "px)";
-        } else if (effect instanceof BoxBlur) {
+        if (effect instanceof BoxBlur)
             // Not supported by browser so doing a gaussian blur instead
             return "blur(" + GaussianBlur.getSigma(((BoxBlur) effect).getWidth()) + "px)";
+        if (effect instanceof DropShadow) {
+            DropShadow dropShadow = (DropShadow) effect;
+            return "drop-shadow(" + toPx(dropShadow.getOffsetX()) + " " + toPx(dropShadow.getOffsetY()) + " " + toPx(dropShadow.getRadius() / 2) + " " + HtmlPaints.toCssColor(dropShadow.getColor()) + ")";
         }
         return null;
     }

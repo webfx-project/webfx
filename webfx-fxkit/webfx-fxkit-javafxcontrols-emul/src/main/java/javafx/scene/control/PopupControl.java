@@ -6,6 +6,9 @@ import javafx.css.Styleable;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.stage.PopupWindow;
+import javafx.stage.Window;
+import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**
  * An extension of PopupWindow that allows for CSS styling.
@@ -1077,7 +1080,7 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
      */
     protected class CSSBridge extends Pane {
 
-        private final PopupControl popupControl = PopupControl.this;
+        //private final PopupControl popupControl = PopupControl.this;
 
         /**
          * Requests a layout pass to be performed before the next scene is
@@ -1169,4 +1172,32 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
 
     }
 
+    // WebFx addition
+
+    @Override
+    public void show(Window owner) {
+        showWhenReady(() -> super.show(owner));
+    }
+
+    @Override
+    public void show(Window ownerWindow, double anchorX, double anchorY) {
+        showWhenReady(() -> super.show(ownerWindow, anchorX, anchorY));
+    }
+
+    @Override
+    public void show(Node ownerNode, double anchorX, double anchorY) {
+        showWhenReady(() -> super.show(ownerNode, anchorX, anchorY));
+    }
+
+    private void showWhenReady(Runnable showRunnable) {
+        // The skin needs to be set and mapped to the DOM to have a correct window positioning
+        if (getSkin() != null) // Ok already set
+            showRunnable.run();
+        else { // Not yet set (probably first time showing)
+            setSkin(createDefaultSkin()); // Setting the skin to the default one
+            // Postponing the showRunnable to the shortest delay after the DOM has been updated with the skin
+            // Note: Platform.runLater() is too short (next animation frame), but skipping an additional frame seems to work
+            UiScheduler.scheduleInFutureAnimationFrame(1, showRunnable, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+        }
+    }
 }

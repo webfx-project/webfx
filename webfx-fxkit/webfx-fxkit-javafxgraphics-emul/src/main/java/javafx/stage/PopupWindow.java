@@ -4,6 +4,10 @@ import com.sun.javafx.event.DirectEvent;
 import com.sun.javafx.event.EventHandlerManager;
 import com.sun.javafx.event.EventRedirector;
 import com.sun.javafx.event.EventUtil;
+import com.sun.javafx.stage.PopupWindowPeerListener;
+import com.sun.javafx.stage.WindowCloseRequestHandler;
+import com.sun.javafx.stage.WindowEventDispatcher;
+import com.sun.javafx.tk.FocusUngrabEvent;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.*;
@@ -12,6 +16,7 @@ import javafx.beans.value.WeakChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventTarget;
+import javafx.event.EventType;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
@@ -19,11 +24,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
-import com.sun.javafx.stage.PopupWindowPeerListener;
-import com.sun.javafx.stage.WindowCloseRequestHandler;
-import com.sun.javafx.stage.WindowEventDispatcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +90,21 @@ public abstract class PopupWindow extends Window {
         popupRoot.setBackground(Background.EMPTY);
         popupRoot.getStyleClass().add("popup");
 
-        final Scene scene = null; // SceneHelper.createPopupScene(popupRoot);
+        final Scene scene = // SceneHelper.createPopupScene(popupRoot);
+                new Scene(popupRoot) {
+                    @Override
+                    protected void doLayoutPass() {
+                        resizeRootToPreferredSize(getRoot());
+                        super.doLayoutPass();
+                    }
+
+                    /*@Override
+                    void resizeRootOnSceneSizeChange(
+                            double newWidth,
+                            double newHeight) {
+                        // don't resize
+                    }*/
+                };
         //scene.setFill(null);
         super.setScene(scene);
 
@@ -229,7 +246,6 @@ public abstract class PopupWindow extends Window {
      * </p>
      * @defaultValue false
      */
-/*
     private BooleanProperty autoHide =
             new BooleanPropertyBase() {
                 @Override
@@ -250,7 +266,6 @@ public abstract class PopupWindow extends Window {
     public final void setAutoHide(boolean value) { autoHide.set(value); }
     public final boolean isAutoHide() { return autoHide.get(); }
     public final BooleanProperty autoHideProperty() { return autoHide; }
-*/
 
     /**
      * Called after autoHide is run.
@@ -283,7 +298,6 @@ public abstract class PopupWindow extends Window {
      * @defaultValue true
      * @since JavaFX 2.2
      */
-/*
     private BooleanProperty consumeAutoHidingEvents =
             new SimpleBooleanProperty(this, "consumeAutoHidingEvents",
                     true);
@@ -299,7 +313,6 @@ public abstract class PopupWindow extends Window {
     public final BooleanProperty consumeAutoHidingEventsProperty() {
         return consumeAutoHidingEvents;
     }
-*/
 
     /**
      * Show the popup.
@@ -489,18 +502,14 @@ public abstract class PopupWindow extends Window {
             // track focus state across multiple windows
             bindOwnerFocusedProperty(ownerWindowValue);
             setFocused(ownerWindowValue.isFocused());
-/*
-            handleAutofixActivation(true, isAutoFix());
+            //handleAutofixActivation(true, isAutoFix());
             handleAutohideActivation(true, isAutoHide());
-*/
         } else {
             stopMonitorOwnerEvents(ownerWindowValue);
             unbindOwnerFocusedProperty(ownerWindowValue);
             setFocused(false);
-/*
-            handleAutofixActivation(false, isAutoFix());
+            //handleAutofixActivation(false, isAutoFix());
             handleAutohideActivation(false, isAutoHide());
-*/
             rootWindow = null;
         }
 
@@ -659,7 +668,7 @@ public abstract class PopupWindow extends Window {
     private Bounds cachedAnchorBounds;
 
     private Bounds getExtendedBounds() {
-        if (cachedExtendedBounds == null) {
+        /*if (cachedExtendedBounds == null)*/ { // WebFx disabled cache otherwise ContextMenu size is 0
             final Parent rootNode = getScene().getRoot();
 /*
             cachedExtendedBounds = union(rootNode.getLayoutBounds(),
@@ -672,7 +681,7 @@ public abstract class PopupWindow extends Window {
     }
 
     private Bounds getAnchorBounds() {
-        if (cachedAnchorBounds == null) {
+        /*if (cachedAnchorBounds == null)*/ { // WebFx disabled cache otherwise ContextMenu size is 0
             cachedAnchorBounds = getAnchorLocation().isContentLocation()
                     ? getScene().getRoot()
                     .getLayoutBounds()
@@ -881,21 +890,19 @@ public abstract class PopupWindow extends Window {
 */
 
     private boolean autohideActive;
-/*
     private void handleAutohideActivation(final boolean visible,
                                           final boolean autohide) {
         final boolean newAutohideActive = visible && autohide;
         if (autohideActive != newAutohideActive) {
             // assert rootWindow != null;
             autohideActive = newAutohideActive;
-            if (newAutohideActive) {
+            /*if (newAutohideActive) {
                 rootWindow.increaseFocusGrabCounter();
             } else {
                 rootWindow.decreaseFocusGrabCounter();
-            }
+            }*/
         }
     }
-*/
 
     private void validateOwnerWindow(final Window owner) {
         if (owner == null) {
@@ -944,11 +951,10 @@ public abstract class PopupWindow extends Window {
                 return;
             }
 
-/*
             final EventType<?> eventType = event.getEventType();
 
             if (eventType == MouseEvent.MOUSE_PRESSED
-                    || eventType == ScrollEvent.SCROLL) {
+                    /*|| eventType == ScrollEvent.SCROLL*/) {
                 handleAutoHidingEvents(eventSource, event);
                 return;
             }
@@ -957,7 +963,6 @@ public abstract class PopupWindow extends Window {
                 handleFocusUngrabEvent();
                 return;
             }
-*/
         }
 
         private void handleKeyEvent(final KeyEvent event) {
@@ -985,7 +990,6 @@ public abstract class PopupWindow extends Window {
 */
         }
 
-/*
         private void handleAutoHidingEvents(final Object eventSource,
                                             final Event event) {
             // we handle mouse pressed only for the immediate parent window,
@@ -1008,7 +1012,6 @@ public abstract class PopupWindow extends Window {
                 }
             }
         }
-*/
 
 /*
         private void handleEscapeKeyPressedEvent(final Event event) {

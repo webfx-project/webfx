@@ -26,6 +26,7 @@
 package javafx.scene.input;
 
 import javafx.beans.NamedArg;
+import javafx.event.Event;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
 
@@ -137,6 +138,11 @@ public class ContextMenuEvent extends InputEvent {
         ContextMenuEvent e = (ContextMenuEvent) super.copyFor(newSource, newTarget);
         //recomputeCoordinatesToSource(e, newSource);
         return e;
+    }
+
+    @Override
+    public Event duplicate() {
+        return new ContextMenuEvent(source, target, (EventType<ContextMenuEvent>) eventType, x, y, screenX, screenY, keyboardTrigger, pickResult);
     }
 
     @Override

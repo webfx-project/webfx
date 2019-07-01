@@ -7,10 +7,11 @@ import elemental2.dom.HTMLElement;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.HtmlScenePeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlUtil;
 import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.impl.ScenePeerBase;
 import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.impl.StagePeerBase;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.HtmlScenePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlUtil;
+import webfx.platform.shared.services.log.Logger;
 
 import static elemental2.dom.DomGlobal.document;
 
@@ -32,7 +33,7 @@ public final class GwtSecondaryStagePeer extends StagePeerBase {
 
     @Override
     protected ScenePeerBase getScenePeer() {
-        Scene scene = stage.getScene();
+        Scene scene = getWindow().getScene();
         return scene == null ? null : (ScenePeerBase) scene.impl_getPeer();
     }
 
@@ -48,7 +49,7 @@ public final class GwtSecondaryStagePeer extends StagePeerBase {
 
     @Override
     public void setBounds(float x, float y, boolean xSet, boolean ySet, float w, float h, float cw, float ch, float xGravity, float yGravity) {
-        //Logger.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
+        Logger.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
         if (xSet)
             stageDivStyle.left = x + "px";
         if (ySet)
@@ -74,7 +75,7 @@ public final class GwtSecondaryStagePeer extends StagePeerBase {
         if (visible != this.visible) {
             HTMLBodyElement body = document.body;
             if (visible) {
-                if (stage.getModality() != Modality.NONE) {
+                if (getStage().getModality() != Modality.NONE) {
                     modalBackgroundDiv = HtmlUtil.createDivElement();
                     CSSStyleDeclaration style = modalBackgroundDiv.style;
                     style.position = "absolute";
@@ -95,7 +96,7 @@ public final class GwtSecondaryStagePeer extends StagePeerBase {
 
     @Override
     public void onSceneRootChanged() {
-        setWindowContent(((HtmlScenePeer) stage.getScene().impl_getPeer()).getSceneNode());
+        setWindowContent(((HtmlScenePeer) getWindow().getScene().impl_getPeer()).getSceneNode());
     }
 
     private void setWindowContent(elemental2.dom.Node content) {

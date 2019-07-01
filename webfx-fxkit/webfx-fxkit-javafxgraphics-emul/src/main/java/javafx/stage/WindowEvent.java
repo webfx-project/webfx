@@ -92,6 +92,11 @@ public class WindowEvent extends Event {
     }
 
     @Override
+    public Event duplicate() {
+        return new WindowEvent((Window) source, eventType);
+    }
+
+    @Override
     public EventType<WindowEvent> getEventType() {
         return (EventType<WindowEvent>) super.getEventType();
     }

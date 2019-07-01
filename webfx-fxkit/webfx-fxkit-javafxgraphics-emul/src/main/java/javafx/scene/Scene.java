@@ -29,7 +29,7 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 import webfx.fxkit.javafxgraphics.mapper.highcoupling.FxKitMapper;
 import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.ScenePeer;
-import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.StagePeer;
+import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.WindowPeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasFillProperty;
@@ -319,7 +319,7 @@ public class Scene implements EventTarget,
         //PerformanceTracker.logEvent("Scene preferred bounds computation complete");
     }
 
-    final void resizeRootToPreferredSize(Parent root) {
+    public final void resizeRootToPreferredSize(Parent root) {
         final double preferredWidth;
         final double preferredHeight;
 
@@ -744,7 +744,7 @@ public class Scene implements EventTarget,
     private void doCSSPass() {
     }
 
-    private void doLayoutPass() {
+    protected void doLayoutPass() {
         Parent root = getRoot();
         if (root != null)
             root.layout();
@@ -783,7 +783,7 @@ public class Scene implements EventTarget,
         // this scene's window cannot be null.
         assert window != null;
 
-        StagePeer windowPeer = window.impl_getPeer();
+        WindowPeer windowPeer = window.impl_getPeer();
         if (windowPeer == null) {
             // This is fine, the window is not visible. impl_initPeer() will
             // be called again later, when the window is being shown.
@@ -1135,7 +1135,7 @@ public class Scene implements EventTarget,
         final PickResult res = pick(x2, y2);
 
         if (!isKeyboardTrigger) {
-            eventTarget = res.getIntersectedNode();
+            eventTarget = res == null ? null : res.getIntersectedNode();
             if (eventTarget == null) {
                 eventTarget = this;
             }

@@ -13,6 +13,7 @@ import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.HtmlGraphicsCont
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.HtmlScenePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.shared.GwtPrimaryStagePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.shared.GwtSecondaryStagePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.shared.GwtWindowPeer;
 import webfx.fxkit.launcher.FxKitLauncher;
 
 /**
@@ -29,7 +30,7 @@ public final class GwtFxKitHtmlMapperProvider extends FxKitMapperProviderBase {
 
     @Override
     public WindowPeer createWindowPeer(Window window) {
-        return null;
+        return new GwtWindowPeer(window);
     }
 
     @Override
