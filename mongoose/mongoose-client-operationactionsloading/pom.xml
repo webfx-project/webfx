@@ -18,6 +18,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-client-icons</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-shared-domain</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>

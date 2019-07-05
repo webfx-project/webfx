@@ -47,7 +47,7 @@ public abstract class ButtonSelector<T> {
     private BorderPane dialogPane;
     private TextField searchTextField;
     private DialogCallback dialogCallback;
-    private Button button;
+    protected Button button;
     private HBox searchBox;
     private Button okButton;
     private Button cancelButton;
@@ -463,7 +463,16 @@ public abstract class ButtonSelector<T> {
     }
 
     protected void closeDialog() {
-        if (isDialogOpen())
+        if (isDialogOpen()) {
             dialogCallback.closeDialog();
+            if (closeHandler != null)
+                closeHandler.run();
+        }
     }
+
+    private Runnable closeHandler;
+    public void setCloseHandler(Runnable closeHandler) {
+        this.closeHandler = closeHandler;
+    }
+
 }

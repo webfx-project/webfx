@@ -15,6 +15,10 @@ public interface ActionFactory extends StandardActionKeys {
         return newAction(actionKey, (EventHandler<ActionEvent>) null);
     }
 
+    default Action newAction(Object actionKey, Object graphicUrlOrJson) {
+        return newAction(actionKey, graphicUrlOrJson, (EventHandler<ActionEvent>) null);
+    }
+
     default Action newAction(Object actionKey, EventHandler<ActionEvent> actionHandler) {
         return newAuthAction(actionKey, actionHandler, null);
     }
@@ -25,6 +29,10 @@ public interface ActionFactory extends StandardActionKeys {
 
     default Action newAuthAction(Object actionKey, ObservableBooleanValue authorizedProperty) {
         return newAuthAction(actionKey, (EventHandler<ActionEvent>) null, authorizedProperty);
+    }
+
+    default Action newAuthAction(Object actionKey, Object graphicUrlOrJson, ObservableBooleanValue authorizedProperty) {
+        return newAuthAction(actionKey, graphicUrlOrJson, null, authorizedProperty);
     }
 
     default Action newAuthAction(Object actionKey, EventHandler<ActionEvent> actionHandler, ObservableBooleanValue authorizedProperty) {

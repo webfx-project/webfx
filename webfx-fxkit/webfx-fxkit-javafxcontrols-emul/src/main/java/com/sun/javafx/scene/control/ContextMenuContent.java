@@ -1248,6 +1248,8 @@ public class ContextMenuContent extends Region {
                     graphicPane.getChildren().add(graphicNode);
                     graphic = graphicPane;
                     getChildren().add(graphic);
+                    // WebFx addition
+                    graphicPane.setPadding(new Insets(0, 4, 0, 0));
                 }
 
                 // --- add text to center column

@@ -12,7 +12,7 @@ import webfx.fxkit.extra.type.PrimType;
  */
 public class EntityDataReader<E extends Entity> implements DataReader<E> {
 
-    private final EntityStore entityStore;
+    protected final EntityStore entityStore;
 
     public EntityDataReader(EntityStore entityStore) {
         this.entityStore = entityStore;

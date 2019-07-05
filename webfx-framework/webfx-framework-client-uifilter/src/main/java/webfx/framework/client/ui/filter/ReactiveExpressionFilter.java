@@ -460,6 +460,13 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return started;
     }
 
+    public void stop() {
+        // Temporary implementation
+        activeProperty.unbind();
+        setActive(false);
+        // TODO: unregister the client on server side when push mode
+    }
+
     private boolean onEntityListChangedScheduled;
 
     private void onEntityListChanged() {

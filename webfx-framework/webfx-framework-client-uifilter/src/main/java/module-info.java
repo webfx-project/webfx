@@ -26,5 +26,6 @@ module webfx.framework.client.uifilter {
     // Exported packages
     exports webfx.framework.client.ui.filter;
     exports webfx.framework.shared.orm.mapping.entity_display;
+    exports webfx.framework.shared.orm.mapping.observable;
 
 }

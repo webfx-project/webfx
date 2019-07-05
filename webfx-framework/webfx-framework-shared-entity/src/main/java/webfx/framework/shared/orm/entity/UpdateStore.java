@@ -49,7 +49,7 @@ public interface UpdateStore extends EntityStore {
         return executeUpdate(null);
     }
 
-    Future<Batch<UpdateResult>> executeUpdate(UpdateArgument[] initialUpdates);
+    Future<Batch<UpdateResult>> executeUpdate(UpdateArgument... initialUpdates);
 
     // Factory
 

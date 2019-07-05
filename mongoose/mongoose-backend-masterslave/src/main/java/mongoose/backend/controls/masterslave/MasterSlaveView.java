@@ -8,6 +8,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import webfx.fxkit.util.properties.Properties;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class MasterSlaveView implements UiBuilder {
 
     private final SplitPane splitPane = new SplitPane();
+    private final StackPane stackPane = new StackPane(splitPane); // Embedding the split pane in a stack pane to be able to act as a parent pane for the dialog API
 
     public MasterSlaveView() {
         this(null, null);
@@ -39,8 +41,8 @@ public class MasterSlaveView implements UiBuilder {
     }
 
     @Override
-    public Node buildUi() {
-        return splitPane;
+    public Pane buildUi() {
+        return stackPane;
     }
 
     private final ObjectProperty<Node> masterViewProperty = new SimpleObjectProperty<Node>() { // GWT doesn't accept <>

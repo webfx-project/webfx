@@ -128,7 +128,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
                     .setExpressionColumns(ExpressionColumn.create(renderingExpression))
                     .displayResultInto(dialogDataGrid.displayResultProperty())
                     .setDisplaySelectionProperty(dialogDataGrid.displaySelectionProperty())
-                    .setSelectedEntityHandler(dialogDataGrid.displaySelectionProperty(), e -> {if (e != null) onDialogOk();})
+                    .setSelectedEntityHandler(dialogDataGrid.displaySelectionProperty(), e -> {if (e != null && button != null) onDialogOk();})
             ;
             if (isSearchEnabled())
                 entityDialogFilter
@@ -178,7 +178,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             });
     }
 
-    public  ReactiveExpressionFilter<E> getEntityDialogFilter() {
+    public ReactiveExpressionFilter<E> getEntityDialogFilter() {
         if (entityDialogFilter == null)
             getOrCreateDialogContent();
         return entityDialogFilter;

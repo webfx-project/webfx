@@ -2,6 +2,7 @@ package webfx.framework.shared.expression.terms;
 
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.lci.DataReader;
+import webfx.framework.shared.expression.lci.DataWriter;
 import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.collection.HashList;
 
@@ -56,6 +57,15 @@ public final class Dot<T> extends BinaryExpression<T> {
     @Override
     public Object evaluate(Object leftValue, Object rightValue, DataReader<T> dataReader) {
         return null; // never called due to above evaluate method override
+    }
+
+    @Override
+    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
+        Object leftValue = left.evaluate(domainObject, dataWriter);
+        if (leftValue != null) {
+            T rightData = dataWriter.getDomainObjectFromId(leftValue, domainObject);
+            right.setValue(rightData, value, dataWriter);
+        }
     }
 
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {

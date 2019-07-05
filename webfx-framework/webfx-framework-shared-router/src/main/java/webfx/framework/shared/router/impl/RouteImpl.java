@@ -184,7 +184,7 @@ So using the following code instead (which assumes groups are in the same order 
 
     private static String removeTrailing(String path) {
         int lastCharPos = path.length() - 1;
-        return (path.charAt(lastCharPos) == '/') ? path.substring(0, lastCharPos) : path;
+        return (lastCharPos >= 0 && path.charAt(lastCharPos) == '/') ? path.substring(0, lastCharPos) : path;
     }
 
     void handleContext(RoutingContext context) {

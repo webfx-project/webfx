@@ -389,6 +389,7 @@
     <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/filter"/>
     <source path="webfx/framework/shared/orm/mapping/entity_display"/>
+    <source path="webfx/framework/shared/orm/mapping/observable"/>
     <!--========================< webfx-framework-client-uirouter >=========================-->
     <!-- used by webfx-framework-client-domain (SOURCE) -->
     <source path="webfx/framework/client/activity/impl/elementals/presentation"/>

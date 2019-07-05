@@ -1,14 +1,15 @@
 package mongoose.client.operationactionsloading;
 
+import mongoose.client.icons.MongooseIcons;
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.operation.action.OperationActionRegistry;
-import webfx.framework.shared.orm.domainmodel.DataSourceModel;
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.action.ActionFactoryMixin;
 import webfx.framework.client.ui.uirouter.uisession.UiSession;
+import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platform.shared.services.log.Logger;
 
@@ -39,10 +40,20 @@ public class OperationActionsLoadingModuleInitializer implements ApplicationModu
                     String operationCode = operation.getStringFieldValue("operationCode");
                     String i18nCode = operation.getStringFieldValue("i18nCode");
                     boolean isPublic = operation.getBooleanFieldValue("public");
-                    Action action = isPublic ? newAction(i18nCode) : newAuthAction(i18nCode, registry.authorizedOperationActionProperty(operationCode, UiSession.get().userPrincipalProperty(), UiSession.get()::isAuthorized));
+                    String iconUrl = getActionIconUrl(operationCode);
+                    Action action = isPublic ? newAction(i18nCode, iconUrl) : newAuthAction(i18nCode, iconUrl, registry.authorizedOperationActionProperty(operationCode, UiSession.get().userPrincipalProperty(), UiSession.get()::isAuthorized));
                     registry.registerOperationAction(operationCode, action);
                 }
             }
         });
+    }
+
+    // Temporary hardcoded icons
+    private static String getActionIconUrl(String operationCode) {
+        if (operationCode.startsWith("Edit"))
+            return MongooseIcons.editIcon16Url;
+        if (operationCode.startsWith("Delete"))
+            return MongooseIcons.deleteIcon16Url;
+        return null;
     }
 }

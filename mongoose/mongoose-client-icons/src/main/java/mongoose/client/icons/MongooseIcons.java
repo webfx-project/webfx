@@ -7,10 +7,12 @@ import webfx.fxkit.extra.util.ImageStore;
 /**
  * @author Bruno Salmon
  */
-public class MongooseIcons {
+public final class MongooseIcons {
 
     public final static String addIcon16Url = "images/s16/actions/add.png";
     public final static String removeIcon16Url = "images/s16/actions/remove.png";
+    public final static String editIcon16Url = "images/s16/actions/edit.png";
+    public final static String deleteIcon16Url = "images/s16/actions/delete.png";
     public final static String attendanceIcon16Url = "images/s16/itemFamilies/attendance.png";
     public final static String checkedIcon16Url = "images/s16/checked.png";
     public final static String uncheckedIcon16Url = "images/s16/unchecked.png";

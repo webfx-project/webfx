@@ -4,6 +4,7 @@ module mongoose.client.operationactionsloading {
 
     // Direct dependencies modules
     requires javafx.base;
+    requires mongoose.client.icons;
     requires mongoose.shared.domain;
     requires webfx.framework.client.action;
     requires webfx.framework.client.uirouter;

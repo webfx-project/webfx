@@ -2,13 +2,15 @@ package webfx.framework.client.ui.controls;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import webfx.framework.client.services.i18n.I18n;
-import webfx.framework.client.ui.action.Action;
-import webfx.framework.client.ui.action.ActionBuilder;
-import webfx.framework.client.ui.action.ActionFactoryMixin;
+import webfx.framework.client.ui.action.*;
 import webfx.framework.client.ui.controls.button.ButtonBuilder;
+import webfx.fxkit.util.properties.ObservableLists;
+
+import java.util.function.Supplier;
 
 /**
  * @author Bruno Salmon
@@ -45,6 +47,42 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
 
     default Button newButton(Action action) {
         return newButtonBuilder(action).build();
+    }
+
+    default MenuItem newMenuItem(Action action) {
+        MenuItem menuItem = new MenuItem();
+        ActionBinder.bindMenuItemToAction(menuItem, action);
+        return menuItem;
+    }
+
+    default ContextMenu newContextMenu(ActionGroup actionGroup) {
+        ContextMenu contextMenu = new ContextMenu();
+        ObservableLists.bindConverted(contextMenu.getItems(), actionGroup.getVisibleActions(), this::newMenuItem);
+        return contextMenu;
+    }
+
+    default void setUpContextMenu(Node node, Supplier<ActionGroup> contextMenuActionGroupFactory) {
+        node.setOnContextMenuRequested(e -> getOrCreateContextMenu(node, contextMenuActionGroupFactory).show(node, e.getScreenX(), e.getScreenY()));
+    }
+
+    default ContextMenu getOrCreateContextMenu(Node node, Supplier<ActionGroup> contextMenuActionGroupFactory) {
+        ContextMenu contextMenu = getContextMenu(node);
+        if (contextMenu == null)
+            setContextMenu(node, contextMenu = newContextMenu(contextMenuActionGroupFactory.get()));
+        return contextMenu;
+    }
+
+    default ContextMenu getContextMenu(Node node) {
+        /*if (node instanceof Control)
+            return ((Control) node).getContextMenu();*/
+        return (ContextMenu) node.getProperties().get("contextMenu");
+    }
+
+    default void setContextMenu(Node node, ContextMenu contextMenu) {
+        /*if (node instanceof Control)
+            ((Control) node).setContextMenu(contextMenu);
+        else*/
+            node.getProperties().put("contextMenu", contextMenu);
     }
 
     default ButtonBuilder newButtonBuilder(Action action) {

@@ -1,13 +1,18 @@
 package webfx.framework.client.ui.action;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import webfx.framework.client.ui.action.impl.WritableAction;
 import webfx.fxkit.util.properties.ObservableLists;
+import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.function.Converter;
 
 import java.util.Collection;
@@ -22,10 +27,36 @@ public final class ActionBinder {
         button.setOnAction(action);
     }
 
+    public static void bindMenuItemToAction(MenuItem menuItem, Action action) {
+        menuItem.textProperty().bind(action.textProperty());
+        bindGraphicProperties(menuItem.graphicProperty(), action.graphicProperty());
+        menuItem.disableProperty().bind(action.disabledProperty());
+        menuItem.visibleProperty().bind(action.visibleProperty());
+        menuItem.setOnAction(action);
+    }
+
     private static void bindLabeledToAction(Labeled labeled, Action action) {
         labeled.textProperty().bind(action.textProperty());
-        labeled.graphicProperty().bind(action.graphicProperty());
+        bindGraphicProperties(labeled.graphicProperty(), action.graphicProperty());
         bindNodeToAction(labeled, action, false);
+    }
+
+    private static void bindGraphicProperties(ObjectProperty<Node> dstGraphicProperty, ObservableObjectValue<Node> srcGraphicProperty) {
+        // Needs to make a copy of the graphic in case it is used in several places (JavaFx nodes must be unique instances in the scene graph)
+        Properties.runNowAndOnPropertiesChange(p -> dstGraphicProperty.setValue(copyGraphic(srcGraphicProperty.getValue())), srcGraphicProperty);
+    }
+
+    private static Node copyGraphic(Node graphic) {
+        // Handling only ImageView for now
+        if (graphic instanceof ImageView) {
+            ImageView imageView = (ImageView) graphic;
+            ImageView copy = new ImageView();
+            copy.imageProperty().bind(imageView.imageProperty());
+            copy.fitWidthProperty().bind(imageView.fitWidthProperty());
+            copy.fitHeightProperty().bind(imageView.fitHeightProperty());
+            return copy;
+        }
+        return graphic;
     }
 
     public static Node getAndBindActionIcon(Action action) {
