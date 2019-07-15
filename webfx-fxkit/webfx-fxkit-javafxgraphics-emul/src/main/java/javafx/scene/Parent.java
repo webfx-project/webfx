@@ -67,6 +67,26 @@ public class Parent extends Node {
     }
 
     /**
+     * A constant reference to an unmodifiable view of the children, such that every time
+     * we ask for an unmodifiable list of children, we don't actually create a new
+     * collection and return it. The memory overhead is pretty lightweight compared
+     * to all the garbage we would otherwise generate.
+     */
+    private final ObservableList<Node> unmodifiableChildren =
+            FXCollections.unmodifiableObservableList(children);
+
+
+    /**
+     * Gets the list of children of this {@code Parent} as a read-only
+     * list.
+     *
+     * @return read-only access to this parent's children ObservableList
+     */
+    public ObservableList<Node> getChildrenUnmodifiable() {
+        return unmodifiableChildren;
+    }
+
+    /**
      * A cached reference to the unmodifiable managed children of this Parent. This is
      * created whenever first asked for, and thrown away whenever children are added
      * or removed or when their managed state changes. This could be written

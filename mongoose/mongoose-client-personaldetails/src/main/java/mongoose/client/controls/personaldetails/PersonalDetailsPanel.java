@@ -84,7 +84,7 @@ public final class PersonalDetailsPanel implements MongooseButtonFactoryMixin {
         adultRadioButton.setToggleGroup(ageGroup);
         ageBox = new HBox(20, adultRadioButton, childRadioButton);
         birthDatePicker = LayoutUtil.setMaxWidthToInfinite(new DatePicker());
-        birthDatePicker.setConverter(DateFormatter.LOCAL_DATE_STRING_CONVERTER);
+        birthDatePicker.setConverter(DateFormatter.SINGLETON.toStringConverter());
         carer1NameTextField = newMaterialTextField("Carer1", "Carer1Placeholder");
         carer2NameTextField = newMaterialTextField("Carer2", "Carer2Placeholder");
         emailTextField = newMaterialTextField("Email", "EmailPlaceholder");
@@ -167,8 +167,8 @@ public final class PersonalDetailsPanel implements MongooseButtonFactoryMixin {
         streetTextField.setEditable(editable);
         postCodeTextField.setEditable(editable);
         cityNameTextField.setEditable(editable);
-        countrySelector.setEditable(editable);
-        organizationSelector.setEditable(editable);
+        countrySelector.setReadOnly(profileDisable);
+        organizationSelector.setReadOnly(profileDisable);
     }
 
     public BorderPane getSectionPanel() {

@@ -44,23 +44,28 @@ public final class Call<T> extends UnaryExpression<T> {
         return function;
     }
 
-    public ExpressionArray getOrderBy() {
+    public ExpressionArray<T> getOrderBy() {
         return orderBy;
     }
 
     @Override
-    public Type getType() {
+    public Expression<T> getForwardingTypeExpression() {
         Type type = function.getReturnType();
-        if (type == null) { // type = null means the function returns the same type as the argument (ex: sum function)
-            Expression operand = getOperand(); // General case: the type to return is the type of the operand
-            if (operand instanceof ExpressionArray) { // Particular case: multiple arguments (ex: coalesce(ar1, arg2))
-                Expression[] arguments = ((ExpressionArray) operand).getExpressions();
-                if (!Arrays.isEmpty(arguments))
-                    operand = arguments[0]; // we return the type of the first argument
-            }
-            type = operand.getType();
+        if (type != null)
+            return this;
+        Expression<T> operand = getOperand(); // General case: the type to return is the type of the operand
+        if (operand instanceof ExpressionArray) { // Particular case: multiple arguments (ex: coalesce(ar1, arg2))
+            Expression[] arguments = ((ExpressionArray) operand).getExpressions();
+            if (!Arrays.isEmpty(arguments))
+                operand = arguments[0]; // we return the type of the first argument
         }
-        return type;
+        return operand != null ? operand : this;
+    }
+
+    @Override
+    public Type getType() {
+        Expression forwardingTypeExpression = getForwardingTypeExpression();
+        return forwardingTypeExpression == this ? function.getReturnType() : forwardingTypeExpression.getType();
     }
 
     @Override
@@ -78,6 +83,11 @@ public final class Call<T> extends UnaryExpression<T> {
         }
         // When the function is not evaluable, it might have been already evaluated during the query and the result stored in a field
         return dataReader.getDomainFieldValue(domainObject, functionName); // using function name as field (ex: count(1) -> field = count)
+    }
+
+    @Override
+    public boolean isEditable() {
+        return false;
     }
 
     @Override

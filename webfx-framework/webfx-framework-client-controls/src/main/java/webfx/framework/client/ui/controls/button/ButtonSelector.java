@@ -135,8 +135,12 @@ public abstract class ButtonSelector<T> {
         return dialogHeightProperty;
     }
 
-    public void setEditable(boolean editable) {
-        getButton().setDisable(!editable);
+    public void setReadOnly(boolean readOnly) {
+        getButton().setDisable(readOnly);
+    }
+
+    public boolean isReadOnly() {
+        return getButton().isDisabled();
     }
 
     public Button getButton() {
@@ -185,7 +189,7 @@ public abstract class ButtonSelector<T> {
 
     private boolean openDueToMouseEntered;
     private void onMouseEntered() {
-        if (isAutoOpenOnMouseEntered()) {
+        if (isAutoOpenOnMouseEntered() && !isReadOnly()) {
             openDueToMouseEntered = true;
             showDialog();
         }
@@ -208,7 +212,7 @@ public abstract class ButtonSelector<T> {
     private void onButtonClicked() {
         if (userJustPressedButtonInOrderToCloseDialog)
             userJustPressedButtonInOrderToCloseDialog = false;
-        else
+        else if (!isReadOnly())
             toggleDialog();
     }
 

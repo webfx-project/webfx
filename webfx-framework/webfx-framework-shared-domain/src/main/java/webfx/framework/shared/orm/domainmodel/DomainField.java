@@ -1,14 +1,14 @@
 package webfx.framework.shared.orm.domainmodel;
 
-import webfx.framework.shared.expression.sqlcompiler.ExpressionSqlCompiler;
-import webfx.framework.shared.expression.terms.HasDomainClass;
-import webfx.fxkit.extra.type.Type;
 import webfx.framework.shared.expression.Expression;
+import webfx.framework.shared.expression.sqlcompiler.ExpressionSqlCompiler;
 import webfx.framework.shared.expression.terms.Equals;
+import webfx.framework.shared.expression.terms.HasDomainClass;
 import webfx.framework.shared.expression.terms.Parameter;
 import webfx.framework.shared.expression.terms.Symbol;
 import webfx.fxkit.extra.label.HasLabel;
 import webfx.fxkit.extra.label.Label;
+import webfx.fxkit.extra.type.Type;
 
 /**
  * @author Bruno Salmon
@@ -137,10 +137,16 @@ public final class DomainField extends Symbol implements HasDomainClass, HasLabe
     }
 
     @Override
-    public Type getType() {
+    public Expression getForwardingTypeExpression() {
         if (expression != null || expressionDefinition != null)
-            return getExpression().getType();
-        return super.getType();
+            return getExpression();
+        return this;
+    }
+
+    @Override
+    public Type getType() {
+        Expression typeExpression = getForwardingTypeExpression();
+        return typeExpression == this ? super.getType() : typeExpression.getType();
     }
 
     public Expression getApplicableCondition() {

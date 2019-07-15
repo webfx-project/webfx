@@ -3,15 +3,53 @@ package javafx.scene.control;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.LayoutMeasurable;
 import javafx.scene.Node;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.Region;
 import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
+
+import java.lang.ref.WeakReference;
 
 /**
  * @author Bruno Salmon
  */
 public abstract class Control extends Region implements Skinnable {
+
+    // --- context menu
+    /**
+     * The ContextMenu to show for this control.
+     */
+    private ObjectProperty<ContextMenu> contextMenu = new SimpleObjectProperty<ContextMenu>(this, "contextMenu") {
+        private WeakReference<ContextMenu> contextMenuRef;
+
+        @Override protected void invalidated() {
+            /*ContextMenu oldMenu = contextMenuRef == null ? null : contextMenuRef.get();
+            if (oldMenu != null) {
+                ControlAcceleratorSupport.removeAcceleratorsFromScene(oldMenu.getItems(), Control.this);
+            }*/
+
+            ContextMenu ctx = get();
+            contextMenuRef = new WeakReference<>(ctx);
+
+            if (ctx != null) {
+                // set this flag so contextmenu show will be relative to parent window not anchor
+                ctx.setShowRelativeToWindow(true); //RT-15160
+
+                // if a context menu is set, we need to install any accelerators
+                // belonging to its menu items ASAP into the scene that this
+                // Control is in (if the control is not in a Scene, we will need
+                // to wait until it is and then do it).
+                //ControlAcceleratorSupport.addAcceleratorsIntoScene(ctx.getItems(), Control.this);
+            }
+        }
+    };
+    public final ObjectProperty<ContextMenu> contextMenuProperty() { return contextMenu; }
+    public final void setContextMenu(ContextMenu value) { contextMenu.setValue(value); }
+    public final ContextMenu getContextMenu() { return contextMenu == null ? null : contextMenu.getValue(); }
+
+
 
     /***************************************************************************
      *                                                                         *
@@ -36,8 +74,42 @@ public abstract class Control extends Region implements Skinnable {
 
         // we add a listener for menu request events to show the context menu
         // that may be set on the Control
-        //this.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, contextMenuHandler);
+        this.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, contextMenuHandler);
     }
+
+    /***************************************************************************
+     *                                                                         *
+     * Event Handlers / Listeners                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Handles context menu requests by popping up the menu.
+     * Note that we use this pattern to remove some of the anonymous inner
+     * classes which we'd otherwise have to create. When lambda expressions
+     * are supported, we could do it that way instead (or use MethodHandles).
+     */
+    private final static EventHandler<ContextMenuEvent> contextMenuHandler = event -> {
+        if (event.isConsumed()) return;
+
+        // If a context menu was shown, consume the event to prevent multiple context menus
+        Object source = event.getSource();
+        if (source instanceof Control) {
+            Control c = (Control) source;
+            if (c.getContextMenu() != null) {
+                c.getContextMenu().show(c, event.getScreenX(), event.getScreenY());
+                event.consume();
+            }
+        }
+    };
+
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Properties                                                              *
+     *                                                                         *
+     **************************************************************************/
 
     /**
      * A private reference directly to the SkinBase instance that is used as the

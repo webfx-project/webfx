@@ -578,7 +578,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             SqlCompiled sqlCompiled = getDomainModel().parseAndCompileSelect(stringFilter.toStringSelect());
             // And extract the possible parameters
             ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
-            parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
+            parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray();
             // Skipping the server call if there is no difference in the parameters compared to the last call (unless it is in autoRefresh mode)
             if (!autoRefresh && !isDifferentFromLastQuery(stringFilter, parameterValues, active, push, pushClientId))
                 log("No difference with previous query");

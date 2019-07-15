@@ -19,7 +19,18 @@ public interface Expression<T> {
      * @return the type of the expression (for example PrimType.BOOLEAN in case of a boolean expression).
      */
 
-    Type getType();
+    default Type getType() {
+        return getForwardingTypeExpression().getType();
+    }
+
+    default Expression<T> getForwardingTypeExpression() {
+        return this;
+    }
+
+    default Expression<T> getFinalForwardingTypeExpression() {
+        Expression<T> expression = getForwardingTypeExpression();
+        return expression == this || expression == null ? this : expression.getFinalForwardingTypeExpression();
+    }
 
     /**
      * The method that evaluates the expression on a domain object.

@@ -1,12 +1,12 @@
 package webfx.framework.shared.expression.terms.function;
 
 import webfx.framework.shared.expression.Expression;
-import webfx.framework.shared.expression.lci.DataReader;
-import webfx.framework.shared.expression.lci.ParserDomainModelReader;
-import webfx.framework.shared.expression.terms.ExpressionArray;
-import webfx.framework.shared.expression.parser.ExpressionParser;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
 import webfx.framework.shared.expression.builder.ThreadLocalReferenceResolver;
+import webfx.framework.shared.expression.lci.DataReader;
+import webfx.framework.shared.expression.lci.ParserDomainModelReader;
+import webfx.framework.shared.expression.parser.ExpressionParser;
+import webfx.framework.shared.expression.terms.ExpressionArray;
 import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.Strings;
 
@@ -59,6 +59,11 @@ public final class InlineFunction<T> extends Function<T> {
     @Override
     public int getPrecedenceLevel() {
         return body.getPrecedenceLevel();
+    }
+
+    @Override
+    public boolean isIdentity() {
+        return argNames != null && argNames.length == 1 && argNames[0].equals(body.toString());
     }
 
     private static Expression parseBody(String body, final String[] argNames, final Type[] argTypes, Object domainClass, ParserDomainModelReader modelReader) {

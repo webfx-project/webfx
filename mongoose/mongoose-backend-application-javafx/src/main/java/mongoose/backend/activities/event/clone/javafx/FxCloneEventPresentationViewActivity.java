@@ -18,7 +18,7 @@ final class FxCloneEventPresentationViewActivity extends CloneEventPresentationV
         gp.getChildren().remove(dateTextField);
         gp.add(datePicker, 1, 1);
         datePicker.valueProperty().bindBidirectional(pm.dateProperty());
-        datePicker.setConverter(DateFormatter.LOCAL_DATE_STRING_CONVERTER);
+        datePicker.setConverter(DateFormatter.SINGLETON.toStringConverter());
     }
 
 }

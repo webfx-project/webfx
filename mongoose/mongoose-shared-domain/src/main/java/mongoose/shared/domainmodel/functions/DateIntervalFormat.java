@@ -23,8 +23,8 @@ public final class DateIntervalFormat extends Function {
         try {
             Object[] arguments = (Object[]) argument;
 
-            LocalDate date1 = Dates.parseIsoLocalDate((String) arguments[0]);
-            LocalDate date2 = Dates.parseIsoLocalDate((String) arguments[1]);
+            LocalDate date1 = Dates.toLocalDate(arguments[0]);
+            LocalDate date2 = Dates.toLocalDate(arguments[1]);
 
             int day1 = date1.getDayOfMonth();
             Month month1 = date1.getMonth();

@@ -65,7 +65,7 @@ public abstract class Labeled extends Control implements
         return textProperty;
     }
 
-    private final Property<Node> graphicProperty = new SimpleObjectProperty<Node>() {
+    private final ObjectProperty<Node> graphicProperty = new SimpleObjectProperty<Node>() {
         @Override
         protected void invalidated() {
             setScene(getScene()); // This will propagate the scene reference into the graphic
@@ -73,7 +73,7 @@ public abstract class Labeled extends Control implements
     };
 
     @Override
-    public Property<Node> graphicProperty() {
+    public ObjectProperty<Node> graphicProperty() {
         return graphicProperty;
     }
 

@@ -3,7 +3,6 @@ package webfx.framework.shared.expression.terms;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.lci.DataWriter;
-import webfx.fxkit.extra.type.Type;
 
 import java.util.Collection;
 
@@ -35,8 +34,8 @@ public final class TernaryExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public Type getType() {
-        return yes.getType();
+    public Expression<T> getForwardingTypeExpression() {
+        return yes;
     }
 
     @Override

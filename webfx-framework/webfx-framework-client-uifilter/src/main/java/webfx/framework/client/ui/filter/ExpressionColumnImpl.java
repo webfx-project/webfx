@@ -3,6 +3,8 @@ package webfx.framework.client.ui.filter;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.terms.As;
 import webfx.framework.shared.expression.terms.Dot;
+import webfx.framework.shared.expression.terms.UnaryExpression;
+import webfx.framework.shared.expression.terms.function.Call;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
@@ -18,6 +20,8 @@ import webfx.fxkit.extra.type.Type;
 import webfx.fxkit.extra.type.Types;
 import webfx.platform.shared.services.json.JsonObject;
 
+import java.util.function.Function;
+
 /**
  * @author Bruno Salmon
  */
@@ -26,48 +30,44 @@ final class ExpressionColumnImpl implements ExpressionColumn {
     private final String expressionDefinition;
     private Expression  expression;
     private Expression displayExpression;
-    private final Formatter displayFormatter;
+    private Formatter displayFormatter;
     private Object label;
     private DisplayColumn displayColumn;
     private final JsonObject json;
     private Boolean isForeignObject;
+    private DomainClass domainClass;
     private DomainClass foreignClass;
+    private String foreignAlias;
     private Expression foreignFields;
     private String foreignCondition;
+    private String foreignOrderBy;
     private String foreignSearchCondition;
+    private Expression applicableCondition;
 
     ExpressionColumnImpl(String expressionDefinition, Expression expression, Object label, Formatter displayFormatter, DisplayColumn displayColumn, JsonObject json) {
         this.expressionDefinition = expressionDefinition;
-        this.expression = expression;
-        this.label = label;
-        // If no display formatter is passed, trying to find one based on the expression type
-        if (displayFormatter == null && expression != null) {
-            Type type = expression.getType();
-            String formatterName = null;
-            // If the type is a derived type (ex: field with type Price), we try to find a formatter with same name (but lowercase). Ex: price
-            if (type == PrimType.DATE)
-                formatterName = "dateTime";
-            else if (type instanceof DerivedType)
-                formatterName = ((DerivedType) type).getName().toLowerCase();
-            displayFormatter = FormatterRegistry.getFormatter(formatterName);
-        }
         this.displayFormatter = displayFormatter;
+        this.label = label;
         this.displayColumn = displayColumn;
         this.json = json;
+        setExpression(expression);
     }
 
     @Override
     public DisplayColumn getDisplayColumn() {
         if (displayColumn == null) {
-            Expression topRightExpression = getTopRightExpression(expression);
+            Expression topRightExpression = getTopRightExpression();
             if (topRightExpression instanceof As) {
                 As as = (As) topRightExpression;
                 topRightExpression = as.getOperand();
                 if (label == null)
                     label = as.getAlias();
             }
-            if (label == null)
+            if (label == null) {
                 label = topRightExpression;
+                while (label instanceof UnaryExpression)
+                    label = ((UnaryExpression) label).getOperand();
+            }
             Double prefWidth = null;
             if (topRightExpression instanceof DomainField) {
                 int fieldPrefWidth = ((DomainField) topRightExpression).getPrefWidth();
@@ -109,13 +109,45 @@ final class ExpressionColumnImpl implements ExpressionColumn {
         return displayColumn;
     }
 
+    private Expression getTopRightExpression() {
+        return getTopRightExpression(expression);
+    }
+
     private static Expression getTopRightExpression(Expression expression) {
-        Expression topRightExpression = expression;
-        while (topRightExpression instanceof Dot)
-            topRightExpression = ((Dot) topRightExpression).getRight();
-        if (topRightExpression instanceof DomainField && ((DomainField) topRightExpression).getExpression() instanceof As) // to have 'acco' label instead of 'listing_acco'
-            topRightExpression = ((DomainField) topRightExpression).getExpression();
-        return topRightExpression;
+        while (true) {
+            if (expression instanceof Call) {
+                Call call = (Call) expression;
+                if (call.getFunction().isIdentity())
+                    expression = call.getOperand();
+            }
+            Expression forwardingTypeExpression = expression.getForwardingTypeExpression();
+            if (forwardingTypeExpression == expression)
+                break;
+            if (expression instanceof As) { // to have 'acco' label instead of 'listing_acco'
+                expression = forwardingTypeExpression;
+                break;
+            }
+            if (expression instanceof Dot)
+                expression = forwardingTypeExpression;
+            else
+                break;
+        }
+        return expression;
+    }
+
+    private void setExpression(Expression expression) {
+        this.expression = expression;
+        // If no display formatter is passed, trying to find one based on the expression type
+        if (displayFormatter == null && expression != null) {
+            Type type = expression.getType();
+            String formatterName = null;
+            // If the type is a derived type (ex: field with type Price), we try to find a formatter with same name (but lowercase). Ex: price
+            if (type == PrimType.DATE)
+                formatterName = "dateTime";
+            else if (type instanceof DerivedType)
+                formatterName = ((DerivedType) type).getName().toLowerCase();
+            displayFormatter = FormatterRegistry.getFormatter(formatterName);
+        }
     }
 
     @Override
@@ -126,7 +158,7 @@ final class ExpressionColumnImpl implements ExpressionColumn {
     @Override
     public DomainClass getForeignClass() {
         if (isForeignObject == null) {
-            Expression topRightExpression = getTopRightExpression(expression);
+            Expression topRightExpression = expression.getFinalForwardingTypeExpression();
             if (topRightExpression instanceof DomainField)
                 foreignClass = ((DomainField) topRightExpression).getForeignClass();
             isForeignObject = foreignClass != null;
@@ -135,40 +167,56 @@ final class ExpressionColumnImpl implements ExpressionColumn {
     }
 
     @Override
-    public Expression getForeignFields() {
-        if (foreignFields == null && getForeignClass() != null) {
-            String localDef = json == null ? null : json.getString("foreignFields");
-            foreignFields = localDef == null ? foreignClass.getForeignFields() : foreignClass.parseExpression(localDef);
-        }
-        return foreignFields;
+    public String getForeignAlias() {
+        return foreignAlias = getForeignJsonOrDomainAttribute(foreignAlias, "foreignAlias", null, DomainField::getForeignAlias, false);
     }
 
     @Override
-    public String getForeignCondition() {
-        if (foreignCondition == null && getForeignClass() != null) {
-            foreignCondition = json == null ? null : json.getString("foreignCondition");
-            if (foreignCondition == null) {
-                Expression topRightExpression = getTopRightExpression(expression);
-                if (topRightExpression instanceof DomainField)
-                    foreignCondition = ((DomainField) topRightExpression).getForeignCondition();
-            }
-        }
-        return foreignCondition;
+    public Expression getForeignColumns() {
+        return foreignFields = getForeignJsonOrDomainAttribute(foreignFields, "foreignColumns", DomainClass::getForeignFields, null, true);
+    }
+
+    @Override
+    public String getForeignWhere() {
+        return foreignCondition = getForeignJsonOrDomainAttribute(foreignCondition, "foreignWhere", null, DomainField::getForeignCondition, false);
+    }
+
+    @Override
+    public String getForeignOrderBy() {
+        return foreignOrderBy = getForeignJsonOrDomainAttribute(foreignOrderBy, "foreignOrderBy", null, DomainField::getForeignOrderBy, false);
     }
 
     @Override
     public String getForeignSearchCondition() {
-        if (foreignSearchCondition == null && getForeignClass() != null) {
-            String localDef = json == null ? null : json.getString("foreignSearchCondition");
-            foreignSearchCondition = localDef == null ? foreignClass.getSearchCondition() : localDef;
+        return foreignSearchCondition = getForeignJsonOrDomainAttribute(foreignSearchCondition, "foreignSearchCondition", DomainClass::getSearchCondition, null, false);
+    }
+
+    @Override
+    public Expression getApplicableCondition() {
+        return applicableCondition = getForeignJsonOrDomainAttribute(applicableCondition, "applicableCondition", null, DomainField::getApplicableCondition, true);
+    }
+
+    private <A> A getForeignJsonOrDomainAttribute(A currentAttribute, String jsonKey, Function<DomainClass, ?> classAttributeGetter, Function<DomainField, ?> fieldAttributeGetter, boolean expression) {
+        DomainClass domainClass = jsonKey.startsWith("foreign") ? getForeignClass() : this.domainClass;
+        if (currentAttribute == null && domainClass != null) {
+            Object attributeSource = json == null ? null : json.getString(jsonKey);
+            if (attributeSource == null && classAttributeGetter != null)
+                attributeSource = classAttributeGetter.apply(domainClass);
+            if (attributeSource == null && fieldAttributeGetter != null) {
+                Expression topRightExpression = getTopRightExpression();
+                if (topRightExpression instanceof DomainField)
+                    attributeSource = fieldAttributeGetter.apply((DomainField) topRightExpression);
+            }
+            if (attributeSource != null)
+                currentAttribute = expression && attributeSource instanceof String ? (A) domainClass.parseExpression((String) attributeSource) : (A) attributeSource;
         }
-        return foreignSearchCondition;
+        return currentAttribute;
     }
 
     @Override
     public Expression getDisplayExpression() {
         if (displayExpression == null)
-            displayExpression = getForeignFields() == null ? expression : new Dot(expression, foreignFields);
+            displayExpression = getForeignColumns() == null ? expression : new Dot(expression, foreignFields);
         return displayExpression;
     }
 
@@ -178,9 +226,16 @@ final class ExpressionColumnImpl implements ExpressionColumn {
     }
 
     @Override
+    public boolean isReadOnly() {
+        return json != null && Boolean.TRUE.equals(json.getBoolean("readOnly")) || expression == null || !expression.isEditable();
+    }
+
+    @Override
     public ExpressionColumn parseExpressionDefinitionIfNecessary(DomainModel domainModel, Object domainClassId) {
+        if (domainClass == null)
+            domainClass = domainModel.getClass(domainClassId);
         if (expression == null)
-            expression = domainModel.parseExpression(expressionDefinition, domainClassId);
+            setExpression(domainModel.parseExpression(expressionDefinition, domainClassId));
         return this;
     }
 }

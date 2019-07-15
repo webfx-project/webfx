@@ -3,7 +3,8 @@ package webfx.framework.shared.expression.terms;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.lci.DataWriter;
-import webfx.fxkit.extra.type.Type;
+import webfx.framework.shared.expression.terms.function.Call;
+import webfx.framework.shared.expression.terms.function.Function;
 import webfx.platform.shared.util.collection.HashList;
 
 import java.util.Collection;
@@ -26,7 +27,6 @@ public final class Dot<T> extends BinaryExpression<T> {
     }
 
     public Dot(Expression<T> left, Expression<T> right, boolean outerJoin, boolean readLeftKey) {
-        //super(left instanceof Dot ? ((Dot) left).getLeft() : left, outerJoin ? ".." : ".", left instanceof Dot ? new Dot(((Dot) left).getRight(), right, outerJoin, readLeftKey) : right, 8);
         super(left, outerJoin ? ".." : ".", right, 8);
         this.outerJoin = outerJoin;
         this.readLeftKey = readLeftKey;
@@ -41,8 +41,8 @@ public final class Dot<T> extends BinaryExpression<T> {
     }
 
     @Override
-    public Type getType() {
-        return right.getType();
+    public Expression<T> getForwardingTypeExpression() {
+        return right;
     }
 
     @Override
@@ -72,12 +72,43 @@ public final class Dot<T> extends BinaryExpression<T> {
         List<Expression<T>> rightPersistentTerms = new HashList<>();
         right.collectPersistentTerms(rightPersistentTerms);
         if (!rightPersistentTerms.isEmpty()) {
+            Dot<T> persistentDot;
             if (rightPersistentTerms.size() != 1)
-                persistentTerms.add(new Dot<>(left, new ExpressionArray<>(rightPersistentTerms), outerJoin));
+                persistentDot = new Dot<>(left, new ExpressionArray<>(rightPersistentTerms), outerJoin);
             else if (rightPersistentTerms.get(0) == right)
-                persistentTerms.add(this);
+                persistentDot = this;
             else
-                persistentTerms.add(new Dot<>(left, rightPersistentTerms.get(0), outerJoin));
+                persistentDot = new Dot<>(left, rightPersistentTerms.get(0), outerJoin);
+            Expression<T> expandLeft = persistentDot.expandLeft();
+            if (expandLeft == persistentDot)
+                persistentTerms.add(persistentDot);
+            else
+                expandLeft.collectPersistentTerms(persistentTerms);
         }
+    }
+
+    public Expression<T> expandLeft() {
+        if (left instanceof Call) {
+            Call<T> call = (Call<T>) this.left;
+            Function function = call.getFunction();
+            if (function.isIdentity())
+                return new Call<>(function.getName(), new Dot<>(call.getOperand(), getRight(), isOuterJoin()).expandLeft(), call.getOrderBy());
+        }
+        if (left instanceof Dot) {
+            Dot<T> leftDot = (Dot<T>) left;
+            return new Dot<>(leftDot.getLeft(), new Dot<>(leftDot.getRight(), getRight(), isOuterJoin()), leftDot.isOuterJoin()).expandLeft();
+        }
+        Expression<T> leftForwardingTypeExpression = left.getForwardingTypeExpression();
+        if (leftForwardingTypeExpression == left)
+            return this;
+        if (leftForwardingTypeExpression instanceof Dot) {
+            Dot<T> leftDot = (Dot<T>) leftForwardingTypeExpression;
+            return new Dot<>(leftDot.getLeft(), new Dot<>(leftDot.getRight(), getRight(), isOuterJoin()), leftDot.isOuterJoin()).expandLeft();
+        }
+        if (leftForwardingTypeExpression instanceof TernaryExpression) {
+            TernaryExpression<T> leftTernaryExpression = (TernaryExpression<T>) leftForwardingTypeExpression;
+            return new TernaryExpression<T>(leftTernaryExpression.getQuestion(), new Dot<>(leftTernaryExpression.getYes(), getRight(), isOuterJoin()).expandLeft(), new Dot(leftTernaryExpression.getNo(), getRight(), isOuterJoin()).expandLeft());
+        }
+        return this;
     }
 }

@@ -17,6 +17,7 @@ module webfx.framework.client.controls {
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
+    requires webfx.framework.shared.util;
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;

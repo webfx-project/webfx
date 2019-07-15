@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class Function<T> {
     protected final String name;
-    private final String[] argNames; // argument names
+    protected final String[] argNames; // argument names
     private final Type[] argTypes; // argument types
     private final Type returnType;
     private final boolean evaluable;
@@ -118,6 +118,10 @@ public class Function<T> {
 
     public boolean isSqlExpressible() {
         return !isEvaluable();
+    }
+
+    public boolean isIdentity() {
+        return false;
     }
 
     public Object evaluate(T argument, DataReader<T> dataReader) {

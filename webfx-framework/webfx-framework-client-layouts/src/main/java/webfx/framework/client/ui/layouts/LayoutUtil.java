@@ -2,10 +2,13 @@ package webfx.framework.client.ui.layouts;
 
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
@@ -14,6 +17,8 @@ import webfx.fxkit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.Numbers;
+
+import java.util.function.Predicate;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -214,6 +219,26 @@ public final class LayoutUtil {
     public static <N extends Region> N removePadding(N content) {
         return setPadding(content, Insets.EMPTY);
     }
+
+    // lookup method
+
+    public static Node lookupChild(Node node, Predicate<Node> predicate) {
+        if (node != null) {
+            if (predicate.test(node))
+                return node;
+            if (node instanceof Parent) {
+                ObservableList<Node> children = node instanceof SplitPane ? ((SplitPane) node).getItems() : ((Parent) node).getChildrenUnmodifiable();
+                for (Node child : children) {
+                    Node n = lookupChild(child, predicate);
+                    if (n != null)
+                        return n;
+                }
+            }
+        }
+        return null;
+    }
+
+    // ScrollPane utility methods
 
     public static ScrollPane createVerticalScrollPaneWithPadding(Region content) {
         return createVerticalScrollPane(createPadding(content));

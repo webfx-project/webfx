@@ -48,6 +48,11 @@ public class DynamicEntity implements Entity {
     }
 
     @Override
+    public boolean isFieldLoaded(Object domainFieldId) {
+        return fieldValues.containsKey(domainFieldId);
+    }
+
+    @Override
     public void setForeignField(Object foreignFieldId, Object foreignFieldValue) {
         EntityId foreignEntityId;
         if (foreignFieldValue == null)

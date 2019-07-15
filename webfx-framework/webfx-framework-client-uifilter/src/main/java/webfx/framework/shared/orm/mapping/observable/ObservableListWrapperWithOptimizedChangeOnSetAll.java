@@ -1,9 +1,6 @@
 package webfx.framework.shared.orm.mapping.observable;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 final class ObservableListWrapperWithOptimizedChangeOnSetAll<E> extends ObservableListWrapper<E> {
 
@@ -42,6 +39,7 @@ final class ObservableListWrapperWithOptimizedChangeOnSetAll<E> extends Observab
                 }
                 // Permuting elements that are not in their final position
                 i = 0;
+                int[] perm = null;
                 for (E e : col) {
                     if (alreadyPresentSize == 0)
                         break;
@@ -49,15 +47,22 @@ final class ObservableListWrapperWithOptimizedChangeOnSetAll<E> extends Observab
                         int old = indexOf(e);
                         if (old == i)
                             nextUpdate(i);
-                        else {
+                        else if (perm == null || perm[old] != i) {
                             E previous = backingList.set(i, e);
                             backingList.set(old, previous);
-                            nextPermutation(old, old + 1, new int[]{i});
+                            if (perm == null) {
+                                perm = new int[size()];
+                                for (int j = 0; j < perm.length; j++)
+                                    perm[j] = j;
+                            }
+                            perm[old] = i;
                             alreadyPresentSize--;
                         }
                     }
                     i++;
                 }
+                if (perm != null)
+                    nextPermutation(0, perm.length, perm);
             } finally {
                 endChange();
             }

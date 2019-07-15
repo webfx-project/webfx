@@ -7,7 +7,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import mongoose.client.services.authn.MongooseUserPrincipal;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
-import webfx.framework.client.ui.controls.sheet.PropertySheet;
+import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.shared.orm.entity.Entities;
@@ -21,7 +21,7 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase
         implements ReactiveExpressionFilterFactoryMixin {
 
     private final String manageeColumns = "[{label: 'Managee', expression: `active,user.genderIcon,user.firstName,user.lastName`}]";
-    private final String assignmentColumns = "[`active`,`operation`,{expression: `rule`, foreignFields: null, foreignSearchCondition: null, foreignCondition: null},`activityState`]";
+    private final String assignmentColumns = "[`active`,`operation`,{expression: `rule`, foreignColumns: null, foreignSearchCondition: null, foreignWhere: null},`activityState`]";
 
     private final DataGrid usersDataGrid = new DataGrid();
     private final DataGrid assignmentsDataGrid = new DataGrid();
@@ -34,7 +34,7 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase
     public Node buildUi() {
         assignmentsDataGrid.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2)
-                PropertySheet.editEntity(assignmentFilter.getSelectedEntity(), assignmentColumns, (Pane) getNode());
+                EntityPropertiesSheet.editEntity(assignmentFilter.getSelectedEntity(), assignmentColumns, (Pane) getNode());
         });
         return new SplitPane(usersDataGrid, assignmentsDataGrid);
     }
@@ -53,7 +53,7 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase
                 .setExpressionColumns(assignmentColumns)
                 .displayResultInto(assignmentsDataGrid.displayResultProperty())
                 .setDisplaySelectionProperty(assignmentsDataGrid.displaySelectionProperty())
-                //.setSelectedEntityHandler(assignmentsDataGrid.displaySelectionProperty(), assignment -> PropertySheet.editEntity(assignment, assignmentColumns, (Pane) getNode()))
+                //.setSelectedEntityHandler(assignmentsDataGrid.displaySelectionProperty(), assignment -> EntityPropertiesSheet.editEntity(assignment, assignmentColumns, (Pane) getNode()))
                 .start();
     }
 }

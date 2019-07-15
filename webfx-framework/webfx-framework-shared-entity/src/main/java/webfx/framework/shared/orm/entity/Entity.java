@@ -1,15 +1,21 @@
 package webfx.framework.shared.orm.entity;
 
-import webfx.platform.shared.util.Booleans;
-import webfx.platform.shared.util.Dates;
-import webfx.platform.shared.util.Numbers;
-import webfx.platform.shared.util.Strings;
 import webfx.framework.shared.expression.Expression;
+import webfx.framework.shared.expression.terms.Dot;
+import webfx.framework.shared.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
+import webfx.framework.shared.orm.domainmodel.DomainField;
+import webfx.platform.shared.util.*;
+import webfx.platform.shared.util.async.Future;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Interface used to interact with an entity = a domain object which can persist in the database. Behind it can be a
@@ -57,6 +63,8 @@ public interface Entity {
      * @return the value currently stored in this entity field
      */
     Object getFieldValue(Object domainFieldId);
+
+    boolean isFieldLoaded(Object domainFieldId);
 
     /**
      * Return the field value as a boolean. If the type is not a boolean, this can result in runtime errors.
@@ -111,6 +119,39 @@ public interface Entity {
 
     default <E extends Entity> E getForeignEntity(Object foreignFieldId) {
         return getStore().getEntity(getForeignEntityId(foreignFieldId));
+    }
+
+    // Expression API
+
+    default Future<Void> onExpressionLoaded(Expression expression) {
+        Collection<Expression> unloadedPersistentTerms = getUnloadedPersistentTerms(expression);
+        if (unloadedPersistentTerms.isEmpty())
+            return Future.succeededFuture();
+        return getStore().executeQuery("select " + unloadedPersistentTerms.stream().map(e -> e instanceof Dot ? ((Dot) e).expandLeft() : e).map(Object::toString).collect(Collectors.joining(",")) + " from " + getDomainClass().getName() + " where id=?", new Object[]{getPrimaryKey()}).map((Void)null);
+    }
+
+    default <E extends Entity> Collection<Expression<E>> getUnloadedPersistentTerms(Expression<E> expression) {
+        List<Expression<E>> persistentTerms = new ArrayList<>();
+        expression.collectPersistentTerms(persistentTerms);
+        return persistentTerms.stream().filter(pt -> !isPersistentTermLoaded(pt)).collect(Collectors.toList());
+    }
+
+    default <E extends Entity> boolean isPersistentTermLoaded(Expression<E> persistentTerm) {
+        if (persistentTerm instanceof DomainField)
+            return isFieldLoaded(((DomainField) persistentTerm).getId());
+        if (persistentTerm instanceof Dot) {
+            Dot<E> dot = (Dot<E>) persistentTerm;
+            if (!(dot.getLeft() instanceof DomainField))
+                return false;
+            Object leftFieldId = ((DomainField) dot.getLeft()).getId();
+            if (!isFieldLoaded(leftFieldId))
+                return false;
+            Entity rightEntity = getForeignEntity(leftFieldId);
+            return rightEntity == null || rightEntity.isPersistentTermLoaded(dot.getRight());
+        }
+        if (persistentTerm instanceof ExpressionArray)
+            return Arrays.stream(((ExpressionArray<E>) persistentTerm).getExpressions()).allMatch(this::isPersistentTermLoaded);
+        return evaluate(persistentTerm) != null;
     }
 
     default Object evaluate(String expression) {

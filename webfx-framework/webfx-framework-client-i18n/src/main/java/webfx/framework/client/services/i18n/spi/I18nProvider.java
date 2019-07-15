@@ -60,6 +60,7 @@ public interface I18nProvider {
                             case ":":
                             case "?":
                             case ">>":
+                            case "...":
                                 message = instantTranslate(sKey.substring(0, length - suffix.length())) + instantTranslate(suffix);
                         }
                     }

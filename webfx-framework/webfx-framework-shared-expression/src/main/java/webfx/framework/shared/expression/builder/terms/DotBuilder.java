@@ -24,7 +24,7 @@ public final class DotBuilder extends BinaryExpressionBuilder {
             if (leftExpression instanceof Alias)
                 right.buildingClass = ((Alias) leftExpression).getDomainClass();
             else {
-                Expression leftForeignSymbol = leftExpression instanceof As ? ((As) leftExpression).getOperand() : leftExpression;
+                Expression leftForeignSymbol = leftExpression.getFinalForwardingTypeExpression();
                 right.buildingClass = getModelReader().getSymbolForeignDomainClass(left.buildingClass, (Symbol) leftForeignSymbol);
             }
             boolean leftResolver = left instanceof ReferenceResolver;

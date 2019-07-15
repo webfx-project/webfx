@@ -13,6 +13,7 @@ import webfx.framework.shared.expression.Expression;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
@@ -29,19 +30,23 @@ public interface ExpressionColumn {
      */
     DomainClass getForeignClass();
 
+    String getForeignAlias();
+
     /**
-     * @return the foreign fields to be used to display the foreign object, or null if the original expression is just a value.
-     * These fields are generally those defined in the domain class, but it's possible to override them when the column
-     * is parsed from json using the "foreignFields" key. Ex: {expression: 'myEntity', foreignFields: '[icon,name]'}
+     * @return the foreign columns to be used to display the foreign object, or null if the original expression is just a value.
+     * These columns are generally those defined in the domain class, but it's possible to override them when the column
+     * is parsed from json using the "foreignColumns" key. Ex: {expression: 'myEntity', foreignColumns: '[icon,name]'}
      */
-    Expression getForeignFields();
+    Expression getForeignColumns();
 
     /**
      * @return the foreign condition to be used when selecting a new foreign object, or null if the original expression is just a value.
      * This condition is generally the one defined in the foreign field, but it's possible to override it when the column
-     * is parsed from json using the "foreignCondition" key. Ex: {expression: 'myEntity', foreignCondition: '!cancelled'}
+     * is parsed from json using the "foreignCondition" key. Ex: {expression: 'myEntity', foreignWhere: '!cancelled'}
      */
-    String getForeignCondition();
+    String getForeignWhere();
+
+    String getForeignOrderBy();
 
     /**
      * @return the foreign search condition to be used when selecting a new foreign object, or null if the original expression is just a value.
@@ -49,6 +54,8 @@ public interface ExpressionColumn {
      * is parsed from json using the "foreignFields" key. Ex: {expression: 'myEntity', foreignSearchCondition: 'name like ?searchLike'}
      */
     String getForeignSearchCondition();
+
+    Expression getApplicableCondition();
 
     /**
      * @return the expression to be used to evaluate all values of the display result set for that column. It is the
@@ -67,22 +74,28 @@ public interface ExpressionColumn {
      */
     DisplayColumn getDisplayColumn();
 
+    boolean isReadOnly();
+
     /**
      * In case this expression column has been created using an expression definition and not an expression instance,
      * this methods needs to be called before to parse the expression so getExpression() doesn't return null.
      *
      * @param domainModel the domain model
-     * @param domainClassId the domain class id
+     * @param domainClassId the domain class id (can be null if the expression is not related to a domain class)
      */
     ExpressionColumn parseExpressionDefinitionIfNecessary(DomainModel domainModel, Object domainClassId);
 
+    // Shortcut method for the case the domain class is not null
+    default ExpressionColumn parseExpressionDefinitionIfNecessary(DomainClass domainClass) {
+        return parseExpressionDefinitionIfNecessary(domainClass.getDomainModel(), domainClass.getId());
+    };
 
     /*** Factory methods ***/
 
     static ExpressionColumn create(String jsonOrExpressionDefinition) {
         if (jsonOrExpressionDefinition.startsWith("{"))
             return create(Json.parseObject(jsonOrExpressionDefinition));
-        return new ExpressionColumnImpl(jsonOrExpressionDefinition, null, null, null, null, null);
+        return create(jsonOrExpressionDefinition, (Formatter) null);
     }
 
     static ExpressionColumn create(JsonObject json) {
@@ -139,6 +152,10 @@ public interface ExpressionColumn {
         return expressionColumns;
     }
 
+    static ExpressionArray toDisplayExpressionArray(ExpressionColumn[] columns) {
+        return new ExpressionArray(Arrays.stream(columns).map(ExpressionColumn::getDisplayExpression).collect(Collectors.toList()));
+    }
+
     static Expression[] expandFieldsGroups(Expression[] columnExpressions) {
         return Arrays.stream(columnExpressions).flatMap(ce -> Arrays.stream(expandFieldsGroup(ce))).toArray(Expression[]::new);
     }
@@ -152,7 +169,7 @@ public interface ExpressionColumn {
         return new Expression[]{columnExpression};
     }
 
-        static ExpressionColumn[] fromExpressionsDefinition(String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
+    static ExpressionColumn[] fromExpressionsDefinition(String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
         return fromExpressions(domainModel.parseExpressionArray(columnExpressionsDefinition, classId).getExpressions());
     }
 
@@ -160,5 +177,10 @@ public interface ExpressionColumn {
         return (jsonOrDef.startsWith("[")) ?
             fromJsonArray(jsonOrDef, domainModel, classId)
             : fromExpressionsDefinition(jsonOrDef, domainModel, classId);
+    }
+
+    // Shortcut method (when class can't be null)
+    static ExpressionColumn[] fromJsonArrayOrExpressionsDefinition(String jsonOrDef, DomainClass domainClass) {
+        return fromJsonArrayOrExpressionsDefinition(jsonOrDef, domainClass.getDomainModel(), domainClass);
     }
 }

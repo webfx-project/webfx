@@ -2,17 +2,24 @@ package mongoose.backend.activities.payments;
 
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.Pane;
 import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
+import mongoose.backend.operations.payments.DeletePaymentRequest;
+import mongoose.backend.operations.payments.EditPaymentRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.MoneyTransfer;
+import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
 final class PaymentsActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
-        ConventionalReactiveExpressionFilterFactoryMixin {
+        ConventionalReactiveExpressionFilterFactoryMixin,
+        OperationActionFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -36,7 +43,12 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         pm.flatPaymentsProperty().bind(flatPaymentsCheckBox.selectedProperty());
 
         ui.setLeftTopNodes(flatPaymentsCheckBox);
-        return ui.buildUi();
+        Pane container = ui.buildUi();
+        setUpContextMenu(LayoutUtil.lookupChild(container, node -> node instanceof DataGrid), () -> newActionGroup(
+                newAction(() -> new EditPaymentRequest  (pm.getSelectedPayment(), container)),
+                newAction(() -> new DeletePaymentRequest(pm.getSelectedPayment(), container))
+        ));
+        return container;
     }
 
     @Override
@@ -44,7 +56,6 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         super.onResume();
         ui.onResume();
     }
-
 
     /*==================================================================================================================
     =================================================== Logical layer ==================================================

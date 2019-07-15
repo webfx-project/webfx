@@ -72,7 +72,7 @@ public class CloneEventPresentationViewActivity
         bp.borderProperty().bind(Theme.dialogBorderProperty());
 
         nameTextField.textProperty().bindBidirectional(pm.nameProperty());
-        dateTextField.textProperty().bindBidirectional(pm.dateProperty(), DateFormatter.LOCAL_DATE_STRING_CONVERTER);
+        dateTextField.textProperty().bindBidirectional(pm.dateProperty(), DateFormatter.SINGLETON.toStringConverter());
         submitButton.onActionProperty().bind(pm.onSubmitProperty());
 
         stackPane = new StackPane();

@@ -73,15 +73,15 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     }
 
     default ContextMenu getContextMenu(Node node) {
-        /*if (node instanceof Control)
-            return ((Control) node).getContextMenu();*/
+        if (node instanceof Control)
+            return ((Control) node).getContextMenu();
         return (ContextMenu) node.getProperties().get("contextMenu");
     }
 
     default void setContextMenu(Node node, ContextMenu contextMenu) {
-        /*if (node instanceof Control)
+        if (node instanceof Control)
             ((Control) node).setContextMenu(contextMenu);
-        else*/
+        else
             node.getProperties().put("contextMenu", contextMenu);
     }
 

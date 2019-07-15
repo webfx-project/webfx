@@ -1,7 +1,5 @@
 package webfx.fxkit.extra.cell.renderer;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
@@ -15,9 +13,6 @@ import webfx.platform.shared.util.Booleans;
 public final class BooleanRenderer implements ValueRenderer {
 
     public final static BooleanRenderer SINGLETON = new BooleanRenderer();
-
-    private final BooleanProperty trueProperty = new SimpleBooleanProperty(true);
-    private final BooleanProperty falseProperty = new SimpleBooleanProperty(false);
 
     private BooleanRenderer() {}
 
@@ -35,14 +30,7 @@ public final class BooleanRenderer implements ValueRenderer {
             }
         }
         CheckBox checkBox = new CheckBox();
-        if (context.isReadOnly()) {
-            //checkBox.setSelected(booleanValue);
-            //checkBox.setDisable(true); // The problem with that is the checkbox is grayed
-            checkBox.selectedProperty().bind(booleanValue ? trueProperty : falseProperty);
-        } else {
-            checkBox.setSelected(booleanValue);
-            context.setEditedValueProperty(checkBox.selectedProperty());
-        }
+        context.bindEditedValuePropertyTo(checkBox.selectedProperty(), booleanValue);
         return checkBox;
     }
 }

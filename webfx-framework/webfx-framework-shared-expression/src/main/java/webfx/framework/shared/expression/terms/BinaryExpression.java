@@ -2,7 +2,6 @@ package webfx.framework.shared.expression.terms;
 
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.lci.DataReader;
-import webfx.fxkit.extra.type.Type;
 
 import java.util.Collection;
 
@@ -37,8 +36,8 @@ public abstract class BinaryExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public Type getType() {
-        return left.getType();
+    public Expression<T> getForwardingTypeExpression() {
+        return left;
     }
 
     @Override

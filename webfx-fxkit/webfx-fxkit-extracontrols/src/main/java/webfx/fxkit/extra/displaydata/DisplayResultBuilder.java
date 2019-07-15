@@ -19,7 +19,7 @@ public final class DisplayResultBuilder {
         this.columns = new DisplayColumnImpl[columnCount];
     }
 
-    public DisplayResultBuilder(int rowCount, DisplayColumn[] columns) {
+    public DisplayResultBuilder(int rowCount, DisplayColumn... columns) {
         this.rowCount = rowCount;
         this.columns = columns;
         this.values = new Object[rowCount * columns.length];

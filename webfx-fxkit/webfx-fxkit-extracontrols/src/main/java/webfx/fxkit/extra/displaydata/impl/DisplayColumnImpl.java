@@ -34,7 +34,7 @@ public final class DisplayColumnImpl implements DisplayColumn {
         this.role = role;
         this.style = style != null ? style : DisplayStyle.NO_STYLE;
         this.valueRenderer = valueRenderer;
-        valueRenderingContext = this.label == null ? ValueRenderingContext.DEFAULT_READONLY_CONTEXT : new ValueRenderingContext(true, this.label, null);
+        valueRenderingContext = this.label == null ? ValueRenderingContext.DEFAULT_READONLY_CONTEXT : new ValueRenderingContext(true, this.label, null, this.style.getTextAlign());
         this.cumulator = cumulator;
         this.source = source;
     }

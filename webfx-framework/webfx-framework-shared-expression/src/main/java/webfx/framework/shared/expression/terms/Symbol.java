@@ -44,8 +44,13 @@ public class Symbol<T> extends AbstractExpression<T> {
     }
 
     @Override
+    public Expression<T> getForwardingTypeExpression() {
+        return type != null ? this : getExpression();
+    }
+
+    @Override
     public Type getType() {
-        return type;
+        return type != null ? type : getExpression().getType();
     }
 
     @Override
@@ -57,9 +62,7 @@ public class Symbol<T> extends AbstractExpression<T> {
 
     @Override
     public boolean isEditable() {
-        if (getExpression() != null)
-            return getExpression().isEditable();
-        return true;
+        return getExpression() == null || getExpression().isEditable();
     }
 
     @Override

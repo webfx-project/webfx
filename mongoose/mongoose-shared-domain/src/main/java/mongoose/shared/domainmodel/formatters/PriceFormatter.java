@@ -1,6 +1,7 @@
 package mongoose.shared.domainmodel.formatters;
 
 import webfx.framework.shared.util.formatter.Formatter;
+import webfx.framework.shared.util.formatter.Parser;
 import webfx.fxkit.extra.type.PrimType;
 import webfx.fxkit.extra.type.Type;
 import webfx.platform.shared.util.Numbers;
@@ -8,7 +9,7 @@ import webfx.platform.shared.util.Numbers;
 /**
  * @author Bruno Salmon
  */
-public class PriceFormatter implements Formatter {
+public class PriceFormatter implements Formatter, Parser {
 
     public static final PriceFormatter INSTANCE = new PriceFormatter();
 
@@ -43,12 +44,19 @@ public class PriceFormatter implements Formatter {
         }
     }
 
+    @Override
+    public Object parse(Object value) {
+        if (value == null)
+            return null;
+        return (int) (Numbers.toFloat(value) * 100);
+    }
+
     public static String formatWithoutCurrency(Object value) {
         return formatWithCurrency(value, "");
     }
 
     public static String formatWithCurrency(Object value, String currencySymbol) {
-        String price = (String) PriceFormatter.INSTANCE.format(value, currencySymbol == null);
+        String price = (String) INSTANCE.format(value, currencySymbol == null);
         return currencySymbol == null || currencySymbol.isEmpty() ? price : currencySymbol.startsWith(" ") ? price + currencySymbol : currencySymbol + price;
     }
 }

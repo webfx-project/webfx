@@ -19,8 +19,17 @@ public final class DotSqlCompiler extends AbstractTermSqlCompiler<Dot> {
     }
 
     @Override
-    public void compileExpressionToSql(Dot e, Options o) {
-        Expression left = e.getLeft();
+    public void compileExpressionToSql(Dot dot, Options o) {
+/*
+        Expression expandLeft = dot.expandLeft();
+        if (expandLeft == dot || expandLeft instanceof Dot)
+            dot = (Dot) expandLeft;
+        else {
+            compileChildExpressionToSql(expandLeft, o);
+            return;
+        }
+*/
+        Expression left = dot.getLeft();
         Object leftClass = o.build.getCompilingClass();
         String asAlias = null;
         if (left instanceof As) {
@@ -37,7 +46,7 @@ public final class DotSqlCompiler extends AbstractTermSqlCompiler<Dot> {
         String leftSqlColumnName = o.modelReader.getSymbolSqlColumnName(leftClass, left);
         if (leftSqlColumnName != null) { // typically a persistent field
             leftSql = leftSqlColumnName;
-            rightTableAlias = o.build.addJoinCondition(leftTableAlias, leftSql, asAlias, o.modelReader.getDomainClassSqlTableName(rightClass), o.modelReader.getDomainClassPrimaryKeySqlColumnName(rightClass), e.isOuterJoin() || o.clause == SqlClause.SELECT);
+            rightTableAlias = o.build.addJoinCondition(leftTableAlias, leftSql, asAlias, o.modelReader.getDomainClassSqlTableName(rightClass), o.modelReader.getDomainClassPrimaryKeySqlColumnName(rightClass), dot.isOuterJoin() || o.clause == SqlClause.SELECT);
         } else if (left instanceof Alias) {
             leftSql = null;
             Alias alias = (Alias) left;
@@ -46,13 +55,13 @@ public final class DotSqlCompiler extends AbstractTermSqlCompiler<Dot> {
         } else // should never occur
             leftSql = rightTableAlias = null;
         QueryColumnToEntityFieldMapping leftJoinMapping = null;
-        if (o.clause == SqlClause.SELECT && leftSql != null && e.isReadLeftKey() && o.readForeignFields) // lecture de la clé étrangère pour pouvoir faire la jointure en mémoire
+        if (o.clause == SqlClause.SELECT && leftSql != null && dot.isReadLeftKey() && o.readForeignFields) // lecture de la clé étrangère pour pouvoir faire la jointure en mémoire
             leftJoinMapping = o.build.addColumnInClause(leftTableAlias, leftSql, left, rightClass, o.clause, o.separator, o.grouped, false, o.generateQueryMapping);
         o.build.setCompilingClass(rightClass);
         o.build.setCompilingTableAlias(rightTableAlias);
         QueryColumnToEntityFieldMapping oldLeftJoinMapping = o.build.getLeftJoinMapping();
         o.build.setLeftJoinMapping(leftJoinMapping);
-        Expression right = e.getRight();
+        Expression right = dot.getRight();
         if (o.clause == SqlClause.SELECT && (!(right instanceof Symbol) || ((Symbol) right).getExpression() != null))
             compileExpressionPersistentTermsToSql(right, o);
         else

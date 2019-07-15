@@ -3,7 +3,6 @@ package webfx.framework.shared.orm.domainmodel;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.sqlcompiler.ExpressionSqlCompiler;
 import webfx.framework.shared.expression.terms.Symbol;
-import webfx.fxkit.extra.type.Type;
 
 /**
  * @author Bruno Salmon
@@ -24,8 +23,8 @@ public final class FieldsGroup extends Symbol {
     }
 
     @Override
-    public Type getType() {
-        return getExpression().getType();
+    public Expression getForwardingTypeExpression() {
+        return getExpression();
     }
 
     @Override
