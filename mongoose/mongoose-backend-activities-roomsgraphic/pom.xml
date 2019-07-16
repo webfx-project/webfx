@@ -46,6 +46,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-operations-resourceconfiguration</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-client-activity</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -82,12 +88,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-controls</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-framework-client-domain</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -107,12 +107,6 @@
         
         <dependency>
             <artifactId>webfx-framework-client-uirouter</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-framework-shared-domain</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -149,12 +143,6 @@
         
         <dependency>
             <artifactId>webfx-platform-client-windowhistory</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-platform-shared-update</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

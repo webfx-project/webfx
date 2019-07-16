@@ -1,4 +1,4 @@
-package mongoose.backend.operations.roomsgraphic;
+package mongoose.backend.operations.entities.resourceconfiguration;
 
 import javafx.scene.layout.Pane;
 import webfx.framework.shared.operation.HasOperationCode;

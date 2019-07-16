@@ -1,4 +1,4 @@
-package mongoose.backend.operations.roomsgraphic;
+package mongoose.backend.operations.entities.resourceconfiguration;
 
 import javafx.scene.layout.Pane;
 import webfx.framework.shared.operation.HasOperationCode;
@@ -6,15 +6,15 @@ import webfx.framework.shared.operation.HasOperationExecutor;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.platform.shared.util.async.AsyncFunction;
 
-public final class EditResourceConfigurationPropertiesRequest implements HasOperationCode,
-        HasOperationExecutor<EditResourceConfigurationPropertiesRequest, Void> {
+public final class DeleteResourceRequest implements HasOperationCode,
+        HasOperationExecutor<DeleteResourceRequest, Void> {
 
-    private final static String OPERATION_CODE = "EditResourceConfigurationProperties";
+    private final static String OPERATION_CODE = "DeleteResource";
 
     private final Entity resourceConfiguration;
     private final Pane parentContainer;
 
-    public EditResourceConfigurationPropertiesRequest(Entity resourceConfiguration, Pane parentContainer) {
+    public DeleteResourceRequest(Entity resourceConfiguration, Pane parentContainer) {
         this.resourceConfiguration = resourceConfiguration;
         this.parentContainer = parentContainer;
     }
@@ -33,7 +33,7 @@ public final class EditResourceConfigurationPropertiesRequest implements HasOper
     }
 
     @Override
-    public AsyncFunction<EditResourceConfigurationPropertiesRequest, Void> getOperationExecutor() {
-        return EditResourceConfigurationPropertiesExecutor::executeRequest;
+    public AsyncFunction<DeleteResourceRequest, Void> getOperationExecutor() {
+        return DeleteResourceExecutor::executeRequest;
     }
 }

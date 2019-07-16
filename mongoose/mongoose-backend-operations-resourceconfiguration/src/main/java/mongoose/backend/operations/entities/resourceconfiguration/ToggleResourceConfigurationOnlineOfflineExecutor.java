@@ -1,4 +1,4 @@
-package mongoose.backend.operations.roomsgraphic;
+package mongoose.backend.operations.entities.resourceconfiguration;
 
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;

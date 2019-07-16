@@ -210,6 +210,12 @@
     <!--========================< mongoose-backend-multilangeditor >========================-->
     <!-- used by mongoose-backend-activities-letter (SOURCE) -->
     <source path="mongoose/backend/controls/multilangeditor"/>
+    <!--===================< mongoose-backend-operations-moneytransfer >====================-->
+    <!-- used by mongoose-backend-activities-payments (SOURCE) -->
+    <source path="mongoose/backend/operations/entities/moneytransfer"/>
+    <!--===============< mongoose-backend-operations-resourceconfiguration >================-->
+    <!-- used by mongoose-backend-activities-roomsgraphic (SOURCE) -->
+    <source path="mongoose/backend/operations/entities/resourceconfiguration"/>
     <!--========================< mongoose-client-activities-login >========================-->
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/activities/login"/>
