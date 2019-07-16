@@ -1,6 +1,6 @@
 package mongoose.backend.activities.events;
 
-import mongoose.backend.operations.events.RouteToEventsRequest;
+import mongoose.backend.operations.routes.events.RouteToEventsRequest;
 import webfx.framework.client.activity.impl.elementals.uiroute.UiRouteActivityContext;
 import webfx.framework.client.operations.route.RouteRequestEmitter;
 import webfx.framework.shared.router.auth.authz.RouteRequest;

@@ -29,7 +29,7 @@ module mongoose.backend.activities.payments {
     // Exported packages
     exports mongoose.backend.activities.payments;
     exports mongoose.backend.activities.payments.routing;
-    exports mongoose.backend.operations.payments;
+    exports mongoose.backend.operations.routes.payments;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.payments.RouteToPaymentsRequestEmitter;

@@ -1,6 +1,6 @@
 package mongoose.backend.activities.events;
 
-import mongoose.backend.operations.bookings.RouteToBookingsRequest;
+import mongoose.backend.operations.routes.bookings.RouteToBookingsRequest;
 import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
 import mongoose.shared.entities.Event;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;

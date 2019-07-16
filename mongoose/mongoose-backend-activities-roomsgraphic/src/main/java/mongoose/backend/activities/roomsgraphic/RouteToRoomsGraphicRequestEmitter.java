@@ -1,6 +1,6 @@
 package mongoose.backend.activities.roomsgraphic;
 
-import mongoose.backend.operations.roomsgraphic.RouteToRoomsGraphicRequest;
+import mongoose.backend.operations.routes.roomsgraphic.RouteToRoomsGraphicRequest;
 import webfx.framework.client.activity.impl.elementals.uiroute.UiRouteActivityContext;
 import webfx.framework.client.operations.route.RouteRequestEmitter;
 import webfx.framework.shared.router.auth.authz.RouteRequest;

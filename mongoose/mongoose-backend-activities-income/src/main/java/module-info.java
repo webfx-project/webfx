@@ -28,7 +28,7 @@ module mongoose.backend.activities.income {
     // Exported packages
     exports mongoose.backend.activities.income;
     exports mongoose.backend.activities.income.routing;
-    exports mongoose.backend.operations.income;
+    exports mongoose.backend.operations.routes.income;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.income.RouteToIncomeRequestEmitter;

@@ -21,7 +21,7 @@ module mongoose.backend.activities.monitor {
     // Exported packages
     exports mongoose.backend.activities.monitor;
     exports mongoose.backend.activities.monitor.routing;
-    exports mongoose.backend.operations.monitor;
+    exports mongoose.backend.operations.routes.monitor;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.monitor.RouteToMonitorRequestEmitter;

@@ -20,7 +20,7 @@ module mongoose.backend.activities.operations {
     // Exported packages
     exports mongoose.backend.activities.operations;
     exports mongoose.backend.activities.operations.routing;
-    exports mongoose.backend.operations.operations;
+    exports mongoose.backend.operations.routes.operations;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.operations.RouteToOperationsRequestEmitter;

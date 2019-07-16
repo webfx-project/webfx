@@ -1,7 +1,7 @@
 package mongoose.backend.activities.organizations;
 
 import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
-import mongoose.backend.operations.events.RouteToEventsRequest;
+import mongoose.backend.operations.routes.events.RouteToEventsRequest;
 import mongoose.shared.entities.Organization;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.platform.shared.util.function.Factory;

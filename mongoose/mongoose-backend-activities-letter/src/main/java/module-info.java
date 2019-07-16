@@ -18,7 +18,7 @@ module mongoose.backend.activities.letter {
     // Exported packages
     exports mongoose.backend.activities.letter;
     exports mongoose.backend.activities.letter.routing;
-    exports mongoose.backend.operations.letter;
+    exports mongoose.backend.operations.routes.letter;
 
     // Provided services
     provides webfx.framework.client.ui.uirouter.UiRoute with mongoose.backend.activities.letter.LetterUiRoute;

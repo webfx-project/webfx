@@ -10,6 +10,6 @@ module mongoose.backend.activities.cloneevent.routing {
 
     // Exported packages
     exports mongoose.backend.activities.cloneevent.routing;
-    exports mongoose.backend.operations.cloneevent;
+    exports mongoose.backend.operations.routes.cloneevent;
 
 }

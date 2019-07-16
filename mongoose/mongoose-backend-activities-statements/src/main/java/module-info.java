@@ -28,7 +28,7 @@ module mongoose.backend.activities.statements {
     // Exported packages
     exports mongoose.backend.activities.statements;
     exports mongoose.backend.activities.statements.routing;
-    exports mongoose.backend.operations.statements;
+    exports mongoose.backend.operations.routes.statements;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.statements.RouteToStatementsRequestEmitter;

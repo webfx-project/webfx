@@ -123,79 +123,79 @@
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/bookings"/>
     <source path="mongoose/backend/activities/bookings/routing"/>
-    <source path="mongoose/backend/operations/bookings"/>
+    <source path="mongoose/backend/operations/routes/bookings"/>
     <!--=====================< mongoose-backend-activities-cloneevent >=====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/cloneevent"/>
     <!--=================< mongoose-backend-activities-cloneevent-routing >=================-->
     <!-- used by mongoose-backend-activities-bookings (SOURCE) -->
     <source path="mongoose/backend/activities/cloneevent/routing"/>
-    <source path="mongoose/backend/operations/cloneevent"/>
+    <source path="mongoose/backend/operations/routes/cloneevent"/>
     <!--====================< mongoose-backend-activities-diningareas >=====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/diningareas"/>
     <source path="mongoose/backend/activities/diningareas/routing"/>
-    <source path="mongoose/backend/operations/diningareas"/>
+    <source path="mongoose/backend/operations/routes/diningareas"/>
     <!--=======================< mongoose-backend-activities-events >=======================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/events"/>
     <source path="mongoose/backend/activities/events/routing"/>
-    <source path="mongoose/backend/operations/events"/>
+    <source path="mongoose/backend/operations/routes/events"/>
     <!--=======================< mongoose-backend-activities-income >=======================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/income"/>
     <source path="mongoose/backend/activities/income/routing"/>
-    <source path="mongoose/backend/operations/income"/>
+    <source path="mongoose/backend/operations/routes/income"/>
     <!--=======================< mongoose-backend-activities-letter >=======================-->
     <!-- used by mongoose-backend-activities-letters (SOURCE) -->
     <source path="mongoose/backend/activities/letter"/>
     <source path="mongoose/backend/activities/letter/routing"/>
-    <source path="mongoose/backend/operations/letter"/>
+    <source path="mongoose/backend/operations/routes/letter"/>
     <!--======================< mongoose-backend-activities-letters >=======================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/letters"/>
     <source path="mongoose/backend/activities/letters/routing"/>
-    <source path="mongoose/backend/operations/letters"/>
+    <source path="mongoose/backend/operations/routes/letters"/>
     <!--======================< mongoose-backend-activities-monitor >=======================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/monitor"/>
     <source path="mongoose/backend/activities/monitor/routing"/>
-    <source path="mongoose/backend/operations/monitor"/>
+    <source path="mongoose/backend/operations/routes/monitor"/>
     <!--=====================< mongoose-backend-activities-operations >=====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/operations"/>
     <source path="mongoose/backend/activities/operations/routing"/>
-    <source path="mongoose/backend/operations/operations"/>
+    <source path="mongoose/backend/operations/routes/operations"/>
     <!--===================< mongoose-backend-activities-organizations >====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/organizations"/>
     <source path="mongoose/backend/activities/organizations/routing"/>
-    <source path="mongoose/backend/operations/organizations"/>
+    <source path="mongoose/backend/operations/routes/organizations"/>
     <!--======================< mongoose-backend-activities-payments >======================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/payments"/>
     <source path="mongoose/backend/activities/payments/routing"/>
-    <source path="mongoose/backend/operations/payments"/>
+    <source path="mongoose/backend/operations/routes/payments"/>
     <!--====================< mongoose-backend-activities-roomsgraphic >====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/roomsgraphic"/>
     <source path="mongoose/backend/activities/roomsgraphic/routing"/>
-    <source path="mongoose/backend/operations/roomsgraphic"/>
+    <source path="mongoose/backend/operations/routes/roomsgraphic"/>
     <!--=====================< mongoose-backend-activities-statements >=====================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/statements"/>
     <source path="mongoose/backend/activities/statements/routing"/>
-    <source path="mongoose/backend/operations/statements"/>
+    <source path="mongoose/backend/operations/routes/statements"/>
     <!--=====================< mongoose-backend-activities-statistics >=====================-->
     <!-- used by mongoose-backend-activities-diningareas (SOURCE) -->
     <source path="mongoose/backend/activities/statistics"/>
     <source path="mongoose/backend/activities/statistics/routing"/>
-    <source path="mongoose/backend/operations/statistics"/>
+    <source path="mongoose/backend/operations/routes/statistics"/>
     <!--=======================< mongoose-backend-activities-users >========================-->
     <!-- used by mongoose-backend-application (PLUGIN) -->
     <source path="mongoose/backend/activities/users"/>
     <source path="mongoose/backend/activities/users/routing"/>
-    <source path="mongoose/backend/operations/users"/>
+    <source path="mongoose/backend/operations/routes/users"/>
     <!--==========================< mongoose-backend-application >==========================-->
     <!-- used by mongoose-backend-application-gwt (APPLICATION) -->
     <!-- used by mongoose-backend-application-gwt (PLUGIN) -->

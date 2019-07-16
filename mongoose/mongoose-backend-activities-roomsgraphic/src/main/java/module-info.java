@@ -31,7 +31,7 @@ module mongoose.backend.activities.roomsgraphic {
     // Exported packages
     exports mongoose.backend.activities.roomsgraphic;
     exports mongoose.backend.activities.roomsgraphic.routing;
-    exports mongoose.backend.operations.roomsgraphic;
+    exports mongoose.backend.operations.routes.roomsgraphic;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.roomsgraphic.RouteToRoomsGraphicRequestEmitter;

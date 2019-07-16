@@ -20,7 +20,7 @@ module mongoose.backend.activities.letters {
     // Exported packages
     exports mongoose.backend.activities.letters;
     exports mongoose.backend.activities.letters.routing;
-    exports mongoose.backend.operations.letters;
+    exports mongoose.backend.operations.routes.letters;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.letters.RouteToLettersRequestEmitter;

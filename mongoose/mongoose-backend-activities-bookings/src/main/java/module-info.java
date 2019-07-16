@@ -33,7 +33,7 @@ module mongoose.backend.activities.bookings {
     // Exported packages
     exports mongoose.backend.activities.bookings;
     exports mongoose.backend.activities.bookings.routing;
-    exports mongoose.backend.operations.bookings;
+    exports mongoose.backend.operations.routes.bookings;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.bookings.RouteToBookingsRequestEmitter;

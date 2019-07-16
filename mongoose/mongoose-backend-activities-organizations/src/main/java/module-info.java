@@ -22,7 +22,7 @@ module mongoose.backend.activities.organizations {
     // Exported packages
     exports mongoose.backend.activities.organizations;
     exports mongoose.backend.activities.organizations.routing;
-    exports mongoose.backend.operations.organizations;
+    exports mongoose.backend.operations.routes.organizations;
 
     // Provided services
     provides webfx.framework.client.operations.route.RouteRequestEmitter with mongoose.backend.activities.organizations.RouteToOrganizationsRequestEmitter;
