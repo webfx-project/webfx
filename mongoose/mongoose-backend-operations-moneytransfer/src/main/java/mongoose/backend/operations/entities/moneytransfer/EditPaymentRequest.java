@@ -1,4 +1,4 @@
-package mongoose.backend.operations.payments;
+package mongoose.backend.operations.entities.moneytransfer;
 
 import javafx.scene.layout.Pane;
 import mongoose.shared.entities.MoneyTransfer;
@@ -6,15 +6,15 @@ import webfx.framework.shared.operation.HasOperationCode;
 import webfx.framework.shared.operation.HasOperationExecutor;
 import webfx.platform.shared.util.async.AsyncFunction;
 
-public final class DeletePaymentRequest implements HasOperationCode,
-        HasOperationExecutor<DeletePaymentRequest, Void> {
+public final class EditPaymentRequest implements HasOperationCode,
+        HasOperationExecutor<EditPaymentRequest, Void> {
 
-    private final static String OPERATION_CODE = "DeletePayment";
+    private final static String OPERATION_CODE = "EditPayment";
 
     private final MoneyTransfer payment;
     private final Pane parentContainer;
 
-    public DeletePaymentRequest(MoneyTransfer payment, Pane parentContainer) {
+    public EditPaymentRequest(MoneyTransfer payment, Pane parentContainer) {
         this.payment = payment;
         this.parentContainer = parentContainer;
     }
@@ -33,7 +33,7 @@ public final class DeletePaymentRequest implements HasOperationCode,
     }
 
     @Override
-    public AsyncFunction<DeletePaymentRequest, Void> getOperationExecutor() {
-        return DeletePaymentExecutor::executeRequest;
+    public AsyncFunction<EditPaymentRequest, Void> getOperationExecutor() {
+        return EditPaymentExecutor::executeRequest;
     }
 }

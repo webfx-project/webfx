@@ -1,4 +1,4 @@
-package mongoose.backend.operations.payments;
+package mongoose.backend.operations.entities.moneytransfer;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;

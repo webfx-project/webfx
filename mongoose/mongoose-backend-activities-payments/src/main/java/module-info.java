@@ -7,6 +7,7 @@ module mongoose.backend.activities.payments {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.backend.masterslave;
+    requires mongoose.backend.operations.moneytransfer;
     requires mongoose.client.activity;
     requires mongoose.client.presentationmodel;
     requires mongoose.client.util;
@@ -14,18 +15,15 @@ module mongoose.backend.activities.payments {
     requires mongoose.shared.entities;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
     requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.windowhistory;
-    requires webfx.platform.shared.update;
     requires webfx.platform.shared.util;
 
     // Exported packages
