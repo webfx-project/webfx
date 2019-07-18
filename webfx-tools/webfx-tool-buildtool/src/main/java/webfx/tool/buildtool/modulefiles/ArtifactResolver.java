@@ -50,9 +50,10 @@ final class ArtifactResolver {
     static String getGroupId(Module module, boolean isForGwt, boolean isRegistry) {
         String moduleName = module.getName();
         switch (moduleName) {
+            case "elemental2-core":
             case "elemental2-dom":
             case "elemental2-svg":
-                return "com.google.elemental2";
+                return "${lib.elemental2.groupId}";
             case "gwt-charts": return "com.googlecode.gwt-charts";
             case "Java-WebSocket": return "org.java-websocket";
             case "com-zaxxer-hikari": return "com.zaxxer";

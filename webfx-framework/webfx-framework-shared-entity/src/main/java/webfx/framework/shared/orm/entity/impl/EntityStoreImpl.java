@@ -43,6 +43,11 @@ public class EntityStoreImpl implements EntityStore {
     }
 
     @Override
+    public EntityDataWriter<Entity> getEntityDataWriter() {
+        return entityDataWriter;
+    }
+
+    @Override
     public void applyEntityIdRefactor(EntityId oldId, EntityId newId) {
         Entity entity = entities.get(oldId); // entities.remove(oldId);
         if (entity != null)

@@ -17,6 +17,7 @@ import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class GroupMasterSlaveView extends MasterSlaveView {
 
@@ -115,8 +116,8 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     ==================================================================================================================*/
 
     public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty>
-    GroupMasterSlaveView createAndBind(PM pm, ControlFactoryMixin mixin, Pane container) {
-        UiBuilder slaveView = MasterSlaveView.createAndBindSlaveViewIfApplicable(pm, mixin, container);
+    GroupMasterSlaveView createAndBind(PM pm, ControlFactoryMixin mixin, Supplier<Pane> containerGetter) {
+        UiBuilder slaveView = MasterSlaveView.createAndBindSlaveViewIfApplicable(pm, mixin, containerGetter);
         if (slaveView == null && pm instanceof HasSlaveDisplayResultProperty)
             slaveView = SlaveTableView.createAndBind((HasSlaveDisplayResultProperty) pm);
         return createAndBind(slaveView, pm, mixin);

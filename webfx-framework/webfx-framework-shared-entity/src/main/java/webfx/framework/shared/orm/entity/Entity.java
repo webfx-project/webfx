@@ -123,8 +123,16 @@ public interface Entity {
 
     // Expression API
 
-    default Future<Void> onExpressionLoaded(Expression expression) {
-        Collection<Expression> unloadedPersistentTerms = getUnloadedPersistentTerms(expression);
+    default <E extends Entity> Expression<E> parseExpression(String expression) {
+        return getStore().getDomainModel().parseExpression(expression, getDomainClass().getId());
+    }
+
+    default Future<Void> onExpressionLoaded(String expression) {
+        return onExpressionLoaded(parseExpression(expression));
+    }
+
+    default <E extends Entity> Future<Void> onExpressionLoaded(Expression<E> expression) {
+        Collection<Expression<E>> unloadedPersistentTerms = getUnloadedPersistentTerms(expression);
         if (unloadedPersistentTerms.isEmpty())
             return Future.succeededFuture();
         return getStore().executeQuery("select " + unloadedPersistentTerms.stream().map(e -> e instanceof Dot ? ((Dot) e).expandLeft() : e).map(Object::toString).collect(Collectors.joining(",")) + " from " + getDomainClass().getName() + " where id=?", new Object[]{getPrimaryKey()}).map((Void)null);
@@ -152,6 +160,14 @@ public interface Entity {
         if (persistentTerm instanceof ExpressionArray)
             return Arrays.stream(((ExpressionArray<E>) persistentTerm).getExpressions()).allMatch(this::isPersistentTermLoaded);
         return evaluate(persistentTerm) != null;
+    }
+
+    default <E extends Entity> Future<Object> evaluateOnceLoaded(String expression) {
+        return evaluateOnceLoaded(parseExpression(expression));
+    }
+
+    default <E extends Entity> Future<Object> evaluateOnceLoaded(Expression<E> expression) {
+        return onExpressionLoaded(expression).map(ignored -> evaluate(expression));
     }
 
     default Object evaluate(String expression) {

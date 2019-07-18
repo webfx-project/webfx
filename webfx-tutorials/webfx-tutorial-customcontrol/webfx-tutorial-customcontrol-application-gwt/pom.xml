@@ -34,7 +34,7 @@
         
         <dependency>
             <artifactId>elemental2-svg</artifactId>
-            <groupId>com.google.elemental2</groupId>
+            <groupId>${lib.elemental2.groupId}</groupId>
         </dependency>
         
         <dependency>

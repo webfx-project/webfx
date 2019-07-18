@@ -38,7 +38,31 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-client-personaldetails</artifactId>
+            <artifactId>mongoose-backend-operations-document</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-backend-operations-documentline</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-backend-operations-generic</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-backend-operations-mail</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-backend-operations-moneytransfer</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -56,6 +80,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-client-action</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-activity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -63,6 +93,12 @@
         
         <dependency>
             <artifactId>webfx-framework-client-controls</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-client-i18n</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

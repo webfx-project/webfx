@@ -25,8 +25,9 @@ public abstract class ScenePeerBase implements ScenePeer {
     }
 
     public void changedWindowSize(double width, double height) {
-        if (listener != null)
+        if (listener != null && !Double.isNaN(width) && !Double.isNaN(height)) {
             listener.changedSize((float) width, (float) height);
+        }
     }
 
     public Scene getScene() {

@@ -1,9 +1,9 @@
 package webfx.fxkit.extra.displaydata;
 
-import java.util.function.Consumer;
-
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon
@@ -11,13 +11,19 @@ import java.util.List;
 public final class DisplaySelection {
 
     private final Unit[] units;
+    private final int hitRow;
 
     private DisplaySelection(Unit unit) {
         this(new Unit[]{unit});
     }
 
     private DisplaySelection(Unit[] units) {
+        this(units, null);
+    }
+
+    public DisplaySelection(Unit[] units, Integer hitRow) {
         this.units = units;
+        this.hitRow = hitRow != null ? hitRow : units.length == 0 ? -1 : units[0].row;
     }
 
     public Unit[] getUnits() {
@@ -26,6 +32,10 @@ public final class DisplaySelection {
 
     public int getUnitsCount() {
         return units.length;
+    }
+
+    public boolean isEmpty() {
+        return units.length == 0;
     }
 
     public boolean isMultiple() {
@@ -37,6 +47,14 @@ public final class DisplaySelection {
             if (unit.getRow() != null)
                 return unit.getRow();
         return -1;
+    }
+
+    public List<Integer> getSelectedRows() {
+        List<Integer> selectedRows = new ArrayList<>();
+        for (Unit unit: units)
+            if (unit.getRow() != null)
+                selectedRows.add(unit.getRow());
+        return selectedRows;
     }
 
     public void forEachRow(Consumer<Integer> rowConsumer) {
@@ -65,10 +83,45 @@ public final class DisplaySelection {
     }
 
     public static DisplaySelection createRowsSelection(List<Integer> rows) {
-        DisplaySelection.Builder selectionBuilder = DisplaySelection.createBuilder(rows.size());
+        return createRowsSelection(rows, null);
+    }
+
+    public static DisplaySelection createRowsSelection(List<Integer> rows, Integer hitRow) {
+        DisplaySelection.Builder selectionBuilder = DisplaySelection.createBuilder(rows.size()).setHitRow(hitRow);
         for (Integer row : rows)
             selectionBuilder.addSelectedRow(row);
         return selectionBuilder.build();
+    }
+
+    public static DisplaySelection updateRowsSelection(DisplaySelection displaySelection, SelectionMode selectionMode, int hitRow, boolean mainButton, boolean ctrlKey, boolean shiftKey) {
+        if (selectionMode == SelectionMode.DISABLED)
+            return null;
+        if (displaySelection == null || displaySelection.isEmpty() || mainButton && !ctrlKey && !shiftKey)
+            return createSingleRowSelection(hitRow);
+        List<Integer> selectedRows = displaySelection.getSelectedRows();
+        if (!mainButton && selectedRows.contains(hitRow))
+            return displaySelection;
+        if (!ctrlKey && !shiftKey)
+            return createSingleRowSelection(hitRow);
+        if (ctrlKey) {
+            if (selectedRows.contains(hitRow)) {
+                selectedRows.remove((Object) hitRow); // Calling remove(Object) and not remove(index)
+                if (!selectedRows.isEmpty())
+                    hitRow = selectedRows.get(0);
+            } else {
+                selectedRows.add(hitRow);
+                selectedRows.sort(Integer::compareTo);
+                hitRow = displaySelection.hitRow;
+            }
+        } else { // shift key
+            selectedRows.clear();
+            int rangeStart = Math.min(hitRow, displaySelection.hitRow);
+            int rangeEnd = Math.max(hitRow, displaySelection.hitRow);
+            for (int i = rangeStart; i <= rangeEnd; i++)
+                selectedRows.add(i);
+            hitRow = displaySelection.hitRow;
+        }
+        return createRowsSelection(selectedRows, hitRow);
     }
 
     public static Builder createBuilder(int expectedUnitsCount) {
@@ -111,14 +164,16 @@ public final class DisplaySelection {
 
     public static final class Builder {
 
-        final ArrayList<Unit> units;
+        final Collection<Unit> units;
+        Integer hitRow;
 
         private Builder(int expectedUnitsCount) {
             units = new ArrayList<>(expectedUnitsCount);
         }
 
-        public DisplaySelection build() {
-            return new DisplaySelection(units.toArray(new Unit[units.size()]));
+        public Builder setHitRow(Integer hitRow) {
+            this.hitRow = hitRow;
+            return this;
         }
 
         public Builder addSelectedRow(int row) {
@@ -134,6 +189,10 @@ public final class DisplaySelection {
         public Builder addSelectedCell(int row, int column) {
             units.add(Unit.createSelectedCell(row, column));
             return this;
+        }
+
+        public DisplaySelection build() {
+            return new DisplaySelection(units.toArray(new Unit[units.size()]), hitRow);
         }
     }
 }

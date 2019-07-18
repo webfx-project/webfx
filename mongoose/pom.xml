@@ -37,6 +37,10 @@
         <module>mongoose-backend-bookingdetailspanel</module>
         <module>mongoose-backend-masterslave</module>
         <module>mongoose-backend-multilangeditor</module>
+        <module>mongoose-backend-operations-document</module>
+        <module>mongoose-backend-operations-documentline</module>
+        <module>mongoose-backend-operations-generic</module>
+        <module>mongoose-backend-operations-mail</module>
         <module>mongoose-backend-operations-moneytransfer</module>
         <module>mongoose-backend-operations-resourceconfiguration</module>
         <module>mongoose-frontend-activities-cart</module>

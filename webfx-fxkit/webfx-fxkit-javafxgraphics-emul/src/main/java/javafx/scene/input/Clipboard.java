@@ -1,6 +1,7 @@
 package javafx.scene.input;
 
 import javafx.scene.image.Image;
+import webfx.fxkit.launcher.FxKitLauncher;
 
 import java.util.Map;
 import java.util.Set;
@@ -133,7 +134,7 @@ public class Clipboard {
      * @return The single system clipboard, used for cut / copy / paste operations
      */
     public static Clipboard getSystemClipboard() {
-        return null;
+        return FxKitLauncher.getProvider().getSystemClipboard();
 /*
         try {
             final SecurityManager securityManager = System.getSecurityManager();
@@ -197,7 +198,7 @@ public class Clipboard {
      *                              format
      */
 //    public abstract boolean setContent(DataFormat uti, Object content);
-    public final boolean setContent(Map<DataFormat, Object> content) {
+    public /*final*/ boolean setContent(Map<DataFormat, Object> content) {
 /*
         Toolkit.getToolkit().checkFxUserThread();
         if (content == null) {

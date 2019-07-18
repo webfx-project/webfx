@@ -210,8 +210,24 @@
     <!--========================< mongoose-backend-multilangeditor >========================-->
     <!-- used by mongoose-backend-activities-letter (SOURCE) -->
     <source path="mongoose/backend/controls/multilangeditor"/>
+    <!--======================< mongoose-backend-operations-document >======================-->
+    <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
+    <source path="mongoose/backend/operations/entities/document"/>
+    <source path="mongoose/backend/operations/entities/document/cart"/>
+    <source path="mongoose/backend/operations/entities/document/multiplebookings"/>
+    <source path="mongoose/backend/operations/entities/document/registration"/>
+    <source path="mongoose/backend/operations/entities/document/security"/>
+    <!--====================< mongoose-backend-operations-documentline >====================-->
+    <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
+    <source path="mongoose/backend/operations/entities/documentline"/>
+    <!--======================< mongoose-backend-operations-generic >=======================-->
+    <!-- used by mongoose-backend-operations-document (SOURCE) -->
+    <source path="mongoose/backend/operations/entities/generic"/>
+    <!--========================< mongoose-backend-operations-mail >========================-->
+    <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
+    <source path="mongoose/backend/operations/entities/mail"/>
     <!--===================< mongoose-backend-operations-moneytransfer >====================-->
-    <!-- used by mongoose-backend-activities-payments (SOURCE) -->
+    <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
     <source path="mongoose/backend/operations/entities/moneytransfer"/>
     <!--===============< mongoose-backend-operations-resourceconfiguration >================-->
     <!-- used by mongoose-backend-activities-roomsgraphic (SOURCE) -->
@@ -330,7 +346,7 @@
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="mongoose/client/operationactionsloading"/>
     <!--========================< mongoose-client-personaldetails >=========================-->
-    <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
+    <!-- used by mongoose-backend-operations-document (SOURCE) -->
     <source path="mongoose/client/controls/personaldetails"/>
     <!--=======================< mongoose-client-presentationmodel >========================-->
     <!-- used by mongoose-backend-masterslave (SOURCE) -->
@@ -747,7 +763,7 @@
     <!-- used by webfx-platform-client-windowhistory-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/json/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-log >============================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-fxkit-launcher (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->

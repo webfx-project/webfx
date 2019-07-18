@@ -46,7 +46,7 @@ public class PriceFormatter implements Formatter, Parser {
 
     @Override
     public Object parse(Object value) {
-        if (value == null)
+        if (value == null || "".equals(value))
             return null;
         return (int) (Numbers.toFloat(value) * 100);
     }

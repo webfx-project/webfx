@@ -14,7 +14,7 @@
         
         <dependency>
             <artifactId>elemental2-dom</artifactId>
-            <groupId>com.google.elemental2</groupId>
+            <groupId>${lib.elemental2.groupId}</groupId>
         </dependency>
     
     </dependencies>

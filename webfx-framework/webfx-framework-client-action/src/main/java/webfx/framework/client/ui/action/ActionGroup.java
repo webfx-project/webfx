@@ -20,8 +20,10 @@ public interface ActionGroup extends Action {
 
     ObservableList<Action> getVisibleActions();
 
-    static ActionGroup create(Collection<Action> actions, ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
-        return new ActionGroupImpl(actions, textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);
+    boolean hasSeparators();
+
+    static ActionGroup create(Collection<Action> actions, ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, boolean hasSeparators, EventHandler<ActionEvent> actionHandler) {
+        return new ActionGroupImpl(actions, textProperty, graphicProperty, disabledProperty, visibleProperty, hasSeparators, actionHandler);
     }
 
 }

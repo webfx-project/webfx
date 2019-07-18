@@ -1,0 +1,12 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-fxkit-extracontrols</module>
+            <module>webfx-platform-shared-update</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

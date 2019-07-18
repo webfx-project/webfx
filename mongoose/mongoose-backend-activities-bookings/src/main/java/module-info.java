@@ -10,6 +10,8 @@ module mongoose.backend.activities.bookings {
     requires mongoose.backend.activities.cloneevent.routing;
     requires mongoose.backend.bookingdetailspanel;
     requires mongoose.backend.masterslave;
+    requires mongoose.backend.operations.document;
+    requires mongoose.backend.operations.generic;
     requires mongoose.client.activity;
     requires mongoose.client.aggregates;
     requires mongoose.client.presentationmodel;
@@ -29,6 +31,7 @@ module mongoose.backend.activities.bookings {
     requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
+    requires mongoose.backend.operations.generic;
 
     // Exported packages
     exports mongoose.backend.activities.bookings;

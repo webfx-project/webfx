@@ -54,7 +54,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         TabPane sitesTabPane = new TabPane();
         ObservableEntitiesMapper<Site, SiteTabController> sitesToTabControllersMapper = new ObservableEntitiesMapper<>(SiteTabController::new, (site, controller) -> controller.update(site), (site, controller) -> controller.delete());
         ObservableLists.bindConverted(sitesTabPane.getTabs(), sitesToTabControllersMapper.getMappedObservableList(), SiteTabController::getTab);
-        MasterSlaveView masterSlaveView = new MasterSlaveView(sitesTabPane, MasterSlaveView.createAndBindSlaveViewIfApplicable(this, this, null).buildUi());
+        MasterSlaveView masterSlaveView = new MasterSlaveView(sitesTabPane, MasterSlaveView.createAndBindSlaveViewIfApplicable(this, this, () -> container).buildUi());
         masterSlaveView.slaveVisibleProperty().bind(Properties.compute(selectedDocumentProperty(), Objects::nonNull));
         // Setting up the master filter that controls the content displayed in the master view
         this.<Site>createReactiveExpressionFilter("{class: 'Site', alias: 's', fields: 'icon,name', where: `exists(select ResourceConfiguration where resource.site=s and item.family.code='acco')`, orderBy: 'ord,id'}")

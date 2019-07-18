@@ -19,7 +19,7 @@
 
 /***** Declaring some variables used in several selectors *****/
 :root {
-    --grid-border-color: lightgray;
+    --grid-border-color: #bbbbbb;
     --grid-row-height: 28px;
 }
 
@@ -115,23 +115,72 @@ th {
 .paidUnderMinimal   { --color-light: #d7c26d; --color-dark: #bea956; }
 .paidEnough         { --color-light: #fdfd29; --color-dark: #e4e400; }
 
+tr.unread, .grid-row.unread {
+    font-weight: bold;
+}
+
+tr.specialRate, .grid-row.specialRate {
+    font-style: italic;
+}
+
 /***** Stay colors *****/
 .workingVisitStay   { --stay-color: #E4399E; }
 .discoveryStay      { --stay-color: #FF9A40; }
 .guestStay          { --stay-color: #200772; }
 .standardStay       { --stay-color: #9276EB; }
 
+/***** Booking options colors *****/
+
+.share_mate { --color-light: #fef087; --color-dark: #e6d768 }
+.wrongAllocation { --color-base: #FF4400; }
+
+/*
+.backend_released { --color-base: #E0CDCD;}
+.frontend_released { --color-base: #E0CDCD;}
+
+.backend_released {
+    -fx-background-color:   -fx-table-cell-border-color,
+                            linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
+                            linear-gradient(from 0px 5px to 5px 0px, reflect, transparent, transparent 85%, #808080);
+}
+
+.frontend_released {
+    -fx-background-color:   -fx-table-cell-border-color,
+                            linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
+                            linear-gradient(from 0px 5px to 5px 0px, reflect, transparent, transparent 85%, #808080),
+                            linear-gradient(from 0px 0px to 5px 5px, reflect, transparent, transparent 85%, #808080);
+}
+*/
+
+tr.share_owner, .grid-row.share_owner {
+    font-style: italic;
+}
+
+
 /***** Payments colors *****/
 .pending            { --color-light: #FAE7E7; --color-dark: #C7B4B4; }
-.successful         { --color-light: #E6FF1A; --color-dark: #E6FF1A; }
+.successful         { --color-light: #d4fe19; --color-dark: #bbe600; }
 .failed             { --color-light: #FF9A9A; --color-dark: #E66767; }
 .batch              { --color-light: #FFF78D; --color-dark: #E6C45A; }
+
+tr.child, .grid-row.child {
+    color: blue;
+    font-style: italic;
+}
 
 /***** Organizations colors *****/
 .kmc                { --color-light: #F9C5FF; --color-dark: #C692E3; }
 .kbc                { --color-light: #FFFFB0; --color-dark: #E4E57D; }
 .branch             { --color-light: #E8FFFF; --color-dark: #B5DEE6; }
 .closed             { --color-light: #E0CDCD; --color-dark: #E0CDCD; }
+
+tr.kmc, .grid-row.kmc {
+    font-weight: bold;
+}
+
+tr.branch, .grid-row.branch {
+    font-style: italic;
+}
 
 /**** Applying styles to data table and grid ****/
 
@@ -162,29 +211,8 @@ tr, .grid-row {
 }
 
 tr.selected, .grid-row.selected {
-    background: repeating-linear-gradient(145deg, var(--selection-color), transparent 5px, transparent 10px, var(--selection-color) 15px, var(--selection-color) 20px),
+    background: repeating-linear-gradient(155deg, var(--selection-color), transparent 5px, transparent 10px, var(--selection-color) 15px, var(--selection-color) 20px),
                 linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
                 linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
                 ;
-}
-
-tr.unread, .grid-row.unread {
-    font-weight: bold;
-}
-
-tr.specialRate, .grid-row.specialRate {
-    font-style: italic;
-}
-
-tr.kmc, .grid-row.kmc {
-    font-weight: bold;
-}
-
-tr.branch, .grid-row.branch {
-    font-style: italic;
-}
-
-tr.child, .grid-row.child {
-    color: blue;
-    font-style: italic;
 }

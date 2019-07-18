@@ -414,6 +414,10 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return getFilterDisplay(displayIndex).getSelectedEntity(selection);
     }
 
+    public List<E> getSelectedEntities() {
+        return getFilterDisplay().getSelectedEntities();
+    }
+
     public EntityList<E> getCurrentEntityList() {
         return getCurrentEntityList(0);
     }
@@ -840,11 +844,25 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         }
 
         E getSelectedEntity(DisplaySelection selection) {
-            E selectedEntity = null;
-            int selectedRow = selection == null ? -1 : selection.getSelectedRow();
-            if (selectedRow >= 0)
-                selectedEntity = getCurrentEntityList().get(selectedRow);
-            return selectedEntity;
+            return getEntityAt(selection == null ? -1 : selection.getSelectedRow());
+        }
+
+        E getEntityAt(int row) {
+            if (row >= 0)
+                return getCurrentEntityList().get(row);
+            return null;
+        }
+
+        List<E> getSelectedEntities() {
+            return getSelectedEntities(displaySelectionProperty == null ? null :displaySelectionProperty.getValue());
+        }
+
+        List<E> getSelectedEntities(DisplaySelection selection) {
+            if (selection == null)
+                return null;
+            List<E> selectedEntities = new ArrayList<>();
+            selection.forEachRow(row -> selectedEntities.add(getEntityAt(row)));
+            return selectedEntities;
         }
 
         EntityList<E> getCurrentEntityList() {

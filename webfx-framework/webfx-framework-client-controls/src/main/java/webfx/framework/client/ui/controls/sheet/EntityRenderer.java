@@ -3,6 +3,7 @@ package webfx.framework.client.ui.controls.sheet;
 import javafx.scene.Node;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ExpressionColumn;
+import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
@@ -46,7 +47,7 @@ final class EntityRenderer implements ValueRenderer {
         }
         selector.setReadOnly(context.isReadOnly());
         // Also setting the edited value property in the rendering context to be the id of the entity selected in the button selector
-        context.bindConvertedEditedValuePropertyTo(selector.selectedItemProperty(), store.getEntity(entityId), Entity::getId, store::getEntity);
+        context.bindConvertedEditedValuePropertyTo(selector.selectedItemProperty(), store.getEntity(entityId), Entities::getId, store::getEntity);
         return selector.getButton();
     }
 }

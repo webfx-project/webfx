@@ -28,6 +28,7 @@ package javafx.application;
 import com.sun.javafx.application.ParametersImpl;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.platform.shared.services.log.Logger;
 
 import java.util.List;
@@ -332,16 +333,18 @@ public abstract class Application {
      *
      * @return the HostServices provider
      */
-/*
+
     public final HostServices getHostServices() {
+        return FxKitLauncher.getProvider().getHostServices();
+/*
         synchronized (this) {
             if (hostServices == null) {
                 hostServices = new HostServices(this);
             }
             return hostServices;
         }
-    }
 */
+    }
 
     /**
      * Retrieves the parameters for this Application, including any arguments

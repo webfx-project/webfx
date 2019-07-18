@@ -240,11 +240,11 @@ public class ContextMenuContent extends Region {
 
         for (int row = 0; row < getItems().size(); row++) {
             final MenuItem item = getItems().get(row);
-            /*if (item instanceof CustomMenuItem && ((CustomMenuItem) item).getContent() == null) {
+            if (item instanceof CustomMenuItem && ((CustomMenuItem) item).getContent() == null) {
                 continue;
-            }*/
+            }
 
-            /*if (item instanceof SeparatorMenuItem) {
+            if (item instanceof SeparatorMenuItem) {
                 // we don't want the hover highlight for separators, so for
                 // now this is the simplest approach - just remove the
                 // background entirely. This may cause issues if people
@@ -256,7 +256,7 @@ public class ContextMenuContent extends Region {
                 // Special casing this for separator :
                 // This allows associating this container with SeparatorMenuItem.
                 node.getProperties().put(MenuItem.class, item);
-            } else*/ {
+            } else {
                 MenuItemContainer menuItemContainer = new MenuItemContainer(item);
                 menuItemContainer.visibleProperty().bind(item.visibleProperty());
                 itemsContainerChilder.add(menuItemContainer);
@@ -1463,7 +1463,7 @@ public class ContextMenuContent extends Region {
                         maxRightWidth, prefHeight, 0, HPos.RIGHT, VPos.CENTER);
             }
 
-            /*if ( item instanceof CustomMenuItem) {
+            if ( item instanceof CustomMenuItem) {
                 Node n = ((CustomMenuItem) item).getContent();
                 if (item instanceof SeparatorMenuItem) {
                     double width = prefWidth(-1) - (snappedLeftInset() + maxGraphicWidth + snappedRightInset());
@@ -1474,14 +1474,14 @@ public class ContextMenuContent extends Region {
                     //the node should be left aligned
                     positionInArea(n, snappedLeftInset(), 0, getWidth(), prefHeight, 0, HPos.LEFT, VPos.CENTER);
                 }
-            }*/
+            }
         }
 
         @Override protected double computePrefHeight(double width) {
             double prefHeight = 0;
-            /*if (item instanceof CustomMenuItem || item instanceof SeparatorMenuItem) {
+            if (item instanceof CustomMenuItem || item instanceof SeparatorMenuItem) {
                 prefHeight = (getChildren().isEmpty()) ? 0 : getChildren().get(0).prefHeight(-1);
-            } else*/ {
+            } else {
                 prefHeight = Math.max(prefHeight, (left != null) ? left.prefHeight(-1) : 0);
                 prefHeight = Math.max(prefHeight, (graphic != null) ? graphic.prefHeight(-1) : 0);
                 prefHeight = Math.max(prefHeight, (label != null) ? label.prefHeight(-1) : 0);
@@ -1492,12 +1492,10 @@ public class ContextMenuContent extends Region {
 
         @Override protected double computePrefWidth(double height) {
             double nodeMenuItemWidth = 0;
-/*
             if (item instanceof CustomMenuItem && !(item instanceof SeparatorMenuItem)) {
                 nodeMenuItemWidth = snappedLeftInset() + ((CustomMenuItem) item).getContent().prefWidth(-1) +
                         snappedRightInset();
             }
-*/
             return Math.max(nodeMenuItemWidth,
                     snappedLeftInset() + maxLeftWidth + maxGraphicWidth +
                             maxLabelWidth + maxRightWidth + snappedRightInset());

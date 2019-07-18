@@ -3,11 +3,16 @@ package webfx.fxkit.gwt;
 import com.sun.javafx.application.ParametersImpl;
 import elemental2.dom.DomGlobal;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.DataFormat;
 import javafx.stage.Screen;
 import webfx.fxkit.launcher.spi.impl.FxKitLauncherProviderBase;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.function.Factory;
+
+import java.util.Map;
 
 
 /**
@@ -15,9 +20,44 @@ import webfx.platform.shared.util.function.Factory;
  */
 public final class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
 
+    private Application application;
+    private HostServices hostServices;
+
     public GwtFxKitLauncherProvider() {
         super(DomGlobal.navigator.userAgent);
     }
+
+    @Override
+    public HostServices getHostServices() {
+        if (hostServices == null)
+            hostServices = uri -> DomGlobal.window.open(uri);
+        return hostServices;
+    }
+
+    @Override
+    public Clipboard getSystemClipboard() {
+        return new Clipboard() {
+            @Override
+            public boolean setContent(Map<DataFormat, Object> content) {
+                setClipboardContent((String) content.get(DataFormat.PLAIN_TEXT));
+                return true;
+            }
+        };
+    }
+
+    private static native void setClipboardContent(String text) /*-{
+        // navigator.clipboard.writeText(text);
+
+        // standard way of copying
+        var textArea = document.createElement('textarea');
+        textArea.setAttribute
+            ('style','width:1px;border:0;opacity:0;');
+        document.body.appendChild(textArea);
+        textArea.value = text;
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+    }-*/;
 
     @Override
     public Screen getPrimaryScreen() {
@@ -31,7 +71,7 @@ public final class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
 
     @Override
     public void launchApplication(Factory<Application> applicationFactory, String... args) {
-        Application application = applicationFactory.create();
+        application = applicationFactory.create();
         if (application != null)
             try {
                 ParametersImpl.registerParameters(application, new ParametersImpl(args));
@@ -40,5 +80,10 @@ public final class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
             } catch (Exception e) {
                 Logger.log("Error while launching the JavaFx application", e);
             }
+    }
+
+    @Override
+    public Application getApplication() {
+        return application;
     }
 }

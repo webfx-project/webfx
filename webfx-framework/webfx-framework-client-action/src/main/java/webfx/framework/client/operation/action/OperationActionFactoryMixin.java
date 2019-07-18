@@ -4,8 +4,11 @@ import javafx.event.ActionEvent;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.action.ActionGroup;
 import webfx.framework.client.ui.action.ActionGroupBuilder;
+import webfx.framework.client.ui.action.impl.SeparatorAction;
 import webfx.framework.shared.operation.HasOperationExecutor;
+import webfx.framework.shared.operation.OperationUtil;
 import webfx.platform.shared.util.async.AsyncFunction;
+import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.function.Factory;
 
 import java.util.function.Function;
@@ -17,6 +20,10 @@ public interface OperationActionFactoryMixin extends HasOperationExecutor {
 
     default AsyncFunction getOperationExecutor() {
         return null;
+    }
+
+    default <Rq, Rs> Future<Rs> executeOperation(Rq operationRequest) {
+        return OperationUtil.executeOperation(operationRequest, getOperationExecutor());
     }
 
     default OperationActionRegistry getOperationActionRegistry() {
@@ -39,8 +46,20 @@ public interface OperationActionFactoryMixin extends HasOperationExecutor {
         return initOperationAction(new OperationAction<>(operationRequestFactory, topOperationExecutor));
     }
 
+    default Action newSeparatorAction() {
+        return new SeparatorAction();
+    }
+
     default ActionGroup newActionGroup(Action... actions) {
-        return new ActionGroupBuilder().setActions(actions).build();
+        return newActionGroup(false, actions);
+    }
+
+    default ActionGroup newSeparatorActionGroup(Action... actions) {
+        return newActionGroup(true, actions);
+    }
+
+    default ActionGroup newActionGroup(boolean hasSeparators, Action... actions) {
+        return new ActionGroupBuilder().setActions(actions).setHasSeparators(hasSeparators).build();
     }
 
     default OperationAction initOperationAction(OperationAction operationAction) {

@@ -43,7 +43,8 @@
         <!-- libraries versions -->
         <lib.openjfx.version>11.0.2</lib.openjfx.version>
         <lib.gwt.version>2.8.2</lib.gwt.version> <!-- can be switched to HEAD-SNAPSHOT on development machines to test the latest GWT version -->
-        <lib.elemental2.version>1.0.0-RC1</lib.elemental2.version>
+        <lib.elemental2.groupId>org.realityforge.com.google.elemental2</lib.elemental2.groupId>
+        <lib.elemental2.version>2.25</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
         <lib.vertx.version>3.6.3</lib.vertx.version>
         <lib.javawebsocket.version>1.3.9</lib.javawebsocket.version>
@@ -242,19 +243,19 @@
             </dependency>
 
             <dependency>
-                <groupId>com.google.elemental2</groupId>
+                <groupId>${lib.elemental2.groupId}</groupId>
                 <artifactId>elemental2-core</artifactId>
                 <version>${lib.elemental2.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.google.elemental2</groupId>
+                <groupId>${lib.elemental2.groupId}</groupId>
                 <artifactId>elemental2-dom</artifactId>
                 <version>${lib.elemental2.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.google.elemental2</groupId>
+                <groupId>${lib.elemental2.groupId}</groupId>
                 <artifactId>elemental2-svg</artifactId>
                 <version>${lib.elemental2.version}</version>
             </dependency>

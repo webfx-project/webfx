@@ -278,10 +278,7 @@ public final class HtmlUtil {
         }
         Future<Void> future = Future.future();
         HTMLScriptElement script = createElement("script");
-        script.onload = a -> {
-            future.complete();
-            return null;
-        };
+        script.onload = a -> future.complete();
         script.src = src;
         document.head.appendChild(script);
         return future;

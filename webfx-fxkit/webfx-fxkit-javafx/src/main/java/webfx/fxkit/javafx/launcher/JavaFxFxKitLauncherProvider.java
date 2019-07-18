@@ -1,6 +1,7 @@
 package webfx.fxkit.javafx.launcher;
 
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 import webfx.fxkit.launcher.spi.impl.FxKitLauncherProviderBase;
 import webfx.platform.shared.util.function.Factory;
@@ -17,6 +18,7 @@ public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase
     private static Factory<Application> applicationFactory;
 
     private static Stage primaryStage;
+    private static Application application;
 
     public JavaFxFxKitLauncherProvider() {
         super("JavaFx", true);
@@ -28,8 +30,18 @@ public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase
     }
 
     @Override
+    public HostServices getHostServices() {
+        return getApplication().getHostServices();
+    }
+
+    @Override
     public Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    @Override
+    public Application getApplication() {
+        return application;
     }
 
     @Override
@@ -75,8 +87,6 @@ public final class JavaFxFxKitLauncherProvider extends FxKitLauncherProviderBase
     }
 
     public static class FxKitWrapperApplication extends Application {
-
-        Application application;
 
         @Override
         public void init() throws Exception {

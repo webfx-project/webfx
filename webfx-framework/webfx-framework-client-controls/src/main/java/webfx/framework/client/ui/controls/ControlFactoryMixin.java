@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.action.*;
+import webfx.framework.client.ui.action.impl.SeparatorAction;
 import webfx.framework.client.ui.controls.button.ButtonBuilder;
 import webfx.fxkit.util.properties.ObservableLists;
 
@@ -50,6 +51,8 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     }
 
     default MenuItem newMenuItem(Action action) {
+        if (action instanceof SeparatorAction)
+            return new SeparatorMenuItem();
         MenuItem menuItem = new MenuItem();
         ActionBinder.bindMenuItemToAction(menuItem, action);
         return menuItem;

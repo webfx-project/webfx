@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
@@ -41,7 +42,7 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
             setCancelButton(true);
         }
 
-        // Extra code to simulate caspian css button padding (-fx-padding: 0.3333em, 0.6666em, 0.3333em, 0.66666em)
+        // Extra WebFx code to simulate caspian css button padding (-fx-padding: 0.3333em, 0.6666em, 0.3333em, 0.66666em)
         paddingExplicitlySetByUser = button.getPadding() != Button.PADDING;
         if (!paddingExplicitlySetByUser) {
             updatePaddingOnFontChange(); // Now
@@ -49,6 +50,8 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
             registerChangeListener(button.fontProperty(), "FONT");
             registerChangeListener(button.paddingProperty(), "PADDING");
         }
+        // Setting text color to gray when disabled (black otherwise)
+        getSkinnable().disabledProperty().addListener((observable, oldValue, disabled) -> getSkinnable().setTextFill(disabled ? Color.GRAY : Color.BLACK));
     }
 
     private boolean paddingExplicitlySetByUser;
@@ -80,7 +83,9 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
                     getSkinnable().getScene().getAccelerators().remove(cancelAcceleratorKeyCodeCombination);
                 }
             }
-        } else if ("FONT".equals(p)) {
+        }
+        // WebFx code
+        else if ("FONT".equals(p)) {
             if (!paddingExplicitlySetByUser)
                 updatePaddingOnFontChange();
         } else if ("PADDING".equals(p)) {
@@ -89,7 +94,7 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
         }
     }
 
-    private void updatePaddingOnFontChange() {
+    private void updatePaddingOnFontChange() { // WebFx
         Font font = getSkinnable().getFont();
         if (font != null) {
             double fontSize = font.getSize();

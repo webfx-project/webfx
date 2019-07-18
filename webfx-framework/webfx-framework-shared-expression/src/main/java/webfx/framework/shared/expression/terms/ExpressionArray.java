@@ -2,6 +2,7 @@ package webfx.framework.shared.expression.terms;
 
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.lci.DataReader;
+import webfx.framework.shared.expression.lci.DataWriter;
 import webfx.fxkit.extra.type.ArrayType;
 import webfx.fxkit.extra.type.Type;
 import webfx.fxkit.extra.type.Types;
@@ -48,6 +49,13 @@ public final class ExpressionArray<T> extends AbstractExpression<T> implements P
         for (int i = 0; i < expressions.length; i++)
             values[i] = expressions[i].evaluate(domainObject, dataReader);
         return values;
+    }
+
+    @Override
+    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
+        Object[] values = (Object[]) value;
+        for (int i = 0; i < expressions.length; i++)
+            expressions[i].setValue(domainObject, values[i], dataWriter);
     }
 
     @Override

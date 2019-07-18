@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class MasterSlaveView implements UiBuilder {
@@ -126,7 +127,7 @@ public class MasterSlaveView implements UiBuilder {
 
     @FunctionalInterface
     public interface SlaveViewBuilder {
-        UiBuilder createAndBindSlaveViewIfApplicable(Object pm, Object mixin, Pane container);
+        UiBuilder createAndBindSlaveViewIfApplicable(Object pm, Object mixin, Supplier<Pane> containerGetter);
     }
 
     private final static List<SlaveViewBuilder> slaveViewBuilders = new ArrayList<>();
@@ -135,7 +136,7 @@ public class MasterSlaveView implements UiBuilder {
         slaveViewBuilders.add(slaveViewBuilder);
     }
 
-    public static UiBuilder createAndBindSlaveViewIfApplicable(Object pm, Object mixin, Pane container) {
-        return slaveViewBuilders.stream().map(svb -> svb.createAndBindSlaveViewIfApplicable(pm, mixin, container)).filter(Objects::nonNull).findFirst().orElse(null);
+    public static UiBuilder createAndBindSlaveViewIfApplicable(Object pm, Object mixin, Supplier<Pane> containerGetter) {
+        return slaveViewBuilders.stream().map(svb -> svb.createAndBindSlaveViewIfApplicable(pm, mixin, containerGetter)).filter(Objects::nonNull).findFirst().orElse(null);
     }
 }

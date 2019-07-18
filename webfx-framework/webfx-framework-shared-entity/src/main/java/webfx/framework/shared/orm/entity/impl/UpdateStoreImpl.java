@@ -1,20 +1,20 @@
 package webfx.framework.shared.orm.entity.impl;
 
+import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.domainmodel.DomainClass;
+import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.framework.shared.orm.entity.result.*;
 import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.services.update.UpdateResult;
 import webfx.platform.shared.services.update.UpdateService;
 import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.async.Batch;
 import webfx.platform.shared.util.async.Future;
-import webfx.framework.shared.orm.domainmodel.DataSourceModel;
-import webfx.framework.shared.orm.domainmodel.DomainClass;
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.platform.shared.services.update.UpdateArgument;
-import webfx.platform.shared.services.update.UpdateResult;
 
 /**
  * @author Bruno Salmon
@@ -52,10 +52,15 @@ public final class UpdateStoreImpl extends EntityStoreImpl implements UpdateStor
 
     boolean updateEntity(EntityId id, Object domainFieldId, Object value, Object previousValue) {
         if (!Objects.areEquals(value, previousValue) && changesBuilder.hasEntityId(id)) {
-            boolean firstFieldChange = updateEntity(id, domainFieldId, value);
-            if (firstFieldChange)
-                rememberPreviousEntityFieldValue(id, domainFieldId, previousValue);
-            return firstFieldChange;
+            if (previousValues != null && Objects.areEquals(value, previousValues.getFieldValue(id, domainFieldId))) {
+                changesBuilder.removeFieldChange(id, domainFieldId);
+                return true;
+            } else {
+                boolean firstFieldChange = updateEntity(id, domainFieldId, value);
+                if (firstFieldChange)
+                    rememberPreviousEntityFieldValue(id, domainFieldId, previousValue);
+                return firstFieldChange;
+            }
         }
         return false;
     }

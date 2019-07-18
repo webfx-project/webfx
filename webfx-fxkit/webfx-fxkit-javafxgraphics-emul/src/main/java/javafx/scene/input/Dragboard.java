@@ -1,6 +1,5 @@
 package javafx.scene.input;
 
-import javafx.scene.input.TransferMode;
 import javafx.scene.image.Image;
 
 import java.util.Set;
@@ -14,7 +13,7 @@ public final class Dragboard extends Clipboard {
     /**
      * Whether access to the data requires a permission.
      */
-    private boolean dataAccessRestricted = true;
+    //private boolean dataAccessRestricted = true;
 
 /*
     Dragboard(TKClipboard peer) {

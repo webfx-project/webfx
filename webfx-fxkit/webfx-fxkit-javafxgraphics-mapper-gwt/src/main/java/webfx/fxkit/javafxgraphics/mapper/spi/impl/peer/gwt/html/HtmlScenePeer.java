@@ -155,10 +155,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             link.setAttribute("rel", "stylesheet");
             link.setAttribute("type", "text/css");
             link.setAttribute("href", href);
-            link.onload = e -> {
-                updateSceneGraphLayout();
-                return null;
-            };
+            link.onload = e -> updateSceneGraphLayout();
             document.body.appendChild(link);
             stylesheetLinks.put(href, link); // Keeping a reference to the link for eventual removal
         });

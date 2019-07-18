@@ -16,6 +16,7 @@ import java.util.Collection;
 public final class ActionGroupBuilder extends ActionBuilder {
 
     private Collection<Action> actions;
+    private boolean hasSeparators;
 
     public ActionGroupBuilder() {
     }
@@ -33,10 +34,16 @@ public final class ActionGroupBuilder extends ActionBuilder {
         return setActions(Collections.listOf(actions));
     }
 
+
+    public ActionGroupBuilder setHasSeparators(boolean hasSeparators) {
+        this.hasSeparators = hasSeparators;
+        return this;
+    }
+
     @Override
     public ActionGroup build() {
         completePropertiesForBuild();
-        return ActionGroup.create(actions, getTextProperty(), getGraphicProperty(), getDisabledProperty(), getVisibleProperty(), getActionHandler());
+        return ActionGroup.create(actions, getTextProperty(), getGraphicProperty(), getDisabledProperty(), getVisibleProperty(), hasSeparators, getActionHandler());
     }
 
     // --- Overriding fluent API methods to return ActionGroupBuilder instead of ActionBuilder ---
@@ -118,7 +125,9 @@ public final class ActionGroupBuilder extends ActionBuilder {
 
     @Override
     public ActionGroupBuilder duplicate() {
-        return ((ActionGroupBuilder) super.duplicate()).setActions(actions);
+        return ((ActionGroupBuilder) super.duplicate())
+                .setActions(actions)
+                .setHasSeparators(hasSeparators);
     }
 
     @Override

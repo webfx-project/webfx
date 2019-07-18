@@ -117,25 +117,21 @@ public final class HtmlDataGridPeer
         if (rs != null) {
             int rowCount = rs.getRowCount();
             int columnCount = rs.getColumnCount();
-            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            for (int row = 0; row < rowCount; row++) {
                 HTMLTableRowElement tBodyRow = (HTMLTableRowElement) tBody.insertRow(-1);
-                int finalRowIndex = rowIndex;
-                tBodyRow.onmouseup = a -> { // was onclick but changed to onmouseup so it is done before JavaFx click is generated
-                    DisplaySelection displaySelection = node.getDisplaySelection();
-                    if (node.getSelectionMode() == SelectionMode.DISABLED)
-                        displaySelection = null;
-                    else if (displaySelection == null || displaySelection.getSelectedRow() != finalRowIndex)
-                        displaySelection = DisplaySelection.createSingleRowSelection(finalRowIndex);
-                    node.setDisplaySelection(displaySelection);
+                int finalRow = row;
+                tBodyRow.onmouseup = e -> { // was onclick but changed to onmouseup so it is done before JavaFx click is generated
+                    MouseEvent me = (MouseEvent) e;
+                    node.setDisplaySelection(DisplaySelection.updateRowsSelection(node.getDisplaySelection(), node.getSelectionMode(), finalRow, me.button == 0, me.ctrlKey, me.shiftKey));
                     return null;
                 };
-                String rowStyle = base.getRowStyle(rowIndex);
+                String rowStyle = base.getRowStyle(row);
                 if (rowStyle != null)
                     tBodyRow.className = rowStyle;
-                tBodyRow.style.background = HtmlPaints.toCssPaint(base.getRowBackground(rowIndex), DomType.HTML);
-                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-                    if (base.isDataColumn(columnIndex))
-                        base.fillCell((HTMLTableCellElement) tBodyRow.insertCell(-1), rowIndex, columnIndex);
+                tBodyRow.style.background = HtmlPaints.toCssPaint(base.getRowBackground(row), DomType.HTML);
+                for (int column = 0; column < columnCount; column++) {
+                    if (base.isDataColumn(column))
+                        base.fillCell((HTMLTableCellElement) tBodyRow.insertCell(-1), row, column);
                 }
             }
         }
@@ -188,7 +184,7 @@ public final class HtmlDataGridPeer
     }
 
     private void resetChildrenPositionToRelative(Element contentElement, double spacing) {
-        for (int i = 0, n = (int) contentElement.childElementCount; i < n; i++) {
+        for (int i = 0, n = contentElement.childElementCount; i < n; i++) {
             elemental2.dom.Node childNode = contentElement.childNodes.item(i);
             if (childNode instanceof HTMLImageElement && Strings.isEmpty(((HTMLImageElement) childNode).src)) {
                 contentElement.removeChild(childNode);

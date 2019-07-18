@@ -1,13 +1,13 @@
 package webfx.framework.shared.orm.entity;
 
-import webfx.platform.shared.util.async.Batch;
-import webfx.platform.shared.util.async.Future;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.entity.impl.UpdateStoreImpl;
 import webfx.framework.shared.orm.entity.result.EntityChanges;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateResult;
+import webfx.platform.shared.util.async.Batch;
+import webfx.platform.shared.util.async.Future;
 
 /**
  * @author Bruno Salmon

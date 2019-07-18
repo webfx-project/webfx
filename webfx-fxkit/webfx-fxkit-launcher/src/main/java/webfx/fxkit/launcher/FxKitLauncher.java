@@ -22,10 +22,6 @@ public final class FxKitLauncher {
         return getProvider().getUserAgent();
     }
 
-    public static Stage getPrimaryStage() {
-        return getProvider().getPrimaryStage();
-    }
-
     public static void launchApplication(Factory<Application> applicationFactory, String... args) {
         FxKitLauncherProvider provider = null;
         try {
@@ -43,6 +39,14 @@ public final class FxKitLauncher {
 
     public static void onReady(Runnable runnable) {
         getProvider().onReady(runnable);
+    }
+
+    public static Application getApplication() {
+        return getProvider().getApplication();
+    }
+
+    public static Stage getPrimaryStage() {
+        return getProvider().getPrimaryStage();
     }
 
     public static  double getVerticalScrollbarExtraWidth() {

@@ -120,6 +120,32 @@ DataGrid, LineChart, PieChart, BarChart, AreaChart, GridCollator, HtmlText, Html
 .paidUnderMinimal { -color-base: #D3BC5F; }
 .paidEnough { -color-base: #FAFD00; }
 
+/* Booking options */
+.share_mate { -color-base: #FFF073; }
+.wrongAllocation { -color-base: #FF4400; }
+
+.backend_released {-color-base: #E0CDCD;}
+.frontend_released {-color-base: #E0CDCD;}
+
+.backend_released {
+    -fx-background-color:   -fx-table-cell-border-color,
+                            linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
+                            linear-gradient(from 0px 5px to 5px 0px, reflect, transparent, transparent 85%, #808080);
+}
+
+.frontend_released {
+    -fx-background-color:   -fx-table-cell-border-color,
+                            linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
+                            linear-gradient(from 0px 5px to 5px 0px, reflect, transparent, transparent 85%, #808080),
+                            linear-gradient(from 0px 0px to 5px 5px, reflect, transparent, transparent 85%, #808080);
+}
+
+.share_owner {
+    -fx-font-style: italic;
+}
+
+.no_share { }
+
 /* Stays */
 .nonStay { -stay-color: transparent; }
 .workingVisitStay { -stay-color: #E4399E; }
@@ -140,7 +166,7 @@ DataGrid, LineChart, PieChart, BarChart, AreaChart, GridCollator, HtmlText, Html
 .closed { -color-base: #E0CDCD; }
 
 /* .table-row-cell { */
-.abandoned, .absent, .cancelled, .arrived, .arrivedWithBalance, .flagged, .changed, .passReady, .confirmed, .paidInFull, .overPaid, .noDeposit, .willPay, .paidUnderMinimal, .paidEnough, .nonStay, .workingVisitStay, .discoveryStay, .guestStay, .standardStay, .pending, .successful, .failed, .batch, .kmc, .kbc, .branch, .closed {
+.abandoned, .absent, .cancelled, .arrived, .arrivedWithBalance, .flagged, .changed, .passReady, .confirmed, .paidInFull, .overPaid, .noDeposit, .willPay, .paidUnderMinimal, .paidEnough, .share_mate, .wrongAllocation, .nonStay, .workingVisitStay, .discoveryStay, .guestStay, .standardStay, .pending, .successful, .failed, .batch, .kmc, .kbc, .branch, .closed {
     -fx-background-color:
         /*-fx-table-cell-border-color,*/
         linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
