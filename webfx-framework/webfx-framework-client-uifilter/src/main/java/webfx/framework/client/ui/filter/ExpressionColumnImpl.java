@@ -10,6 +10,7 @@ import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.util.formatter.Formatter;
 import webfx.framework.shared.util.formatter.FormatterRegistry;
+import webfx.framework.shared.util.formatter.NumberFormatter;
 import webfx.fxkit.extra.cell.renderer.ValueRenderer;
 import webfx.fxkit.extra.displaydata.DisplayColumn;
 import webfx.fxkit.extra.displaydata.DisplayColumnBuilder;
@@ -82,6 +83,8 @@ final class ExpressionColumnImpl implements ExpressionColumn {
                     topRightExpression = getTopRightExpression(displayExpression);
                 displayType = topRightExpression.getType();
             }
+            if (displayFormatter == null && Types.isNumberType(displayType))
+                displayFormatter = NumberFormatter.SINGLETON;
             String textAlign = null;
             ValueRenderer fxValueRenderer = null;
             String role = null;

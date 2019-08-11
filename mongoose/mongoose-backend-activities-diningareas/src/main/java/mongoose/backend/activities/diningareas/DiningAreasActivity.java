@@ -3,17 +3,27 @@ package mongoose.backend.activities.diningareas;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import mongoose.backend.activities.statistics.StatisticsBuilder;
 import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
+import mongoose.backend.operations.entities.allocationrule.AddNewAllocationRuleRequest;
+import mongoose.backend.operations.entities.allocationrule.DeleteAllocationRuleRequest;
+import mongoose.backend.operations.entities.allocationrule.EditAllocationRuleRequest;
+import mongoose.backend.operations.entities.allocationrule.TriggerAllocationRuleRequest;
+import mongoose.backend.operations.entities.generic.CopyAllRequest;
+import mongoose.backend.operations.entities.generic.CopySelectionRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
+import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
 final class DiningAreasActivity extends EventDependentViewDomainActivity implements
+        OperationActionFactoryMixin,
         ConventionalUiBuilderMixin,
         ConventionalReactiveExpressionFilterFactoryMixin {
 
@@ -34,9 +44,26 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
         sittingTable.displayResultProperty().bind(pm.sittingDisplayResultProperty());
         DataGrid rulesTable = new DataGrid();
         rulesTable.displayResultProperty().bind(pm.rulesDisplayResultProperty());
+        rulesTable.displaySelectionProperty().bindBidirectional(pm.rulesDisplaySelectionProperty());
         SplitPane splitPane = new SplitPane(sittingTable, rulesTable);
         splitPane.setOrientation(Orientation.VERTICAL);
-        return splitPane;
+        Pane container = new StackPane(splitPane);
+        setUpContextMenu(rulesTable, () -> newActionGroup(
+                newSeparatorActionGroup(
+                        newAction(() -> new AddNewAllocationRuleRequest( getEvent(), container))
+                ),
+                newSeparatorActionGroup(
+                        newAction(() -> new TriggerAllocationRuleRequest( rulesFilter.getSelectedEntity(), container))
+                ),
+                newSeparatorActionGroup(
+                        newAction(() -> new EditAllocationRuleRequest(   rulesFilter.getSelectedEntity(), container)),
+                        newAction(() -> new DeleteAllocationRuleRequest( rulesFilter.getSelectedEntity(), container))
+                ),
+                newSeparatorActionGroup(
+                        newAction(() -> new CopySelectionRequest( rulesFilter.getSelectedEntities(),  rulesFilter.getExpressionColumns())),
+                        newAction(() -> new CopyAllRequest(       rulesFilter.getCurrentEntityList(), rulesFilter.getExpressionColumns()))
+                )));
+        return container;
     }
 
 
@@ -69,6 +96,7 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
                 // Displaying the result into the rules table through the presentation model
                 .displayResultInto(pm.rulesDisplayResultProperty())
+                .setDisplaySelectionProperty(pm.rulesDisplaySelectionProperty())
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
                 // Activating server push notification

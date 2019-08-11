@@ -8,9 +8,12 @@ module mongoose.backend.activities.diningareas {
     requires javafx.graphics;
     requires mongoose.backend.activities.statistics;
     requires mongoose.backend.masterslave;
+    requires mongoose.backend.operations.allocationrule;
+    requires mongoose.backend.operations.generic;
     requires mongoose.client.activity;
     requires mongoose.client.util;
     requires mongoose.shared.entities;
+    requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.uifilter;

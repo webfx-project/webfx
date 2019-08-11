@@ -37,6 +37,7 @@
         <module>mongoose-backend-bookingdetailspanel</module>
         <module>mongoose-backend-masterslave</module>
         <module>mongoose-backend-multilangeditor</module>
+        <module>mongoose-backend-operations-allocationrule</module>
         <module>mongoose-backend-operations-document</module>
         <module>mongoose-backend-operations-documentline</module>
         <module>mongoose-backend-operations-generic</module>

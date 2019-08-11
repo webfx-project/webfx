@@ -46,6 +46,18 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-operations-allocationrule</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-backend-operations-generic</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-client-activity</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -61,6 +73,12 @@
             <artifactId>mongoose-shared-entities</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-client-action</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
