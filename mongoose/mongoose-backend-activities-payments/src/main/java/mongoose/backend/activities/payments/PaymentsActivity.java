@@ -6,6 +6,8 @@ import javafx.scene.layout.Pane;
 import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
+import mongoose.backend.operations.entities.generic.CopyAllRequest;
+import mongoose.backend.operations.entities.generic.CopySelectionRequest;
 import mongoose.backend.operations.entities.moneytransfer.DeletePaymentRequest;
 import mongoose.backend.operations.entities.moneytransfer.EditPaymentRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
@@ -43,11 +45,17 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         pm.flatPaymentsProperty().bind(flatPaymentsCheckBox.selectedProperty());
 
         ui.setLeftTopNodes(flatPaymentsCheckBox);
+
         Pane container = ui.buildUi();
         setUpContextMenu(LayoutUtil.lookupChild(container, node -> node instanceof DataGrid), () -> newActionGroup(
-                newAction(() -> new EditPaymentRequest  (pm.getSelectedPayment(), container)),
-                newAction(() -> new DeletePaymentRequest(pm.getSelectedPayment(), container))
-        ));
+                newSeparatorActionGroup(
+                        newAction(() -> new EditPaymentRequest(   pm.getSelectedPayment(), container)),
+                        newAction(() -> new DeletePaymentRequest( pm.getSelectedPayment(), container))
+                ),
+                newSeparatorActionGroup(
+                        newAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
+                        newAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
+                )));
         return container;
     }
 

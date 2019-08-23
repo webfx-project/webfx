@@ -38,6 +38,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>mongoose-backend-operations-generic</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-backend-operations-moneytransfer</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
