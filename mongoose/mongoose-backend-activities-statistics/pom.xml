@@ -18,6 +18,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>javafx-controls</artifactId>
+            <groupId>org.openjfx</groupId>
+            <version>${lib.openjfx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
             <artifactId>javafx-graphics</artifactId>
             <groupId>org.openjfx</groupId>
             <version>${lib.openjfx.version}</version>
@@ -32,6 +39,24 @@
         
         <dependency>
             <artifactId>mongoose-backend-masterslave</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-backend-operations-document</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-backend-operations-documentline</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>mongoose-backend-operations-generic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -61,6 +86,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-client-action</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-activity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -68,6 +99,12 @@
         
         <dependency>
             <artifactId>webfx-framework-client-domain</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-client-layouts</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

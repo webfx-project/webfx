@@ -1,16 +1,28 @@
 package mongoose.backend.activities.statistics;
 
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
 import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
+import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
+import mongoose.backend.operations.entities.document.SendLetterRequest;
+import mongoose.backend.operations.entities.documentline.DeleteDocumentLineRequest;
+import mongoose.backend.operations.entities.documentline.EditDocumentLineRequest;
+import mongoose.backend.operations.entities.documentline.ToggleCancelDocumentLineRequest;
+import mongoose.backend.operations.entities.generic.CopyAllRequest;
+import mongoose.backend.operations.entities.generic.CopySelectionRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
+import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.StringFilter;
+import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
 final class StatisticsActivity extends EventDependentViewDomainActivity implements
+        OperationActionFactoryMixin,
         ConventionalUiBuilderMixin,
         ConventionalReactiveExpressionFilterFactoryMixin {
 
@@ -27,7 +39,24 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
 
     @Override
     public Node buildUi() {
-        return createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, "statistics", "DocumentLine").buildUi();
+        ConventionalUiBuilder ui = createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, "statistics", "DocumentLine");
+
+        Pane container = ui.buildUi();
+
+        setUpContextMenu(LayoutUtil.lookupChild(ui.getGroupMasterSlaveView().getMasterView(), n -> n instanceof DataGrid), () -> newActionGroup(
+                newAction(() -> new SendLetterRequest(                            pm.getSelectedDocument(), container)),
+                newSeparatorActionGroup(
+                        newAction(() -> new EditDocumentLineRequest(         pm.getSelectedDocumentLine(), container)),
+                        newAction(() -> new ToggleCancelDocumentLineRequest( pm.getSelectedDocumentLine(), container)),
+                        newAction(() -> new DeleteDocumentLineRequest(       pm.getSelectedDocumentLine(), container))
+                ),
+                newSeparatorActionGroup(
+                        newAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
+                        newAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
+                )
+        ));
+
+        return container;
     }
 
 

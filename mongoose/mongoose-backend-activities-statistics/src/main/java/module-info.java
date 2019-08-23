@@ -5,15 +5,21 @@ module mongoose.backend.activities.statistics {
     // Direct dependencies modules
     requires java.base;
     requires javafx.base;
+    requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.backend.bookingdetailspanel;
     requires mongoose.backend.masterslave;
+    requires mongoose.backend.operations.document;
+    requires mongoose.backend.operations.documentline;
+    requires mongoose.backend.operations.generic;
     requires mongoose.client.activity;
     requires mongoose.client.presentationmodel;
     requires mongoose.client.util;
     requires mongoose.shared.entities;
+    requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
+    requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.entity;
