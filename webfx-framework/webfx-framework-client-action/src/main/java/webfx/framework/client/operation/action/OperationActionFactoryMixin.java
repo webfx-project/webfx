@@ -51,15 +51,19 @@ public interface OperationActionFactoryMixin extends HasOperationExecutor {
     }
 
     default ActionGroup newActionGroup(Action... actions) {
-        return newActionGroup(false, actions);
+        return newActionGroup(null, false, actions);
     }
 
     default ActionGroup newSeparatorActionGroup(Action... actions) {
-        return newActionGroup(true, actions);
+        return newActionGroup(null, true, actions);
     }
 
-    default ActionGroup newActionGroup(boolean hasSeparators, Action... actions) {
-        return new ActionGroupBuilder().setActions(actions).setHasSeparators(hasSeparators).build();
+    default ActionGroup newSeparatorActionGroup(String text, Action... actions) {
+        return newActionGroup(text, true, actions);
+    }
+
+    default ActionGroup newActionGroup(String text, boolean hasSeparators, Action... actions) {
+        return new ActionGroupBuilder().setText(text).setActions(actions).setHasSeparators(hasSeparators).build();
     }
 
     default OperationAction initOperationAction(OperationAction operationAction) {

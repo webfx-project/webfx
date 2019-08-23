@@ -1,5 +1,6 @@
 package webfx.framework.client.ui.controls;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -53,6 +54,11 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     default MenuItem newMenuItem(Action action) {
         if (action instanceof SeparatorAction)
             return new SeparatorMenuItem();
+        if (action instanceof ActionGroup) {
+            Menu menu = new Menu(action.getText(), action.getGraphic());
+            bindMenuItemsToActionGroup(menu.getItems(), (ActionGroup) action);
+            return menu;
+        }
         MenuItem menuItem = new MenuItem();
         ActionBinder.bindMenuItemToAction(menuItem, action);
         return menuItem;
@@ -60,8 +66,12 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
 
     default ContextMenu newContextMenu(ActionGroup actionGroup) {
         ContextMenu contextMenu = new ContextMenu();
-        ObservableLists.bindConverted(contextMenu.getItems(), actionGroup.getVisibleActions(), this::newMenuItem);
+        bindMenuItemsToActionGroup(contextMenu.getItems(), actionGroup);
         return contextMenu;
+    }
+
+    default void bindMenuItemsToActionGroup(ObservableList<MenuItem> menuItems, ActionGroup actionGroup) {
+        ObservableLists.bindConverted(menuItems, actionGroup.getVisibleActions(), this::newMenuItem);
     }
 
     default void setUpContextMenu(Node node, Supplier<ActionGroup> contextMenuActionGroupFactory) {

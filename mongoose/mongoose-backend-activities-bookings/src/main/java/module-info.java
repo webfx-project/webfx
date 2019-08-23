@@ -31,7 +31,6 @@ module mongoose.backend.activities.bookings {
     requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
-    requires mongoose.backend.operations.generic;
 
     // Exported packages
     exports mongoose.backend.activities.bookings;

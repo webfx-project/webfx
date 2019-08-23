@@ -43,6 +43,7 @@
     <source path="com/sun/javafx/cursor"/>
     <source path="com/sun/javafx/geom"/>
     <source path="com/sun/javafx/geom/transform"/>
+    <source path="com/sun/javafx/geometry"/>
     <source path="com/sun/javafx/scene"/>
     <source path="com/sun/javafx/scene/input"/>
     <source path="com/sun/javafx/scene/text"/>

@@ -23,6 +23,7 @@ public class ConventionalUiBuilder implements UiBuilder {
     private final ControlFactoryMixin mixin;
     private Node[] leftTopNodes = {}, rightTopNodes = {};
     private FilterSearchBar filterSearchBar; // Keeping this reference for activity resume
+    private GroupMasterSlaveView groupMasterSlaveView;
     private BorderPane container;
 
     private ConventionalUiBuilder(String activityName, String domainClassId, Object pm, ControlFactoryMixin mixin) {
@@ -59,8 +60,10 @@ public class ConventionalUiBuilder implements UiBuilder {
                 }
             }
 
-            if (pm instanceof HasGroupDisplayResultProperty && pm instanceof HasMasterDisplayResultProperty && pm instanceof HasSelectedMasterProperty)
-                container.setCenter(GroupMasterSlaveView.createAndBind((HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty) pm, mixin, container).buildUi());
+            if (pm instanceof HasGroupDisplayResultProperty && pm instanceof HasMasterDisplayResultProperty && pm instanceof HasSelectedMasterProperty) {
+                groupMasterSlaveView = GroupMasterSlaveView.createAndBind((HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty) pm, mixin, () -> container);
+                container.setCenter(groupMasterSlaveView.buildUi());
+            }
         }
 
         return container;
@@ -71,6 +74,9 @@ public class ConventionalUiBuilder implements UiBuilder {
             filterSearchBar.onResume();
     }
 
+    public GroupMasterSlaveView getGroupMasterSlaveView() {
+        return groupMasterSlaveView;
+    }
 
     /*==================================================================================================================
     ============================================== Static factory methods ==============================================

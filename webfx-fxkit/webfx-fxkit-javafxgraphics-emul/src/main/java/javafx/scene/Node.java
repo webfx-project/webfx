@@ -4,6 +4,7 @@ import com.sun.javafx.collections.TrackableObservableList;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.RectBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
+import com.sun.javafx.geometry.BoundsUtils;
 import com.sun.javafx.scene.EventHandlerProperties;
 import com.sun.javafx.scene.NodeEventDispatcher;
 import com.sun.javafx.scene.traversal.Direction;
@@ -26,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
+import javafx.stage.Window;
 import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.*;
 import webfx.platform.client.services.uischeduler.UiScheduler;
@@ -1753,9 +1755,82 @@ public abstract class Node implements INode, EventTarget, Styleable {
         }
     }
 
+    /**
+     * Transforms a point from the local coordinate space of this {@code Node}
+     * into the coordinate space of its {@link javafx.stage.Screen}.
+     * @param localX x coordinate of a point in Node's space
+     * @param localY y coordinate of a point in Node's space
+     * @return screen coordinates of the point or null if Node is not in a {@link Window}
+     * @since JavaFX 8.0
+     */
+    public Point2D localToScreen(double localX, double localY) {
+        return localToScreen(localX, localY, 0.0);
+    }
+
+    /**
+     * Transforms a point from the local coordinate space of this {@code Node}
+     * into the coordinate space of its {@link javafx.stage.Screen}.
+     * @param localPoint a point in Node's space
+     * @return screen coordinates of the point or null if Node is not in a {@link Window}
+     * @since JavaFX 8.0
+     */
+    public Point2D localToScreen(Point2D localPoint) {
+        return localToScreen(localPoint.getX(), localPoint.getY());
+    }
+
+    /**
+     * Transforms a point from the local coordinate space of this {@code Node}
+     * into the coordinate space of its {@link javafx.stage.Screen}.
+     * @param localX x coordinate of a point in Node's space
+     * @param localY y coordinate of a point in Node's space
+     * @param localZ z coordinate of a point in Node's space
+     * @return screen coordinates of the point or null if Node is not in a {@link Window}
+     * @since JavaFX 8.0
+     */
+    public Point2D localToScreen(double localX, double localY, double localZ) {
+        Scene scene = getScene();
+        if (scene == null) return null;
+        Window window = scene.getWindow();
+        if (window == null) return null;
+
+/*
+        Point3D pt = localToScene(localX, localY, localZ);
+        final SubScene subScene = getSubScene();
+        if (subScene != null) {
+            pt = SceneUtils.subSceneToScene(subScene, pt);
+        }
+        final Point2D projection = CameraHelper.project(
+                SceneHelper.getEffectiveCamera(getScene()), pt);
+*/
+        Point2D projection = localToScene(localX, localY);
+
+        return new Point2D(projection.getX() + scene.getX() + window.getX(),
+                projection.getY() + scene.getY() + window.getY());
+    }
+
     public final boolean impl_isTreeVisible() {
         NodePeer nodePeer = getNodePeer();
         return nodePeer != null && nodePeer.isTreeVisible();
+    }
+
+    /**
+     * Transforms a bounds from the local coordinate space of this
+     * {@code Node} into the coordinate space of its {@link javafx.stage.Screen}.
+     * @param localBounds bounds in Node's space
+     * @return the bounds in screen coordinates or null if Node is not in a {@link Window}
+     * @since JavaFX 8.0
+     */
+    public Bounds localToScreen(Bounds localBounds) {
+        final Point2D p1 = localToScreen(localBounds.getMinX(), localBounds.getMinY(), localBounds.getMinZ());
+        final Point2D p2 = localToScreen(localBounds.getMinX(), localBounds.getMinY(), localBounds.getMaxZ());
+        final Point2D p3 = localToScreen(localBounds.getMinX(), localBounds.getMaxY(), localBounds.getMinZ());
+        final Point2D p4 = localToScreen(localBounds.getMinX(), localBounds.getMaxY(), localBounds.getMaxZ());
+        final Point2D p5 = localToScreen(localBounds.getMaxX(), localBounds.getMaxY(), localBounds.getMinZ());
+        final Point2D p6 = localToScreen(localBounds.getMaxX(), localBounds.getMaxY(), localBounds.getMaxZ());
+        final Point2D p7 = localToScreen(localBounds.getMaxX(), localBounds.getMinY(), localBounds.getMinZ());
+        final Point2D p8 = localToScreen(localBounds.getMaxX(), localBounds.getMinY(), localBounds.getMaxZ());
+
+        return BoundsUtils.createBoundingBox(p1, p2, p3, p4, p5, p6, p7, p8);
     }
 
     /**

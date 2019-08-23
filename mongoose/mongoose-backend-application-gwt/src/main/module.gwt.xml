@@ -45,6 +45,7 @@
     <source path="com/sun/javafx/cursor"/>
     <source path="com/sun/javafx/geom"/>
     <source path="com/sun/javafx/geom/transform"/>
+    <source path="com/sun/javafx/geometry"/>
     <source path="com/sun/javafx/scene"/>
     <source path="com/sun/javafx/scene/input"/>
     <source path="com/sun/javafx/scene/text"/>
@@ -210,6 +211,9 @@
     <!--========================< mongoose-backend-multilangeditor >========================-->
     <!-- used by mongoose-backend-activities-letter (SOURCE) -->
     <source path="mongoose/backend/controls/multilangeditor"/>
+    <!--===================< mongoose-backend-operations-allocationrule >===================-->
+    <!-- used by mongoose-backend-activities-diningareas (SOURCE) -->
+    <source path="mongoose/backend/operations/entities/allocationrule"/>
     <!--======================< mongoose-backend-operations-document >======================-->
     <!-- used by mongoose-backend-bookingdetailspanel (SOURCE) -->
     <source path="mongoose/backend/operations/entities/document"/>

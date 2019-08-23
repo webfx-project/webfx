@@ -38,20 +38,22 @@ public final class ActionGroupImpl extends ReadOnlyAction implements ActionGroup
         List<Action> actions = new ArrayList<>();
         boolean addSeparatorOnNextAdd = false;
         for (Action action : this.actions) {
-            int n = actions.size();
-            if (action instanceof ActionGroup) {
-                ActionGroup actionGroup = (ActionGroup) action;
-                actions.addAll(actionGroup.getVisibleActions());
-                if (actions.size() > n) {
-                    if (addSeparatorOnNextAdd || actionGroup.hasSeparators())
-                        actions.add(n, new SeparatorAction());
-                    addSeparatorOnNextAdd = actionGroup.hasSeparators();
+            if (action.isVisible()) {
+                int n = actions.size();
+                if (action.getText() == null && action.getGraphic() == null && action instanceof ActionGroup) {
+                    ActionGroup actionGroup = (ActionGroup) action;
+                    actions.addAll(actionGroup.getVisibleActions());
+                    if (actions.size() > n) {
+                        if (addSeparatorOnNextAdd || n > 0 && actionGroup.hasSeparators())
+                            actions.add(n, new SeparatorAction());
+                        addSeparatorOnNextAdd = actionGroup.hasSeparators();
+                    }
+                } else {
+                    if (addSeparatorOnNextAdd)
+                        actions.add(new SeparatorAction());
+                    actions.add(action);
+                    addSeparatorOnNextAdd = false;
                 }
-            } else if (action.isVisible()) {
-                if (addSeparatorOnNextAdd)
-                    actions.add(new SeparatorAction());
-                actions.add(action);
-                addSeparatorOnNextAdd = false;
             }
         }
         this.visibleActions.setAll(actions);

@@ -45,7 +45,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
@@ -221,15 +221,16 @@ public class ContextMenuContent extends Region {
         // 2) The parent menu is in the correct position (i.e. to the left of this
         //    menu in normal LTR systems).
         final double newWidth = maxRightWidth + maxLabelWidth + maxGraphicWidth + maxLeftWidth;
-        Window ownerWindow = contextMenu.getOwnerWindow();
-        if (ownerWindow instanceof ContextMenu) {
-            if (contextMenu.getX() < ownerWindow.getX()) {
-                if (oldWidth != newWidth) {
-                    contextMenu.setX(contextMenu.getX() + oldWidth - newWidth);
+        if (contextMenu != null) { // WebFx addition
+            Window ownerWindow = contextMenu.getOwnerWindow();
+            if (ownerWindow instanceof ContextMenu) {
+                if (contextMenu.getX() < ownerWindow.getX()) {
+                    if (oldWidth != newWidth) {
+                        contextMenu.setX(contextMenu.getX() + oldWidth - newWidth);
+                    }
                 }
             }
         }
-
         oldWidth = newWidth;
     }
 
@@ -1294,15 +1295,18 @@ public class ContextMenuContent extends Region {
                 // get the ability to draw an accelerator
                 if (item instanceof Menu) {
                     // --- add arrow / accelerator / mnemonic to right column
-                    Region rightNode = new Region();
+                    //Region rightNode = new Region(); // WebFx change to hardcoded Path (since no CSS)
+                    Path rightNode = new Path(new MoveTo(0, -4), new LineTo(4, 0), new LineTo(0, 4), new ClosePath());
                     rightNode.setMouseTransparent(true);
                     rightNode.getStyleClass().add("arrow");
+
 
                     StackPane rightPane = new StackPane();
                     rightPane.setMaxWidth(Math.max(rightNode.prefWidth(-1), 10));
                     rightPane.setMouseTransparent(true);
                     rightPane.getStyleClass().add("right-container");
                     rightPane.getChildren().add(rightNode);
+                    rightPane.setPadding(new Insets(0, 2, 12, 2)); // WebFx
                     right = rightPane;
                     getChildren().add(rightPane);
 

@@ -2,10 +2,19 @@ package mongoose.backend.activities.bookings;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
 import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
+import mongoose.backend.operations.entities.document.SendLetterRequest;
+import mongoose.backend.operations.entities.document.registration.*;
+import mongoose.backend.operations.entities.document.security.ToggleMarkDocumentAsKnownRequest;
+import mongoose.backend.operations.entities.document.security.ToggleMarkDocumentAsUncheckedRequest;
+import mongoose.backend.operations.entities.document.security.ToggleMarkDocumentAsUnknownRequest;
+import mongoose.backend.operations.entities.document.security.ToggleMarkDocumentAsVerifiedRequest;
+import mongoose.backend.operations.entities.generic.CopyAllRequest;
+import mongoose.backend.operations.entities.generic.CopySelectionRequest;
 import mongoose.backend.operations.routes.bookings.RouteToNewBackendBookingRequest;
 import mongoose.backend.operations.routes.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
@@ -13,6 +22,8 @@ import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
@@ -44,7 +55,33 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
         ui.setLeftTopNodes(setUnmanagedWhenInvisible(newBookingButton));
         ui.setRightTopNodes(setUnmanagedWhenInvisible(cloneEventButton));
 
-        return ui.buildUi();
+        Pane container = ui.buildUi();
+
+        setUpContextMenu(LayoutUtil.lookupChild(ui.getGroupMasterSlaveView().getMasterView(), n -> n instanceof DataGrid), () -> newActionGroup(
+                newAction(() -> new SendLetterRequest(                    pm.getSelectedDocument(), container)),
+                newSeparatorActionGroup("Registration",
+                    newAction(() -> new ToggleMarkDocumentAsReadRequest(      pm.getSelectedDocument(), container)),
+                    newAction(() -> new ToggleMarkDocumentAsWillPayRequest(   pm.getSelectedDocument(), container)),
+                    newAction(() -> new ToggleCancelDocumentRequest(          pm.getSelectedDocument(), container)),
+                    newAction(() -> new ToggleConfirmDocumentRequest(         pm.getSelectedDocument(), container)),
+                    newAction(() -> new ToggleFlagDocumentRequest(            pm.getSelectedDocument(), container)),
+                    newAction(() -> new ToggleMarkDocumentPassAsReadyRequest( pm.getSelectedDocument(), container)),
+                    newAction(() -> new MarkDocumentPassAsUpdatedRequest(     pm.getSelectedDocument(), container)),
+                    newAction(() -> new ToggleMarkDocumentAsArrivedRequest(   pm.getSelectedDocument(), container))
+                ),
+                newSeparatorActionGroup("Security",
+                    newAction(() -> new ToggleMarkDocumentAsUncheckedRequest( pm.getSelectedDocument(), container)),
+                    newAction(() -> new ToggleMarkDocumentAsUnknownRequest(   pm.getSelectedDocument(), container)),
+                    newAction(() -> new ToggleMarkDocumentAsKnownRequest(     pm.getSelectedDocument(), container)),
+                    newAction(() -> new ToggleMarkDocumentAsVerifiedRequest(  pm.getSelectedDocument(), container))
+                ),
+                newSeparatorActionGroup(
+                    newAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
+                    newAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
+                )
+        ));
+
+        return container;
     }
 
     @Override
