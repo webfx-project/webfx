@@ -53,7 +53,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         registerMouseListener("mouseleave");
         registerMouseListener("mousemove");
         container.oncontextmenu = e -> {
-            e.stopPropagation();
+            //e.stopPropagation();
             e.preventDefault(); // To prevent the browser default context menu
             if (e instanceof MouseEvent // For now we manage only context menu from the mouse
                     // Also checking that we received the mouse up event on that scene before. This is to prevent the
@@ -64,10 +64,10 @@ public final class HtmlScenePeer extends ScenePeerBase {
                     // context menu) but not to display the context menu again. So we prevent this by checking the last
                     // mouse event was a mouse up on that scene which is the correct sequence (in the above case, the
                     // last mouse event will be the oncontextmenu event).
-                    && lastMouseEvent != null && "mouseup".equals(lastMouseEvent.type)) {
+                    /*&& lastMouseEvent != null && "mouseup".equals(lastMouseEvent.type)*/) {
                 MouseEvent me = (MouseEvent) e;
                 listener.menuEvent(me.x, me.y, me.pageX, me.pageY, false);
-                lastMouseEvent = me;
+                //lastMouseEvent = me;
             }
             return null;
         };
@@ -82,7 +82,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     private boolean atLeastOneAnimationFrameOccurredSinceLastMousePressed = true;
 
-    private MouseEvent lastMouseEvent;
+    //private MouseEvent lastMouseEvent;
     private void passHtmlMouseEventOnToFx(MouseEvent e, String type) {
         e.stopPropagation();
         javafx.scene.input.MouseEvent fxMouseEvent = toFxMouseEvent(e, type);
@@ -103,7 +103,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 }
             }
         }
-        lastMouseEvent = e;
+        //lastMouseEvent = e;
     }
 
     private static final boolean[] BUTTON_DOWN_STATES = {false, false, false, false};
