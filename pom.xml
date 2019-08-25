@@ -46,7 +46,7 @@
         <lib.elemental2.groupId>org.realityforge.com.google.elemental2</lib.elemental2.groupId>
         <lib.elemental2.version>2.25</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
-        <lib.vertx.version>3.6.3</lib.vertx.version>
+        <lib.vertx.version>3.8.1</lib.vertx.version>
         <lib.javawebsocket.version>1.3.9</lib.javawebsocket.version>
 
          <!--
@@ -240,6 +240,12 @@
                 <version>${lib.gwt.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
