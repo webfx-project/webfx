@@ -240,12 +240,6 @@
                 <version>${lib.gwt.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.validation</groupId>
-                        <artifactId>validation-api</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
