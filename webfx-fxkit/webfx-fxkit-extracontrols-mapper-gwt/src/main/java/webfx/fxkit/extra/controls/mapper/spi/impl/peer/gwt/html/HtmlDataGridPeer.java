@@ -120,7 +120,7 @@ public final class HtmlDataGridPeer
             for (int row = 0; row < rowCount; row++) {
                 HTMLTableRowElement tBodyRow = (HTMLTableRowElement) tBody.insertRow(-1);
                 int finalRow = row;
-                tBodyRow.onmouseup = e -> { // was onclick but changed to onmouseup so it is done before JavaFx click is generated
+                tBodyRow.onmousedown = e -> {
                     MouseEvent me = (MouseEvent) e;
                     node.setDisplaySelection(DisplaySelection.updateRowsSelection(node.getDisplaySelection(), node.getSelectionMode(), finalRow, me.button == 0, me.ctrlKey, me.shiftKey));
                     return null;
