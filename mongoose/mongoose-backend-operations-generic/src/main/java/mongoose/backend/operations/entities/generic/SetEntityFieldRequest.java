@@ -17,7 +17,8 @@ public abstract class SetEntityFieldRequest implements HasOperationCode,
     private final Pane parentContainer;
 
     public SetEntityFieldRequest(Entity entity, String leftExpression, String rightExpression, String confirmationText, Pane parentContainer) {
-        this(entity, entity.parseExpression(leftExpression), entity.parseExpression(rightExpression), confirmationText, parentContainer);
+        // The request may be instantiated with entity = null, so must be null friendly
+        this(entity, entity == null ? null : entity.parseExpression(leftExpression), entity == null ? null : entity.parseExpression(rightExpression), confirmationText, parentContainer);
     }
 
     public SetEntityFieldRequest(Entity entity, Expression<Entity> leftExpression, Expression<Entity> rightExpression, String confirmationText, Pane parentContainer) {
