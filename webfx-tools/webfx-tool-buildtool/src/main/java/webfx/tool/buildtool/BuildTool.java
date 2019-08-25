@@ -99,6 +99,8 @@ public final class BuildTool {
         String targetClassPath = BuildTool.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String webfxRootToken = "/webfx/";
         int webfxRootTokenPos = targetClassPath.indexOf(webfxRootToken);
-        return Paths.get(targetClassPath.substring(1, webfxRootTokenPos + webfxRootToken.length()));
+        // Note: Paths.get("/C:/dev/...") raises an exception, but Paths.get("C:/dev/...") works
+        boolean windowsDrive = targetClassPath.length() >= 3 && targetClassPath.charAt(2) == ':'; // Ex: /C:/dev/...
+        return Paths.get(targetClassPath.substring(windowsDrive ? 1 : 0, webfxRootTokenPos + webfxRootToken.length()));
     }
 }

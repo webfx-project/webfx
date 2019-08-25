@@ -9,8 +9,9 @@
     <!-- Listing transitive dependencies modules -->
     <!--==========================< webfx-fxkit-javafxbase-emul >===========================-->
     <!-- used by webfx-fxkit-javafxcontrols-emul (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-framework-client-action (SOURCE) -->
+    <!-- used by webfx-fxkit-extracontrols (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-mapper (SOURCE) -->
     <!-- used by webfx-platform-shared-buscall (SOURCE) -->
     <source path="com/sun/javafx"/>
     <source path="com/sun/javafx/binding"/>
@@ -40,7 +41,7 @@
     <!-- used by webfx-framework-client-action (SOURCE) -->
     <!-- used by webfx-fxkit-extracontrols (SOURCE) -->
     <!-- used by webfx-fxkit-gwt (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-registry-gwt (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-mapper (SOURCE) -->
     <source path="com/sun/javafx/application"/>
     <source path="com/sun/javafx/cursor"/>
     <source path="com/sun/javafx/geom"/>
@@ -97,10 +98,11 @@
     <inherits name="com.google.gwt.user.User"/>
     <!--===================================< java-base >====================================-->
     <!-- used by webfx-fxkit-javafxbase-emul (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-platform-client-storage (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javabase (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javatime (SOURCE) -->
-    <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-bus (SOURCE) -->
+    <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
     <!-- used by webfx-platform-shared-util (SOURCE) -->
     <!--==================================< java-logging >==================================-->
     <!-- used by webfx-platform-shared-util (SOURCE) -->
@@ -232,7 +234,7 @@
     <!-- used by mongoose-frontend-activities-person (SOURCE) -->
     <source path="mongoose/client/controls/personaldetails"/>
     <!--=======================< mongoose-client-presentationmodel >========================-->
-    <!-- used by mongoose-client-entities (SOURCE) -->
+    <!-- used by mongoose-client-activity (SOURCE) -->
     <source path="mongoose/client/presentationmodel"/>
     <!--==========================< mongoose-client-sectionpanel >==========================-->
     <!-- used by mongoose-client-activities-login (SOURCE) -->
@@ -340,7 +342,7 @@
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty"/>
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty/impl"/>
     <!--========================< webfx-framework-client-controls >=========================-->
-    <!-- used by mongoose-client-entities (SOURCE) -->
+    <!-- used by mongoose-client-activity (SOURCE) -->
     <source path="webfx/framework/client/ui/controls"/>
     <source path="webfx/framework/client/ui/controls/alert"/>
     <source path="webfx/framework/client/ui/controls/button"/>
@@ -461,7 +463,7 @@
     <source path="webfx/framework/shared/expression/terms/function"/>
     <source path="webfx/framework/shared/expression/terms/function/java"/>
     <!--========================< webfx-framework-shared-operation >========================-->
-    <!-- used by webfx-framework-client-action (SOURCE) -->
+    <!-- used by webfx-framework-client-i18n (SOURCE) -->
     <source path="webfx/framework/shared/operation"/>
     <!--==========================< webfx-framework-shared-push >===========================-->
     <!-- used by webfx-framework-client-push (SOURCE) -->
@@ -531,6 +533,7 @@
     <source path="webfx/javafxcontrols/registry"/>
     <!--=======================< webfx-fxkit-javafxgraphics-mapper >========================-->
     <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-registry-gwt (SOURCE) -->
     <source path="webfx/fxkit/javafxgraphics/mapper/spi"/>
     <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/markers"/>
     <!--=====================< webfx-fxkit-javafxgraphics-mapper-base >=====================-->
@@ -586,7 +589,6 @@
     <source path="webfx/platform/client/services/storage/spi/impl/gwt"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
     <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
-    <!-- used by webfx-framework-shared-authz (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <source path="webfx/platform/client/services/uischeduler"/>
@@ -661,7 +663,7 @@
     <source path="webfx/platform/shared/datasource"/>
     <!--===========================< webfx-platform-shared-json >===========================-->
     <!-- used by webfx-framework-client-util (SOURCE) -->
-    <!-- used by webfx-platform-client-websocket (SOURCE) -->
+    <!-- used by webfx-platform-client-websocket-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <!-- used by webfx-platform-client-windowlocation (SOURCE) -->
     <!-- used by webfx-platform-shared-bus (SOURCE) -->
@@ -678,13 +680,13 @@
     <!-- used by webfx-platform-client-windowhistory-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/json/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-log >============================-->
-    <!-- used by webfx-framework-client-action (SOURCE) -->
-    <!-- used by webfx-fxkit-launcher (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <!-- used by webfx-platform-shared-bus (SOURCE) -->
     <!-- used by webfx-platform-shared-log-gwt (SOURCE) -->
+    <!-- used by webfx-platform-shared-serial (SOURCE) -->
     <source path="webfx/platform/shared/services/log"/>
     <source path="webfx/platform/shared/services/log/spi"/>
     <!--=========================< webfx-platform-shared-log-gwt >==========================-->
@@ -717,7 +719,7 @@
     <source path="webfx/platform/shared/services/scheduler"/>
     <source path="webfx/platform/shared/services/scheduler/spi"/>
     <!--==========================< webfx-platform-shared-serial >==========================-->
-    <!-- used by webfx-platform-shared-buscall (SOURCE) -->
+    <!-- used by webfx-platform-shared-query (SOURCE) -->
     <source path="webfx/platform/shared/services/serial"/>
     <source path="webfx/platform/shared/services/serial/spi"/>
     <source path="webfx/platform/shared/services/serial/spi/impl"/>
@@ -736,15 +738,14 @@
     <source path="webfx/platform/shared/services/update/spi"/>
     <source path="webfx/platform/shared/services/update/spi/impl"/>
     <!--===========================< webfx-platform-shared-util >===========================-->
-    <!-- used by webfx-framework-shared-operation (SOURCE) -->
+    <!-- used by webfx-fxkit-javafxgraphics-mapper (SOURCE) -->
     <!-- used by webfx-platform-client-storage (SOURCE) -->
     <!-- used by webfx-platform-client-windowlocation (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <!-- used by webfx-platform-shared-bus (SOURCE) -->
     <!-- used by webfx-platform-shared-json (SOURCE) -->
     <!-- used by webfx-platform-shared-log (SOURCE) -->
-    <!-- used by webfx-platform-shared-query (SOURCE) -->
-    <!-- used by webfx-platform-shared-scheduler (SOURCE) -->
+    <!-- used by webfx-platform-shared-resource (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
     <source path="webfx/platform/shared/util"/>
     <source path="webfx/platform/shared/util/async"/>
