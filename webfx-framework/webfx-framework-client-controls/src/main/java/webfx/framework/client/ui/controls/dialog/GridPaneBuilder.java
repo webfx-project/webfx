@@ -12,14 +12,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
-import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18nControls;
 import webfx.platform.shared.util.collection.Collections;
-import java.util.function.Consumer;
 import webfx.platform.shared.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.createHGrowable;
 
@@ -113,7 +113,7 @@ public final class GridPaneBuilder implements DialogBuilder {
     }
 
     public GridPaneBuilder addButton(String buttonKey, Button button) {
-        I18n.translateText(button, buttonKey).setFont(font);
+        I18nControls.translateLabeled(button, buttonKey).setFont(font);
         GridPane.setHalignment(button, HPos.RIGHT);
         gridPane.add(button, 0, rowCount++, colCount, 1);
         return this;
@@ -138,7 +138,7 @@ public final class GridPaneBuilder implements DialogBuilder {
     private HBox createButtonBar(String button1Key, Button button1, String button2Key, Button button2) {
         if ("Ok".equals(button1Key) && !watchedUserProperties.isEmpty())
             button1.disableProperty().bind(noChangesProperty);
-        return createButtonBar(I18n.translateText(button1, button1Key), I18n.translateText(button2, button2Key));
+        return createButtonBar(I18nControls.translateLabeled(button1, button1Key), I18nControls.translateLabeled(button2, button2Key));
     }
 
     private HBox createButtonBar(Button... buttons) {
@@ -161,7 +161,7 @@ public final class GridPaneBuilder implements DialogBuilder {
     }
 
     private <T extends Labeled> T setUpLabeled(T labeled, String labelKey) {
-        I18n.translateText(labeled, labelKey).setFont(font);
+        I18nControls.translateLabeled(labeled, labelKey).setFont(font);
         //label.textFillProperty().bind(Theme.dialogTextFillProperty());
         GridPane.setHalignment(labeled, HPos.RIGHT);
         if (labeled instanceof CheckBox)

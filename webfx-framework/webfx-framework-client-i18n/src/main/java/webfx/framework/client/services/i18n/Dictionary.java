@@ -5,6 +5,6 @@ package webfx.framework.client.services.i18n;
  */
 public interface Dictionary {
 
-    String getMessage(Object key);
+    String getPartTranslation(Object i18nKey, TranslationPart part);
 
 }

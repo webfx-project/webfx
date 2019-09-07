@@ -97,7 +97,7 @@ public final class EntityListToDisplayResultMapper {
                 Label label = displayColumn.getLabel();
                 String translationKey = label.getCode(); // the code used as translation key for i18n
                 if (translationKey != null)
-                    label.setText(I18n.instantTranslate(translationKey));
+                    label.setText(I18n.instantTranslateText(translationKey));
                 rsb.setDisplayColumn(columnIndex++, displayColumn);
                 // Then setting the column values (including possible formatting)
                 Expression<E> expression = expressionColumn.getDisplayExpression();

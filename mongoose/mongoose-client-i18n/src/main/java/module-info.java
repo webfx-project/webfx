@@ -4,8 +4,10 @@ module mongoose.client.i18n {
 
     // Direct dependencies modules
     requires javafx.base;
+    requires javafx.graphics;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.i18n.json;
+    requires webfx.framework.client.util;
     requires webfx.framework.shared.operation;
     requires webfx.platform.shared.util;
 

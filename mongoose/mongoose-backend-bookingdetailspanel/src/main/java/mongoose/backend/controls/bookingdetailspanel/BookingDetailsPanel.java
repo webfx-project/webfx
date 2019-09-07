@@ -11,7 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import mongoose.backend.controls.masterslave.UiBuilder;
-import mongoose.backend.operations.entities.document.*;
+import mongoose.backend.operations.entities.document.EditDocumentPersonalDetailsRequest;
 import mongoose.backend.operations.entities.document.cart.OpenBookingCartRequest;
 import mongoose.backend.operations.entities.document.multiplebookings.CancelOtherMultipleBookingsRequest;
 import mongoose.backend.operations.entities.document.multiplebookings.GetBackCancelledMultipleBookingsDepositRequest;
@@ -33,7 +33,7 @@ import mongoose.client.presentationmodel.HasSelectedDocumentProperty;
 import mongoose.shared.entities.Document;
 import webfx.framework.client.activity.impl.elementals.activeproperty.HasActiveProperty;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.action.ActionGroup;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
@@ -95,31 +95,29 @@ public final class BookingDetailsPanel implements
     @Override
     public Node buildUi() {
         return new VBox(/*button, */new TabPane(
-                createTab("PersonalDetails", "images/s16/personalDetails.png", buildPersonalDetailsView()),
-                createFilterTab("Options", "images/s16/options.png", "{class: 'DocumentLine', columns: `site,item,dates,lockAllocation,resourceConfiguration,comment,price_isCustom,price_net,price_nonRefundable,price_minDeposit,price_deposit`, where: 'document=${selectedDocument}', orderBy: 'item.family.ord,site..ord,item.ord'}"),
-                createFilterTab("Payments", "images/s16/methods/generic.png", "{class: 'MoneyTransfer', columns: `date,method,transactionRef,comment,amount,verified`, where: 'document=${selectedDocument}', orderBy: 'date,id'}"),
-                createTab("Comments", "images/s16/note.png", buildCommentView()),
-                createFilterTab("Cart", "images/s16/cart.png", "{class: 'Document', columns:`ref,multipleBookingIcon,langIcon,genderIcon,person_firstName,person_lastName,person_age,noteIcon,price_net,price_deposit,price_balance`, where: 'cart=(select cart from Document where id=${selectedDocument})', orderBy: 'ref'}"),
-                createFilterTab("MultipleBookings", "images/s16/multipleBookings/redCross.png", "{class: 'Document', columns:`ref,multipleBookingIcon,langIcon,genderIcon,person_firstName,person_lastName,person_age,noteIcon,price_deposit,plainOptions`, where: 'multipleBooking=(select multipleBooking from Document where id=${selectedDocument})', orderBy: 'ref'}"),
-                createFilterTab("Family", "images/s16/child.png", "{class: 'Document', columns:`ref,multipleBookingIcon,langIcon,genderIcon,person_firstName,person_lastName,person_age,noteIcon,price_deposit,plainOptions`, where: 'person_carer1Document=${selectedDocument} or person_carer2Document=${selectedDocument} or id=(select person_carer1Document from Document where id=${selectedDocument}) or id=(select person_carer2Document from Document where id=${selectedDocument})', orderBy: 'ref'}"),
-                createFilterTab("Mails", "images/s16/mailbox.png", "{class: 'Mail', columns: 'date,subject,transmitted,error', where: 'document=${selectedDocument}', orderBy: 'date desc'}"),
-                createFilterTab("History", "images/s16/history.png", "{class: 'History', columns: 'date,username,comment,request', where: 'document=${selectedDocument}', orderBy: 'date desc'}")
+                createTab("PersonalDetails", buildPersonalDetailsView()),
+                createFilterTab("Options", "{class: 'DocumentLine', columns: `site,item,dates,lockAllocation,resourceConfiguration,comment,price_isCustom,price_net,price_nonRefundable,price_minDeposit,price_deposit`, where: 'document=${selectedDocument}', orderBy: 'item.family.ord,site..ord,item.ord'}"),
+                createFilterTab("Payments", "{class: 'MoneyTransfer', columns: `date,method,transactionRef,comment,amount,verified`, where: 'document=${selectedDocument}', orderBy: 'date,id'}"),
+                createTab("Comments", buildCommentView()),
+                createFilterTab("Cart", "{class: 'Document', columns:`ref,multipleBookingIcon,langIcon,genderIcon,person_firstName,person_lastName,person_age,noteIcon,price_net,price_deposit,price_balance`, where: 'cart=(select cart from Document where id=${selectedDocument})', orderBy: 'ref'}"),
+                createFilterTab("MultipleBookings", "{class: 'Document', columns:`ref,multipleBookingIcon,langIcon,genderIcon,person_firstName,person_lastName,person_age,noteIcon,price_deposit,plainOptions`, where: 'multipleBooking=(select multipleBooking from Document where id=${selectedDocument})', orderBy: 'ref'}"),
+                createFilterTab("Family", "{class: 'Document', columns:`ref,multipleBookingIcon,langIcon,genderIcon,person_firstName,person_lastName,person_age,noteIcon,price_deposit,plainOptions`, where: 'person_carer1Document=${selectedDocument} or person_carer2Document=${selectedDocument} or id=(select person_carer1Document from Document where id=${selectedDocument}) or id=(select person_carer2Document from Document where id=${selectedDocument})', orderBy: 'ref'}"),
+                createFilterTab("Mails", "{class: 'Mail', columns: 'date,subject,transmitted,error', where: 'document=${selectedDocument}', orderBy: 'date desc'}"),
+                createFilterTab("History", "{class: 'History', columns: 'date,username,comment,request', where: 'document=${selectedDocument}', orderBy: 'date desc'}")
         ));
     }
 
-    private static Tab createTab(String i18nKey, String iconUrl, Node node) {
-        Tab tab = new Tab();
-        I18n.translateString(tab.textProperty(), i18nKey);
-        tab.setGraphic(ImageStore.createImageView(iconUrl));
+    private static Tab createTab(String i18nKey, Node node) {
+        Tab tab = I18nControls.translateTab(new Tab(), i18nKey);
         tab.setContent(node);
         tab.setClosable(false);
         return tab;
     }
 
-    private Tab createFilterTab(String i18nKey, String iconUrl, String stringFilter) {
+    private Tab createFilterTab(String i18nKey, String stringFilter) {
         DataGrid table = new DataGrid();
-        Tab tab = createTab(i18nKey, iconUrl, table);
-        // The following is required only for gwt version for any reason (otherwise the table height is not resize when growing)
+        Tab tab = createTab(i18nKey, table);
+        // The following is required only for gwt version for any reason (otherwise the table height is not resized when growing)
         Properties.runOnPropertiesChange(() -> {
             TabPane tabPane = tab.getTabPane();
             if (tabPane != null)
@@ -140,7 +138,7 @@ public final class BookingDetailsPanel implements
         switch (i18nKey) {
             case "Options":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newAction(() -> new AddNewDocumentLineRequest(       getSelectedDocument(), parentGetter.get())),
+                        newAction(() -> new AddNewDocumentLineRequest(           getSelectedDocument(),       parentGetter.get())),
                         newSeparatorActionGroup(
                             newAction(() -> new EditDocumentLineRequest(         get(selectedEntityProperty), parentGetter.get())),
                             newAction(() -> new ToggleCancelDocumentLineRequest( get(selectedEntityProperty), parentGetter.get())),
@@ -153,15 +151,15 @@ public final class BookingDetailsPanel implements
                 ); break;
             case "Payments":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newAction(() -> new AddNewPaymentRequest(  getSelectedDocument(), parentGetter.get())),
-                        newAction(() -> new AddNewTransferRequest( getSelectedDocument(), parentGetter.get())),
+                        newAction(() -> new AddNewPaymentRequest(     getSelectedDocument(),        parentGetter.get())),
+                        newAction(() -> new AddNewTransferRequest(    getSelectedDocument(),        parentGetter.get())),
                         newSeparatorActionGroup(
                             newAction(() -> new EditPaymentRequest(    get(selectedEntityProperty), parentGetter.get())),
                             newAction(() -> new DeletePaymentRequest(  get(selectedEntityProperty), parentGetter.get()))
                         ),
                         newSeparatorActionGroup(
-                            newAction(() -> new CopySelectionRequest(            filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                            newAction(() -> new CopyAllRequest(                  filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                            newAction(() -> new CopySelectionRequest(  filter.getSelectedEntities(),  filter.getExpressionColumns())),
+                            newAction(() -> new CopyAllRequest(        filter.getCurrentEntityList(), filter.getExpressionColumns()))
                         )
                 ); break;
             case "MultipleBookings":
@@ -177,11 +175,11 @@ public final class BookingDetailsPanel implements
                 ); break;
             case "Mails":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newAction(() -> new OpenMailRequest(       get(selectedEntityProperty), parentGetter.get())),
-                        newAction(() -> new ComposeNewMailRequest( getSelectedDocument(), parentGetter.get())),
+                        newAction(() -> new OpenMailRequest(          get(selectedEntityProperty), parentGetter.get())),
+                        newAction(() -> new ComposeNewMailRequest(    getSelectedDocument(), parentGetter.get())),
                         newSeparatorActionGroup(
-                            newAction(() -> new CopySelectionRequest(            filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                            newAction(() -> new CopyAllRequest(                  filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                            newAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getExpressionColumns())),
+                            newAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getExpressionColumns()))
                         )
                 ); break;
             case "History":
@@ -253,7 +251,7 @@ public final class BookingDetailsPanel implements
         });
         Label valueLabel = new Label();
         valueLabel.textProperty().bind(fieldValueProperty);
-        addNodeToGrid(rowIndex, columnIndex, 1, I18n.translateText(new Label(null, ImageStore.createImageView(fieldLabel.getIconPath())), fieldLabel.getCode()));
+        addNodeToGrid(rowIndex, columnIndex, 1, I18nControls.translateLabeled(new Label(null, ImageStore.createImageView(fieldLabel.getIconPath())), fieldLabel.getCode()));
         addNodeToGrid(rowIndex, columnIndex + 1, columnSpan, valueLabel);
     }
 

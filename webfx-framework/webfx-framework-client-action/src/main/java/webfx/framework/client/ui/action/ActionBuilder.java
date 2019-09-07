@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.util.image.JsonImageViews;
 
 /**
@@ -222,7 +223,7 @@ public class ActionBuilder {
     private void completeTextProperty() {
         if (textProperty == null) {
             if (i18nKey != null)
-                textProperty = I18n.translationProperty(i18nKey);
+                textProperty = I18n.observableText(i18nKey);
             else
                 textProperty = new SimpleStringProperty(text);
         }
@@ -232,7 +233,10 @@ public class ActionBuilder {
         if (graphicProperty == null) {
             if (graphic == null && graphicUrlOrJson != null)
                 graphic = JsonImageViews.createImageView(graphicUrlOrJson);
-            graphicProperty = new SimpleObjectProperty<>(graphic);
+            if (graphic != null || i18nKey == null)
+                graphicProperty = new SimpleObjectProperty<>(graphic);
+            else
+                graphicProperty = I18nControls.observableGraphicNode(i18nKey);
         }
     }
 

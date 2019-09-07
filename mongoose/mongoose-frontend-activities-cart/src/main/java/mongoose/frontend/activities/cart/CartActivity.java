@@ -135,7 +135,7 @@ final class CartActivity extends CartBasedActivity {
         new Function<Document>("documentStatus", PrimType.STRING, true, false) {
             @Override
             public Object evaluate(Document document, DataReader<Document> dataReader) {
-                return I18n.instantTranslate(getDocumentStatus(document));
+                return I18n.instantTranslateText(getDocumentStatus(document));
             }
         }.register();
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
@@ -237,7 +237,7 @@ final class CartActivity extends CartBasedActivity {
         if (bookingOptionsPanel != null && selectedWorkingDocument != null) {
             bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
             Document selectedDocument = selectedWorkingDocument.getDocument();
-            bookingLabel.setText(selectedDocument.getFullName() + " - " + I18n.instantTranslate("Status:") + " " + I18n.instantTranslate(getDocumentStatus(selectedDocument)));
+            bookingLabel.setText(selectedDocument.getFullName() + " - " + I18n.instantTranslateText("Status:") + " " + I18n.instantTranslateText(getDocumentStatus(selectedDocument)));
             disableBookinOptionsButtons(selectedDocument.isCancelled());
             updatePaymentsVisibility();
         }

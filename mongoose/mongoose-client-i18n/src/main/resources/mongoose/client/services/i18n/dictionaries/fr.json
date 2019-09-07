@@ -250,6 +250,7 @@
   "ChangeRoomType": "Modifier le type de la chambre",
   "DeleteRoom": "Supprimer la chambre",
   "DeletePayment": "Supprimer le paiement",
+  "Add": "Ajouter",
   "Edit": "Editer",
   "Delete": "Supprimer",
   "EditMode": "Mode édition",
@@ -284,10 +285,8 @@
   "ComposeNewMail": "Composer un nouveau mail",
   "CopySelection": "Copier la sélection",
   "CopyAll": "Copier tout",
+  "Registration": "Inscriptions",
+  "Security": "Sécurité",
   ":" : " :",
-  "?" : " ?",
-  ">>" : " »",
-  "<<" : "« ",
-  "..." : "…",
-  "": ""
+  "?" : " ?"
 }

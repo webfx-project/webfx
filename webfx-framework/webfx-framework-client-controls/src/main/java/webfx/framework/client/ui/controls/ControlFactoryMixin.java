@@ -6,7 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.action.*;
 import webfx.framework.client.ui.action.impl.SeparatorAction;
 import webfx.framework.client.ui.controls.button.ButtonBuilder;
@@ -54,12 +54,14 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     default MenuItem newMenuItem(Action action) {
         if (action instanceof SeparatorAction)
             return new SeparatorMenuItem();
-        if (action instanceof ActionGroup) {
-            Menu menu = new Menu(action.getText(), action.getGraphic());
+        MenuItem menuItem;
+        if (!(action instanceof ActionGroup))
+            menuItem = new MenuItem();
+        else {
+            Menu menu = new Menu();
             bindMenuItemsToActionGroup(menu.getItems(), (ActionGroup) action);
-            return menu;
+            menuItem = menu;
         }
-        MenuItem menuItem = new MenuItem();
         ActionBinder.bindMenuItemToAction(menuItem, action);
         return menuItem;
     }
@@ -107,11 +109,11 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     }
 
     default CheckBox newCheckBox(Object i18nKey) {
-        return I18n.translateText(new CheckBox(), i18nKey);
+        return I18nControls.translateLabeled(new CheckBox(), i18nKey);
     }
 
     default RadioButton newRadioButton(Object i18nKey) {
-        return I18n.translateText(new RadioButton(), i18nKey);
+        return I18nControls.translateLabeled(new RadioButton(), i18nKey);
     }
 
     default RadioButton newRadioButton(Object i18nKey, ToggleGroup toggleGroup) {
@@ -121,7 +123,7 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     }
 
     default Label newLabel(Object i18nKey) {
-        return I18n.translateText(new Label(), i18nKey);
+        return I18nControls.translateLabeled(new Label(), i18nKey);
     }
 
     default TextField newTextField() {
@@ -129,7 +131,7 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     }
 
     default TextField newTextFieldWithPrompt(Object i18nKey) {
-        return I18n.translatePromptText(newTextField(), i18nKey);
+        return I18nControls.translatePromptText(newTextField(), i18nKey);
     }
 
     default PasswordField newPasswordField() {
@@ -141,21 +143,21 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     }
 
     default Hyperlink newHyperlink(Object i18nKey) {
-        return I18n.translateText(newHyperlink(), i18nKey);
+        return I18nControls.translateLabeled(newHyperlink(), i18nKey);
     }
 
     default Hyperlink newHyperlink(Object i18nKey, EventHandler<ActionEvent> onAction) {
-        Hyperlink hyperlink = I18n.translateText(newHyperlink(), i18nKey);
+        Hyperlink hyperlink = I18nControls.translateLabeled(newHyperlink(), i18nKey);
         hyperlink.setOnAction(onAction);
         return hyperlink;
     }
 
     default TextArea newTextAreaWithPrompt(Object i18nKey) {
-        return I18n.translatePromptText(new TextArea(), i18nKey);
+        return I18nControls.translatePromptText(new TextArea(), i18nKey);
     }
 
     default Text newText(Object i18nKey) {
-        return I18n.translateText(new Text(), i18nKey);
+        return I18nControls.translateText(new Text(), i18nKey);
     }
 
 }

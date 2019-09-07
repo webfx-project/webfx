@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
-import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
 
 import java.time.LocalDate;
@@ -79,9 +79,9 @@ public final class DayColumnHeaderViewModel implements HorizontalDayPositioned {
     }
 
     private void setDate(LocalDate date) {
-        I18n.translateText(dayOfWeekText, date.getDayOfWeek().name());
+        I18nControls.translateText(dayOfWeekText, date.getDayOfWeek().name());
         dayOfMonthText.setText("" + date.getDayOfMonth());
-        I18n.translateText(monthText, date.getMonth().name());
+        I18nControls.translateText(monthText, date.getMonth().name());
     }
 
 

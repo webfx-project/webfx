@@ -12,7 +12,7 @@ import webfx.platform.shared.services.json.JsonObject;
 public final class JsonImageViews {
 
     public static ImageView createImageView(Object urlOrJson) {
-        if (urlOrJson == null)
+        if (urlOrJson == null || "".equals(urlOrJson))
             return null;
         if (urlOrJson instanceof JsonObject)
             return createImageView((JsonObject) urlOrJson);

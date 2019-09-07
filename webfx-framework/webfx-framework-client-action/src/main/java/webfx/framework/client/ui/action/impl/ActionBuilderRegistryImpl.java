@@ -27,7 +27,7 @@ public final class ActionBuilderRegistryImpl implements ActionBuilderRegistry {
     @Override
     public ActionBuilder newActionBuilder(Object actionKey) {
         ActionBuilder actionBuilder = actionBuilders.get(actionKey);
-        if (actionBuilder == null)
+        if (actionBuilder == null) // If not registered, doing on the fly registration with just actionKey and using that key also as i18nKey
             registerActionBuilder(actionBuilder = new ActionBuilder(actionKey).setI18nKey(actionKey));
         return actionBuilder.duplicate();
     }

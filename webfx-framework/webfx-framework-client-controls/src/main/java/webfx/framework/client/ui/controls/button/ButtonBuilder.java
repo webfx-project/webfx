@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.paint.Paint;
-import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.action.ActionBinder;
 import webfx.framework.client.ui.util.background.BackgroundBuilder;
@@ -155,7 +155,7 @@ public final class ButtonBuilder {
                 ActionBinder.bindButtonToAction(button, action);
             else {
                 if (i18nKey != null)
-                    I18n.translateText(button, i18nKey);
+                    I18nControls.translateLabeled(button, i18nKey);
                 if (icon == null && iconUrlOrJson != null)
                     icon = JsonImageViews.createImageView(iconUrlOrJson);
                 if (icon != null)

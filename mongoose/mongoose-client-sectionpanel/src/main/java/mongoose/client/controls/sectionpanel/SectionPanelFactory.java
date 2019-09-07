@@ -9,7 +9,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import mongoose.client.controls.bookingcalendar.BookingCalendar;
 import mongoose.client.icons.MongooseIcons;
-import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.client.ui.util.border.BorderUtil;
 import webfx.fxkit.extra.cell.collator.NodeCollatorRegistry;
@@ -48,7 +48,7 @@ public final class SectionPanelFactory {
     }
 
     public static BorderPane createSectionPanel(String iconImageUrl, String translationKey) {
-        return createSectionPanel(createImageView(iconImageUrl), I18n.translateText(new Label(), translationKey));
+        return createSectionPanel(createImageView(iconImageUrl), I18nControls.translateLabeled(new Label(), translationKey));
     }
 
     public static BorderPane createSectionPanel(Node... headerNodes) {

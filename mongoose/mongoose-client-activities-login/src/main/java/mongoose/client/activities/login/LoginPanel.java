@@ -14,9 +14,9 @@ import javafx.scene.layout.GridPane;
 import mongoose.client.activity.MongooseButtonFactoryMixin;
 import mongoose.client.controls.sectionpanel.SectionPanelFactory;
 import mongoose.client.validation.MongooseValidationSupport;
+import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.shared.services.authn.AuthenticationRequest;
 import webfx.framework.shared.services.authn.UsernamePasswordCredentials;
-import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.controls.button.ButtonUtil;
 import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
 import webfx.framework.client.ui.layouts.LayoutUtil;
@@ -54,7 +54,7 @@ public final class LoginPanel implements MongooseButtonFactoryMixin {
         hyperLink.setOnAction(e -> signInMode.setValue(!signInMode.getValue()));
         LayoutUtil.setUnmanagedWhenInvisible(passwordField, signInMode);
         Properties.runNowAndOnPropertiesChange(() ->
-            I18n.translateText(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
+            I18nControls.translateLabeled(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
         , signInMode);
         node = LayoutUtil.createGoldLayout(loginWindow);
         initValidation();

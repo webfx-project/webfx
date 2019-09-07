@@ -53,41 +53,9 @@ public class OperationActionsLoadingModuleInitializer implements ApplicationModu
     // Temporary hardcoded icons
     private static String getActionIconUrl(String operationCode) {
         switch (operationCode) {
-            case "SendLetter": return MongooseIcons.letterIcon16Url;
-            case "ToggleMarkDocumentAsRead": return MongooseIcons.markAsReadIcon16Url;
-            case "ToggleMarkDocumentAsWillPay": return MongooseIcons.willPayIcon16Url;
-            case "ToggleFlagDocument": return MongooseIcons.flagIcon16Url;
-            case "ToggleMarkDocumentPassAsReady": return MongooseIcons.passReadyIcon16Url;
-            case "MarkDocumentPassAsUpdated": return MongooseIcons.passUpdatedIcon16Url;
-            case "ToggleMarkDocumentAsArrived": return MongooseIcons.markAsArrivedIcon16Url;
-            case "ToggleMarkDocumentAsUnchecked": return MongooseIcons.security_uncheckedIcon16Url;
-            case "ToggleMarkDocumentAsUnknown": return MongooseIcons.security_unknownIcon16Url;
-            case "ToggleMarkDocumentAsKnown": return MongooseIcons.security_knownIcon16Url;
-            case "ToggleMarkDocumentAsVerified": return MongooseIcons.security_verifiedIcon16Url;
-            case "AddNewTransfer":
-            case "GetBackCancelledMultipleBookingsDeposit":
-                return MongooseIcons.contraIcon16Url;
-            case "ToggleMarkMultipleBooking": return MongooseIcons.multipleBookingIcon16Url;
-            case "OpenBookingCart": return MongooseIcons.cartIcon16Url;
-            case "OpenMail": return MongooseIcons.seedMailIcon16Url;
-            case "ComposeNewMail": return MongooseIcons.sendMailIcon16Url;
             case "ChangeLanguageToEnglish": return MongooseIcons.lang_englishIcon16Url;
             case "ChangeLanguageToFrench": return MongooseIcons.lang_frenchIcon16Url;
         }
-        if (operationCode.startsWith("Add"))
-            return MongooseIcons.addIcon16Url;
-        if (operationCode.startsWith("Edit"))
-            return MongooseIcons.editIcon16Url;
-        if (operationCode.startsWith("Cancel") || operationCode.startsWith("ToggleCancel"))
-            return MongooseIcons.cancelIcon16Url;
-        if (operationCode.startsWith("Confirm") || operationCode.startsWith("ToggleConfirm"))
-            return MongooseIcons.confirmIcon16Url;
-        if (operationCode.startsWith("Delete"))
-            return MongooseIcons.deleteIcon16Url;
-        if (operationCode.startsWith("Merge"))
-            return MongooseIcons.mergeIcon16Url;
-        if (operationCode.startsWith("Copy"))
-            return MongooseIcons.copyIcon16Url;
         return null;
     }
 }

@@ -1,10 +1,9 @@
 package webfx.framework.client.services.i18n;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
+import javafx.beans.value.ObservableObjectValue;
 import javafx.beans.value.ObservableStringValue;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.text.Text;
 import webfx.framework.client.operations.i18n.ChangeLanguageRequestEmitter;
 import webfx.framework.client.services.i18n.spi.I18nProvider;
 import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
@@ -25,7 +24,15 @@ public final class I18n {
         return SingleServiceProvider.getProvider(I18nProvider.class);
     }
 
-    public static Property<Object> languageProperty() {
+    public static Collection<ChangeLanguageRequestEmitter> getProvidedInstantiators() {
+        return getProvider().getProvidedInstantiators();
+    }
+
+    public static Collection<Object> getSupportedLanguages() {
+        return getProvider().getSupportedLanguages();
+    }
+
+    public static ObjectProperty<Object> languageProperty() {
         return getProvider().languageProperty();
     }
 
@@ -37,11 +44,7 @@ public final class I18n {
         getProvider().setLanguage(language);
     }
 
-    public static ObservableStringValue translationProperty(Object key) {
-        return getProvider().translationProperty(key);
-    }
-
-    public static Property<Dictionary> dictionaryProperty() {
+    public static ObservableObjectValue<Dictionary> dictionaryProperty() {
         return getProvider().dictionaryProperty();
     }
 
@@ -49,49 +52,29 @@ public final class I18n {
         return getProvider().getDictionary();
     }
 
-    public static String instantTranslate(Object key) {
-        return getProvider().instantTranslate(key);
+    public static String instantTranslateText(Object i18nKey) {
+        return getProvider().instantTranslateText(i18nKey);
     }
 
-    public static <T extends Labeled> T instantTranslateText(T labeled, Object key) {
-        return getProvider().instantTranslateText(labeled, key);
+    public static ObservableStringValue observableText(Object i18nKey) {
+        return getProvider().observableText(i18nKey);
     }
 
-    public static String notFoundTranslation(Object key) {
-        return getProvider().notFoundTranslation(key);
+    public static I18nProvider translateTextProperty(Property<String> textProperty, Object i18nKey) {
+        return getProvider().translateTextProperty(textProperty, i18nKey);
     }
 
-    public static I18nProvider translateString(Property<String> stringProperty, Object key) {
-        return getProvider().translateString(stringProperty, key);
+    public static String instantTranslateGraphic(Object i18nKey) {
+        return getProvider().instantTranslateGraphic(i18nKey);
     }
 
-    public static I18nProvider translateTextFluent(Labeled labeled, Object key) {
-        return translateString(labeled.textProperty(), key);
+    public static ObservableStringValue observableGraphic(Object i18nKey) {
+        return getProvider().observableGraphic(i18nKey);
     }
 
-    public static <T extends Text> T translateText(T text, Object key) {
-        return getProvider().translateText(text, key);
+    public static ObservableStringValue observablePart(Object i18nKey, TranslationPart part) {
+        return getProvider().observablePart(i18nKey, part);
     }
 
-    public static <T extends Labeled> T translateText(T labeled, Object key) {
-        return getProvider().translateText(labeled, key);
-    }
 
-    public static I18nProvider translatePromptTextFluent(TextInputControl textInputControl, Object key) {
-        return getProvider().translatePromptTextFluent(textInputControl, key);
-    }
-
-    public static <T extends TextInputControl> T translatePromptText(T textInputControl, Object key) {
-        return getProvider().translatePromptText(textInputControl, key);
-    }
-
-    public static Collection<ChangeLanguageRequestEmitter> getProvidedInstantiators() {
-        return getProvider().getProvidedInstantiators();
-    }
-
-    public static Collection<Object> getSupportedLanguages() {
-        return getProvider().getSupportedLanguages();
-    }
-
-    
 }

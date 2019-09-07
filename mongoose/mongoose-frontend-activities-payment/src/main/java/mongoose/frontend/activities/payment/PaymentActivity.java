@@ -55,7 +55,7 @@ final class PaymentActivity extends CartBasedActivity {
         paymentsVBox = new VBox(20);
 
         HtmlText paymentPrompt = new HtmlText();
-        I18n.translateString(paymentPrompt.textProperty(), "PaymentPrompt:");
+        I18n.translateTextProperty(paymentPrompt.textProperty(), "PaymentPrompt:");
 
         BorderPane totalSection = SectionPanelFactory.createSectionPanel(newLabel("TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
         VBox vBox = new VBox(20, paymentPrompt, paymentsVBox, totalSection, newLargeGreenButton(makePaymentAction));

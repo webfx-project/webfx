@@ -1,7 +1,7 @@
 package webfx.framework.client.services.i18n.spi.impl;
 
-import webfx.platform.shared.util.async.Future;
 import webfx.framework.client.services.i18n.Dictionary;
+import webfx.platform.shared.util.async.Future;
 
 import java.util.Set;
 

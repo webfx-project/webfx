@@ -5,7 +5,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.client.activity.table.GenericTablePresentationViewActivity;
-import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18nControls;
 
 /**
  * @author Bruno Salmon
@@ -18,7 +18,7 @@ final class OrganizationsPresentationViewActivity extends GenericTablePresentati
     protected void createViewNodes(OrganizationsPresentationModel pm) {
         super.createViewNodes(pm);
 
-        I18n.translatePromptText(searchBox, "YourCentrePlaceholder");
+        I18nControls.translatePromptText(searchBox, "YourCentrePlaceholder");
 
         withEventsCheckBox = newCheckBox("WithEvents");
 

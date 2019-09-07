@@ -12,7 +12,11 @@ public class JsonI18nProvider extends I18nProviderImpl {
         this(resourcePathWithLangPattern, null);
     }
 
-    public JsonI18nProvider(String resourcePathWithLangPattern, Object initialLanguage) {
-        super(new ResourceJsonDictionaryLoader(resourcePathWithLangPattern), initialLanguage);
+    public JsonI18nProvider(String resourcePathWithLangPattern, Object defaultLanguage) {
+        this(resourcePathWithLangPattern, defaultLanguage, null);
+    }
+
+    public JsonI18nProvider(String resourcePathWithLangPattern, Object defaultLanguage, Object initialLanguage) {
+        super(new ResourceJsonDictionaryLoader(resourcePathWithLangPattern), defaultLanguage, initialLanguage);
     }
 }

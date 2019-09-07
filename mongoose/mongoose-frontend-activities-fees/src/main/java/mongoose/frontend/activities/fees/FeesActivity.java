@@ -26,6 +26,7 @@ import mongoose.shared.entities.Person;
 import mongoose.client.entities.util.Labels;
 import webfx.framework.client.services.i18n.Dictionary;
 import webfx.framework.client.services.i18n.I18n;
+import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.fxkit.extra.cell.collator.grid.GridCollator;
@@ -168,9 +169,9 @@ final class FeesActivity extends BookingProcessActivity {
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
         DisplayResultBuilder rsb = DisplayResultBuilder.create(optionsCount, new DisplayColumn[]{
-                DisplayColumnBuilder.create(I18n.instantTranslate(singleOption ? (feesGroup.isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
-                DisplayColumnBuilder.create(I18n.instantTranslate("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
-                DisplayColumnBuilder.create(I18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
+                DisplayColumnBuilder.create(I18n.instantTranslateText(singleOption ? (feesGroup.isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
+                DisplayColumnBuilder.create(I18n.instantTranslateText("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
+                DisplayColumnBuilder.create(I18n.instantTranslateText("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
                         .setValueRenderer((p, context) -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventAggregate.areEventAvailabilitiesLoaded())
@@ -211,9 +212,9 @@ final class FeesActivity extends BookingProcessActivity {
         boolean hasUnemployedRate = hasUnemployedRate();
         boolean hasFacilityFeeRate = hasFacilityFeeRate();
         boolean hasDiscountRates = hasUnemployedRate || hasFacilityFeeRate;
-        RadioButton noDiscountRadio  = hasDiscountRates   ? I18n.instantTranslateText(new RadioButton(), "NoDiscount") : null;
-        RadioButton unemployedRadio  = hasUnemployedRate  ? I18n.instantTranslateText(new RadioButton(), "UnemployedDiscount") : null;
-        RadioButton facilityFeeRadio = hasFacilityFeeRate ? I18n.instantTranslateText(new RadioButton(), "FacilityFeeDiscount") : null;
+        RadioButton noDiscountRadio  = hasDiscountRates   ? I18nControls.instantTranslateLabeled(new RadioButton(), "NoDiscount") : null;
+        RadioButton unemployedRadio  = hasUnemployedRate  ? I18nControls.instantTranslateLabeled(new RadioButton(), "UnemployedDiscount") : null;
+        RadioButton facilityFeeRadio = hasFacilityFeeRate ? I18nControls.instantTranslateLabeled(new RadioButton(), "FacilityFeeDiscount") : null;
         Person person = getPersonAggregate().getPreselectionProfilePerson();
         if (unemployedRadio != null) {
             unemployedRadio.setSelected(Booleans.isTrue(person.isUnemployed()));
