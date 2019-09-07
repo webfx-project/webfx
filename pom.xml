@@ -17,7 +17,9 @@
         <module>webfx-platform</module>
         <module>webfx-fxkit</module>
         <module>webfx-framework</module>
+<!-- Now moved into webfx-tutorials profile
         <module>webfx-tutorials</module>
+-->
         <module>webfx-tools</module>
 
         <!-- Mongoose app (will move to another repo once webfx API will be stable) -->
@@ -240,6 +242,12 @@
                 <version>${lib.gwt.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -595,6 +603,16 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>webfx-tutorials</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>webfx-tutorials</module>
+            </modules>
+        </profile>
+
         <profile>
             <id>idea-build-fix</id>
             <activation>
