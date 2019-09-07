@@ -594,4 +594,28 @@
 
     </build>
 
+    <profiles>
+        <profile>
+            <id>idea-build-fix</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.google.gwt</groupId>
+                        <artifactId>gwt-user</artifactId>
+                        <version>${lib.gwt.version}</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>javax.validation</groupId>
+                                <artifactId>validation-api</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+    </profiles>
+
 </project>
