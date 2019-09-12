@@ -43,8 +43,8 @@ public final class LoginPanel implements MongooseButtonFactoryMixin {
         GridPane gridPane;
         loginWindow.setCenter(
                 gridPane = new GridPaneBuilder()
-                        .addNodeFillingRow(usernameField = newMaterialTextField("Email", "EmailPlaceholder"))
-                        .addNodeFillingRow(passwordField = newMaterialPasswordField("Password", "PasswordPlaceholder"))
+                        .addNodeFillingRow(usernameField = newMaterialTextField("Email"))
+                        .addNodeFillingRow(passwordField = newMaterialPasswordField("Password"))
                         .addNewRow(hyperLink)
                         .addNodeFillingRow(button = newLargeGreenButton(null))
                 .build()
@@ -54,7 +54,7 @@ public final class LoginPanel implements MongooseButtonFactoryMixin {
         hyperLink.setOnAction(e -> signInMode.setValue(!signInMode.getValue()));
         LayoutUtil.setUnmanagedWhenInvisible(passwordField, signInMode);
         Properties.runNowAndOnPropertiesChange(() ->
-            I18nControls.translateLabeled(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
+            I18nControls.translate(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
         , signInMode);
         node = LayoutUtil.createGoldLayout(loginWindow);
         initValidation();

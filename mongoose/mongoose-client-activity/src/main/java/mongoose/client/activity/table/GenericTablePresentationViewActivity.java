@@ -25,7 +25,7 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
 
     @Override
     protected void createViewNodes(PM pm) {
-        searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
+        searchBox = newTextField("GenericSearch"); // Will set the prompt
         table = new DataGrid();
         BorderPane.setAlignment(table, Pos.TOP_CENTER);
         limitCheckBox = newCheckBox("LimitTo100");

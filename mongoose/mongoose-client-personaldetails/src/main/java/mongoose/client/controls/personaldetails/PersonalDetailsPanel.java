@@ -69,8 +69,8 @@ public final class PersonalDetailsPanel implements MongooseButtonFactoryMixin {
         this.event = event;
         sectionPanel = SectionPanelFactory.createSectionPanel("YourPersonalDetails");
 
-        firstNameTextField = newMaterialTextField("FirstName", "FirstNamePlaceholder");
-        lastNameTextField = newMaterialTextField("LastName", "LastNamePlaceholder");
+        firstNameTextField = newMaterialTextField("FirstName");
+        lastNameTextField = newMaterialTextField("LastName");
         maleRadioButton = newRadioButton("Male");
         femaleRadioButton = newRadioButton("Female");
         ToggleGroup genderGroup = new ToggleGroup();
@@ -85,24 +85,24 @@ public final class PersonalDetailsPanel implements MongooseButtonFactoryMixin {
         ageBox = new HBox(20, adultRadioButton, childRadioButton);
         birthDatePicker = LayoutUtil.setMaxWidthToInfinite(new DatePicker());
         birthDatePicker.setConverter(DateFormatter.SINGLETON.toStringConverter());
-        carer1NameTextField = newMaterialTextField("Carer1", "Carer1Placeholder");
-        carer2NameTextField = newMaterialTextField("Carer2", "Carer2Placeholder");
-        emailTextField = newMaterialTextField("Email", "EmailPlaceholder");
-        phoneTextField = newMaterialTextField("Phone", "PhonePlaceholder");
-        streetTextField = newMaterialTextField("Street", "StreetPlaceholder");
-        postCodeTextField = newMaterialTextField("Postcode", "PostcodePlaceholder");
-        cityNameTextField = newMaterialTextField("City", "CityPlaceholder");
+        carer1NameTextField = newMaterialTextField("Carer1");
+        carer2NameTextField = newMaterialTextField("Carer2");
+        emailTextField = newMaterialTextField("Email");
+        phoneTextField = newMaterialTextField("Phone");
+        streetTextField = newMaterialTextField("Street");
+        postCodeTextField = newMaterialTextField("Postcode");
+        cityNameTextField = newMaterialTextField("City");
         DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
         countrySelector = createEntityButtonSelector("{class: 'Country', orderBy: 'name'}", buttonFactoryMixin, parent, dataSourceModel);
-        countryButton = countrySelector.toMaterialButton("Country", "CountryPlaceholder");
+        countryButton = countrySelector.toMaterialButton("Country");
         organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", buttonFactoryMixin, parent, dataSourceModel);
-        organizationButton = organizationSelector.toMaterialButton("Centre", "CentreInfo");
+        organizationButton = organizationSelector.toMaterialButton("Centre");
         if (uiSession == null) {
             personSelector = null;
             personButton = null;
         } else {
             personSelector = createEntityButtonSelector(null, buttonFactoryMixin, parent, dataSourceModel);
-            personButton = personSelector.toMaterialButton("PersonToBook", null);
+            personButton = personSelector.toMaterialButton("PersonToBook");
             Properties.runOnPropertiesChange(p -> syncUiFromModel((Person) p.getValue()), personSelector.selectedItemProperty());
             Properties.runNowAndOnPropertiesChange(userProperty -> {
                 Object user = userProperty.getValue();

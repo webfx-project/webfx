@@ -48,7 +48,7 @@ public final class SectionPanelFactory {
     }
 
     public static BorderPane createSectionPanel(String iconImageUrl, String translationKey) {
-        return createSectionPanel(createImageView(iconImageUrl), I18nControls.translateLabeled(new Label(), translationKey));
+        return createSectionPanel(createImageView(iconImageUrl), I18nControls.translate(new Label(), translationKey));
     }
 
     public static BorderPane createSectionPanel(Node... headerNodes) {

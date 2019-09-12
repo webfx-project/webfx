@@ -52,7 +52,7 @@ final class SummaryActivity extends BookingProcessActivity {
         personalDetailsPanel.setEditable(false);
 
         BorderPane commentPanel = SectionPanelFactory.createSectionPanel("Comment");
-        commentPanel.setCenter(commentTextArea = newTextAreaWithPrompt("CommentPlaceholder"));
+        commentPanel.setCenter(commentTextArea = newTextArea("Comment")); // Will set the prompt
 
         BorderPane termsPanel = SectionPanelFactory.createSectionPanel("TermsAndConditions");
         termsPanel.setCenter(termsCheckBox = new CheckBox());

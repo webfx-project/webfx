@@ -35,28 +35,28 @@ public final class I18nControls {
         graphicNodeProperty.bind(observableGraphicNode(i18nKey));
     }
 
-    public static <T extends Text> T translateText(T text, Object i18nKey) {
+    public static <T extends Text> T translate(T text, Object i18nKey) {
         I18n.translateTextProperty(text.textProperty(), i18nKey);
         return text;
     }
 
-    public static <T extends Labeled> T translateLabeled(T labeled, Object i18nKey) {
+    public static <T extends Labeled> T translate(T labeled, Object i18nKey) {
         I18n.translateTextProperty(labeled.textProperty(), i18nKey);
         return labeled;
     }
 
-    public static <T extends TextInputControl> T translatePromptText(T textInputControl, Object i18nKey) {
-        I18n.translateTextProperty(textInputControl.promptTextProperty(), i18nKey);
+    public static <T extends TextInputControl> T translate(T textInputControl, Object i18nKey) {
+        I18n.translatePromptProperty(textInputControl.promptTextProperty(), i18nKey);
         return textInputControl;
     }
 
-    public static <T extends Tab> T translateTab(T tab, Object i18nKey) {
+    public static <T extends Tab> T translate(T tab, Object i18nKey) {
         I18n.translateTextProperty(tab.textProperty(), i18nKey);
         translateGraphicNodeProperty(tab.graphicProperty(), i18nKey);
         return tab;
     }
 
-    public static <T extends Labeled> T instantTranslateLabeled(T labeled, Object i18nKey) {
+    public static <T extends Labeled> T instantTranslate(T labeled, Object i18nKey) {
         labeled.setText(I18n.instantTranslateText(i18nKey));
         labeled.setGraphic(instantTranslateGraphicNode(i18nKey));
         return labeled;

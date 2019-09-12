@@ -212,9 +212,9 @@ final class FeesActivity extends BookingProcessActivity {
         boolean hasUnemployedRate = hasUnemployedRate();
         boolean hasFacilityFeeRate = hasFacilityFeeRate();
         boolean hasDiscountRates = hasUnemployedRate || hasFacilityFeeRate;
-        RadioButton noDiscountRadio  = hasDiscountRates   ? I18nControls.instantTranslateLabeled(new RadioButton(), "NoDiscount") : null;
-        RadioButton unemployedRadio  = hasUnemployedRate  ? I18nControls.instantTranslateLabeled(new RadioButton(), "UnemployedDiscount") : null;
-        RadioButton facilityFeeRadio = hasFacilityFeeRate ? I18nControls.instantTranslateLabeled(new RadioButton(), "FacilityFeeDiscount") : null;
+        RadioButton noDiscountRadio  = hasDiscountRates   ? I18nControls.instantTranslate(new RadioButton(), "NoDiscount") : null;
+        RadioButton unemployedRadio  = hasUnemployedRate  ? I18nControls.instantTranslate(new RadioButton(), "UnemployedDiscount") : null;
+        RadioButton facilityFeeRadio = hasFacilityFeeRate ? I18nControls.instantTranslate(new RadioButton(), "FacilityFeeDiscount") : null;
         Person person = getPersonAggregate().getPreselectionProfilePerson();
         if (unemployedRadio != null) {
             unemployedRadio.setSelected(Booleans.isTrue(person.isUnemployed()));

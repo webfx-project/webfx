@@ -56,6 +56,14 @@ public interface I18nProvider {
         return observablePart(i18nKey, TranslationPart.GRAPHIC);
     }
 
+    default String instantTranslatePrompt(Object i18nKey) {
+        return instantTranslatePart(i18nKey, TranslationPart.PROMPT);
+    }
+
+    default ObservableStringValue observablePrompt(Object i18nKey) {
+        return observablePart(i18nKey, TranslationPart.PROMPT);
+    }
+
     ObservableStringValue observablePart(Object i18nKey, TranslationPart part);
 
     default String instantTranslatePart(Object i18nKey, TranslationPart part) {
@@ -129,6 +137,11 @@ public interface I18nProvider {
 
     default I18nProvider translateTextProperty(Property<String> textProperty, Object i18nKey) {
         textProperty.bind(observableText(i18nKey));
+        return this;
+    }
+
+    default I18nProvider translatePromptProperty(Property<String> promptProperty, Object i18nKey) {
+        promptProperty.bind(observablePrompt(i18nKey));
         return this;
     }
 

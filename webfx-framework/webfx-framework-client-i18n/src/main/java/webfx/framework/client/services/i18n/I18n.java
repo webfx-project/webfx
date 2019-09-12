@@ -72,9 +72,20 @@ public final class I18n {
         return getProvider().observableGraphic(i18nKey);
     }
 
+    public static String instantTranslatePrompt(Object i18nKey) {
+        return getProvider().instantTranslatePrompt(i18nKey);
+    }
+
+    public static ObservableStringValue observablePrompt(Object i18nKey) {
+        return getProvider().observablePrompt(i18nKey);
+    }
+
+    public static I18nProvider translatePromptProperty(Property<String> promptProperty, Object i18nKey) {
+        return getProvider().translatePromptProperty(promptProperty, i18nKey);
+    }
+
     public static ObservableStringValue observablePart(Object i18nKey, TranslationPart part) {
         return getProvider().observablePart(i18nKey, part);
     }
-
 
 }
