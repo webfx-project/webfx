@@ -54,7 +54,7 @@ public final class LoginPanel implements MongooseButtonFactoryMixin {
         hyperLink.setOnAction(e -> signInMode.setValue(!signInMode.getValue()));
         LayoutUtil.setUnmanagedWhenInvisible(passwordField, signInMode);
         Properties.runNowAndOnPropertiesChange(() ->
-            I18nControls.translate(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
+            I18nControls.bindI18nProperties(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
         , signInMode);
         node = LayoutUtil.createGoldLayout(loginWindow);
         initValidation();

@@ -15,7 +15,7 @@ public final class MongooseI18nProvider extends JsonI18nProvider {
     }
 
     @Override
-    public Node createGraphicNode(String graphicUrl) {
+    public Node createI18nGraphic(String graphicUrl) {
         return JsonImageViews.createImageView(graphicUrl);
     }
 }

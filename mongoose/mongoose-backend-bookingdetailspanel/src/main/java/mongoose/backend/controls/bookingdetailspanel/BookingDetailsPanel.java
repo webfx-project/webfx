@@ -108,7 +108,7 @@ public final class BookingDetailsPanel implements
     }
 
     private static Tab createTab(String i18nKey, Node node) {
-        Tab tab = I18nControls.translate(new Tab(), i18nKey);
+        Tab tab = I18nControls.bindI18nProperties(new Tab(), i18nKey);
         tab.setContent(node);
         tab.setClosable(false);
         return tab;
@@ -251,7 +251,7 @@ public final class BookingDetailsPanel implements
         });
         Label valueLabel = new Label();
         valueLabel.textProperty().bind(fieldValueProperty);
-        addNodeToGrid(rowIndex, columnIndex, 1, I18nControls.translate(new Label(null, ImageStore.createImageView(fieldLabel.getIconPath())), fieldLabel.getCode()));
+        addNodeToGrid(rowIndex, columnIndex, 1, I18nControls.bindI18nProperties(new Label(null, ImageStore.createImageView(fieldLabel.getIconPath())), fieldLabel.getCode()));
         addNodeToGrid(rowIndex, columnIndex + 1, columnSpan, valueLabel);
     }
 

@@ -55,9 +55,9 @@ final class PaymentActivity extends CartBasedActivity {
         paymentsVBox = new VBox(20);
 
         HtmlText paymentPrompt = new HtmlText();
-        I18n.translateTextProperty(paymentPrompt.textProperty(), "PaymentPrompt:");
+        I18n.bindI18nTextProperty(paymentPrompt.textProperty(), "PaymentPrompt:");
 
-        BorderPane totalSection = SectionPanelFactory.createSectionPanel(newLabel("TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
+        BorderPane totalSection = SectionPanelFactory.createSectionPanelWithHeaderNodes(newLabel("TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
         VBox vBox = new VBox(20, paymentPrompt, paymentsVBox, totalSection, newLargeGreenButton(makePaymentAction));
         BorderPane container = new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(vBox));
 
@@ -136,7 +136,7 @@ final class PaymentActivity extends CartBasedActivity {
         Node getNode() {
             if (node == null) {
                 String title = document.getRef() + " - " + document.getFullName(); // + " - " + I18n.instantTranslate("Booking") + " " + document.getRef() + "   " + I18n.instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + I18n.instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + I18n.instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit());
-                BorderPane bp = SectionPanelFactory.createSectionPanel(new Label(title), LayoutUtil.createHGrowable(), newLabel("Amount"));
+                BorderPane bp = SectionPanelFactory.createSectionPanelWithHeaderNodes(new Label(title), LayoutUtil.createHGrowable(), newLabel("Amount"));
                 hBox = new HBox(20);
                 hBox.setAlignment(Pos.CENTER_LEFT);
                 hBox.setPadding(new Insets(10));

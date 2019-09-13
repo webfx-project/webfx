@@ -86,7 +86,7 @@ final class CartActivity extends CartBasedActivity {
         DataGrid documentTable = new SkinnedDataGrid();
         documentTable.setFullHeight(true);
         bookingsPanel.setCenter(documentTable);
-        optionsPanel = SectionPanelFactory.createSectionPanel(bookingLabel = new Label(), LayoutUtil.createHGrowable(), ActionBinder.getAndBindActionIcon(explainStatusAction));
+        optionsPanel = SectionPanelFactory.createSectionPanelWithHeaderNodes(bookingLabel = new Label(), LayoutUtil.createHGrowable(), ActionBinder.getAndBindActionIcon(explainStatusAction));
         bookingOptionsPanel = new BookingOptionsPanel();
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
         paymentsPanel = SectionPanelFactory.createSectionPanel("YourPayments");
@@ -135,7 +135,7 @@ final class CartActivity extends CartBasedActivity {
         new Function<Document>("documentStatus", PrimType.STRING, true, false) {
             @Override
             public Object evaluate(Document document, DataReader<Document> dataReader) {
-                return I18n.instantTranslateText(getDocumentStatus(document));
+                return I18n.getI18nText(getDocumentStatus(document));
             }
         }.register();
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
@@ -237,7 +237,7 @@ final class CartActivity extends CartBasedActivity {
         if (bookingOptionsPanel != null && selectedWorkingDocument != null) {
             bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
             Document selectedDocument = selectedWorkingDocument.getDocument();
-            bookingLabel.setText(selectedDocument.getFullName() + " - " + I18n.instantTranslateText("Status:") + " " + I18n.instantTranslateText(getDocumentStatus(selectedDocument)));
+            bookingLabel.setText(selectedDocument.getFullName() + " - " + I18n.getI18nText("Status:") + " " + I18n.getI18nText(getDocumentStatus(selectedDocument)));
             disableBookinOptionsButtons(selectedDocument.isCancelled());
             updatePaymentsVisibility();
         }

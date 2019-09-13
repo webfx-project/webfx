@@ -77,8 +77,8 @@ final class FeesActivity extends BookingProcessActivity {
         return borderPane;
     }
 
-    private BorderPane buildFeesSectionPanel(Node node) {
-        return SectionPanelFactory.createSectionPanel(node);
+    private BorderPane buildFeesSectionPanel(Node... nodes) {
+        return SectionPanelFactory.createSectionPanelWithHeaderNodes(nodes);
     }
 
     @Override
@@ -169,9 +169,9 @@ final class FeesActivity extends BookingProcessActivity {
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
         DisplayResultBuilder rsb = DisplayResultBuilder.create(optionsCount, new DisplayColumn[]{
-                DisplayColumnBuilder.create(I18n.instantTranslateText(singleOption ? (feesGroup.isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
-                DisplayColumnBuilder.create(I18n.instantTranslateText("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
-                DisplayColumnBuilder.create(I18n.instantTranslateText("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
+                DisplayColumnBuilder.create(I18n.getI18nText(singleOption ? (feesGroup.isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
+                DisplayColumnBuilder.create(I18n.getI18nText("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
+                DisplayColumnBuilder.create(I18n.getI18nText("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
                         .setValueRenderer((p, context) -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventAggregate.areEventAvailabilitiesLoaded())
@@ -212,9 +212,9 @@ final class FeesActivity extends BookingProcessActivity {
         boolean hasUnemployedRate = hasUnemployedRate();
         boolean hasFacilityFeeRate = hasFacilityFeeRate();
         boolean hasDiscountRates = hasUnemployedRate || hasFacilityFeeRate;
-        RadioButton noDiscountRadio  = hasDiscountRates   ? I18nControls.instantTranslate(new RadioButton(), "NoDiscount") : null;
-        RadioButton unemployedRadio  = hasUnemployedRate  ? I18nControls.instantTranslate(new RadioButton(), "UnemployedDiscount") : null;
-        RadioButton facilityFeeRadio = hasFacilityFeeRate ? I18nControls.instantTranslate(new RadioButton(), "FacilityFeeDiscount") : null;
+        RadioButton noDiscountRadio  = hasDiscountRates   ? I18nControls.setI18nProperties(new RadioButton(), "NoDiscount") : null;
+        RadioButton unemployedRadio  = hasUnemployedRate  ? I18nControls.setI18nProperties(new RadioButton(), "UnemployedDiscount") : null;
+        RadioButton facilityFeeRadio = hasFacilityFeeRate ? I18nControls.setI18nProperties(new RadioButton(), "FacilityFeeDiscount") : null;
         Person person = getPersonAggregate().getPreselectionProfilePerson();
         if (unemployedRadio != null) {
             unemployedRadio.setSelected(Booleans.isTrue(person.isUnemployed()));

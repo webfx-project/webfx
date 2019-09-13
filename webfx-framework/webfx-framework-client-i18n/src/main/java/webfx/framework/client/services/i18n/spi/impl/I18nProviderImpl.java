@@ -4,7 +4,7 @@ import javafx.beans.property.*;
 import javafx.beans.value.ObservableObjectValue;
 import javafx.beans.value.ObservableStringValue;
 import webfx.framework.client.services.i18n.Dictionary;
-import webfx.framework.client.services.i18n.TranslationPart;
+import webfx.framework.client.services.i18n.I18nPart;
 import webfx.framework.client.services.i18n.spi.I18nProvider;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 
@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class I18nProviderImpl implements I18nProvider {
 
-    private final Map<Object/*i18nKey*/, Map<TranslationPart, Reference<StringProperty>>> translations = new HashMap<>();
+    private final Map<Object/*i18nKey*/, Map<I18nPart, Reference<StringProperty>>> translations = new HashMap<>();
     private final Object defaultLanguage; // The language to find message parts (such as graphic) when missing in the current language
     private boolean dictionaryLoadRequired;
     private final DictionaryLoader dictionaryLoader;
@@ -75,15 +75,15 @@ public class I18nProviderImpl implements I18nProvider {
     }
 
     @Override
-    public ObservableStringValue observablePart(Object i18nKey, TranslationPart part) {
-        StringProperty translationPartProperty = getTranslationPartProperty(i18nKey, part);
-        if (translationPartProperty == null)
-            getMessageMap(i18nKey, true).put(part, new WeakReference<>(translationPartProperty = createTranslationPartProperty(i18nKey, part)));
-        return translationPartProperty;
+    public ObservableStringValue i18nPartProperty(Object i18nKey, I18nPart part) {
+        StringProperty i18nPartProperty = getI18nPartProperty(i18nKey, part);
+        if (i18nPartProperty == null)
+            getMessageMap(i18nKey, true).put(part, new WeakReference<>(i18nPartProperty = createI18nPartProperty(i18nKey, part)));
+        return i18nPartProperty;
     }
 
-    private Map<TranslationPart, Reference<StringProperty>> getMessageMap(Object i18nKey, boolean createIfNotExists) {
-        Map<TranslationPart, Reference<StringProperty>> messageMap = translations.get(i18nKey);
+    private Map<I18nPart, Reference<StringProperty>> getMessageMap(Object i18nKey, boolean createIfNotExists) {
+        Map<I18nPart, Reference<StringProperty>> messageMap = translations.get(i18nKey);
         if (messageMap == null && createIfNotExists)
             synchronized (translations) {
                 translations.put(i18nKey, messageMap = new HashMap<>());
@@ -91,43 +91,43 @@ public class I18nProviderImpl implements I18nProvider {
         return messageMap;
     }
 
-    private StringProperty getTranslationPartProperty(Object i18nKey, TranslationPart part) {
-        Map<TranslationPart, Reference<StringProperty>> messageMap = getMessageMap(i18nKey, false);
+    private StringProperty getI18nPartProperty(Object i18nKey, I18nPart part) {
+        Map<I18nPart, Reference<StringProperty>> messageMap = getMessageMap(i18nKey, false);
         if (messageMap == null)
             return null;
         Reference<StringProperty> ref = messageMap.get(part);
         return ref == null ? null : ref.get();
     }
 
-    private StringProperty createTranslationPartProperty(Object i18nKey, TranslationPart part) {
-        return refreshTranslationPart(new SimpleStringProperty(), i18nKey, part);
+    private StringProperty createI18nPartProperty(Object i18nKey, I18nPart part) {
+        return refreshI18nPart(new SimpleStringProperty(), i18nKey, part);
     }
 
     private void onLanguageChanged() {
         dictionaryLoadRequired = true;
-        refreshAllTranslationParts();
+        refreshAllI18nParts();
     }
 
-    private synchronized void refreshAllTranslationParts() {
+    private synchronized void refreshAllI18nParts() {
         synchronized (translations) {
             // We iterate through the translation map to update all parts (text, graphic, etc...) of all messages (i18nKey)
-            for (Iterator<Map.Entry<Object, Map<TranslationPart, Reference<StringProperty>>>> it = translations.entrySet().iterator(); it.hasNext(); ) {
-                Map.Entry<Object, Map<TranslationPart, Reference<StringProperty>>> messageMapEntry = it.next();
+            for (Iterator<Map.Entry<Object, Map<I18nPart, Reference<StringProperty>>>> it = translations.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry<Object, Map<I18nPart, Reference<StringProperty>>> messageMapEntry = it.next();
                 Object i18nKey = messageMapEntry.getKey();
-                Map<TranslationPart, Reference<StringProperty>> messageMap = messageMapEntry.getValue();
-                for (Iterator<Map.Entry<TranslationPart, Reference<StringProperty>>> it2 = messageMap.entrySet().iterator(); it2.hasNext(); ) {
-                    Map.Entry<TranslationPart, Reference<StringProperty>> translationPartEntry = it2.next();
-                    // Getting the translationPartProperty through the reference
+                Map<I18nPart, Reference<StringProperty>> messageMap = messageMapEntry.getValue();
+                for (Iterator<Map.Entry<I18nPart, Reference<StringProperty>>> it2 = messageMap.entrySet().iterator(); it2.hasNext(); ) {
+                    Map.Entry<I18nPart, Reference<StringProperty>> translationPartEntry = it2.next();
+                    // Getting the i18nPartProperty through the reference
                     Reference<StringProperty> value = translationPartEntry.getValue();
-                    StringProperty translationPartProperty = value == null ? null : value.get();
-                    // Although a translationPartProperty is never null at initialization, it can be dropped by the GC since
+                    StringProperty i18nPartProperty = value == null ? null : value.get();
+                    // Although a i18nPartProperty is never null at initialization, it can be dropped by the GC since
                     // it is contained in a WeakReference. If this happens, this means that the client software actually
                     // doesn't use it (either never from the beginning or just not anymore after an activity is closed
                     // for example), so we can just remove that entry to release some memory.
-                    if (translationPartProperty == null) // Means the client software doesn't use this i18nKey,translationPart pair
+                    if (i18nPartProperty == null) // Means the client software doesn't use this i18nKey,translationPart pair
                         it2.remove(); // So we can drop this entry
                     else // Otherwise, the client software still uses it so we need to update it
-                        refreshTranslationPart(translationPartProperty, i18nKey, translationPartEntry.getKey());
+                        refreshI18nPart(i18nPartProperty, i18nKey, translationPartEntry.getKey());
                 }
                 // Although a message map is never empty at initialization, it can become empty if all i18nKey,translationPart
                 // have been removed (as explained above). If this happens, this means that the client software actually
@@ -138,12 +138,12 @@ public class I18nProviderImpl implements I18nProvider {
         }
     }
 
-    private StringProperty refreshTranslationPart(StringProperty translationPartProperty, Object i18nKey, TranslationPart part) {
+    private StringProperty refreshI18nPart(StringProperty i18nPartProperty, Object i18nKey, I18nPart part) {
         if (dictionaryLoadRequired && dictionaryLoader != null)
             scheduleMessageLoading(i18nKey, false);
         else
-            translationPartProperty.setValue(instantTranslatePart(i18nKey, part));
-        return translationPartProperty;
+            i18nPartProperty.setValue(getI18nPartValue(i18nKey, part));
+        return i18nPartProperty;
     }
 
     @Override
@@ -162,7 +162,7 @@ public class I18nProviderImpl implements I18nProvider {
                     if (language.equals(getDefaultLanguage()))
                         defaultDictionaryProperty.setValue(asyncResult.result());
                     dictionaryLoadRequired = false;
-                    refreshAllTranslationParts();
+                    refreshAllI18nParts();
                 });
                 setUnloadedKeys(null, inDefaultLanguage);
             });

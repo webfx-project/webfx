@@ -36,8 +36,8 @@ public interface MaterialFactoryMixin extends ControlFactoryMixin {
     }
 
     default <T extends MaterialTextField> T setMaterialLabelAndPlaceholder(T materialTextField, Object i18nKey) {
-        I18n.translateTextProperty(materialTextField.labelTextProperty(), i18nKey); // Linking the material labelText property with the i18n text property
-        I18n.translatePromptProperty(materialTextField.placeholderTextProperty(), i18nKey); // Linking the material placeholder property with the i18n proppt property
+        I18n.bindI18nTextProperty(materialTextField.labelTextProperty(), i18nKey); // Linking the material labelText property with the i18n text property
+        I18n.bindI18nPromptProperty(materialTextField.placeholderTextProperty(), i18nKey); // Linking the material placeholder property with the i18n proppt property
         return materialTextField;
     }
 

@@ -58,7 +58,7 @@ final class SummaryActivity extends BookingProcessActivity {
         termsPanel.setCenter(termsCheckBox = new CheckBox());
         BorderPane.setAlignment(termsCheckBox, Pos.CENTER_LEFT);
         BorderPane.setMargin(termsCheckBox, new Insets(10));
-        agreeTCTranslationProperty = I18n.observableText("AgreeTC");
+        agreeTCTranslationProperty = I18n.i18nTextProperty("AgreeTC");
         Properties.runNowAndOnPropertiesChange(p -> setTermsCheckBoxText(Strings.toSafeString(p.getValue())), agreeTCTranslationProperty);
 
         verticalStack.getChildren().setAll(

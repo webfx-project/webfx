@@ -52,40 +52,40 @@ public final class I18n {
         return getProvider().getDictionary();
     }
 
-    public static String instantTranslateText(Object i18nKey) {
-        return getProvider().instantTranslateText(i18nKey);
+    public static String getI18nText(Object i18nKey) {
+        return getProvider().getI18nText(i18nKey);
     }
 
-    public static ObservableStringValue observableText(Object i18nKey) {
-        return getProvider().observableText(i18nKey);
+    public static ObservableStringValue i18nTextProperty(Object i18nKey) {
+        return getProvider().i18nTextProperty(i18nKey);
     }
 
-    public static I18nProvider translateTextProperty(Property<String> textProperty, Object i18nKey) {
-        return getProvider().translateTextProperty(textProperty, i18nKey);
+    public static I18nProvider bindI18nTextProperty(Property<String> textProperty, Object i18nKey) {
+        return getProvider().bindI18nTextProperty(textProperty, i18nKey);
     }
 
-    public static String instantTranslateGraphic(Object i18nKey) {
-        return getProvider().instantTranslateGraphic(i18nKey);
+    public static String getI18nGraphicUrl(Object i18nKey) {
+        return getProvider().getI18nGraphicUrl(i18nKey);
     }
 
-    public static ObservableStringValue observableGraphic(Object i18nKey) {
-        return getProvider().observableGraphic(i18nKey);
+    public static ObservableStringValue i18nGraphicUrlProperty(Object i18nKey) {
+        return getProvider().i18nGraphicUrlProperty(i18nKey);
     }
 
-    public static String instantTranslatePrompt(Object i18nKey) {
-        return getProvider().instantTranslatePrompt(i18nKey);
+    public static String getI18nPrompt(Object i18nKey) {
+        return getProvider().getI18nPrompt(i18nKey);
     }
 
-    public static ObservableStringValue observablePrompt(Object i18nKey) {
-        return getProvider().observablePrompt(i18nKey);
+    public static ObservableStringValue i18nPromptProperty(Object i18nKey) {
+        return getProvider().i18nPromptProperty(i18nKey);
     }
 
-    public static I18nProvider translatePromptProperty(Property<String> promptProperty, Object i18nKey) {
-        return getProvider().translatePromptProperty(promptProperty, i18nKey);
+    public static I18nProvider bindI18nPromptProperty(Property<String> promptProperty, Object i18nKey) {
+        return getProvider().bindPromptProperty(promptProperty, i18nKey);
     }
 
-    public static ObservableStringValue observablePart(Object i18nKey, TranslationPart part) {
-        return getProvider().observablePart(i18nKey, part);
+    public static ObservableStringValue i18nPartProperty(Object i18nKey, I18nPart part) {
+        return getProvider().i18nPartProperty(i18nKey, part);
     }
 
 }
