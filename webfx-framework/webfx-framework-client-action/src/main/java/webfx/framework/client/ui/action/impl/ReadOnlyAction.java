@@ -47,6 +47,18 @@ public class ReadOnlyAction implements Action {
         return visibleProperty;
     }
 
+    private Object userData;
+
+    @Override
+    public Object getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(Object userData) {
+        this.userData = userData;
+    }
+
     private final EventHandler<ActionEvent> actionHandler;
     @Override
     public void handle(ActionEvent event) {

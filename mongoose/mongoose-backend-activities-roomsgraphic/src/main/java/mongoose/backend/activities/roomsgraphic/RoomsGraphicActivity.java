@@ -211,10 +211,10 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
 
         ActionGroup createContextMenuActionGroup() {
             return newActionGroup(
-                    newAction(() -> new EditResourceConfigurationPropertiesRequest(resourceConfigurationProperty.get(), container)),
-                    newAction(() -> new ToggleResourceConfigurationOnlineOfflineRequest(resourceConfigurationProperty.get())),
-                    newAction(() -> new ChangeResourceConfigurationItemRequest(resourceConfigurationProperty.get(), container, "acco", site.getId())),
-                    newAction(() -> new DeleteResourceRequest(resourceConfigurationProperty.get(), container))
+                    newOperationAction(() -> new EditResourceConfigurationPropertiesRequest(resourceConfigurationProperty.get(), container)),
+                    newOperationAction(() -> new ToggleResourceConfigurationOnlineOfflineRequest(resourceConfigurationProperty.get())),
+                    newOperationAction(() -> new ChangeResourceConfigurationItemRequest(resourceConfigurationProperty.get(), container, "acco", site.getId())),
+                    newOperationAction(() -> new DeleteResourceRequest(resourceConfigurationProperty.get(), container))
             );
         }
     }

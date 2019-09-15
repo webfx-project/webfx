@@ -138,54 +138,54 @@ public final class BookingDetailsPanel implements
         switch (i18nKey) {
             case "Options":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newAction(() -> new AddNewDocumentLineRequest(           getSelectedDocument(),       parentGetter.get())),
+                        newOperationAction(() -> new AddNewDocumentLineRequest(           getSelectedDocument(),       parentGetter.get())),
                         newSeparatorActionGroup(
-                            newAction(() -> new EditDocumentLineRequest(         get(selectedEntityProperty), parentGetter.get())),
-                            newAction(() -> new ToggleCancelDocumentLineRequest( get(selectedEntityProperty), parentGetter.get())),
-                            newAction(() -> new DeleteDocumentLineRequest(       get(selectedEntityProperty), parentGetter.get()))
+                            newOperationAction(() -> new EditDocumentLineRequest(         get(selectedEntityProperty), parentGetter.get())),
+                            newOperationAction(() -> new ToggleCancelDocumentLineRequest( get(selectedEntityProperty), parentGetter.get()), selectedEntityProperty),
+                            newOperationAction(() -> new DeleteDocumentLineRequest(       get(selectedEntityProperty), parentGetter.get()))
                         ),
                         newSeparatorActionGroup(
-                            newAction(() -> new CopySelectionRequest(            filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                            newAction(() -> new CopyAllRequest(                  filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                            newOperationAction(() -> new CopySelectionRequest(            filter.getSelectedEntities(),  filter.getExpressionColumns())),
+                            newOperationAction(() -> new CopyAllRequest(                  filter.getCurrentEntityList(), filter.getExpressionColumns()))
                         )
                 ); break;
             case "Payments":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newAction(() -> new AddNewPaymentRequest(     getSelectedDocument(),        parentGetter.get())),
-                        newAction(() -> new AddNewTransferRequest(    getSelectedDocument(),        parentGetter.get())),
+                        newOperationAction(() -> new AddNewPaymentRequest(     getSelectedDocument(),        parentGetter.get())),
+                        newOperationAction(() -> new AddNewTransferRequest(    getSelectedDocument(),        parentGetter.get())),
                         newSeparatorActionGroup(
-                            newAction(() -> new EditPaymentRequest(    get(selectedEntityProperty), parentGetter.get())),
-                            newAction(() -> new DeletePaymentRequest(  get(selectedEntityProperty), parentGetter.get()))
+                            newOperationAction(() -> new EditPaymentRequest(    get(selectedEntityProperty), parentGetter.get())),
+                            newOperationAction(() -> new DeletePaymentRequest(  get(selectedEntityProperty), parentGetter.get()))
                         ),
                         newSeparatorActionGroup(
-                            newAction(() -> new CopySelectionRequest(  filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                            newAction(() -> new CopyAllRequest(        filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                            newOperationAction(() -> new CopySelectionRequest(  filter.getSelectedEntities(),  filter.getExpressionColumns())),
+                            newOperationAction(() -> new CopyAllRequest(        filter.getCurrentEntityList(), filter.getExpressionColumns()))
                         )
                 ); break;
             case "MultipleBookings":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newAction(() -> new MergeMultipleBookingsOptionsRequest(            get(selectedEntityProperty), parentGetter.get())),
-                        newAction(() -> new CancelOtherMultipleBookingsRequest(             get(selectedEntityProperty), parentGetter.get())),
-                        newAction(() -> new GetBackCancelledMultipleBookingsDepositRequest( get(selectedEntityProperty), parentGetter.get())),
-                        newAction(() -> new ToggleMarkMultipleBookingRequest(               get(selectedEntityProperty), parentGetter.get()))
+                        newOperationAction(() -> new MergeMultipleBookingsOptionsRequest(            get(selectedEntityProperty), parentGetter.get())),
+                        newOperationAction(() -> new CancelOtherMultipleBookingsRequest(             get(selectedEntityProperty), parentGetter.get())),
+                        newOperationAction(() -> new GetBackCancelledMultipleBookingsDepositRequest( get(selectedEntityProperty), parentGetter.get())),
+                        newOperationAction(() -> new ToggleMarkMultipleBookingRequest(               get(selectedEntityProperty), parentGetter.get()))
                 ); break;
             case "Cart":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newAction(() -> new OpenBookingCartRequest( get(selectedEntityProperty), parentGetter.get()))
+                        newOperationAction(() -> new OpenBookingCartRequest( get(selectedEntityProperty), parentGetter.get()))
                 ); break;
             case "Mails":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newAction(() -> new OpenMailRequest(          get(selectedEntityProperty), parentGetter.get())),
-                        newAction(() -> new ComposeNewMailRequest(    getSelectedDocument(), parentGetter.get())),
+                        newOperationAction(() -> new OpenMailRequest(          get(selectedEntityProperty), parentGetter.get())),
+                        newOperationAction(() -> new ComposeNewMailRequest(    getSelectedDocument(), parentGetter.get())),
                         newSeparatorActionGroup(
-                            newAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                            newAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                            newOperationAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getExpressionColumns())),
+                            newOperationAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getExpressionColumns()))
                         )
                 ); break;
             case "History":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                        newAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                        newOperationAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getExpressionColumns())),
+                        newOperationAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getExpressionColumns()))
                 ); break;
         }
         if (contextMenuActionGroupFactory != null)
@@ -231,7 +231,7 @@ public final class BookingDetailsPanel implements
         addFieldLabelAndValue(4, 7, 6, "person_carer2Name");
 
         mixin.setUpContextMenu(gridPane, () -> newActionGroup(
-                newAction(() -> new EditDocumentPersonalDetailsRequest(getSelectedDocument(), mixin, parentGetter.get()))
+                newOperationAction(() -> new EditDocumentPersonalDetailsRequest(getSelectedDocument(), mixin, parentGetter.get()))
         ));
         gridPane.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2)

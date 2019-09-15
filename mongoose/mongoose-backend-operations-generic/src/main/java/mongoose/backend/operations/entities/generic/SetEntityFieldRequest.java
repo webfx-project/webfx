@@ -5,9 +5,11 @@ import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.operation.HasOperationCode;
 import webfx.framework.shared.operation.HasOperationExecutor;
 import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.HasEntity;
 import webfx.platform.shared.util.async.AsyncFunction;
 
 public abstract class SetEntityFieldRequest implements HasOperationCode,
+        HasEntity,
         HasOperationExecutor<SetEntityFieldRequest, Void> {
 
     private final Entity entity;
@@ -29,7 +31,8 @@ public abstract class SetEntityFieldRequest implements HasOperationCode,
         this.parentContainer = parentContainer;
     }
 
-    Entity getEntity() {
+    @Override
+    public Entity getEntity() {
         return entity;
     }
 

@@ -134,7 +134,7 @@ tr.specialRate, .grid-row.specialRate {
 .share_mate { --color-light: #fef087; --color-dark: #e6d768 }
 .wrongAllocation { --color-base: #FF4400; }
 
-/*
+/* JavaFx declaration for backend_released and frontend_release (not converted to html5 css for now)
 .backend_released { --color-base: #E0CDCD;}
 .frontend_released { --color-base: #E0CDCD;}
 
@@ -151,6 +151,9 @@ tr.specialRate, .grid-row.specialRate {
                             linear-gradient(from 0px 0px to 5px 5px, reflect, transparent, transparent 85%, #808080);
 }
 */
+
+/* Just applying the same as cancelled for now */
+.backend_released, .frontend_released { --color-light: #e3a9d3; --color-dark: #ca90b9; }
 
 tr.share_owner, .grid-row.share_owner {
     font-style: italic;

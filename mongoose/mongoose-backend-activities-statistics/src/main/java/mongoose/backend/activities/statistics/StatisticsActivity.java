@@ -44,15 +44,15 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         Pane container = ui.buildUi();
 
         setUpContextMenu(LayoutUtil.lookupChild(ui.getGroupMasterSlaveView().getMasterView(), n -> n instanceof DataGrid), () -> newActionGroup(
-                newAction(() -> new SendLetterRequest(                            pm.getSelectedDocument(), container)),
+                newOperationAction(() -> new SendLetterRequest(                            pm.getSelectedDocument(), container)),
                 newSeparatorActionGroup(
-                        newAction(() -> new EditDocumentLineRequest(         pm.getSelectedDocumentLine(), container)),
-                        newAction(() -> new ToggleCancelDocumentLineRequest( pm.getSelectedDocumentLine(), container)),
-                        newAction(() -> new DeleteDocumentLineRequest(       pm.getSelectedDocumentLine(), container))
+                        newOperationAction(() -> new EditDocumentLineRequest(         pm.getSelectedDocumentLine(), container)),
+                        newOperationAction(() -> new ToggleCancelDocumentLineRequest( pm.getSelectedDocumentLine(), container)),
+                        newOperationAction(() -> new DeleteDocumentLineRequest(       pm.getSelectedDocumentLine(), container))
                 ),
                 newSeparatorActionGroup(
-                        newAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
-                        newAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
+                        newOperationAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
+                        newOperationAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
                 )
         ));
 

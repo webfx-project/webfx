@@ -15,8 +15,6 @@ public final class MongooseIcons {
     public final static String checkedIcon16Url = "images/s16/checked.png";
     public final static String uncheckedIcon16Url = "images/s16/unchecked.png";
     public final static String spinnerIcon16Url = "images/s16/spinner.gif";
-    public final static String lang_englishIcon16Url = "images/s16/system/lang_en.png";
-    public final static String lang_frenchIcon16Url = "images/s16/system/lang_fr.png";
 
     public final static String certificateMonoSvgUrl = "images/svg/mono/certificate.svg";
     public final static String calendarMonoSvgUrl = "images/svg/mono/calendar.svg";

@@ -1,5 +1,6 @@
 package webfx.framework.client.operation.action;
 
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.action.ActionGroup;
@@ -30,21 +31,27 @@ public interface OperationActionFactoryMixin extends HasOperationExecutor {
         return OperationActionRegistry.getInstance();
     }
 
-    default <Rq> OperationAction newAction(Factory<Rq> operationRequestFactory) {
-        return newAction(operationRequestFactory, getOperationExecutor());
+    // OperationAction factory methods
+
+    default <Rq> OperationAction newOperationAction(Factory<Rq> operationRequestFactory, ObservableValue... graphicalDependencies) {
+        return newOperationAction(operationRequestFactory, getOperationExecutor(), graphicalDependencies);
     }
 
-    default <Rq, Rs> OperationAction newAction(Factory<Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
-        return initOperationAction(new OperationAction<>(operationRequestFactory, topOperationExecutor));
+    default <Rq, Rs> OperationAction newOperationAction(Factory<Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor, ObservableValue... graphicalDependencies) {
+        return initOperationAction(new OperationAction<>(operationRequestFactory, topOperationExecutor, graphicalDependencies));
     }
 
-    default <Rq> OperationAction newAction(Function<ActionEvent, Rq> operationRequestFactory) {
-        return newAction(operationRequestFactory, getOperationExecutor());
+    // Same but with an action event passed to the operation request factory
+
+    default <Rq> OperationAction newOperationAction(Function<ActionEvent, Rq> operationRequestFactory, ObservableValue... graphicalDependencies) {
+        return newOperationAction(operationRequestFactory, getOperationExecutor(), graphicalDependencies);
     }
 
-    default <Rq, Rs> OperationAction newAction(Function<ActionEvent, Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
-        return initOperationAction(new OperationAction<>(operationRequestFactory, topOperationExecutor));
+    default <Rq, Rs> OperationAction newOperationAction(Function<ActionEvent, Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor, ObservableValue... graphicalDependencies) {
+        return initOperationAction(new OperationAction<>(operationRequestFactory, topOperationExecutor, graphicalDependencies));
     }
+
+    // Action group factory methods
 
     default Action newSeparatorAction() {
         return new SeparatorAction();

@@ -50,34 +50,34 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
         ui = createAndBindGroupMasterSlaveViewWithFilterSearchBar(pm, "bookings", "Document");
 
         // Adding new booking button on left and clone event on right of the filter search bar
-        Button newBookingButton = newButton(newAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory()))),
-               cloneEventButton = newButton(newAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
+        Button newBookingButton = newButton(newOperationAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory()))),
+               cloneEventButton = newButton(newOperationAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
         ui.setLeftTopNodes(setUnmanagedWhenInvisible(newBookingButton));
         ui.setRightTopNodes(setUnmanagedWhenInvisible(cloneEventButton));
 
         Pane container = ui.buildUi();
 
         setUpContextMenu(LayoutUtil.lookupChild(ui.getGroupMasterSlaveView().getMasterView(), n -> n instanceof DataGrid), () -> newActionGroup(
-                newAction(() -> new SendLetterRequest(                    pm.getSelectedDocument(), container)),
+                newOperationAction(() -> new SendLetterRequest(                        pm.getSelectedDocument(), container)),
                 newSeparatorActionGroup("Registration",
-                    newAction(() -> new ToggleMarkDocumentAsReadRequest(      pm.getSelectedDocument(), container)),
-                    newAction(() -> new ToggleMarkDocumentAsWillPayRequest(   pm.getSelectedDocument(), container)),
-                    newAction(() -> new ToggleCancelDocumentRequest(          pm.getSelectedDocument(), container)),
-                    newAction(() -> new ToggleConfirmDocumentRequest(         pm.getSelectedDocument(), container)),
-                    newAction(() -> new ToggleFlagDocumentRequest(            pm.getSelectedDocument(), container)),
-                    newAction(() -> new ToggleMarkDocumentPassAsReadyRequest( pm.getSelectedDocument(), container)),
-                    newAction(() -> new MarkDocumentPassAsUpdatedRequest(     pm.getSelectedDocument(), container)),
-                    newAction(() -> new ToggleMarkDocumentAsArrivedRequest(   pm.getSelectedDocument(), container))
+                    newOperationAction(() -> new ToggleMarkDocumentAsReadRequest(      pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new ToggleMarkDocumentAsWillPayRequest(   pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new ToggleCancelDocumentRequest(          pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new ToggleConfirmDocumentRequest(         pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new ToggleFlagDocumentRequest(            pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new ToggleMarkDocumentPassAsReadyRequest( pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new MarkDocumentPassAsUpdatedRequest(     pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new ToggleMarkDocumentAsArrivedRequest(   pm.getSelectedDocument(), container))
                 ),
                 newSeparatorActionGroup("Security",
-                    newAction(() -> new ToggleMarkDocumentAsUncheckedRequest( pm.getSelectedDocument(), container)),
-                    newAction(() -> new ToggleMarkDocumentAsUnknownRequest(   pm.getSelectedDocument(), container)),
-                    newAction(() -> new ToggleMarkDocumentAsKnownRequest(     pm.getSelectedDocument(), container)),
-                    newAction(() -> new ToggleMarkDocumentAsVerifiedRequest(  pm.getSelectedDocument(), container))
+                    newOperationAction(() -> new ToggleMarkDocumentAsUncheckedRequest( pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new ToggleMarkDocumentAsUnknownRequest(   pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new ToggleMarkDocumentAsKnownRequest(     pm.getSelectedDocument(), container)),
+                    newOperationAction(() -> new ToggleMarkDocumentAsVerifiedRequest(  pm.getSelectedDocument(), container))
                 ),
                 newSeparatorActionGroup(
-                    newAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
-                    newAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
+                    newOperationAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
+                    newOperationAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
                 )
         ));
 

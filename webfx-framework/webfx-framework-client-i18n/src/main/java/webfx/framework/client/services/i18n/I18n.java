@@ -88,4 +88,8 @@ public final class I18n {
         return getProvider().i18nPartProperty(i18nKey, part);
     }
 
+    public static void refreshMessageTranslations(Object i18nKey) {
+        getProvider().refreshMessageTranslations(i18nKey);
+    }
+
 }
