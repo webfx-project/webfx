@@ -21,17 +21,17 @@ import static webfx.framework.client.ui.util.image.JsonImageViews.createImageVie
  */
 public final class SectionPanelFactory {
 
-    public static BorderPane createSectionPanel(String i18nKey) {
+    public static BorderPane createSectionPanel(Object i18nKey) {
         return createSectionPanel(null, i18nKey);
     }
 
-    public static Node createSectionPanel(String iconImageUrl, String i18nKey, ObservableValue<Node> centerProperty) {
+    public static Node createSectionPanel(String iconImageUrl, Object i18nKey, ObservableValue<Node> centerProperty) {
         BorderPane sectionPanel = createSectionPanel(iconImageUrl, i18nKey);
         sectionPanel.centerProperty().bind(centerProperty);
         return sectionPanel;
     }
 
-    public static BorderPane createSectionPanel(String i18nKey, Node center) {
+    public static BorderPane createSectionPanel(Object i18nKey, Node center) {
         BorderPane sectionPanel = createSectionPanel(i18nKey);
         sectionPanel.setCenter(center);
         return sectionPanel;
@@ -47,11 +47,11 @@ public final class SectionPanelFactory {
         return new BorderPane();
     }
 
-    public static BorderPane createSectionPanel(String iconImageUrl, String translationKey) {
-        return createSectionPanel(createImageView(iconImageUrl), I18nControls.translateLabeled(new Label(), translationKey));
+    public static BorderPane createSectionPanel(String iconImageUrl, Object i18nKey) {
+        return createSectionPanelWithHeaderNodes(createImageView(iconImageUrl), I18nControls.bindI18nProperties(new Label(), i18nKey));
     }
 
-    public static BorderPane createSectionPanel(Node... headerNodes) {
+    public static BorderPane createSectionPanelWithHeaderNodes(Node... headerNodes) {
         BorderPane sectionPanel = new BorderPane();
         sectionPanel.getStyleClass().add("section-panel");
         sectionPanel.setBorder(BorderUtil.newBorder(Color.grayRgb(0x0d), 5, 1));

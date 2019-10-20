@@ -193,7 +193,7 @@ final class OptionTreeNode {
     }
 
     private BorderPane createTopLevelOptionSection(boolean detailed) {
-        BorderPane sectionPanel = SectionPanelFactory.createSectionPanel(Collections.toArray(
+        BorderPane sectionPanel = SectionPanelFactory.createSectionPanelWithHeaderNodes(Collections.toArray(
                 createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option)))
                 , Node[]::new));
         createOptionButtonAndSelectedProperty();

@@ -95,7 +95,7 @@ public abstract class ButtonSelector<T> {
 
     private TextField getOrCreateSearchTextField() {
         if (searchTextField == null) {
-            searchTextField = buttonFactory.newTextFieldWithPrompt("GenericSearchPlaceholder");
+            searchTextField = buttonFactory.newTextField("GenericSearch");
             searchTextField.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
                 if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
                     closeDialog();
@@ -156,9 +156,9 @@ public abstract class ButtonSelector<T> {
         button.setOnMouseExited( e -> onMouseExited());
     }
 
-    public MaterialTextFieldPane toMaterialButton(Object labelKey, Object placeholderKey) {
+    public MaterialTextFieldPane toMaterialButton(Object i18nKey) {
         // Assuming the passed buttonFactory is actually instance of MaterialFactoryMixin when we call this method
-        return ((MaterialFactoryMixin) buttonFactory).setMaterialLabelAndPlaceholder(newMaterialButton(), labelKey, placeholderKey);
+        return ((MaterialFactoryMixin) buttonFactory).setMaterialLabelAndPlaceholder(newMaterialButton(), i18nKey);
     }
 
     public MaterialTextFieldPane toMaterialButton(ObservableValue<String> labelProperty, ObservableValue<String> placeholderProperty) {

@@ -18,7 +18,7 @@ final class OrganizationsPresentationViewActivity extends GenericTablePresentati
     protected void createViewNodes(OrganizationsPresentationModel pm) {
         super.createViewNodes(pm);
 
-        I18nControls.translatePromptText(searchBox, "YourCentrePlaceholder");
+        I18nControls.bindI18nProperties(searchBox, "YourCentre"); // Will translate the prompt
 
         withEventsCheckBox = newCheckBox("WithEvents");
 

@@ -8,6 +8,7 @@ module mongoose.client.i18n {
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.i18n.json;
     requires webfx.framework.client.util;
+    requires webfx.framework.shared.entity;
     requires webfx.framework.shared.operation;
     requires webfx.platform.shared.util;
 

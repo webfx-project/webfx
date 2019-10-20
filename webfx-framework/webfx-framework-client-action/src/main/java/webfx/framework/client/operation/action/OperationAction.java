@@ -1,11 +1,14 @@
 package webfx.framework.client.operation.action;
 
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import webfx.framework.shared.operation.OperationUtil;
 import webfx.framework.client.ui.action.impl.WritableAction;
+import webfx.framework.shared.operation.OperationUtil;
+import webfx.fxkit.util.properties.Properties;
+import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.async.AsyncFunction;
 import webfx.platform.shared.util.function.Factory;
-import webfx.platform.shared.services.log.Logger;
+
 import java.util.function.Function;
 
 /**
@@ -14,13 +17,13 @@ import java.util.function.Function;
 public final class OperationAction<Rq, Rs> extends WritableAction {
 
     private final Function<ActionEvent, Rq> operationRequestFactory;
-    private OperationActionRegistry operationActionRegistry;
+    private OperationActionRegistry operationActionRegistry = OperationActionRegistry.getInstance();
 
-    public OperationAction(Factory<Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
-        this(actionEvent -> operationRequestFactory.create(), topOperationExecutor);
+    public OperationAction(Factory<Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor, ObservableValue... graphicalDependencyProperties) {
+        this(actionEvent -> operationRequestFactory.create(), topOperationExecutor, graphicalDependencyProperties);
     }
 
-    public OperationAction(Function<ActionEvent, Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor) {
+    public OperationAction(Function<ActionEvent, Rq> operationRequestFactory, AsyncFunction<Rq, Rs> topOperationExecutor, ObservableValue... graphicalDependencies) {
         super(actionEvent -> {
             Rq operationRequest = operationRequestFactory.apply(actionEvent);
             Logger.log("Executing " + operationRequest);
@@ -34,9 +37,10 @@ public final class OperationAction<Rq, Rs> extends WritableAction {
         });
         this.operationRequestFactory = operationRequestFactory;
         OperationActionRegistry registry = getOperationActionRegistry();
-        if (registry == null)
-            registry = OperationActionRegistry.getInstance();
-        registry.bindOperationAction(this);
+        registry.bindOperationActionGraphicalProperties(this);
+        // Also if some graphical dependencies are passed, we update the graphical properties when they change
+        if (graphicalDependencies.length > 0)
+            Properties.runNowAndOnPropertiesChange(() -> registry.updateOperationActionGraphicalProperties(this), graphicalDependencies);
     }
 
     public OperationActionRegistry getOperationActionRegistry() {

@@ -37,6 +37,10 @@ public interface Action extends EventHandler<ActionEvent> {
         return visibleProperty().get();
     }
 
+    void setUserData(Object userData);
+
+    Object getUserData();
+
     static Action create(ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
         return new ReadOnlyAction(textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);
     }

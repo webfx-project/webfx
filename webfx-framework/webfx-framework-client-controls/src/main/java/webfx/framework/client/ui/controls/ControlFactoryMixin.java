@@ -109,11 +109,11 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     }
 
     default CheckBox newCheckBox(Object i18nKey) {
-        return I18nControls.translateLabeled(new CheckBox(), i18nKey);
+        return I18nControls.bindI18nProperties(new CheckBox(), i18nKey);
     }
 
     default RadioButton newRadioButton(Object i18nKey) {
-        return I18nControls.translateLabeled(new RadioButton(), i18nKey);
+        return I18nControls.bindI18nProperties(new RadioButton(), i18nKey);
     }
 
     default RadioButton newRadioButton(Object i18nKey, ToggleGroup toggleGroup) {
@@ -123,15 +123,15 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     }
 
     default Label newLabel(Object i18nKey) {
-        return I18nControls.translateLabeled(new Label(), i18nKey);
+        return I18nControls.bindI18nProperties(new Label(), i18nKey);
     }
 
     default TextField newTextField() {
         return new TextField();
     }
 
-    default TextField newTextFieldWithPrompt(Object i18nKey) {
-        return I18nControls.translatePromptText(newTextField(), i18nKey);
+    default TextField newTextField(Object i18nKey) {
+        return I18nControls.bindI18nProperties(newTextField(), i18nKey);
     }
 
     default PasswordField newPasswordField() {
@@ -143,21 +143,21 @@ public interface ControlFactoryMixin extends ActionFactoryMixin {
     }
 
     default Hyperlink newHyperlink(Object i18nKey) {
-        return I18nControls.translateLabeled(newHyperlink(), i18nKey);
+        return I18nControls.bindI18nProperties(newHyperlink(), i18nKey);
     }
 
     default Hyperlink newHyperlink(Object i18nKey, EventHandler<ActionEvent> onAction) {
-        Hyperlink hyperlink = I18nControls.translateLabeled(newHyperlink(), i18nKey);
+        Hyperlink hyperlink = I18nControls.bindI18nProperties(newHyperlink(), i18nKey);
         hyperlink.setOnAction(onAction);
         return hyperlink;
     }
 
-    default TextArea newTextAreaWithPrompt(Object i18nKey) {
-        return I18nControls.translatePromptText(new TextArea(), i18nKey);
+    default TextArea newTextArea(Object i18nKey) {
+        return I18nControls.bindI18nProperties(new TextArea(), i18nKey);
     }
 
     default Text newText(Object i18nKey) {
-        return I18nControls.translateText(new Text(), i18nKey);
+        return I18nControls.bindI18nProperties(new Text(), i18nKey);
     }
 
 }

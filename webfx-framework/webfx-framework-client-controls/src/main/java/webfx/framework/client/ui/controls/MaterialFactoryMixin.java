@@ -18,30 +18,26 @@ public interface MaterialFactoryMixin extends ControlFactoryMixin {
         return MaterialUtil.makeMaterial(newTextField());
     }
 
-    default TextField newMaterialTextField(Object labelKey) {
-        return newMaterialTextField(labelKey, null);
-    }
-
-    default TextField newMaterialTextField(Object labelKey, Object placeholderKey) {
-        return setMaterialLabelAndPlaceholder(newMaterialTextField(), labelKey, placeholderKey);
+    default TextField newMaterialTextField(Object i18nKey) {
+        return setMaterialLabelAndPlaceholder(newMaterialTextField(), i18nKey);
     }
 
     default PasswordField newMaterialPassword() {
         return MaterialUtil.makeMaterial(newPasswordField());
     }
 
-    default PasswordField newMaterialPasswordField(Object labelKey, Object placeholderKey) {
-        return setMaterialLabelAndPlaceholder(newMaterialPassword(), labelKey, placeholderKey);
+    default PasswordField newMaterialPasswordField(Object i18nKey) {
+        return setMaterialLabelAndPlaceholder(newMaterialPassword(), i18nKey);
     }
 
-    default <T extends Control> T setMaterialLabelAndPlaceholder(T control, Object labelKey, Object placeholderKey) {
-        setMaterialLabelAndPlaceholder(MaterialUtil.getMaterialTextField(control), labelKey, placeholderKey);
+    default <T extends Control> T setMaterialLabelAndPlaceholder(T control, Object i18nKey) {
+        setMaterialLabelAndPlaceholder(MaterialUtil.getMaterialTextField(control), i18nKey);
         return control;
     }
 
-    default <T extends MaterialTextField> T setMaterialLabelAndPlaceholder(T materialTextField, Object labelKey, Object placeholderKey) {
-        I18n.translateTextProperty(materialTextField.labelTextProperty(), labelKey);
-        I18n.translateTextProperty(materialTextField.placeholderTextProperty(), placeholderKey);
+    default <T extends MaterialTextField> T setMaterialLabelAndPlaceholder(T materialTextField, Object i18nKey) {
+        I18n.bindI18nTextProperty(materialTextField.labelTextProperty(), i18nKey); // Linking the material labelText property with the i18n text property
+        I18n.bindI18nPromptProperty(materialTextField.placeholderTextProperty(), i18nKey); // Linking the material placeholder property with the i18n proppt property
         return materialTextField;
     }
 
@@ -49,11 +45,7 @@ public interface MaterialFactoryMixin extends ControlFactoryMixin {
         return new MaterialTextFieldPane(region);
     }
 
-    default MaterialTextFieldPane newMaterialRegion(Region region, Object labelKey) {
-        return newMaterialRegion(region, labelKey, null);
-    }
-
-    default MaterialTextFieldPane newMaterialRegion(Region region, Object labelKey, Object placeholderKey) {
-        return setMaterialLabelAndPlaceholder(newMaterialRegion(region), labelKey, placeholderKey);
+    default MaterialTextFieldPane newMaterialRegion(Region region, Object i18nKey) {
+        return setMaterialLabelAndPlaceholder(newMaterialRegion(region), i18nKey);
     }
 }

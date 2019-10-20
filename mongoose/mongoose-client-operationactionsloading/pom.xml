@@ -18,12 +18,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-client-icons</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>mongoose-shared-domain</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -31,6 +25,12 @@
         
         <dependency>
             <artifactId>webfx-framework-client-action</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-client-i18n</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

@@ -50,18 +50,18 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
         Pane container = new StackPane(splitPane);
         setUpContextMenu(rulesTable, () -> newActionGroup(
                 newSeparatorActionGroup(
-                        newAction(() -> new AddNewAllocationRuleRequest( getEvent(), container))
+                        newOperationAction(() -> new AddNewAllocationRuleRequest( getEvent(), container))
                 ),
                 newSeparatorActionGroup(
-                        newAction(() -> new TriggerAllocationRuleRequest( rulesFilter.getSelectedEntity(), container))
+                        newOperationAction(() -> new TriggerAllocationRuleRequest( rulesFilter.getSelectedEntity(), container))
                 ),
                 newSeparatorActionGroup(
-                        newAction(() -> new EditAllocationRuleRequest(   rulesFilter.getSelectedEntity(), container)),
-                        newAction(() -> new DeleteAllocationRuleRequest( rulesFilter.getSelectedEntity(), container))
+                        newOperationAction(() -> new EditAllocationRuleRequest(   rulesFilter.getSelectedEntity(), container)),
+                        newOperationAction(() -> new DeleteAllocationRuleRequest( rulesFilter.getSelectedEntity(), container))
                 ),
                 newSeparatorActionGroup(
-                        newAction(() -> new CopySelectionRequest( rulesFilter.getSelectedEntities(),  rulesFilter.getExpressionColumns())),
-                        newAction(() -> new CopyAllRequest(       rulesFilter.getCurrentEntityList(), rulesFilter.getExpressionColumns()))
+                        newOperationAction(() -> new CopySelectionRequest( rulesFilter.getSelectedEntities(),  rulesFilter.getExpressionColumns())),
+                        newOperationAction(() -> new CopyAllRequest(       rulesFilter.getCurrentEntityList(), rulesFilter.getExpressionColumns()))
                 )));
         return container;
     }

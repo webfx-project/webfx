@@ -47,8 +47,8 @@ final class ContactUsActivity extends ViewDomainActivityBase
 
     @Override
     public Node buildUi() {
-        subjectTextField = newTextFieldWithPrompt("SubjectPlaceholder");
-        bodyTextArea = newTextAreaWithPrompt("YourMessagePlaceholder");
+        subjectTextField = newTextField("Subject"); // Will set the prompt
+        bodyTextArea = newTextArea("YourMessage"); // Will set the prompt
         initValidation();
 
         VBox vBox = new VBox(20, subjectTextField, bodyTextArea, newLargeGreenButton(sendAction));

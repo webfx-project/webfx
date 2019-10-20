@@ -60,14 +60,14 @@ public class MongooseClientContainerActivity extends ViewDomainActivityBase
                 .map(operationCode -> providedEmitters.stream().filter(instantiator -> hasRequestOperationCode(instantiator.instantiateRouteRequest(this), operationCode)).findFirst())
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(instantiator -> newAction(() -> instantiator.instantiateRouteRequest(this))
+                .map(instantiator -> newOperationAction(() -> instantiator.instantiateRouteRequest(this))
                 ).collect(Collectors.toList());
     }
 
     protected ActionGroup contextMenuActionGroup() {
         return newActionGroup(
                 ChangeLanguageRequestEmitter.getProvidedEmitters().stream()
-                        .map(instantiator -> newAction(instantiator::emitLanguageRequest))
+                        .map(instantiator -> newOperationAction(instantiator::emitLanguageRequest))
                         .toArray(Action[]::new)
         );
     }

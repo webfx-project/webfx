@@ -22,7 +22,7 @@ public class TranslateFunction<T> extends Function<T> {
     @Override
     public Object evaluate(T argument, DataReader<T> dataReader) {
         if (argument instanceof String)
-            return I18n.instantTranslateText(argument);
+            return I18n.getI18nText(argument);
         return translate(dataReader.getDomainObjectFromId(argument, null));
     }
 

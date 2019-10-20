@@ -71,7 +71,7 @@ public final class Labels {
     }
 
     public static String instantTranslateLabel(Label label, String keyIfNull) {
-        return instantTranslateLabel(label, I18n.getLanguage(), I18n.instantTranslateText(keyIfNull));
+        return instantTranslateLabel(label, I18n.getLanguage(), I18n.getI18nText(keyIfNull));
     }
 
     public static String instantTranslateLabel(Label label, Object language, String translationIfNull) {

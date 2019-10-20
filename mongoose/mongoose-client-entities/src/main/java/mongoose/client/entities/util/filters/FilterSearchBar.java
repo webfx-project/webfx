@@ -35,7 +35,7 @@ public final class FilterSearchBar {
         else
             columnsSelector = null;
         if (pm instanceof HasSearchTextProperty) {
-            searchBox = mixin.newTextFieldWithPrompt("GenericSearchPlaceholder");
+            searchBox = mixin.newTextField("GenericSearch"); // Will set the prompt
             ((HasSearchTextProperty) pm).searchTextProperty().bind(searchBox.textProperty());
         } else
             searchBox = null;

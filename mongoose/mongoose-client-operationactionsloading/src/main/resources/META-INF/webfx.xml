@@ -10,7 +10,7 @@
     </dependencies>
 
     <providers>
-        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">mongoose.client.operationactionsloading.OperationActionsLoadingModuleInitializer</provider>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">mongoose.client.operationactionsloading.MongooseClientOperationActionsLoader</provider>
     </providers>
 
 </module>

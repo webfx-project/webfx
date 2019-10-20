@@ -3,10 +3,11 @@
 module mongoose.client.operationactionsloading {
 
     // Direct dependencies modules
+    requires java.base;
     requires javafx.base;
-    requires mongoose.client.icons;
     requires mongoose.shared.domain;
     requires webfx.framework.client.action;
+    requires webfx.framework.client.i18n;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
@@ -18,6 +19,6 @@ module mongoose.client.operationactionsloading {
     exports mongoose.client.operationactionsloading;
 
     // Provided services
-    provides webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer with mongoose.client.operationactionsloading.OperationActionsLoadingModuleInitializer;
+    provides webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer with mongoose.client.operationactionsloading.MongooseClientOperationActionsLoader;
 
 }

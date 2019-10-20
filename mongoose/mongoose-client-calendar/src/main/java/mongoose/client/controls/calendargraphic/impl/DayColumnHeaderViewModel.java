@@ -79,9 +79,9 @@ public final class DayColumnHeaderViewModel implements HorizontalDayPositioned {
     }
 
     private void setDate(LocalDate date) {
-        I18nControls.translateText(dayOfWeekText, date.getDayOfWeek().name());
+        I18nControls.bindI18nProperties(dayOfWeekText, date.getDayOfWeek().name());
         dayOfMonthText.setText("" + date.getDayOfMonth());
-        I18nControls.translateText(monthText, date.getMonth().name());
+        I18nControls.bindI18nProperties(monthText, date.getMonth().name());
     }
 
 

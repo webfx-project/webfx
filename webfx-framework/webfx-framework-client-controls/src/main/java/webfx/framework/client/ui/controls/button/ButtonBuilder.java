@@ -155,7 +155,7 @@ public final class ButtonBuilder {
                 ActionBinder.bindButtonToAction(button, action);
             else {
                 if (i18nKey != null)
-                    I18nControls.translateLabeled(button, i18nKey);
+                    I18nControls.bindI18nProperties(button, i18nKey);
                 if (icon == null && iconUrlOrJson != null)
                     icon = JsonImageViews.createImageView(iconUrlOrJson);
                 if (icon != null)

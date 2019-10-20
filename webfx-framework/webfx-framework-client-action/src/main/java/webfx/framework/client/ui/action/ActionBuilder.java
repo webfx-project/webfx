@@ -223,7 +223,7 @@ public class ActionBuilder {
     private void completeTextProperty() {
         if (textProperty == null) {
             if (i18nKey != null)
-                textProperty = I18n.observableText(i18nKey);
+                textProperty = I18n.i18nTextProperty(i18nKey);
             else
                 textProperty = new SimpleStringProperty(text);
         }
@@ -236,7 +236,7 @@ public class ActionBuilder {
             if (graphic != null || i18nKey == null)
                 graphicProperty = new SimpleObjectProperty<>(graphic);
             else
-                graphicProperty = I18nControls.observableGraphicNode(i18nKey);
+                graphicProperty = I18nControls.i18nGraphicProperty(i18nKey);
         }
     }
 

@@ -5,31 +5,49 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import webfx.framework.shared.operation.HasOperationCode;
-import webfx.framework.shared.services.authz.mixin.AuthorizationUtil;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.action.ActionBinder;
+import webfx.framework.shared.operation.HasOperationCode;
+import webfx.framework.shared.services.authz.mixin.AuthorizationUtil;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.async.AsyncFunction;
 import webfx.platform.shared.util.async.Future;
-import java.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
+ * This class is a registry for operation actions, more accurately, for their graphical properties (text, graphic,
+ * disabled and visible properties). It allows a complete code separation between the action handling declaration from
+ * one side and the graphical properties declaration from the other side.
+ * For example, from one side the action handling can be declared typically as follow:
+ *      OperationAction myOperationAction = newOperationAction(() -> new MyOperationRequest(myArguments));
+ * This code just want an action executing myOperationRequest without telling how this action appear in the user interface.
+ * From the other side (another part of the application, usually the initialization code), its graphical properties can
+ * be declared and registered typically as follow:
+ *      Action myGraphicalAction = newAction(...);
+ *      OperationActionRegistry.getInstance().registerOperationGraphicalAction(MyOperationRequest.class, registerOperationGraphicalAction);
+ * or if MyOperationRequest implements HasOperationCode:
+ *      OperationActionRegistry.getInstance().registerOperationGraphicalAction(myOperationCode, registerOperationGraphicalAction)
+ * In this second code, graphical properties can be read from a file or DB listing all operations and bound to I18n. In
+ * this case, none of the graphical properties are hardcoded, they are completely dynamic.
+ * When both sides have been executed, myOperationAction used in the first code is graphically displayed as myGraphicalAction.
+ *
  * @author Bruno Salmon
  */
 public final class OperationActionRegistry {
 
     private static OperationActionRegistry INSTANCE;
 
-    private final Map<Object /* key = request class or operation code */, Action> operationActions = new HashMap<>();
+    private final Map<Object /* key = request class or operation code */, Action> graphicalActions = new HashMap<>();
     private Collection<OperationAction> notYetBoundOperationActions;
     private Map<Object, ObjectProperty<OperationAction>> operationActionProperties;
     private Runnable pendingBindRunnable;
+    private Consumer<OperationAction> operationActionGraphicalPropertiesUpdater;
 
     public static OperationActionRegistry getInstance() {
         if (INSTANCE == null)
@@ -37,36 +55,15 @@ public final class OperationActionRegistry {
         return INSTANCE;
     }
 
-    public <A> OperationActionRegistry registerOperationAction(Class<A> operationRequestClass, Action operationAction) {
-        operationActions.put(operationRequestClass, operationAction);
-        return checkPendingOperationBindings();
-    }
-
-    public OperationActionRegistry registerOperationAction(Object operationCode, Action operationAction) {
-        operationActions.put(operationCode, operationAction);
-        return checkPendingOperationBindings();
-    }
-
-    private OperationActionRegistry checkPendingOperationBindings() {
-        if (notYetBoundOperationActions != null && pendingBindRunnable == null) {
-            UiScheduler.scheduleDeferred(pendingBindRunnable = () -> {
-                Collection<OperationAction> actions =  notYetBoundOperationActions;
-                pendingBindRunnable = null;
-                notYetBoundOperationActions = null;
-                for (OperationAction action : actions)
-                    bindOperationAction(action);
-            });
-        }
-        return this;
-    }
-
-    public ObservableValue<OperationAction> operationActionProperty(Object operationCode) {
-        ObjectProperty<OperationAction> operationActionProperty = new SimpleObjectProperty<>();
-        if (operationActionProperties == null)
-            operationActionProperties = new HashMap<>();
-        operationActionProperties.put(operationCode, operationActionProperty);
-        return operationActionProperty;
-    }
+    /**
+     * This method should be used when creating a graphical action for an operation that is not public but requires an
+     * authorization. It will return an observable boolean value indicating if the operation is authorized or not
+     * (reacting to the user principal change). Needs to be considered when setting up the disabled and visible properties.
+     * @param operationCode
+     * @param userPrincipalProperty
+     * @param authorizationFunction
+     * @return
+     */
 
     public ObservableBooleanValue authorizedOperationActionProperty(Object operationCode, ObservableValue userPrincipalProperty, AsyncFunction<Object, Boolean> authorizationFunction) {
         // Note: it's possible we don't know yet what operation action we are talking about at this stage, because this
@@ -85,52 +82,54 @@ public final class OperationActionRegistry {
             }
         };
         return AuthorizationUtil.authorizedOperationProperty(
-                  operationRequestFactory
+                operationRequestFactory
                 , embedAuthorizationFunction
-                , operationActionProperty(operationCode) // will change when operation action will be registered, causing a new authorization evaluation
+                , operationActionProperty(operationCode) // reactive property (will change when operation action will be registered, causing a new authorization evaluation)
                 , userPrincipalProperty);
     }
 
-
-    public Action getOperationActionFromClass(Class operationRequestClass) {
-        return operationActions.get(operationRequestClass);
+    public <A> OperationActionRegistry registerOperationGraphicalAction(Class<A> operationRequestClass, Action graphicalAction) {
+        graphicalActions.put(operationRequestClass, graphicalAction);
+        return checkPendingOperationActionGraphicalBindings();
     }
 
-    public Action getOperationActionFromCode(Object operationCode) {
-        return operationActions.get(operationCode);
+    public OperationActionRegistry registerOperationGraphicalAction(Object operationCode, Action graphicalAction) {
+        graphicalActions.put(operationCode, graphicalAction);
+        return checkPendingOperationActionGraphicalBindings();
     }
 
-    private Object getOperationCodeFromAction(Action action) {
-        for (Map.Entry<Object, Action> entry : operationActions.entrySet()) {
-            if (entry.getValue() == action)
-                return entry.getKey();
+    private OperationActionRegistry checkPendingOperationActionGraphicalBindings() {
+        if (notYetBoundOperationActions != null && pendingBindRunnable == null) {
+            UiScheduler.scheduleDeferred(pendingBindRunnable = () -> {
+                Collection<OperationAction> operationActionsToBind =  notYetBoundOperationActions;
+                pendingBindRunnable = null;
+                notYetBoundOperationActions = null;
+                for (OperationAction operationAction : operationActionsToBind)
+                    bindOperationActionGraphicalProperties(operationAction);
+            });
         }
-        return null;
+        return this;
     }
 
-    public Action getOperationActionFromRequest(Object operationRequest) {
-        Action operationAction = getOperationActionFromClass(operationRequest.getClass());
-        if (operationAction == null && operationRequest instanceof HasOperationCode)
-            operationAction = getOperationActionFromCode(((HasOperationCode) operationRequest).getOperationCode());
-        return operationAction;
-    }
-
-    public <A, R> void bindOperationAction(OperationAction<A, R> operationAction) {
-        if (bindOperationActionNow(operationAction))
+    <A, R> void bindOperationActionGraphicalProperties(OperationAction<A, R> operationAction) {
+        if (bindOperationActionGraphicalPropertiesNow(operationAction))
             return;
         if (notYetBoundOperationActions == null)
             notYetBoundOperationActions = new ArrayList<>();
         notYetBoundOperationActions.add(operationAction);
     }
 
-    private <A, R> boolean bindOperationActionNow(OperationAction<A, R> operationAction) {
-        // The binding is possible only if an operation action has been registered
-        Action registeredOperationAction = getOperationActionFromRequest(newOperationActionRequest(operationAction));
+    private <A, R> boolean bindOperationActionGraphicalPropertiesNow(OperationAction<A, R> operationAction) {
+        // The binding is possible only if a graphical action has been registered for that operation
+        // Instantiating an operation request just to have the request class or operation code
+        A operationRequest = newOperationActionRequest(operationAction);
+        // Then getting the graphical action from it
+        Action graphicalAction = getGraphicalActionFromOperationRequest(operationRequest);
         // If this is not the case, we return false (can't do the binding now)
-        if (registeredOperationAction == null)
+        if (graphicalAction == null)
             return false;
         if (operationActionProperties != null) {
-            Object code = getOperationCodeFromAction(registeredOperationAction);
+            Object code = getOperationCodeFromGraphicalAction(graphicalAction);
             if (code != null) {
                 ObjectProperty<OperationAction> operationActionProperty = operationActionProperties.remove(code);
                 if (operationActionProperty != null)
@@ -139,11 +138,59 @@ public final class OperationActionRegistry {
                     operationActionProperties = null;
             }
         }
-        ActionBinder.bindWritableActionToAction(operationAction, registeredOperationAction);
+        ActionBinder.bindWritableActionToAction(operationAction, graphicalAction);
         return true;
     }
 
-    private <A, R> A newOperationActionRequest(OperationAction<A, R> operationAction) {
+    public <A, R> Action getGraphicalActionFromOperationAction(OperationAction<A, R> operationAction) {
+        // Instantiating an operation request just to have the request class or operation code
+        A operationRequest = newOperationActionRequest(operationAction);
+        // Then getting the graphical action from it
+        return getGraphicalActionFromOperationRequest(operationRequest);
+    }
+
+    public Action getGraphicalActionFromOperationRequest(Object operationRequest) {
+        // Trying to get the operation action registered with the operation request class or code.
+        Action graphicalAction = getGraphicalActionFromOperationRequestClass(operationRequest.getClass());
+        if (graphicalAction == null && operationRequest instanceof HasOperationCode)
+            graphicalAction = getGraphicalActionFromOperationCode(((HasOperationCode) operationRequest).getOperationCode());
+        return graphicalAction;
+    }
+
+    private Action getGraphicalActionFromOperationRequestClass(Class operationRequestClass) {
+        return graphicalActions.get(operationRequestClass);
+    }
+
+    private Action getGraphicalActionFromOperationCode(Object operationCode) {
+        return graphicalActions.get(operationCode);
+    }
+
+    private Object getOperationCodeFromGraphicalAction(Action graphicalAction) {
+        for (Map.Entry<Object, Action> entry : graphicalActions.entrySet()) {
+            if (entry.getValue() == graphicalAction)
+                return entry.getKey();
+        }
+        return null;
+    }
+
+    public void setOperationActionGraphicalPropertiesUpdater(Consumer<OperationAction> operationActionGraphicalPropertiesUpdater) {
+        this.operationActionGraphicalPropertiesUpdater = operationActionGraphicalPropertiesUpdater;
+    }
+
+    <A, R> void updateOperationActionGraphicalProperties(OperationAction<A, R> operationAction) {
+        if (operationActionGraphicalPropertiesUpdater != null)
+            operationActionGraphicalPropertiesUpdater.accept(operationAction);
+    }
+
+    private ObservableValue<OperationAction> operationActionProperty(Object operationCode) {
+        ObjectProperty<OperationAction> operationActionProperty = new SimpleObjectProperty<>();
+        if (operationActionProperties == null)
+            operationActionProperties = new HashMap<>();
+        operationActionProperties.put(operationCode, operationActionProperty);
+        return operationActionProperty;
+    }
+
+    public <A, R> A newOperationActionRequest(OperationAction<A, R> operationAction) {
         if (operationAction == null)
             return null;
         Function<ActionEvent, A> operationRequestFactory = operationAction.getOperationRequestFactory();

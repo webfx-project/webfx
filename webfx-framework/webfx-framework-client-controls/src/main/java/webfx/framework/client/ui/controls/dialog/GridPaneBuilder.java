@@ -52,18 +52,18 @@ public final class GridPaneBuilder implements DialogBuilder {
         return dialogCallback;
     }
 
-    public GridPaneBuilder addLabelTextInputRow(String labelKey, TextInputControl textInput) {
-        return addNewRow(createLabel(labelKey), setUpTextInput(textInput));
+    public GridPaneBuilder addLabelTextInputRow(Object i18nKey, TextInputControl textInput) {
+        return addNewRow(createLabel(i18nKey), setUpTextInput(textInput));
     }
 
-    public GridPaneBuilder addLabelNodeRow(String labelKey, Node node) {
+    public GridPaneBuilder addLabelNodeRow(Object i18nKey, Node node) {
         GridPane.setHgrow(node, Priority.ALWAYS);
-        return addNewRow(createLabel(labelKey), node);
+        return addNewRow(createLabel(i18nKey), node);
     }
 
-    public GridPaneBuilder addCheckBoxTextInputRow(String labelKey, CheckBox checkBox, TextInputControl textInput) {
+    public GridPaneBuilder addCheckBoxTextInputRow(Object i18nKey, CheckBox checkBox, TextInputControl textInput) {
         textInput.visibleProperty().bind(checkBox.selectedProperty());
-        return addNewRow(setUpLabeled(checkBox, labelKey), setUpTextInput(textInput));
+        return addNewRow(setUpLabeled(checkBox, i18nKey), setUpTextInput(textInput));
     }
 
     public GridPaneBuilder addNewRow(Node... children) {
@@ -113,7 +113,7 @@ public final class GridPaneBuilder implements DialogBuilder {
     }
 
     public GridPaneBuilder addButton(String buttonKey, Button button) {
-        I18nControls.translateLabeled(button, buttonKey).setFont(font);
+        I18nControls.bindI18nProperties(button, buttonKey).setFont(font);
         GridPane.setHalignment(button, HPos.RIGHT);
         gridPane.add(button, 0, rowCount++, colCount, 1);
         return this;
@@ -138,7 +138,7 @@ public final class GridPaneBuilder implements DialogBuilder {
     private HBox createButtonBar(String button1Key, Button button1, String button2Key, Button button2) {
         if ("Ok".equals(button1Key) && !watchedUserProperties.isEmpty())
             button1.disableProperty().bind(noChangesProperty);
-        return createButtonBar(I18nControls.translateLabeled(button1, button1Key), I18nControls.translateLabeled(button2, button2Key));
+        return createButtonBar(I18nControls.bindI18nProperties(button1, button1Key), I18nControls.bindI18nProperties(button2, button2Key));
     }
 
     private HBox createButtonBar(Button... buttons) {
@@ -156,12 +156,12 @@ public final class GridPaneBuilder implements DialogBuilder {
 
     //// private methods
 
-    private Label createLabel(String labelKey) {
-        return setUpLabeled(new Label(), labelKey);
+    private Label createLabel(Object i18nKey) {
+        return setUpLabeled(new Label(), i18nKey);
     }
 
-    private <T extends Labeled> T setUpLabeled(T labeled, String labelKey) {
-        I18nControls.translateLabeled(labeled, labelKey).setFont(font);
+    private <T extends Labeled> T setUpLabeled(T labeled, Object i18nKey) {
+        I18nControls.bindI18nProperties(labeled, i18nKey).setFont(font);
         //label.textFillProperty().bind(Theme.dialogTextFillProperty());
         GridPane.setHalignment(labeled, HPos.RIGHT);
         if (labeled instanceof CheckBox)
