@@ -52,6 +52,7 @@ public abstract class NodePeerBase
                 , node.layoutXProperty()
                 , node.layoutYProperty()
                 , node.mouseTransparentProperty()
+                , node.onMouseDraggedProperty()
         );
     }
 
@@ -106,6 +107,9 @@ public abstract class NodePeerBase
                 || updateProperty(node.layoutXProperty(), changedProperty, p -> mixin.updateLayoutX(p.doubleValue()))
                 || updateProperty(node.layoutYProperty(), changedProperty, p -> mixin.updateLayoutY(p.doubleValue()))
                 || updateProperty(node.cursorProperty(), changedProperty, mixin::updateCursor)
+                || updateProperty(node.onDragDetectedProperty(), changedProperty, mixin::updateOnDragDetected)
+                || updateProperty(node.onDragOverProperty(), changedProperty, mixin::updateOnDragOver)
+                || updateProperty(node.onDragDroppedProperty(), changedProperty, mixin::updateOnDragDropped)
                 ;
     }
 

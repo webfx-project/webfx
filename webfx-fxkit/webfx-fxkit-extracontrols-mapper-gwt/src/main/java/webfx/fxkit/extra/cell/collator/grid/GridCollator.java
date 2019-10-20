@@ -3,6 +3,7 @@ package webfx.fxkit.extra.cell.collator.grid;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -12,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.SkinBase;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -138,6 +141,18 @@ public final class GridCollator extends DataGrid {
 
         @Override
         public void updateCursor(Cursor cursor) {
+        }
+
+        @Override
+        public void updateOnDragDetected(EventHandler<? super MouseEvent> eventHandler) {
+        }
+
+        @Override
+        public void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler) {
+        }
+
+        @Override
+        public void updateOnDragOver(EventHandler<? super DragEvent> eventHandler) {
         }
 
         @Override

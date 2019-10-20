@@ -22,8 +22,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
@@ -1901,11 +1900,6 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return getEventHandlerProperties().onMousePressedProperty();
     }
 
-    public final void setOnMouseDragged(
-            EventHandler<? super MouseEvent> value) {
-        onMouseDraggedProperty().set(value);
-    }
-
     public final void setOnMouseEntered(
             EventHandler<? super MouseEvent> value) {
         onMouseEnteredProperty().set(value);
@@ -1942,6 +1936,11 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return getEventHandlerProperties().onMouseExitedProperty();
     }
 
+    public final void setOnMouseDragged(
+            EventHandler<? super MouseEvent> value) {
+        onMouseDraggedProperty().set(value);
+    }
+
     public final EventHandler<? super MouseEvent> getOnMouseDragged() {
         return (eventHandlerProperties == null)
                 ? null : eventHandlerProperties.getOnMouseDragged();
@@ -1956,6 +1955,98 @@ public abstract class Node implements INode, EventTarget, Styleable {
     public final ObjectProperty<EventHandler<? super MouseEvent>>
     onMouseDraggedProperty() {
         return getEventHandlerProperties().onMouseDraggedProperty();
+    }
+
+    public final void setOnDragDetected(
+            EventHandler<? super MouseEvent> value) {
+        onDragDetectedProperty().set(value);
+    }
+
+    public final EventHandler<? super MouseEvent> getOnDragDetected() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnDragDetected();
+    }
+
+    /**
+     * Defines a function to be called when drag gesture has been
+     * detected. This is the right place to start drag and drop operation.
+     * @return the event handler that is called when drag gesture has been
+     * detected
+     */
+    public final ObjectProperty<EventHandler<? super MouseEvent>>
+    onDragDetectedProperty() {
+        return getEventHandlerProperties().onDragDetectedProperty();
+    }
+
+    public final void setOnDragOver(
+            EventHandler<? super DragEvent> value) {
+        onDragOverProperty().set(value);
+    }
+
+    public final EventHandler<? super DragEvent> getOnDragOver() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnDragOver();
+    }
+
+    /**
+     * Defines a function to be called when drag gesture progresses within
+     * this {@code Node}.
+     * @return the event handler that is called when drag gesture progresses
+     * within this {@code Node}
+     */
+    public final ObjectProperty<EventHandler<? super DragEvent>>
+    onDragOverProperty() {
+        return getEventHandlerProperties().onDragOverProperty();
+    }
+
+    public final void setOnDragDropped(
+            EventHandler<? super DragEvent> value) {
+        onDragDroppedProperty().set(value);
+    }
+
+    public final EventHandler<? super DragEvent> getOnDragDropped() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnDragDropped();
+    }
+
+    /**
+     * Defines a function to be called when the mouse button is released
+     * on this {@code Node} during drag and drop gesture. Transfer of data from
+     * the {@link DragEvent}'s {@link DragEvent#getDragboard() dragboard} should
+     * happen in this function.
+     * @return the event handler that is called when the mouse button is
+     * released on this {@code Node}
+     */
+    public final ObjectProperty<EventHandler<? super DragEvent>>
+    onDragDroppedProperty() {
+        return getEventHandlerProperties().onDragDroppedProperty();
+    }
+
+    /**
+     * Confirms a potential drag and drop gesture that is recognized over this
+     * {@code Node}.
+     * Can be called only from a DRAG_DETECTED event handler. The returned
+     * {@link Dragboard} is used to transfer data during
+     * the drag and drop gesture. Placing this {@code Node}'s data on the
+     * {@link Dragboard} also identifies this {@code Node} as the source of
+     * the drag and drop gesture.
+     * More detail about drag and drop gestures is described in the overivew
+     * of {@link DragEvent}.
+     *
+     * @see DragEvent
+     * @param transferModes The supported {@code TransferMode}(s) of this {@code Node}
+     * @return A {@code Dragboard} to place this {@code Node}'s data on
+     * @throws IllegalStateException if drag and drop cannot be started at this
+     * moment (it's called outside of {@code DRAG_DETECTED} event handling or
+     * this node is not in scene).
+     */
+    public Dragboard startDragAndDrop(TransferMode... transferModes) {
+        if (getScene() != null) {
+            return getScene().startDragAndDrop(this, transferModes);
+        }
+
+        throw new IllegalStateException("Cannot start drag and drop on node "
+                + "that is not in scene");
     }
 
 }

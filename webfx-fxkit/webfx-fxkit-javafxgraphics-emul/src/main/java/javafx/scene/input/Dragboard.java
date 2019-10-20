@@ -1,5 +1,6 @@
 package javafx.scene.input;
 
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 import java.util.Set;
@@ -14,6 +15,11 @@ public final class Dragboard extends Clipboard {
      * Whether access to the data requires a permission.
      */
     //private boolean dataAccessRestricted = true;
+    private final Scene.DnDGesture dnDGesture; // WebFx addition
+
+    public Dragboard(Scene.DnDGesture dnDGesture) {
+        this.dnDGesture = dnDGesture;
+    }
 
 /*
     Dragboard(TKClipboard peer) {
@@ -21,9 +27,9 @@ public final class Dragboard extends Clipboard {
     }
 */
 
+/*
     @Override
     Object getContentImpl(DataFormat dataFormat) {
-/*
         if (dataAccessRestricted) {
             final SecurityManager securityManager = System.getSecurityManager();
             if (securityManager != null) {
@@ -32,16 +38,16 @@ public final class Dragboard extends Clipboard {
                 securityManager.checkPermission(clipboardPerm);
             }
         }
-*/
         return super.getContentImpl(dataFormat);
     }
+*/
 
     /**
      * Gets set of transport modes supported by source of this drag opeation.
      * @return set of supported transfer modes
      */
     public final Set<TransferMode> getTransferModes() {
-        return null; //peer.getTransferModes();
+        return dnDGesture.sourceTransferModes; //peer.getTransferModes();
     }
 
     /**

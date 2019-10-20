@@ -2,11 +2,13 @@ package webfx.fxkit.javafx.mapper.peer;
 
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.event.EventTarget;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Transform;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
@@ -126,6 +128,20 @@ public abstract class FxNodePeer
         getFxNode().setCursor(cursor);
     }
 
+    @Override
+    public void updateOnDragDetected(EventHandler<? super MouseEvent> eventHandler) {
+        fxNode.setOnDragDetected(eventHandler);
+    }
+
+    @Override
+    public void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler) {
+        fxNode.setOnDragDropped(eventHandler);
+    }
+
+    @Override
+    public void updateOnDragOver(EventHandler<? super DragEvent> eventHandler) {
+        fxNode.setOnDragOver(eventHandler);
+    }
 
     private static MouseEvent toMouseEvent(Object source, EventTarget target, javafx.scene.input.MouseEvent e) {
         return new MouseEvent(source, target, e.getEventType(), e.getX(), e.getY(), e.getScreenX(), e.getScreenY(), null, e.getClickCount(), e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(), e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), null);

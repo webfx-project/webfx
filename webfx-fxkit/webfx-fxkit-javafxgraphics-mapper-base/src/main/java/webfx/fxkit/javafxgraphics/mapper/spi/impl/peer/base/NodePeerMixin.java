@@ -3,10 +3,13 @@ package webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Transform;
 import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
@@ -90,4 +93,10 @@ public interface NodePeerMixin
     void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change);
 
     void updateCursor(Cursor cursor);
+
+    void updateOnDragDetected(EventHandler<? super MouseEvent> eventHandler);
+
+    void updateOnDragOver(EventHandler<? super DragEvent> eventHandler);
+
+    void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler);
 }

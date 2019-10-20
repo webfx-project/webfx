@@ -3,6 +3,7 @@ package javafx.scene;
 import com.sun.javafx.collections.SourceAdapterChange;
 import com.sun.javafx.event.EventQueue;
 import com.sun.javafx.scene.SceneEventDispatcher;
+import com.sun.javafx.scene.input.InputEventUtils;
 import com.sun.javafx.tk.TKPulseListener;
 import com.sun.javafx.tk.TKSceneListener;
 import javafx.animation.KeyFrame;
@@ -1460,6 +1461,28 @@ public class Scene implements EventTarget,
 */
     }
 
+    public DnDGesture dndGesture = null;
+
+    Dragboard startDragAndDrop(EventTarget source, TransferMode... transferModes) {
+        //Toolkit.getToolkit().checkFxUserThread();
+        if (dndGesture == null) { // WebFx addition
+            dndGesture = new DnDGesture();
+            dndGesture.processingDragDetected();
+        }
+        if (dndGesture == null ||
+                (dndGesture.dragDetected != DragDetectedState.PROCESSING))
+        {
+            throw new IllegalStateException("Cannot start drag and drop " +
+                    "outside of DRAG_DETECTED event handler");
+        }
+
+        Set<TransferMode> set = EnumSet.noneOf(TransferMode.class);
+        for (TransferMode tm : InputEventUtils.safeTransferModes(transferModes)) {
+            set.add(tm);
+        }
+        return dndGesture.startDrag(source, set);
+    }
+
 
     /*******************************************************************************
      *                                                                             *
@@ -2212,6 +2235,403 @@ public class Scene implements EventTarget,
         public List<E> getAddedSubList() {
             return wasAdded()? snapshotList.subList(getFrom(), getTo()) : java.util.Collections.emptyList();
         }
+    }
+
+    /**
+     * A Drag and Drop gesture has a lifespan that lasts from mouse
+     * PRESSED event to mouse RELEASED event.
+     */
+    public class DnDGesture {
+        /*private final double hysteresisSizeX =
+                Toolkit.getToolkit().getMultiClickMaxX();
+        private final double hysteresisSizeY =
+                Toolkit.getToolkit().getMultiClickMaxY();*/
+
+        public EventTarget source = null;
+        public Set<TransferMode> sourceTransferModes = null;
+        public TransferMode acceptedTransferMode = null;
+        public Dragboard dragboard = null;
+        private EventTarget potentialTarget = null;
+        public EventTarget target = null;
+        private DragDetectedState dragDetected = DragDetectedState.NOT_YET;
+        private double pressedX;
+        private double pressedY;
+        private List<EventTarget> currentTargets = new ArrayList<EventTarget>();
+        private List<EventTarget> newTargets = new ArrayList<EventTarget>();
+        private EventTarget fullPDRSource = null;
+
+        /**
+         * Fires event on a given target or on scene if the node is null
+         */
+        /*private void fireEvent(EventTarget target, Event e) {
+            if (target != null) {
+                Event.fireEvent(target, e);
+            }
+        }*/
+
+        /**
+         * Called when DRAG_DETECTED event is going to be processed by
+         * application
+         */
+        private void processingDragDetected() {
+            dragDetected = DragDetectedState.PROCESSING;
+        }
+
+        /**
+         * Called after DRAG_DETECTED event has been processed by application
+         */
+        /*private void dragDetectedProcessed() {
+            dragDetected = DragDetectedState.DONE;
+            final boolean hasContent = (dragboard != null) && (ClipboardHelper.contentPut(dragboard));
+            if (hasContent) {
+                *//* start DnD *//*
+                Toolkit.getToolkit().startDrag(Scene.this.peer,
+                        sourceTransferModes,
+                        new DragSourceListener(),
+                        dragboard);
+            } else if (fullPDRSource != null) {
+                *//* start PDR *//*
+                Scene.this.mouseHandler.enterFullPDR(fullPDRSource);
+            }
+
+            fullPDRSource = null;
+        }*/
+
+        /**
+         * Sets the default dragDetect value
+         */
+        /*private void processDragDetection(MouseEvent mouseEvent) {
+
+            if (dragDetected != DragDetectedState.NOT_YET) {
+                mouseEvent.setDragDetect(false);
+                return;
+            }
+
+            if (mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
+                pressedX = mouseEvent.getSceneX();
+                pressedY = mouseEvent.getSceneY();
+
+                mouseEvent.setDragDetect(false);
+
+            } else if (mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+
+                double deltaX = Math.abs(mouseEvent.getSceneX() - pressedX);
+                double deltaY = Math.abs(mouseEvent.getSceneY() - pressedY);
+                mouseEvent.setDragDetect(deltaX > hysteresisSizeX ||
+                        deltaY > hysteresisSizeY);
+
+            }
+        }*/
+
+        /**
+         * This function is useful for drag gesture recognition from
+         * within this Scene (as opposed to in the TK implementation... by the platform)
+         */
+        /*private boolean process(MouseEvent mouseEvent, EventTarget target) {
+            boolean continueProcessing = true;
+            if (!PLATFORM_DRAG_GESTURE_INITIATION) {
+
+                if (dragDetected != DragDetectedState.DONE &&
+                        (mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED ||
+                                mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED) &&
+                        mouseEvent.isDragDetect()) {
+
+                    processingDragDetected();
+
+                    if (target != null) {
+                        final MouseEvent detectedEvent = mouseEvent.copyFor(
+                                mouseEvent.getSource(), target,
+                                MouseEvent.DRAG_DETECTED);
+
+                        try {
+                            fireEvent(target, detectedEvent);
+                        } finally {
+                            // Putting data to dragboard finished, restrict access to them
+                            if (dragboard != null) {
+                                DragboardHelper.setDataAccessRestriction(
+                                        dragboard, true);
+                            }
+                        }
+                    }
+
+                    dragDetectedProcessed();
+                }
+
+                if (mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED) {
+                    continueProcessing = false;
+                }
+            }
+            return continueProcessing;
+        }*/
+
+        /*
+         * Called when a drag source is recognized. This occurs at the very start of
+         * the publicly visible drag and drop API, as it is responsible for calling
+         * the Node.onDragSourceRecognized function.
+         */
+        /*private boolean processRecognized(DragEvent de) {
+            MouseEvent me = new MouseEvent(
+                    MouseEvent.DRAG_DETECTED, de.getX(), de.getY(),
+                    de.getSceneX(), de.getScreenY(), MouseButton.PRIMARY, 1,
+                    false, false, false, false, false, true, false, false, false,
+                    false, de.getPickResult());
+
+            processingDragDetected();
+
+            final EventTarget target = de.getPickResult().getIntersectedNode();
+            try {
+                fireEvent(target != null ? target : Scene.this, me);
+            } finally {
+                // Putting data to dragboard finished, restrict access to them
+                if (dragboard != null) {
+                    DragboardHelper.setDataAccessRestriction(
+                            dragboard, true);
+                }
+            }
+
+            dragDetectedProcessed();
+
+            final boolean hasContent = dragboard != null
+                    && !dragboard.getContentTypes().isEmpty();
+            return hasContent;
+        }*/
+
+        /*private void processDropEnd(DragEvent de) {
+            if (source == null) {
+                System.out.println("Scene.DnDGesture.processDropEnd() - UNEXPECTD - source is NULL");
+                return;
+            }
+
+            de = new DragEvent(de.getSource(), source, DragEvent.DRAG_DONE,
+                    de.getDragboard(), de.getSceneX(), de.getSceneY(),
+                    de.getScreenX(), de.getScreenY(),
+                    de.getTransferMode(), source, target, de.getPickResult());
+
+            Event.fireEvent(source, de);
+
+            tmpTargetWrapper.clear();
+            handleExitEnter(de, tmpTargetWrapper);
+
+            // at this point the drag and drop operation is completely over, so we
+            // can tell the toolkit that it can clean up if needs be.
+            Toolkit.getToolkit().stopDrag(dragboard);
+        }*/
+
+        /*private TransferMode processTargetEnterOver(DragEvent de) {
+            pick(tmpTargetWrapper, de.getSceneX(), de.getSceneY());
+            final EventTarget pickedTarget = tmpTargetWrapper.getEventTarget();
+
+            if (dragboard == null) {
+                dragboard = createDragboard(de, false);
+            }
+
+            de = new DragEvent(de.getSource(), pickedTarget, de.getEventType(),
+                    dragboard, de.getSceneX(), de.getSceneY(),
+                    de.getScreenX(), de.getScreenY(),
+                    de.getTransferMode(), source, potentialTarget, de.getPickResult());
+
+            handleExitEnter(de, tmpTargetWrapper);
+
+            de = new DragEvent(de.getSource(), pickedTarget, DragEvent.DRAG_OVER,
+                    de.getDragboard(), de.getSceneX(), de.getSceneY(),
+                    de.getScreenX(), de.getScreenY(),
+                    de.getTransferMode(), source, potentialTarget, de.getPickResult());
+
+            fireEvent(pickedTarget, de);
+
+            Object acceptingObject = de.getAcceptingObject();
+            potentialTarget = acceptingObject instanceof EventTarget
+                    ? (EventTarget) acceptingObject : null;
+            acceptedTransferMode = de.getAcceptedTransferMode();
+            return acceptedTransferMode;
+        }*/
+
+        /*private void processTargetActionChanged(DragEvent de) {
+            // Do we want DRAG_TRANSFER_MODE_CHANGED event?
+//            final Node pickedNode = Scene.this.mouseHandler.pickNode(de.getX(), de.getY());
+//            if (pickedNode != null && pickedNode.isTreeVisible()) {
+//                de = DragEvent.copy(de.getSource(), pickedNode, source,
+//                        pickedNode, de, DragEvent.DRAG_TRANSFER_MODE_CHANGED);
+//
+//                if (dragboard == null) {
+//                    dragboard = createDragboard(de);
+//                }
+//                dragboard = de.getPlatformDragboard();
+//
+//                fireEvent(pickedNode, de);
+//            }
+        }*/
+
+        /*private void processTargetExit(DragEvent de) {
+            if (dragboard == null) {
+                // dragboard should have been created in processTargetEnterOver()
+                throw new NullPointerException("dragboard is null in processTargetExit()");
+            }
+
+            if (currentTargets.size() > 0) {
+                potentialTarget = null;
+                tmpTargetWrapper.clear();
+                handleExitEnter(de, tmpTargetWrapper);
+            }
+        }*/
+
+        /*private TransferMode processTargetDrop(DragEvent de) {
+            pick(tmpTargetWrapper, de.getSceneX(), de.getSceneY());
+            final EventTarget pickedTarget = tmpTargetWrapper.getEventTarget();
+
+            de = new DragEvent(de.getSource(), pickedTarget, DragEvent.DRAG_DROPPED,
+                    de.getDragboard(), de.getSceneX(), de.getSceneY(),
+                    de.getScreenX(), de.getScreenY(),
+                    acceptedTransferMode, source, potentialTarget, de.getPickResult());
+
+            if (dragboard == null) {
+                // dragboard should have been created in processTargetEnterOver()
+                throw new NullPointerException("dragboard is null in processTargetDrop()");
+            }
+
+            handleExitEnter(de, tmpTargetWrapper);
+
+            fireEvent(pickedTarget, de);
+
+            Object acceptingObject = de.getAcceptingObject();
+            potentialTarget = acceptingObject instanceof EventTarget
+                    ? (EventTarget) acceptingObject : null;
+            target = potentialTarget;
+
+            TransferMode result = de.isDropCompleted() ?
+                    de.getAcceptedTransferMode() : null;
+
+            tmpTargetWrapper.clear();
+            handleExitEnter(de, tmpTargetWrapper);
+
+            return result;
+        }*/
+
+        /*private void handleExitEnter(DragEvent e, TargetWrapper target) {
+            EventTarget currentTarget =
+                    currentTargets.size() > 0 ? currentTargets.get(0) : null;
+
+            if (target.getEventTarget() != currentTarget) {
+
+                target.fillHierarchy(newTargets);
+
+                int i = currentTargets.size() - 1;
+                int j = newTargets.size() - 1;
+
+                while (i >= 0 && j >= 0 && currentTargets.get(i) == newTargets.get(j)) {
+                    i--;
+                    j--;
+                }
+
+                for (; i >= 0; i--) {
+                    EventTarget t = currentTargets.get(i);
+                    if (potentialTarget == t) {
+                        potentialTarget = null;
+                    }
+                    e = e.copyFor(e.getSource(), t, source,
+                            potentialTarget, DragEvent.DRAG_EXITED_TARGET);
+                    Event.fireEvent(t, e);
+                }
+
+                potentialTarget = null;
+                for (; j >= 0; j--) {
+                    EventTarget t = newTargets.get(j);
+                    e = e.copyFor(e.getSource(), t, source,
+                            potentialTarget, DragEvent.DRAG_ENTERED_TARGET);
+                    Object acceptingObject = e.getAcceptingObject();
+                    if (acceptingObject instanceof EventTarget) {
+                        potentialTarget = (EventTarget) acceptingObject;
+                    }
+                    Event.fireEvent(t, e);
+                }
+
+                currentTargets.clear();
+                currentTargets.addAll(newTargets);
+                newTargets.clear();
+            }
+        }*/
+
+//        function getIntendedTransferMode(e:MouseEvent):TransferMode {
+//            return if (e.altDown) TransferMode.COPY else TransferMode.MOVE;
+//        }
+
+        /*
+         * Function that hooks into the key processing code in Scene to handle the
+         * situation where a drag and drop event is taking place and the user presses
+         * the escape key to cancel the drag and drop operation.
+         */
+        /*private boolean processKey(KeyEvent e) {
+            //note: this seems not to be called, the DnD cancelation is provided by platform
+            if ((e.getEventType() == KeyEvent.KEY_PRESSED) && (e.getCode() == KeyCode.ESCAPE)) {
+
+                // cancel drag and drop
+                DragEvent de = new DragEvent(
+                        source, source, DragEvent.DRAG_DONE, dragboard, 0, 0, 0, 0,
+                        null, source, null, null);
+                if (source != null) {
+                    Event.fireEvent(source, de);
+                }
+
+                tmpTargetWrapper.clear();
+                handleExitEnter(de, tmpTargetWrapper);
+
+                return false;
+            }
+            return true;
+        }*/
+
+        /*
+         * This starts the drag gesture running, creating the dragboard used for
+         * the remainder of this drag and drop operation.
+         */
+        private Dragboard startDrag(EventTarget source, Set<TransferMode> t) {
+            if (dragDetected != DragDetectedState.PROCESSING) {
+                throw new IllegalStateException("Cannot start drag and drop "
+                        + "outside of DRAG_DETECTED event handler");
+            }
+
+            if (t.isEmpty()) {
+                dragboard = null;
+            } else if (dragboard == null) {
+                dragboard = createDragboard(null, true);
+            }
+
+            // The app can see what it puts to dragboard without restriction
+            //DragboardHelper.setDataAccessRestriction(dragboard, false);
+
+            this.source = source;
+            potentialTarget = source;
+            sourceTransferModes = t;
+            return dragboard;
+        }
+
+        /*
+         * This starts the full PDR gesture.
+         */
+        private void startFullPDR(EventTarget source) {
+            fullPDRSource = source;
+        }
+
+        private Dragboard createDragboard(final DragEvent de, boolean isDragSource) {
+            Dragboard dragboard = null;
+            if (de != null) {
+                dragboard = de.getDragboard();
+                if (dragboard != null) {
+                    return dragboard;
+                }
+            }
+            //TKClipboard dragboardPeer = peer.createDragboard(isDragSource);
+            return new Dragboard(dndGesture);// DragboardHelper.createDragboard(dragboardPeer);
+        }
+    }
+
+    /**
+     * State of a drag gesture with regards to DRAG_DETECTED event.
+     */
+    private enum DragDetectedState {
+        NOT_YET,
+        PROCESSING,
+        DONE
     }
 
 }

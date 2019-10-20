@@ -7,6 +7,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 
 public final class EventHandlerProperties {
@@ -156,7 +157,7 @@ public final class EventHandlerProperties {
         }
         return onMouseReleased;
     }
-
+*/
     private EventHandlerProperty<MouseEvent> onDragDetected;
 
     public final EventHandler<? super MouseEvent> getOnDragDetected() {
@@ -173,7 +174,7 @@ public final class EventHandlerProperties {
         }
         return onDragDetected;
     }
-
+/*
     private EventHandlerProperty<ScrollEvent> onScroll;
 
     public final EventHandler<? super ScrollEvent> getOnScroll() {
@@ -567,7 +568,7 @@ public final class EventHandlerProperties {
         }
         return onDragExited;
     }
-
+*/
     private EventHandlerProperty<DragEvent> onDragOver;
 
     public final EventHandler<? super DragEvent> getOnDragOver() {
@@ -584,7 +585,7 @@ public final class EventHandlerProperties {
         }
         return onDragOver;
     }
-
+/*
     // Do we want DRAG_TRANSFER_MODE_CHANGED event?
 //    private EventHandlerProperty<DragEvent> onDragTransferModeChanged;
 //
@@ -601,7 +602,7 @@ public final class EventHandlerProperties {
 //        }
 //        return onDragTransferModeChanged;
 //    }
-
+*/
     private EventHandlerProperty<DragEvent> onDragDropped;
 
     public final EventHandler<? super DragEvent> getOnDragDropped() {
@@ -618,7 +619,7 @@ public final class EventHandlerProperties {
         }
         return onDragDropped;
     }
-
+/*
     private EventHandlerProperty<DragEvent> onDragDone;
 
     public final EventHandler<? super DragEvent> getOnDragDone() {

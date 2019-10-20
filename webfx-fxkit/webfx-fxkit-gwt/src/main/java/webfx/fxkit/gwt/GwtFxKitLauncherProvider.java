@@ -40,23 +40,36 @@ public final class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
             @Override
             public boolean setContent(Map<DataFormat, Object> content) {
                 setClipboardContent((String) content.get(DataFormat.PLAIN_TEXT));
+                super.setContent(content);
                 return true;
+            }
+
+            @Override
+            public Object getContent(DataFormat dataFormat) {
+                if (dataFormat == DataFormat.PLAIN_TEXT)
+                    return getClipboardContent();
+                return super.getContent(dataFormat);
             }
         };
     }
 
-    private static native void setClipboardContent(String text) /*-{
-        // navigator.clipboard.writeText(text);
+    private static void setClipboardContent(String text) {
+        callClipboardCommand(text, "copy");
+    }
 
-        // standard way of copying
+    private static String getClipboardContent() {
+        return callClipboardCommand(" ", "paste");
+    }
+
+    private static native String callClipboardCommand(String text, String command) /*-{
         var textArea = document.createElement('textarea');
-        textArea.setAttribute
-            ('style','width:1px;border:0;opacity:0;');
+        textArea.setAttribute('style','width:1px;border:0;opacity:0;');
         document.body.appendChild(textArea);
         textArea.value = text;
         textArea.select();
-        document.execCommand('copy');
+        document.execCommand(command);
         document.body.removeChild(textArea);
+        return textArea.value;
     }-*/;
 
     @Override

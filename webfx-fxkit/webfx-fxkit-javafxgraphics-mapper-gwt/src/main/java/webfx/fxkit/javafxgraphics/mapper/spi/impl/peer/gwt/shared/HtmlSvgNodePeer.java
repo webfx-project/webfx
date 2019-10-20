@@ -3,11 +3,10 @@ package webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.shared;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.sun.javafx.cursor.CursorType;
 import com.sun.javafx.event.EventUtil;
-import elemental2.dom.Element;
-import elemental2.dom.Event;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.KeyboardEvent;
+import elemental2.dom.*;
+import elemental2.dom.MouseEvent;
 import javafx.collections.ListChangeListener;
+import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Cursor;
 import javafx.scene.LayoutMeasurable;
@@ -15,17 +14,17 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
+import javafx.scene.input.DragEvent;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Transform;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.svg.SvgNodePeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.*;
 import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.NodePeerBase;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.NodePeerImpl;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.NodePeerMixin;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.svg.SvgNodePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.*;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.collection.Collections;
@@ -103,6 +102,40 @@ public abstract class HtmlSvgNodePeer
         super.bind(node, sceneRequester);
         installFocusListener();
         installKeyboardListeners();
+    }
+
+    private EventListener dragStartListener;
+    @Override
+    public void updateOnDragDetected(EventHandler<? super javafx.scene.input.MouseEvent> eventHandler) {
+        setElementAttribute("draggable", eventHandler == null ? null : "true");
+        element.removeEventListener("dragstart", dragStartListener);
+        if (eventHandler != null)
+            element.addEventListener("dragstart", dragStartListener = evt -> eventHandler.handle(FxEvents.toFxMouseEvent((MouseEvent) evt, "mousemove")));
+    }
+
+    private EventListener dragOverListener;
+    @Override
+    public void updateOnDragOver(EventHandler<? super DragEvent> eventHandler) {
+        element.removeEventListener("dragover", dragOverListener);
+        if (eventHandler != null) {
+            element.addEventListener("dragover", dragOverListener = evt -> {
+                DragEvent dragEvent = FxEvents.toDragEvent((MouseEvent) evt, DragEvent.DRAG_OVER, getNode());
+                eventHandler.handle(dragEvent);
+                if (dragEvent.isAccepted())
+                    evt.preventDefault();
+            });
+        }
+    }
+
+    private EventListener dropListener;
+    @Override
+    public void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler) {
+        element.removeEventListener("drop", dropListener);
+        if (eventHandler != null) {
+            element.addEventListener("drop", dropListener = evt -> {
+                eventHandler.handle(FxEvents.toDragEvent((MouseEvent) evt, DragEvent.DRAG_DROPPED, getNode()));
+            });
+        }
     }
 
     private boolean passOnToFx(javafx.event.Event fxEvent) {

@@ -5,17 +5,16 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.MouseEvent;
 import javafx.collections.ListChangeListener;
-import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.text.TextFlow;
 import webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.impl.ScenePeerBase;
 import webfx.fxkit.javafxgraphics.mapper.spi.HasNoChildrenPeers;
 import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.shared.HtmlSvgNodePeer;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.FxEvents;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlPaints;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlUtil;
 import webfx.fxkit.util.properties.Properties;
@@ -72,8 +71,8 @@ public final class HtmlScenePeer extends ScenePeerBase {
             return null;
         };
         // Disabling default browser drag & drop as JavaFx has its own
-        container.setAttribute("ondragstart", "return false;");
-        container.setAttribute("ondrop", "return false;");
+        //container.setAttribute("ondragstart", "return false;");
+        //container.setAttribute("ondrop", "return false;");
     }
 
     private void registerMouseListener(String type) {
@@ -85,7 +84,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     //private MouseEvent lastMouseEvent;
     private void passHtmlMouseEventOnToFx(MouseEvent e, String type) {
         e.stopPropagation();
-        javafx.scene.input.MouseEvent fxMouseEvent = toFxMouseEvent(e, type);
+        javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(e, type);
         if (fxMouseEvent != null) {
             // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFx stack
             Scene scene = getScene();
@@ -104,36 +103,6 @@ public final class HtmlScenePeer extends ScenePeerBase {
             }
         }
         //lastMouseEvent = e;
-    }
-
-    private static final boolean[] BUTTON_DOWN_STATES = {false, false, false, false};
-
-    private javafx.scene.input.MouseEvent toFxMouseEvent(elemental2.dom.MouseEvent me, String type) {
-        MouseButton button;
-        switch (me.button) {
-            case 0: button = MouseButton.PRIMARY; break;
-            case 1: button = MouseButton.MIDDLE; break;
-            case 2: button = MouseButton.SECONDARY; break;
-            default: button = MouseButton.NONE;
-        }
-        EventType<javafx.scene.input.MouseEvent> eventType;
-        switch (type) {
-            case "mousedown": eventType = javafx.scene.input.MouseEvent.MOUSE_PRESSED; BUTTON_DOWN_STATES[button.ordinal()] = true; break;
-            case "mouseup": eventType = javafx.scene.input.MouseEvent.MOUSE_RELEASED; BUTTON_DOWN_STATES[button.ordinal()] = false; break;
-            case "mouseenter": eventType = javafx.scene.input.MouseEvent.MOUSE_ENTERED; break;
-            case "mouseleave": eventType = javafx.scene.input.MouseEvent.MOUSE_EXITED; break;
-            case "mousemove": eventType = BUTTON_DOWN_STATES[button.ordinal()] ? javafx.scene.input.MouseEvent.MOUSE_DRAGGED : javafx.scene.input.MouseEvent.MOUSE_MOVED; break;
-            default: return null;
-        }
-        return new javafx.scene.input.MouseEvent(null, null, eventType, me.pageX, me.pageY, me.screenX, me.screenY, button,
-                1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey,
-                BUTTON_DOWN_STATES[MouseButton.PRIMARY.ordinal()],
-                BUTTON_DOWN_STATES[MouseButton.MIDDLE.ordinal()],
-                BUTTON_DOWN_STATES[MouseButton.SECONDARY.ordinal()],
-                false,
-                false,
-                false,
-                null);
     }
 
     private void installStylesheetsListener(Scene scene) {

@@ -3,6 +3,7 @@ package javafx.scene.input;
 import javafx.scene.image.Image;
 import webfx.fxkit.launcher.FxKitLauncher;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -90,6 +91,7 @@ public class Clipboard {
      * Whether user has put something on this clipboard. Needed for DnD.
      */
     private boolean contentPut = false;
+    private final Map<DataFormat, Object> webFxMap = new HashMap<>(); // WebFx addition
 
     // future:
     /*
@@ -182,7 +184,7 @@ public class Clipboard {
      * @return A non-null immutable set of content types.
      */
     public final Set<DataFormat> getContentTypes() {
-        return null; //peer.getContentTypes();
+        return webFxMap.keySet(); //peer.getContentTypes();
     }
 
     /**
@@ -215,7 +217,10 @@ public class Clipboard {
             return contentPut;
         }
 */
-        return false;
+        webFxMap.clear();
+        if (content != null)
+            webFxMap.putAll(content);
+        return true;
     }
 
     /**
@@ -223,7 +228,7 @@ public class Clipboard {
      * if there is no content with this type.
      * @return The content associated with this type, or null if there is none
      */
-    public final Object getContent(DataFormat dataFormat) {
+    public /*final*/ Object getContent(DataFormat dataFormat) {
         //Toolkit.getToolkit().checkFxUserThread();
         return getContentImpl(dataFormat);
     }
@@ -232,7 +237,7 @@ public class Clipboard {
      * Getting content overridable by internal subclasses.
      */
     Object getContentImpl(DataFormat dataFormat) {
-        return null; //peer.getContent(dataFormat);
+        return webFxMap.get(dataFormat); //peer.getContent(dataFormat);
     }
 
     /**
@@ -241,7 +246,7 @@ public class Clipboard {
      */
     public final boolean hasContent(DataFormat dataFormat) {
         //Toolkit.getToolkit().checkFxUserThread();
-        return false; // peer.hasContent(dataFormat);
+        return webFxMap.containsKey(dataFormat); // peer.hasContent(dataFormat);
     }
 
     /**
