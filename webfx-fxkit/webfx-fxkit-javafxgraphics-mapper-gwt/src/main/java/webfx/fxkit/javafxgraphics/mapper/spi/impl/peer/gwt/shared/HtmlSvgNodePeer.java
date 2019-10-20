@@ -4,7 +4,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.sun.javafx.cursor.CursorType;
 import com.sun.javafx.event.EventUtil;
 import elemental2.dom.*;
-import elemental2.dom.MouseEvent;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -14,8 +13,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
-import javafx.scene.input.*;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Transform;
 import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
@@ -104,39 +104,94 @@ public abstract class HtmlSvgNodePeer
         installKeyboardListeners();
     }
 
+    /******************* Drag & drop support *********************/
+
     private EventListener dragStartListener;
     @Override
     public void updateOnDragDetected(EventHandler<? super javafx.scene.input.MouseEvent> eventHandler) {
         setElementAttribute("draggable", eventHandler == null ? null : "true");
-        element.removeEventListener("dragstart", dragStartListener);
-        if (eventHandler != null)
-            element.addEventListener("dragstart", dragStartListener = evt -> eventHandler.handle(FxEvents.toFxMouseEvent((MouseEvent) evt, "mousemove")));
+        dragStartListener = updateHtmlEventListener(dragStartListener, "dragstart", eventHandler, evt -> {
+                MouseEvent me = (MouseEvent) evt;
+                DragboardDataTransferHolder.setDragboardDataTransfer(me.dataTransfer);
+                javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(me, "mousemove");
+                eventHandler.handle(fxMouseEvent);
+                if (fxMouseEvent.isConsumed())
+                    evt.stopPropagation();
+                // If no drag done handler has been registered, registering a dummy one in order to detect when drag ends
+                if (dragEndListener == null)
+                    updateOnDragDone(e -> {}); // This is to ensure that clearDndGesture() will be called in callFxDragEventHandler()
+            });
+    }
+
+    private EventListener dragEnterListener;
+    @Override
+    public void updateOnDragEntered(EventHandler<? super DragEvent> eventHandler) {
+        dragEnterListener = updateHtmlDragEventListener(dragEnterListener, "dragenter", DragEvent.DRAG_ENTERED, eventHandler);
     }
 
     private EventListener dragOverListener;
     @Override
     public void updateOnDragOver(EventHandler<? super DragEvent> eventHandler) {
-        element.removeEventListener("dragover", dragOverListener);
-        if (eventHandler != null) {
-            element.addEventListener("dragover", dragOverListener = evt -> {
-                DragEvent dragEvent = FxEvents.toDragEvent((MouseEvent) evt, DragEvent.DRAG_OVER, getNode());
+        dragOverListener = updateHtmlEventListener(dragOverListener, "dragover", eventHandler, evt -> callFxDragEventHandler(evt, DragEvent.DRAG_OVER, dragEvent -> {
                 eventHandler.handle(dragEvent);
                 if (dragEvent.isAccepted())
                     evt.preventDefault();
-            });
-        }
+            }));
     }
 
     private EventListener dropListener;
     @Override
     public void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler) {
-        element.removeEventListener("drop", dropListener);
-        if (eventHandler != null) {
-            element.addEventListener("drop", dropListener = evt -> {
-                eventHandler.handle(FxEvents.toDragEvent((MouseEvent) evt, DragEvent.DRAG_DROPPED, getNode()));
+        dropListener = updateHtmlEventListener(dropListener, "drop", eventHandler, evt -> {
+                evt.preventDefault();
+                callFxDragEventHandler(evt, DragEvent.DRAG_DROPPED, eventHandler);
+                // Also simulating JavaFx behavior which calls drag exit after drop
+                if (dragLeaveListener != null)
+                    dragLeaveListener.handleEvent(evt);
             });
+    }
+
+    private EventListener dragLeaveListener;
+    @Override
+    public void updateOnDragExited(EventHandler<? super DragEvent> eventHandler) {
+        dragLeaveListener = updateHtmlDragEventListener(dragLeaveListener, "dragleave", DragEvent.DRAG_EXITED, eventHandler);
+    }
+
+    private EventListener dragEndListener;
+    @Override
+    public void updateOnDragDone(EventHandler<? super DragEvent> eventHandler) {
+        dragEndListener = updateHtmlDragEventListener(dragEndListener, "dragend", DragEvent.DRAG_DONE, eventHandler);
+    }
+
+    private EventListener updateHtmlEventListener(EventListener previousListener, String type, Object eventHandler, EventListener newListener) {
+        element.removeEventListener(type, previousListener);
+        if (eventHandler == null)
+            return null;
+        element.addEventListener(type, newListener);
+        return newListener;
+    }
+
+    private EventListener updateHtmlDragEventListener(EventListener previousListener, String type, EventType<DragEvent> dragEventType, EventHandler<? super DragEvent> eventHandler) {
+        return updateHtmlEventListener(previousListener, type, eventHandler, evt -> callFxDragEventHandler(evt, dragEventType, eventHandler));
+    }
+
+    private void callFxDragEventHandler(Event evt, EventType<DragEvent> dragEventType, EventHandler<? super DragEvent> eventHandler) {
+        MouseEvent me = (MouseEvent) evt;
+        // HTML also triggers dragenter and dragleave events on children as opposed to JavaFx so we just ignore them
+        if (!element.contains((elemental2.dom.Node) me.relatedTarget)) { // thanks to this condition
+            // Otherwise we call the JavaFx handler
+            DragboardDataTransferHolder.setDragboardDataTransfer(me.dataTransfer);
+            DragEvent dragEvent = FxEvents.toDragEvent(me, dragEventType, getNode());
+            eventHandler.handle(dragEvent);
+            if (dragEvent.isConsumed())
+                evt.stopPropagation();
+            // Clearing DndGesture to ensure that if a new drag starts (especially from an external application), we don't keep wrong information (such as previous gestureSource)
+            if (dragEventType == DragEvent.DRAG_DONE)
+                getNode().getScene().clearDndGesture();
         }
     }
+
+    /*********** End of "Drag & drop support" section ************/
 
     private boolean passOnToFx(javafx.event.Event fxEvent) {
         return isFxEventConsumed(EventUtil.fireEvent(getNode(), fxEvent));

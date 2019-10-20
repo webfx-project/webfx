@@ -108,8 +108,11 @@ public abstract class NodePeerBase
                 || updateProperty(node.layoutYProperty(), changedProperty, p -> mixin.updateLayoutY(p.doubleValue()))
                 || updateProperty(node.cursorProperty(), changedProperty, mixin::updateCursor)
                 || updateProperty(node.onDragDetectedProperty(), changedProperty, mixin::updateOnDragDetected)
+                || updateProperty(node.onDragEnteredProperty(), changedProperty, mixin::updateOnDragEntered)
                 || updateProperty(node.onDragOverProperty(), changedProperty, mixin::updateOnDragOver)
                 || updateProperty(node.onDragDroppedProperty(), changedProperty, mixin::updateOnDragDropped)
+                || updateProperty(node.onDragExitedProperty(), changedProperty, mixin::updateOnDragExited)
+                || updateProperty(node.onDragDoneProperty(), changedProperty, mixin::updateOnDragDone)
                 ;
     }
 

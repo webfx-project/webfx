@@ -1946,6 +1946,54 @@ public abstract class Node implements INode, EventTarget, Styleable {
                 ? null : eventHandlerProperties.getOnMouseDragged();
     }
 
+    /* ************************************************************************
+     *                                                                        *
+     *
+     *                                                                        *
+     *************************************************************************/
+
+    public final void setOnDragEntered(
+            EventHandler<? super DragEvent> value) {
+        onDragEnteredProperty().set(value);
+    }
+
+    public final EventHandler<? super DragEvent> getOnDragEntered() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnDragEntered();
+    }
+
+    /**
+     * Defines a function to be called when drag gesture
+     * enters this {@code Node}.
+     * @return the event handler that is called when drag gesture enters this
+     * {@code Node}
+     */
+    public final ObjectProperty<EventHandler<? super DragEvent>>
+    onDragEnteredProperty() {
+        return getEventHandlerProperties().onDragEnteredProperty();
+    }
+
+    public final void setOnDragExited(
+            EventHandler<? super DragEvent> value) {
+        onDragExitedProperty().set(value);
+    }
+
+    public final EventHandler<? super DragEvent> getOnDragExited() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnDragExited();
+    }
+
+    /**
+     * Defines a function to be called when drag gesture
+     * exits this {@code Node}.
+     * @return the event handler that is called when drag gesture exits this
+     * {@code Node}
+     */
+    public final ObjectProperty<EventHandler<? super DragEvent>>
+    onDragExitedProperty() {
+        return getEventHandlerProperties().onDragExitedProperty();
+    }
+
     /**
      * Defines a function to be called when a mouse button is pressed
      * on this {@code Node} and then dragged.
@@ -2020,6 +2068,34 @@ public abstract class Node implements INode, EventTarget, Styleable {
     public final ObjectProperty<EventHandler<? super DragEvent>>
     onDragDroppedProperty() {
         return getEventHandlerProperties().onDragDroppedProperty();
+    }
+
+    public final void setOnDragDone(
+            EventHandler<? super DragEvent> value) {
+        onDragDoneProperty().set(value);
+    }
+
+    public final EventHandler<? super DragEvent> getOnDragDone() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnDragDone();
+    }
+
+    /**
+     * Defines a function to be called when this {@code Node} is a
+     * drag and drop gesture source after its data has
+     * been dropped on a drop target. The {@code transferMode} of the
+     * event shows what just happened at the drop target.
+     * If {@code transferMode} has the value {@code MOVE}, then the source can
+     * clear out its data. Clearing the source's data gives the appropriate
+     * appearance to a user that the data has been moved by the drag and drop
+     * gesture. A {@code transferMode} that has the value {@code NONE}
+     * indicates that no data was transferred during the drag and drop gesture.
+     * @return the event handler that is called when this {@code Node} is a drag
+     * and drop gesture source after its data has been dropped on a drop target
+     */
+    public final ObjectProperty<EventHandler<? super DragEvent>>
+    onDragDoneProperty() {
+        return getEventHandlerProperties().onDragDoneProperty();
     }
 
     /**

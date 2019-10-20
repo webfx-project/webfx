@@ -534,7 +534,7 @@ public final class EventHandlerProperties {
         }
         return onInputMethodTextChanged;
     }
-
+*/
     private EventHandlerProperty<DragEvent> onDragEntered;
 
     public final EventHandler<? super DragEvent> getOnDragEntered() {
@@ -568,7 +568,7 @@ public final class EventHandlerProperties {
         }
         return onDragExited;
     }
-*/
+
     private EventHandlerProperty<DragEvent> onDragOver;
 
     public final EventHandler<? super DragEvent> getOnDragOver() {
@@ -619,7 +619,7 @@ public final class EventHandlerProperties {
         }
         return onDragDropped;
     }
-/*
+
     private EventHandlerProperty<DragEvent> onDragDone;
 
     public final EventHandler<? super DragEvent> getOnDragDone() {
@@ -636,7 +636,6 @@ public final class EventHandlerProperties {
         }
         return onDragDone;
     }
-*/
 
     private final class EventHandlerProperty<T extends Event>
             extends SimpleObjectProperty<EventHandler<? super T>> {

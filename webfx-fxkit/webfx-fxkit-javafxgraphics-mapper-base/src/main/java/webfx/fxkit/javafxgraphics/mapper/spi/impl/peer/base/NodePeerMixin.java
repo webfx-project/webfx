@@ -96,7 +96,13 @@ public interface NodePeerMixin
 
     void updateOnDragDetected(EventHandler<? super MouseEvent> eventHandler);
 
+    void updateOnDragEntered(EventHandler<? super DragEvent> eventHandler);
+
     void updateOnDragOver(EventHandler<? super DragEvent> eventHandler);
 
     void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler);
+
+    void updateOnDragExited(EventHandler<? super DragEvent> eventHandler);
+
+    void updateOnDragDone(EventHandler<? super DragEvent> eventHandler);
 }

@@ -134,6 +134,11 @@ public abstract class FxNodePeer
     }
 
     @Override
+    public void updateOnDragEntered(EventHandler<? super DragEvent> eventHandler) {
+        fxNode.setOnDragEntered(eventHandler);
+    }
+
+    @Override
     public void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler) {
         fxNode.setOnDragDropped(eventHandler);
     }
@@ -141,6 +146,16 @@ public abstract class FxNodePeer
     @Override
     public void updateOnDragOver(EventHandler<? super DragEvent> eventHandler) {
         fxNode.setOnDragOver(eventHandler);
+    }
+
+    @Override
+    public void updateOnDragExited(EventHandler<? super DragEvent> eventHandler) {
+        fxNode.setOnDragExited(eventHandler);
+    }
+
+    @Override
+    public void updateOnDragDone(EventHandler<? super DragEvent> eventHandler) {
+        fxNode.setOnDragDone(eventHandler);
     }
 
     private static MouseEvent toMouseEvent(Object source, EventTarget target, javafx.scene.input.MouseEvent e) {

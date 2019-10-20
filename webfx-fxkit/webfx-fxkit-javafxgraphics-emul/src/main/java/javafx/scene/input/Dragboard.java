@@ -9,16 +9,16 @@ import java.util.Set;
  * A drag and drop specific {@link Clipboard}.
  * @since JavaFX 2.0
  */
-public final class Dragboard extends Clipboard {
+public class Dragboard extends Clipboard {
 
     /**
      * Whether access to the data requires a permission.
      */
     //private boolean dataAccessRestricted = true;
-    private final Scene.DnDGesture dnDGesture; // WebFx addition
+    private final Scene scene; // WebFx addition
 
-    public Dragboard(Scene.DnDGesture dnDGesture) {
-        this.dnDGesture = dnDGesture;
+    public Dragboard(Scene scene) {
+        this.scene = scene;
     }
 
 /*
@@ -47,7 +47,7 @@ public final class Dragboard extends Clipboard {
      * @return set of supported transfer modes
      */
     public final Set<TransferMode> getTransferModes() {
-        return dnDGesture.sourceTransferModes; //peer.getTransferModes();
+        return scene.getOrCreateDndGesture().sourceTransferModes; //peer.getTransferModes();
     }
 
     /**

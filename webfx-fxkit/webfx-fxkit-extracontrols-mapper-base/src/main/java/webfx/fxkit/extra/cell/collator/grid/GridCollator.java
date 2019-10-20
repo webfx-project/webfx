@@ -145,11 +145,23 @@ public final class GridCollator extends DataGrid {
         }
 
         @Override
-        public void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler) {
+        public void updateOnDragEntered(EventHandler<? super DragEvent> eventHandler) {
         }
 
         @Override
         public void updateOnDragOver(EventHandler<? super DragEvent> eventHandler) {
+        }
+
+        @Override
+        public void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler) {
+        }
+
+        @Override
+        public void updateOnDragExited(EventHandler<? super DragEvent> eventHandler) {
+        }
+
+        @Override
+        public void updateOnDragDone(EventHandler<? super DragEvent> eventHandler) {
         }
 
         @Override

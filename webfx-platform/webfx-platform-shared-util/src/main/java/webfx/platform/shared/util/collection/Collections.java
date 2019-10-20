@@ -90,6 +90,13 @@ public final class Collections {
         return sum;
     }
 
+    public static <T> T first(Iterable<T> iterable) {
+        if (iterable != null)
+            for (T element : iterable)
+                return element;
+        return null;
+    }
+
     public static <T> T findFirst(Iterable<T> iterable, Predicate<? super T> predicate) {
         //return collection.stream().filter(predicate::test).findFirst().get(); // Not GWT compilable for now
         if (iterable != null)

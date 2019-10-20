@@ -2,7 +2,9 @@ package webfx.fxkit.launcher.spi;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.scene.Scene;
 import javafx.scene.input.Clipboard;
+import javafx.scene.input.Dragboard;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import webfx.platform.client.services.uischeduler.UiScheduler;
@@ -25,6 +27,10 @@ public interface FxKitLauncherProvider {
 
     default Clipboard getSystemClipboard() {
         return Clipboard.getSystemClipboard();
+    }
+
+    default Dragboard createDragboard(Scene scene) {
+        return null;
     }
 
     Stage getPrimaryStage();

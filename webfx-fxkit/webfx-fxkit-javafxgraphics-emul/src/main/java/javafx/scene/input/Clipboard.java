@@ -228,7 +228,7 @@ public class Clipboard {
      * if there is no content with this type.
      * @return The content associated with this type, or null if there is none
      */
-    public /*final*/ Object getContent(DataFormat dataFormat) {
+    public final Object getContent(DataFormat dataFormat) {
         //Toolkit.getToolkit().checkFxUserThread();
         return getContentImpl(dataFormat);
     }
@@ -236,7 +236,7 @@ public class Clipboard {
     /**
      * Getting content overridable by internal subclasses.
      */
-    Object getContentImpl(DataFormat dataFormat) {
+    protected Object getContentImpl(DataFormat dataFormat) {
         return webFxMap.get(dataFormat); //peer.getContent(dataFormat);
     }
 
@@ -244,9 +244,9 @@ public class Clipboard {
      * Tests whether there is any content on this clipboard of the given DataFormat type.
      * @return true if there is content on this clipboard for this type
      */
-    public final boolean hasContent(DataFormat dataFormat) {
+    public boolean hasContent(DataFormat dataFormat) {
         //Toolkit.getToolkit().checkFxUserThread();
-        return webFxMap.containsKey(dataFormat); // peer.hasContent(dataFormat);
+        return getContentImpl(dataFormat) != null; // peer.hasContent(dataFormat);
     }
 
     /**

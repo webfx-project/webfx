@@ -37,6 +37,7 @@ import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasFillProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasHeightProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasRootProperty;
 import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.markers.HasWidthProperty;
+import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.fxkit.util.properties.ObservableLists;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
@@ -1461,14 +1462,19 @@ public class Scene implements EventTarget,
 */
     }
 
-    public DnDGesture dndGesture = null;
+    private DnDGesture dndGesture;
+
+    public DnDGesture getOrCreateDndGesture() {  // WebFx addition
+        return dndGesture != null ? dndGesture : (dndGesture = new DnDGesture());
+    }
+
+    public void clearDndGesture() {  // WebFx addition
+        dndGesture = null;
+    }
 
     Dragboard startDragAndDrop(EventTarget source, TransferMode... transferModes) {
         //Toolkit.getToolkit().checkFxUserThread();
-        if (dndGesture == null) { // WebFx addition
-            dndGesture = new DnDGesture();
-            dndGesture.processingDragDetected();
-        }
+        getOrCreateDndGesture().processingDragDetected(); // WebFx addition
         if (dndGesture == null ||
                 (dndGesture.dragDetected != DragDetectedState.PROCESSING))
         {
@@ -2250,15 +2256,15 @@ public class Scene implements EventTarget,
         public EventTarget source = null;
         public Set<TransferMode> sourceTransferModes = null;
         public TransferMode acceptedTransferMode = null;
-        public Dragboard dragboard = null;
+        private Dragboard dragboard = null;
         private EventTarget potentialTarget = null;
         public EventTarget target = null;
         private DragDetectedState dragDetected = DragDetectedState.NOT_YET;
-        private double pressedX;
-        private double pressedY;
-        private List<EventTarget> currentTargets = new ArrayList<EventTarget>();
-        private List<EventTarget> newTargets = new ArrayList<EventTarget>();
-        private EventTarget fullPDRSource = null;
+        //private double pressedX;
+        //private double pressedY;
+        //private List<EventTarget> currentTargets = new ArrayList<EventTarget>();
+        //private List<EventTarget> newTargets = new ArrayList<EventTarget>();
+        //private EventTarget fullPDRSource = null;
 
         /**
          * Fires event on a given target or on scene if the node is null
@@ -2608,9 +2614,9 @@ public class Scene implements EventTarget,
         /*
          * This starts the full PDR gesture.
          */
-        private void startFullPDR(EventTarget source) {
+        /*private void startFullPDR(EventTarget source) {
             fullPDRSource = source;
-        }
+        }*/
 
         private Dragboard createDragboard(final DragEvent de, boolean isDragSource) {
             Dragboard dragboard = null;
@@ -2621,7 +2627,16 @@ public class Scene implements EventTarget,
                 }
             }
             //TKClipboard dragboardPeer = peer.createDragboard(isDragSource);
-            return new Dragboard(dndGesture);// DragboardHelper.createDragboard(dragboardPeer);
+            // DragboardHelper.createDragboard(dragboardPeer);
+            return FxKitLauncher.getProvider().createDragboard(Scene.this);
+        }
+
+        public Dragboard getOrCreateDragboard() { // WebFx addition
+            if (dragboard == null) {
+                dragboard = createDragboard(null, false);
+                sourceTransferModes = new HashSet<>(Collections.listOf(TransferMode.ANY));
+            }
+            return dragboard;
         }
     }
 

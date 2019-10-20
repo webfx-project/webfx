@@ -1,15 +1,21 @@
 package webfx.fxkit.gwt;
 
 import com.sun.javafx.application.ParametersImpl;
+import elemental2.dom.DataTransfer;
 import elemental2.dom.DomGlobal;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
 import javafx.stage.Screen;
+import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.DragboardDataTransferHolder;
 import webfx.fxkit.launcher.spi.impl.FxKitLauncherProviderBase;
 import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.util.Strings;
+import webfx.platform.shared.util.collection.Collections;
 import webfx.platform.shared.util.function.Factory;
 
 import java.util.Map;
@@ -45,7 +51,7 @@ public final class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
             }
 
             @Override
-            public Object getContent(DataFormat dataFormat) {
+            public Object getContentImpl(DataFormat dataFormat) {
                 if (dataFormat == DataFormat.PLAIN_TEXT)
                     return getClipboardContent();
                 return super.getContent(dataFormat);
@@ -71,6 +77,31 @@ public final class GwtFxKitLauncherProvider extends FxKitLauncherProviderBase {
         document.body.removeChild(textArea);
         return textArea.value;
     }-*/;
+
+    @Override
+    public Dragboard createDragboard(Scene scene) {
+        return new Dragboard(scene) {
+            @Override
+            public boolean setContent(Map<DataFormat, Object> content) {
+                boolean result = false;
+                DataTransfer dragBoardDataTransfer = DragboardDataTransferHolder.getDragboardDataTransfer();
+                dragBoardDataTransfer.clearData();
+                if (content != null)
+                    for (Map.Entry<DataFormat, Object> entry : content.entrySet()) {
+                        String value = Strings.toString(entry.getValue());
+                        for (String formatIdentifier : entry.getKey().getIdentifiers())
+                            if (dragBoardDataTransfer.setData(formatIdentifier, value))
+                                result = true;
+                    }
+                return result;
+            }
+
+            @Override
+            public Object getContentImpl(DataFormat dataFormat) {
+                return DragboardDataTransferHolder.getDragboardDataTransfer().getData(Collections.first(dataFormat.getIdentifiers()));
+            }
+        };
+    }
 
     @Override
     public Screen getPrimaryScreen() {

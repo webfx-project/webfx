@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import webfx.platform.shared.util.collection.Collections;
 
 public final class FxEvents {
 
@@ -40,19 +41,19 @@ public final class FxEvents {
     }
 
     public static DragEvent toDragEvent(elemental2.dom.MouseEvent me, EventType<DragEvent> dragEventType, Node fxNode) {
-        Scene.DnDGesture dndGesture = fxNode.getScene().dndGesture;
+        Scene.DnDGesture dndGesture = fxNode.getScene().getOrCreateDndGesture();
         return new DragEvent(
                 null // source
                 , fxNode // target
                 , dragEventType // eventType
-                , dndGesture.dragboard // Dragboard
+                , dndGesture.getOrCreateDragboard() // Dragboard
                 , me.pageX // x
                 , me.pageY // y
                 , me.screenX // screenX
                 , me.screenY // screenY
-                , dndGesture.acceptedTransferMode != null ? dndGesture.acceptedTransferMode : dndGesture.sourceTransferModes.iterator().next() // transferMode
+                , dndGesture.acceptedTransferMode != null ? dndGesture.acceptedTransferMode : Collections.first(dndGesture.sourceTransferModes) // transferMode
                 , dndGesture.source // gestureSource
-                , dndGesture.target // gestureTarget,
+                , dndGesture.target // gestureTarget
                 , null // pickResult
         );
     }
