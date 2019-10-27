@@ -5,7 +5,7 @@ import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
-import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
+import webfx.extras.cell.renderer.ValueRenderingContext;
 import webfx.platform.shared.util.function.Callable;
 
 /**

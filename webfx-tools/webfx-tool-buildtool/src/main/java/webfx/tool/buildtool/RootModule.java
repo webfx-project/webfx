@@ -90,7 +90,7 @@ public final class RootModule extends ProjectModule {
         if (lm != null && !lm.contains(module)) {
             Module m = lm.get(0);
             warning(module + " and " + m + " share the same package " + javaPackage);
-            // Should always return, the exception is a hack to replace m = webfx-fxkit-gwt with module = webfx-fxkit-mapper-extracontrols (they share the same package webfx.fxkit.extra.cell.collator.grid)
+            // Should always return, the exception is a hack to replace m = webfx-fxkit-gwt with module = webfx-fxkit-mapper-extracontrols (they share the same package webfx.extras.cell.collator.grid)
             //if (!(m instanceof ProjectModule) || ((ProjectModule) m).getTarget().isPlatformSupported(Platform.JRE))
             //    return;
         }

@@ -6,14 +6,14 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import webfx.fxkit.extra.controls.displaydata.chart.LineChart;
+import webfx.extras.visual.controls.charts.VisualLineChart;
 
 /**
  * @author Bruno Salmon
  */
 final class LoadTesterPresentationViewActivity extends PresentationViewActivityImpl<LoadTesterPresentationModel> {
 
-    private LineChart connectionsChart;
+    private VisualLineChart connectionsChart;
     private Button saveTest;
     private VBox vBox;
 
@@ -28,14 +28,14 @@ final class LoadTesterPresentationViewActivity extends PresentationViewActivityI
         startedSlider.setMin(0);
         startedSlider.setMax(MAX_CONNECTIONS);
 
-        connectionsChart = new LineChart();
+        connectionsChart = new VisualLineChart();
         vBox = new VBox(requestedSlider, startedSlider);
         saveTest = new Button("Save Test");
 
         // Data binding
         pm.requestedConnectionsProperty().bind(requestedSlider.valueProperty());
         startedSlider.valueProperty().bind(pm.startedConnectionsProperty());
-        connectionsChart.displayResultProperty().bind(pm.chartDisplayResultProperty());
+        connectionsChart.visualResultProperty().bind(pm.chartVisualResultProperty());
     }
 
     @Override

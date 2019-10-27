@@ -25,7 +25,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-extracontrols</artifactId>
+            <artifactId>webfx-extras-webtext-controls</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

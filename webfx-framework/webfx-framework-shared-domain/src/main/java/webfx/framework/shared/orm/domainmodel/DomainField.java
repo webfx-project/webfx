@@ -6,9 +6,9 @@ import webfx.framework.shared.expression.terms.Equals;
 import webfx.framework.shared.expression.terms.HasDomainClass;
 import webfx.framework.shared.expression.terms.Parameter;
 import webfx.framework.shared.expression.terms.Symbol;
-import webfx.fxkit.extra.label.HasLabel;
-import webfx.fxkit.extra.label.Label;
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.label.HasLabel;
+import webfx.extras.label.Label;
+import webfx.extras.type.Type;
 
 /**
  * @author Bruno Salmon

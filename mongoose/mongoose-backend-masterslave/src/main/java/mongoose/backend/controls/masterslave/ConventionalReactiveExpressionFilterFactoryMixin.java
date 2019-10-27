@@ -22,10 +22,10 @@ public interface ConventionalReactiveExpressionFilterFactoryMixin extends Reacti
             groupReactiveExpressionFilter.combineIfNotNullOtherwiseForceEmptyResult(((HasConditionStringFilterProperty) pm).conditionStringFilterProperty(), stringFilter -> stringFilter);
         if (pm instanceof HasGroupStringFilterProperty)
             groupReactiveExpressionFilter.combineIfNotNullOtherwiseForceEmptyResult(((HasGroupStringFilterProperty) pm).groupStringFilterProperty(), stringFilter -> stringFilter.contains("groupBy") ? stringFilter : "{where: 'false'}");
-        if (pm instanceof HasGroupDisplayResultProperty)
-            groupReactiveExpressionFilter.displayResultInto(((HasGroupDisplayResultProperty) pm).groupDisplayResultProperty());
-        if (pm instanceof HasGroupDisplaySelectionProperty)
-            groupReactiveExpressionFilter.setDisplaySelectionProperty(((HasGroupDisplaySelectionProperty) pm).groupDisplaySelectionProperty());
+        if (pm instanceof HasGroupVisualResultProperty)
+            groupReactiveExpressionFilter.visualizeResultInto(((HasGroupVisualResultProperty) pm).groupVisualResultProperty());
+        if (pm instanceof HasGroupVisualSelectionProperty)
+            groupReactiveExpressionFilter.setVisualSelectionProperty(((HasGroupVisualSelectionProperty) pm).groupVisualSelectionProperty());
         if (pm instanceof HasSelectedGroupProperty)
             groupReactiveExpressionFilter.setSelectedEntityHandler(((HasSelectedGroupProperty) pm)::setSelectedGroup);
         if (pm instanceof HasSelectedGroupReferenceResolver)
@@ -50,10 +50,10 @@ public interface ConventionalReactiveExpressionFilterFactoryMixin extends Reacti
         // Also, in case groups are showing and a group is selected, applying the condition associated with that group
         if (pm instanceof HasSelectedGroupConditionStringFilterProperty)
             masterReactiveExpressionFilter.combineIfNotNull(((HasSelectedGroupConditionStringFilterProperty) pm).selectedGroupConditionStringFilterProperty(), s -> s);
-        if (pm instanceof HasMasterDisplayResultProperty)
-            masterReactiveExpressionFilter.displayResultInto(((HasMasterDisplayResultProperty) pm).masterDisplayResultProperty());
-        if (pm instanceof HasMasterDisplaySelectionProperty)
-            masterReactiveExpressionFilter.setDisplaySelectionProperty(((HasMasterDisplaySelectionProperty) pm).masterDisplaySelectionProperty());
+        if (pm instanceof HasMasterVisualResultProperty)
+            masterReactiveExpressionFilter.visualizeResultInto(((HasMasterVisualResultProperty) pm).masterVisualResultProperty());
+        if (pm instanceof HasMasterVisualSelectionProperty)
+            masterReactiveExpressionFilter.setVisualSelectionProperty(((HasMasterVisualSelectionProperty) pm).masterVisualSelectionProperty());
         if (pm instanceof HasSelectedMasterProperty)
             masterReactiveExpressionFilter.setSelectedEntityHandler(((HasSelectedMasterProperty) pm)::setSelectedMaster);
         // Limit clause
@@ -71,8 +71,8 @@ public interface ConventionalReactiveExpressionFilterFactoryMixin extends Reacti
     }
 
     default <E extends Entity> ReactiveExpressionFilter<E> initializeSlaveReactiveExpressionFilter(ReactiveExpressionFilter<E> slaveReactiveExpressionFilter, Object pm) {
-        if (pm instanceof HasSlaveDisplayResultProperty)
-            slaveReactiveExpressionFilter.displayResultInto(((HasSlaveDisplayResultProperty) pm).slaveDisplayResultProperty());
+        if (pm instanceof HasSlaveVisualResultProperty)
+            slaveReactiveExpressionFilter.visualizeResultInto(((HasSlaveVisualResultProperty) pm).slaveVisualResultProperty());
         if (pm instanceof HasSelectedMasterProperty)
             slaveReactiveExpressionFilter.combineIfTrue(Properties.compute(((HasSelectedMasterProperty) pm).selectedMasterProperty(), selectedMaster ->
                 selectedMaster == null || pm instanceof HasSlaveVisibilityCondition && !((HasSlaveVisibilityCondition) pm).isSlaveVisible(selectedMaster)

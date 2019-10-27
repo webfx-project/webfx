@@ -3,8 +3,8 @@ package mongoose.backend.activities.monitor;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
-import webfx.fxkit.extra.controls.displaydata.chart.Chart;
-import webfx.fxkit.extra.controls.displaydata.chart.LineChart;
+import webfx.extras.visual.controls.charts.VisualChart;
+import webfx.extras.visual.controls.charts.VisualLineChart;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.setVGrowable;
 
@@ -13,16 +13,16 @@ import static webfx.framework.client.ui.layouts.LayoutUtil.setVGrowable;
  */
 final class MonitorPresentationViewActivity extends PresentationViewActivityImpl<MonitorPresentationModel> {
 
-    private Chart memoryChart;
-    private Chart cpuChart;
+    private VisualChart memoryChart;
+    private VisualChart cpuChart;
 
     @Override
     protected void createViewNodes(MonitorPresentationModel pm) {
-        memoryChart = setVGrowable(new LineChart());
-        cpuChart = setVGrowable(new LineChart());
+        memoryChart = setVGrowable(new VisualLineChart());
+        cpuChart = setVGrowable(new VisualLineChart());
 
-        memoryChart.displayResultProperty().bind(pm.memoryDisplayResultProperty());
-        cpuChart.displayResultProperty().bind(pm.cpuDisplayResultProperty());
+        memoryChart.visualResultProperty().bind(pm.memoryVisualResultProperty());
+        cpuChart.visualResultProperty().bind(pm.cpuVisualResultProperty());
     }
 
     @Override

@@ -30,8 +30,8 @@ final class LettersPresentationLogicActivity
                     "'type'" +
                     "]")
             .applyDomainModelRowStyle()
-            .displayResultInto(pm.genericDisplayResultProperty())
-            .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), letter -> new RouteToLetterRequest(letter, getHistory()).execute() )
+            .visualizeResultInto(pm.genericVisualResultProperty())
+            .setSelectedEntityHandler(pm.genericVisualSelectionProperty(), letter -> new RouteToLetterRequest(letter, getHistory()).execute() )
             .start()
         ;
     }

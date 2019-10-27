@@ -6,6 +6,10 @@ module webfx.framework.client.uifilter {
     requires java.base;
     requires javafx.base;
     requires javafx.graphics;
+    requires webfx.extras.cell;
+    requires webfx.extras.label;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.push;
@@ -14,8 +18,6 @@ module webfx.framework.client.uifilter {
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.querypush;
     requires webfx.framework.shared.util;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
@@ -25,7 +27,7 @@ module webfx.framework.client.uifilter {
 
     // Exported packages
     exports webfx.framework.client.ui.filter;
-    exports webfx.framework.shared.orm.mapping.entity_display;
+    exports webfx.framework.shared.orm.mapping.entity_visual;
     exports webfx.framework.shared.orm.mapping.observable;
 
 }

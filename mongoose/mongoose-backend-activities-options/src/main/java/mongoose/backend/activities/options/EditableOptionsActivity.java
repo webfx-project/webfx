@@ -24,7 +24,7 @@ import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateService;
 
@@ -115,8 +115,8 @@ final class EditableOptionsActivity extends OptionsActivity {
 
     private void showAddOptionDialog() {
         if (addOptionDialogPane == null) {
-            DataGrid dataGrid = new DataGrid();
-            addOptionDialogPane = new BorderPane(setMaxPrefSizeToInfinite(dataGrid));
+            VisualGrid visualGrid = new VisualGrid();
+            addOptionDialogPane = new BorderPane(setMaxPrefSizeToInfinite(visualGrid));
             addOptionDialogFilter = new ReactiveExpressionFilter<Option>("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel())
                     .combine(eventIdProperty(), e -> "{where: 'event.organization=" + getEvent().getOrganization().getPrimaryKey() + "'}")
                     .setExpressionColumns("[" +
@@ -124,14 +124,14 @@ final class EditableOptionsActivity extends OptionsActivity {
                             "{label: 'Event', expression: 'event.(icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate))'}," +
                             "{label: 'Event type', expression: 'event.type'}" +
                             "]")
-                    .displayResultInto(dataGrid.displayResultProperty())
-                    .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
-                    //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> closeAddOptionDialog(true))
+                    .visualizeResultInto(visualGrid.visualResultProperty())
+                    .setVisualSelectionProperty(visualGrid.visualSelectionProperty())
+                    //.setSelectedEntityHandler(dataGrid.visualSelectionProperty(), o -> closeAddOptionDialog(true))
                     .start();
             HBox hBox = new HBox(20, createHGrowable(), newOkButton(this::onOkAddOptionDialog), newCancelButton(this::onCancelAddOptionDialog), createHGrowable());
             hBox.setPadding(new Insets(20, 0, 0, 0));
             addOptionDialogPane.setBottom(hBox);
-            dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 2) closeAddOptionDialog(); });
+            visualGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 2) closeAddOptionDialog(); });
         }
         addOptionDialogFilter.setActive(true);
         addOptionDialogCallback = DialogUtil.showModalNodeInGoldLayout(addOptionDialogPane, pageContainer, 0.9, 0.8);

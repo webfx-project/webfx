@@ -16,6 +16,7 @@ module mongoose.backend.activities.options {
     requires mongoose.frontend.activities.options;
     requires mongoose.shared.entities;
     requires mongoose.shared.time;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
@@ -23,7 +24,6 @@ module mongoose.backend.activities.options {
     requires webfx.framework.client.uifilter;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.shared.update;
     requires webfx.platform.shared.util;

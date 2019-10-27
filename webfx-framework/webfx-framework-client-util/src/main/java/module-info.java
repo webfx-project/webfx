@@ -6,7 +6,7 @@ module webfx.framework.client.util {
     requires java.base;
     requires javafx.base;
     requires javafx.graphics;
-    requires webfx.fxkit.extracontrols;
+    requires webfx.extras.imagestore;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.util;
 

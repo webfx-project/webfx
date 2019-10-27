@@ -8,6 +8,9 @@ module mongoose.backend.activities.loadtester.jp {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.activity;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.charts;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
@@ -17,8 +20,6 @@ module mongoose.backend.activities.loadtester.jp {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.websocket;
     requires webfx.platform.client.websocketbus;

@@ -86,6 +86,24 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-extras-type</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-visual</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-visual-controls-grid</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-action</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -141,18 +159,6 @@
         
         <dependency>
             <artifactId>webfx-framework-shared-router</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-fxkit-extracontrols</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-fxkit-extratype</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

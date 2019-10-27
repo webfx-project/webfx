@@ -1,7 +1,7 @@
 package webfx.framework.shared.expression.terms;
 
 import webfx.framework.shared.expression.lci.DataReader;
-import webfx.fxkit.extra.type.PrimType;
+import webfx.extras.type.PrimType;
 
 /**
  * @author Bruno Salmon

@@ -3,9 +3,9 @@ package webfx.framework.shared.orm.domainmodel.loader;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.services.query.QueryService;
-import webfx.fxkit.extra.type.DerivedType;
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.type.DerivedType;
+import webfx.extras.type.PrimType;
+import webfx.extras.type.Type;
 import webfx.platform.shared.util.Numbers;
 import webfx.platform.shared.util.async.Batch;
 import webfx.platform.shared.util.async.Future;
@@ -14,7 +14,7 @@ import webfx.framework.shared.orm.domainmodel.builder.DomainClassBuilder;
 import webfx.framework.shared.orm.domainmodel.builder.DomainFieldBuilder;
 import webfx.framework.shared.orm.domainmodel.builder.DomainFieldsGroupBuilder;
 import webfx.framework.shared.orm.domainmodel.builder.DomainModelBuilder;
-import webfx.fxkit.extra.label.Label;
+import webfx.extras.label.Label;
 import webfx.platform.shared.services.query.QueryArgument;
 
 import java.util.HashMap;
@@ -85,7 +85,7 @@ public final class DomainModelLoader {
             //TextFieldFormat uiFormat = TextFieldFormat.parseDefinition(rs.getString("ui_format"));
             //TextFieldFormat sqlFormat = TextFieldFormat.parseDefinition(rs.getString("sql_format"));
             //typeMap.put(typeId, new Type(typeId, rs.getString("name"), superType, null, rs.getString("cell_factory_name"), null, null, uiFormat, sqlFormat));
-            typeMap.put(typeId, new DerivedType(rs.getValue(row, 1 /*"name"*/), superType));
+            typeMap.put(typeId, DerivedType.create(rs.getValue(row, 1 /*"name"*/), superType));
         }
 
         // 3) Building classes

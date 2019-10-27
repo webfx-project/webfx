@@ -30,23 +30,12 @@
         <module>webfx-fxkit-javafxcontrols-registry</module>
         <module>webfx-fxkit-javafxcontrols-registry-gwt</module>
 
-        <module>webfx-fxkit-extratype</module>
-        <module>webfx-fxkit-extracontrols</module>
-        <module>webfx-fxkit-extracontrols-mapper-base</module>
-        <module>webfx-fxkit-extracontrols-mapper-gwt</module>
-
-        <module>webfx-fxkit-extracontrols-registry</module>
-        <module>webfx-fxkit-extracontrols-registry-gwt</module>
-        <module>webfx-fxkit-extracontrols-registry-javafx</module>
-
         <module>webfx-fxkit-javafxbase-emul</module>
         <module>webfx-fxkit-javafxgraphics-emul</module>
         <module>webfx-fxkit-javafxcontrols-emul</module>
 
         <module>webfx-fxkit-javafx</module>
         <module>webfx-fxkit-gwt</module>
-        <module>webfx-fxkit-extracontrols-mapper-javafx</module>
-        <module>webfx-fxkit-extracontrols-registry-spi</module>
 
     </modules>
 

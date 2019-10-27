@@ -20,12 +20,12 @@ import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.fxkit.extra.cell.renderer.ValueRenderer;
-import webfx.fxkit.extra.cell.renderer.ValueRendererFactory;
-import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.controls.displaydata.datagrid.SkinnedDataGrid;
-import webfx.fxkit.extra.displaydata.DisplayResult;
+import webfx.extras.cell.renderer.ValueRenderer;
+import webfx.extras.cell.renderer.ValueRendererFactory;
+import webfx.extras.cell.renderer.ValueRenderingContext;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
+import webfx.extras.visual.VisualResult;
 import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.function.Callable;
@@ -38,7 +38,7 @@ import java.util.function.Predicate;
  */
 public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
 
-    private final ObjectProperty<DisplayResult> deferredDisplayResult = new SimpleObjectProperty<>();
+    private final ObjectProperty<VisualResult> deferredVisualResult = new SimpleObjectProperty<>();
     private Object jsonOrClass;
     private final DataSourceModel dataSourceModel;
     private Expression<E> renderingExpression;
@@ -47,7 +47,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     private EntityStore loadingStore;
     private ReactiveExpressionFilter<E> entityDialogFilter;
     private List<E> restrictedFilterList;
-    private DataGrid dialogDataGrid;
+    private VisualGrid dialogVisualGrid;
     private String searchCondition;
 
     // Good to put a limit especially for low-end mobiles
@@ -65,7 +65,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         super(buttonFactory, parentGetter, parent);
         this.dataSourceModel = dataSourceModel;
         setJsonOrClass(jsonOrClass);
-        setLoadedContentProperty(deferredDisplayResult);
+        setLoadedContentProperty(deferredVisualResult);
     }
 
     public List<E> getRestrictedFilterList() {
@@ -86,7 +86,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             DomainClass entityClass = domainModel.getClass(domainClassId);
             if (stringFilter.getColumns() != null) {
                 ExpressionColumn[] expressionColumns = ExpressionColumn.fromJsonArrayOrExpressionsDefinition(stringFilter.getColumns(), entityClass);
-                renderingExpression = new ExpressionArray<>(Arrays.map(expressionColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(entityClass).getDisplayExpression(), Expression[]::new));
+                renderingExpression = new ExpressionArray<>(Arrays.map(expressionColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(entityClass).getVisualExpression(), Expression[]::new));
             } else
                 renderingExpression = entityClass.getForeignFields();
             if (renderingExpression == null && stringFilter.getFields() != null)
@@ -114,21 +114,21 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
 
     @Override
     protected Region getOrCreateDialogContent() {
-        if (dialogDataGrid == null && entityRenderer != null) {
-            dialogDataGrid = new SkinnedDataGrid(); // Better rendering in desktop JavaFx (but might be slower in web version)
-            dialogDataGrid.setHeaderVisible(false);
-            dialogDataGrid.setCursor(Cursor.HAND);
-            BorderPane.setAlignment(dialogDataGrid, Pos.TOP_LEFT);
-            dialogDataGrid.displayResultProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResult.setValue(newValue)));
+        if (dialogVisualGrid == null && entityRenderer != null) {
+            dialogVisualGrid = new SkinnedVisualGrid(); // Better rendering in desktop JavaFx (but might be slower in web version)
+            dialogVisualGrid.setHeaderVisible(false);
+            dialogVisualGrid.setCursor(Cursor.HAND);
+            BorderPane.setAlignment(dialogVisualGrid, Pos.TOP_LEFT);
+            dialogVisualGrid.visualResultProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredVisualResult.setValue(newValue)));
             EntityStore filterStore = loadingStore != null ? loadingStore : getSelectedItem() != null ? getSelectedItem().getStore() : null;
             entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass)
                     .setDataSourceModel(dataSourceModel)
                     .setStore(filterStore)
                     .setRestrictedFilterList(restrictedFilterList)
                     .setExpressionColumns(ExpressionColumn.create(renderingExpression))
-                    .displayResultInto(dialogDataGrid.displayResultProperty())
-                    .setDisplaySelectionProperty(dialogDataGrid.displaySelectionProperty())
-                    .setSelectedEntityHandler(dialogDataGrid.displaySelectionProperty(), e -> {if (e != null && button != null) onDialogOk();})
+                    .visualizeResultInto(dialogVisualGrid.visualResultProperty())
+                    .setVisualSelectionProperty(dialogVisualGrid.visualSelectionProperty())
+                    .setSelectedEntityHandler(dialogVisualGrid.visualSelectionProperty(), e -> {if (e != null && button != null) onDialogOk();})
             ;
             if (isSearchEnabled())
                 entityDialogFilter
@@ -141,7 +141,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
                     .combine(dialogHeightProperty(), height -> "{limit: " + updateAdaptiveLimit(height) + "}");
             //dialogDataGrid.setOnMouseClicked(e -> {if (e.isPrimaryButtonDown() && e.getClickCount() == 1) onDialogOk(); });
         }
-        return dialogDataGrid;
+        return dialogVisualGrid;
     }
 
     private int updateAdaptiveLimit(Number height) {

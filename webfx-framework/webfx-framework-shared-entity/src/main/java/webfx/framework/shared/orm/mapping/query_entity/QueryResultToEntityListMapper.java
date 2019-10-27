@@ -6,7 +6,7 @@ import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.fxkit.extra.type.PrimType;
+import webfx.extras.type.PrimType;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.util.Dates;
 

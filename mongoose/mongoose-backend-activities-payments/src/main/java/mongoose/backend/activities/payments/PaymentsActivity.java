@@ -16,7 +16,7 @@ import mongoose.shared.entities.MoneyTransfer;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
 
 final class PaymentsActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
@@ -47,7 +47,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         ui.setLeftTopNodes(flatPaymentsCheckBox);
 
         Pane container = ui.buildUi();
-        setUpContextMenu(LayoutUtil.lookupChild(container, node -> node instanceof DataGrid), () -> newActionGroup(
+        setUpContextMenu(LayoutUtil.lookupChild(container, node -> node instanceof VisualGrid), () -> newActionGroup(
                 newSeparatorActionGroup(
                         newOperationAction(() -> new EditPaymentRequest(   pm.getSelectedPayment(), container)),
                         newOperationAction(() -> new DeletePaymentRequest( pm.getSelectedPayment(), container))

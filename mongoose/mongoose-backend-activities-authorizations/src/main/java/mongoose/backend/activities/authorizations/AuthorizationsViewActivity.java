@@ -12,7 +12,7 @@ import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
 
 /**
  * @author Bruno Salmon
@@ -23,8 +23,8 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase
     private final String manageeColumns = "[{label: 'Managee', expression: `active,user.genderIcon,user.firstName,user.lastName`}]";
     private final String assignmentColumns = "[`active`,`operation`,{expression: `rule`, foreignColumns: null, foreignSearchCondition: null, foreignWhere: null},`activityState`]";
 
-    private final DataGrid usersDataGrid = new DataGrid();
-    private final DataGrid assignmentsDataGrid = new DataGrid();
+    private final VisualGrid usersVisualGrid = new VisualGrid();
+    private final VisualGrid assignmentsVisualGrid = new VisualGrid();
 
     private final ObjectProperty<Entity> selectedManagementProperty = new SimpleObjectProperty<>();
 
@@ -32,11 +32,11 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase
 
     @Override
     public Node buildUi() {
-        assignmentsDataGrid.setOnMouseClicked(e -> {
+        assignmentsVisualGrid.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2)
                 EntityPropertiesSheet.editEntity(assignmentFilter.getSelectedEntity(), assignmentColumns, (Pane) getNode());
         });
-        return new SplitPane(usersDataGrid, assignmentsDataGrid);
+        return new SplitPane(usersVisualGrid, assignmentsVisualGrid);
     }
 
 
@@ -44,16 +44,16 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase
         createReactiveExpressionFilter("{class: 'AuthorizationManagement', orderBy: 'id'}")
                 .combine(userPrincipalProperty(), principal -> "{where: 'manager = " + MongooseUserPrincipal.getUserPersonId(principal) + "'}")
                 .setExpressionColumns(manageeColumns)
-                .displayResultInto(usersDataGrid.displayResultProperty())
-                .setSelectedEntityHandler(usersDataGrid.displaySelectionProperty(), selectedManagementProperty::setValue)
+                .visualizeResultInto(usersVisualGrid.visualResultProperty())
+                .setSelectedEntityHandler(usersVisualGrid.visualSelectionProperty(), selectedManagementProperty::setValue)
                 .start();
 
         assignmentFilter = createReactiveExpressionFilter("{class: 'AuthorizationAssignment', orderBy: 'id'}")
                 .combine(selectedManagementProperty, management -> "{where: 'management = " + Entities.getPrimaryKey(management) + "'}")
                 .setExpressionColumns(assignmentColumns)
-                .displayResultInto(assignmentsDataGrid.displayResultProperty())
-                .setDisplaySelectionProperty(assignmentsDataGrid.displaySelectionProperty())
-                //.setSelectedEntityHandler(assignmentsDataGrid.displaySelectionProperty(), assignment -> EntityPropertiesSheet.editEntity(assignment, assignmentColumns, (Pane) getNode()))
+                .visualizeResultInto(assignmentsVisualGrid.visualResultProperty())
+                .setVisualSelectionProperty(assignmentsVisualGrid.visualSelectionProperty())
+                //.setSelectedEntityHandler(assignmentsDataGrid.visualSelectionProperty(), assignment -> EntityPropertiesSheet.editEntity(assignment, assignmentColumns, (Pane) getNode()))
                 .start();
     }
 }

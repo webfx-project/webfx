@@ -16,12 +16,12 @@ import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.terms.function.AggregateFunction;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.framework.shared.orm.mapping.entity_display.EntityListToDisplayResultMapper;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.controls.displaydata.datagrid.SkinnedDataGrid;
-import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.SelectionMode;
-import webfx.fxkit.extra.type.PrimType;
+import webfx.framework.shared.orm.mapping.entity_visual.EntityListToVisualResultMapper;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.SelectionMode;
+import webfx.extras.type.PrimType;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.collection.Collections;
@@ -35,15 +35,15 @@ import static webfx.framework.shared.util.formatter.FormatterRegistry.registerFo
  */
 public final class BookingOptionsPanel {
 
-    private final DataGrid dataGrid;
+    private final VisualGrid visualGrid;
     private BorderPane optionsPanel;
     private EntityList<DocumentLine> lineEntities;
 
     public BookingOptionsPanel() {
-        dataGrid = new SkinnedDataGrid(); // LayoutUtil.setMinMaxHeightToPref(new DataGrid());
-        dataGrid.setHeaderVisible(false);
-        dataGrid.setFullHeight(true);
-        dataGrid.setSelectionMode(SelectionMode.DISABLED);
+        visualGrid = new SkinnedVisualGrid(); // LayoutUtil.setMinMaxHeightToPref(new DataGrid());
+        visualGrid.setHeaderVisible(false);
+        visualGrid.setFullHeight(true);
+        visualGrid.setSelectionMode(SelectionMode.DISABLED);
         new AggregateFunction<DocumentLine>("days_agg", PrimType.STRING) {
             @Override
             public Object evaluateOnAggregates(DocumentLine referrer, Object[] aggregates, Expression<DocumentLine> operand, DataReader<DocumentLine> dataReader) {
@@ -77,13 +77,13 @@ public final class BookingOptionsPanel {
 
     private void updateGrid() {
         if (lineEntities != null) {
-            DisplayResult rs = generateGroupedLinesResult();
-            dataGrid.setDisplayResult(rs);
+            VisualResult rs = generateGroupedLinesResult();
+            visualGrid.setVisualResult(rs);
         }
     }
 
-    private DisplayResult generateDetailedLinesResult() {
-        return EntityListToDisplayResultMapper.select(lineEntities,
+    private VisualResult generateDetailedLinesResult() {
+        return EntityListToVisualResultMapper.select(lineEntities,
                 "select [" +
                         "'item.icon'," +
                         "'translate(item)'," +
@@ -92,8 +92,8 @@ public final class BookingOptionsPanel {
                         "] from DocumentLine where dates<>'' order by item.family.ord,item.name");
     }
 
-    private DisplayResult generateGroupedLinesResult() {
-        return EntityListToDisplayResultMapper.select(lineEntities,
+    private VisualResult generateGroupedLinesResult() {
+        return EntityListToVisualResultMapper.select(lineEntities,
                 "select [" +
                         // Displaying the actual item if only one is present for the item family, otherwise just displaying the item family (without further details)
                         "'item.family.icon, sum(1) != 1 ? translate(item.family) : string_agg(translate(item), `, ` order by item.name)'," +
@@ -102,8 +102,8 @@ public final class BookingOptionsPanel {
                         "] from DocumentLine where dates<>'' group by item.family order by item.family.ord");
     }
 
-    public DataGrid getGrid() {
-        return dataGrid;
+    public VisualGrid getGrid() {
+        return visualGrid;
     }
 
     public BorderPane getOptionsPanel() {

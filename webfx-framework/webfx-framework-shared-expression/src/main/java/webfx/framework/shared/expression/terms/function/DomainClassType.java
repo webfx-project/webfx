@@ -1,6 +1,6 @@
 package webfx.framework.shared.expression.terms.function;
 
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.type.Type;
 
 /**
  * @author Bruno Salmon

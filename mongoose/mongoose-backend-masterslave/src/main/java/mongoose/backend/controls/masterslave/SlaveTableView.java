@@ -1,15 +1,15 @@
 package mongoose.backend.controls.masterslave;
 
 import javafx.scene.Node;
-import mongoose.client.presentationmodel.HasSlaveDisplayResultProperty;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import mongoose.client.presentationmodel.HasSlaveVisualResultProperty;
+import webfx.extras.visual.controls.grid.VisualGrid;
 
 public class SlaveTableView implements UiBuilder {
 
-    private final DataGrid slaveTable = new DataGrid();
+    private final VisualGrid slaveTable = new VisualGrid();
 
-    SlaveTableView(HasSlaveDisplayResultProperty pm) {
-        slaveTable.displayResultProperty().bind(pm.slaveDisplayResultProperty());
+    SlaveTableView(HasSlaveVisualResultProperty pm) {
+        slaveTable.visualResultProperty().bind(pm.slaveVisualResultProperty());
     }
 
     @Override
@@ -17,7 +17,7 @@ public class SlaveTableView implements UiBuilder {
         return slaveTable;
     }
 
-    public static SlaveTableView createAndBind(HasSlaveDisplayResultProperty pm) {
+    public static SlaveTableView createAndBind(HasSlaveVisualResultProperty pm) {
         return new SlaveTableView(pm);
     }
 }

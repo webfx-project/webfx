@@ -1,0 +1,17 @@
+<module>
+
+    <!--dependencies>
+
+        <source-modules>
+            <module>javafx-controls</module>
+            <module>javafx-web</module>
+            <module>webfx-platform-shared-util</module>
+        </source-modules>
+
+    </dependencies-->
+
+    <providers>
+        <provider spi="webfx.extras.visual.controls.grid.registry.spi.VisualGridRegistryProvider">webfx.extras.visual.controls.grid.registry.spi.javafx.JavaFxVisualGridRegistryProvider</provider>
+    </providers>
+
+</module>

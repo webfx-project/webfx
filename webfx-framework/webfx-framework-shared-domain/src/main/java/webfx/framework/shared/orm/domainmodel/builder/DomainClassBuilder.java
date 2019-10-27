@@ -1,13 +1,13 @@
 package webfx.framework.shared.orm.domainmodel.builder;
 
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.type.Type;
 import webfx.framework.shared.expression.sqlcompiler.ExpressionSqlCompiler;
 import webfx.framework.shared.expression.terms.IdExpression;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.domainmodel.FieldsGroup;
-import webfx.fxkit.extra.label.Label;
+import webfx.extras.label.Label;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -15,7 +15,7 @@ import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
 import webfx.framework.client.activity.ActivityManager;
 import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainActivityContext;
 import webfx.framework.client.ui.layouts.SceneUtil;
-import webfx.fxkit.extra.util.ImageStore;
+import webfx.extras.imagestore.ImageStore;
 import webfx.fxkit.launcher.FxKitLauncher;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;

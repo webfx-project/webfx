@@ -2,7 +2,7 @@ package webfx.framework.shared.expression;
 
 import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.lci.DataWriter;
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.type.Type;
 
 import java.util.Collection;
 

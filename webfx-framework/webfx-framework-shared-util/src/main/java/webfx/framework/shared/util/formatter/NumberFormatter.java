@@ -1,7 +1,7 @@
 package webfx.framework.shared.util.formatter;
 
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.type.PrimType;
+import webfx.extras.type.Type;
 
 public class NumberFormatter implements Formatter, Parser {
 

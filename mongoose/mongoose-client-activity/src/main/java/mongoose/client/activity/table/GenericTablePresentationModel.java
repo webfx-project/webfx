@@ -1,12 +1,12 @@
 package mongoose.client.activity.table;
 
 import javafx.beans.property.*;
-import mongoose.client.presentationmodel.HasGenericDisplayResultProperty;
-import mongoose.client.presentationmodel.HasGenericDisplaySelectionProperty;
+import mongoose.client.presentationmodel.HasGenericVisualResultProperty;
+import mongoose.client.presentationmodel.HasGenericVisualSelectionProperty;
 import mongoose.client.presentationmodel.HasLimitProperty;
 import mongoose.client.presentationmodel.HasSearchTextProperty;
-import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.DisplaySelection;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.VisualSelection;
 
 /**
  * @author Bruno Salmon
@@ -14,8 +14,8 @@ import webfx.fxkit.extra.displaydata.DisplaySelection;
 public class GenericTablePresentationModel implements
         HasSearchTextProperty,
         HasLimitProperty,
-        HasGenericDisplayResultProperty,
-        HasGenericDisplaySelectionProperty {
+        HasGenericVisualResultProperty,
+        HasGenericVisualSelectionProperty {
 
     // Display input
 
@@ -25,12 +25,12 @@ public class GenericTablePresentationModel implements
     private final IntegerProperty limitProperty = new SimpleIntegerProperty(0);
     @Override public IntegerProperty limitProperty() { return limitProperty; }
 
-    private final ObjectProperty<DisplaySelection> genericDisplaySelectionProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplaySelection> genericDisplaySelectionProperty() { return genericDisplaySelectionProperty; }
+    private final ObjectProperty<VisualSelection> genericVisualSelectionProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualSelection> genericVisualSelectionProperty() { return genericVisualSelectionProperty; }
 
     // Display output
 
-    private final ObjectProperty<DisplayResult> genericDisplayResultProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplayResult> genericDisplayResultProperty() { return genericDisplayResultProperty; }
+    private final ObjectProperty<VisualResult> genericVisualResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualResult> genericVisualResultProperty() { return genericVisualResultProperty; }
 
 }

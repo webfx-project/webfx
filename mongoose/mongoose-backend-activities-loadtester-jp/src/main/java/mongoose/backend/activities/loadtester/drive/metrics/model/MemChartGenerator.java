@@ -3,10 +3,10 @@ package mongoose.backend.activities.loadtester.drive.metrics.model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.backend.activities.loadtester.drive.metrics.Metrics;
-import webfx.fxkit.extra.displaydata.DisplayColumn;
-import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
-import webfx.fxkit.extra.type.PrimType;
+import webfx.extras.visual.VisualColumn;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.VisualResultBuilder;
+import webfx.extras.type.PrimType;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.scheduler.Scheduler;
 
@@ -19,21 +19,21 @@ import java.util.List;
 public class MemChartGenerator {
 
     private List<MemData> memList = new ArrayList<>();
-    private ObjectProperty<DisplayResult> memListProperty = new SimpleObjectProperty<>();
+    private ObjectProperty<VisualResult> memListProperty = new SimpleObjectProperty<>();
 
     public void start() {
         Scheduler.schedulePeriodic(1000, this::readTask);
     }
 
-    public DisplayResult createDisplayResult(){
-//        Logger.log("createDisplayResult(System)");
+    public VisualResult createVisualResult(){
+//        Logger.log("createVisualResult(System)");
         int rowCount = memList.size();
-        // Building the DisplayResult for the chart using column format (First column = X, other columns = series Ys)
-        DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, new DisplayColumn[]{
-                DisplayColumn.create("Time", PrimType.INTEGER),
-                DisplayColumn.create("Total", PrimType.INTEGER),
-                DisplayColumn.create("Free", PrimType.INTEGER),
-                DisplayColumn.create("Free physical", PrimType.INTEGER)});
+        // Building the VisualResult for the chart using column format (First column = X, other columns = series Ys)
+        VisualResultBuilder rsb = VisualResultBuilder.create(rowCount, new VisualColumn[]{
+                VisualColumn.create("Time", PrimType.INTEGER),
+                VisualColumn.create("Total", PrimType.INTEGER),
+                VisualColumn.create("Free", PrimType.INTEGER),
+                VisualColumn.create("Free physical", PrimType.INTEGER)});
         for (int rowIndex=0 ; rowIndex<rowCount ; rowIndex++) {
             MemData data = memList.get(rowIndex);
             rsb.setValue(rowIndex, 0, rowIndex); // temporary taking rowIndex as X
@@ -41,8 +41,8 @@ public class MemChartGenerator {
             rsb.setValue(rowIndex, 2, data.freeMem());
             rsb.setValue(rowIndex, 3, data.freePhMem());
         }
-        DisplayResult displayResult = rsb.build();
-//        Logger.log("Ok: " + displayResult);
+        VisualResult visualResult = rsb.build();
+//        Logger.log("Ok: " + visualResult);
         /*
         Logger.log("Chart - [" + rowCount
                     +", "+ memList.get(rowCount-1).totalMem()
@@ -50,21 +50,21 @@ public class MemChartGenerator {
                     +", "+ memList.get(rowCount-1).freePhMem()
                     +" ]");
         */
-        UiScheduler.runInUiThread(() -> memListProperty.set(displayResult));
-        return displayResult;
+        UiScheduler.runInUiThread(() -> memListProperty.set(visualResult));
+        return visualResult;
     }
 
     private void readTask () {
 //        System.out.println("readTask() called in " + Thread.currentThread().getName());
         memList.add(Metrics.getInstance().getMemData());
-        createDisplayResult();
+        createVisualResult();
     }
 
-    public DisplayResult getMemList() {
+    public VisualResult getMemList() {
         return memListProperty.get();
     }
 
-    public ObjectProperty<DisplayResult> memListProperty() {
+    public ObjectProperty<VisualResult> memListProperty() {
         return memListProperty;
     }
 }

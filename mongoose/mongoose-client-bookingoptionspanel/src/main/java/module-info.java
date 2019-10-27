@@ -12,13 +12,14 @@ module mongoose.client.bookingoptionspanel {
     requires mongoose.client.util;
     requires mongoose.shared.entities;
     requires mongoose.shared.time;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.util;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.shared.util;
 

@@ -1,8 +1,8 @@
 package webfx.framework.shared.expression.terms;
 
 import webfx.framework.shared.expression.lci.DataReader;
-import webfx.fxkit.extra.type.Type;
-import webfx.fxkit.extra.type.Types;
+import webfx.extras.type.Type;
+import webfx.extras.type.Types;
 import webfx.platform.shared.util.Strings;
 
 import java.util.Date;

@@ -9,6 +9,8 @@ module mongoose.client.activity {
     requires mongoose.client.aggregates;
     requires mongoose.client.businesslogic;
     requires mongoose.client.presentationmodel;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
@@ -16,7 +18,6 @@ module mongoose.client.activity {
     requires webfx.framework.client.util;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.expression;
-    requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;

@@ -115,25 +115,25 @@ public class GroupMasterSlaveView extends MasterSlaveView {
     ============================================== Static factory methods ==============================================
     ==================================================================================================================*/
 
-    public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty>
+    public static <PM extends HasGroupVisualResultProperty & HasMasterVisualResultProperty & HasSelectedMasterProperty>
     GroupMasterSlaveView createAndBind(PM pm, ControlFactoryMixin mixin, Supplier<Pane> containerGetter) {
         UiBuilder slaveView = MasterSlaveView.createAndBindSlaveViewIfApplicable(pm, mixin, containerGetter);
-        if (slaveView == null && pm instanceof HasSlaveDisplayResultProperty)
-            slaveView = SlaveTableView.createAndBind((HasSlaveDisplayResultProperty) pm);
+        if (slaveView == null && pm instanceof HasSlaveVisualResultProperty)
+            slaveView = SlaveTableView.createAndBind((HasSlaveVisualResultProperty) pm);
         return createAndBind(slaveView, pm, mixin);
     }
 
-    public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSlaveDisplayResultProperty & HasSelectedMasterProperty>
+    public static <PM extends HasGroupVisualResultProperty & HasMasterVisualResultProperty & HasSlaveVisualResultProperty & HasSelectedMasterProperty>
     GroupMasterSlaveView createAndBind(PM pm, ControlFactoryMixin mixin) {
         return createAndBind(SlaveTableView.createAndBind(pm), pm, mixin);
     }
 
-    public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty>
+    public static <PM extends HasGroupVisualResultProperty & HasMasterVisualResultProperty & HasSelectedMasterProperty>
     GroupMasterSlaveView createAndBind(UiBuilder slaveUiFactory, PM pm, ControlFactoryMixin mixin) {
         return createAndBind(MasterTableView.createAndBind(pm, mixin), slaveUiFactory, pm);
     }
 
-    public static <PM extends HasGroupDisplayResultProperty & HasSelectedMasterProperty>
+    public static <PM extends HasGroupVisualResultProperty & HasSelectedMasterProperty>
     GroupMasterSlaveView createAndBind(UiBuilder masterUiFactory, UiBuilder slaveUiFactory, PM pm) {
         return createAndBind(
                 GroupView.createAndBind(pm),

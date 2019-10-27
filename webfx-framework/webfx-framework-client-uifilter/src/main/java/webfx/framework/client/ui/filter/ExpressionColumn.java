@@ -10,7 +10,7 @@ import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.expression.Expression;
-import webfx.fxkit.extra.displaydata.DisplayColumn;
+import webfx.extras.visual.VisualColumn;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -62,17 +62,17 @@ public interface ExpressionColumn {
      * same original expression if it expresses just a value but if it expresses a foreign object, the foreign fields
      * declared in the foreign class to display such an entity will be used instead.
      */
-    Expression getDisplayExpression();
+    Expression getVisualExpression();
 
     /**
      * @return the formatter to apply after the expression has been evaluated.
      */
-    Formatter getDisplayFormatter();
+    Formatter getVisualFormatter();
 
     /**
      * @return the associated display column.
      */
-    DisplayColumn getDisplayColumn();
+    VisualColumn getVisualColumn();
 
     boolean isReadOnly();
 
@@ -118,8 +118,8 @@ public interface ExpressionColumn {
         return create(expression, null);
     }
 
-    static ExpressionColumn create(Expression expression, DisplayColumn displayColumn) {
-        return new ExpressionColumnImpl(null, expression, null, null, displayColumn, null);
+    static ExpressionColumn create(Expression expression, VisualColumn visualColumn) {
+        return new ExpressionColumnImpl(null, expression, null, null, visualColumn, null);
     }
 
     static ExpressionColumn[] fromJsonArray(String array, DomainModel domainModel, Object domainClassId) {
@@ -152,8 +152,8 @@ public interface ExpressionColumn {
         return expressionColumns;
     }
 
-    static ExpressionArray toDisplayExpressionArray(ExpressionColumn[] columns) {
-        return new ExpressionArray(Arrays.stream(columns).map(ExpressionColumn::getDisplayExpression).collect(Collectors.toList()));
+    static ExpressionArray toVisualExpressionArray(ExpressionColumn[] columns) {
+        return new ExpressionArray(Arrays.stream(columns).map(ExpressionColumn::getVisualExpression).collect(Collectors.toList()));
     }
 
     static Expression[] expandFieldsGroups(Expression[] columnExpressions) {

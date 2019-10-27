@@ -20,7 +20,7 @@ import mongoose.shared.entities.DocumentLine;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.shared.orm.entity.Entity;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
 
 final class DiningAreasActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -40,11 +40,11 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
 
     @Override
     public Node buildUi() {
-        DataGrid sittingTable = new DataGrid();
-        sittingTable.displayResultProperty().bind(pm.sittingDisplayResultProperty());
-        DataGrid rulesTable = new DataGrid();
-        rulesTable.displayResultProperty().bind(pm.rulesDisplayResultProperty());
-        rulesTable.displaySelectionProperty().bindBidirectional(pm.rulesDisplaySelectionProperty());
+        VisualGrid sittingTable = new VisualGrid();
+        sittingTable.visualResultProperty().bind(pm.sittingVisualResultProperty());
+        VisualGrid rulesTable = new VisualGrid();
+        rulesTable.visualResultProperty().bind(pm.rulesVisualResultProperty());
+        rulesTable.visualSelectionProperty().bindBidirectional(pm.rulesVisualSelectionProperty());
         SplitPane splitPane = new SplitPane(sittingTable, rulesTable);
         splitPane.setOrientation(Orientation.VERTICAL);
         Pane container = new StackPane(splitPane);
@@ -88,15 +88,15 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `documentLine.document.event=" + eventId + "`}");
 
         // Building the statistics final display result from the 2 above filters
-        new StatisticsBuilder(leftSittingFilter, rightAttendanceFilter, pm.sittingDisplayResultProperty()).start();
+        new StatisticsBuilder(leftSittingFilter, rightAttendanceFilter, pm.sittingVisualResultProperty()).start();
 
         // Setting up the master filter that controls the content displayed in the master view
         rulesFilter = this.createReactiveExpressionFilter("{class: 'AllocationRule', alias: 'ar', columns: '<default>', orderBy: 'ord,id'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
                 // Displaying the result into the rules table through the presentation model
-                .displayResultInto(pm.rulesDisplayResultProperty())
-                .setDisplaySelectionProperty(pm.rulesDisplaySelectionProperty())
+                .visualizeResultInto(pm.rulesVisualResultProperty())
+                .setVisualSelectionProperty(pm.rulesVisualSelectionProperty())
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
                 // Activating server push notification

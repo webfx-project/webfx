@@ -4,7 +4,7 @@ module webfx.framework.shared.util {
 
     // Direct dependencies modules
     requires java.base;
-    requires webfx.fxkit.extratype;
+    requires webfx.extras.type;
 
     // Exported packages
     exports webfx.framework.shared.util.formatter;

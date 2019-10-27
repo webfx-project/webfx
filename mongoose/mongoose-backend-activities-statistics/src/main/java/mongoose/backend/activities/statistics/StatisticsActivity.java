@@ -19,7 +19,7 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
 
 final class StatisticsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -43,7 +43,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
 
         Pane container = ui.buildUi();
 
-        setUpContextMenu(LayoutUtil.lookupChild(ui.getGroupMasterSlaveView().getMasterView(), n -> n instanceof DataGrid), () -> newActionGroup(
+        setUpContextMenu(LayoutUtil.lookupChild(ui.getGroupMasterSlaveView().getMasterView(), n -> n instanceof VisualGrid), () -> newActionGroup(
                 newOperationAction(() -> new SendLetterRequest(                            pm.getSelectedDocument(), container)),
                 newSeparatorActionGroup(
                         newOperationAction(() -> new EditDocumentLineRequest(         pm.getSelectedDocumentLine(), container)),
@@ -98,7 +98,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                 ;
 
         // Building the statistics final display result from the 2 above filters
-        new StatisticsBuilder(leftGroupFilter, rightAttendanceFilter, pm.groupDisplayResultProperty()).start();
+        new StatisticsBuilder(leftGroupFilter, rightAttendanceFilter, pm.groupVisualResultProperty()).start();
 
         // Setting up the master filter for the content displayed in the master view
         masterFilter = this.<DocumentLine>createMasterReactiveExpressionFilter(pm, "{class: 'DocumentLine', alias: 'dl', orderBy: 'document.ref,item.family.ord,site..ord,item.ord'}")

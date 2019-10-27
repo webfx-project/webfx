@@ -30,9 +30,9 @@ import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.mapping.observable.ObservableEntitiesMapper;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.controls.displaydata.datagrid.SkinnedDataGrid;
-import webfx.fxkit.extra.util.ImageStore;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
+import webfx.extras.imagestore.ImageStore;
 import webfx.fxkit.util.properties.ObservableLists;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.services.json.Json;
@@ -150,14 +150,14 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
 
     private static final DataFormat dndDataFormat = DataFormat.PLAIN_TEXT; // Using standard plain text format to ensure drag & drop works between applications
 
-    private DataGrid peopleBoxFocus;
+    private VisualGrid peopleBoxFocus;
 
     class ResourceBoxController {
 
         final Pane resourcesBoxContainer;
         final Site site;
         private final Label label = new Label();
-        private final DataGrid peopleBox = new SkinnedDataGrid();
+        private final VisualGrid peopleBox = new SkinnedVisualGrid();
         private final VBox resourceBox = new VBox(LayoutUtil.setMaxWidthToInfinite(label), peopleBox);
         private final ObjectProperty<Entity> resourceConfigurationProperty = new SimpleObjectProperty<>();
         private final ReactiveExpressionFilter<DocumentLine> peopleFilter;
@@ -180,15 +180,15 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
                     .combineIfNotNullOtherwiseForceEmptyResult(resourceConfigurationProperty, rc -> "{where: `resourceConfiguration=" + rc.getPrimaryKey() + "`}")
                     // Always loading the fields required for viewing the booking details
                     .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS_STRING_FILTER + ")`}")
-                    .displayResultInto(peopleBox.displayResultProperty())
+                    .visualizeResultInto(peopleBox.visualResultProperty())
                     .applyDomainModelRowStyle()
-                    .setSelectedEntityHandler(peopleBox.displaySelectionProperty(), dl -> {
+                    .setSelectedEntityHandler(peopleBox.visualSelectionProperty(), dl -> {
                         if (dl != null) {
                             setSelectedDocument(dl.getDocument());
                             if (peopleBox != peopleBoxFocus && peopleBoxFocus != null) {
-                                DataGrid previousFocus = peopleBoxFocus;
+                                VisualGrid previousFocus = peopleBoxFocus;
                                 peopleBoxFocus = null;
-                                previousFocus.setDisplaySelection(null);
+                                previousFocus.setVisualSelection(null);
                             }
                             peopleBoxFocus = peopleBox;
                         } else if (peopleBox == peopleBoxFocus)

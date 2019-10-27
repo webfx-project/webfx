@@ -6,8 +6,8 @@ import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
 import webfx.framework.shared.orm.entity.Entity;
-import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.DisplaySelection;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.VisualSelection;
 
 /**
  * @author Bruno Salmon
@@ -15,16 +15,16 @@ import webfx.fxkit.extra.displaydata.DisplaySelection;
 final class StatementsPresentationModel extends EventDependentGenericTablePresentationModel implements
         HasConditionStringFilterProperty,
         HasGroupStringFilterProperty,
-        HasGroupDisplayResultProperty,
-        HasGroupDisplaySelectionProperty,
+        HasGroupVisualResultProperty,
+        HasGroupVisualSelectionProperty,
         HasSelectedGroupProperty<MoneyTransfer>,
         HasSelectedGroupConditionStringFilterProperty,
         HasSelectedGroupReferenceResolver,
-        HasMasterDisplayResultProperty,
-        HasMasterDisplaySelectionProperty,
+        HasMasterVisualResultProperty,
+        HasMasterVisualSelectionProperty,
         HasSelectedMasterProperty<MoneyTransfer>,
         HasSelectedPaymentProperty,
-        HasSlaveDisplayResultProperty,
+        HasSlaveVisualResultProperty,
         HasSlaveVisibilityCondition<MoneyTransfer> {
 
     private final ObjectProperty<Entity> selectedMoneyAccountProperty = new SimpleObjectProperty<>();
@@ -42,11 +42,11 @@ final class StatementsPresentationModel extends EventDependentGenericTablePresen
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
 
-    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
+    private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
 
-    private final ObjectProperty<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
+    private final ObjectProperty<VisualSelection> groupVisualSelectionProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualSelection> groupVisualSelectionProperty() { return groupVisualSelectionProperty; }
 
     private final ObjectProperty<MoneyTransfer> selectedGroupProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<MoneyTransfer> selectedGroupProperty() { return selectedGroupProperty; }
@@ -58,19 +58,19 @@ final class StatementsPresentationModel extends EventDependentGenericTablePresen
     @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }
     @Override public void setSelectedGroupReferenceResolver(ReferenceResolver referenceResolver) { this.selectedGroupReferenceResolver = referenceResolver; }
 
-    private final ObjectProperty<DisplayResult> masterDisplayResultProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplayResult> masterDisplayResultProperty() { return masterDisplayResultProperty; }
+    private final ObjectProperty<VisualResult> masterVisualResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualResult> masterVisualResultProperty() { return masterVisualResultProperty; }
 
-    private final ObjectProperty<DisplaySelection> masterDisplaySelectionProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplaySelection> masterDisplaySelectionProperty() { return masterDisplaySelectionProperty; }
+    private final ObjectProperty<VisualSelection> masterVisualSelectionProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualSelection> masterVisualSelectionProperty() { return masterVisualSelectionProperty; }
 
     private final ObjectProperty<MoneyTransfer> selectedMasterProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<MoneyTransfer> selectedMasterProperty() { return selectedMasterProperty; }
 
     @Override public ObjectProperty<MoneyTransfer> selectedPaymentProperty() { return selectedMasterProperty(); }
 
-    private final ObjectProperty<DisplayResult> slaveDisplayResultProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplayResult> slaveDisplayResultProperty() { return slaveDisplayResultProperty; }
+    private final ObjectProperty<VisualResult> slaveVisualResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualResult> slaveVisualResultProperty() { return slaveVisualResultProperty; }
 
     @Override
     public boolean isSlaveVisible(MoneyTransfer selectedPayment) {

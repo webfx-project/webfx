@@ -4,8 +4,9 @@ module webfx.framework.shared.domain {
 
     // Direct dependencies modules
     requires java.base;
+    requires webfx.extras.label;
+    requires webfx.extras.type;
     requires webfx.framework.shared.expression;
-    requires webfx.fxkit.extratype;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.query;
     requires webfx.platform.shared.util;

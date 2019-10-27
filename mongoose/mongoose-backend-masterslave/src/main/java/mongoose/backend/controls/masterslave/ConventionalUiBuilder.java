@@ -8,8 +8,8 @@ import javafx.scene.layout.Pane;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.client.entities.util.filters.FilterSearchBar;
-import mongoose.client.presentationmodel.HasGroupDisplayResultProperty;
-import mongoose.client.presentationmodel.HasMasterDisplayResultProperty;
+import mongoose.client.presentationmodel.HasGroupVisualResultProperty;
+import mongoose.client.presentationmodel.HasMasterVisualResultProperty;
 import mongoose.client.presentationmodel.HasSelectedMasterProperty;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
 
@@ -60,8 +60,8 @@ public class ConventionalUiBuilder implements UiBuilder {
                 }
             }
 
-            if (pm instanceof HasGroupDisplayResultProperty && pm instanceof HasMasterDisplayResultProperty && pm instanceof HasSelectedMasterProperty) {
-                groupMasterSlaveView = GroupMasterSlaveView.createAndBind((HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty) pm, mixin, () -> container);
+            if (pm instanceof HasGroupVisualResultProperty && pm instanceof HasMasterVisualResultProperty && pm instanceof HasSelectedMasterProperty) {
+                groupMasterSlaveView = GroupMasterSlaveView.createAndBind((HasGroupVisualResultProperty & HasMasterVisualResultProperty & HasSelectedMasterProperty) pm, mixin, () -> container);
                 container.setCenter(groupMasterSlaveView.buildUi());
             }
         }
@@ -82,7 +82,7 @@ public class ConventionalUiBuilder implements UiBuilder {
     ============================================== Static factory methods ==============================================
     ==================================================================================================================*/
 
-    public static <PM extends HasGroupDisplayResultProperty & HasMasterDisplayResultProperty & HasSelectedMasterProperty>
+    public static <PM extends HasGroupVisualResultProperty & HasMasterVisualResultProperty & HasSelectedMasterProperty>
     ConventionalUiBuilder createAndBindGroupMasterSlaveViewWithFilterSearchBar(PM pm, FilterButtonSelectorFactoryMixin mixin, String activityName, String domainClassId) {
         return new ConventionalUiBuilder(activityName, domainClassId, pm, mixin);
     }

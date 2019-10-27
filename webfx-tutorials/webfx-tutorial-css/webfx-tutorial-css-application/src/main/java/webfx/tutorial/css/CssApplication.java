@@ -23,7 +23,7 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import webfx.fxkit.extra.controls.svg.SvgText;
+import webfx.extras.webtext.controls.SvgText;
 
 /**
  * @author Bruno Salmon

@@ -3,8 +3,8 @@ package mongoose.shared.domainmodel.formatters;
 import javafx.util.StringConverter;
 import webfx.framework.shared.util.formatter.Formatter;
 import webfx.framework.shared.util.formatter.Parser;
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.type.PrimType;
+import webfx.extras.type.Type;
 import webfx.platform.shared.util.Dates;
 
 import java.time.LocalDate;

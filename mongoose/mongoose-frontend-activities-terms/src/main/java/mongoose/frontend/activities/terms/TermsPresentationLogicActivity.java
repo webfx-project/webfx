@@ -21,7 +21,7 @@ final class TermsPresentationLogicActivity
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), id -> "{where: 'event=" + id + "'}")
                 .combine(I18n.languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
-                .displayResultInto(pm.termsLetterDisplayResultProperty())
+                .visualizeResultInto(pm.termsLetterVisualResultProperty())
                 .start();
     }
 }

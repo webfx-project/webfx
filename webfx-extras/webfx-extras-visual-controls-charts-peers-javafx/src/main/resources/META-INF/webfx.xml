@@ -1,0 +1,17 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>javafx-controls</module>
+            <module>javafx-web</module>
+            <module>webfx-platform-shared-util</module>
+        </source-modules>
+
+    </dependencies>
+
+    <providers>
+        <provider spi="webfx.extras.visual.controls.charts.registry.spi.VisualChartsRegistryProvider">webfx.extras.visual.controls.charts.registry.spi.impl.javafx.JavaFxVisualChartsRegistryProvider</provider>
+    </providers>
+
+</module>

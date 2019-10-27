@@ -20,7 +20,8 @@ public interface Module extends Comparable<Module> {
         if (thisEmul != mEmul)
             return thisEmul ? -1 : 1;
         // This (temporary) rule is just for GridCollator (which has a different implementation in gwt so must be listed first)
-        if (getName().startsWith("webfx-fxkit-extracontrols-mapper") && m.getName().startsWith("webfx-fxkit-extracontrols-mapper")) {
+        String GridCollatorPeerPrefix = "webfx-extras-visual-controls-grid-peers";
+        if (getName().startsWith(GridCollatorPeerPrefix) && m.getName().startsWith(GridCollatorPeerPrefix)) {
             if (getName().endsWith("-gwt"))
                 return -1;
             if (m.getName().endsWith("-gwt"))

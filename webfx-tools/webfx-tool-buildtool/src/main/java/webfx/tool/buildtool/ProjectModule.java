@@ -262,6 +262,7 @@ public class ProjectModule extends ModuleImpl {
                     ReusableStream.create(() -> ReusableStream.of(
                             getRootModule().findProjectModule("webfx-platform"),
                             getRootModule().findProjectModule("webfx-fxkit"),
+                            getRootModule().findProjectModule("webfx-extras"),
                             getRootModule().findProjectModule("webfx-framework"),
                             getParentModule()))
                             .flatMap(ProjectModule::getThisAndChildrenModulesInDepth)
@@ -578,7 +579,7 @@ public class ProjectModule extends ModuleImpl {
 
     public ReusableStream<Module> getThisAndTransitiveModules() {
         return ReusableStream.concat(
-                ReusableStream.of((Module) this),
+                ReusableStream.of(this),
                 transitiveDependenciesCache.map(ModuleDependency::getDestinationModule)
         );
     }
@@ -608,21 +609,25 @@ public class ProjectModule extends ModuleImpl {
     }
 
     private ReusableStream<Providers> collectExecutableProviders() {
-        if (!isExecutable())
+        return collectExecutableModuleProviders(this, this);
+    }
+
+    private static ReusableStream<Providers> collectExecutableModuleProviders(ProjectModule executableModule, ProjectModule collectingModule) {
+        if (!executableModule.isExecutable())
             return ReusableStream.empty();
         Set<ProjectModule> allProviderModules = new HashSet<>();
         Set<String> allSpiClassNames = new HashSet<>();
         return ReusableStream.concat(
                 // Collecting single/required SPI providers
-                collectProviders(this, true, allProviderModules, allSpiClassNames),
+                executableModule.collectProviders(collectingModule, true, allProviderModules, allSpiClassNames),
                 // Collecting multiple/optional SPI providers
-                collectProviders(this, false, allProviderModules, allSpiClassNames),
+                executableModule.collectProviders(collectingModule, false, allProviderModules, allSpiClassNames),
                 // Collecting subsequent single/required SPI providers
-                ReusableStream.create(() -> new HashSet<>(allProviderModules).spliterator())
-                        .flatMap(m -> collectProviders(m, true, allProviderModules, allSpiClassNames)),
+                ReusableStream.create(() -> new HashSet<>(executableModule == collectingModule ? allProviderModules : Collections.emptySet()).spliterator())
+                        .flatMap(m -> collectingModule.collectProviders(m, true, allProviderModules, allSpiClassNames)),
                 // Collecting subsequent multiple/optional SPI providers
-                ReusableStream.create(() -> new HashSet<>(allProviderModules).spliterator())
-                        .flatMap(m -> collectProviders(m, false, allProviderModules, allSpiClassNames))
+                ReusableStream.create(() -> new HashSet<>(executableModule == collectingModule ? allProviderModules : Collections.emptySet()).spliterator())
+                        .flatMap(m -> collectingModule.collectProviders(m, false, allProviderModules, allSpiClassNames))
         );
     }
 
@@ -656,16 +661,35 @@ public class ProjectModule extends ModuleImpl {
                 ProjectModule concreteModule = searchScope
                         .filter(m -> m.implementsModule(module))
                         .filter(m -> isCompatibleWithTargetModule(this))
-                        .findFirst().orElse(null);
-                if (concreteModule != null)
-                    return ModuleDependency.createImplicitProviderDependency(this, concreteModule).collectThisAndTransitiveDependencies().filter(dep -> !(dep.getDestinationModule() instanceof ProjectModule && ((ProjectModule) dep.getDestinationModule()).isInterface()));
+                        .max(Comparator.comparingInt(m -> m.gradeTargetMatch(getTarget())))
+                        .orElse(null);
+                if (concreteModule != null) {
+                    // Creating the dependency to this concrete module and adding transitive dependencies
+                    ReusableStream<ModuleDependency> concreteModuleDependencies = ModuleDependency.createImplicitProviderDependency(this, concreteModule)
+                            .collectThisAndTransitiveDependencies();
+                    // In case these dependencies have a SPI, collecting the providers and adding their associated implicit dependencies
+                    // Ex: interface = [webfx-extras-visual-controls-]grid-registry, concrete = [...]-grid-registry-spi, provider = [...]-grid-mapper-javafx
+                    // TODO: See if we can move this up to the generic steps when building dependencies
+                    concreteModuleDependencies = ReusableStream.concat(
+                            concreteModuleDependencies,
+                            collectExecutableModuleProviders(this, concreteModule)
+                                    .flatMap(Providers::getProviderModules)
+                                    //.filter(m -> transitiveDependenciesWithoutImplicitProvidersCache.noneMatch(dep -> dep.getDestinationModule() == m)) // Removing modules already in transitive dependencies (no need to repeat them)
+                                    .map(m -> ModuleDependency.createImplicitProviderDependency(this, m))
+                    );
+                    return concreteModuleDependencies
+                            .filter(dep -> !(dep.getDestinationModule() instanceof ProjectModule && ((ProjectModule) dep.getDestinationModule()).isInterface()))
+                            .distinct()
+                            ;
+                }
+                warning("No concrete module found for interface module " + module + " in executable module " + this + " among " + searchScope.map(ProjectModule::getName).stream().sorted().collect(Collectors.toList()));
             }
         }
         return ReusableStream.of(dependency);
     }
 
     private boolean implementsModule(Module module) {
-        return this != module && getName().startsWith(module.getName());
+        return this != module && (getName().startsWith(module.getName()) || module.getName().equals(getWebfxModuleFile().implementingInterface()));
     }
 
     private boolean isCompatibleWithTargetModule(ProjectModule targetModule) {

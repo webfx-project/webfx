@@ -18,11 +18,11 @@ final class MonitorPresentationLogicActivity
     protected void startLogic(MonitorPresentationModel pm) {
         createReactiveExpressionFilter("{class: 'Metrics', orderBy: 'date desc', limit: '500'}")
                 .setExpressionColumns("['0 + id','memoryUsed','memoryTotal']")
-                .displayResultInto(pm.memoryDisplayResultProperty())
+                .visualizeResultInto(pm.memoryVisualResultProperty())
                 .nextDisplay()
                 .setExpressionColumns("['0 + id','systemLoadAverage','processCpuLoad']")
                 //.combine("{columns: '0 + id,systemLoadAverage,processCpuLoad'}")
-                .displayResultInto(pm.cpuDisplayResultProperty())
+                .visualizeResultInto(pm.cpuVisualResultProperty())
                 //.setAutoRefresh(true) // not necessary now with the server push notification
                 .start();
     }

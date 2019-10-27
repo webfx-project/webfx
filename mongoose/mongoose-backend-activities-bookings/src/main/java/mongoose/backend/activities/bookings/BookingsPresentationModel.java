@@ -6,8 +6,8 @@ import mongoose.client.presentationmodel.*;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.shared.entities.Document;
 import webfx.framework.shared.expression.builder.ReferenceResolver;
-import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.DisplaySelection;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.VisualSelection;
 
 /**
  * @author Bruno Salmon
@@ -16,13 +16,13 @@ final class BookingsPresentationModel extends EventDependentGenericTablePresenta
         HasConditionStringFilterProperty,
         HasGroupStringFilterProperty,
         HasColumnsStringFilterProperty,
-        HasGroupDisplayResultProperty,
-        HasGroupDisplaySelectionProperty,
+        HasGroupVisualResultProperty,
+        HasGroupVisualSelectionProperty,
         HasSelectedGroupProperty<Document>,
         HasSelectedGroupConditionStringFilterProperty,
         HasSelectedGroupReferenceResolver,
-        HasMasterDisplayResultProperty,
-        HasMasterDisplaySelectionProperty,
+        HasMasterVisualResultProperty,
+        HasMasterVisualSelectionProperty,
         HasSelectedMasterProperty<Document>,
         HasSelectedDocumentProperty {
 
@@ -35,11 +35,11 @@ final class BookingsPresentationModel extends EventDependentGenericTablePresenta
     private final StringProperty columnsStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty columnsStringFilterProperty() { return columnsStringFilterProperty; }
 
-    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
+    private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
 
-    private final ObjectProperty<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
+    private final ObjectProperty<VisualSelection> groupVisualSelectionProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualSelection> groupVisualSelectionProperty() { return groupVisualSelectionProperty; }
 
     private final ObjectProperty<Document> selectedGroupProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<Document> selectedGroupProperty() { return selectedGroupProperty; }
@@ -51,11 +51,11 @@ final class BookingsPresentationModel extends EventDependentGenericTablePresenta
     @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }
     @Override public void setSelectedGroupReferenceResolver(ReferenceResolver referenceResolver) { this.selectedGroupReferenceResolver = referenceResolver; }
 
-    private final ObjectProperty<DisplayResult> masterDisplayResultProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplayResult> masterDisplayResultProperty() { return masterDisplayResultProperty; }
+    private final ObjectProperty<VisualResult> masterVisualResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualResult> masterVisualResultProperty() { return masterVisualResultProperty; }
 
-    private final ObjectProperty<DisplaySelection> masterDisplaySelectionProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplaySelection> masterDisplaySelectionProperty() { return masterDisplaySelectionProperty; }
+    private final ObjectProperty<VisualSelection> masterVisualSelectionProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualSelection> masterVisualSelectionProperty() { return masterVisualSelectionProperty; }
 
     private final ObjectProperty<Document> selectedMasterProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<Document> selectedMasterProperty() { return selectedMasterProperty; }

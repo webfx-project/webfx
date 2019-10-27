@@ -5,7 +5,7 @@ module webfx.tutorial.css.application {
     // Direct dependencies modules
     requires javafx.base;
     requires javafx.graphics;
-    requires webfx.fxkit.extracontrols;
+    requires webfx.extras.webtext.controls;
     requires webfx.tutorial.css.css;
 
     // Exported packages

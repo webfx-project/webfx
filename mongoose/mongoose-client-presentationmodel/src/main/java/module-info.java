@@ -5,9 +5,9 @@ module mongoose.client.presentationmodel {
     // Direct dependencies modules
     requires javafx.base;
     requires mongoose.shared.entities;
+    requires webfx.extras.visual;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
-    requires webfx.fxkit.extracontrols;
 
     // Exported packages
     exports mongoose.client.presentationmodel;

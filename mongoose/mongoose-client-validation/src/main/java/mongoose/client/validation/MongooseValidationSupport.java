@@ -35,7 +35,7 @@ import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.client.ui.util.border.BorderUtil;
 import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.extra.util.ImageStore;
+import webfx.extras.imagestore.ImageStore;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.collection.Collections;
 

@@ -7,8 +7,8 @@ import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.fxkit.extra.cell.renderer.ValueRenderer;
-import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
+import webfx.extras.cell.renderer.ValueRenderer;
+import webfx.extras.cell.renderer.ValueRenderingContext;
 import webfx.platform.shared.services.json.Json;
 
 /**

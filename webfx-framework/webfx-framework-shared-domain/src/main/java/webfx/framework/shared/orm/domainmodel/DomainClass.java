@@ -3,8 +3,8 @@ package webfx.framework.shared.orm.domainmodel;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.parser.ExpressionParser;
 import webfx.framework.shared.expression.terms.ExpressionArray;
-import webfx.fxkit.extra.label.HasLabel;
-import webfx.fxkit.extra.label.Label;
+import webfx.extras.label.HasLabel;
+import webfx.extras.label.Label;
 import webfx.platform.shared.util.Booleans;
 
 import java.util.Map;

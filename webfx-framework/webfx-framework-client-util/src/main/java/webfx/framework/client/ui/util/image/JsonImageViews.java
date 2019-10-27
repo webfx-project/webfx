@@ -2,7 +2,7 @@ package webfx.framework.client.ui.util.image;
 
 import javafx.scene.image.ImageView;
 import webfx.platform.shared.util.Strings;
-import webfx.fxkit.extra.util.ImageStore;
+import webfx.extras.imagestore.ImageStore;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
 

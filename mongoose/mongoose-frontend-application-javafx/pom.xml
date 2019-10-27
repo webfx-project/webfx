@@ -29,7 +29,25 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-extracontrols-registry-javafx</artifactId>
+            <artifactId>webfx-extras-visual-controls-grid-peers-javafx</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-visual-controls-grid-registry-spi</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-webtext-controls-peers-javafx</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-webtext-controls-registry-spi</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

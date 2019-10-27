@@ -12,7 +12,7 @@ import mongoose.client.icons.MongooseIcons;
 import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.client.ui.util.border.BorderUtil;
-import webfx.fxkit.extra.cell.collator.NodeCollatorRegistry;
+import webfx.extras.cell.collator.NodeCollatorRegistry;
 
 import static webfx.framework.client.ui.util.image.JsonImageViews.createImageView;
 

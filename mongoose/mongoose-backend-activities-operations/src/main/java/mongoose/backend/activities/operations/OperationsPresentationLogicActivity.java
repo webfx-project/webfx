@@ -34,8 +34,8 @@ final class OperationsPresentationLogicActivity
                 // Limit condition
                 .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
                 .setExpressionColumns(expressionColumns)
-                .displayResultInto(pm.genericDisplayResultProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), this::editOperation)
+                .visualizeResultInto(pm.genericVisualResultProperty())
+                .setSelectedEntityHandler(pm.genericVisualSelectionProperty(), this::editOperation)
                 .setPush(true)
                 .start();
     }

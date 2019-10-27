@@ -57,7 +57,7 @@ public final class MavenModuleFile extends XmlModuleFile {
                 ).distinct();
         dependencies
                 .stream().collect(Collectors.groupingBy(ModuleDependency::getDestinationModule)).entrySet()
-                .stream().sorted(Comparator.comparing(Map.Entry::getKey))
+                .stream().sorted(Map.Entry.comparingByKey())
                 .forEach(moduleGroup -> {
                     Node moduleDependencyNode = createModuleDependencyNode(moduleGroup, document, isForGwt, isForJavaFx, isExecutable, isRegistry);
                     if (moduleDependencyNode != null) {

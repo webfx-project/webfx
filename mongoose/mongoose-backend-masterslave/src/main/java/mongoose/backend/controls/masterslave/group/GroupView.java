@@ -9,6 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import mongoose.backend.controls.masterslave.UiBuilder;
 import mongoose.client.presentationmodel.*;
+import webfx.extras.visual.*;
 import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.filter.StringFilter;
 import webfx.framework.shared.expression.Expression;
@@ -20,35 +21,34 @@ import webfx.framework.shared.expression.terms.ExpressionArray;
 import webfx.framework.shared.expression.terms.function.Call;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
-import webfx.fxkit.extra.controls.displaydata.SelectableDisplayResultControl;
-import webfx.fxkit.extra.controls.displaydata.chart.AreaChart;
-import webfx.fxkit.extra.controls.displaydata.chart.BarChart;
-import webfx.fxkit.extra.controls.displaydata.chart.PieChart;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.displaydata.*;
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.type.Type;
-import webfx.fxkit.extra.type.Types;
-import webfx.fxkit.extra.util.ImageStore;
+import webfx.extras.visual.controls.SelectableVisualResultControl;
+import webfx.extras.visual.controls.charts.VisualAreaChart;
+import webfx.extras.visual.controls.charts.VisualBarChart;
+import webfx.extras.visual.controls.charts.VisualPieChart;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.extras.type.PrimType;
+import webfx.extras.type.Type;
+import webfx.extras.type.Types;
+import webfx.extras.imagestore.ImageStore;
 import webfx.platform.shared.util.Numbers;
 
 import java.util.Arrays;
 
 public final class GroupView<E extends Entity> implements UiBuilder,
         HasGroupStringFilterProperty,
-        HasGroupDisplayResultProperty,
-        HasGroupDisplaySelectionProperty,
+        HasGroupVisualResultProperty,
+        HasGroupVisualSelectionProperty,
         HasSelectedGroupProperty<E>,
         HasSelectedGroupConditionStringFilterProperty {
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
 
-    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
+    private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
 
-    private final ObjectProperty<DisplaySelection> groupDisplaySelectionProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplaySelection> groupDisplaySelectionProperty() { return groupDisplaySelectionProperty; }
+    private final ObjectProperty<VisualSelection> groupVisualSelectionProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualSelection> groupVisualSelectionProperty() { return groupVisualSelectionProperty; }
 
     private final ObjectProperty<E> selectedGroupProperty = new SimpleObjectProperty<E/*GWT*/>() {
         @Override
@@ -78,24 +78,24 @@ public final class GroupView<E extends Entity> implements UiBuilder,
         this.tableOnly = tableOnly;
     }
 
-    public static <E extends Entity> GroupView<E> createAndBind(HasGroupDisplayResultProperty pm) {
+    public static <E extends Entity> GroupView<E> createAndBind(HasGroupVisualResultProperty pm) {
         return createAndBind(false, pm);
     }
 
-    public static <E extends Entity> GroupView<E> createTableOnlyAndBind(HasGroupDisplayResultProperty pm) {
+    public static <E extends Entity> GroupView<E> createTableOnlyAndBind(HasGroupVisualResultProperty pm) {
         return createAndBind(true, pm);
     }
 
-    public static <E extends Entity> GroupView<E> createAndBind(boolean tableOnly, HasGroupDisplayResultProperty pm) {
-        GroupView<E> groupView = new GroupView<>(tableOnly);
+    public static <E extends Entity> GroupView<E> createAndBind(boolean tableOnly, HasGroupVisualResultProperty pm) {
+        GroupView<E> groupView = new GroupView<>(/*tableOnly*/true); // always table only for now due to performance issue (to be fixed)
         groupView.doDataBinding(pm);
         return groupView;
     }
 
-    public void doDataBinding(HasGroupDisplayResultProperty pm) {
-        bindWithSourceGroupDisplayResultProperty(pm.groupDisplayResultProperty());
-        if (pm instanceof HasGroupDisplaySelectionProperty)
-            bindWithTargetGroupDisplaySelectionProperty(((HasGroupDisplaySelectionProperty) pm).groupDisplaySelectionProperty());
+    public void doDataBinding(HasGroupVisualResultProperty pm) {
+        bindWithSourceGroupVisualResultProperty(pm.groupVisualResultProperty());
+        if (pm instanceof HasGroupVisualSelectionProperty)
+            bindWithTargetGroupVisualSelectionProperty(((HasGroupVisualSelectionProperty) pm).groupVisualSelectionProperty());
         if (pm instanceof HasGroupStringFilterProperty)
             bindWithSourceGroupStringFilterProperty(((HasGroupStringFilterProperty) pm).groupStringFilterProperty());
         if (pm instanceof HasSelectedGroupConditionStringFilterProperty)
@@ -106,14 +106,14 @@ public final class GroupView<E extends Entity> implements UiBuilder,
             setReferenceResolver(((HasSelectedGroupReferenceResolver) pm).getSelectedGroupReferenceResolver());
     }
 
-    public void bindWithSourceGroupDisplayResultProperty(ObjectProperty<DisplayResult> sourceGroupDisplayResultProperty) {
-        if (sourceGroupDisplayResultProperty != null)
-            groupDisplayResultProperty.bind(sourceGroupDisplayResultProperty);
+    public void bindWithSourceGroupVisualResultProperty(ObjectProperty<VisualResult> sourceGroupVisualResultProperty) {
+        if (sourceGroupVisualResultProperty != null)
+            groupVisualResultProperty.bind(sourceGroupVisualResultProperty);
     }
 
-    public void bindWithTargetGroupDisplaySelectionProperty(ObjectProperty<DisplaySelection> targetGroupDisplaySelectionProperty) {
-        if (targetGroupDisplaySelectionProperty != null)
-            targetGroupDisplaySelectionProperty.bind(groupDisplaySelectionProperty);
+    public void bindWithTargetGroupVisualSelectionProperty(ObjectProperty<VisualSelection> targetGroupVisualSelectionProperty) {
+        if (targetGroupVisualSelectionProperty != null)
+            targetGroupVisualSelectionProperty.bind(groupVisualSelectionProperty);
     }
 
     public void bindWithSourceGroupStringFilterProperty(StringProperty sourceGroupStringFilterProperty) {
@@ -133,43 +133,43 @@ public final class GroupView<E extends Entity> implements UiBuilder,
 
     @Override
     public Node buildUi() {
-        Node ui = tableOnly ? bindControl(new DataGrid()) : new TabPane(
-                createGroupTab("table", "images/s16/table.png",    new DataGrid()),
-                createGroupTab("pie",   "images/s16/pieChart.png", new PieChart()),
-                createGroupTab("bar",   "images/s16/barChart.png", new BarChart()),
-                createGroupTab("area",  "images/s16/barChart.png", new AreaChart())
+        Node ui = tableOnly ? bindControl(new VisualGrid()) : new TabPane(
+                createGroupTab("table", "images/s16/table.png",    new VisualGrid()),
+                createGroupTab("pie",   "images/s16/pieChart.png", new VisualPieChart()),
+                createGroupTab("bar",   "images/s16/barChart.png", new VisualBarChart()),
+                createGroupTab("area",  "images/s16/barChart.png", new VisualAreaChart())
         );
         ui.getProperties().put("groupView", this); // This is to avoid GC
         return ui;
     }
 
-    private Tab createGroupTab(String text, String iconPath, SelectableDisplayResultControl control) {
+    private Tab createGroupTab(String text, String iconPath, SelectableVisualResultControl control) {
         Tab tab = new Tab(text, bindControl(control));
         tab.setGraphic(ImageStore.createImageView(iconPath));
         tab.setClosable(false);
         return tab;
     }
 
-    private <C extends SelectableDisplayResultControl> C bindControl(C control) {
-        if (control instanceof DataGrid) {
-            control.displayResultProperty().bind(groupDisplayResultProperty());
-            groupDisplaySelectionProperty().bind(control.displaySelectionProperty());
+    private <C extends SelectableVisualResultControl> C bindControl(C control) {
+        if (control instanceof VisualGrid) {
+            control.visualResultProperty().bind(groupVisualResultProperty());
+            groupVisualSelectionProperty().bind(control.visualSelectionProperty());
         } else if (control != null)
-            groupDisplayResultProperty().addListener((observable, oldValue, rs) ->
-                    control.setDisplayResult(toSingleSeriesChartDisplayResult(rs, control instanceof PieChart))
+            groupVisualResultProperty().addListener((observable, oldValue, rs) ->
+                    control.setVisualResult(toSingleSeriesChartVisualResult(rs, control instanceof VisualPieChart))
             );
         return control;
     }
 
-    private DisplayResult toSingleSeriesChartDisplayResult(DisplayResult rs, boolean pie) {
-        DisplayResult result = null;
+    private VisualResult toSingleSeriesChartVisualResult(VisualResult rs, boolean pie) {
+        VisualResult result = null;
         if (rs != null) {
             int rowCount = rs.getRowCount();
             int colCount = rs.getColumnCount();
             // Searching the value column where to extract figures of the series => simply choosing the first column where type is numeric
             int valueCol = colCount - 1; // in case it's not found for any reason, we take the last column by default
             for (int col = 0; col < colCount; col++) {
-                DisplayColumn column = rs.getColumns()[col];
+                VisualColumn column = rs.getColumns()[col];
                 Type type = column.getType();
                 boolean isNumber = Types.isNumberType(type);
                 // If not a number, it may be a formatted number (ex: Price), so checking if the source is an expression column with a numeric type
@@ -182,7 +182,7 @@ public final class GroupView<E extends Entity> implements UiBuilder,
                     break;
                 }
             }
-            DisplayResultBuilder rsb = new DisplayResultBuilder(rowCount, new DisplayColumn[]{new DisplayColumnBuilder(null, PrimType.STRING).setRole(pie ? "series" : null).build(), DisplayColumn.create(null, PrimType.INTEGER)});
+            VisualResultBuilder rsb = new VisualResultBuilder(rowCount, new VisualColumn[]{new VisualColumnBuilder(null, PrimType.STRING).setRole(pie ? "series" : null).build(), VisualColumn.create(null, PrimType.INTEGER)});
             for (int row = 0; row < rowCount; row++) {
                 // Generating the series name by concatenating text of all columns preceding the value column
                 StringBuilder sb = new StringBuilder();

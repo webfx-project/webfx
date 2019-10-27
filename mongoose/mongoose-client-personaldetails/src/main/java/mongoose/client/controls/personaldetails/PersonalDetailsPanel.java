@@ -28,12 +28,12 @@ import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.displaydata.DisplayColumn;
-import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
-import webfx.fxkit.extra.displaydata.DisplayStyle;
-import webfx.fxkit.extra.displaydata.SelectionMode;
-import webfx.fxkit.extra.type.PrimType;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.extras.visual.VisualColumn;
+import webfx.extras.visual.VisualResultBuilder;
+import webfx.extras.visual.VisualStyle;
+import webfx.extras.visual.SelectionMode;
+import webfx.extras.type.PrimType;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.Booleans;
@@ -236,9 +236,9 @@ public final class PersonalDetailsPanel implements MongooseButtonFactoryMixin {
     }
 
     private Node createPersonDataGrid() {
-        DisplayColumn keyColumn = DisplayColumn.create(null, PrimType.STRING, DisplayStyle.RIGHT_STYLE);
-        DisplayColumn valueColumn = DisplayColumn.create(null, PrimType.STRING);
-        DisplayResultBuilder rsb = DisplayResultBuilder.create(6, new DisplayColumn[]{keyColumn, valueColumn, keyColumn, valueColumn});
+        VisualColumn keyColumn = VisualColumn.create(null, PrimType.STRING, VisualStyle.RIGHT_STYLE);
+        VisualColumn valueColumn = VisualColumn.create(null, PrimType.STRING);
+        VisualResultBuilder rsb = VisualResultBuilder.create(6, new VisualColumn[]{keyColumn, valueColumn, keyColumn, valueColumn});
         Organization organization = model.getOrganization();
         rsb.setValue(0, 0, I18n.getI18nText("FirstName:"));
         rsb.setValue(0, 1, model.getFirstName());
@@ -264,11 +264,11 @@ public final class PersonalDetailsPanel implements MongooseButtonFactoryMixin {
         //rsb.setValue(5, 1, model.getPostCode());
         rsb.setValue(5, 2, I18n.getI18nText("Country:"));
         rsb.setValue(5, 3, model.getCountryName());
-        DataGrid dataGrid = new DataGrid(rsb.build()); // LayoutUtil.setMinMaxHeightToPref(new DataGrid(rsb.build()));
-        dataGrid.setHeaderVisible(false);
-        dataGrid.setFullHeight(true);
-        dataGrid.setSelectionMode(SelectionMode.DISABLED);
-        return dataGrid;
+        VisualGrid visualGrid = new VisualGrid(rsb.build()); // LayoutUtil.setMinMaxHeightToPref(new DataGrid(rsb.build()));
+        visualGrid.setHeaderVisible(false);
+        visualGrid.setFullHeight(true);
+        visualGrid.setSelectionMode(SelectionMode.DISABLED);
+        return visualGrid;
     }
 
     public void syncUiFromModel(HasPersonalDetails p) {

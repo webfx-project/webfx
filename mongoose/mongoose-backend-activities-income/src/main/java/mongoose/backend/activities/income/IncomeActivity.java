@@ -13,7 +13,7 @@ import mongoose.shared.entities.Filter;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
 
 final class IncomeActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -36,9 +36,9 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
         BorderPane container = new BorderPane();
 
         // Creating the total table that will be on top of the container
-        DataGrid totalTable = new DataGrid();
+        VisualGrid totalTable = new VisualGrid();
         totalTable.setFullHeight(true);
-        totalTable.displayResultProperty().bind(pm.genericDisplayResultProperty());
+        totalTable.visualResultProperty().bind(pm.genericVisualResultProperty());
 
         // Also putting the breakdown group selector just below the total table (also on top of the container)
         EntityButtonSelector<Filter> breakdownGroupSelector = createGroupFilterButtonSelectorAndBind("income","DocumentLine", container, pm);
@@ -65,7 +65,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where: `event=" + eventId + "`}")
                 .combine("{columns: `null as Totals,sum(price_deposit) as Deposit,sum(price_net) as Invoiced,sum(price_minDeposit) as MinDeposit,sum(price_nonRefundable) as NonRefundable,sum(price_balance) as Balance,count(1) as Bookings,sum(price_balance!=0 ? 1 : 0) as Unreconciled`, groupBy: `event`}")
-                .displayResultInto(pm.genericDisplayResultProperty())
+                .visualizeResultInto(pm.genericVisualResultProperty())
                 .start();
 
         // Setting up the left group filter for the left content displayed in the group view

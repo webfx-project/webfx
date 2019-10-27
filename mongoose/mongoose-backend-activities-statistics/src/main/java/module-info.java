@@ -16,6 +16,9 @@ module mongoose.backend.activities.statistics {
     requires mongoose.client.presentationmodel;
     requires mongoose.client.util;
     requires mongoose.shared.entities;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
@@ -26,8 +29,6 @@ module mongoose.backend.activities.statistics {
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 

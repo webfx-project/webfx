@@ -5,6 +5,9 @@ module mongoose.backend.operations.generic {
     // Direct dependencies modules
     requires java.base;
     requires javafx.graphics;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.shared.domain;
@@ -12,8 +15,6 @@ module mongoose.backend.operations.generic {
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.util;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.platform.shared.update;
     requires webfx.platform.shared.util;
 

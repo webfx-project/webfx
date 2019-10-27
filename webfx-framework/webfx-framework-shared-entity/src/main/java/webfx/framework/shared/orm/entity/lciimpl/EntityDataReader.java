@@ -5,7 +5,7 @@ import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.expression.lci.DataReader;
-import webfx.fxkit.extra.type.PrimType;
+import webfx.extras.type.PrimType;
 
 /**
  * @author Bruno Salmon

@@ -5,19 +5,19 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
-import mongoose.client.presentationmodel.HasGroupDisplayResultProperty;
+import mongoose.client.presentationmodel.HasGroupVisualResultProperty;
 import mongoose.client.presentationmodel.HasGroupStringFilterProperty;
-import webfx.fxkit.extra.displaydata.DisplayResult;
+import webfx.extras.visual.VisualResult;
 
 /**
  * @author Bruno Salmon
  */
 final class IncomePresentationModel extends EventDependentGenericTablePresentationModel implements
-        HasGroupDisplayResultProperty,
+        HasGroupVisualResultProperty,
         HasGroupStringFilterProperty {
 
-    private final ObjectProperty<DisplayResult> groupDisplayResultProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<DisplayResult> groupDisplayResultProperty() { return groupDisplayResultProperty; }
+    private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
 
     private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
     @Override public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }

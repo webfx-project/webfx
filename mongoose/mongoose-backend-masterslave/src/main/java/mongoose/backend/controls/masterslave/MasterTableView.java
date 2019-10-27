@@ -6,18 +6,18 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import mongoose.client.presentationmodel.*;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.fxkit.util.properties.Properties;
 
 public final class MasterTableView implements UiBuilder {
 
-    private final DataGrid masterTable = new DataGrid();
+    private final VisualGrid masterTable = new VisualGrid();
     private CheckBox masterLimitCheckBox;
 
-    private MasterTableView(HasMasterDisplayResultProperty pm, ControlFactoryMixin mixin) {
-        masterTable.displayResultProperty().bind(pm.masterDisplayResultProperty());
-        if (pm instanceof HasMasterDisplaySelectionProperty)
-            ((HasMasterDisplaySelectionProperty) pm).masterDisplaySelectionProperty().bindBidirectional(masterTable.displaySelectionProperty());
+    private MasterTableView(HasMasterVisualResultProperty pm, ControlFactoryMixin mixin) {
+        masterTable.visualResultProperty().bind(pm.masterVisualResultProperty());
+        if (pm instanceof HasMasterVisualSelectionProperty)
+            ((HasMasterVisualSelectionProperty) pm).masterVisualSelectionProperty().bindBidirectional(masterTable.visualSelectionProperty());
         if (pm instanceof HasLimitProperty) {
             masterLimitCheckBox = mixin.newCheckBox("LimitTo100");
             masterLimitCheckBox.setSelected(true);
@@ -34,7 +34,7 @@ public final class MasterTableView implements UiBuilder {
         return new BorderPane(masterTable, null, null, masterLimitCheckBox, null);
     }
 
-    public static MasterTableView createAndBind(HasMasterDisplayResultProperty pm, ControlFactoryMixin mixin) {
+    public static MasterTableView createAndBind(HasMasterVisualResultProperty pm, ControlFactoryMixin mixin) {
         return new MasterTableView(pm, mixin);
     }
 }

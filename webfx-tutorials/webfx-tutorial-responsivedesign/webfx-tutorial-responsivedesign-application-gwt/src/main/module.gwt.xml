@@ -82,6 +82,7 @@
     <!--==================================< javafx-base >===================================-->
     <!-- used by webfx-fxkit-javafxgraphics-mapper-base (SOURCE) -->
     <!--================================< webfx-fxkit-gwt >=================================-->
+    <!-- used by webfx-tutorial-responsivedesign-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-tutorial-responsivedesign-application-gwt (EMULATION) -->
     <source path="webfx/fxkit/gwt"/>
     <!--=======================< webfx-fxkit-javafxgraphics-mapper >========================-->

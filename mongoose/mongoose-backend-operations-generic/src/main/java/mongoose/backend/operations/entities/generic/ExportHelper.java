@@ -4,9 +4,9 @@ import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.terms.*;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.type.Type;
-import webfx.fxkit.extra.type.Types;
+import webfx.extras.type.PrimType;
+import webfx.extras.type.Type;
+import webfx.extras.type.Types;
 
 import java.util.ArrayList;
 import java.util.List;

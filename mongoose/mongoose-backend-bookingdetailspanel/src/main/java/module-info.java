@@ -15,6 +15,9 @@ module mongoose.backend.bookingdetailspanel {
     requires mongoose.backend.operations.moneytransfer;
     requires mongoose.client.presentationmodel;
     requires mongoose.shared.entities;
+    requires webfx.extras.imagestore;
+    requires webfx.extras.label;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
@@ -22,8 +25,6 @@ module mongoose.backend.bookingdetailspanel {
     requires webfx.framework.client.uifilter;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.shared.util;
 

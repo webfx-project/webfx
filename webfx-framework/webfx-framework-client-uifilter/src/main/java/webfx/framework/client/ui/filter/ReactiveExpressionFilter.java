@@ -17,15 +17,15 @@ import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.entity.*;
-import webfx.framework.shared.orm.mapping.entity_display.EntityListToDisplayResultMapper;
+import webfx.framework.shared.orm.mapping.entity_visual.EntityListToVisualResultMapper;
 import webfx.framework.shared.orm.mapping.query_entity.QueryResultToEntityListMapper;
 import webfx.framework.shared.services.querypush.QueryPushArgument;
 import webfx.framework.shared.services.querypush.QueryPushService;
 import webfx.framework.shared.services.querypush.diff.QueryResultDiff;
-import webfx.fxkit.extra.displaydata.DisplayColumnBuilder;
-import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.DisplaySelection;
-import webfx.fxkit.extra.type.PrimType;
+import webfx.extras.visual.VisualColumnBuilder;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.VisualSelection;
+import webfx.extras.type.PrimType;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;
@@ -300,12 +300,12 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     }
 
     public ReactiveExpressionFilter<E> nextDisplay() {
-        goToNextFilterDisplayIfDisplayResultPropertyIsSet();
+        goToNextFilterDisplayIfVisualResultPropertyIsSet();
         return this;
     }
 
-    private void goToNextFilterDisplayIfDisplayResultPropertyIsSet() {
-        if (filterDisplay != null && filterDisplay.displayResultProperty != null) {
+    private void goToNextFilterDisplayIfVisualResultPropertyIsSet() {
+        if (filterDisplay != null && filterDisplay.visualResultProperty != null) {
             filterDisplay.stringFilterPropertyLastIndex = stringFilterProperties.size() - 1;
             filterDisplay = null;
         }
@@ -326,8 +326,8 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return filterDisplays.get(displayIndex);
     }
 
-    public ReactiveExpressionFilter<E> setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
-        getFilterDisplay().setDisplaySelectionProperty(displaySelectionProperty);
+    public ReactiveExpressionFilter<E> setVisualSelectionProperty(Property<VisualSelection> visualSelectionProperty) {
+        getFilterDisplay().setVisualSelectionProperty(visualSelectionProperty);
         return this;
     }
 
@@ -336,8 +336,8 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return this;
     }
 
-    public ReactiveExpressionFilter<E> setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<E> entityHandler) {
-        getFilterDisplay().setSelectedEntityHandler(displaySelectionProperty, entityHandler);
+    public ReactiveExpressionFilter<E> setSelectedEntityHandler(Property<VisualSelection> visualSelectionProperty, Handler<E> entityHandler) {
+        getFilterDisplay().setSelectedEntityHandler(visualSelectionProperty, entityHandler);
         return this;
     }
 
@@ -351,13 +351,13 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return this;
     }
 
-    public ReactiveExpressionFilter<E> selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
-        getFilterDisplay().selectFirstRowOnFirstDisplay(displaySelectionProperty, onEachChangeProperty);
+    public ReactiveExpressionFilter<E> selectFirstRowOnFirstDisplay(Property<VisualSelection> visualSelectionProperty, Property onEachChangeProperty) {
+        getFilterDisplay().selectFirstRowOnFirstDisplay(visualSelectionProperty, onEachChangeProperty);
         return this;
     }
 
-    public ReactiveExpressionFilter<E> selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
-        getFilterDisplay().selectFirstRowOnFirstDisplay(displaySelectionProperty);
+    public ReactiveExpressionFilter<E> selectFirstRowOnFirstDisplay(Property<VisualSelection> visualSelectionProperty) {
+        getFilterDisplay().selectFirstRowOnFirstDisplay(visualSelectionProperty);
         return this;
     }
 
@@ -385,17 +385,17 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return this;
     }
 
-    public ReactiveExpressionFilter<E> displayResultInto(Property<DisplayResult> displayResultProperty) {
-        getFilterDisplay().setDisplayResultProperty(displayResultProperty);
+    public ReactiveExpressionFilter<E> visualizeResultInto(Property<VisualResult> visualResultProperty) {
+        getFilterDisplay().setVisualResultProperty(visualResultProperty);
         return this;
     }
 
-    public Property<DisplaySelection> getDisplaySelectionProperty() {
-        return getDisplaySelectionProperty(0);
+    public Property<VisualSelection> getVisualSelectionProperty() {
+        return getVisualSelectionProperty(0);
     }
 
-    public Property<DisplaySelection> getDisplaySelectionProperty(int displayIndex) {
-        return getFilterDisplay(displayIndex).getDisplaySelectionProperty();
+    public Property<VisualSelection> getVisualSelectionProperty(int displayIndex) {
+        return getFilterDisplay(displayIndex).getVisualSelectionProperty();
     }
 
     public E getSelectedEntity() {
@@ -406,11 +406,11 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return getFilterDisplay(displayIndex).getSelectedEntity();
     }
 
-    public E getSelectedEntity(DisplaySelection selection) {
+    public E getSelectedEntity(VisualSelection selection) {
         return getSelectedEntity(0, selection);
     }
 
-    public E getSelectedEntity(int displayIndex, DisplaySelection selection) {
+    public E getSelectedEntity(int displayIndex, VisualSelection selection) {
         return getFilterDisplay(displayIndex).getSelectedEntity(selection);
     }
 
@@ -437,7 +437,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             combine(ticTacProperty, "{}");
         }
         // The following call is to set stringFilterPropertyLastIndex on the latest filterDisplay
-        goToNextFilterDisplayIfDisplayResultPropertyIsSet();
+        goToNextFilterDisplayIfVisualResultPropertyIsSet();
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         Properties.runOnPropertiesChange(new Consumer<ObservableValue/*GWT*/>() {
             private boolean dictionaryChanged;
@@ -448,7 +448,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                 if (dictionaryChanged) {
                     lastEntitiesInput = null; // Clearing the cache to have a fresh display result set next time it is active
                     if (isActive()) {
-                        resetAllDisplayResults(false);
+                        resetAllVisualResults(false);
                         dictionaryChanged = false;
                     }
                 } else if (requestRefreshOnActive && isActive())
@@ -486,8 +486,8 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     private void onEntityListChangedNow() {
         if (!started)
             return;
-        if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultProperty != null)
-            applyDisplayResults(entitiesToDisplayResults(entityListProperty.get()));
+        if (!filterDisplays.isEmpty() && filterDisplays.get(0).visualResultProperty != null)
+            applyVisualResults(entitiesToVisualResults(entityListProperty.get()));
         else if (entitiesHandler != null)
             entitiesHandler.handle(entityListProperty.get());
     }
@@ -661,7 +661,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                             log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", resend=" + resend + ", queryArgument=" + transmittedQueryArgument);
                             // If the query argument hasn't changed, it's still possible that there is a change in the columns (but that didn't induce a change at the query level)
                             if (transmittedQueryArgument == null) // Means the query argument hasn't change
-                                resetAllDisplayResults(false); // So we reset now the display results with the current entities (and eventually new columns)
+                                resetAllVisualResults(false); // So we reset now the display results with the current entities (and eventually new columns)
                         }
                     }
                 }
@@ -670,7 +670,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         memorizeAsLastQuery(stringFilter, parameterValues, active, push, pushClientId);
         // Initializing the display with empty results (no rows but columns) so the component (probably a table) display the columns before calling the server
         if (startsWithEmptyResult && Collections.isEmpty(getCurrentEntityList()))
-            resetAllDisplayResults(true);
+            resetAllVisualResults(true);
     }
 
     private void log(String message) {
@@ -700,9 +700,9 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return mergeBuilder.build();
     }
 
-    private void resetAllDisplayResults(boolean empty) {
+    private void resetAllVisualResults(boolean empty) {
         for (FilterDisplay filterDisplay : filterDisplays)
-            filterDisplay.resetDisplayResult(empty);
+            filterDisplay.resetVisualResult(empty);
     }
 
     // Cache fields used in queryResultToEntities() method
@@ -718,35 +718,35 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         // Caching and returning the result
         lastRsInput = rs;
         if (entities == lastEntitiesOutput) // It's also important to make sure the output instance is not the same
-            entities = new EntityListWrapper<>(entities); // by wrapping the list (for entitiesToDisplayResults() cache system)
+            entities = new EntityListWrapper<>(entities); // by wrapping the list (for entitiesToVisualResults() cache system)
         return lastEntitiesOutput = entities;
     }
 
-    // Cache fields used in entitiesToDisplayResults() method
+    // Cache fields used in entitiesToVisualResults() method
     private EntityList lastEntitiesInput;
-    private DisplayResult[] lastDisplayResultsOutput;
+    private VisualResult[] lastVisualResultsOutput;
 
-    private DisplayResult[] entitiesToDisplayResults(EntityList<E> entities) {
-        //log("Converting entities into DisplayResult: " + entities);
+    private VisualResult[] entitiesToVisualResults(EntityList<E> entities) {
+        //log("Converting entities into VisualResult: " + entities);
         // Returning the cached output if input didn't change (ex: the same entity list instance is emitted again on active property change)
         if (entities == lastEntitiesInput)
-            return lastDisplayResultsOutput; // Returning the same instance will avoid triggering the results changeListeners (high cpu consuming in UI)
+            return lastVisualResultsOutput; // Returning the same instance will avoid triggering the results changeListeners (high cpu consuming in UI)
         // Calling the entities handler now we are sure there is a real change
         if (entitiesHandler != null)
             entitiesHandler.handle(entities);
-        // Transforming the entities into displayResults (entity to display mapping)
+        // Transforming the entities into visualResults (entity to display mapping)
         int n = filterDisplays.size();
-        DisplayResult[] results = new DisplayResult[n];
+        VisualResult[] results = new VisualResult[n];
         for (int i = 0; i < n; i++)
-            results[i] = filterDisplays.get(i).entitiesListToDisplayResult(entities);
+            results[i] = filterDisplays.get(i).entitiesListToVisualResult(entities);
         // Caching and returning the result
         lastEntitiesInput = entities;
-        return lastDisplayResultsOutput = results;
+        return lastVisualResultsOutput = results;
     }
 
-    private void applyDisplayResults(DisplayResult[] displayResults) {
-        for (int i = 0, n = displayResults.length; i < n; i++)
-            filterDisplays.get(i).setDisplayResult(displayResults[i]);
+    private void applyVisualResults(VisualResult[] visualResults) {
+        for (int i = 0, n = visualResults.length; i < n; i++)
+            filterDisplays.get(i).setVisualResult(visualResults[i]);
     }
 
     private void executeParsingCode(Runnable parsingCode) {
@@ -786,32 +786,32 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
 
     private final class FilterDisplay {
         ExpressionColumn[] expressionColumns;
-        Property<DisplayResult> displayResultProperty;
-        Property<DisplaySelection> displaySelectionProperty;
+        Property<VisualResult> visualResultProperty;
+        Property<VisualSelection> visualSelectionProperty;
         boolean selectFirstRowOnFirstDisplay;
         boolean autoSelectSingleRow;
         int stringFilterPropertyLastIndex = -1;
         List<Expression> columnsPersistentTerms;
         boolean appliedDomainModelRowStyle;
 
-        Property<DisplaySelection> getDisplaySelectionProperty() {
-            return displaySelectionProperty;
+        Property<VisualSelection> getVisualSelectionProperty() {
+            return visualSelectionProperty;
         }
 
-        void setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
-            this.displaySelectionProperty = displaySelectionProperty;
+        void setVisualSelectionProperty(Property<VisualSelection> visualSelectionProperty) {
+            this.visualSelectionProperty = visualSelectionProperty;
         }
 
-        Property<DisplayResult> getDisplayResultProperty() {
-            return displayResultProperty;
+        Property<VisualResult> getVisualResultProperty() {
+            return visualResultProperty;
         }
 
         void setSelectedEntityHandler(Handler<E> entityHandler) {
-            displaySelectionProperty.addListener((observable, oldValue, newValue) -> entityHandler.handle(getSelectedEntity()));
+            visualSelectionProperty.addListener((observable, oldValue, newValue) -> entityHandler.handle(getSelectedEntity()));
         }
 
-        void setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<E> entityHandler) {
-            setDisplaySelectionProperty(displaySelectionProperty);
+        void setSelectedEntityHandler(Property<VisualSelection> visualSelectionProperty, Handler<E> entityHandler) {
+            setVisualSelectionProperty(visualSelectionProperty);
             setSelectedEntityHandler(entityHandler);
         }
 
@@ -823,27 +823,27 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             autoSelectSingleRow = true;
         }
 
-        void selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
+        void selectFirstRowOnFirstDisplay(Property<VisualSelection> visualSelectionProperty, Property onEachChangeProperty) {
             // Each time the property change, we clear the selection and reset the selectFirstRowOnFirstDisplay to true to arm the mechanism again
             Properties.runOnPropertiesChange(() -> {
                 if (isActive()) {
-                    displaySelectionProperty.setValue(null);
+                    visualSelectionProperty.setValue(null);
                     selectFirstRowOnFirstDisplay();
                 }
             }, onEachChangeProperty, activeProperty);
-            selectFirstRowOnFirstDisplay(displaySelectionProperty);
+            selectFirstRowOnFirstDisplay(visualSelectionProperty);
         }
 
-        void selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
-            setDisplaySelectionProperty(displaySelectionProperty);
+        void selectFirstRowOnFirstDisplay(Property<VisualSelection> visualSelectionProperty) {
+            setVisualSelectionProperty(visualSelectionProperty);
             selectFirstRowOnFirstDisplay();
         }
 
         E getSelectedEntity() {
-            return getSelectedEntity(displaySelectionProperty == null ? null :displaySelectionProperty.getValue());
+            return getSelectedEntity(visualSelectionProperty == null ? null :visualSelectionProperty.getValue());
         }
 
-        E getSelectedEntity(DisplaySelection selection) {
+        E getSelectedEntity(VisualSelection selection) {
             return getEntityAt(selection == null ? -1 : selection.getSelectedRow());
         }
 
@@ -854,10 +854,10 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         }
 
         List<E> getSelectedEntities() {
-            return getSelectedEntities(displaySelectionProperty == null ? null :displaySelectionProperty.getValue());
+            return getSelectedEntities(visualSelectionProperty == null ? null :visualSelectionProperty.getValue());
         }
 
-        List<E> getSelectedEntities(DisplaySelection selection) {
+        List<E> getSelectedEntities(VisualSelection selection) {
             if (selection == null)
                 return null;
             List<E> selectedEntities = new ArrayList<>();
@@ -904,45 +904,45 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             ExpressionArray rowStylesExpressionArray = domainClass.getStyleClassesExpressionArray();
             if (rowStylesExpressionArray != null && expressionColumns != null) {
                 ExpressionColumn[] includingRowStyleColumns = new ExpressionColumn[expressionColumns.length + 1];
-                includingRowStyleColumns[0] = ExpressionColumn.create(rowStylesExpressionArray, DisplayColumnBuilder.create("style", PrimType.STRING).setRole("style").build());
+                includingRowStyleColumns[0] = ExpressionColumn.create(rowStylesExpressionArray, VisualColumnBuilder.create("style", PrimType.STRING).setRole("style").build());
                 System.arraycopy(expressionColumns, 0, includingRowStyleColumns, 1, expressionColumns.length);
                 setExpressionColumnsPrivate(includingRowStyleColumns);
             }
             appliedDomainModelRowStyle = true;
         }
 
-        void setDisplayResultProperty(Property<DisplayResult> displayResultProperty) {
-            this.displayResultProperty = displayResultProperty;
+        void setVisualResultProperty(Property<VisualResult> visualResultProperty) {
+            this.visualResultProperty = visualResultProperty;
         }
 
-        void setDisplayResult(DisplayResult rs) {
-            if (displayResultProperty != null)
-                displayResultProperty.setValue(rs);
+        void setVisualResult(VisualResult rs) {
+            if (visualResultProperty != null)
+                visualResultProperty.setValue(rs);
             if (autoSelectSingleRow && rs.getRowCount() == 1 || selectFirstRowOnFirstDisplay && rs.getRowCount() > 0) {
                 selectFirstRowOnFirstDisplay = false;
-                displaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(0));
+                visualSelectionProperty.setValue(VisualSelection.createSingleRowSelection(0));
             }
         }
 
-        void resetDisplayResult(boolean empty) {
+        void resetVisualResult(boolean empty) {
             if (empty)
-                setEmptyDisplayResult();
-            else if (displayResultProperty != null)
-                displayResultProperty.setValue(entitiesListToDisplayResult(getCurrentEntityList()));
+                setEmptyVisualResult();
+            else if (visualResultProperty != null)
+                visualResultProperty.setValue(entitiesListToVisualResult(getCurrentEntityList()));
         }
 
-        void setEmptyDisplayResult() {
-            if (displayResultProperty != null)
-                displayResultProperty.setValue(emptyDisplayResult());
+        void setEmptyVisualResult() {
+            if (visualResultProperty != null)
+                visualResultProperty.setValue(emptyVisualResult());
         }
 
-        DisplayResult entitiesListToDisplayResult(List<E> entities) {
+        VisualResult entitiesListToVisualResult(List<E> entities) {
             collectColumnsPersistentTerms();
-            return EntityListToDisplayResultMapper.createDisplayResult(entities, expressionColumns);
+            return EntityListToVisualResultMapper.createVisualResult(entities, expressionColumns);
         }
 
-        DisplayResult emptyDisplayResult() {
-            return entitiesListToDisplayResult(emptyFutureList());
+        VisualResult emptyVisualResult() {
+            return entitiesListToVisualResult(emptyFutureList());
         }
 
         @SuppressWarnings("unchecked")
@@ -954,7 +954,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                         DomainModel domainModel = getDomainModel();
                         for (ExpressionColumn expressionColumn : expressionColumns) {
                             expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId);
-                            expressionColumn.getDisplayExpression().collectPersistentTerms(columnsPersistentTerms);
+                            expressionColumn.getVisualExpression().collectPersistentTerms(columnsPersistentTerms);
                         }
                     });
             }

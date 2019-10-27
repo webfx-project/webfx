@@ -22,7 +22,7 @@ import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.util.anim.Animations;
 import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.extra.util.ImageStore;
+import webfx.extras.imagestore.ImageStore;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**

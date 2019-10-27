@@ -23,7 +23,7 @@ import mongoose.shared.entities.Document;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
@@ -57,7 +57,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
 
         Pane container = ui.buildUi();
 
-        setUpContextMenu(LayoutUtil.lookupChild(ui.getGroupMasterSlaveView().getMasterView(), n -> n instanceof DataGrid), () -> newActionGroup(
+        setUpContextMenu(LayoutUtil.lookupChild(ui.getGroupMasterSlaveView().getMasterView(), n -> n instanceof VisualGrid), () -> newActionGroup(
                 newOperationAction(() -> new SendLetterRequest(                        pm.getSelectedDocument(), container)),
                 newSeparatorActionGroup("Registration",
                     newOperationAction(() -> new ToggleMarkDocumentAsReadRequest(      pm.getSelectedDocument(), container)),

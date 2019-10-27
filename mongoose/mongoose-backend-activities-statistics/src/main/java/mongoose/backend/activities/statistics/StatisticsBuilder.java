@@ -8,11 +8,11 @@ import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.orm.entity.EntityList;
-import webfx.fxkit.extra.displaydata.DisplayColumn;
-import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.DisplayResultBuilder;
-import webfx.fxkit.extra.displaydata.DisplayStyle;
-import webfx.fxkit.extra.type.PrimType;
+import webfx.extras.visual.VisualColumn;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.VisualResultBuilder;
+import webfx.extras.visual.VisualStyle;
+import webfx.extras.type.PrimType;
 import webfx.platform.shared.util.Dates;
 
 import java.time.LocalDate;
@@ -24,37 +24,37 @@ public class StatisticsBuilder {
 
     private ReactiveExpressionFilter<DocumentLine> leftDocumentLineFilter;
     private ReactiveExpressionFilter<Attendance> rightAttendanceFilter;
-    private final ObjectProperty<DisplayResult> finalDisplayResultProperty;
+    private final ObjectProperty<VisualResult> finalVisualResultProperty;
 
-    private final ObjectProperty<DisplayResult> leftDisplayResultProperty = new SimpleObjectProperty<DisplayResult/*GWT*/>() {
+    private final ObjectProperty<VisualResult> leftVisualResultProperty = new SimpleObjectProperty<VisualResult/*GWT*/>() {
         @Override
         protected void invalidated() {
-            buildFinalDisplayResultIfReady();
+            buildFinalVisualResultIfReady();
         }
     };
-    private final ObjectProperty<DisplayResult> rightDisplayResultProperty = new SimpleObjectProperty<DisplayResult/*GWT*/>() {
+    private final ObjectProperty<VisualResult> rightVisualResultProperty = new SimpleObjectProperty<VisualResult/*GWT*/>() {
         @Override
         protected void invalidated() {
-            buildFinalDisplayResultIfReady();
+            buildFinalVisualResultIfReady();
         }
     };
 
-    private DisplayResult lastLeftResult, lastRightResult;
+    private VisualResult lastLeftResult, lastRightResult;
 
-    public StatisticsBuilder(ReactiveExpressionFilter<DocumentLine> leftDocumentLineFilter, ReactiveExpressionFilter<Attendance> rightAttendanceFilter, ObjectProperty<DisplayResult> finalDisplayResultProperty) {
+    public StatisticsBuilder(ReactiveExpressionFilter<DocumentLine> leftDocumentLineFilter, ReactiveExpressionFilter<Attendance> rightAttendanceFilter, ObjectProperty<VisualResult> finalVisualResultProperty) {
         this.leftDocumentLineFilter = leftDocumentLineFilter;
         this.rightAttendanceFilter = rightAttendanceFilter;
-        this.finalDisplayResultProperty = finalDisplayResultProperty;
+        this.finalVisualResultProperty = finalVisualResultProperty;
     }
 
     public void start() {
-        leftDocumentLineFilter.displayResultInto(leftDisplayResultProperty).start();
-        rightAttendanceFilter.displayResultInto(rightDisplayResultProperty).start();
+        leftDocumentLineFilter.visualizeResultInto(leftVisualResultProperty).start();
+        rightAttendanceFilter.visualizeResultInto(rightVisualResultProperty).start();
     }
 
-    private void buildFinalDisplayResultIfReady() {
-        DisplayResult leftResult  = leftDisplayResultProperty.get();
-        DisplayResult rightResult = rightDisplayResultProperty.get();
+    private void buildFinalVisualResultIfReady() {
+        VisualResult leftResult  = leftVisualResultProperty.get();
+        VisualResult rightResult = rightVisualResultProperty.get();
         if (leftResult == lastLeftResult || rightResult == lastRightResult)
             return;
         lastLeftResult = leftResult;
@@ -69,11 +69,11 @@ public class StatisticsBuilder {
                 dates.add(date);
         });
         int rightColCount = dates.size();
-        DisplayColumn[] columns = new DisplayColumn[leftColCount + rightColCount];
+        VisualColumn[] columns = new VisualColumn[leftColCount + rightColCount];
         System.arraycopy(leftResult.getColumns(), 0, columns, 0, leftColCount);
         for (int col = 0; col < rightColCount; col++)
-            columns[leftColCount + col] = DisplayColumn.create(Dates.format(dates.get(col), "dd/MM"), PrimType.INTEGER, DisplayStyle.RIGHT_STYLE); //, new DisplayStyleImpl(32d, "right"));
-        DisplayResultBuilder rsb = DisplayResultBuilder.create(rowCount, columns);
+            columns[leftColCount + col] = VisualColumn.create(Dates.format(dates.get(col), "dd/MM"), PrimType.INTEGER, VisualStyle.RIGHT_STYLE); //, new DisplayStyleImpl(32d, "right"));
+        VisualResultBuilder rsb = VisualResultBuilder.create(rowCount, columns);
         for (int row = 0; row < rowCount; row++)
             for (int col = 0; col < leftColCount; col++)
                 rsb.setValue(row, col, leftResult.getValue(row, col));
@@ -98,7 +98,7 @@ public class StatisticsBuilder {
                 }
             }
         });
-        finalDisplayResultProperty.set(rsb.build());
+        finalVisualResultProperty.set(rsb.build());
     }
 
 }

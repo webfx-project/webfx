@@ -10,7 +10,7 @@ import webfx.framework.client.activity.impl.elementals.presentation.view.impl.Pr
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
 
 /**
  * @author Bruno Salmon
@@ -20,13 +20,13 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
         implements ButtonFactoryMixin {
 
     protected TextField searchBox;
-    protected DataGrid table;
+    protected VisualGrid table;
     protected CheckBox limitCheckBox;
 
     @Override
     protected void createViewNodes(PM pm) {
         searchBox = newTextField("GenericSearch"); // Will set the prompt
-        table = new DataGrid();
+        table = new VisualGrid();
         BorderPane.setAlignment(table, Pos.TOP_CENTER);
         limitCheckBox = newCheckBox("LimitTo100");
 
@@ -44,9 +44,9 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
         Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? table.getHeight() / 36 : -1), limitCheckBox.selectedProperty(), table.heightProperty());
         table.fullHeightProperty().bind(limitCheckBox.selectedProperty());
         //pm.limitProperty().bind(limitCheckBox.selectedProperty());
-        pm.genericDisplaySelectionProperty().bind(table.displaySelectionProperty());
+        pm.genericVisualSelectionProperty().bind(table.visualSelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
-        table.displayResultProperty().bind(pm.genericDisplayResultProperty());
+        table.visualResultProperty().bind(pm.genericVisualResultProperty());
     }
 
     @Override

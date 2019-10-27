@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.extras.webtext.controls.registry.spi.WebTextRegistryProvider">webfx.extras.webtext.controls.registry.spi.impl.javafx.JavaFxWebTextRegistryProvider</provider>
+    </providers>
+
+</module>

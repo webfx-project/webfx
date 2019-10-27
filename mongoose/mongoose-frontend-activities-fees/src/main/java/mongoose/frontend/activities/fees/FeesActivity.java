@@ -24,21 +24,21 @@ import mongoose.frontend.operations.options.RouteToOptionsRequest;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.Person;
 import mongoose.client.entities.util.Labels;
+import webfx.extras.visual.*;
 import webfx.framework.client.services.i18n.Dictionary;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.shared.orm.entity.EntityList;
-import webfx.fxkit.extra.cell.collator.grid.GridCollator;
-import webfx.fxkit.extra.cell.collator.NodeCollatorRegistry;
-import webfx.fxkit.extra.cell.renderer.TextRenderer;
-import webfx.fxkit.extra.cell.renderer.ValueRenderingContext;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.controls.displaydata.datagrid.SkinnedDataGrid;
-import webfx.fxkit.extra.displaydata.*;
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.type.SpecializedTextType;
-import webfx.fxkit.extra.util.ImageStore;
+import webfx.extras.cell.collator.grid.GridCollator;
+import webfx.extras.cell.collator.NodeCollatorRegistry;
+import webfx.extras.cell.renderer.TextRenderer;
+import webfx.extras.cell.renderer.ValueRenderingContext;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
+import webfx.extras.type.PrimType;
+import webfx.extras.type.SpecializedTextType;
+import webfx.extras.imagestore.ImageStore;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.json.Json;
@@ -67,7 +67,7 @@ final class FeesActivity extends BookingProcessActivity {
         feesGroupsCollator = new GridCollator(this::toFeesGroupPanel, nodes -> new VBox(20, nodes));
         verticalStack.getChildren().setAll(feesGroupsCollator, LayoutUtil.setMaxWidthToInfinite(backButton));
 
-        feesGroupsCollator.displayResultProperty().bind(rsProperty);
+        feesGroupsCollator.visualResultProperty().bind(rsProperty);
     }
 
     private Node toFeesGroupPanel(Node... nodes) {
@@ -123,7 +123,7 @@ final class FeesActivity extends BookingProcessActivity {
         });
     }
 
-    private final Property<DisplayResult> rsProperty = new SimpleObjectProperty<>();
+    private final Property<VisualResult> rsProperty = new SimpleObjectProperty<>();
     private FeesGroup[] feesGroups;
 
     private void displayFeesGroupsAndRefreshAvailabilities(FeesGroup[] feesGroups) {
@@ -144,34 +144,34 @@ final class FeesActivity extends BookingProcessActivity {
 
     private void displayFeesGroupsNow() {
         int n = feesGroups.length;
-        DisplayResultBuilder rsb = DisplayResultBuilder.create(n, new DisplayColumn[]{
-                DisplayColumn.create((value, context) -> renderFeesGroupHeader((Pair<JsonObject, String>) value)),
-                DisplayColumn.create((value, context) -> renderFeesGroupBody((DisplayResult) value)),
-                DisplayColumn.create(null, SpecializedTextType.HTML)});
+        VisualResultBuilder rsb = VisualResultBuilder.create(n, new VisualColumn[]{
+                VisualColumn.create((value, context) -> renderFeesGroupHeader((Pair<JsonObject, String>) value)),
+                VisualColumn.create((value, context) -> renderFeesGroupBody((VisualResult) value)),
+                VisualColumn.create(null, SpecializedTextType.HTML)});
         WritableJsonObject jsonImage = Json.parseObject(MongooseIcons.priceTagColorSvg16JsonUrl);
         ColumnWidthCumulator[] cumulators = {new ColumnWidthCumulator(), new ColumnWidthCumulator(), new ColumnWidthCumulator()};
         for (int i = 0; i < n; i++) {
             FeesGroup feesGroup = feesGroups[i];
             rsb.setValue(i, 0, new Pair<>(jsonImage, feesGroup.getDisplayName()));
-            rsb.setValue(i, 1, generateFeesGroupDisplayResult(feesGroup, this::onBookButtonPressed, cumulators));
+            rsb.setValue(i, 1, generateFeesGroupVisualResult(feesGroup, this::onBookButtonPressed, cumulators));
             if (i == n - 1) // Showing the fees bottom text only on the last fees group
                 rsb.setValue(i, 2, feesGroup.getFeesBottomText());
         }
-        DisplayResult rs = rsb.build();
+        VisualResult rs = rsb.build();
         rsProperty.setValue(rs);
     }
 
-    private DisplayResult generateFeesGroupDisplayResult(FeesGroup feesGroup, Handler<OptionsPreselection> bookHandler, ColumnWidthCumulator[] cumulators) {
+    private VisualResult generateFeesGroupVisualResult(FeesGroup feesGroup, Handler<OptionsPreselection> bookHandler, ColumnWidthCumulator[] cumulators) {
         MongooseButtonFactoryMixin buttonFactory = this;
         EventAggregate eventAggregate = this;
         boolean showBadges = Objects.areEquals(eventAggregate.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
         OptionsPreselection[] optionsPreselections = feesGroup.getOptionsPreselections();
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
-        DisplayResultBuilder rsb = DisplayResultBuilder.create(optionsCount, new DisplayColumn[]{
-                DisplayColumnBuilder.create(I18n.getI18nText(singleOption ? (feesGroup.isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
-                DisplayColumnBuilder.create(I18n.getI18nText("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
-                DisplayColumnBuilder.create(I18n.getI18nText("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
+        VisualResultBuilder rsb = VisualResultBuilder.create(optionsCount, new VisualColumn[]{
+                VisualColumnBuilder.create(I18n.getI18nText(singleOption ? (feesGroup.isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
+                VisualColumnBuilder.create(I18n.getI18nText("Fee"), PrimType.INTEGER).setStyle(VisualStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
+                VisualColumnBuilder.create(I18n.getI18nText("Availability")).setStyle(VisualStyle.CENTER_STYLE).setCumulator(cumulators[2])
                         .setValueRenderer((p, context) -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventAggregate.areEventAvailabilitiesLoaded())
@@ -253,11 +253,11 @@ final class FeesActivity extends BookingProcessActivity {
         return header;
     }
 
-    private Node renderFeesGroupBody(DisplayResult rs) {
-        DataGrid dataGrid = new SkinnedDataGrid(rs); //LayoutUtil.setMinMaxHeightToPref(new DataGrid(rs));
-        dataGrid.setFullHeight(true);
-        dataGrid.setSelectionMode(SelectionMode.DISABLED);
-        return dataGrid;
+    private Node renderFeesGroupBody(VisualResult rs) {
+        VisualGrid visualGrid = new SkinnedVisualGrid(rs); //LayoutUtil.setMinMaxHeightToPref(new DataGrid(rs));
+        visualGrid.setFullHeight(true);
+        visualGrid.setSelectionMode(SelectionMode.DISABLED);
+        return visualGrid;
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {

@@ -10,6 +10,7 @@ module mongoose.backend.activities.users {
     requires mongoose.client.presentationmodel;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
+    requires webfx.extras.visual;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.uifilter;
@@ -17,7 +18,6 @@ module mongoose.backend.activities.users {
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 

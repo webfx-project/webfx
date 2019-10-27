@@ -7,6 +7,12 @@ module webfx.framework.client.controls {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
+    requires webfx.extras.cell;
+    requires webfx.extras.imagestore;
+    requires webfx.extras.label;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
@@ -18,8 +24,6 @@ module webfx.framework.client.controls {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.util;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.lib.controlsfx.validation;
     requires webfx.platform.client.uischeduler;

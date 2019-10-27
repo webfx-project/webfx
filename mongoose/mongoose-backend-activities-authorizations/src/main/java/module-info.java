@@ -7,6 +7,7 @@ module mongoose.backend.activities.authorizations {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.authn;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
@@ -15,7 +16,6 @@ module mongoose.backend.activities.authorizations {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 

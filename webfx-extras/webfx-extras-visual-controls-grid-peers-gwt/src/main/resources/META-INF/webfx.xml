@@ -1,0 +1,11 @@
+<module implements-module="webfx-extras-visual-controls-grid-registry">
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-fxkit-javafxcontrols-emul</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

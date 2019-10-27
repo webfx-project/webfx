@@ -5,9 +5,9 @@ import webfx.framework.shared.expression.terms.function.java.Coalesce;
 import webfx.framework.shared.expression.terms.function.java.CurrentDate;
 import webfx.framework.shared.expression.terms.function.java.StringAgg;
 import webfx.framework.shared.expression.terms.function.java.Sum;
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.type.SpecializedTextType;
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.type.PrimType;
+import webfx.extras.type.SpecializedTextType;
+import webfx.extras.type.Type;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -6,7 +6,7 @@ import webfx.framework.client.ui.filter.ExpressionColumn;
 import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.util.formatter.Formatter;
-import webfx.fxkit.extra.displaydata.DisplayColumn;
+import webfx.extras.visual.VisualColumn;
 import webfx.platform.shared.util.async.Future;
 
 import java.util.ArrayList;
@@ -23,21 +23,21 @@ final class CopyExecutor {
         StringBuilder clipboardString = new StringBuilder();
         List<ExpressionColumn> textColumns = new ArrayList<>();
         for (ExpressionColumn column : columns) {
-            DisplayColumn displayColumn = column.getDisplayColumn();
-            if (displayColumn.getRole() == null) {
-                Expression displayExpression = column.getDisplayExpression();
+            VisualColumn visualColumn = column.getVisualColumn();
+            if (visualColumn.getRole() == null) {
+                Expression displayExpression = column.getVisualExpression();
                 Expression textExpression = ExportHelper.getTextExpression(displayExpression, false, false);
                 if (textExpression != null) {
                     textColumns.add(textExpression == displayExpression ? column : ExpressionColumn.create(textExpression));
-                    clipboardString.append(displayColumn.getName()).append('\t');
+                    clipboardString.append(visualColumn.getName()).append('\t');
                 }
             }
         }
         clipboardString.append('\n');
         for (Entity entity : entities) {
             for (ExpressionColumn textColumn : textColumns) {
-                Object value = entity.evaluate(textColumn.getDisplayExpression());
-                Formatter displayFormatter = textColumn.getDisplayFormatter();
+                Object value = entity.evaluate(textColumn.getVisualExpression());
+                Formatter displayFormatter = textColumn.getVisualFormatter();
                 if (displayFormatter != null)
                     value = displayFormatter.format(value);
                 clipboardString.append(ExportHelper.getTextExpressionValue(value)).append('\t');

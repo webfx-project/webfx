@@ -16,6 +16,7 @@
         <module>webfx-libs</module>
         <module>webfx-platform</module>
         <module>webfx-fxkit</module>
+        <module>webfx-extras</module>
         <module>webfx-framework</module>
 <!-- Now moved into webfx-tutorials profile
         <module>webfx-tutorials</module>

@@ -4,7 +4,7 @@ import webfx.framework.shared.expression.Expression;
 import webfx.framework.shared.expression.lci.DataReader;
 import webfx.platform.shared.util.noreflect.IndexedArray;
 import webfx.platform.shared.util.noreflect.KeyObject;
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.type.Type;
 // TODO: remove platform dependency
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;

@@ -13,7 +13,7 @@ import webfx.framework.client.ui.controls.Controls;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.client.ui.util.border.BorderUtil;
 import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.extra.util.ImageStore;
+import webfx.extras.imagestore.ImageStore;
 import org.controlsfx.control.decoration.GraphicDecoration;
 
 /**

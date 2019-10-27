@@ -8,9 +8,9 @@ module mongoose.client.sectionpanel {
     requires javafx.graphics;
     requires mongoose.client.bookingcalendar;
     requires mongoose.client.icons;
+    requires webfx.extras.cell;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.util;
-    requires webfx.fxkit.extracontrols;
 
     // Exported packages
     exports mongoose.client.controls.sectionpanel;

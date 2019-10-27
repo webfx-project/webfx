@@ -12,6 +12,9 @@ module mongoose.client.personaldetails {
     requires mongoose.client.validation;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
@@ -19,8 +22,6 @@ module mongoose.client.personaldetails {
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.util;

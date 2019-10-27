@@ -13,6 +13,8 @@ module mongoose.backend.activities.diningareas {
     requires mongoose.client.activity;
     requires mongoose.client.util;
     requires mongoose.shared.entities;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
@@ -21,7 +23,6 @@ module mongoose.backend.activities.diningareas {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 

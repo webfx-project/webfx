@@ -42,8 +42,8 @@ import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.util.ImageStore;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.extras.imagestore.ImageStore;
 import webfx.fxkit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
@@ -115,14 +115,14 @@ public final class BookingDetailsPanel implements
     }
 
     private Tab createFilterTab(String i18nKey, String stringFilter) {
-        DataGrid table = new DataGrid();
+        VisualGrid table = new VisualGrid();
         Tab tab = createTab(i18nKey, table);
         // The following is required only for gwt version for any reason (otherwise the table height is not resized when growing)
         Properties.runOnPropertiesChange(() -> {
             TabPane tabPane = tab.getTabPane();
             if (tabPane != null)
                 tabPane.requestLayout();
-        }, table.displayResultProperty());
+        }, table.visualResultProperty());
         // Setting up the reactive filter
         String classOnly = stringFilter.substring(0, stringFilter.indexOf(',')) + "}";
         ObjectProperty<Entity> selectedEntityProperty = new SimpleObjectProperty<>();
@@ -130,8 +130,8 @@ public final class BookingDetailsPanel implements
                 .bindActivePropertyTo(tab.selectedProperty())
                 .combineIfNotNullOtherwiseForceEmptyResult(selectedDocumentProperty, document -> Strings.replaceAll(stringFilter, "${selectedDocument}", document.getPrimaryKey()))
                 .applyDomainModelRowStyle()
-                .displayResultInto(table.displayResultProperty())
-                .setSelectedEntityHandler(table.displaySelectionProperty(), selectedEntityProperty::set)
+                .visualizeResultInto(table.visualResultProperty())
+                .setSelectedEntityHandler(table.visualSelectionProperty(), selectedEntityProperty::set)
                 .setPush(true)
                 .start();
         Supplier<ActionGroup> contextMenuActionGroupFactory = null;
@@ -242,7 +242,7 @@ public final class BookingDetailsPanel implements
     }
 
     private void addFieldLabelAndValue(int rowIndex, int columnIndex, int columnSpan, String fieldName) {
-        webfx.fxkit.extra.label.Label fieldLabel = getDomainModel().getClass("Document").getField(fieldName).getLabel();
+        webfx.extras.label.Label fieldLabel = getDomainModel().getClass("Document").getField(fieldName).getLabel();
         ObservableValue<String> fieldValueProperty = Properties.compute(selectedDocumentProperty, document -> {
             Object fieldValue = document == null ? null : document.getFieldValue(fieldName);
             if (fieldValue instanceof EntityId)

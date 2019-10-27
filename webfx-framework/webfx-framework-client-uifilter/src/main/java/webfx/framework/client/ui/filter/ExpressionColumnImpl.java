@@ -11,14 +11,14 @@ import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.util.formatter.Formatter;
 import webfx.framework.shared.util.formatter.FormatterRegistry;
 import webfx.framework.shared.util.formatter.NumberFormatter;
-import webfx.fxkit.extra.cell.renderer.ValueRenderer;
-import webfx.fxkit.extra.displaydata.DisplayColumn;
-import webfx.fxkit.extra.displaydata.DisplayColumnBuilder;
-import webfx.fxkit.extra.displaydata.DisplayStyleBuilder;
-import webfx.fxkit.extra.type.DerivedType;
-import webfx.fxkit.extra.type.PrimType;
-import webfx.fxkit.extra.type.Type;
-import webfx.fxkit.extra.type.Types;
+import webfx.extras.cell.renderer.ValueRenderer;
+import webfx.extras.visual.VisualColumn;
+import webfx.extras.visual.VisualColumnBuilder;
+import webfx.extras.visual.VisualStyleBuilder;
+import webfx.extras.type.DerivedType;
+import webfx.extras.type.PrimType;
+import webfx.extras.type.Type;
+import webfx.extras.type.Types;
 import webfx.platform.shared.services.json.JsonObject;
 
 import java.util.function.Function;
@@ -33,7 +33,7 @@ final class ExpressionColumnImpl implements ExpressionColumn {
     private Expression displayExpression;
     private Formatter displayFormatter;
     private Object label;
-    private DisplayColumn displayColumn;
+    private VisualColumn visualColumn;
     private final JsonObject json;
     private Boolean isForeignObject;
     private DomainClass domainClass;
@@ -45,18 +45,18 @@ final class ExpressionColumnImpl implements ExpressionColumn {
     private String foreignSearchCondition;
     private Expression applicableCondition;
 
-    ExpressionColumnImpl(String expressionDefinition, Expression expression, Object label, Formatter displayFormatter, DisplayColumn displayColumn, JsonObject json) {
+    ExpressionColumnImpl(String expressionDefinition, Expression expression, Object label, Formatter displayFormatter, VisualColumn visualColumn, JsonObject json) {
         this.expressionDefinition = expressionDefinition;
         this.displayFormatter = displayFormatter;
         this.label = label;
-        this.displayColumn = displayColumn;
+        this.visualColumn = visualColumn;
         this.json = json;
         setExpression(expression);
     }
 
     @Override
-    public DisplayColumn getDisplayColumn() {
-        if (displayColumn == null) {
+    public VisualColumn getVisualColumn() {
+        if (visualColumn == null) {
             Expression topRightExpression = getTopRightExpression();
             if (topRightExpression instanceof As) {
                 As as = (As) topRightExpression;
@@ -79,7 +79,7 @@ final class ExpressionColumnImpl implements ExpressionColumn {
             if (displayFormatter != null)
                 displayType = displayFormatter.getOutputType();
             else {
-                if (getDisplayExpression() != expression)
+                if (getVisualExpression() != expression)
                     topRightExpression = getTopRightExpression(displayExpression);
                 displayType = topRightExpression.getType();
             }
@@ -99,17 +99,17 @@ final class ExpressionColumnImpl implements ExpressionColumn {
                 //json = null;
             }
             if (textAlign == null) {
-                Type type = getDisplayExpression().getType();
+                Type type = getVisualExpression().getType();
                 textAlign = Types.isNumberType(type) ? "right" : Types.isBooleanType(type) ? "center" : null;
             }
-            displayColumn = DisplayColumnBuilder.create(label, displayType)
-                    .setStyle(DisplayStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
+            visualColumn = VisualColumnBuilder.create(label, displayType)
+                    .setStyle(VisualStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
                     .setRole(role)
                     .setValueRenderer(fxValueRenderer)
                     .setSource(this)
                     .build();
         }
-        return displayColumn;
+        return visualColumn;
     }
 
     private Expression getTopRightExpression() {
@@ -217,14 +217,14 @@ final class ExpressionColumnImpl implements ExpressionColumn {
     }
 
     @Override
-    public Expression getDisplayExpression() {
+    public Expression getVisualExpression() {
         if (displayExpression == null)
             displayExpression = getForeignColumns() == null ? expression : new Dot(expression, foreignFields);
         return displayExpression;
     }
 
     @Override
-    public Formatter getDisplayFormatter() {
+    public Formatter getVisualFormatter() {
         return displayFormatter;
     }
 

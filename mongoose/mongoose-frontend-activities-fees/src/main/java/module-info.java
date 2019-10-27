@@ -16,6 +16,12 @@ module mongoose.frontend.activities.fees {
     requires mongoose.client.util;
     requires mongoose.frontend.activities.options;
     requires mongoose.shared.entities;
+    requires webfx.extras.cell;
+    requires webfx.extras.imagestore;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
+    requires webfx.extras.visual.controls.grid.peers.base;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
@@ -23,9 +29,6 @@ module mongoose.frontend.activities.fees {
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extracontrols.mapper.base;
-    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.windowhistory;

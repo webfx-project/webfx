@@ -5,11 +5,11 @@ module mongoose.shared.domain {
     // Direct dependencies modules
     requires java.base;
     requires javafx.base;
+    requires webfx.extras.type;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.util;
-    requires webfx.fxkit.extratype;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.query;
     requires webfx.platform.shared.resource;

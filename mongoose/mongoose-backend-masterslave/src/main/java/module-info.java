@@ -9,14 +9,18 @@ module mongoose.backend.masterslave {
     requires javafx.graphics;
     requires mongoose.client.entities;
     requires mongoose.client.presentationmodel;
+    requires webfx.extras.imagestore;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls;
+    requires webfx.extras.visual.controls.charts;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uifilter;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.fxkit.util;
     requires webfx.platform.shared.util;
 

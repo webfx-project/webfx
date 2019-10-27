@@ -44,8 +44,8 @@ final class EventsPresentationLogicActivity
                         "'type'," +
                         "{role: 'background', expression: 'type.background'}" +
                         "]")
-                .displayResultInto(pm.genericDisplayResultProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> new RouteToBookingsRequest(event, getHistory()).execute())
+                .visualizeResultInto(pm.genericVisualResultProperty())
+                .setSelectedEntityHandler(pm.genericVisualSelectionProperty(), event -> new RouteToBookingsRequest(event, getHistory()).execute())
                 .start();
     }
 }

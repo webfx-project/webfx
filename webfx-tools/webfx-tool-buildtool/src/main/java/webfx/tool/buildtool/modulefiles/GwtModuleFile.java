@@ -73,7 +73,7 @@ public final class GwtModuleFile extends XmlModuleFile {
         Node moduleSourceEndNode = moduleSourceCommentNode.getNextSibling();
         getModule().getTransitiveDependencies()
                 .stream().collect(Collectors.groupingBy(ModuleDependency::getDestinationModule)).entrySet()
-                .stream().sorted(Comparator.comparing(Map.Entry::getKey))
+                .stream().sorted(Map.Entry.comparingByKey())
                 .forEach(moduleGroup -> {
                     Module module = moduleGroup.getKey();
                     // Ignoring emulated modules because 1) they are destined to the super source, not the source (so they don't need to be listed here) and 2) these modules have been shaded so the original source packages would start with emul (which would be incorrect) if they were listed here

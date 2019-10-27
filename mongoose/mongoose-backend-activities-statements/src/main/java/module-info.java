@@ -12,6 +12,7 @@ module mongoose.backend.activities.statements {
     requires mongoose.client.util;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
+    requires webfx.extras.visual;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
@@ -21,7 +22,6 @@ module mongoose.backend.activities.statements {
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 

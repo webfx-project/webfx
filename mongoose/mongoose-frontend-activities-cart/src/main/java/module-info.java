@@ -19,6 +19,9 @@ module mongoose.frontend.activities.cart {
     requires mongoose.frontend.activities.startbooking;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
@@ -31,8 +34,6 @@ module mongoose.frontend.activities.cart {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.util;
-    requires webfx.fxkit.extracontrols;
-    requires webfx.fxkit.extratype;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.update;

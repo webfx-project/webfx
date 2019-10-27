@@ -44,6 +44,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-extras-cell</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-i18n</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -51,12 +57,6 @@
         
         <dependency>
             <artifactId>webfx-framework-client-util</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-fxkit-extracontrols</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

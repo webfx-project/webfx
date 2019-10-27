@@ -37,12 +37,12 @@ import webfx.framework.shared.expression.terms.function.Function;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.framework.shared.orm.mapping.entity_display.EntityListToDisplayResultMapper;
-import webfx.fxkit.extra.controls.displaydata.datagrid.DataGrid;
-import webfx.fxkit.extra.controls.displaydata.datagrid.SkinnedDataGrid;
-import webfx.fxkit.extra.displaydata.DisplayResult;
-import webfx.fxkit.extra.displaydata.DisplaySelection;
-import webfx.fxkit.extra.type.PrimType;
+import webfx.framework.shared.orm.mapping.entity_visual.EntityListToVisualResultMapper;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.VisualSelection;
+import webfx.extras.type.PrimType;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Arrays;
@@ -68,10 +68,10 @@ final class CartActivity extends CartBasedActivity {
     private final Action makePaymentAction           = newAction("MakePayment>>", "{url: 'images/svg/mono/pay-circle.svg', width: 32, height: 32}", this::makePayment);
     private final Action explainStatusAction         = newAction(null, "{url: 'images/svg/mono/help-circle-blue.svg', width: 32, height: 32}", this::explainStatus);
 
-    private final Property<DisplayResult> documentDisplayResultProperty = new SimpleObjectProperty<>();
-    private final Property<DisplayResult> paymentDisplayResultProperty = new SimpleObjectProperty<>();
+    private final Property<VisualResult> documentVisualResultProperty = new SimpleObjectProperty<>();
+    private final Property<VisualResult> paymentVisualResultProperty = new SimpleObjectProperty<>();
     // Display input & output
-    private final Property<DisplaySelection> documentDisplaySelectionProperty = new SimpleObjectProperty<>();
+    private final Property<VisualSelection> documentVisualSelectionProperty = new SimpleObjectProperty<>();
 
     private Label bookingLabel;
     private BookingOptionsPanel bookingOptionsPanel;
@@ -83,14 +83,14 @@ final class CartActivity extends CartBasedActivity {
     @Override
     public Node buildUi() {
         BorderPane bookingsPanel = SectionPanelFactory.createSectionPanel("YourBookings");
-        DataGrid documentTable = new SkinnedDataGrid();
+        VisualGrid documentTable = new SkinnedVisualGrid();
         documentTable.setFullHeight(true);
         bookingsPanel.setCenter(documentTable);
         optionsPanel = SectionPanelFactory.createSectionPanelWithHeaderNodes(bookingLabel = new Label(), LayoutUtil.createHGrowable(), ActionBinder.getAndBindActionIcon(explainStatusAction));
         bookingOptionsPanel = new BookingOptionsPanel();
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
         paymentsPanel = SectionPanelFactory.createSectionPanel("YourPayments");
-        DataGrid paymentTable = new DataGrid();
+        VisualGrid paymentTable = new VisualGrid();
         paymentTable.setFullHeight(true);
         paymentsPanel.setCenter(paymentTable);
 
@@ -106,10 +106,10 @@ final class CartActivity extends CartBasedActivity {
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
-        documentTable.displaySelectionProperty().bindBidirectional(documentDisplaySelectionProperty);
+        documentTable.visualSelectionProperty().bindBidirectional(documentVisualSelectionProperty);
         // User outputs: the presentation model changes are transferred in the UI
-        documentTable.displayResultProperty().bind(documentDisplayResultProperty);
-        paymentTable.displayResultProperty().bind(paymentDisplayResultProperty);
+        documentTable.visualResultProperty().bind(documentVisualResultProperty);
+        paymentTable.visualResultProperty().bind(paymentVisualResultProperty);
 
         // Applying the css background of the event if provided and if ui is ready
         UiScheduler.scheduleDeferred(this::applyEventCssBackgroundIfProvided);
@@ -138,7 +138,7 @@ final class CartActivity extends CartBasedActivity {
                 return I18n.getI18nText(getDocumentStatus(document));
             }
         }.register();
-        documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
+        documentVisualSelectionProperty.addListener((observable, oldValue, selection) -> {
             int selectedRow = selection == null ? -1 : selection.getSelectedRow();
             if (selectedRow != -1) {
                 onCartWorkingDocuments().setHandler(ar -> UiScheduler.runInUiThread(() -> {
@@ -171,7 +171,7 @@ final class CartActivity extends CartBasedActivity {
             int selectedIndex = indexOfWorkingDocument(selectedWorkingDocument);
             if (selectedIndex == -1 && eventAggregate() != null)
                 selectedIndex = indexOfWorkingDocument(ActiveWorkingDocumentsByEventStore.getEventActiveWorkingDocument(getEvent()));
-            documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
+            documentVisualSelectionProperty.setValue(VisualSelection.createSingleRowSelection(Math.max(0, selectedIndex)));
             updatePaymentsVisibility();
         });
     }
@@ -214,7 +214,7 @@ final class CartActivity extends CartBasedActivity {
 */
                         "{expression: 'documentStatus(this)', label: 'Status', textAlign: 'center'}" +
                         "]"
-                , "Document", documentDisplayResultProperty);
+                , "Document", documentVisualResultProperty);
     }
 
     private void displayCartPayments() {
@@ -225,11 +225,11 @@ final class CartActivity extends CartBasedActivity {
                         "{expression: 'amount', format: 'priceWithCurrency'}," +
                         "{expression: 'translate(pending ? `PendingStatus` : successful ? `SuccessfulStatus` : `FailedStatus`)', label: 'Status', textAlign: 'center'}" +
                         "]"
-                , "MoneyTransfer", paymentDisplayResultProperty);
+                , "MoneyTransfer", paymentVisualResultProperty);
     }
 
-    private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<DisplayResult> displayResultProperty) {
-        displayResultProperty.setValue(EntityListToDisplayResultMapper.createDisplayResult(entities, columnsDefinition
+    private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<VisualResult> visualResultProperty) {
+        visualResultProperty.setValue(EntityListToVisualResultMapper.createVisualResult(entities, columnsDefinition
                 , getDataSourceModel().getDomainModel(), classId));
     }
 

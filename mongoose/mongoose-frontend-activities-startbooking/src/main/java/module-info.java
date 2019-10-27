@@ -14,13 +14,13 @@ module mongoose.frontend.activities.startbooking {
     requires mongoose.frontend.activities.program;
     requires mongoose.frontend.activities.terms;
     requires mongoose.shared.entities;
+    requires webfx.extras.imagestore;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
-    requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.windowhistory;

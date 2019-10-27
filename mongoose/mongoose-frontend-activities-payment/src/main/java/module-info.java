@@ -13,6 +13,7 @@ module mongoose.frontend.activities.payment {
     requires mongoose.frontend.activities.cart.routing;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
+    requires webfx.extras.webtext.controls;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
@@ -21,7 +22,6 @@ module mongoose.frontend.activities.payment {
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.extracontrols;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.websocketbus;
     requires webfx.platform.client.windowhistory;

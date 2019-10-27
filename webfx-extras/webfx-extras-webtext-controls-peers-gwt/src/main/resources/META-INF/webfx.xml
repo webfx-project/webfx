@@ -1,0 +1,11 @@
+<module implements-module="webfx-extras-webtext-controls-registry">
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-fxkit-javafxcontrols-emul</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

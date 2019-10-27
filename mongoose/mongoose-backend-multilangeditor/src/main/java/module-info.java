@@ -7,13 +7,13 @@ module mongoose.backend.multilangeditor {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.icons;
+    requires webfx.extras.webtext.controls;
     requires webfx.framework.client.action;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.shared.update;
     requires webfx.platform.shared.util;

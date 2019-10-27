@@ -7,7 +7,7 @@ import webfx.framework.shared.expression.lci.DataReader;
 import webfx.framework.shared.expression.lci.ParserDomainModelReader;
 import webfx.framework.shared.expression.parser.ExpressionParser;
 import webfx.framework.shared.expression.terms.ExpressionArray;
-import webfx.fxkit.extra.type.Type;
+import webfx.extras.type.Type;
 import webfx.platform.shared.util.Strings;
 
 import java.util.HashMap;

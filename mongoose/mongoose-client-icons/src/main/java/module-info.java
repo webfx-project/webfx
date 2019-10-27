@@ -5,8 +5,8 @@ module mongoose.client.icons {
     // Direct dependencies modules
     requires javafx.graphics;
     requires mongoose.shared.entities;
+    requires webfx.extras.imagestore;
     requires webfx.framework.client.action;
-    requires webfx.fxkit.extracontrols;
 
     // Exported packages
     exports mongoose.client.actions;

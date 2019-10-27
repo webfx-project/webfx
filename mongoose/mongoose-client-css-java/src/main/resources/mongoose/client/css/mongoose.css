@@ -1,4 +1,4 @@
-DataGrid, LineChart, PieChart, BarChart, AreaChart, GridCollator, HtmlText, HtmlTextEditor {
+VisualGrid, LineChart, PieChart, BarChart, AreaChart, GridCollator, HtmlText, HtmlTextEditor {
     -fx-skin: "webfx.fxkit.javafx.mapper.peer.skin.FxControlPeerSkin";
 }
 
