@@ -26,6 +26,8 @@ module mongoose.backend.activities.roomsgraphic {
     requires webfx.fxkit.extracontrols;
     requires webfx.fxkit.util;
     requires webfx.platform.client.windowhistory;
+    requires webfx.platform.shared.json;
+    requires webfx.platform.shared.serial;
     requires webfx.platform.shared.util;
 
     // Exported packages

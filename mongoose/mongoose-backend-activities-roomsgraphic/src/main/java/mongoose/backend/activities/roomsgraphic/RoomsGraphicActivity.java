@@ -9,14 +9,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
 import mongoose.backend.controls.masterslave.MasterSlaveView;
-import mongoose.backend.operations.entities.resourceconfiguration.ChangeResourceConfigurationItemRequest;
-import mongoose.backend.operations.entities.resourceconfiguration.DeleteResourceRequest;
-import mongoose.backend.operations.entities.resourceconfiguration.EditResourceConfigurationPropertiesRequest;
-import mongoose.backend.operations.entities.resourceconfiguration.ToggleResourceConfigurationOnlineOfflineRequest;
+import mongoose.backend.operations.entities.resourceconfiguration.*;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.presentationmodel.HasSelectedDocumentProperty;
 import mongoose.shared.entities.Document;
@@ -36,7 +35,10 @@ import webfx.fxkit.extra.controls.displaydata.datagrid.SkinnedDataGrid;
 import webfx.fxkit.extra.util.ImageStore;
 import webfx.fxkit.util.properties.ObservableLists;
 import webfx.fxkit.util.properties.Properties;
+import webfx.platform.shared.services.json.Json;
+import webfx.platform.shared.services.serial.SerialCodecManager;
 
+import java.util.List;
 import java.util.Objects;
 
 final class RoomsGraphicActivity extends EventDependentViewDomainActivity implements
@@ -137,11 +139,16 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
     private final static CornerRadii BOX_RADII = new CornerRadii(8);
     private final static Color ONLINE_BOX_COLOR = Color.color(0, 0.8, 0);
     private final static Color OFFLINE_BOX_COLOR = Color.ORANGE;
+    private final static Color DRAG_BOX_COLOR = Color.BLUEVIOLET;
     private final static Border BOX_BORDER = new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, BOX_RADII, null));
+    private final static Effect BOX_SHADOW_EFFECT = new DropShadow(5, 7, 7, Color.GRAY);
     private final static Background ONLINE_BOX_BACKGROUND  = new Background(new BackgroundFill(ONLINE_BOX_COLOR, BOX_RADII, null));
     private final static Background ONLINE_PEOPLE_BACKGROUND  = new Background(new BackgroundFill(ONLINE_BOX_COLOR.brighter(), null, null));
     private final static Background OFFLINE_BOX_BACKGROUND = new Background(new BackgroundFill(OFFLINE_BOX_COLOR, BOX_RADII, null));
     private final static Background OFFLINE_PEOPLE_BACKGROUND  = new Background(new BackgroundFill(OFFLINE_BOX_COLOR.brighter(), null, null));
+    private final static Background DRAG_BOX_BACKGROUND = new Background(new BackgroundFill(DRAG_BOX_COLOR, BOX_RADII, null));
+
+    private static final DataFormat dndDataFormat = DataFormat.PLAIN_TEXT; // Using standard plain text format to ensure drag & drop works between applications
 
     private DataGrid peopleBoxFocus;
 
@@ -151,14 +158,15 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         final Site site;
         private final Label label = new Label();
         private final DataGrid peopleBox = new SkinnedDataGrid();
-        private final VBox box = new VBox(LayoutUtil.setMaxWidthToInfinite(label), peopleBox);
+        private final VBox resourceBox = new VBox(LayoutUtil.setMaxWidthToInfinite(label), peopleBox);
         private final ObjectProperty<Entity> resourceConfigurationProperty = new SimpleObjectProperty<>();
-        private final ReactiveExpressionFilter<DocumentLine> filter;
+        private final ReactiveExpressionFilter<DocumentLine> peopleFilter;
+        private boolean dragBackgroundVisible;
 
         ResourceBoxController(Entity resourceConfiguration, Site site, Pane resourcesBoxContainer) {
             this.resourcesBoxContainer = resourcesBoxContainer;
             this.site = site;
-            resourceConfigurationProperty.set(resourceConfiguration);
+            setResourceConfiguration(resourceConfiguration);
             label.setTextFill(Color.WHITE);
             label.setAlignment(Pos.CENTER);
             peopleBox.setHeaderVisible(false);
@@ -166,9 +174,9 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
             VBox.setMargin(label, new Insets(2));
             VBox.setMargin(peopleBox, new Insets(0, 5, 5, 5));
             VBox.setVgrow(peopleBox, Priority.ALWAYS);
-            box.setMinWidth(150);
-            box.setEffect(new DropShadow(5, 7, 7, Color.GRAY));
-            filter = RoomsGraphicActivity.this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
+            resourceBox.setMinWidth(150);
+            resourceBox.setEffect(BOX_SHADOW_EFFECT);
+            peopleFilter = RoomsGraphicActivity.this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
                     .combineIfNotNullOtherwiseForceEmptyResult(resourceConfigurationProperty, rc -> "{where: `resourceConfiguration=" + rc.getPrimaryKey() + "`}")
                     // Always loading the fields required for viewing the booking details
                     .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS_STRING_FILTER + ")`}")
@@ -189,33 +197,90 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
                     .setPush(true)
                     .start();
             update(resourceConfiguration);
-            setUpContextMenu(box, this::createContextMenuActionGroup);
+            setUpContextMenu(resourceBox, this::createContextMenuActionGroup);
+            setUpDragAndDropSupport();
         }
 
-        void update(Entity resourceConfiguration) {
-            label.setText((String) resourceConfiguration.evaluate("name"));
-            Boolean online = resourceConfiguration.getBooleanFieldValue("online");
-            box.setBackground(online ? ONLINE_BOX_BACKGROUND : OFFLINE_BOX_BACKGROUND);
-            box.setBorder(BOX_BORDER);
-            peopleBox.setBackground(online ? ONLINE_PEOPLE_BACKGROUND : OFFLINE_PEOPLE_BACKGROUND);
+        void setResourceConfiguration(Entity resourceConfiguration) {
             resourceConfigurationProperty.set(resourceConfiguration);
         }
 
-        void delete() {
-            filter.stop();
+        Entity getResourceConfiguration() {
+            return resourceConfigurationProperty.get();
         }
 
         Node getNode() {
-            return box;
+            return resourceBox;
+        }
+
+        void update(Entity resourceConfiguration) {
+            setResourceConfiguration(resourceConfiguration);
+            label.setText((String) resourceConfiguration.evaluate("name"));
+            Boolean online = resourceConfiguration.getBooleanFieldValue("online");
+            resourceBox.setBackground(dragBackgroundVisible ? DRAG_BOX_BACKGROUND : online ? ONLINE_BOX_BACKGROUND : OFFLINE_BOX_BACKGROUND);
+            resourceBox.setBorder(BOX_BORDER);
+            peopleBox.setBackground(online ? ONLINE_PEOPLE_BACKGROUND : OFFLINE_PEOPLE_BACKGROUND);
+        }
+
+        void delete() {
+            peopleFilter.stop();
+        }
+
+        void showDragBackground(boolean show) {
+            dragBackgroundVisible = show;
+            update(getResourceConfiguration());
         }
 
         ActionGroup createContextMenuActionGroup() {
             return newActionGroup(
-                    newOperationAction(() -> new EditResourceConfigurationPropertiesRequest(resourceConfigurationProperty.get(), container)),
-                    newOperationAction(() -> new ToggleResourceConfigurationOnlineOfflineRequest(resourceConfigurationProperty.get())),
-                    newOperationAction(() -> new ChangeResourceConfigurationItemRequest(resourceConfigurationProperty.get(), container, "acco", site.getId())),
-                    newOperationAction(() -> new DeleteResourceRequest(resourceConfigurationProperty.get(), container))
+                    newOperationAction(() -> new EditResourceConfigurationPropertiesRequest(getResourceConfiguration(), container)),
+                    newOperationAction(() -> new ToggleResourceConfigurationOnlineOfflineRequest(getResourceConfiguration())),
+                    newOperationAction(() -> new ChangeResourceConfigurationItemRequest(getResourceConfiguration(), container, "acco", site.getId())),
+                    newOperationAction(() -> new DeleteResourceRequest(getResourceConfiguration(), container))
             );
+        }
+
+        /******************** Drag & Drop support ********************/
+
+        private void setUpDragAndDropSupport() {
+            peopleBox.setOnDragDetected(e -> {
+                Dragboard db = peopleBox.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                content.put(dndDataFormat, exportDragSelectionForDragboard());
+                db.setContent(content);
+            });
+            // Showing drag background only when entered and accepted
+            resourceBox.setOnDragEntered(e -> showDragBackground(acceptsDrag(e)));
+            resourceBox.setOnDragOver(e -> {
+                if (acceptsDrag(e))
+                    e.acceptTransferModes(TransferMode.MOVE);
+            });
+            resourceBox.setOnDragDropped(e -> {
+                Dragboard db = e.getDragboard();
+                if (db.hasContent(dndDataFormat)) {
+                    Object[] keys = importDragSelectionFromDragboard(db.getContent(dndDataFormat));
+                    executeOperation(new MoveToResourceConfigurationRequest(getResourceConfiguration(), keys));
+                }
+            });
+            resourceBox.setOnDragExited(e -> showDragBackground(false));
+        }
+
+        private boolean acceptsDrag(DragEvent e) {
+            return e.getGestureSource() != peopleBox && e.getDragboard().hasContent(dndDataFormat);
+        }
+
+        private String exportDragSelectionForDragboard() {
+            // Taking the selected people as drag selection (if set)
+            List<DocumentLine> documentLines = peopleFilter.getSelectedEntities();
+            if (documentLines == null) // Otherwise (if nobody is selected),
+                documentLines = peopleFilter.getCurrentEntityList(); // taking all people
+            // Exporting the document lines primary keys as a json array
+            return SerialCodecManager.encodePrimitiveArrayToJsonArray(documentLines.stream().map(Entity::getPrimaryKey).toArray()).toJsonString();
+        }
+
+        private Object[] importDragSelectionFromDragboard(Object dragContent) {
+            // Parsing the expected json array and decoding it as a java array containing all primary keys
+            return SerialCodecManager.decodePrimitiveArrayFromJsonArray(Json.parseArray(dragContent.toString()));
         }
     }
 }

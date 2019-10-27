@@ -35,7 +35,7 @@ public abstract class HtmlRegionPeer
     @Override
     public void updateWidth(Number width) {
         double w = width.doubleValue();
-        if (w > 0) {
+        if (w >= 0) {
             if (subtractCssPaddingBorderWhenUpdatingSize)
                 w = subtractCssPaddingBorderWidth(w);
             else {
@@ -87,7 +87,7 @@ public abstract class HtmlRegionPeer
     @Override
     public void updateHeight(Number height) {
         double h = height.doubleValue();
-        if (h > 0) {
+        if (h >= 0) {
             if (subtractCssPaddingBorderWhenUpdatingSize)
                 h = subtractCssPaddingBorderHeight(h);
             else {
