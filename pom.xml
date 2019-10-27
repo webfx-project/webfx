@@ -71,7 +71,7 @@
         <plugin.javacup.version>11b-20151001</plugin.javacup.version>
         <plugin.jflex.version>1.7.0</plugin.jflex.version>
         <plugin.proguard.version>2.0.14</plugin.proguard.version>
-        <plugin.gwt.version>1.0-rc-10</plugin.gwt.version>
+        <plugin.gwt.version>1.0.0</plugin.gwt.version>
 
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
         <plugin.compiler.param.exclude></plugin.compiler.param.exclude>
