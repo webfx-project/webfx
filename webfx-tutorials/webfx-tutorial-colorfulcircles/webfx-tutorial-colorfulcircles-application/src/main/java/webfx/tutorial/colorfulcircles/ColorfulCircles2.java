@@ -65,7 +65,7 @@ public class ColorfulCircles2 extends Application {
         circles.setEffect(new BoxBlur(10, 10, 3));
         Timeline timeline = new Timeline();
         for (Node circle : circles.getChildren()) {
-            // Using Node.getTransforms().setAll(new Translate()) instead of Node.translateX/YProperty() (which are not yet implemented in webfx-fxkit)
+            // Using Node.getTransforms().setAll(new Translate()) instead of Node.translateX/YProperty() (which are not yet implemented in webfx-kit)
             Translate translate = new Translate();
             circle.getTransforms().setAll(translate);
             timeline.getKeyFrames().addAll(

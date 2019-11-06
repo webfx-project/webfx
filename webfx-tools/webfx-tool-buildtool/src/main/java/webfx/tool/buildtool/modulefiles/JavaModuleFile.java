@@ -91,11 +91,11 @@ public class JavaModuleFile extends ModuleFile {
     private static String getJavaModuleName(Module module) {
         String moduleName = module.getName();
         switch (moduleName) {
-            case "webfx-fxkit-javafxbase-emul":
+            case "webfx-kit-javafxbase-emul":
                 return "javafx.base";
-            case "webfx-fxkit-javafxcontrols-emul":
+            case "webfx-kit-javafxcontrols-emul":
                 return "javafx.controls";
-            case "webfx-fxkit-javafxgraphics-emul":
+            case "webfx-kit-javafxgraphics-emul":
                 return "javafx.graphics";
             default:
                 if (module instanceof ProjectModule) {

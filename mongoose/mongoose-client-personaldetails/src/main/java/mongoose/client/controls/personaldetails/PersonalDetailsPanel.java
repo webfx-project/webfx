@@ -34,7 +34,7 @@ import webfx.extras.visual.VisualResultBuilder;
 import webfx.extras.visual.VisualStyle;
 import webfx.extras.visual.SelectionMode;
 import webfx.extras.type.PrimType;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.Booleans;
 

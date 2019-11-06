@@ -28,7 +28,7 @@ import mongoose.client.entities.util.Labels;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.extras.imagestore.ImageStore;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Objects;

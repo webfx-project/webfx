@@ -4,7 +4,7 @@ import mongoose.client.presentationmodel.*;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.shared.orm.entity.Entity;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 
 public interface ConventionalReactiveExpressionFilterFactoryMixin extends ReactiveExpressionFilterFactoryMixin {
 

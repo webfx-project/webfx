@@ -26,7 +26,7 @@ import webfx.extras.visual.VisualColumnBuilder;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
 import webfx.extras.type.PrimType;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.log.Logger;

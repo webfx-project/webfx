@@ -7,7 +7,7 @@ module webfx.tutorial.service.application {
     requires javafx.controls;
     requires javafx.graphics;
     requires webfx.framework.client.layouts;
-    requires webfx.fxkit.launcher;
+    requires webfx.kit.launcher;
     requires webfx.platform.shared.util;
     requires webfx.tutorial.service.alert;
     requires webfx.tutorial.service.console;

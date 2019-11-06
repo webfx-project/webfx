@@ -15,7 +15,7 @@ import webfx.framework.client.ui.util.border.BorderBuilder;
 import webfx.framework.client.ui.util.image.JsonImageViews;
 import webfx.framework.client.ui.util.paint.PaintBuilder;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import java.util.function.Function;
 
 /**

@@ -9,7 +9,7 @@ import mongoose.shared.entities.Filter;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 
 import java.util.function.Predicate;
 

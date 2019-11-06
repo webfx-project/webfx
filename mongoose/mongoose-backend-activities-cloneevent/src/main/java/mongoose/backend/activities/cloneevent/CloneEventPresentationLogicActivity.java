@@ -3,7 +3,7 @@ package mongoose.backend.activities.cloneevent;
 import mongoose.backend.operations.routes.bookings.RouteToBookingsRequest;
 import mongoose.client.activity.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.shared.entities.Event;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateService;

@@ -10,8 +10,8 @@ module webfx.framework.client.uirouter {
     requires webfx.framework.shared.authz;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.launcher;
-    requires webfx.fxkit.util;
+    requires webfx.kit.launcher;
+    requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.json;

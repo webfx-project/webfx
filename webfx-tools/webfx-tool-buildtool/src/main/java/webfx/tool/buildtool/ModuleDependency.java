@@ -86,8 +86,8 @@ public final class ModuleDependency implements Comparable<ModuleDependency> {
     private void collectThisAndTransitiveDependencies(Collection<ModuleDependency> dependencies, ProjectModule targetModule) {
         if (dependencies.stream().noneMatch(d -> d.destinationModule == destinationModule)) { // Avoiding infinite recursion
             dependencies.add(this);
-            // We don't include the webfx-fxkit dependencies unless it is a GWT executable
-            if (destinationModule.getName().startsWith("webfx-fxkit-javafx") && !targetModule.isExecutable(Platform.GWT))
+            // We don't include the webfx-kit dependencies unless it is a GWT executable
+            if (destinationModule.getName().startsWith("webfx-kit-javafx") && !targetModule.isExecutable(Platform.GWT))
                 return;
             ProjectModule pm = destinationModule instanceof ProjectModule ? (ProjectModule) destinationModule : null;
             if (pm != null)

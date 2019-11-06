@@ -22,17 +22,17 @@ final class ArtifactResolver {
             //case "gwt-charts":
             case "jsinterop-annotations":
                 return null;
-            case "webfx-fxkit-javafxbase-emul":
+            case "webfx-kit-javafxbase-emul":
                 return isForGwt || isRegistry ? moduleName : "javafx-base";
-            case "webfx-fxkit-javafxgraphics-emul":
+            case "webfx-kit-javafxgraphics-emul":
                 return isForGwt || isRegistry ? moduleName : "javafx-graphics";
-            case "webfx-fxkit-javafxcontrols-emul":
+            case "webfx-kit-javafxcontrols-emul":
                 return isForGwt || isRegistry ? moduleName : "javafx-controls";
             case "com-zaxxer-hikari":
                 return "HikariCP";
         }
         if (isRegistry && "javafx-graphics".equals(moduleName))
-            return "webfx-fxkit-javafxgraphics-emul";
+            return "webfx-kit-javafxgraphics-emul";
         if (isForGwt && isExecutable) {
             switch (moduleName) {
                 case "elemental2-dom":
@@ -107,9 +107,9 @@ final class ArtifactResolver {
             return "provided";
         if (!isForGwt && !isForJavaFx && !isExecutable && !isRegistry)
             switch (module.getName()) {
-                case "webfx-fxkit-javafxbase-emul":
-                case "webfx-fxkit-javafxgraphics-emul":
-                case "webfx-fxkit-javafxcontrols-emul":
+                case "webfx-kit-javafxbase-emul":
+                case "webfx-kit-javafxgraphics-emul":
+                case "webfx-kit-javafxcontrols-emul":
                 case "javafx-base":
                 case "javafx-graphics":
                 case "javafx-controls":

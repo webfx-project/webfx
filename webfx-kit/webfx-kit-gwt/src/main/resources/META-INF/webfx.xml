@@ -1,0 +1,16 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>javafx-base</module>
+        </source-modules>
+
+    </dependencies>
+
+    <providers>
+        <provider spi="webfx.kit.launcher.spi.WebFxKitLauncherProvider">webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</provider>
+        <provider spi="webfx.kit.mapper.spi.WebFxKitMapperProvider">webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider</provider>
+    </providers>
+
+</module>

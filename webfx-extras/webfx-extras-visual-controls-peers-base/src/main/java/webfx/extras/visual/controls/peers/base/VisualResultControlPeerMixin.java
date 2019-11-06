@@ -2,7 +2,7 @@ package webfx.extras.visual.controls.peers.base;
 
 import webfx.extras.visual.controls.VisualResultControl;
 import webfx.extras.visual.VisualResult;
-import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ControlPeerMixin;
+import webfx.kit.mapper.peers.javafxcontrols.base.ControlPeerMixin;
 
 /**
  * @author Bruno Salmon

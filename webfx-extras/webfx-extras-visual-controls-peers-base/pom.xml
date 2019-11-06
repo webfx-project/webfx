@@ -39,13 +39,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-javafxcontrols-mapper-base</artifactId>
+            <artifactId>webfx-kit-javafxcontrols-peers-base</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-javafxgraphics-mapper</artifactId>
+            <artifactId>webfx-kit-javafxgraphics-peers</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

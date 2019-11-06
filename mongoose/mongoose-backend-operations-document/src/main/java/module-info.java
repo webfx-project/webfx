@@ -11,7 +11,7 @@ module mongoose.backend.operations.document {
     requires webfx.framework.client.controls;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.operation;
-    requires webfx.fxkit.launcher;
+    requires webfx.kit.launcher;
     requires webfx.platform.shared.update;
     requires webfx.platform.shared.util;
 

@@ -33,8 +33,8 @@ import webfx.framework.shared.orm.mapping.observable.ObservableEntitiesMapper;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.imagestore.ImageStore;
-import webfx.fxkit.util.properties.ObservableLists;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.ObservableLists;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.serial.SerialCodecManager;
 

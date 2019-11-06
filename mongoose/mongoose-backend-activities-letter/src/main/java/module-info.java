@@ -11,7 +11,7 @@ module mongoose.backend.activities.letter {
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.uirouter;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 

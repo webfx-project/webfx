@@ -11,7 +11,7 @@ module mongoose.client.calendar {
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.util;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.shared.util;
 
     // Exported packages

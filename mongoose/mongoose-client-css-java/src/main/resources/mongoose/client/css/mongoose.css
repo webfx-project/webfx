@@ -1,5 +1,5 @@
 VisualGrid, LineChart, PieChart, BarChart, AreaChart, GridCollator, HtmlText, HtmlTextEditor {
-    -fx-skin: "webfx.fxkit.javafx.mapper.peer.skin.FxControlPeerSkin";
+    -fx-skin: "webfx.kit.mapper.peers.javafxcontrols.javafx.skin.FxControlPeerSkin";
 }
 
 @font-face {

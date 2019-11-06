@@ -27,7 +27,7 @@ module mongoose.frontend.activities.options {
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.log;

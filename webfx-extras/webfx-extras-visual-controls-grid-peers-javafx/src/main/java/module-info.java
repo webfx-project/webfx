@@ -14,9 +14,9 @@ module webfx.extras.visual.controls.grid.peers.javafx {
     requires webfx.extras.visual.controls.grid;
     requires webfx.extras.visual.controls.grid.peers.base;
     requires webfx.extras.visual.controls.grid.registry;
-    requires webfx.fxkit.javafx;
-    requires webfx.fxkit.javafxgraphics.mapper;
-    requires webfx.fxkit.util;
+    requires webfx.kit.javafx;
+    requires webfx.kit.javafxgraphics.peers;
+    requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.util;
 

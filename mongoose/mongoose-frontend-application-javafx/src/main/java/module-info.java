@@ -5,7 +5,7 @@ module mongoose.frontend.application.javafx {
     // Direct dependencies modules
     requires mongoose.client.navigationarrows.java;
     requires mongoose.frontend.application;
-    requires webfx.fxkit.javafx;
+    requires webfx.kit.javafx;
     requires webfx.platform.client.storage.java;
     requires webfx.platform.client.websocket.java;
     requires webfx.platform.client.windowhistory.java;

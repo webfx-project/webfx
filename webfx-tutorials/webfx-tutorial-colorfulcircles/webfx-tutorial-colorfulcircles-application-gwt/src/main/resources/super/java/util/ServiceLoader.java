@@ -10,12 +10,12 @@ public class ServiceLoader<S> implements Iterable<S> {
     public static <S> ServiceLoader<S> load(Class<S> serviceClass) {
         switch (serviceClass.getName()) {
             case "javafx.application.Application": return new ServiceLoader<S>(webfx.tutorial.colorfulcircles.ColorfulCircles4::new);
-            case "webfx.fxkit.javafxgraphics.mapper.highcoupling.spi.FxKitMapperProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.GwtFxKitHtmlMapperProvider::new);
-            case "webfx.fxkit.launcher.spi.FxKitLauncherProvider": return new ServiceLoader<S>(webfx.fxkit.gwt.GwtFxKitLauncherProvider::new);
+            case "webfx.kit.launcher.spi.WebFxKitLauncherProvider": return new ServiceLoader<S>(webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider::new);
+            case "webfx.kit.mapper.spi.WebFxKitMapperProvider": return new ServiceLoader<S>(webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider::new);
             case "webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider": return new ServiceLoader<S>(webfx.platform.client.services.uischeduler.spi.impl.gwt.GwtUiSchedulerProvider::new);
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider": return new ServiceLoader<S>(webfx.platform.shared.services.appcontainer.spi.impl.gwt.GwtApplicationContainerProvider::new);
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationJob": return new ServiceLoader<S>();
-            case "webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer": return new ServiceLoader<S>(webfx.fxkit.launcher.FxKitLauncherModuleInitializer::new, webfx.platform.shared.services.appcontainer.spi.impl.ApplicationJobsStarter::new, webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceModuleInitializer::new);
+            case "webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer": return new ServiceLoader<S>(webfx.kit.launcher.WebFxKitLauncherModuleInitializer::new, webfx.platform.shared.services.appcontainer.spi.impl.ApplicationJobsStarter::new, webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceModuleInitializer::new);
             case "webfx.platform.shared.services.log.spi.LoggerProvider": return new ServiceLoader<S>(webfx.platform.shared.services.log.spi.impl.gwt.GwtLoggerProvider::new);
             case "webfx.platform.shared.services.resource.spi.ResourceServiceProvider": return new ServiceLoader<S>(webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceServiceProvider::new);
             case "webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceBundle": return new ServiceLoader<S>();

@@ -22,7 +22,7 @@ module mongoose.client.personaldetails {
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.util;
 

@@ -29,8 +29,8 @@ module mongoose.client.application {
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.launcher;
-    requires webfx.fxkit.util;
+    requires webfx.kit.launcher;
+    requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.buscall;
     requires webfx.platform.shared.util;

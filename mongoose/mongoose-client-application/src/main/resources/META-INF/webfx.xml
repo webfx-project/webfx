@@ -4,7 +4,7 @@
 
         <source-modules>
             <module>webfx-framework-shared-router</module>
-            <module>webfx-fxkit-javafxcontrols-emul</module>
+            <module>webfx-kit-javafxcontrols-emul</module>
         </source-modules>
 
         <resource-modules>

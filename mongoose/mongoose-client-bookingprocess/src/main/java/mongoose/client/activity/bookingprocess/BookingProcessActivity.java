@@ -12,7 +12,7 @@ import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.entities.Event;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
 /**

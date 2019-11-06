@@ -17,7 +17,7 @@ module mongoose.client.activities.login {
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
     requires webfx.framework.shared.authn;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.shared.util;
 
     // Exported packages

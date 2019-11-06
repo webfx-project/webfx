@@ -44,7 +44,7 @@ import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.extras.imagestore.ImageStore;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
 import java.util.function.Supplier;

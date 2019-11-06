@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 import mongoose.client.presentationmodel.*;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
 import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 
 public final class MasterTableView implements UiBuilder {
 

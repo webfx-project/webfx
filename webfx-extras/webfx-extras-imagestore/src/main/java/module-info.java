@@ -6,7 +6,7 @@ module webfx.extras.imagestore {
     requires java.base;
     requires javafx.base;
     requires javafx.graphics;
-    requires webfx.fxkit.launcher;
+    requires webfx.kit.launcher;
 
     // Exported packages
     exports webfx.extras.imagestore;

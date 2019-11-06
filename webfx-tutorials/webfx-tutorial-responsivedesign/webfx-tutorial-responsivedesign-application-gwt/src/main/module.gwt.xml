@@ -7,8 +7,9 @@
     <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
 
     <!-- Listing transitive dependencies modules -->
-    <!--==========================< webfx-fxkit-javafxbase-emul >===========================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper (SOURCE) -->
+    <!--===========================< webfx-kit-javafxbase-emul >============================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <source path="com/sun/javafx"/>
     <source path="com/sun/javafx/binding"/>
     <source path="com/sun/javafx/collections"/>
@@ -21,9 +22,9 @@
     <source path="javafx/collections/transformation"/>
     <source path="javafx/event"/>
     <source path="javafx/util"/>
-    <!--========================< webfx-fxkit-javafxgraphics-emul >=========================-->
-    <!-- used by webfx-fxkit-gwt (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper (SOURCE) -->
+    <!--=========================< webfx-kit-javafxgraphics-emul >==========================-->
+    <!-- used by webfx-kit-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <!-- used by webfx-tutorial-responsivedesign-application (SOURCE) -->
     <source path="com/sun/javafx/application"/>
     <source path="com/sun/javafx/cursor"/>
@@ -53,25 +54,26 @@
     <source path="javafx/scene/text"/>
     <source path="javafx/scene/transform"/>
     <source path="javafx/stage"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/highcoupling"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/highcoupling/spi"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/highcoupling/spi/impl"/>
+    <source path="webfx/kit/mapper"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/emul_coupling"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/emul_coupling/base"/>
+    <source path="webfx/kit/mapper/spi"/>
+    <source path="webfx/kit/mapper/spi/base"/>
     <!--=================================< elemental2-dom >=================================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown-gwt (SOURCE) -->
     <inherits name="elemental2.dom.Dom"/>
     <!--=================================< elemental2-svg >=================================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <inherits name="elemental2.svg.Svg"/>
     <!--====================================< gwt-user >====================================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javabase (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
     <inherits name="com.google.gwt.user.User"/>
     <!--===================================< java-base >====================================-->
-    <!-- used by webfx-fxkit-javafxbase-emul (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javabase (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javatime (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
@@ -80,41 +82,42 @@
     <!-- used by webfx-platform-shared-util (SOURCE) -->
     <inherits name="com.google.gwt.logging.Logging"/>
     <!--==================================< javafx-base >===================================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-base (SOURCE) -->
-    <!--================================< webfx-fxkit-gwt >=================================-->
+    <!-- used by webfx-kit-javafxgraphics-peers-base (SOURCE) -->
+    <!--=================================< webfx-kit-gwt >==================================-->
     <!-- used by webfx-tutorial-responsivedesign-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-tutorial-responsivedesign-application-gwt (EMULATION) -->
-    <source path="webfx/fxkit/gwt"/>
-    <!--=======================< webfx-fxkit-javafxgraphics-mapper >========================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-registry-gwt (SOURCE) -->
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/markers"/>
-    <!--=====================< webfx-fxkit-javafxgraphics-mapper-base >=====================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/base"/>
-    <!--=====================< webfx-fxkit-javafxgraphics-mapper-gwt >======================-->
-    <!-- used by webfx-fxkit-gwt (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-registry-gwt (SOURCE) -->
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/html"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/html/layoutmeasurable"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/shared"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/svg"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/util"/>
-    <!--====================< webfx-fxkit-javafxgraphics-registry-gwt >=====================-->
+    <source path="webfx/kit/launcher/spi/gwt"/>
+    <source path="webfx/kit/mapper/spi/gwt"/>
+    <!--=========================< webfx-kit-javafxgraphics-peers >=========================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-registry-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxgraphics"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/markers"/>
+    <!--======================< webfx-kit-javafxgraphics-peers-base >=======================-->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxgraphics/base"/>
+    <!--=======================< webfx-kit-javafxgraphics-peers-gwt >=======================-->
+    <!-- used by webfx-kit-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-registry-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/html"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/html/layoutmeasurable"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/shared"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/svg"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/util"/>
+    <!--=====================< webfx-kit-javafxgraphics-registry-gwt >======================-->
     <!-- used by webfx-tutorial-responsivedesign-application-gwt (IMPLICIT_PROVIDER) -->
-    <source path="webfx/javafxgraphics/registry"/>
-    <!--==============================< webfx-fxkit-launcher >==============================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
-    <source path="webfx/fxkit/launcher"/>
-    <source path="webfx/fxkit/launcher/spi"/>
-    <source path="webfx/fxkit/launcher/spi/impl"/>
-    <!--================================< webfx-fxkit-util >================================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
-    <source path="webfx/fxkit/util/properties"/>
-    <source path="webfx/fxkit/util/properties/conversion"/>
+    <source path="webfx/kit/registry/javafxgraphics"/>
+    <!--===============================< webfx-kit-launcher >===============================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <source path="webfx/kit/launcher"/>
+    <source path="webfx/kit/launcher/spi"/>
+    <source path="webfx/kit/launcher/spi/base"/>
+    <!--=================================< webfx-kit-util >=================================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <source path="webfx/kit/util/properties"/>
+    <source path="webfx/kit/util/properties/conversion"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <source path="webfx/platform/client/services/uischeduler"/>
     <source path="webfx/platform/client/services/uischeduler/spi"/>
@@ -123,7 +126,7 @@
     <!-- used by webfx-tutorial-responsivedesign-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/client/services/uischeduler/spi/impl/gwt"/>
     <!--=======================< webfx-platform-shared-appcontainer >=======================-->
-    <!-- used by webfx-fxkit-launcher (SOURCE) -->
+    <!-- used by webfx-kit-launcher (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/appcontainer"/>
@@ -133,7 +136,7 @@
     <!-- used by webfx-tutorial-responsivedesign-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/appcontainer/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-log >============================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <!-- used by webfx-platform-shared-log-gwt (SOURCE) -->
@@ -143,7 +146,7 @@
     <!-- used by webfx-tutorial-responsivedesign-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/log/spi/impl/gwt"/>
     <!--=========================< webfx-platform-shared-resource >=========================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/resource"/>
     <source path="webfx/platform/shared/services/resource/spi"/>
@@ -164,7 +167,8 @@
     <!-- used by webfx-tutorial-responsivedesign-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/shutdown/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-util >===========================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <!-- used by webfx-platform-shared-log (SOURCE) -->
     <!-- used by webfx-platform-shared-resource (SOURCE) -->

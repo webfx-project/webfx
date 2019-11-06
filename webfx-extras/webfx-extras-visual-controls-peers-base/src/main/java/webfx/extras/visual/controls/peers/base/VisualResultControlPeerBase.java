@@ -2,8 +2,8 @@ package webfx.extras.visual.controls.peers.base;
 
 import javafx.beans.value.ObservableValue;
 import webfx.extras.visual.controls.VisualResultControl;
-import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
-import webfx.fxkit.javafxcontrols.mapper.spi.impl.peer.base.ControlPeerBase;
+import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import webfx.kit.mapper.peers.javafxcontrols.base.ControlPeerBase;
 
 /**
  * @author Bruno Salmon

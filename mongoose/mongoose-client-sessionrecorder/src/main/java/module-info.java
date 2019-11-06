@@ -10,7 +10,7 @@ module mongoose.client.sessionrecorder {
     requires webfx.framework.client.push;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.launcher;
+    requires webfx.kit.launcher;
     requires webfx.platform.client.storage;
     requires webfx.platform.shared.appcontainer;
     requires webfx.platform.shared.bus;

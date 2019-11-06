@@ -7,7 +7,7 @@ import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.framework.client.ui.uirouter.uisession.UiSession;
-import webfx.fxkit.launcher.FxKitLauncher;
+import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.framework.client.services.push.PushClientService;
 import webfx.platform.client.services.storage.LocalStorage;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
@@ -254,7 +254,7 @@ public final class ClientSessionRecorderJob implements ApplicationJob {
     }
 
     private static String getUserAgent() {
-        return FxKitLauncher.getUserAgent();
+        return WebFxKitLauncher.getUserAgent();
     }
 
     private static String getApplicationName() {

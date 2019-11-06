@@ -25,7 +25,7 @@ module mongoose.backend.activities.roomsgraphic {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.serial;

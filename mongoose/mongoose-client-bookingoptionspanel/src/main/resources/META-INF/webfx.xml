@@ -4,7 +4,7 @@
 
         <source-modules>
             <module>mongoose-client-aggregates</module>
-            <module>webfx-fxkit-javafxcontrols-emul</module>
+            <module>webfx-kit-javafxcontrols-emul</module>
         </source-modules>
 
     </dependencies>

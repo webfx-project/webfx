@@ -39,7 +39,7 @@ import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.type.PrimType;
 import webfx.extras.type.SpecializedTextType;
 import webfx.extras.imagestore.ImageStore;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;

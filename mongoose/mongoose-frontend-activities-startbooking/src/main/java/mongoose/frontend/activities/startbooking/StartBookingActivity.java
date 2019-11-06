@@ -21,7 +21,7 @@ import mongoose.client.entities.util.Labels;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.util.anim.Animations;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.extras.imagestore.ImageStore;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 

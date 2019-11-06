@@ -22,7 +22,7 @@ import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.SelectionMode;
 import webfx.extras.type.PrimType;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.collection.Collections;
 

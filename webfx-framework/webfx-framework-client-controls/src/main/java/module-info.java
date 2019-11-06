@@ -24,7 +24,7 @@ module webfx.framework.client.controls {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.util;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.lib.controlsfx.validation;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.json;

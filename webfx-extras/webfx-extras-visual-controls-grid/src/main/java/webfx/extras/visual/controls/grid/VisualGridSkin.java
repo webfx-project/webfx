@@ -14,7 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import webfx.extras.visual.*;
 import webfx.extras.visual.controls.SelectableVisualResultControlSkinBase;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.scheduler.Scheduled;

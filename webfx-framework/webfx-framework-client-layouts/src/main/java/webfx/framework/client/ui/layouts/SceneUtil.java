@@ -15,10 +15,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Window;
 import webfx.framework.client.ui.util.anim.Animations;
-import webfx.fxkit.launcher.FxKitLauncher;
-import webfx.fxkit.util.properties.Properties;
-import webfx.fxkit.util.properties.Unregisterable;
-import webfx.fxkit.util.properties.UnregisterableListener;
+import webfx.kit.launcher.WebFxKitLauncher;
+import webfx.kit.util.properties.Properties;
+import webfx.kit.util.properties.Unregisterable;
+import webfx.kit.util.properties.UnregisterableListener;
 import webfx.platform.shared.services.scheduler.Scheduled;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
@@ -113,7 +113,7 @@ public final class SceneUtil {
     }
 
     public static void onPrimarySceneReady(Consumer<Scene> sceneConsumer) {
-        FxKitLauncher.onReady(() -> onSceneReady(FxKitLauncher.getPrimaryStage(), sceneConsumer));
+        WebFxKitLauncher.onReady(() -> onSceneReady(WebFxKitLauncher.getPrimaryStage(), sceneConsumer));
     }
 
     public static void installSceneFocusOwnerAutoScroll(Scene scene) {

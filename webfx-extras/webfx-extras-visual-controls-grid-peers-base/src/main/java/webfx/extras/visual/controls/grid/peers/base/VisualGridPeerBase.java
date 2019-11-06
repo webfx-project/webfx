@@ -9,7 +9,7 @@ import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.extras.visual.controls.peers.base.SelectableVisualResultControlPeerBase;
 import webfx.extras.visual.VisualColumn;
 import webfx.extras.visual.VisualResult;
-import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
+import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import webfx.platform.shared.util.Strings;
 
 /**

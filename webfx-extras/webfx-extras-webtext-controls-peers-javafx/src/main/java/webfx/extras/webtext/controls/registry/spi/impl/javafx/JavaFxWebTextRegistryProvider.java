@@ -6,7 +6,7 @@ import webfx.extras.webtext.controls.peers.javafx.FxHtmlTextEditorPeer;
 import webfx.extras.webtext.controls.peers.javafx.FxHtmlTextPeer;
 import webfx.extras.webtext.controls.registry.spi.WebTextRegistryProvider;
 
-import static webfx.fxkit.javafxgraphics.mapper.spi.NodePeerFactoryRegistry.registerNodePeerFactory;
+import static webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry.registerNodePeerFactory;
 
 public final class JavaFxWebTextRegistryProvider implements WebTextRegistryProvider {
 

@@ -22,7 +22,7 @@ import mongoose.shared.businessdata.time.TimeInterval;
 import webfx.platform.shared.util.async.Handler;
 import webfx.platform.shared.util.collection.Collections;
 import webfx.platform.shared.util.tuples.Unit;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

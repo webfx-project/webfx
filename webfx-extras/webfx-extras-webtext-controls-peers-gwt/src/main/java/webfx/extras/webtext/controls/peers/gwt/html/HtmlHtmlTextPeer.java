@@ -7,10 +7,10 @@ import elemental2.dom.NodeList;
 import webfx.extras.webtext.controls.HtmlText;
 import webfx.extras.webtext.controls.peers.base.HtmlTextPeerBase;
 import webfx.extras.webtext.controls.peers.base.HtmlTextPeerMixin;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.HtmlRegionPeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.NormalWhiteSpacePeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlUtil;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.html.NormalWhiteSpacePeer;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.platform.shared.util.Strings;
 
 /**

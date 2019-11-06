@@ -261,7 +261,7 @@ public class ProjectModule extends ModuleImpl {
                     transitiveProjectModulesWithoutImplicitProvidersCache,
                     ReusableStream.create(() -> ReusableStream.of(
                             getRootModule().findProjectModule("webfx-platform"),
-                            getRootModule().findProjectModule("webfx-fxkit"),
+                            getRootModule().findProjectModule("webfx-kit"),
                             getRootModule().findProjectModule("webfx-extras"),
                             getRootModule().findProjectModule("webfx-framework"),
                             getParentModule()))
@@ -586,10 +586,10 @@ public class ProjectModule extends ModuleImpl {
 
     private ReusableStream<Module> collectExecutableEmulationModules() {
         if (isExecutable(Platform.GWT))
-            return ReusableStream.of(getRootModule().findModule("webfx-fxkit-gwt"), getRootModule().findModule("webfx-platform-providers-gwt-emul-javabase"), getRootModule().findModule("webfx-platform-providers-gwt-emul-javatime"));
+            return ReusableStream.of(getRootModule().findModule("webfx-kit-gwt"), getRootModule().findModule("webfx-platform-providers-gwt-emul-javabase"), getRootModule().findModule("webfx-platform-providers-gwt-emul-javatime"));
         if (isExecutable(Platform.JRE)) {
             if (getTarget().hasTag(TargetTag.JAVAFX))
-                return ReusableStream.of(getRootModule().findModule("webfx-fxkit-javafx"), getRootModule().findModule("webfx-platform-shared-appcontainer-java"));
+                return ReusableStream.of(getRootModule().findModule("webfx-kit-javafx"), getRootModule().findModule("webfx-platform-shared-appcontainer-java"));
             return mapDestinationModules(transitiveDependenciesWithoutEmulationAndImplicitProvidersCache)
                     .filter(RootModule::isJavaFxEmulModule);
         }
@@ -668,7 +668,7 @@ public class ProjectModule extends ModuleImpl {
                     ReusableStream<ModuleDependency> concreteModuleDependencies = ModuleDependency.createImplicitProviderDependency(this, concreteModule)
                             .collectThisAndTransitiveDependencies();
                     // In case these dependencies have a SPI, collecting the providers and adding their associated implicit dependencies
-                    // Ex: interface = [webfx-extras-visual-controls-]grid-registry, concrete = [...]-grid-registry-spi, provider = [...]-grid-mapper-javafx
+                    // Ex: interface = [webfx-extras-visual-controls-]grid-registry, concrete = [...]-grid-registry-spi, provider = [...]-grid-peers-javafx
                     // TODO: See if we can move this up to the generic steps when building dependencies
                     concreteModuleDependencies = ReusableStream.concat(
                             concreteModuleDependencies,

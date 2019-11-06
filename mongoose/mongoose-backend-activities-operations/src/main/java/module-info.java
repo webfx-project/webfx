@@ -13,7 +13,7 @@ module mongoose.backend.activities.operations {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
-    requires webfx.fxkit.launcher;
+    requires webfx.kit.launcher;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;
 

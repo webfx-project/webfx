@@ -4,7 +4,7 @@
 
         <source-modules>
             <module>webfx-framework-client-activity</module>
-            <module>webfx-fxkit-javafxcontrols-emul</module>
+            <module>webfx-kit-javafxcontrols-emul</module>
             <module>webfx-platform-shared-util</module>
         </source-modules>
 

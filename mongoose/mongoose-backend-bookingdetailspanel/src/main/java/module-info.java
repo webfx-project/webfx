@@ -25,7 +25,7 @@ module mongoose.backend.bookingdetailspanel {
     requires webfx.framework.client.uifilter;
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.shared.util;
 
     // Exported packages

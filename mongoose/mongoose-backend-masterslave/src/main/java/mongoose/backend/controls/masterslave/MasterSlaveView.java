@@ -10,7 +10,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import mongoose.backend.controls.masterslave.group.GroupView;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 
 import java.util.ArrayList;
 import java.util.Arrays;

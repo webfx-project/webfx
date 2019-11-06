@@ -9,7 +9,7 @@ import mongoose.client.activity.themes.Theme;
 import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.layouts.SceneUtil;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.extras.visual.controls.grid.VisualGrid;
 
 /**
@@ -40,7 +40,7 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         pm.searchTextProperty().bind(searchBox.textProperty());
-        //pm.limitProperty().bind(Bindings.when(limitCheckBox.selectedProperty()).then(table.heightProperty().divide(36)).otherwise(-1)); // not implemented in webfx-fxkit-javafxbase-emul
+        //pm.limitProperty().bind(Bindings.when(limitCheckBox.selectedProperty()).then(table.heightProperty().divide(36)).otherwise(-1)); // not implemented in webfx-kit-javafxbase-emul
         Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? table.getHeight() / 36 : -1), limitCheckBox.selectedProperty(), table.heightProperty());
         table.fullHeightProperty().bind(limitCheckBox.selectedProperty());
         //pm.limitProperty().bind(limitCheckBox.selectedProperty());

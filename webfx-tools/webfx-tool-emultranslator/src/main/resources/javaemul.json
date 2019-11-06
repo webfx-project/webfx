@@ -1,13 +1,13 @@
 {
   "variables": {
     "javafx-src": "C:/Program Files/Java/jdk1.8.0_191/javafx-src.zip",
-    "webfx-parent-dir": "C:/dev/git-repos/webfx/webfx-fxkit"
+    "webfx-parent-dir": "C:/dev/git-repos/webfx/webfx-kit"
   },
   "modules": {
     "javaemul-javafxbase": {
       "jdk-src": "${javafx-src}",
       "jdk-module": "javafx.base",
-      "webfx-module": "webfx-fxkit-javafxbase-emul",
+      "webfx-module": "webfx-kit-javafxbase-emul",
       "webfx-src": "${webfx-parent-dir}/${webfx-module}/src/main/java",
       "includes": [
         "javafx/event/*",
@@ -99,7 +99,7 @@
     "javaemul-javafxgraphics": {
       "jdk-src": "${javafx-src}",
       "jdk-module": "javafx.graphics",
-      "webfx-module": "webfx-fxkit-javafxgraphics-emul",
+      "webfx-module": "webfx-kit-javafxgraphics-emul",
       "webfx-src": "${webfx-parent-dir}/${webfx-module}/src/main/java",
       "includes": [
         "javafx/animation/KeyFrame.java",

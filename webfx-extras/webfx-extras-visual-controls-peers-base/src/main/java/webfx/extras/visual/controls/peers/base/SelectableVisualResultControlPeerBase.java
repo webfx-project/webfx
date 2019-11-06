@@ -2,7 +2,7 @@ package webfx.extras.visual.controls.peers.base;
 
 import javafx.beans.value.ObservableValue;
 import webfx.extras.visual.controls.SelectableVisualResultControl;
-import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
+import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 
 /**
  * @author Bruno Salmon

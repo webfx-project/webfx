@@ -5,9 +5,9 @@ import webfx.extras.webtext.controls.HtmlTextEditor;
 import webfx.extras.webtext.controls.peers.gwt.html.HtmlHtmlTextEditorPeer;
 import webfx.extras.webtext.controls.peers.gwt.html.HtmlHtmlTextPeer;
 import webfx.extras.webtext.controls.SvgText;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.HtmlSvgTextPeer;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlSvgTextPeer;
 
-import static webfx.fxkit.javafxgraphics.mapper.spi.NodePeerFactoryRegistry.registerNodePeerFactory;
+import static webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry.registerNodePeerFactory;
 
 public final class WebTextRegistry {
 

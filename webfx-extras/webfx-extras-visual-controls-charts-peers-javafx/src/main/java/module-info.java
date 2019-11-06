@@ -12,8 +12,8 @@ module webfx.extras.visual.controls.charts.peers.javafx {
     requires webfx.extras.visual.controls.charts;
     requires webfx.extras.visual.controls.charts.peers.base;
     requires webfx.extras.visual.controls.charts.registry;
-    requires webfx.fxkit.javafx;
-    requires webfx.fxkit.javafxgraphics.mapper;
+    requires webfx.kit.javafx;
+    requires webfx.kit.javafxgraphics.peers;
     requires webfx.platform.shared.util;
 
     // Exported packages

@@ -10,7 +10,7 @@ module mongoose.client.validation {
     requires webfx.extras.imagestore;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.util;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.lib.controlsfx.validation;
     requires webfx.lib.mvvmfx.validation;
     requires webfx.platform.client.uischeduler;

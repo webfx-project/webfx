@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module>webfx-fxkit-javafxbase-emul</module>
+            <module>webfx-kit-javafxbase-emul</module>
         </source-modules>
 
     </dependencies>

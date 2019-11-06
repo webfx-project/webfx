@@ -15,7 +15,7 @@
         <!-- Webfx modules -->
         <module>webfx-libs</module>
         <module>webfx-platform</module>
-        <module>webfx-fxkit</module>
+        <module>webfx-kit</module>
         <module>webfx-extras</module>
         <module>webfx-framework</module>
 <!-- Now moved into webfx-tutorials profile
@@ -69,7 +69,7 @@
         <plugin.shade.version>3.2.1</plugin.shade.version>
 
         <!-- Third-party plugins versions -->
-        <plugin.javacup.version>11b-20151001</plugin.javacup.version>
+        <plugin.javacup.version>11b-20160615</plugin.javacup.version>
         <plugin.jflex.version>1.7.0</plugin.jflex.version>
         <plugin.proguard.version>2.0.14</plugin.proguard.version>
         <plugin.gwt.version>1.0.0</plugin.gwt.version>

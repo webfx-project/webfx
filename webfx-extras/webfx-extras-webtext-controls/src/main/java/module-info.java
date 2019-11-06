@@ -7,7 +7,7 @@ module webfx.extras.webtext.controls {
     requires javafx.controls;
     requires javafx.graphics;
     requires webfx.extras.webtext.controls.registry;
-    requires webfx.fxkit.javafxgraphics.mapper;
+    requires webfx.kit.javafxgraphics.peers;
 
     // Exported packages
     exports webfx.extras.webtext.controls;

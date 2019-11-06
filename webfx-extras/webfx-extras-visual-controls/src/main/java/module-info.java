@@ -9,7 +9,7 @@ module webfx.extras.visual.controls {
     requires webfx.extras.cell;
     requires webfx.extras.label;
     requires webfx.extras.visual;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
 
     // Exported packages

@@ -165,13 +165,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-launcher</artifactId>
+            <artifactId>webfx-kit-launcher</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-util</artifactId>
+            <artifactId>webfx-kit-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

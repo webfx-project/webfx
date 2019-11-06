@@ -3,7 +3,7 @@
 module webfx.tutorial.service.application.javafx {
 
     // Direct dependencies modules
-    requires webfx.fxkit.javafx;
+    requires webfx.kit.javafx;
     requires webfx.platform.shared.appcontainer.java;
     requires webfx.platform.shared.json.java;
     requires webfx.platform.shared.log.simple;

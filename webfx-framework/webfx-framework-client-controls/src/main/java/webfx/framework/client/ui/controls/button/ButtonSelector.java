@@ -16,7 +16,7 @@ import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.framework.client.ui.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.client.ui.util.border.BorderUtil;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.scheduler.Scheduled;

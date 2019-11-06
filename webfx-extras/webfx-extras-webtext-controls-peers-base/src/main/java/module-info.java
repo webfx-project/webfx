@@ -6,8 +6,8 @@ module webfx.extras.webtext.controls.peers.base {
     requires javafx.base;
     requires javafx.controls;
     requires webfx.extras.webtext.controls;
-    requires webfx.fxkit.javafxgraphics.mapper;
-    requires webfx.fxkit.javafxgraphics.mapper.base;
+    requires webfx.kit.javafxgraphics.peers;
+    requires webfx.kit.javafxgraphics.peers.base;
 
     // Exported packages
     exports webfx.extras.webtext.controls.peers.base;

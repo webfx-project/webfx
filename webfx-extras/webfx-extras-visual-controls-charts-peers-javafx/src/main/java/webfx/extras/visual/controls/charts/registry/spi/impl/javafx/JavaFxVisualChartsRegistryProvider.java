@@ -4,7 +4,7 @@ import webfx.extras.visual.controls.charts.*;
 import webfx.extras.visual.controls.charts.peers.javafx.*;
 import webfx.extras.visual.controls.charts.registry.spi.VisualChartsRegistryProvider;
 
-import static webfx.fxkit.javafxgraphics.mapper.spi.NodePeerFactoryRegistry.registerNodePeerFactory;
+import static webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry.registerNodePeerFactory;
 
 public class JavaFxVisualChartsRegistryProvider implements VisualChartsRegistryProvider {
 

@@ -16,8 +16,8 @@ public final class BuildTool {
 
 /*
         ModuleReporter reporter = new ModuleReporter(webfxRootModule);
-        reporter.listDependenciesPathsBetween("webfx-fxkit-javafxgraphics-mapper-gwt", "webfx-fxkit-extracontrols");
-        reporter.listProjectModuleJavaClassesDependingOn("webfx-fxkit-javafxgraphics-mapper-gwt", "webfx-fxkit-extracontrols");
+        reporter.listDependenciesPathsBetween("webfx-kit-javafxgraphics-peers-gwt", "webfx-kit-extracontrols");
+        reporter.listProjectModuleJavaClassesDependingOn("webfx-kit-javafxgraphics-peers-gwt", "webfx-kit-extracontrols");
 */
 
 
@@ -33,7 +33,7 @@ public final class BuildTool {
                 .filter(ProjectModule::hasSourceDirectory)
                 .filter(ProjectModule::hasJavaSourceDirectory)
                 .filter(m -> m.getTarget().isPlatformSupported(Platform.JRE))
-                //.filter(m -> !m.getName().contains("-mapper"))
+                //.filter(m -> !m.getName().contains("-peers"))
                 //.filter(m -> !m.isDirectlyDependingOn("jsinterop-annotations"))
                 .forEach(m -> m.getJavaModuleFile().writeFile())
         ;
@@ -82,10 +82,10 @@ public final class BuildTool {
         reporter.listThisAndChildrenModulesInDepthWithTheirDirectDependencies();
         reporter.listOrAndChildrenModulesInDepthDirectlyDependingOn("gwt-user");
         reporter.listInDepthTransitiveDependencies("mongoose-backend-application");
-        reporter.listDependenciesPathsBetween("mongoose-backend-application", "webfx-fxkit-gwt");
-        reporter.listProjectModuleDirectDependencies("webfx-fxkit-base-emul");
-        reporter.listProjectModuleJavaClasses("webfx-fxkit-javafxbase-emul");
-        reporter.listProjectModuleJavaClassesDependingOn("webfx-fxkit-extracontrols", "webfx-fxkit-gwt");
+        reporter.listDependenciesPathsBetween("mongoose-backend-application", "webfx-kit-gwt");
+        reporter.listProjectModuleDirectDependencies("webfx-kit-base-emul");
+        reporter.listProjectModuleJavaClasses("webfx-kit-javafxbase-emul");
+        reporter.listProjectModuleJavaClassesDependingOn("webfx-kit-extracontrols", "webfx-kit-gwt");
         reporter.listCyclicDependenciesPaths();
         reporter.listProjectModuleJavaClassesDependingOn("webfx-framework-shared-entity", "webfx-framework-client-uifilter");
 */

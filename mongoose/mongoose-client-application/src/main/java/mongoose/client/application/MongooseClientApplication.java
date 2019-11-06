@@ -16,8 +16,8 @@ import webfx.framework.client.activity.ActivityManager;
 import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainActivityContext;
 import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.extras.imagestore.ImageStore;
-import webfx.fxkit.launcher.FxKitLauncher;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.launcher.WebFxKitLauncher;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.buscall.PendingBusCall;
 
@@ -71,7 +71,7 @@ public class MongooseClientApplication extends Application {
     private ImageView spinner;
 
     private void setLoadingSpinnerVisible(boolean visible) {
-        Scene scene = FxKitLauncher.getPrimaryStage().getScene();
+        Scene scene = WebFxKitLauncher.getPrimaryStage().getScene();
         Node root = scene == null ? null : scene.getRoot();
         if (root instanceof Pane) {
             Pane rootPane = (Pane) root;

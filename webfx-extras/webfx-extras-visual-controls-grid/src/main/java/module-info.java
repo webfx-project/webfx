@@ -10,7 +10,7 @@ module webfx.extras.visual.controls.grid {
     requires webfx.extras.visual;
     requires webfx.extras.visual.controls;
     requires webfx.extras.visual.controls.grid.registry;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.scheduler;
     requires webfx.platform.shared.util;

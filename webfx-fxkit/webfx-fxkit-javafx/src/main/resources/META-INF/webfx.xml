@@ -1,8 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="webfx.fxkit.launcher.spi.FxKitLauncherProvider">webfx.fxkit.javafx.launcher.JavaFxFxKitLauncherProvider</provider>
-        <provider spi="webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider">webfx.fxkit.javafx.uischeduler.FxUiSchedulerProvider</provider>
-    </providers>
-
-</module>

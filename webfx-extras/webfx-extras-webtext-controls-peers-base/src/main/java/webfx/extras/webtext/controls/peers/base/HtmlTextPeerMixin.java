@@ -1,7 +1,7 @@
 package webfx.extras.webtext.controls.peers.base;
 
 import webfx.extras.webtext.controls.HtmlText;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.base.RegionPeerMixin;
+import webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerMixin;
 
 /**
  * @author Bruno Salmon

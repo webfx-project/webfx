@@ -23,7 +23,7 @@ import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateService;

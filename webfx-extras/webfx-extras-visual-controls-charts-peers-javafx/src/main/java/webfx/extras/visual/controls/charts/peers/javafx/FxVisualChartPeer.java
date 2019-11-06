@@ -2,14 +2,14 @@ package webfx.extras.visual.controls.charts.peers.javafx;
 
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import webfx.extras.visual.SelectionMode;
 import webfx.extras.visual.VisualSelection;
 import webfx.extras.visual.controls.charts.VisualChart;
-import webfx.fxkit.javafx.mapper.peer.FxLayoutMeasurable;
-import webfx.fxkit.javafx.mapper.peer.FxRegionPeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
-import webfx.extras.visual.controls.charts.peers.base.VisualChartPeerMixin;
 import webfx.extras.visual.controls.charts.peers.base.VisualChartPeerBase;
-import webfx.extras.visual.SelectionMode;
+import webfx.extras.visual.controls.charts.peers.base.VisualChartPeerMixin;
+import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import webfx.kit.mapper.peers.javafxgraphics.javafx.FxLayoutMeasurable;
+import webfx.kit.mapper.peers.javafxgraphics.javafx.FxRegionPeer;
 
 /**
  * @author Bruno Salmon

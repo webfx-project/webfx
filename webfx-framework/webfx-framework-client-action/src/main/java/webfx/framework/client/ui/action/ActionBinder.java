@@ -11,8 +11,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import webfx.framework.client.ui.action.impl.WritableAction;
-import webfx.fxkit.util.properties.ObservableLists;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.ObservableLists;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.util.function.Converter;
 
 import java.util.Collection;

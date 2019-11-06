@@ -23,7 +23,7 @@ import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.layouts.SceneUtil;
 import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.framework.client.ui.util.anim.Animations;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 
 
 /**

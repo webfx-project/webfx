@@ -10,7 +10,7 @@ import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.action.*;
 import webfx.framework.client.ui.action.impl.SeparatorAction;
 import webfx.framework.client.ui.controls.button.ButtonBuilder;
-import webfx.fxkit.util.properties.ObservableLists;
+import webfx.kit.util.properties.ObservableLists;
 
 import java.util.function.Supplier;
 

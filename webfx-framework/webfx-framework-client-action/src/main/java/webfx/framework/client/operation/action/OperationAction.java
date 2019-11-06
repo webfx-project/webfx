@@ -4,7 +4,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import webfx.framework.client.ui.action.impl.WritableAction;
 import webfx.framework.shared.operation.OperationUtil;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.async.AsyncFunction;
 import webfx.platform.shared.util.function.Factory;

@@ -5,7 +5,7 @@ import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
 import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
 import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import webfx.framework.shared.orm.entity.Entity;
-import webfx.fxkit.launcher.FxKitLauncher;
+import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.platform.shared.util.function.Factory;
 
 /**
@@ -41,7 +41,7 @@ final class OperationsPresentationLogicActivity
     }
 
     private void editOperation(Entity operation) {
-        Pane parent = (Pane) FxKitLauncher.getPrimaryStage().getScene().getRoot();
+        Pane parent = (Pane) WebFxKitLauncher.getPrimaryStage().getScene().getRoot();
         EntityPropertiesSheet.editEntity(operation, expressionColumns, parent);
     }
 }

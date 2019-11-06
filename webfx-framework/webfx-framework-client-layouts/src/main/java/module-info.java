@@ -8,8 +8,8 @@ module webfx.framework.client.layouts {
     requires javafx.controls;
     requires javafx.graphics;
     requires webfx.framework.client.util;
-    requires webfx.fxkit.launcher;
-    requires webfx.fxkit.util;
+    requires webfx.kit.launcher;
+    requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.scheduler;
     requires webfx.platform.shared.util;

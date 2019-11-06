@@ -90,7 +90,7 @@ public final class RootModule extends ProjectModule {
         if (lm != null && !lm.contains(module)) {
             Module m = lm.get(0);
             warning(module + " and " + m + " share the same package " + javaPackage);
-            // Should always return, the exception is a hack to replace m = webfx-fxkit-gwt with module = webfx-fxkit-mapper-extracontrols (they share the same package webfx.extras.cell.collator.grid)
+            // Should always return, the exception is a hack to replace m = webfx-kit-gwt with module = webfx-kit-peers-extracontrols (they share the same package webfx.extras.cell.collator.grid)
             //if (!(m instanceof ProjectModule) || ((ProjectModule) m).getTarget().isPlatformSupported(Platform.JRE))
             //    return;
         }
@@ -117,7 +117,7 @@ public final class RootModule extends ProjectModule {
                 .findFirst()
                 .orElse(null);
         if (module == null) { // Module not found :-(
-            // Last chance: the package was actually in the source package! (ex: webfx-fxkit-extracontrols-registry-spi
+            // Last chance: the package was actually in the source package! (ex: webfx-kit-extracontrols-registry-spi
             if (sourceModule.getDeclaredJavaPackages().anyMatch(p -> p.equals(packageToSearch)))
                 module = sourceModule;
             else if (!canReturnNull) // Otherwise raising an exception (unless returning null is permitted)
@@ -133,13 +133,13 @@ public final class RootModule extends ProjectModule {
         // First case: only executable source modules should include implementing interface modules (others should include the interface module instead)
         if (pm.isImplementingInterface() && !sourceModule.isExecutable()) {
             // Exception is however made for non executable source modules that implements a provider
-            // Ex: webfx-fxkit-extracontrols-registry-javafx can include webfx-fxkit-extracontrols-registry-spi (which implements webfx-fxkit-extracontrols-registry)
+            // Ex: webfx-kit-extracontrols-registry-javafx can include webfx-kit-extracontrols-registry-spi (which implements webfx-kit-extracontrols-registry)
             boolean exception = sourceModule.getProvidedJavaServices().anyMatch(s -> pm.getDeclaredJavaClasses().anyMatch(c -> c.getClassName().equals(s)));
             if (!exception)
                 return false;
         }
         // Second not permitted case:
-        // Ex: webfx-fxkit-extracontrols-registry-javafx should not include webfx-fxkit-extracontrols-registry (but webfx-fxkit-extracontrols-registry-spi instead)
+        // Ex: webfx-kit-extracontrols-registry-javafx should not include webfx-kit-extracontrols-registry (but webfx-kit-extracontrols-registry-spi instead)
         if (pm.isInterface()) {
             if (sourceModule.getName().startsWith(pm.getName()))
                 return false;
@@ -289,6 +289,6 @@ public final class RootModule extends ProjectModule {
     }
 
     public static boolean isJavaFxEmulModule(String moduleName) {
-        return moduleName.startsWith("webfx-fxkit-javafx") && moduleName.endsWith("-emul");
+        return moduleName.startsWith("webfx-kit-javafx") && moduleName.endsWith("-emul");
     }
 }

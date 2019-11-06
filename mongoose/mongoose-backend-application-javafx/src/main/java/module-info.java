@@ -12,7 +12,7 @@ module mongoose.backend.application.javafx {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.uirouter;
-    requires webfx.fxkit.javafx;
+    requires webfx.kit.javafx;
     requires webfx.platform.client.storage.java;
     requires webfx.platform.client.websocket.java;
     requires webfx.platform.client.windowhistory.java;

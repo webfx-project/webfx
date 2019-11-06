@@ -9,7 +9,7 @@ module webfx.framework.client.materialdesign {
     requires javafx.graphics;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.util;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.shared.util;
 
     // Exported packages

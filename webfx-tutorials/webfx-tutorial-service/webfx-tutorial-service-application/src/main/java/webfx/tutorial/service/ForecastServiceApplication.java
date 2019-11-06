@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import webfx.framework.client.ui.layouts.FlexBox;
-import webfx.fxkit.launcher.FxKitLauncher;
+import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.tutorial.service.services.alert.AlertService;
 import webfx.tutorial.service.services.console.Console;
 import webfx.tutorial.service.services.forecast.ForecastService;
@@ -106,7 +106,7 @@ public final class ForecastServiceApplication extends Application {
     }
 
     private ImageView createSkyStateImageView(ForecastMetrics.SkyState skyState) {
-        boolean supportsSvg = !"JavaFx".equals(FxKitLauncher.getUserAgent());
+        boolean supportsSvg = !"JavaFx".equals(WebFxKitLauncher.getUserAgent());
         String imageExtension = supportsSvg ? ".svg" : ".png";
         return createImageView("webfx/tutorial/service/services/forecast/images/" + skyState.name().toLowerCase() + imageExtension);
     }

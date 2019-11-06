@@ -10,17 +10,17 @@ import webfx.extras.visual.controls.grid.peers.base.VisualGridPeerBase;
 import webfx.extras.visual.controls.grid.peers.base.VisualGridPeerMixin;
 import webfx.extras.visual.*;
 import webfx.extras.label.Label;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.html.HtmlRegionPeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.DomType;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlPaints;
-import webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlUtil;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.DomType;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.extras.cell.renderer.ImageTextRenderer;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.tuples.Unit;
 
-import static webfx.fxkit.javafxgraphics.mapper.spi.impl.peer.gwt.util.HtmlUtil.*;
+import static webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil.setStyleAttribute;
 
 /**
  * @author Bruno Salmon
@@ -46,7 +46,7 @@ public final class HtmlVisualGridPeer
         super(base, element);
         table.appendChild(tBody);
         HtmlUtil.setChild(element, table);
-        HtmlUtil.setStyleAttribute(table, "width", "100%");
+        setStyleAttribute(table, "width", "100%");
         // Capturing scroll position (in scrollTop field)
         element.onscroll = p0 -> {
             scrollTop = element.scrollTop;

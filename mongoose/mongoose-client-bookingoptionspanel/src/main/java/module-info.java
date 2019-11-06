@@ -20,7 +20,7 @@ module mongoose.client.bookingoptionspanel {
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.util;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.shared.util;
 
     // Exported packages

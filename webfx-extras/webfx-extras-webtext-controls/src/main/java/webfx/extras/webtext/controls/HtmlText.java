@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Control;
 import webfx.extras.webtext.controls.registry.WebTextRegistry;
-import webfx.fxkit.javafxgraphics.mapper.spi.HasNoChildrenPeers;
+import webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 
 /**
  * @author Bruno Salmon

@@ -11,7 +11,7 @@ module webfx.extras.cell {
     requires webfx.extras.label;
     requires webfx.extras.type;
     requires webfx.extras.webtext.controls;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.shared.util;
 
     // Exported packages

@@ -11,7 +11,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.action.ActionGroup;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;

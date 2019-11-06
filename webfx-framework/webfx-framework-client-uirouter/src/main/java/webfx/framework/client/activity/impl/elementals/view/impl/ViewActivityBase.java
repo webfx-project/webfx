@@ -1,7 +1,7 @@
 package webfx.framework.client.activity.impl.elementals.view.impl;
 
 import javafx.scene.Node;
-import webfx.fxkit.launcher.FxKitLauncher;
+import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.platform.shared.util.async.Future;
 import webfx.framework.client.activity.impl.elementals.uiroute.impl.UiRouteActivityBase;
 import webfx.framework.client.activity.impl.elementals.view.ViewActivity;
@@ -22,10 +22,10 @@ public abstract class ViewActivityBase
 
     @Override
     public Future<Void> onResumeAsync() {
-        if (FxKitLauncher.isReady())
+        if (WebFxKitLauncher.isReady())
             return Future.runAsync(this::onResume);
         Future<Void> future = Future.future();
-        FxKitLauncher.onReady(() -> {
+        WebFxKitLauncher.onReady(() -> {
             onResume();
             future.complete();
         });

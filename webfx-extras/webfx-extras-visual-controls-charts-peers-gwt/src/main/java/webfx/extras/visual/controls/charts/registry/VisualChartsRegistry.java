@@ -3,7 +3,7 @@ package webfx.extras.visual.controls.charts.registry;
 import webfx.extras.visual.controls.charts.*;
 import webfx.extras.visual.controls.charts.peers.gwt.html.*;
 
-import static webfx.fxkit.javafxgraphics.mapper.spi.NodePeerFactoryRegistry.registerNodePeerFactory;
+import static webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry.registerNodePeerFactory;
 
 public class VisualChartsRegistry {
 

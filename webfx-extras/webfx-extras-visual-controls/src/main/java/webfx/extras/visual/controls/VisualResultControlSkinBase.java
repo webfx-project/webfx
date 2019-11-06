@@ -10,7 +10,7 @@ import webfx.extras.cell.renderer.ValueRenderer;
 import webfx.extras.visual.VisualColumn;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.label.Label;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**

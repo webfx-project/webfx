@@ -20,7 +20,7 @@ module mongoose.frontend.activities.summary {
     requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uirouter;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;

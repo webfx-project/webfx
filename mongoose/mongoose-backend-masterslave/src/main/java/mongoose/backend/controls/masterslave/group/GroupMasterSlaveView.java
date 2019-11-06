@@ -13,7 +13,7 @@ import mongoose.backend.controls.masterslave.UiBuilder;
 import mongoose.client.presentationmodel.*;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
 import webfx.framework.client.ui.filter.StringFilter;
-import webfx.fxkit.util.properties.Properties;
+import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
 import java.util.function.Function;

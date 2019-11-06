@@ -18,7 +18,7 @@ module webfx.framework.client.uifilter {
     requires webfx.framework.shared.expression;
     requires webfx.framework.shared.querypush;
     requires webfx.framework.shared.util;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.query;

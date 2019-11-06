@@ -21,7 +21,7 @@ module mongoose.backend.masterslave {
     requires webfx.framework.shared.domain;
     requires webfx.framework.shared.entity;
     requires webfx.framework.shared.expression;
-    requires webfx.fxkit.util;
+    requires webfx.kit.util;
     requires webfx.platform.shared.util;
 
     // Exported packages

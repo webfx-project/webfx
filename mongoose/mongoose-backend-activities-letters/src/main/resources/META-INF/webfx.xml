@@ -6,7 +6,7 @@
             <module>webfx-framework-client-activity</module>
             <module>webfx-framework-shared-entity</module>
             <module>webfx-platform-shared-util</module>
-            <module>webfx-fxkit-javafxgraphics-emul</module>
+            <module>webfx-kit-javafxgraphics-emul</module>
         </source-modules>
 
     </dependencies>

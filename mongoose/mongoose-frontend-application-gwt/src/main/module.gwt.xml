@@ -7,12 +7,13 @@
     <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
 
     <!-- Listing transitive dependencies modules -->
-    <!--==========================< webfx-fxkit-javafxbase-emul >===========================-->
-    <!-- used by webfx-fxkit-javafxcontrols-emul (SOURCE) -->
+    <!--===========================< webfx-kit-javafxbase-emul >============================-->
+    <!-- used by webfx-kit-javafxcontrols-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-extras-visual-controls-grid (SOURCE) -->
     <!-- used by webfx-extras-webtext-controls (SOURCE) -->
     <!-- used by webfx-framework-client-action (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <!-- used by webfx-platform-shared-buscall (SOURCE) -->
     <source path="com/sun/javafx"/>
     <source path="com/sun/javafx/binding"/>
@@ -26,11 +27,11 @@
     <source path="javafx/collections/transformation"/>
     <source path="javafx/event"/>
     <source path="javafx/util"/>
-    <!--========================< webfx-fxkit-javafxcontrols-emul >=========================-->
+    <!--=========================< webfx-kit-javafxcontrols-emul >==========================-->
     <!-- used by webfx-extras-cell (SOURCE) -->
     <!-- used by webfx-extras-webtext-controls (SOURCE) -->
     <!-- used by webfx-framework-client-action (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxcontrols-registry-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
     <source path="com/sun/javafx/scene/control"/>
     <source path="com/sun/javafx/scene/control/behavior"/>
     <source path="com/sun/javafx/scene/control/skin"/>
@@ -38,12 +39,12 @@
     <source path="javafx/scene/control/skin"/>
     <resource path="images/checkbox"/>
     <public includes="images/checkbox/" path=""/>
-    <!--========================< webfx-fxkit-javafxgraphics-emul >=========================-->
-    <!-- used by webfx-fxkit-javafxcontrols-emul (SOURCE) -->
+    <!--=========================< webfx-kit-javafxgraphics-emul >==========================-->
+    <!-- used by webfx-kit-javafxcontrols-emul (SOURCE) -->
     <!-- used by webfx-extras-cell (SOURCE) -->
     <!-- used by webfx-framework-client-action (SOURCE) -->
-    <!-- used by webfx-fxkit-gwt (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper (SOURCE) -->
+    <!-- used by webfx-kit-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <source path="com/sun/javafx/application"/>
     <source path="com/sun/javafx/cursor"/>
     <source path="com/sun/javafx/geom"/>
@@ -72,20 +73,21 @@
     <source path="javafx/scene/text"/>
     <source path="javafx/scene/transform"/>
     <source path="javafx/stage"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/highcoupling"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/highcoupling/spi"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/highcoupling/spi/impl"/>
+    <source path="webfx/kit/mapper"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/emul_coupling"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/emul_coupling/base"/>
+    <source path="webfx/kit/mapper/spi"/>
+    <source path="webfx/kit/mapper/spi/base"/>
     <!--=================================< elemental2-dom >=================================-->
     <!-- used by webfx-extras-visual-controls-grid-peers-gwt (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxcontrols-mapper-gwt (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown-gwt (SOURCE) -->
     <inherits name="elemental2.dom.Dom"/>
     <!--=================================< elemental2-svg >=================================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <inherits name="elemental2.svg.Svg"/>
     <!--====================================< gwt-user >====================================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-storage-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-websocket-gwt (SOURCE) -->
@@ -96,7 +98,7 @@
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
     <inherits name="com.google.gwt.user.User"/>
     <!--===================================< java-base >====================================-->
-    <!-- used by webfx-fxkit-javafxbase-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxbase-emul (SOURCE) -->
     <!-- used by webfx-platform-client-storage (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javabase (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javatime (SOURCE) -->
@@ -108,7 +110,7 @@
     <inherits name="com.google.gwt.logging.Logging"/>
     <!--==================================< javafx-base >===================================-->
     <!-- used by webfx-framework-client-i18n-json (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-base (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-base (SOURCE) -->
     <!--================================< javafx-controls >=================================-->
     <!-- used by mongoose-client-calendar (SOURCE) -->
     <!--================================< javafx-graphics >=================================-->
@@ -544,53 +546,54 @@
     <!--==========================< webfx-framework-shared-util >===========================-->
     <!-- used by mongoose-shared-domain (SOURCE) -->
     <source path="webfx/framework/shared/util/formatter"/>
-    <!--================================< webfx-fxkit-gwt >=================================-->
+    <!--=================================< webfx-kit-gwt >==================================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by mongoose-frontend-application-gwt (EMULATION) -->
-    <source path="webfx/fxkit/gwt"/>
-    <!--=====================< webfx-fxkit-javafxcontrols-mapper-base >=====================-->
+    <source path="webfx/kit/launcher/spi/gwt"/>
+    <source path="webfx/kit/mapper/spi/gwt"/>
+    <!--======================< webfx-kit-javafxcontrols-peers-base >=======================-->
     <!-- used by webfx-extras-visual-controls-peers-base (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxcontrols-mapper-gwt (SOURCE) -->
-    <source path="webfx/fxkit/javafxcontrols/mapper/spi/impl/peer/base"/>
-    <!--=====================< webfx-fxkit-javafxcontrols-mapper-gwt >======================-->
-    <!-- used by webfx-fxkit-javafxcontrols-registry-gwt (SOURCE) -->
-    <source path="webfx/fxkit/javafxcontrols/mapper/spi/impl/peer/gwt/html"/>
-    <!--====================< webfx-fxkit-javafxcontrols-registry-gwt >=====================-->
+    <!-- used by webfx-kit-javafxcontrols-peers-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxcontrols/base"/>
+    <!--=======================< webfx-kit-javafxcontrols-peers-gwt >=======================-->
+    <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxcontrols/gwt/html"/>
+    <!--=====================< webfx-kit-javafxcontrols-registry-gwt >======================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
-    <source path="webfx/javafxcontrols/registry"/>
-    <!--=======================< webfx-fxkit-javafxgraphics-mapper >========================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-registry-gwt (SOURCE) -->
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/markers"/>
-    <!--=====================< webfx-fxkit-javafxgraphics-mapper-base >=====================-->
-    <!-- used by webfx-fxkit-javafxcontrols-mapper-base (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/base"/>
-    <!--=====================< webfx-fxkit-javafxgraphics-mapper-gwt >======================-->
+    <source path="webfx/kit/registry/javafxcontrols"/>
+    <!--=========================< webfx-kit-javafxgraphics-peers >=========================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-registry-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxgraphics"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/markers"/>
+    <!--======================< webfx-kit-javafxgraphics-peers-base >=======================-->
+    <!-- used by webfx-kit-javafxcontrols-peers-base (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxgraphics/base"/>
+    <!--=======================< webfx-kit-javafxgraphics-peers-gwt >=======================-->
     <!-- used by webfx-extras-visual-controls-grid-peers-gwt (SOURCE) -->
     <!-- used by webfx-extras-webtext-controls-peers-gwt (SOURCE) -->
-    <!-- used by webfx-fxkit-gwt (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxcontrols-mapper-gwt (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-registry-gwt (SOURCE) -->
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/html"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/html/layoutmeasurable"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/shared"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/svg"/>
-    <source path="webfx/fxkit/javafxgraphics/mapper/spi/impl/peer/gwt/util"/>
-    <!--====================< webfx-fxkit-javafxgraphics-registry-gwt >=====================-->
+    <!-- used by webfx-kit-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-registry-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/html"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/html/layoutmeasurable"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/shared"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/svg"/>
+    <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/util"/>
+    <!--=====================< webfx-kit-javafxgraphics-registry-gwt >======================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
-    <source path="webfx/javafxgraphics/registry"/>
-    <!--==============================< webfx-fxkit-launcher >==============================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <source path="webfx/kit/registry/javafxgraphics"/>
+    <!--===============================< webfx-kit-launcher >===============================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
-    <source path="webfx/fxkit/launcher"/>
-    <source path="webfx/fxkit/launcher/spi"/>
-    <source path="webfx/fxkit/launcher/spi/impl"/>
-    <!--================================< webfx-fxkit-util >================================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
-    <source path="webfx/fxkit/util/properties"/>
-    <source path="webfx/fxkit/util/properties/conversion"/>
+    <source path="webfx/kit/launcher"/>
+    <source path="webfx/kit/launcher/spi"/>
+    <source path="webfx/kit/launcher/spi/base"/>
+    <!--=================================< webfx-kit-util >=================================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <source path="webfx/kit/util/properties"/>
+    <source path="webfx/kit/util/properties/conversion"/>
     <!--========================< webfx-lib-controlsfx-validation >=========================-->
     <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="impl/org/controlsfx"/>
@@ -617,7 +620,7 @@
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/client/services/storage/spi/impl/gwt"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <source path="webfx/platform/client/services/uischeduler"/>
@@ -668,7 +671,7 @@
     <source path="webfx/platform/client/services/windowlocation/spi/impl/gwt/jsinterop"/>
     <!--=======================< webfx-platform-shared-appcontainer >=======================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
-    <!-- used by webfx-fxkit-launcher (SOURCE) -->
+    <!-- used by webfx-kit-launcher (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-serial (SOURCE) -->
@@ -711,7 +714,7 @@
     <!-- used by webfx-platform-client-windowhistory-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/json/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-log >============================-->
-    <!-- used by webfx-fxkit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-windowhistory-web (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
@@ -736,7 +739,7 @@
     <source path="webfx/platform/shared/services/query/spi/impl/remote"/>
     <!--=========================< webfx-platform-shared-resource >=========================-->
     <!-- used by mongoose-shared-domain (SOURCE) -->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-websocketbus (SOURCE) -->
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
     <source path="webfx/platform/shared/services/resource"/>
@@ -770,7 +773,8 @@
     <source path="webfx/platform/shared/services/update/spi"/>
     <source path="webfx/platform/shared/services/update/spi/impl"/>
     <!--===========================< webfx-platform-shared-util >===========================-->
-    <!-- used by webfx-fxkit-javafxgraphics-mapper (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <!-- used by webfx-platform-client-storage (SOURCE) -->
     <!-- used by webfx-platform-client-windowlocation (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->

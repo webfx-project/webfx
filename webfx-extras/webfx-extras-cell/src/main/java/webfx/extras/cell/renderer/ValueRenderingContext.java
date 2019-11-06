@@ -2,7 +2,7 @@ package webfx.extras.cell.renderer;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import webfx.fxkit.util.properties.conversion.ConvertedProperty;
+import webfx.kit.util.properties.conversion.ConvertedProperty;
 import webfx.platform.shared.util.function.Converter;
 
 /**

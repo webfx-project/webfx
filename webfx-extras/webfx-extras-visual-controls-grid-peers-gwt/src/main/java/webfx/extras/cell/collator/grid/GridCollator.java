@@ -30,9 +30,9 @@ import webfx.extras.visual.VisualColumn;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
 import webfx.extras.visual.SelectionMode;
-import webfx.fxkit.javafxgraphics.mapper.spi.NodePeer;
-import webfx.fxkit.javafxgraphics.mapper.spi.SceneRequester;
-import webfx.fxkit.util.properties.ObservableLists;
+import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import webfx.kit.util.properties.ObservableLists;
 
 import java.util.List;
 

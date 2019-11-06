@@ -7,8 +7,8 @@ import javafx.scene.web.WebView;
 import webfx.extras.webtext.controls.HtmlText;
 import webfx.extras.webtext.controls.peers.base.HtmlTextPeerBase;
 import webfx.extras.webtext.controls.peers.base.HtmlTextPeerMixin;
-import webfx.fxkit.javafx.mapper.peer.FxLayoutMeasurable;
-import webfx.fxkit.javafx.mapper.peer.FxNodePeer;
+import webfx.kit.mapper.peers.javafxgraphics.javafx.FxLayoutMeasurable;
+import webfx.kit.mapper.peers.javafxgraphics.javafx.FxNodePeer;
 import webfx.platform.shared.util.Numbers;
 import webfx.platform.shared.util.Strings;
 

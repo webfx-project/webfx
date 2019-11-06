@@ -71,19 +71,19 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-javafx</artifactId>
+            <artifactId>webfx-kit-javafx</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-javafxgraphics-mapper</artifactId>
+            <artifactId>webfx-kit-javafxgraphics-peers</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-fxkit-util</artifactId>
+            <artifactId>webfx-kit-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
