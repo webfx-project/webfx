@@ -1,9 +1,6 @@
 package webfx.tool.buildtool;
 
-import webfx.tool.buildtool.modulefiles.GwtModuleFile;
-import webfx.tool.buildtool.modulefiles.JavaModuleFile;
-import webfx.tool.buildtool.modulefiles.MavenModuleFile;
-import webfx.tool.buildtool.modulefiles.WebfxModuleFile;
+import webfx.tool.buildtool.modulefiles.*;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
 import webfx.tool.buildtool.util.splitfiles.SplitFiles;
 
@@ -359,9 +356,10 @@ public class ProjectModule extends ModuleImpl {
     private Boolean hasSourceDirectory;
     private Boolean hasJavaSourceDirectory;
     private Boolean hasMetaInfJavaServicesDirectory;
-    private WebfxModuleFile webfxModuleFile;
+    private WebFxModuleFile webfxModuleFile;
     private JavaModuleFile javaModuleFile;
     private GwtModuleFile gwtModuleFile;
+    private GwtHtmlFile gwtHtmlFile;
     private MavenModuleFile mavenModuleFile;
 
     /************************
@@ -436,9 +434,9 @@ public class ProjectModule extends ModuleImpl {
         return hasMetaInfJavaServicesDirectory;
     }
 
-    public WebfxModuleFile getWebfxModuleFile() {
+    public WebFxModuleFile getWebfxModuleFile() {
         if (webfxModuleFile == null)
-            webfxModuleFile = new WebfxModuleFile(this);
+            webfxModuleFile = new WebFxModuleFile(this);
         return webfxModuleFile;
     }
 
@@ -454,6 +452,12 @@ public class ProjectModule extends ModuleImpl {
         return gwtModuleFile;
     }
 
+    public GwtHtmlFile getGwtHtmlFile() {
+        if (gwtHtmlFile == null)
+            gwtHtmlFile = new GwtHtmlFile(this);
+        return gwtHtmlFile;
+    }
+
     public MavenModuleFile getMavenModuleFile() {
         if (mavenModuleFile == null)
             mavenModuleFile = new MavenModuleFile(this);
@@ -467,7 +471,7 @@ public class ProjectModule extends ModuleImpl {
 
     ///// Java classes
 
-    ReusableStream<JavaClass> getDeclaredJavaClasses() {
+    public ReusableStream<JavaClass> getDeclaredJavaClasses() {
         return declaredJavaClassesCache;
     }
 
@@ -716,6 +720,10 @@ public class ProjectModule extends ModuleImpl {
                 ;
     }
 
+    public boolean usesJavaPackage(String javaPackage) {
+        return getUsedJavaPackages().anyMatch(javaPackage::equals);
+    }
+
 
     ///// Services
 
@@ -782,6 +790,21 @@ public class ProjectModule extends ModuleImpl {
         return modules
                 .filter(m -> m instanceof ProjectModule)
                 .map(m -> (ProjectModule) m);
+    }
+
+    public static boolean modulesUsesJavaPackage(ReusableStream<ProjectModule> modules, String javaPackage) {
+        return modules.anyMatch(m -> m.usesJavaPackage(javaPackage));
+    }
+
+    public static boolean modulesUsesJavaClass(ReusableStream<ProjectModule> modules, String javaClass) {
+        int lastDotIndex = javaClass.lastIndexOf('.');
+        String packageName = javaClass.substring(0, lastDotIndex);
+        boolean excludeWebFxKit = packageName.startsWith("javafx.");
+        return modules.anyMatch(m -> {
+            if (excludeWebFxKit && m.getName().startsWith("webfx-kit-"))
+                return false;
+            return m.usesJavaPackage(packageName) && m.getDeclaredJavaClasses().anyMatch(jc -> jc.usesJavaClass(javaClass));
+        });
     }
 
     private static ReusableStream<ProjectModule> filterDestinationProjectModules(ReusableStream<ModuleDependency> dependencies) {

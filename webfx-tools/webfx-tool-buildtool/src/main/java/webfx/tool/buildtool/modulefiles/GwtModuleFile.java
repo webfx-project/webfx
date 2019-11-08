@@ -6,6 +6,7 @@ import org.w3c.dom.Node;
 import webfx.tool.buildtool.Module;
 import webfx.tool.buildtool.ModuleDependency;
 import webfx.tool.buildtool.ProjectModule;
+import webfx.tool.buildtool.util.xml.XmlUtil;
 
 import java.nio.file.Path;
 import java.util.Comparator;
@@ -28,10 +29,9 @@ public final class GwtModuleFile extends XmlModuleFile {
         return resolveFromModuleHomeDirectory("src/main/module.gwt.xml");
     }
 
-
     @Override
     Document createInitialDocument() {
-        return parseXmlString("<module>\n" +
+        return XmlUtil.parseXmlString("<module>\n" +
                     "\n" +
                     "    <!-- Configuring logging (must be in first position) -->\n" +
                     "    <inherits name=\"com.google.gwt.logging.Logging\"/>\n" +

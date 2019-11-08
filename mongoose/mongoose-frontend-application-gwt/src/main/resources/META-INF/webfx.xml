@@ -1,3 +1,9 @@
 <module executable="true">
 
+    <html>
+        <head>
+            <title>Mongoose Frontend</title>
+        </head>
+    </html>
+
 </module>

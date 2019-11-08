@@ -8,4 +8,10 @@
 
     </dependencies>
 
+    <html>
+        <head>
+            <title>Mongoose Backend</title>
+        </head>
+    </html>
+
 </module>

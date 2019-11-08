@@ -1,17 +1,19 @@
 package webfx.tool.buildtool.modulefiles;
 
+import org.w3c.dom.Node;
 import webfx.tool.buildtool.ModuleDependency;
 import webfx.tool.buildtool.ProjectModule;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tool.buildtool.util.xml.XmlUtil;
 
 import java.nio.file.Path;
 
 /**
  * @author Bruno Salmon
  */
-public final class WebfxModuleFile extends XmlModuleFile {
+public final class WebFxModuleFile extends XmlModuleFile {
 
-    public WebfxModuleFile(ProjectModule module) {
+    public WebFxModuleFile(ProjectModule module) {
         super(module, true);
     }
 
@@ -20,15 +22,19 @@ public final class WebfxModuleFile extends XmlModuleFile {
     }
 
     public boolean isExecutable() {
-        return getBooleanAttributeValue(getDocument().getDocumentElement(), "executable");
+        return getBooleanModuleAttributeValue("executable");
     }
 
     public boolean isInterface() {
-        return getBooleanAttributeValue(getDocument().getDocumentElement(), "interface");
+        return getBooleanModuleAttributeValue("interface");
     }
 
     public String implementingInterface() {
-        return getAttributeValue(getDocument().getDocumentElement(), "implements-module");
+        return getModuleAttributeValue("implements-module");
+    }
+
+    public String getModuleProperty(String property) {
+        return getModuleAttributeValue(property);
     }
 
     public ReusableStream<ModuleDependency> getSourceModuleDependencies() {
@@ -65,5 +71,17 @@ public final class WebfxModuleFile extends XmlModuleFile {
 
     public ReusableStream<String> providedJavaServicesProviders(String javaService) {
         return lookupNodeListTextContent("/module/providers//provider[@spi='" + javaService + "']");
+    }
+
+    public Node getHtmlNode() {
+        return lookupNode("/module/html");
+    }
+
+    private boolean getBooleanModuleAttributeValue(String attribute) {
+        return XmlUtil.getBooleanAttributeValue(getDocument().getDocumentElement(), attribute);
+    }
+
+    private String getModuleAttributeValue(String attribute) {
+        return XmlUtil.getAttributeValue(getDocument().getDocumentElement(), attribute);
     }
 }

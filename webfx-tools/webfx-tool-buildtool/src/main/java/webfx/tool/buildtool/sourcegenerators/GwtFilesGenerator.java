@@ -15,6 +15,7 @@ public final class GwtFilesGenerator {
         GwtServiceLoaderSuperSourceGenerator.generateServiceLoaderSuperSource(module);
         GwtArraySuperSourceGenerator.generateArraySuperSource(module);
         module.getGwtModuleFile().writeFile();
+        module.getGwtHtmlFile().writeFile();
     }
 
     // Utility methods

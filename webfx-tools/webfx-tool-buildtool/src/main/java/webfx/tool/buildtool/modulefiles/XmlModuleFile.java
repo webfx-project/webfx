@@ -3,30 +3,16 @@ package webfx.tool.buildtool.modulefiles;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import webfx.tool.buildtool.ModuleDependency;
 import webfx.tool.buildtool.ProjectModule;
 import webfx.tool.buildtool.Target;
 import webfx.tool.buildtool.TargetTag;
 import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
 import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tool.buildtool.util.xml.XmlUtil;
 
-import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * @author Bruno Salmon
@@ -82,32 +68,7 @@ abstract class XmlModuleFile extends ModuleFile {
 
     @Override
     public void readFile() {
-        document = parseXmlFile(getModuleFile());
-    }
-
-    Document parseXmlSource(InputSource is) {
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            try {
-                return dBuilder.parse(is);
-            } catch (IOException e) {
-                return dBuilder.newDocument();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    Document parseXmlFile(File xmlFile) {
-        return parseXmlSource(new InputSource(xmlFile.toURI().toASCIIString()));
-    }
-
-    Document parseXmlString(String xmlString) {
-        InputSource is = new InputSource();
-        is.setCharacterStream(new StringReader(xmlString));
-        return parseXmlSource(is);
+        document = XmlUtil.parseXmlFile(getModuleFile());
     }
 
     public void updateAndWrite() {
@@ -117,91 +78,40 @@ abstract class XmlModuleFile extends ModuleFile {
 
     @Override
     public void writeFile() {
-        try {
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            //transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            transformer.setOutputProperty("http://www.oracle.com/xml/is-standalone", "yes"); // This is to fix the missing line feed after xml declaration
-            Document document = getDocument();
-            document.getDocumentElement().normalize();
-            DOMSource source = new DOMSource(document);
-            StringWriter sw = new StringWriter();
-            StreamResult result = new StreamResult(sw);
-            transformer.transform(source, result);
-            TextFileReaderWriter.writeTextFileIfNewOrModified(sw.toString(), getModulePath());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        TextFileReaderWriter.writeTextFileIfNewOrModified(XmlUtil.formatXmlText(getDocument()), getModulePath());
     }
 
     NodeList lookupNodeList(String xpathExpression) {
-        return lookup(xpathExpression, XPathConstants.NODESET);
+        return XmlUtil.lookupNodeList(getDocument(), xpathExpression);
     }
 
     Node lookupNode(String xpathExpression) {
-        return lookup(xpathExpression, XPathConstants.NODE);
-    }
-
-    private <T> T lookup(String xpathExpression, QName returnType) {
-        XPathFactory xpf = XPathFactory.newInstance();
-        XPath xpath = xpf.newXPath();
-        try {
-            XPathExpression expression = xpath.compile(xpathExpression);
-            return (T) expression.evaluate(getDocument(), returnType);
-        } catch (XPathExpressionException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    <T> ReusableStream<T> nodeListToReusableStream(NodeList nodeList, Function<Node, ? extends T> transformer) {
-        return ReusableStream.create(() -> new Spliterators.AbstractSpliterator<T>(nodeList.getLength(), Spliterator.SIZED) {
-            private int index = 0;
-            @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
-                if (index >= nodeList.getLength())
-                    return false;
-                Node moduleNode = nodeList.item(index++);
-                action.accept(transformer.apply(moduleNode));
-                return true;
-            }
-        });
+        return XmlUtil.lookupNode(getDocument(), xpathExpression);
     }
 
     ReusableStream<String> lookupNodeListTextContent(String xPathExpression) {
-        return nodeListToReusableStream(lookupNodeList(xPathExpression), Node::getTextContent);
+        return XmlUtil.nodeListToReusableStream(lookupNodeList(xPathExpression), Node::getTextContent);
     }
 
     ReusableStream<String> lookupNodeListAttribute(String xPathExpression, String attribute) {
-        return nodeListToReusableStream(lookupNodeList(xPathExpression), node -> getAttributeValue(node, attribute));
+        return XmlUtil.nodeListToReusableStream(lookupNodeList(xPathExpression), node -> XmlUtil.getAttributeValue(node, attribute));
     }
 
     ReusableStream<ModuleDependency> lookupDependencies(String xPathExpression, ModuleDependency.Type type) {
-        return nodeListToReusableStream(lookupNodeList(xPathExpression), node ->
+        return XmlUtil.nodeListToReusableStream(lookupNodeList(xPathExpression), node ->
                 new ModuleDependency(
                         getModule(),
                         getModule().getRootModule().findModule(node.getTextContent()),
                         type,
-                        getBooleanAttributeValue(node, "optional"),
-                        getAttributeValue(node, "scope"),
-                        getAttributeValue(node, "classifier"),
+                        XmlUtil.getBooleanAttributeValue(node, "optional"),
+                        XmlUtil.getAttributeValue(node, "scope"),
+                        XmlUtil.getAttributeValue(node, "classifier"),
                         getTargetAttributeValue(node, "executable-target")
                 ));
     }
 
-    static String getAttributeValue(Node node, String name) {
-        if (node == null)
-            return null;
-        Node namedItem = node.getAttributes().getNamedItem(name);
-        return namedItem == null ? null : namedItem.getNodeValue();
-    }
-
-    static boolean getBooleanAttributeValue(Node node, String name) {
-        return "true".equalsIgnoreCase(getAttributeValue(node, name));
-    }
-
     private Target getTargetAttributeValue(Node node, String name) {
-        String stringValue = getAttributeValue(node, name);
+        String stringValue = XmlUtil.getAttributeValue(node, name);
         return stringValue == null ? null : new Target(TargetTag.parseTags(stringValue));
     }
 }

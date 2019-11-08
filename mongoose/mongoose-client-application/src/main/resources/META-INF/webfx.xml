@@ -1,4 +1,4 @@
-<module>
+<module show-loading-spinner-on-startup="true">
 
     <dependencies>
 

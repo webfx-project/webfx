@@ -1,10 +1,6 @@
 package webfx.tool.buildtool.util.javacode;
 
-import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
-
-import java.nio.file.Path;
 import java.util.Iterator;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,38 +10,21 @@ import java.util.regex.Pattern;
 class JavaCodePatternFinder implements Iterable<String> {
 
     private final JavaCodePattern javaCodePattern;
-    private Supplier<Path> javaPathSupplier;
-    private Path javaFilePath;
-    private String javaCode;
+    private final JavaCode javaCode;
 
-    JavaCodePatternFinder(JavaCodePattern javaCodePattern, Supplier<Path> javaPathSupplier) {
-        this.javaCodePattern = javaCodePattern;
-        this.javaPathSupplier = javaPathSupplier;
-    }
-
-    JavaCodePatternFinder(JavaCodePattern javaCodePattern, Path javaFilePath) {
-        this.javaCodePattern = javaCodePattern;
-        this.javaFilePath = javaFilePath;
-    }
-
-    JavaCodePatternFinder(JavaCodePattern javaCodePattern, String javaCode) {
+    JavaCodePatternFinder(JavaCodePattern javaCodePattern, JavaCode javaCode) {
         this.javaCodePattern = javaCodePattern;
         this.javaCode = javaCode;
     }
 
-    private String getJavaCode() {
-        if (javaCode == null) {
-            if (javaFilePath == null)
-                javaFilePath = javaPathSupplier.get();
-            javaCode = TextFileReaderWriter.readTextFile(javaFilePath);
-        }
-        return javaCode;
+    private String getTextCode() {
+        return javaCode.getTextCode();
     }
 
     @Override
     public Iterator<String> iterator() {
         return new Iterator<>() {
-            private final Matcher matcher = javaCodePattern.getPattern().matcher(getJavaCode());
+            private final Matcher matcher = javaCodePattern.getPattern().matcher(getTextCode());
             private final StringOrCommentFinder blockCommentFinder = new StringOrCommentFinder("/*", "*/");
             private final StringOrCommentFinder inlineCommentFinder = new StringOrCommentFinder("//", "\n");
             private final StringOrCommentFinder stringFinder = new StringOrCommentFinder("\"", "\"");
@@ -92,14 +71,14 @@ class JavaCodePatternFinder implements Iterable<String> {
             int fromIndex = stringOrCommentEndIndex;
             if (fromIndex > 0 && stringOrCommentEndingToken.equals(stringOrCommentStartingToken))
                 fromIndex++;
-            stringOrCommentStartIndex = javaCode.indexOf(stringOrCommentStartingToken, fromIndex);
+            stringOrCommentStartIndex = getTextCode().indexOf(stringOrCommentStartingToken, fromIndex);
         }
 
         private void updateStringOrCommentEndIndex() {
             int fromIndex = stringOrCommentStartIndex + 1;
             while (true) {
-                stringOrCommentEndIndex = javaCode.indexOf(stringOrCommentEndingToken, fromIndex);
-                if (stringOrCommentEndIndex > 1 && stringOrCommentEndingToken.equals(stringOrCommentStartingToken) && javaCode.charAt(stringOrCommentEndIndex) == '\\') {
+                stringOrCommentEndIndex = getTextCode().indexOf(stringOrCommentEndingToken, fromIndex);
+                if (stringOrCommentEndIndex > 1 && stringOrCommentEndingToken.equals(stringOrCommentStartingToken) && getTextCode().charAt(stringOrCommentEndIndex) == '\\') {
                     fromIndex = stringOrCommentEndIndex + 1;
                 } else
                     break;
@@ -151,13 +130,13 @@ class JavaCodePatternFinder implements Iterable<String> {
     String resolveFullClassName(String className) {
         if (className.contains("."))
             return className;
-        Iterator<String> classImportIterator = new JavaCodePatternFinder(new JavaCodePattern(Pattern.compile("^\\s*import\\s+([a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)*\\." + className + "\\s*)\\s*;", Pattern.MULTILINE), 1), getJavaCode()).iterator();
+        Iterator<String> classImportIterator = new JavaCodePatternFinder(new JavaCodePattern(Pattern.compile("^\\s*import\\s+([a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)*\\." + className + "\\s*)\\s*;", Pattern.MULTILINE), 1), javaCode).iterator();
         return classImportIterator.hasNext() ? classImportIterator.next()
                 : javaCodePackageName() + "." + className;
     }
 
     String javaCodePackageName() {
-        Iterator<String> packageIterator = new JavaCodePatternFinder(new JavaCodePattern(Pattern.compile("^\\s*package\\s+([a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)*)\\s*;", Pattern.MULTILINE), 1), getJavaCode()).iterator();
+        Iterator<String> packageIterator = new JavaCodePatternFinder(new JavaCodePattern(Pattern.compile("^\\s*package\\s+([a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)*)\\s*;", Pattern.MULTILINE), 1), javaCode).iterator();
         return packageIterator.hasNext() ?
                 packageIterator.next()
                 : null;

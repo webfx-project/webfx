@@ -1,5 +1,6 @@
 package webfx.tool.buildtool;
 
+import webfx.tool.buildtool.util.javacode.JavaCode;
 import webfx.tool.buildtool.util.javacode.OptionalJavaServicesFinder;
 import webfx.tool.buildtool.util.javacode.JavaCodePackagesFinder;
 import webfx.tool.buildtool.util.javacode.RequiredJavaServicesFinder;
@@ -14,18 +15,19 @@ final class JavaClass {
 
     private final Path javaFilePath;
     private final ProjectModule projectModule;
+    private final JavaCode javaCode = new JavaCode(this::getJavaFilePath);
     private String packageName;
     private String className;
     private final ReusableStream<String> usedJavaPackagesCache =
-            ReusableStream.fromIterable(new JavaCodePackagesFinder(this::getJavaFilePath))
+            ReusableStream.fromIterable(new JavaCodePackagesFinder(javaCode))
                     .distinct()
                     .cache();
     private final ReusableStream<String> usedRequiredJavaServicesCache =
-            ReusableStream.fromIterable(new RequiredJavaServicesFinder(this::getJavaFilePath))
+            ReusableStream.fromIterable(new RequiredJavaServicesFinder(javaCode))
                     .distinct()
                     .cache();
     private final ReusableStream<String> usedOptionalJavaServicesCache =
-            ReusableStream.fromIterable(new OptionalJavaServicesFinder(this::getJavaFilePath))
+            ReusableStream.fromIterable(new OptionalJavaServicesFinder(javaCode))
                     .distinct()
                     .cache();
 
@@ -39,9 +41,14 @@ final class JavaClass {
     }
 
 
+    JavaCode getJavaCode() {
+        return javaCode;
+    }
+
     /*************************
      ***** Basic getters *****
      *************************/
+
 
     Path getJavaFilePath() {
         return javaFilePath;
@@ -83,8 +90,8 @@ final class JavaClass {
         return usedOptionalJavaServicesCache;
     }
 
-    ReusableStream<String> getUsedJavaServices() {
-        return getUsedRequiredJavaServices().concat(getUsedOptionalJavaServices());
+    boolean usesJavaClass(String javaClass) {
+        return getJavaCode().getTextCode().contains(javaClass);
     }
 
 
