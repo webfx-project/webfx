@@ -83,7 +83,6 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     //private MouseEvent lastMouseEvent;
     private void passHtmlMouseEventOnToFx(MouseEvent e, String type) {
-        e.stopPropagation();
         javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(e, type);
         if (fxMouseEvent != null) {
             // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFx stack
@@ -101,6 +100,10 @@ public final class HtmlScenePeer extends ScenePeerBase {
                     UiScheduler.scheduleInFutureAnimationFrame(1, () -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, AnimationFramePass.UI_UPDATE_PASS);
                 }
             }
+            // Stopping propagation if the event has been consumed by JavaFx
+            if (fxMouseEvent.isConsumed())
+                e.stopPropagation();
+            // Note: important to not stop propagation for third-party js components (ex: perfect-scrollbar)
         }
         //lastMouseEvent = e;
     }

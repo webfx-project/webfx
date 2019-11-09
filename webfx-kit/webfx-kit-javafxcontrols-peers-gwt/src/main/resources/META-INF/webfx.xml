@@ -5,7 +5,7 @@
             <link rel="stylesheet" type="text/css" href="webfx/kit/mapper/peers/javafxcontrols/gwt/html/perfect-scrollbar.css"/>
         </head>
         <body>
-            <script type="text/javascript" charset="utf-8" src="webfx/kit/mapper/peers/javafxcontrols/gwt/html/perfect-scrollbar.js"/>
+            <script type="text/javascript" charset="utf-8" src="webfx/kit/mapper/peers/javafxcontrols/gwt/html/perfect-scrollbar.min.js"/>
         </body>
     </html>
 

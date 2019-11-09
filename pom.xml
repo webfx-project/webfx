@@ -614,6 +614,7 @@
             </modules>
         </profile>
 
+<!--
         <profile>
             <id>idea-build-fix</id>
             <activation>
@@ -635,6 +636,7 @@
                 </dependencies>
             </dependencyManagement>
         </profile>
+-->
     </profiles>
 
 </project>

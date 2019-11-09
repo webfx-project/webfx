@@ -6,12 +6,12 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import webfx.kit.mapper.peers.javafxcontrols.base.ScrollPanePeerBase;
 import webfx.kit.mapper.peers.javafxcontrols.base.ScrollPanePeerMixin;
+import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 
 /**
@@ -24,7 +24,7 @@ public final class HtmlScrollPanePeer
         implements ScrollPanePeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlScrollPanePeer() {
-        this((NB) new ScrollPanePeerBase(), HtmlUtil.createDivElement());
+        this((NB) new ScrollPanePeerBase(), HtmlUtil.createElement("fx-scrollpane"));
     }
 
     public HtmlScrollPanePeer(NB base, HTMLElement element) {
@@ -34,10 +34,11 @@ public final class HtmlScrollPanePeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
-        node.setOnChildrenLayout(this::scheduleUpdate);
-        HTMLElement element = getElement();
-        callPerfectScrollbarInitialize(element, node.getHbarPolicy() == ScrollPane.ScrollBarPolicy.NEVER, node.getvbarPolicy() == ScrollPane.ScrollBarPolicy.NEVER);
-        HtmlUtil.onNodeInsertedIntoDocument(element, this::scheduleUpdate);
+        // Important: perfect scrollbar expect a standard HTML container (won't work with fx-scrollpane)
+        HTMLElement psContainer = HtmlUtil.setStyle(HtmlUtil.createDivElement(), "position: absolute; width: 100%; height: 100%");
+        setChildrenContainer(psContainer);
+        HtmlUtil.setChildren(getElement(), psContainer);
+        node.setOnChildrenLayout(HtmlScrollPanePeer.this::scheduleUpdate);
     }
 
     private double scrollTop, scrollLeft;
@@ -135,29 +136,35 @@ public final class HtmlScrollPanePeer
         syncing = false;
     }
 
-    private native void callPerfectScrollbarInitialize(Element element, boolean suppressScrollX, boolean suppressScrollY) /*-{
-        $wnd.Ps.initialize(element, {suppressScrollX: suppressScrollX, suppressScrollY: suppressScrollY});
-        var self = this;
-        element.addEventListener('ps-scroll-x', function() { self.@HtmlScrollPanePeer::setScrollLeft(D)(element.scrollLeft)});
-        element.addEventListener('ps-scroll-y', function() { self.@HtmlScrollPanePeer::setScrollTop(D)(element.scrollTop)});
-    }-*/;
-
-    private native void callPerfectScrollbarUpdate(Element element) /*-{
-        element.scrollLeft = this.@HtmlScrollPanePeer::scrollLeft;
-        element.scrollTop = this.@HtmlScrollPanePeer::scrollTop;
-        $wnd.Ps.update(element);
-    }-*/;
-
-    private boolean pending;
+    private boolean pending, psInitialized;
     private void scheduleUpdate() {
         if (!pending) {
             pending = true;
             UiScheduler.scheduleDeferred(() -> {
-                callPerfectScrollbarUpdate(getElement());
+                Element psContainer = getChildrenContainer();
+                if (!psInitialized) {
+                    N node = getNode();
+                    callPerfectScrollbarInitialize(psContainer, node.getHbarPolicy() == ScrollPane.ScrollBarPolicy.NEVER, node.getvbarPolicy() == ScrollPane.ScrollBarPolicy.NEVER);
+                    psInitialized = true;
+                }
+                callPerfectScrollbarUpdate(psContainer);
                 pending = false;
             });
         }
     }
+
+    private native void callPerfectScrollbarInitialize(Element psContainer, boolean suppressScrollX, boolean suppressScrollY) /*-{
+        psContainer.ps = new $wnd.PerfectScrollbar(psContainer, {suppressScrollX: suppressScrollX, suppressScrollY: suppressScrollY});
+        var self = this;
+        psContainer.addEventListener('ps-scroll-x', function() { self.@HtmlScrollPanePeer::setScrollLeft(D)(psContainer.scrollLeft)});
+        psContainer.addEventListener('ps-scroll-y', function() { self.@HtmlScrollPanePeer::setScrollTop(D)(psContainer.scrollTop)});
+    }-*/;
+
+    private native void callPerfectScrollbarUpdate(Element psContainer) /*-{
+        psContainer.scrollLeft = this.@HtmlScrollPanePeer::scrollLeft;
+        psContainer.scrollTop = this.@HtmlScrollPanePeer::scrollTop;
+        psContainer.ps.update();
+    }-*/;
 
     @Override
     public void updateWidth(Number width) {
