@@ -60,6 +60,11 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
     }
 
     @Override
+    protected StreamInfo getStreamInfo(Object queryStreamId) {
+        return streamInfos.get(queryStreamId);
+    }
+
+    @Override
     protected void setStreamQueryArgument(StreamInfo streamInfo, QueryArgument queryArgument) {
         // Getting the previous queryInfo associated with this stream info
         QueryInfo previousQueryInfo = streamInfo.queryInfo;

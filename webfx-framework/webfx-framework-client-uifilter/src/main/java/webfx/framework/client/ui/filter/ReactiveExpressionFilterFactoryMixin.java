@@ -10,18 +10,26 @@ import webfx.framework.shared.orm.entity.Entity;
 public interface ReactiveExpressionFilterFactoryMixin extends HasDataSourceModel, HasActiveProperty {
 
     default <E extends Entity> ReactiveExpressionFilter<E> createReactiveExpressionFilter() {
-        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter<>());
+        return createReactiveExpressionFilter(null);
     }
 
     default <E extends Entity> ReactiveExpressionFilter<E> createReactiveExpressionFilter(Object jsonOrClass) {
-        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter<>(jsonOrClass));
+        return createReactiveExpressionFilter(null, jsonOrClass);
+    }
+
+    default <E extends Entity> ReactiveExpressionFilter<E> createReactiveExpressionFilter(ReactiveExpressionFilter<?> parentFilter) {
+        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter<>(parentFilter));
+    }
+
+    default <E extends Entity> ReactiveExpressionFilter<E> createReactiveExpressionFilter(ReactiveExpressionFilter<?> parentFilter, Object jsonOrClass) {
+        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter<>(parentFilter, jsonOrClass));
     }
 
     default <E extends Entity> ReactiveExpressionFilter<E> initializeReactiveExpressionFilter(ReactiveExpressionFilter<E> reactiveExpressionFilter) {
+        if (reactiveExpressionFilter.getParentFilter() == null)
+            reactiveExpressionFilter.bindActivePropertyTo(activeProperty());
         return reactiveExpressionFilter
                 .setDataSourceModel(getDataSourceModel())
-                .bindActivePropertyTo(activeProperty())
-                //.setPush(true) // Making server push notifications on by default
                 ;
     }
 

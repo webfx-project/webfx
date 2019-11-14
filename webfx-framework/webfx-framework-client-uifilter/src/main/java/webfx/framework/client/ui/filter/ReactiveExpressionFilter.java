@@ -3,6 +3,10 @@ package webfx.framework.client.ui.filter;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
+import webfx.extras.type.PrimType;
+import webfx.extras.visual.VisualColumnBuilder;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.VisualSelection;
 import webfx.framework.client.activity.impl.elementals.activeproperty.HasActiveProperty;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.services.push.PushClientService;
@@ -22,10 +26,6 @@ import webfx.framework.shared.orm.mapping.query_entity.QueryResultToEntityListMa
 import webfx.framework.shared.services.querypush.QueryPushArgument;
 import webfx.framework.shared.services.querypush.QueryPushService;
 import webfx.framework.shared.services.querypush.diff.QueryResultDiff;
-import webfx.extras.visual.VisualColumnBuilder;
-import webfx.extras.visual.VisualResult;
-import webfx.extras.visual.VisualSelection;
-import webfx.extras.type.PrimType;
 import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;
@@ -50,6 +50,8 @@ import java.util.function.Consumer;
  */
 public final class ReactiveExpressionFilter<E extends Entity> implements HasActiveProperty, HasEntityStore {
 
+    private final ReactiveExpressionFilter parentFilter;
+    private final List<ReactiveExpressionFilter> childrenFilters = new ArrayList<>();
     private final List<ObservableValue<StringFilter>> stringFilterProperties = new ArrayList<>();
     private StringFilter lastStringFilter;
     private Object[] lastParameterValues;
@@ -89,10 +91,13 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             scheduleGlobalChangeCheck();
         }
     };
+    private boolean lostConnection;
     private final ObjectProperty<Object> pushClientIdProperty = new SimpleObjectProperty<Object/*GWT*/>() {
         @Override
         protected void invalidated() {
-            if (isPush())
+            if (getValue() == null)
+                lostConnection = true;
+            else if (isPush())
                 scheduleGlobalChangeCheck();
         }
     };
@@ -103,12 +108,27 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
     private boolean queryHasChangeWhileWaitingQueryStreamId;
 
     public ReactiveExpressionFilter() {
-        bindPushClientIdPropertyTo(PushClientService.pushClientIdProperty());
+        this(null);
     }
 
     public ReactiveExpressionFilter(Object jsonOrClass) {
-        this();
+        this(null, jsonOrClass);
+    }
+
+    public ReactiveExpressionFilter(ReactiveExpressionFilter<?> parentFilter) {
+        this.parentFilter = parentFilter;
+        if (parentFilter != null)
+            parentFilter.childrenFilters.add(this);
+        bindPushClientIdPropertyTo(PushClientService.pushClientIdProperty());
+    }
+
+    public ReactiveExpressionFilter(ReactiveExpressionFilter<?> parentFilter, Object jsonOrClass) {
+        this(parentFilter);
         combine(new StringFilterBuilder(jsonOrClass));
+    }
+
+    public ReactiveExpressionFilter<?> getParentFilter() {
+        return parentFilter;
     }
 
     public Object getDomainClassId() {
@@ -125,14 +145,14 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
         return this;
     }
 
-    public ReactiveExpressionFilter<E> setStore(EntityStore store) {
-        this.store = store;
-        return this;
-    }
-
     @Override
     public DataSourceModel getDataSourceModel() {
         return dataSourceModel;
+    }
+
+    public ReactiveExpressionFilter<E> setStore(EntityStore store) {
+        this.store = store;
+        return this;
     }
 
     @Override
@@ -233,7 +253,7 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             domainClassId = stringFilter.getDomainClassId();
             baseFilter = stringFilter;
         }
-        return combine(new SimpleObjectProperty(stringFilter));
+        return combine(new SimpleObjectProperty<>(stringFilter));
     }
 
     public ReactiveExpressionFilter<E> combine(ObservableValue<StringFilter> stringFilterProperty) {
@@ -578,13 +598,16 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
             filteredList.addAll(Entities.select(restrictedFilterList, stringFilter.toStringSelect()));
             entityListProperty.set(filteredList);
         } else {
+            Object parentQueryStreamId = parentFilter == null ? null : parentFilter.queryStreamId;
+            if (push && parentFilter != null && (parentQueryStreamId == null || parentFilter.lostConnection))
+                return;
             // Otherwise we compile the final string filter into sql
             SqlCompiled sqlCompiled = getDomainModel().parseAndCompileSelect(stringFilter.toStringSelect());
             // And extract the possible parameters
             ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
             parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray();
             // Skipping the server call if there is no difference in the parameters compared to the last call (unless it is in autoRefresh mode)
-            if (!autoRefresh && !isDifferentFromLastQuery(stringFilter, parameterValues, active, push, pushClientId))
+            if (!autoRefresh && !lostConnection && !isDifferentFromLastQuery(stringFilter, parameterValues, active, push, pushClientId))
                 log("No difference with previous query");
             else {
                 // Generating the query argument
@@ -612,11 +635,14 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                         if (waitingQueryStreamId) // If we already wait the queryStreamId, we won't make a new call now (we can't update the stream without its id)
                             queryHasChangeWhileWaitingQueryStreamId |= !queryArgument.equals(lastQueryArgument); // but we mark this flag in order to update the stream (if modified) when receiving its id
                         else { // All conditions are gathered (different query, client connected and no pending call) to make a query push server call
+                            // Forgetting the queryStreamId on connection lost in case it is due to a server restart (the server will restart the sequence from 0 so we loose unity)
+                            if (lostConnection)
+                                queryStreamId = null; // This will force to resend the query argument and get a new id (TODO: make sequence persistent on server and remove this reset)
                             // Network optimization: not necessary to send the query argument again if it has already been sent and hasn't change (the server kept a copy of it)
                             QueryArgument transmittedQueryArgument = queryStreamId != null && queryArgument.equals(lastQueryArgument) ? null : queryArgument;
                             waitingQueryStreamId = queryStreamId == null; // Setting the waitingQueryStreamId flag to true when queryStreamId is not yet known
                             lastQueryArgument = queryArgument; // Holding the query argument passed to the server for double check when receiving the result
-                            QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, pushClientId, transmittedQueryArgument, getDataSourceId(), active, resend, null, queryPushResult -> { // This consumer is called for each result pushed by the server
+                            QueryPushService.executeQueryPush(new QueryPushArgument(queryStreamId, parentQueryStreamId, pushClientId, transmittedQueryArgument, getDataSourceId(), active, resend, null, queryPushResult -> { // This consumer is called for each result pushed by the server
                                 // Double checking if the query argument is still the latest
                                 if (!queryArgument.equals(lastQueryArgument))
                                     log("Ignoring a received result coming from an old query");
@@ -654,11 +680,17 @@ public final class ReactiveExpressionFilter<E extends Entity> implements HasActi
                                     log((active ? "Refreshing filter " + listId : "Filter " + listId + " will be refreshed when active") + (queryHasChangeWhileWaitingQueryStreamId ? " because the query has changed while waiting the queryStreamId" : " because a failure occurred while updating the query (may be an unrecognized queryStreamId after server restart)"));
                                     queryHasChangeWhileWaitingQueryStreamId = false; // Resetting the flag
                                     refreshWhenActive(); // This will trigger an new pass (when active) leading to a new call to the query push service
-                                } else
+                                } else {
                                     resend = false;
+                                    Logger.log("Ok " + queryStreamId);
+                                    if (lostConnection) {
+                                        lostConnection = false;
+                                        childrenFilters.forEach(ReactiveExpressionFilter::scheduleGlobalChangeCheck);
+                                    }
+                                }
                             });
                             // Logging after the actual call (and not before) for optimization reason (better to log while the request is in process)
-                            log("Calling query push: queryStreamId=" + queryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", resend=" + resend + ", queryArgument=" + transmittedQueryArgument);
+                            log("Calling query push: queryStreamId=" + queryStreamId + ", parentQueryStreamId=" + parentQueryStreamId + ", pushClientId=" + pushClientId + ", active=" + active + ", resend=" + resend + ", queryArgument=" + transmittedQueryArgument);
                             // If the query argument hasn't changed, it's still possible that there is a change in the columns (but that didn't induce a change at the query level)
                             if (transmittedQueryArgument == null) // Means the query argument hasn't change
                                 resetAllVisualResults(false); // So we reset now the display results with the current entities (and eventually new columns)

@@ -212,9 +212,6 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
         return System.currentTimeMillis();
     }
 
-    /**
-     * @author Bruno Salmon
-     */
     public static final class QueryInfo {
         public final QueryArgument queryArgument;
         private final List<StreamInfo> streamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
@@ -259,22 +256,16 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
         public void addStreamInfo(StreamInfo streamInfo) {
             synchronized (this) {
                 streamInfos.add(streamInfo);
-                if (streamInfo.active) {
-                    activeStreamCount++;
-                    if (streamInfo.lastQueryResult != lastQueryResult)
-                        activeNewStreamCount++;
-                }
+                if (streamInfo.isActive())
+                    updateActiveStreamCount(streamInfo, true);
             }
         }
 
         public void removeStreamInfo(StreamInfo streamInfo) {
             synchronized (this) {
                 if (streamInfos.remove(streamInfo)) {
-                    if (streamInfo.active) {
-                        activeStreamCount--;
-                        if (streamInfo.lastQueryResult != lastQueryResult)
-                            activeNewStreamCount--;
-                    }
+                    if (streamInfo.isActive())
+                        updateActiveStreamCount(streamInfo, false);
                 }
             }
         }
@@ -293,8 +284,15 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
         }
     */
 
-        void updateActiveStreamCount(boolean increment) {
-            activeStreamCount += increment ? 1 : -1;
+        void updateActiveStreamCount(StreamInfo streamInfo, boolean increment) {
+            int delta = increment ? 1 : -1;
+            activeStreamCount += delta;
+            if (streamInfo.lastQueryResult != lastQueryResult)
+                activeNewStreamCount += delta;
+            streamInfo.childrenStreamInfos.forEach( csi -> {
+                if (csi.active)
+                    csi.queryInfo.updateActiveStreamCount(csi, increment);
+            });
         }
 
         public boolean hasNoMoreStreams() {
@@ -302,21 +300,25 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
         }
     }
 
-    /**
-     * @author Bruno Salmon
-     */
     public final class StreamInfo {
-        final long creationTime = now();
+        private final long creationTime = now();
         public Object queryStreamId;
+        private StreamInfo parentStreamInfo;
+        private final List<StreamInfo> childrenStreamInfos = new ArrayList<>();
         public final Object pushClientId;
-        Boolean active;
+        private Boolean active;
         public Boolean close;
         public QueryInfo queryInfo;
-        QueryResult lastQueryResult;
+        private QueryResult lastQueryResult;
 
         public StreamInfo(QueryPushArgument arg) {
             queryStreamId = arg.getQueryStreamId();
             pushClientId = arg.getPushClientId();
+            Object parentQueryStreamId = arg.getParentQueryStreamId();
+            parentStreamInfo = getStreamInfo(parentQueryStreamId);
+            if (parentStreamInfo != null)
+                parentStreamInfo.childrenStreamInfos.add(this);
+            Logger.log(">>> parentStreamInfoId = " + parentQueryStreamId + ", parentStreamInfo " + (parentStreamInfo == null ? "null" : "not null"));
             active = arg.getActive();
             close = arg.getClose();
             setStreamQueryArgument(this, arg.getQueryArgument());
@@ -325,17 +327,19 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
         public void setActive(boolean active) {
             if (this.active != active) {
                 this.active = active;
-                queryInfo.updateActiveStreamCount(active);
+                queryInfo.updateActiveStreamCount(this, active);
             }
         }
 
         public boolean isActive() {
-            return active != null && active;
+            return active != null && active && (parentStreamInfo == null || parentStreamInfo.isActive());
         }
 
         public void markAsResend() {
-            // Resetting lastQueryResult to null will force to send the whole result on next push
+            // Forgetting lastQueryResult will force to send the whole result on next push
             lastQueryResult = null;
         }
     }
+
+    protected abstract StreamInfo getStreamInfo(Object queryStreamId);
 }

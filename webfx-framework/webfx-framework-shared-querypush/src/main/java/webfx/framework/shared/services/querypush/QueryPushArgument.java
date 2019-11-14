@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 public final class QueryPushArgument {
 
     private final Object queryStreamId;
+    private final Object parentQueryStreamId;
     private final Object pushClientId;
     private final QueryArgument queryArgument;
     private final Consumer<QueryPushResult> queryPushResultConsumer;
@@ -21,12 +22,13 @@ public final class QueryPushArgument {
     private final Boolean resend;
     private final Boolean close;
 
-    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Boolean active, Boolean resend, Boolean close, Consumer<QueryPushResult> queryPushResultConsumer) {
-        this(queryStreamId, pushClientId, queryArgument, queryArgument.getDataSourceId(), active, resend, close, queryPushResultConsumer);
+    public QueryPushArgument(Object queryStreamId, Object parentQueryStreamId, Object pushClientId, QueryArgument queryArgument, Boolean active, Boolean resend, Boolean close, Consumer<QueryPushResult> queryPushResultConsumer) {
+        this(queryStreamId, parentQueryStreamId, pushClientId, queryArgument, queryArgument.getDataSourceId(), active, resend, close, queryPushResultConsumer);
     }
 
-    public QueryPushArgument(Object queryStreamId, Object pushClientId, QueryArgument queryArgument, Object dataSourceId, Boolean active, Boolean resend, Boolean close, Consumer<QueryPushResult> queryPushResultConsumer) {
+    public QueryPushArgument(Object queryStreamId, Object parentQueryStreamId, Object pushClientId, QueryArgument queryArgument, Object dataSourceId, Boolean active, Boolean resend, Boolean close, Consumer<QueryPushResult> queryPushResultConsumer) {
         this.queryStreamId = queryStreamId;
+        this.parentQueryStreamId = parentQueryStreamId;
         this.pushClientId = pushClientId;
         this.queryArgument = queryArgument;
         this.queryPushResultConsumer = queryPushResultConsumer;
@@ -38,6 +40,10 @@ public final class QueryPushArgument {
 
     public Object getQueryStreamId() {
         return queryStreamId;
+    }
+
+    public Object getParentQueryStreamId() {
+        return parentQueryStreamId;
     }
 
     public Object getPushClientId() {
@@ -80,8 +86,8 @@ public final class QueryPushArgument {
         return queryStreamId != null && close != null;
     }
 
-    public static QueryPushArgument openStreamArgument(Object pushClientId, QueryArgument queryArgument, Consumer<QueryPushResult> queryResultConsumer) {
-        return new QueryPushArgument(null, pushClientId, queryArgument, true, null, null, queryResultConsumer);
+    public static QueryPushArgument openStreamArgument(Object parentQueryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryPushResult> queryResultConsumer) {
+        return new QueryPushArgument(null, parentQueryStreamId, pushClientId, queryArgument, true, null, null, queryResultConsumer);
     }
 
     public static QueryPushArgument updateStreamArgument(Object queryStreamId, QueryArgument queryArgument) {
@@ -97,11 +103,11 @@ public final class QueryPushArgument {
     }
 
     public static QueryPushArgument updateStreamArgument(Object queryStreamId, QueryArgument queryArgument, Object dataSourceId, Boolean active) {
-        return new QueryPushArgument(queryStreamId, null, queryArgument, dataSourceId, active, null,null, null);
+        return new QueryPushArgument(queryStreamId, null, null, queryArgument, dataSourceId, active, null,null, null);
     }
 
     public static QueryPushArgument closeStreamArgument(Object queryStreamId, Object dataSourceId) {
-        return new QueryPushArgument(queryStreamId, null, null, dataSourceId, null,null, true, null);
+        return new QueryPushArgument(queryStreamId, null, null, null, dataSourceId, null,null, true, null);
     }
 
     /****************************************************
@@ -112,6 +118,7 @@ public final class QueryPushArgument {
 
         private static final String CODEC_ID = "QueryPushArgument";
         private static final String QUERY_STREAM_ID_KEY = "queryStreamId";
+        private static final String PARENT_QUERY_STREAM_ID_KEY = "parentQueryStreamId";
         private static final String CLIENT_PUSH_ID_KEY = "pushClientId";
         private static final String QUERY_ARGUMENT_KEY = "queryArgument";
         private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
@@ -126,6 +133,7 @@ public final class QueryPushArgument {
         @Override
         public void encodeToJson(QueryPushArgument arg, WritableJsonObject json) {
             SerialCodecBase.encodeKeyIfNotNull(QUERY_STREAM_ID_KEY, arg.getQueryStreamId(), json);
+            SerialCodecBase.encodeKeyIfNotNull(PARENT_QUERY_STREAM_ID_KEY, arg.getParentQueryStreamId(), json);
             SerialCodecBase.encodeKeyIfNotNull(CLIENT_PUSH_ID_KEY, arg.getPushClientId(), json);
             SerialCodecBase.encodeKeyIfNotNull(QUERY_ARGUMENT_KEY, arg.getQueryArgument(), json);
             SerialCodecBase.encodeKey(DATA_SOURCE_ID_KEY, arg.getDataSourceId(), json);
@@ -138,6 +146,7 @@ public final class QueryPushArgument {
         public QueryPushArgument decodeFromJson(JsonObject json) {
             return new QueryPushArgument(
                     json.get(QUERY_STREAM_ID_KEY),
+                    json.get(PARENT_QUERY_STREAM_ID_KEY),
                     json.get(CLIENT_PUSH_ID_KEY),
                     SerialCodecManager.decodeFromJson(json.get(QUERY_ARGUMENT_KEY)),
                     json.get(DATA_SOURCE_ID_KEY),

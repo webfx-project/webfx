@@ -50,6 +50,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
     @Override public ObjectProperty<Document> selectedDocumentProperty() { return selectedDocumentProperty; }
 
     private Pane container; // Keeping a reference of the container to act as the parent for dialog windows
+    private ReactiveExpressionFilter<Site> sitesFilter;
 
     @Override
     public Node buildUi() {
@@ -59,7 +60,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         MasterSlaveView masterSlaveView = new MasterSlaveView(sitesTabPane, MasterSlaveView.createAndBindSlaveViewIfApplicable(this, this, () -> container).buildUi());
         masterSlaveView.slaveVisibleProperty().bind(Properties.compute(selectedDocumentProperty(), Objects::nonNull));
         // Setting up the master filter that controls the content displayed in the master view
-        this.<Site>createReactiveExpressionFilter("{class: 'Site', alias: 's', fields: 'icon,name', where: `exists(select ResourceConfiguration where resource.site=s and item.family.code='acco')`, orderBy: 'ord,id'}")
+        sitesFilter = this.<Site>createReactiveExpressionFilter("{class: 'Site', alias: 's', fields: 'icon,name', where: `exists(select ResourceConfiguration where resource.site=s and item.family.code='acco')`, orderBy: 'ord,id'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(getPresentationModel().eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
                 .setEntitiesHandler(sitesToTabControllersMapper::updateFromEntities)
@@ -74,14 +75,15 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
 
         final TabPane itemTabPane = new TabPane();
         final Tab siteTab = new Tab(null, itemTabPane);
-        final ReactiveExpressionFilter<Entity> filter;
+        final ReactiveExpressionFilter<Entity> itemsFilter;
 
         SiteTabController(Site site) {
             siteTab.setClosable(false);
-            ObservableEntitiesMapper<Entity, ItemTabController> resourcesToItemTabControllersMapper = new ObservableEntitiesMapper<>(rc -> new ItemTabController(rc, site), (rc, controller) -> controller.update(rc), (rc, controller) -> controller.delete());
-            ObservableLists.bindConverted(itemTabPane.getTabs(), resourcesToItemTabControllersMapper.getMappedObservableList(), ItemTabController::getTab);
             Object sitePk = site.getPrimaryKey();
-            filter = createReactiveExpressionFilter("{class: 'ResourceConfiguration', fields: 'item.icon,item.name,resource.site', where: `resource.site=" + sitePk + " and item.family.code='acco'`, groupBy: 'item', orderBy: 'item.ord,item.id'}")
+            itemsFilter = createReactiveExpressionFilter(sitesFilter,"{class: 'ResourceConfiguration', fields: 'item.icon,item.name,resource.site', where: `resource.site=" + sitePk + " and item.family.code='acco'`, groupBy: 'item', orderBy: 'item.ord,item.id'}");
+            ObservableEntitiesMapper<Entity, ItemTabController> resourcesToItemTabControllersMapper = new ObservableEntitiesMapper<>(rc -> new ItemTabController(rc, site, itemsFilter), (rc, controller) -> controller.update(rc), (rc, controller) -> controller.delete());
+            ObservableLists.bindConverted(itemTabPane.getTabs(), resourcesToItemTabControllersMapper.getMappedObservableList(), ItemTabController::getTab);
+            itemsFilter
                     .setEntitiesHandler(resourcesToItemTabControllersMapper::updateFromEntities)
                     .bindActivePropertyTo(siteTab.selectedProperty())
                     .setPush(true)
@@ -95,7 +97,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         }
 
         void delete() {
-            filter.stop();
+            itemsFilter.stop();
         }
 
         Tab getTab() {
@@ -107,14 +109,15 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
 
         final Pane resourcesBoxContainer = new FlexBox(10, 10);
         final Tab itemTab = new Tab(null, LayoutUtil.createVerticalScrollPane(resourcesBoxContainer));
-        final ReactiveExpressionFilter<Entity> filter;
+        final ReactiveExpressionFilter<Entity> boxesFilter;
 
-        ItemTabController(Entity resourceConfiguration, Site site) {
+        ItemTabController(Entity resourceConfiguration, Site site, ReactiveExpressionFilter<?> parentFilter) {
             resourcesBoxContainer.setPadding(new Insets(10));
             itemTab.setClosable(false);
-            ObservableEntitiesMapper<Entity, ResourceBoxController> resourcesToBoxControllersMapper = new ObservableEntitiesMapper<>(rc -> new ResourceBoxController(rc, site, resourcesBoxContainer), (rc, box) -> box.update(rc), (rc, box) -> box.delete());
+            boxesFilter = createReactiveExpressionFilter(parentFilter,"{class: 'ResourceConfiguration', fields: 'name,online,max,comment', where: `resource.site=" + ((EntityId) resourceConfiguration.evaluate("resource.site")).getPrimaryKey() + " and item=" + ((EntityId) resourceConfiguration.evaluate("item")).getPrimaryKey() + "`, orderBy: 'name'}");
+            ObservableEntitiesMapper<Entity, ResourceBoxController> resourcesToBoxControllersMapper = new ObservableEntitiesMapper<>(rc -> new ResourceBoxController(rc, site, resourcesBoxContainer, boxesFilter), (rc, box) -> box.update(rc), (rc, box) -> box.delete());
             ObservableLists.bindConverted(resourcesBoxContainer.getChildren(), resourcesToBoxControllersMapper.getMappedObservableList(), ResourceBoxController::getNode);
-            filter = createReactiveExpressionFilter("{class: 'ResourceConfiguration', fields: 'name,online,max,comment', where: `resource.site=" + ((EntityId) resourceConfiguration.evaluate("resource.site")).getPrimaryKey() + " and item=" + ((EntityId) resourceConfiguration.evaluate("item")).getPrimaryKey() + "`, orderBy: 'name'}")
+            boxesFilter
                     .setEntitiesHandler(resourcesToBoxControllersMapper::updateFromEntities)
                     .bindActivePropertyTo(itemTab.selectedProperty())
                     .setPush(true)
@@ -128,7 +131,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         }
 
         void delete() {
-            filter.stop();
+            boxesFilter.stop();
         }
 
         Tab getTab() {
@@ -163,7 +166,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         private final ReactiveExpressionFilter<DocumentLine> peopleFilter;
         private boolean dragBackgroundVisible;
 
-        ResourceBoxController(Entity resourceConfiguration, Site site, Pane resourcesBoxContainer) {
+        ResourceBoxController(Entity resourceConfiguration, Site site, Pane resourcesBoxContainer, ReactiveExpressionFilter<?> parentFilter) {
             this.resourcesBoxContainer = resourcesBoxContainer;
             this.site = site;
             setResourceConfiguration(resourceConfiguration);
@@ -176,7 +179,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
             VBox.setVgrow(peopleBox, Priority.ALWAYS);
             resourceBox.setMinWidth(150);
             resourceBox.setEffect(BOX_SHADOW_EFFECT);
-            peopleFilter = RoomsGraphicActivity.this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
+            peopleFilter = RoomsGraphicActivity.this.<DocumentLine>createReactiveExpressionFilter(parentFilter, "{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
                     .combineIfNotNullOtherwiseForceEmptyResult(resourceConfigurationProperty, rc -> "{where: `resourceConfiguration=" + rc.getPrimaryKey() + "`}")
                     // Always loading the fields required for viewing the booking details
                     .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS_STRING_FILTER + ")`}")
