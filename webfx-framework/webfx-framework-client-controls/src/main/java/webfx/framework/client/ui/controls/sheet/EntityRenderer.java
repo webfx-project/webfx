@@ -2,7 +2,7 @@ package webfx.framework.client.ui.controls.sheet;
 
 import javafx.scene.Node;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
-import webfx.framework.client.ui.filter.ExpressionColumn;
+import webfx.framework.client.orm.entity.filter.table.EntityColumn;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
@@ -28,12 +28,12 @@ final class EntityRenderer implements ValueRenderer {
         EntityStore store = erc.getEntityStore();
         Object domainClassId = erc.getEntityClass().getModelId();
         // Defining the json or class object to be passed to the entity button selector
-        ExpressionColumn foreignFieldColumn = erc.getForeignFieldColumn();
+        EntityColumn foreignFieldColumn = erc.getForeignFieldColumn();
         Object jsonOrClass = foreignFieldColumn == null ? domainClassId // just the class id if there is no foreign field column defined
             : Json.createObject() // Json object otherwise (most of the case) with both "class" and "columns" set
                 .set("class", domainClassId)
                 .set("alias", foreignFieldColumn.getForeignAlias())
-                // We prefix the columns definition with "expr:=" to ensure that the parsing - done by ExpressionColumns.fromJsonArrayOrExpressionsDefinition() - will work when foreign fields is an expression array (ex: "[icon,name]"), because in that case the string is an expression definition and not a json array despite of the brackets (the correct json array string would be ['icon','name'] instead). So the prefix will remove that possible confusion.
+                // We prefix the columns definition with "expr:=" to ensure that the parsing - done by EntityColumns.fromJsonArrayOrExpressionsDefinition() - will work when foreign fields is an expression array (ex: "[icon,name]"), because in that case the string is an expression definition and not a json array despite of the brackets (the correct json array string would be ['icon','name'] instead). So the prefix will remove that possible confusion.
                 .set("columns", "expr:=" + foreignFieldColumn.getForeignColumns())
                 .set("where", foreignFieldColumn.getForeignWhere())
                 .set("orderBy", foreignFieldColumn.getForeignOrderBy())

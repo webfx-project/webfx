@@ -1,6 +1,6 @@
 package mongoose.backend.operations.entities.generic;
 
-import webfx.framework.client.ui.filter.ExpressionColumn;
+import webfx.framework.client.orm.entity.filter.table.EntityColumn;
 import webfx.framework.shared.orm.entity.Entity;
 
 import java.util.Collection;
@@ -9,7 +9,7 @@ public final class CopyAllRequest extends CopyRequest {
 
     private final static String OPERATION_CODE = "CopyAll";
 
-    public CopyAllRequest(Collection<? extends Entity> entities, ExpressionColumn... columns) {
+    public CopyAllRequest(Collection<? extends Entity> entities, EntityColumn... columns) {
         super(entities, columns);
     }
 

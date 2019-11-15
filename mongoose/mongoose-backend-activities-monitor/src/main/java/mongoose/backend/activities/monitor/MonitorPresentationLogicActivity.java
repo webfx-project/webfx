@@ -1,14 +1,14 @@
 package mongoose.backend.activities.monitor;
 
 import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
 
 /**
  * @author Bruno Salmon
  */
 final class MonitorPresentationLogicActivity
         extends MongooseDomainPresentationLogicActivityBase<MonitorPresentationModel>
-        implements ReactiveExpressionFilterFactoryMixin {
+        implements ReactiveVisualFilterFactoryMixin {
 
     MonitorPresentationLogicActivity() {
         super(MonitorPresentationModel::new);
@@ -16,14 +16,14 @@ final class MonitorPresentationLogicActivity
 
     @Override
     protected void startLogic(MonitorPresentationModel pm) {
-        createReactiveExpressionFilter("{class: 'Metrics', orderBy: 'date desc', limit: '500'}")
-                .setExpressionColumns("['0 + id','memoryUsed','memoryTotal']")
+        createReactiveVisualFilter("{class: 'Metrics', orderBy: 'date desc', limit: '500'}")
+                .setEntityColumns("['0 + id','memoryUsed','memoryTotal']")
                 .visualizeResultInto(pm.memoryVisualResultProperty())
                 .nextDisplay()
-                .setExpressionColumns("['0 + id','systemLoadAverage','processCpuLoad']")
+                .setEntityColumns("['0 + id','systemLoadAverage','processCpuLoad']")
                 //.combine("{columns: '0 + id,systemLoadAverage,processCpuLoad'}")
                 .visualizeResultInto(pm.cpuVisualResultProperty())
-                //.setAutoRefresh(true) // not necessary now with the server push notification
+                .setPush(true)
                 .start();
     }
 }

@@ -334,6 +334,7 @@
     <source path="mongoose/shared/businessdata/time"/>
     <!--===============================< webfx-extras-cell >================================-->
     <!-- used by webfx-extras-visual (SOURCE) -->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/extras/cell/collator"/>
     <source path="webfx/extras/cell/renderer"/>
     <source path="webfx/extras/cell/rowstyle"/>
@@ -343,11 +344,11 @@
     <source path="webfx/extras/imagestore"/>
     <!--===============================< webfx-extras-label >===============================-->
     <!-- used by webfx-extras-cell (SOURCE) -->
-    <!-- used by webfx-framework-shared-domain (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-domain (SOURCE) -->
     <source path="webfx/extras/label"/>
     <!--===============================< webfx-extras-type >================================-->
     <!-- used by webfx-extras-visual (SOURCE) -->
-    <!-- used by webfx-framework-shared-expression (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-expression (SOURCE) -->
     <source path="webfx/extras/type"/>
     <!--==============================< webfx-extras-visual >===============================-->
     <!-- used by webfx-extras-visual-controls-grid (SOURCE) -->
@@ -432,8 +433,20 @@
     <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/materialdesign/textfield"/>
     <source path="webfx/framework/client/ui/materialdesign/util"/>
+    <!--=======================< webfx-framework-client-orm-filter >========================-->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
+    <source path="webfx/framework/client/orm/entity/filter"/>
+    <source path="webfx/framework/client/orm/entity/filter/reactive_call"/>
+    <source path="webfx/framework/client/orm/entity/filter/reactive_call/query"/>
+    <source path="webfx/framework/client/orm/entity/filter/reactive_call/querypush"/>
+    <source path="webfx/framework/client/orm/entity/filter/table"/>
+    <source path="webfx/framework/client/orm/mapping/entity_to_object"/>
+    <!--====================< webfx-framework-client-orm-filter-visual >====================-->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
+    <source path="webfx/framework/client/orm/entity/filter/visual"/>
+    <source path="webfx/framework/client/orm/mapping/entity_to_visual"/>
     <!--==========================< webfx-framework-client-push >===========================-->
-    <!-- used by webfx-framework-client-uifilter (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-filter (SOURCE) -->
     <source path="webfx/framework/client/services/push"/>
     <source path="webfx/framework/client/services/push/spi"/>
     <!--=======================< webfx-framework-client-push-simple >=======================-->
@@ -446,11 +459,6 @@
     <!-- used by mongoose-client-application (PLUGIN) -->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/framework/client/jobs/querypush"/>
-    <!--========================< webfx-framework-client-uifilter >=========================-->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
-    <source path="webfx/framework/client/ui/filter"/>
-    <source path="webfx/framework/shared/orm/mapping/entity_visual"/>
-    <source path="webfx/framework/shared/orm/mapping/observable"/>
     <!--========================< webfx-framework-client-uirouter >=========================-->
     <!-- used by webfx-framework-client-domain (SOURCE) -->
     <source path="webfx/framework/client/activity/impl/elementals/presentation"/>
@@ -488,46 +496,46 @@
     <source path="webfx/framework/shared/services/authz/spi/impl"/>
     <source path="webfx/framework/shared/services/authz/spi/impl/inmemory"/>
     <source path="webfx/framework/shared/services/authz/spi/impl/inmemory/parser"/>
-    <!--=========================< webfx-framework-shared-domain >==========================-->
-    <!-- used by webfx-framework-shared-entity (SOURCE) -->
+    <!--========================< webfx-framework-shared-operation >========================-->
+    <!-- used by webfx-framework-client-i18n (SOURCE) -->
+    <source path="webfx/framework/shared/operation"/>
+    <!--=======================< webfx-framework-shared-orm-domain >========================-->
+    <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
     <source path="webfx/framework/shared/orm/domainmodel"/>
     <source path="webfx/framework/shared/orm/domainmodel/builder"/>
     <source path="webfx/framework/shared/orm/domainmodel/lciimpl"/>
     <source path="webfx/framework/shared/orm/domainmodel/loader"/>
-    <!--=========================< webfx-framework-shared-entity >==========================-->
+    <!--=======================< webfx-framework-shared-orm-entity >========================-->
     <!-- used by mongoose-shared-entities (SOURCE) -->
     <source path="webfx/framework/shared/orm/entity"/>
     <source path="webfx/framework/shared/orm/entity/impl"/>
     <source path="webfx/framework/shared/orm/entity/lciimpl"/>
     <source path="webfx/framework/shared/orm/entity/result"/>
     <source path="webfx/framework/shared/orm/entity/result/impl"/>
-    <source path="webfx/framework/shared/orm/mapping/query_entity"/>
-    <!--=======================< webfx-framework-shared-expression >========================-->
-    <!-- used by webfx-framework-shared-entity (SOURCE) -->
-    <source path="webfx/framework/shared/expression"/>
-    <source path="webfx/framework/shared/expression/builder"/>
-    <source path="webfx/framework/shared/expression/builder/terms"/>
-    <source path="webfx/framework/shared/expression/lci"/>
-    <source path="webfx/framework/shared/expression/lci/mocks"/>
-    <source path="webfx/framework/shared/expression/parser"/>
-    <source path="webfx/framework/shared/expression/parser/javacup"/>
-    <source path="webfx/framework/shared/expression/parser/jflex"/>
-    <source path="webfx/framework/shared/expression/sqlcompiler"/>
-    <source path="webfx/framework/shared/expression/sqlcompiler/mapping"/>
-    <source path="webfx/framework/shared/expression/sqlcompiler/sql"/>
-    <source path="webfx/framework/shared/expression/sqlcompiler/sql/dbms"/>
-    <source path="webfx/framework/shared/expression/sqlcompiler/terms"/>
-    <source path="webfx/framework/shared/expression/terms"/>
-    <source path="webfx/framework/shared/expression/terms/function"/>
-    <source path="webfx/framework/shared/expression/terms/function/java"/>
-    <!--========================< webfx-framework-shared-operation >========================-->
-    <!-- used by webfx-framework-client-i18n (SOURCE) -->
-    <source path="webfx/framework/shared/operation"/>
+    <source path="webfx/framework/shared/orm/mapping/query_to_entity"/>
+    <!--=====================< webfx-framework-shared-orm-expression >======================-->
+    <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
+    <source path="webfx/framework/shared/orm/expression"/>
+    <source path="webfx/framework/shared/orm/expression/builder"/>
+    <source path="webfx/framework/shared/orm/expression/builder/terms"/>
+    <source path="webfx/framework/shared/orm/expression/lci"/>
+    <source path="webfx/framework/shared/orm/expression/lci/mocks"/>
+    <source path="webfx/framework/shared/orm/expression/parser"/>
+    <source path="webfx/framework/shared/orm/expression/parser/javacup"/>
+    <source path="webfx/framework/shared/orm/expression/parser/jflex"/>
+    <source path="webfx/framework/shared/orm/expression/sqlcompiler"/>
+    <source path="webfx/framework/shared/orm/expression/sqlcompiler/mapping"/>
+    <source path="webfx/framework/shared/orm/expression/sqlcompiler/sql"/>
+    <source path="webfx/framework/shared/orm/expression/sqlcompiler/sql/dbms"/>
+    <source path="webfx/framework/shared/orm/expression/sqlcompiler/terms"/>
+    <source path="webfx/framework/shared/orm/expression/terms"/>
+    <source path="webfx/framework/shared/orm/expression/terms/function"/>
+    <source path="webfx/framework/shared/orm/expression/terms/function/java"/>
     <!--==========================< webfx-framework-shared-push >===========================-->
     <!-- used by webfx-framework-client-push (SOURCE) -->
     <source path="webfx/framework/shared/services/push"/>
     <!--========================< webfx-framework-shared-querypush >========================-->
-    <!-- used by webfx-framework-client-uifilter (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-filter (SOURCE) -->
     <source path="webfx/framework/shared/services/querypush"/>
     <source path="webfx/framework/shared/services/querypush/diff"/>
     <source path="webfx/framework/shared/services/querypush/diff/impl"/>
@@ -727,7 +735,7 @@
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/log/spi/impl/gwt"/>
     <!--==========================< webfx-platform-shared-query >===========================-->
-    <!-- used by webfx-framework-shared-domain (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-domain (SOURCE) -->
     <!-- used by webfx-platform-shared-query-remote (SOURCE) -->
     <source path="webfx/platform/shared/services/query"/>
     <source path="webfx/platform/shared/services/query/compression"/>
@@ -768,7 +776,7 @@
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/shutdown/spi/impl/gwt"/>
     <!--==========================< webfx-platform-shared-update >==========================-->
-    <!-- used by webfx-framework-shared-entity (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
     <source path="webfx/platform/shared/services/update"/>
     <source path="webfx/platform/shared/services/update/spi"/>
     <source path="webfx/platform/shared/services/update/spi/impl"/>

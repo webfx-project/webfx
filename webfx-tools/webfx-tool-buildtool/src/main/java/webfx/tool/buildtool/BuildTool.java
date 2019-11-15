@@ -87,7 +87,7 @@ public final class BuildTool {
         reporter.listProjectModuleJavaClasses("webfx-kit-javafxbase-emul");
         reporter.listProjectModuleJavaClassesDependingOn("webfx-kit-extracontrols", "webfx-kit-gwt");
         reporter.listCyclicDependenciesPaths();
-        reporter.listProjectModuleJavaClassesDependingOn("webfx-framework-shared-entity", "webfx-framework-client-uifilter");
+        reporter.listProjectModuleJavaClassesDependingOn("webfx-framework-shared-orm-entity", "webfx-framework-client-orm-filter");
 */
 
         long t1 = System.currentTimeMillis();

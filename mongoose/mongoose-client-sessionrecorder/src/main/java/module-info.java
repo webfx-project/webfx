@@ -9,7 +9,7 @@ module mongoose.client.sessionrecorder {
     requires mongoose.shared.domain;
     requires webfx.framework.client.push;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.kit.launcher;
     requires webfx.platform.client.storage;
     requires webfx.platform.shared.appcontainer;

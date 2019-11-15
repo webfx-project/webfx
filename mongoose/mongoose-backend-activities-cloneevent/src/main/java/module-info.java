@@ -16,7 +16,7 @@ module mongoose.backend.activities.cloneevent {
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.update;

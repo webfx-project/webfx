@@ -7,7 +7,7 @@ import webfx.framework.client.ui.controls.MaterialFactoryMixin;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
-import webfx.framework.shared.expression.Expression;
+import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
 

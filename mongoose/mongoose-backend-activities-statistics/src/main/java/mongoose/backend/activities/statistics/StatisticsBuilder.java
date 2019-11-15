@@ -4,15 +4,15 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
-import webfx.framework.client.ui.filter.ExpressionColumn;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.shared.expression.Expression;
-import webfx.framework.shared.orm.entity.EntityList;
+import webfx.extras.type.PrimType;
 import webfx.extras.visual.VisualColumn;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualResultBuilder;
 import webfx.extras.visual.VisualStyle;
-import webfx.extras.type.PrimType;
+import webfx.framework.client.orm.entity.filter.table.EntityColumn;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.shared.orm.expression.Expression;
+import webfx.framework.shared.orm.entity.EntityList;
 import webfx.platform.shared.util.Dates;
 
 import java.time.LocalDate;
@@ -22,8 +22,8 @@ import java.util.Objects;
 
 public class StatisticsBuilder {
 
-    private ReactiveExpressionFilter<DocumentLine> leftDocumentLineFilter;
-    private ReactiveExpressionFilter<Attendance> rightAttendanceFilter;
+    private ReactiveVisualFilter<DocumentLine> leftDocumentLineFilter;
+    private ReactiveVisualFilter<Attendance> rightAttendanceFilter;
     private final ObjectProperty<VisualResult> finalVisualResultProperty;
 
     private final ObjectProperty<VisualResult> leftVisualResultProperty = new SimpleObjectProperty<VisualResult/*GWT*/>() {
@@ -41,7 +41,7 @@ public class StatisticsBuilder {
 
     private VisualResult lastLeftResult, lastRightResult;
 
-    public StatisticsBuilder(ReactiveExpressionFilter<DocumentLine> leftDocumentLineFilter, ReactiveExpressionFilter<Attendance> rightAttendanceFilter, ObjectProperty<VisualResult> finalVisualResultProperty) {
+    public StatisticsBuilder(ReactiveVisualFilter<DocumentLine> leftDocumentLineFilter, ReactiveVisualFilter<Attendance> rightAttendanceFilter, ObjectProperty<VisualResult> finalVisualResultProperty) {
         this.leftDocumentLineFilter = leftDocumentLineFilter;
         this.rightAttendanceFilter = rightAttendanceFilter;
         this.finalVisualResultProperty = finalVisualResultProperty;
@@ -78,7 +78,7 @@ public class StatisticsBuilder {
             for (int col = 0; col < leftColCount; col++)
                 rsb.setValue(row, col, leftResult.getValue(row, col));
         EntityList<DocumentLine> leftDocumentLines = leftDocumentLineFilter.getCurrentEntityList();
-        ExpressionColumn[] leftColumns = leftDocumentLineFilter.getExpressionColumns();
+        EntityColumn[] leftColumns = leftDocumentLineFilter.getEntityColumns();
         rightAttendances.forEach(a -> {
             LocalDate date = a.getDate();
             DocumentLine rightDocumentLine = a.getDocumentLine();

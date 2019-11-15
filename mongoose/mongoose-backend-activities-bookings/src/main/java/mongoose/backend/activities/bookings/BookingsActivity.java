@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
-import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
+import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.backend.operations.entities.document.SendLetterRequest;
@@ -20,17 +20,17 @@ import mongoose.backend.operations.routes.cloneevent.RouteToCloneEventRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
-import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.framework.client.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.ui.layouts.LayoutUtil;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
 final class BookingsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
         ConventionalUiBuilderMixin,
-        ConventionalReactiveExpressionFilterFactoryMixin {
+        ConventionalReactiveVisualFilterFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -76,8 +76,8 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                     newOperationAction(() -> new ToggleMarkDocumentAsVerifiedRequest(  pm.getSelectedDocument(), container))
                 ),
                 newSeparatorActionGroup(
-                    newOperationAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
-                    newOperationAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
+                    newOperationAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getEntityColumns())),
+                    newOperationAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getEntityColumns()))
                 )
         ));
 
@@ -95,21 +95,21 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveExpressionFilter<Document> groupFilter, masterFilter;
+    private ReactiveVisualFilter<Document> groupFilter, masterFilter;
 
     @Override
     protected void startLogic() {
         // Setting up the group filter that controls the content displayed in the group view
-        groupFilter = this.<Document>createGroupReactiveExpressionFilter(pm, "{class: 'Document', alias: 'd'}")
+        groupFilter = this.<Document>createGroupReactiveVisualFilter(pm, "{class: 'Document', alias: 'd'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
                 // Everything set up, let's start now!
                 .start();
 
         // Setting up the master filter that controls the content displayed in the master view
-        masterFilter = this.<Document>createMasterReactiveExpressionFilter(pm, "{class: 'Document', alias: 'd', orderBy: 'ref desc'}")
+        masterFilter = this.<Document>createMasterReactiveVisualFilter(pm, "{class: 'Document', alias: 'd', orderBy: 'ref desc'}")
                 // Always loading the fields required for viewing the booking details
-                .combine("{fields: `" + BookingDetailsPanel.REQUIRED_FIELDS_STRING_FILTER + "`}")
+                .combine("{fields: `" + BookingDetailsPanel.REQUIRED_FIELDS + "`}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
                 // Applying the user search
@@ -129,7 +129,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
 
     @Override
     protected void refreshDataOnActive() {
-        groupFilter .refreshWhenActive();
+        groupFilter.refreshWhenActive();
         masterFilter.refreshWhenActive();
     }
 }

@@ -3,8 +3,8 @@ package mongoose.shared.domainmodel.functions;
 import webfx.extras.type.PrimType;
 import webfx.extras.type.Type;
 import webfx.platform.shared.util.Dates;
-import webfx.framework.shared.expression.lci.DataReader;
-import webfx.framework.shared.expression.terms.function.Function;
+import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.terms.function.Function;
 
 import java.time.LocalDate;
 import java.time.Month;

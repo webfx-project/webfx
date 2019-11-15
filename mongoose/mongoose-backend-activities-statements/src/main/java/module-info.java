@@ -16,11 +16,11 @@ module mongoose.backend.activities.statements {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
-    requires webfx.framework.client.uifilter;
+    requires webfx.framework.client.orm.filter.visual;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.entity;
-    requires webfx.framework.shared.expression;
     requires webfx.framework.shared.operation;
+    requires webfx.framework.shared.orm.entity;
+    requires webfx.framework.shared.orm.expression;
     requires webfx.framework.shared.router;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;

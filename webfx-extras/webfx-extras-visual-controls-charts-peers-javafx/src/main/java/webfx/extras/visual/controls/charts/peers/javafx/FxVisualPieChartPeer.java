@@ -2,10 +2,11 @@ package webfx.extras.visual.controls.charts.peers.javafx;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+import webfx.extras.type.Type;
 import webfx.extras.visual.controls.charts.VisualPieChart;
 import webfx.extras.visual.controls.charts.peers.base.VisualPieChartPeerBase;
 import webfx.extras.visual.controls.charts.peers.base.VisualPieChartPeerMixin;
-import webfx.extras.type.Type;
 import webfx.platform.shared.util.Numbers;
 
 import java.util.function.Function;
@@ -14,7 +15,7 @@ import java.util.function.Function;
  * @author Bruno Salmon
  */
 public final class FxVisualPieChartPeer
-        <FxN extends javafx.scene.chart.PieChart, N extends VisualPieChart, NB extends VisualPieChartPeerBase<FxN, N, NB, NM>, NM extends VisualPieChartPeerMixin<FxN, N, NB, NM>>
+        <FxN extends PieChart, N extends VisualPieChart, NB extends VisualPieChartPeerBase<FxN, N, NB, NM>, NM extends VisualPieChartPeerMixin<FxN, N, NB, NM>>
 
         extends FxVisualChartPeer<FxN, N, NB, NM>
         implements VisualPieChartPeerMixin<FxN, N, NB, NM> {
@@ -28,7 +29,7 @@ public final class FxVisualPieChartPeer
 
     @Override
     protected FxN createFxNode() {
-        javafx.scene.chart.PieChart pieChart = new javafx.scene.chart.PieChart();
+        PieChart pieChart = new PieChart();
         pieChart.setStartAngle(90);
         pieChart.setLegendVisible(false);
         return (FxN) pieChart;

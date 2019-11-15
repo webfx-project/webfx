@@ -16,9 +16,9 @@ module mongoose.backend.activities.loadtester.jp {
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
-    requires webfx.framework.shared.entity;
     requires webfx.framework.shared.operation;
+    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.router;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.websocket;

@@ -3,7 +3,7 @@ package mongoose.backend.activities.payments;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Pane;
-import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
+import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.backend.operations.entities.generic.CopyAllRequest;
@@ -13,14 +13,14 @@ import mongoose.backend.operations.entities.moneytransfer.EditPaymentRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.MoneyTransfer;
-import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.framework.client.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.ui.layouts.LayoutUtil;
 
 final class PaymentsActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
-        ConventionalReactiveExpressionFilterFactoryMixin,
+        ConventionalReactiveVisualFilterFactoryMixin,
         OperationActionFactoryMixin {
 
     /*==================================================================================================================
@@ -53,8 +53,8 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                         newOperationAction(() -> new DeletePaymentRequest( pm.getSelectedPayment(), container))
                 ),
                 newSeparatorActionGroup(
-                        newOperationAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
-                        newOperationAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
+                        newOperationAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getEntityColumns())),
+                        newOperationAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getEntityColumns()))
                 )));
         return container;
     }
@@ -69,12 +69,12 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveExpressionFilter<MoneyTransfer> groupFilter, masterFilter, slaveFilter;
+    private ReactiveVisualFilter<MoneyTransfer> groupFilter, masterFilter, slaveFilter;
 
     @Override
     protected void startLogic() {
         // Setting up the group filter that controls the content displayed in the group view
-        groupFilter = this.<MoneyTransfer>createGroupReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first,id'}")
+        groupFilter = this.<MoneyTransfer>createGroupReactiveVisualFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first,id'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}")
                 .combineIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
@@ -82,7 +82,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                 .start();
 
         // Setting up the master filter that controls the content displayed in the master view
-        masterFilter = this.<MoneyTransfer>createMasterReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first,id'}")
+        masterFilter = this.<MoneyTransfer>createMasterReactiveVisualFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first,id'}")
                 .combine("{columns: 'date,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document..event=" + eventId + " or document is null and exists(select MoneyTransfer where parent=mt and document.event=" + eventId + ")`}")
@@ -103,7 +103,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                 .start();
 
         // Slave filter
-        slaveFilter = this.<MoneyTransfer>createSlaveReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
+        slaveFilter = this.<MoneyTransfer>createSlaveReactiveVisualFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
                 .combine("{columns: 'date,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the selection condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedPaymentProperty(), mt -> "{where: 'parent=" + mt.getPrimaryKey() + "'}")
@@ -119,8 +119,8 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
 
     @Override
     protected void refreshDataOnActive() {
-        groupFilter .refreshWhenActive();
+        groupFilter.refreshWhenActive();
         masterFilter.refreshWhenActive();
-        slaveFilter .refreshWhenActive();
+        slaveFilter.refreshWhenActive();
     }
 }

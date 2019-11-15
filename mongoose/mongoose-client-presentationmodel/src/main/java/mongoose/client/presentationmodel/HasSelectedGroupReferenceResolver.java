@@ -1,6 +1,6 @@
 package mongoose.client.presentationmodel;
 
-import webfx.framework.shared.expression.builder.ReferenceResolver;
+import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 
 public interface HasSelectedGroupReferenceResolver {
 

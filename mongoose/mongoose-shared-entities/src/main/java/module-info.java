@@ -6,7 +6,7 @@ module mongoose.shared.entities {
     requires java.base;
     requires mongoose.shared.domain;
     requires mongoose.shared.time;
-    requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.platform.shared.util;
 
     // Exported packages

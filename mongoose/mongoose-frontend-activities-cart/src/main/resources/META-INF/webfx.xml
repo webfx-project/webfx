@@ -5,7 +5,7 @@
         <source-modules>
             <module>mongoose-client-aggregates</module>
             <module>webfx-framework-client-activity</module>
-            <module>webfx-framework-shared-domain</module>
+            <module>webfx-framework-shared-orm-domain</module>
             <module>webfx-platform-shared-update</module>
         </source-modules>
 

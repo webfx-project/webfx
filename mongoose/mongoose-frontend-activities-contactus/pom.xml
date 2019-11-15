@@ -91,7 +91,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-shared-entity</artifactId>
+            <artifactId>webfx-framework-shared-orm-entity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

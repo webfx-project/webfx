@@ -14,36 +14,37 @@
 
     <modules>
 
-        <module>webfx-framework-client-util</module>
-        <module>webfx-framework-shared-expression</module>
-        <module>webfx-framework-client-activity</module>
-        <module>webfx-framework-shared-domain</module>
-        <module>webfx-framework-shared-operation</module>
         <module>webfx-framework-client-action</module>
-        <module>webfx-framework-shared-authn</module>
-        <module>webfx-framework-shared-authz</module>
+        <module>webfx-framework-client-activity</module>
+        <module>webfx-framework-client-controls</module>
+        <module>webfx-framework-client-domain</module>
         <module>webfx-framework-client-i18n</module>
         <module>webfx-framework-client-i18n-json</module>
-        <module>webfx-framework-shared-router</module>
-        <module>webfx-framework-client-uirouter</module>
-
-        <module>webfx-framework-shared-entity</module>
-        <module>webfx-framework-client-uifilter</module>
-        <module>webfx-framework-client-materialdesign</module>
-        <module>webfx-framework-client-controls</module>
         <module>webfx-framework-client-layouts</module>
-
-        <module>webfx-framework-shared-push</module> <!-- depends on query module -->
-        <module>webfx-framework-shared-querypush</module> <!-- depends on push, query modules -->
+        <module>webfx-framework-client-materialdesign</module>
+        <module>webfx-framework-client-orm-filter</module>
+        <module>webfx-framework-client-orm-filter-visual</module>
         <module>webfx-framework-client-push</module>
-        <module>webfx-framework-server-push</module>
         <module>webfx-framework-client-push-simple</module>
-        <module>webfx-framework-server-push-simple</module>
-        <module>webfx-framework-server-querypush</module>
         <module>webfx-framework-client-querypush</module>
         <module>webfx-framework-client-querypush-simple</module>
+        <module>webfx-framework-client-uirouter</module>
+        <module>webfx-framework-client-util</module>
+
+        <module>webfx-framework-server-push</module>
+        <module>webfx-framework-server-push-simple</module>
+        <module>webfx-framework-server-querypush</module>
         <module>webfx-framework-server-querypush-simple</module>
-        <module>webfx-framework-client-domain</module>
+
+        <module>webfx-framework-shared-authn</module>
+        <module>webfx-framework-shared-authz</module>
+        <module>webfx-framework-shared-operation</module>
+        <module>webfx-framework-shared-orm-domain</module>
+        <module>webfx-framework-shared-orm-entity</module>
+        <module>webfx-framework-shared-orm-expression</module>
+        <module>webfx-framework-shared-push</module> <!-- depends on query module -->
+        <module>webfx-framework-shared-querypush</module> <!-- depends on push, query modules -->
+        <module>webfx-framework-shared-router</module>
         <module>webfx-framework-shared-util</module>
 
     </modules>

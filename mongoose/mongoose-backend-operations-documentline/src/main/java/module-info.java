@@ -7,8 +7,8 @@ module mongoose.backend.operations.documentline {
     requires mongoose.backend.operations.generic;
     requires mongoose.shared.entities;
     requires webfx.framework.client.controls;
-    requires webfx.framework.shared.entity;
     requires webfx.framework.shared.operation;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.platform.shared.update;
     requires webfx.platform.shared.util;
 

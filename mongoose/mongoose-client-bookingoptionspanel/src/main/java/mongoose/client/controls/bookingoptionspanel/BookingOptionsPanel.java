@@ -11,12 +11,12 @@ import mongoose.shared.entities.Item;
 import mongoose.shared.businessdata.time.DaysArray;
 import mongoose.shared.businessdata.time.DaysArrayBuilder;
 import webfx.framework.client.services.i18n.I18n;
-import webfx.framework.shared.expression.Expression;
-import webfx.framework.shared.expression.lci.DataReader;
-import webfx.framework.shared.expression.terms.function.AggregateFunction;
+import webfx.framework.shared.orm.expression.Expression;
+import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.terms.function.AggregateFunction;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.framework.shared.orm.mapping.entity_visual.EntityListToVisualResultMapper;
+import webfx.framework.client.orm.mapping.entity_to_visual.EntitiesToVisualResultMapper;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.VisualResult;
@@ -83,7 +83,7 @@ public final class BookingOptionsPanel {
     }
 
     private VisualResult generateDetailedLinesResult() {
-        return EntityListToVisualResultMapper.select(lineEntities,
+        return EntitiesToVisualResultMapper.selectAndMapEntitiesToVisualResult(lineEntities,
                 "select [" +
                         "'item.icon'," +
                         "'translate(item)'," +
@@ -93,7 +93,7 @@ public final class BookingOptionsPanel {
     }
 
     private VisualResult generateGroupedLinesResult() {
-        return EntityListToVisualResultMapper.select(lineEntities,
+        return EntitiesToVisualResultMapper.selectAndMapEntitiesToVisualResult(lineEntities,
                 "select [" +
                         // Displaying the actual item if only one is present for the item family, otherwise just displaying the item family (without further details)
                         "'item.family.icon, sum(1) != 1 ? translate(item.family) : string_agg(translate(item), `, ` order by item.name)'," +

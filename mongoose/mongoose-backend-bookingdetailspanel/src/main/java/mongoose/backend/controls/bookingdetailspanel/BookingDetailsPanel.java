@@ -31,30 +31,30 @@ import mongoose.backend.operations.entities.moneytransfer.DeletePaymentRequest;
 import mongoose.backend.operations.entities.moneytransfer.EditPaymentRequest;
 import mongoose.client.presentationmodel.HasSelectedDocumentProperty;
 import mongoose.shared.entities.Document;
+import webfx.extras.imagestore.ImageStore;
+import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.activity.impl.elementals.activeproperty.HasActiveProperty;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.action.ActionGroup;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
-import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.extras.imagestore.ImageStore;
 import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
 import java.util.function.Supplier;
 
 public final class BookingDetailsPanel implements
-        ReactiveExpressionFilterFactoryMixin,
+        ReactiveVisualFilterFactoryMixin,
         OperationActionFactoryMixin,
         UiBuilder {
 
-    public static final String REQUIRED_FIELDS_STRING_FILTER = "person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name,event.startDate"; // event.startDate is required for the personal details panel
+    public static final String REQUIRED_FIELDS = "person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name,event.startDate"; // event.startDate is required for the personal details panel
 
     private final ObjectProperty<Document> selectedDocumentProperty = new SimpleObjectProperty<>();
     private final BooleanProperty activeProperty = new SimpleBooleanProperty(true);
@@ -114,7 +114,7 @@ public final class BookingDetailsPanel implements
         return tab;
     }
 
-    private Tab createFilterTab(String i18nKey, String stringFilter) {
+    private Tab createFilterTab(String i18nKey, String eqlFilterString) {
         VisualGrid table = new VisualGrid();
         Tab tab = createTab(i18nKey, table);
         // The following is required only for gwt version for any reason (otherwise the table height is not resized when growing)
@@ -124,11 +124,11 @@ public final class BookingDetailsPanel implements
                 tabPane.requestLayout();
         }, table.visualResultProperty());
         // Setting up the reactive filter
-        String classOnly = stringFilter.substring(0, stringFilter.indexOf(',')) + "}";
+        String classOnly = eqlFilterString.substring(0, eqlFilterString.indexOf(',')) + "}";
         ObjectProperty<Entity> selectedEntityProperty = new SimpleObjectProperty<>();
-        ReactiveExpressionFilter<Entity> filter = createReactiveExpressionFilter(classOnly)
+        ReactiveVisualFilter<Entity> filter = createReactiveVisualFilter(classOnly)
                 .bindActivePropertyTo(tab.selectedProperty())
-                .combineIfNotNullOtherwiseForceEmptyResult(selectedDocumentProperty, document -> Strings.replaceAll(stringFilter, "${selectedDocument}", document.getPrimaryKey()))
+                .combineIfNotNullOtherwiseForceEmptyResult(selectedDocumentProperty, document -> Strings.replaceAll(eqlFilterString, "${selectedDocument}", document.getPrimaryKey()))
                 .applyDomainModelRowStyle()
                 .visualizeResultInto(table.visualResultProperty())
                 .setSelectedEntityHandler(table.visualSelectionProperty(), selectedEntityProperty::set)
@@ -145,8 +145,8 @@ public final class BookingDetailsPanel implements
                             newOperationAction(() -> new DeleteDocumentLineRequest(       get(selectedEntityProperty), parentGetter.get()))
                         ),
                         newSeparatorActionGroup(
-                            newOperationAction(() -> new CopySelectionRequest(            filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                            newOperationAction(() -> new CopyAllRequest(                  filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                            newOperationAction(() -> new CopySelectionRequest(            filter.getSelectedEntities(),  filter.getEntityColumns())),
+                            newOperationAction(() -> new CopyAllRequest(                  filter.getCurrentEntityList(), filter.getEntityColumns()))
                         )
                 ); break;
             case "Payments":
@@ -158,8 +158,8 @@ public final class BookingDetailsPanel implements
                             newOperationAction(() -> new DeletePaymentRequest(  get(selectedEntityProperty), parentGetter.get()))
                         ),
                         newSeparatorActionGroup(
-                            newOperationAction(() -> new CopySelectionRequest(  filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                            newOperationAction(() -> new CopyAllRequest(        filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                            newOperationAction(() -> new CopySelectionRequest(  filter.getSelectedEntities(),  filter.getEntityColumns())),
+                            newOperationAction(() -> new CopyAllRequest(        filter.getCurrentEntityList(), filter.getEntityColumns()))
                         )
                 ); break;
             case "MultipleBookings":
@@ -178,14 +178,14 @@ public final class BookingDetailsPanel implements
                         newOperationAction(() -> new OpenMailRequest(          get(selectedEntityProperty), parentGetter.get())),
                         newOperationAction(() -> new ComposeNewMailRequest(    getSelectedDocument(), parentGetter.get())),
                         newSeparatorActionGroup(
-                            newOperationAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                            newOperationAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                            newOperationAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getEntityColumns())),
+                            newOperationAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getEntityColumns()))
                         )
                 ); break;
             case "History":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newOperationAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getExpressionColumns())),
-                        newOperationAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getExpressionColumns()))
+                        newOperationAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getEntityColumns())),
+                        newOperationAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getEntityColumns()))
                 ); break;
         }
         if (contextMenuActionGroupFactory != null)

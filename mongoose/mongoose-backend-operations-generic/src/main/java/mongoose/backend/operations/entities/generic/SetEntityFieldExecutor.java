@@ -6,7 +6,7 @@ import webfx.framework.client.ui.controls.alert.AlertUtil;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
-import webfx.framework.shared.expression.Expression;
+import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.platform.shared.services.update.UpdateArgument;

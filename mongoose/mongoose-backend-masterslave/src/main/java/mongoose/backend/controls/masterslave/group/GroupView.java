@@ -10,15 +10,15 @@ import javafx.scene.control.TabPane;
 import mongoose.backend.controls.masterslave.UiBuilder;
 import mongoose.client.presentationmodel.*;
 import webfx.extras.visual.*;
-import webfx.framework.client.ui.filter.ExpressionColumn;
-import webfx.framework.client.ui.filter.StringFilter;
-import webfx.framework.shared.expression.Expression;
-import webfx.framework.shared.expression.builder.ReferenceResolver;
-import webfx.framework.shared.expression.builder.ThreadLocalReferenceResolver;
-import webfx.framework.shared.expression.sqlcompiler.terms.ConstantSqlCompiler;
-import webfx.framework.shared.expression.terms.As;
-import webfx.framework.shared.expression.terms.ExpressionArray;
-import webfx.framework.shared.expression.terms.function.Call;
+import webfx.framework.client.orm.entity.filter.table.EntityColumn;
+import webfx.framework.client.orm.entity.filter.EqlFilter;
+import webfx.framework.shared.orm.expression.Expression;
+import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
+import webfx.framework.shared.orm.expression.builder.ThreadLocalReferenceResolver;
+import webfx.framework.shared.orm.expression.sqlcompiler.terms.ConstantSqlCompiler;
+import webfx.framework.shared.orm.expression.terms.As;
+import webfx.framework.shared.orm.expression.terms.ExpressionArray;
+import webfx.framework.shared.orm.expression.terms.function.Call;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.extras.visual.controls.SelectableVisualResultControl;
@@ -35,14 +35,14 @@ import webfx.platform.shared.util.Numbers;
 import java.util.Arrays;
 
 public final class GroupView<E extends Entity> implements UiBuilder,
-        HasGroupStringFilterProperty,
+        HasGroupEqlFilterStringProperty,
         HasGroupVisualResultProperty,
         HasGroupVisualSelectionProperty,
         HasSelectedGroupProperty<E>,
-        HasSelectedGroupConditionStringFilterProperty {
+        HasSelectedGroupConditionEqlFilterStringProperty {
 
-    private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
-    @Override public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
+    private final StringProperty groupEqlFilterStringProperty = new SimpleStringProperty();
+    @Override public StringProperty groupEqlFilterStringProperty() { return groupEqlFilterStringProperty; }
 
     private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
@@ -58,8 +58,8 @@ public final class GroupView<E extends Entity> implements UiBuilder,
     };
     @Override public ObjectProperty<E> selectedGroupProperty() { return selectedGroupProperty; }
 
-    private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
-    @Override public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
+    private final StringProperty selectedGroupConditionEqlFilterStringProperty = new SimpleStringProperty();
+    @Override public StringProperty selectedGroupConditionEqlFilterStringProperty() { return selectedGroupConditionEqlFilterStringProperty; }
 
     private ReferenceResolver referenceResolver;
 
@@ -96,10 +96,10 @@ public final class GroupView<E extends Entity> implements UiBuilder,
         bindWithSourceGroupVisualResultProperty(pm.groupVisualResultProperty());
         if (pm instanceof HasGroupVisualSelectionProperty)
             bindWithTargetGroupVisualSelectionProperty(((HasGroupVisualSelectionProperty) pm).groupVisualSelectionProperty());
-        if (pm instanceof HasGroupStringFilterProperty)
-            bindWithSourceGroupStringFilterProperty(((HasGroupStringFilterProperty) pm).groupStringFilterProperty());
-        if (pm instanceof HasSelectedGroupConditionStringFilterProperty)
-            bindWithTargetSelectedGroupConditionStringFilterProperty(((HasSelectedGroupConditionStringFilterProperty) pm).selectedGroupConditionStringFilterProperty());
+        if (pm instanceof HasGroupEqlFilterStringProperty)
+            bindWithSourceGroupEqlFilterStringProperty(((HasGroupEqlFilterStringProperty) pm).groupEqlFilterStringProperty());
+        if (pm instanceof HasSelectedGroupConditionEqlFilterStringProperty)
+            bindWithTargetSelectedGroupConditionEqlFilterStringProperty(((HasSelectedGroupConditionEqlFilterStringProperty) pm).selectedGroupConditionEqlFilterStringProperty());
         if (pm instanceof HasSelectedGroupProperty)
             bindWithSourceSelectedGroupProperty(((HasSelectedGroupProperty) pm).selectedGroupProperty());
         if (pm instanceof HasSelectedGroupReferenceResolver)
@@ -116,14 +116,14 @@ public final class GroupView<E extends Entity> implements UiBuilder,
             targetGroupVisualSelectionProperty.bind(groupVisualSelectionProperty);
     }
 
-    public void bindWithSourceGroupStringFilterProperty(StringProperty sourceGroupStringFilterProperty) {
-        if (sourceGroupStringFilterProperty != null)
-            groupStringFilterProperty.bind(sourceGroupStringFilterProperty);
+    public void bindWithSourceGroupEqlFilterStringProperty(StringProperty sourceGroupEqlFilterStringProperty) {
+        if (sourceGroupEqlFilterStringProperty != null)
+            groupEqlFilterStringProperty.bind(sourceGroupEqlFilterStringProperty);
     }
 
-    public void bindWithTargetSelectedGroupConditionStringFilterProperty(StringProperty targetSelectedGroupConditionStringFilterProperty) {
-        if (targetSelectedGroupConditionStringFilterProperty != null)
-            targetSelectedGroupConditionStringFilterProperty.bind(selectedGroupConditionStringFilterProperty);
+    public void bindWithTargetSelectedGroupConditionEqlFilterStringProperty(StringProperty targetSelectedGroupConditionEqlFilterStringProperty) {
+        if (targetSelectedGroupConditionEqlFilterStringProperty != null)
+            targetSelectedGroupConditionEqlFilterStringProperty.bind(selectedGroupConditionEqlFilterStringProperty);
     }
 
     public void bindWithSourceSelectedGroupProperty(ObjectProperty<E> sourceSelectedGroupProperty) {
@@ -173,8 +173,8 @@ public final class GroupView<E extends Entity> implements UiBuilder,
                 Type type = column.getType();
                 boolean isNumber = Types.isNumberType(type);
                 // If not a number, it may be a formatted number (ex: Price), so checking if the source is an expression column with a numeric type
-                if (!isNumber && !Types.isArrayType(type) /*to ignore columns such as family, site, item*/ && column.getSource() instanceof ExpressionColumn) {
-                    type = ((ExpressionColumn) column.getSource()).getExpression().getType();
+                if (!isNumber && !Types.isArrayType(type) /*to ignore columns such as family, site, item*/ && column.getSource() instanceof EntityColumn) {
+                    type = ((EntityColumn) column.getSource()).getExpression().getType();
                     isNumber = Types.isNumberType(type);
                 }
                 if (isNumber) {
@@ -182,7 +182,7 @@ public final class GroupView<E extends Entity> implements UiBuilder,
                     break;
                 }
             }
-            VisualResultBuilder rsb = new VisualResultBuilder(rowCount, new VisualColumn[]{new VisualColumnBuilder(null, PrimType.STRING).setRole(pie ? "series" : null).build(), VisualColumn.create(null, PrimType.INTEGER)});
+            VisualResultBuilder rsb = new VisualResultBuilder(rowCount, new VisualColumnBuilder(null, PrimType.STRING).setRole(pie ? "series" : null).build(), VisualColumn.create(null, PrimType.INTEGER));
             for (int row = 0; row < rowCount; row++) {
                 // Generating the series name by concatenating text of all columns preceding the value column
                 StringBuilder sb = new StringBuilder();
@@ -202,19 +202,19 @@ public final class GroupView<E extends Entity> implements UiBuilder,
 
     private void updateSelectedGroupCondition() {
         E group = getSelectedGroup();
-        String sf = null;
-        String gsf = getGroupStringFilter();
-        if (group != null && gsf != null) {
+        String efs = null;
+        String gefs = getGroupEqlFilterString();
+        if (group != null && gefs != null) {
             StringBuilder sb = new StringBuilder();
             ThreadLocalReferenceResolver.executeCodeInvolvingReferenceResolver(() -> {
-                StringFilter stringFilter = new StringFilter(gsf);
-                ExpressionArray<Expression> groupByExpressionArray = group.getDomainClass().parseExpressionArray(stringFilter.getGroupBy());
-                ExpressionArray<Expression> columnsExpressionArray = null;
-                for (Expression columnExpression : groupByExpressionArray.getExpressions()) {
+                EqlFilter eqlFilter = EqlFilter.parse(gefs);
+                ExpressionArray<E> groupByExpressionArray = group.getDomainClass().parseExpressionArray(eqlFilter.getGroupBy());
+                ExpressionArray<E> columnsExpressionArray = null;
+                for (Expression<E> columnExpression : groupByExpressionArray.getExpressions()) {
                     if (columnExpression instanceof Call) {
                         String definition = columnExpression.toString();
                         if (columnsExpressionArray == null)
-                            columnsExpressionArray = group.getDomainClass().parseExpressionArray(stringFilter.getColumns());
+                            columnsExpressionArray = group.getDomainClass().parseExpressionArray(eqlFilter.getColumns());
                         columnExpression = Arrays.stream(columnsExpressionArray.getExpressions()).filter(e -> e.toString().contains(definition)).findFirst().orElse(columnExpression);
                     }
                     if (isAggregateExpression(columnExpression))
@@ -224,22 +224,22 @@ public final class GroupView<E extends Entity> implements UiBuilder,
                         value = ((EntityId) value).getPrimaryKey();
                     value = ConstantSqlCompiler.toSqlConstant(value);
                     if (columnExpression instanceof As)
-                        columnExpression = ((As) columnExpression).getOperand();
+                        columnExpression = ((As<E>) columnExpression).getOperand();
                     if (sb.length() > 0)
                         sb.append(" and ");
                     sb.append(columnExpression).append('=').append(value);
                 }
             }, referenceResolver);
-            sf = "{where: `" + sb + "`}";
+            efs = "{where: `" + sb + "`}";
         }
-        selectedGroupConditionStringFilterProperty().set(sf);
+        selectedGroupConditionEqlFilterStringProperty().set(efs);
     }
 
-    private boolean isAggregateExpression(Expression expression) {
+    private boolean isAggregateExpression(Expression<?> expression) {
         if (expression instanceof As)
-            expression = ((As) expression).getOperand();
+            expression = ((As<?>) expression).getOperand();
         if (expression instanceof Call)
-            switch (((Call) expression).getFunctionName()) {
+            switch (((Call<?>) expression).getFunctionName()) {
                 case "count":
                 case "sum":
                     return true;

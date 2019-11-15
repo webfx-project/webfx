@@ -2,11 +2,11 @@ package mongoose.backend.operations.entities.generic;
 
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import webfx.framework.client.ui.filter.ExpressionColumn;
-import webfx.framework.shared.expression.Expression;
+import webfx.framework.client.orm.entity.filter.table.EntityColumn;
+import webfx.framework.client.orm.entity.filter.table.EntityColumnFactory;
 import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.util.formatter.Formatter;
-import webfx.extras.visual.VisualColumn;
 import webfx.platform.shared.util.async.Future;
 
 import java.util.ArrayList;
@@ -19,25 +19,24 @@ final class CopyExecutor {
         return execute(rq.getEntities(), rq.getColumns());
     }
 
-    private static Future<Void> execute(Collection<? extends Entity> entities, ExpressionColumn... columns) {
+    private static <E extends Entity> Future<Void> execute(Collection<E> entities, EntityColumn<E>... columns) {
         StringBuilder clipboardString = new StringBuilder();
-        List<ExpressionColumn> textColumns = new ArrayList<>();
-        for (ExpressionColumn column : columns) {
-            VisualColumn visualColumn = column.getVisualColumn();
-            if (visualColumn.getRole() == null) {
-                Expression displayExpression = column.getVisualExpression();
-                Expression textExpression = ExportHelper.getTextExpression(displayExpression, false, false);
+        List<EntityColumn<E>> textColumns = new ArrayList<>();
+        for (EntityColumn<E> column : columns) {
+            if (column.isVisible()) {
+                Expression<E> displayExpression = column.getDisplayExpression();
+                Expression<E> textExpression = ExportHelper.getTextExpression(displayExpression, false, false);
                 if (textExpression != null) {
-                    textColumns.add(textExpression == displayExpression ? column : ExpressionColumn.create(textExpression));
-                    clipboardString.append(visualColumn.getName()).append('\t');
+                    textColumns.add(textExpression == displayExpression ? column : EntityColumnFactory.get().create(textExpression));
+                    clipboardString.append(column.getName()).append('\t');
                 }
             }
         }
         clipboardString.append('\n');
         for (Entity entity : entities) {
-            for (ExpressionColumn textColumn : textColumns) {
-                Object value = entity.evaluate(textColumn.getVisualExpression());
-                Formatter displayFormatter = textColumn.getVisualFormatter();
+            for (EntityColumn<E> textColumn : textColumns) {
+                Object value = entity.evaluate(textColumn.getDisplayExpression());
+                Formatter displayFormatter = textColumn.getDisplayFormatter();
                 if (displayFormatter != null)
                     value = displayFormatter.format(value);
                 clipboardString.append(ExportHelper.getTextExpressionValue(value)).append('\t');

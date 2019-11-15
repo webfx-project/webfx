@@ -1,7 +1,7 @@
 package mongoose.shared.domainmodel.functions;
 
-import webfx.framework.shared.expression.lci.DataReader;
-import webfx.framework.shared.expression.terms.function.Function;
+import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.terms.function.Function;
 import webfx.extras.type.PrimType;
 import webfx.platform.shared.util.Strings;
 

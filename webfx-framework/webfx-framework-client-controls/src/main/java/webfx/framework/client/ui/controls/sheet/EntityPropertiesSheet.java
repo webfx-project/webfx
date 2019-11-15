@@ -4,20 +4,22 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import webfx.extras.visual.*;
-import webfx.framework.client.ui.filter.ExpressionColumn;
-import webfx.framework.shared.expression.Expression;
-import webfx.framework.shared.orm.domainmodel.DomainClass;
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.shared.util.formatter.Formatter;
-import webfx.framework.shared.util.formatter.Parser;
 import webfx.extras.cell.renderer.ValueRenderer;
 import webfx.extras.cell.renderer.ValueRenderingContext;
-import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
-import webfx.extras.visual.impl.VisualColumnImpl;
-import webfx.extras.type.Types;
 import webfx.extras.imagestore.ImageStore;
+import webfx.extras.type.Types;
+import webfx.extras.visual.*;
+import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.extras.visual.impl.VisualColumnImpl;
+import webfx.framework.client.orm.entity.filter.table.EntityColumn;
+import webfx.framework.client.orm.entity.filter.visual.VisualEntityColumn;
+import webfx.framework.client.orm.entity.filter.visual.VisualEntityColumnFactory;
+import webfx.framework.shared.orm.domainmodel.DomainClass;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.expression.Expression;
+import webfx.framework.shared.util.formatter.Formatter;
+import webfx.framework.shared.util.formatter.Parser;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.Arrays;
@@ -34,49 +36,49 @@ public final class EntityPropertiesSheet<E extends Entity> extends EntityUpdateD
     private final static VisualColumn LABEL_COLUMN = VisualColumn.create((value, context) -> new Label(((webfx.extras.label.Label) value).getText(), ImageStore.createImageView(((webfx.extras.label.Label) value).getIconPath())));
     private final static VisualColumn VALUE_COLUMN = new VisualColumnImpl(null, null, null, null, VisualStyle.CENTER_STYLE, (value, context) -> (Node) value, null, null);
 
-    private final ExpressionColumn[] expressionColumns;
+    private final VisualEntityColumn<E>[] entityColumns;
     private final ValueRenderingContext[] valueRenderingContexts;
     private final Node[] renderingNodes;
-    private ExpressionColumn[] applicableExpressionColumns;
+    private VisualEntityColumn<E>[] applicableEntityColumns;
     private boolean tableLayout = true;
 
     private EntityPropertiesSheet(E entity, String expressionColumns) {
-        this(ExpressionColumn.fromJsonArrayOrExpressionsDefinition(expressionColumns, entity.getDomainClass()));
+        this((VisualEntityColumn<E>[]) VisualEntityColumnFactory.get().fromJsonArrayOrExpressionsDefinition(expressionColumns, entity.getDomainClass()));
         setEntity(entity);
     }
 
-    private EntityPropertiesSheet(ExpressionColumn[] expressionColumns) {
-        this.expressionColumns = expressionColumns;
-        valueRenderingContexts = Arrays.map(expressionColumns, this::createValueRenderingContext, ValueRenderingContext[]::new);
-        renderingNodes = new Node[expressionColumns.length];
+    private EntityPropertiesSheet(VisualEntityColumn<E>[] entityColumns) {
+        this.entityColumns = entityColumns;
+        valueRenderingContexts = Arrays.map(entityColumns, this::createValueRenderingContext, ValueRenderingContext[]::new);
+        renderingNodes = new Node[entityColumns.length];
         // Temporary code
         //TextRenderer.SINGLETON.setTextFieldFactory(this::newMaterialTextField);
     }
 
     @Override
-    Expression expressionToLoad() {
-        return ExpressionColumn.toVisualExpressionArray(expressionColumns);
+    Expression<? extends Entity> expressionToLoad() {
+        return VisualEntityColumnFactory.get().toDisplayExpressionArray(entityColumns);
     }
 
-    private ValueRenderingContext createValueRenderingContext(ExpressionColumn expressionColumn) {
-        String labelKey = expressionColumn.getVisualColumn().getLabel().getCode();
-        DomainClass foreignClass = expressionColumn.getForeignClass();
+    private ValueRenderingContext createValueRenderingContext(VisualEntityColumn<E> entityColumn) {
+        String labelKey = entityColumn.getVisualColumn().getLabel().getCode();
+        DomainClass foreignClass = entityColumn.getForeignClass();
         ValueRenderingContext context;
         // Returning a standard ValueRenderingContext if the expression expresses just a value and not a foreign entity
         if (foreignClass == null)
-            context = new ValueRenderingContext(expressionColumn.isReadOnly(), labelKey, null, Types.isNumberType(expressionColumn.getExpression().getType()) ? VisualStyle.RIGHT_STYLE.getTextAlign() : null);
+            context = new ValueRenderingContext(entityColumn.isReadOnly(), labelKey, null, Types.isNumberType(entityColumn.getExpression().getType()) ? VisualStyle.RIGHT_STYLE.getTextAlign() : null);
         // Returning a EntityRenderingContext otherwise (in case of a foreign entity) which will be used by the EntityRenderer
         else
-            context = new EntityRenderingContext(expressionColumn.isReadOnly(), labelKey, null, expressionColumn, () -> entity.getStore(), () -> dialogParent, this);
-        context.getEditedValueProperty().addListener((observable, oldValue, newValue) -> applyUiChangeOnEntity(expressionColumn, context));
+            context = new EntityRenderingContext(entityColumn.isReadOnly(), labelKey, null, entityColumn, () -> entity.getStore(), () -> dialogParent, this);
+        context.getEditedValueProperty().addListener((observable, oldValue, newValue) -> applyUiChangeOnEntity(entityColumn, context));
         return context;
     }
 
     @Override
     public void setEntity(E entity) {
         super.setEntity(entity);
-        for (ExpressionColumn expressionColumn : expressionColumns)
-            expressionColumn.parseExpressionDefinitionIfNecessary(entity.getDomainClass());
+        for (EntityColumn<E> entityColumn : entityColumns)
+            entityColumn.parseExpressionDefinitionIfNecessary(entity.getDomainClass());
     }
 
     @Override
@@ -93,26 +95,26 @@ public final class EntityPropertiesSheet<E extends Entity> extends EntityUpdateD
     @Override
     void syncUiFromModel() {
         initDisplay();
-        for (int i = 0, n = applicableExpressionColumns.length; i < n; i++) {
-            ExpressionColumn expressionColumn = applicableExpressionColumns[i];
-            Object modelValue = updateEntity.evaluate(castExpression(expressionColumn.getExpression()));
-            Formatter displayFormatter = expressionColumn.getVisualFormatter();
+        for (int i = 0, n = applicableEntityColumns.length; i < n; i++) {
+            VisualEntityColumn entityColumn = applicableEntityColumns[i];
+            Object modelValue = updateEntity.evaluate(castExpression(entityColumn.getExpression()));
+            Formatter displayFormatter = entityColumn.getDisplayFormatter();
             if (displayFormatter != null)
                 modelValue = displayFormatter.format(modelValue);
-            int j = getApplicableValueRenderingContextIndex(expressionColumn);
+            int j = getApplicableValueRenderingContextIndex(entityColumn);
             ValueRenderingContext context = valueRenderingContexts[j];
             if (context.isReadOnly() || renderingNodes[j] == null) {
                 // Using a standard value renderer in case of a value, or the EntityRenderer in case of a foreign entity
-                ValueRenderer valueRenderer = expressionColumn.getForeignClass() == null ? expressionColumn.getVisualColumn().getValueRenderer() : EntityRenderer.SINGLETON;
+                ValueRenderer valueRenderer = entityColumn.getForeignClass() == null ? entityColumn.getVisualColumn().getValueRenderer() : EntityRenderer.SINGLETON;
                 renderingNodes[j] = valueRenderer.renderValue(modelValue, context);
             }
-            addExpressionRow(i, expressionColumn, renderingNodes[j]);
+            addExpressionRow(i, entityColumn, renderingNodes[j]);
         }
         applyDisplay();
     }
 
-    private boolean isColumnApplicable(ExpressionColumn expressionColumn) {
-        Expression<E> applicableCondition = castExpression(expressionColumn.getApplicableCondition());
+    private boolean isColumnApplicable(EntityColumn entityColumn) {
+        Expression<E> applicableCondition = castExpression(entityColumn.getApplicableCondition());
         return applicableCondition == null || Boolean.TRUE.equals(updateEntity.evaluate(applicableCondition));
     }
 
@@ -120,24 +122,24 @@ public final class EntityPropertiesSheet<E extends Entity> extends EntityUpdateD
         return (Expression<E>) expression;
     }
 
-    private int getApplicableValueRenderingContextIndex(ExpressionColumn applicableExpressionColumns) {
-        return Arrays.indexOf(expressionColumns, applicableExpressionColumns);
+    private int getApplicableValueRenderingContextIndex(EntityColumn applicableEntityColumns) {
+        return Arrays.indexOf(entityColumns, applicableEntityColumns);
     }
 
     private VisualResultBuilder rsb;
     private List<Node> children;
 
     private void initDisplay() {
-        applicableExpressionColumns = java.util.Arrays.stream(expressionColumns).filter(this::isColumnApplicable).toArray(ExpressionColumn[]::new);
+        applicableEntityColumns = java.util.Arrays.stream(entityColumns).filter(this::isColumnApplicable).toArray(VisualEntityColumn[]::new);
         if (tableLayout)
-            rsb = new VisualResultBuilder(applicableExpressionColumns.length, LABEL_COLUMN, VALUE_COLUMN);
+            rsb = new VisualResultBuilder(applicableEntityColumns.length, LABEL_COLUMN, VALUE_COLUMN);
         else
             children = new ArrayList<>();
     }
 
-    private void addExpressionRow(int row, ExpressionColumn expressionColumn, Node renderedValueNode) {
+    private void addExpressionRow(int row, VisualEntityColumn entityColumn, Node renderedValueNode) {
         if (tableLayout) {
-            rsb.setValue(row, 0, expressionColumn.getVisualColumn().getLabel());
+            rsb.setValue(row, 0, entityColumn.getVisualColumn().getLabel());
             rsb.setValue(row, 1, renderedValueNode);
         } else
             children.add(renderedValueNode);
@@ -168,11 +170,11 @@ public final class EntityPropertiesSheet<E extends Entity> extends EntityUpdateD
             ((Pane) node).getChildren().setAll(children);
     }
 
-    private void applyUiChangeOnEntity(ExpressionColumn expressionColumn, ValueRenderingContext valueRenderingContext) {
+    private void applyUiChangeOnEntity(EntityColumn entityColumn, ValueRenderingContext valueRenderingContext) {
         Object value = valueRenderingContext.getEditedValue();
-        Expression<E> expression = castExpression(expressionColumn.getExpression());
+        Expression<E> expression = castExpression(entityColumn.getExpression());
         // Checking if it is a formatted value
-        Formatter formatter = expressionColumn.getVisualFormatter();
+        Formatter formatter = entityColumn.getDisplayFormatter();
         if (formatter != null) {
             // Parsing the value if applicable
             if (formatter instanceof Parser)

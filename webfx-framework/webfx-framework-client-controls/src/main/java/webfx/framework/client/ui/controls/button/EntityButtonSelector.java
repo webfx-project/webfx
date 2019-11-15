@@ -9,23 +9,24 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import webfx.framework.client.ui.filter.ExpressionColumn;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.client.ui.filter.StringFilter;
-import webfx.framework.client.ui.filter.StringFilterBuilder;
-import webfx.framework.shared.expression.Expression;
-import webfx.framework.shared.expression.terms.ExpressionArray;
+import webfx.extras.cell.renderer.ValueRenderer;
+import webfx.extras.cell.renderer.ValueRendererFactory;
+import webfx.extras.cell.renderer.ValueRenderingContext;
+import webfx.extras.visual.VisualResult;
+import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.framework.client.orm.entity.filter.EqlFilter;
+import webfx.framework.client.orm.entity.filter.EqlFilterBuilder;
+import webfx.framework.client.orm.entity.filter.table.EntityColumn;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.orm.entity.filter.visual.VisualEntityColumnFactory;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.extras.cell.renderer.ValueRenderer;
-import webfx.extras.cell.renderer.ValueRendererFactory;
-import webfx.extras.cell.renderer.ValueRenderingContext;
-import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
-import webfx.extras.visual.VisualResult;
+import webfx.framework.shared.orm.expression.Expression;
+import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.function.Callable;
@@ -45,7 +46,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     private ValueRenderer entityRenderer;
 
     private EntityStore loadingStore;
-    private ReactiveExpressionFilter<E> entityDialogFilter;
+    private ReactiveVisualFilter<E> entityDialogFilter;
     private List<E> restrictedFilterList;
     private VisualGrid dialogVisualGrid;
     private String searchCondition;
@@ -80,17 +81,17 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         this.jsonOrClass = jsonOrClass;
         renderingExpression = null;
         if (jsonOrClass != null) {
-            StringFilter stringFilter = new StringFilterBuilder(jsonOrClass).build();
+            EqlFilter eqlFilter = new EqlFilterBuilder(jsonOrClass).build();
             DomainModel domainModel = dataSourceModel.getDomainModel();
-            Object domainClassId = stringFilter.getDomainClassId();
+            Object domainClassId = eqlFilter.getDomainClassId();
             DomainClass entityClass = domainModel.getClass(domainClassId);
-            if (stringFilter.getColumns() != null) {
-                ExpressionColumn[] expressionColumns = ExpressionColumn.fromJsonArrayOrExpressionsDefinition(stringFilter.getColumns(), entityClass);
-                renderingExpression = new ExpressionArray<>(Arrays.map(expressionColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(entityClass).getVisualExpression(), Expression[]::new));
+            if (eqlFilter.getColumns() != null) {
+                EntityColumn<E>[] entityColumns = VisualEntityColumnFactory.get().fromJsonArrayOrExpressionsDefinition(eqlFilter.getColumns(), entityClass);
+                renderingExpression = new ExpressionArray<>(Arrays.map(entityColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(entityClass).getDisplayExpression(), Expression[]::new));
             } else
                 renderingExpression = entityClass.getForeignFields();
-            if (renderingExpression == null && stringFilter.getFields() != null)
-                renderingExpression = entityClass.parseExpression(stringFilter.getFields());
+            if (renderingExpression == null && eqlFilter.getFields() != null)
+                renderingExpression = entityClass.parseExpression(eqlFilter.getFields());
             searchCondition = entityClass.getSearchCondition();
         }
         entityRenderer = renderingExpression == null ? null : ValueRendererFactory.getDefault().createValueRenderer(renderingExpression.getType());
@@ -121,11 +122,11 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             BorderPane.setAlignment(dialogVisualGrid, Pos.TOP_LEFT);
             dialogVisualGrid.visualResultProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredVisualResult.setValue(newValue)));
             EntityStore filterStore = loadingStore != null ? loadingStore : getSelectedItem() != null ? getSelectedItem().getStore() : null;
-            entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass)
+            entityDialogFilter = new ReactiveVisualFilter<E>(jsonOrClass)
                     .setDataSourceModel(dataSourceModel)
                     .setStore(filterStore)
                     .setRestrictedFilterList(restrictedFilterList)
-                    .setExpressionColumns(ExpressionColumn.create(renderingExpression))
+                    .setEntityColumns(VisualEntityColumnFactory.get().create(renderingExpression))
                     .visualizeResultInto(dialogVisualGrid.visualResultProperty())
                     .setVisualSelectionProperty(dialogVisualGrid.visualSelectionProperty())
                     .setSelectedEntityHandler(dialogVisualGrid.visualSelectionProperty(), e -> {if (e != null && button != null) onDialogOk();})
@@ -178,7 +179,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             });
     }
 
-    public ReactiveExpressionFilter<E> getEntityDialogFilter() {
+    public ReactiveVisualFilter<E> getEntityDialogFilter() {
         if (entityDialogFilter == null)
             getOrCreateDialogContent();
         return entityDialogFilter;

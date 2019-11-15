@@ -9,8 +9,8 @@ module mongoose.client.operationactionsloading {
     requires webfx.framework.client.action;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
-    requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.platform.shared.appcontainer;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;

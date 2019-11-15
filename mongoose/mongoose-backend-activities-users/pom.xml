@@ -75,7 +75,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-uifilter</artifactId>
+            <artifactId>webfx-framework-client-orm-filter-visual</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -87,13 +87,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-shared-expression</artifactId>
+            <artifactId>webfx-framework-shared-operation</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-shared-operation</artifactId>
+            <artifactId>webfx-framework-shared-orm-expression</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

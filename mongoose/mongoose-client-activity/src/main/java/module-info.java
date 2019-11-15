@@ -16,8 +16,8 @@ module mongoose.client.activity {
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
-    requires webfx.framework.shared.domain;
-    requires webfx.framework.shared.expression;
+    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.expression;
     requires webfx.kit.util;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;

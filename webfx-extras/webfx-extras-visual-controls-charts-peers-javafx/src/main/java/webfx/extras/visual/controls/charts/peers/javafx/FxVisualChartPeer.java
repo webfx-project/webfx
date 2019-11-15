@@ -1,6 +1,7 @@
 package webfx.extras.visual.controls.charts.peers.javafx;
 
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
 import webfx.extras.visual.SelectionMode;
 import webfx.extras.visual.VisualSelection;
@@ -15,7 +16,7 @@ import webfx.kit.mapper.peers.javafxgraphics.javafx.FxRegionPeer;
  * @author Bruno Salmon
  */
 abstract class FxVisualChartPeer
-        <FxN extends javafx.scene.chart.Chart, N extends VisualChart, NB extends VisualChartPeerBase<FxN, N, NB, NM>, NM extends VisualChartPeerMixin<FxN, N, NB, NM>>
+        <FxN extends Chart, N extends VisualChart, NB extends VisualChartPeerBase<FxN, N, NB, NM>, NM extends VisualChartPeerMixin<FxN, N, NB, NM>>
         extends FxRegionPeer<FxN, N, NB, NM>
         implements VisualChartPeerMixin<FxN, N, NB, NM>, FxLayoutMeasurable {
 

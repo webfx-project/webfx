@@ -6,8 +6,8 @@ module mongoose.server.systemmetrics {
     requires java.base;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
-    requires webfx.framework.shared.domain;
-    requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.platform.shared.appcontainer;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.scheduler;

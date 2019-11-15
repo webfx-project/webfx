@@ -5,9 +5,9 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import mongoose.client.presentationmodel.HasColumnsStringFilterProperty;
-import mongoose.client.presentationmodel.HasConditionStringFilterProperty;
-import mongoose.client.presentationmodel.HasGroupStringFilterProperty;
+import mongoose.client.presentationmodel.HasColumnsEqlFilterStringProperty;
+import mongoose.client.presentationmodel.HasConditionEqlFilterStringProperty;
+import mongoose.client.presentationmodel.HasGroupEqlFilterStringProperty;
 import mongoose.client.presentationmodel.HasSearchTextProperty;
 import mongoose.shared.entities.Filter;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
@@ -22,16 +22,16 @@ public final class FilterSearchBar {
     private final TextField searchBox; // Keeping this reference to activate focus on activity resume
 
     public FilterSearchBar(FilterButtonSelectorFactoryMixin mixin, String activityName, String domainClassId, Pane parent, Object pm) {
-        if (pm instanceof HasConditionStringFilterProperty)
-            conditionSelector = mixin.createConditionFilterButtonSelectorAndBind(activityName,domainClassId, parent, (HasConditionStringFilterProperty) pm);
+        if (pm instanceof HasConditionEqlFilterStringProperty)
+            conditionSelector = mixin.createConditionFilterButtonSelectorAndBind(activityName,domainClassId, parent, (HasConditionEqlFilterStringProperty) pm);
         else
             conditionSelector = null;
-        if (pm instanceof HasGroupStringFilterProperty)
-            groupSelector = mixin.createGroupFilterButtonSelectorAndBind(activityName,domainClassId, parent, (HasGroupStringFilterProperty) pm);
+        if (pm instanceof HasGroupEqlFilterStringProperty)
+            groupSelector = mixin.createGroupFilterButtonSelectorAndBind(activityName,domainClassId, parent, (HasGroupEqlFilterStringProperty) pm);
         else
             groupSelector = null;
-        if (pm instanceof HasColumnsStringFilterProperty)
-            columnsSelector = mixin.createColumnsFilterButtonSelectorAndBind(activityName,domainClassId, parent, (HasColumnsStringFilterProperty) pm);
+        if (pm instanceof HasColumnsEqlFilterStringProperty)
+            columnsSelector = mixin.createColumnsFilterButtonSelectorAndBind(activityName,domainClassId, parent, (HasColumnsEqlFilterStringProperty) pm);
         else
             columnsSelector = null;
         if (pm instanceof HasSearchTextProperty) {

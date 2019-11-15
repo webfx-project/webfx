@@ -20,10 +20,11 @@ module mongoose.backend.activities.roomsgraphic {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
-    requires webfx.framework.client.uifilter;
+    requires webfx.framework.client.orm.filter;
+    requires webfx.framework.client.orm.filter.visual;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.entity;
     requires webfx.framework.shared.operation;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.router;
     requires webfx.kit.util;
     requires webfx.platform.client.windowhistory;

@@ -1,17 +1,17 @@
 package mongoose.backend.activities.users;
 
 import javafx.scene.Node;
-import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
+import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Person;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 
 final class UsersActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
-        ConventionalReactiveExpressionFilterFactoryMixin {
+        ConventionalReactiveVisualFilterFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -43,17 +43,17 @@ final class UsersActivity extends EventDependentViewDomainActivity implements
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveExpressionFilter<Person> groupFilter, masterFilter;
+    private ReactiveVisualFilter<Person> groupFilter, masterFilter;
 
     @Override
     protected void startLogic() {
         // Setting up the group filter that controls the content displayed in the group view
-        groupFilter = this.<Person>createGroupReactiveExpressionFilter(pm, "{class: 'Person', alias: 'p', orderBy: 'id'}")
+        groupFilter = this.<Person>createGroupReactiveVisualFilter(pm, "{class: 'Person', alias: 'p', orderBy: 'id'}")
                 // Everything set up, let's start now!
                 .start();
 
         // Setting up the master filter that controls the content displayed in the master view
-        masterFilter = this.<Person>createMasterReactiveExpressionFilter(pm, "{class: 'Person', alias: 'p', orderBy: 'lastName,firstName,id'}")
+        masterFilter = this.<Person>createMasterReactiveVisualFilter(pm, "{class: 'Person', alias: 'p', orderBy: 'lastName,firstName,id'}")
                 // Applying the user search
                 .combineIfNotEmptyTrim(pm.searchTextProperty(), s ->
                         s.contains("@") ? "{where: `lower(email) like '%" + s.toLowerCase() + "%'`}"

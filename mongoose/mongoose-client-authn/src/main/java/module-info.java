@@ -5,8 +5,8 @@ module mongoose.client.authn {
     // Direct dependencies modules
     requires mongoose.shared.domain;
     requires webfx.framework.shared.authn;
-    requires webfx.framework.shared.domain;
-    requires webfx.framework.shared.expression;
+    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.expression;
     requires webfx.platform.shared.query;
     requires webfx.platform.shared.util;
 

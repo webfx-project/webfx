@@ -3,7 +3,7 @@ package mongoose.backend.activities.statistics;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
-import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
+import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.backend.operations.entities.document.SendLetterRequest;
@@ -15,16 +15,16 @@ import mongoose.backend.operations.entities.generic.CopySelectionRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
-import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.client.ui.filter.StringFilter;
-import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.framework.client.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.orm.entity.filter.EqlFilter;
+import webfx.framework.client.ui.layouts.LayoutUtil;
 
 final class StatisticsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
         ConventionalUiBuilderMixin,
-        ConventionalReactiveExpressionFilterFactoryMixin {
+        ConventionalReactiveVisualFilterFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -51,8 +51,8 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                         newOperationAction(() -> new DeleteDocumentLineRequest(       pm.getSelectedDocumentLine(), container))
                 ),
                 newSeparatorActionGroup(
-                        newOperationAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getExpressionColumns())),
-                        newOperationAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getExpressionColumns()))
+                        newOperationAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getEntityColumns())),
+                        newOperationAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getEntityColumns()))
                 )
         ));
 
@@ -64,32 +64,30 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveExpressionFilter<DocumentLine> leftGroupFilter, masterFilter;
-    private ReactiveExpressionFilter<Attendance> rightAttendanceFilter;
+    private ReactiveVisualFilter<DocumentLine> leftGroupFilter, masterFilter;
+    private ReactiveVisualFilter<Attendance> rightAttendanceFilter;
 
     @Override
     protected void startLogic() {
         // Setting up the left group filter for the left content displayed in the group view
-        leftGroupFilter = this.<DocumentLine>createGroupReactiveExpressionFilter(pm, "{class: 'DocumentLine', alias: 'dl'}")
+        leftGroupFilter = this.<DocumentLine>createGroupReactiveVisualFilter(pm, "{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}")
                 ;
 
         // Setting up the right group filter
-        rightAttendanceFilter = this.<Attendance>createReactiveExpressionFilter("{class: 'Attendance', alias: 'a', where: 'present', orderBy: 'date'}")
+        rightAttendanceFilter = this.<Attendance>createReactiveVisualFilter("{class: 'Attendance', alias: 'a', where: 'present', orderBy: 'date'}")
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `documentLine.document.event=" + eventId + "`}")
                 // Applying the condition and group selected by the user
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.conditionStringFilterProperty(), stringFilter -> {
-                    StringFilter gsf = new StringFilter(stringFilter);
-                    String where = gsf.getWhere();
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.conditionEqlFilterStringProperty(), eqlFilterString -> {
+                    String where = EqlFilter.parse(eqlFilterString).getWhere();
                     if (where == null)
                         return "{where: 'false'}";
                     where = "a.[documentLine as dl].(" + where + ')';
                     return "{where: `" + where + "`}";
                 })
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.groupStringFilterProperty(), stringFilter -> {
-                    StringFilter gsf = new StringFilter(stringFilter);
-                    String groupBy = gsf.getGroupBy();
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.groupEqlFilterStringProperty(), eqlFilterString -> {
+                    String groupBy = EqlFilter.parse(eqlFilterString).getGroupBy();
                     if (groupBy == null)
                         return "{where: 'false'}";
                     groupBy = "documentLine.(" + groupBy + ')';
@@ -101,9 +99,9 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         new StatisticsBuilder(leftGroupFilter, rightAttendanceFilter, pm.groupVisualResultProperty()).start();
 
         // Setting up the master filter for the content displayed in the master view
-        masterFilter = this.<DocumentLine>createMasterReactiveExpressionFilter(pm, "{class: 'DocumentLine', alias: 'dl', orderBy: 'document.ref,item.family.ord,site..ord,item.ord'}")
+        masterFilter = this.<DocumentLine>createMasterReactiveVisualFilter(pm, "{class: 'DocumentLine', alias: 'dl', orderBy: 'document.ref,item.family.ord,site..ord,item.ord'}")
                 // Always loading the fields required for viewing the booking details
-                .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS_STRING_FILTER + ")`}")
+                .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS + ")`}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}")
                 // Colorizing the rows
@@ -115,8 +113,8 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
 
     @Override
     protected void refreshDataOnActive() {
-        leftGroupFilter       .refreshWhenActive();
-        rightAttendanceFilter .refreshWhenActive();
-        masterFilter          .refreshWhenActive();
+        leftGroupFilter.refreshWhenActive();
+        rightAttendanceFilter.refreshWhenActive();
+        masterFilter.refreshWhenActive();
     }
 }

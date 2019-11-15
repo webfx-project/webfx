@@ -12,7 +12,7 @@ module mongoose.client.bookingcalendar {
     requires mongoose.client.util;
     requires mongoose.shared.entities;
     requires mongoose.shared.time;
-    requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;

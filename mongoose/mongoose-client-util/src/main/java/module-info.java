@@ -6,8 +6,8 @@ module mongoose.client.util {
     requires mongoose.client.entities;
     requires webfx.extras.type;
     requires webfx.framework.client.i18n;
-    requires webfx.framework.shared.entity;
-    requires webfx.framework.shared.expression;
+    requires webfx.framework.shared.orm.entity;
+    requires webfx.framework.shared.orm.expression;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;
 

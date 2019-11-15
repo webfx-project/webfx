@@ -6,8 +6,8 @@ module mongoose.client.presentationmodel {
     requires javafx.base;
     requires mongoose.shared.entities;
     requires webfx.extras.visual;
-    requires webfx.framework.shared.entity;
-    requires webfx.framework.shared.expression;
+    requires webfx.framework.shared.orm.entity;
+    requires webfx.framework.shared.orm.expression;
 
     // Exported packages
     exports mongoose.client.presentationmodel;

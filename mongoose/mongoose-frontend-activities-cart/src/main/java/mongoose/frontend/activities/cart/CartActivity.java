@@ -32,12 +32,12 @@ import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
 import webfx.framework.client.ui.layouts.FlexBox;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.framework.shared.expression.lci.DataReader;
-import webfx.framework.shared.expression.terms.function.Function;
+import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.terms.function.Function;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.framework.shared.orm.mapping.entity_visual.EntityListToVisualResultMapper;
+import webfx.framework.client.orm.mapping.entity_to_visual.EntitiesToVisualResultMapper;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.VisualResult;
@@ -229,7 +229,7 @@ final class CartActivity extends CartBasedActivity {
     }
 
     private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<VisualResult> visualResultProperty) {
-        visualResultProperty.setValue(EntityListToVisualResultMapper.createVisualResult(entities, columnsDefinition
+        visualResultProperty.setValue(EntitiesToVisualResultMapper.mapEntitiesToVisualResult(entities, columnsDefinition
                 , getDataSourceModel().getDomainModel(), classId));
     }
 

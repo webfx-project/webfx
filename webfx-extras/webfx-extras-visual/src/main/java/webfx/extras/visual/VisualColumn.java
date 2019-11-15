@@ -52,7 +52,7 @@ public interface VisualColumn {
 
     ColumnWidthCumulator getCumulator();
 
-    Object getSource(); // Ex: ExpressionColumn
+    Object getSource(); // Ex: EntityColumn
 
     /**
      * Quick factory method for a simple DisplayColumn creation with just a label and type. Use the DisplayColumnBuilder

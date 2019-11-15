@@ -12,7 +12,7 @@ module mongoose.client.businesslogic {
     requires mongoose.client.entities;
     requires mongoose.shared.entities;
     requires mongoose.shared.time;
-    requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.platform.shared.query;
     requires webfx.platform.shared.update;
     requires webfx.platform.shared.util;

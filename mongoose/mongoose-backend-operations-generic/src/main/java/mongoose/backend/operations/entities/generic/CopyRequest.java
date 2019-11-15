@@ -1,6 +1,6 @@
 package mongoose.backend.operations.entities.generic;
 
-import webfx.framework.client.ui.filter.ExpressionColumn;
+import webfx.framework.client.orm.entity.filter.table.EntityColumn;
 import webfx.framework.shared.operation.HasOperationCode;
 import webfx.framework.shared.operation.HasOperationExecutor;
 import webfx.framework.shared.orm.entity.Entity;
@@ -12,9 +12,9 @@ abstract class CopyRequest implements HasOperationCode,
         HasOperationExecutor<CopyRequest, Void> {
 
     private final Collection<? extends Entity> entities;
-    private final ExpressionColumn[] columns;
+    private final EntityColumn[] columns;
 
-    CopyRequest(Collection<? extends Entity> entities, ExpressionColumn... columns) {
+    CopyRequest(Collection<? extends Entity> entities, EntityColumn... columns) {
         this.entities = entities;
         this.columns = columns;
     }
@@ -23,7 +23,7 @@ abstract class CopyRequest implements HasOperationCode,
         return entities;
     }
 
-    ExpressionColumn[] getColumns() {
+    EntityColumn[] getColumns() {
         return columns;
     }
 

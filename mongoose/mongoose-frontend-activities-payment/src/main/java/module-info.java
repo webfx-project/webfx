@@ -21,7 +21,7 @@ module mongoose.frontend.activities.payment {
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.entity;
+    requires webfx.framework.shared.orm.entity;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.client.websocketbus;
     requires webfx.platform.client.windowhistory;

@@ -3,7 +3,7 @@ package mongoose.backend.activities.events;
 import mongoose.backend.operations.routes.bookings.RouteToBookingsRequest;
 import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
 import mongoose.shared.entities.Event;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
 import webfx.platform.shared.util.function.Factory;
 
 /**
@@ -11,7 +11,7 @@ import webfx.platform.shared.util.function.Factory;
  */
 final class EventsPresentationLogicActivity
         extends MongooseDomainPresentationLogicActivityBase<EventsPresentationModel>
-        implements ReactiveExpressionFilterFactoryMixin {
+        implements ReactiveVisualFilterFactoryMixin {
 
     EventsPresentationLogicActivity() {
         this(EventsPresentationModel::new);
@@ -29,7 +29,7 @@ final class EventsPresentationLogicActivity
     @Override
     protected void startLogic(EventsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        this.<Event>createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields2: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where2: 'active', orderBy: 'startDate desc,id desc'}")
+        this.<Event>createReactiveVisualFilter("{class: 'Event', alias: 'e', fields2: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where2: 'active', orderBy: 'startDate desc,id desc'}")
                 // Search box condition
                 .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 .combineIfNotNull(pm.organizationIdProperty(), o -> "{where: 'organization=" + o + "'}")
@@ -37,7 +37,7 @@ final class EventsPresentationLogicActivity
                 .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
                 // With bookings condition
                 //.combine(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
-                .setExpressionColumns("[" +
+                .setEntityColumns("[" +
                         //"{label: 'Image', expression: 'image(`images/calendar.svg`)'}," +
                         //"{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +
                         "{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate)`'}," +

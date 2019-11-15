@@ -1,7 +1,7 @@
 package mongoose.client.activity;
 
 import webfx.framework.client.activity.impl.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
-import webfx.framework.shared.expression.sqlcompiler.sql.SqlCompiled;
+import webfx.framework.shared.orm.expression.sqlcompiler.sql.SqlCompiled;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonObject;

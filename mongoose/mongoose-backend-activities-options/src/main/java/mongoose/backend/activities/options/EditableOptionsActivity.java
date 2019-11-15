@@ -9,22 +9,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import mongoose.client.actions.MongooseActions;
 import mongoose.backend.controls.multilangeditor.MultiLanguageEditor;
-import mongoose.frontend.activities.options.OptionsActivity;
-import mongoose.client.controls.bookingcalendar.BookingCalendar;
+import mongoose.client.actions.MongooseActions;
 import mongoose.client.businessdata.feesgroup.FeesGroup;
 import mongoose.client.businessdata.preselection.OptionsPreselection;
+import mongoose.client.controls.bookingcalendar.BookingCalendar;
+import mongoose.frontend.activities.options.OptionsActivity;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.shared.orm.entity.UpdateStore;
+import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.kit.util.properties.Properties;
-import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateService;
 
@@ -111,15 +111,15 @@ final class EditableOptionsActivity extends OptionsActivity {
 
     private BorderPane addOptionDialogPane;
     private DialogCallback addOptionDialogCallback;
-    private ReactiveExpressionFilter<Option> addOptionDialogFilter;
+    private ReactiveVisualFilter<Option> addOptionDialogFilter;
 
     private void showAddOptionDialog() {
         if (addOptionDialogPane == null) {
             VisualGrid visualGrid = new VisualGrid();
             addOptionDialogPane = new BorderPane(setMaxPrefSizeToInfinite(visualGrid));
-            addOptionDialogFilter = new ReactiveExpressionFilter<Option>("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel())
+            addOptionDialogFilter = new ReactiveVisualFilter<Option>("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel())
                     .combine(eventIdProperty(), e -> "{where: 'event.organization=" + getEvent().getOrganization().getPrimaryKey() + "'}")
-                    .setExpressionColumns("[" +
+                    .setEntityColumns("[" +
                             "{label: 'Option', expression: 'coalesce(itemFamily.icon,item.family.icon),coalesce(name, item.name)'}," +
                             "{label: 'Event', expression: 'event.(icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate))'}," +
                             "{label: 'Event type', expression: 'event.type'}" +

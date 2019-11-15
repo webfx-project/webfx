@@ -3,22 +3,22 @@ package mongoose.backend.activities.income;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
+import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
 import mongoose.shared.entities.Filter;
+import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 
 final class IncomeActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
         FilterButtonSelectorFactoryMixin,
-        ConventionalReactiveExpressionFilterFactoryMixin {
+        ConventionalReactiveVisualFilterFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -56,12 +56,12 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveExpressionFilter<Document>     totalFilter;
-    private ReactiveExpressionFilter<DocumentLine> breakdownFilter;
+    private ReactiveVisualFilter<Document> totalFilter;
+    private ReactiveVisualFilter<DocumentLine> breakdownFilter;
 
     @Override
     protected void startLogic() {
-        totalFilter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd'}")
+        totalFilter = this.<Document>createReactiveVisualFilter("{class: 'Document', alias: 'd'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where: `event=" + eventId + "`}")
                 .combine("{columns: `null as Totals,sum(price_deposit) as Deposit,sum(price_net) as Invoiced,sum(price_minDeposit) as MinDeposit,sum(price_nonRefundable) as NonRefundable,sum(price_balance) as Balance,count(1) as Bookings,sum(price_balance!=0 ? 1 : 0) as Unreconciled`, groupBy: `event`}")
@@ -69,7 +69,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
                 .start();
 
         // Setting up the left group filter for the left content displayed in the group view
-        breakdownFilter = this.<DocumentLine>createGroupReactiveExpressionFilter(pm,"{class: 'DocumentLine', alias: 'dl'}")
+        breakdownFilter = this.<DocumentLine>createGroupReactiveVisualFilter(pm,"{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where: `document.event=" + eventId + "`}")
                 // Everything set up, let's start now!
@@ -78,7 +78,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
 
     @Override
     protected void refreshDataOnActive() {
-        totalFilter    .refreshWhenActive();
+        totalFilter.refreshWhenActive();
         breakdownFilter.refreshWhenActive();
     }
 }

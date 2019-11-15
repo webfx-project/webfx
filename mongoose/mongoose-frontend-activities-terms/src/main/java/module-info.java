@@ -16,7 +16,7 @@ module mongoose.frontend.activities.terms {
     requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
-    requires webfx.framework.client.uifilter;
+    requires webfx.framework.client.orm.filter.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;

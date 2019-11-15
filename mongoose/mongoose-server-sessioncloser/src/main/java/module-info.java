@@ -5,7 +5,7 @@ module mongoose.server.sessioncloser {
     // Direct dependencies modules
     requires mongoose.shared.domain;
     requires webfx.framework.server.push;
-    requires webfx.framework.shared.domain;
+    requires webfx.framework.shared.orm.domain;
     requires webfx.platform.shared.appcontainer;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.update;

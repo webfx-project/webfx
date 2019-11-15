@@ -6,7 +6,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import mongoose.backend.activities.statistics.StatisticsBuilder;
-import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
+import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.backend.operations.entities.allocationrule.AddNewAllocationRuleRequest;
 import mongoose.backend.operations.entities.allocationrule.DeleteAllocationRuleRequest;
@@ -17,15 +17,15 @@ import mongoose.backend.operations.entities.generic.CopySelectionRequest;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
-import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
-import webfx.framework.shared.orm.entity.Entity;
 import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.framework.client.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.shared.orm.entity.Entity;
 
 final class DiningAreasActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
         ConventionalUiBuilderMixin,
-        ConventionalReactiveExpressionFilterFactoryMixin {
+        ConventionalReactiveVisualFilterFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -60,8 +60,8 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
                         newOperationAction(() -> new DeleteAllocationRuleRequest( rulesFilter.getSelectedEntity(), container))
                 ),
                 newSeparatorActionGroup(
-                        newOperationAction(() -> new CopySelectionRequest( rulesFilter.getSelectedEntities(),  rulesFilter.getExpressionColumns())),
-                        newOperationAction(() -> new CopyAllRequest(       rulesFilter.getCurrentEntityList(), rulesFilter.getExpressionColumns()))
+                        newOperationAction(() -> new CopySelectionRequest( rulesFilter.getSelectedEntities(),  rulesFilter.getEntityColumns())),
+                        newOperationAction(() -> new CopyAllRequest(       rulesFilter.getCurrentEntityList(), rulesFilter.getEntityColumns()))
                 )));
         return container;
     }
@@ -71,19 +71,19 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveExpressionFilter<DocumentLine> leftSittingFilter;
-    private ReactiveExpressionFilter<Attendance> rightAttendanceFilter;
-    private ReactiveExpressionFilter<Entity> rulesFilter;
+    private ReactiveVisualFilter<DocumentLine> leftSittingFilter;
+    private ReactiveVisualFilter<Attendance> rightAttendanceFilter;
+    private ReactiveVisualFilter<Entity> rulesFilter;
 
     @Override
     protected void startLogic() {
         // Setting up the group filter that controls the content displayed in the group view
-        leftSittingFilter = this.<DocumentLine>createReactiveExpressionFilter("{class: 'DocumentLine', alias: 'dl', columns: 'resourceConfiguration,count(1)', where: `!cancelled and item.family.code='meals'`, groupBy: 'resourceConfiguration', orderBy: 'resourceConfiguration..name'}")
+        leftSittingFilter = this.<DocumentLine>createReactiveVisualFilter("{class: 'DocumentLine', alias: 'dl', columns: 'resourceConfiguration,count(1)', where: `!cancelled and item.family.code='meals'`, groupBy: 'resourceConfiguration', orderBy: 'resourceConfiguration..name'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}");
 
         // Setting up the right group filter
-        rightAttendanceFilter = this.<Attendance>createReactiveExpressionFilter("{class: 'Attendance', alias: 'a', columns: `documentLine.resourceConfiguration,date,count(1)`, where: `present and documentLine.(!cancelled and item.family.code='meals')`, groupBy: 'documentLine.resourceConfiguration,date', orderBy: 'date'}")
+        rightAttendanceFilter = this.<Attendance>createReactiveVisualFilter("{class: 'Attendance', alias: 'a', columns: `documentLine.resourceConfiguration,date,count(1)`, where: `present and documentLine.(!cancelled and item.family.code='meals')`, groupBy: 'documentLine.resourceConfiguration,date', orderBy: 'date'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `documentLine.document.event=" + eventId + "`}");
 
@@ -91,7 +91,7 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
         new StatisticsBuilder(leftSittingFilter, rightAttendanceFilter, pm.sittingVisualResultProperty()).start();
 
         // Setting up the master filter that controls the content displayed in the master view
-        rulesFilter = this.createReactiveExpressionFilter("{class: 'AllocationRule', alias: 'ar', columns: '<default>', orderBy: 'ord,id'}")
+        rulesFilter = this.createReactiveVisualFilter("{class: 'AllocationRule', alias: 'ar', columns: '<default>', orderBy: 'ord,id'}")
                 // Applying the event condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
                 // Displaying the result into the rules table through the presentation model

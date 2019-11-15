@@ -1,15 +1,15 @@
 package mongoose.client.entities.util.filters;
 
 import mongoose.shared.entities.Filter;
-import webfx.framework.client.ui.filter.StringFilter;
-import webfx.framework.client.ui.filter.StringFilterBuilder;
+import webfx.framework.client.orm.entity.filter.EqlFilter;
+import webfx.framework.client.orm.entity.filter.EqlFilterBuilder;
 
 public final class Filters {
 
-    public static StringFilter toStringFilter(Filter filter) {
+    public static EqlFilter toEqlFilter(Filter filter) {
         if (filter == null)
             return null;
-        StringFilterBuilder sfb = new StringFilterBuilder(filter.getClassId());
+        EqlFilterBuilder sfb = new EqlFilterBuilder(filter.getClassId());
         sfb.setAlias(  filter.getAlias());
         sfb.setFields( filter.getFields());
         sfb.setWhere(  filter.getWhereClause());
@@ -22,7 +22,7 @@ public final class Filters {
     }
 
     public static String toStringJson(Filter filter) {
-        return filter == null ? null : toStringFilter(filter).toStringJson();
+        return filter == null ? null : toEqlFilter(filter).toStringJson();
     }
 
 }

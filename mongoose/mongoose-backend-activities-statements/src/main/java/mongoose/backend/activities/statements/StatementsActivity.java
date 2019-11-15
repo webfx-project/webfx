@@ -2,7 +2,7 @@ package mongoose.backend.activities.statements;
 
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-import mongoose.backend.controls.masterslave.ConventionalReactiveExpressionFilterFactoryMixin;
+import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
@@ -10,12 +10,12 @@ import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.framework.client.ui.controls.button.ButtonSelector;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilter;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.shared.orm.entity.Entity;
 
 final class StatementsActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
-        ConventionalReactiveExpressionFilterFactoryMixin {
+        ConventionalReactiveVisualFilterFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -68,12 +68,12 @@ final class StatementsActivity extends EventDependentViewDomainActivity implemen
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveExpressionFilter<MoneyTransfer> groupFilter, masterFilter, slaveFilter;
+    private ReactiveVisualFilter<MoneyTransfer> groupFilter, masterFilter, slaveFilter;
 
     @Override
     protected void startLogic() {
         // Setting up the group filter that controls the content displayed in the group view
-        groupFilter = this.<MoneyTransfer>createGroupReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
+        groupFilter = this.<MoneyTransfer>createGroupReactiveVisualFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
                 // Applying the money account condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedMoneyAccountProperty(), ma -> "{where: `parent = null and (fromMoneyAccount=" + ma.getPrimaryKey() + " or toMoneyAccount=" + ma.getPrimaryKey() + ") or parent != null and (parent..fromMoneyAccount=" + ma.getPrimaryKey() + " or parent..toMoneyAccount=" + ma.getPrimaryKey() + ")`}")
                 .combineIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
@@ -82,7 +82,7 @@ final class StatementsActivity extends EventDependentViewDomainActivity implemen
                 .start();
 
         // Setting up the master filter that controls the content displayed in the master view
-        masterFilter = this.<MoneyTransfer>createMasterReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
+        masterFilter = this.<MoneyTransfer>createMasterReactiveVisualFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
                 .combine("{columns: 'date,document.event,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the money account condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedMoneyAccountProperty(), ma -> "{where: `parent = null and (fromMoneyAccount=" + ma.getPrimaryKey() + " or toMoneyAccount=" + ma.getPrimaryKey() + ") or parent != null and (parent..fromMoneyAccount=" + ma.getPrimaryKey() + " or parent..toMoneyAccount=" + ma.getPrimaryKey() + ")`}")
@@ -104,7 +104,7 @@ final class StatementsActivity extends EventDependentViewDomainActivity implemen
                 .start();
 
         // Slave filter
-        slaveFilter = this.<MoneyTransfer>createSlaveReactiveExpressionFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
+        slaveFilter = this.<MoneyTransfer>createSlaveReactiveVisualFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
                 .combine("{columns: 'date,document.event,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the selection condition
                 .combineIfNotNullOtherwiseForceEmptyResult(pm.selectedPaymentProperty(), mt -> "{where: 'parent=" + mt.getPrimaryKey() + " or transfer=" + mt.getPrimaryKey() + " or parent..transfer=" + mt.getPrimaryKey() + "'}")
@@ -120,8 +120,8 @@ final class StatementsActivity extends EventDependentViewDomainActivity implemen
 
     @Override
     protected void refreshDataOnActive() {
-        groupFilter .refreshWhenActive();
+        groupFilter.refreshWhenActive();
         masterFilter.refreshWhenActive();
-        slaveFilter .refreshWhenActive();
+        slaveFilter.refreshWhenActive();
     }
 }

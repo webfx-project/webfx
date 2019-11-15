@@ -11,8 +11,8 @@ import mongoose.backend.controls.masterslave.MasterTableView;
 import mongoose.backend.controls.masterslave.SlaveTableView;
 import mongoose.backend.controls.masterslave.UiBuilder;
 import mongoose.client.presentationmodel.*;
+import webfx.framework.client.orm.entity.filter.EqlFilter;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
-import webfx.framework.client.ui.filter.StringFilter;
 import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
@@ -105,7 +105,7 @@ public class GroupMasterSlaveView extends MasterSlaveView {
 
     @Override
     public <E> void doVisibilityBinding(GroupView groupView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
-        groupVisibleProperty() .bind(Properties.compute(groupView.groupStringFilterProperty(), s -> s != null && Strings.isNotEmpty(new StringFilter(s).getGroupBy())));
+        groupVisibleProperty() .bind(Properties.compute(groupView.groupEqlFilterStringProperty(), s -> s != null && Strings.isNotEmpty(EqlFilter.parse(s).getGroupBy())));
         masterVisibleProperty().bind(Properties.combine(groupVisibleProperty(),  groupView.selectedGroupProperty(), (groupVisible, selectedGroup) -> !groupVisible || selectedGroup != null));
         slaveVisibleProperty() .bind(Properties.combine(masterVisibleProperty(), masterSelectedEntityProperty, (masterVisible, selectedEntity) -> masterVisible && selectedEntity != null && (additionalSlaveVisibilityCondition == null || additionalSlaveVisibilityCondition.apply(selectedEntity))));
     }

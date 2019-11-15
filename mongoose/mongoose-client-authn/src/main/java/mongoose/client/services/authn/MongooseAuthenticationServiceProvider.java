@@ -1,7 +1,7 @@
 package mongoose.client.services.authn;
 
 import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
-import webfx.framework.shared.expression.sqlcompiler.sql.SqlCompiled;
+import webfx.framework.shared.orm.expression.sqlcompiler.sql.SqlCompiled;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.services.authn.spi.AuthenticationServiceProvider;

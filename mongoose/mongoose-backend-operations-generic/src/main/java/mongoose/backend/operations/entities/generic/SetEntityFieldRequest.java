@@ -1,7 +1,7 @@
 package mongoose.backend.operations.entities.generic;
 
 import javafx.scene.layout.Pane;
-import webfx.framework.shared.expression.Expression;
+import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.operation.HasOperationCode;
 import webfx.framework.shared.operation.HasOperationExecutor;
 import webfx.framework.shared.orm.entity.Entity;

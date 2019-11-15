@@ -1,12 +1,12 @@
 package mongoose.backend.operations.entities.generic;
 
-import webfx.framework.shared.expression.Expression;
-import webfx.framework.shared.expression.terms.*;
+import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.extras.type.PrimType;
 import webfx.extras.type.Type;
 import webfx.extras.type.Types;
+import webfx.framework.shared.orm.expression.terms.*;
 
 import java.util.ArrayList;
 import java.util.List;

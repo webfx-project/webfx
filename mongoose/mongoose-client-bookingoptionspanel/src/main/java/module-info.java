@@ -16,9 +16,9 @@ module mongoose.client.bookingoptionspanel {
     requires webfx.extras.visual;
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.i18n;
-    requires webfx.framework.client.uifilter;
-    requires webfx.framework.shared.entity;
-    requires webfx.framework.shared.expression;
+    requires webfx.framework.client.orm.filter.visual;
+    requires webfx.framework.shared.orm.entity;
+    requires webfx.framework.shared.orm.expression;
     requires webfx.framework.shared.util;
     requires webfx.kit.util;
     requires webfx.platform.shared.util;

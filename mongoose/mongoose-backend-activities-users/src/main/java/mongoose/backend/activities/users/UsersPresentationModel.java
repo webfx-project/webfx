@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.Person;
-import webfx.framework.shared.expression.builder.ReferenceResolver;
+import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
 
@@ -15,26 +15,26 @@ import webfx.extras.visual.VisualSelection;
  * @author Bruno Salmon
  */
 final class UsersPresentationModel extends EventDependentGenericTablePresentationModel implements
-        HasConditionStringFilterProperty,
-        HasGroupStringFilterProperty,
-        HasColumnsStringFilterProperty,
+        HasConditionEqlFilterStringProperty,
+        HasGroupEqlFilterStringProperty,
+        HasColumnsEqlFilterStringProperty,
         HasGroupVisualResultProperty,
         HasGroupVisualSelectionProperty,
         HasSelectedGroupProperty<Person>,
-        HasSelectedGroupConditionStringFilterProperty,
+        HasSelectedGroupConditionEqlFilterStringProperty,
         HasSelectedGroupReferenceResolver,
         HasMasterVisualResultProperty,
         HasMasterVisualSelectionProperty,
         HasSelectedMasterProperty<Person>{
 
-    private final StringProperty conditionStringFilterProperty = new SimpleStringProperty();
-    @Override public StringProperty conditionStringFilterProperty() { return conditionStringFilterProperty; }
+    private final StringProperty conditionEqlFilterStringProperty = new SimpleStringProperty();
+    @Override public StringProperty conditionEqlFilterStringProperty() { return conditionEqlFilterStringProperty; }
 
-    private final StringProperty groupStringFilterProperty = new SimpleStringProperty();
-    @Override public StringProperty groupStringFilterProperty() { return groupStringFilterProperty; }
+    private final StringProperty groupEqlFilterStringProperty = new SimpleStringProperty();
+    @Override public StringProperty groupEqlFilterStringProperty() { return groupEqlFilterStringProperty; }
 
-    private final StringProperty columnsStringFilterProperty = new SimpleStringProperty();
-    @Override public StringProperty columnsStringFilterProperty() { return columnsStringFilterProperty; }
+    private final StringProperty columnsEqlFilterStringProperty = new SimpleStringProperty();
+    @Override public StringProperty columnsEqlFilterStringProperty() { return columnsEqlFilterStringProperty; }
 
     private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
@@ -45,8 +45,8 @@ final class UsersPresentationModel extends EventDependentGenericTablePresentatio
     private final ObjectProperty<Person> selectedGroupProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<Person> selectedGroupProperty() { return selectedGroupProperty; }
 
-    private final StringProperty selectedGroupConditionStringFilterProperty = new SimpleStringProperty();
-    @Override public StringProperty selectedGroupConditionStringFilterProperty() { return selectedGroupConditionStringFilterProperty; }
+    private final StringProperty selectedGroupConditionEqlFilterStringProperty = new SimpleStringProperty();
+    @Override public StringProperty selectedGroupConditionEqlFilterStringProperty() { return selectedGroupConditionEqlFilterStringProperty; }
 
     private ReferenceResolver selectedGroupReferenceResolver;
     @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }

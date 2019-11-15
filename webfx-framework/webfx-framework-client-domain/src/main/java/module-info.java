@@ -6,7 +6,7 @@ module webfx.framework.client.domain {
     requires javafx.base;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.domain;
+    requires webfx.framework.shared.orm.domain;
     requires webfx.platform.shared.util;
 
     // Exported packages

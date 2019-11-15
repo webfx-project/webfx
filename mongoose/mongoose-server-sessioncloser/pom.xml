@@ -23,7 +23,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-shared-domain</artifactId>
+            <artifactId>webfx-framework-shared-orm-domain</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

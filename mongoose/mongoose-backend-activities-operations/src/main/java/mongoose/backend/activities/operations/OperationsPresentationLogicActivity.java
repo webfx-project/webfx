@@ -3,7 +3,7 @@ package mongoose.backend.activities.operations;
 import javafx.scene.layout.Pane;
 import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
 import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
-import webfx.framework.client.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.platform.shared.util.function.Factory;
@@ -13,7 +13,7 @@ import webfx.platform.shared.util.function.Factory;
  */
 final class OperationsPresentationLogicActivity
         extends MongooseDomainPresentationLogicActivityBase<OperationsPresentationModel>
-        implements ReactiveExpressionFilterFactoryMixin {
+        implements ReactiveVisualFilterFactoryMixin {
 
     private final String expressionColumns = "['name','operationCode','i18nCode','backend','frontend','public']";
 
@@ -28,12 +28,12 @@ final class OperationsPresentationLogicActivity
     @Override
     protected void startLogic(OperationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Operation', alias: 'o', orderBy: 'name'}")
+        createReactiveVisualFilter("{class: 'Operation', alias: 'o', orderBy: 'name'}")
                 // Search box condition
                 .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
-                .setExpressionColumns(expressionColumns)
+                .setEntityColumns(expressionColumns)
                 .visualizeResultInto(pm.genericVisualResultProperty())
                 .setSelectedEntityHandler(pm.genericVisualSelectionProperty(), this::editOperation)
                 .setPush(true)

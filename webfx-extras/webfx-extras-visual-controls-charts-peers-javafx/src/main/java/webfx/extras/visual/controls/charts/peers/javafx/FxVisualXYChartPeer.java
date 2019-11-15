@@ -14,7 +14,7 @@ import java.util.function.Function;
  * @author Bruno Salmon
  */
 public abstract class FxVisualXYChartPeer
-        <FxN extends javafx.scene.chart.XYChart, N extends VisualChart, NB extends VisualChartPeerBase<FxN, N, NB, NM>, NM extends VisualChartPeerMixin<FxN, N, NB, NM>>
+        <FxN extends XYChart, N extends VisualChart, NB extends VisualChartPeerBase<FxN, N, NB, NM>, NM extends VisualChartPeerMixin<FxN, N, NB, NM>>
         extends FxVisualChartPeer<FxN, N, NB, NM> {
 
     private List<XYChart.Series> seriesList;
