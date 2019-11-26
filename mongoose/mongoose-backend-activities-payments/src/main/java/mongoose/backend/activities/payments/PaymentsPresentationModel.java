@@ -5,6 +5,7 @@ import mongoose.client.presentationmodel.HasSelectedGroupReferenceResolver;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.MoneyTransfer;
+import webfx.framework.client.orm.entity.filter.DqlStatement;
 import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
@@ -13,12 +14,12 @@ import webfx.extras.visual.VisualSelection;
  * @author Bruno Salmon
  */
 final class PaymentsPresentationModel extends EventDependentGenericTablePresentationModel implements
-        HasConditionEqlFilterStringProperty,
-        HasGroupEqlFilterStringProperty,
+        HasConditionDqlStatementProperty,
+        HasGroupDqlStatementProperty,
         HasGroupVisualResultProperty,
         HasGroupVisualSelectionProperty,
         HasSelectedGroupProperty<MoneyTransfer>,
-        HasSelectedGroupConditionEqlFilterStringProperty,
+        HasSelectedGroupConditionDqlStatementProperty,
         HasSelectedGroupReferenceResolver,
         HasMasterVisualResultProperty,
         HasMasterVisualSelectionProperty,
@@ -30,11 +31,11 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
     private final BooleanProperty flatPaymentsProperty = new SimpleBooleanProperty(true);
     public BooleanProperty flatPaymentsProperty() { return flatPaymentsProperty; }
 
-    private final StringProperty conditionEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty conditionEqlFilterStringProperty() { return conditionEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> conditionDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> conditionDqlStatementProperty() { return conditionDqlStatementProperty; }
 
-    private final StringProperty groupEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty groupEqlFilterStringProperty() { return groupEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> groupDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> groupDqlStatementProperty() { return groupDqlStatementProperty; }
 
     private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
@@ -45,8 +46,8 @@ final class PaymentsPresentationModel extends EventDependentGenericTablePresenta
     private final ObjectProperty<MoneyTransfer> selectedGroupProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<MoneyTransfer> selectedGroupProperty() { return selectedGroupProperty; }
 
-    private final StringProperty selectedGroupConditionEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty selectedGroupConditionEqlFilterStringProperty() { return selectedGroupConditionEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> selectedGroupConditionDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> selectedGroupConditionDqlStatementProperty() { return selectedGroupConditionDqlStatementProperty; }
 
     private ReferenceResolver selectedGroupReferenceResolver;
     @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }

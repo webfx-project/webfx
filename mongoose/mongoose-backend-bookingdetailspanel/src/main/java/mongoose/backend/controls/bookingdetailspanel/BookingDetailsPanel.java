@@ -114,7 +114,7 @@ public final class BookingDetailsPanel implements
         return tab;
     }
 
-    private Tab createFilterTab(String i18nKey, String eqlFilterString) {
+    private Tab createFilterTab(String i18nKey, String dqlStatementString) {
         VisualGrid table = new VisualGrid();
         Tab tab = createTab(i18nKey, table);
         // The following is required only for gwt version for any reason (otherwise the table height is not resized when growing)
@@ -124,11 +124,11 @@ public final class BookingDetailsPanel implements
                 tabPane.requestLayout();
         }, table.visualResultProperty());
         // Setting up the reactive filter
-        String classOnly = eqlFilterString.substring(0, eqlFilterString.indexOf(',')) + "}";
+        String classOnly = dqlStatementString.substring(0, dqlStatementString.indexOf(',')) + "}";
         ObjectProperty<Entity> selectedEntityProperty = new SimpleObjectProperty<>();
         ReactiveVisualFilter<Entity> filter = createReactiveVisualFilter(classOnly)
                 .bindActivePropertyTo(tab.selectedProperty())
-                .combineIfNotNullOtherwiseForceEmptyResult(selectedDocumentProperty, document -> Strings.replaceAll(eqlFilterString, "${selectedDocument}", document.getPrimaryKey()))
+                .combineStringIfNotNullOtherwiseForceEmptyResult(selectedDocumentProperty, document -> Strings.replaceAll(dqlStatementString, "${selectedDocument}", document.getPrimaryKey()))
                 .applyDomainModelRowStyle()
                 .visualizeResultInto(table.visualResultProperty())
                 .setSelectedEntityHandler(table.visualSelectionProperty(), selectedEntityProperty::set)

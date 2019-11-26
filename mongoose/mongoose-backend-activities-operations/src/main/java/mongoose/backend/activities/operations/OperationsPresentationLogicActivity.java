@@ -2,11 +2,14 @@ package mongoose.backend.activities.operations;
 
 import javafx.scene.layout.Pane;
 import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
-import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
+import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.platform.shared.util.function.Factory;
+
+import static webfx.framework.client.orm.entity.filter.DqlStatement.limit;
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
 
 /**
  * @author Bruno Salmon
@@ -30,9 +33,9 @@ final class OperationsPresentationLogicActivity
         // Loading the domain model and setting up the reactive filter
         createReactiveVisualFilter("{class: 'Operation', alias: 'o', orderBy: 'name'}")
                 // Search box condition
-                .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+                .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> where("lower(name) like ?", "%" + s.toLowerCase() + "%"))
                 // Limit condition
-                .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
+                .combineIfPositive(pm.limitProperty(), l -> limit("?", l))
                 .setEntityColumns(expressionColumns)
                 .visualizeResultInto(pm.genericVisualResultProperty())
                 .setSelectedEntityHandler(pm.genericVisualSelectionProperty(), this::editOperation)

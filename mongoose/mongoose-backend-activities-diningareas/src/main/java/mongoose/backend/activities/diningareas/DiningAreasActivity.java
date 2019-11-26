@@ -22,6 +22,8 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.shared.orm.entity.Entity;
 
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+
 final class DiningAreasActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
         ConventionalUiBuilderMixin,
@@ -80,12 +82,12 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
         // Setting up the group filter that controls the content displayed in the group view
         leftSittingFilter = this.<DocumentLine>createReactiveVisualFilter("{class: 'DocumentLine', alias: 'dl', columns: 'resourceConfiguration,count(1)', where: `!cancelled and item.family.code='meals'`, groupBy: 'resourceConfiguration', orderBy: 'resourceConfiguration..name'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}");
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("document.event=?", eventId));
 
         // Setting up the right group filter
         rightAttendanceFilter = this.<Attendance>createReactiveVisualFilter("{class: 'Attendance', alias: 'a', columns: `documentLine.resourceConfiguration,date,count(1)`, where: `present and documentLine.(!cancelled and item.family.code='meals')`, groupBy: 'documentLine.resourceConfiguration,date', orderBy: 'date'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `documentLine.document.event=" + eventId + "`}");
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("documentLine.document.event=?", eventId));
 
         // Building the statistics final display result from the 2 above filters
         new StatisticsBuilder(leftSittingFilter, rightAttendanceFilter, pm.sittingVisualResultProperty()).start();
@@ -93,7 +95,7 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
         // Setting up the master filter that controls the content displayed in the master view
         rulesFilter = this.createReactiveVisualFilter("{class: 'AllocationRule', alias: 'ar', columns: '<default>', orderBy: 'ord,id'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("event=?", eventId))
                 // Displaying the result into the rules table through the presentation model
                 .visualizeResultInto(pm.rulesVisualResultProperty())
                 .setVisualSelectionProperty(pm.rulesVisualSelectionProperty())

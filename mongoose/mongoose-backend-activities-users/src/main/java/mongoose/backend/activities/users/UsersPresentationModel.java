@@ -1,12 +1,10 @@
 package mongoose.backend.activities.users;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.Person;
+import webfx.framework.client.orm.entity.filter.DqlStatement;
 import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
@@ -15,26 +13,26 @@ import webfx.extras.visual.VisualSelection;
  * @author Bruno Salmon
  */
 final class UsersPresentationModel extends EventDependentGenericTablePresentationModel implements
-        HasConditionEqlFilterStringProperty,
-        HasGroupEqlFilterStringProperty,
-        HasColumnsEqlFilterStringProperty,
+        HasConditionDqlStatementProperty,
+        HasGroupDqlStatementProperty,
+        HasColumnsDqlStatementProperty,
         HasGroupVisualResultProperty,
         HasGroupVisualSelectionProperty,
         HasSelectedGroupProperty<Person>,
-        HasSelectedGroupConditionEqlFilterStringProperty,
+        HasSelectedGroupConditionDqlStatementProperty,
         HasSelectedGroupReferenceResolver,
         HasMasterVisualResultProperty,
         HasMasterVisualSelectionProperty,
         HasSelectedMasterProperty<Person>{
 
-    private final StringProperty conditionEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty conditionEqlFilterStringProperty() { return conditionEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> conditionDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> conditionDqlStatementProperty() { return conditionDqlStatementProperty; }
 
-    private final StringProperty groupEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty groupEqlFilterStringProperty() { return groupEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> groupDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> groupDqlStatementProperty() { return groupDqlStatementProperty; }
 
-    private final StringProperty columnsEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty columnsEqlFilterStringProperty() { return columnsEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> columnsDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> columnsDqlStatementProperty() { return columnsDqlStatementProperty; }
 
     private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
@@ -45,8 +43,8 @@ final class UsersPresentationModel extends EventDependentGenericTablePresentatio
     private final ObjectProperty<Person> selectedGroupProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<Person> selectedGroupProperty() { return selectedGroupProperty; }
 
-    private final StringProperty selectedGroupConditionEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty selectedGroupConditionEqlFilterStringProperty() { return selectedGroupConditionEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> selectedGroupConditionDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> selectedGroupConditionDqlStatementProperty() { return selectedGroupConditionDqlStatementProperty; }
 
     private ReferenceResolver selectedGroupReferenceResolver;
     @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }

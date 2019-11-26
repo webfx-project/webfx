@@ -1,17 +1,25 @@
 package mongoose.backend.controls.masterslave.group;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import mongoose.backend.controls.masterslave.UiBuilder;
 import mongoose.client.presentationmodel.*;
+import webfx.extras.imagestore.ImageStore;
+import webfx.extras.type.PrimType;
+import webfx.extras.type.Type;
+import webfx.extras.type.Types;
 import webfx.extras.visual.*;
+import webfx.extras.visual.controls.SelectableVisualResultControl;
+import webfx.extras.visual.controls.charts.VisualAreaChart;
+import webfx.extras.visual.controls.charts.VisualBarChart;
+import webfx.extras.visual.controls.charts.VisualPieChart;
+import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.framework.client.orm.entity.filter.DqlStatement;
 import webfx.framework.client.orm.entity.filter.table.EntityColumn;
-import webfx.framework.client.orm.entity.filter.EqlFilter;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.framework.shared.orm.expression.builder.ThreadLocalReferenceResolver;
@@ -19,30 +27,19 @@ import webfx.framework.shared.orm.expression.sqlcompiler.terms.ConstantSqlCompil
 import webfx.framework.shared.orm.expression.terms.As;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.expression.terms.function.Call;
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.shared.orm.entity.EntityId;
-import webfx.extras.visual.controls.SelectableVisualResultControl;
-import webfx.extras.visual.controls.charts.VisualAreaChart;
-import webfx.extras.visual.controls.charts.VisualBarChart;
-import webfx.extras.visual.controls.charts.VisualPieChart;
-import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.extras.type.PrimType;
-import webfx.extras.type.Type;
-import webfx.extras.type.Types;
-import webfx.extras.imagestore.ImageStore;
 import webfx.platform.shared.util.Numbers;
 
 import java.util.Arrays;
 
 public final class GroupView<E extends Entity> implements UiBuilder,
-        HasGroupEqlFilterStringProperty,
+        HasGroupDqlStatementProperty,
         HasGroupVisualResultProperty,
         HasGroupVisualSelectionProperty,
         HasSelectedGroupProperty<E>,
-        HasSelectedGroupConditionEqlFilterStringProperty {
+        HasSelectedGroupConditionDqlStatementProperty {
 
-    private final StringProperty groupEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty groupEqlFilterStringProperty() { return groupEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> groupDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> groupDqlStatementProperty() { return groupDqlStatementProperty; }
 
     private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
@@ -58,8 +55,8 @@ public final class GroupView<E extends Entity> implements UiBuilder,
     };
     @Override public ObjectProperty<E> selectedGroupProperty() { return selectedGroupProperty; }
 
-    private final StringProperty selectedGroupConditionEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty selectedGroupConditionEqlFilterStringProperty() { return selectedGroupConditionEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> selectedGroupConditionDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> selectedGroupConditionDqlStatementProperty() { return selectedGroupConditionDqlStatementProperty; }
 
     private ReferenceResolver referenceResolver;
 
@@ -96,10 +93,10 @@ public final class GroupView<E extends Entity> implements UiBuilder,
         bindWithSourceGroupVisualResultProperty(pm.groupVisualResultProperty());
         if (pm instanceof HasGroupVisualSelectionProperty)
             bindWithTargetGroupVisualSelectionProperty(((HasGroupVisualSelectionProperty) pm).groupVisualSelectionProperty());
-        if (pm instanceof HasGroupEqlFilterStringProperty)
-            bindWithSourceGroupEqlFilterStringProperty(((HasGroupEqlFilterStringProperty) pm).groupEqlFilterStringProperty());
-        if (pm instanceof HasSelectedGroupConditionEqlFilterStringProperty)
-            bindWithTargetSelectedGroupConditionEqlFilterStringProperty(((HasSelectedGroupConditionEqlFilterStringProperty) pm).selectedGroupConditionEqlFilterStringProperty());
+        if (pm instanceof HasGroupDqlStatementProperty)
+            bindWithSourceGroupDqlStatementProperty(((HasGroupDqlStatementProperty) pm).groupDqlStatementProperty());
+        if (pm instanceof HasSelectedGroupConditionDqlStatementProperty)
+            bindWithTargetSelectedGroupConditionDqlStatementProperty(((HasSelectedGroupConditionDqlStatementProperty) pm).selectedGroupConditionDqlStatementProperty());
         if (pm instanceof HasSelectedGroupProperty)
             bindWithSourceSelectedGroupProperty(((HasSelectedGroupProperty) pm).selectedGroupProperty());
         if (pm instanceof HasSelectedGroupReferenceResolver)
@@ -111,19 +108,19 @@ public final class GroupView<E extends Entity> implements UiBuilder,
             groupVisualResultProperty.bind(sourceGroupVisualResultProperty);
     }
 
-    public void bindWithTargetGroupVisualSelectionProperty(ObjectProperty<VisualSelection> targetGroupVisualSelectionProperty) {
+    public void bindWithTargetGroupVisualSelectionProperty(Property<VisualSelection> targetGroupVisualSelectionProperty) {
         if (targetGroupVisualSelectionProperty != null)
             targetGroupVisualSelectionProperty.bind(groupVisualSelectionProperty);
     }
 
-    public void bindWithSourceGroupEqlFilterStringProperty(StringProperty sourceGroupEqlFilterStringProperty) {
-        if (sourceGroupEqlFilterStringProperty != null)
-            groupEqlFilterStringProperty.bind(sourceGroupEqlFilterStringProperty);
+    public void bindWithSourceGroupDqlStatementProperty(Property<DqlStatement> sourceGroupDqlStatementProperty) {
+        if (sourceGroupDqlStatementProperty != null)
+            groupDqlStatementProperty.bind(sourceGroupDqlStatementProperty);
     }
 
-    public void bindWithTargetSelectedGroupConditionEqlFilterStringProperty(StringProperty targetSelectedGroupConditionEqlFilterStringProperty) {
-        if (targetSelectedGroupConditionEqlFilterStringProperty != null)
-            targetSelectedGroupConditionEqlFilterStringProperty.bind(selectedGroupConditionEqlFilterStringProperty);
+    public void bindWithTargetSelectedGroupConditionDqlStatementProperty(Property<DqlStatement> targetSelectedGroupConditionDqlStatementProperty) {
+        if (targetSelectedGroupConditionDqlStatementProperty != null)
+            targetSelectedGroupConditionDqlStatementProperty.bind(selectedGroupConditionDqlStatementProperty);
     }
 
     public void bindWithSourceSelectedGroupProperty(ObjectProperty<E> sourceSelectedGroupProperty) {
@@ -202,19 +199,18 @@ public final class GroupView<E extends Entity> implements UiBuilder,
 
     private void updateSelectedGroupCondition() {
         E group = getSelectedGroup();
-        String efs = null;
-        String gefs = getGroupEqlFilterString();
-        if (group != null && gefs != null) {
+        DqlStatement selectedGroupFilter = null;
+        DqlStatement groupFilter = getGroupDqlStatement();
+        if (group != null && groupFilter != null) {
             StringBuilder sb = new StringBuilder();
             ThreadLocalReferenceResolver.executeCodeInvolvingReferenceResolver(() -> {
-                EqlFilter eqlFilter = EqlFilter.parse(gefs);
-                ExpressionArray<E> groupByExpressionArray = group.getDomainClass().parseExpressionArray(eqlFilter.getGroupBy());
+                ExpressionArray<E> groupByExpressionArray = group.getDomainClass().parseExpressionArray(groupFilter.getGroupBy().getDql());
                 ExpressionArray<E> columnsExpressionArray = null;
                 for (Expression<E> columnExpression : groupByExpressionArray.getExpressions()) {
                     if (columnExpression instanceof Call) {
                         String definition = columnExpression.toString();
                         if (columnsExpressionArray == null)
-                            columnsExpressionArray = group.getDomainClass().parseExpressionArray(eqlFilter.getColumns());
+                            columnsExpressionArray = group.getDomainClass().parseExpressionArray(groupFilter.getColumns());
                         columnExpression = Arrays.stream(columnsExpressionArray.getExpressions()).filter(e -> e.toString().contains(definition)).findFirst().orElse(columnExpression);
                     }
                     if (isAggregateExpression(columnExpression))
@@ -230,9 +226,9 @@ public final class GroupView<E extends Entity> implements UiBuilder,
                     sb.append(columnExpression).append('=').append(value);
                 }
             }, referenceResolver);
-            efs = "{where: `" + sb + "`}";
+            selectedGroupFilter = DqlStatement.where(sb);
         }
-        selectedGroupConditionEqlFilterStringProperty().set(efs);
+        selectedGroupConditionDqlStatementProperty().set(selectedGroupFilter);
     }
 
     private boolean isAggregateExpression(Expression<?> expression) {

@@ -17,6 +17,7 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 public final class DomainModel {
+
     private final Object id;
     private final Map<Object /* id, modelId, name or sqlTable */, DomainClass> classMap;
     private final CompilerDomainModelReader compilerDomainModelReader = new CompilerDomainModelReaderImpl(this);
@@ -32,8 +33,6 @@ public final class DomainModel {
     }
 
     public DomainClass getClass(Object classId) {
-        /* FROM KBS 2.0 if (classId instanceof ID)
-            classId = ((ID) classId).getObjId(); */
         return classMap.get(classId);
     }
 

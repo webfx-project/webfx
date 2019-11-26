@@ -75,6 +75,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-client-orm-filter</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-orm-filter-visual</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

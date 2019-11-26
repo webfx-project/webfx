@@ -10,6 +10,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import mongoose.backend.controls.masterslave.group.GroupView;
+import webfx.framework.shared.orm.entity.Entity;
 import webfx.kit.util.properties.Properties;
 
 import java.util.ArrayList;
@@ -116,7 +117,7 @@ public class MasterSlaveView implements UiBuilder {
     =================================================== Data binding ===================================================
     ==================================================================================================================*/
 
-    public <E> void doVisibilityBinding(GroupView groupView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
+    public <E extends Entity> void doVisibilityBinding(GroupView<E> groupView, ObjectProperty<E> masterSelectedEntityProperty, Function<E, Boolean> additionalSlaveVisibilityCondition) {
         slaveVisibleProperty().bind(Properties.compute(masterSelectedEntityProperty, selectedEntity -> selectedEntity != null && (additionalSlaveVisibilityCondition == null || additionalSlaveVisibilityCondition.apply(selectedEntity))));
     }
 

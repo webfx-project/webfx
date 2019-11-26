@@ -6,6 +6,9 @@ import mongoose.shared.entities.Event;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
 import webfx.platform.shared.util.function.Factory;
 
+import static webfx.framework.client.orm.entity.filter.DqlStatement.limit;
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+
 /**
  * @author Bruno Salmon
  */
@@ -28,15 +31,15 @@ final class EventsPresentationLogicActivity
 
     @Override
     protected void startLogic(EventsPresentationModel pm) {
-        // Loading the domain model and setting up the reactive filter
+        // Setting up the reactive filter
         this.<Event>createReactiveVisualFilter("{class: 'Event', alias: 'e', fields2: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where2: 'active', orderBy: 'startDate desc,id desc'}")
                 // Search box condition
-                .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
-                .combineIfNotNull(pm.organizationIdProperty(), o -> "{where: 'organization=" + o + "'}")
+                .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> where("lower(name) like ?", "%" + s.toLowerCase() + "%"))
+                .combineIfNotNull(pm.organizationIdProperty(), o -> where("organization=?", o))
                 // Limit condition
-                .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
+                .combineIfPositive(pm.limitProperty(), l -> limit("?", l))
                 // With bookings condition
-                //.combine(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
+                //.combineIfTrue(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
                 .setEntityColumns("[" +
                         //"{label: 'Image', expression: 'image(`images/calendar.svg`)'}," +
                         //"{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +

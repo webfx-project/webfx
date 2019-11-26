@@ -1,10 +1,9 @@
 package webfx.framework.client.orm.entity.filter.table;
 
 import javafx.application.Platform;
-import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
-import webfx.framework.client.orm.entity.filter.EqlFilter;
-import webfx.framework.client.orm.entity.filter.EqlFilterBuilder;
+import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.entity.filter.DqlStatementBuilder;
 import webfx.framework.client.orm.entity.filter.ReactiveEntityFilter;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
@@ -164,15 +163,16 @@ public abstract class ReactiveEntityTableFilter<E extends Entity> extends Reacti
     }
 
     @Override
-    protected EqlFilter mergeEqlFilters() {
-        EqlFilterBuilder mergeBuilder = new EqlFilterBuilder(getDomainClassId());
+    protected DqlStatement mergeDqlStatements() {
+        DqlStatementBuilder mergeBuilder = new DqlStatementBuilder(getDomainClassId());
         Iterator<TableDisplay> it = tableDisplays.iterator();
         currentTableDisplay = Collections.next(it);
-        for (int i = 0; i < eqlFilterProperties.size(); i++) {
-            mergeBuilder.merge(eqlFilterProperties.get(i).getValue());
-            if (currentTableDisplay != null && currentTableDisplay.eqlFilterPropertiesLastIndex == i) {
-                if (mergeBuilder.getColumns() != null) {
-                    currentTableDisplay.setEntityColumns(mergeBuilder.getColumns());
+        for (int i = 0; i < dqlStatementProperties.size(); i++) {
+            mergeBuilder.merge(dqlStatementProperties.get(i).getValue());
+            if (currentTableDisplay != null && currentTableDisplay.dqlStatementPropertiesLastIndex == i) {
+                String columns = mergeBuilder.getColumns();
+                if (columns != null) {
+                    currentTableDisplay.setEntityColumns(columns);
                     mergeBuilder.setColumns(null);
                 }
                 currentTableDisplay = Collections.next(it);
@@ -189,7 +189,7 @@ public abstract class ReactiveEntityTableFilter<E extends Entity> extends Reacti
 
     private void goToNextTableDisplayIfSet() {
         if (currentTableDisplay != null && currentTableDisplay.isTableSet()) {
-            currentTableDisplay.eqlFilterPropertiesLastIndex = eqlFilterProperties.size() - 1;
+            currentTableDisplay.dqlStatementPropertiesLastIndex = dqlStatementProperties.size() - 1;
             currentTableDisplay = null;
         }
     }
@@ -241,7 +241,7 @@ public abstract class ReactiveEntityTableFilter<E extends Entity> extends Reacti
         protected EntityColumn<E>[] entityColumns;
         protected boolean selectFirstRowOnFirstDisplay;
         protected boolean autoSelectSingleRow;
-        int eqlFilterPropertiesLastIndex = -1;
+        int dqlStatementPropertiesLastIndex = -1;
         boolean appliedDomainModelRowStyle;
         List<Expression<E>> columnsPersistentTerms;
 
@@ -328,12 +328,12 @@ public abstract class ReactiveEntityTableFilter<E extends Entity> extends Reacti
     }
 
 
-    /*=================================
-      ====== Fluent API (upgrade) =====
-      =================================*/
+    /*=======================================
+      ====== Fluent API (class upgrade) =====
+      ======================================*/
 
     public ReactiveEntityTableFilter<E> start() {
-        // The following call is to set eqlFilterPropertiesLastIndex on the latest tableDisplay
+        // The following call is to set dqlStatementPropertiesLastIndex on the latest tableDisplay
         goToNextTableDisplayIfSet();
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         Properties.runOnPropertiesChange(new Consumer<ObservableValue/*GWT*/>() {
@@ -391,71 +391,103 @@ public abstract class ReactiveEntityTableFilter<E extends Entity> extends Reacti
         return (ReactiveEntityTableFilter<E>) super.setPush(push);
     }
 
-    public ReactiveEntityTableFilter<E> combine(String eqlFilterString) {
-        return (ReactiveEntityTableFilter<E>) super.combine(eqlFilterString);
+    public ReactiveEntityTableFilter<E> combine(ObservableValue<DqlStatement> dqlStatementProperty) {
+        return (ReactiveEntityTableFilter<E>) super.combine(dqlStatementProperty);
+    }
+
+    public ReactiveEntityTableFilter<E> combine(DqlStatement dqlStatement) {
+        return (ReactiveEntityTableFilter<E>) super.combine(dqlStatement);
+    }
+
+    public ReactiveEntityTableFilter<E> combine(String dqlStatementString) {
+        return (ReactiveEntityTableFilter<E>) super.combine(dqlStatementString);
     }
 
     public ReactiveEntityTableFilter<E> combine(JsonObject json) {
         return (ReactiveEntityTableFilter<E>) super.combine(json);
     }
 
-    public ReactiveEntityTableFilter<E> combine(EqlFilterBuilder eqlFilterBuilder) {
-        return (ReactiveEntityTableFilter<E>) super.combine(eqlFilterBuilder);
+    public <T> ReactiveEntityTableFilter<E> combine(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combine(property, toDqlStatementConverter);
     }
 
-    public ReactiveEntityTableFilter<E> combine(EqlFilter eqlFilter) {
-        return (ReactiveEntityTableFilter<E>) super.combine(eqlFilter);
+    public <T> ReactiveEntityTableFilter<E> combineString(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineString(property, toDqlStatementStringConverter);
     }
 
-    public ReactiveEntityTableFilter<E> combine(ObservableValue<EqlFilter> eqlFilterProperty) {
-        return (ReactiveEntityTableFilter<E>) super.combine(eqlFilterProperty);
+    public ReactiveEntityTableFilter<E> combineIfTrue(ObservableValue<Boolean> ifProperty, DqlStatement dqlStatement) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfTrue(ifProperty, dqlStatement);
     }
 
-    public <T> ReactiveEntityTableFilter<E> combine(ObservableValue<T> property, Converter<T, String> toEqlFilterStringConverter) {
-        return (ReactiveEntityTableFilter<E>) super.combine(property, toEqlFilterStringConverter);
+    public ReactiveEntityTableFilter<E> combineIfTrue(ObservableValue<Boolean> ifProperty, String dqlStatementString) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfTrue(ifProperty, dqlStatementString);
     }
 
-    public <T> ReactiveEntityTableFilter<E> combineIfNotNull(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return (ReactiveEntityTableFilter<E>) super.combineIfNotNull(property, toJsonFilterConverter);
+    public ReactiveEntityTableFilter<E> combineIfTrue(ObservableValue<Boolean> ifProperty, Callable<DqlStatement> toDqlStatementCallable) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfTrue(ifProperty, toDqlStatementCallable);
     }
 
-    public <T> ReactiveEntityTableFilter<E> combineIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return (ReactiveEntityTableFilter<E>) super.combineIfNotNullOtherwiseForceEmptyResult(property, toJsonFilterConverter);
+    public ReactiveEntityTableFilter<E> combineStringIfTrue(ObservableValue<Boolean> ifProperty, Callable<String> toDqlStatementStringCallable) {
+        return (ReactiveEntityTableFilter<E>) super.combineStringIfTrue(ifProperty, toDqlStatementStringCallable);
     }
 
-    public <T> ReactiveEntityTableFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter, String otherwiseEqlFilterString) {
-        return (ReactiveEntityTableFilter<E>) super.combineIfNotNullOtherwise(property, toJsonFilterConverter, otherwiseEqlFilterString);
+    public ReactiveEntityTableFilter<E> combineIfFalse(ObservableValue<Boolean> property, Callable<DqlStatement> toDqlStatementCallable) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfFalse(property, toDqlStatementCallable);
     }
 
-    public ReactiveEntityTableFilter<E> combineIfNotEmpty(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
-        return (ReactiveEntityTableFilter<E>) super.combineIfNotEmpty(property, toJsonFilterConverter);
+    public ReactiveEntityTableFilter<E> combineStringIfFalse(ObservableValue<Boolean> ifProperty, Callable<String> toDqlStatementStringCallable) {
+        return (ReactiveEntityTableFilter<E>) super.combineStringIfFalse(ifProperty, toDqlStatementStringCallable);
     }
 
-    public ReactiveEntityTableFilter<E> combineIfNotEmptyTrim(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
-        return (ReactiveEntityTableFilter<E>) super.combineIfNotEmptyTrim(property, toJsonFilterConverter);
+    public <T extends Number> ReactiveEntityTableFilter<E> combineIfPositive(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfPositive(property, toDqlStatementConverter);
     }
 
-    public <T extends Number> ReactiveEntityTableFilter<E> combineIfPositive(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return (ReactiveEntityTableFilter<E>) super.combineIfPositive(property, toJsonFilterConverter);
+    public <T extends Number> ReactiveEntityTableFilter<E> combineStringIfPositive(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineStringIfPositive(property, toDqlStatementStringConverter);
     }
 
-    public ReactiveEntityTableFilter<E> combineIfTrue(ObservableValue<Boolean> property, Callable<String> toJsonFilterConverter) {
-        return (ReactiveEntityTableFilter<E>) super.combineIfTrue(property, toJsonFilterConverter);
+    public ReactiveEntityTableFilter<E> combineIfNotEmpty(ObservableValue<String> property, Converter<String, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfNotEmpty(property, toDqlStatementConverter);
     }
 
-    public ReactiveEntityTableFilter<E> combineIfFalse(ObservableValue<Boolean> property, Callable<String> toJsonFilterConverter) {
-        return (ReactiveEntityTableFilter<E>) super.combineIfFalse(property, toJsonFilterConverter);
+    public ReactiveEntityTableFilter<E> combineStringIfNotEmpty(ObservableValue<String> property, Converter<String, String> toDqlStatementStringConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineStringIfNotEmpty(property, toDqlStatementStringConverter);
     }
 
-    public ReactiveEntityTableFilter<E> combine(Property<Boolean> ifProperty, EqlFilterBuilder eqlFilterBuilder) {
-        return (ReactiveEntityTableFilter<E>) super.combine(ifProperty, eqlFilterBuilder);
+    public ReactiveEntityTableFilter<E> combineIfNotEmptyTrim(ObservableValue<String> property, Converter<String, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfNotEmptyTrim(property, toDqlStatementConverter);
     }
 
-    public ReactiveEntityTableFilter<E> combine(Property<Boolean> ifProperty, String json) {
-        return (ReactiveEntityTableFilter<E>) super.combine(ifProperty, json);
+    public ReactiveEntityTableFilter<E> combineStringIfNotEmptyTrim(ObservableValue<String> property, Converter<String, String> toDqlStatementStringConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineStringIfNotEmptyTrim(property, toDqlStatementStringConverter);
     }
 
-    public ReactiveEntityTableFilter<E> combine(Property<Boolean> ifProperty, EqlFilter eqlFilter) {
-        return (ReactiveEntityTableFilter<E>) super.combine(ifProperty, eqlFilter);
+    public <T> ReactiveEntityTableFilter<E> combineIfNotNull(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfNotNull(property, toDqlStatementConverter);
+    }
+
+    public <T> ReactiveEntityTableFilter<E> combineStringIfNotNull(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineStringIfNotNull(property, toDqlStatementStringConverter);
+    }
+
+    public <T> ReactiveEntityTableFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter, String otherwiseDqlStatementString, Object... parameterValues) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfNotNullOtherwise(property, toDqlStatementConverter, otherwiseDqlStatementString);
+    }
+
+    public <T> ReactiveEntityTableFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, DqlStatement> toJsonFilterConverter, DqlStatement otherwiseDqlStatement) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfNotNullOtherwise(property, toJsonFilterConverter, otherwiseDqlStatement);
+    }
+
+    public <T> ReactiveEntityTableFilter<E> combineStringIfNotNullOtherwise(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter, String otherwiseDqlStatementString, Object... parameterValues) {
+        return (ReactiveEntityTableFilter<E>) super.combineStringIfNotNullOtherwise(property, toDqlStatementStringConverter, otherwiseDqlStatementString);
+    }
+
+    public <T> ReactiveEntityTableFilter<E> combineIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineIfNotNullOtherwiseForceEmptyResult(property, toDqlStatementConverter);
+    }
+
+    public <T> ReactiveEntityTableFilter<E> combineStringIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return (ReactiveEntityTableFilter<E>) super.combineStringIfNotNullOtherwiseForceEmptyResult(property, toDqlStatementStringConverter);
     }
 }

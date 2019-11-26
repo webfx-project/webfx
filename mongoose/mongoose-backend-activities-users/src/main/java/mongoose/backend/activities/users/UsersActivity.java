@@ -9,6 +9,8 @@ import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Person;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+
 final class UsersActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
         ConventionalReactiveVisualFilterFactoryMixin {
@@ -56,8 +58,8 @@ final class UsersActivity extends EventDependentViewDomainActivity implements
         masterFilter = this.<Person>createMasterReactiveVisualFilter(pm, "{class: 'Person', alias: 'p', orderBy: 'lastName,firstName,id'}")
                 // Applying the user search
                 .combineIfNotEmptyTrim(pm.searchTextProperty(), s ->
-                        s.contains("@") ? "{where: `lower(email) like '%" + s.toLowerCase() + "%'`}"
-                                : "{where: `abcNames(firstName + ' ' + lastName) like '" + AbcNames.evaluate(s, true) + "'`}")
+                        s.contains("@") ? where("lower(email) like ?", "%" + s.toLowerCase() + "%")
+                                : where("abcNames(firstName + ' ' + lastName) like ?", AbcNames.evaluate(s, true) ))
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
                 // Activating server push notification

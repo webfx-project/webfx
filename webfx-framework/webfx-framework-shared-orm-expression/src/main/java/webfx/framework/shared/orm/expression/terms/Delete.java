@@ -6,7 +6,7 @@ import webfx.framework.shared.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public final class Delete<T> extends EqlStatement<T> {
+public final class Delete<T> extends DqlStatement<T> {
 
     public Delete(Object domainClass, String domainClassAlias, Expression<T> where) {
         this(null, domainClass, domainClassAlias, null, null, null, where);

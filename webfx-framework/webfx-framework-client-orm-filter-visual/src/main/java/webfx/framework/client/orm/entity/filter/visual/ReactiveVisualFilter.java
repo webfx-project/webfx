@@ -6,8 +6,7 @@ import webfx.extras.type.PrimType;
 import webfx.extras.visual.VisualColumnBuilder;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
-import webfx.framework.client.orm.entity.filter.EqlFilter;
-import webfx.framework.client.orm.entity.filter.EqlFilterBuilder;
+import webfx.framework.client.orm.entity.filter.DqlStatement;
 import webfx.framework.client.orm.entity.filter.ReactiveEntityFilter;
 import webfx.framework.client.orm.entity.filter.table.EntityColumn;
 import webfx.framework.client.orm.entity.filter.table.ReactiveEntityTableFilter;
@@ -345,72 +344,104 @@ public final class ReactiveVisualFilter<E extends Entity> extends ReactiveEntity
         return (ReactiveVisualFilter<E>) super.setPush(push);
     }
 
-    public ReactiveVisualFilter<E> combine(String eqlFilterString) {
-        return (ReactiveVisualFilter<E>) super.combine(eqlFilterString);
+    public ReactiveVisualFilter<E> combine(ObservableValue<DqlStatement> dqlStatementProperty) {
+        return (ReactiveVisualFilter<E>) super.combine(dqlStatementProperty);
+    }
+
+    public ReactiveVisualFilter<E> combine(DqlStatement dqlStatement) {
+        return (ReactiveVisualFilter<E>) super.combine(dqlStatement);
+    }
+
+    public ReactiveVisualFilter<E> combine(String dqlStatementString) {
+        return (ReactiveVisualFilter<E>) super.combine(dqlStatementString);
     }
 
     public ReactiveVisualFilter<E> combine(JsonObject json) {
         return (ReactiveVisualFilter<E>) super.combine(json);
     }
 
-    public ReactiveVisualFilter<E> combine(EqlFilterBuilder eqlFilterBuilder) {
-        return (ReactiveVisualFilter<E>) super.combine(eqlFilterBuilder);
+    public <T> ReactiveVisualFilter<E> combine(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveVisualFilter<E>) super.combine(property, toDqlStatementConverter);
     }
 
-    public ReactiveVisualFilter<E> combine(EqlFilter eqlFilter) {
-        return (ReactiveVisualFilter<E>) super.combine(eqlFilter);
+    public <T> ReactiveVisualFilter<E> combineString(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return (ReactiveVisualFilter<E>) super.combineString(property, toDqlStatementStringConverter);
     }
 
-    public ReactiveVisualFilter<E> combine(ObservableValue<EqlFilter> eqlFilterProperty) {
-        return (ReactiveVisualFilter<E>) super.combine(eqlFilterProperty);
+    public ReactiveVisualFilter<E> combineIfTrue(ObservableValue<Boolean> ifProperty, DqlStatement dqlStatement) {
+        return (ReactiveVisualFilter<E>) super.combineIfTrue(ifProperty, dqlStatement);
     }
 
-    public <T> ReactiveVisualFilter<E> combine(ObservableValue<T> property, Converter<T, String> toEqlFilterStringConverter) {
-        return (ReactiveVisualFilter<E>) super.combine(property, toEqlFilterStringConverter);
+    public ReactiveVisualFilter<E> combineIfTrue(ObservableValue<Boolean> ifProperty, String dqlStatementString) {
+        return (ReactiveVisualFilter<E>) super.combineIfTrue(ifProperty, dqlStatementString);
     }
 
-    public <T> ReactiveVisualFilter<E> combineIfNotNull(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return (ReactiveVisualFilter<E>) super.combineIfNotNull(property, toJsonFilterConverter);
+    public ReactiveVisualFilter<E> combineIfTrue(ObservableValue<Boolean> ifProperty, Callable<DqlStatement> toDqlStatementCallable) {
+        return (ReactiveVisualFilter<E>) super.combineIfTrue(ifProperty, toDqlStatementCallable);
     }
 
-    public <T> ReactiveVisualFilter<E> combineIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return (ReactiveVisualFilter<E>) super.combineIfNotNullOtherwiseForceEmptyResult(property, toJsonFilterConverter);
+    public ReactiveVisualFilter<E> combineStringIfTrue(ObservableValue<Boolean> ifProperty, Callable<String> toDqlStatementStringCallable) {
+        return (ReactiveVisualFilter<E>) super.combineStringIfTrue(ifProperty, toDqlStatementStringCallable);
     }
 
-    public <T> ReactiveVisualFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter, String otherwiseEqlFilterString) {
-        return (ReactiveVisualFilter<E>) super.combineIfNotNullOtherwise(property, toJsonFilterConverter, otherwiseEqlFilterString);
+    public ReactiveVisualFilter<E> combineIfFalse(ObservableValue<Boolean> property, Callable<DqlStatement> toDqlStatementCallable) {
+        return (ReactiveVisualFilter<E>) super.combineIfFalse(property, toDqlStatementCallable);
     }
 
-    public ReactiveVisualFilter<E> combineIfNotEmpty(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
-        return (ReactiveVisualFilter<E>) super.combineIfNotEmpty(property, toJsonFilterConverter);
+    public ReactiveVisualFilter<E> combineStringIfFalse(ObservableValue<Boolean> ifProperty, Callable<String> toDqlStatementStringCallable) {
+        return (ReactiveVisualFilter<E>) super.combineStringIfFalse(ifProperty, toDqlStatementStringCallable);
     }
 
-    public ReactiveVisualFilter<E> combineIfNotEmptyTrim(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
-        return (ReactiveVisualFilter<E>) super.combineIfNotEmptyTrim(property, toJsonFilterConverter);
+    public <T extends Number> ReactiveVisualFilter<E> combineIfPositive(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveVisualFilter<E>) super.combineIfPositive(property, toDqlStatementConverter);
     }
 
-    public <T extends Number> ReactiveVisualFilter<E> combineIfPositive(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return (ReactiveVisualFilter<E>) super.combineIfPositive(property, toJsonFilterConverter);
+    public <T extends Number> ReactiveVisualFilter<E> combineStringIfPositive(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return (ReactiveVisualFilter<E>) super.combineStringIfPositive(property, toDqlStatementStringConverter);
     }
 
-    public ReactiveVisualFilter<E> combineIfTrue(ObservableValue<Boolean> property, Callable<String> toJsonFilterConverter) {
-        return (ReactiveVisualFilter<E>) super.combineIfTrue(property, toJsonFilterConverter);
+    public ReactiveVisualFilter<E> combineIfNotEmpty(ObservableValue<String> property, Converter<String, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveVisualFilter<E>) super.combineIfNotEmpty(property, toDqlStatementConverter);
     }
 
-    public ReactiveVisualFilter<E> combineIfFalse(ObservableValue<Boolean> property, Callable<String> toJsonFilterConverter) {
-        return (ReactiveVisualFilter<E>) super.combineIfFalse(property, toJsonFilterConverter);
+    public ReactiveVisualFilter<E> combineStringIfNotEmpty(ObservableValue<String> property, Converter<String, String> toDqlStatementStringConverter) {
+        return (ReactiveVisualFilter<E>) super.combineStringIfNotEmpty(property, toDqlStatementStringConverter);
     }
 
-    public ReactiveVisualFilter<E> combine(Property<Boolean> ifProperty, EqlFilterBuilder eqlFilterBuilder) {
-        return (ReactiveVisualFilter<E>) super.combine(ifProperty, eqlFilterBuilder);
+    public ReactiveVisualFilter<E> combineIfNotEmptyTrim(ObservableValue<String> property, Converter<String, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveVisualFilter<E>) super.combineIfNotEmptyTrim(property, toDqlStatementConverter);
     }
 
-    public ReactiveVisualFilter<E> combine(Property<Boolean> ifProperty, String json) {
-        return (ReactiveVisualFilter<E>) super.combine(ifProperty, json);
+    public ReactiveVisualFilter<E> combineStringIfNotEmptyTrim(ObservableValue<String> property, Converter<String, String> toDqlStatementStringConverter) {
+        return (ReactiveVisualFilter<E>) super.combineStringIfNotEmptyTrim(property, toDqlStatementStringConverter);
     }
 
-    public ReactiveVisualFilter<E> combine(Property<Boolean> ifProperty, EqlFilter eqlFilter) {
-        return (ReactiveVisualFilter<E>) super.combine(ifProperty, eqlFilter);
+    public <T> ReactiveVisualFilter<E> combineIfNotNull(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveVisualFilter<E>) super.combineIfNotNull(property, toDqlStatementConverter);
+    }
+
+    public <T> ReactiveVisualFilter<E> combineStringIfNotNull(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return (ReactiveVisualFilter<E>) super.combineStringIfNotNull(property, toDqlStatementStringConverter);
+    }
+
+    public <T> ReactiveVisualFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter, String otherwiseDqlStatementString, Object... parameterValues) {
+        return (ReactiveVisualFilter<E>) super.combineIfNotNullOtherwise(property, toDqlStatementConverter, otherwiseDqlStatementString);
+    }
+
+    public <T> ReactiveVisualFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, DqlStatement> toJsonFilterConverter, DqlStatement otherwiseDqlStatement) {
+        return (ReactiveVisualFilter<E>) super.combineIfNotNullOtherwise(property, toJsonFilterConverter, otherwiseDqlStatement);
+    }
+
+    public <T> ReactiveVisualFilter<E> combineStringIfNotNullOtherwise(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter, String otherwiseDqlStatementString, Object... parameterValues) {
+        return (ReactiveVisualFilter<E>) super.combineStringIfNotNullOtherwise(property, toDqlStatementStringConverter, otherwiseDqlStatementString);
+    }
+
+    public <T> ReactiveVisualFilter<E> combineIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return (ReactiveVisualFilter<E>) super.combineIfNotNullOtherwiseForceEmptyResult(property, toDqlStatementConverter);
+    }
+
+    public <T> ReactiveVisualFilter<E> combineStringIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return (ReactiveVisualFilter<E>) super.combineStringIfNotNullOtherwiseForceEmptyResult(property, toDqlStatementStringConverter);
     }
 
     public ReactiveVisualFilter<E> start() {

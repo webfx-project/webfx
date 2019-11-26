@@ -18,10 +18,10 @@ import mongoose.frontend.activities.options.OptionsActivity;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
 import webfx.extras.visual.controls.grid.VisualGrid;
+import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.kit.util.properties.Properties;
@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
 import static webfx.framework.client.ui.layouts.LayoutUtil.*;
 
 /**
@@ -118,7 +119,7 @@ final class EditableOptionsActivity extends OptionsActivity {
             VisualGrid visualGrid = new VisualGrid();
             addOptionDialogPane = new BorderPane(setMaxPrefSizeToInfinite(visualGrid));
             addOptionDialogFilter = new ReactiveVisualFilter<Option>("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel())
-                    .combine(eventIdProperty(), e -> "{where: 'event.organization=" + getEvent().getOrganization().getPrimaryKey() + "'}")
+                    .combine(eventIdProperty(), e -> where("event.organization=?", getEvent().getOrganization().getPrimaryKey()))
                     .setEntityColumns("[" +
                             "{label: 'Option', expression: 'coalesce(itemFamily.icon,item.family.icon),coalesce(name, item.name)'}," +
                             "{label: 'Event', expression: 'event.(icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate))'}," +

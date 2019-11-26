@@ -8,11 +8,13 @@ import javafx.scene.layout.Pane;
 import mongoose.client.services.authn.MongooseUserPrincipal;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
-import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
+import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
+
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
 
 /**
  * @author Bruno Salmon
@@ -42,14 +44,14 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase
 
     protected void startLogic() {
         createReactiveVisualFilter("{class: 'AuthorizationManagement', orderBy: 'id'}")
-                .combine(userPrincipalProperty(), principal -> "{where: 'manager = " + MongooseUserPrincipal.getUserPersonId(principal) + "'}")
+                .combine(userPrincipalProperty(), principal -> where("manager=?", MongooseUserPrincipal.getUserPersonId(principal)))
                 .setEntityColumns(manageeColumns)
                 .visualizeResultInto(usersGrid.visualResultProperty())
                 .setSelectedEntityHandler(usersGrid.visualSelectionProperty(), selectedManagementProperty::setValue)
                 .start();
 
         assignmentFilter = createReactiveVisualFilter("{class: 'AuthorizationAssignment', orderBy: 'id'}")
-                .combine(selectedManagementProperty, management -> "{where: 'management = " + Entities.getPrimaryKey(management) + "'}")
+                .combine(selectedManagementProperty, management -> where("management=?", Entities.getPrimaryKey(management)))
                 .setEntityColumns(assignmentColumns)
                 .visualizeResultInto(assignmentsGrid.visualResultProperty())
                 .setVisualSelectionProperty(assignmentsGrid.visualSelectionProperty())

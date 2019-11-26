@@ -5,7 +5,7 @@ import webfx.framework.shared.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public final class Update<T> extends EqlStatement<T> {
+public final class Update<T> extends DqlStatement<T> {
 
     private final ExpressionArray<T> setClause; // field1=value1, field2=value2, ...
 

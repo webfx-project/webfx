@@ -42,6 +42,8 @@ import webfx.platform.shared.services.serial.SerialCodecManager;
 import java.util.List;
 import java.util.Objects;
 
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+
 final class RoomsGraphicActivity extends EventDependentViewDomainActivity implements
         ReactiveVisualFilterFactoryMixin,
         HasSelectedDocumentProperty,
@@ -63,7 +65,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         // Setting up the master filter that controls the content displayed in the master view
         sitesFilter = this.<Site>createReactiveEntityFilter("{class: 'Site', alias: 's', fields: 'icon,name', where: `exists(select ResourceConfiguration where resource.site=s and item.family.code='acco')`, orderBy: 'ord,id'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(getPresentationModel().eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(getPresentationModel().eventIdProperty(), eventId -> where("event=?", eventId))
                 .setEntitiesHandler(sitesToTabControllersMapper::updateFromEntities)
                 // Activating server push notification
                 .setPush(true)
@@ -179,7 +181,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
             resourceBox.setMinWidth(150);
             resourceBox.setEffect(BOX_SHADOW_EFFECT);
             peopleFilter = RoomsGraphicActivity.this.<DocumentLine>createReactiveVisualFilter(parentFilter, "{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
-                    .combineIfNotNullOtherwiseForceEmptyResult(resourceConfigurationProperty, rc -> "{where: `resourceConfiguration=" + rc.getPrimaryKey() + "`}")
+                    .combineIfNotNullOtherwiseForceEmptyResult(resourceConfigurationProperty, rc -> where("resourceConfiguration=?", rc.getPrimaryKey()))
                     // Always loading the fields required for viewing the booking details
                     .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS + ")`}")
                     .visualizeResultInto(peopleBox.visualResultProperty())

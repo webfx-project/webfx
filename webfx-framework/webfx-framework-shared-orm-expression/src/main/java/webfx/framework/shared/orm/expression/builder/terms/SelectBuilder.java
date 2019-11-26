@@ -6,7 +6,7 @@ import webfx.framework.shared.orm.expression.terms.Select;
 /**
  * @author Bruno Salmon
  */
-public final class SelectBuilder extends EqlOrderBuilder<Select> {
+public final class SelectBuilder extends DqlOrderBuilder<Select> {
     public Object filterId;
     public boolean distinct = false;
     public boolean includeIdColumn = true;

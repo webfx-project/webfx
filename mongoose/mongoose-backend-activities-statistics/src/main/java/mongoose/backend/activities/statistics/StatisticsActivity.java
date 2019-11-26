@@ -17,9 +17,12 @@ import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.orm.entity.filter.DqlClause;
+import webfx.framework.client.orm.entity.filter.DqlStatement;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
-import webfx.framework.client.orm.entity.filter.EqlFilter;
 import webfx.framework.client.ui.layouts.LayoutUtil;
+
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
 
 final class StatisticsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -72,26 +75,25 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         // Setting up the left group filter for the left content displayed in the group view
         leftGroupFilter = this.<DocumentLine>createGroupReactiveVisualFilter(pm, "{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
                 ;
 
         // Setting up the right group filter
         rightAttendanceFilter = this.<Attendance>createReactiveVisualFilter("{class: 'Attendance', alias: 'a', where: 'present', orderBy: 'date'}")
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `documentLine.document.event=" + eventId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("documentLine.document.event=?", eventId))
                 // Applying the condition and group selected by the user
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.conditionEqlFilterStringProperty(), eqlFilterString -> {
-                    String where = EqlFilter.parse(eqlFilterString).getWhere();
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.conditionDqlStatementProperty(), conditionDqlStatement -> {
+                    DqlClause where = conditionDqlStatement.getWhere();
                     if (where == null)
-                        return "{where: 'false'}";
-                    where = "a.[documentLine as dl].(" + where + ')';
-                    return "{where: `" + where + "`}";
+                        return DqlStatement.EMPTY_STATEMENT;
+                    return where("a.[documentLine as dl].(" + where.getDql() + ')', where.getParameterValues());
                 })
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.groupEqlFilterStringProperty(), eqlFilterString -> {
-                    String groupBy = EqlFilter.parse(eqlFilterString).getGroupBy();
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.groupDqlStatementProperty(), groupDqlStatement -> {
+                    DqlClause groupBy = groupDqlStatement.getGroupBy();
                     if (groupBy == null)
-                        return "{where: 'false'}";
-                    groupBy = "documentLine.(" + groupBy + ')';
-                    return "{columns: `" + groupBy + ",date,count(1)`, groupBy: `" + groupBy + ",date`}";
+                        return DqlStatement.EMPTY_STATEMENT;
+                    String dqlGroupBy = "documentLine.(" + groupBy.getDql() + ')';
+                    return DqlStatement.parse("{columns: `" + dqlGroupBy + ",date,count(1)`, groupBy: `" + dqlGroupBy + ",date`}");
                 })
                 ;
 
@@ -103,7 +105,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                 // Always loading the fields required for viewing the booking details
                 .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS + ")`}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `document.event=" + eventId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
                 // Everything set up, let's start now!

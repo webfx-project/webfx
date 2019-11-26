@@ -39,8 +39,8 @@ import java.util.*;
 public class ReactiveEntityFilter<E extends Entity> implements /*HasActiveProperty,*/ HasEntityStore {
 
     private final ReactiveEntityFilter<?> parentFilter;
-    protected final List<ObservableValue<EqlFilter>> eqlFilterProperties = new ArrayList<>();
-    private boolean eqlFiltersChangedSinceLastFetch;
+    protected final List<ObservableValue<DqlStatement>> dqlStatementProperties = new ArrayList<>();
+    private boolean dqlStatementsChangedSinceLastFetch;
     protected final ObjectProperty<EntityList<E>> entityListProperty = new SimpleObjectProperty<EntityList<E>/*GWT*/>() {
         @Override
         protected void invalidated() {
@@ -51,7 +51,7 @@ public class ReactiveEntityFilter<E extends Entity> implements /*HasActiveProper
     private DataSourceModel dataSourceModel;
     private EntityStore store;
     private Object domainClassId;
-    private EqlFilter baseFilter;
+    private DqlStatement baseFilter;
     protected Handler<EntityList<E>> entitiesHandler;
     private ReferenceResolver rootAliasReferenceResolver;
     private static int filterCount = 0;
@@ -81,7 +81,7 @@ public class ReactiveEntityFilter<E extends Entity> implements /*HasActiveProper
 
     public ReactiveEntityFilter(ReactiveEntityFilter<?> parentFilter, Object jsonOrClass) {
         this(parentFilter);
-        combine(new EqlFilterBuilder(jsonOrClass));
+        combine(new DqlStatementBuilder(jsonOrClass).build());
     }
 
     /*=============================
@@ -119,91 +119,130 @@ public class ReactiveEntityFilter<E extends Entity> implements /*HasActiveProper
         return this;
     }
 
-    public ReactiveEntityFilter<E> combine(String eqlFilterString) {
-        return combine(EqlFilter.parse(eqlFilterString));
-    }
-
-    public ReactiveEntityFilter<E> combine(JsonObject json) {
-        return combine(new EqlFilter(json));
-    }
-
-    public ReactiveEntityFilter<E> combine(EqlFilterBuilder eqlFilterBuilder) {
-        return combine(eqlFilterBuilder.build());
-    }
-
-    public ReactiveEntityFilter<E> combine(EqlFilter eqlFilter) {
-        if (domainClassId == null) {
-            domainClassId = eqlFilter.getDomainClassId();
-            baseFilter = eqlFilter;
-        }
-        return combine(new SimpleObjectProperty<>(eqlFilter));
-    }
-
-    public ReactiveEntityFilter<E> combine(ObservableValue<EqlFilter> eqlFilterProperty) {
-        eqlFilterProperties.add(eqlFilterProperty);
-        markEqlFiltersAsChanged();
+    public ReactiveEntityFilter<E> combine(ObservableValue<DqlStatement> dqlStatementProperty) {
+        dqlStatementProperties.add(dqlStatementProperty);
+        markDqlStatementsAsChanged();
         return this;
     }
 
-    public <T> ReactiveEntityFilter<E> combine(ObservableValue<T> property, Converter<T, String> toEqlFilterStringConverter) {
+    public ReactiveEntityFilter<E> combine(DqlStatement dqlStatement) {
+        if (domainClassId == null) {
+            domainClassId = dqlStatement.getDomainClassId();
+            baseFilter = dqlStatement;
+        }
+        return combine(new SimpleObjectProperty<>(dqlStatement));
+    }
+
+    public ReactiveEntityFilter<E> combine(String dqlStatementString) {
+        return combine(DqlStatement.parse(dqlStatementString));
+    }
+
+    public ReactiveEntityFilter<E> combine(JsonObject json) {
+        return combine(new DqlStatement(json));
+    }
+
+    public <T> ReactiveEntityFilter<E> combine(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
         return combine(Properties.compute(property, t -> {
-            // Calling the converter to get the eqlFilterString filter as String
-            String eqlFilterString = toEqlFilterStringConverter.convert(t);
-            // Converting it to a EqlFilter that we will return. If different from last value, this will trigger a global change check
-            EqlFilter eqlFilter = EqlFilter.parse(eqlFilterString);
-            // However it's possible that the EqlFilter hasn't changed but contains parameters that have changed (ex: name like ?search)
-            // In that case (EqlFilter with parameter), we always schedule a global change check (which will consider parameters)
-            //if (eqlFilterString != null && eqlFilterString.contains("?")) // Simple parameter test with ?
-            markEqlFiltersAsChanged();
-            return eqlFilter;
+            // Calling the converter to get the dql filter
+            DqlStatement dqlStatement = toDqlStatementConverter.convert(t);
+            // If different from last value, this will trigger a global change check
+            // However it's possible that the DqlStatement hasn't changed but contains parameters that have changed (ex: name like ?search)
+            // In that case (DqlStatement with parameter), we always schedule a global change check (which will consider parameters)
+            //if (dqlStatementString != null && dqlStatementString.contains("?")) // Simple parameter test with ?
+            markDqlStatementsAsChanged();
+            return dqlStatement;
         }));
     }
 
-    public <T> ReactiveEntityFilter<E> combineIfNotNull(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return combineIfNotNullOtherwise(property, toJsonFilterConverter, null);
+    public <T> ReactiveEntityFilter<E> combineString(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return combine(property, stringToDqlStatementConverter(toDqlStatementStringConverter));
     }
 
-    public <T> ReactiveEntityFilter<E> combineIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return combineIfNotNullOtherwise(property, toJsonFilterConverter, "{where: 'false'}");
+    protected <T> Converter<T, DqlStatement> stringToDqlStatementConverter(Converter<T, String> toDqlStatementStringConverter) {
+        return t -> DqlStatement.parse(toDqlStatementStringConverter.convert(t));
     }
 
-    public <T> ReactiveEntityFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter, String otherwiseEqlFilterString) {
-        return combine(property, value -> value == null ? otherwiseEqlFilterString : toJsonFilterConverter.convert(value));
-    }
-
-    public ReactiveEntityFilter<E> combineIfNotEmpty(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
-        return combine(property, s -> Strings.isEmpty(s) ? null : toJsonFilterConverter.convert(s));
-    }
-
-    public ReactiveEntityFilter<E> combineIfNotEmptyTrim(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
-        return combineIfNotEmpty(property, s -> toJsonFilterConverter.convert(Strings.trim(s)));
-    }
-
-    public <T extends Number> ReactiveEntityFilter<E> combineIfPositive(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
-        return combine(property, value -> Numbers.isPositive(value) ? toJsonFilterConverter.convert(value) : null);
-    }
-
-    public ReactiveEntityFilter<E> combineIfTrue(ObservableValue<Boolean> property, Callable<String> toJsonFilterConverter) {
-        return combine(property, value -> Booleans.isTrue(value) ? toJsonFilterConverter.call() : null);
-    }
-
-    public ReactiveEntityFilter<E> combineIfFalse(ObservableValue<Boolean> property, Callable<String> toJsonFilterConverter) {
-        return combine(property, value -> Booleans.isFalse(value) ? toJsonFilterConverter.call() : null);
-    }
-
-    public ReactiveEntityFilter<E> combine(ObservableValue<Boolean> ifProperty, EqlFilterBuilder eqlFilterBuilder) {
-        return combine(ifProperty, eqlFilterBuilder.build());
-    }
-
-    public ReactiveEntityFilter<E> combine(ObservableValue<Boolean> ifProperty, String eqlFilterString) {
-        return combine(ifProperty, EqlFilter.parse(eqlFilterString));
-    }
-
-    public ReactiveEntityFilter<E> combine(ObservableValue<Boolean> ifProperty, EqlFilter eqlFilter) {
+    public ReactiveEntityFilter<E> combineIfTrue(ObservableValue<Boolean> ifProperty, DqlStatement dqlStatement) {
         return combine(Properties.compute(ifProperty, value -> {
-            markEqlFiltersAsChanged();
-            return value ? eqlFilter : null;
+            markDqlStatementsAsChanged();
+            return value ? dqlStatement : null;
         }));
+    }
+
+    public ReactiveEntityFilter<E> combineIfTrue(ObservableValue<Boolean> ifProperty, String dqlStatementString) {
+        return combineIfTrue(ifProperty, DqlStatement.parse(dqlStatementString));
+    }
+
+    public ReactiveEntityFilter<E> combineIfTrue(ObservableValue<Boolean> ifProperty, Callable<DqlStatement> toDqlStatementCallable) {
+        return combine(ifProperty, value -> Booleans.isTrue(value) ? toDqlStatementCallable.call() : null);
+    }
+
+    public ReactiveEntityFilter<E> combineStringIfTrue(ObservableValue<Boolean> ifProperty, Callable<String> toDqlStatementStringCallable) {
+        return combineIfTrue(ifProperty, stringToDqlStatementCallable(toDqlStatementStringCallable));
+    }
+
+    protected Callable<DqlStatement> stringToDqlStatementCallable(Callable<String> toDqlStatementStringCallable) {
+        return () -> DqlStatement.parse(toDqlStatementStringCallable.call());
+    }
+
+    public ReactiveEntityFilter<E> combineIfFalse(ObservableValue<Boolean> property, Callable<DqlStatement> toDqlStatementCallable) {
+        return combine(property, value -> Booleans.isFalse(value) ? toDqlStatementCallable.call() : null);
+    }
+
+    public ReactiveEntityFilter<E> combineStringIfFalse(ObservableValue<Boolean> ifProperty, Callable<String> toDqlStatementStringCallable) {
+        return combineIfFalse(ifProperty, stringToDqlStatementCallable(toDqlStatementStringCallable));
+    }
+
+    public <T extends Number> ReactiveEntityFilter<E> combineIfPositive(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return combine(property, value -> Numbers.isPositive(value) ? toDqlStatementConverter.convert(value) : null);
+    }
+
+    public <T extends Number> ReactiveEntityFilter<E> combineStringIfPositive(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return combineIfPositive(property, stringToDqlStatementConverter(toDqlStatementStringConverter));
+    }
+
+    public ReactiveEntityFilter<E> combineIfNotEmpty(ObservableValue<String> property, Converter<String, DqlStatement> toDqlStatementConverter) {
+        return combine(property, s -> Strings.isEmpty(s) ? null : toDqlStatementConverter.convert(s));
+    }
+
+    public ReactiveEntityFilter<E> combineStringIfNotEmpty(ObservableValue<String> property, Converter<String, String> toDqlStatementStringConverter) {
+        return combineIfNotEmpty(property, stringToDqlStatementConverter(toDqlStatementStringConverter));
+    }
+
+    public ReactiveEntityFilter<E> combineIfNotEmptyTrim(ObservableValue<String> property, Converter<String, DqlStatement> toDqlStatementConverter) {
+        return combineIfNotEmpty(property, s -> toDqlStatementConverter.convert(Strings.trim(s)));
+    }
+
+    public ReactiveEntityFilter<E> combineStringIfNotEmptyTrim(ObservableValue<String> property, Converter<String, String> toDqlStatementStringConverter) {
+        return combineIfNotEmptyTrim(property, stringToDqlStatementConverter(toDqlStatementStringConverter));
+    }
+
+    public <T> ReactiveEntityFilter<E> combineIfNotNull(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return combineIfNotNullOtherwise(property, toDqlStatementConverter, (DqlStatement) null);
+    }
+
+    public <T> ReactiveEntityFilter<E> combineStringIfNotNull(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return combineStringIfNotNullOtherwise(property, toDqlStatementStringConverter, null);
+    }
+
+    public <T> ReactiveEntityFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter, String otherwiseDqlStatementString) {
+        return combineIfNotNullOtherwise(property, toDqlStatementConverter, DqlStatement.parse(otherwiseDqlStatementString));
+    }
+
+    public <T> ReactiveEntityFilter<E> combineIfNotNullOtherwise(ObservableValue<T> property, Converter<T, DqlStatement> toJsonFilterConverter, DqlStatement otherwiseDqlStatement) {
+        return combine(property, value -> value == null ? otherwiseDqlStatement : toJsonFilterConverter.convert(value));
+    }
+
+    public <T> ReactiveEntityFilter<E> combineStringIfNotNullOtherwise(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter, String otherwiseDqlStatementString) {
+        return combineIfNotNullOtherwise(property, stringToDqlStatementConverter(toDqlStatementStringConverter), otherwiseDqlStatementString);
+    }
+
+    public <T> ReactiveEntityFilter<E> combineIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, DqlStatement> toDqlStatementConverter) {
+        return combineIfNotNullOtherwise(property, toDqlStatementConverter, "{where: 'false'}");
+    }
+
+    public <T> ReactiveEntityFilter<E> combineStringIfNotNullOtherwiseForceEmptyResult(ObservableValue<T> property, Converter<T, String> toDqlStatementStringConverter) {
+        return combineIfNotNullOtherwiseForceEmptyResult(property, stringToDqlStatementConverter(toDqlStatementStringConverter));
     }
 
     public ReactiveEntityFilter<E> start() {
@@ -301,8 +340,8 @@ public class ReactiveEntityFilter<E extends Entity> implements /*HasActiveProper
         return list;
     }
 
-    private void markEqlFiltersAsChanged() {
-        eqlFiltersChangedSinceLastFetch = true;
+    private void markDqlStatementsAsChanged() {
+        dqlStatementsChangedSinceLastFetch = true;
         reactiveQueryOptionalPush.onArgumentChanged();
     }
 
@@ -311,21 +350,23 @@ public class ReactiveEntityFilter<E extends Entity> implements /*HasActiveProper
         boolean active = isActive();
         boolean push = isPush();
         Object pushClientId = reactiveQueryOptionalPush.getReactiveQueryPush().getPushClientId();
-        if (eqlFiltersChangedSinceLastFetch || hasPushInfoChanged(active, push, pushClientId)) {
-            EqlFilter eqlFilter = mergeEqlFilters();
-            // Shortcut: when the eql filter is "false", we return an empty entity list immediately (no server call) - unless we are in push mode already registered on the server
-            if ((!push || lastPushClientId == null) && ("false".equals(eqlFilter.getWhere()) || "0".equals(eqlFilter.getLimit())))
+        if (dqlStatementsChangedSinceLastFetch || hasPushInfoChanged(active, push, pushClientId)) {
+            DqlStatement dqlStatement = mergeDqlStatements();
+            // Shortcut: when the dql statement is inherently empty, we return an empty entity list immediately (no server call) - unless we are in push mode already registered on the server
+            if ((!push || lastPushClientId == null) && dqlStatement.isInherentlyEmpty())
                 entityListProperty.set(emptyFutureList());
             else if (restrictedFilterList != null) {
                 EntityList<E> filteredList = emptyCurrentList();
-                filteredList.addAll(Entities.select(restrictedFilterList, eqlFilter.toStringSelect()));
+                filteredList.addAll(Entities.select(restrictedFilterList, dqlStatement.toStringSelect()));
                 entityListProperty.set(filteredList);
             } else {
-                // Otherwise we compile the final string filter into sql
-                sqlCompiled = getDomainModel().parseAndCompileSelect(eqlFilter.toStringSelect());
+                // Otherwise we compile the final dql statement into sql
+                sqlCompiled = getDomainModel().parseAndCompileSelect(dqlStatement.toStringSelect(), dqlStatement.getSelectParameterValues());
                 // And extract the possible parameters
                 ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
-                Object[] parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray();
+                if (!Collections.isEmpty(parameterNames))
+                    Logger.log("ReactiveEntityFilter.parameterNames = " + parameterNames);
+                Object[] parameterValues = dqlStatement.getSelectParameterValues() ; // Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray();
                 // Generating the query argument
                 queryArgument = new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceId());
                 // Skipping the server call if there is no difference in the parameters compared to the last call
@@ -337,7 +378,7 @@ public class ReactiveEntityFilter<E extends Entity> implements /*HasActiveProper
             memorizeAsLastQuery(active, push, pushClientId);
             if (queryArgument != null)
                 onBeforeQueryCall();
-            eqlFiltersChangedSinceLastFetch = false;
+            dqlStatementsChangedSinceLastFetch = false;
         }
         return queryArgument;
     }
@@ -349,10 +390,10 @@ public class ReactiveEntityFilter<E extends Entity> implements /*HasActiveProper
     protected void onBeforeQueryCall() {
     }
 
-    protected EqlFilter mergeEqlFilters() {
-        EqlFilterBuilder mergeBuilder = new EqlFilterBuilder(getDomainClassId());
-        for (ObservableValue<EqlFilter> eqlFilterProperty : eqlFilterProperties)
-            mergeBuilder.merge(eqlFilterProperty.getValue());
+    protected DqlStatement mergeDqlStatements() {
+        DqlStatementBuilder mergeBuilder = new DqlStatementBuilder(getDomainClassId());
+        for (ObservableValue<DqlStatement> dqlStatementProperty : dqlStatementProperties)
+            mergeBuilder.merge(dqlStatementProperty.getValue());
         return mergeBuilder.build();
     }
 

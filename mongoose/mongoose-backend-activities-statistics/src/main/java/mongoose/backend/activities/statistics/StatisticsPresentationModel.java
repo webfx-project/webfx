@@ -2,28 +2,26 @@ package mongoose.backend.activities.statistics;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import mongoose.client.presentationmodel.HasSelectedGroupReferenceResolver;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
-import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
+import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 
 /**
  * @author Bruno Salmon
  */
 final class StatisticsPresentationModel extends EventDependentGenericTablePresentationModel implements
-        HasConditionEqlFilterStringProperty,
-        HasGroupEqlFilterStringProperty,
-        HasColumnsEqlFilterStringProperty,
+        HasConditionDqlStatementProperty,
+        HasGroupDqlStatementProperty,
+        HasColumnsDqlStatementProperty,
         HasGroupVisualResultProperty,
         HasGroupVisualSelectionProperty,
         HasSelectedGroupProperty<DocumentLine>,
-        HasSelectedGroupConditionEqlFilterStringProperty,
+        HasSelectedGroupConditionDqlStatementProperty,
         HasSelectedGroupReferenceResolver,
         HasMasterVisualResultProperty,
         HasMasterVisualSelectionProperty,
@@ -31,14 +29,14 @@ final class StatisticsPresentationModel extends EventDependentGenericTablePresen
         HasSelectedDocumentLineProperty,
         HasSelectedDocumentProperty {
 
-    private final StringProperty conditionEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public final StringProperty conditionEqlFilterStringProperty() { return conditionEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> conditionDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public final ObjectProperty<DqlStatement> conditionDqlStatementProperty() { return conditionDqlStatementProperty; }
 
-    private final StringProperty groupEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public final StringProperty groupEqlFilterStringProperty() { return groupEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> groupDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public final ObjectProperty<DqlStatement> groupDqlStatementProperty() { return groupDqlStatementProperty; }
 
-    private final StringProperty columnsEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public final StringProperty columnsEqlFilterStringProperty() { return columnsEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> columnsDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public final ObjectProperty<DqlStatement> columnsDqlStatementProperty() { return columnsDqlStatementProperty; }
 
     private final ObjectProperty<VisualResult> groupVisualResultProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<VisualResult> groupVisualResultProperty() { return groupVisualResultProperty; }
@@ -51,8 +49,8 @@ final class StatisticsPresentationModel extends EventDependentGenericTablePresen
         return selectedGroupProperty;
     }
 
-    private final StringProperty selectedGroupConditionEqlFilterStringProperty = new SimpleStringProperty();
-    @Override public StringProperty selectedGroupConditionEqlFilterStringProperty() { return selectedGroupConditionEqlFilterStringProperty; }
+    private final ObjectProperty<DqlStatement> selectedGroupConditionDqlStatementProperty = new SimpleObjectProperty<>();
+    @Override public ObjectProperty<DqlStatement> selectedGroupConditionDqlStatementProperty() { return selectedGroupConditionDqlStatementProperty; }
 
     private ReferenceResolver selectedGroupReferenceResolver;
     @Override public ReferenceResolver getSelectedGroupReferenceResolver() { return selectedGroupReferenceResolver; }

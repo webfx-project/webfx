@@ -5,7 +5,7 @@ import webfx.framework.shared.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public final class Select<T> extends EqlStatement<T> {
+public final class Select<T> extends DqlStatement<T> {
 
     private final boolean distinct;
     private final boolean includeIdColumn;

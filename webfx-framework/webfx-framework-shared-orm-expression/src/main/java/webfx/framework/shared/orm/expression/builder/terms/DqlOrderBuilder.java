@@ -6,12 +6,12 @@ import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.framework.shared.orm.expression.builder.ThreadLocalReferenceResolver;
 import webfx.framework.shared.orm.expression.lci.ParserDomainModelReader;
 import webfx.framework.shared.orm.expression.terms.Alias;
-import webfx.framework.shared.orm.expression.terms.EqlStatement;
+import webfx.framework.shared.orm.expression.terms.DqlStatement;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class EqlOrderBuilder<S extends EqlStatement> implements ReferenceResolver {
+public abstract class DqlOrderBuilder<S extends DqlStatement> implements ReferenceResolver {
 
     public String definition;
     public String buildingClassName;

@@ -113,20 +113,20 @@ public final class ExpressionSqlCompiler {
         return buildCommonSqlOrder(select, parameterValues, sqlBuild, grouped, dbmsSyntax, parent, parentClause, modelReader);
     }
 
-    private static SqlBuild createSqlOrderBuild(EqlStatement eqlStatement, SqlClause sqlClause, DbmsSqlSyntax dbmsSyntax, SqlBuild parent, CompilerDomainModelReader modelReader) {
-        return new SqlBuild(parent, eqlStatement.getDomainClass(), eqlStatement.getDomainClassAlias(), sqlClause, dbmsSyntax, modelReader);
+    private static SqlBuild createSqlOrderBuild(DqlStatement dqlStatement, SqlClause sqlClause, DbmsSqlSyntax dbmsSyntax, SqlBuild parent, CompilerDomainModelReader modelReader) {
+        return new SqlBuild(parent, dqlStatement.getDomainClass(), dqlStatement.getDomainClassAlias(), sqlClause, dbmsSyntax, modelReader);
     }
 
-    private static SqlBuild buildCommonSqlOrder(EqlStatement eqlStatement, Object[] parameterValues, SqlBuild sqlBuild, boolean grouped, DbmsSqlSyntax dbmsSyntax, SqlBuild parent, SqlClause parentClause, CompilerDomainModelReader modelReader) {
-        if (eqlStatement.getWhere() != null)
-            compileExpression(eqlStatement.getWhere(), new Options(sqlBuild, SqlClause.WHERE, null, parameterValues, grouped, false, false, modelReader));
-        if (eqlStatement.getOrderBy() != null)
-            compileExpression(eqlStatement.getOrderBy(), new Options(sqlBuild, SqlClause.ORDER_BY, ", ", parameterValues, grouped, false, false, modelReader));
-        if (eqlStatement.getLimit() != null && dbmsSyntax != HsqlSyntax.get()) // temporary fix
-            compileExpression(eqlStatement.getLimit(), new Options(sqlBuild, SqlClause.LIMIT, null, parameterValues, grouped, false, false, modelReader));
+    private static SqlBuild buildCommonSqlOrder(DqlStatement dqlStatement, Object[] parameterValues, SqlBuild sqlBuild, boolean grouped, DbmsSqlSyntax dbmsSyntax, SqlBuild parent, SqlClause parentClause, CompilerDomainModelReader modelReader) {
+        if (dqlStatement.getWhere() != null)
+            compileExpression(dqlStatement.getWhere(), new Options(sqlBuild, SqlClause.WHERE, null, parameterValues, grouped, false, false, modelReader));
+        if (dqlStatement.getOrderBy() != null)
+            compileExpression(dqlStatement.getOrderBy(), new Options(sqlBuild, SqlClause.ORDER_BY, ", ", parameterValues, grouped, false, false, modelReader));
+        if (dqlStatement.getLimit() != null && dbmsSyntax != HsqlSyntax.get()) // temporary fix
+            compileExpression(dqlStatement.getLimit(), new Options(sqlBuild, SqlClause.LIMIT, null, parameterValues, grouped, false, false, modelReader));
         if (parent != null)
             parent.prepareAppend(parentClause, null).append(sqlBuild.toSql()); // is it the right way?
-        eqlStatement.setCacheable(sqlBuild.isCacheable());
+        dqlStatement.setCacheable(sqlBuild.isCacheable());
         return sqlBuild;
     }
 

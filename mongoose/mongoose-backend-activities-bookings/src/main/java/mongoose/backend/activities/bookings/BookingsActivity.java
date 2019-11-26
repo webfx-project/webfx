@@ -25,6 +25,7 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
 import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
 final class BookingsActivity extends EventDependentViewDomainActivity implements
@@ -102,7 +103,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
         // Setting up the group filter that controls the content displayed in the group view
         groupFilter = this.<Document>createGroupReactiveVisualFilter(pm, "{class: 'Document', alias: 'd'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("event=?", eventId))
                 // Everything set up, let's start now!
                 .start();
 
@@ -111,12 +112,12 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                 // Always loading the fields required for viewing the booking details
                 .combine("{fields: `" + BookingDetailsPanel.REQUIRED_FIELDS + "`}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("event=?", eventId))
                 // Applying the user search
                 .combineIfNotEmptyTrim(pm.searchTextProperty(), s ->
-                        Character.isDigit(s.charAt(0)) ? "{where: `ref = " + s + "`}"
-                                : s.contains("@") ? "{where: `lower(person_email) like '%" + s.toLowerCase() + "%'`}"
-                                : "{where: `person_abcNames like '" + AbcNames.evaluate(s, true) + "'`}")
+                        Character.isDigit(s.charAt(0)) ? where("ref = ?", Integer.parseInt(s))
+                                : s.contains("@") ? where("lower(person_email) like ?", "%" + s.toLowerCase() + "%")
+                                : where("person_abcNames like ?", AbcNames.evaluate(s, true)))
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
                 // When the result is a singe row, automatically select it

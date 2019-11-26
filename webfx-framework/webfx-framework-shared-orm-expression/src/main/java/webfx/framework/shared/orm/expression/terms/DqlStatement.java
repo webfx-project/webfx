@@ -5,7 +5,7 @@ import webfx.framework.shared.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public abstract class EqlStatement<T> {
+public abstract class DqlStatement<T> {
 
     protected final Object id;
     protected final Object domainClass;
@@ -24,7 +24,7 @@ public abstract class EqlStatement<T> {
     // common
     protected final Object[] parameterValues;
 
-    protected EqlStatement(Object id, Object domainClass, String domainClassAlias, String definition, String sqlDefinition, Object[] parameterValues, Expression<T> where, ExpressionArray<T> orderBy, Expression<T> limit) {
+    protected DqlStatement(Object id, Object domainClass, String domainClassAlias, String definition, String sqlDefinition, Object[] parameterValues, Expression<T> where, ExpressionArray<T> orderBy, Expression<T> limit) {
         this.id = id;
         this.domainClass = domainClass;
         this.domainClassAlias = domainClassAlias;

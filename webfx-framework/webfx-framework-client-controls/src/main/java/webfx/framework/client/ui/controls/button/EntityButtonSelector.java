@@ -15,8 +15,8 @@ import webfx.extras.cell.renderer.ValueRenderingContext;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.framework.client.orm.entity.filter.EqlFilter;
-import webfx.framework.client.orm.entity.filter.EqlFilterBuilder;
+import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.entity.filter.DqlStatementBuilder;
 import webfx.framework.client.orm.entity.filter.table.EntityColumn;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.client.orm.entity.filter.visual.VisualEntityColumnFactory;
@@ -28,11 +28,13 @@ import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.platform.shared.util.Arrays;
-import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.function.Callable;
 
 import java.util.List;
 import java.util.function.Predicate;
+
+import static webfx.framework.client.orm.entity.filter.DqlStatement.limit;
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
 
 /**
  * @author Bruno Salmon
@@ -81,17 +83,18 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         this.jsonOrClass = jsonOrClass;
         renderingExpression = null;
         if (jsonOrClass != null) {
-            EqlFilter eqlFilter = new EqlFilterBuilder(jsonOrClass).build();
+            DqlStatement dqlStatement = new DqlStatementBuilder(jsonOrClass).build();
             DomainModel domainModel = dataSourceModel.getDomainModel();
-            Object domainClassId = eqlFilter.getDomainClassId();
+            Object domainClassId = dqlStatement.getDomainClassId();
             DomainClass entityClass = domainModel.getClass(domainClassId);
-            if (eqlFilter.getColumns() != null) {
-                EntityColumn<E>[] entityColumns = VisualEntityColumnFactory.get().fromJsonArrayOrExpressionsDefinition(eqlFilter.getColumns(), entityClass);
+            if (dqlStatement.getColumns() != null) {
+                EntityColumn<E>[] entityColumns = VisualEntityColumnFactory.get().fromJsonArrayOrExpressionsDefinition(dqlStatement.getColumns(), entityClass);
                 renderingExpression = new ExpressionArray<>(Arrays.map(entityColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(entityClass).getDisplayExpression(), Expression[]::new));
             } else
                 renderingExpression = entityClass.getForeignFields();
-            if (renderingExpression == null && eqlFilter.getFields() != null)
-                renderingExpression = entityClass.parseExpression(eqlFilter.getFields());
+            String fields = dqlStatement.getFields();
+            if (renderingExpression == null && fields != null)
+                renderingExpression = entityClass.parseExpression(fields);
             searchCondition = entityClass.getSearchCondition();
         }
         entityRenderer = renderingExpression == null ? null : ValueRendererFactory.getDefault().createValueRenderer(renderingExpression.getType());
@@ -133,13 +136,11 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             ;
             if (isSearchEnabled())
                 entityDialogFilter
-                    .combine(searchTextProperty(), s -> {
-                        if (Strings.isEmpty(s))
-                            return null;
+                    .combineIfNotEmpty(searchTextProperty(), s -> {
                         setSearchParameters(s, entityDialogFilter.getStore());
-                        return "{where: `" + searchCondition + "`}";
+                        return where(searchCondition);
                     })
-                    .combine(dialogHeightProperty(), height -> "{limit: " + updateAdaptiveLimit(height) + "}");
+                    .combine(dialogHeightProperty(), height -> limit("?", updateAdaptiveLimit(height)));
             //dialogDataGrid.setOnMouseClicked(e -> {if (e.isPrimaryButtonDown() && e.getClickCount() == 1) onDialogOk(); });
         }
         return dialogVisualGrid;

@@ -12,8 +12,10 @@ import mongoose.shared.entities.DocumentLine;
 import mongoose.shared.entities.Filter;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.ui.controls.button.EntityButtonSelector;
+
+import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
 
 final class IncomeActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -63,7 +65,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
     protected void startLogic() {
         totalFilter = this.<Document>createReactiveVisualFilter("{class: 'Document', alias: 'd'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where: `event=" + eventId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("event=?", eventId))
                 .combine("{columns: `null as Totals,sum(price_deposit) as Deposit,sum(price_net) as Invoiced,sum(price_minDeposit) as MinDeposit,sum(price_nonRefundable) as NonRefundable,sum(price_balance) as Balance,count(1) as Bookings,sum(price_balance!=0 ? 1 : 0) as Unreconciled`, groupBy: `event`}")
                 .visualizeResultInto(pm.genericVisualResultProperty())
                 .start();
@@ -71,7 +73,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
         // Setting up the left group filter for the left content displayed in the group view
         breakdownFilter = this.<DocumentLine>createGroupReactiveVisualFilter(pm,"{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> "{where: `document.event=" + eventId + "`}")
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
                 // Everything set up, let's start now!
                 .start();
     }

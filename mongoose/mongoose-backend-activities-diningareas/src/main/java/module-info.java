@@ -18,6 +18,7 @@ module mongoose.backend.activities.diningareas {
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
+    requires webfx.framework.client.orm.filter;
     requires webfx.framework.client.orm.filter.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
