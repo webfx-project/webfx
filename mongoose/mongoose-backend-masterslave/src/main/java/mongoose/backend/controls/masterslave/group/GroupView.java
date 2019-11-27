@@ -16,7 +16,7 @@ import webfx.extras.visual.controls.charts.VisualAreaChart;
 import webfx.extras.visual.controls.charts.VisualBarChart;
 import webfx.extras.visual.controls.charts.VisualPieChart;
 import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.client.orm.entity.filter.table.EntityColumn;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;

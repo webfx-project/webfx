@@ -22,6 +22,7 @@
         <module>webfx-framework-client-i18n-json</module>
         <module>webfx-framework-client-layouts</module>
         <module>webfx-framework-client-materialdesign</module>
+        <module>webfx-framework-client-orm-dql</module>
         <module>webfx-framework-client-orm-filter</module>
         <module>webfx-framework-client-orm-filter-visual</module>
         <module>webfx-framework-client-push</module>
@@ -42,8 +43,8 @@
         <module>webfx-framework-shared-orm-domain</module>
         <module>webfx-framework-shared-orm-entity</module>
         <module>webfx-framework-shared-orm-expression</module>
-        <module>webfx-framework-shared-push</module> <!-- depends on query module -->
-        <module>webfx-framework-shared-querypush</module> <!-- depends on push, query modules -->
+        <module>webfx-framework-shared-push</module>
+        <module>webfx-framework-shared-querypush</module>
         <module>webfx-framework-shared-router</module>
         <module>webfx-framework-shared-util</module>
 

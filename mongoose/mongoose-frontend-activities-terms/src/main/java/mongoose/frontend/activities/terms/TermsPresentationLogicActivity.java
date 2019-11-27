@@ -4,8 +4,8 @@ import mongoose.client.activity.bookingprocess.BookingProcessPresentationLogicAc
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
 import webfx.framework.client.services.i18n.I18n;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.parse;
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.parse;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 /**
  * @author Bruno Salmon

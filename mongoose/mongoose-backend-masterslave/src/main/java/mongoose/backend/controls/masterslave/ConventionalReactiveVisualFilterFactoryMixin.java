@@ -1,13 +1,13 @@
 package mongoose.backend.controls.masterslave;
 
 import mongoose.client.presentationmodel.*;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.kit.util.properties.Properties;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.limit;
+import static webfx.framework.client.orm.dql.DqlStatement.limit;
 
 public interface ConventionalReactiveVisualFilterFactoryMixin extends ReactiveVisualFilterFactoryMixin {
 

@@ -25,7 +25,7 @@ module mongoose.backend.activities.bookings {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
-    requires webfx.framework.client.orm.filter;
+    requires webfx.framework.client.orm.dql;
     requires webfx.framework.client.orm.filter.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;

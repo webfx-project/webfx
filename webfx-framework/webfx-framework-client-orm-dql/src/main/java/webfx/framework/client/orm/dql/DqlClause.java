@@ -1,6 +1,6 @@
-package webfx.framework.client.orm.entity.filter;
+package webfx.framework.client.orm.dql;
 
-import webfx.platform.shared.util.Arrays;
+import java.util.Arrays;
 
 /**
  * @author Bruno Salmon
@@ -43,12 +43,10 @@ public class DqlClause {
         return parameterValues;
     }
 
-    static Object[] concatArrays(Object[] array1, Object[] array2) {
-        if (array1 == null || array1.length == 0)
-            return array2;
-        if (array2 == null || array2.length == 0)
-            return array1;
-        return Arrays.concat(Object[]::new, array1, array2);
+    static Object[] concatClauseParameterValues(DqlClause... clauses) {
+        return Arrays.stream(clauses)
+                .filter(clause -> clause != null && clause.dql != null && clause.parameterValues != null)
+                .flatMap(clause -> Arrays.stream(clause.parameterValues))
+                .toArray();
     }
-
 }

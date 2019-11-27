@@ -6,7 +6,7 @@ module mongoose.client.presentationmodel {
     requires javafx.base;
     requires mongoose.shared.entities;
     requires webfx.extras.visual;
-    requires webfx.framework.client.orm.filter;
+    requires webfx.framework.client.orm.dql;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.orm.expression;
 

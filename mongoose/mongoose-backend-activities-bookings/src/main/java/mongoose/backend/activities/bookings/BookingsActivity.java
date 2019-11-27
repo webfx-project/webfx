@@ -25,7 +25,7 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
 final class BookingsActivity extends EventDependentViewDomainActivity implements

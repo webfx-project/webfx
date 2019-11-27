@@ -6,7 +6,7 @@ import webfx.extras.type.PrimType;
 import webfx.extras.visual.VisualColumnBuilder;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.client.orm.entity.filter.ReactiveEntityFilter;
 import webfx.framework.client.orm.entity.filter.table.EntityColumn;
 import webfx.framework.client.orm.entity.filter.table.ReactiveEntityTableFilter;

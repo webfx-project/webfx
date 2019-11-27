@@ -6,7 +6,7 @@ import mongoose.client.presentationmodel.HasColumnsDqlStatementProperty;
 import mongoose.client.presentationmodel.HasConditionDqlStatementProperty;
 import mongoose.client.presentationmodel.HasGroupDqlStatementProperty;
 import mongoose.shared.entities.Filter;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;

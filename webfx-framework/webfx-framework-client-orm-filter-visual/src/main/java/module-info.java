@@ -10,6 +10,7 @@ module webfx.framework.client.orm.filter.visual {
     requires webfx.extras.type;
     requires webfx.extras.visual;
     requires webfx.framework.client.i18n;
+    requires webfx.framework.client.orm.dql;
     requires webfx.framework.client.orm.filter;
     requires webfx.framework.shared.orm.domain;
     requires webfx.framework.shared.orm.entity;

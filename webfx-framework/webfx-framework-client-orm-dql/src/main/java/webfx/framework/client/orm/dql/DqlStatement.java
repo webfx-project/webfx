@@ -1,4 +1,4 @@
-package webfx.framework.client.orm.entity.filter;
+package webfx.framework.client.orm.dql;
 
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
@@ -103,7 +103,7 @@ public final class DqlStatement {
 
     public Object[] getSelectParameterValues() {
         if (selectParameterValues == null)
-            selectParameterValues = DqlClause.concatArrays(where == null ? null : where.getParameterValues(), limit == null ? null : limit.getParameterValues());
+            selectParameterValues = DqlClause.concatClauseParameterValues(where, groupBy, having, orderBy, limit);
         return selectParameterValues;
     }
 

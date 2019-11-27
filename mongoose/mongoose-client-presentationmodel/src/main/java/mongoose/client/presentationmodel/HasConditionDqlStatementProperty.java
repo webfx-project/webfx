@@ -1,7 +1,7 @@
 package mongoose.client.presentationmodel;
 
 import javafx.beans.property.Property;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatement;
 
 public interface HasConditionDqlStatementProperty {
 

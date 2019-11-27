@@ -18,7 +18,7 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class PaymentsActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
@@ -87,7 +87,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         masterFilter = this.<MoneyTransfer>createMasterReactiveVisualFilter(pm, "{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first,id'}")
                 .combine("{columns: 'date,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("document..event=? or document is null and exists(select MoneyTransfer where parent=mt and document.event=?", eventId, eventId))
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("document..event=? or document is null and exists(select MoneyTransfer where parent=mt and document.event=?)", eventId, eventId))
                 // Applying the flat mode
                 .combineStringIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
                 // Applying the user search

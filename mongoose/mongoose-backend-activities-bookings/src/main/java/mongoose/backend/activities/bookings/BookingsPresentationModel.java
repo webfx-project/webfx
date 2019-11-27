@@ -5,7 +5,7 @@ import mongoose.client.presentationmodel.HasSelectedGroupReferenceResolver;
 import mongoose.client.presentationmodel.*;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.shared.entities.Document;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;

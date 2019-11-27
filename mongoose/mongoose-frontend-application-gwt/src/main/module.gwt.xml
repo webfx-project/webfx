@@ -433,6 +433,9 @@
     <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/materialdesign/textfield"/>
     <source path="webfx/framework/client/ui/materialdesign/util"/>
+    <!--=========================< webfx-framework-client-orm-dql >=========================-->
+    <!-- used by webfx-framework-client-orm-filter (SOURCE) -->
+    <source path="webfx/framework/client/orm/dql"/>
     <!--=======================< webfx-framework-client-orm-filter >========================-->
     <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/orm/entity/filter"/>

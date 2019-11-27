@@ -4,8 +4,8 @@ import mongoose.backend.operations.routes.letter.RouteToLetterRequest;
 import mongoose.client.activity.eventdependent.EventDependentPresentationLogicActivity;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.limit;
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.limit;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 /**
  * @author Bruno Salmon

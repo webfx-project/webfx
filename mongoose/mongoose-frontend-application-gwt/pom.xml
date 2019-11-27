@@ -463,6 +463,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-client-orm-dql</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-orm-filter</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

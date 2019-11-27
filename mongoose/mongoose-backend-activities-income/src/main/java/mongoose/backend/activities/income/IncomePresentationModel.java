@@ -6,7 +6,7 @@ import mongoose.client.activity.eventdependent.EventDependentGenericTablePresent
 import mongoose.client.presentationmodel.HasGroupDqlStatementProperty;
 import mongoose.client.presentationmodel.HasGroupVisualResultProperty;
 import webfx.extras.visual.VisualResult;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatement;
 
 /**
  * @author Bruno Salmon

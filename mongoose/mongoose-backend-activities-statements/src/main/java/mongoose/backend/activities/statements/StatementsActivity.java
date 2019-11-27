@@ -13,7 +13,7 @@ import webfx.framework.client.ui.controls.button.ButtonSelector;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.shared.orm.entity.Entity;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class StatementsActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
@@ -42,7 +42,7 @@ final class StatementsActivity extends EventDependentViewDomainActivity implemen
         moneyAccountSelector.setShowMode(ButtonSelector.ShowMode.DROP_DOWN);
         moneyAccountSelector.getEntityDialogFilter()
                 //.combineIfNotNullOtherwiseForceEmptyResult(pm.organizationIdProperty(), organizationId -> where("organization=?", organizationId))
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("event=? or event=null) and organization=(select organization from Event where id=?", eventId, eventId));
+                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("(event=? or event=null) and organization=(select organization from Event where id=?)", eventId, eventId));
         pm.selectedMoneyAccountProperty().bind(moneyAccountSelector.selectedItemProperty());
 
         CheckBox flatPaymentsCheckBox = newCheckBox("Flat payments");

@@ -2,8 +2,8 @@ package webfx.framework.client.orm.entity.filter.table;
 
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
-import webfx.framework.client.orm.entity.filter.DqlStatementBuilder;
+import webfx.framework.client.orm.dql.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatementBuilder;
 import webfx.framework.client.orm.entity.filter.ReactiveEntityFilter;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;

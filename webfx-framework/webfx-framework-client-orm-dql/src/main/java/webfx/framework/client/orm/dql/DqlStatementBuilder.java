@@ -1,4 +1,4 @@
-package webfx.framework.client.orm.entity.filter;
+package webfx.framework.client.orm.dql;
 
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
@@ -160,11 +160,11 @@ public final class DqlStatementBuilder {
     }
 
     public DqlStatementBuilder mergeWhere(DqlClause where) {
-        if (where != null && !DqlClause.isClauseTrue(where)) {
-            if (this.where == null || DqlClause.isClauseTrue(this.where) || DqlClause.isClauseFalse(where))
+        if (where != null && !DqlClause.isClauseFalse(this.where) && !DqlClause.isClauseTrue(where)) {
+            if (this.where == null || DqlClause.isClauseFalse(where) || DqlClause.isClauseTrue(this.where))
                 this.where = where;
             else
-                this.where = DqlClause.create("(" + this.where.getDql() + ") and (" + where.getDql() + ")", DqlClause.concatArrays(this.where.getParameterValues(), where.getParameterValues()));
+                this.where = DqlClause.create("(" + this.where.getDql() + ") and (" + where.getDql() + ")", DqlClause.concatClauseParameterValues(this.where, where));
         }
         return this;
     }

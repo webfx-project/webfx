@@ -48,7 +48,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-orm-filter</artifactId>
+            <artifactId>webfx-framework-client-orm-dql</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

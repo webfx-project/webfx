@@ -42,7 +42,7 @@ import webfx.platform.shared.services.serial.SerialCodecManager;
 import java.util.List;
 import java.util.Objects;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class RoomsGraphicActivity extends EventDependentViewDomainActivity implements
         ReactiveVisualFilterFactoryMixin,

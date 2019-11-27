@@ -4,7 +4,7 @@ import javafx.beans.property.*;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
 import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.Person;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;

@@ -17,12 +17,12 @@ import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.orm.entity.filter.DqlClause;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlClause;
+import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class StatisticsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,

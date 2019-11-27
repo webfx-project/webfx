@@ -8,7 +8,7 @@ import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 
 /**

@@ -9,7 +9,7 @@ import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Person;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class UsersActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,

@@ -15,8 +15,8 @@ import webfx.extras.cell.renderer.ValueRenderingContext;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.framework.client.orm.entity.filter.DqlStatement;
-import webfx.framework.client.orm.entity.filter.DqlStatementBuilder;
+import webfx.framework.client.orm.dql.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatementBuilder;
 import webfx.framework.client.orm.entity.filter.table.EntityColumn;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.client.orm.entity.filter.visual.VisualEntityColumnFactory;
@@ -33,8 +33,8 @@ import webfx.platform.shared.util.function.Callable;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.limit;
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.limit;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 /**
  * @author Bruno Salmon

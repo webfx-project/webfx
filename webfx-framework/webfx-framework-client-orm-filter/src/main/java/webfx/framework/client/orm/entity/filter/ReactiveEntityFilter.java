@@ -5,6 +5,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import webfx.framework.client.orm.dql.DqlStatement;
+import webfx.framework.client.orm.dql.DqlStatementBuilder;
 import webfx.framework.client.orm.entity.filter.reactive_call.query.ReactiveQuery;
 import webfx.framework.client.orm.entity.filter.reactive_call.querypush.ReactiveQueryOptionalPush;
 import webfx.framework.client.orm.entity.filter.reactive_call.querypush.ReactiveQueryPush;

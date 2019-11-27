@@ -22,7 +22,7 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.shared.orm.entity.Entity;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class DiningAreasActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,

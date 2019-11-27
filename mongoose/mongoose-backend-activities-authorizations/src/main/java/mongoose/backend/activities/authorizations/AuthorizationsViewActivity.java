@@ -14,7 +14,7 @@ import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 
-import static webfx.framework.client.orm.entity.filter.DqlStatement.where;
+import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 /**
  * @author Bruno Salmon

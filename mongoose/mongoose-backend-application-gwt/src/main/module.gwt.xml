@@ -526,7 +526,7 @@
     <source path="webfx/framework/client/activity/impl/elementals/domain"/>
     <source path="webfx/framework/client/activity/impl/elementals/domain/impl"/>
     <!--==========================< webfx-framework-client-i18n >===========================-->
-    <!-- used by webfx-framework-client-orm-filter (SOURCE) -->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/operations/i18n"/>
     <source path="webfx/framework/client/services/i18n"/>
     <source path="webfx/framework/client/services/i18n/spi"/>
@@ -541,8 +541,11 @@
     <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/materialdesign/textfield"/>
     <source path="webfx/framework/client/ui/materialdesign/util"/>
-    <!--=======================< webfx-framework-client-orm-filter >========================-->
+    <!--=========================< webfx-framework-client-orm-dql >=========================-->
     <!-- used by mongoose-client-entities (SOURCE) -->
+    <source path="webfx/framework/client/orm/dql"/>
+    <!--=======================< webfx-framework-client-orm-filter >========================-->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/orm/entity/filter"/>
     <source path="webfx/framework/client/orm/entity/filter/reactive_call"/>
     <source path="webfx/framework/client/orm/entity/filter/reactive_call/query"/>
