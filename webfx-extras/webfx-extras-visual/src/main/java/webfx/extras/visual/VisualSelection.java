@@ -42,6 +42,10 @@ public final class VisualSelection {
         return units.length > 1;
     }
 
+    public boolean isSingle() {
+        return units.length == 1;
+    }
+
     public int getSelectedRow() {
         for (Unit unit: units)
             if (unit.getRow() != null)

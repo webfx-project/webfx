@@ -16,9 +16,9 @@ module webfx.framework.shared.orm.entity {
     exports webfx.framework.shared.orm.entity;
     exports webfx.framework.shared.orm.entity.impl;
     exports webfx.framework.shared.orm.entity.lciimpl;
+    exports webfx.framework.shared.orm.entity.query_result_to_entities;
     exports webfx.framework.shared.orm.entity.result;
     exports webfx.framework.shared.orm.entity.result.impl;
-    exports webfx.framework.shared.orm.mapping.query_to_entity;
 
     // Used services
     uses webfx.framework.shared.orm.entity.EntityFactoryProvider;

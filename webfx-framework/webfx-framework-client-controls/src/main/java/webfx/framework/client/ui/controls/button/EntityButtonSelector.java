@@ -17,17 +17,20 @@ import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.client.orm.dql.DqlStatementBuilder;
-import webfx.framework.client.orm.entity.filter.table.EntityColumn;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
-import webfx.framework.client.orm.entity.filter.visual.VisualEntityColumnFactory;
+import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntityMapper;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.VisualEntityColumnFactory;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.platform.shared.util.Arrays;
+import webfx.platform.shared.util.async.Handler;
 import webfx.platform.shared.util.function.Callable;
 
 import java.util.List;
@@ -48,7 +51,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     private ValueRenderer entityRenderer;
 
     private EntityStore loadingStore;
-    private ReactiveVisualFilter<E> entityDialogFilter;
+    private ReactiveVisualMapper<E> entityDialogMapper;
     private List<E> restrictedFilterList;
     private VisualGrid dialogVisualGrid;
     private String searchCondition;
@@ -125,22 +128,25 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             BorderPane.setAlignment(dialogVisualGrid, Pos.TOP_LEFT);
             dialogVisualGrid.visualResultProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredVisualResult.setValue(newValue)));
             EntityStore filterStore = loadingStore != null ? loadingStore : getSelectedItem() != null ? getSelectedItem().getStore() : null;
-            entityDialogFilter = new ReactiveVisualFilter<E>(jsonOrClass)
+            entityDialogMapper = ReactiveVisualMapper.<E>createReactiveChain()
+                    .always(jsonOrClass)
                     .setDataSourceModel(dataSourceModel)
                     .setStore(filterStore)
                     .setRestrictedFilterList(restrictedFilterList)
                     .setEntityColumns(VisualEntityColumnFactory.get().create(renderingExpression))
                     .visualizeResultInto(dialogVisualGrid.visualResultProperty())
                     .setVisualSelectionProperty(dialogVisualGrid.visualSelectionProperty())
-                    .setSelectedEntityHandler(dialogVisualGrid.visualSelectionProperty(), e -> {if (e != null && button != null) onDialogOk();})
-            ;
+                    .setSelectedEntityHandler(e -> {
+                        if (e != null && button != null)
+                            onDialogOk();
+                    });
             if (isSearchEnabled())
-                entityDialogFilter
-                    .combineIfNotEmpty(searchTextProperty(), s -> {
-                        setSearchParameters(s, entityDialogFilter.getStore());
-                        return where(searchCondition);
-                    })
-                    .combine(dialogHeightProperty(), height -> limit("?", updateAdaptiveLimit(height)));
+                entityDialogMapper.getReactiveEntityMapper().getReactiveDqlQuery().getReactiveDqlStatement()
+                        .ifTrimNotEmpty(searchTextProperty(), s -> {
+                            setSearchParameters(s, entityDialogMapper.getReactiveEntityMapper().getStore());
+                            return where(searchCondition);
+                        })
+                        .always(dialogHeightProperty(), height -> limit("?", updateAdaptiveLimit(height)));
             //dialogDataGrid.setOnMouseClicked(e -> {if (e.isPrimaryButtonDown() && e.getClickCount() == 1) onDialogOk(); });
         }
         return dialogVisualGrid;
@@ -173,40 +179,43 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         if (predicate == null)
             return;
         setUpDialog(false);
-        if (entityDialogFilter != null)
-            entityDialogFilter.setEntitiesHandler(entityList -> {
+        if (entityDialogMapper != null) {
+            ReactiveEntityMapper<E> reactiveEntityMapper = entityDialogMapper.getReactiveEntityMapper();
+            Handler<EntityList<E>>[] entitiesHandlerHolder = new Handler[1];
+            reactiveEntityMapper.addEntitiesHandler(entitiesHandlerHolder[0] = entityList -> {
                 setSelectedItem(entityList.stream().filter(predicate).findFirst().orElse(null));
-                entityDialogFilter.setEntitiesHandler(null);
+                reactiveEntityMapper.removeEntitiesHandler(entitiesHandlerHolder[0]);
             });
+        }
     }
 
-    public ReactiveVisualFilter<E> getEntityDialogFilter() {
-        if (entityDialogFilter == null)
+    public ReactiveVisualMapper<E> getEntityDialogMapper() {
+        if (entityDialogMapper == null)
             getOrCreateDialogContent();
-        return entityDialogFilter;
+        return entityDialogMapper;
     }
 
     @Override
     protected void setUpDialog(boolean show) {
         super.setUpDialog(show);
-        getEntityDialogFilter().setActive(true);
+        getEntityDialogMapper().start();
     }
 
     @Override
     protected void startLoading() {
-        if (!getEntityDialogFilter().isStarted())
-            entityDialogFilter.start();
+        if (!getEntityDialogMapper().isStarted())
+            entityDialogMapper.start();
     }
 
     @Override
     protected void onDialogOk() {
-        setSelectedItem(getEntityDialogFilter().getSelectedEntity());
+        setSelectedItem(getEntityDialogMapper().getSelectedEntity());
         super.onDialogOk();
     }
 
     @Override
     protected void closeDialog() {
-        getEntityDialogFilter().setActive(false);
+        getEntityDialogMapper().stop();
         super.closeDialog();
     }
 }

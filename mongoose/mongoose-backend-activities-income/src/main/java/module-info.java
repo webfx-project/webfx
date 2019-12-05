@@ -9,7 +9,6 @@ module mongoose.backend.activities.income {
     requires mongoose.backend.masterslave;
     requires mongoose.client.activity;
     requires mongoose.client.entities;
-    requires mongoose.client.presentationmodel;
     requires mongoose.client.util;
     requires mongoose.shared.entities;
     requires webfx.extras.visual;
@@ -19,7 +18,7 @@ module mongoose.backend.activities.income {
     requires webfx.framework.client.controls;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.orm.dql;
-    requires webfx.framework.client.orm.filter.visual;
+    requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.orm.domain;

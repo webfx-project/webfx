@@ -87,7 +87,11 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
         }
 
         private void execute() {
-            runnable.run();
+            try {
+                runnable.run();
+            } catch (Throwable throwable) {
+                log(throwable);
+            }
             if (nextExecutionTime != 0 && periodic)
                 nextExecutionTime += delayMs;
         }
@@ -136,6 +140,10 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
 
     protected void log(String message) {
         System.out.println(message);
+    }
+
+    protected void log(Throwable throwable) {
+        throwable.printStackTrace(System.err);
     }
 
     private void executeAnimations(List<AnimationScheduled> animations) {

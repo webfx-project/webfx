@@ -7,7 +7,6 @@ module mongoose.backend.activities.roomsgraphic {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires mongoose.backend.bookingdetailspanel;
     requires mongoose.backend.masterslave;
     requires mongoose.backend.operations.resourceconfiguration;
     requires mongoose.client.activity;
@@ -21,8 +20,8 @@ module mongoose.backend.activities.roomsgraphic {
     requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.orm.dql;
-    requires webfx.framework.client.orm.filter;
-    requires webfx.framework.client.orm.filter.visual;
+    requires webfx.framework.client.orm.reactive.entities;
+    requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.orm.entity;

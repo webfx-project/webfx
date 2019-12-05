@@ -1,5 +1,6 @@
 package webfx.framework.shared.orm.entity;
 
+import webfx.framework.shared.orm.entity.query_result_to_entities.QueryResultToEntitiesMapper;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.sqlcompiler.sql.SqlCompiled;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
@@ -8,7 +9,6 @@ import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
 import webfx.framework.shared.orm.entity.impl.EntityStoreImpl;
 import webfx.framework.shared.orm.entity.lciimpl.EntityDataWriter;
-import webfx.framework.shared.orm.mapping.query_to_entity.QueryResultToEntitiesMapper;
 import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryService;
 import webfx.platform.shared.util.Arrays;

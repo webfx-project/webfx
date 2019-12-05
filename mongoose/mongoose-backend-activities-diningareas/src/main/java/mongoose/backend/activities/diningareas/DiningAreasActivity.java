@@ -6,7 +6,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import mongoose.backend.activities.statistics.StatisticsBuilder;
-import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.backend.operations.entities.allocationrule.AddNewAllocationRuleRequest;
 import mongoose.backend.operations.entities.allocationrule.DeleteAllocationRuleRequest;
@@ -19,15 +18,14 @@ import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.shared.orm.entity.Entity;
 
 import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class DiningAreasActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
-        ConventionalUiBuilderMixin,
-        ConventionalReactiveVisualFilterFactoryMixin {
+        ConventionalUiBuilderMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -52,18 +50,18 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
         Pane container = new StackPane(splitPane);
         setUpContextMenu(rulesTable, () -> newActionGroup(
                 newSeparatorActionGroup(
-                        newOperationAction(() -> new AddNewAllocationRuleRequest( getEvent(), container))
+                        newOperationAction(() -> new AddNewAllocationRuleRequest(getEvent(), container))
                 ),
                 newSeparatorActionGroup(
-                        newOperationAction(() -> new TriggerAllocationRuleRequest( rulesFilter.getSelectedEntity(), container))
+                        newOperationAction(() -> new TriggerAllocationRuleRequest(rulesVisualMapper.getSelectedEntity(), container))
                 ),
                 newSeparatorActionGroup(
-                        newOperationAction(() -> new EditAllocationRuleRequest(   rulesFilter.getSelectedEntity(), container)),
-                        newOperationAction(() -> new DeleteAllocationRuleRequest( rulesFilter.getSelectedEntity(), container))
+                        newOperationAction(() -> new EditAllocationRuleRequest(rulesVisualMapper.getSelectedEntity(), container)),
+                        newOperationAction(() -> new DeleteAllocationRuleRequest(rulesVisualMapper.getSelectedEntity(), container))
                 ),
                 newSeparatorActionGroup(
-                        newOperationAction(() -> new CopySelectionRequest( rulesFilter.getSelectedEntities(),  rulesFilter.getEntityColumns())),
-                        newOperationAction(() -> new CopyAllRequest(       rulesFilter.getCurrentEntityList(), rulesFilter.getEntityColumns()))
+                        newOperationAction(() -> new CopySelectionRequest(rulesVisualMapper.getSelectedEntities(), rulesVisualMapper.getEntityColumns())),
+                        newOperationAction(() -> new CopyAllRequest(rulesVisualMapper.getCurrentEntityList(), rulesVisualMapper.getEntityColumns()))
                 )));
         return container;
     }
@@ -73,45 +71,45 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveVisualFilter<DocumentLine> leftSittingFilter;
-    private ReactiveVisualFilter<Attendance> rightAttendanceFilter;
-    private ReactiveVisualFilter<Entity> rulesFilter;
+    private ReactiveVisualMapper<DocumentLine> leftSittingVisualMapper;
+    private ReactiveVisualMapper<Attendance> rightAttendanceVisualMapper;
+    private ReactiveVisualMapper<Entity> rulesVisualMapper;
+    private StatisticsBuilder statisticsBuilder; // to avoid GC
 
     @Override
     protected void startLogic() {
-        // Setting up the group filter that controls the content displayed in the group view
-        leftSittingFilter = this.<DocumentLine>createReactiveVisualFilter("{class: 'DocumentLine', alias: 'dl', columns: 'resourceConfiguration,count(1)', where: `!cancelled and item.family.code='meals'`, groupBy: 'resourceConfiguration', orderBy: 'resourceConfiguration..name'}")
+        // Setting up the group mapper that build the content displayed in the group view
+        leftSittingVisualMapper = ReactiveVisualMapper.<DocumentLine>createReactiveChain(this)
+                .always("{class: 'DocumentLine', alias: 'dl', columns: 'resourceConfiguration,count(1)', where: `!cancelled and item.family.code='meals'`, groupBy: 'resourceConfiguration', orderBy: 'resourceConfiguration..name'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("document.event=?", eventId));
+                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
+        ;
 
-        // Setting up the right group filter
-        rightAttendanceFilter = this.<Attendance>createReactiveVisualFilter("{class: 'Attendance', alias: 'a', columns: `documentLine.resourceConfiguration,date,count(1)`, where: `present and documentLine.(!cancelled and item.family.code='meals')`, groupBy: 'documentLine.resourceConfiguration,date', orderBy: 'date'}")
+        rightAttendanceVisualMapper = ReactiveVisualMapper.<Attendance>createReactiveChain(this)
+                .always("{class: 'Attendance', alias: 'a', columns: `documentLine.resourceConfiguration,date,count(1)`, where: `present and documentLine.(!cancelled and item.family.code='meals')`, groupBy: 'documentLine.resourceConfiguration,date', orderBy: 'date'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("documentLine.document.event=?", eventId));
+                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("documentLine.document.event=?", eventId))
+        ;
 
         // Building the statistics final display result from the 2 above filters
-        new StatisticsBuilder(leftSittingFilter, rightAttendanceFilter, pm.sittingVisualResultProperty()).start();
+        statisticsBuilder = new StatisticsBuilder(leftSittingVisualMapper, rightAttendanceVisualMapper, pm.sittingVisualResultProperty()).start();
 
-        // Setting up the master filter that controls the content displayed in the master view
-        rulesFilter = this.createReactiveVisualFilter("{class: 'AllocationRule', alias: 'ar', columns: '<default>', orderBy: 'ord,id'}")
+        rulesVisualMapper = ReactiveVisualMapper.createPushReactiveChain(this)
+                .always("{class: 'AllocationRule', alias: 'ar', columns: '<default>', orderBy: 'ord,id'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("event=?", eventId))
+                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
                 // Displaying the result into the rules table through the presentation model
                 .visualizeResultInto(pm.rulesVisualResultProperty())
                 .setVisualSelectionProperty(pm.rulesVisualSelectionProperty())
                 // Colorizing the rows
                 .applyDomainModelRowStyle()
-                // Activating server push notification
-                .setPush(true)
-                // Everything set up, let's start now!
                 .start();
     }
 
     @Override
     protected void refreshDataOnActive() {
-        leftSittingFilter.refreshWhenActive();
-        rightAttendanceFilter.refreshWhenActive();
-        rulesFilter.refreshWhenActive();
+        leftSittingVisualMapper.refreshWhenActive();
+        rightAttendanceVisualMapper.refreshWhenActive();
+        rulesVisualMapper.refreshWhenActive();
     }
-
 }

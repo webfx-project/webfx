@@ -1,9 +1,9 @@
 package mongoose.client.activity.table;
 
 import javafx.beans.property.*;
-import mongoose.client.presentationmodel.HasGenericVisualResultProperty;
-import mongoose.client.presentationmodel.HasGenericVisualSelectionProperty;
-import mongoose.client.presentationmodel.HasLimitProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGenericVisualResultProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGenericVisualSelectionProperty;
+import webfx.framework.client.orm.reactive.dql.statement.conventions.HasLimitProperty;
 import mongoose.client.presentationmodel.HasSearchTextProperty;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;

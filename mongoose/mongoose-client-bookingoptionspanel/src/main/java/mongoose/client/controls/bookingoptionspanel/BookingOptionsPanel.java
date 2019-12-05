@@ -16,7 +16,7 @@ import webfx.framework.shared.orm.expression.lci.DataReader;
 import webfx.framework.shared.orm.expression.terms.function.AggregateFunction;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.framework.client.orm.mapping.entity_to_visual.EntitiesToVisualResultMapper;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.EntitiesToVisualResultMapper;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.VisualResult;

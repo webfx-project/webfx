@@ -36,7 +36,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-orm-filter</artifactId>
+            <artifactId>webfx-framework-client-orm-reactive-entities</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

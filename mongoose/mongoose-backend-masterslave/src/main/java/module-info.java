@@ -8,7 +8,6 @@ module mongoose.backend.masterslave {
     requires javafx.controls;
     requires javafx.graphics;
     requires mongoose.client.entities;
-    requires mongoose.client.presentationmodel;
     requires webfx.extras.imagestore;
     requires webfx.extras.type;
     requires webfx.extras.visual;
@@ -18,8 +17,8 @@ module mongoose.backend.masterslave {
     requires webfx.framework.client.controls;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.orm.dql;
-    requires webfx.framework.client.orm.filter;
-    requires webfx.framework.client.orm.filter.visual;
+    requires webfx.framework.client.orm.reactive.entities;
+    requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.shared.orm.domain;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.orm.expression;

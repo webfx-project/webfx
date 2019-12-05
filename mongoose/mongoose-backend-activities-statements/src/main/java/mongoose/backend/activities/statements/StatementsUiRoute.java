@@ -17,7 +17,7 @@ public final class StatementsUiRoute extends UiRouteImpl {
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.createRegex(PathBuilder.toRegexPath(StatementsRouting.getPath())
-                , true
+                , false
                 , StatementsActivity::new
                 , ViewDomainActivityContextFinal::new
         );

@@ -13,7 +13,6 @@ import javafx.scene.effect.Effect;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
 import mongoose.backend.controls.masterslave.MasterSlaveView;
 import mongoose.backend.operations.entities.resourceconfiguration.*;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
@@ -25,10 +24,9 @@ import webfx.extras.imagestore.ImageStore;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.orm.entity.filter.ReactiveEntityFilter;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
-import webfx.framework.client.orm.mapping.entity_to_object.ObservableEntitiesToObjectsMapper;
+import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntityMapper;
+import webfx.framework.client.orm.reactive.mapping.entities_to_objects.ObservableEntitiesToObjectsMapper;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.action.ActionGroup;
 import webfx.framework.client.ui.layouts.FlexBox;
 import webfx.framework.client.ui.layouts.LayoutUtil;
@@ -45,15 +43,18 @@ import java.util.Objects;
 import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class RoomsGraphicActivity extends EventDependentViewDomainActivity implements
-        ReactiveVisualFilterFactoryMixin,
         HasSelectedDocumentProperty,
         OperationActionFactoryMixin {
 
     private final ObjectProperty<Document> selectedDocumentProperty = new SimpleObjectProperty<>();
-    @Override public ObjectProperty<Document> selectedDocumentProperty() { return selectedDocumentProperty; }
+
+    @Override
+    public ObjectProperty<Document> selectedDocumentProperty() {
+        return selectedDocumentProperty;
+    }
 
     private Pane container; // Keeping a reference of the container to act as the parent for dialog windows
-    private ReactiveEntityFilter<Site> sitesFilter;
+    private ReactiveEntityMapper<Site> sitesMapper;
 
     @Override
     public Node buildUi() {
@@ -62,14 +63,12 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         ObservableLists.bindConverted(sitesTabPane.getTabs(), sitesToTabControllersMapper.getObservableObjects(), SiteTabController::getTab);
         MasterSlaveView masterSlaveView = new MasterSlaveView(sitesTabPane, MasterSlaveView.createAndBindSlaveViewIfApplicable(this, this, () -> container).buildUi());
         masterSlaveView.slaveVisibleProperty().bind(Properties.compute(selectedDocumentProperty(), Objects::nonNull));
-        // Setting up the master filter that controls the content displayed in the master view
-        sitesFilter = this.<Site>createReactiveEntityFilter("{class: 'Site', alias: 's', fields: 'icon,name', where: `exists(select ResourceConfiguration where resource.site=s and item.family.code='acco')`, orderBy: 'ord,id'}")
+        // Setting up the master mapper that build the content displayed in the master view
+        sitesMapper = ReactiveEntityMapper.<Site>createPushReactiveChain(this)
+                .always("{class: 'Site', alias: 's', fields: 'icon,name', where: `exists(select ResourceConfiguration where resource.site=s and item.family.code='acco')`, orderBy: 'ord,id'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(getPresentationModel().eventIdProperty(), eventId -> where("event=?", eventId))
-                .setEntitiesHandler(sitesToTabControllersMapper::updateFromEntities)
-                // Activating server push notification
-                .setPush(true)
-                // Everything set up, let's start now!
+                .ifNotNullOtherwiseForceEmpty(getPresentationModel().eventIdProperty(), eventId -> where("event=?", eventId))
+                .addEntitiesHandler(sitesToTabControllersMapper::updateFromEntities)
                 .start();
         return container = masterSlaveView.buildUi();
     }
@@ -78,18 +77,19 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
 
         final TabPane itemTabPane = new TabPane();
         final Tab siteTab = new Tab(null, itemTabPane);
-        final ReactiveEntityFilter<Entity> itemsFilter;
+        final ReactiveEntityMapper<Entity> itemsMapper;
 
         SiteTabController(Site site) {
             siteTab.setClosable(false);
-            Object sitePk = site.getPrimaryKey();
-            itemsFilter = createReactiveEntityFilter(sitesFilter,"{class: 'ResourceConfiguration', fields: 'item.icon,item.name,resource.site', where: `resource.site=" + sitePk + " and item.family.code='acco'`, groupBy: 'item', orderBy: 'item.ord,item.id'}");
-            ObservableEntitiesToObjectsMapper<Entity, ItemTabController> resourcesToItemTabControllersMapper = new ObservableEntitiesToObjectsMapper<>(rc -> new ItemTabController(rc, site, itemsFilter), (rc, controller) -> controller.update(rc), (rc, controller) -> controller.delete());
-            ObservableLists.bindConverted(itemTabPane.getTabs(), resourcesToItemTabControllersMapper.getObservableObjects(), ItemTabController::getTab);
-            itemsFilter.setEntitiesHandler(resourcesToItemTabControllersMapper::updateFromEntities)
+            itemsMapper = ReactiveEntityMapper.createPushReactiveChain(RoomsGraphicActivity.this)
+                    .setParent(sitesMapper)
+                    .always("{class: 'ResourceConfiguration', fields: 'item.icon,item.name,resource.site', groupBy: 'item', orderBy: 'item.ord,item.id'}")
+                    .always(where("resource.site=? and item.family.code='acco'", site.getPrimaryKey()))
                     .bindActivePropertyTo(siteTab.selectedProperty())
-                    .setPush(true)
                     .start();
+            ObservableEntitiesToObjectsMapper<Entity, ItemTabController> resourcesToItemTabControllersMapper = new ObservableEntitiesToObjectsMapper<>(rc -> new ItemTabController(rc, site, itemsMapper), (rc, controller) -> controller.update(rc), (rc, controller) -> controller.delete());
+            ObservableLists.bindConverted(itemTabPane.getTabs(), resourcesToItemTabControllersMapper.getObservableObjects(), ItemTabController::getTab);
+            itemsMapper.addEntitiesHandler(resourcesToItemTabControllersMapper::updateFromEntities);
             update(site);
         }
 
@@ -99,7 +99,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         }
 
         void delete() {
-            itemsFilter.stop();
+            itemsMapper.getReactiveDqlQuery().stop();
         }
 
         Tab getTab() {
@@ -111,18 +111,20 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
 
         final Pane resourcesBoxContainer = new FlexBox(10, 10);
         final Tab itemTab = new Tab(null, LayoutUtil.createVerticalScrollPane(resourcesBoxContainer));
-        final ReactiveEntityFilter<Entity> boxesFilter;
+        final ReactiveEntityMapper<Entity> boxesMapper;
 
-        ItemTabController(Entity resourceConfiguration, Site site, ReactiveEntityFilter<?> parentFilter) {
+        ItemTabController(Entity resourceConfiguration, Site site, ReactiveEntityMapper<?> parentMapper) {
             resourcesBoxContainer.setPadding(new Insets(10));
             itemTab.setClosable(false);
-            boxesFilter = createReactiveEntityFilter(parentFilter,"{class: 'ResourceConfiguration', fields: 'name,online,max,comment', where: `resource.site=" + ((EntityId) resourceConfiguration.evaluate("resource.site")).getPrimaryKey() + " and item=" + ((EntityId) resourceConfiguration.evaluate("item")).getPrimaryKey() + "`, orderBy: 'name'}");
-            ObservableEntitiesToObjectsMapper<Entity, ResourceBoxController> resourcesToBoxControllersMapper = new ObservableEntitiesToObjectsMapper<>(rc -> new ResourceBoxController(rc, site, resourcesBoxContainer, boxesFilter), (rc, box) -> box.update(rc), (rc, box) -> box.delete());
-            ObservableLists.bindConverted(resourcesBoxContainer.getChildren(), resourcesToBoxControllersMapper.getObservableObjects(), ResourceBoxController::getNode);
-            boxesFilter.setEntitiesHandler(resourcesToBoxControllersMapper::updateFromEntities)
+            boxesMapper = ReactiveEntityMapper.createPushReactiveChain(RoomsGraphicActivity.this)
+                    .setParent(parentMapper)
+                    .always("{class: 'ResourceConfiguration', fields: 'name,online,max,comment', orderBy: 'name'}")
+                    .always(where("resource.site=? and item=?", ((EntityId) resourceConfiguration.evaluate("resource.site")).getPrimaryKey(), ((EntityId) resourceConfiguration.evaluate("item")).getPrimaryKey()))
                     .bindActivePropertyTo(itemTab.selectedProperty())
-                    .setPush(true)
                     .start();
+            ObservableEntitiesToObjectsMapper<Entity, ResourceBoxController> resourcesToBoxControllersMapper = new ObservableEntitiesToObjectsMapper<>(rc -> new ResourceBoxController(rc, site, resourcesBoxContainer, boxesMapper), (rc, box) -> box.update(rc), (rc, box) -> box.delete());
+            ObservableLists.bindConverted(resourcesBoxContainer.getChildren(), resourcesToBoxControllersMapper.getObservableObjects(), ResourceBoxController::getNode);
+            boxesMapper.addEntitiesHandler(resourcesToBoxControllersMapper::updateFromEntities);
             update(resourceConfiguration);
         }
 
@@ -132,7 +134,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         }
 
         void delete() {
-            boxesFilter.stop();
+            boxesMapper.getReactiveDqlQuery().stop();
         }
 
         Tab getTab() {
@@ -146,10 +148,10 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
     private final static Color DRAG_BOX_COLOR = Color.BLUEVIOLET;
     private final static Border BOX_BORDER = new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, BOX_RADII, null));
     private final static Effect BOX_SHADOW_EFFECT = new DropShadow(5, 7, 7, Color.GRAY);
-    private final static Background ONLINE_BOX_BACKGROUND  = new Background(new BackgroundFill(ONLINE_BOX_COLOR, BOX_RADII, null));
-    private final static Background ONLINE_PEOPLE_BACKGROUND  = new Background(new BackgroundFill(ONLINE_BOX_COLOR.brighter(), null, null));
+    private final static Background ONLINE_BOX_BACKGROUND = new Background(new BackgroundFill(ONLINE_BOX_COLOR, BOX_RADII, null));
+    private final static Background ONLINE_PEOPLE_BACKGROUND = new Background(new BackgroundFill(ONLINE_BOX_COLOR.brighter(), null, null));
     private final static Background OFFLINE_BOX_BACKGROUND = new Background(new BackgroundFill(OFFLINE_BOX_COLOR, BOX_RADII, null));
-    private final static Background OFFLINE_PEOPLE_BACKGROUND  = new Background(new BackgroundFill(OFFLINE_BOX_COLOR.brighter(), null, null));
+    private final static Background OFFLINE_PEOPLE_BACKGROUND = new Background(new BackgroundFill(OFFLINE_BOX_COLOR.brighter(), null, null));
     private final static Background DRAG_BOX_BACKGROUND = new Background(new BackgroundFill(DRAG_BOX_COLOR, BOX_RADII, null));
 
     private static final DataFormat dndDataFormat = DataFormat.PLAIN_TEXT; // Using standard plain text format to ensure drag & drop works between applications
@@ -164,10 +166,10 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         private final VisualGrid peopleBox = new SkinnedVisualGrid();
         private final VBox resourceBox = new VBox(LayoutUtil.setMaxWidthToInfinite(label), peopleBox);
         private final ObjectProperty<Entity> resourceConfigurationProperty = new SimpleObjectProperty<>();
-        private final ReactiveVisualFilter<DocumentLine> peopleFilter;
+        private final ReactiveVisualMapper<DocumentLine> peopleVisualMapper;
         private boolean dragBackgroundVisible;
 
-        ResourceBoxController(Entity resourceConfiguration, Site site, Pane resourcesBoxContainer, ReactiveEntityFilter<?> parentFilter) {
+        ResourceBoxController(Entity resourceConfiguration, Site site, Pane resourcesBoxContainer, ReactiveEntityMapper<?> parentMapper) {
             this.resourcesBoxContainer = resourcesBoxContainer;
             this.site = site;
             setResourceConfiguration(resourceConfiguration);
@@ -180,13 +182,14 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
             VBox.setVgrow(peopleBox, Priority.ALWAYS);
             resourceBox.setMinWidth(150);
             resourceBox.setEffect(BOX_SHADOW_EFFECT);
-            peopleFilter = RoomsGraphicActivity.this.<DocumentLine>createReactiveVisualFilter(parentFilter, "{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
-                    .combineIfNotNullOtherwiseForceEmptyResult(resourceConfigurationProperty, rc -> where("resourceConfiguration=?", rc.getPrimaryKey()))
-                    // Always loading the fields required for viewing the booking details
-                    .combine("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS + ")`}")
+            peopleVisualMapper = ReactiveVisualMapper.<DocumentLine>createPushReactiveChain(RoomsGraphicActivity.this)
+                    .setParent(parentMapper)
+                    .always("{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
+                    .ifNotNullOtherwiseForceEmpty(resourceConfigurationProperty, rc -> where("resourceConfiguration=?", rc.getPrimaryKey()))
                     .visualizeResultInto(peopleBox.visualResultProperty())
                     .applyDomainModelRowStyle()
-                    .setSelectedEntityHandler(peopleBox.visualSelectionProperty(), dl -> {
+                    .setVisualSelectionProperty(peopleBox.visualSelectionProperty())
+                    .setSelectedEntityHandler(dl -> {
                         if (dl != null) {
                             setSelectedDocument(dl.getDocument());
                             if (peopleBox != peopleBoxFocus && peopleBoxFocus != null) {
@@ -198,7 +201,6 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
                         } else if (peopleBox == peopleBoxFocus)
                             setSelectedDocument(null);
                     })
-                    .setPush(true)
                     .start();
             update(resourceConfiguration);
             setUpContextMenu(resourceBox, this::createContextMenuActionGroup);
@@ -227,7 +229,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         }
 
         void delete() {
-            peopleFilter.stop();
+            peopleVisualMapper.getReactiveEntityMapper().getReactiveDqlQuery().stop();
         }
 
         void showDragBackground(boolean show) {
@@ -275,9 +277,9 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
 
         private String exportDragSelectionForDragboard() {
             // Taking the selected people as drag selection (if set)
-            List<DocumentLine> documentLines = peopleFilter.getSelectedEntities();
+            List<DocumentLine> documentLines = peopleVisualMapper.getSelectedEntities();
             if (documentLines == null) // Otherwise (if nobody is selected),
-                documentLines = peopleFilter.getCurrentEntityList(); // taking all people
+                documentLines = peopleVisualMapper.getCurrentEntityList(); // taking all people
             // Exporting the document lines primary keys as a json array
             return SerialCodecManager.encodePrimitiveArrayToJsonArray(documentLines.stream().map(Entity::getPrimaryKey).toArray()).toJsonString();
         }

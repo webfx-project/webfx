@@ -2,9 +2,9 @@ package mongoose.client.entities.util.filters;
 
 import javafx.beans.property.Property;
 import javafx.scene.layout.Pane;
-import mongoose.client.presentationmodel.HasColumnsDqlStatementProperty;
-import mongoose.client.presentationmodel.HasConditionDqlStatementProperty;
-import mongoose.client.presentationmodel.HasGroupDqlStatementProperty;
+import webfx.framework.client.orm.reactive.dql.statement.conventions.HasColumnsDqlStatementProperty;
+import webfx.framework.client.orm.reactive.dql.statement.conventions.HasConditionDqlStatementProperty;
+import webfx.framework.client.orm.reactive.dql.statement.conventions.HasGroupDqlStatementProperty;
 import mongoose.shared.entities.Filter;
 import webfx.framework.client.orm.dql.DqlStatement;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;

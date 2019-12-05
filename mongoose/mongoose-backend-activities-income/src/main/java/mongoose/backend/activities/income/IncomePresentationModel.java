@@ -3,8 +3,8 @@ package mongoose.backend.activities.income;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
-import mongoose.client.presentationmodel.HasGroupDqlStatementProperty;
-import mongoose.client.presentationmodel.HasGroupVisualResultProperty;
+import webfx.framework.client.orm.reactive.dql.statement.conventions.HasGroupDqlStatementProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGroupVisualResultProperty;
 import webfx.extras.visual.VisualResult;
 import webfx.framework.client.orm.dql.DqlStatement;
 

@@ -22,7 +22,7 @@ module mongoose.backend.bookingdetailspanel {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.i18n;
-    requires webfx.framework.client.orm.filter.visual;
+    requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.shared.orm.domain;
     requires webfx.framework.shared.orm.entity;
     requires webfx.kit.util;

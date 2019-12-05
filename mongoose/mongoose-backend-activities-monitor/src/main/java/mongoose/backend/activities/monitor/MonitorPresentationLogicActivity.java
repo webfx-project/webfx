@@ -1,14 +1,15 @@
 package mongoose.backend.activities.monitor;
 
 import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
+import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntityMapper;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
+import webfx.framework.shared.orm.entity.Entity;
 
 /**
  * @author Bruno Salmon
  */
 final class MonitorPresentationLogicActivity
-        extends MongooseDomainPresentationLogicActivityBase<MonitorPresentationModel>
-        implements ReactiveVisualFilterFactoryMixin {
+        extends MongooseDomainPresentationLogicActivityBase<MonitorPresentationModel> {
 
     MonitorPresentationLogicActivity() {
         super(MonitorPresentationModel::new);
@@ -16,14 +17,16 @@ final class MonitorPresentationLogicActivity
 
     @Override
     protected void startLogic(MonitorPresentationModel pm) {
-        createReactiveVisualFilter("{class: 'Metrics', orderBy: 'date desc', limit: '500'}")
+        ReactiveEntityMapper<Entity> metricsMapper = ReactiveEntityMapper.createPushReactiveChain(this)
+                .always("{class: 'Metrics', orderBy: 'date desc', limit: '500'}");
+
+        ReactiveVisualMapper.create(metricsMapper)
                 .setEntityColumns("['0 + id','memoryUsed','memoryTotal']")
-                .visualizeResultInto(pm.memoryVisualResultProperty())
-                .nextDisplay()
+                .visualizeResultInto(pm.memoryVisualResultProperty());
+
+        ReactiveVisualMapper.create(metricsMapper)
                 .setEntityColumns("['0 + id','systemLoadAverage','processCpuLoad']")
-                //.combine("{columns: '0 + id,systemLoadAverage,processCpuLoad'}")
                 .visualizeResultInto(pm.cpuVisualResultProperty())
-                .setPush(true)
                 .start();
     }
 }

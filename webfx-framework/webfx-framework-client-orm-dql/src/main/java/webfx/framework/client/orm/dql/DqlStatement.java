@@ -29,6 +29,10 @@ public final class DqlStatement {
         return dqlStatementString == null ? null : new DqlStatement(dqlStatementString.toString());
     }
 
+    public static DqlStatement fields(CharSequence fields) {
+        return new DqlStatement(null, null, fields.toString(), null, null, null, null, null, null);
+    }
+
     public static DqlStatement where(CharSequence where, Object... parameterValues) {
         return new DqlStatement(null, null, null, DqlClause.create(where, parameterValues), null, null, null, null, null);
     }

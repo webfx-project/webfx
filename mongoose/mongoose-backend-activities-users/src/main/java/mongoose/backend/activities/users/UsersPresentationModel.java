@@ -1,13 +1,18 @@
 package mongoose.backend.activities.users;
 
-import javafx.beans.property.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import mongoose.client.activity.eventdependent.EventDependentGenericTablePresentationModel;
-import mongoose.client.presentationmodel.*;
 import mongoose.shared.entities.Person;
-import webfx.framework.client.orm.dql.DqlStatement;
-import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
+import webfx.framework.client.orm.dql.DqlStatement;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGroupVisualResultProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGroupVisualSelectionProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasMasterVisualResultProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasMasterVisualSelectionProperty;
+import webfx.framework.client.orm.reactive.dql.statement.conventions.*;
+import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 
 /**
  * @author Bruno Salmon
@@ -23,7 +28,7 @@ final class UsersPresentationModel extends EventDependentGenericTablePresentatio
         HasSelectedGroupReferenceResolver,
         HasMasterVisualResultProperty,
         HasMasterVisualSelectionProperty,
-        HasSelectedMasterProperty<Person>{
+        HasSelectedMasterProperty<Person> {
 
     private final ObjectProperty<DqlStatement> conditionDqlStatementProperty = new SimpleObjectProperty<>();
     @Override public ObjectProperty<DqlStatement> conditionDqlStatementProperty() { return conditionDqlStatementProperty; }

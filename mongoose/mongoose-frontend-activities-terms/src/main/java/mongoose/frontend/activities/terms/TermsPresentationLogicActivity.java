@@ -1,7 +1,7 @@
 package mongoose.frontend.activities.terms;
 
 import mongoose.client.activity.bookingprocess.BookingProcessPresentationLogicActivity;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.services.i18n.I18n;
 
 import static webfx.framework.client.orm.dql.DqlStatement.parse;
@@ -11,8 +11,7 @@ import static webfx.framework.client.orm.dql.DqlStatement.where;
  * @author Bruno Salmon
  */
 final class TermsPresentationLogicActivity
-        extends BookingProcessPresentationLogicActivity<TermsPresentationModel>
-        implements ReactiveVisualFilterFactoryMixin {
+        extends BookingProcessPresentationLogicActivity<TermsPresentationModel> {
 
     TermsPresentationLogicActivity() {
         super(TermsPresentationModel::new);
@@ -20,10 +19,10 @@ final class TermsPresentationLogicActivity
 
     @Override
     protected void startLogic(TermsPresentationModel pm) {
-        // Loading the domain model and setting up the reactive filter
-        createReactiveVisualFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), id -> where("event=?", id))
-                .combine(I18n.languageProperty(), lang -> parse("{columns: '[`html(" + lang + ")`]'}"))
+        ReactiveVisualMapper.createReactiveChain(this)
+                .always("{class: 'Letter', where: 'type.terms', limit: '1'}")
+                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), id -> where("event=?", id))
+                .always(I18n.languageProperty(), lang -> parse("{columns: '[`html(" + lang + ")`]'}"))
                 .visualizeResultInto(pm.termsLetterVisualResultProperty())
                 .start();
     }

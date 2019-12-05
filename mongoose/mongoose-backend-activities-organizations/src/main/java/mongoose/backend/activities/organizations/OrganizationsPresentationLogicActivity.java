@@ -2,8 +2,7 @@ package mongoose.backend.activities.organizations;
 
 import mongoose.backend.operations.routes.events.RouteToEventsRequest;
 import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
-import mongoose.shared.entities.Organization;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.platform.shared.util.function.Factory;
 
 import static webfx.framework.client.orm.dql.DqlStatement.limit;
@@ -13,8 +12,7 @@ import static webfx.framework.client.orm.dql.DqlStatement.where;
  * @author Bruno Salmon
  */
 final class OrganizationsPresentationLogicActivity
-        extends MongooseDomainPresentationLogicActivityBase<OrganizationsPresentationModel>
-        implements ReactiveVisualFilterFactoryMixin {
+        extends MongooseDomainPresentationLogicActivityBase<OrganizationsPresentationModel> {
 
     OrganizationsPresentationLogicActivity() {
         this(OrganizationsPresentationModel::new);
@@ -26,21 +24,21 @@ final class OrganizationsPresentationLogicActivity
 
     @Override
     protected void startLogic(OrganizationsPresentationModel pm) {
-        // Loading the domain model and setting up the reactive filter
-        this.<Organization>createReactiveVisualFilter("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'name'}")
+        ReactiveVisualMapper.createPushReactiveChain(this)
+                .always("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'name'}")
                 // Search box condition
-                .combineIfNotEmptyTrim(pm.searchTextProperty(), s -> where("lower(name) like ?", "%" + s.toLowerCase() + "%"))
+                .ifTrimNotEmpty(pm.searchTextProperty(), s -> where("lower(name) like ?", "%" + s.toLowerCase() + "%"))
+                .ifTrue(pm.withEventsProperty(), "{where: 'exists(select Event where organization=o)', orderBy: 'id'}")
                 // Limit condition
-                .combineIfPositive(pm.limitProperty(), l -> limit("?", l))
-                .combineIfTrue(pm.withEventsProperty(), "{where: 'exists(select Event where organization=o)', orderBy: 'id'}")
+                .ifPositive(pm.limitProperty(), l -> limit("?", l))
                 .setEntityColumns("[" +
                         "{label: 'Centre', expression: '[icon, name + ` (` + type.code + `)`]'}," +
                         "{label: 'Country', expression: '[country.icon, country.(name + ` (` + continent.name + `)`)]'}" +
                         "]")
                 .applyDomainModelRowStyle()
                 .visualizeResultInto(pm.genericVisualResultProperty())
-                .setSelectedEntityHandler(pm.genericVisualSelectionProperty(), organization -> new RouteToEventsRequest(organization, getHistory()).execute() )
-                .setPush(true)
+                .setVisualSelectionProperty(pm.genericVisualSelectionProperty())
+                .setSelectedEntityHandler(organization -> new RouteToEventsRequest(organization, getHistory()).execute())
                 .start();
     }
 }

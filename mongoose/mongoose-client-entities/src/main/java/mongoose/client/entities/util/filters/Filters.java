@@ -22,8 +22,4 @@ public final class Filters {
         return sfb.build();
     }
 
-    public static String toStringJson(Filter filter) {
-        return filter == null ? null : toDqlStatement(filter).toStringJson();
-    }
-
 }

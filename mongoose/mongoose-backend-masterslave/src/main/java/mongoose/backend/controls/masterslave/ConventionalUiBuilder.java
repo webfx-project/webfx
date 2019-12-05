@@ -8,9 +8,9 @@ import javafx.scene.layout.Pane;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.client.entities.util.filters.FilterSearchBar;
-import mongoose.client.presentationmodel.HasGroupVisualResultProperty;
-import mongoose.client.presentationmodel.HasMasterVisualResultProperty;
-import mongoose.client.presentationmodel.HasSelectedMasterProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGroupVisualResultProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasMasterVisualResultProperty;
+import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedMasterProperty;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;

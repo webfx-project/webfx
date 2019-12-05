@@ -61,7 +61,7 @@ public abstract class PresentationLogicActivityBase
     @Override
     protected void updateModelFromContextParameters() {
         // Because updating the model may result in changing several presentation model properties, the logic (ex: a
-        // reactive expression filter) may react by sending a query on each property change! To avoid this, we do a kind
+        // reactive expression mapper) may react by sending a query on each property change! To avoid this, we do a kind
         // of transaction by temporary setting the active property to false (no query should be sent for now)
         boolean active = isActive();
         setActive(false);

@@ -4,7 +4,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import mongoose.backend.controls.bookingdetailspanel.BookingDetailsPanel;
-import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.backend.operations.entities.document.SendLetterRequest;
@@ -22,16 +21,16 @@ import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Document;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 
+import static webfx.framework.client.orm.dql.DqlStatement.fields;
 import static webfx.framework.client.orm.dql.DqlStatement.where;
 import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
 final class BookingsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
-        ConventionalUiBuilderMixin,
-        ConventionalReactiveVisualFilterFactoryMixin {
+        ConventionalUiBuilderMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -52,33 +51,33 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
 
         // Adding new booking button on left and clone event on right of the filter search bar
         Button newBookingButton = newButton(newOperationAction(() -> new RouteToNewBackendBookingRequest(getEventId(), getHistory()))),
-               cloneEventButton = newButton(newOperationAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
+                cloneEventButton = newButton(newOperationAction(() -> new RouteToCloneEventRequest(getEventId(), getHistory())));
         ui.setLeftTopNodes(setUnmanagedWhenInvisible(newBookingButton));
         ui.setRightTopNodes(setUnmanagedWhenInvisible(cloneEventButton));
 
         Pane container = ui.buildUi();
 
         setUpContextMenu(LayoutUtil.lookupChild(ui.getGroupMasterSlaveView().getMasterView(), n -> n instanceof VisualGrid), () -> newActionGroup(
-                newOperationAction(() -> new SendLetterRequest(                        pm.getSelectedDocument(), container)),
+                newOperationAction(() -> new SendLetterRequest(pm.getSelectedDocument(), container)),
                 newSeparatorActionGroup("Registration",
-                    newOperationAction(() -> new ToggleMarkDocumentAsReadRequest(      pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new ToggleMarkDocumentAsWillPayRequest(   pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new ToggleCancelDocumentRequest(          pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new ToggleConfirmDocumentRequest(         pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new ToggleFlagDocumentRequest(            pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new ToggleMarkDocumentPassAsReadyRequest( pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new MarkDocumentPassAsUpdatedRequest(     pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new ToggleMarkDocumentAsArrivedRequest(   pm.getSelectedDocument(), container))
+                        newOperationAction(() -> new ToggleMarkDocumentAsReadRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new ToggleMarkDocumentAsWillPayRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new ToggleCancelDocumentRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new ToggleConfirmDocumentRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new ToggleFlagDocumentRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new ToggleMarkDocumentPassAsReadyRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new MarkDocumentPassAsUpdatedRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new ToggleMarkDocumentAsArrivedRequest(pm.getSelectedDocument(), container))
                 ),
                 newSeparatorActionGroup("Security",
-                    newOperationAction(() -> new ToggleMarkDocumentAsUncheckedRequest( pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new ToggleMarkDocumentAsUnknownRequest(   pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new ToggleMarkDocumentAsKnownRequest(     pm.getSelectedDocument(), container)),
-                    newOperationAction(() -> new ToggleMarkDocumentAsVerifiedRequest(  pm.getSelectedDocument(), container))
+                        newOperationAction(() -> new ToggleMarkDocumentAsUncheckedRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new ToggleMarkDocumentAsUnknownRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new ToggleMarkDocumentAsKnownRequest(pm.getSelectedDocument(), container)),
+                        newOperationAction(() -> new ToggleMarkDocumentAsVerifiedRequest(pm.getSelectedDocument(), container))
                 ),
                 newSeparatorActionGroup(
-                    newOperationAction(() -> new CopySelectionRequest( masterFilter.getSelectedEntities(),  masterFilter.getEntityColumns())),
-                    newOperationAction(() -> new CopyAllRequest(       masterFilter.getCurrentEntityList(), masterFilter.getEntityColumns()))
+                        newOperationAction(() -> new CopySelectionRequest(masterVisualMapper.getSelectedEntities(), masterVisualMapper.getEntityColumns())),
+                        newOperationAction(() -> new CopyAllRequest(masterVisualMapper.getCurrentEntityList(), masterVisualMapper.getEntityColumns()))
                 )
         ));
 
@@ -96,41 +95,38 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveVisualFilter<Document> groupFilter, masterFilter;
+    private ReactiveVisualMapper<Document> groupVisualMapper, masterVisualMapper;
 
     @Override
     protected void startLogic() {
-        // Setting up the group filter that controls the content displayed in the group view
-        groupFilter = this.<Document>createGroupReactiveVisualFilter(pm, "{class: 'Document', alias: 'd'}")
+        // Setting up the group mapper that build the content displayed in the group view
+        groupVisualMapper = ReactiveVisualMapper.<Document>createGroupReactiveChain(this, pm)
+                .always("{class: 'Document', alias: 'd'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("event=?", eventId))
-                // Everything set up, let's start now!
-                .start();
+                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
+                .start()
+        ;
 
-        // Setting up the master filter that controls the content displayed in the master view
-        masterFilter = this.<Document>createMasterReactiveVisualFilter(pm, "{class: 'Document', alias: 'd', orderBy: 'ref desc'}")
+        // Setting up the master mapper that build the content displayed in the master view
+        masterVisualMapper = ReactiveVisualMapper.<Document>createMasterPushReactiveChain(this, pm)
+                .always("{class: 'Document', alias: 'd', orderBy: 'ref desc'}")
                 // Always loading the fields required for viewing the booking details
-                .combine("{fields: `" + BookingDetailsPanel.REQUIRED_FIELDS + "`}")
+                .always(fields(BookingDetailsPanel.REQUIRED_FIELDS))
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("event=?", eventId))
+                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
                 // Applying the user search
-                .combineIfNotEmptyTrim(pm.searchTextProperty(), s ->
+                .ifTrimNotEmpty(pm.searchTextProperty(), s ->
                         Character.isDigit(s.charAt(0)) ? where("ref = ?", Integer.parseInt(s))
                                 : s.contains("@") ? where("lower(person_email) like ?", "%" + s.toLowerCase() + "%")
                                 : where("person_abcNames like ?", AbcNames.evaluate(s, true)))
-                // Colorizing the rows
-                .applyDomainModelRowStyle()
-                // When the result is a singe row, automatically select it
-                .autoSelectSingleRow()
-                // Activating server push notification
-                .setPush(true)
-                // Everything set up, let's start now!
+                .applyDomainModelRowStyle() // Colorizing the rows
+                .autoSelectSingleRow() // When the result is a singe row, automatically select it
                 .start();
     }
 
     @Override
     protected void refreshDataOnActive() {
-        groupFilter.refreshWhenActive();
-        masterFilter.refreshWhenActive();
+        groupVisualMapper.refreshWhenActive();
+        masterVisualMapper.refreshWhenActive();
     }
 }

@@ -1,11 +1,12 @@
 package webfx.framework.client.orm.dql;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @author Bruno Salmon
  */
-public class DqlClause {
+public final class DqlClause {
 
     private final String dql;
     private final Object[] parameterValues;
@@ -20,19 +21,29 @@ public class DqlClause {
     }
 
     public static boolean isClauseTrue(DqlClause clause) {
-        return isClauseEquals(clause, "true");
+        return isClauseEquals(clause, true);
     }
 
     public static boolean isClauseFalse(DqlClause clause) {
-        return isClauseEquals(clause, "false");
+        return isClauseEquals(clause, false);
     }
 
     public static boolean isClause0(DqlClause clause) {
-        return isClauseEquals(clause, "0");
+        return isClauseEquals(clause, 0);
     }
 
-    private static boolean isClauseEquals(DqlClause clause, String value) {
-        return clause != null && value.equalsIgnoreCase(clause.getDql());
+    private static boolean isClauseEquals(DqlClause clause, Object value) {
+        if (clause == null)
+            return false;
+        String dql = clause.getDql();
+        if (dql == null)
+            return false;
+        if (!dql.equals("?"))
+            return dql.equalsIgnoreCase(String.valueOf(value));
+        Object[] parameterValues = clause.parameterValues;
+        if (parameterValues == null || parameterValues.length != 1)
+            return false;
+        return Objects.equals(parameterValues[0], value);
     }
 
     public String getDql() {

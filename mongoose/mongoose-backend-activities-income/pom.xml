@@ -50,12 +50,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-client-presentationmodel</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>mongoose-client-util</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -110,7 +104,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-orm-filter-visual</artifactId>
+            <artifactId>webfx-framework-client-orm-reactive-visual</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

@@ -32,7 +32,7 @@ public class FeesGroupsByEventStore {
     }
 
     public static Future<FeesGroup[]> onEventFeesGroups(EventAggregate eventAggregate) {
-        return onEventFeesGroups(eventAggregate.getEvent());
+        return eventAggregate.onEvent().compose(FeesGroupsByEventStore::onEventFeesGroups);
     }
 
     public static Future<FeesGroup[]> onEventFeesGroups(Event event) {

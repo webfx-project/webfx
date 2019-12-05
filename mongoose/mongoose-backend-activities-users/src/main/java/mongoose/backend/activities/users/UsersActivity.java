@@ -1,19 +1,17 @@
 package mongoose.backend.activities.users;
 
 import javafx.scene.Node;
-import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilder;
 import mongoose.backend.controls.masterslave.ConventionalUiBuilderMixin;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Person;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 
 import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class UsersActivity extends EventDependentViewDomainActivity implements
-        ConventionalUiBuilderMixin,
-        ConventionalReactiveVisualFilterFactoryMixin {
+        ConventionalUiBuilderMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -45,32 +43,29 @@ final class UsersActivity extends EventDependentViewDomainActivity implements
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveVisualFilter<Person> groupFilter, masterFilter;
+    private ReactiveVisualMapper<Person> groupVisualMapper, masterVisualMapper;
 
     @Override
     protected void startLogic() {
-        // Setting up the group filter that controls the content displayed in the group view
-        groupFilter = this.<Person>createGroupReactiveVisualFilter(pm, "{class: 'Person', alias: 'p', orderBy: 'id'}")
-                // Everything set up, let's start now!
+        // Setting up the group mapper that build the content displayed in the group view
+        groupVisualMapper = ReactiveVisualMapper.<Person>createGroupReactiveChain(this, pm)
+                .always("{class: 'Person', alias: 'p', orderBy: 'id'}")
                 .start();
 
-        // Setting up the master filter that controls the content displayed in the master view
-        masterFilter = this.<Person>createMasterReactiveVisualFilter(pm, "{class: 'Person', alias: 'p', orderBy: 'lastName,firstName,id'}")
+        // Setting up the master mapper that build the content displayed in the master view
+        masterVisualMapper = ReactiveVisualMapper.<Person>createMasterPushReactiveChain(this, pm)
+                .always("{class: 'Person', alias: 'p', orderBy: 'lastName,firstName,id'}")
                 // Applying the user search
-                .combineIfNotEmptyTrim(pm.searchTextProperty(), s ->
+                .ifTrimNotEmpty(pm.searchTextProperty(), s ->
                         s.contains("@") ? where("lower(email) like ?", "%" + s.toLowerCase() + "%")
-                                : where("abcNames(firstName + ' ' + lastName) like ?", AbcNames.evaluate(s, true) ))
-                // Colorizing the rows
-                .applyDomainModelRowStyle()
-                // Activating server push notification
-                .setPush(true)
-                // Everything set up, let's start now!
+                                : where("abcNames(firstName + ' ' + lastName) like ?", AbcNames.evaluate(s, true)))
+                .applyDomainModelRowStyle() // Colorizing the rows
                 .start();
     }
 
     @Override
     protected void refreshDataOnActive() {
-        groupFilter .refreshWhenActive();
-        masterFilter.refreshWhenActive();
+        groupVisualMapper.refreshWhenActive();
+        masterVisualMapper.refreshWhenActive();
     }
 }

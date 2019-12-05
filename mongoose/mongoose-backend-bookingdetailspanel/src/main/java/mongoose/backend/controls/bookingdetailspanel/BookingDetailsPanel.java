@@ -35,11 +35,10 @@ import webfx.extras.imagestore.ImageStore;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.activity.impl.elementals.activeproperty.HasActiveProperty;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.services.i18n.I18nControls;
 import webfx.framework.client.ui.action.ActionGroup;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilterFactoryMixin;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.orm.entity.Entity;
@@ -50,8 +49,8 @@ import webfx.platform.shared.util.Strings;
 import java.util.function.Supplier;
 
 public final class BookingDetailsPanel implements
-        ReactiveVisualFilterFactoryMixin,
         OperationActionFactoryMixin,
+        HasActiveProperty,
         UiBuilder {
 
     public static final String REQUIRED_FIELDS = "person_firstName,person_lastName,person_age,person_email,person_organization,person_phone,person_cityName,person_country,person_carer1Name,person_carer2Name,event.startDate"; // event.startDate is required for the personal details panel
@@ -68,11 +67,6 @@ public final class BookingDetailsPanel implements
         this.parentGetter = parentGetter;
         this.mixin = mixin;
         this.dataSourceModel = dataSourceModel;
-    }
-
-    @Override
-    public DataSourceModel getDataSourceModel() {
-        return dataSourceModel;
     }
 
     @Override
@@ -123,70 +117,79 @@ public final class BookingDetailsPanel implements
             if (tabPane != null)
                 tabPane.requestLayout();
         }, table.visualResultProperty());
-        // Setting up the reactive filter
+        // Setting up the reactive visual mapper
         String classOnly = dqlStatementString.substring(0, dqlStatementString.indexOf(',')) + "}";
         ObjectProperty<Entity> selectedEntityProperty = new SimpleObjectProperty<>();
-        ReactiveVisualFilter<Entity> filter = createReactiveVisualFilter(classOnly)
+        ReactiveVisualMapper<Entity> visualMapper = ReactiveVisualMapper.createReactiveChain()
+                .always(classOnly)
+                .ifNotNullOtherwiseForceEmptyString(selectedDocumentProperty, document -> Strings.replaceAll(dqlStatementString, "${selectedDocument}", document.getPrimaryKey()))
                 .bindActivePropertyTo(tab.selectedProperty())
-                .combineStringIfNotNullOtherwiseForceEmptyResult(selectedDocumentProperty, document -> Strings.replaceAll(dqlStatementString, "${selectedDocument}", document.getPrimaryKey()))
+                .setDataSourceModel(dataSourceModel)
                 .applyDomainModelRowStyle()
                 .visualizeResultInto(table.visualResultProperty())
-                .setSelectedEntityHandler(table.visualSelectionProperty(), selectedEntityProperty::set)
-                .setPush(true)
+                .setVisualSelectionProperty(table.visualSelectionProperty())
+                .setSelectedEntityHandler(selectedEntityProperty::set)
                 .start();
+
         Supplier<ActionGroup> contextMenuActionGroupFactory = null;
         switch (i18nKey) {
             case "Options":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newOperationAction(() -> new AddNewDocumentLineRequest(           getSelectedDocument(),       parentGetter.get())),
+                        newOperationAction(() -> new AddNewDocumentLineRequest(getSelectedDocument(), parentGetter.get())),
                         newSeparatorActionGroup(
-                            newOperationAction(() -> new EditDocumentLineRequest(         get(selectedEntityProperty), parentGetter.get())),
-                            newOperationAction(() -> new ToggleCancelDocumentLineRequest( get(selectedEntityProperty), parentGetter.get()), selectedEntityProperty),
-                            newOperationAction(() -> new DeleteDocumentLineRequest(       get(selectedEntityProperty), parentGetter.get()))
+                                newOperationAction(() -> new EditDocumentLineRequest(get(selectedEntityProperty), parentGetter.get())),
+                                newOperationAction(() -> new ToggleCancelDocumentLineRequest(get(selectedEntityProperty), parentGetter.get()), selectedEntityProperty),
+                                newOperationAction(() -> new DeleteDocumentLineRequest(get(selectedEntityProperty), parentGetter.get()))
                         ),
                         newSeparatorActionGroup(
-                            newOperationAction(() -> new CopySelectionRequest(            filter.getSelectedEntities(),  filter.getEntityColumns())),
-                            newOperationAction(() -> new CopyAllRequest(                  filter.getCurrentEntityList(), filter.getEntityColumns()))
+                                newOperationAction(() -> new CopySelectionRequest(visualMapper.getSelectedEntities(), visualMapper.getEntityColumns())),
+                                newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntityList(), visualMapper.getEntityColumns()))
                         )
-                ); break;
+                );
+                break;
             case "Payments":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newOperationAction(() -> new AddNewPaymentRequest(     getSelectedDocument(),        parentGetter.get())),
-                        newOperationAction(() -> new AddNewTransferRequest(    getSelectedDocument(),        parentGetter.get())),
+                        newOperationAction(() -> new AddNewPaymentRequest(getSelectedDocument(), parentGetter.get())),
+                        newOperationAction(() -> new AddNewTransferRequest(getSelectedDocument(), parentGetter.get())),
                         newSeparatorActionGroup(
-                            newOperationAction(() -> new EditPaymentRequest(    get(selectedEntityProperty), parentGetter.get())),
-                            newOperationAction(() -> new DeletePaymentRequest(  get(selectedEntityProperty), parentGetter.get()))
+                                newOperationAction(() -> new EditPaymentRequest(get(selectedEntityProperty), parentGetter.get())),
+                                newOperationAction(() -> new DeletePaymentRequest(get(selectedEntityProperty), parentGetter.get()))
                         ),
                         newSeparatorActionGroup(
-                            newOperationAction(() -> new CopySelectionRequest(  filter.getSelectedEntities(),  filter.getEntityColumns())),
-                            newOperationAction(() -> new CopyAllRequest(        filter.getCurrentEntityList(), filter.getEntityColumns()))
+                                newOperationAction(() -> new CopySelectionRequest(visualMapper.getSelectedEntities(), visualMapper.getEntityColumns())),
+                                newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntityList(), visualMapper.getEntityColumns()))
                         )
-                ); break;
+                );
+                break;
             case "MultipleBookings":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newOperationAction(() -> new MergeMultipleBookingsOptionsRequest(            get(selectedEntityProperty), parentGetter.get())),
-                        newOperationAction(() -> new CancelOtherMultipleBookingsRequest(             get(selectedEntityProperty), parentGetter.get())),
-                        newOperationAction(() -> new GetBackCancelledMultipleBookingsDepositRequest( get(selectedEntityProperty), parentGetter.get())),
-                        newOperationAction(() -> new ToggleMarkMultipleBookingRequest(               get(selectedEntityProperty), parentGetter.get()))
-                ); break;
+                        newOperationAction(() -> new MergeMultipleBookingsOptionsRequest(get(selectedEntityProperty), parentGetter.get())),
+                        newOperationAction(() -> new CancelOtherMultipleBookingsRequest(get(selectedEntityProperty), parentGetter.get())),
+                        newOperationAction(() -> new GetBackCancelledMultipleBookingsDepositRequest(get(selectedEntityProperty), parentGetter.get())),
+                        newOperationAction(() -> new ToggleMarkMultipleBookingRequest(get(selectedEntityProperty), parentGetter.get()))
+                );
+                break;
             case "Cart":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newOperationAction(() -> new OpenBookingCartRequest( get(selectedEntityProperty), parentGetter.get()))
-                ); break;
+                        newOperationAction(() -> new OpenBookingCartRequest(get(selectedEntityProperty), parentGetter.get()))
+                );
+                break;
             case "Mails":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newOperationAction(() -> new OpenMailRequest(          get(selectedEntityProperty), parentGetter.get())),
-                        newOperationAction(() -> new ComposeNewMailRequest(    getSelectedDocument(), parentGetter.get())),
+                        newOperationAction(() -> new OpenMailRequest(get(selectedEntityProperty), parentGetter.get())),
+                        newOperationAction(() -> new ComposeNewMailRequest(getSelectedDocument(), parentGetter.get())),
                         newSeparatorActionGroup(
-                            newOperationAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getEntityColumns())),
-                            newOperationAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getEntityColumns()))
+                                newOperationAction(() -> new CopySelectionRequest(visualMapper.getSelectedEntities(), visualMapper.getEntityColumns())),
+                                newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntityList(), visualMapper.getEntityColumns()))
                         )
-                ); break;
+                );
+                break;
             case "History":
                 contextMenuActionGroupFactory = () -> newActionGroup(
-                        newOperationAction(() -> new CopySelectionRequest( filter.getSelectedEntities(),  filter.getEntityColumns())),
-                        newOperationAction(() -> new CopyAllRequest(       filter.getCurrentEntityList(), filter.getEntityColumns()))
-                ); break;
+                        newOperationAction(() -> new CopySelectionRequest(visualMapper.getSelectedEntities(), visualMapper.getEntityColumns())),
+                        newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntityList(), visualMapper.getEntityColumns()))
+                );
+                break;
         }
         if (contextMenuActionGroupFactory != null)
             mixin.setUpContextMenu(table, contextMenuActionGroupFactory);
@@ -242,7 +245,7 @@ public final class BookingDetailsPanel implements
     }
 
     private void addFieldLabelAndValue(int rowIndex, int columnIndex, int columnSpan, String fieldName) {
-        webfx.extras.label.Label fieldLabel = getDomainModel().getClass("Document").getField(fieldName).getLabel();
+        webfx.extras.label.Label fieldLabel = dataSourceModel.getDomainModel().getClass("Document").getField(fieldName).getLabel();
         ObservableValue<String> fieldValueProperty = Properties.compute(selectedDocumentProperty, document -> {
             Object fieldValue = document == null ? null : document.getFieldValue(fieldName);
             if (fieldValue instanceof EntityId)
@@ -285,6 +288,7 @@ public final class BookingDetailsPanel implements
     }
 
     private int columnIndex;
+
     private Node createComment(String title, String commentField) {
         TextArea textArea = new TextArea();
         textArea.textProperty().bind(Properties.compute(selectedDocumentProperty, document -> document == null ? null : document.getStringFieldValue(commentField)));
@@ -314,7 +318,7 @@ public final class BookingDetailsPanel implements
 
 
     public static BookingDetailsPanel createAndBindIfApplicable(Object pm, Object mixin, Supplier<Pane> containerGetter) {
-        if (pm instanceof HasSelectedDocumentProperty && mixin instanceof  ButtonFactoryMixin && mixin instanceof HasDataSourceModel)
+        if (pm instanceof HasSelectedDocumentProperty && mixin instanceof ButtonFactoryMixin && mixin instanceof HasDataSourceModel)
             return createAndBind((HasSelectedDocumentProperty) pm, (ButtonFactoryMixin & HasDataSourceModel) mixin, containerGetter);
         return null;
     }

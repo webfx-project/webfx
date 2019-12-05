@@ -37,7 +37,7 @@ import webfx.framework.shared.orm.expression.terms.function.Function;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.framework.client.orm.mapping.entity_to_visual.EntitiesToVisualResultMapper;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.EntitiesToVisualResultMapper;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.VisualResult;

@@ -1,6 +1,7 @@
 package mongoose.backend.activities.statistics;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
@@ -9,10 +10,10 @@ import webfx.extras.visual.VisualColumn;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualResultBuilder;
 import webfx.extras.visual.VisualStyle;
-import webfx.framework.client.orm.entity.filter.table.EntityColumn;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
-import webfx.framework.shared.orm.expression.Expression;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.shared.orm.entity.EntityList;
+import webfx.framework.shared.orm.expression.Expression;
 import webfx.platform.shared.util.Dates;
 
 import java.time.LocalDate;
@@ -22,9 +23,9 @@ import java.util.Objects;
 
 public class StatisticsBuilder {
 
-    private ReactiveVisualFilter<DocumentLine> leftDocumentLineFilter;
-    private ReactiveVisualFilter<Attendance> rightAttendanceFilter;
-    private final ObjectProperty<VisualResult> finalVisualResultProperty;
+    private final ReactiveVisualMapper<DocumentLine> leftDocumentLineVisualMapper;
+    private final ReactiveVisualMapper<Attendance> rightAttendanceVisualMapper;
+    private final Property<VisualResult> finalVisualResultProperty;
 
     private final ObjectProperty<VisualResult> leftVisualResultProperty = new SimpleObjectProperty<VisualResult/*GWT*/>() {
         @Override
@@ -40,29 +41,31 @@ public class StatisticsBuilder {
     };
 
     private VisualResult lastLeftResult, lastRightResult;
+    private boolean settingFinalResult;
 
-    public StatisticsBuilder(ReactiveVisualFilter<DocumentLine> leftDocumentLineFilter, ReactiveVisualFilter<Attendance> rightAttendanceFilter, ObjectProperty<VisualResult> finalVisualResultProperty) {
-        this.leftDocumentLineFilter = leftDocumentLineFilter;
-        this.rightAttendanceFilter = rightAttendanceFilter;
+    public StatisticsBuilder(ReactiveVisualMapper<DocumentLine> leftDocumentLineVisualMapper, ReactiveVisualMapper<Attendance> rightAttendanceVisualMapper, Property<VisualResult> finalVisualResultProperty) {
+        this.leftDocumentLineVisualMapper = leftDocumentLineVisualMapper;
+        this.rightAttendanceVisualMapper = rightAttendanceVisualMapper;
         this.finalVisualResultProperty = finalVisualResultProperty;
     }
 
-    public void start() {
-        leftDocumentLineFilter.visualizeResultInto(leftVisualResultProperty).start();
-        rightAttendanceFilter.visualizeResultInto(rightVisualResultProperty).start();
+    public StatisticsBuilder start() {
+        leftDocumentLineVisualMapper.visualizeResultInto(leftVisualResultProperty).start();
+        rightAttendanceVisualMapper.visualizeResultInto(rightVisualResultProperty).start();
+        return this;
     }
 
     private void buildFinalVisualResultIfReady() {
         VisualResult leftResult  = leftVisualResultProperty.get();
         VisualResult rightResult = rightVisualResultProperty.get();
-        if (leftResult == lastLeftResult || rightResult == lastRightResult)
+        int rowCount = leftResult == null ? -1 : leftResult.getRowCount();
+        int leftColCount = leftResult == null ? 0 : leftResult.getColumnCount();
+        EntityList<Attendance> rightAttendances = rightAttendanceVisualMapper.getCurrentEntityList();
+        if (settingFinalResult || leftResult == lastLeftResult || rightResult == lastRightResult || rowCount == 0 || leftColCount == 0 || rightAttendances.isEmpty())
             return;
         lastLeftResult = leftResult;
         lastRightResult = rightResult;
-        int rowCount = leftResult.getRowCount();
-        int leftColCount = leftResult.getColumnCount();
         List<LocalDate> dates = new ArrayList<>();
-        EntityList<Attendance> rightAttendances = rightAttendanceFilter.getCurrentEntityList();
         rightAttendances.forEach(a -> {
             LocalDate date = a.getDate();
             if (dates.isEmpty() || !date.equals(dates.get(dates.size() - 1)))
@@ -77,8 +80,8 @@ public class StatisticsBuilder {
         for (int row = 0; row < rowCount; row++)
             for (int col = 0; col < leftColCount; col++)
                 rsb.setValue(row, col, leftResult.getValue(row, col));
-        EntityList<DocumentLine> leftDocumentLines = leftDocumentLineFilter.getCurrentEntityList();
-        EntityColumn[] leftColumns = leftDocumentLineFilter.getEntityColumns();
+        EntityList<DocumentLine> leftDocumentLines = leftDocumentLineVisualMapper.getCurrentEntityList();
+        EntityColumn<DocumentLine>[] leftColumns = leftDocumentLineVisualMapper.getEntityColumns();
         rightAttendances.forEach(a -> {
             LocalDate date = a.getDate();
             DocumentLine rightDocumentLine = a.getDocumentLine();
@@ -98,7 +101,8 @@ public class StatisticsBuilder {
                 }
             }
         });
-        finalVisualResultProperty.set(rsb.build());
+        settingFinalResult = true;
+        finalVisualResultProperty.setValue(rsb.build());
+        settingFinalResult = false;
     }
-
 }

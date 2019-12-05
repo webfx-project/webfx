@@ -8,7 +8,7 @@ module mongoose.backend.operations.generic {
     requires webfx.extras.type;
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.orm.filter;
+    requires webfx.framework.client.orm.reactive.entities;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.orm.domain;
     requires webfx.framework.shared.orm.entity;

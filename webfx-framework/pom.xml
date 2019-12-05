@@ -23,8 +23,8 @@
         <module>webfx-framework-client-layouts</module>
         <module>webfx-framework-client-materialdesign</module>
         <module>webfx-framework-client-orm-dql</module>
-        <module>webfx-framework-client-orm-filter</module>
-        <module>webfx-framework-client-orm-filter-visual</module>
+        <module>webfx-framework-client-orm-reactive-entities</module>
+        <module>webfx-framework-client-orm-reactive-visual</module>
         <module>webfx-framework-client-push</module>
         <module>webfx-framework-client-push-simple</module>
         <module>webfx-framework-client-querypush</module>

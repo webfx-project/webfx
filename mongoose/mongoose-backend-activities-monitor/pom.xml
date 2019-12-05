@@ -68,7 +68,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-orm-filter-visual</artifactId>
+            <artifactId>webfx-framework-client-orm-reactive-entities</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-client-orm-reactive-visual</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -81,6 +87,12 @@
         
         <dependency>
             <artifactId>webfx-framework-shared-operation</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-shared-orm-entity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

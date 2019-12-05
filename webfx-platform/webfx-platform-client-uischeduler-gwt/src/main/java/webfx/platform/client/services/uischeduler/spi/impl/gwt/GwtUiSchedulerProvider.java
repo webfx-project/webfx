@@ -67,4 +67,9 @@ public final class GwtUiSchedulerProvider extends UiSchedulerProviderBase {
     protected void log(String message) {
         Logger.log(message);
     }
+
+    @Override
+    protected void log(Throwable throwable) {
+        Logger.log(throwable);
+    }
 }

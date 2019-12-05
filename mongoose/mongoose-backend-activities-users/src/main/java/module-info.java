@@ -7,14 +7,13 @@ module mongoose.backend.activities.users {
     requires javafx.graphics;
     requires mongoose.backend.masterslave;
     requires mongoose.client.activity;
-    requires mongoose.client.presentationmodel;
     requires mongoose.shared.domain;
     requires mongoose.shared.entities;
     requires webfx.extras.visual;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.domain;
     requires webfx.framework.client.orm.dql;
-    requires webfx.framework.client.orm.filter.visual;
+    requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.orm.expression;

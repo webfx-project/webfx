@@ -1,7 +1,7 @@
 package webfx.framework.client.ui.controls.sheet;
 
 import javafx.scene.layout.Pane;
-import webfx.framework.client.orm.entity.filter.table.EntityColumn;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;

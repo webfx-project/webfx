@@ -241,7 +241,7 @@ public final class MultiLanguageEditor {
         }
 
         void displayEditor() {
-            if (borderPane != null && borderPane.getCenter() != editor) {
+            if (borderPane.getCenter() != editor) {
                 syncUiFromEntity();
                 if (subjectField != null)
                     borderPane.setTop(subjectTextField);

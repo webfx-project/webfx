@@ -434,22 +434,26 @@
     <source path="webfx/framework/client/ui/materialdesign/textfield"/>
     <source path="webfx/framework/client/ui/materialdesign/util"/>
     <!--=========================< webfx-framework-client-orm-dql >=========================-->
-    <!-- used by webfx-framework-client-orm-filter (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-reactive-entities (SOURCE) -->
     <source path="webfx/framework/client/orm/dql"/>
-    <!--=======================< webfx-framework-client-orm-filter >========================-->
+    <source path="webfx/framework/client/orm/reactive/call"/>
+    <source path="webfx/framework/client/orm/reactive/call/query"/>
+    <source path="webfx/framework/client/orm/reactive/call/query/push"/>
+    <source path="webfx/framework/client/orm/reactive/dql/query"/>
+    <source path="webfx/framework/client/orm/reactive/dql/querypush"/>
+    <source path="webfx/framework/client/orm/reactive/dql/statement"/>
+    <source path="webfx/framework/client/orm/reactive/dql/statement/conventions"/>
+    <!--==================< webfx-framework-client-orm-reactive-entities >==================-->
     <!-- used by webfx-framework-client-controls (SOURCE) -->
-    <source path="webfx/framework/client/orm/entity/filter"/>
-    <source path="webfx/framework/client/orm/entity/filter/reactive_call"/>
-    <source path="webfx/framework/client/orm/entity/filter/reactive_call/query"/>
-    <source path="webfx/framework/client/orm/entity/filter/reactive_call/querypush"/>
-    <source path="webfx/framework/client/orm/entity/filter/table"/>
-    <source path="webfx/framework/client/orm/mapping/entity_to_object"/>
-    <!--====================< webfx-framework-client-orm-filter-visual >====================-->
+    <source path="webfx/framework/client/orm/reactive/mapping/dql_to_entities"/>
+    <source path="webfx/framework/client/orm/reactive/mapping/entities_to_grid"/>
+    <source path="webfx/framework/client/orm/reactive/mapping/entities_to_objects"/>
+    <!--===================< webfx-framework-client-orm-reactive-visual >===================-->
     <!-- used by webfx-framework-client-controls (SOURCE) -->
-    <source path="webfx/framework/client/orm/entity/filter/visual"/>
-    <source path="webfx/framework/client/orm/mapping/entity_to_visual"/>
+    <source path="webfx/framework/client/orm/reactive/mapping/entities_to_visual"/>
+    <source path="webfx/framework/client/orm/reactive/mapping/entities_to_visual/conventions"/>
     <!--==========================< webfx-framework-client-push >===========================-->
-    <!-- used by webfx-framework-client-orm-filter (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-dql (SOURCE) -->
     <source path="webfx/framework/client/services/push"/>
     <source path="webfx/framework/client/services/push/spi"/>
     <!--=======================< webfx-framework-client-push-simple >=======================-->
@@ -513,11 +517,11 @@
     <source path="webfx/framework/shared/orm/entity"/>
     <source path="webfx/framework/shared/orm/entity/impl"/>
     <source path="webfx/framework/shared/orm/entity/lciimpl"/>
+    <source path="webfx/framework/shared/orm/entity/query_result_to_entities"/>
     <source path="webfx/framework/shared/orm/entity/result"/>
     <source path="webfx/framework/shared/orm/entity/result/impl"/>
-    <source path="webfx/framework/shared/orm/mapping/query_to_entity"/>
     <!--=====================< webfx-framework-shared-orm-expression >======================-->
-    <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-domain (SOURCE) -->
     <source path="webfx/framework/shared/orm/expression"/>
     <source path="webfx/framework/shared/orm/expression/builder"/>
     <source path="webfx/framework/shared/orm/expression/builder/terms"/>
@@ -538,7 +542,7 @@
     <!-- used by webfx-framework-client-push (SOURCE) -->
     <source path="webfx/framework/shared/services/push"/>
     <!--========================< webfx-framework-shared-querypush >========================-->
-    <!-- used by webfx-framework-client-orm-filter (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-dql (SOURCE) -->
     <source path="webfx/framework/shared/services/querypush"/>
     <source path="webfx/framework/shared/services/querypush/diff"/>
     <source path="webfx/framework/shared/services/querypush/diff/impl"/>

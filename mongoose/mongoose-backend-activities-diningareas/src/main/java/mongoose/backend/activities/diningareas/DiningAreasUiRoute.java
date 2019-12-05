@@ -17,7 +17,7 @@ public final class DiningAreasUiRoute extends UiRouteImpl {
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.createRegex(PathBuilder.toRegexPath(DiningAreasRouting.getPath())
-                , true
+                , false
                 , DiningAreasActivity::new
                 , ViewDomainActivityContextFinal::new
         );

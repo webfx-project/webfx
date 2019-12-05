@@ -18,7 +18,7 @@ import mongoose.frontend.activities.options.OptionsActivity;
 import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
 import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
@@ -44,7 +44,7 @@ final class EditableOptionsActivity extends OptionsActivity {
 
     @Override
     protected void createViewNodes() {
-        CheckBox editModeCheckBox = newCheckBox( "EditMode");
+        CheckBox editModeCheckBox = newCheckBox("EditMode");
         editModeProperty = editModeCheckBox.selectedProperty();
         Properties.runOnPropertiesChange(() -> ((EditableBookingCalendar) bookingCalendar).setEditMode(editModeProperty.getValue()), editModeProperty);
         Button addOptionButton = newButton(MongooseActions.newAddOptionAction(this::showAddOptionDialog));
@@ -79,7 +79,7 @@ final class EditableOptionsActivity extends OptionsActivity {
         Node labelNode = super.createLabelNode(label);
         labelNode.setOnMouseClicked(e -> {
             if (editModeProperty.getValue())
-              showLabelDialog(label);
+                showLabelDialog(label);
         });
         return labelNode;
     }
@@ -112,34 +112,35 @@ final class EditableOptionsActivity extends OptionsActivity {
 
     private BorderPane addOptionDialogPane;
     private DialogCallback addOptionDialogCallback;
-    private ReactiveVisualFilter<Option> addOptionDialogFilter;
+    private ReactiveVisualMapper<Option> addOptionDialogVisualMapper;
 
     private void showAddOptionDialog() {
         if (addOptionDialogPane == null) {
             VisualGrid visualGrid = new VisualGrid();
             addOptionDialogPane = new BorderPane(setMaxPrefSizeToInfinite(visualGrid));
-            addOptionDialogFilter = new ReactiveVisualFilter<Option>("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel())
-                    .combine(eventIdProperty(), e -> where("event.organization=?", getEvent().getOrganization().getPrimaryKey()))
+            addOptionDialogVisualMapper = ReactiveVisualMapper.<Option>createPushReactiveChain(this)
+                    .always("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}")
+                    .always(eventIdProperty(), e -> where("event.organization=?", getEvent().getOrganization().getPrimaryKey()))
                     .setEntityColumns("[" +
-                            "{label: 'Option', expression: 'coalesce(itemFamily.icon,item.family.icon),coalesce(name, item.name)'}," +
-                            "{label: 'Event', expression: 'event.(icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate))'}," +
-                            "{label: 'Event type', expression: 'event.type'}" +
-                            "]")
+                    "{label: 'Option', expression: 'coalesce(itemFamily.icon,item.family.icon),coalesce(name, item.name)'}," +
+                    "{label: 'Event', expression: 'event.(icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate))'}," +
+                    "{label: 'Event type', expression: 'event.type'}" +
+                    "]")
                     .visualizeResultInto(visualGrid.visualResultProperty())
                     .setVisualSelectionProperty(visualGrid.visualSelectionProperty())
-                    //.setSelectedEntityHandler(dataGrid.visualSelectionProperty(), o -> closeAddOptionDialog(true))
                     .start();
             HBox hBox = new HBox(20, createHGrowable(), newOkButton(this::onOkAddOptionDialog), newCancelButton(this::onCancelAddOptionDialog), createHGrowable());
             hBox.setPadding(new Insets(20, 0, 0, 0));
             addOptionDialogPane.setBottom(hBox);
-            visualGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 2) closeAddOptionDialog(); });
+            visualGrid.setOnMouseClicked(e -> {
+                if (e.getClickCount() == 2) closeAddOptionDialog();
+            });
         }
-        addOptionDialogFilter.setActive(true);
         addOptionDialogCallback = DialogUtil.showModalNodeInGoldLayout(addOptionDialogPane, pageContainer, 0.9, 0.8);
     }
 
     private void onOkAddOptionDialog() {
-        Option selectedOption = addOptionDialogFilter.getSelectedEntity();
+        Option selectedOption = addOptionDialogVisualMapper.getSelectedEntity();
         if (selectedOption != null) {
             UpdateService.executeUpdate(new UpdateArgument("select copy_option(null,?::int,?::int,null)", new Object[]{selectedOption.getPrimaryKey(), getEventId()}, true, getDataSourceId())).setHandler(ar -> {
                 if (ar.failed())
@@ -174,7 +175,7 @@ final class EditableOptionsActivity extends OptionsActivity {
 
     private void closeAddOptionDialog() {
         addOptionDialogCallback.closeDialog();
-        addOptionDialogFilter.setActive(false);
+        addOptionDialogVisualMapper.stop();
     }
 
     private Option getTopParentOption(Option option) {

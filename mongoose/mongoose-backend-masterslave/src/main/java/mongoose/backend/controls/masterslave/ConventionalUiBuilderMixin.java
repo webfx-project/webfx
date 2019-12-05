@@ -1,9 +1,9 @@
 package mongoose.backend.controls.masterslave;
 
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
-import mongoose.client.presentationmodel.HasGroupVisualResultProperty;
-import mongoose.client.presentationmodel.HasMasterVisualResultProperty;
-import mongoose.client.presentationmodel.HasSelectedMasterProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGroupVisualResultProperty;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasMasterVisualResultProperty;
+import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedMasterProperty;
 
 public interface ConventionalUiBuilderMixin extends FilterButtonSelectorFactoryMixin {
 

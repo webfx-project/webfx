@@ -3,7 +3,6 @@ package mongoose.backend.activities.income;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import mongoose.backend.controls.masterslave.ConventionalReactiveVisualFilterFactoryMixin;
 import mongoose.backend.controls.masterslave.group.GroupView;
 import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
@@ -12,15 +11,14 @@ import mongoose.shared.entities.DocumentLine;
 import mongoose.shared.entities.Filter;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.orm.entity.filter.visual.ReactiveVisualFilter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 
 import static webfx.framework.client.orm.dql.DqlStatement.where;
 
 final class IncomeActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
-        FilterButtonSelectorFactoryMixin,
-        ConventionalReactiveVisualFilterFactoryMixin {
+        FilterButtonSelectorFactoryMixin {
 
     /*==================================================================================================================
     ================================================= Graphical layer ==================================================
@@ -43,7 +41,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
         totalTable.visualResultProperty().bind(pm.genericVisualResultProperty());
 
         // Also putting the breakdown group selector just below the total table (also on top of the container)
-        EntityButtonSelector<Filter> breakdownGroupSelector = createGroupFilterButtonSelectorAndBind("income","DocumentLine", container, pm);
+        EntityButtonSelector<Filter> breakdownGroupSelector = createGroupFilterButtonSelectorAndBind("income", "DocumentLine", container, pm);
 
         container.setTop(new VBox(totalTable, breakdownGroupSelector.getButton()));
 
@@ -58,29 +56,29 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
     =================================================== Logical layer ==================================================
     ==================================================================================================================*/
 
-    private ReactiveVisualFilter<Document> totalFilter;
-    private ReactiveVisualFilter<DocumentLine> breakdownFilter;
+    private ReactiveVisualMapper<Document> totalVisualMapper;
+    private ReactiveVisualMapper<DocumentLine> breakdownVisualMapper;
 
     @Override
     protected void startLogic() {
-        totalFilter = this.<Document>createReactiveVisualFilter("{class: 'Document', alias: 'd'}")
+        totalVisualMapper = ReactiveVisualMapper.<Document>createReactiveChain(this)
+                .always("{class: 'Document', alias: 'd'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("event=?", eventId))
-                .combine("{columns: `null as Totals,sum(price_deposit) as Deposit,sum(price_net) as Invoiced,sum(price_minDeposit) as MinDeposit,sum(price_nonRefundable) as NonRefundable,sum(price_balance) as Balance,count(1) as Bookings,sum(price_balance!=0 ? 1 : 0) as Unreconciled`, groupBy: `event`}")
+                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
+                .always("{columns: `null as Totals,sum(price_deposit) as Deposit,sum(price_net) as Invoiced,sum(price_minDeposit) as MinDeposit,sum(price_nonRefundable) as NonRefundable,sum(price_balance) as Balance,count(1) as Bookings,sum(price_balance!=0 ? 1 : 0) as Unreconciled`, groupBy: `event`}")
                 .visualizeResultInto(pm.genericVisualResultProperty())
                 .start();
 
-        // Setting up the left group filter for the left content displayed in the group view
-        breakdownFilter = this.<DocumentLine>createGroupReactiveVisualFilter(pm,"{class: 'DocumentLine', alias: 'dl'}")
+        breakdownVisualMapper = ReactiveVisualMapper.<DocumentLine>createGroupReactiveChain(this, pm)
+                .always("{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
-                .combineIfNotNullOtherwiseForceEmptyResult(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
-                // Everything set up, let's start now!
+                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
                 .start();
     }
 
     @Override
     protected void refreshDataOnActive() {
-        totalFilter.refreshWhenActive();
-        breakdownFilter.refreshWhenActive();
+        totalVisualMapper.refreshWhenActive();
+        breakdownVisualMapper.refreshWhenActive();
     }
 }

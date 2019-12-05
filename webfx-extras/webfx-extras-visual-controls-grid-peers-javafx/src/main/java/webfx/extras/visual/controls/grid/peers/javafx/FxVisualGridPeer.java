@@ -63,7 +63,7 @@ public final class FxVisualGridPeer
         tableView.setRowFactory(createRowFactory());
         tableView.getSelectionModel().getSelectedIndices().addListener((ListChangeListener<Integer>) c -> updateNodeVisualSelection());
         try { // Try catch block for java 9 where TableViewSkin is not accessible anymore
-            tableView.setSkin(new TableViewSkin<Integer>(tableView) {
+            tableView.setSkin(new TableViewSkin<>(tableView) {
                 @Override
                 protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
                     double pw = leftInset + rightInset;
@@ -77,7 +77,7 @@ public final class FxVisualGridPeer
                             Callback/*<TableColumn<T, ?>, TableCell<T,?>>*/ cellFactory = tc.getCellFactory();
                             if (cellFactory == null) continue;
 
-                            TableCell<Integer,?> cell = (TableCell<Integer, ?>) cellFactory.call(tc);
+                            TableCell<Integer, ?> cell = (TableCell<Integer, ?>) cellFactory.call(tc);
                             if (cell == null) continue;
 
                             // set this property to tell the TableCell we want to know its actual

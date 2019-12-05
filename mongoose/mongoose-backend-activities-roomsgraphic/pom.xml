@@ -34,12 +34,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-backend-bookingdetailspanel</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>mongoose-backend-masterslave</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -118,13 +112,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-orm-filter</artifactId>
+            <artifactId>webfx-framework-client-orm-reactive-entities</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-orm-filter-visual</artifactId>
+            <artifactId>webfx-framework-client-orm-reactive-visual</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
