@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 
 import java.util.Collection;
 
@@ -26,8 +26,8 @@ public abstract class UnaryExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
-        return operand.evaluate(domainObject, dataReader);
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
+        return operand.evaluate(domainObject, domainReader);
     }
 
     @Override

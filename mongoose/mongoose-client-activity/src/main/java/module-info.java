@@ -11,15 +11,14 @@ module mongoose.client.activity {
     requires mongoose.client.presentationmodel;
     requires webfx.extras.visual;
     requires webfx.extras.visual.controls.grid;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
-    requires webfx.framework.client.orm.dql;
+    requires webfx.framework.client.orm.reactive.dql;
     requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
-    requires webfx.framework.shared.orm.domain;
-    requires webfx.framework.shared.orm.expression;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.kit.util;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;

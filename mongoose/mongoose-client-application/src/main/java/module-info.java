@@ -17,11 +17,11 @@ module mongoose.client.application {
     requires mongoose.client.icons;
     requires mongoose.client.operationactionsloading;
     requires mongoose.client.sessionrecorder;
-    requires mongoose.shared.domain;
+    requires mongoose.shared.domainmodel;
     requires webfx.extras.imagestore;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.domain;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.push.simple;

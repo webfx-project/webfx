@@ -2,7 +2,7 @@ package webfx.framework.shared.orm.entity.impl;
 
 
 import webfx.framework.shared.orm.entity.*;
-import webfx.framework.shared.orm.entity.lciimpl.EntityDataWriter;
+import webfx.framework.shared.orm.entity.lciimpl.EntityDomainWriter;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 
@@ -20,7 +20,7 @@ public class EntityStoreImpl implements EntityStore {
     private final EntityStore underlyingStore;
     protected final Map<EntityId, Entity> entities = new HashMap<>();
     private final Map<Object, EntityList> entityLists = new HashMap<>();
-    private final EntityDataWriter entityDataWriter = new EntityDataWriter(this);
+    private final EntityDomainWriter entityDataWriter = new EntityDomainWriter(this);
 
     public EntityStoreImpl(DataSourceModel dataSourceModel) {
         this(dataSourceModel, null);
@@ -43,7 +43,7 @@ public class EntityStoreImpl implements EntityStore {
     }
 
     @Override
-    public EntityDataWriter<Entity> getEntityDataWriter() {
+    public EntityDomainWriter<Entity> getEntityDataWriter() {
         return entityDataWriter;
     }
 

@@ -5,7 +5,7 @@ import webfx.framework.shared.orm.expression.terms.Select;
 import webfx.framework.shared.orm.expression.terms.function.Call;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
-import webfx.framework.shared.orm.entity.lciimpl.EntityDataReader;
+import webfx.framework.shared.orm.entity.lciimpl.EntityDomainReader;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.collection.Collections;
 import java.util.function.Predicate;
@@ -23,6 +23,14 @@ public final class Entities {
 
     public static Object getPrimaryKey(Entity entity) {
         return entity == null ? null : entity.getPrimaryKey();
+    }
+
+    public static Object getPrimaryKey(EntityId entityId) {
+        return entityId == null ? null : entityId.getPrimaryKey();
+    }
+
+    public static Object getPrimaryKey(Object o) {
+        return o instanceof Entity ? ((Entity) o).getPrimaryKey() : o instanceof EntityId ? ((EntityId) o).getPrimaryKey() : o;
     }
 
     public static boolean isNew(Entity entity) {
@@ -75,6 +83,6 @@ public final class Entities {
     public static <E extends Entity> List<E> orderBy(List<E> entityList, Expression<E>... orderExpressions) {
         if (Collections.isEmpty(entityList))
             return Collections.emptyList();
-        return Call.orderBy(entityList, new EntityDataReader<>(entityList.get(0).getStore()), orderExpressions);
+        return Call.orderBy(entityList, new EntityDomainReader<>(entityList.get(0).getStore()), orderExpressions);
     }
 }

@@ -1,9 +1,9 @@
 package mongoose.client.entities.util.filters;
 
 import mongoose.shared.entities.Filter;
-import webfx.framework.client.orm.dql.DqlClause;
-import webfx.framework.client.orm.dql.DqlStatement;
-import webfx.framework.client.orm.dql.DqlStatementBuilder;
+import webfx.framework.shared.orm.dql.DqlClause;
+import webfx.framework.shared.orm.dql.DqlStatement;
+import webfx.framework.shared.orm.dql.DqlStatementBuilder;
 
 public final class Filters {
 

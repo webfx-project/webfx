@@ -9,11 +9,11 @@ module mongoose.backend.activities.events {
     requires mongoose.client.activity;
     requires mongoose.client.util;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.domain;
-    requires webfx.framework.client.orm.dql;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
+    requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.router;
     requires webfx.platform.client.windowhistory;

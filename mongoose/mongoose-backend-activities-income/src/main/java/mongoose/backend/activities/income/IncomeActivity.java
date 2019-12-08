@@ -14,7 +14,7 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 final class IncomeActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -64,7 +64,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
         totalVisualMapper = ReactiveVisualMapper.<Document>createReactiveChain(this)
                 .always("{class: 'Document', alias: 'd'}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
                 .always("{columns: `null as Totals,sum(price_deposit) as Deposit,sum(price_net) as Invoiced,sum(price_minDeposit) as MinDeposit,sum(price_nonRefundable) as NonRefundable,sum(price_balance) as Balance,count(1) as Bookings,sum(price_balance!=0 ? 1 : 0) as Unreconciled`, groupBy: `event`}")
                 .visualizeResultInto(pm.genericVisualResultProperty())
                 .start();
@@ -72,7 +72,7 @@ final class IncomeActivity extends EventDependentViewDomainActivity implements
         breakdownVisualMapper = ReactiveVisualMapper.<DocumentLine>createGroupReactiveChain(this, pm)
                 .always("{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
                 .start();
     }
 

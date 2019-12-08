@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms.function;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.extras.type.Type;
 
 /**
@@ -25,6 +25,6 @@ public abstract class AggregateFunction<T> extends Function<T> {
         super(name, argNames, argTypes, returnType, evaluable);
     }
 
-    public abstract Object evaluateOnAggregates(T referrer, Object[] aggregates, Expression<T> operand, DataReader<T> dataReader);
+    public abstract Object evaluateOnAggregates(T referrer, Object[] aggregates, Expression<T> operand, DomainReader<T> domainReader);
 
 }

@@ -16,12 +16,12 @@ import mongoose.shared.entities.Attendance;
 import mongoose.shared.entities.DocumentLine;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.orm.dql.DqlClause;
-import webfx.framework.client.orm.dql.DqlStatement;
+import webfx.framework.shared.orm.dql.DqlClause;
+import webfx.framework.shared.orm.dql.DqlStatement;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 final class StatisticsActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -53,7 +53,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                 ),
                 newSeparatorActionGroup(
                         newOperationAction(() -> new CopySelectionRequest(masterVisualMapper.getSelectedEntities(), masterVisualMapper.getEntityColumns())),
-                        newOperationAction(() -> new CopyAllRequest(masterVisualMapper.getCurrentEntityList(), masterVisualMapper.getEntityColumns()))
+                        newOperationAction(() -> new CopyAllRequest(masterVisualMapper.getCurrentEntities(), masterVisualMapper.getEntityColumns()))
                 )
         ));
 
@@ -75,20 +75,20 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
         leftGroupVisualMapper = ReactiveVisualMapper.<DocumentLine>createGroupReactiveChain(this, pm)
                 .always("{class: 'DocumentLine', alias: 'dl'}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
         ;
 
         rightAttendanceVisualMapper = ReactiveVisualMapper.<Attendance>createReactiveChain(this)
                 .always("{class: 'Attendance', alias: 'a', where: 'present', orderBy: 'date'}")
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("documentLine.document.event=?", eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("documentLine.document.event=?", eventId))
                 // Applying the condition and group selected by the user
-                .ifNotNullOtherwiseForceEmpty(pm.conditionDqlStatementProperty(), conditionDqlStatement -> {
+                .ifNotNullOtherwiseEmpty(pm.conditionDqlStatementProperty(), conditionDqlStatement -> {
                     DqlClause where = conditionDqlStatement.getWhere();
                     if (where == null)
                         return DqlStatement.EMPTY_STATEMENT;
                     return where("a.[documentLine as dl].(" + where.getDql() + ')', where.getParameterValues());
                 })
-                .ifNotNullOtherwiseForceEmpty(pm.groupDqlStatementProperty(), groupDqlStatement -> {
+                .ifNotNullOtherwiseEmpty(pm.groupDqlStatementProperty(), groupDqlStatement -> {
                     DqlClause groupBy = groupDqlStatement.getGroupBy();
                     if (groupBy == null)
                         return DqlStatement.EMPTY_STATEMENT;
@@ -106,7 +106,7 @@ final class StatisticsActivity extends EventDependentViewDomainActivity implemen
                 // Always loading the fields required for viewing the booking details
                 .always("{fields: `document.(" + BookingDetailsPanel.REQUIRED_FIELDS + ")`}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
                 .applyDomainModelRowStyle() // Colorizing the rows
                 .start();
     }

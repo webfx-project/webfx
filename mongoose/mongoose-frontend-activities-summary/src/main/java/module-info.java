@@ -17,7 +17,7 @@ module mongoose.frontend.activities.summary {
     requires mongoose.frontend.activities.cart.routing;
     requires mongoose.shared.entities;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.domain;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uirouter;
     requires webfx.kit.util;

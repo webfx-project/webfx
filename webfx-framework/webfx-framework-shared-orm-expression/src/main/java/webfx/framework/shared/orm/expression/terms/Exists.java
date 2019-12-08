@@ -1,6 +1,6 @@
 package webfx.framework.shared.orm.expression.terms;
 
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.extras.type.PrimType;
 import webfx.extras.type.Type;
 
@@ -19,7 +19,7 @@ public final class Exists extends SelectExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(Object domainObject, DomainReader domainReader) {
         return null;
     }
 

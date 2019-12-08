@@ -122,7 +122,7 @@ public final class BookingDetailsPanel implements
         ObjectProperty<Entity> selectedEntityProperty = new SimpleObjectProperty<>();
         ReactiveVisualMapper<Entity> visualMapper = ReactiveVisualMapper.createReactiveChain()
                 .always(classOnly)
-                .ifNotNullOtherwiseForceEmptyString(selectedDocumentProperty, document -> Strings.replaceAll(dqlStatementString, "${selectedDocument}", document.getPrimaryKey()))
+                .ifNotNullOtherwiseEmptyString(selectedDocumentProperty, document -> Strings.replaceAll(dqlStatementString, "${selectedDocument}", document.getPrimaryKey()))
                 .bindActivePropertyTo(tab.selectedProperty())
                 .setDataSourceModel(dataSourceModel)
                 .applyDomainModelRowStyle()
@@ -143,7 +143,7 @@ public final class BookingDetailsPanel implements
                         ),
                         newSeparatorActionGroup(
                                 newOperationAction(() -> new CopySelectionRequest(visualMapper.getSelectedEntities(), visualMapper.getEntityColumns())),
-                                newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntityList(), visualMapper.getEntityColumns()))
+                                newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntities(), visualMapper.getEntityColumns()))
                         )
                 );
                 break;
@@ -157,7 +157,7 @@ public final class BookingDetailsPanel implements
                         ),
                         newSeparatorActionGroup(
                                 newOperationAction(() -> new CopySelectionRequest(visualMapper.getSelectedEntities(), visualMapper.getEntityColumns())),
-                                newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntityList(), visualMapper.getEntityColumns()))
+                                newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntities(), visualMapper.getEntityColumns()))
                         )
                 );
                 break;
@@ -180,14 +180,14 @@ public final class BookingDetailsPanel implements
                         newOperationAction(() -> new ComposeNewMailRequest(getSelectedDocument(), parentGetter.get())),
                         newSeparatorActionGroup(
                                 newOperationAction(() -> new CopySelectionRequest(visualMapper.getSelectedEntities(), visualMapper.getEntityColumns())),
-                                newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntityList(), visualMapper.getEntityColumns()))
+                                newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntities(), visualMapper.getEntityColumns()))
                         )
                 );
                 break;
             case "History":
                 contextMenuActionGroupFactory = () -> newActionGroup(
                         newOperationAction(() -> new CopySelectionRequest(visualMapper.getSelectedEntities(), visualMapper.getEntityColumns())),
-                        newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntityList(), visualMapper.getEntityColumns()))
+                        newOperationAction(() -> new CopyAllRequest(visualMapper.getCurrentEntities(), visualMapper.getEntityColumns()))
                 );
                 break;
         }

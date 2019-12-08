@@ -1,6 +1,6 @@
 package webfx.framework.client.orm.reactive.mapping.entities_to_grid;
 
-import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntityMapper;
+import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntitiesMapper;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.platform.shared.util.async.Handler;
@@ -14,8 +14,8 @@ public interface ReactiveGridMapperAPI<E extends Entity, THIS> {
 
     ReactiveGridMapper<E> getReactiveColumnMapper();
 
-    default ReactiveEntityMapper<E> getReactiveEntityMapper() {
-        return getReactiveColumnMapper().getReactiveEntityMapper();
+    default ReactiveEntitiesMapper<E> getReactiveEntitiesMapper() {
+        return getReactiveColumnMapper().getReactiveEntitiesMapper();
     }
 
     default EntityColumn<E>[] getEntityColumns() {
@@ -23,7 +23,7 @@ public interface ReactiveGridMapperAPI<E extends Entity, THIS> {
     }
 
     default EntityList<E> getCurrentEntityList() {
-        return getReactiveColumnMapper().getCurrentEntityList();
+        return getReactiveColumnMapper().getCurrentEntities();
     }
 
     default List<E> getSelectedEntities() {

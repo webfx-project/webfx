@@ -5,18 +5,16 @@ import webfx.framework.shared.services.querypush.QueryPushArgument;
 import webfx.framework.shared.services.querypush.QueryPushResult;
 import webfx.framework.shared.services.querypush.QueryPushService;
 import webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider;
-import webfx.platform.shared.util.async.Future;
+import webfx.platform.shared.service.datasource.LocalDataSource;
 import webfx.platform.shared.services.buscall.BusCallService;
-import webfx.platform.shared.datasource.ConnectionDetails;
-import webfx.platform.shared.datasource.LocalDataSourceRegistry;
 import webfx.platform.shared.services.log.Logger;
-
-import java.util.function.Consumer;
+import webfx.platform.shared.util.async.Future;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon
@@ -42,16 +40,16 @@ public class LocalOrRemoteQueryPushServiceProvider implements QueryPushServicePr
     protected QueryPushServiceProvider getOrCreateLocalConnectedProvider(Object dataSourceId) {
         QueryPushServiceProvider localConnectedProvider = LocalQueryPushServiceProviderRegistry.getLocalConnectedProvider(dataSourceId);
         if (localConnectedProvider == null) {
-            ConnectionDetails connectionDetails = LocalDataSourceRegistry.getLocalDataSourceConnectionDetails(dataSourceId);
-            if (connectionDetails != null) {
-                localConnectedProvider = createLocalConnectedProvider(connectionDetails);
+            LocalDataSource localDataSource = LocalDataSource.get(dataSourceId);
+            if (localDataSource != null) {
+                localConnectedProvider = createLocalConnectedProvider(localDataSource);
                 LocalQueryPushServiceProviderRegistry.registerLocalConnectedProvider(dataSourceId, localConnectedProvider);
             }
         }
         return localConnectedProvider;
     }
 
-    protected QueryPushServiceProvider createLocalConnectedProvider(ConnectionDetails connectionDetails) {
+    protected QueryPushServiceProvider createLocalConnectedProvider(LocalDataSource localDataSource) {
         throw new UnsupportedOperationException("This platform doesn't provide local QueryPushServiceProvider");
     }
 

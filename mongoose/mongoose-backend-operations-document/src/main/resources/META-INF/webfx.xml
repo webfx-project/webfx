@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module>webfx-framework-shared-orm-domain</module>
+            <module>webfx-framework-shared-orm-domainmodel</module>
             <module>webfx-platform-shared-update</module>
         </source-modules>
 

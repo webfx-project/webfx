@@ -11,13 +11,13 @@ module mongoose.frontend.activities.payment {
     requires mongoose.client.sectionpanel;
     requires mongoose.client.util;
     requires mongoose.frontend.activities.cart.routing;
-    requires mongoose.shared.domain;
+    requires mongoose.shared.domainmodel;
     requires mongoose.shared.entities;
     requires webfx.extras.webtext.controls;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;

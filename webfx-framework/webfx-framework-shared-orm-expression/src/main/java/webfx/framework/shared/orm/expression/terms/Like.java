@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 
 /**
  * @author Bruno Salmon
@@ -12,7 +12,7 @@ public final class Like<T> extends BinaryBooleanExpression<T> {
         super(left, " like ", right, 5);
     }
 
-    public Boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
+    public Boolean evaluateCondition(Object a, Object b, DomainReader<T> domainReader) {
         return b instanceof String && new LikeImpl((String) b).compare(a);
     }
 

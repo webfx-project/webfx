@@ -1,6 +1,6 @@
 package mongoose.server.jobs.sessioncloser;
 
-import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
+import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import webfx.framework.server.services.push.PushServerService;
 import webfx.framework.server.services.push.UnresponsivePushClientListener;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
@@ -17,7 +17,7 @@ public final class MongooseServerUnresponsiveClientSessionCloserJob implements A
 
     @Override
     public void onStart() {
-        Object dataSourceId = DomainModelSnapshotLoader.getDataSourceModel().getId();
+        Object dataSourceId = MongooseDataSourceModel.getDataSourceId();
         PushServerService.addUnresponsivePushClientListener(disconnectListener = pushClientId ->
                 UpdateService.executeUpdate(new UpdateArgument("update session_connection set \"end\"=now() where process_id=?", new Object[]{pushClientId}, dataSourceId))
                         .setHandler(ar -> {

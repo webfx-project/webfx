@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.platform.shared.util.noreflect.IndexedArray;
 import webfx.platform.shared.util.noreflect.KeyObject;
 import webfx.extras.type.Type;
@@ -30,13 +30,13 @@ public final class JsonObjectExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public JsonObject evaluate(T domainObject, DataReader<T> dataReader) {
+    public JsonObject evaluate(T domainObject, DomainReader<T> domainReader) {
         WritableJsonObject json = Json.createObject();
         IndexedArray keys = jsonObjectExpressions.keys();
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.getString(i);
             Expression<T> expression = jsonObjectExpressions.get(key);
-            json.set(key, expression.evaluate(domainObject, dataReader));
+            json.set(key, expression.evaluate(domainObject, domainReader));
         }
         return json;
     }

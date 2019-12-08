@@ -4,9 +4,9 @@ module mongoose.server.systemmetrics {
 
     // Direct dependencies modules
     requires java.base;
-    requires mongoose.shared.domain;
+    requires mongoose.shared.domainmodel;
     requires mongoose.shared.entities;
-    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.entity;
     requires webfx.platform.shared.appcontainer;
     requires webfx.platform.shared.log;

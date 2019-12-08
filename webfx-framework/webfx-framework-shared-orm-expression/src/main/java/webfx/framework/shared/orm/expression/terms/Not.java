@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.extras.type.PrimType;
 import webfx.extras.type.Type;
 import webfx.platform.shared.util.Booleans;
@@ -21,8 +21,8 @@ public final class Not<T> extends UnaryExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
-        return Booleans.isFalse(super.evaluate(domainObject, dataReader));
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
+        return Booleans.isFalse(super.evaluate(domainObject, domainReader));
     }
 
     @Override

@@ -10,7 +10,7 @@ module mongoose.client.personaldetails {
     requires mongoose.client.authn;
     requires mongoose.client.sectionpanel;
     requires mongoose.client.validation;
-    requires mongoose.shared.domain;
+    requires mongoose.shared.domainmodel;
     requires mongoose.shared.entities;
     requires webfx.extras.type;
     requires webfx.extras.visual;
@@ -20,7 +20,7 @@ module mongoose.client.personaldetails {
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.materialdesign;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.entity;
     requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;

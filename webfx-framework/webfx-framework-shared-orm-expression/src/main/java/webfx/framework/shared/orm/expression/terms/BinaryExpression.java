@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 
 import java.util.Collection;
 
@@ -41,14 +41,14 @@ public abstract class BinaryExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
-        Object leftValue = left.evaluate(domainObject, dataReader);
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
+        Object leftValue = left.evaluate(domainObject, domainReader);
         if (isShortcutValue(leftValue))
             return leftValue;
-        Object rightValue = right.evaluate(domainObject, dataReader);
+        Object rightValue = right.evaluate(domainObject, domainReader);
         if (isShortcutValue(rightValue))
             return rightValue;
-        return evaluate(leftValue, rightValue, dataReader);
+        return evaluate(leftValue, rightValue, domainReader);
     }
 
     public boolean isShortcutValue(Object value) {
@@ -56,7 +56,7 @@ public abstract class BinaryExpression<T> extends AbstractExpression<T> {
     }
 
 
-    public abstract Object evaluate(Object leftValue, Object rightValue, DataReader<T> dataReader);
+    public abstract Object evaluate(Object leftValue, Object rightValue, DomainReader<T> domainReader);
 
     @Override
     public StringBuilder toString(StringBuilder sb) {

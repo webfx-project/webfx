@@ -5,7 +5,7 @@ module mongoose.client.aggregates {
     // Direct dependencies modules
     requires java.base;
     requires mongoose.shared.entities;
-    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.entity;
     requires webfx.platform.client.websocketbus;
     requires webfx.platform.shared.bus;

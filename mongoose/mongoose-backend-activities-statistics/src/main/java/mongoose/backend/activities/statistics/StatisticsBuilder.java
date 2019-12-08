@@ -60,7 +60,7 @@ public class StatisticsBuilder {
         VisualResult rightResult = rightVisualResultProperty.get();
         int rowCount = leftResult == null ? -1 : leftResult.getRowCount();
         int leftColCount = leftResult == null ? 0 : leftResult.getColumnCount();
-        EntityList<Attendance> rightAttendances = rightAttendanceVisualMapper.getCurrentEntityList();
+        EntityList<Attendance> rightAttendances = rightAttendanceVisualMapper.getCurrentEntities();
         if (settingFinalResult || leftResult == lastLeftResult || rightResult == lastRightResult || rowCount == 0 || leftColCount == 0 || rightAttendances.isEmpty())
             return;
         lastLeftResult = leftResult;
@@ -80,7 +80,7 @@ public class StatisticsBuilder {
         for (int row = 0; row < rowCount; row++)
             for (int col = 0; col < leftColCount; col++)
                 rsb.setValue(row, col, leftResult.getValue(row, col));
-        EntityList<DocumentLine> leftDocumentLines = leftDocumentLineVisualMapper.getCurrentEntityList();
+        EntityList<DocumentLine> leftDocumentLines = leftDocumentLineVisualMapper.getCurrentEntities();
         EntityColumn<DocumentLine>[] leftColumns = leftDocumentLineVisualMapper.getEntityColumns();
         rightAttendances.forEach(a -> {
             LocalDate date = a.getDate();

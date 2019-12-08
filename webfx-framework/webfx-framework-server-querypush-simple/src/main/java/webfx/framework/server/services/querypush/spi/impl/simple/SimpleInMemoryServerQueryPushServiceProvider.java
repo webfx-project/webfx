@@ -77,8 +77,13 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
         }
         // Getting the requested query info (may already exist if associated with some other streams)
         QueryInfo requestedQueryInfo = queryInfos.get(queryArgument);
-        if (requestedQueryInfo == null) // creating it (and register it) if it doesn't exist
+        if (requestedQueryInfo == null) { // creating it (and register it) if it doesn't exist
+            // If the queryString was null (network optimization when it's the same as previous),
+            if (queryArgument.getQueryString() == null && previousQueryInfo != null)
+                // we reconstitute the complete argument reusing the previous queryString
+                queryArgument = new QueryArgument(queryArgument.getDataSourceId(), queryArgument.getQueryLang(), previousQueryInfo.queryArgument.getQueryString(), queryArgument.getParameters());
             queryInfos.put(queryArgument, requestedQueryInfo = new QueryInfo(queryArgument));
+        }
         // Associating this streamInfo to this requested queryInfo
         requestedQueryInfo.addStreamInfo(streamInfo);
         streamInfo.queryInfo = requestedQueryInfo;

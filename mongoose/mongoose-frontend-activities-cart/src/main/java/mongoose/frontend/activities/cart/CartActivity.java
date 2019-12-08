@@ -32,7 +32,7 @@ import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
 import webfx.framework.client.ui.layouts.FlexBox;
 import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.function.Function;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
@@ -134,7 +134,7 @@ final class CartActivity extends CartBasedActivity {
         new TranslateFunction().register();
         new Function<Document>("documentStatus", PrimType.STRING, true, false) {
             @Override
-            public Object evaluate(Document document, DataReader<Document> dataReader) {
+            public Object evaluate(Document document, DomainReader<Document> domainReader) {
                 return I18n.getI18nText(getDocumentStatus(document));
             }
         }.register();
@@ -191,7 +191,7 @@ final class CartActivity extends CartBasedActivity {
             registerFormatter("priceWithCurrency", priceFormatter);
             new Function("formatPrice", PrimType.STRING, true, false) {
                 @Override
-                public Object evaluate(Object argument, DataReader dataReader) {
+                public Object evaluate(Object argument, DomainReader domainReader) {
                     return priceFormatter.format(argument);
                 }
             }.register();

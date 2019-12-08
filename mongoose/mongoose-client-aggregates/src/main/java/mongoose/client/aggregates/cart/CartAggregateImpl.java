@@ -3,10 +3,7 @@ package mongoose.client.aggregates.cart;
 import mongoose.client.aggregates.event.EventAggregate;
 import mongoose.shared.entities.*;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
-import webfx.framework.shared.orm.entity.EntityId;
-import webfx.framework.shared.orm.entity.EntityList;
-import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.framework.shared.orm.entity.EntityStoreQuery;
+import webfx.framework.shared.orm.entity.*;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.async.Future;
@@ -45,11 +42,11 @@ public final class CartAggregateImpl implements CartAggregate {
     }
 
     static CartAggregate get(Object cartIdOrUuid) {
-        return aggregates.get(toKey(cartIdOrUuid));
+        return aggregates.get(Entities.getPrimaryKey(cartIdOrUuid));
     }
 
     static CartAggregate getOrCreate(Object cartIdOrUuid, EntityStore store) {
-        cartIdOrUuid = toKey(cartIdOrUuid);
+        cartIdOrUuid = Entities.getPrimaryKey(cartIdOrUuid);
         CartAggregate cartAggregate = get(cartIdOrUuid);
         if (cartAggregate == null)
             aggregates.put(cartIdOrUuid, cartAggregate = new CartAggregateImpl(cartIdOrUuid, store));
@@ -70,16 +67,10 @@ public final class CartAggregateImpl implements CartAggregate {
         return getOrCreateFromCart(document.getCart());
     }
 
-    private static Object toKey(Object id) {
-        if (id instanceof EntityId)
-            id = ((EntityId) id).getPrimaryKey();
-        return id;
-    }
-
     public void setCart(Cart cart) {
         this.cart = cart;
         if (id == null)
-            aggregates.put(id = toKey(cart.getId()), this);
+            aggregates.put(id = Entities.getPrimaryKey((Object) cart.getId()), this);
         if (uuid == null)
             aggregates.put(uuid = cart.getUuid(), this);
         if (eventAggregate != null)

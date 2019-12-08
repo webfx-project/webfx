@@ -411,11 +411,12 @@
     <source path="mongoose/frontend/activities/summary"/>
     <source path="mongoose/frontend/activities/summary/routing"/>
     <source path="mongoose/frontend/operations/summary"/>
-    <!--=============================< mongoose-shared-domain >=============================-->
+    <!--==========================< mongoose-shared-domainmodel >===========================-->
     <!-- used by mongoose-shared-entities (SOURCE) -->
+    <source path="mongoose/shared/domainmodel"/>
     <source path="mongoose/shared/domainmodel/formatters"/>
     <source path="mongoose/shared/domainmodel/functions"/>
-    <source path="mongoose/shared/domainmodel/loader"/>
+    <source path="mongoose/shared/services/domainmodel"/>
     <resource path="mongoose/shared/domainmodel"/>
     <public includes="mongoose/shared/domainmodel/" path=""/>
     <!--============================< mongoose-shared-entities >============================-->
@@ -440,7 +441,7 @@
     <source path="webfx/extras/imagestore"/>
     <!--===============================< webfx-extras-label >===============================-->
     <!-- used by webfx-extras-cell (SOURCE) -->
-    <!-- used by webfx-framework-shared-orm-domain (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-domainmodel (SOURCE) -->
     <source path="webfx/extras/label"/>
     <!--===============================< webfx-extras-type >================================-->
     <!-- used by webfx-extras-visual (SOURCE) -->
@@ -502,13 +503,22 @@
     <source path="webfx/framework/client/ui/action"/>
     <source path="webfx/framework/client/ui/action/impl"/>
     <!--========================< webfx-framework-client-activity >=========================-->
-    <!-- used by webfx-framework-client-orm-dql (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-reactive-dql (SOURCE) -->
     <source path="webfx/framework/client/activity"/>
     <source path="webfx/framework/client/activity/impl"/>
     <source path="webfx/framework/client/activity/impl/composition"/>
     <source path="webfx/framework/client/activity/impl/composition/impl"/>
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty"/>
     <source path="webfx/framework/client/activity/impl/elementals/activeproperty/impl"/>
+    <!--=====================< webfx-framework-client-activity-domain >=====================-->
+    <!-- used by mongoose-client-activity (SOURCE) -->
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation"/>
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation/impl"/>
+    <source path="webfx/framework/client/activity/impl/combinations/domainpresentationlogic/impl"/>
+    <source path="webfx/framework/client/activity/impl/combinations/viewdomain"/>
+    <source path="webfx/framework/client/activity/impl/combinations/viewdomain/impl"/>
+    <source path="webfx/framework/client/activity/impl/elementals/domain"/>
+    <source path="webfx/framework/client/activity/impl/elementals/domain/impl"/>
     <!--========================< webfx-framework-client-controls >=========================-->
     <!-- used by mongoose-client-entities (SOURCE) -->
     <source path="webfx/framework/client/ui/controls"/>
@@ -518,15 +528,6 @@
     <source path="webfx/framework/client/ui/controls/sheet"/>
     <resource path="images/s16/controls"/>
     <public includes="images/s16/controls/" path=""/>
-    <!--=========================< webfx-framework-client-domain >==========================-->
-    <!-- used by mongoose-client-activity (SOURCE) -->
-    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation"/>
-    <source path="webfx/framework/client/activity/impl/combinations/domainpresentation/impl"/>
-    <source path="webfx/framework/client/activity/impl/combinations/domainpresentationlogic/impl"/>
-    <source path="webfx/framework/client/activity/impl/combinations/viewdomain"/>
-    <source path="webfx/framework/client/activity/impl/combinations/viewdomain/impl"/>
-    <source path="webfx/framework/client/activity/impl/elementals/domain"/>
-    <source path="webfx/framework/client/activity/impl/elementals/domain/impl"/>
     <!--==========================< webfx-framework-client-i18n >===========================-->
     <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/operations/i18n"/>
@@ -543,9 +544,8 @@
     <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/materialdesign/textfield"/>
     <source path="webfx/framework/client/ui/materialdesign/util"/>
-    <!--=========================< webfx-framework-client-orm-dql >=========================-->
+    <!--====================< webfx-framework-client-orm-reactive-dql >=====================-->
     <!-- used by mongoose-client-entities (SOURCE) -->
-    <source path="webfx/framework/client/orm/dql"/>
     <source path="webfx/framework/client/orm/reactive/call"/>
     <source path="webfx/framework/client/orm/reactive/call/query"/>
     <source path="webfx/framework/client/orm/reactive/call/query/push"/>
@@ -563,7 +563,7 @@
     <source path="webfx/framework/client/orm/reactive/mapping/entities_to_visual"/>
     <source path="webfx/framework/client/orm/reactive/mapping/entities_to_visual/conventions"/>
     <!--==========================< webfx-framework-client-push >===========================-->
-    <!-- used by webfx-framework-client-orm-dql (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-reactive-dql (SOURCE) -->
     <source path="webfx/framework/client/services/push"/>
     <source path="webfx/framework/client/services/push/spi"/>
     <!--=======================< webfx-framework-client-push-simple >=======================-->
@@ -577,7 +577,7 @@
     <!-- used by mongoose-client-application (PLUGIN) -->
     <source path="webfx/framework/client/jobs/querypush"/>
     <!--========================< webfx-framework-client-uirouter >=========================-->
-    <!-- used by webfx-framework-client-domain (SOURCE) -->
+    <!-- used by webfx-framework-client-activity-domain (SOURCE) -->
     <source path="webfx/framework/client/activity/impl/elementals/presentation"/>
     <source path="webfx/framework/client/activity/impl/elementals/presentation/impl"/>
     <source path="webfx/framework/client/activity/impl/elementals/presentation/logic"/>
@@ -616,12 +616,23 @@
     <!--========================< webfx-framework-shared-operation >========================-->
     <!-- used by webfx-framework-client-i18n (SOURCE) -->
     <source path="webfx/framework/shared/operation"/>
-    <!--=======================< webfx-framework-shared-orm-domain >========================-->
+    <!--=====================< webfx-framework-shared-orm-domainmodel >=====================-->
     <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
     <source path="webfx/framework/shared/orm/domainmodel"/>
     <source path="webfx/framework/shared/orm/domainmodel/builder"/>
     <source path="webfx/framework/shared/orm/domainmodel/lciimpl"/>
-    <source path="webfx/framework/shared/orm/domainmodel/loader"/>
+    <source path="webfx/framework/shared/services/domainmodel"/>
+    <source path="webfx/framework/shared/services/domainmodel/spi"/>
+    <!--=========================< webfx-framework-shared-orm-dql >=========================-->
+    <!-- used by webfx-framework-shared-orm-domainmodel (SOURCE) -->
+    <source path="webfx/framework/shared/orm/dql"/>
+    <source path="webfx/framework/shared/orm/dql/sqlcompiler"/>
+    <source path="webfx/framework/shared/orm/dql/sqlcompiler/lci"/>
+    <source path="webfx/framework/shared/orm/dql/sqlcompiler/lci/mock"/>
+    <source path="webfx/framework/shared/orm/dql/sqlcompiler/mapping"/>
+    <source path="webfx/framework/shared/orm/dql/sqlcompiler/sql"/>
+    <source path="webfx/framework/shared/orm/dql/sqlcompiler/sql/dbms"/>
+    <source path="webfx/framework/shared/orm/dql/sqlcompiler/terms"/>
     <!--=======================< webfx-framework-shared-orm-entity >========================-->
     <!-- used by mongoose-shared-entities (SOURCE) -->
     <source path="webfx/framework/shared/orm/entity"/>
@@ -631,20 +642,16 @@
     <source path="webfx/framework/shared/orm/entity/result"/>
     <source path="webfx/framework/shared/orm/entity/result/impl"/>
     <!--=====================< webfx-framework-shared-orm-expression >======================-->
-    <!-- used by webfx-framework-shared-orm-domain (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-domainmodel (SOURCE) -->
     <source path="webfx/framework/shared/orm/expression"/>
     <source path="webfx/framework/shared/orm/expression/builder"/>
     <source path="webfx/framework/shared/orm/expression/builder/terms"/>
     <source path="webfx/framework/shared/orm/expression/lci"/>
-    <source path="webfx/framework/shared/orm/expression/lci/mocks"/>
     <source path="webfx/framework/shared/orm/expression/parser"/>
     <source path="webfx/framework/shared/orm/expression/parser/javacup"/>
     <source path="webfx/framework/shared/orm/expression/parser/jflex"/>
-    <source path="webfx/framework/shared/orm/expression/sqlcompiler"/>
-    <source path="webfx/framework/shared/orm/expression/sqlcompiler/mapping"/>
-    <source path="webfx/framework/shared/orm/expression/sqlcompiler/sql"/>
-    <source path="webfx/framework/shared/orm/expression/sqlcompiler/sql/dbms"/>
-    <source path="webfx/framework/shared/orm/expression/sqlcompiler/terms"/>
+    <source path="webfx/framework/shared/orm/expression/parser/lci"/>
+    <source path="webfx/framework/shared/orm/expression/parser/lci/mock"/>
     <source path="webfx/framework/shared/orm/expression/terms"/>
     <source path="webfx/framework/shared/orm/expression/terms/function"/>
     <source path="webfx/framework/shared/orm/expression/terms/function/java"/>
@@ -652,7 +659,7 @@
     <!-- used by webfx-framework-client-push (SOURCE) -->
     <source path="webfx/framework/shared/services/push"/>
     <!--========================< webfx-framework-shared-querypush >========================-->
-    <!-- used by webfx-framework-client-orm-dql (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-reactive-dql (SOURCE) -->
     <source path="webfx/framework/shared/services/querypush"/>
     <source path="webfx/framework/shared/services/querypush/diff"/>
     <source path="webfx/framework/shared/services/querypush/diff/impl"/>
@@ -669,7 +676,7 @@
     <source path="webfx/framework/shared/router/session/impl"/>
     <source path="webfx/framework/shared/router/util"/>
     <!--==========================< webfx-framework-shared-util >===========================-->
-    <!-- used by mongoose-shared-domain (SOURCE) -->
+    <!-- used by mongoose-shared-domainmodel (SOURCE) -->
     <source path="webfx/framework/shared/util/formatter"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
@@ -820,7 +827,10 @@
     <source path="webfx/platform/shared/services/buscall/spi"/>
     <!--========================< webfx-platform-shared-datasource >========================-->
     <!-- used by webfx-platform-shared-query (SOURCE) -->
-    <source path="webfx/platform/shared/datasource"/>
+    <source path="webfx/platform/shared/service/datasource"/>
+    <source path="webfx/platform/shared/service/datasource/jdbc"/>
+    <source path="webfx/platform/shared/service/datasource/spi"/>
+    <source path="webfx/platform/shared/service/datasource/spi/simple"/>
     <!--===========================< webfx-platform-shared-json >===========================-->
     <!-- used by webfx-framework-shared-orm-expression (SOURCE) -->
     <!-- used by webfx-platform-client-websocket-gwt (SOURCE) -->
@@ -853,7 +863,7 @@
     <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/log/spi/impl/gwt"/>
     <!--==========================< webfx-platform-shared-query >===========================-->
-    <!-- used by webfx-framework-shared-orm-domain (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-domainmodel (SOURCE) -->
     <!-- used by webfx-platform-shared-query-remote (SOURCE) -->
     <source path="webfx/platform/shared/services/query"/>
     <source path="webfx/platform/shared/services/query/compression"/>
@@ -864,7 +874,7 @@
     <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/query/spi/impl/remote"/>
     <!--=========================< webfx-platform-shared-resource >=========================-->
-    <!-- used by mongoose-shared-domain (SOURCE) -->
+    <!-- used by mongoose-shared-domainmodel (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-client-websocketbus (SOURCE) -->
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->

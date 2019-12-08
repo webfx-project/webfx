@@ -21,13 +21,14 @@ module mongoose.backend.activities.statistics {
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.domain;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.layouts;
-    requires webfx.framework.client.orm.dql;
+    requires webfx.framework.client.orm.reactive.dql;
     requires webfx.framework.client.orm.reactive.entities;
     requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
+    requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.orm.expression;
     requires webfx.framework.shared.router;

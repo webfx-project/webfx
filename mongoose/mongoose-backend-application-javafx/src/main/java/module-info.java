@@ -8,9 +8,9 @@ module mongoose.backend.application.javafx {
     requires mongoose.backend.activities.cloneevent.routing;
     requires mongoose.backend.application;
     requires mongoose.client.navigationarrows.java;
-    requires mongoose.shared.domain;
+    requires mongoose.shared.domainmodel;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.domain;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.uirouter;
     requires webfx.kit.javafx;
     requires webfx.platform.client.storage.java;

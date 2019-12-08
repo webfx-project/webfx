@@ -1,6 +1,6 @@
 package webfx.framework.shared.orm.expression.terms.function.java;
 
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.function.Function;
 import webfx.extras.type.PrimType;
 
@@ -16,7 +16,7 @@ public final class CurrentDate extends Function {
     }
 
     @Override
-    public Object evaluate(Object argument, DataReader dataReader) {
+    public Object evaluate(Object argument, DomainReader domainReader) {
         return LocalDate.now();
     }
 }

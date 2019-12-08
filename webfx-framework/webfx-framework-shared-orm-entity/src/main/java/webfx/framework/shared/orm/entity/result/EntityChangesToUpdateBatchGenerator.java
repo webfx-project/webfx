@@ -1,17 +1,15 @@
 package webfx.framework.shared.orm.entity.result;
 
+import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.domainmodel.DomainField;
+import webfx.framework.shared.orm.dql.sqlcompiler.ExpressionSqlCompiler;
+import webfx.framework.shared.orm.dql.sqlcompiler.lci.CompilerDomainModelReader;
+import webfx.framework.shared.orm.dql.sqlcompiler.sql.SqlCompiled;
+import webfx.framework.shared.orm.dql.sqlcompiler.sql.dbms.DbmsSqlSyntax;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.CompilerDomainModelReader;
-import webfx.framework.shared.orm.expression.lci.ParserDomainModelReader;
-import webfx.framework.shared.orm.expression.sqlcompiler.ExpressionSqlCompiler;
-import webfx.framework.shared.orm.expression.sqlcompiler.sql.SqlCompiled;
-import webfx.framework.shared.orm.expression.sqlcompiler.sql.dbms.DbmsSqlSyntax;
-import webfx.framework.shared.orm.expression.sqlcompiler.sql.dbms.PostgresSyntax;
-import webfx.framework.shared.orm.domainmodel.DataSourceModel;
-import webfx.framework.shared.orm.domainmodel.DomainField;
-import webfx.framework.shared.orm.domainmodel.DomainModel;
+import webfx.framework.shared.orm.expression.parser.lci.ParserDomainModelReader;
 import webfx.framework.shared.orm.expression.terms.*;
 import webfx.platform.shared.services.update.GeneratedKeyBatchIndex;
 import webfx.platform.shared.services.update.UpdateArgument;
@@ -32,11 +30,7 @@ public final class EntityChangesToUpdateBatchGenerator {
     }
 
     public static BatchGenerator createUpdateBatchGenerator(EntityChanges changes, DataSourceModel dataSourceModel, UpdateArgument... initialUpdates) {
-        return createUpdateBatchGenerator(changes, dataSourceModel.getId(), PostgresSyntax.get(), dataSourceModel.getDomainModel(), initialUpdates);
-    }
-
-    public static BatchGenerator createUpdateBatchGenerator(EntityChanges changes, Object dataSourceId, DbmsSqlSyntax dbmsSyntax, DomainModel domainModel, UpdateArgument... initialUpdates) {
-        return createUpdateBatchGenerator(changes, dataSourceId, dbmsSyntax, domainModel.getParserDomainModelReader(), domainModel.getCompilerDomainModelReader(), initialUpdates);
+        return createUpdateBatchGenerator(changes, dataSourceModel.getDataSourceId(), dataSourceModel.getDbmsSqlSyntax(), dataSourceModel.getDomainModel().getParserDomainModelReader(), dataSourceModel.getCompilerDomainModelReader(), initialUpdates);
     }
 
     public static BatchGenerator createUpdateBatchGenerator(EntityChanges changes, Object dataSourceId, DbmsSqlSyntax dbmsSyntax, ParserDomainModelReader parserModelReader, CompilerDomainModelReader compilerModelReader, UpdateArgument... initialUpdates) {
@@ -47,17 +41,13 @@ public final class EntityChangesToUpdateBatchGenerator {
         return createUpdateBatchGenerator(changes, dataSourceModel, initialUpdates).generate();
     }
 
-    public static Batch<UpdateArgument> generateUpdateBatch(EntityChanges changes, Object dataSourceId, DbmsSqlSyntax dbmsSyntax, DomainModel domainModel, UpdateArgument... initialUpdates) {
-        return createUpdateBatchGenerator(changes, dataSourceId, dbmsSyntax, domainModel, initialUpdates).generate();
-    }
-
     public static Batch<UpdateArgument> generateUpdateBatch(EntityChanges changes, Object dataSourceId, DbmsSqlSyntax dbmsSyntax, ParserDomainModelReader parserModelReader, CompilerDomainModelReader compilerModelReader, UpdateArgument... initialUpdates) {
         return createUpdateBatchGenerator(changes, dataSourceId, dbmsSyntax, parserModelReader, compilerModelReader, initialUpdates).generate();
     }
 
     public static final class BatchGenerator {
 
-        final static Expression WHERE_ID_EQUALS_PARAM = new Equals(IdExpression.singleton, Parameter.UNNAMED_PARAMETER);
+        final static Expression<?> WHERE_ID_EQUALS_PARAM = new Equals(IdExpression.singleton, Parameter.UNNAMED_PARAMETER);
 
         private final EntityChanges changes;
         private final Object dataSourceId;
@@ -167,7 +157,7 @@ public final class EntityChangesToUpdateBatchGenerator {
         }
 
         SqlCompiled compileDelete(Delete delete, Object[] parameterValues) {
-            return ExpressionSqlCompiler.compileDelete(delete, parameterValues, dbmsSyntax, compilerModelReader);
+            return ExpressionSqlCompiler.compileDelete(delete, dbmsSyntax, compilerModelReader);
         }
 
         void generateInsertUpdates() {
@@ -202,11 +192,11 @@ public final class EntityChangesToUpdateBatchGenerator {
         }
 
         SqlCompiled compileInsert(Insert insert, Object[] parameterValues) {
-            return ExpressionSqlCompiler.compileInsert(insert, parameterValues, dbmsSyntax, compilerModelReader);
+            return ExpressionSqlCompiler.compileInsert(insert, dbmsSyntax, compilerModelReader);
         }
 
         SqlCompiled compileUpdate(Update update, Object[] parameterValues) {
-            return ExpressionSqlCompiler.compileUpdate(update, parameterValues, dbmsSyntax, compilerModelReader);
+            return ExpressionSqlCompiler.compileUpdate(update, dbmsSyntax, compilerModelReader);
         }
 
         void addToBatch(SqlCompiled sqlcompiled, Object[] parameterValues) {

@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
+import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import webfx.framework.client.activity.ActivityManager;
 import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainActivityContext;
 import webfx.framework.client.ui.layouts.SceneUtil;
@@ -37,7 +37,7 @@ public class MongooseClientApplication extends Application {
     @Override
     public void init() {
         ActivityManager.runActivity(mongooseClientActivity,
-                ViewDomainActivityContext.createViewDomainActivityContext(DomainModelSnapshotLoader.getDataSourceModel())
+                ViewDomainActivityContext.createViewDomainActivityContext(MongooseDataSourceModel.get())
         );
     }
 

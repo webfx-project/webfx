@@ -10,7 +10,7 @@ module mongoose.backend.activities.monitor {
     requires webfx.extras.visual;
     requires webfx.extras.visual.controls.charts;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.domain;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.orm.reactive.entities;
     requires webfx.framework.client.orm.reactive.visual;

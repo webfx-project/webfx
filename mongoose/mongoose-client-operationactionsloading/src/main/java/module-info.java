@@ -5,11 +5,10 @@ module mongoose.client.operationactionsloading {
     // Direct dependencies modules
     requires java.base;
     requires javafx.base;
-    requires mongoose.shared.domain;
+    requires mongoose.shared.domainmodel;
     requires webfx.framework.client.action;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uirouter;
-    requires webfx.framework.shared.orm.domain;
     requires webfx.framework.shared.orm.entity;
     requires webfx.platform.shared.appcontainer;
     requires webfx.platform.shared.log;

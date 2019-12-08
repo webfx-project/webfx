@@ -9,12 +9,7 @@ import webfx.framework.shared.orm.expression.builder.terms.ExpressionBuilder;
 import webfx.framework.shared.orm.expression.builder.terms.SelectBuilder;
 import webfx.framework.shared.orm.expression.parser.javacup.JavaCupExpressionParser;
 import webfx.framework.shared.orm.expression.parser.jflex.ExpressionLexer;
-import webfx.framework.shared.orm.expression.lci.ParserDomainModelReader;
-import webfx.framework.shared.orm.expression.builder.BuilderThreadContext;
-import webfx.framework.shared.orm.expression.builder.terms.ExpressionBuilder;
-import webfx.framework.shared.orm.expression.builder.terms.SelectBuilder;
-import webfx.framework.shared.orm.expression.parser.javacup.JavaCupExpressionParser;
-import webfx.framework.shared.orm.expression.parser.jflex.ExpressionLexer;
+import webfx.framework.shared.orm.expression.parser.lci.ParserDomainModelReader;
 
 import java.io.StringReader;
 

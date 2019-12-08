@@ -1,7 +1,7 @@
 package webfx.platform.shared.services.query.spi.impl.vertx;
 
 import webfx.platform.providers.vertx.queryupdate.VertxLocalConnectedQueryUpdateServiceProvider;
-import webfx.platform.shared.datasource.ConnectionDetails;
+import webfx.platform.shared.service.datasource.LocalDataSource;
 import webfx.platform.shared.services.query.spi.QueryServiceProvider;
 import webfx.platform.shared.services.query.spi.impl.LocalQueryServiceProvider;
 
@@ -11,8 +11,8 @@ import webfx.platform.shared.services.query.spi.impl.LocalQueryServiceProvider;
 public final class VertxQueryServiceProvider extends LocalQueryServiceProvider {
 
     @Override
-    protected QueryServiceProvider createLocalConnectedProvider(ConnectionDetails connectionDetails) {
-        return new VertxLocalConnectedQueryUpdateServiceProvider(connectionDetails);
+    protected QueryServiceProvider createLocalConnectedProvider(LocalDataSource localDataSource) {
+        return new VertxLocalConnectedQueryUpdateServiceProvider(localDataSource);
     }
 
 }

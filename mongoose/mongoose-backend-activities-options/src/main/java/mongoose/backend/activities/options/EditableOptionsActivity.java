@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 import static webfx.framework.client.ui.layouts.LayoutUtil.*;
 
 /**
@@ -120,7 +120,7 @@ final class EditableOptionsActivity extends OptionsActivity {
             addOptionDialogPane = new BorderPane(setMaxPrefSizeToInfinite(visualGrid));
             addOptionDialogVisualMapper = ReactiveVisualMapper.<Option>createPushReactiveChain(this)
                     .always("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}")
-                    .always(eventIdProperty(), e -> where("event.organization=?", getEvent().getOrganization().getPrimaryKey()))
+                    .always(eventIdProperty(), e -> where("event.organization=?", getEvent().getOrganization()))
                     .setEntityColumns("[" +
                     "{label: 'Option', expression: 'coalesce(itemFamily.icon,item.family.icon),coalesce(name, item.name)'}," +
                     "{label: 'Event', expression: 'event.(icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate))'}," +

@@ -1,10 +1,10 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Numbers;
-import webfx.framework.shared.orm.expression.lci.DataWriter;
+import webfx.framework.shared.orm.expression.lci.DomainWriter;
 
 /**
  * @author Bruno Salmon
@@ -25,7 +25,7 @@ public final class And<T> extends BinaryBooleanExpression<T> {
     }
 
     @Override
-    public Boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
+    public Boolean evaluateCondition(Object a, Object b, DomainReader<T> domainReader) {
         if (isShortcutValue(a) || isShortcutValue(b))
             return false;
         if (a == null || b == null)
@@ -34,7 +34,7 @@ public final class And<T> extends BinaryBooleanExpression<T> {
     }
 
     @Override
-    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
+    public void setValue(T domainObject, Object value, DomainWriter<T> dataWriter) {
         left.setValue(domainObject, value, dataWriter);
         right.setValue(domainObject, value, dataWriter);
     }

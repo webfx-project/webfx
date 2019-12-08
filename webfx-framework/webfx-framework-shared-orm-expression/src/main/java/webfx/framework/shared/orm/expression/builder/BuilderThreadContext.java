@@ -1,6 +1,6 @@
 package webfx.framework.shared.orm.expression.builder;
 
-import webfx.framework.shared.orm.expression.lci.ParserDomainModelReader;
+import webfx.framework.shared.orm.expression.parser.lci.ParserDomainModelReader;
 import webfx.platform.shared.util.function.Callable;
 
 /**

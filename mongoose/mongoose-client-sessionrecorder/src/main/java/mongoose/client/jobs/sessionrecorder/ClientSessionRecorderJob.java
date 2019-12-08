@@ -1,7 +1,7 @@
 package mongoose.client.jobs.sessionrecorder;
 
 import mongoose.client.services.authn.MongooseUserPrincipal;
-import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
+import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
@@ -38,7 +38,7 @@ public final class ClientSessionRecorderJob implements ApplicationJob {
         INSTANCE = this;
     }
 
-    private final UpdateStore store = UpdateStore.create(DomainModelSnapshotLoader.getDataSourceModel());
+    private final UpdateStore store = UpdateStore.create(MongooseDataSourceModel.get());
     private Entity sessionAgent, sessionApplication, sessionProcess, sessionConnection, sessionUser;
 
     @Override

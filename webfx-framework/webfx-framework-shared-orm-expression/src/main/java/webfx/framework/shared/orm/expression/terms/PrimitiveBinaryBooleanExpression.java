@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.extras.type.PrimType;
 import webfx.extras.type.Type;
 import webfx.extras.type.Types;
@@ -22,13 +22,13 @@ public abstract class PrimitiveBinaryBooleanExpression<T> extends BinaryBooleanE
     }
 
     @Override
-    public Boolean evaluateCondition(Object leftValue, Object rightValue, DataReader<T> dataReader) {
+    public Boolean evaluateCondition(Object leftValue, Object rightValue, DomainReader<T> domainReader) {
         Expression<T> left = getLeft();
         Type leftType = left != null ? left.getType() : Types.guessType(leftValue); // left may be null for generic MULTIPLIER and DIVIDER
         PrimType leftPrimType = Types.getPrimType(leftType);
         if (leftPrimType != null) {
-            leftValue = dataReader.prepareValueBeforeTypeConversion(leftValue, leftPrimType);
-            rightValue = dataReader.prepareValueBeforeTypeConversion(rightValue, leftPrimType);
+            leftValue = domainReader.prepareValueBeforeTypeConversion(leftValue, leftPrimType);
+            rightValue = domainReader.prepareValueBeforeTypeConversion(rightValue, leftPrimType);
             if (leftValue != null && rightValue != null)
                 switch (leftPrimType) {
                     case BOOLEAN:

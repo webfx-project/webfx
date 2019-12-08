@@ -75,7 +75,6 @@ public final class SimplePushServerServiceProvider implements PushServerServiceP
         int pendingCalls;
         long lastCallTime;
         long lastResultReceivedTime;
-        Throwable error;
         Scheduled pingScheduled;
 
         PushClientInfo(Object pushClientId) {

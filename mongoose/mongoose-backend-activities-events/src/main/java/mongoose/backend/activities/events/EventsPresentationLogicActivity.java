@@ -5,8 +5,8 @@ import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.platform.shared.util.function.Factory;
 
-import static webfx.framework.client.orm.dql.DqlStatement.limit;
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.limit;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 /**
  * @author Bruno Salmon

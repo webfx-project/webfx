@@ -1,8 +1,8 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
-import webfx.framework.shared.orm.expression.lci.DataWriter;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
+import webfx.framework.shared.orm.expression.lci.DomainWriter;
 import webfx.framework.shared.orm.expression.terms.function.Call;
 import webfx.framework.shared.orm.expression.terms.function.Function;
 import webfx.platform.shared.util.collection.HashList;
@@ -47,21 +47,21 @@ public final class Dot<T> extends BinaryExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
-        Object leftValue = left.evaluate(domainObject, dataReader);
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
+        Object leftValue = left.evaluate(domainObject, domainReader);
         if (leftValue == null)
             return null;
-        T rightData = dataReader.getDomainObjectFromId(leftValue, domainObject);
-        return right.evaluate(rightData, dataReader);
+        T rightData = domainReader.getDomainObjectFromId(leftValue, domainObject);
+        return right.evaluate(rightData, domainReader);
     }
 
     @Override
-    public Object evaluate(Object leftValue, Object rightValue, DataReader<T> dataReader) {
+    public Object evaluate(Object leftValue, Object rightValue, DomainReader<T> domainReader) {
         return null; // never called due to above evaluate method override
     }
 
     @Override
-    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
+    public void setValue(T domainObject, Object value, DomainWriter<T> dataWriter) {
         Object leftValue = left.evaluate(domainObject, dataWriter);
         if (leftValue != null) {
             T rightData = dataWriter.getDomainObjectFromId(leftValue, domainObject);

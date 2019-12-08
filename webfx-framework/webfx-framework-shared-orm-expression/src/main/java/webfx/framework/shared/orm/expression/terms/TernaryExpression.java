@@ -1,8 +1,8 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
-import webfx.framework.shared.orm.expression.lci.DataWriter;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
+import webfx.framework.shared.orm.expression.lci.DomainWriter;
 
 import java.util.Collection;
 
@@ -39,15 +39,15 @@ public final class TernaryExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
-        Object questionValue = question.evaluate(domainObject, dataReader);
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
+        Object questionValue = question.evaluate(domainObject, domainReader);
         Expression<T> answer = Boolean.TRUE.equals(questionValue) ? yes : no;
-        Object value = answer.evaluate(domainObject, dataReader);
+        Object value = answer.evaluate(domainObject, domainReader);
         return value;
     }
 
     @Override
-    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
+    public void setValue(T domainObject, Object value, DomainWriter<T> dataWriter) {
         Object questionValue = question.evaluate(domainObject, dataWriter);
         Expression<T> answer = Boolean.TRUE.equals(questionValue) ? yes : no;
         answer.setValue(domainObject, value, dataWriter);

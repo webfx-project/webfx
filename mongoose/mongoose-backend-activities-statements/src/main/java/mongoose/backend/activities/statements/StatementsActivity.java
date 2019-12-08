@@ -12,7 +12,7 @@ import webfx.framework.client.ui.controls.button.ButtonSelector;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.shared.orm.entity.Entity;
 
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 final class StatementsActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin {
@@ -40,7 +40,7 @@ final class StatementsActivity extends EventDependentViewDomainActivity implemen
         moneyAccountSelector.setShowMode(ButtonSelector.ShowMode.DROP_DOWN);
         moneyAccountSelector.getEntityDialogMapper()
                 //.combineIfNotNullOtherwiseForceEmptyResult(pm.organizationIdProperty(), organizationId -> where("organization=?", organizationId))
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("(event=? or event=null) and organization=(select organization from Event where id=?)", eventId, eventId));
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("(event=? or event=null) and organization=(select organization from Event where id=?)", eventId, eventId));
         pm.selectedMoneyAccountProperty().bind(moneyAccountSelector.selectedItemProperty());
 
         CheckBox flatPaymentsCheckBox = newCheckBox("Flat payments");
@@ -76,9 +76,9 @@ final class StatementsActivity extends EventDependentViewDomainActivity implemen
         groupVisualMapper = ReactiveVisualMapper.<MoneyTransfer>createGroupReactiveChain(this, pm)
                 .always("{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
                 // Applying the money account condition
-                .ifNotNullOtherwiseForceEmpty(pm.selectedMoneyAccountProperty(), ma -> where("parent = null and (fromMoneyAccount=? or toMoneyAccount=?) or parent != null and (parent..fromMoneyAccount=? or parent..toMoneyAccount=?", ma.getPrimaryKey(), ma.getPrimaryKey(), ma.getPrimaryKey(), ma.getPrimaryKey()))
-                .combineStringIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
-                .combineStringIfFalse(pm.flatBatchesProperty(), () -> "{where: `transfer=null and (parent=null || parent..transfer=null)`}")
+                .ifNotNullOtherwiseEmpty(pm.selectedMoneyAccountProperty(), ma -> where("parent = null and (fromMoneyAccount=? or toMoneyAccount=?) or parent != null and (parent..fromMoneyAccount=? or parent..toMoneyAccount=?", ma, ma, ma, ma))
+                .ifFalse(pm.flatPaymentsProperty(), where("parent=null"))
+                .ifFalse(pm.flatBatchesProperty(), where("transfer=null and (parent=null || parent..transfer=null)"))
                 .start();
 
         // Setting up the master mapper that build the content displayed in the master view
@@ -86,10 +86,10 @@ final class StatementsActivity extends EventDependentViewDomainActivity implemen
                 .always("{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
                 .always("{columns: 'date,document.event,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the money account condition
-                .ifNotNullOtherwiseForceEmpty(pm.selectedMoneyAccountProperty(), ma -> where("parent = null and (fromMoneyAccount=? or toMoneyAccount=?) or parent != null and (parent..fromMoneyAccount=? or parent..toMoneyAccount=?)", ma.getPrimaryKey(), ma.getPrimaryKey(), ma.getPrimaryKey(), ma.getPrimaryKey()))
+                .ifNotNullOtherwiseEmpty(pm.selectedMoneyAccountProperty(), ma -> where("parent = null and (fromMoneyAccount=? or toMoneyAccount=?) or parent != null and (parent..fromMoneyAccount=? or parent..toMoneyAccount=?)", ma.getPrimaryKey(), ma.getPrimaryKey(), ma.getPrimaryKey(), ma.getPrimaryKey()))
                 // Applying the flat modes
-                .combineStringIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
-                .combineStringIfFalse(pm.flatBatchesProperty(), () -> "{where: `transfer=null and (parent=null || parent..transfer=null)`}")
+                .ifFalse(pm.flatPaymentsProperty(), where("parent=null"))
+                .ifFalse(pm.flatBatchesProperty(), where("transfer=null and (parent=null || parent..transfer=null)"))
                 // Applying the user search
                 .ifTrimNotEmpty(pm.searchTextProperty(), s ->
                         Character.isDigit(s.charAt(0)) ? where("document.ref=?", Integer.parseInt(s))
@@ -103,9 +103,9 @@ final class StatementsActivity extends EventDependentViewDomainActivity implemen
                 .always("{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
                 .always("{columns: 'date,document.event,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the selection condition
-                .ifNotNullOtherwiseForceEmpty(pm.selectedPaymentProperty(), mt -> where("parent=? or transfer=? or parent..transfer=?", mt.getPrimaryKey(), mt.getPrimaryKey(), mt.getPrimaryKey()))
+                .ifNotNullOtherwiseEmpty(pm.selectedPaymentProperty(), mt -> where("parent=? or transfer=? or parent..transfer=?", mt, mt, mt))
                 // Applying the flat modes
-                .combineStringIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
+                .ifFalse(pm.flatPaymentsProperty(), where("parent=null"))
                 .applyDomainModelRowStyle() // Colorizing the rows
                 .start();
     }

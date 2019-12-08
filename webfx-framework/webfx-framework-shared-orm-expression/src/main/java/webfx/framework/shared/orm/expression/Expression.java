@@ -1,8 +1,8 @@
 package webfx.framework.shared.orm.expression;
 
 import webfx.extras.type.Type;
-import webfx.framework.shared.orm.expression.lci.DataReader;
-import webfx.framework.shared.orm.expression.lci.DataWriter;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
+import webfx.framework.shared.orm.expression.lci.DomainWriter;
 
 import java.util.Collection;
 
@@ -36,11 +36,11 @@ public interface Expression<T> {
      * The method that evaluates the expression on a domain object.
      *
      * @param domainObject the domain object on which the evaluation is computed
-     * @param dataReader the loose coupling interface for reading data (domain fields and parameters)
+     * @param domainReader the loose coupling interface for reading data (domain fields and parameters)
      * @return the result of the evaluation. Its java class should be compliant with the type returned by getType().
      */
 
-    Object evaluate(T domainObject, DataReader<T> dataReader);
+    Object evaluate(T domainObject, DomainReader<T> domainReader);
 
 
     /*****************************************************************************
@@ -61,7 +61,7 @@ public interface Expression<T> {
      * @param dataWriter the loose coupling interface for writing data (domain fields and parameters)
      */
 
-    default void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {}
+    default void setValue(T domainObject, Object value, DomainWriter<T> dataWriter) {}
 
 
     /*********************

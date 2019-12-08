@@ -3,14 +3,11 @@ package webfx.framework.shared.orm.expression.terms.function;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.framework.shared.orm.expression.builder.ThreadLocalReferenceResolver;
-import webfx.framework.shared.orm.expression.lci.DataReader;
-import webfx.framework.shared.orm.expression.lci.ParserDomainModelReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
+import webfx.framework.shared.orm.expression.parser.lci.ParserDomainModelReader;
 import webfx.framework.shared.orm.expression.parser.ExpressionParser;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.extras.type.Type;
-import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
-import webfx.framework.shared.orm.expression.builder.ThreadLocalReferenceResolver;
-import webfx.framework.shared.orm.expression.parser.ExpressionParser;
 import webfx.platform.shared.util.Strings;
 
 import java.util.HashMap;
@@ -50,10 +47,10 @@ public final class InlineFunction<T> extends Function<T> {
     }
 
     @Override
-    public Object evaluate(Object argument, DataReader dataReader) {
+    public Object evaluate(Object argument, DomainReader domainReader) {
         try {
             pushArguments(argument);
-            return body.evaluate(null, dataReader);
+            return body.evaluate(null, domainReader);
         } finally {
             popArguments();
         }

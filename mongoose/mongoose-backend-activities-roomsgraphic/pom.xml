@@ -94,19 +94,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-domain</artifactId>
+            <artifactId>webfx-framework-client-activity-domain</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
             <artifactId>webfx-framework-client-layouts</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-framework-client-orm-dql</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
@@ -131,6 +125,12 @@
         
         <dependency>
             <artifactId>webfx-framework-shared-operation</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-shared-orm-dql</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

@@ -135,7 +135,7 @@ public interface Entity {
         Collection<Expression<E>> unloadedPersistentTerms = getUnloadedPersistentTerms(expression);
         if (unloadedPersistentTerms.isEmpty())
             return Future.succeededFuture();
-        return getStore().executeQuery("select " + unloadedPersistentTerms.stream().map(e -> e instanceof Dot ? ((Dot) e).expandLeft() : e).map(Object::toString).collect(Collectors.joining(",")) + " from " + getDomainClass().getName() + " where id=?", new Object[]{getPrimaryKey()}).map((Void)null);
+        return getStore().executeQuery("select " + unloadedPersistentTerms.stream().map(e -> e instanceof Dot ? ((Dot) e).expandLeft() : e).map(Object::toString).collect(Collectors.joining(",")) + " from " + getDomainClass().getName() + " where id=?", getPrimaryKey()).map((Void)null);
     }
 
     default <E extends Entity> Collection<Expression<E>> getUnloadedPersistentTerms(Expression<E> expression) {

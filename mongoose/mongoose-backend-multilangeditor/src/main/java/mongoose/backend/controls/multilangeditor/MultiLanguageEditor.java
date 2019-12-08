@@ -106,7 +106,7 @@ public final class MultiLanguageEditor {
         if (entityUpdates.containsKey(entityId))
             monoLanguageEditor.setEditedEntity(entityUpdates.get(entityId));
         else if (loadingSelect != null)
-            loadingStore.executeQuery(loadingSelect, new Object[]{entityId}, entityListId).setHandler(ar -> {
+            loadingStore.executeListQuery(entityListId, loadingSelect, entityId).setHandler(ar -> {
                 if (ar.succeeded()) {
                     Entity entity = ar.result().get(0);
                     EditedEntity editedEntity = new EditedEntity(entity);

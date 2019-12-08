@@ -10,11 +10,11 @@ module mongoose.backend.activities.cloneevent {
     requires mongoose.backend.activities.bookings;
     requires mongoose.backend.activities.cloneevent.routing;
     requires mongoose.client.activity;
-    requires mongoose.shared.domain;
+    requires mongoose.shared.domainmodel;
     requires mongoose.shared.entities;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.domain;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.orm.entity;
     requires webfx.kit.util;

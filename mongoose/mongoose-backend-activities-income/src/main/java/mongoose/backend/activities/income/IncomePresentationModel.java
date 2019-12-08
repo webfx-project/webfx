@@ -6,7 +6,7 @@ import mongoose.client.activity.eventdependent.EventDependentGenericTablePresent
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasGroupDqlStatementProperty;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGroupVisualResultProperty;
 import webfx.extras.visual.VisualResult;
-import webfx.framework.client.orm.dql.DqlStatement;
+import webfx.framework.shared.orm.dql.DqlStatement;
 
 /**
  * @author Bruno Salmon

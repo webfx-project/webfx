@@ -10,10 +10,9 @@ import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
-import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;
 
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 /**
  * @author Bruno Salmon
@@ -44,7 +43,7 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase {
 
         ReactiveVisualMapper.createReactiveChain(this)
                 .always("{class: 'AuthorizationManagement', orderBy: 'id'}")
-                .ifNotNullOtherwiseForceEmpty(userPrincipalProperty(), principal -> where("manager=?", MongooseUserPrincipal.getUserPersonId(principal)))
+                .ifNotNullOtherwiseEmpty(userPrincipalProperty(), principal -> where("manager=?", MongooseUserPrincipal.getUserPersonId(principal)))
                 .setEntityColumns(manageeColumns)
                 .visualizeResultInto(usersGrid.visualResultProperty())
                 .setVisualSelectionProperty(usersGrid.visualSelectionProperty())
@@ -53,7 +52,7 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase {
 
         assignmentVisualMapper = ReactiveVisualMapper.createReactiveChain(this)
                 .always("{class: 'AuthorizationAssignment', orderBy: 'id'}")
-                .ifNotNullOtherwiseForceEmpty(selectedManagementProperty, management -> where("management=?", Entities.getPrimaryKey(management)))
+                .ifNotNullOtherwiseEmpty(selectedManagementProperty, management -> where("management=?", management))
                 .setEntityColumns(assignmentColumns)
                 .visualizeResultInto(assignmentsGrid.visualResultProperty())
                 .setVisualSelectionProperty(assignmentsGrid.visualSelectionProperty())

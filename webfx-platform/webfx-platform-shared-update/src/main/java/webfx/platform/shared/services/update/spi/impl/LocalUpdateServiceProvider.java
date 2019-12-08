@@ -1,11 +1,10 @@
 package webfx.platform.shared.services.update.spi.impl;
 
-import webfx.platform.shared.services.update.spi.UpdateServiceProvider;
-import webfx.platform.shared.datasource.ConnectionDetails;
-import webfx.platform.shared.datasource.LocalDataSourceRegistry;
+import webfx.platform.shared.service.datasource.LocalDataSource;
 import webfx.platform.shared.services.update.LocalUpdateServiceRegistry;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateResult;
+import webfx.platform.shared.services.update.spi.UpdateServiceProvider;
 import webfx.platform.shared.util.async.Batch;
 import webfx.platform.shared.util.async.Future;
 
@@ -37,16 +36,16 @@ public class LocalUpdateServiceProvider implements UpdateServiceProvider {
     protected UpdateServiceProvider getConnectedLocalUpdateService(Object dataSourceId) {
         UpdateServiceProvider connectedUpdateServiceProvider = LocalUpdateServiceRegistry.getLocalConnectedUpdateService(dataSourceId);
         if (connectedUpdateServiceProvider == null) {
-            ConnectionDetails connectionDetails = LocalDataSourceRegistry.getLocalDataSourceConnectionDetails(dataSourceId);
-            if (connectionDetails != null) {
-                connectedUpdateServiceProvider = createConnectedUpdateService(connectionDetails);
+            LocalDataSource localDataSource = LocalDataSource.get(dataSourceId);
+            if (localDataSource != null) {
+                connectedUpdateServiceProvider = createConnectedUpdateService(localDataSource);
                 LocalUpdateServiceRegistry.registerLocalConnectedUpdateService(dataSourceId, connectedUpdateServiceProvider);
             }
         }
         return connectedUpdateServiceProvider;
     }
 
-    protected UpdateServiceProvider createConnectedUpdateService(ConnectionDetails connectionDetails) {
+    protected UpdateServiceProvider createConnectedUpdateService(LocalDataSource localDataSource) {
         throw new UnsupportedOperationException("This platform doesn't support local update service");
     }
 

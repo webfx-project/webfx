@@ -18,7 +18,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-shared-domain</artifactId>
+            <artifactId>mongoose-shared-domainmodel</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -30,7 +30,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-shared-orm-domain</artifactId>
+            <artifactId>webfx-framework-shared-orm-domainmodel</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

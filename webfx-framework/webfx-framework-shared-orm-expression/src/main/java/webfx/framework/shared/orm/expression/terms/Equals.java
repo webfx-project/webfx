@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataWriter;
+import webfx.framework.shared.orm.expression.lci.DomainWriter;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Objects;
 
@@ -45,7 +45,7 @@ public final class Equals<T> extends PrimitiveBinaryBooleanExpression<T> {
     }
 
     @Override
-    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
+    public void setValue(T domainObject, Object value, DomainWriter<T> dataWriter) {
         if (Booleans.isTrue(value))
             left.setValue(domainObject, right.evaluate(domainObject, dataWriter), dataWriter);
     }

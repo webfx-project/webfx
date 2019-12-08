@@ -447,7 +447,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-shared-domain</artifactId>
+            <artifactId>mongoose-shared-domainmodel</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>
@@ -594,14 +594,14 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-controls</artifactId>
+            <artifactId>webfx-framework-client-activity-domain</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-domain</artifactId>
+            <artifactId>webfx-framework-client-controls</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -636,7 +636,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-orm-dql</artifactId>
+            <artifactId>webfx-framework-client-orm-reactive-dql</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -720,7 +720,14 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-shared-orm-domain</artifactId>
+            <artifactId>webfx-framework-shared-orm-domainmodel</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-shared-orm-dql</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>

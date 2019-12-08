@@ -14,8 +14,10 @@ import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
 import webfx.platform.providers.vertx.instance.VertxInstance;
 import webfx.platform.server.services.updatelistener.UpdateListenerService;
-import webfx.platform.shared.datasource.ConnectionDetails;
-import webfx.platform.shared.datasource.DBMS;
+import webfx.platform.shared.service.datasource.ConnectionDetails;
+import webfx.platform.shared.service.datasource.DBMS;
+import webfx.platform.shared.service.datasource.LocalDataSource;
+import webfx.platform.shared.service.datasource.jdbc.JdbcDriver;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryResult;
@@ -42,7 +44,8 @@ public final class VertxLocalConnectedQueryUpdateServiceProvider implements Quer
 
     private final AsyncSQLClient sqlClient;
 
-    public VertxLocalConnectedQueryUpdateServiceProvider(ConnectionDetails connectionDetails) {
+    public VertxLocalConnectedQueryUpdateServiceProvider(LocalDataSource localDataSource) {
+        ConnectionDetails connectionDetails = localDataSource.getLocalConnectionDetails();
         // Generating the Vertx Sql config from the connection details
         JsonObject sqlConfig = new JsonObject()
                 // common config with JDBCClient
@@ -53,15 +56,17 @@ public final class VertxLocalConnectedQueryUpdateServiceProvider implements Quer
                 .put("database", connectionDetails.getDatabaseName());
         Vertx vertx = VertxInstance.getVertx();
         // Getting the best (non blocking if possible) sql client depending on the dbms
-        if (connectionDetails.getDBMS() == DBMS.POSTGRES)
+        DBMS dbms = localDataSource.getDBMS();
+        if (dbms == DBMS.POSTGRES)
             sqlClient = PostgreSQLClient.createNonShared(vertx, sqlConfig); // Non blocking client for Postgres
-        else if (connectionDetails.getDBMS() == DBMS.MYSQL)
+        else if (dbms == DBMS.MYSQL)
             sqlClient = MySQLClient.createNonShared(vertx, sqlConfig); // Non blocking client for Mysql
         else { // Otherwise using JDBC client: the working thread will be blocked by jdbc calls (synchronous API)
             // used for JDBCClient client only
+            JdbcDriver jdbcDriver = JdbcDriver.from(dbms);
             sqlConfig
-                    .put("url", connectionDetails.getUrl())
-                    .put("driver_class", connectionDetails.getDBMS().getJdbcDriverClass())
+                    .put("url", jdbcDriver.getUrlOrGenerateJdbcUrl(connectionDetails))
+                    .put("driver_class", jdbcDriver.getJdbcDriverClass())
             //.put("provider_class", HikariCPDataSourceProvider.class.getName())
             ;
             sqlClient = new AsyncSQLClient() {

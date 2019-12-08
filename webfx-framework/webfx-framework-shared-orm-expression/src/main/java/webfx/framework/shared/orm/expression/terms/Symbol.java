@@ -1,8 +1,8 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
-import webfx.framework.shared.orm.expression.lci.DataWriter;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
+import webfx.framework.shared.orm.expression.lci.DomainWriter;
 import webfx.extras.type.Type;
 
 import java.util.Collection;
@@ -54,10 +54,10 @@ public class Symbol<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
         if (getExpression() != null)
-            return getExpression().evaluate(domainObject, dataReader);
-        return dataReader.getDomainFieldValue(domainObject, name);
+            return getExpression().evaluate(domainObject, domainReader);
+        return domainReader.getDomainFieldValue(domainObject, name);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Symbol<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
+    public void setValue(T domainObject, Object value, DomainWriter<T> dataWriter) {
         if (getExpression() != null)
             getExpression().setValue(domainObject, value, dataWriter);
         else

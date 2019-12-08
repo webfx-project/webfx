@@ -9,12 +9,12 @@ module mongoose.backend.activities.authorizations {
     requires mongoose.client.authn;
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.domain;
-    requires webfx.framework.client.orm.dql;
     requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
+    requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.router;
     requires webfx.platform.client.windowhistory;

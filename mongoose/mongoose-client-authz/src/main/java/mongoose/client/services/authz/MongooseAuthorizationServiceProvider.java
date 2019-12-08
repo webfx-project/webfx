@@ -1,6 +1,6 @@
 package mongoose.client.services.authz;
 
-import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
+import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.services.authz.spi.impl.AuthorizationServiceProviderBase;
 import webfx.framework.shared.services.authz.spi.impl.UserPrincipalAuthorizationChecker;
@@ -13,7 +13,7 @@ public final class MongooseAuthorizationServiceProvider extends AuthorizationSer
     private final DataSourceModel dataSourceModel;
 
     public MongooseAuthorizationServiceProvider() {
-        this(DomainModelSnapshotLoader.getDataSourceModel());
+        this(MongooseDataSourceModel.get());
     }
 
     public MongooseAuthorizationServiceProvider(DataSourceModel dataSourceModel) {

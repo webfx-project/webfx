@@ -44,7 +44,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-shared-domain</artifactId>
+            <artifactId>mongoose-shared-domainmodel</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

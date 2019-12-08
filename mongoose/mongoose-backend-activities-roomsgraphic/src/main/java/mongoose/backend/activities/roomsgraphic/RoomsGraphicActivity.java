@@ -40,7 +40,7 @@ import webfx.platform.shared.services.serial.SerialCodecManager;
 import java.util.List;
 import java.util.Objects;
 
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 final class RoomsGraphicActivity extends EventDependentViewDomainActivity implements
         HasSelectedDocumentProperty,
@@ -82,7 +82,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         SiteTabController(Site site) {
             siteTab.setClosable(false);
             itemsMapper = ReactiveEntityMapper.createPushReactiveChain(RoomsGraphicActivity.this)
-                    .setParent(sitesMapper)
+                    .setActiveParent(sitesMapper)
                     .always("{class: 'ResourceConfiguration', fields: 'item.icon,item.name,resource.site', groupBy: 'item', orderBy: 'item.ord,item.id'}")
                     .always(where("resource.site=? and item.family.code='acco'", site.getPrimaryKey()))
                     .bindActivePropertyTo(siteTab.selectedProperty())
@@ -99,7 +99,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         }
 
         void delete() {
-            itemsMapper.getReactiveDqlQuery().stop();
+            itemsMapper.stop();
         }
 
         Tab getTab() {
@@ -117,7 +117,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
             resourcesBoxContainer.setPadding(new Insets(10));
             itemTab.setClosable(false);
             boxesMapper = ReactiveEntityMapper.createPushReactiveChain(RoomsGraphicActivity.this)
-                    .setParent(parentMapper)
+                    .setActiveParent(parentMapper)
                     .always("{class: 'ResourceConfiguration', fields: 'name,online,max,comment', orderBy: 'name'}")
                     .always(where("resource.site=? and item=?", ((EntityId) resourceConfiguration.evaluate("resource.site")).getPrimaryKey(), ((EntityId) resourceConfiguration.evaluate("item")).getPrimaryKey()))
                     .bindActivePropertyTo(itemTab.selectedProperty())
@@ -134,7 +134,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         }
 
         void delete() {
-            boxesMapper.getReactiveDqlQuery().stop();
+            boxesMapper.stop();
         }
 
         Tab getTab() {
@@ -183,7 +183,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
             resourceBox.setMinWidth(150);
             resourceBox.setEffect(BOX_SHADOW_EFFECT);
             peopleVisualMapper = ReactiveVisualMapper.<DocumentLine>createPushReactiveChain(RoomsGraphicActivity.this)
-                    .setParent(parentMapper)
+                    .setActiveParent(parentMapper)
                     .always("{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
                     .ifNotNullOtherwiseForceEmpty(resourceConfigurationProperty, rc -> where("resourceConfiguration=?", rc.getPrimaryKey()))
                     .visualizeResultInto(peopleBox.visualResultProperty())
@@ -229,7 +229,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
         }
 
         void delete() {
-            peopleVisualMapper.getReactiveEntityMapper().getReactiveDqlQuery().stop();
+            peopleVisualMapper.stop();
         }
 
         void showDragBackground(boolean show) {

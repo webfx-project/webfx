@@ -1,7 +1,6 @@
 package mongoose.client.util.routing;
 
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.shared.orm.entity.EntityId;
+import webfx.framework.shared.orm.entity.Entities;
 import webfx.platform.shared.util.Strings;
 
 /**
@@ -14,15 +13,15 @@ public final class MongooseRoutingUtil {
     }
 
     public static String interpolateEventIdInPath(Object eventId, String path) {
-        return interpolateParamInPath(":eventId", toPk(eventId), path);
+        return interpolateParamInPath(":eventId", Entities.getPrimaryKey(eventId), path);
     }
 
     public static String interpolateOrganizationIdInPath(Object organizationId, String path) {
-        return interpolateParamInPath(":organizationId", toPk(organizationId), path);
+        return interpolateParamInPath(":organizationId", Entities.getPrimaryKey(organizationId), path);
     }
 
     public static String interpolateLetterIdInPath(Object letterId, String path) {
-        return interpolateParamInPath(":letterId", toPk(letterId), path);
+        return interpolateParamInPath(":letterId", Entities.getPrimaryKey(letterId), path);
     }
 
     public static String interpolateCartUuidInPath(Object cartUuid, String path) {
@@ -30,14 +29,7 @@ public final class MongooseRoutingUtil {
     }
 
     public static String interpolateDocumentIdInPath(Object documentId, String path) {
-        return interpolateParamInPath(":documentId", toPk(documentId), path);
+        return interpolateParamInPath(":documentId", Entities.getPrimaryKey(documentId), path);
     }
 
-    public static Object toPk(Object id) {
-        if (id instanceof Entity)
-            return ((Entity) id).getId().getPrimaryKey();
-        if (id instanceof EntityId)
-            return ((EntityId) id).getPrimaryKey();
-        return id;
-    }
 }

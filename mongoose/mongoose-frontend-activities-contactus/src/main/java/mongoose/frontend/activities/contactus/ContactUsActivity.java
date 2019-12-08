@@ -70,7 +70,7 @@ final class ContactUsActivity extends ViewDomainActivityBase
     protected void startLogic() {
         // Loading the document in order to prepare
         EntityStore loadStore = EntityStore.create(getDataSourceModel());
-        loadStore.<Document>executeQuery(DOCUMENT_LOAD_QUERY, new Object[]{documentId}).setHandler(ar -> {
+        loadStore.<Document>executeQuery(DOCUMENT_LOAD_QUERY, documentId).setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar);
             else {

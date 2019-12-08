@@ -8,6 +8,7 @@ import mongoose.shared.entities.Label;
 import mongoose.shared.entities.Option;
 import mongoose.shared.entities.formatters.EventPriceFormatter;
 import mongoose.client.entities.util.Labels;
+import webfx.framework.shared.orm.entity.Entities;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.collection.Collections;
@@ -102,8 +103,8 @@ public final class OptionsPreselection {
         if (rs != null) {
             WorkingDocumentLine accommodationLine = getWorkingDocument().getAccommodationLine();
             if (accommodationLine != null) {
-                Object sitePk = accommodationLine.getSite().getPrimaryKey();
-                Object itemPk = accommodationLine.getItem().getPrimaryKey();
+                Object sitePk = Entities.getPrimaryKey(accommodationLine.getSite());
+                Object itemPk = Entities.getPrimaryKey(accommodationLine.getItem());
                 for (int rowIndex = 0; rowIndex < rs.getRowCount(); rowIndex++) {
                     if (rs.getValue(rowIndex, 1).equals(sitePk) && rs.getValue(rowIndex, 2).equals(itemPk))
                         return rs.getValue(rowIndex, 4);

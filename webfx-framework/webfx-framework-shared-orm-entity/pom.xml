@@ -17,7 +17,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-shared-orm-domain</artifactId>
+            <artifactId>webfx-framework-shared-orm-domainmodel</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-shared-orm-dql</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

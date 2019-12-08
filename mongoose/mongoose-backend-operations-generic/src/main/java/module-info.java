@@ -10,7 +10,7 @@ module mongoose.backend.operations.generic {
     requires webfx.framework.client.controls;
     requires webfx.framework.client.orm.reactive.entities;
     requires webfx.framework.shared.operation;
-    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.orm.expression;
     requires webfx.framework.shared.util;

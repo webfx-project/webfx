@@ -38,7 +38,7 @@ final class ChangeResourceConfigurationItemExecutor {
                 DialogUtil.armDialogContentButtons(dialogContent, dialogCallback -> {
                     UpdateStore updateStore = UpdateStore.create(dataSourceModel);
                     updateStore.updateEntity(resourceConfiguration).setForeignField("item", selectedItem);
-                    updateStore.executeUpdate(new UpdateArgument("select set_transaction_parameters(true)", dataSourceModel.getId())).setHandler(ar -> {
+                    updateStore.executeUpdate(new UpdateArgument("select set_transaction_parameters(true)", dataSourceModel.getDataSourceId())).setHandler(ar -> {
                         if (ar.failed())
                             dialogCallback.showException(ar.cause());
                         else {

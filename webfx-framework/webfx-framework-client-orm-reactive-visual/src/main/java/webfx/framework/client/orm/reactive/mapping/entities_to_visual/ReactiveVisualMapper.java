@@ -7,13 +7,11 @@ import webfx.extras.type.PrimType;
 import webfx.extras.visual.VisualColumnBuilder;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
-import webfx.framework.client.orm.reactive.dql.query.ReactiveDqlQuery;
-import webfx.framework.client.orm.reactive.dql.statement.ReactiveDqlStatement;
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedGroupProperty;
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedGroupReferenceResolver;
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedMasterProperty;
-import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntityMapper;
-import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntityMapperAPI;
+import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntitiesMapper;
+import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntitiesMapperAPI;
 import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn;
 import webfx.framework.client.orm.reactive.mapping.entities_to_grid.ReactiveGridMapper;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.*;
@@ -29,7 +27,7 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public final class ReactiveVisualMapper<E extends Entity> extends ReactiveGridMapper<E>
-    implements ReactiveEntityMapperAPI<E, ReactiveVisualMapper<E>> {
+    implements ReactiveEntitiesMapperAPI<E, ReactiveVisualMapper<E>> {
 
     private final ObjectProperty<VisualResult> visualResultProperty = new SimpleObjectProperty<VisualResult/*GWT*/>() {
         @Override
@@ -48,8 +46,8 @@ public final class ReactiveVisualMapper<E extends Entity> extends ReactiveGridMa
         }
     };
 
-    public ReactiveVisualMapper(ReactiveEntityMapper<E> reactiveEntityMapper) {
-        super(reactiveEntityMapper);
+    public ReactiveVisualMapper(ReactiveEntitiesMapper<E> reactiveEntitiesMapper) {
+        super(reactiveEntitiesMapper);
     }
 
     @Override
@@ -72,7 +70,7 @@ public final class ReactiveVisualMapper<E extends Entity> extends ReactiveGridMa
     }
 
     private E getEntityAt(int row) {
-        return getCurrentEntityList().get(row);
+        return getCurrentEntities().get(row);
     }
 
     public Property<VisualResult> visualResultProperty() {
@@ -145,16 +143,16 @@ public final class ReactiveVisualMapper<E extends Entity> extends ReactiveGridMa
       ======================================= Classic static factory API ===============================================
       ================================================================================================================*/
 
-    public static <E extends Entity> ReactiveVisualMapper<E> create(ReactiveEntityMapper<E> reactiveEntityMapper) {
-        return new ReactiveVisualMapper<>(reactiveEntityMapper);
+    public static <E extends Entity> ReactiveVisualMapper<E> create(ReactiveEntitiesMapper<E> reactiveEntitiesMapper) {
+        return new ReactiveVisualMapper<>(reactiveEntitiesMapper);
     }
 
     /*==================================================================================================================
       ==================================== Conventional static factory API =============================================
       ================================================================================================================*/
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createMaster(Object pm, ReactiveEntityMapper<E> reactiveEntityMapper) {
-        return initializeMaster(create(reactiveEntityMapper), pm);
+    public static <E extends Entity> ReactiveVisualMapper<E> createMaster(Object pm, ReactiveEntitiesMapper<E> reactiveEntitiesMapper) {
+        return initializeMaster(create(reactiveEntitiesMapper), pm);
     }
 
     protected static <E extends Entity> ReactiveVisualMapper<E> initializeMaster(ReactiveVisualMapper<E> master, Object pm) {
@@ -167,8 +165,8 @@ public final class ReactiveVisualMapper<E extends Entity> extends ReactiveGridMa
         return master;
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createGroup(Object pm, ReactiveEntityMapper<E> reactiveEntityMapper) {
-        return initializeGroup(create(reactiveEntityMapper), pm);
+    public static <E extends Entity> ReactiveVisualMapper<E> createGroup(Object pm, ReactiveEntitiesMapper<E> reactiveEntitiesMapper) {
+        return initializeGroup(create(reactiveEntitiesMapper), pm);
     }
 
     protected static <E extends Entity> ReactiveVisualMapper<E> initializeGroup(ReactiveVisualMapper<E> group, Object pm) {
@@ -179,12 +177,12 @@ public final class ReactiveVisualMapper<E extends Entity> extends ReactiveGridMa
         if (pm instanceof HasSelectedGroupProperty)
             group.setSelectedEntityHandler(((HasSelectedGroupProperty) pm)::setSelectedGroup);
         if (pm instanceof HasSelectedGroupReferenceResolver)
-            ((HasSelectedGroupReferenceResolver) pm).setSelectedGroupReferenceResolver(group.getReactiveEntityMapper().getReactiveDqlQuery().getRootAliasReferenceResolver());
+            ((HasSelectedGroupReferenceResolver) pm).setSelectedGroupReferenceResolver(group.getReactiveEntitiesMapper().getReactiveDqlQuery().getRootAliasReferenceResolver());
         return group;
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createSlave(Object pm, ReactiveEntityMapper<E> reactiveEntityMapper) {
-        return initializeSlave(create(reactiveEntityMapper), pm);
+    public static <E extends Entity> ReactiveVisualMapper<E> createSlave(Object pm, ReactiveEntitiesMapper<E> reactiveEntitiesMapper) {
+        return initializeSlave(create(reactiveEntitiesMapper), pm);
     }
 
     protected static <E extends Entity> ReactiveVisualMapper<E> initializeSlave(ReactiveVisualMapper<E> slave, Object pm) {
@@ -194,106 +192,77 @@ public final class ReactiveVisualMapper<E extends Entity> extends ReactiveGridMa
     }
 
     /*==================================================================================================================
-      ============================ Shortcut static factory API (ReactiveDqlQuery) ======================================
-      ================================================================================================================*/
-
-    public static <E extends Entity> ReactiveVisualMapper<E> create(ReactiveDqlQuery<E> reactiveDqlQuery) {
-        return create(ReactiveEntityMapper.create(reactiveDqlQuery));
-    }
-
-    /*==================================================================================================================
-      ========================== Shortcut static factory API (ReactiveDqlStatement) ====================================
+      ===================================== Shortcut static factory API ================================================
       ================================================================================================================*/
 
     public static <E extends Entity> ReactiveVisualMapper<E> createReactiveChain() {
-        return create(ReactiveEntityMapper.create(ReactiveDqlStatement.create()));
-    }
-
-    public static <E extends Entity> ReactiveVisualMapper<E> create(ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return create(ReactiveEntityMapper.create(reactiveDqlStatement));
+        return create(ReactiveEntitiesMapper.createReactiveChain());
     }
 
     public static <E extends Entity> ReactiveVisualMapper<E> createReactiveChain(Object mixin) {
-        return create(ReactiveEntityMapper.create(mixin, ReactiveDqlStatement.create()));
+        return create(ReactiveEntitiesMapper.createReactiveChain(mixin));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> create(Object mixin, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return create(ReactiveEntityMapper.create(mixin, reactiveDqlStatement));
-    }
-
-    public static <E extends Entity> ReactiveVisualMapper<E> createPush(ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return create(ReactiveEntityMapper.createPush(reactiveDqlStatement));
+    public static <E extends Entity> ReactiveVisualMapper<E> createPushReactiveChain() {
+        return create(ReactiveEntitiesMapper.createPushReactiveChain());
     }
 
     public static <E extends Entity> ReactiveVisualMapper<E> createPushReactiveChain(Object mixin) {
-        return create(ReactiveEntityMapper.createPush(mixin, ReactiveDqlStatement.create()));
+        return create(ReactiveEntitiesMapper.createPushReactiveChain(mixin));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createPush(Object mixin, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return create(ReactiveEntityMapper.createPush(mixin, reactiveDqlStatement));
-    }
-
-    public static <E extends Entity> ReactiveVisualMapper<E> createMaster(Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createMaster(pm, ReactiveEntityMapper.create(reactiveDqlStatement));
+    // Master
+    
+    public static <E extends Entity> ReactiveVisualMapper<E> createMasterReactiveChain(Object pm) {
+        return createMaster(pm, ReactiveEntitiesMapper.createMasterReactiveChain(pm));
     }
 
     public static <E extends Entity> ReactiveVisualMapper<E> createMasterReactiveChain(Object mixin, Object pm) {
-        return createMaster(pm, ReactiveEntityMapper.create(mixin, ReactiveDqlStatement.create()));
+        return createMaster(pm, ReactiveEntitiesMapper.createMasterReactiveChain(mixin, pm));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createMaster(Object mixin, Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createMaster(pm, ReactiveEntityMapper.create(mixin, reactiveDqlStatement));
-    }
-
-    public static <E extends Entity> ReactiveVisualMapper<E> createMasterPush(Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createMaster(pm, ReactiveEntityMapper.createPush(reactiveDqlStatement));
+    public static <E extends Entity> ReactiveVisualMapper<E> createMasterPushReactiveChain(Object pm) {
+        return createMaster(pm, ReactiveEntitiesMapper.createMasterPushReactiveChain(pm));
     }
 
     public static <E extends Entity> ReactiveVisualMapper<E> createMasterPushReactiveChain(Object mixin, Object pm) {
-        return createMaster(pm, ReactiveEntityMapper.createPush(mixin, ReactiveDqlStatement.createMaster(pm)));
+        return createMaster(pm, ReactiveEntitiesMapper.createMasterPushReactiveChain(mixin, pm));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createMasterPush(Object mixin, Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createMaster(pm, ReactiveEntityMapper.createPush(mixin, reactiveDqlStatement));
-    }
-
-    public static <E extends Entity> ReactiveVisualMapper<E> createGroup(Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createGroup(pm, ReactiveEntityMapper.create(reactiveDqlStatement));
+    // Group
+    
+    public static <E extends Entity> ReactiveVisualMapper<E> createGroupReactiveChain(Object pm) {
+        return createGroup(pm, ReactiveEntitiesMapper.createGroupReactiveChain(pm));
     }
 
     public static <E extends Entity> ReactiveVisualMapper<E> createGroupReactiveChain(Object mixin, Object pm) {
-        return createGroup(pm, ReactiveEntityMapper.create(mixin, ReactiveDqlStatement.createGroup(pm)));
+        return createGroup(pm, ReactiveEntitiesMapper.createGroupReactiveChain(mixin, pm));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createGroup(Object mixin, Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createGroup(pm, ReactiveEntityMapper.create(mixin, reactiveDqlStatement));
+    public static <E extends Entity> ReactiveVisualMapper<E> createGroupPushReactiveChain(Object pm) {
+        return createGroup(pm, ReactiveEntitiesMapper.createGroupPushReactiveChain(pm));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createGroupPush(Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createGroup(pm, ReactiveEntityMapper.createPush(reactiveDqlStatement));
+    public static <E extends Entity> ReactiveVisualMapper<E> createGroupPushReactiveChain(Object mixin, Object pm) {
+        return createGroup(pm, ReactiveEntitiesMapper.createGroupPushReactiveChain(mixin, pm));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createGroupPush(Object mixin, Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createGroup(pm, ReactiveEntityMapper.createPush(mixin, reactiveDqlStatement));
+    // Slave
+
+    public static <E extends Entity> ReactiveVisualMapper<E> createSlaveReactiveChain(Object pm) {
+        return createSlave(pm, ReactiveEntitiesMapper.createSlaveReactiveChain(pm));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createSlave(Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createSlave(pm, ReactiveEntityMapper.create(reactiveDqlStatement));
+    public static <E extends Entity> ReactiveVisualMapper<E> createSlaveReactiveChain(Object mixin, Object pm) {
+        return createSlave(pm, ReactiveEntitiesMapper.createSlaveReactiveChain(mixin, pm));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createSlave(Object mixin, Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createSlave(pm, ReactiveEntityMapper.create(mixin, reactiveDqlStatement));
-    }
-
-    public static <E extends Entity> ReactiveVisualMapper<E> createSlavePush(Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createSlave(pm, ReactiveEntityMapper.createPush(reactiveDqlStatement));
+    public static <E extends Entity> ReactiveVisualMapper<E> createSlavePushReactiveChain(Object pm) {
+        return createSlave(pm, ReactiveEntitiesMapper.createSlavePushReactiveChain(pm));
     }
 
     public static <E extends Entity> ReactiveVisualMapper<E> createSlavePushReactiveChain(Object mixin, Object pm) {
-        return createSlave(pm, ReactiveEntityMapper.createPush(mixin, ReactiveDqlStatement.create()));
+        return createSlave(pm, ReactiveEntitiesMapper.createSlavePushReactiveChain(mixin, pm));
     }
 
-    public static <E extends Entity> ReactiveVisualMapper<E> createSlavePush(Object mixin, Object pm, ReactiveDqlStatement<E> reactiveDqlStatement) {
-        return createSlave(pm, ReactiveEntityMapper.createPush(mixin, reactiveDqlStatement));
-    }
 }

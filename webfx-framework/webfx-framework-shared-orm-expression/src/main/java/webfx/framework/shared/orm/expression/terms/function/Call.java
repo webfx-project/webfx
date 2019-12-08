@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms.function;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.expression.terms.Ordered;
 import webfx.framework.shared.orm.expression.terms.UnaryExpression;
@@ -69,20 +69,20 @@ public final class Call<T> extends UnaryExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
         if (function.isEvaluable()) {
             if (!(function instanceof AggregateFunction))
-                return function.evaluate(operand == null ? null : (T) operand.evaluate(domainObject, dataReader), dataReader);
-            Object primaryKey = dataReader.prepareValueBeforeTypeConversion(domainObject, null);
+                return function.evaluate(operand == null ? null : (T) operand.evaluate(domainObject, domainReader), domainReader);
+            Object primaryKey = domainReader.prepareValueBeforeTypeConversion(domainObject, null);
             if (primaryKey instanceof AggregateKey) {
                 AggregateKey<T> aggregateKey = (AggregateKey<T>) primaryKey;
                 if (orderBy != null)
-                    orderBy(aggregateKey.getAggregates(), dataReader, orderBy);
-                return ((AggregateFunction<T>) function).evaluateOnAggregates(domainObject, aggregateKey.getAggregates().toArray(), operand, dataReader);
+                    orderBy(aggregateKey.getAggregates(), domainReader, orderBy);
+                return ((AggregateFunction<T>) function).evaluateOnAggregates(domainObject, aggregateKey.getAggregates().toArray(), operand, domainReader);
             }
         }
         // When the function is not evaluable, it might have been already evaluated during the query and the result stored in a field
-        return dataReader.getDomainFieldValue(domainObject, functionName); // using function name as field (ex: count(1) -> field = count)
+        return domainReader.getDomainFieldValue(domainObject, functionName); // using function name as field (ex: count(1) -> field = count)
     }
 
     @Override
@@ -116,9 +116,9 @@ public final class Call<T> extends UnaryExpression<T> {
             operand.collectPersistentTerms(persistentTerms);
     }
 
-    public static <T> List<T> orderBy(List<T> list, DataReader<T> dataReader, Expression<T>... orderExpressions) {
+    public static <T> List<T> orderBy(List<T> list, DomainReader<T> domainReader, Expression<T>... orderExpressions) {
         if (orderExpressions.length == 1 && orderExpressions[0] instanceof ExpressionArray)
-            orderBy(list, dataReader, ((ExpressionArray<T>) orderExpressions[0]).getExpressions());
+            orderBy(list, domainReader, ((ExpressionArray<T>) orderExpressions[0]).getExpressions());
         else list.sort((e1, e2) -> {
             if (e1 == e2)
                 return 0;
@@ -127,8 +127,8 @@ public final class Call<T> extends UnaryExpression<T> {
             if (e2 == null)
                 return -1;
             for (Expression<T> orderExpression : orderExpressions) {
-                Object o1 = orderExpression.evaluate(e1, dataReader);
-                Object o2 = orderExpression.evaluate(e2, dataReader);
+                Object o1 = orderExpression.evaluate(e1, domainReader);
+                Object o2 = orderExpression.evaluate(e2, domainReader);
                 Ordered<T> ordered = orderExpression instanceof Ordered ? (Ordered<T>) orderExpression : null;
                 int result;
                 if (o1 == o2)

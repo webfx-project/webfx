@@ -1,8 +1,8 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
-import webfx.framework.shared.orm.expression.lci.DataWriter;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
+import webfx.framework.shared.orm.expression.lci.DomainWriter;
 import webfx.extras.type.Type;
 
 import java.util.Collection;
@@ -37,8 +37,8 @@ public final class Parameter<T> extends AbstractExpression<T> {
         return index;
     }
 
-    private Object getParameterValue(DataReader<T> dataReader) {
-        return dataReader.getParameterValue(name);
+    private Object getParameterValue(DomainReader<T> domainReader) {
+        return domainReader.getParameterValue(name);
     }
 
     @Override
@@ -47,11 +47,11 @@ public final class Parameter<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
-        Object value = getParameterValue(dataReader);
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
+        Object value = getParameterValue(domainReader);
         if (rightDot != null) {
-            domainObject = dataReader.getDomainObjectFromId(value, domainObject);
-            value = rightDot.evaluate(domainObject, dataReader);
+            domainObject = domainReader.getDomainObjectFromId(value, domainObject);
+            value = rightDot.evaluate(domainObject, domainReader);
         }
         return value;
     }
@@ -62,7 +62,7 @@ public final class Parameter<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
+    public void setValue(T domainObject, Object value, DomainWriter<T> dataWriter) {
         dataWriter.setParameterValue(name, value);
     }
 

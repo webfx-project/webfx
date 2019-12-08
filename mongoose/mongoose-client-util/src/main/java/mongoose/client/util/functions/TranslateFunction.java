@@ -1,7 +1,7 @@
 package mongoose.client.util.functions;
 
 import mongoose.client.entities.util.Labels;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.function.Function;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.extras.type.PrimType;
@@ -20,10 +20,10 @@ public class TranslateFunction<T> extends Function<T> {
     }
 
     @Override
-    public Object evaluate(T argument, DataReader<T> dataReader) {
+    public Object evaluate(T argument, DomainReader<T> domainReader) {
         if (argument instanceof String)
             return I18n.getI18nText(argument);
-        return translate(dataReader.getDomainObjectFromId(argument, null));
+        return translate(domainReader.getDomainObjectFromId(argument, null));
     }
 
     protected String translate(T t) {

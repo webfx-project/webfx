@@ -1,11 +1,11 @@
 package webfx.framework.client.orm.reactive.mapping.entities_to_grid;
 
 import javafx.application.Platform;
-import webfx.framework.client.orm.dql.DqlStatement;
-import webfx.framework.client.orm.dql.DqlStatementBuilder;
+import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntitiesMapper;
+import webfx.framework.shared.orm.dql.DqlStatement;
+import webfx.framework.shared.orm.dql.DqlStatementBuilder;
 import webfx.framework.client.orm.reactive.dql.query.ReactiveDqlQuery;
 import webfx.framework.client.orm.reactive.dql.statement.ReactiveDqlStatement;
-import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntityMapper;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.entity.Entity;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 public abstract class ReactiveGridMapper<E extends Entity> {
 
-    protected final ReactiveEntityMapper<E> reactiveEntityMapper;
+    protected final ReactiveEntitiesMapper<E> reactiveEntitiesMapper;
 
     protected EntityColumn<E>[] entityColumns;
     protected boolean autoSelectSingleRow;
@@ -32,10 +32,10 @@ public abstract class ReactiveGridMapper<E extends Entity> {
     protected Handler<E> selectedEntityHandler;
     private String columnsPersistentFields;
 
-    public ReactiveGridMapper(ReactiveEntityMapper<E> reactiveEntityMapper) {
-        this.reactiveEntityMapper = reactiveEntityMapper;
-        reactiveEntityMapper.addEntitiesHandler(this::onEntityListChanged);
-        ReactiveDqlStatement<E> reactiveDqlStatement = reactiveEntityMapper.getReactiveDqlQuery().getReactiveDqlStatement();
+    public ReactiveGridMapper(ReactiveEntitiesMapper<E> reactiveEntitiesMapper) {
+        this.reactiveEntitiesMapper = reactiveEntitiesMapper;
+        reactiveEntitiesMapper.addEntitiesHandler(this::onEntityListChanged);
+        ReactiveDqlStatement<E> reactiveDqlStatement = reactiveEntitiesMapper.getReactiveDqlQuery().getReactiveDqlStatement();
         reactiveDqlStatement.addResultTransformer(dqlStatement -> {
             // If the resulting dql statement defines columns (ex: from a fields filter), we take them as the columns to display
             if (dqlStatement.getColumns() != null)
@@ -47,9 +47,9 @@ public abstract class ReactiveGridMapper<E extends Entity> {
             // If as a result of applying the columns we have additional persistent fields to load, we include them in the final dql statement
             if (columnsPersistentFields != null)
                 dqlStatement = new DqlStatementBuilder(dqlStatement).mergeFields(columnsPersistentFields).build();
-            if (startsWithEmptyTable && reactiveEntityMapper.getEntityList() == null)
+            if (startsWithEmptyTable && reactiveEntitiesMapper.getEntities() == null)
                 Platform.runLater(() -> {
-                    if (reactiveEntityMapper.getEntityList() == null)
+                    if (reactiveEntitiesMapper.getEntities() == null)
                         onEntityListChanged(null);
                 });
 
@@ -58,16 +58,16 @@ public abstract class ReactiveGridMapper<E extends Entity> {
         //reactiveDqlStatement.combine(persistentFieldsDqlStatementProperty);
     }
 
-    public ReactiveEntityMapper<E> getReactiveEntityMapper() {
-        return reactiveEntityMapper;
+    public ReactiveEntitiesMapper<E> getReactiveEntitiesMapper() {
+        return reactiveEntitiesMapper;
     }
 
     public EntityColumn<E>[] getEntityColumns() {
         return entityColumns;
     }
 
-    public EntityList<E> getCurrentEntityList() {
-        return reactiveEntityMapper.getCurrentEntityList();
+    public EntityList<E> getCurrentEntities() {
+        return reactiveEntitiesMapper.getCurrentEntities();
     }
 
     public abstract List<E> getSelectedEntities();
@@ -100,7 +100,7 @@ public abstract class ReactiveGridMapper<E extends Entity> {
 
     @SuppressWarnings("unchecked")
     private EntityColumn<E>[] parseEntityColumnsDefinition(String jsonArrayOrExpressionDefinition) {
-        ReactiveDqlQuery<E> reactiveDqlQuery = reactiveEntityMapper.getReactiveDqlQuery();
+        ReactiveDqlQuery<E> reactiveDqlQuery = reactiveEntitiesMapper.getReactiveDqlQuery();
         Object[] holder = new Object[1];
         reactiveDqlQuery.executeParsingCode(() -> holder[0] = getEntityColumnFactory().fromJsonArrayOrExpressionsDefinition(jsonArrayOrExpressionDefinition, reactiveDqlQuery.getDomainModel(), reactiveDqlQuery.getReactiveDqlStatement().getDomainClassId()));
         return (EntityColumn<E>[]) holder[0];
@@ -116,7 +116,7 @@ public abstract class ReactiveGridMapper<E extends Entity> {
     private void setEntityColumnsPrivate(EntityColumn<E>[] entityColumns) {
         this.entityColumns = entityColumns;
         markColumnsPersistentFieldsAsOutOfDate();
-        if (startsWithEmptyTable && reactiveEntityMapper.getEntityList() == null)
+        if (startsWithEmptyTable && reactiveEntitiesMapper.getEntities() == null)
             scheduleEmptyTable();
     }
 
@@ -127,7 +127,7 @@ public abstract class ReactiveGridMapper<E extends Entity> {
             emptyTableScheduled = true;
             Platform.runLater(() -> {
                 //emptyTableScheduled = false; // Commented as doing it only once
-                if (startsWithEmptyTable && reactiveEntityMapper.getEntityList() == null)
+                if (startsWithEmptyTable && reactiveEntitiesMapper.getEntities() == null)
                     onEntityListChanged(null);
             });
         }
@@ -167,7 +167,7 @@ public abstract class ReactiveGridMapper<E extends Entity> {
             columnsPersistentFields = null;
         else {
             List<Expression<E>> columnsPersistentTerms = new ArrayList<>();
-            ReactiveDqlQuery<E> reactiveDqlQuery = reactiveEntityMapper.getReactiveDqlQuery();
+            ReactiveDqlQuery<E> reactiveDqlQuery = reactiveEntitiesMapper.getReactiveDqlQuery();
             reactiveDqlQuery.executeParsingCode(() -> {
                 DomainModel domainModel = reactiveDqlQuery.getDomainModel();
                 Object domainClassId = reactiveDqlQuery.getDomainClassId();
@@ -183,7 +183,7 @@ public abstract class ReactiveGridMapper<E extends Entity> {
     protected abstract EntityColumn<E> createStyleEntityColumn(ExpressionArray<E> rowStylesExpressionArray);
 
     private DomainClass getDomainClass() {
-        return reactiveEntityMapper.getReactiveDqlQuery().getDomainClass();
+        return reactiveEntitiesMapper.getReactiveDqlQuery().getDomainClass();
     }
 
     protected abstract void onEntityListChanged(EntityList<E> entityList);

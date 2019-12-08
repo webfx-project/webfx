@@ -5,7 +5,7 @@ module mongoose.client.activities.unauthorized {
     // Direct dependencies modules
     requires javafx.graphics;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.domain;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.uirouter;
     requires webfx.platform.shared.util;
 

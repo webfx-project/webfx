@@ -24,8 +24,8 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 
-import static webfx.framework.client.orm.dql.DqlStatement.fields;
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.fields;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 import static webfx.framework.client.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
 final class BookingsActivity extends EventDependentViewDomainActivity implements
@@ -77,7 +77,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                 ),
                 newSeparatorActionGroup(
                         newOperationAction(() -> new CopySelectionRequest(masterVisualMapper.getSelectedEntities(), masterVisualMapper.getEntityColumns())),
-                        newOperationAction(() -> new CopyAllRequest(masterVisualMapper.getCurrentEntityList(), masterVisualMapper.getEntityColumns()))
+                        newOperationAction(() -> new CopyAllRequest(masterVisualMapper.getCurrentEntities(), masterVisualMapper.getEntityColumns()))
                 )
         ));
 
@@ -103,9 +103,8 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
         groupVisualMapper = ReactiveVisualMapper.<Document>createGroupReactiveChain(this, pm)
                 .always("{class: 'Document', alias: 'd'}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
-                .start()
-        ;
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
+                .start();
 
         // Setting up the master mapper that build the content displayed in the master view
         masterVisualMapper = ReactiveVisualMapper.<Document>createMasterPushReactiveChain(this, pm)
@@ -113,7 +112,7 @@ final class BookingsActivity extends EventDependentViewDomainActivity implements
                 // Always loading the fields required for viewing the booking details
                 .always(fields(BookingDetailsPanel.REQUIRED_FIELDS))
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
                 // Applying the user search
                 .ifTrimNotEmpty(pm.searchTextProperty(), s ->
                         Character.isDigit(s.charAt(0)) ? where("ref = ?", Integer.parseInt(s))

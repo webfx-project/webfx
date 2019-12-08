@@ -21,8 +21,8 @@ module mongoose.frontend.activities.options {
     requires mongoose.shared.time;
     requires webfx.extras.imagestore;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;

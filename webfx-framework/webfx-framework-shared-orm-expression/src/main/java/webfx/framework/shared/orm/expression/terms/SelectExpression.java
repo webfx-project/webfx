@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.extras.type.Type;
 
 import java.util.Collection;
@@ -31,9 +31,9 @@ public class SelectExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
         if (as != null)
-            return as.evaluate(domainObject, dataReader);
+            return as.evaluate(domainObject, domainReader);
         throw new UnsupportedOperationException();
     }
 

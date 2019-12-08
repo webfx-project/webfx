@@ -4,7 +4,7 @@ import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.builder.BuilderThreadContext;
 import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.framework.shared.orm.expression.builder.ThreadLocalReferenceResolver;
-import webfx.framework.shared.orm.expression.lci.ParserDomainModelReader;
+import webfx.framework.shared.orm.expression.parser.lci.ParserDomainModelReader;
 import webfx.framework.shared.orm.expression.terms.Alias;
 import webfx.framework.shared.orm.expression.terms.DqlStatement;
 

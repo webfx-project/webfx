@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.extras.type.PrimType;
 import webfx.extras.type.Type;
 
@@ -20,10 +20,10 @@ public abstract class BinaryBooleanExpression<T> extends BinaryExpression<T> {
     }
 
     @Override
-    public Object evaluate(Object leftValue, Object rightValue, DataReader<T> dataReader) {
-        return evaluateCondition(leftValue, rightValue, dataReader);
+    public Object evaluate(Object leftValue, Object rightValue, DomainReader<T> domainReader) {
+        return evaluateCondition(leftValue, rightValue, domainReader);
     }
 
-    public abstract Boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader);
+    public abstract Boolean evaluateCondition(Object a, Object b, DomainReader<T> domainReader);
 
 }

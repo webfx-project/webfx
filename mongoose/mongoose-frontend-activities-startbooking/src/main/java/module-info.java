@@ -17,7 +17,7 @@ module mongoose.frontend.activities.startbooking {
     requires webfx.extras.imagestore;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.domain;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;

@@ -6,7 +6,7 @@ import webfx.framework.client.orm.reactive.dql.statement.conventions.HasColumnsD
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasConditionDqlStatementProperty;
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasGroupDqlStatementProperty;
 import mongoose.shared.entities.Filter;
-import webfx.framework.client.orm.dql.DqlStatement;
+import webfx.framework.shared.orm.dql.DqlStatement;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.button.EntityButtonSelector;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;

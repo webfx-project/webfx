@@ -8,7 +8,7 @@ import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.Person;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 final class UsersActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin {

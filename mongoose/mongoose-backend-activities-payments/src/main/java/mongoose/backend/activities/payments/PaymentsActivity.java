@@ -14,11 +14,10 @@ import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
-import webfx.framework.client.orm.reactive.dql.statement.ReactiveDqlStatement;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 final class PaymentsActivity extends EventDependentViewDomainActivity implements
         ConventionalUiBuilderMixin,
@@ -55,7 +54,7 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                 ),
                 newSeparatorActionGroup(
                         newOperationAction(() -> new CopySelectionRequest(masterVisualMapper.getSelectedEntities(), masterVisualMapper.getEntityColumns())),
-                        newOperationAction(() -> new CopyAllRequest(masterVisualMapper.getCurrentEntityList(), masterVisualMapper.getEntityColumns()))
+                        newOperationAction(() -> new CopyAllRequest(masterVisualMapper.getCurrentEntities(), masterVisualMapper.getEntityColumns()))
                 )));
         return container;
     }
@@ -78,8 +77,8 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
         groupVisualMapper = ReactiveVisualMapper.<MoneyTransfer>createGroupReactiveChain(this, pm)
                 .always("{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first,id'}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
-                .combineStringIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
+                .ifFalse(pm.flatPaymentsProperty(), where("parent=null"))
                 .start()
         ;
 
@@ -88,9 +87,9 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                 .always("{class: 'MoneyTransfer', alias: 'mt', where: '!receiptsTransfer', orderBy: 'date desc,parent nulls first,id'}")
                 .always("{columns: 'date,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("document..event=? or document is null and exists(select MoneyTransfer where parent=mt and document.event=?)", eventId, eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("document..event=? or document is null and exists(select MoneyTransfer where parent=mt and document.event=?)", eventId, eventId))
                 // Applying the flat mode
-                .combineStringIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
+                .ifFalse(pm.flatPaymentsProperty(), where("parent=null"))
                 // Applying the user search
                 .ifTrimNotEmpty(pm.searchTextProperty(), s ->
                         Character.isDigit(s.charAt(0)) ? where("document.ref=?", Integer.parseInt(s))
@@ -100,15 +99,13 @@ final class PaymentsActivity extends EventDependentViewDomainActivity implements
                 .autoSelectSingleRow() // When the result is a singe row, automatically select it
                 .start();
 
-        slaveVisualMapper = ReactiveVisualMapper.createSlavePush(this, pm,
-                ReactiveDqlStatement.<MoneyTransfer>createSlave(pm)
-        )
+        slaveVisualMapper = ReactiveVisualMapper.<MoneyTransfer>createSlavePushReactiveChain(this, pm)
                 .always("{class: 'MoneyTransfer', alias: 'mt', orderBy: 'date desc,parent nulls first,id'}")
                 .always("{columns: 'date,document,transactionRef,status,comment,amount,methodIcon,pending,successful'}")
                 // Applying the selection condition
-                .ifNotNullOtherwiseForceEmpty(pm.selectedPaymentProperty(), mt -> where("parent=?", mt.getPrimaryKey()))
+                .ifNotNullOtherwiseEmpty(pm.selectedPaymentProperty(), mt -> where("parent=?", mt))
                 // Applying the flat mode
-                .combineStringIfFalse(pm.flatPaymentsProperty(), () -> "{where: `parent=null`}")
+                .ifFalse(pm.flatPaymentsProperty(), where("parent=null"))
                 .applyDomainModelRowStyle() // Colorizing the rows
                 .start();
     }

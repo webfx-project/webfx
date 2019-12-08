@@ -8,8 +8,8 @@ module mongoose.backend.activities.letter {
     requires mongoose.backend.multilangeditor;
     requires mongoose.client.util;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.domain;
     requires webfx.framework.client.uirouter;
     requires webfx.kit.util;
     requires webfx.platform.client.windowhistory;

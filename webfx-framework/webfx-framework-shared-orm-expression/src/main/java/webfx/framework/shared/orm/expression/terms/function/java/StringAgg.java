@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms.function.java;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.extras.type.PrimType;
 import webfx.platform.shared.util.Strings;
@@ -17,18 +17,18 @@ public final class StringAgg<T> extends SqlAggregateFunction<T> {
     }
 
     @Override
-    public Object evaluateOnAggregates(T referrer, Object[] aggregates, Expression<T> operand, DataReader<T> dataReader) {
+    public Object evaluateOnAggregates(T referrer, Object[] aggregates, Expression<T> operand, DomainReader<T> domainReader) {
         String delimiter = ",";
         Expression<T> stringOperand = operand;
         if (operand instanceof ExpressionArray) {
             ExpressionArray<T> array = (ExpressionArray<T>) operand;
             stringOperand = array.getExpressions()[0];
             Expression<T> delimiterOperand = array.getExpressions()[1];
-            delimiter = Strings.toSafeString(delimiterOperand.evaluate(referrer, dataReader));
+            delimiter = Strings.toSafeString(delimiterOperand.evaluate(referrer, domainReader));
         }
         StringBuilder sb = new StringBuilder();
         for (Object aggregate : aggregates) {
-            Object value = stringOperand.evaluate((T) aggregate, dataReader);
+            Object value = stringOperand.evaluate((T) aggregate, domainReader);
             if (value != null) {
                 if (sb.length() > 0)
                     sb.append(delimiter);

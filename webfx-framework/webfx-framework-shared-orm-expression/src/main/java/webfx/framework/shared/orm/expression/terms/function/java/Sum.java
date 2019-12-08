@@ -1,7 +1,7 @@
 package webfx.framework.shared.orm.expression.terms.function.java;
 
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.Plus;
 import webfx.framework.shared.orm.expression.terms.function.SqlAggregateFunction;
 
@@ -15,11 +15,11 @@ public final class Sum<T> extends SqlAggregateFunction<T> {
     }
 
     @Override
-    public Object evaluateOnAggregates(T referrer, Object[] aggregates, Expression<T> operand, DataReader<T> dataReader) {
+    public Object evaluateOnAggregates(T referrer, Object[] aggregates, Expression<T> operand, DomainReader<T> domainReader) {
         Object result = null;
         Plus<T> plus = new Plus<>(operand, operand);
         for (Object aggregate : aggregates)
-            result = plus.evaluate(result, operand.evaluate((T) aggregate, dataReader), dataReader);
+            result = plus.evaluate(result, operand.evaluate((T) aggregate, domainReader), domainReader);
         return result;
     }
 }

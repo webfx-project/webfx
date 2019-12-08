@@ -15,9 +15,9 @@ import webfx.extras.cell.renderer.ValueRenderingContext;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.framework.client.orm.dql.DqlStatement;
-import webfx.framework.client.orm.dql.DqlStatementBuilder;
-import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntityMapper;
+import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntitiesMapper;
+import webfx.framework.shared.orm.dql.DqlStatement;
+import webfx.framework.shared.orm.dql.DqlStatementBuilder;
 import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.VisualEntityColumnFactory;
@@ -36,8 +36,8 @@ import webfx.platform.shared.util.function.Callable;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static webfx.framework.client.orm.dql.DqlStatement.limit;
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.limit;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 /**
  * @author Bruno Salmon
@@ -141,9 +141,9 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
                             onDialogOk();
                     });
             if (isSearchEnabled())
-                entityDialogMapper.getReactiveEntityMapper().getReactiveDqlQuery().getReactiveDqlStatement()
+                entityDialogMapper
                         .ifTrimNotEmpty(searchTextProperty(), s -> {
-                            setSearchParameters(s, entityDialogMapper.getReactiveEntityMapper().getStore());
+                            setSearchParameters(s, entityDialogMapper.getReactiveEntitiesMapper().getStore());
                             return where(searchCondition);
                         })
                         .always(dialogHeightProperty(), height -> limit("?", updateAdaptiveLimit(height)));
@@ -180,11 +180,11 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             return;
         setUpDialog(false);
         if (entityDialogMapper != null) {
-            ReactiveEntityMapper<E> reactiveEntityMapper = entityDialogMapper.getReactiveEntityMapper();
+            ReactiveEntitiesMapper<E> reactiveEntitiesMapper = entityDialogMapper.getReactiveEntitiesMapper();
             Handler<EntityList<E>>[] entitiesHandlerHolder = new Handler[1];
-            reactiveEntityMapper.addEntitiesHandler(entitiesHandlerHolder[0] = entityList -> {
+            reactiveEntitiesMapper.addEntitiesHandler(entitiesHandlerHolder[0] = entityList -> {
                 setSelectedItem(entityList.stream().filter(predicate).findFirst().orElse(null));
-                reactiveEntityMapper.removeEntitiesHandler(entitiesHandlerHolder[0]);
+                reactiveEntitiesMapper.removeEntitiesHandler(entitiesHandlerHolder[0]);
             });
         }
     }

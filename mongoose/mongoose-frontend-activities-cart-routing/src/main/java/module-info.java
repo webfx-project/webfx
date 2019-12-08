@@ -10,7 +10,7 @@ module mongoose.frontend.activities.cart.routing {
     requires mongoose.client.aggregates;
     requires mongoose.client.util;
     requires mongoose.shared.entities;
-    requires webfx.framework.client.domain;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;

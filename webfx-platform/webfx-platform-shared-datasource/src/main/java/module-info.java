@@ -4,10 +4,15 @@ module webfx.platform.shared.datasource {
 
     // Direct dependencies modules
     requires java.base;
-    requires webfx.platform.shared.json;
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.shared.datasource;
+    exports webfx.platform.shared.service.datasource;
+    exports webfx.platform.shared.service.datasource.jdbc;
+    exports webfx.platform.shared.service.datasource.spi;
+    exports webfx.platform.shared.service.datasource.spi.simple;
+
+    // Used services
+    uses webfx.platform.shared.service.datasource.spi.LocalDataSourceProvider;
 
 }

@@ -7,8 +7,9 @@ module webfx.framework.client.orm.reactive.entities {
     requires javafx.base;
     requires javafx.graphics;
     requires webfx.extras.type;
-    requires webfx.framework.client.orm.dql;
-    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.client.orm.reactive.dql;
+    requires webfx.framework.shared.orm.domainmodel;
+    requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.orm.expression;
     requires webfx.framework.shared.util;

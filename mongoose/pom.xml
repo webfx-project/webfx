@@ -87,7 +87,7 @@
         <module>mongoose-server-systemmetrics-java</module>
         <module>mongoose-server-application</module>
         <module>mongoose-server-application-vertx</module>
-        <module>mongoose-shared-domain</module>
+        <module>mongoose-shared-domainmodel</module>
         <module>mongoose-shared-entities</module>
         <module>mongoose-shared-time</module>
         <module>mongoose-client-css</module>

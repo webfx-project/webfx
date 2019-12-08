@@ -1,16 +1,18 @@
 package webfx.platform.providers.java.queryupdate;
 
 import com.zaxxer.hikari.HikariDataSource;
+import webfx.platform.shared.service.datasource.ConnectionDetails;
+import webfx.platform.shared.service.datasource.LocalDataSource;
+import webfx.platform.shared.service.datasource.jdbc.JdbcDriver;
+import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.services.query.QueryResultBuilder;
+import webfx.platform.shared.services.query.spi.QueryServiceProvider;
 import webfx.platform.shared.services.update.UpdateArgument;
 import webfx.platform.shared.services.update.UpdateResult;
 import webfx.platform.shared.services.update.spi.UpdateServiceProvider;
-import webfx.platform.shared.util.async.Future;
-import webfx.platform.shared.services.query.QueryArgument;
-import webfx.platform.shared.services.query.spi.QueryServiceProvider;
-import webfx.platform.shared.datasource.ConnectionDetails;
 import webfx.platform.shared.util.Arrays;
+import webfx.platform.shared.util.async.Future;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -24,10 +26,12 @@ public final class JdbcLocalConnectedQueryUpdateServiceProvider implements Query
 
     private final DataSource jdbcDataSource;
 
-    public JdbcLocalConnectedQueryUpdateServiceProvider(ConnectionDetails connectionDetails) {
+    public JdbcLocalConnectedQueryUpdateServiceProvider(LocalDataSource localDataSource) {
+        ConnectionDetails connectionDetails = localDataSource.getLocalConnectionDetails();
         HikariDataSource hikariDS = new HikariDataSource();
-        hikariDS.setDriverClassName(connectionDetails.getDBMS().getJdbcDriverClass());
-        hikariDS.setJdbcUrl(connectionDetails.getUrl());
+        JdbcDriver jdbcDriver = JdbcDriver.from(localDataSource.getDBMS());
+        hikariDS.setDriverClassName(jdbcDriver.getJdbcDriverClass());
+        hikariDS.setJdbcUrl(jdbcDriver.getUrlOrGenerateJdbcUrl(connectionDetails));
         hikariDS.setUsername(connectionDetails.getUsername());
         hikariDS.setPassword(connectionDetails.getPassword());
         jdbcDataSource = hikariDS;

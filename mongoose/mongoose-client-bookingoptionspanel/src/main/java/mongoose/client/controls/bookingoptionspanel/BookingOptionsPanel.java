@@ -12,7 +12,7 @@ import mongoose.shared.businessdata.time.DaysArray;
 import mongoose.shared.businessdata.time.DaysArrayBuilder;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.function.AggregateFunction;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
@@ -46,7 +46,7 @@ public final class BookingOptionsPanel {
         visualGrid.setSelectionMode(SelectionMode.DISABLED);
         new AggregateFunction<DocumentLine>("days_agg", PrimType.STRING) {
             @Override
-            public Object evaluateOnAggregates(DocumentLine referrer, Object[] aggregates, Expression<DocumentLine> operand, DataReader<DocumentLine> dataReader) {
+            public Object evaluateOnAggregates(DocumentLine referrer, Object[] aggregates, Expression<DocumentLine> operand, DomainReader<DocumentLine> domainReader) {
                 DaysArrayBuilder daysArrayBuilder = new DaysArrayBuilder();
                 for (Object dl : aggregates) {
                     DaysArray daysArray = (DaysArray) ((DocumentLine) dl).getFieldValue("daysArray");

@@ -1,7 +1,6 @@
 package mongoose.client.activity;
 
 import webfx.framework.client.activity.impl.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
-import webfx.framework.shared.orm.expression.sqlcompiler.sql.SqlCompiled;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonObject;
@@ -30,9 +29,7 @@ public abstract class MongooseDomainPresentationLogicActivityBase<PM>
 
     private void loadActivityState(Object activityStateId) {
         // Loading the parameters from the requested activity state
-        Object[] parameter = {activityStateId};
-        SqlCompiled sqlCompiled = getDomainModel().parseAndCompileSelect("select parameters from ActivityState where id=?", parameter);
-        QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameter, getDataSourceId())).setHandler(ar -> {
+        QueryService.executeQuery(new QueryArgument(getDataSourceId(), "DQL", "select parameters from ActivityState where id=?", activityStateId)).setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
             else {

@@ -17,7 +17,8 @@ public interface LoggerProvider {
     }
 
     default void log(String message, Throwable error) {
-        log(message + "\n    " + error.getClass().getName()+ ": " + error.getMessage() + "\n");
+        log((message == null ? "" : message + "\n") + error.getClass().getName() + ": " + error.getMessage());
+        error.printStackTrace(System.err);
     }
 
 }

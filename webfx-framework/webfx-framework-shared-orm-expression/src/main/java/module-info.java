@@ -14,15 +14,11 @@ module webfx.framework.shared.orm.expression {
     exports webfx.framework.shared.orm.expression.builder;
     exports webfx.framework.shared.orm.expression.builder.terms;
     exports webfx.framework.shared.orm.expression.lci;
-    exports webfx.framework.shared.orm.expression.lci.mocks;
     exports webfx.framework.shared.orm.expression.parser;
     exports webfx.framework.shared.orm.expression.parser.javacup;
     exports webfx.framework.shared.orm.expression.parser.jflex;
-    exports webfx.framework.shared.orm.expression.sqlcompiler;
-    exports webfx.framework.shared.orm.expression.sqlcompiler.mapping;
-    exports webfx.framework.shared.orm.expression.sqlcompiler.sql;
-    exports webfx.framework.shared.orm.expression.sqlcompiler.sql.dbms;
-    exports webfx.framework.shared.orm.expression.sqlcompiler.terms;
+    exports webfx.framework.shared.orm.expression.parser.lci;
+    exports webfx.framework.shared.orm.expression.parser.lci.mock;
     exports webfx.framework.shared.orm.expression.terms;
     exports webfx.framework.shared.orm.expression.terms.function;
     exports webfx.framework.shared.orm.expression.terms.function.java;

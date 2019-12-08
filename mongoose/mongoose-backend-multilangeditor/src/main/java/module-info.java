@@ -12,7 +12,7 @@ module mongoose.backend.multilangeditor {
     requires webfx.framework.client.controls;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
-    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.entity;
     requires webfx.kit.util;
     requires webfx.platform.shared.update;

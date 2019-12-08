@@ -4,9 +4,9 @@ module mongoose.client.authz {
 
     // Direct dependencies modules
     requires mongoose.client.authn;
-    requires mongoose.shared.domain;
+    requires mongoose.shared.domainmodel;
     requires webfx.framework.shared.authz;
-    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.router;
     requires webfx.platform.shared.log;

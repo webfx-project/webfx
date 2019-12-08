@@ -11,18 +11,28 @@ import webfx.platform.shared.util.Arrays;
  */
 public final class QueryArgument {
 
+    private final Object dataSourceId;
+    private final String queryLang;
     private final String queryString;
     private final Object[] parameters;
-    private final Object dataSourceId;
 
-    public QueryArgument(String queryString, Object dataSourceId) {
-        this(queryString, null, dataSourceId);
+    public QueryArgument(Object dataSourceId, String queryString, Object... parameters) {
+        this(dataSourceId, null, queryString, parameters);
     }
 
-    public QueryArgument(String queryString, Object[] parameters, Object dataSourceId) {
+    public QueryArgument(Object dataSourceId, String queryLang, String queryString, Object... parameters) {
+        this.dataSourceId = dataSourceId;
+        this.queryLang = queryLang;
         this.queryString = queryString;
         this.parameters = parameters;
-        this.dataSourceId = dataSourceId;
+    }
+
+    public Object getDataSourceId() {
+        return dataSourceId;
+    }
+
+    public String getQueryLang() {
+        return queryLang;
     }
 
     public String getQueryString() {
@@ -33,9 +43,6 @@ public final class QueryArgument {
         return parameters;
     }
 
-    public Object getDataSourceId() {
-        return dataSourceId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -44,39 +51,43 @@ public final class QueryArgument {
 
         QueryArgument that = (QueryArgument) o;
 
-        if (!queryString.equals(that.queryString)) return false;
+        if (!dataSourceId.equals(that.dataSourceId)) return false;
+        if (queryLang != null ? !queryLang.equals(that.queryLang) : that.queryLang != null) return false;
+        if (queryString != null ? !queryString.equals(that.queryString) : that.queryString != null) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!java.util.Arrays.equals(parameters, that.parameters)) return false;
-        return dataSourceId.equals(that.dataSourceId);
+        return java.util.Arrays.equals(parameters, that.parameters);
     }
 
     @Override
     public int hashCode() {
-        int result = queryString.hashCode();
+        int result = dataSourceId.hashCode();
+        result = 31 * result + (queryLang != null ? queryLang.hashCode() : 0);
+        result = 31 * result + (queryString != null ? queryString.hashCode() : 0);
         result = 31 * result + java.util.Arrays.hashCode(parameters);
-        result = 31 * result + dataSourceId.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
         return "QueryArgument{" +
-                "queryString='" + queryString + '\'' +
+                "dataSourceId=" + dataSourceId +
+                ", queryLang='" + queryLang + '\'' +
+                ", queryString='" + queryString + '\'' +
                 ", parameters=" + java.util.Arrays.toString(parameters) +
-                ", dataSourceId=" + dataSourceId +
                 '}';
     }
 
     /****************************************************
-     *                   Serial ProvidedSerialCodec                   *
+     *           Serial ProvidedSerialCodec             *
      * *************************************************/
 
     public static final class ProvidedSerialCodec extends SerialCodecBase<QueryArgument> {
 
         private static final String CODEC_ID = "QueryArgument";
+        private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
+        private static final String QUERY_LANG_KEY = "queryLang";
         private static final String QUERY_STRING_KEY = "queryString";
         private static final String PARAMETERS_KEY = "parameters";
-        private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
 
         public ProvidedSerialCodec() {
             super(QueryArgument.class, CODEC_ID);
@@ -84,18 +95,20 @@ public final class QueryArgument {
 
         @Override
         public void encodeToJson(QueryArgument arg, WritableJsonObject json) {
+            json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
+            json.set(QUERY_LANG_KEY, arg.getQueryLang());
             json.set(QUERY_STRING_KEY, arg.getQueryString());
             if (!Arrays.isEmpty(arg.getParameters()))
                 json.set(PARAMETERS_KEY, SerialCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
-            json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
         }
 
         @Override
         public QueryArgument decodeFromJson(JsonObject json) {
             return new QueryArgument(
+                    json.get(DATA_SOURCE_ID_KEY),
+                    json.getString(QUERY_LANG_KEY),
                     json.getString(QUERY_STRING_KEY),
-                    SerialCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
-                    json.get(DATA_SOURCE_ID_KEY)
+                    SerialCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY))
             );
         }
     }

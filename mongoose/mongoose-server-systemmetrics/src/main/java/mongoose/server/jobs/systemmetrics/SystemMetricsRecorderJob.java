@@ -1,7 +1,7 @@
 package mongoose.server.jobs.systemmetrics;
 
 import mongoose.server.services.systemmetrics.SystemMetricsService;
-import mongoose.shared.domainmodel.loader.DomainModelSnapshotLoader;
+import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import mongoose.shared.entities.SystemMetricsEntity;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.entity.UpdateStore;
@@ -30,7 +30,7 @@ public final class SystemMetricsRecorderJob implements ApplicationJob {
         if (SystemMetricsService.getProvider() == null)
             throw new IllegalStateException("SystemMetricsRecorderJob will not start as no SystemMetricsServiceProvider is registered for this platform");
 
-        DataSourceModel dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
+        DataSourceModel dataSourceModel = MongooseDataSourceModel.get();
         // Starting a periodic timer to capture metrics every seconds and record it in the database
         metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, () -> {
             // Creating an update store for metrics entity
@@ -46,7 +46,7 @@ public final class SystemMetricsRecorderJob implements ApplicationJob {
 
         // Deleting old metrics records (older than 1 day) regularly (every 12h)
         metricsCleaningPeriodicTimer = Scheduler.schedulePeriodic(12 * 3600 * 1000, () ->
-            UpdateService.executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, dataSourceModel.getId())).setHandler(ar -> {
+            UpdateService.executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, dataSourceModel.getDataSourceId())).setHandler(ar -> {
                 if (ar.failed())
                     Logger.log("Deleting metrics in database failed!", ar.cause());
                 else

@@ -6,7 +6,7 @@ import mongoose.client.activity.eventdependent.EventDependentGenericTablePresent
 import mongoose.shared.entities.Person;
 import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.VisualSelection;
-import webfx.framework.client.orm.dql.DqlStatement;
+import webfx.framework.shared.orm.dql.DqlStatement;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGroupVisualResultProperty;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGroupVisualSelectionProperty;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasMasterVisualResultProperty;

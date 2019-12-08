@@ -1,6 +1,6 @@
 package webfx.framework.shared.orm.expression.terms;
 
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.extras.type.PrimType;
 
 /**
@@ -15,8 +15,8 @@ public final class IdExpression<T> extends Symbol<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
-        return dataReader.getDomainObjectId(domainObject);
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
+        return domainReader.getDomainObjectId(domainObject);
     }
 
 }

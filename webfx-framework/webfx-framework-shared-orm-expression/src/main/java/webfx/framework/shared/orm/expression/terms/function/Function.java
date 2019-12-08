@@ -1,6 +1,6 @@
 package webfx.framework.shared.orm.expression.terms.function;
 
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.function.java.Coalesce;
 import webfx.framework.shared.orm.expression.terms.function.java.CurrentDate;
 import webfx.framework.shared.orm.expression.terms.function.java.StringAgg;
@@ -8,10 +8,6 @@ import webfx.framework.shared.orm.expression.terms.function.java.Sum;
 import webfx.extras.type.PrimType;
 import webfx.extras.type.SpecializedTextType;
 import webfx.extras.type.Type;
-import webfx.framework.shared.orm.expression.terms.function.java.Coalesce;
-import webfx.framework.shared.orm.expression.terms.function.java.CurrentDate;
-import webfx.framework.shared.orm.expression.terms.function.java.StringAgg;
-import webfx.framework.shared.orm.expression.terms.function.java.Sum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -128,7 +124,7 @@ public class Function<T> {
         return false;
     }
 
-    public Object evaluate(T argument, DataReader<T> dataReader) {
+    public Object evaluate(T argument, DomainReader<T> domainReader) {
         throw new UnsupportedOperationException();
     }
 

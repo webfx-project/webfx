@@ -4,7 +4,7 @@ module mongoose.shared.entities {
 
     // Direct dependencies modules
     requires java.base;
-    requires mongoose.shared.domain;
+    requires mongoose.shared.domainmodel;
     requires mongoose.shared.time;
     requires webfx.framework.shared.orm.entity;
     requires webfx.platform.shared.util;

@@ -12,12 +12,12 @@ module mongoose.backend.activities.loadtester.jp {
     requires webfx.extras.visual;
     requires webfx.extras.visual.controls.charts;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
-    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.router;
     requires webfx.platform.client.uischeduler;

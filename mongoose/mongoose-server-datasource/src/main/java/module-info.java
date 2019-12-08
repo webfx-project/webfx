@@ -3,9 +3,9 @@
 module mongoose.server.datasource {
 
     // Direct dependencies modules
-    requires mongoose.shared.domain;
-    requires webfx.framework.shared.orm.domain;
-    requires webfx.platform.shared.appcontainer;
+    requires mongoose.shared.domainmodel;
+    requires webfx.framework.shared.orm.domainmodel;
+    requires webfx.framework.shared.orm.dql;
     requires webfx.platform.shared.datasource;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
@@ -13,9 +13,12 @@ module mongoose.server.datasource {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports mongoose.server.application;
+    exports mongoose.server.services.datasource;
+
+    // Resources packages
+    opens mongoose.server.datasource.MDS;
 
     // Provided services
-    provides webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer with mongoose.server.application.MongooseServerDatasourceModuleInitializer;
+    provides webfx.platform.shared.service.datasource.spi.LocalDataSourceProvider with mongoose.server.services.datasource.MongooseLocalDataSourceProvider;
 
 }

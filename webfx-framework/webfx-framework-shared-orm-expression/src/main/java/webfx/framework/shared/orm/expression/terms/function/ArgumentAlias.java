@@ -1,6 +1,6 @@
 package webfx.framework.shared.orm.expression.terms.function;
 
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.Alias;
 import webfx.extras.type.Type;
 
@@ -17,7 +17,7 @@ public final class ArgumentAlias extends Alias {
     }
 
     @Override
-    public Object evaluate(Object data, DataReader dataReader) {
+    public Object evaluate(Object data, DomainReader domainReader) {
         return getArgument();
     }
 

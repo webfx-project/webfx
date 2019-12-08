@@ -10,8 +10,8 @@ module mongoose.client.activities.login {
     requires mongoose.client.sectionpanel;
     requires mongoose.client.validation;
     requires webfx.framework.client.activity;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.domain;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;

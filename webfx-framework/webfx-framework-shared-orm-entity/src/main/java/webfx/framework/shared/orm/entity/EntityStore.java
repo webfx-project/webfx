@@ -1,15 +1,17 @@
 package webfx.framework.shared.orm.entity;
 
+import webfx.framework.shared.orm.dql.sqlcompiler.mapping.QueryRowToEntityMapping;
 import webfx.framework.shared.orm.entity.query_result_to_entities.QueryResultToEntitiesMapper;
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.sqlcompiler.sql.SqlCompiled;
+import webfx.framework.shared.orm.dql.sqlcompiler.sql.SqlCompiled;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.orm.entity.impl.DynamicEntity;
 import webfx.framework.shared.orm.entity.impl.EntityStoreImpl;
-import webfx.framework.shared.orm.entity.lciimpl.EntityDataWriter;
+import webfx.framework.shared.orm.entity.lciimpl.EntityDomainWriter;
 import webfx.platform.shared.services.query.QueryArgument;
+import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.services.query.QueryService;
 import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.async.Batch;
@@ -22,7 +24,7 @@ import webfx.platform.shared.util.async.Future;
  */
 public interface EntityStore extends HasDataSourceModel {
 
-    EntityDataWriter<Entity> getEntityDataWriter();
+    EntityDomainWriter<Entity> getEntityDataWriter();
 
     default DomainClass getDomainClass(Object domainClassId) {
         return domainClassId instanceof DomainClass ? (DomainClass) domainClassId : getDomainModel().getClass(domainClassId);
@@ -150,33 +152,28 @@ public interface EntityStore extends HasDataSourceModel {
 
     // Query methods
 
-    default <E extends Entity> Future<EntityList<E>> executeQuery(String select) {
-        return executeQuery(select, select);
+    default <E extends Entity> Future<EntityList<E>> executeQuery(String dqlQuery, Object... parameters) {
+        return executeListQuery(dqlQuery, dqlQuery, parameters);
     }
 
-    default <E extends Entity> Future<EntityList<E>> executeQuery(String select, Object listId) {
-        return executeQuery(select, null, listId);
-    }
-
-    default <E extends Entity> Future<EntityList<E>> executeQuery(String select, Object[] parameters) {
-        return executeQuery(select, parameters, select);
-    }
-
-    default <E extends Entity> Future<EntityList<E>> executeQuery(String select, Object[] parameters, Object listId) {
-        SqlCompiled sqlCompiled = getDomainModel().parseAndCompileSelect(select);
-        return QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, getDataSourceId()))
-                .map(rs -> QueryResultToEntitiesMapper.mapQueryResultToEntities(rs, sqlCompiled.getQueryMapping(), this, listId)
-        );
+    default <E extends Entity> Future<EntityList<E>> executeListQuery(Object listId, String dqlQuery, Object... parameters) {
+        Future<QueryResult> future = QueryService.executeQuery(createQueryArgument(dqlQuery, parameters));
+        QueryRowToEntityMapping queryMapping = getDataSourceModel().parseAndCompileSelect(dqlQuery).getQueryMapping();
+        return future.map(rs -> QueryResultToEntitiesMapper.mapQueryResultToEntities(rs, queryMapping, this, listId));
     }
 
     default <E extends Entity> Future<EntityList<E>> executeQuery(EntityStoreQuery query) {
-        return executeQuery(query.select, query.parameters, query.listId);
+        return executeListQuery(query.listId, query.select, query.parameters);
+    }
+
+    default QueryArgument createQueryArgument(String dqlQuery, Object[] parameters) {
+        return DqlQueryArgumentHelper.createQueryArgument(dqlQuery, parameters, getDataSourceModel());
     }
 
     default Future<EntityList[]> executeQueryBatch(EntityStoreQuery... queries) {
-        SqlCompiled[] sqlCompileds = Arrays.map(queries, query -> getDomainModel().parseAndCompileSelect(query.select), SqlCompiled[]::new);
-        return QueryService.executeQueryBatch(new Batch<>(Arrays.map(queries, (i, query) -> new QueryArgument(sqlCompileds[i].getSql(), query.parameters, getDataSourceId()), QueryArgument[]::new)))
-                .map(batchResult -> Arrays.map(batchResult.getArray(), (i, rs) -> QueryResultToEntitiesMapper.mapQueryResultToEntities(rs, sqlCompileds[i].getQueryMapping(), this, queries[i].listId), EntityList[]::new));
+        Future<Batch<QueryResult>> future = QueryService.executeQueryBatch(new Batch<>(Arrays.map(queries, (i, query) -> createQueryArgument(query.select, query.parameters), QueryArgument[]::new)));
+        SqlCompiled[] sqlCompileds = Arrays.map(queries, query -> getDataSourceModel().parseAndCompileSelect(query.select), SqlCompiled[]::new);
+        return future.map(batchResult -> Arrays.map(batchResult.getArray(), (i, rs) -> QueryResultToEntitiesMapper.mapQueryResultToEntities(rs, sqlCompileds[i].getQueryMapping(), this, queries[i].listId), EntityList[]::new));
     }
 
     // String report for debugging

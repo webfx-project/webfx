@@ -25,7 +25,7 @@ final class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUs
         ruleRegistry.addAuthorizationRuleParser(new RoutingAuthorizationRuleParser());
         ruleRegistry.addAuthorizationRuleParser(new OperationAuthorizationRuleParser());
         if (userPrincipal != null)
-            setUpInMemoryAsyncRulesLoading(EntityStore.create(dataSourceModel).executeQuery("select rule.rule,activityState.route from AuthorizationAssignment where active and management.user=?", new Object[]{principal.getUserPersonId()}), ar -> {
+            setUpInMemoryAsyncRulesLoading(EntityStore.create(dataSourceModel).executeQuery("select rule.rule,activityState.route from AuthorizationAssignment where active and management.user=?", principal.getUserPersonId()), ar -> {
                 if (ar.failed())
                     Logger.log(ar.cause());
                 else // When successfully loaded, iterating over the assignments

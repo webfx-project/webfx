@@ -21,7 +21,7 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.shared.orm.entity.Entity;
 
-import static webfx.framework.client.orm.dql.DqlStatement.where;
+import static webfx.framework.shared.orm.dql.DqlStatement.where;
 
 final class DiningAreasActivity extends EventDependentViewDomainActivity implements
         OperationActionFactoryMixin,
@@ -61,7 +61,7 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
                 ),
                 newSeparatorActionGroup(
                         newOperationAction(() -> new CopySelectionRequest(rulesVisualMapper.getSelectedEntities(), rulesVisualMapper.getEntityColumns())),
-                        newOperationAction(() -> new CopyAllRequest(rulesVisualMapper.getCurrentEntityList(), rulesVisualMapper.getEntityColumns()))
+                        newOperationAction(() -> new CopyAllRequest(rulesVisualMapper.getCurrentEntities(), rulesVisualMapper.getEntityColumns()))
                 )));
         return container;
     }
@@ -82,13 +82,13 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
         leftSittingVisualMapper = ReactiveVisualMapper.<DocumentLine>createReactiveChain(this)
                 .always("{class: 'DocumentLine', alias: 'dl', columns: 'resourceConfiguration,count(1)', where: `!cancelled and item.family.code='meals'`, groupBy: 'resourceConfiguration', orderBy: 'resourceConfiguration..name'}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("document.event=?", eventId))
         ;
 
         rightAttendanceVisualMapper = ReactiveVisualMapper.<Attendance>createReactiveChain(this)
                 .always("{class: 'Attendance', alias: 'a', columns: `documentLine.resourceConfiguration,date,count(1)`, where: `present and documentLine.(!cancelled and item.family.code='meals')`, groupBy: 'documentLine.resourceConfiguration,date', orderBy: 'date'}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("documentLine.document.event=?", eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("documentLine.document.event=?", eventId))
         ;
 
         // Building the statistics final display result from the 2 above filters
@@ -97,7 +97,7 @@ final class DiningAreasActivity extends EventDependentViewDomainActivity impleme
         rulesVisualMapper = ReactiveVisualMapper.createPushReactiveChain(this)
                 .always("{class: 'AllocationRule', alias: 'ar', columns: '<default>', orderBy: 'ord,id'}")
                 // Applying the event condition
-                .ifNotNullOtherwiseForceEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
+                .ifNotNullOtherwiseEmpty(pm.eventIdProperty(), eventId -> where("event=?", eventId))
                 // Displaying the result into the rules table through the presentation model
                 .visualizeResultInto(pm.rulesVisualResultProperty())
                 .setVisualSelectionProperty(pm.rulesVisualSelectionProperty())

@@ -5,8 +5,8 @@ import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
-import webfx.framework.shared.orm.expression.sqlcompiler.mapping.QueryColumnToEntityFieldMapping;
-import webfx.framework.shared.orm.expression.sqlcompiler.mapping.QueryRowToEntityMapping;
+import webfx.framework.shared.orm.dql.sqlcompiler.mapping.QueryColumnToEntityFieldMapping;
+import webfx.framework.shared.orm.dql.sqlcompiler.mapping.QueryRowToEntityMapping;
 import webfx.platform.shared.services.query.QueryResult;
 import webfx.platform.shared.util.Dates;
 

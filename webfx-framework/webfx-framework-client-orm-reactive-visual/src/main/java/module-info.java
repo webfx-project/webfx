@@ -10,9 +10,9 @@ module webfx.framework.client.orm.reactive.visual {
     requires webfx.extras.type;
     requires webfx.extras.visual;
     requires webfx.framework.client.i18n;
-    requires webfx.framework.client.orm.dql;
+    requires webfx.framework.client.orm.reactive.dql;
     requires webfx.framework.client.orm.reactive.entities;
-    requires webfx.framework.shared.orm.domain;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.orm.expression;
     requires webfx.framework.shared.util;

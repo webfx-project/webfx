@@ -1,6 +1,6 @@
 package webfx.framework.shared.orm.expression.terms;
 
-import webfx.framework.shared.orm.expression.lci.DataReader;
+import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.extras.type.Type;
 import webfx.extras.type.Types;
 import webfx.platform.shared.util.Strings;
@@ -49,7 +49,7 @@ public final class Constant<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public Object evaluate(T domainObject, DataReader<T> dataReader) {
+    public Object evaluate(T domainObject, DomainReader<T> domainReader) {
         return constantValue;
     }
 

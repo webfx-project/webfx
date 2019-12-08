@@ -12,7 +12,7 @@ module mongoose.frontend.activities.program {
     requires mongoose.client.sectionpanel;
     requires mongoose.client.util;
     requires webfx.framework.client.activity;
-    requires webfx.framework.client.domain;
+    requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.platform.client.windowhistory;
