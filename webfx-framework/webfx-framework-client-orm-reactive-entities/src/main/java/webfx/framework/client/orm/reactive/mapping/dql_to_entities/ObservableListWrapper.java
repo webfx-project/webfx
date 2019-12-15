@@ -1,4 +1,4 @@
-package webfx.framework.client.orm.reactive.mapping.entities_to_objects;
+package webfx.framework.client.orm.reactive.mapping.dql_to_entities;
 
 import javafx.collections.ModifiableObservableListBase;
 import javafx.collections.ObservableList;

@@ -1,4 +1,4 @@
-package webfx.framework.client.orm.reactive.mapping.entities_to_objects;
+package webfx.framework.client.orm.reactive.mapping.dql_to_entities;
 
 import java.util.*;
 
@@ -9,9 +9,9 @@ import java.util.*;
  *
  * @author Bruno Salmon
  */
-final class OptimizedObservableListWrapper<E> extends ObservableListWrapper<E> {
+public final class OptimizedObservableListWrapper<E> extends ObservableListWrapper<E> {
 
-    OptimizedObservableListWrapper() {
+    public OptimizedObservableListWrapper() {
         this(new ArrayList<>());
     }
 

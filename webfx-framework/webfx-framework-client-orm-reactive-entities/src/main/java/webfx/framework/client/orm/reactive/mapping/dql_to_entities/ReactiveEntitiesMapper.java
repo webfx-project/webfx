@@ -3,6 +3,7 @@ package webfx.framework.client.orm.reactive.mapping.dql_to_entities;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import webfx.framework.client.orm.reactive.dql.query.ReactiveDqlQuery;
 import webfx.framework.client.orm.reactive.dql.querypush.ReactiveDqlQueryPush;
 import webfx.framework.shared.orm.dql.sqlcompiler.sql.SqlCompiled;
@@ -21,17 +22,18 @@ import java.util.List;
 public final class ReactiveEntitiesMapper<E extends Entity> implements HasEntityStore, ReactiveEntitiesMapperAPI<E, ReactiveEntitiesMapper<E>> {
 
     private final ReactiveDqlQuery<E> reactiveDqlQuery;
-    protected final ObjectProperty<EntityList<E>> entitiesProperty = new SimpleObjectProperty<EntityList<E>/*GWT*/>() {
+    private final ObjectProperty<EntityList<E>> entitiesProperty = new SimpleObjectProperty<EntityList<E>/*GWT*/>() {
         @Override
         protected void invalidated() {
             scheduleOnEntitiesChanged();
         }
     };
+    private ObservableList<E> observableEntities;
     private List<E> restrictedFilterList;
     private EntityStore store;
-    protected List<Handler<EntityList<E>>> entitiesHandlers = new ArrayList<>();
+    private List<Handler<EntityList<E>>> entitiesHandlers = new ArrayList<>();
     private static int mapperCount = 0;
-    protected Object listId = "reactiveEntitiesMapper-" + ++mapperCount;
+    private Object listId = "reactiveEntitiesMapper-" + ++mapperCount;
 
     public ReactiveEntitiesMapper(ReactiveDqlQuery<E> reactiveDqlQuery) {
         this.reactiveDqlQuery = reactiveDqlQuery;
@@ -50,9 +52,9 @@ public final class ReactiveEntitiesMapper<E extends Entity> implements HasEntity
 
     @Override
     public final EntityStore getStore() {
-        // If not set, we create a new store
+        // If not store has been explicitly set, we implicitly create a new one
         if (store == null)
-            setStore(EntityStore.create(reactiveDqlQuery.getDataSourceModel()));
+            setStore(EntityStore.create(getDataSourceModel()));
         return store;
     }
 
@@ -109,7 +111,7 @@ public final class ReactiveEntitiesMapper<E extends Entity> implements HasEntity
 
     private boolean onEntitiesChangedScheduled;
 
-    protected void scheduleOnEntitiesChanged() {
+    private void scheduleOnEntitiesChanged() {
         if (!onEntitiesChangedScheduled) {
             onEntitiesChangedScheduled = true;
             Platform.runLater(() -> {
@@ -120,7 +122,7 @@ public final class ReactiveEntitiesMapper<E extends Entity> implements HasEntity
         }
     }
 
-    protected void onEntitiesChanged() {
+    private void onEntitiesChanged() {
         //Logger.log("ReactiveEntitiesMapper.onEntityListChanged()");
         EntityList<E> entities = getEntities();
         //entitiesHandlers.forEach(handler -> handler.handle(entities));
@@ -136,6 +138,14 @@ public final class ReactiveEntitiesMapper<E extends Entity> implements HasEntity
         return getStore().getOrCreateEntityList(listId);
     }
 
+    @Override
+    public ObservableList<E> getObservableEntities() {
+        if (observableEntities == null) {
+            observableEntities = new OptimizedObservableListWrapper<>();
+            addEntitiesHandler(entities -> observableEntities.setAll(entities));
+        }
+        return observableEntities;
+    }
 
     /*==================================================================================================================
       ======================================= Classic static factory API ===============================================

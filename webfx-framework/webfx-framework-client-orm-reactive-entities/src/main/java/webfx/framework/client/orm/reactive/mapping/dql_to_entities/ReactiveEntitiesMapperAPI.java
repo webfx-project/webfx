@@ -1,5 +1,6 @@
 package webfx.framework.client.orm.reactive.mapping.dql_to_entities;
 
+import javafx.collections.ObservableList;
 import webfx.framework.client.orm.reactive.dql.query.ReactiveDqlQuery;
 import webfx.framework.client.orm.reactive.dql.query.ReactiveDqlQueryAPI;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
@@ -37,6 +38,10 @@ public interface ReactiveEntitiesMapperAPI<E extends Entity, THIS> extends HasEn
 
     default EntityList<E> getCurrentEntities() {
         return getReactiveEntitiesMapper().getCurrentEntities();
+    }
+
+    default ObservableList<E> getObservableEntities() {
+        return getReactiveEntitiesMapper().getObservableEntities();
     }
 
     default void refreshWhenActive() {

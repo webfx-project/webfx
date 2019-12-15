@@ -2,6 +2,7 @@ package webfx.framework.client.orm.reactive.mapping.entities_to_objects;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import webfx.framework.client.orm.reactive.mapping.dql_to_entities.OptimizedObservableListWrapper;
 import webfx.framework.shared.orm.entity.Entity;
 
 import java.util.ArrayList;
@@ -12,16 +13,12 @@ import java.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public final class ObservableEntitiesToObjectsMapper<E extends Entity, T> {
+final class ObservableEntitiesToObjectsMapper<E extends Entity, T> {
 
     private final ObservableList<E> observableEntities;
     private final ObservableList<T> observableObjects = new OptimizedObservableListWrapper<>();
 
-    public ObservableEntitiesToObjectsMapper(Function<E, T> objectCreator, BiConsumer<E, T> objectUpdater, BiConsumer<E, T> objectDeleter) {
-        this (new OptimizedObservableListWrapper<>(), objectCreator, objectUpdater, objectDeleter);
-    }
-
-    public ObservableEntitiesToObjectsMapper(ObservableList<E> observableEntities, Function<E, T> objectCreator, BiConsumer<E, T> objectUpdater, BiConsumer<E, T> objectDeleter) {
+    ObservableEntitiesToObjectsMapper(ObservableList<E> observableEntities, Function<E, T> objectCreator, BiConsumer<E, T> objectUpdater, BiConsumer<E, T> objectDeleter) {
         this.observableEntities = observableEntities;
         observableEntities.addListener((ListChangeListener<E>) change -> {
             while (change.next()) {
@@ -60,12 +57,12 @@ public final class ObservableEntitiesToObjectsMapper<E extends Entity, T> {
         });
     }
 
-    public ObservableList<T> getObservableObjects() {
-        return observableObjects;
+    ObservableList<E> getObservableEntities() {
+        return observableEntities;
     }
 
-    public void updateFromEntities(List<E> entities) {
-        observableEntities.setAll(entities);
+    ObservableList<T> getObservableObjects() {
+        return observableObjects;
     }
 
 }
