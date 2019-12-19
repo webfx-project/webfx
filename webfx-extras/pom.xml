@@ -18,6 +18,7 @@
         <module>webfx-extras-type</module>
         <module>webfx-extras-label</module>
         <module>webfx-extras-imagestore</module>
+        <module>webfx-extras-materialdesign</module>
 
         <module>webfx-extras-webtext-controls</module>
         <module>webfx-extras-webtext-controls-registry</module>

@@ -445,6 +445,13 @@
     <!-- used by webfx-extras-cell (SOURCE) -->
     <!-- used by webfx-framework-shared-orm-domainmodel (SOURCE) -->
     <source path="webfx/extras/label"/>
+    <!--==========================< webfx-extras-materialdesign >===========================-->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
+    <source path="webfx/framework/client/ui/materialdesign/textfield"/>
+    <source path="webfx/framework/client/ui/materialdesign/util"/>
+    <source path="webfx/framework/client/ui/materialdesign/util/background"/>
+    <source path="webfx/framework/client/ui/materialdesign/util/layout"/>
+    <source path="webfx/framework/client/ui/materialdesign/util/scene"/>
     <!--===============================< webfx-extras-type >================================-->
     <!-- used by webfx-extras-visual (SOURCE) -->
     <!-- used by webfx-framework-shared-orm-expression (SOURCE) -->
@@ -542,10 +549,6 @@
     <!--========================< webfx-framework-client-i18n-json >========================-->
     <!-- used by mongoose-client-i18n (SOURCE) -->
     <source path="webfx/framework/client/services/i18n/spi/impl/json"/>
-    <!--=====================< webfx-framework-client-materialdesign >======================-->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
-    <source path="webfx/framework/client/ui/materialdesign/textfield"/>
-    <source path="webfx/framework/client/ui/materialdesign/util"/>
     <!--====================< webfx-framework-client-orm-reactive-dql >=====================-->
     <!-- used by webfx-framework-client-orm-reactive-entities (SOURCE) -->
     <source path="webfx/framework/client/orm/reactive/call"/>

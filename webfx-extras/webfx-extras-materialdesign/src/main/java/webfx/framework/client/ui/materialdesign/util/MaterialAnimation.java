@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WritableValue;
 import javafx.util.Duration;
-import webfx.framework.client.ui.util.anim.Animations;
 import webfx.kit.util.properties.Properties;
 import webfx.kit.util.properties.Unregisterable;
 import webfx.platform.shared.util.collection.Collections;
@@ -22,6 +21,8 @@ import java.util.Objects;
  */
 public final class MaterialAnimation {
 
+    // Ease out interpolator closer to the web standard than the one proposed in JavaFx (ie Interpolator.EASE_OUT)
+    private final static Interpolator EASE_OUT_INTERPOLATOR = Interpolator.SPLINE(0, .75, .25, 1);
     private final static Duration MATERIAL_ANIMATION_DURATION = Duration.millis(400);
 
     private Timeline timeline;
@@ -38,7 +39,7 @@ public final class MaterialAnimation {
     }
 
     public <T> MaterialAnimation addEaseOut(WritableValue<T> target, T endValue) {
-        return add(target, endValue, Animations.EASE_OUT_INTERPOLATOR);
+        return add(target, endValue, EASE_OUT_INTERPOLATOR);
     }
 
     public <T> MaterialAnimation add(WritableValue<T> target, T endValue, Interpolator interpolator) {

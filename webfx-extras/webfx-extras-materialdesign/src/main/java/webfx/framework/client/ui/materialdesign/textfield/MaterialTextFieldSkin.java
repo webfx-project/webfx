@@ -1,12 +1,12 @@
 package webfx.framework.client.ui.materialdesign.textfield;
 
-import javafx.scene.control.skin.TextFieldSkin;
-import javafx.scene.text.HitInfo;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.control.skin.TextFieldSkin;
 import javafx.scene.layout.Region;
-import webfx.framework.client.ui.util.layout.LayoutUtil;
+import javafx.scene.text.HitInfo;
+import webfx.framework.client.ui.materialdesign.util.layout.LayoutUtil;
 import webfx.platform.shared.util.collection.Collections;
 
 

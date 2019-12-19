@@ -12,13 +12,13 @@ module mongoose.client.personaldetails {
     requires mongoose.client.validation;
     requires mongoose.shared.domainmodel;
     requires mongoose.shared.entities;
+    requires webfx.extras.materialdesign;
     requires webfx.extras.type;
     requires webfx.extras.visual;
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.controls;
     requires webfx.framework.client.controls.entity;
     requires webfx.framework.client.i18n;
-    requires webfx.framework.client.materialdesign;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
     requires webfx.framework.shared.orm.domainmodel;

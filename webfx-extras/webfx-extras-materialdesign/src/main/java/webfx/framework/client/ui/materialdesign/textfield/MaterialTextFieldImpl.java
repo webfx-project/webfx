@@ -12,13 +12,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
-import webfx.framework.client.ui.util.background.BackgroundUtil;
-import webfx.framework.client.ui.materialdesign.util.ComputeBaselineOffsetWithInsetsFunction;
-import webfx.framework.client.ui.materialdesign.util.ComputeHeightWithInsetsFunction;
-import webfx.framework.client.ui.materialdesign.util.LayoutChildrenFunction;
-import webfx.framework.client.ui.materialdesign.util.MaterialAnimation;
-import webfx.framework.client.ui.util.layout.LayoutUtil;
-import webfx.framework.client.ui.util.scene.SceneUtil;
+import webfx.framework.client.ui.materialdesign.util.*;
+import webfx.framework.client.ui.materialdesign.util.background.BackgroundUtil;
+import webfx.framework.client.ui.materialdesign.util.layout.LayoutUtil;
+import webfx.framework.client.ui.materialdesign.util.scene.SceneUtil;
 import webfx.kit.util.properties.Unregisterable;
 import webfx.platform.shared.util.Strings;
 

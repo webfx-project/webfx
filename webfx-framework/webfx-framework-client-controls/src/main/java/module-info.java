@@ -8,11 +8,11 @@ module webfx.framework.client.controls {
     requires javafx.controls;
     requires javafx.graphics;
     requires webfx.extras.imagestore;
+    requires webfx.extras.materialdesign;
     requires webfx.extras.type;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
-    requires webfx.framework.client.materialdesign;
     requires webfx.framework.client.util;
     requires webfx.kit.util;
     requires webfx.lib.controlsfx.validation;
