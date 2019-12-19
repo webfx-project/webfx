@@ -85,7 +85,6 @@
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
     <!-- used by webfx-platform-providers-gwt-emul-javabase (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer-gwt (SOURCE) -->
-    <!-- used by webfx-platform-shared-json-gwt (SOURCE) -->
     <!-- used by webfx-platform-shared-resource-gwt (SOURCE) -->
     <inherits name="com.google.gwt.user.User"/>
     <!--===================================< java-base >====================================-->
@@ -99,19 +98,9 @@
     <inherits name="com.google.gwt.logging.Logging"/>
     <!--==================================< javafx-base >===================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-base (SOURCE) -->
-    <!--============================< webfx-extras-imagestore >=============================-->
-    <!-- used by webfx-framework-client-util (SOURCE) -->
-    <source path="webfx/extras/imagestore"/>
-    <!--=========================< webfx-framework-client-layouts >=========================-->
+    <!--==============================< webfx-extras-flexbox >==============================-->
     <!-- used by webfx-tutorial-service-application (SOURCE) -->
-    <source path="webfx/framework/client/ui/layouts"/>
-    <!--==========================< webfx-framework-client-util >===========================-->
-    <!-- used by webfx-framework-client-layouts (SOURCE) -->
-    <source path="webfx/framework/client/ui/util/anim"/>
-    <source path="webfx/framework/client/ui/util/background"/>
-    <source path="webfx/framework/client/ui/util/border"/>
-    <source path="webfx/framework/client/ui/util/image"/>
-    <source path="webfx/framework/client/ui/util/paint"/>
+    <source path="webfx/extras/flexbox"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <!-- used by webfx-tutorial-service-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-tutorial-service-application-gwt (EMULATION) -->
@@ -155,9 +144,6 @@
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/kit/util/properties"/>
     <source path="webfx/kit/util/properties/conversion"/>
-    <!--============================< webfx-lib-javacupruntime >============================-->
-    <!-- used by webfx-platform-shared-json (SOURCE) -->
-    <source path="java_cup/runtime"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
@@ -177,18 +163,6 @@
     <!--=====================< webfx-platform-shared-appcontainer-gwt >=====================-->
     <!-- used by webfx-tutorial-service-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/shared/services/appcontainer/spi/impl/gwt"/>
-    <!--===========================< webfx-platform-shared-json >===========================-->
-    <!-- used by webfx-framework-client-util (SOURCE) -->
-    <!-- used by webfx-platform-shared-json-gwt (SOURCE) -->
-    <source path="webfx/platform/shared/services/json"/>
-    <source path="webfx/platform/shared/services/json/parser"/>
-    <source path="webfx/platform/shared/services/json/parser/javacup"/>
-    <source path="webfx/platform/shared/services/json/parser/jflex"/>
-    <source path="webfx/platform/shared/services/json/spi"/>
-    <source path="webfx/platform/shared/services/json/spi/impl/listmap"/>
-    <!--=========================< webfx-platform-shared-json-gwt >=========================-->
-    <!-- used by webfx-tutorial-service-application-gwt (IMPLICIT_PROVIDER) -->
-    <source path="webfx/platform/shared/services/json/spi/impl/gwt"/>
     <!--===========================< webfx-platform-shared-log >============================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-client-uischeduler-gwt (SOURCE) -->
@@ -224,7 +198,6 @@
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
-    <!-- used by webfx-platform-shared-json (SOURCE) -->
     <!-- used by webfx-platform-shared-log (SOURCE) -->
     <!-- used by webfx-platform-shared-resource (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown (SOURCE) -->

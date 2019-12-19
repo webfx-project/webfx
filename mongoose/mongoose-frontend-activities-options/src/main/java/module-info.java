@@ -19,6 +19,7 @@ module mongoose.frontend.activities.options {
     requires mongoose.frontend.activities.person;
     requires mongoose.shared.entities;
     requires mongoose.shared.time;
+    requires webfx.extras.flexbox;
     requires webfx.extras.imagestore;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.activity.domain;

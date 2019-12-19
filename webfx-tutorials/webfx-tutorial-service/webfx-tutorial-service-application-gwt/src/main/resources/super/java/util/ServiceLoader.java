@@ -16,7 +16,6 @@ public class ServiceLoader<S> implements Iterable<S> {
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider": return new ServiceLoader<S>(webfx.platform.shared.services.appcontainer.spi.impl.gwt.GwtApplicationContainerProvider::new);
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationJob": return new ServiceLoader<S>();
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer": return new ServiceLoader<S>(webfx.kit.launcher.WebFxKitLauncherModuleInitializer::new, webfx.platform.shared.services.appcontainer.spi.impl.ApplicationJobsStarter::new, webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceModuleInitializer::new);
-            case "webfx.platform.shared.services.json.spi.JsonProvider": return new ServiceLoader<S>(webfx.platform.shared.services.json.spi.impl.gwt.GwtJsonObject::create);
             case "webfx.platform.shared.services.log.spi.LoggerProvider": return new ServiceLoader<S>(webfx.platform.shared.services.log.spi.impl.gwt.GwtLoggerProvider::new);
             case "webfx.platform.shared.services.resource.spi.ResourceServiceProvider": return new ServiceLoader<S>(webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceServiceProvider::new);
             case "webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceBundle": return new ServiceLoader<S>();

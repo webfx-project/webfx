@@ -19,6 +19,7 @@ module mongoose.frontend.activities.cart {
     requires mongoose.frontend.activities.startbooking;
     requires mongoose.shared.domainmodel;
     requires mongoose.shared.entities;
+    requires webfx.extras.flexbox;
     requires webfx.extras.type;
     requires webfx.extras.visual;
     requires webfx.extras.visual.controls.grid;

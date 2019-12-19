@@ -435,6 +435,9 @@
     <source path="webfx/extras/cell/collator"/>
     <source path="webfx/extras/cell/renderer"/>
     <source path="webfx/extras/cell/rowstyle"/>
+    <!--==============================< webfx-extras-flexbox >==============================-->
+    <!-- used by mongoose-frontend-activities-options (SOURCE) -->
+    <source path="webfx/extras/flexbox"/>
     <!--============================< webfx-extras-imagestore >=============================-->
     <!-- used by webfx-extras-cell (SOURCE) -->
     <source path="webfx/extras/imagestore"/>

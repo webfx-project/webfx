@@ -12,7 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import webfx.framework.client.ui.layouts.FlexBox;
+import webfx.extras.flexbox.FlexBox;
 import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.tutorial.service.services.alert.AlertService;
 import webfx.tutorial.service.services.console.Console;

@@ -13,6 +13,7 @@ module mongoose.backend.activities.roomsgraphic {
     requires mongoose.client.presentationmodel;
     requires mongoose.client.util;
     requires mongoose.shared.entities;
+    requires webfx.extras.flexbox;
     requires webfx.extras.imagestore;
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.action;

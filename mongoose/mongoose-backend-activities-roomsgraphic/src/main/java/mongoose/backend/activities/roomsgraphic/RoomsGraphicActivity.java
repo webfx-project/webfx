@@ -30,7 +30,7 @@ import webfx.framework.client.orm.reactive.mapping.entities_to_objects.Individua
 import webfx.framework.client.orm.reactive.mapping.entities_to_objects.ReactiveObjectsMapper;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.action.ActionGroup;
-import webfx.framework.client.ui.layouts.FlexBox;
+import webfx.extras.flexbox.FlexBox;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.kit.util.properties.Properties;

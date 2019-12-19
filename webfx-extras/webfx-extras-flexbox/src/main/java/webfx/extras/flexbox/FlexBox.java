@@ -1,4 +1,4 @@
-package webfx.framework.client.ui.layouts;
+package webfx.extras.flexbox;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;

@@ -104,6 +104,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-extras-flexbox</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-extras-imagestore</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
