@@ -18,6 +18,7 @@
         <module>webfx-framework-client-activity</module>
         <module>webfx-framework-client-controls</module>
         <module>webfx-framework-client-activity-domain</module>
+        <module>webfx-framework-client-controls-entity</module>
         <module>webfx-framework-client-i18n</module>
         <module>webfx-framework-client-i18n-json</module>
         <module>webfx-framework-client-orm-reactive-dql</module>
@@ -29,6 +30,7 @@
         <module>webfx-framework-client-querypush-simple</module>
         <module>webfx-framework-client-uirouter</module>
         <module>webfx-framework-client-util</module>
+        <module>webfx-framework-client-validation</module>
 
         <module>webfx-framework-server-push</module>
         <module>webfx-framework-server-push-simple</module>
@@ -45,7 +47,6 @@
         <module>webfx-framework-shared-push</module>
         <module>webfx-framework-shared-querypush</module>
         <module>webfx-framework-shared-router</module>
-        <module>webfx-framework-client-controls-entity</module>
 
     </modules>
 

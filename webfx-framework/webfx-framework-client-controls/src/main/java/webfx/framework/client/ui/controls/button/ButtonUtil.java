@@ -14,7 +14,7 @@ import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.client.ui.util.border.BorderUtil;
 import webfx.kit.util.properties.Properties;
 import webfx.extras.imagestore.ImageStore;
-import org.controlsfx.control.decoration.GraphicDecoration;
+import webfx.framework.client.ui.validation.controlsfx.control.decoration.GraphicDecoration;
 
 /**
  * @author Bruno Salmon

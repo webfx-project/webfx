@@ -497,6 +497,18 @@
     <source path="webfx/framework/client/ui/util/layout"/>
     <source path="webfx/framework/client/ui/util/paint"/>
     <source path="webfx/framework/client/ui/util/scene"/>
+    <!--=======================< webfx-framework-client-validation >========================-->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
+    <source path="webfx/framework/client/ui/validation/controlsfx/control/decoration"/>
+    <source path="webfx/framework/client/ui/validation/controlsfx/impl"/>
+    <source path="webfx/framework/client/ui/validation/controlsfx/impl/skin"/>
+    <source path="webfx/framework/client/ui/validation/controlsfx/tools"/>
+    <source path="webfx/framework/client/ui/validation/controlsfx/validation"/>
+    <source path="webfx/framework/client/ui/validation/controlsfx/validation/decoration"/>
+    <source path="webfx/framework/client/ui/validation/mvvmfx"/>
+    <source path="webfx/framework/client/ui/validation/mvvmfx/visualization"/>
+    <resource path="webfx/framework/client/ui/validation/controlsfx/images"/>
+    <public includes="webfx/framework/client/ui/validation/controlsfx/images/" path=""/>
     <!--==========================< webfx-framework-shared-authn >==========================-->
     <!-- used by mongoose-client-authn (SOURCE) -->
     <source path="webfx/framework/shared/services/authn"/>
@@ -620,23 +632,9 @@
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/kit/util/properties"/>
     <source path="webfx/kit/util/properties/conversion"/>
-    <!--========================< webfx-lib-controlsfx-validation >=========================-->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
-    <source path="impl/org/controlsfx"/>
-    <source path="impl/org/controlsfx/skin"/>
-    <source path="org/controlsfx/control/decoration"/>
-    <source path="org/controlsfx/tools"/>
-    <source path="org/controlsfx/validation"/>
-    <source path="org/controlsfx/validation/decoration"/>
-    <resource path="impl/org/controlsfx/control/validation"/>
-    <public includes="impl/org/controlsfx/control/validation/" path=""/>
     <!--============================< webfx-lib-javacupruntime >============================-->
     <!-- used by webfx-platform-shared-json (SOURCE) -->
     <source path="java_cup/runtime"/>
-    <!--==========================< webfx-lib-mvvmfx-validation >===========================-->
-    <!-- used by mongoose-client-validation (SOURCE) -->
-    <source path="de/saxsys/mvvmfx/utils/validation"/>
-    <source path="de/saxsys/mvvmfx/utils/validation/visualization"/>
     <!--=========================< webfx-platform-client-storage >==========================-->
     <!-- used by mongoose-client-sessionrecorder (SOURCE) -->
     <!-- used by webfx-platform-client-storage-gwt (SOURCE) -->

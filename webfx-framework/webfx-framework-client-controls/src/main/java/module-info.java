@@ -14,8 +14,8 @@ module webfx.framework.client.controls {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.util;
+    requires webfx.framework.client.validation;
     requires webfx.kit.util;
-    requires webfx.lib.controlsfx.validation;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.util;
 

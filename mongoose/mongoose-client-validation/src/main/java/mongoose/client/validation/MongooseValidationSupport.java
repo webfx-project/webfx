@@ -1,9 +1,9 @@
 package mongoose.client.validation;
 
-import de.saxsys.mvvmfx.utils.validation.ObservableRuleBasedValidator;
-import de.saxsys.mvvmfx.utils.validation.ValidationMessage;
-import de.saxsys.mvvmfx.utils.validation.Validator;
-import de.saxsys.mvvmfx.utils.validation.visualization.ControlsFxVisualizer;
+import webfx.framework.client.ui.validation.mvvmfx.ObservableRuleBasedValidator;
+import webfx.framework.client.ui.validation.mvvmfx.ValidationMessage;
+import webfx.framework.client.ui.validation.mvvmfx.Validator;
+import webfx.framework.client.ui.validation.mvvmfx.visualization.ControlsFxVisualizer;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -28,9 +28,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
-import org.controlsfx.control.decoration.Decoration;
-import org.controlsfx.control.decoration.GraphicDecoration;
-import org.controlsfx.validation.decoration.GraphicValidationDecoration;
+import webfx.framework.client.ui.validation.controlsfx.control.decoration.Decoration;
+import webfx.framework.client.ui.validation.controlsfx.control.decoration.GraphicDecoration;
+import webfx.framework.client.ui.validation.controlsfx.validation.decoration.GraphicValidationDecoration;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.client.ui.util.border.BorderUtil;
 import webfx.framework.client.ui.util.scene.SceneUtil;
@@ -117,7 +117,7 @@ public final class MongooseValidationSupport {
                 }
 
                 @Override
-                protected Collection<Decoration> createValidationDecorations(org.controlsfx.validation.ValidationMessage message) {
+                protected Collection<Decoration> createValidationDecorations(webfx.framework.client.ui.validation.controlsfx.validation.ValidationMessage message) {
                     boolean isTextInput = node instanceof TextInputControl;
                     boolean isButton = node instanceof Button;
                     // isInside flag will determine if we position the decoration inside the node or not (ie outside)

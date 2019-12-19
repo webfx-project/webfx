@@ -1,0 +1,7 @@
+<module>
+
+    <resource-packages>
+        <package>webfx.framework.client.ui.validation.controlsfx.images</package>
+    </resource-packages>
+
+</module>

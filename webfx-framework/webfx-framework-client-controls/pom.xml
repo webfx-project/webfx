@@ -74,13 +74,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-kit-util</artifactId>
+            <artifactId>webfx-framework-client-validation</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-lib-controlsfx-validation</artifactId>
+            <artifactId>webfx-kit-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
