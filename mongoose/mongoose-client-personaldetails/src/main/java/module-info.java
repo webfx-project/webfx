@@ -16,6 +16,7 @@ module mongoose.client.personaldetails {
     requires webfx.extras.visual;
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.controls;
+    requires webfx.framework.client.controls.entity;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.materialdesign;

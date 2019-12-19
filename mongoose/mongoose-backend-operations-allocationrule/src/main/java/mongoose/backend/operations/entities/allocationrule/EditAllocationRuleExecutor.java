@@ -1,7 +1,7 @@
 package mongoose.backend.operations.entities.allocationrule;
 
 import javafx.scene.layout.Pane;
-import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
+import webfx.framework.client.ui.controls.entity.sheet.EntityPropertiesSheet;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.platform.shared.util.async.Future;
 

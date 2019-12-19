@@ -1,7 +1,7 @@
-package webfx.framework.client.ui.controls.sheet;
+package webfx.framework.client.ui.controls.entity.sheet;
 
 import javafx.scene.Node;
-import webfx.framework.client.ui.controls.button.EntityButtonSelector;
+import webfx.framework.client.ui.controls.entity.selector.EntityButtonSelector;
 import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn;
 import webfx.framework.shared.orm.entity.Entities;
 import webfx.framework.shared.orm.entity.Entity;

@@ -56,7 +56,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-controls</artifactId>
+            <artifactId>webfx-framework-client-controls-entity</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

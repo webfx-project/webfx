@@ -16,7 +16,7 @@ module mongoose.backend.activities.income {
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.activity.domain;
-    requires webfx.framework.client.controls;
+    requires webfx.framework.client.controls.entity;
     requires webfx.framework.client.orm.reactive.dql;
     requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;

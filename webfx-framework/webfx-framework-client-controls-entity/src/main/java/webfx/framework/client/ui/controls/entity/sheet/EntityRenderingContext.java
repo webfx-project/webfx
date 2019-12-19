@@ -1,4 +1,4 @@
-package webfx.framework.client.ui.controls.sheet;
+package webfx.framework.client.ui.controls.entity.sheet;
 
 import javafx.scene.layout.Pane;
 import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn;

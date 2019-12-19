@@ -7,31 +7,17 @@ module webfx.framework.client.controls {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires webfx.extras.cell;
     requires webfx.extras.imagestore;
-    requires webfx.extras.label;
     requires webfx.extras.type;
-    requires webfx.extras.visual;
-    requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.materialdesign;
-    requires webfx.framework.client.orm.reactive.entities;
-    requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.util;
-    requires webfx.framework.shared.orm.domainmodel;
-    requires webfx.framework.shared.orm.dql;
-    requires webfx.framework.shared.orm.entity;
-    requires webfx.framework.shared.orm.expression;
-    requires webfx.framework.shared.util;
     requires webfx.kit.util;
     requires webfx.lib.controlsfx.validation;
     requires webfx.platform.client.uischeduler;
-    requires webfx.platform.shared.json;
-    requires webfx.platform.shared.scheduler;
-    requires webfx.platform.shared.update;
     requires webfx.platform.shared.util;
 
     // Exported packages
@@ -39,7 +25,6 @@ module webfx.framework.client.controls {
     exports webfx.framework.client.ui.controls.alert;
     exports webfx.framework.client.ui.controls.button;
     exports webfx.framework.client.ui.controls.dialog;
-    exports webfx.framework.client.ui.controls.sheet;
 
     // Resources packages
     opens images.s16.controls;

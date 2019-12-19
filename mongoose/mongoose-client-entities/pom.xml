@@ -50,6 +50,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-client-controls-entity</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-client-i18n</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

@@ -5,7 +5,6 @@
         <source-modules>
             <module>webfx-framework-client-activity</module>
             <module>webfx-extras-type</module>
-            <module>webfx-platform-shared-update</module>
         </source-modules>
 
     </dependencies>

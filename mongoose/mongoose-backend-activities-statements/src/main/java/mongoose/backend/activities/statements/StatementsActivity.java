@@ -8,8 +8,8 @@ import mongoose.client.activity.eventdependent.EventDependentViewDomainActivity;
 import mongoose.shared.domainmodel.functions.AbcNames;
 import mongoose.shared.entities.MoneyTransfer;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
-import webfx.framework.client.ui.controls.button.ButtonSelector;
-import webfx.framework.client.ui.controls.button.EntityButtonSelector;
+import webfx.framework.client.ui.controls.entity.selector.ButtonSelector;
+import webfx.framework.client.ui.controls.entity.selector.EntityButtonSelector;
 import webfx.framework.shared.orm.entity.Entity;
 
 import static webfx.framework.shared.orm.dql.DqlStatement.where;

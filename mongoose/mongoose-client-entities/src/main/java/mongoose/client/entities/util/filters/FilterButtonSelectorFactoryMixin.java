@@ -8,7 +8,7 @@ import webfx.framework.client.orm.reactive.dql.statement.conventions.HasGroupDql
 import mongoose.shared.entities.Filter;
 import webfx.framework.shared.orm.dql.DqlStatement;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.client.ui.controls.button.EntityButtonSelector;
+import webfx.framework.client.ui.controls.entity.selector.EntityButtonSelector;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.kit.util.properties.Properties;
 

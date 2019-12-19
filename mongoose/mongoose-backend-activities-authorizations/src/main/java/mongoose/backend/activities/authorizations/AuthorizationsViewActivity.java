@@ -9,7 +9,7 @@ import mongoose.client.services.authn.MongooseUserPrincipal;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
-import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
+import webfx.framework.client.ui.controls.entity.sheet.EntityPropertiesSheet;
 import webfx.framework.shared.orm.entity.Entity;
 
 import static webfx.framework.shared.orm.dql.DqlStatement.where;

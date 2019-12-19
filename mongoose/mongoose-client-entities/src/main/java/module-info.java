@@ -10,6 +10,7 @@ module mongoose.client.entities {
     requires mongoose.client.presentationmodel;
     requires mongoose.shared.entities;
     requires webfx.framework.client.controls;
+    requires webfx.framework.client.controls.entity;
     requires webfx.framework.client.i18n;
     requires webfx.framework.client.layouts;
     requires webfx.framework.client.orm.reactive.dql;

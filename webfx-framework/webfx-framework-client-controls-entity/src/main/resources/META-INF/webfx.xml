@@ -1,0 +1,11 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-platform-shared-update</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

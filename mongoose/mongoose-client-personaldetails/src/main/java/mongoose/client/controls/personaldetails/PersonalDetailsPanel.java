@@ -20,7 +20,7 @@ import mongoose.shared.entities.Person;
 import mongoose.shared.entities.markers.HasPersonalDetails;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.client.ui.controls.button.EntityButtonSelector;
+import webfx.framework.client.ui.controls.entity.selector.EntityButtonSelector;
 import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
 import webfx.framework.client.ui.layouts.LayoutUtil;
 import webfx.framework.client.ui.materialdesign.textfield.MaterialTextFieldPane;

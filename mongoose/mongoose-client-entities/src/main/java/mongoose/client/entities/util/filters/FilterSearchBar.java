@@ -10,7 +10,7 @@ import webfx.framework.client.orm.reactive.dql.statement.conventions.HasConditio
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasGroupDqlStatementProperty;
 import mongoose.client.presentationmodel.HasSearchTextProperty;
 import mongoose.shared.entities.Filter;
-import webfx.framework.client.ui.controls.button.EntityButtonSelector;
+import webfx.framework.client.ui.controls.entity.selector.EntityButtonSelector;
 import webfx.framework.client.ui.layouts.SceneUtil;
 
 import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;

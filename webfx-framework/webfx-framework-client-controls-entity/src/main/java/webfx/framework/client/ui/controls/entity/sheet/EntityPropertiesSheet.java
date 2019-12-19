@@ -1,4 +1,4 @@
-package webfx.framework.client.ui.controls.sheet;
+package webfx.framework.client.ui.controls.entity.sheet;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;

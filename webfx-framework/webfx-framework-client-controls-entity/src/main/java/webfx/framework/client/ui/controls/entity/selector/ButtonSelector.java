@@ -1,4 +1,4 @@
-package webfx.framework.client.ui.controls.button;
+package webfx.framework.client.ui.controls.entity.selector;
 
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
@@ -10,6 +10,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import webfx.framework.client.ui.controls.MaterialFactoryMixin;
+import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
+import webfx.framework.client.ui.controls.button.ButtonUtil;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.layouts.LayoutUtil;

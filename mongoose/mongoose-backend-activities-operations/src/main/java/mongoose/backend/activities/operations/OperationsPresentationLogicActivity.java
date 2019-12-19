@@ -3,7 +3,7 @@ package mongoose.backend.activities.operations;
 import javafx.scene.layout.Pane;
 import mongoose.client.activity.MongooseDomainPresentationLogicActivityBase;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
-import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
+import webfx.framework.client.ui.controls.entity.sheet.EntityPropertiesSheet;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.platform.shared.util.function.Factory;

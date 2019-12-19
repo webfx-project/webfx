@@ -48,6 +48,7 @@
         <module>webfx-framework-shared-querypush</module>
         <module>webfx-framework-shared-router</module>
         <module>webfx-framework-shared-util</module>
+        <module>webfx-framework-client-controls-entity</module>
 
     </modules>
 

@@ -1,4 +1,4 @@
-package webfx.framework.client.ui.controls.button;
+package webfx.framework.client.ui.controls.entity.selector;
 
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -16,6 +16,7 @@ import webfx.extras.visual.VisualResult;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntitiesMapper;
+import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.shared.orm.dql.DqlStatement;
 import webfx.framework.shared.orm.dql.DqlStatementBuilder;
 import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn;

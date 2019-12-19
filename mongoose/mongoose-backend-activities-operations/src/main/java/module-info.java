@@ -7,7 +7,7 @@ module mongoose.backend.activities.operations {
     requires mongoose.client.activity;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.activity.domain;
-    requires webfx.framework.client.controls;
+    requires webfx.framework.client.controls.entity;
     requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;

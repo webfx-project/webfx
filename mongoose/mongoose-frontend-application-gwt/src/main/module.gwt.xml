@@ -335,7 +335,6 @@
     <source path="mongoose/shared/businessdata/time"/>
     <!--===============================< webfx-extras-cell >================================-->
     <!-- used by webfx-extras-visual (SOURCE) -->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/extras/cell/collator"/>
     <source path="webfx/extras/cell/renderer"/>
     <source path="webfx/extras/cell/rowstyle"/>
@@ -353,15 +352,14 @@
     <source path="webfx/extras/type"/>
     <!--==============================< webfx-extras-visual >===============================-->
     <!-- used by webfx-extras-visual-controls-grid (SOURCE) -->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/extras/visual"/>
     <source path="webfx/extras/visual/impl"/>
     <!--==========================< webfx-extras-visual-controls >==========================-->
     <!-- used by webfx-extras-visual-controls-grid (SOURCE) -->
     <source path="webfx/extras/visual/controls"/>
     <!--=======================< webfx-extras-visual-controls-grid >========================-->
+    <!-- used by mongoose-client-activity (SOURCE) -->
     <!-- used by webfx-extras-visual-controls-grid-peers-gwt (SOURCE) -->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/extras/visual/controls/grid"/>
     <!--==================< webfx-extras-visual-controls-grid-peers-gwt >===================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
@@ -415,9 +413,12 @@
     <source path="webfx/framework/client/ui/controls/alert"/>
     <source path="webfx/framework/client/ui/controls/button"/>
     <source path="webfx/framework/client/ui/controls/dialog"/>
-    <source path="webfx/framework/client/ui/controls/sheet"/>
     <resource path="images/s16/controls"/>
     <public includes="images/s16/controls/" path=""/>
+    <!--=====================< webfx-framework-client-controls-entity >=====================-->
+    <!-- used by mongoose-client-entities (SOURCE) -->
+    <source path="webfx/framework/client/ui/controls/entity/selector"/>
+    <source path="webfx/framework/client/ui/controls/entity/sheet"/>
     <!--==========================< webfx-framework-client-i18n >===========================-->
     <!-- used by webfx-framework-client-action (SOURCE) -->
     <source path="webfx/framework/client/operations/i18n"/>
@@ -435,7 +436,7 @@
     <source path="webfx/framework/client/ui/materialdesign/textfield"/>
     <source path="webfx/framework/client/ui/materialdesign/util"/>
     <!--====================< webfx-framework-client-orm-reactive-dql >=====================-->
-    <!-- used by webfx-framework-client-orm-reactive-entities (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-reactive-visual (SOURCE) -->
     <source path="webfx/framework/client/orm/reactive/call"/>
     <source path="webfx/framework/client/orm/reactive/call/query"/>
     <source path="webfx/framework/client/orm/reactive/call/query/push"/>
@@ -444,12 +445,12 @@
     <source path="webfx/framework/client/orm/reactive/dql/statement"/>
     <source path="webfx/framework/client/orm/reactive/dql/statement/conventions"/>
     <!--==================< webfx-framework-client-orm-reactive-entities >==================-->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-reactive-visual (SOURCE) -->
     <source path="webfx/framework/client/orm/reactive/mapping/dql_to_entities"/>
     <source path="webfx/framework/client/orm/reactive/mapping/entities_to_grid"/>
     <source path="webfx/framework/client/orm/reactive/mapping/entities_to_objects"/>
     <!--===================< webfx-framework-client-orm-reactive-visual >===================-->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
+    <!-- used by mongoose-client-activity (SOURCE) -->
     <source path="webfx/framework/client/orm/reactive/mapping/entities_to_visual"/>
     <source path="webfx/framework/client/orm/reactive/mapping/entities_to_visual/conventions"/>
     <!--==========================< webfx-framework-client-push >===========================-->

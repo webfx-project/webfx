@@ -2,7 +2,7 @@ package mongoose.backend.operations.entities.moneytransfer;
 
 import javafx.scene.layout.Pane;
 import mongoose.shared.entities.MoneyTransfer;
-import webfx.framework.client.ui.controls.sheet.EntityPropertiesSheet;
+import webfx.framework.client.ui.controls.entity.sheet.EntityPropertiesSheet;
 import webfx.platform.shared.util.async.Future;
 
 final class EditPaymentExecutor {

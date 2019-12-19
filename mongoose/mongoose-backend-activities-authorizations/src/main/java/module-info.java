@@ -10,7 +10,7 @@ module mongoose.backend.activities.authorizations {
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.activity.domain;
-    requires webfx.framework.client.controls;
+    requires webfx.framework.client.controls.entity;
     requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.shared.operation;
