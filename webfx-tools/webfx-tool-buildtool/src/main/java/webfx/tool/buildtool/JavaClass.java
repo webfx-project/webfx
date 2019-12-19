@@ -4,7 +4,7 @@ import webfx.tool.buildtool.util.javacode.JavaCode;
 import webfx.tool.buildtool.util.javacode.OptionalJavaServicesFinder;
 import webfx.tool.buildtool.util.javacode.JavaCodePackagesFinder;
 import webfx.tool.buildtool.util.javacode.RequiredJavaServicesFinder;
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tools.util.reusablestream.ReusableStream;
 
 import java.nio.file.Path;
 

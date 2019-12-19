@@ -1,7 +1,7 @@
 package webfx.tool.buildtool;
 
 import webfx.tool.buildtool.modulefiles.*;
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tools.util.reusablestream.ReusableStream;
 import webfx.tool.buildtool.util.splitfiles.SplitFiles;
 
 import java.nio.file.FileSystems;

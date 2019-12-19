@@ -1,6 +1,6 @@
-package webfx.tool.buildtool.util.reusablestream.impl;
+package webfx.tools.util.reusablestream.impl;
 
-import webfx.tool.buildtool.util.reusablestream.Spliterable;
+import webfx.tools.util.reusablestream.Spliterable;
 
 import java.util.HashSet;
 import java.util.Set;

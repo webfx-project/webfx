@@ -5,7 +5,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tools.util.reusablestream.ReusableStream;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;

@@ -1,6 +1,6 @@
 package webfx.tool.buildtool;
 
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tools.util.reusablestream.ReusableStream;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;

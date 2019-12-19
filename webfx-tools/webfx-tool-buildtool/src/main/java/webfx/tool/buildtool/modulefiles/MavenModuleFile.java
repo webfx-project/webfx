@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import webfx.tool.buildtool.Module;
 import webfx.tool.buildtool.*;
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tools.util.reusablestream.ReusableStream;
 
 import java.nio.file.Path;
 import java.util.*;

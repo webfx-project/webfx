@@ -8,7 +8,7 @@ import webfx.tool.buildtool.ProjectModule;
 import webfx.tool.buildtool.Target;
 import webfx.tool.buildtool.TargetTag;
 import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tools.util.reusablestream.ReusableStream;
 import webfx.tool.buildtool.util.xml.XmlUtil;
 
 import javax.xml.parsers.DocumentBuilder;

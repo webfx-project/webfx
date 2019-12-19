@@ -1,6 +1,6 @@
-package webfx.tool.buildtool.util.reusablestream;
+package webfx.tools.util.reusablestream;
 
-import webfx.tool.buildtool.util.reusablestream.impl.ReusableStreamImpl;
+import webfx.tools.util.reusablestream.impl.ReusableStreamImpl;
 
 import java.util.Arrays;
 import java.util.Collections;

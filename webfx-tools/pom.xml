@@ -15,6 +15,7 @@
     <modules>
         <module>webfx-tool-buildtool</module>
         <module>webfx-tool-emultranslator</module>
+        <module>webfx-tools-util-reusablestream</module>
     </modules>
 
 </project>

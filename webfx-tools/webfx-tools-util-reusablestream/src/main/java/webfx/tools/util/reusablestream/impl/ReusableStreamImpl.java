@@ -1,6 +1,6 @@
-package webfx.tool.buildtool.util.reusablestream.impl;
+package webfx.tools.util.reusablestream.impl;
 
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tools.util.reusablestream.ReusableStream;
 
 import java.util.Iterator;
 import java.util.Spliterator;

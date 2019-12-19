@@ -1,4 +1,4 @@
-package webfx.tool.buildtool.util.reusablestream.impl;
+package webfx.tools.util.reusablestream.impl;
 
 import java.util.Spliterator;
 import java.util.function.Consumer;

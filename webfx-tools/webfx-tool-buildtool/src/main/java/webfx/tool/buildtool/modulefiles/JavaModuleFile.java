@@ -6,7 +6,7 @@ import webfx.tool.buildtool.ModuleDependency;
 import webfx.tool.buildtool.Platform;
 import webfx.tool.buildtool.ProjectModule;
 import webfx.tool.buildtool.util.textfile.TextFileReaderWriter;
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tools.util.reusablestream.ReusableStream;
 
 import java.nio.file.Path;
 import java.util.List;

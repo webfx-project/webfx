@@ -3,7 +3,7 @@ package webfx.tool.buildtool.modulefiles;
 import org.w3c.dom.Node;
 import webfx.tool.buildtool.ModuleDependency;
 import webfx.tool.buildtool.ProjectModule;
-import webfx.tool.buildtool.util.reusablestream.ReusableStream;
+import webfx.tools.util.reusablestream.ReusableStream;
 import webfx.tool.buildtool.util.xml.XmlUtil;
 
 import java.nio.file.Path;
