@@ -51,10 +51,9 @@ final class EventAggregateImpl implements EventAggregate {
     }
 
     private static Object toKey(Object eventId) {
+        eventId = Entities.getPrimaryKey(eventId);
         if (eventId instanceof Number)
             eventId = eventId.toString();
-        else
-            eventId = Entities.getPrimaryKey(eventId);
         return eventId;
     }
 
