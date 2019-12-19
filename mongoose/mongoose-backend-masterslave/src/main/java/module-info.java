@@ -15,10 +15,10 @@ module mongoose.backend.masterslave {
     requires webfx.extras.visual.controls.charts;
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.layouts;
     requires webfx.framework.client.orm.reactive.dql;
     requires webfx.framework.client.orm.reactive.entities;
     requires webfx.framework.client.orm.reactive.visual;
+    requires webfx.framework.client.util;
     requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.entity;

@@ -27,7 +27,7 @@ import mongoose.shared.businessdata.time.DateTimeRange;
 import mongoose.client.entities.util.Labels;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.controls.entity.selector.EntityButtonSelector;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.kit.util.properties.Properties;
 import webfx.extras.imagestore.ImageStore;
 import webfx.platform.shared.util.Booleans;

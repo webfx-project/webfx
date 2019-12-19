@@ -31,7 +31,7 @@ import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
 import webfx.extras.flexbox.FlexBox;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.function.Function;
 import webfx.framework.shared.orm.entity.Entities;

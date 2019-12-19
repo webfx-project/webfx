@@ -19,7 +19,7 @@ import mongoose.frontend.operations.program.RouteToProgramRequest;
 import mongoose.client.actions.MongooseActions;
 import mongoose.client.entities.util.Labels;
 import webfx.framework.client.ui.action.Action;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.framework.client.ui.util.anim.Animations;
 import webfx.kit.util.properties.Properties;
 import webfx.extras.imagestore.ImageStore;

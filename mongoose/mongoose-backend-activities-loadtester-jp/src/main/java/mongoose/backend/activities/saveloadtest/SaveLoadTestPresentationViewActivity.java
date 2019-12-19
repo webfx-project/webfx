@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.client.ui.layouts.SceneUtil;
+import webfx.framework.client.ui.util.scene.SceneUtil;
 
 /**
  * @author Bruno Salmon

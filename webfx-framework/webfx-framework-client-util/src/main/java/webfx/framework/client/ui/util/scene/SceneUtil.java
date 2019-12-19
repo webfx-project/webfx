@@ -1,4 +1,4 @@
-package webfx.framework.client.ui.layouts;
+package webfx.framework.client.ui.util.scene;
 
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -15,16 +15,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Window;
 import webfx.framework.client.ui.util.anim.Animations;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.kit.util.properties.Properties;
 import webfx.kit.util.properties.Unregisterable;
 import webfx.kit.util.properties.UnregisterableListener;
-import webfx.platform.shared.services.scheduler.Scheduled;
-import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.scheduler.Scheduled;
 import webfx.platform.shared.util.Booleans;
-import java.util.function.Consumer;
 import webfx.platform.shared.util.tuples.Unit;
+
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

@@ -20,9 +20,9 @@ module mongoose.backend.activities.options {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.layouts;
     requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;
+    requires webfx.framework.client.util;
     requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.entity;
     requires webfx.kit.util;

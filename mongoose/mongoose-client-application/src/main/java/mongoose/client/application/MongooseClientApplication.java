@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import webfx.framework.client.activity.ActivityManager;
 import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainActivityContext;
-import webfx.framework.client.ui.layouts.SceneUtil;
+import webfx.framework.client.ui.util.scene.SceneUtil;
 import webfx.extras.imagestore.ImageStore;
 import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.kit.util.properties.Properties;

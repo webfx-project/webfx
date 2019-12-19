@@ -17,7 +17,7 @@ import mongoose.shared.entities.Mail;
 import webfx.framework.client.activity.impl.combinations.viewdomain.impl.ViewDomainActivityBase;
 import webfx.framework.client.operations.route.RouteBackwardRequest;
 import webfx.framework.client.ui.action.Action;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.UpdateStore;

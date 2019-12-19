@@ -542,9 +542,6 @@
     <!--========================< webfx-framework-client-i18n-json >========================-->
     <!-- used by mongoose-client-i18n (SOURCE) -->
     <source path="webfx/framework/client/services/i18n/spi/impl/json"/>
-    <!--=========================< webfx-framework-client-layouts >=========================-->
-    <!-- used by webfx-framework-client-controls (SOURCE) -->
-    <source path="webfx/framework/client/ui/layouts"/>
     <!--=====================< webfx-framework-client-materialdesign >======================-->
     <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/materialdesign/textfield"/>
@@ -600,12 +597,14 @@
     <source path="webfx/framework/client/ui/uirouter/uisession"/>
     <source path="webfx/framework/client/ui/uirouter/uisession/impl"/>
     <!--==========================< webfx-framework-client-util >===========================-->
-    <!-- used by webfx-framework-client-layouts (SOURCE) -->
+    <!-- used by webfx-framework-client-controls (SOURCE) -->
     <source path="webfx/framework/client/ui/util/anim"/>
     <source path="webfx/framework/client/ui/util/background"/>
     <source path="webfx/framework/client/ui/util/border"/>
     <source path="webfx/framework/client/ui/util/image"/>
+    <source path="webfx/framework/client/ui/util/layout"/>
     <source path="webfx/framework/client/ui/util/paint"/>
+    <source path="webfx/framework/client/ui/util/scene"/>
     <!--==========================< webfx-framework-shared-authn >==========================-->
     <!-- used by mongoose-client-authn (SOURCE) -->
     <source path="webfx/framework/shared/services/authn"/>

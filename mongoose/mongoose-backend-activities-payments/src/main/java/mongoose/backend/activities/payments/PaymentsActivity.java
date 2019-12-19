@@ -15,7 +15,7 @@ import mongoose.shared.entities.MoneyTransfer;
 import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 
 import static webfx.framework.shared.orm.dql.DqlStatement.where;
 

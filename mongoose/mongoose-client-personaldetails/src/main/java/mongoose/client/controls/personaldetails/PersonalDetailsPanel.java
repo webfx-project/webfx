@@ -22,7 +22,7 @@ import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.entity.selector.EntityButtonSelector;
 import webfx.framework.client.ui.controls.dialog.GridPaneBuilder;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.framework.client.ui.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;

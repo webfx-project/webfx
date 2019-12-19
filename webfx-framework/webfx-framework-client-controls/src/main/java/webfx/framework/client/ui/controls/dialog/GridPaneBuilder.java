@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import static webfx.framework.client.ui.layouts.LayoutUtil.createHGrowable;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.createHGrowable;
 
 /**
  * @author Bruno Salmon

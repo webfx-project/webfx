@@ -19,7 +19,7 @@ import mongoose.client.activity.bookingprocess.BookingProcessActivity;
 import mongoose.client.businessdata.workingdocument.WorkingDocument;
 import mongoose.client.controls.personaldetails.PersonalDetailsPanel;
 import mongoose.frontend.operations.summary.RouteToSummaryRequest;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.client.ui.util.border.BorderUtil;

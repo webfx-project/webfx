@@ -14,8 +14,8 @@ import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
 import webfx.framework.client.ui.controls.button.ButtonUtil;
 import webfx.framework.client.ui.controls.dialog.DialogCallback;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
-import webfx.framework.client.ui.layouts.LayoutUtil;
-import webfx.framework.client.ui.layouts.SceneUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
+import webfx.framework.client.ui.util.scene.SceneUtil;
 import webfx.framework.client.ui.materialdesign.textfield.MaterialTextFieldPane;
 import webfx.framework.client.ui.util.border.BorderUtil;
 import webfx.kit.util.properties.Properties;
@@ -26,7 +26,7 @@ import webfx.platform.shared.services.scheduler.Scheduler;
 import webfx.platform.shared.util.function.Callable;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
-import static webfx.framework.client.ui.layouts.LayoutUtil.*;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.*;
 
 /**
  * @author Bruno Salmon

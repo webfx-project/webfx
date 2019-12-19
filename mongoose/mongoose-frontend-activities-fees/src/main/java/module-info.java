@@ -25,7 +25,6 @@ module mongoose.frontend.activities.fees {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.i18n;
-    requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
     requires webfx.framework.shared.orm.entity;

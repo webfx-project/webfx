@@ -6,7 +6,7 @@ import webfx.framework.client.activity.impl.elementals.presentation.view.impl.Pr
 import webfx.extras.visual.controls.charts.VisualChart;
 import webfx.extras.visual.controls.charts.VisualLineChart;
 
-import static webfx.framework.client.ui.layouts.LayoutUtil.setVGrowable;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.setVGrowable;
 
 /**
  * @author Bruno Salmon

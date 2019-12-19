@@ -1,4 +1,4 @@
-package webfx.framework.client.ui.layouts;
+package webfx.framework.client.ui.util.layout;
 
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;

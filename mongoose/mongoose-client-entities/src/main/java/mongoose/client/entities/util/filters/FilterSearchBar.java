@@ -11,10 +11,10 @@ import webfx.framework.client.orm.reactive.dql.statement.conventions.HasGroupDql
 import mongoose.client.presentationmodel.HasSearchTextProperty;
 import mongoose.shared.entities.Filter;
 import webfx.framework.client.ui.controls.entity.selector.EntityButtonSelector;
-import webfx.framework.client.ui.layouts.SceneUtil;
+import webfx.framework.client.ui.util.scene.SceneUtil;
 
-import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
-import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxHeightToInfinite;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.setHGrowable;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.setMaxHeightToInfinite;
 
 public final class FilterSearchBar {
 

@@ -9,8 +9,8 @@ import javafx.stage.Window;
 import webfx.framework.client.ui.controls.dialog.DialogContent;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
 
-import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxSizeToInfinite;
-import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.setMaxSizeToInfinite;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.setMaxWidthToInfinite;
 
 /**
  * @author Bruno Salmon

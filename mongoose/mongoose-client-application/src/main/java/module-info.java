@@ -23,10 +23,10 @@ module mongoose.client.application {
     requires webfx.framework.client.activity;
     requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.i18n;
-    requires webfx.framework.client.layouts;
     requires webfx.framework.client.push.simple;
     requires webfx.framework.client.querypush.simple;
     requires webfx.framework.client.uirouter;
+    requires webfx.framework.client.util;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.router;
     requires webfx.kit.launcher;

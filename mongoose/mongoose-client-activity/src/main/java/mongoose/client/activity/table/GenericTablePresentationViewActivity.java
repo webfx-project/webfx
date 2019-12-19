@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 import mongoose.client.activity.themes.Theme;
 import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.client.ui.layouts.SceneUtil;
+import webfx.framework.client.ui.util.scene.SceneUtil;
 import webfx.kit.util.properties.Properties;
 import webfx.extras.visual.controls.grid.VisualGrid;
 

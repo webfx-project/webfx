@@ -8,7 +8,7 @@ import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.client.ui.util.border.BorderUtil;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 
 /**
  * @author Bruno Salmon

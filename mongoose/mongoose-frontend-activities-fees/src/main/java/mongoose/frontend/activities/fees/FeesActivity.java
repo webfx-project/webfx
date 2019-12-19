@@ -28,7 +28,7 @@ import webfx.extras.visual.*;
 import webfx.framework.client.services.i18n.Dictionary;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.services.i18n.I18nControls;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.extras.cell.collator.grid.GridCollator;
 import webfx.extras.cell.collator.NodeCollatorRegistry;

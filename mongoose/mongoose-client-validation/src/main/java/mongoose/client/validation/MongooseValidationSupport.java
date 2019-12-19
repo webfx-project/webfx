@@ -33,7 +33,7 @@ import org.controlsfx.control.decoration.GraphicDecoration;
 import org.controlsfx.validation.decoration.GraphicValidationDecoration;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
 import webfx.framework.client.ui.util.border.BorderUtil;
-import webfx.framework.client.ui.layouts.SceneUtil;
+import webfx.framework.client.ui.util.scene.SceneUtil;
 import webfx.kit.util.properties.Properties;
 import webfx.extras.imagestore.ImageStore;
 import webfx.platform.client.services.uischeduler.UiScheduler;

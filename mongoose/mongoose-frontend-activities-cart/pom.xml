@@ -158,12 +158,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-layouts</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-framework-client-orm-reactive-entities</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -177,6 +171,12 @@
         
         <dependency>
             <artifactId>webfx-framework-client-uirouter</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-framework-client-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

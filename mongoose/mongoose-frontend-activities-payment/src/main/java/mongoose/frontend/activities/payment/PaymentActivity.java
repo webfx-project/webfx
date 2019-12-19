@@ -19,7 +19,7 @@ import mongoose.client.entities.util.Labels;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.action.Action;
 import webfx.framework.client.ui.controls.dialog.DialogUtil;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.framework.shared.orm.entity.EntityList;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.EntityStoreQuery;

@@ -10,7 +10,6 @@ module mongoose.client.bookingprocess {
     requires mongoose.client.aggregates;
     requires mongoose.shared.domainmodel;
     requires mongoose.shared.entities;
-    requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
     requires webfx.kit.util;

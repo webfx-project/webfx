@@ -8,7 +8,6 @@ module mongoose.client.validation {
     requires javafx.controls;
     requires javafx.graphics;
     requires webfx.extras.imagestore;
-    requires webfx.framework.client.layouts;
     requires webfx.framework.client.util;
     requires webfx.kit.util;
     requires webfx.lib.controlsfx.validation;

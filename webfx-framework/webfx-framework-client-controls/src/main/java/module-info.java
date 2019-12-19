@@ -12,7 +12,6 @@ module webfx.framework.client.controls {
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.i18n;
-    requires webfx.framework.client.layouts;
     requires webfx.framework.client.materialdesign;
     requires webfx.framework.client.util;
     requires webfx.kit.util;

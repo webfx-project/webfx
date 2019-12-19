@@ -13,7 +13,6 @@ module mongoose.client.activity {
     requires webfx.extras.visual.controls.grid;
     requires webfx.framework.client.activity.domain;
     requires webfx.framework.client.controls;
-    requires webfx.framework.client.layouts;
     requires webfx.framework.client.orm.reactive.dql;
     requires webfx.framework.client.orm.reactive.visual;
     requires webfx.framework.client.uirouter;

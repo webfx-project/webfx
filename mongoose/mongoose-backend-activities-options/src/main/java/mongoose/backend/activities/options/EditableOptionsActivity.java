@@ -33,7 +33,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static webfx.framework.shared.orm.dql.DqlStatement.where;
-import static webfx.framework.client.ui.layouts.LayoutUtil.*;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.*;
 
 /**
  * @author Bruno Salmon

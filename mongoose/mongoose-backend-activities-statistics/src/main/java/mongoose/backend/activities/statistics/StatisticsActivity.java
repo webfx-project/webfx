@@ -19,7 +19,7 @@ import webfx.framework.client.operation.action.OperationActionFactoryMixin;
 import webfx.framework.shared.orm.dql.DqlClause;
 import webfx.framework.shared.orm.dql.DqlStatement;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 
 import static webfx.framework.shared.orm.dql.DqlStatement.where;
 

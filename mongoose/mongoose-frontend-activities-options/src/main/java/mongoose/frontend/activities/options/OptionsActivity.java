@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.setMaxWidthToInfinite;
 
 /**
  * @author Bruno Salmon

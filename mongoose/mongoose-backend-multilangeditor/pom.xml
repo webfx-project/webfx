@@ -55,7 +55,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-client-layouts</artifactId>
+            <artifactId>webfx-framework-client-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

@@ -9,7 +9,7 @@ import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.framework.client.services.i18n.I18n;
 import webfx.framework.client.ui.controls.button.ButtonFactoryMixin;
-import webfx.framework.client.ui.layouts.LayoutUtil;
+import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.kit.util.properties.Properties;
 import webfx.extras.webtext.controls.HtmlTextEditor;
 import webfx.platform.shared.util.Objects;
@@ -24,7 +24,7 @@ import java.util.function.Function;
 
 import static mongoose.client.icons.MongooseIcons.getLanguageIcon32;
 import static webfx.framework.client.ui.action.StandardActionKeys.*;
-import static webfx.framework.client.ui.layouts.LayoutUtil.setMaxPrefSizeToInfinite;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.setMaxPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon

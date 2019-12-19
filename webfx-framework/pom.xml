@@ -20,7 +20,6 @@
         <module>webfx-framework-client-activity-domain</module>
         <module>webfx-framework-client-i18n</module>
         <module>webfx-framework-client-i18n-json</module>
-        <module>webfx-framework-client-layouts</module>
         <module>webfx-framework-client-materialdesign</module>
         <module>webfx-framework-client-orm-reactive-dql</module>
         <module>webfx-framework-client-orm-reactive-entities</module>

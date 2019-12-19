@@ -13,8 +13,8 @@ module mongoose.frontend.activities.program {
     requires mongoose.client.util;
     requires webfx.framework.client.activity;
     requires webfx.framework.client.activity.domain;
-    requires webfx.framework.client.layouts;
     requires webfx.framework.client.uirouter;
+    requires webfx.framework.client.util;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;

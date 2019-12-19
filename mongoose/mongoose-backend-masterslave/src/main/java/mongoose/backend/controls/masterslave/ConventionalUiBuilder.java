@@ -13,7 +13,7 @@ import webfx.framework.client.orm.reactive.mapping.entities_to_visual.convention
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedMasterProperty;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
 
-import static webfx.framework.client.ui.layouts.LayoutUtil.setHGrowable;
+import static webfx.framework.client.ui.util.layout.LayoutUtil.setHGrowable;
 
 public class ConventionalUiBuilder implements UiBuilder {
 
