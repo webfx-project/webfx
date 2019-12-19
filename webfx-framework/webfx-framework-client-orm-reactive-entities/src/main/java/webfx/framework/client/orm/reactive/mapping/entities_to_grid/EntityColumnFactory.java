@@ -6,8 +6,8 @@ import webfx.framework.shared.orm.domainmodel.FieldsGroup;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
-import webfx.framework.shared.util.formatter.Formatter;
-import webfx.framework.shared.util.formatter.FormatterRegistry;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueFormatter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.FormatterRegistry;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;
@@ -26,14 +26,14 @@ public interface EntityColumnFactory {
         return DEFAULT;
     }
 
-    default <E extends Entity> EntityColumn<E> create(String expressionDefinition, Expression<E> expression, Object label, Formatter displayFormatter, JsonObject json) {
+    default <E extends Entity> EntityColumn<E> create(String expressionDefinition, Expression<E> expression, Object label, ValueFormatter displayFormatter, JsonObject json) {
         return new EntityColumnImpl<>(expressionDefinition, expression, label, displayFormatter, json);
     }
 
     default <E extends Entity> EntityColumn<E> create(String jsonOrExpressionDefinition) {
         if (jsonOrExpressionDefinition.startsWith("{"))
             return create(Json.parseObject(jsonOrExpressionDefinition));
-        return create(jsonOrExpressionDefinition, (Formatter) null);
+        return create(jsonOrExpressionDefinition, (ValueFormatter) null);
     }
 
     default <E extends Entity> EntityColumn<E> create(JsonObject json) {
@@ -48,7 +48,7 @@ public interface EntityColumnFactory {
         return create(expressionDefinition, null, options.get("label"), FormatterRegistry.getFormatter(options.getString("format")), options);
     }
 
-    default <E extends Entity> EntityColumn<E> create(String expressionDefinition, Formatter expressionFormatter) {
+    default <E extends Entity> EntityColumn<E> create(String expressionDefinition, ValueFormatter expressionFormatter) {
         return create(expressionDefinition, null, null, expressionFormatter, null);
     }
 

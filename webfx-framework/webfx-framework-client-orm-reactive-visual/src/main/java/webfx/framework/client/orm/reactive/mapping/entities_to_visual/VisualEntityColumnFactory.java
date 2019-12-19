@@ -4,7 +4,7 @@ import webfx.extras.visual.VisualColumn;
 import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumnFactory;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.util.formatter.Formatter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueFormatter;
 import webfx.platform.shared.services.json.JsonObject;
 
 /**
@@ -18,11 +18,11 @@ public interface VisualEntityColumnFactory extends EntityColumnFactory {
         return DEFAULT;
     }
 
-    default <E extends Entity> VisualEntityColumn<E> create(String expressionDefinition, Expression<E> expression, Object label, Formatter displayFormatter, JsonObject json) {
+    default <E extends Entity> VisualEntityColumn<E> create(String expressionDefinition, Expression<E> expression, Object label, ValueFormatter displayFormatter, JsonObject json) {
         return create(expressionDefinition, expression, label, displayFormatter, null, json);
     }
 
-    default <E extends Entity> VisualEntityColumn<E> create(String expressionDefinition, Expression<E> expression, Object label, Formatter displayFormatter, VisualColumn visualColumn, JsonObject json) {
+    default <E extends Entity> VisualEntityColumn<E> create(String expressionDefinition, Expression<E> expression, Object label, ValueFormatter displayFormatter, VisualColumn visualColumn, JsonObject json) {
         return new VisualEntityColumnImpl<>(expressionDefinition, expression, label, displayFormatter, visualColumn, json);
     }
 

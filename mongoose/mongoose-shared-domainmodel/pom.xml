@@ -24,6 +24,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-client-orm-reactive-entities</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-shared-orm-domainmodel</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -43,12 +49,6 @@
         
         <dependency>
             <artifactId>webfx-framework-shared-orm-expression</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-framework-shared-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

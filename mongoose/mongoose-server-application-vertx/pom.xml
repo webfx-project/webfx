@@ -17,6 +17,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>javafx-graphics</artifactId>
+            <groupId>org.openjfx</groupId>
+            <version>${lib.openjfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>mongoose-server-application</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>

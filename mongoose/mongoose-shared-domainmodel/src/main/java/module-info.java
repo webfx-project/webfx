@@ -6,11 +6,11 @@ module mongoose.shared.domainmodel {
     requires java.base;
     requires javafx.base;
     requires webfx.extras.type;
+    requires webfx.framework.client.orm.reactive.entities;
     requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.orm.expression;
-    requires webfx.framework.shared.util;
     requires webfx.platform.shared.datasource;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.query;

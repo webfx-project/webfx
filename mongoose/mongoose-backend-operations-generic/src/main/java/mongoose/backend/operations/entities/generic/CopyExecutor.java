@@ -6,7 +6,7 @@ import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn
 import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumnFactory;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.util.formatter.Formatter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueFormatter;
 import webfx.platform.shared.util.async.Future;
 
 import java.util.ArrayList;
@@ -36,9 +36,9 @@ final class CopyExecutor {
         for (Entity entity : entities) {
             for (EntityColumn<E> textColumn : textColumns) {
                 Object value = entity.evaluate(textColumn.getDisplayExpression());
-                Formatter displayFormatter = textColumn.getDisplayFormatter();
+                ValueFormatter displayFormatter = textColumn.getDisplayFormatter();
                 if (displayFormatter != null)
-                    value = displayFormatter.format(value);
+                    value = displayFormatter.formatValue(value);
                 clipboardString.append(ExportHelper.getTextExpressionValue(value)).append('\t');
             }
             clipboardString.append('\n');

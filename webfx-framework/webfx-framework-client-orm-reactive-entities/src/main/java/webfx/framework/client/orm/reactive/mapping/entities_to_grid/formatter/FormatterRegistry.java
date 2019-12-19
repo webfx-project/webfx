@@ -1,4 +1,4 @@
-package webfx.framework.shared.util.formatter;
+package webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,13 +10,13 @@ import java.util.Map;
  */
 public final class FormatterRegistry {
 
-    private final static Map<String, Formatter> formatters = new HashMap<>();
+    private final static Map<String, ValueFormatter> formatters = new HashMap<>();
 
-    public static void registerFormatter(String formatName, Formatter formatter) {
+    public static void registerFormatter(String formatName, ValueFormatter formatter) {
         formatters.put(formatName, formatter);
     }
 
-    public static Formatter getFormatter(String formatName) {
+    public static ValueFormatter getFormatter(String formatName) {
         return formatters.get(formatName);
     }
 }

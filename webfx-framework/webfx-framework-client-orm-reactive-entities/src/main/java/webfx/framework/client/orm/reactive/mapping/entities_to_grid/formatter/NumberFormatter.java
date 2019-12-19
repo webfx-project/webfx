@@ -1,9 +1,9 @@
-package webfx.framework.shared.util.formatter;
+package webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter;
 
 import webfx.extras.type.PrimType;
 import webfx.extras.type.Type;
 
-public class NumberFormatter implements Formatter, Parser {
+public class NumberFormatter implements ValueFormatter, ValueParser {
 
     public static final NumberFormatter SINGLETON = new NumberFormatter();
 
@@ -11,17 +11,17 @@ public class NumberFormatter implements Formatter, Parser {
     }
 
     @Override
-    public Type getOutputType() {
+    public Type getFormattedValueType() {
         return PrimType.STRING;
     }
 
     @Override
-    public Object format(Object value) {
+    public Object formatValue(Object value) {
         return value == null ? "" : value.toString();
     }
 
     @Override
-    public Object parse(Object value) {
+    public Object parseValue(Object value) {
         if (value == null)
             return null;
         String s = value.toString();

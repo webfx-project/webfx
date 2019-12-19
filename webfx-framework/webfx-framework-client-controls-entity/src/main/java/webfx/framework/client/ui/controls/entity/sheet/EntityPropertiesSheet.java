@@ -18,8 +18,8 @@ import webfx.framework.client.orm.reactive.mapping.entities_to_visual.VisualEnti
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.util.formatter.Formatter;
-import webfx.framework.shared.util.formatter.Parser;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueFormatter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueParser;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.Arrays;
@@ -98,9 +98,9 @@ public final class EntityPropertiesSheet<E extends Entity> extends EntityUpdateD
         for (int i = 0, n = applicableEntityColumns.length; i < n; i++) {
             VisualEntityColumn entityColumn = applicableEntityColumns[i];
             Object modelValue = updateEntity.evaluate(castExpression(entityColumn.getExpression()));
-            Formatter displayFormatter = entityColumn.getDisplayFormatter();
+            ValueFormatter displayFormatter = entityColumn.getDisplayFormatter();
             if (displayFormatter != null)
-                modelValue = displayFormatter.format(modelValue);
+                modelValue = displayFormatter.formatValue(modelValue);
             int j = getApplicableValueRenderingContextIndex(entityColumn);
             ValueRenderingContext context = valueRenderingContexts[j];
             if (context.isReadOnly() || renderingNodes[j] == null) {
@@ -174,15 +174,15 @@ public final class EntityPropertiesSheet<E extends Entity> extends EntityUpdateD
         Object value = valueRenderingContext.getEditedValue();
         Expression<E> expression = castExpression(entityColumn.getExpression());
         // Checking if it is a formatted value
-        Formatter formatter = entityColumn.getDisplayFormatter();
+        ValueFormatter formatter = entityColumn.getDisplayFormatter();
         if (formatter != null) {
             // Parsing the value if applicable
-            if (formatter instanceof Parser)
-                value = ((Parser) formatter).parse(value);
+            if (formatter instanceof ValueParser)
+                value = ((ValueParser) formatter).parseValue(value);
             // Ignoring the new value if it renders the same formatted value as before (this is mainly to prevent
             // update a LocalDateTime if the formatter doesn't display the milliseconds)
             Object previousModelValue = entity.evaluate(expression);
-            if (Objects.equals(formatter.format(value), formatter.format(previousModelValue)))
+            if (Objects.equals(formatter.formatValue(value), formatter.formatValue(previousModelValue)))
                 value = previousModelValue;
         }
         updateEntity.setExpressionValue(expression, value);

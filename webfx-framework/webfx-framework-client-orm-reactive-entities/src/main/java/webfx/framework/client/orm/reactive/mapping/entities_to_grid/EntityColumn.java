@@ -4,7 +4,7 @@ import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainModel;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.util.formatter.Formatter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueFormatter;
 
 /**
  * @author Bruno Salmon
@@ -58,7 +58,7 @@ public interface EntityColumn<E extends Entity> {
     /**
      * @return the formatter to apply after the expression has been evaluated.
      */
-    Formatter getDisplayFormatter();
+    ValueFormatter getDisplayFormatter();
 
     String getName();
 

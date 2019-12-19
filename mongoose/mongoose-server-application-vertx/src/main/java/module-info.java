@@ -4,6 +4,7 @@ module mongoose.server.application.vertx {
 
     // Direct dependencies modules
     requires javafx.base;
+    requires javafx.graphics;
     requires mongoose.server.application;
     requires mongoose.server.systemmetrics.java;
     requires webfx.framework.server.push.simple;

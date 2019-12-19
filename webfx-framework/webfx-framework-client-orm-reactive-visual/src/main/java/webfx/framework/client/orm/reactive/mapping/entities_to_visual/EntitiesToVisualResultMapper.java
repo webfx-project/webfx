@@ -17,7 +17,7 @@ import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.expression.terms.Select;
 import webfx.framework.shared.orm.expression.terms.function.AggregateKey;
-import webfx.framework.shared.util.formatter.Formatter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueFormatter;
 import webfx.platform.shared.util.Arrays;
 
 import java.util.HashMap;
@@ -56,12 +56,12 @@ public final class EntitiesToVisualResultMapper {
                 rsb.setVisualColumn(columnIndex++, visualColumn);
                 // Then setting the column values (including possible formatting)
                 Expression<E> expression = entityColumn.getDisplayExpression();
-                Formatter formatter = entityColumn.getDisplayFormatter();
+                ValueFormatter formatter = entityColumn.getDisplayFormatter();
                 if (entities != null)
                     for (Entity entity : entities) {
                         Object value = entity.evaluate(expression);
                         if (formatter != null)
-                            value = formatter.format(value);
+                            value = formatter.formatValue(value);
                         rsb.setInlineValue(inlineIndex++, value);
                     }
             }

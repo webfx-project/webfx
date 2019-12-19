@@ -28,7 +28,7 @@ import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
 
-import static webfx.framework.shared.util.formatter.FormatterRegistry.registerFormatter;
+import static webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon

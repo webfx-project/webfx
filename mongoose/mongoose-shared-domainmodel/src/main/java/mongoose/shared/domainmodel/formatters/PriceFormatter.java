@@ -1,7 +1,7 @@
 package mongoose.shared.domainmodel.formatters;
 
-import webfx.framework.shared.util.formatter.Formatter;
-import webfx.framework.shared.util.formatter.Parser;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueFormatter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueParser;
 import webfx.extras.type.PrimType;
 import webfx.extras.type.Type;
 import webfx.platform.shared.util.Numbers;
@@ -9,7 +9,7 @@ import webfx.platform.shared.util.Numbers;
 /**
  * @author Bruno Salmon
  */
-public class PriceFormatter implements Formatter, Parser {
+public class PriceFormatter implements ValueFormatter, ValueParser {
 
     public static final PriceFormatter INSTANCE = new PriceFormatter();
 
@@ -24,12 +24,12 @@ public class PriceFormatter implements Formatter, Parser {
     }
 
     @Override
-    public Type getOutputType() {
+    public Type getFormattedValueType() {
         return PrimType.STRING;
     }
 
     @Override
-    public Object format(Object value) {
+    public Object formatValue(Object value) {
         return currencySymbol != null ? formatWithCurrency(value, currencySymbol) : format(value, true);
     }
 
@@ -45,7 +45,7 @@ public class PriceFormatter implements Formatter, Parser {
     }
 
     @Override
-    public Object parse(Object value) {
+    public Object parseValue(Object value) {
         if (value == null || "".equals(value))
             return null;
         return (int) (Numbers.toFloat(value) * 100);

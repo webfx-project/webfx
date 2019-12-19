@@ -23,7 +23,6 @@ module webfx.framework.client.controls.entity {
     requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.entity;
     requires webfx.framework.shared.orm.expression;
-    requires webfx.framework.shared.util;
     requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.json;

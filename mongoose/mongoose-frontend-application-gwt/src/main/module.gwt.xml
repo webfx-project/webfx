@@ -391,7 +391,7 @@
     <source path="webfx/framework/client/ui/action"/>
     <source path="webfx/framework/client/ui/action/impl"/>
     <!--========================< webfx-framework-client-activity >=========================-->
-    <!-- used by mongoose-client-application (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-reactive-dql (SOURCE) -->
     <source path="webfx/framework/client/activity"/>
     <source path="webfx/framework/client/activity/impl"/>
     <source path="webfx/framework/client/activity/impl/composition"/>
@@ -436,7 +436,7 @@
     <source path="webfx/framework/client/ui/materialdesign/textfield"/>
     <source path="webfx/framework/client/ui/materialdesign/util"/>
     <!--====================< webfx-framework-client-orm-reactive-dql >=====================-->
-    <!-- used by webfx-framework-client-orm-reactive-visual (SOURCE) -->
+    <!-- used by webfx-framework-client-orm-reactive-entities (SOURCE) -->
     <source path="webfx/framework/client/orm/reactive/call"/>
     <source path="webfx/framework/client/orm/reactive/call/query"/>
     <source path="webfx/framework/client/orm/reactive/call/query/push"/>
@@ -445,9 +445,10 @@
     <source path="webfx/framework/client/orm/reactive/dql/statement"/>
     <source path="webfx/framework/client/orm/reactive/dql/statement/conventions"/>
     <!--==================< webfx-framework-client-orm-reactive-entities >==================-->
-    <!-- used by webfx-framework-client-orm-reactive-visual (SOURCE) -->
+    <!-- used by mongoose-shared-domainmodel (SOURCE) -->
     <source path="webfx/framework/client/orm/reactive/mapping/dql_to_entities"/>
     <source path="webfx/framework/client/orm/reactive/mapping/entities_to_grid"/>
+    <source path="webfx/framework/client/orm/reactive/mapping/entities_to_grid/formatter"/>
     <source path="webfx/framework/client/orm/reactive/mapping/entities_to_objects"/>
     <!--===================< webfx-framework-client-orm-reactive-visual >===================-->
     <!-- used by mongoose-client-activity (SOURCE) -->
@@ -566,9 +567,6 @@
     <source path="webfx/framework/shared/router/session"/>
     <source path="webfx/framework/shared/router/session/impl"/>
     <source path="webfx/framework/shared/router/util"/>
-    <!--==========================< webfx-framework-shared-util >===========================-->
-    <!-- used by mongoose-shared-domainmodel (SOURCE) -->
-    <source path="webfx/framework/shared/util/formatter"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by mongoose-frontend-application-gwt (EMULATION) -->

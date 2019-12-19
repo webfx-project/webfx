@@ -11,8 +11,8 @@ import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.terms.As;
 import webfx.framework.shared.orm.expression.terms.Dot;
 import webfx.framework.shared.orm.expression.terms.function.Call;
-import webfx.framework.shared.util.formatter.Formatter;
-import webfx.framework.shared.util.formatter.FormatterRegistry;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueFormatter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.FormatterRegistry;
 import webfx.platform.shared.services.json.JsonObject;
 
 import java.util.function.Function;
@@ -25,7 +25,7 @@ public class EntityColumnImpl<E extends Entity> implements EntityColumn<E> {
     private final String expressionDefinition;
     protected Expression<E> expression;
     protected Expression<E> displayExpression;
-    protected Formatter displayFormatter;
+    protected ValueFormatter displayFormatter;
     protected Object label;
     protected final JsonObject json;
     private Boolean isForeignObject;
@@ -38,7 +38,7 @@ public class EntityColumnImpl<E extends Entity> implements EntityColumn<E> {
     private String foreignSearchCondition;
     private Expression<E> applicableCondition;
 
-    protected EntityColumnImpl(String expressionDefinition, Expression<E> expression, Object label, Formatter displayFormatter, JsonObject json) {
+    protected EntityColumnImpl(String expressionDefinition, Expression<E> expression, Object label, ValueFormatter displayFormatter, JsonObject json) {
         this.expressionDefinition = expressionDefinition;
         this.displayFormatter = displayFormatter;
         this.label = label;
@@ -158,7 +158,7 @@ public class EntityColumnImpl<E extends Entity> implements EntityColumn<E> {
     }
 
     @Override
-    public Formatter getDisplayFormatter() {
+    public ValueFormatter getDisplayFormatter() {
         return displayFormatter;
     }
 

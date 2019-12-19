@@ -12,7 +12,7 @@ import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.terms.As;
 import webfx.framework.shared.orm.expression.terms.UnaryExpression;
-import webfx.framework.shared.util.formatter.Formatter;
+import webfx.framework.client.orm.reactive.mapping.entities_to_grid.formatter.ValueFormatter;
 import webfx.platform.shared.services.json.JsonObject;
 
 /**
@@ -22,7 +22,7 @@ public class VisualEntityColumnImpl<E extends Entity> extends EntityColumnImpl<E
 
     private VisualColumn visualColumn;
 
-    public VisualEntityColumnImpl(String expressionDefinition, Expression<E> expression, Object label, Formatter displayFormatter, VisualColumn visualColumn, JsonObject json) {
+    public VisualEntityColumnImpl(String expressionDefinition, Expression<E> expression, Object label, ValueFormatter displayFormatter, VisualColumn visualColumn, JsonObject json) {
         super(expressionDefinition, expression, label, displayFormatter, json);
         this.visualColumn = visualColumn;
     }
@@ -60,7 +60,7 @@ public class VisualEntityColumnImpl<E extends Entity> extends EntityColumnImpl<E
             }
             Type displayType;
             if (displayFormatter != null)
-                displayType = displayFormatter.getOutputType();
+                displayType = displayFormatter.getFormattedValueType();
             else {
                 if (getDisplayExpression() != expression)
                     topRightExpression = getTopRightExpression(displayExpression);
