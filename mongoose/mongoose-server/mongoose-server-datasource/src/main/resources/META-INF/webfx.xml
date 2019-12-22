@@ -1,0 +1,21 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.datasource.spi.LocalDataSourceProvider">mongoose.server.services.datasource.MongooseLocalDataSourceProvider</provider>
+    </providers>
+
+    <resource-packages>
+        <package>mongoose.server.datasource.MDS</package>
+    </resource-packages>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-framework-shared-orm-domainmodel</module>
+            <module>webfx-framework-shared-orm-dql</module>
+            <module>webfx-platform-shared-util</module>
+        </source-modules>
+
+    </dependencies>
+
+</module>

@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.json.spi.JsonProvider">webfx.platform.gwt.services.json.spi.impl.GwtJsonObject</provider>
+    </providers>
+
+</module>

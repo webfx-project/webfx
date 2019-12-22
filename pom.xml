@@ -149,7 +149,7 @@
              * Libraries required for the Webfx platform *
              *********************************************
              Note that java-cup-runtime can't be transpiled as is, so it is replaced with forked and
-             minimized version (webfx-lib-javacupruntime) in webfx-platforms-web (see pom).
+             minimized version (webfx-libs-javacupruntime) in webfx-platforms-web (see pom).
              -->
             <dependency>
                 <groupId>com.github.vbmacher</groupId>

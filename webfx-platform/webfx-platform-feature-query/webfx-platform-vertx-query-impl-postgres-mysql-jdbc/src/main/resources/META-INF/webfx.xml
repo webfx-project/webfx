@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.query.spi.QueryServiceProvider">webfx.platform.vertx.services.query.spi.impl.VertxQueryServiceProvider</provider>
+    </providers>
+
+</module>

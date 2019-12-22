@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="webfx.platform.shared.services.scheduler.spi.SchedulerProvider">webfx.platform.shared.services.scheduler.spi.impl.vertx.VertxSchedulerProvider</provider>
-    </providers>
-
-</module>

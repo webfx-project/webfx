@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.client.services.websocket.spi.WebSocketServiceProvider">webfx.platform.java.services.websocket.spi.impl.JavaWebSocketServiceProvider</provider>
+    </providers>
+
+</module>

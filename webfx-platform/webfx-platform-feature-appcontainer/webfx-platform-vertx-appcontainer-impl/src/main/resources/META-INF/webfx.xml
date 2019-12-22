@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider">webfx.platform.vertx.services.appcontainer.spi.impl.VertxApplicationContainerVerticle</provider>
+    </providers>
+
+</module>

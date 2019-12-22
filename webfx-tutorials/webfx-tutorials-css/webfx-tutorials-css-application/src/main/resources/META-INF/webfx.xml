@@ -1,0 +1,15 @@
+<module>
+
+    <providers>
+        <provider spi="javafx.application.Application">webfx.tutorials.css.CssApplication</provider>
+    </providers>
+
+    <dependencies>
+
+        <resource-modules>
+            <module>webfx-tutorials-css-css</module>
+        </resource-modules>
+
+    </dependencies>
+
+</module>

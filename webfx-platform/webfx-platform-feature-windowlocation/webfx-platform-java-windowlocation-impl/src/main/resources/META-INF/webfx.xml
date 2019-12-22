@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.client.services.windowlocation.spi.WindowLocationProvider">webfx.platform.java.services.windowlocation.spi.impl.JavaWindowLocationProvider</provider>
+    </providers>
+
+</module>

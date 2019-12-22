@@ -1,0 +1,14 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.client.services.websocket.spi.WebSocketServiceProvider">webfx.platform.gwt.services.websocket.spi.impl.GwtWebSocketServiceProvider</provider>
+    </providers>
+
+    <html>
+        <body order="-10">
+            <script type="text/javascript" charset="utf-8" src="webfx/platform/client/services/websocket/spi/impl/gwt/sockjs.min.js"/>
+            <script type="text/javascript" charset="utf-8" src="webfx/platform/client/services/websocket/spi/impl/gwt/sockjs-quickstart.js"/>
+        </body>
+    </html>
+
+</module>

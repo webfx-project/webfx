@@ -1,0 +1,15 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.framework.shared.services.domainmodelloader.spi.DomainModelLoaderProvider">mongoose.shared.services.domainmodel.MongooseDomainModelProvider</provider>
+    </providers>
+
+    <resource-packages>
+        <package>mongoose.shared.domainmodel</package>
+    </resource-packages>
+
+    <embed-resources>
+        <resource>mongoose/shared/domainmodel/DomainModelSnapshot.json</resource>
+    </embed-resources>
+
+</module>

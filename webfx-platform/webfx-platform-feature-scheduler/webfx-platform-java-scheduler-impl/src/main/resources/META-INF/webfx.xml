@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.scheduler.spi.SchedulerProvider">webfx.platform.java.services.scheduler.spi.impl.JavaSchedulerProvider</provider>
+    </providers>
+
+</module>

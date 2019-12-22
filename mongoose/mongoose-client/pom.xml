@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mongoose</artifactId>
+        <groupId>org.webfx</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongoose-client</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+
+        <module>mongoose-client-activities-login</module>
+        <module>mongoose-client-activities-unauthorized</module>
+        <module>mongoose-client-activity</module>
+        <module>mongoose-client-aggregates</module>
+        <module>mongoose-client-application</module>
+        <module>mongoose-client-authn</module>
+        <module>mongoose-client-authz</module>
+        <module>mongoose-client-busconfig</module>
+        <module>mongoose-client-bookingcalendar</module>
+        <module>mongoose-client-bookingoptionspanel</module>
+        <module>mongoose-client-bookingprocess</module>
+        <module>mongoose-client-businesslogic</module>
+        <module>mongoose-client-calendar</module>
+        <module>mongoose-client-css</module>
+        <module>mongoose-client-css-java</module>
+        <module>mongoose-client-css-web</module>
+        <module>mongoose-client-entities</module>
+        <module>mongoose-client-i18n</module>
+        <module>mongoose-client-icons</module>
+        <module>mongoose-client-navigationarrows-java</module>
+        <module>mongoose-client-operationactionsloading</module>
+        <module>mongoose-client-personaldetails</module>
+        <module>mongoose-client-presentationmodel</module>
+        <module>mongoose-client-sectionpanel</module>
+        <module>mongoose-client-sessionrecorder</module>
+        <module>mongoose-client-util</module>
+        <module>mongoose-client-validation</module>
+
+    </modules>
+
+</project>

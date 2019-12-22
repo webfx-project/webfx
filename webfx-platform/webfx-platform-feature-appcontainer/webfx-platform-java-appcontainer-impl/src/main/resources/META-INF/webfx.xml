@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider">webfx.platform.java.services.appcontainer.spi.impl.JavaApplicationContainerProvider</provider>
+    </providers>
+
+</module>

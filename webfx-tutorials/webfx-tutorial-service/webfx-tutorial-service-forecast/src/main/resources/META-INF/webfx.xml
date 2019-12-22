@@ -1,7 +1,0 @@
-<module>
-
-    <resource-packages>
-        <package>webfx.tutorial.service.services.forecast.images</package>
-    </resource-packages>
-
-</module>

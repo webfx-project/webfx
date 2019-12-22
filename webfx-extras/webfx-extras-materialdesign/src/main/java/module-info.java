@@ -11,10 +11,10 @@ module webfx.extras.materialdesign {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.framework.client.ui.materialdesign.textfield;
-    exports webfx.framework.client.ui.materialdesign.util;
-    exports webfx.framework.client.ui.materialdesign.util.background;
-    exports webfx.framework.client.ui.materialdesign.util.layout;
-    exports webfx.framework.client.ui.materialdesign.util.scene;
+    exports webfx.extras.materialdesign.textfield;
+    exports webfx.extras.materialdesign.util;
+    exports webfx.extras.materialdesign.util.background;
+    exports webfx.extras.materialdesign.util.layout;
+    exports webfx.extras.materialdesign.util.scene;
 
 }

@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="webfx.platform.shared.services.shutdown.spi.ShutdownProvider">webfx.platform.shared.services.shutdown.spi.impl.java.JavaShutdownProvider</provider>
-    </providers>
-
-</module>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>webfx-tutorials</artifactId>
+        <groupId>org.webfx</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>webfx-tutorials-service</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>webfx-tutorials-service-alert</module>
+        <module>webfx-tutorials-service-alert-javafx</module>
+        <module>webfx-tutorials-service-alert-gwt</module>
+        <module>webfx-tutorials-service-application</module>
+        <module>webfx-tutorials-service-application-javafx</module>
+        <module>webfx-tutorials-service-application-gwt</module>
+        <module>webfx-tutorials-service-theme</module>
+        <module>webfx-tutorials-service-theme-light</module>
+        <module>webfx-tutorials-service-theme-dark</module>
+        <module>webfx-tutorials-service-theme-colour</module>
+        <module>webfx-tutorials-service-forecast</module>
+        <module>webfx-tutorials-service-forecast-random</module>
+        <module>webfx-tutorials-service-console</module>
+        <module>webfx-tutorials-service-console-java</module>
+        <module>webfx-tutorials-service-console-gwt</module>
+    </modules>
+
+</project>

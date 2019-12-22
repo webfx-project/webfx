@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>webfx-framework</artifactId>
+        <groupId>org.webfx</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>webfx-framework-feature-push</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+
+        <module>webfx-framework-client-push</module>
+        <module>webfx-framework-client-push-simple</module>
+        <module>webfx-framework-client-querypush</module>
+        <module>webfx-framework-client-querypush-simple</module>
+        <module>webfx-framework-server-push</module>
+        <module>webfx-framework-server-push-simple</module>
+        <module>webfx-framework-server-querypush</module>
+        <module>webfx-framework-server-querypush-simple</module>
+        <module>webfx-framework-shared-push</module>
+        <module>webfx-framework-shared-querypush</module>
+
+    </modules>
+
+</project>

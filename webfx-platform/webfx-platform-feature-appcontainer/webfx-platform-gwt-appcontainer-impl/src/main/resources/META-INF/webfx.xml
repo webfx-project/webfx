@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider">webfx.platform.gwt.services.appcontainer.spi.impl.GwtApplicationContainerProvider</provider>
+    </providers>
+
+</module>

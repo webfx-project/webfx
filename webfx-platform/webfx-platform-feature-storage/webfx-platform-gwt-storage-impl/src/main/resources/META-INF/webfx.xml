@@ -1,0 +1,8 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.client.services.storage.spi.LocalStorageProvider">webfx.platform.gwt.services.storage.spi.impl.GwtLocalStorageProvider</provider>
+        <provider spi="webfx.platform.client.services.storage.spi.SessionStorageProvider">webfx.platform.gwt.services.storage.spi.impl.GwtSessionStorageProvider</provider>
+    </providers>
+
+</module>

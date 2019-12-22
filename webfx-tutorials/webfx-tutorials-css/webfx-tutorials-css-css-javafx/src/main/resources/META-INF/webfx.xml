@@ -1,0 +1,7 @@
+<module implements-module="webfx-tutorials-css-css">
+
+    <resource-packages>
+        <package>webfx.tutorials.css.css</package>
+    </resource-packages>
+
+</module>

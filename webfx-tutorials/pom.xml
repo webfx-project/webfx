@@ -13,12 +13,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>webfx-tutorial-helloworld</module>
-        <module>webfx-tutorial-colorfulcircles</module>
-        <module>webfx-tutorial-service</module>
-        <module>webfx-tutorial-responsivedesign</module>
-        <module>webfx-tutorial-customcontrol</module>
-        <module>webfx-tutorial-css</module>
+        <module>webfx-tutorials-helloworld</module>
+        <module>webfx-tutorials-colorfulcircles</module>
+        <module>webfx-tutorials-service</module>
+        <module>webfx-tutorials-responsivedesign</module>
+        <module>webfx-tutorials-customcontrol</module>
+        <module>webfx-tutorials-css</module>
     </modules>
 
 </project>

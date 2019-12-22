@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.shutdown.spi.ShutdownProvider">webfx.platform.gwt.services.shutdown.spi.impl.GwtShutdownProvider</provider>
+    </providers>
+
+</module>

@@ -1,0 +1,15 @@
+<module>
+
+    <dependencies>
+
+        <plugin-modules>
+            <module>mongoose-server-datasource</module>
+            <module>mongoose-server-sessioncloser</module>
+            <module>mongoose-server-systemmetrics</module>
+            <module>webfx-framework-shared-querypush</module>
+            <module>webfx-platform-shared-buscalljob</module>
+        </plugin-modules>
+
+    </dependencies>
+
+</module>

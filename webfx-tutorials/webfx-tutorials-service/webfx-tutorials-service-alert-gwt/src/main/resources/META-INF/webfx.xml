@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.tutorials.service.services.alert.spi.AlertServiceProvider">webfx.tutorials.service.services.alert.spi.impl.gwt.GwtAlertServiceProvider</provider>
+    </providers>
+
+</module>

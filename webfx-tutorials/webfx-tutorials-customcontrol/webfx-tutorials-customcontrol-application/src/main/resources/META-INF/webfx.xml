@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="javafx.application.Application">webfx.tutorials.customcontrol.CustomControlApplication</provider>
+    </providers>
+
+</module>

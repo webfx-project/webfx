@@ -1,0 +1,19 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-framework-client-action</module>
+            <module>webfx-framework-client-activity</module>
+            <module>webfx-kit-javafxcontrols-emul</module>
+            <module>webfx-platform-shared-util</module>
+        </source-modules>
+
+    </dependencies>
+
+    <providers>
+        <provider spi="webfx.framework.client.ui.uirouter.UiRoute">mongoose.backend.activities.diningareas.DiningAreasUiRoute</provider>
+        <provider spi="webfx.framework.client.operations.route.RouteRequestEmitter">mongoose.backend.activities.diningareas.RouteToDiningAreasRequestEmitter</provider>
+    </providers>
+
+</module>

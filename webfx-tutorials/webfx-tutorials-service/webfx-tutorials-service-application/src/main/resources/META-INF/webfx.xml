@@ -1,0 +1,15 @@
+<module>
+
+    <dependencies>
+
+        <source-modules>
+            <module>webfx-platform-shared-util</module>
+        </source-modules>
+
+    </dependencies>
+
+    <providers>
+        <provider spi="javafx.application.Application">webfx.tutorials.service.ForecastServiceApplication</provider>
+    </providers>
+
+</module>

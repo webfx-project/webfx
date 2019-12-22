@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mongoose</artifactId>
+        <groupId>org.webfx</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongoose-backend</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+
+        <module>mongoose-backend-activities-authorizations</module>
+        <module>mongoose-backend-activities-bookings</module>
+        <module>mongoose-backend-activities-cloneevent</module>
+        <module>mongoose-backend-activities-cloneevent-routing</module>
+        <module>mongoose-backend-activities-diningareas</module>
+        <module>mongoose-backend-activities-events</module>
+        <module>mongoose-backend-activities-income</module>
+        <module>mongoose-backend-activities-letter</module>
+        <module>mongoose-backend-activities-letters</module>
+        <module>mongoose-backend-activities-monitor</module>
+        <module>mongoose-backend-activities-operations</module>
+        <module>mongoose-backend-activities-options</module>
+        <module>mongoose-backend-activities-organizations</module>
+        <module>mongoose-backend-activities-payments</module>
+        <module>mongoose-backend-activities-roomsgraphic</module>
+        <module>mongoose-backend-activities-statements</module>
+        <module>mongoose-backend-activities-statistics</module>
+        <module>mongoose-backend-activities-users</module>
+        <module>mongoose-backend-application</module>
+        <module>mongoose-backend-bookingdetailspanel</module>
+        <module>mongoose-backend-masterslave</module>
+        <module>mongoose-backend-multilangeditor</module>
+        <module>mongoose-backend-operations-allocationrule</module>
+        <module>mongoose-backend-operations-document</module>
+        <module>mongoose-backend-operations-documentline</module>
+        <module>mongoose-backend-operations-generic</module>
+        <module>mongoose-backend-operations-mail</module>
+        <module>mongoose-backend-operations-moneytransfer</module>
+        <module>mongoose-backend-operations-resourceconfiguration</module>
+
+    </modules>
+
+    <profiles>
+        <!-- JRE profiles (JavaFx) -->
+        <profile>
+            <id>mongoose-backend-application-javafx</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-application-javafx</module>
+            </modules>
+        </profile>
+
+        <!-- Web profiles (GWT, TeaVM) -->
+        <profile>
+            <id>mongoose-backend-application-gwt</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-application-gwt</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>mongoose-backend-activities-loadtester-jp</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-activities-loadtester-jp</module>
+            </modules>
+        </profile>
+
+    </profiles>
+
+</project>

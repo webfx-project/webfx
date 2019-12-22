@@ -1,8 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceModuleInitializer</provider>
-        <provider spi="webfx.platform.shared.services.resource.spi.ResourceServiceProvider">webfx.platform.shared.services.resource.spi.impl.gwt.GwtResourceServiceProvider</provider>
-    </providers>
-
-</module>
