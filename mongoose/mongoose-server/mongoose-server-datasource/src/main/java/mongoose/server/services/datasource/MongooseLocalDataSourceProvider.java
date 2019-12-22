@@ -35,7 +35,7 @@ public final class MongooseLocalDataSourceProvider implements LocalDataSourcePro
         );
         if (connectionDetails == null)
             Logger.log("WARNING: No connection details found for Mongoose data source (please check " + connectionPath + ")");
-        MONGOOSE_DATA_SOURCE = new SimpleLocalDataSource(dataSourceId, dbms, connectionDetails, MongooseDataSourceModel.get()::translateQuery);
+        MONGOOSE_DATA_SOURCE = new SimpleLocalDataSource(dataSourceId, dbms, connectionDetails, MongooseDataSourceModel.get()::translateQuery, MongooseDataSourceModel.get()::translateUpdate);
     }
 
     @Override

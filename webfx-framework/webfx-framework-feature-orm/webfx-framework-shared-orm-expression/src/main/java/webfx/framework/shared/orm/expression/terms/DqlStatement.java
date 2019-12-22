@@ -87,4 +87,36 @@ public abstract class DqlStatement<T> {
         return getDefinition();
     }
 
+    // Some Strings static methods helpers
+
+    protected static String _if(boolean condition, String s) {
+        return condition && s!= null ? s : "";
+    }
+
+    protected static String _ifNotEmpty(Object s, StringBuilder sb) {
+        return _if(null, s, null, sb);
+    }
+
+    protected static String _if(String before, Object s, StringBuilder sb) {
+        return _if(before, s, null, sb);
+    }
+
+    protected static String _if(Object s, String after, StringBuilder sb) {
+        return _if(null, s, after, sb);
+    }
+
+    protected static String _if(String before, Object s, String after, StringBuilder sb) {
+        if (s != null) {
+            if (before != null)
+                sb.append(before);
+            if (s instanceof Expression)
+                ((Expression) s).toString(sb);
+            else
+                sb.append(s);
+            if (after != null)
+                sb.append(after);
+        }
+        return "";
+    }
+
 }

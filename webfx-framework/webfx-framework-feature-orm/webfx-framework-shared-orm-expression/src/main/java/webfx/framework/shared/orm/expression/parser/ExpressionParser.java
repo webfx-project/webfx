@@ -2,14 +2,15 @@ package webfx.framework.shared.orm.expression.parser;
 
 import java_cup.runtime.Symbol;
 import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.terms.ExpressionArray;
-import webfx.framework.shared.orm.expression.terms.Select;
 import webfx.framework.shared.orm.expression.builder.BuilderThreadContext;
+import webfx.framework.shared.orm.expression.builder.terms.DqlOrderBuilder;
 import webfx.framework.shared.orm.expression.builder.terms.ExpressionBuilder;
-import webfx.framework.shared.orm.expression.builder.terms.SelectBuilder;
 import webfx.framework.shared.orm.expression.parser.javacup.JavaCupExpressionParser;
 import webfx.framework.shared.orm.expression.parser.jflex.ExpressionLexer;
 import webfx.framework.shared.orm.expression.parser.lci.ParserDomainModelReader;
+import webfx.framework.shared.orm.expression.terms.DqlStatement;
+import webfx.framework.shared.orm.expression.terms.ExpressionArray;
+import webfx.framework.shared.orm.expression.terms.Select;
 
 import java.io.StringReader;
 
@@ -47,11 +48,15 @@ public final class ExpressionParser {
     }
 
     public static <E> Select<E> parseSelect(String definition, ParserDomainModelReader modelReader) {
+        return (Select<E>) parseStatement(definition, modelReader);
+    }
+
+    public static <E> DqlStatement<E> parseStatement(String definition, ParserDomainModelReader modelReader) {
         try (BuilderThreadContext context = BuilderThreadContext.open(modelReader)) {
             java_cup.runtime.Symbol symbol = parseWithJavaCup(definition);
-            SelectBuilder selectBuilder = (SelectBuilder) symbol.value;
-            selectBuilder.definition = definition;
-            return selectBuilder.build();
+            DqlOrderBuilder builder = (DqlOrderBuilder) symbol.value;
+            builder.definition = definition;
+            return builder.build();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

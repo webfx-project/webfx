@@ -5,6 +5,7 @@ import webfx.framework.shared.orm.dql.sqlcompiler.ExpressionSqlCompiler;
 import webfx.framework.shared.orm.dql.sqlcompiler.lci.CompilerDomainModelReader;
 import webfx.framework.shared.orm.dql.sqlcompiler.sql.SqlCompiled;
 import webfx.framework.shared.orm.dql.sqlcompiler.sql.dbms.DbmsSqlSyntax;
+import webfx.framework.shared.orm.expression.terms.DqlStatement;
 import webfx.framework.shared.orm.expression.terms.Select;
 import webfx.framework.shared.services.domainmodelloader.DomainModelLoaderService;
 import webfx.platform.shared.services.log.Logger;
@@ -68,5 +69,24 @@ public final class DataSourceModel implements HasDomainModel {
         if ("DQL".equalsIgnoreCase(queryLang))
             return parseAndCompileSelect(query).getSql();
         return query;
+    }
+
+    public SqlCompiled parseAndCompileUpdate(String stringUpdate) {
+        SqlCompiled sqlCompiled = sqlCompiledCache.get(stringUpdate);
+        if (sqlCompiled != null)
+            Logger.log("Reusing cached sql compiled! :-)");
+        else
+            sqlCompiledCache.put(stringUpdate, sqlCompiled = compileUpdate(getDomainModel().parseStatement(stringUpdate)));
+        return sqlCompiled;
+    }
+
+    public SqlCompiled compileUpdate(DqlStatement<?> statement) {
+        return ExpressionSqlCompiler.compileStatement(statement, getDbmsSqlSyntax(), getCompilerDomainModelReader());
+    }
+
+    public String translateUpdate(String updateLang, String update) {
+        if ("DQL".equalsIgnoreCase(updateLang))
+            return parseAndCompileUpdate(update).getSql();
+        return update;
     }
 }

@@ -24,7 +24,8 @@ final class ChangeResourceConfigurationItemExecutor {
     private static Future<Void> execute(Entity resourceConfiguration, Pane parentContainer, String itemFamilyCode, EntityId siteId) {
         Future<Void> future = Future.future();
         DataSourceModel dataSourceModel = resourceConfiguration.getStore().getDataSourceModel();
-        EntityButtonSelector<Item> itemSelector = new EntityButtonSelector<>("{class: `Item`, alias: `i`, where: `family.code='" + itemFamilyCode + "' and exists(select Option where item=i and site=" + siteId.getPrimaryKey() + ")`, orderBy: `ord,id`}", new ButtonFactoryMixin() {}, parentContainer, dataSourceModel);
+        EntityButtonSelector<Item> itemSelector = new EntityButtonSelector<>("{class: `Item`, alias: `i`, where: `family.code='" + itemFamilyCode + "' and exists(select Option where item=i and site=" + siteId.getPrimaryKey() + ")`, orderBy: `ord,id`}", new ButtonFactoryMixin() {
+        }, parentContainer, dataSourceModel);
         itemSelector.setShowMode(ButtonSelector.ShowMode.MODAL_DIALOG);
         itemSelector.showDialog();
         itemSelector.setCloseHandler(() -> {
@@ -38,14 +39,16 @@ final class ChangeResourceConfigurationItemExecutor {
                 DialogUtil.armDialogContentButtons(dialogContent, dialogCallback -> {
                     UpdateStore updateStore = UpdateStore.create(dataSourceModel);
                     updateStore.updateEntity(resourceConfiguration).setForeignField("item", selectedItem);
-                    updateStore.executeUpdate(new UpdateArgument("select set_transaction_parameters(true)", dataSourceModel.getDataSourceId())).setHandler(ar -> {
-                        if (ar.failed())
-                            dialogCallback.showException(ar.cause());
-                        else {
-                            dialogCallback.closeDialog();
-                            future.complete();
-                        }
-                    });
+                    updateStore.executeUpdate(new UpdateArgument(dataSourceModel.getDataSourceId(),
+                            "select set_transaction_parameters(true)"))
+                            .setHandler(ar -> {
+                                if (ar.failed())
+                                    dialogCallback.showException(ar.cause());
+                                else {
+                                    dialogCallback.closeDialog();
+                                    future.complete();
+                                }
+                            });
                 });
             }
         });

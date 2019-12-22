@@ -46,7 +46,8 @@ public final class SystemMetricsRecorderJob implements ApplicationJob {
 
         // Deleting old metrics records (older than 1 day) regularly (every 12h)
         metricsCleaningPeriodicTimer = Scheduler.schedulePeriodic(12 * 3600 * 1000, () ->
-            UpdateService.executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, dataSourceModel.getDataSourceId())).setHandler(ar -> {
+            UpdateService.executeUpdate(new UpdateArgument(dataSourceModel.getDataSourceId(),
+                    "delete from metrics where lt_test_set_id is null and date < ?", Instant.now().minus(1, ChronoUnit.DAYS))).setHandler(ar -> {
                 if (ar.failed())
                     Logger.log("Deleting metrics in database failed!", ar.cause());
                 else

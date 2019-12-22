@@ -3,6 +3,7 @@ package webfx.framework.shared.orm.domainmodel;
 import webfx.framework.shared.orm.domainmodel.lciimpl.ParserDomainModelReaderImpl;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.parser.ExpressionParser;
+import webfx.framework.shared.orm.expression.terms.DqlStatement;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.expression.terms.Select;
 
@@ -44,5 +45,9 @@ public final class DomainModel {
 
     public <T> Select<T> parseSelect(String definition) {
         return ExpressionParser.parseSelect(definition, parserDomainModelReader);
+    }
+
+    public <T> DqlStatement<T> parseStatement(String definition) {
+        return ExpressionParser.parseStatement(definition, parserDomainModelReader);
     }
 }

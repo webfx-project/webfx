@@ -19,7 +19,8 @@ public final class MongooseServerUnresponsiveClientSessionCloserJob implements A
     public void onStart() {
         Object dataSourceId = MongooseDataSourceModel.getDataSourceId();
         PushServerService.addUnresponsivePushClientListener(disconnectListener = pushClientId ->
-                UpdateService.executeUpdate(new UpdateArgument("update session_connection set \"end\"=now() where process_id=?", new Object[]{pushClientId}, dataSourceId))
+                UpdateService.executeUpdate(new UpdateArgument(dataSourceId, "DQL",
+                        "update SessionConnection set end=now() where process=?", pushClientId))
                         .setHandler(ar -> {
                             if (ar.failed())
                                 Logger.log("Error while closing session for pushClientId=" + pushClientId, ar.cause());

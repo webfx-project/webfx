@@ -21,4 +21,15 @@ public final class Insert<T> extends DqlStatement<T> {
     public ExpressionArray<T> getSetClause() {
         return setClause;
     }
+
+    @Override
+    public String toString() {
+        return toString(new StringBuilder()).toString();
+    }
+
+    public StringBuilder toString(StringBuilder sb) {
+        return sb.append("insert ")
+                .append(_ifNotEmpty(getDomainClass(), sb)).append(_if(" ", domainClassAlias, "", sb))
+                .append(_if(" set ", setClause, sb));
+    }
 }

@@ -10,10 +10,6 @@ import webfx.platform.shared.services.update.spi.impl.LocalUpdateServiceProvider
  */
 public final class VertxUpdateServiceProvider extends LocalUpdateServiceProvider {
 
-    public VertxUpdateServiceProvider() {
-        System.out.println("!!!");
-    }
-
     @Override
     protected UpdateServiceProvider createConnectedUpdateService(LocalDataSource localDataSource) {
         return new VertxLocalConnectedQueryUpdateServiceProvider(localDataSource);

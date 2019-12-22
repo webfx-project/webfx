@@ -38,12 +38,14 @@ final class SetEntityFieldExecutor {
                 UpdateStore updateStore = UpdateStore.createAbove(entity.getStore());
                 Entity updateEntity = updateStore.updateEntity(entity);
                 leftExpression.setValue(updateEntity, rightExpression.evaluate(updateEntity, updateStore.getEntityDataWriter()), updateStore.getEntityDataWriter());
-                updateStore.executeUpdate(new UpdateArgument("select set_transaction_parameters(true)", entity.getStore().getDataSourceId())).setHandler(ar2 -> {
-                    if (ar2.failed())
-                        reportException(dialogCallback, parentContainer, ar2.cause());
-                    else if (dialogCallback != null)
-                        dialogCallback.closeDialog();
-                });
+                updateStore.executeUpdate(new UpdateArgument(entity.getStore().getDataSourceId(),
+                        "select set_transaction_parameters(true)"))
+                        .setHandler(ar2 -> {
+                            if (ar2.failed())
+                                reportException(dialogCallback, parentContainer, ar2.cause());
+                            else if (dialogCallback != null)
+                                dialogCallback.closeDialog();
+                        });
             }
         });
     }

@@ -75,6 +75,9 @@ OrderBy = [Oo][Rr][Dd][Ee][Rr]{WhiteSpace}+[Bb][Yy]
     "first"                        { return symbol(FIRST); }
     "last"                         { return symbol(LAST); }
     "limit"                        { return symbol(LIMIT); }
+    "insert"                       { return symbol(INSERT); }
+    "update"                       { return symbol(UPDATE); }
+    "set"                          { return symbol(SET); }
     "exists"                       { return symbol(EXISTS); }
     "is"                           { return symbol(IS); }
     "like"                         { return symbol(LIKE); }

@@ -44,7 +44,7 @@ public final class Select<T> extends DqlStatement<T> {
 
     @Override
     public String toString() {
-        return toString( new StringBuilder()).toString();
+        return toString(new StringBuilder()).toString();
     }
 
     public StringBuilder toString(StringBuilder sb) {
@@ -57,37 +57,5 @@ public final class Select<T> extends DqlStatement<T> {
                 .append(_if(" having ", having, sb))
                 .append(_if(" order by ", orderBy, sb))
                 .append(_if(" limit ", limit, sb));
-    }
-
-    // Some Strings static methods helpers
-
-    public static String _if(boolean condition, String s) {
-        return condition && s!= null ? s : "";
-    }
-
-    private static String _ifNotEmpty(Object s, StringBuilder sb) {
-        return _if(null, s, null, sb);
-    }
-
-    private static String _if(String before, Object s, StringBuilder sb) {
-        return _if(before, s, null, sb);
-    }
-
-    private static String _if(Object s, String after, StringBuilder sb) {
-        return _if(null, s, after, sb);
-    }
-
-    private static String _if(String before, Object s, String after, StringBuilder sb) {
-        if (s != null) {
-            if (before != null)
-                sb.append(before);
-            if (s instanceof Expression)
-                ((Expression) s).toString(sb);
-            else
-                sb.append(s);
-            if (after != null)
-                sb.append(after);
-        }
-        return "";
     }
 }

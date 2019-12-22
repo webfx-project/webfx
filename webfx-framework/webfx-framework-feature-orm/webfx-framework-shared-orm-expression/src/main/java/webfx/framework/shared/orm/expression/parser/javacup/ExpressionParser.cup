@@ -67,7 +67,7 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).*/
 terminal          EXPR_START;
-terminal          SELECT, DISTINCT, FROM, WHERE, GROUP_BY, HAVING, ORDER_BY, DESC, ASC, NULLS, FIRST, LAST, LIMIT, EXISTS, IS, LIKE, IN, AS, ANY, ALL, THIS;
+terminal          SELECT, DISTINCT, FROM, WHERE, GROUP_BY, HAVING, ORDER_BY, DESC, ASC, NULLS, FIRST, LAST, LIMIT, INSERT, UPDATE, SET, EXISTS, IS, LIKE, IN, AS, ANY, ALL, THIS;
 terminal          OBJ_STATE, IMAGE;
 terminal          LPAREN, RPAREN, LBRACK, RBRACK, COLON, COMMA, DOT, LCURLY, RCURLY;
 terminal          PLUS, MINUS, MULT, DIV, EQ, GT, LT, NOT, QUESTION, EQEQ, LTEQ, GTEQ, NOTEQ, AND, OR;
@@ -79,6 +79,8 @@ terminal String   STRING, IDENTIFIER;
 /* Non terminals used in the grammar section.*/
 non terminal Object                       parser_start;
 non terminal SelectBuilder                select_query, select_start, select_distinct, select_class, select_where, select_group, select_order, select_limit;
+non terminal InsertBuilder                insert_statement, insert_start, insert_class, insert_set;
+non terminal UpdateBuilder                update_statement, update_start, update_class, update_set, update_where;
 non terminal ExpressionBuilder            expr, expr_list_token, expr_or_list, left_dot, list_dot, list_dot_right, field_dot, field_dot_right, expr_dot, expr_dot_right, field, fields_group, val, constant, parameter, ordered, ordered_nulls;
 non terminal ExpressionArrayBuilder       expr_list, expr2_list, val_list, order_list;
 non terminal JsonObjectExpressionBuilder  json_token_list;
@@ -87,7 +89,7 @@ non terminal Boolean                      dot_op;
 /* -------------Precedence and Associatively of Terminals Section----------- */
    
 // precedence nonassoc QUESTION;
-precedence nonassoc SELECT, DISTINCT, FROM, WHERE, GROUP_BY, HAVING, ORDER_BY, DESC, ASC, LIMIT; //0
+precedence nonassoc SELECT, DISTINCT, FROM, WHERE, GROUP_BY, HAVING, ORDER_BY, DESC, ASC, LIMIT, INSERT, UPDATE; //0
 precedence right QUESTION, COLON;                                                        //1
 precedence right OR;                                                                     //2
 precedence right AND;                                                                    //3
@@ -105,6 +107,10 @@ start with parser_start;
 
 parser_start ::= select_query:select
               {: RESULT = select; :}
+            | insert_statement:insert
+              {: RESULT = insert; :}
+            | update_statement:update
+              {: RESULT = update; :}
             | EXPR_START expr_list:e
               {: RESULT = e; :}
             | ORDER_BY order_list:o
@@ -348,7 +354,9 @@ ordered_nulls ::= ordered:o NULLS FIRST
                {: RESULT = o; :}
              ;
 
+
 /* select expression */
+
 select_start    ::= SELECT
                     {: RESULT = new SelectBuilder(); :}
 				  ;
@@ -399,3 +407,50 @@ select_query    ::= select_limit:select
                     {: RESULT = select; :}
                   ;
 
+/* insert expression */
+
+insert_start    ::= INSERT
+                    {: RESULT = new InsertBuilder(); :}
+				  ;
+
+insert_class    ::= insert_start:insert IDENTIFIER:className
+                    {: RESULT = insert; RESULT.buildingClassName = className; :}
+                  | insert_start:insert IDENTIFIER:className IDENTIFIER:alias
+                    {: RESULT = insert; RESULT.buildingClassName = className; RESULT.buildingClassAlias = alias; :}
+                  ;
+
+insert_set      ::= insert_class:insert SET expr_list:set_fields
+                    {: RESULT = insert; RESULT.setFields = set_fields; :}
+                  ;
+
+insert_statement  ::= insert_set:insert
+                    {: RESULT = insert; :}
+                  ;
+
+/* update expression */
+
+update_start    ::= UPDATE
+                    {: RESULT = new UpdateBuilder(); :}
+				  ;
+
+update_class    ::= update_start:update IDENTIFIER:className
+                    {: RESULT = update; RESULT.buildingClassName = className; :}
+                  | update_start:update IDENTIFIER:className IDENTIFIER:alias
+                    {: RESULT = update; RESULT.buildingClassName = className; RESULT.buildingClassAlias = alias; :}
+                  ;
+
+update_set      ::= update_class:update SET expr_list:set_fields
+                    {: RESULT = update; RESULT.setFields = set_fields; :}
+                  ;
+
+update_where    ::= update_set:update WHERE expr:where
+                    {: RESULT = update; RESULT.where = where; :}
+				  |	update_set:update
+                    {: RESULT = update; :}
+				  ;
+
+update_statement  ::= update_where:update
+                    {: RESULT = update; :}
+                  ;
+
+/* delete expression */

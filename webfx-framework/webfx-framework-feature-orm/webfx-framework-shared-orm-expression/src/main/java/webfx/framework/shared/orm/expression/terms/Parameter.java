@@ -68,7 +68,9 @@ public final class Parameter<T> extends AbstractExpression<T> {
 
     @Override
     public StringBuilder toString(StringBuilder sb) {
-        sb.append('?').append(name);
+        sb.append('?');
+        if (name != null)
+            sb.append(name);
         if (rightDot != null) {
             sb.append('.');
             boolean lowerRightPrecedence = rightDot.getPrecedenceLevel() < 8; // DOT precedence

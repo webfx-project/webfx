@@ -47,7 +47,7 @@ public final class EntityChangesToUpdateBatchGenerator {
 
     public static final class BatchGenerator {
 
-        final static Expression<?> WHERE_ID_EQUALS_PARAM = new Equals(IdExpression.singleton, Parameter.UNNAMED_PARAMETER);
+        final static Expression<?> WHERE_ID_EQUALS_PARAM = new Equals<>(IdExpression.singleton, Parameter.UNNAMED_PARAMETER);
 
         private final EntityChanges changes;
         private final Object dataSourceId;
@@ -151,56 +151,54 @@ public final class EntityChangesToUpdateBatchGenerator {
         }
 
         void generateDelete(EntityId id) {
-            Delete delete = new Delete(id.getDomainClass(), null, WHERE_ID_EQUALS_PARAM);
-            Object[] parameterValues = {id.getPrimaryKey()};
-            addToBatch(compileDelete(delete, parameterValues), parameterValues);
-        }
-
-        SqlCompiled compileDelete(Delete delete, Object[] parameterValues) {
-            return ExpressionSqlCompiler.compileDelete(delete, dbmsSyntax, compilerModelReader);
+            Delete<?> delete = new Delete<>(id.getDomainClass(), null, WHERE_ID_EQUALS_PARAM);
+            addToBatch(delete, id.getPrimaryKey());
         }
 
         void generateInsertUpdates() {
             EntityResult rs = changes.getInsertedUpdatedEntityResult();
             if (rs != null) {
                 for (EntityId id : rs.getEntityIds()) {
-                    List<Equals> assignments = new ArrayList<>();
-                    List values = new ArrayList();
+                    List<Equals<?>> assignments = new ArrayList<>();
+                    List<Object> values = new ArrayList<>();
                     for (Object fieldId : rs.getFieldIds(id))
                         if (fieldId != null) {
                             DomainField field = id.getDomainClass().getField(fieldId);
-                            assignments.add(new Equals(field, Parameter.UNNAMED_PARAMETER));
+                            assignments.add(new Equals<>(field, Parameter.UNNAMED_PARAMETER));
                             values.add(rs.getFieldValue(id, fieldId));
                         }
                     if (assignments.isEmpty() && !id.isNew())
                         continue;
-                    ExpressionArray setClause = new ExpressionArray(assignments);
+                    ExpressionArray<?> setClause = new ExpressionArray(assignments);
                     if (id.isNew()) { // insert statement
                         newEntityIdInitialInsertBatchIndexes.put(id, updateArguments.size());
-                        Insert insert = new Insert(id.getDomainClass(), setClause);
-                        Object[] parameterValues = values.isEmpty() ? null : values.toArray();
-                        addToBatch(compileInsert(insert, parameterValues), parameterValues);
+                        Insert<?> insert = new Insert(id.getDomainClass(), setClause);
+                        addToBatch(insert, values.isEmpty() ? null : values.toArray());
                     } else { // update statement
-                        Update update = new Update(id.getDomainClass(), setClause, WHERE_ID_EQUALS_PARAM);
+                        Update<?> update = new Update(id.getDomainClass(), setClause, WHERE_ID_EQUALS_PARAM);
                         values.add(id.getPrimaryKey());
-                        Object[] parameterValues = values.toArray();
-                        addToBatch(compileUpdate(update, parameterValues), parameterValues);
+                        addToBatch(update, values.toArray());
                     }
                 }
                 // TODO: sort sql statements
             }
         }
 
-        SqlCompiled compileInsert(Insert insert, Object[] parameterValues) {
-            return ExpressionSqlCompiler.compileInsert(insert, dbmsSyntax, compilerModelReader);
+        private static final boolean USE_DQL_LANGUAGE = true;
+
+        void addToBatch(DqlStatement<?> dqlStatement, Object... parameterValues) {
+            if (USE_DQL_LANGUAGE)
+                addToBatch("DQL", dqlStatement.toString(), parameterValues);
+            else
+                addToBatch(ExpressionSqlCompiler.compileStatement(dqlStatement, dbmsSyntax, compilerModelReader), parameterValues);
         }
 
-        SqlCompiled compileUpdate(Update update, Object[] parameterValues) {
-            return ExpressionSqlCompiler.compileUpdate(update, dbmsSyntax, compilerModelReader);
+        void addToBatch(SqlCompiled sqlcompiled, Object... parameterValues) {
+            addToBatch(null, sqlcompiled.getSql(), parameterValues);
         }
 
-        void addToBatch(SqlCompiled sqlcompiled, Object[] parameterValues) {
-            updateArguments.add(new UpdateArgument(sqlcompiled.getSql(), parameterValues, dataSourceId));
+        void addToBatch(String updateLang, String updateString, Object... parameterValues) {
+            updateArguments.add(new UpdateArgument(dataSourceId, updateLang, updateString, parameterValues));
         }
     }
 }

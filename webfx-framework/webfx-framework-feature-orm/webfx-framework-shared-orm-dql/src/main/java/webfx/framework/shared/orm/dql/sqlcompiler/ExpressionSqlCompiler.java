@@ -60,6 +60,18 @@ public final class ExpressionSqlCompiler {
 
     /*** Public entry points ***/
 
+    public static SqlCompiled compileStatement(DqlStatement statement, DbmsSqlSyntax dbmsSyntax, CompilerDomainModelReader modelReader) {
+        if (statement instanceof Insert)
+            return compileInsert((Insert) statement, dbmsSyntax, modelReader);
+        if (statement instanceof Update)
+            return compileUpdate((Update) statement, dbmsSyntax, modelReader);
+        if (statement instanceof Delete)
+            return compileDelete((Delete) statement, dbmsSyntax, modelReader);
+        if (statement instanceof Select)
+            return compileSelect((Select) statement, dbmsSyntax, false, false, modelReader);
+        return null;
+    }
+
     // Select compilation
 
     public static SqlCompiled compileSelect(Select select, DbmsSqlSyntax dbmsSyntax, boolean generateQueryMapping, boolean readForeignFields, CompilerDomainModelReader modelReader) {
