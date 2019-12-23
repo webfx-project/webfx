@@ -1,6 +1,6 @@
 package mongoose.server.services.datasource;
 
-import mongoose.shared.domainmodel.MongooseDataSourceModel;
+import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.platform.shared.services.datasource.ConnectionDetails;
 import webfx.platform.shared.services.datasource.DBMS;
 import webfx.platform.shared.services.datasource.LocalDataSource;
@@ -19,8 +19,8 @@ public final class MongooseLocalDataSourceProvider implements LocalDataSourcePro
     private final LocalDataSource MONGOOSE_DATA_SOURCE;
 
     public MongooseLocalDataSourceProvider() {
-        Object dataSourceId = MongooseDataSourceModel.getDataSourceId();
-        DBMS dbms = MongooseDataSourceModel.getDbms();
+        Object dataSourceId = DataSourceModelService.getDefaultDataSourceId();
+        DBMS dbms = DBMS.POSTGRES;
         String connectionPath = "mongoose/server/datasource/" + dataSourceId + "/ConnectionDetails.json";
         String connectionContent = ResourceService.getText(connectionPath).result();
         JsonObject json = connectionContent == null ? null : Json.parseObject(connectionContent);
@@ -35,11 +35,11 @@ public final class MongooseLocalDataSourceProvider implements LocalDataSourcePro
         );
         if (connectionDetails == null)
             Logger.log("WARNING: No connection details found for Mongoose data source (please check " + connectionPath + ")");
-        MONGOOSE_DATA_SOURCE = new SimpleLocalDataSource(dataSourceId, dbms, connectionDetails, MongooseDataSourceModel.get()::translateQuery, MongooseDataSourceModel.get()::translateUpdate);
+        MONGOOSE_DATA_SOURCE = new SimpleLocalDataSource(dataSourceId, dbms, connectionDetails);
     }
 
     @Override
-    public LocalDataSource getLocalDataSource(Object id) {
-        return MONGOOSE_DATA_SOURCE.getId().equals(id) ? MONGOOSE_DATA_SOURCE : null;
+    public LocalDataSource getLocalDataSource(Object dataSourceId) {
+        return MONGOOSE_DATA_SOURCE.getId().equals(dataSourceId) ? MONGOOSE_DATA_SOURCE : null;
     }
 }

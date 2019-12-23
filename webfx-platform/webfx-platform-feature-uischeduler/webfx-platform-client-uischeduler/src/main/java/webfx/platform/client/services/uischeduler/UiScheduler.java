@@ -17,7 +17,7 @@ public final class UiScheduler {
     static {
         SchedulerProvider schedulerProvider = Scheduler.getProvider();
         if (schedulerProvider instanceof UiSchedulerProvider)
-            SingleServiceProvider.cacheServiceInstance(UiSchedulerProvider.class, (UiSchedulerProvider) schedulerProvider);
+            SingleServiceProvider.registerServiceProvider(UiSchedulerProvider.class, (UiSchedulerProvider) schedulerProvider);
     }
 
     public static UiSchedulerProvider getProvider() {

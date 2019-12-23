@@ -41,12 +41,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-query</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-platform-shared-util</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

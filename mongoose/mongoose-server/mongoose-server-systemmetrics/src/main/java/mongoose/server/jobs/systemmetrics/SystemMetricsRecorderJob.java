@@ -1,10 +1,10 @@
 package mongoose.server.jobs.systemmetrics;
 
 import mongoose.server.services.systemmetrics.SystemMetricsService;
-import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import mongoose.shared.entities.SystemMetricsEntity;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.entity.UpdateStore;
+import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.scheduler.Scheduled;
@@ -30,7 +30,7 @@ public final class SystemMetricsRecorderJob implements ApplicationJob {
         if (SystemMetricsService.getProvider() == null)
             throw new IllegalStateException("SystemMetricsRecorderJob will not start as no SystemMetricsServiceProvider is registered for this platform");
 
-        DataSourceModel dataSourceModel = MongooseDataSourceModel.get();
+        DataSourceModel dataSourceModel = DataSourceModelService.getDefaultDataSourceModel();
         // Starting a periodic timer to capture metrics every seconds and record it in the database
         metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, () -> {
             // Creating an update store for metrics entity

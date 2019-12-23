@@ -7,6 +7,9 @@ import webfx.platform.shared.services.query.QueryService;
 
 /**
  * @author Bruno Salmon
+ *
+ * TODO Turn this service provider into a service interceptor (requires the build tool to provide the automatic conditional
+ * TODO module inclusion (here: when both webfx-platform-shared-query and webfx-platform-shared-buscall are included)
  */
 public class LocalOrRemoteQueryServiceProvider extends LocalQueryServiceProvider {
 

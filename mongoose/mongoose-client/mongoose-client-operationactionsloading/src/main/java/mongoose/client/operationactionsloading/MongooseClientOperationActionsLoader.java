@@ -1,6 +1,5 @@
 package mongoose.client.operationactionsloading;
 
-import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import webfx.framework.client.ui.action.operation.OperationActionFactoryMixin;
 import webfx.framework.client.ui.action.operation.OperationActionRegistry;
 import webfx.framework.client.services.i18n.I18n;
@@ -9,6 +8,7 @@ import webfx.framework.client.ui.action.ActionFactoryMixin;
 import webfx.framework.client.ui.uirouter.uisession.UiSession;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityStore;
+import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platform.shared.services.log.Logger;
 
@@ -31,7 +31,7 @@ public class MongooseClientOperationActionsLoader implements ApplicationModuleIn
 
     @Override
     public void initModule() {
-        EntityStore.create(MongooseDataSourceModel.get()).executeQuery("select operationCode,i18nCode,public from Operation").setHandler(ar -> {
+        EntityStore.create(DataSourceModelService.getDefaultDataSourceModel()).executeQuery("select operationCode,i18nCode,public from Operation").setHandler(ar -> {
             if (ar.failed())
                 Logger.log("Failed loading operations", ar.cause());
             else {

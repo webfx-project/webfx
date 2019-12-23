@@ -1,7 +1,8 @@
 <module>
 
     <providers>
-        <provider spi="webfx.framework.shared.services.domainmodelloader.spi.DomainModelLoaderProvider">mongoose.shared.services.domainmodel.MongooseDomainModelProvider</provider>
+        <provider spi="webfx.framework.shared.services.domainmodel.spi.DomainModelProvider">mongoose.shared.services.domainmodel.MongooseDomainModelProvider</provider>
+        <provider spi="webfx.framework.shared.services.datasourcemodel.spi.DataSourceModelProvider">mongoose.shared.services.datasourcemodel.MongooseDataSourceModelProvider</provider>
     </providers>
 
     <resource-packages>

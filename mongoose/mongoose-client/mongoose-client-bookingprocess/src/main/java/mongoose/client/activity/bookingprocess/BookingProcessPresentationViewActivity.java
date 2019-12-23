@@ -8,10 +8,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import mongoose.client.activity.MongooseButtonFactoryMixin;
 import mongoose.client.aggregates.event.EventAggregate;
-import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import mongoose.shared.entities.Event;
 import webfx.framework.client.activity.impl.elementals.presentation.view.impl.PresentationViewActivityImpl;
 import webfx.framework.client.ui.util.background.BackgroundUtil;
+import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.util.Strings;
 
@@ -43,7 +43,7 @@ public abstract class BookingProcessPresentationViewActivity<PM extends BookingP
     @Override
     protected Node styleUi(Node uiNode, PM pm) {
         if (uiNode instanceof Region)
-            Properties.runNowAndOnPropertiesChange(() -> EventAggregate.getOrCreate(pm.getEventId(), MongooseDataSourceModel.get()).onEvent().setHandler(ar -> {
+            Properties.runNowAndOnPropertiesChange(() -> EventAggregate.getOrCreate(pm.getEventId(), DataSourceModelService.getDefaultDataSourceModel()).onEvent().setHandler(ar -> {
                 Event event = ar.result();
                 if (event != null) {
                     String css = event.getStringFieldValue("cssClass");

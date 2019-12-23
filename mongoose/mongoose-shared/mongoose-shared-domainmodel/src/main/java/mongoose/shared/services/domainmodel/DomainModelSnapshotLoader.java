@@ -12,7 +12,7 @@ import webfx.framework.shared.orm.entity.EntityFactoryRegistry;
 import webfx.framework.shared.orm.expression.terms.function.DomainClassType;
 import webfx.framework.shared.orm.expression.terms.function.Function;
 import webfx.framework.shared.orm.expression.terms.function.InlineFunction;
-import webfx.framework.shared.services.domainmodelloader.spi.DomainModelLoader;
+import webfx.framework.shared.services.domainmodel.spi.DomainModelLoader;
 import webfx.framework.shared.orm.domainmodel.formatter.FormatterRegistry;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonElement;

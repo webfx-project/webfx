@@ -1,11 +1,8 @@
 package webfx.platform.shared.util.serviceloader;
 
-import webfx.platform.shared.util.function.Callable;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.ServiceLoader;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,48 +11,50 @@ import java.util.logging.Logger;
  */
 public final class SingleServiceProvider {
 
-    public enum NotFoundPolicy {RETURN_NULL, TRACE_AND_RETURN_NULL, THROW_EXCEPTION};
+    public enum NotFoundPolicy {RETURN_NULL, TRACE_AND_RETURN_NULL, THROW_EXCEPTION}
 
     private final static Map<Class, ServiceInfo> SERVICE_INFOS = new HashMap<>();
 
-    public static <S> void register(Class<S> serviceClass, Callable<ServiceLoader<S>> serviceLoaderCallable) {
-        register(serviceClass, serviceLoaderCallable, NotFoundPolicy.THROW_EXCEPTION);
+    private static <S>  ServiceInfo<S>  getOrCreateServiceInfo(Class<S> serviceClass) {
+        ServiceInfo<S> serviceInfo = SERVICE_INFOS.get(serviceClass);
+        if (serviceInfo == null)
+            SERVICE_INFOS.put(serviceClass, serviceInfo = new ServiceInfo<>());
+        return serviceInfo;
     }
 
-    public static <S> void register(Class<S> serviceClass, Callable<ServiceLoader<S>> serviceLoaderCallable, NotFoundPolicy notFoundPolicy) {
-        SERVICE_INFOS.put(serviceClass, new ServiceInfo<>(serviceLoaderCallable, notFoundPolicy));
+    public static <S> void registerServiceSupplier(Class<S> serviceClass, Supplier<ServiceLoader<S>> serviceLoaderSupplier) {
+        registerServiceSupplier(serviceClass, serviceLoaderSupplier, NotFoundPolicy.THROW_EXCEPTION);
     }
 
-    public static <T> void cacheServiceInstance(Class<T> serviceClass, T serviceInstance) {
-        SERVICE_INFOS.put(serviceClass, new ServiceInfo<>(serviceInstance));
+    public static <S> void registerServiceSupplier(Class<S> serviceClass, Supplier<ServiceLoader<S>> serviceLoaderSupplier, NotFoundPolicy notFoundPolicy) {
+        getOrCreateServiceInfo(serviceClass).setServiceLoaderSupplier(serviceLoaderSupplier, notFoundPolicy);
+    }
+
+    public static <S> void registerServiceProvider(Class<S> serviceClass, S serviceInstance) {
+        getOrCreateServiceInfo(serviceClass).setProvider(serviceInstance);
+    }
+
+    public static <S> void registerServiceInterceptor(Class<S> serviceClass, Function<S, S> interceptor) {
+        getOrCreateServiceInfo(serviceClass).addInterceptor(interceptor);
     }
 
     public static <S> S getProvider(Class<S> serviceClass) {
         return getProvider(serviceClass, null);
     }
 
-    public static <S> S getProvider(Class<S> serviceClass, Callable<ServiceLoader<S>> serviceLoaderCallable) {
-        return getProvider(serviceClass, serviceLoaderCallable, NotFoundPolicy.THROW_EXCEPTION);
+    public static <S> S getProvider(Class<S> serviceClass, Supplier<ServiceLoader<S>> serviceLoaderSupplier) {
+        return getProvider(serviceClass, serviceLoaderSupplier, NotFoundPolicy.THROW_EXCEPTION);
     }
 
-    public static <S> S getProvider(Class<S> serviceClass, Callable<ServiceLoader<S>> serviceLoaderCallable, NotFoundPolicy notFoundPolicy) {
-        ServiceInfo<S> serviceInfo = SERVICE_INFOS.get(serviceClass);
-        if (serviceInfo == null && serviceLoaderCallable != null) {
-            register(serviceClass, serviceLoaderCallable, notFoundPolicy);
-            serviceInfo = SERVICE_INFOS.get(serviceClass);
-        }
-        if (serviceInfo != null) {
-            if (serviceInfo.provider == null) {
-                Iterator<S> it = serviceInfo.serviceLoaderCallable.call().iterator();
-                if (it.hasNext())
-                    serviceInfo.provider = it.next();
-            }
-            if (serviceInfo.provider != null)
-                return serviceInfo.provider;
-        }
+    public static <S> S getProvider(Class<S> serviceClass, Supplier<ServiceLoader<S>> serviceLoaderSupplier, NotFoundPolicy notFoundPolicy) {
+        ServiceInfo<S> serviceInfo = getOrCreateServiceInfo(serviceClass)
+                .setServiceLoaderSupplier(serviceLoaderSupplier, notFoundPolicy);
 
-        if (notFoundPolicy == null && serviceInfo != null)
-            notFoundPolicy = serviceInfo.notFoundPolicy;
+        S provider = serviceInfo.getProxy();
+        if (provider != null)
+            return provider;
+
+        notFoundPolicy = serviceInfo.notFoundPolicy;
         if (notFoundPolicy != NotFoundPolicy.RETURN_NULL) {
             String message = "Cannot find META-INF/services/" + serviceClass.getName() + " on classpath";
             if (notFoundPolicy == NotFoundPolicy.THROW_EXCEPTION)
@@ -66,18 +65,48 @@ public final class SingleServiceProvider {
     }
 
     private static final class ServiceInfo<S> {
-        private final Callable<ServiceLoader<S>> serviceLoaderCallable;
-        private final NotFoundPolicy notFoundPolicy;
+        private Supplier<ServiceLoader<S>> serviceLoaderSupplier;
+        private NotFoundPolicy notFoundPolicy;
         private S provider;
+        private List<Function<S, S>> interceptors;
+        private S proxy;
 
-        ServiceInfo(Callable<ServiceLoader<S>> serviceLoaderCallable, NotFoundPolicy notFoundPolicy) {
-            this.serviceLoaderCallable = serviceLoaderCallable;
-            this.notFoundPolicy = notFoundPolicy;
+        ServiceInfo<S> setServiceLoaderSupplier(Supplier<ServiceLoader<S>> serviceLoaderSupplier, NotFoundPolicy notFoundPolicy) {
+            if (serviceLoaderSupplier != null)
+                this.serviceLoaderSupplier = serviceLoaderSupplier;
+            if (notFoundPolicy != null)
+                this.notFoundPolicy = notFoundPolicy;
+            return this;
         }
 
-        public ServiceInfo(S provider) {
-            this(null, null);
+        void setProvider(S provider) {
             this.provider = provider;
+        }
+
+        void addInterceptor(Function<S, S> interceptor) {
+            if (interceptors == null)
+                interceptors = new ArrayList<>();
+            interceptors.add(interceptor);
+            proxy = null;
+        }
+
+        S getProvider() {
+            if (provider == null) {
+                Iterator<S> it = serviceLoaderSupplier.get().iterator();
+                if (it.hasNext())
+                    provider = it.next();
+            }
+            return provider;
+        }
+
+        S getProxy() {
+            if (proxy == null) {
+                proxy = getProvider();
+                if (interceptors != null)
+                    for (Function<S, S> interceptor : interceptors)
+                        proxy = interceptor.apply(proxy);
+            }
+            return proxy;
         }
     }
 }

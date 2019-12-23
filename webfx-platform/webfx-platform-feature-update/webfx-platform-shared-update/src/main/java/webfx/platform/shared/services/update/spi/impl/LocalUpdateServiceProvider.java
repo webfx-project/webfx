@@ -8,8 +8,6 @@ import webfx.platform.shared.services.update.spi.UpdateServiceProvider;
 import webfx.platform.shared.util.async.Batch;
 import webfx.platform.shared.util.async.Future;
 
-import java.util.Arrays;
-
 /**
  * @author Bruno Salmon
  */
@@ -19,22 +17,8 @@ public class LocalUpdateServiceProvider implements UpdateServiceProvider {
     public Future<UpdateResult> executeUpdate(UpdateArgument argument) {
         UpdateServiceProvider localUpdateServiceProvider = getConnectedLocalUpdateService(argument.getDataSourceId());
         if (localUpdateServiceProvider != null)
-            return localUpdateServiceProvider.executeUpdate(translateUpdate(argument));
+            return localUpdateServiceProvider.executeUpdate(argument);
         return executeRemoteUpdate(argument);
-    }
-
-    private UpdateArgument translateUpdate(UpdateArgument argument) {
-        String updateLang = argument.getUpdateLang();
-        if (updateLang != null) {
-            Object dataSourceId = argument.getDataSourceId();
-            String updateString = argument.getUpdateString();
-            String translatedUpdate = LocalDataSource.get(dataSourceId).translateUpdateIntoDataSourceDefaultLanguage(updateLang, updateString);
-            if (!updateString.equals(translatedUpdate)) {
-                //Logger.log("Translated to: " + translatedUpdate);
-                argument = new UpdateArgument(dataSourceId, argument.returnGeneratedKeys(), translatedUpdate, argument.getParameters());
-            }
-        }
-        return argument;
     }
 
     @Override
@@ -45,12 +29,8 @@ public class LocalUpdateServiceProvider implements UpdateServiceProvider {
         Object dataSourceId = batchArray[0].getDataSourceId();
         UpdateServiceProvider localUpdateServiceProvider = getConnectedLocalUpdateService(dataSourceId);
         if (localUpdateServiceProvider != null)
-            return localUpdateServiceProvider.executeUpdateBatch(translateBatch(batch));
+            return localUpdateServiceProvider.executeUpdateBatch(batch);
         return executeRemoteUpdateBatch(batch);
-    }
-
-    private Batch<UpdateArgument> translateBatch(Batch<UpdateArgument> batch) {
-        return new Batch<>(Arrays.stream(batch.getArray()).map(this::translateUpdate).toArray(UpdateArgument[]::new));
     }
 
     protected UpdateServiceProvider getConnectedLocalUpdateService(Object dataSourceId) {

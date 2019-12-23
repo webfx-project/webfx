@@ -8,10 +8,10 @@ module mongoose.client.bookingprocess {
     requires javafx.graphics;
     requires mongoose.client.activity;
     requires mongoose.client.aggregates;
-    requires mongoose.shared.domainmodel;
     requires mongoose.shared.entities;
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
+    requires webfx.framework.shared.orm.datasourcemodelservice;
     requires webfx.kit.util;
     requires webfx.platform.client.windowhistory;
     requires webfx.platform.shared.util;

@@ -31,7 +31,7 @@ public final class ApplicationContainer {
 
     public static void start(ApplicationContainerProvider provider, String[] mainArgs) {
         // Caching this instance to make the ApplicationContainer work
-        SingleServiceProvider.cacheServiceInstance(ApplicationContainerProvider.class, provider);
+        SingleServiceProvider.registerServiceProvider(ApplicationContainerProvider.class, provider);
         start(mainArgs);
     }
 

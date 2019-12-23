@@ -7,6 +7,10 @@ import webfx.platform.shared.services.datasource.LocalDataSource;
  */
 public interface LocalDataSourceProvider {
 
-    LocalDataSource getLocalDataSource(Object id);
+    LocalDataSource getLocalDataSource(Object dataSourceId);
+
+    default boolean isDataSourceLocal(Object dataSourceId) {
+        return getLocalDataSource(dataSourceId) != null;
+    }
 
 }

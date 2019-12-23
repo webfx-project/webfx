@@ -11,11 +11,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import mongoose.shared.domainmodel.MongooseDataSourceModel;
+import webfx.extras.imagestore.ImageStore;
 import webfx.framework.client.activity.ActivityManager;
 import webfx.framework.client.activity.impl.combinations.viewdomain.ViewDomainActivityContext;
 import webfx.framework.client.ui.util.scene.SceneUtil;
-import webfx.extras.imagestore.ImageStore;
+import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
@@ -37,7 +37,7 @@ public class MongooseClientApplication extends Application {
     @Override
     public void init() {
         ActivityManager.runActivity(mongooseClientActivity,
-                ViewDomainActivityContext.createViewDomainActivityContext(MongooseDataSourceModel.get())
+                ViewDomainActivityContext.createViewDomainActivityContext(DataSourceModelService.getDefaultDataSourceModel())
         );
     }
 

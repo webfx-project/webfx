@@ -18,13 +18,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>mongoose-shared-domainmodel</artifactId>
-            <groupId>${mongoose.groupId}</groupId>
-            <version>${mongoose.version}</version>
+            <artifactId>webfx-framework-shared-authz</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-framework-shared-authz</artifactId>
+            <artifactId>webfx-framework-shared-orm-datasourcemodelservice</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

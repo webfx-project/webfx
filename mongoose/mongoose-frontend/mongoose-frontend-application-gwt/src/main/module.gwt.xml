@@ -317,9 +317,9 @@
     <source path="mongoose/frontend/application"/>
     <!--==========================< mongoose-shared-domainmodel >===========================-->
     <!-- used by mongoose-shared-entities (SOURCE) -->
-    <source path="mongoose/shared/domainmodel"/>
     <source path="mongoose/shared/domainmodel/formatters"/>
     <source path="mongoose/shared/domainmodel/functions"/>
+    <source path="mongoose/shared/services/datasourcemodel"/>
     <source path="mongoose/shared/services/domainmodel"/>
     <resource path="mongoose/shared/domainmodel"/>
     <public includes="mongoose/shared/domainmodel/" path=""/>
@@ -526,14 +526,20 @@
     <!--========================< webfx-framework-shared-operation >========================-->
     <!-- used by webfx-framework-client-i18n (SOURCE) -->
     <source path="webfx/framework/shared/operation"/>
+    <!--===============< webfx-framework-shared-orm-datasourcemodelservice >================-->
+    <!-- used by mongoose-shared-domainmodel (SOURCE) -->
+    <source path="webfx/framework/shared/services/datasourcemodel"/>
+    <source path="webfx/framework/shared/services/datasourcemodel/spi"/>
     <!--=====================< webfx-framework-shared-orm-domainmodel >=====================-->
     <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
     <source path="webfx/framework/shared/orm/domainmodel"/>
     <source path="webfx/framework/shared/orm/domainmodel/builder"/>
     <source path="webfx/framework/shared/orm/domainmodel/formatter"/>
     <source path="webfx/framework/shared/orm/domainmodel/lciimpl"/>
-    <source path="webfx/framework/shared/services/domainmodelloader"/>
-    <source path="webfx/framework/shared/services/domainmodelloader/spi"/>
+    <!--=================< webfx-framework-shared-orm-domainmodelservice >==================-->
+    <!-- used by mongoose-shared-domainmodel (SOURCE) -->
+    <source path="webfx/framework/shared/services/domainmodel"/>
+    <source path="webfx/framework/shared/services/domainmodel/spi"/>
     <!--=========================< webfx-framework-shared-orm-dql >=========================-->
     <!-- used by webfx-framework-shared-orm-domainmodel (SOURCE) -->
     <source path="webfx/framework/shared/orm/dql"/>
@@ -757,7 +763,7 @@
     <source path="webfx/platform/shared/services/log"/>
     <source path="webfx/platform/shared/services/log/spi"/>
     <!--==========================< webfx-platform-shared-query >===========================-->
-    <!-- used by webfx-framework-shared-orm-domainmodel (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
     <!-- used by webfx-platform-shared-query-impl-remote (SOURCE) -->
     <source path="webfx/platform/shared/services/query"/>
     <source path="webfx/platform/shared/services/query/compression"/>

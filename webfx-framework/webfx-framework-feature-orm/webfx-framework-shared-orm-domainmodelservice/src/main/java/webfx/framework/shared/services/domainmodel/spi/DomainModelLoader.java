@@ -1,4 +1,4 @@
-package webfx.framework.shared.services.domainmodelloader.spi;
+package webfx.framework.shared.services.domainmodel.spi;
 
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.query.QueryResult;

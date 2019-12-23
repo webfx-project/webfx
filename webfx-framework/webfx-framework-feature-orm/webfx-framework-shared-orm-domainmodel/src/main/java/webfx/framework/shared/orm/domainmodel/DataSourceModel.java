@@ -7,9 +7,7 @@ import webfx.framework.shared.orm.dql.sqlcompiler.sql.SqlCompiled;
 import webfx.framework.shared.orm.dql.sqlcompiler.sql.dbms.DbmsSqlSyntax;
 import webfx.framework.shared.orm.expression.terms.DqlStatement;
 import webfx.framework.shared.orm.expression.terms.Select;
-import webfx.framework.shared.services.domainmodelloader.DomainModelLoaderService;
 import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.util.async.Future;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +19,14 @@ public final class DataSourceModel implements HasDomainModel {
 
     private final Object dataSourceId;
     private final DbmsSqlSyntax dbmsSqlSyntax;
+    private final DomainModel domainModel;
     private CompilerDomainModelReader compilerDomainModelReader;
     private Map<String, SqlCompiled> sqlCompiledCache = new /*Weak*/HashMap<>();
 
-    public DataSourceModel(Object dataSourceId, DbmsSqlSyntax dbmsSqlSyntax) {
+    public DataSourceModel(Object dataSourceId, DbmsSqlSyntax dbmsSqlSyntax, DomainModel domainModel) {
         this.dataSourceId = dataSourceId;
         this.dbmsSqlSyntax = dbmsSqlSyntax;
+        this.domainModel = domainModel;
     }
 
     public Object getDataSourceId() {
@@ -37,13 +37,9 @@ public final class DataSourceModel implements HasDomainModel {
         return dbmsSqlSyntax;
     }
 
-    public Future<DomainModel> getOrLoadDomainModel() {
-        return DomainModelLoaderService.loadDomainModel(dataSourceId);
-    }
-
     @Override
     public DomainModel getDomainModel() {
-        return getOrLoadDomainModel().result();
+        return domainModel;
     }
 
     public CompilerDomainModelReader getCompilerDomainModelReader() {

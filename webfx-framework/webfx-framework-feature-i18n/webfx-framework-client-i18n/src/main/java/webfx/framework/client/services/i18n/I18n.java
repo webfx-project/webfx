@@ -17,7 +17,7 @@ import java.util.ServiceLoader;
 public final class I18n {
 
     static {
-        SingleServiceProvider.register(I18nProvider.class, () -> ServiceLoader.load(I18nProvider.class));
+        SingleServiceProvider.registerServiceSupplier(I18nProvider.class, () -> ServiceLoader.load(I18nProvider.class));
     }
 
     public static I18nProvider getProvider() {

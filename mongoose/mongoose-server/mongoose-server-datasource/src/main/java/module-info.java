@@ -3,7 +3,7 @@
 module mongoose.server.datasource {
 
     // Direct dependencies modules
-    requires mongoose.shared.domainmodel;
+    requires webfx.framework.shared.orm.datasourcemodelservice;
     requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.dql;
     requires webfx.platform.shared.datasource;

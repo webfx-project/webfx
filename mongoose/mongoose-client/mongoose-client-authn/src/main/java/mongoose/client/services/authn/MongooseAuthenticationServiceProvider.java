@@ -1,10 +1,10 @@
 package mongoose.client.services.authn;
 
-import mongoose.shared.domainmodel.MongooseDataSourceModel;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.services.authn.UsernamePasswordCredentials;
 import webfx.framework.shared.services.authn.spi.AuthenticationServiceProvider;
+import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryService;
 import webfx.platform.shared.util.async.Future;
@@ -17,7 +17,7 @@ public final class MongooseAuthenticationServiceProvider implements Authenticati
     private final DataSourceModel dataSourceModel;
 
     public MongooseAuthenticationServiceProvider() {
-        this(MongooseDataSourceModel.get());
+        this(DataSourceModelService.getDefaultDataSourceModel());
     }
 
     public MongooseAuthenticationServiceProvider(DataSourceModel dataSourceModel) {

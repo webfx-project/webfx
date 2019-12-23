@@ -22,17 +22,8 @@ public class LocalQueryServiceProvider implements QueryServiceProvider {
         String queryString = argument.getQueryString();
         Logger.log("Query: " + queryString + (argument.getParameters() == null ? "" : "\nParameters: " + Arrays.toString(argument.getParameters())));
         QueryServiceProvider localConnectedProvider = getOrCreateLocalConnectedProvider(dataSourceId);
-        if (localConnectedProvider != null) {
-            String queryLang = argument.getQueryLang();
-            if (queryLang != null) {
-                String translatedQuery = LocalDataSource.get(dataSourceId).translateQueryIntoDataSourceDefaultLanguage(queryLang, queryString);
-                if (!queryString.equals(translatedQuery)) {
-                    Logger.log("Translated to: " + translatedQuery);
-                    argument = new QueryArgument(dataSourceId, translatedQuery, argument.getParameters());
-                }
-            }
+        if (localConnectedProvider != null)
             return localConnectedProvider.executeQuery(argument);
-        }
         return executeRemoteQuery(argument);
     }
 

@@ -17,7 +17,6 @@ module mongoose.client.application {
     requires mongoose.client.icons;
     requires mongoose.client.operationactionsloading;
     requires mongoose.client.sessionrecorder;
-    requires mongoose.shared.domainmodel;
     requires webfx.extras.imagestore;
     requires webfx.framework.client.action;
     requires webfx.framework.client.activity;
@@ -29,6 +28,7 @@ module mongoose.client.application {
     requires webfx.framework.client.uirouter;
     requires webfx.framework.client.util;
     requires webfx.framework.shared.operation;
+    requires webfx.framework.shared.orm.datasourcemodelservice;
     requires webfx.framework.shared.router;
     requires webfx.kit.launcher;
     requires webfx.kit.util;

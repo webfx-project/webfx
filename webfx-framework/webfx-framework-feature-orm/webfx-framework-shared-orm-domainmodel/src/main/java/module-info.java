@@ -9,7 +9,6 @@ module webfx.framework.shared.orm.domainmodel {
     requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.expression;
     requires webfx.platform.shared.log;
-    requires webfx.platform.shared.query;
     requires webfx.platform.shared.util;
 
     // Exported packages
@@ -17,10 +16,5 @@ module webfx.framework.shared.orm.domainmodel {
     exports webfx.framework.shared.orm.domainmodel.builder;
     exports webfx.framework.shared.orm.domainmodel.formatter;
     exports webfx.framework.shared.orm.domainmodel.lciimpl;
-    exports webfx.framework.shared.services.domainmodelloader;
-    exports webfx.framework.shared.services.domainmodelloader.spi;
-
-    // Used services
-    uses webfx.framework.shared.services.domainmodelloader.spi.DomainModelLoaderProvider;
 
 }
