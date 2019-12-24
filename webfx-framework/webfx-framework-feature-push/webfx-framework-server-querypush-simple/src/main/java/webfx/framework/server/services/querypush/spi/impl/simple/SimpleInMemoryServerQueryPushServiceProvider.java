@@ -1,14 +1,15 @@
 package webfx.framework.server.services.querypush.spi.impl.simple;
 
 import webfx.framework.server.services.querypush.spi.impl.ServerQueryPushServiceProviderBase;
-import webfx.platform.shared.services.query.QueryArgument;
 import webfx.framework.shared.services.querypush.PulseArgument;
 import webfx.framework.shared.services.querypush.QueryPushArgument;
+import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +40,7 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
         if (resend != null && resend)
             streamInfo.markAsResend();
         if (streamInfo.isActive())
-            requestPulse(PulseArgument.createWithQueryInfo(streamInfo.queryInfo));
+            executePulse(PulseArgument.createWithQueryInfo(streamInfo.queryInfo));
         return Future.succeededFuture(streamInfo.queryStreamId);
     }
 
@@ -118,17 +119,46 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
             super(argument);
         }
 
+        /**
+         * This method should mark as dirty all queries (through queryInfo) that are impacted by the modification
+         * reported by the pulse argument.
+         *
+         * @param argument the pulse argument
+         */
         @Override
         protected void applyPulseArgument(PulseArgument argument) {
+            // Special case when the pulse argument is for a specific query (used to refresh a query that became active again)
             if (argument.getQueryInfo() instanceof QueryInfo)
                 ((QueryInfo) argument.getQueryInfo()).markAsDirty();
-            else {
+            else { // General case => we need to mark dirty all queries impacted by the modification
                 Object dataSourceId = argument.getDataSourceId();
-                for (QueryInfo queryInfo : queryInfos.values())
-                    if (Objects.areEquals(queryInfo.queryArgument.getDataSourceId(), dataSourceId))
-                        queryInfo.markAsDirty();
+                for (QueryInfo queryInfo : queryInfos.values()) {
+                    // First criteria: must be of the same data source
+                    if (!Objects.areEquals(dataSourceId, queryInfo.queryArgument.getDataSourceId()))
+                        continue; // Avoiding an unnecessary costly query check! :-)
+                    // Second criteria: the update scope must impact the query scope (ex: modify a field that the query reads)
+                    Object updateScope = argument.getUpdateScope();
+                    if (updateScope != null) {
+                        // TODO Should I introduce a Scope interface with intersects() method?
+                        Object queryScope = queryInfo.getQueryScope();
+                        if (queryScope != null && !areScopesIntersecting(queryScope, updateScope))
+                            continue; // Avoiding an unnecessary costly query check! :-)
+                    }
+                    queryInfo.markAsDirty();
+                }
             }
             nextMostUrgentQueryNotYetRefreshed = null;
+        }
+
+        private boolean areScopesIntersecting(Object scope1, Object scope2) {
+            if (scope1 instanceof List && scope2 instanceof List) {
+                List<Object> list1 = (List<Object>) scope1;
+                List<Object> list2 = (List<Object>) scope2;
+                for (Object element1 : list1)
+                    if (list2.contains(element1))
+                        return true;
+            }
+            return false;
         }
 
         @Override

@@ -2,16 +2,21 @@ package webfx.framework.server.services.querypush.spi.impl;
 
 import webfx.framework.server.services.push.PushServerService;
 import webfx.framework.server.services.querypush.QueryPushServerService;
-import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.services.query.QueryArgument;
-import webfx.platform.shared.services.query.QueryResult;
-import webfx.platform.shared.services.query.QueryService;
+import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.expression.Expression;
+import webfx.framework.shared.orm.expression.terms.DqlStatement;
+import webfx.framework.shared.orm.expression.terms.Select;
+import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.framework.shared.services.querypush.PulseArgument;
 import webfx.framework.shared.services.querypush.QueryPushArgument;
 import webfx.framework.shared.services.querypush.QueryPushResult;
 import webfx.framework.shared.services.querypush.diff.QueryResultComparator;
 import webfx.framework.shared.services.querypush.diff.QueryResultDiff;
 import webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider;
+import webfx.platform.shared.services.log.Logger;
+import webfx.platform.shared.services.query.QueryArgument;
+import webfx.platform.shared.services.query.QueryResult;
+import webfx.platform.shared.services.query.QueryService;
 import webfx.platform.shared.services.scheduler.Scheduler;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
@@ -50,7 +55,7 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
     protected abstract Future<Object> closeStream(QueryPushArgument argument);
 
     @Override
-    public void requestPulse(PulseArgument argument) {
+    public void executePulse(PulseArgument argument) {
         synchronized (this) {
             if (pulsePass == null || pulsePass.isFinished()) {
                 //Logger.log("Starting new pulse pass");
@@ -214,6 +219,7 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
 
     public static final class QueryInfo {
         public final QueryArgument queryArgument;
+        private Object queryScope;
         private final List<StreamInfo> streamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
         int activeNewStreamCount;
         /*
@@ -227,6 +233,7 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
 
         public QueryInfo(QueryArgument queryArgument) {
             this.queryArgument = queryArgument;
+            queryScope = queryArgument.getQueryScope();
         }
 
         void touchExecuted() {
@@ -298,6 +305,35 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
         public boolean hasNoMoreStreams() {
             return streamInfos.isEmpty();
         }
+
+        public Object getQueryScope() {
+            if (queryScope == null) {
+                String dqlUpdate = getDqlQuery(queryArgument);
+                if (dqlUpdate != null) {
+                    // TODO Introducing a dependency to webfx-framework-shared-orm-domainmodel => see if we can move this into an interceptor in a new separate module
+                    DataSourceModel dataSourceModel = DataSourceModelService.getDataSourceModel(queryArgument.getDataSourceId());
+                    if (dataSourceModel != null) {
+                        // TODO Should we cache this (dqlUpdate => modified fields)?
+                        DqlStatement<Object> dqlStatement = dataSourceModel.parseStatement(dqlUpdate);
+                        if (dqlStatement instanceof Select) {
+                            List<Expression<Object>> persistentTerms = new ArrayList<>();
+                            dqlStatement.collectPersistentTerms(persistentTerms);
+                            queryScope = persistentTerms;
+                        }
+                    }
+                }
+
+            }
+            return queryScope;
+        }
+
+        private static String getDqlQuery(QueryArgument updateArgument) {
+            QueryArgument originalArgument = updateArgument.getOriginalArgument();
+            return "DQL".equalsIgnoreCase(updateArgument.getQueryLang()) ? updateArgument.getQueryString()
+                    : originalArgument != null && originalArgument != updateArgument ? getDqlQuery(originalArgument)
+                    : null;
+        }
+
     }
 
     public final class StreamInfo {

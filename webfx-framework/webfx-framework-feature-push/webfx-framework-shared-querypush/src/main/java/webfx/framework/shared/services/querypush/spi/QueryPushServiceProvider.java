@@ -11,6 +11,6 @@ public interface QueryPushServiceProvider {
 
     Future<Object> executeQueryPush(QueryPushArgument argument);
 
-    void requestPulse(PulseArgument argument);
+    void executePulse(PulseArgument argument);
 
 }

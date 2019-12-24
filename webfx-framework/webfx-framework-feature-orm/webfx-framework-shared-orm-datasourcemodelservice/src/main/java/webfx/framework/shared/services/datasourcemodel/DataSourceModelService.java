@@ -40,7 +40,11 @@ public class DataSourceModelService {
         return getProvider().getDataSourceModel(dataSourceId);
     }
 
-    // Installing DQL to SQL translator interceptor for query and update services
+    /* Installing DQL to SQL translator interceptor for query and update services
+     * TODO Move this into a separate module when the build tool will provide the automatic conditional module inclusion
+     * TODO (here: when both webfx-platform-shared-query and webfx-platform-shared-domainmodel are included)
+     * TODO (and same with webfx-platform-shared-update and webfx-platform-shared-domainmodel)
+     */
     static {
         SingleServiceProvider.registerServiceInterceptor(QueryServiceProvider.class, target ->
                 argument -> {
@@ -53,7 +57,7 @@ public class DataSourceModelService {
                             String translatedQuery = dataSourceModel.translateQuery(queryLang, queryString);
                             if (!queryString.equals(translatedQuery)) {
                                 //Logger.log("Translated to: " + translatedQuery);
-                                argument = new QueryArgument(dataSourceId, translatedQuery, argument.getParameters());
+                                argument = new QueryArgument(argument, translatedQuery);
                             }
                         }
                     }
@@ -63,6 +67,7 @@ public class DataSourceModelService {
 
         SingleServiceProvider.registerServiceInterceptor(UpdateServiceProvider.class, target ->
                 new UpdateServiceProvider() {
+
                     @Override
                     public Future<UpdateResult> executeUpdate(UpdateArgument argument) {
                         return target.executeUpdate(translateUpdate(argument));
@@ -80,10 +85,10 @@ public class DataSourceModelService {
                             DataSourceModel dataSourceModel = getDataSourceModel(dataSourceId);
                             if (dataSourceModel != null) {
                                 String updateString = argument.getUpdateString();
-                                String translatedUpdate = dataSourceModel.translateUpdate(argument.getUpdateLang(), updateString);
+                                String translatedUpdate = dataSourceModel.translateStatementIfDql(argument.getUpdateLang(), updateString);
                                 if (!updateString.equals(translatedUpdate)) {
                                     //Logger.log("Translated to: " + translatedUpdate);
-                                    argument = new UpdateArgument(dataSourceId, argument.returnGeneratedKeys(), translatedUpdate, argument.getParameters());
+                                    argument = new UpdateArgument(argument, translatedUpdate);
                                 }
                             }
                         }

@@ -30,11 +30,11 @@ public class LocalOrRemoteQueryPushServiceProvider implements QueryPushServicePr
     }
 
     @Override
-    public void requestPulse(PulseArgument argument) {
+    public void executePulse(PulseArgument argument) {
         QueryPushServiceProvider localConnectedProvider = getOrCreateLocalConnectedProvider(argument.getDataSourceId());
         if (localConnectedProvider == null)
             throw new UnsupportedOperationException("requestPulse() shouldn't be called on this LocalOrRemoteQueryPushServiceProvider");
-        localConnectedProvider.requestPulse(argument);
+        localConnectedProvider.executePulse(argument);
     }
 
     protected QueryPushServiceProvider getOrCreateLocalConnectedProvider(Object dataSourceId) {

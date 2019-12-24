@@ -7,7 +7,6 @@ import webfx.framework.shared.orm.dql.sqlcompiler.sql.SqlCompiled;
 import webfx.framework.shared.orm.dql.sqlcompiler.sql.dbms.DbmsSqlSyntax;
 import webfx.framework.shared.orm.expression.terms.DqlStatement;
 import webfx.framework.shared.orm.expression.terms.Select;
-import webfx.platform.shared.services.log.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,12 +49,16 @@ public final class DataSourceModel implements HasDomainModel {
 
     public SqlCompiled parseAndCompileSelect(String stringSelect) {
         SqlCompiled sqlCompiled = sqlCompiledCache.get(stringSelect);
-        if (sqlCompiled != null)
-            Logger.log("Reusing cached sql compiled! :-)");
-        else
-            sqlCompiledCache.put(stringSelect, sqlCompiled = compileSelect(getDomainModel().parseSelect(stringSelect)));
+        //if (sqlCompiled != null) Logger.log("Reusing cached sql compiled! :-)");
+        if (sqlCompiled == null)
+            sqlCompiledCache.put(stringSelect, sqlCompiled = compileSelect(parseSelect(stringSelect)));
         return sqlCompiled;
     }
+
+    public <T> Select<T> parseSelect(String definition) {
+        return getDomainModel().parseSelect(definition);
+    }
+
 
     public SqlCompiled compileSelect(Select<?> select) {
         return ExpressionSqlCompiler.compileSelect(select, getDbmsSqlSyntax(), true, true, getCompilerDomainModelReader());
@@ -67,22 +70,25 @@ public final class DataSourceModel implements HasDomainModel {
         return query;
     }
 
-    public SqlCompiled parseAndCompileUpdate(String stringUpdate) {
+    public SqlCompiled parseAndCompileStatement(String stringUpdate) {
         SqlCompiled sqlCompiled = sqlCompiledCache.get(stringUpdate);
-        if (sqlCompiled != null)
-            Logger.log("Reusing cached sql compiled! :-)");
-        else
-            sqlCompiledCache.put(stringUpdate, sqlCompiled = compileUpdate(getDomainModel().parseStatement(stringUpdate)));
+        //if (sqlCompiled != null) Logger.log("Reusing cached sql compiled! :-)");
+        if (sqlCompiled == null)
+            sqlCompiledCache.put(stringUpdate, sqlCompiled = compileStatement(parseStatement(stringUpdate)));
         return sqlCompiled;
     }
 
-    public SqlCompiled compileUpdate(DqlStatement<?> statement) {
+    public <T> DqlStatement<T> parseStatement(String definition) {
+        return getDomainModel().parseStatement(definition);
+    }
+
+    public SqlCompiled compileStatement(DqlStatement<?> statement) {
         return ExpressionSqlCompiler.compileStatement(statement, getDbmsSqlSyntax(), getCompilerDomainModelReader());
     }
 
-    public String translateUpdate(String updateLang, String update) {
-        if ("DQL".equalsIgnoreCase(updateLang))
-            return parseAndCompileUpdate(update).getSql();
-        return update;
+    public String translateStatementIfDql(String statementLang, String statementString) {
+        if ("DQL".equalsIgnoreCase(statementLang))
+            return parseAndCompileStatement(statementString).getSql();
+        return statementString;
     }
 }

@@ -2,8 +2,6 @@ package webfx.framework.shared.orm.expression.terms;
 
 import webfx.framework.shared.orm.expression.Expression;
 
-import java.util.Collection;
-
 /**
  * @author Bruno Salmon
  */
@@ -21,10 +19,6 @@ public abstract class AbstractExpression<T> implements Expression<T> {
         return precedenceLevel;
     }
 
-
-    @Override
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-    }
 
     @Override
     public String toString() {

@@ -5,6 +5,8 @@ module webfx.framework.server.querypush {
     // Direct dependencies modules
     requires java.base;
     requires webfx.framework.server.push;
+    requires webfx.framework.shared.orm.datasourcemodelservice;
+    requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.querypush;
     requires webfx.platform.shared.bus;
     requires webfx.platform.shared.log;
@@ -13,6 +15,7 @@ module webfx.framework.server.querypush {
     requires webfx.platform.shared.update;
     requires webfx.platform.shared.updatelistener;
     requires webfx.platform.shared.util;
+    requires webfx.framework.shared.orm.expression;
 
     // Exported packages
     exports webfx.framework.server.services.querypush;

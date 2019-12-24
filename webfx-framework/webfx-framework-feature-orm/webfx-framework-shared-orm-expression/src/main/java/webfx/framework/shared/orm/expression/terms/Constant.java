@@ -1,10 +1,12 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.extras.type.Type;
 import webfx.extras.type.Types;
 import webfx.platform.shared.util.Strings;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +58,10 @@ public final class Constant<T> extends AbstractExpression<T> {
     @Override
     public Type getType() {
         return Types.guessType(constantValue);
+    }
+
+    @Override
+    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
     }
 
     @Override

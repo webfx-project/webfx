@@ -23,8 +23,7 @@ public final class QueryPushService {
     }
 
     public static void executePulse(PulseArgument argument) {
-        getProvider().requestPulse(argument);
+        getProvider().executePulse(argument);
     }
-
 
 }

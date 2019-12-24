@@ -11,7 +11,10 @@ import webfx.platform.shared.util.Arrays;
  */
 public final class UpdateArgument {
 
+    private final transient UpdateArgument originalArgument;
+
     private final Object dataSourceId;
+    private Object updateScope;
     private final boolean returnGeneratedKeys;
     private final String updateLang;
     private final String updateString;
@@ -22,19 +25,40 @@ public final class UpdateArgument {
     }
 
     public UpdateArgument(Object dataSourceId, boolean returnGeneratedKeys, String updateString, Object... parameters) {
-        this(dataSourceId, returnGeneratedKeys, null, updateString, parameters);
+        this(null, dataSourceId, returnGeneratedKeys, null, updateString, parameters);
     }
 
     public UpdateArgument(Object dataSourceId, String updateLang, String updateString, Object... parameters) {
-        this(dataSourceId, false, updateLang, updateString, parameters);
+        this(null, dataSourceId, false, updateLang, updateString, parameters);
     }
 
-    public UpdateArgument(Object dataSourceId, boolean returnGeneratedKeys, String updateLang, String updateString, Object... parameters) {
+    public UpdateArgument(UpdateArgument originalArgument, String updateString) {
+        this(originalArgument, originalArgument.getDataSourceId(), originalArgument.returnGeneratedKeys(), null, updateString, originalArgument.getParameters());
+    }
+
+    public UpdateArgument(UpdateArgument originalArgument, Object dataSourceId, boolean returnGeneratedKeys, String updateLang, String updateString, Object... parameters) {
+        this.originalArgument = originalArgument;
         this.dataSourceId = dataSourceId;
         this.returnGeneratedKeys = returnGeneratedKeys;
         this.updateLang = updateLang;
         this.updateString = updateString;
         this.parameters = parameters;
+    }
+
+    public UpdateArgument getOriginalArgument() {
+        return originalArgument;
+    }
+
+    public Object getDataSourceId() {
+        return dataSourceId;
+    }
+
+    public Object getUpdateScope() {
+        return updateScope;
+    }
+
+    public boolean returnGeneratedKeys() {
+        return returnGeneratedKeys;
     }
 
     public String getUpdateLang() {
@@ -49,21 +73,13 @@ public final class UpdateArgument {
         return parameters;
     }
 
-    public boolean returnGeneratedKeys() {
-        return returnGeneratedKeys;
-    }
-
-    public Object getDataSourceId() {
-        return dataSourceId;
-    }
-
     @Override
     public String toString() {
         return "UpdateArgument('" + updateString + (parameters == null ? "'" : "', " + Arrays.toString(parameters)) + ')';
     }
 
     /****************************************************
-     *                   Serial ProvidedSerialCodec                   *
+     *                   Serial Codec                   *
      * *************************************************/
 
     public static final class ProvidedSerialCodec extends SerialCodecBase<UpdateArgument> {
@@ -92,7 +108,7 @@ public final class UpdateArgument {
 
         @Override
         public UpdateArgument decodeFromJson(JsonObject json) {
-            return new UpdateArgument(
+            return new UpdateArgument(null,
                     json.get(DATA_SOURCE_ID_KEY),
                     json.getBoolean(RETURN_GENERATED_KEYS_KEY),
                     json.getString(UPDATE_LANG_KEY),

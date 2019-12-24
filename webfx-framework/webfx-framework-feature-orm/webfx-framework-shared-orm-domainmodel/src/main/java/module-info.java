@@ -8,7 +8,6 @@ module webfx.framework.shared.orm.domainmodel {
     requires webfx.extras.type;
     requires webfx.framework.shared.orm.dql;
     requires webfx.framework.shared.orm.expression;
-    requires webfx.platform.shared.log;
     requires webfx.platform.shared.util;
 
     // Exported packages

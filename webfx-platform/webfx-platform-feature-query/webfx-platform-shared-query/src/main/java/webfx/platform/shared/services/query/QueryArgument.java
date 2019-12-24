@@ -11,7 +11,10 @@ import webfx.platform.shared.util.Arrays;
  */
 public final class QueryArgument {
 
+    private final transient QueryArgument originalArgument;
+
     private final Object dataSourceId;
+    private final Object queryScope;
     private final String queryLang;
     private final String queryString;
     private final Object[] parameters;
@@ -21,7 +24,17 @@ public final class QueryArgument {
     }
 
     public QueryArgument(Object dataSourceId, String queryLang, String queryString, Object... parameters) {
+        this(null, dataSourceId, null, queryLang, queryString, parameters);
+    }
+
+    public QueryArgument(QueryArgument originalArgument, String queryString) {
+        this(originalArgument, originalArgument.getDataSourceId(), originalArgument.getQueryScope(), null, queryString, originalArgument.getParameters());
+    }
+
+    public QueryArgument(QueryArgument originalArgument, Object dataSourceId, Object queryScope, String queryLang, String queryString, Object... parameters) {
+        this.originalArgument = originalArgument;
         this.dataSourceId = dataSourceId;
+        this.queryScope = queryScope;
         this.queryLang = queryLang;
         this.queryString = queryString;
         this.parameters = parameters;
@@ -29,6 +42,14 @@ public final class QueryArgument {
 
     public Object getDataSourceId() {
         return dataSourceId;
+    }
+
+    public QueryArgument getOriginalArgument() {
+        return originalArgument;
+    }
+
+    public Object getQueryScope() {
+        return queryScope;
     }
 
     public String getQueryLang() {
