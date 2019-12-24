@@ -3,7 +3,7 @@ package webfx.framework.server.services.querypush.spi.impl;
 import webfx.framework.server.services.push.PushServerService;
 import webfx.framework.server.services.querypush.QueryPushServerService;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
-import webfx.framework.shared.orm.expression.Expression;
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.terms.DqlStatement;
 import webfx.framework.shared.orm.expression.terms.Select;
 import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
@@ -316,13 +316,16 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
                         // TODO Should we cache this (dqlUpdate => modified fields)?
                         DqlStatement<Object> dqlStatement = dataSourceModel.parseStatement(dqlUpdate);
                         if (dqlStatement instanceof Select) {
-                            List<Expression<Object>> persistentTerms = new ArrayList<>();
-                            dqlStatement.collectPersistentTerms(persistentTerms);
-                            queryScope = persistentTerms;
+                            CollectOptions collectOptions = new CollectOptions()
+                                    .setFilterPersistentTerms(true)
+                                    .setTraverseSelect(true)
+                                    .setTraverseSqlExpressible(true)
+                                    ;
+                            dqlStatement.collect(collectOptions);
+                            queryScope = collectOptions.getCollectedTerms();
                         }
                     }
                 }
-
             }
             return queryScope;
         }

@@ -1,10 +1,9 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.extras.type.Type;
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
-import webfx.extras.type.Type;
-
-import java.util.Collection;
 
 /**
  * @author Bruno Salmon
@@ -45,11 +44,14 @@ public class SelectExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        if (as == null)
-            as = new As(this, "as" + ++asSeq);
-        persistentTerms.add(as);
+    public void collect(CollectOptions options) {
+        if (options.traverseSelect())
+            select.collect(options);
+        else {
+            if (as == null)
+                as = new As(this, "as" + ++asSeq);
+            as.collect(options);
+        }
     }
-
 }
 

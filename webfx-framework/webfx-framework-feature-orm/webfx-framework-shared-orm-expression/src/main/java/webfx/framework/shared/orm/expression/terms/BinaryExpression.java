@@ -1,9 +1,8 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
-
-import java.util.Collection;
 
 /**
  * @author Bruno Salmon
@@ -76,9 +75,9 @@ public abstract class BinaryExpression<T> extends AbstractExpression<T> {
         return sb;
     }
 
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        left.collectPersistentTerms(persistentTerms);
-        right.collectPersistentTerms(persistentTerms);
+    @Override
+    public void collect(CollectOptions options) {
+        left.collect(options);
+        right.collect(options);
     }
-
 }

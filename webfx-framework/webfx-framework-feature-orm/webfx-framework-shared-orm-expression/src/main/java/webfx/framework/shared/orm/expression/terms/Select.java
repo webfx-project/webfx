@@ -1,8 +1,7 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
-
-import java.util.Collection;
 
 /**
  * @author Bruno Salmon
@@ -45,14 +44,14 @@ public final class Select<T> extends DqlStatement<T> {
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
+    public void collect(CollectOptions options) {
         if (fields != null)
-            fields.collectPersistentTerms(persistentTerms);
-        super.collectPersistentTerms(persistentTerms);
+            fields.collect(options);
+        super.collect(options);
         if (groupBy != null)
-            groupBy.collectPersistentTerms(persistentTerms);
+            groupBy.collect(options);
         if (having != null)
-            having.collectPersistentTerms(persistentTerms);
+            having.collect(options);
     }
 
     @Override

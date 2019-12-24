@@ -1,13 +1,12 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.lci.DomainWriter;
 import webfx.framework.shared.orm.expression.terms.function.Call;
 import webfx.framework.shared.orm.expression.terms.function.Function;
-import webfx.platform.shared.util.collection.HashList;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -69,22 +68,34 @@ public final class Dot<T> extends BinaryExpression<T> {
         }
     }
 
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        List<Expression<T>> rightPersistentTerms = new HashList<>();
-        right.collectPersistentTerms(rightPersistentTerms);
-        if (!rightPersistentTerms.isEmpty()) {
-            Dot<T> persistentDot;
-            if (rightPersistentTerms.size() != 1)
-                persistentDot = new Dot<>(left, new ExpressionArray<>(rightPersistentTerms), outerJoin);
-            else if (rightPersistentTerms.get(0) == right)
-                persistentDot = this;
-            else
-                persistentDot = new Dot<>(left, rightPersistentTerms.get(0), outerJoin);
-            Expression<T> expandLeft = persistentDot.expandLeft();
-            if (expandLeft == persistentDot)
-                persistentTerms.add(persistentDot);
-            else
-                expandLeft.collectPersistentTerms(persistentTerms);
+    @Override
+    public void collect(CollectOptions options) {
+        left.collect(options);
+        if (!options.factorizeLeftDot())
+            right.collect(options);
+        else {
+            CollectOptions rightOptions = CollectOptions.sameButEmpty(options);
+            right.collect(rightOptions);
+            List<Expression<T>> rightTerms = rightOptions.getCollectedTerms();
+            if (!rightTerms.isEmpty()) {
+                Dot<T> persistentDot;
+                if (rightTerms.size() != 1) {
+                    persistentDot = new Dot<>(left, new ExpressionArray<>(rightTerms), outerJoin);
+                }
+                else if (rightTerms.get(0) == right) {
+                    persistentDot = this;
+                }
+                else {
+                    persistentDot = new Dot<>(left, rightTerms.get(0), outerJoin);
+                }
+                Expression<T> expandLeft = persistentDot.expandLeft();
+                if (expandLeft == persistentDot) {
+                    options.addTerm(persistentDot);
+                }
+                else {
+                    expandLeft.collect(options);
+                }
+            }
         }
     }
 

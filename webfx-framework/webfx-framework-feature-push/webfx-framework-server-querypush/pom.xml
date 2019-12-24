@@ -29,6 +29,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-shared-orm-expression</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-shared-querypush</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

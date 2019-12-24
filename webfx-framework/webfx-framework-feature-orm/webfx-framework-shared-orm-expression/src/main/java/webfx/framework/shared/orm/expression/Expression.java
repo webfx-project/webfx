@@ -4,7 +4,8 @@ import webfx.extras.type.Type;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.lci.DomainWriter;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Base interface for any expression and terms operating on domain objects.
@@ -94,5 +95,15 @@ public interface Expression<T> {
      * @param persistentTerms the collection where persistent terms will be added.
      */
 
-    void collectPersistentTerms(Collection<Expression<T>> persistentTerms);
+    default void collectPersistentTerms(List<Expression<T>> persistentTerms) {
+        collect(CollectOptions.persistentTermsOnly((List<Expression>) (List) persistentTerms));
+    }
+
+    default List<Expression<T>> collectPersistentTerms() {
+        List<Expression<T>> persistentTerms = new ArrayList<>();
+        collectPersistentTerms(persistentTerms);
+        return persistentTerms;
+    }
+
+    void collect(CollectOptions options);
 }

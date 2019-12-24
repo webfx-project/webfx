@@ -1,11 +1,10 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.extras.type.Type;
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.lci.DomainWriter;
-import webfx.extras.type.Type;
-
-import java.util.Collection;
 
 /**
  * @author Bruno Salmon
@@ -84,8 +83,8 @@ public final class Parameter<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        persistentTerms.add(this);
+    public void collect(CollectOptions options) {
+        if (options.includeParameter())
+            options.addTerm(this);
     }
-
 }

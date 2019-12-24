@@ -1,5 +1,6 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.lci.DomainWriter;
@@ -69,8 +70,8 @@ public final class ExpressionArray<T> extends AbstractExpression<T> implements P
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
+    public void collect(CollectOptions options) {
         for (Expression<T> expression : expressions)
-            expression.collectPersistentTerms(persistentTerms);
+            expression.collect(options);
     }
 }

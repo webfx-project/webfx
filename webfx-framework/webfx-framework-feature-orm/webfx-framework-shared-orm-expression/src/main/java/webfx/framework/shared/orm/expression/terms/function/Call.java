@@ -1,14 +1,14 @@
 package webfx.framework.shared.orm.expression.terms.function;
 
+import webfx.extras.type.Type;
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.expression.terms.Ordered;
 import webfx.framework.shared.orm.expression.terms.UnaryExpression;
-import webfx.extras.type.Type;
 import webfx.platform.shared.util.Arrays;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -109,11 +109,12 @@ public final class Call<T> extends UnaryExpression<T> {
         return sb;
     }
 
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        if (function.isSqlExpressible())
-            persistentTerms.add(this);
+    @Override
+    public void collect(CollectOptions options) {
+        if (!options.traverseSqlExpressible() && function.isSqlExpressible())
+            options.addTerm(this);
         else if (operand != null)
-            operand.collectPersistentTerms(persistentTerms);
+            operand.collect(options);
     }
 
     public static <T> List<T> orderBy(List<T> list, DomainReader<T> domainReader, Expression<T>... orderExpressions) {

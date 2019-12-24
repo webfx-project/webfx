@@ -1,9 +1,8 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
-
-import java.util.Collection;
 
 /**
  * @author Bruno Salmon
@@ -32,7 +31,8 @@ public final class As<T> extends UnaryExpression<T> {
         return operand.toString(sb).append(" as ").append(alias);
     }
 
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        persistentTerms.add(this); // We want the whole As expression to be sent to the server
+    @Override
+    public void collect(CollectOptions options) {
+        options.addTerm(this);  // We want the whole As expression to be sent to the server
     }
 }

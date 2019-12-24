@@ -1,10 +1,9 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.lci.DomainWriter;
-
-import java.util.Collection;
 
 /**
  * @author Bruno Salmon
@@ -63,10 +62,9 @@ public final class TernaryExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        question.collectPersistentTerms(persistentTerms);
-        yes.collectPersistentTerms(persistentTerms);
-        no.collectPersistentTerms(persistentTerms);
+    public void collect(CollectOptions options) {
+        question.collect(options);
+        yes.collect(options);
+        no.collect(options);
     }
-
 }

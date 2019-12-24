@@ -1,11 +1,10 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.extras.type.Type;
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
 import webfx.framework.shared.orm.expression.lci.DomainWriter;
-import webfx.extras.type.Type;
-
-import java.util.Collection;
 
 /**
  * @author Bruno Salmon
@@ -84,10 +83,10 @@ public class Symbol<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
+    public void collect(CollectOptions options) {
         if (getExpression() != null)
-            getExpression().collectPersistentTerms(persistentTerms);
+            getExpression().collect(options);
         else
-            persistentTerms.add(this);
+            options.addTerm(this);
     }
 }

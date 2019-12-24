@@ -1,20 +1,21 @@
 package webfx.framework.shared.orm.entity;
 
+import webfx.framework.shared.orm.domainmodel.DomainClass;
+import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.terms.Dot;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
-import webfx.framework.shared.orm.domainmodel.DomainClass;
-import webfx.framework.shared.orm.domainmodel.DomainField;
-import webfx.platform.shared.util.*;
+import webfx.platform.shared.util.Booleans;
+import webfx.platform.shared.util.Dates;
+import webfx.platform.shared.util.Numbers;
+import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.async.Future;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -139,9 +140,9 @@ public interface Entity {
     }
 
     default <E extends Entity> Collection<Expression<E>> getUnloadedPersistentTerms(Expression<E> expression) {
-        List<Expression<E>> persistentTerms = new ArrayList<>();
-        expression.collectPersistentTerms(persistentTerms);
-        return persistentTerms.stream().filter(pt -> !isPersistentTermLoaded(pt)).collect(Collectors.toList());
+        return expression.collectPersistentTerms().stream()
+                .filter(pt -> !isPersistentTermLoaded(pt))
+                .collect(Collectors.toList());
     }
 
     default <E extends Entity> boolean isPersistentTermLoaded(Expression<E> persistentTerm) {

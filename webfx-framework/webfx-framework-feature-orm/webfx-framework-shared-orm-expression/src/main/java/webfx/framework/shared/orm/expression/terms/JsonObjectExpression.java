@@ -1,16 +1,16 @@
 package webfx.framework.shared.orm.expression.terms;
 
+import webfx.extras.type.Type;
+import webfx.framework.shared.orm.expression.CollectOptions;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.lci.DomainReader;
-import webfx.platform.shared.util.noreflect.IndexedArray;
-import webfx.platform.shared.util.noreflect.KeyObject;
-import webfx.extras.type.Type;
-// TODO: remove platform dependency
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonObject;
+import webfx.platform.shared.util.noreflect.IndexedArray;
+import webfx.platform.shared.util.noreflect.KeyObject;
 
-import java.util.Collection;
+// TODO: remove platform dependency
 
 /**
  * @author Bruno Salmon
@@ -57,12 +57,12 @@ public final class JsonObjectExpression<T> extends AbstractExpression<T> {
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
+    public void collect(CollectOptions options) {
         IndexedArray keys = jsonObjectExpressions.keys();
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.getString(i);
             Expression<T> expression = jsonObjectExpressions.get(key);
-            expression.collectPersistentTerms(persistentTerms);
+            expression.collect(options);
         }
     }
 }
