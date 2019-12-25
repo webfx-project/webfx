@@ -89,6 +89,11 @@ public interface ReactiveDqlQueryAPI<E, THIS> extends HasDataSourceModel, HasAct
         return (THIS) this;
     }
 
+    default THIS unbindActiveProperty() {
+        getReactiveDqlQuery().unbindActiveProperty();
+        return (THIS) this;
+    }
+
     default THIS start() {
         getReactiveDqlQuery().start();
         return (THIS) this;

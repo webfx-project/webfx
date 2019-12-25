@@ -69,9 +69,18 @@ public class LocalOrRemoteQueryPushServiceProvider implements QueryPushServicePr
                     queryPushResultConsumers.put(newQueryStreamId, queryPushResultConsumer);
                     consumerRegistrationPendingCalls--; // Decreasing the pending calls now that the consumer is registered
                     // Retrying sending results with no consumer if any
-                    for (QueryPushResult qpr : withNoConsumerReceivedResults)
-                        onQueryPushResultReceived(qpr);
-                    withNoConsumerReceivedResults.clear();
+                    if (!withNoConsumerReceivedResults.isEmpty()) {
+                        // Working on a copy to avoid concurrent modification (and also infinite recursion)
+                        ArrayList<QueryPushResult> copy = new ArrayList<>(withNoConsumerReceivedResults);
+                        withNoConsumerReceivedResults.clear();
+                        // Now retrying
+                        for (QueryPushResult qpr : copy)
+                            onQueryPushResultReceived(qpr);
+                        // If at this point withNoConsumerReceivedResults is not empty, this is probably because the
+                        // result has been received before the queryStreamId (can happen especially for a cached query)
+                        // but it will be considered on next push result received
+                        // TODO check if it is ok like this or if we should explicitly call onQueryPushResultReceived() when receiving the queryStreamId
+                    }
                     return newQueryStreamId;
                 }
             });
@@ -83,7 +92,7 @@ public class LocalOrRemoteQueryPushServiceProvider implements QueryPushServicePr
     private final static List<QueryPushResult> withNoConsumerReceivedResults = new ArrayList<>();
 
     public static void onQueryPushResultReceived(QueryPushResult qpr) {
-        //Logger.log("Received qpr");
+        //Logger.log("LocalOrRemoteQueryPushServiceProvider received QueryPushResult for " + qpr.getQueryStreamId());
         synchronized (queryPushResultConsumers) {
             Consumer<QueryPushResult> consumer = queryPushResultConsumers.get(qpr.getQueryStreamId());
             if (consumer != null)

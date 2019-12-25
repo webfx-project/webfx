@@ -120,7 +120,7 @@ public final class BookingDetailsPanel implements
         // Setting up the reactive visual mapper
         String classOnly = dqlStatementString.substring(0, dqlStatementString.indexOf(',')) + "}";
         ObjectProperty<Entity> selectedEntityProperty = new SimpleObjectProperty<>();
-        ReactiveVisualMapper<Entity> visualMapper = ReactiveVisualMapper.createReactiveChain()
+        ReactiveVisualMapper<Entity> visualMapper = ReactiveVisualMapper.createPushReactiveChain()
                 .always(classOnly)
                 .ifNotNullOtherwiseEmptyString(selectedDocumentProperty, document -> Strings.replaceAll(dqlStatementString, "${selectedDocument}", document.getPrimaryKey()))
                 .bindActivePropertyTo(tab.selectedProperty())

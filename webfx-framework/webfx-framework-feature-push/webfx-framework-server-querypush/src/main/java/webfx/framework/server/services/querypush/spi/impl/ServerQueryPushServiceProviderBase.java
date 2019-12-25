@@ -117,8 +117,8 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
             synchronized (queryInfo) {
                 // Retrieving the last result
                 QueryResult lastQueryResult = queryInfo.lastQueryResult;
-                List<StreamInfo> activeNewClients = Collections.filter(queryInfo.streamInfos, si -> si.isActive() && si.lastQueryResult != lastQueryResult);
-                List<StreamInfo> activeOldClients = Collections.filter(queryInfo.streamInfos, si -> si.isActive() && si.lastQueryResult == lastQueryResult);
+                List<StreamInfo> activeNewClients = Collections.filter(queryInfo.streamInfos, si -> si.isActive() && (lastQueryResult == null || si.lastQueryResult != lastQueryResult));
+                List<StreamInfo> activeOldClients = Collections.filter(queryInfo.streamInfos, si -> si.isActive() && lastQueryResult != null && si.lastQueryResult == lastQueryResult);
                 queryInfo.activeNewStreamCount = activeNewClients.size();
                 // Checking if there are changes compared to the last result - false if there are no "old" clients (that have already received the last result)
                 boolean hasChanged = !activeOldClients.isEmpty() && queryInfo.hasQueryResultChanged(queryResult);
@@ -131,11 +131,15 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
                 QueryResultDiff queryResultDiff = hasChanged ? QueryResultComparator.computeDiff(lastQueryResult, queryResult) : null;
                 // Sending the whole query result to new clients (the blank streams that haven't received any result yet)
                 pushResultToClients(activeNewClients, queryResult, null);
+                // Updating queryInfo fields
+                if (lastQueryResult == null || hasChanged)
+                    queryInfo.lastQueryResult = queryResult;
+                queryInfo.reactivated = false;
                 // Sending only the diff to old clients (or sending the whole result if the comparator couldn't compute a diff)
                 if (hasChanged)
                     pushResultToClients(activeOldClients, queryResult, queryResultDiff);
                 else // Otherwise (no diff), marking new clients as old
-                    Collections.forEach(activeNewClients, si -> si.lastQueryResult = lastQueryResult);
+                    Collections.forEach(activeNewClients, si -> si.lastQueryResult = queryInfo.lastQueryResult);
             }
         }
 
@@ -154,7 +158,9 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
 
         void pushResultToClient(StreamInfo streamInfo, QueryResult queryResult, QueryResultDiff queryResultDiff) {
             streamInfo.lastQueryResult = queryResult;
-            QueryPushServerService.pushQueryResultToClient(new QueryPushResult(streamInfo.queryStreamId, queryResult, queryResultDiff), streamInfo.pushClientId)
+            Object queryStreamId = streamInfo.queryStreamId;
+            //Logger.log("pushResultToClient() to queryStreamId=" + queryStreamId + " with " + (queryResult != null ? queryResult.getRowCount() + " rows" : "diff"));
+            QueryPushServerService.pushQueryResultToClient(new QueryPushResult(queryStreamId, queryResult, queryResultDiff), streamInfo.pushClientId)
                 .setHandler(ar -> {
                     if (ar.failed()) { // Handling push call failure
                         long timeSinceCreation = now() - streamInfo.creationTime;
@@ -218,38 +224,50 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
     }
 
     public static final class QueryInfo {
-        public final QueryArgument queryArgument;
+        private final QueryArgument queryArgument;
         private Object queryScope;
         private final List<StreamInfo> streamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
-        int activeNewStreamCount;
+        private int activeNewStreamCount;
         /*
                 private final List<StreamInfo> blankStreamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
                 private final List<StreamInfo> filledStreamInfos = new ArrayList<>(); // Contains client streams that already received at least 1 result
         */
-        public int activeStreamCount;
+        private int activeStreamCount;
         private long lastQueryExecutionTime;
-        private long lastPossibleChangeTime;
-        QueryResult lastQueryResult;
+        private long lastPossibleChangeTime = now();
+        private boolean reactivated;
+        private QueryResult lastQueryResult;
 
         public QueryInfo(QueryArgument queryArgument) {
             this.queryArgument = queryArgument;
             queryScope = queryArgument.getQueryScope();
         }
 
+        public QueryArgument getQueryArgument() {
+            return queryArgument;
+        }
+
         void touchExecuted() {
             lastQueryExecutionTime = now();
             lastPossibleChangeTime = 0;
+            reactivated = false;
         }
 
         boolean hasQueryResultChanged(QueryResult newQueryResult) {
-            if (Objects.equals(newQueryResult, lastQueryResult))
-                return false;
-            lastQueryResult = newQueryResult;
-            return true;
+            return !Objects.equals(newQueryResult, lastQueryResult);
         }
 
         public void markAsDirty() {
             lastPossibleChangeTime = now();
+        }
+
+        public void markAsReactivated() {
+            reactivated = true;
+            //Logger.log("Marked " + queryArgument + " as reactivated");
+        }
+
+        public boolean needsRefresh() {
+            return reactivated || isDirty() && activeStreamCount > 0;
         }
 
         public boolean isDirty() {
@@ -263,8 +281,10 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
         public void addStreamInfo(StreamInfo streamInfo) {
             synchronized (this) {
                 streamInfos.add(streamInfo);
-                if (streamInfo.isActive())
+                if (streamInfo.isActive()) {
                     updateActiveStreamCount(streamInfo, true);
+                    markAsReactivated();
+                }
             }
         }
 
@@ -296,7 +316,7 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
             activeStreamCount += delta;
             if (streamInfo.lastQueryResult != lastQueryResult)
                 activeNewStreamCount += delta;
-            streamInfo.childrenStreamInfos.forEach( csi -> {
+            streamInfo.childrenStreamInfos.forEach(csi -> {
                 if (csi.active)
                     csi.queryInfo.updateActiveStreamCount(csi, increment);
             });
@@ -308,19 +328,18 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
 
         public Object getQueryScope() {
             if (queryScope == null) {
-                String dqlUpdate = getDqlQuery(queryArgument);
-                if (dqlUpdate != null) {
+                String dqlQuery = getDqlQuery(queryArgument);
+                if (dqlQuery != null) {
                     // TODO Introducing a dependency to webfx-framework-shared-orm-domainmodel => see if we can move this into an interceptor in a new separate module
                     DataSourceModel dataSourceModel = DataSourceModelService.getDataSourceModel(queryArgument.getDataSourceId());
                     if (dataSourceModel != null) {
-                        // TODO Should we cache this (dqlUpdate => modified fields)?
-                        DqlStatement<Object> dqlStatement = dataSourceModel.parseStatement(dqlUpdate);
+                        // TODO Should we cache this (dqlQuery => read fields)?
+                        DqlStatement<Object> dqlStatement = dataSourceModel.parseStatement(dqlQuery);
                         if (dqlStatement instanceof Select) {
                             CollectOptions collectOptions = new CollectOptions()
                                     .setFilterPersistentTerms(true)
                                     .setTraverseSelect(true)
-                                    .setTraverseSqlExpressible(true)
-                                    ;
+                                    .setTraverseSqlExpressible(true);
                             dqlStatement.collect(collectOptions);
                             queryScope = collectOptions.getCollectedTerms();
                         }
@@ -343,9 +362,9 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
         private final long creationTime = now();
         public Object queryStreamId;
         private StreamInfo parentStreamInfo;
-        private final List<StreamInfo> childrenStreamInfos = new ArrayList<>();
+        public final List<StreamInfo> childrenStreamInfos = new ArrayList<>();
         public final Object pushClientId;
-        private Boolean active;
+        public Boolean active;
         public Boolean close;
         public QueryInfo queryInfo;
         private QueryResult lastQueryResult;

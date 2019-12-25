@@ -35,6 +35,11 @@ public final class ReactiveDqlQueryPush<E> extends ReactiveDqlQuery<E> {
     }
 
     @Override
+    public ReactiveDqlQueryPush<E> unbindActiveProperty() {
+        return (ReactiveDqlQueryPush<E>) super.unbindActiveProperty();
+    }
+
+    @Override
     public ReactiveDqlQueryPush<E> start() {
         return (ReactiveDqlQueryPush<E>) super.start();
     }
@@ -64,4 +69,7 @@ public final class ReactiveDqlQueryPush<E> extends ReactiveDqlQuery<E> {
         return initMixin(create(ReactiveDqlStatement.create()), mixin);
     }
 
+    public static <E> ReactiveDqlQuery<E> createMasterReactiveChain(Object mixin, Object pm) {
+        return initMixin(create(ReactiveDqlStatement.createMaster(pm)), mixin);
+    }
 }

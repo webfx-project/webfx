@@ -39,9 +39,21 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
         Boolean resend = argument.getResend();
         if (resend != null && resend)
             streamInfo.markAsResend();
-        if (streamInfo.isActive())
-            executePulse(PulseArgument.createWithQueryInfo(streamInfo.queryInfo));
+        if (streamInfo.isActive()) {
+            refreshActiveTree(streamInfo, active != null);
+            executePulse(null); // Forcing a pulse cycle if none is running to refresh this query
+        }
         return Future.succeededFuture(streamInfo.queryStreamId);
+    }
+
+    private void refreshActiveTree(StreamInfo streamInfo, boolean includeActiveChildren) {
+        streamInfo.queryInfo.markAsReactivated();
+        if (includeActiveChildren)
+            streamInfo.childrenStreamInfos.forEach(csi -> {
+                System.out.println(csi);
+                if (csi.active)
+                    refreshActiveTree(csi, true);
+            });
     }
 
     @Override
@@ -71,7 +83,7 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
         QueryInfo previousQueryInfo = streamInfo.queryInfo;
         if (previousQueryInfo != null) { // If set
             // and has the same query argument
-            if (Objects.areEquals(queryArgument, previousQueryInfo.queryArgument))
+            if (Objects.areEquals(queryArgument, previousQueryInfo.getQueryArgument()))
                 return; // No change is needed
             // otherwise (ie the query argument has changed), this streamInfo shouldn't be associated with that previous queryInfo anymore
             removeStreamFromQueryInfo(streamInfo, previousQueryInfo);
@@ -82,7 +94,7 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
             // If the queryString was null (network optimization when it's the same as previous),
             if (queryArgument.getQueryString() == null && previousQueryInfo != null)
                 // we reconstitute the complete argument reusing the previous queryString
-                queryArgument = new QueryArgument(queryArgument.getDataSourceId(), queryArgument.getQueryLang(), previousQueryInfo.queryArgument.getQueryString(), queryArgument.getParameters());
+                queryArgument = new QueryArgument(queryArgument.getDataSourceId(), queryArgument.getQueryLang(), previousQueryInfo.getQueryArgument().getQueryString(), queryArgument.getParameters());
             queryInfos.put(queryArgument, requestedQueryInfo = new QueryInfo(queryArgument));
         }
         // Associating this streamInfo to this requested queryInfo
@@ -100,7 +112,7 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
         if (queryInfo != null) {
             queryInfo.removeStreamInfo(streamInfo);
             if (queryInfo.hasNoMoreStreams())
-                queryInfos.remove(queryInfo.queryArgument);
+                queryInfos.remove(queryInfo.getQueryArgument());
         }
     }
 
@@ -127,30 +139,28 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
          */
         @Override
         protected void applyPulseArgument(PulseArgument argument) {
-            // Special case when the pulse argument is for a specific query (used to refresh a query that became active again)
-            if (argument.getQueryInfo() instanceof QueryInfo)
-                ((QueryInfo) argument.getQueryInfo()).markAsDirty();
-            else { // General case => we need to mark dirty all queries impacted by the modification
+            if (argument != null) { // argument may be null (some code can wake up pulse by calling executePulse(null))
+                // We need to mark dirty all queries impacted by the modification
                 Object dataSourceId = argument.getDataSourceId();
                 for (QueryInfo queryInfo : queryInfos.values()) {
                     // First criteria: must be of the same data source
-                    if (!Objects.areEquals(dataSourceId, queryInfo.queryArgument.getDataSourceId()))
+                    if (!Objects.areEquals(dataSourceId, queryInfo.getQueryArgument().getDataSourceId()))
                         continue; // Avoiding an unnecessary costly query check! :-)
                     // Second criteria: the update scope must impact the query scope (ex: modify a field that the query reads)
                     Object updateScope = argument.getUpdateScope();
                     if (updateScope != null) {
-                        // TODO Should I introduce a Scope interface with intersects() method?
                         Object queryScope = queryInfo.getQueryScope();
                         if (queryScope != null && !areScopesIntersecting(queryScope, updateScope))
                             continue; // Avoiding an unnecessary costly query check! :-)
                     }
                     queryInfo.markAsDirty();
+                    nextMostUrgentQueryNotYetRefreshed = null; // To force a re-computation of the most urgent query to refresh
                 }
             }
-            nextMostUrgentQueryNotYetRefreshed = null;
         }
 
         private boolean areScopesIntersecting(Object scope1, Object scope2) {
+            // TODO Should I introduce a Scope interface with intersects() method?
             if (scope1 instanceof List && scope2 instanceof List) {
                 List<Object> list1 = (List<Object>) scope1;
                 List<Object> list2 = (List<Object>) scope2;
@@ -170,11 +180,11 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
         }
 
         QueryInfo mostUrgentQuery(QueryInfo q1, QueryInfo q2) {
-            if (q1.isDirty() && q1.activeStreamCount > 0 && (
+            if (q1.needsRefresh() && (
                     q2 == null
-                    || q1.getActiveNewStreamCount() > q2.getActiveNewStreamCount()
-                    || q1.dirtyTime() > q2.dirtyTime()
-                ))
+                            || q1.getActiveNewStreamCount() > q2.getActiveNewStreamCount()
+                            || q1.dirtyTime() > q2.dirtyTime()
+            ))
                 return q1;
             return q2;
         }

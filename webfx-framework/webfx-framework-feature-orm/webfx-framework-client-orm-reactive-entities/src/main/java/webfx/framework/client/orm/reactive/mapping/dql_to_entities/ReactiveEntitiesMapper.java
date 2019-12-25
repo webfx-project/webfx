@@ -87,7 +87,7 @@ public final class ReactiveEntitiesMapper<E extends Entity> implements HasEntity
     }
 
     private void onNewQueryResult(QueryResult queryResult) {
-        //Logger.log("ReactiveEntitiesMapper.onNewQueryResult()");
+        //Logger.log("ReactiveEntitiesMapper received queryResult with " + queryResult.getRowCount() + " rows");
         entitiesProperty.set(queryResultToEntities(queryResult));
     }
 

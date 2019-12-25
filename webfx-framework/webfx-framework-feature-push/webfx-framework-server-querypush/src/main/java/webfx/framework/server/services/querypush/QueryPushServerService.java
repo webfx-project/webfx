@@ -51,7 +51,7 @@ public final class QueryPushServerService {
                     }
                 }
             }
-            QueryPushService.executePulse(PulseArgument.createWithUpdateScope(updateArgument.getDataSourceId(), updateScope));
+            QueryPushService.executePulse(PulseArgument.createToRefreshAllQueriesImpactedByUpdate(updateArgument.getDataSourceId(), updateScope));
         }
 
         private static String getDqlUpdate(UpdateArgument updateArgument) {

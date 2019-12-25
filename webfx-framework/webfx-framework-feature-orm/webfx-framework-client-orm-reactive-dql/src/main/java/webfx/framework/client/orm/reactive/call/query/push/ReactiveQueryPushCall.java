@@ -161,9 +161,12 @@ public final class ReactiveQueryPushCall extends ReactiveQueryCall {
     }
 
     private QueryResult computeQueryResult(QueryPushResult queryPushResult) {
+        //log("ReactiveQueryPushCall received QueryPushResult for queryStreamId=" + queryPushResult.getQueryStreamId());
         // Double checking if the query argument is still the latest
-        if (hasArgumentChangedSinceLastCall())
+        if (hasArgumentChangedSinceLastCall()) {
+            log("Skipping this QueryPushResult in ReactiveQueryPushCall as the argument has changed");
             return null;
+        }
         QueryResult queryResult = queryPushResult.getQueryResult();
         // Rebuilding the query result in case only a diff has been sent
         QueryResultDiff diff = queryPushResult.getQueryResultDiff();

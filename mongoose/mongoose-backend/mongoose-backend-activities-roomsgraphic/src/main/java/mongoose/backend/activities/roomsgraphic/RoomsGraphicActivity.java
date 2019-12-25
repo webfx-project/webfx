@@ -21,16 +21,16 @@ import mongoose.client.presentationmodel.HasSelectedDocumentProperty;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
 import mongoose.shared.entities.Site;
+import webfx.extras.flexbox.FlexBox;
 import webfx.extras.imagestore.ImageStore;
 import webfx.extras.visual.controls.grid.SkinnedVisualGrid;
 import webfx.extras.visual.controls.grid.VisualGrid;
-import webfx.framework.client.ui.action.operation.OperationActionFactoryMixin;
 import webfx.framework.client.orm.reactive.mapping.dql_to_entities.ReactiveEntitiesMapper;
 import webfx.framework.client.orm.reactive.mapping.entities_to_objects.IndividualEntityToObjectMapper;
 import webfx.framework.client.orm.reactive.mapping.entities_to_objects.ReactiveObjectsMapper;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.ReactiveVisualMapper;
 import webfx.framework.client.ui.action.ActionGroup;
-import webfx.extras.flexbox.FlexBox;
+import webfx.framework.client.ui.action.operation.OperationActionFactoryMixin;
 import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.kit.util.properties.Properties;
@@ -184,6 +184,7 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
                             .setActiveParent(siteItemResourceConfigurationsToBoxesMapper)
                             .always("{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
                             .ifNotNullOtherwiseEmpty(siteItemResourceConfigurationProperty, rc -> where("resourceConfiguration=?", rc))
+                            .unbindActiveProperty()
                             .visualizeResultInto(peopleGrid.visualResultProperty())
                             .applyDomainModelRowStyle()
                             .setVisualSelectionProperty(peopleGrid.visualSelectionProperty())
