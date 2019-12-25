@@ -9,7 +9,7 @@ import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.services.submit.SubmitArgument;
 import webfx.platform.shared.util.async.Future;
 
 final class SetEntityFieldExecutor {
@@ -38,7 +38,7 @@ final class SetEntityFieldExecutor {
                 UpdateStore updateStore = UpdateStore.createAbove(entity.getStore());
                 Entity updateEntity = updateStore.updateEntity(entity);
                 leftExpression.setValue(updateEntity, rightExpression.evaluate(updateEntity, updateStore.getEntityDataWriter()), updateStore.getEntityDataWriter());
-                updateStore.executeUpdate(new UpdateArgument(entity.getStore().getDataSourceId(),
+                updateStore.submitChanges(new SubmitArgument(entity.getStore().getDataSourceId(),
                         "select set_transaction_parameters(true)"))
                         .setHandler(ar2 -> {
                             if (ar2.failed())

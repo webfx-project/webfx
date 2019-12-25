@@ -184,7 +184,7 @@ public final class ClientSessionRecorderJob implements ApplicationJob {
     private void executeUpdate() {
         boolean newSessionAgent = Entities.isNew(sessionAgent);
         boolean newSessionApplication =  Entities.isNew(sessionApplication);
-        store.executeUpdate().setHandler(ar -> {
+        store.submitChanges().setHandler(ar -> {
             if (ar.failed())
                 Logger.log("Client Session Recorder error", ar.cause());
             else {

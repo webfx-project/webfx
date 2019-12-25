@@ -10,7 +10,7 @@ module mongoose.backend.operations.documentline {
     requires webfx.framework.client.orm.entity.controls;
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.orm.entity;
-    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 
     // Exported packages

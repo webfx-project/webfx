@@ -9,8 +9,8 @@ import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.scheduler.Scheduled;
 import webfx.platform.shared.services.scheduler.Scheduler;
-import webfx.platform.shared.services.update.UpdateArgument;
-import webfx.platform.shared.services.update.UpdateService;
+import webfx.platform.shared.services.submit.SubmitArgument;
+import webfx.platform.shared.services.submit.SubmitService;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -37,8 +37,8 @@ public final class SystemMetricsRecorderJob implements ApplicationJob {
             UpdateStore store = UpdateStore.create(dataSourceModel);
             // Instantiating a new system metrics entity and asking the system metrics service to fill that entity
             SystemMetricsService.takeSystemMetricsSnapshot(store.insertEntity(SystemMetricsEntity.class));
-            // Asking the update store to record this in the database
-            store.executeUpdate().setHandler(asyncResult -> {
+            // Submitting this new record into the database
+            store.submitChanges().setHandler(asyncResult -> {
                 if (asyncResult.failed())
                     Logger.log("Inserting metrics in database failed!", asyncResult.cause());
             });
@@ -46,7 +46,7 @@ public final class SystemMetricsRecorderJob implements ApplicationJob {
 
         // Deleting old metrics records (older than 1 day) regularly (every 12h)
         metricsCleaningPeriodicTimer = Scheduler.schedulePeriodic(12 * 3600 * 1000, () ->
-            UpdateService.executeUpdate(new UpdateArgument(dataSourceModel.getDataSourceId(),
+            SubmitService.executeSubmit(new SubmitArgument(dataSourceModel.getDataSourceId(),
                     "delete from metrics where lt_test_set_id is null and date < ?", Instant.now().minus(1, ChronoUnit.DAYS))).setHandler(ar -> {
                 if (ar.failed())
                     Logger.log("Deleting metrics in database failed!", ar.cause());

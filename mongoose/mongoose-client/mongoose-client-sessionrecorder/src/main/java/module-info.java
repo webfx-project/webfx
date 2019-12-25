@@ -15,7 +15,7 @@ module mongoose.client.sessionrecorder {
     requires webfx.platform.shared.appcontainer;
     requires webfx.platform.shared.bus;
     requires webfx.platform.shared.log;
-    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 
     // Exported packages

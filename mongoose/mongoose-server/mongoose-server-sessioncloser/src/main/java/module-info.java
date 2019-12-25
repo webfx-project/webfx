@@ -8,7 +8,7 @@ module mongoose.server.sessioncloser {
     requires webfx.framework.shared.orm.domainmodel;
     requires webfx.platform.shared.appcontainer;
     requires webfx.platform.shared.log;
-    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 
     // Exported packages

@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.submit.spi.SubmitServiceProvider">webfx.platform.vertx.services.submit.spi.impl.VertxSubmitServiceProvider</provider>
+    </providers>
+
+</module>

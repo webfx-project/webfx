@@ -62,7 +62,7 @@ abstract class EntityUpdateDialog<E extends Entity> implements MaterialFactoryMi
                         if (!updateStore.hasChanges())
                             dialogCallback.closeDialog();
                         else {
-                            updateStore.executeUpdate().setHandler(ar2 -> {
+                            updateStore.submitChanges().setHandler(ar2 -> {
                                 if (ar2.failed())
                                     dialogCallback.showException(ar2.cause());
                                 else

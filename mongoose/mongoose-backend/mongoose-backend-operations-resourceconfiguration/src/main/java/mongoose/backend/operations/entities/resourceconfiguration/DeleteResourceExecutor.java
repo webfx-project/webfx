@@ -22,7 +22,7 @@ final class DeleteResourceExecutor {
             UpdateStore updateStore = UpdateStore.create(resourceConfiguration.getStore().getDataSourceModel());
             updateStore.deleteEntity(resourceConfiguration);
             updateStore.deleteEntity(resourceConfiguration.<Entity>getForeignEntity("resource"));
-            updateStore.executeUpdate().setHandler(ar -> {
+            updateStore.submitChanges().setHandler(ar -> {
                 if (ar.failed())
                     dialogCallback.showException(ar.cause());
                 else

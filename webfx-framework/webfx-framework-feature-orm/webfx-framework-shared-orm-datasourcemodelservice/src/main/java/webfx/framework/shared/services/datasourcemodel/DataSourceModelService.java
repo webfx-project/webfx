@@ -5,9 +5,9 @@ import webfx.framework.shared.services.datasourcemodel.spi.DataSourceModelProvid
 import webfx.platform.shared.services.datasource.LocalDataSourceService;
 import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.spi.QueryServiceProvider;
-import webfx.platform.shared.services.update.UpdateArgument;
-import webfx.platform.shared.services.update.UpdateResult;
-import webfx.platform.shared.services.update.spi.UpdateServiceProvider;
+import webfx.platform.shared.services.submit.SubmitArgument;
+import webfx.platform.shared.services.submit.SubmitResult;
+import webfx.platform.shared.services.submit.spi.SubmitServiceProvider;
 import webfx.platform.shared.util.async.Batch;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
@@ -40,10 +40,10 @@ public class DataSourceModelService {
         return getProvider().getDataSourceModel(dataSourceId);
     }
 
-    /* Installing DQL to SQL translator interceptor for query and update services
+    /* Installing DQL to SQL translator interceptor for query and submit services
      * TODO Move this into a separate module when the build tool will provide the automatic conditional module inclusion
      * TODO (here: when both webfx-platform-shared-query and webfx-platform-shared-domainmodel are included)
-     * TODO (and same with webfx-platform-shared-update and webfx-platform-shared-domainmodel)
+     * TODO (and same with webfx-platform-shared-submit and webfx-platform-shared-domainmodel)
      */
     static {
         SingleServiceProvider.registerServiceInterceptor(QueryServiceProvider.class, target ->
@@ -65,38 +65,38 @@ public class DataSourceModelService {
                 }
         );
 
-        SingleServiceProvider.registerServiceInterceptor(UpdateServiceProvider.class, target ->
-                new UpdateServiceProvider() {
+        SingleServiceProvider.registerServiceInterceptor(SubmitServiceProvider.class, target ->
+                new SubmitServiceProvider() {
 
                     @Override
-                    public Future<UpdateResult> executeUpdate(UpdateArgument argument) {
-                        return target.executeUpdate(translateUpdate(argument));
+                    public Future<SubmitResult> executeSubmit(SubmitArgument argument) {
+                        return target.executeSubmit(translateUpdate(argument));
                     }
 
                     @Override
-                    public Future<Batch<UpdateResult>> executeUpdateBatch(Batch<UpdateArgument> batch) {
-                        return target.executeUpdateBatch(translateBatch(batch));
+                    public Future<Batch<SubmitResult>> executeSubmitBatch(Batch<SubmitArgument> batch) {
+                        return target.executeSubmitBatch(translateBatch(batch));
                     }
 
-                    private UpdateArgument translateUpdate(UpdateArgument argument) {
-                        String updateLang = argument.getUpdateLang();
+                    private SubmitArgument translateUpdate(SubmitArgument argument) {
+                        String updateLang = argument.getSubmitLang();
                         Object dataSourceId = argument.getDataSourceId();
                         if (updateLang != null && LocalDataSourceService.isDataSourceLocal(dataSourceId)) {
                             DataSourceModel dataSourceModel = getDataSourceModel(dataSourceId);
                             if (dataSourceModel != null) {
-                                String updateString = argument.getUpdateString();
-                                String translatedUpdate = dataSourceModel.translateStatementIfDql(argument.getUpdateLang(), updateString);
+                                String updateString = argument.getSubmitString();
+                                String translatedUpdate = dataSourceModel.translateStatementIfDql(argument.getSubmitLang(), updateString);
                                 if (!updateString.equals(translatedUpdate)) {
                                     //Logger.log("Translated to: " + translatedUpdate);
-                                    argument = new UpdateArgument(argument, translatedUpdate);
+                                    argument = new SubmitArgument(argument, translatedUpdate);
                                 }
                             }
                         }
                         return argument;
                     }
 
-                    private Batch<UpdateArgument> translateBatch(Batch<UpdateArgument> batch) {
-                        return new Batch<>(Arrays.stream(batch.getArray()).map(this::translateUpdate).toArray(UpdateArgument[]::new));
+                    private Batch<SubmitArgument> translateBatch(Batch<SubmitArgument> batch) {
+                        return new Batch<>(Arrays.stream(batch.getArray()).map(this::translateUpdate).toArray(SubmitArgument[]::new));
                     }
                 });
     }

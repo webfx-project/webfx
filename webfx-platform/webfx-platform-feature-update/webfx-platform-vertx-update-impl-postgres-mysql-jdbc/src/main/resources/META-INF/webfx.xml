@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="webfx.platform.shared.services.update.spi.UpdateServiceProvider">webfx.platform.vertx.services.update.spi.impl.VertxUpdateServiceProvider</provider>
-    </providers>
-
-</module>

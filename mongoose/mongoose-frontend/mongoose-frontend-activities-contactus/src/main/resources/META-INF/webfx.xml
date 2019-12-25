@@ -8,7 +8,7 @@
 
         <source-modules>
             <module>webfx-framework-client-activity</module>
-            <module>webfx-platform-shared-update</module>
+            <module>webfx-platform-shared-submit</module>
         </source-modules>
 
     </dependencies>

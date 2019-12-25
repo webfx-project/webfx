@@ -5,8 +5,8 @@ import mongoose.client.activity.eventdependent.EventDependentPresentationLogicAc
 import mongoose.shared.entities.Event;
 import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.UiScheduler;
-import webfx.platform.shared.services.update.UpdateArgument;
-import webfx.platform.shared.services.update.UpdateService;
+import webfx.platform.shared.services.submit.SubmitArgument;
+import webfx.platform.shared.services.submit.SubmitService;
 
 import java.time.LocalDate;
 
@@ -36,7 +36,7 @@ public final class CloneEventPresentationLogicActivity extends EventDependentPre
 
         pm.setOnSubmit(event -> {
             LocalDate startDate = pm.getDate();
-            UpdateService.executeUpdate(new UpdateArgument(getDataSourceId(), true,
+            SubmitService.executeSubmit(new SubmitArgument(getDataSourceId(), true,
                     "select copy_event(?,?,?)", getEventId(), pm.getName(), startDate))
                     .setHandler(ar -> {
                         if (ar.succeeded())

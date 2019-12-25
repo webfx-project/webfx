@@ -36,7 +36,7 @@ module mongoose.frontend.activities.cart {
     requires webfx.framework.shared.orm.expression;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.log;
-    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 
     // Exported packages

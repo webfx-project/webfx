@@ -25,8 +25,8 @@ import webfx.framework.client.ui.controls.dialog.DialogUtil;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.kit.util.properties.Properties;
-import webfx.platform.shared.services.update.UpdateArgument;
-import webfx.platform.shared.services.update.UpdateService;
+import webfx.platform.shared.services.submit.SubmitArgument;
+import webfx.platform.shared.services.submit.SubmitService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,10 +92,10 @@ final class EditableOptionsActivity extends OptionsActivity {
                 dialogCallback -> {
                     // Creating an update store
                     UpdateStore store = UpdateStore.create(getDataSourceModel());
-                    // Creating an instance of Option entity
+                    // Deleting the option entity
                     store.deleteEntity(option);
-                    // Asking the update record this change in the database
-                    store.executeUpdate().setHandler(asyncResult -> {
+                    // Submitting this change into the database
+                    store.submitChanges().setHandler(asyncResult -> {
                         if (asyncResult.failed())
                             dialogCallback.showException(asyncResult.cause());
                         else {
@@ -142,7 +142,7 @@ final class EditableOptionsActivity extends OptionsActivity {
     private void onOkAddOptionDialog() {
         Option selectedOption = addOptionDialogVisualMapper.getSelectedEntity();
         if (selectedOption != null) {
-            UpdateService.executeUpdate(new UpdateArgument(getDataSourceId(), true,
+            SubmitService.executeSubmit(new SubmitArgument(getDataSourceId(), true,
                     "select copy_option(null,?::int,?::int,null)", selectedOption.getPrimaryKey(), getEventId()))
                     .setHandler(ar -> {
                         if (ar.failed())

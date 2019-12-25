@@ -5,8 +5,8 @@ import webfx.framework.server.services.push.UnresponsivePushClientListener;
 import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
 import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.services.update.UpdateArgument;
-import webfx.platform.shared.services.update.UpdateService;
+import webfx.platform.shared.services.submit.SubmitArgument;
+import webfx.platform.shared.services.submit.SubmitService;
 
 /**
  * @author Bruno Salmon
@@ -18,7 +18,7 @@ public final class MongooseServerUnresponsiveClientSessionCloserJob implements A
     @Override
     public void onStart() {
         PushServerService.addUnresponsivePushClientListener(disconnectListener = pushClientId ->
-                UpdateService.executeUpdate(new UpdateArgument(DataSourceModelService.getDefaultDataSourceId(), "DQL",
+                SubmitService.executeSubmit(new SubmitArgument(DataSourceModelService.getDefaultDataSourceId(), "DQL",
                         "update SessionConnection set end=now() where process=?", pushClientId))
                         .setHandler(ar -> {
                             if (ar.failed())

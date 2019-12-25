@@ -98,7 +98,7 @@ public class Drive {
             }
         }
         // Writing the result in the database
-        store.executeUpdate().setHandler(asyncResult -> {
+        store.submitChanges().setHandler(asyncResult -> {
             if (asyncResult.failed())
                 Logger.log(asyncResult.cause());
             else {

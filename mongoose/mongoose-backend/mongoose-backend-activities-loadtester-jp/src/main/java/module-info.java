@@ -29,7 +29,7 @@ module mongoose.backend.activities.loadtester.jp {
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.scheduler;
-    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 
     // Exported packages

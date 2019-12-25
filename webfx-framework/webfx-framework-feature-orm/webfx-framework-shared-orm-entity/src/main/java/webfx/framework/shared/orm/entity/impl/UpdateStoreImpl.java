@@ -8,9 +8,9 @@ import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.framework.shared.orm.entity.result.*;
 import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.services.update.UpdateArgument;
-import webfx.platform.shared.services.update.UpdateResult;
-import webfx.platform.shared.services.update.UpdateService;
+import webfx.platform.shared.services.submit.SubmitArgument;
+import webfx.platform.shared.services.submit.SubmitService;
+import webfx.platform.shared.services.submit.SubmitResult;
 import webfx.platform.shared.util.Arrays;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.async.Batch;
@@ -88,12 +88,12 @@ public final class UpdateStoreImpl extends EntityStoreImpl implements UpdateStor
     }
 
     @Override
-    public Future<Batch<UpdateResult>> executeUpdate(UpdateArgument[] initialUpdates) {
+    public Future<Batch<SubmitResult>> submitChanges(SubmitArgument[] initialSubmits) {
         try {
-            EntityChangesToUpdateBatchGenerator.BatchGenerator updateBatchGenerator = EntityChangesToUpdateBatchGenerator.createUpdateBatchGenerator(getEntityChanges(), dataSourceModel, initialUpdates);
-            Batch<UpdateArgument> batch = updateBatchGenerator.generate();
-            Logger.log("Executing update batch " + Arrays.toStringWithLineFeeds(batch.getArray()));
-            return UpdateService.executeUpdateBatch(batch).compose((ar, finalFuture) -> {
+            EntityChangesToSubmitBatchGenerator.BatchGenerator updateBatchGenerator = EntityChangesToSubmitBatchGenerator.createSubmitBatchGenerator(getEntityChanges(), dataSourceModel, initialSubmits);
+            Batch<SubmitArgument> batch = updateBatchGenerator.generate();
+            Logger.log("Executing submit batch " + Arrays.toStringWithLineFeeds(batch.getArray()));
+            return SubmitService.executeSubmitBatch(batch).compose((ar, finalFuture) -> {
                 markChangesAsCommitted();
                 updateBatchGenerator.applyGeneratedKeys(ar, this);
                 finalFuture.complete(ar);

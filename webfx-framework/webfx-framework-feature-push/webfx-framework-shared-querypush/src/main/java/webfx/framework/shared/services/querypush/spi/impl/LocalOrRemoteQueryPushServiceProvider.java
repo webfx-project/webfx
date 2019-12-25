@@ -74,8 +74,7 @@ public class LocalOrRemoteQueryPushServiceProvider implements QueryPushServicePr
                         ArrayList<QueryPushResult> copy = new ArrayList<>(withNoConsumerReceivedResults);
                         withNoConsumerReceivedResults.clear();
                         // Now retrying
-                        for (QueryPushResult qpr : copy)
-                            onQueryPushResultReceived(qpr);
+                        copy.forEach(LocalOrRemoteQueryPushServiceProvider::onQueryPushResultReceived);
                         // If at this point withNoConsumerReceivedResults is not empty, this is probably because the
                         // result has been received before the queryStreamId (can happen especially for a cached query)
                         // but it will be considered on next push result received

@@ -12,8 +12,8 @@ module webfx.platform.vertx.queryupdate {
     requires webfx.platform.shared.datasource;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.query;
-    requires webfx.platform.shared.update;
-    requires webfx.platform.shared.updatelistener;
+    requires webfx.platform.shared.submit;
+    requires webfx.platform.shared.submitlistener;
     requires webfx.platform.shared.util;
     requires webfx.platform.vertx.instance;
 

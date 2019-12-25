@@ -17,6 +17,6 @@ module mongoose.frontend.application.javafx {
     requires webfx.platform.shared.json.impl;
     requires webfx.platform.shared.log.impl.simple;
     requires webfx.platform.shared.query.impl.remote;
-    requires webfx.platform.shared.update.impl.remote;
+    requires webfx.platform.shared.submit.impl.remote;
 
 }

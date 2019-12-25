@@ -23,7 +23,7 @@
         <module>webfx-platform-feature-scheduler</module>
         <module>webfx-platform-feature-shutdown</module>
         <module>webfx-platform-feature-storage</module>
-        <module>webfx-platform-feature-update</module>
+        <module>webfx-platform-feature-submit</module>
         <module>webfx-platform-feature-uischeduler</module>
         <module>webfx-platform-feature-websocket</module>
         <module>webfx-platform-feature-windowhistory</module>
@@ -32,7 +32,7 @@
         <module>webfx-platform-independent-feature-buscall</module>
         <module>webfx-platform-independent-feature-datasource</module>
         <module>webfx-platform-independent-feature-serial</module>
-        <module>webfx-platform-independent-feature-updatelistener</module>
+        <module>webfx-platform-independent-feature-submitlistener</module>
         <module>webfx-platform-independent-feature-websocketbus</module>
 
         <module>webfx-platform-independent-util</module>

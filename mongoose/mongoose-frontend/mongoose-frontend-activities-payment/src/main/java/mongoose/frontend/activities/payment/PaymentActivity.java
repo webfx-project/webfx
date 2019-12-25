@@ -240,7 +240,7 @@ final class PaymentActivity extends CartBasedActivity {
                 paymentRef = (paymentRef == null ? "" : paymentRef + "-") + payment.document.getRef().toString();
             }
         }
-        updateStore.executeUpdate().setHandler(ar -> {
+        updateStore.submitChanges().setHandler(ar -> {
             if (ar.failed())
                 Logger.log("Error submitting payment", ar.cause());
             else {

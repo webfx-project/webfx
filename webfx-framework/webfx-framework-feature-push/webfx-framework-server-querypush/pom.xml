@@ -65,13 +65,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-update</artifactId>
+            <artifactId>webfx-platform-shared-submit</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-updatelistener</artifactId>
+            <artifactId>webfx-platform-shared-submitlistener</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

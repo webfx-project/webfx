@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="webfx.platform.shared.services.update.spi.UpdateServiceProvider">webfx.platform.shared.services.update.spi.impl.remote.RemoteUpdateServiceProvider</provider>
-    </providers>
-
-</module>

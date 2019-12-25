@@ -48,7 +48,7 @@ public final class EditableBookingCalendar extends BookingCalendar {
                             // Updating the option time range
                             updatingOption.setTimeRange(newDayTimeRange.getText());
                             // Asking the update record this change in the database
-                            store.executeUpdate().setHandler(asyncResult -> {
+                            store.submitChanges().setHandler(asyncResult -> {
                                 if (asyncResult.failed())
                                     dialogCallback.showException(asyncResult.cause());
                                 else {

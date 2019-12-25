@@ -89,7 +89,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-vertx-update-impl-postgres-mysql-jdbc</artifactId>
+            <artifactId>webfx-platform-vertx-submit-impl-postgres-mysql-jdbc</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

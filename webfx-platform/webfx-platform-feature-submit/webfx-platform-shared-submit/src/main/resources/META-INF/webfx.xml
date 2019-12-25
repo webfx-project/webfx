@@ -1,0 +1,17 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.buscall.spi.BusCallEndpoint">webfx.platform.shared.services.submit.ExecuteSubmitBusCallEndpoint</provider>
+        <provider spi="webfx.platform.shared.services.buscall.spi.BusCallEndpoint">webfx.platform.shared.services.submit.ExecuteSubmitBatchBusCallEndpoint</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.submit.SubmitArgument$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.submit.SubmitResult$ProvidedSerialCodec</provider>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.services.submit.GeneratedKeyBatchIndex$ProvidedSerialCodec</provider>
+    </providers>
+
+    <reflect>
+        <array-new-instance>
+            <class>webfx.platform.shared.services.submit.SubmitResult</class>
+        </array-new-instance>
+    </reflect>
+
+</module>

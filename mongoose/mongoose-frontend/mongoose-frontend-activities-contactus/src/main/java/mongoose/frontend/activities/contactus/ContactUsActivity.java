@@ -119,7 +119,7 @@ final class ContactUsActivity extends ViewDomainActivityBase
         history.setMail(mail);
         history.setUsername("online");
         history.setComment("Sent '" + subjectTextField.getText() + "'");
-        updateStore.executeUpdate().setHandler(ar -> {
+        updateStore.submitChanges().setHandler(ar -> {
             if (ar.failed())
                 Logger.log("Error", ar.cause());
             else {

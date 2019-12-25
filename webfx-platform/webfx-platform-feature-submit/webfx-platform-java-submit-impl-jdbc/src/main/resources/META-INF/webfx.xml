@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.submit.spi.SubmitServiceProvider">webfx.platform.java.services.submit.spi.impl.jdbc.JdbcSubmitServiceProvider</provider>
+    </providers>
+
+</module>

@@ -14,7 +14,7 @@ module mongoose.client.businesslogic {
     requires mongoose.shared.time;
     requires webfx.framework.shared.orm.entity;
     requires webfx.platform.shared.query;
-    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 
     // Exported packages

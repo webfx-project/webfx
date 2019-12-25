@@ -28,7 +28,7 @@ module mongoose.frontend.activities.payment {
     requires webfx.platform.client.windowlocation;
     requires webfx.platform.shared.bus;
     requires webfx.platform.shared.log;
-    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 
     // Exported packages

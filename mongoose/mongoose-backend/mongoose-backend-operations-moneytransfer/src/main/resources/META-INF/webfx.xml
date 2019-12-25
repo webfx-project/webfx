@@ -3,7 +3,7 @@
     <dependencies>
 
         <source-modules>
-            <module>webfx-platform-shared-update</module>
+            <module>webfx-platform-shared-submit</module>
         </source-modules>
 
     </dependencies>

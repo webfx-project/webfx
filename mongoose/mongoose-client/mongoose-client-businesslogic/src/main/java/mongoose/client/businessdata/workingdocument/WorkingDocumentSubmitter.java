@@ -7,7 +7,7 @@ import mongoose.shared.entities.Cart;
 import mongoose.shared.entities.Document;
 import mongoose.shared.entities.DocumentLine;
 import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.services.submit.SubmitArgument;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
 import webfx.platform.shared.util.uuid.Uuid;
@@ -82,7 +82,7 @@ public final class WorkingDocumentSubmitter {
                 if (wd.findSameWorkingDocumentLine(lastWdl) == null)
                     removeLine(wd, lastWdl.getDocumentLine());
             }
-        return store.executeUpdate(new UpdateArgument(store.getDataSourceId(),
+        return store.submitChanges(new SubmitArgument(store.getDataSourceId(),
                 "select set_transaction_parameters(false)"))
                 .map(batch -> du);
     }

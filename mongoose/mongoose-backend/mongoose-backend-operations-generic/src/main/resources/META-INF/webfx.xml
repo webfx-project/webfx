@@ -4,7 +4,7 @@
 
         <source-modules>
             <module>webfx-extras-visual-controls-grid</module>
-            <module>webfx-platform-shared-update</module>
+            <module>webfx-platform-shared-submit</module>
         </source-modules>
 
     </dependencies>

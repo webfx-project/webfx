@@ -21,7 +21,7 @@ final class DeleteAllocationRuleExecutor {
         DialogUtil.armDialogContentButtons(dialogContent, dialogCallback -> {
             UpdateStore updateStore = UpdateStore.create(documentLine.getStore().getDataSourceModel());
             updateStore.deleteEntity(documentLine);
-            updateStore.executeUpdate().setHandler(ar -> {
+            updateStore.submitChanges().setHandler(ar -> {
                 if (ar.failed())
                     dialogCallback.showException(ar.cause());
                 else

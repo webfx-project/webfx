@@ -1,6 +1,6 @@
 package webfx.platform.java.services.query.spi.impl.jdbc;
 
-import webfx.platform.java.services_shared_code.queryupdate.jdbc.JdbcLocalConnectedQueryUpdateServiceProvider;
+import webfx.platform.java.services_shared_code.queryupdate.jdbc.JdbcLocalConnectedQuerySubmitServiceProvider;
 import webfx.platform.shared.services.datasource.LocalDataSource;
 import webfx.platform.shared.services.query.spi.QueryServiceProvider;
 import webfx.platform.shared.services.query.spi.impl.LocalOrRemoteQueryServiceProvider;
@@ -12,7 +12,7 @@ public final class JdbcQueryServiceProvider extends LocalOrRemoteQueryServicePro
 
     @Override
     protected QueryServiceProvider createLocalConnectedProvider(LocalDataSource localDataSource) {
-        return new JdbcLocalConnectedQueryUpdateServiceProvider(localDataSource);
+        return new JdbcLocalConnectedQuerySubmitServiceProvider(localDataSource);
     }
 
 }

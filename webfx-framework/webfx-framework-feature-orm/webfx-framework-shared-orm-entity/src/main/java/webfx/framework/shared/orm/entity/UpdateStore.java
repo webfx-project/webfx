@@ -4,8 +4,8 @@ import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.entity.impl.UpdateStoreImpl;
 import webfx.framework.shared.orm.entity.result.EntityChanges;
-import webfx.platform.shared.services.update.UpdateArgument;
-import webfx.platform.shared.services.update.UpdateResult;
+import webfx.platform.shared.services.submit.SubmitArgument;
+import webfx.platform.shared.services.submit.SubmitResult;
 import webfx.platform.shared.util.async.Batch;
 import webfx.platform.shared.util.async.Future;
 
@@ -45,11 +45,11 @@ public interface UpdateStore extends EntityStore {
 
     void markChangesAsCommitted();
 
-    default Future<Batch<UpdateResult>> executeUpdate() {
-        return executeUpdate(null);
+    default Future<Batch<SubmitResult>> submitChanges() {
+        return submitChanges(null);
     }
 
-    Future<Batch<UpdateResult>> executeUpdate(UpdateArgument... initialUpdates);
+    Future<Batch<SubmitResult>> submitChanges(SubmitArgument... initialSubmits);
 
     // Factory
 

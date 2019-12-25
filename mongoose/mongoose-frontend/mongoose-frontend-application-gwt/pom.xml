@@ -918,14 +918,14 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-update</artifactId>
+            <artifactId>webfx-platform-shared-submit</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-update-impl-remote</artifactId>
+            <artifactId>webfx-platform-shared-submit-impl-remote</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>

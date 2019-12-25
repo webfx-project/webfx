@@ -18,7 +18,7 @@ final class MoveToResourceConfigurationExecutor {
             DocumentLine documentLine = updateStore.getOrCreateEntity(DocumentLine.class, primaryKey);
             updateStore.updateEntity(documentLine).setForeignField("resourceConfiguration", resourceConfiguration);
         }
-        updateStore.executeUpdate().setHandler(ar -> {
+        updateStore.submitChanges().setHandler(ar -> {
             if (ar.failed()) {
                 future.fail(ar.cause());
                 ar.cause().printStackTrace();

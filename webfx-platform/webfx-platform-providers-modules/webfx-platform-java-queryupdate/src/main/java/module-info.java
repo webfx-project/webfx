@@ -8,7 +8,7 @@ module webfx.platform.java.queryupdate {
     requires static com.zaxxer.hikari;
     requires webfx.platform.shared.datasource;
     requires webfx.platform.shared.query;
-    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 
     // Exported packages

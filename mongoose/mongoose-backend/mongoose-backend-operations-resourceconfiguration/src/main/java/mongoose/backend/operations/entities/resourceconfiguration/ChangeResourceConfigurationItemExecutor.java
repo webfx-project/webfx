@@ -12,7 +12,7 @@ import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.UpdateStore;
-import webfx.platform.shared.services.update.UpdateArgument;
+import webfx.platform.shared.services.submit.SubmitArgument;
 import webfx.platform.shared.util.async.Future;
 
 final class ChangeResourceConfigurationItemExecutor {
@@ -39,7 +39,7 @@ final class ChangeResourceConfigurationItemExecutor {
                 DialogUtil.armDialogContentButtons(dialogContent, dialogCallback -> {
                     UpdateStore updateStore = UpdateStore.create(dataSourceModel);
                     updateStore.updateEntity(resourceConfiguration).setForeignField("item", selectedItem);
-                    updateStore.executeUpdate(new UpdateArgument(dataSourceModel.getDataSourceId(),
+                    updateStore.submitChanges(new SubmitArgument(dataSourceModel.getDataSourceId(),
                             "select set_transaction_parameters(true)"))
                             .setHandler(ar -> {
                                 if (ar.failed())

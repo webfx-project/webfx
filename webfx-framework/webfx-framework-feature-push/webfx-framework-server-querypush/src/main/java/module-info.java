@@ -13,8 +13,8 @@ module webfx.framework.server.querypush {
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.query;
     requires webfx.platform.shared.scheduler;
-    requires webfx.platform.shared.update;
-    requires webfx.platform.shared.updatelistener;
+    requires webfx.platform.shared.submit;
+    requires webfx.platform.shared.submitlistener;
     requires webfx.platform.shared.util;
 
     // Exported packages
@@ -22,6 +22,6 @@ module webfx.framework.server.querypush {
     exports webfx.framework.server.services.querypush.spi.impl;
 
     // Provided services
-    provides webfx.platform.server.services.updatelistener.UpdateListener with webfx.framework.server.services.querypush.QueryPushServerService.ProvidedUpdateListener;
+    provides webfx.platform.server.services.submitlistener.SubmitListener with webfx.framework.server.services.querypush.QueryPushServerService.ProvidedSubmitListener;
 
 }

@@ -221,7 +221,7 @@ public final class MultiLanguageEditor {
 
         void save() {
             if (editedEntity != null)
-                editedEntity.updateStore.executeUpdate().setHandler(ar -> {
+                editedEntity.updateStore.submitChanges().setHandler(ar -> {
                     if (ar.succeeded()) {
                         updateButtonsDisable();
                         callCloseCallback(true);

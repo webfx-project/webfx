@@ -3,12 +3,12 @@ package mongoose.backend.operations.entities.resourceconfiguration;
 import webfx.framework.shared.operation.HasOperationCode;
 import webfx.framework.shared.operation.HasOperationExecutor;
 import webfx.framework.shared.orm.entity.Entity;
-import webfx.platform.shared.services.update.UpdateResult;
+import webfx.platform.shared.services.submit.SubmitResult;
 import webfx.platform.shared.util.async.AsyncFunction;
 import webfx.platform.shared.util.async.Batch;
 
 public final class ToggleResourceConfigurationOnlineOfflineRequest implements HasOperationCode,
-        HasOperationExecutor<ToggleResourceConfigurationOnlineOfflineRequest, Batch<UpdateResult>> {
+        HasOperationExecutor<ToggleResourceConfigurationOnlineOfflineRequest, Batch<SubmitResult>> {
 
     private final static String OPERATION_CODE = "ToggleResourceConfigurationOnlineOffline";
 
@@ -28,7 +28,7 @@ public final class ToggleResourceConfigurationOnlineOfflineRequest implements Ha
     }
 
     @Override
-    public AsyncFunction<ToggleResourceConfigurationOnlineOfflineRequest, Batch<UpdateResult>> getOperationExecutor() {
+    public AsyncFunction<ToggleResourceConfigurationOnlineOfflineRequest, Batch<SubmitResult>> getOperationExecutor() {
         return ToggleResourceConfigurationOnlineOfflineExecutor::executeRequest;
     }
 }

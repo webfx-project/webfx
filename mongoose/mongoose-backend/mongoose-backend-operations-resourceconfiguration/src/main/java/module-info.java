@@ -10,7 +10,7 @@ module mongoose.backend.operations.resourceconfiguration {
     requires webfx.framework.shared.operation;
     requires webfx.framework.shared.orm.domainmodel;
     requires webfx.framework.shared.orm.entity;
-    requires webfx.platform.shared.update;
+    requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 
     // Exported packages

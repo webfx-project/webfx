@@ -311,7 +311,7 @@ final class CartActivity extends CartBasedActivity {
                                     UpdateStore updateStore = UpdateStore.createAbove(selectedDocument.getStore());
                                     Document updatedDocument = updateStore.updateEntity(selectedDocument);
                                     updatedDocument.setCancelled(true);
-                                    updateStore.executeUpdate().setHandler(ar -> {
+                                    updateStore.submitChanges().setHandler(ar -> {
                                         if (ar.succeeded()) {
                                             reloadCart();
                                             dialogCallback.closeDialog();

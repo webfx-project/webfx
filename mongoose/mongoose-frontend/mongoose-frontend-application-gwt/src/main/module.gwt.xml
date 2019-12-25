@@ -728,12 +728,12 @@
     <!--=========================< webfx-platform-shared-buscall >==========================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-platform-shared-query (SOURCE) -->
-    <!-- used by webfx-platform-shared-update (SOURCE) -->
+    <!-- used by webfx-platform-shared-submit (SOURCE) -->
     <source path="webfx/platform/shared/services/buscall"/>
     <source path="webfx/platform/shared/services/buscall/spi"/>
     <!--========================< webfx-platform-shared-datasource >========================-->
     <!-- used by webfx-platform-shared-query (SOURCE) -->
-    <!-- used by webfx-platform-shared-update (SOURCE) -->
+    <!-- used by webfx-platform-shared-submit (SOURCE) -->
     <source path="webfx/platform/shared/services/datasource"/>
     <source path="webfx/platform/shared/services/datasource/jdbc"/>
     <source path="webfx/platform/shared/services/datasource/spi"/>
@@ -787,8 +787,8 @@
     <source path="webfx/platform/shared/services/scheduler/spi"/>
     <!--==========================< webfx-platform-shared-serial >==========================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-platform-shared-buscall (SOURCE) -->
     <!-- used by webfx-platform-shared-query (SOURCE) -->
-    <!-- used by webfx-platform-shared-update (SOURCE) -->
     <source path="webfx/platform/shared/services/serial"/>
     <source path="webfx/platform/shared/services/serial/spi"/>
     <source path="webfx/platform/shared/services/serial/spi/impl"/>
@@ -798,15 +798,15 @@
     <source path="webfx/platform/shared/services/shutdown"/>
     <source path="webfx/platform/shared/services/shutdown/spi"/>
     <source path="webfx/platform/shared/services/shutdown/spi/impl"/>
-    <!--==========================< webfx-platform-shared-update >==========================-->
+    <!--==========================< webfx-platform-shared-submit >==========================-->
     <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
-    <!-- used by webfx-platform-shared-update-impl-remote (SOURCE) -->
-    <source path="webfx/platform/shared/services/update"/>
-    <source path="webfx/platform/shared/services/update/spi"/>
-    <source path="webfx/platform/shared/services/update/spi/impl"/>
-    <!--====================< webfx-platform-shared-update-impl-remote >====================-->
+    <!-- used by webfx-platform-shared-submit-impl-remote (SOURCE) -->
+    <source path="webfx/platform/shared/services/submit"/>
+    <source path="webfx/platform/shared/services/submit/spi"/>
+    <source path="webfx/platform/shared/services/submit/spi/impl"/>
+    <!--====================< webfx-platform-shared-submit-impl-remote >====================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
-    <source path="webfx/platform/shared/services/update/spi/impl/remote"/>
+    <source path="webfx/platform/shared/services/submit/spi/impl/remote"/>
     <!--===========================< webfx-platform-shared-util >===========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
@@ -814,6 +814,7 @@
     <!-- used by webfx-platform-client-windowlocation (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <!-- used by webfx-platform-shared-bus (SOURCE) -->
+    <!-- used by webfx-platform-shared-datasource (SOURCE) -->
     <!-- used by webfx-platform-shared-json (SOURCE) -->
     <!-- used by webfx-platform-shared-log (SOURCE) -->
     <!-- used by webfx-platform-shared-resource (SOURCE) -->

@@ -16,6 +16,6 @@ module mongoose.server.application.vertx {
     requires webfx.platform.vertx.json.impl;
     requires webfx.platform.vertx.query.impl.postgres.mysql.jdbc;
     requires webfx.platform.vertx.scheduler.impl;
-    requires webfx.platform.vertx.update.impl.postgres.mysql.jdbc;
+    requires webfx.platform.vertx.submit.impl.postgres.mysql.jdbc;
 
 }
