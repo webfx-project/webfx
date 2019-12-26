@@ -41,7 +41,7 @@ public final class JdbcLocalConnectedQuerySubmitServiceProvider implements Query
     public Future<QueryResult> executeQuery(QueryArgument arg) {
         Future<QueryResult> future = Future.future();
 
-        String sql = arg.getQueryString();
+        String sql = arg.getStatement();
         try (
                 Connection connection = getConnection();
                 Statement statement = getStatement(sql, arg.getParameters(), connection);
@@ -72,7 +72,7 @@ public final class JdbcLocalConnectedQuerySubmitServiceProvider implements Query
     public Future<SubmitResult> executeSubmit(SubmitArgument arg) {
         Future<SubmitResult> future = Future.future();
 
-        String sql = arg.getSubmitString();
+        String sql = arg.getStatement();
         try (
                 Connection connection = getConnection();
                 Statement statement = getStatement(sql, arg.getParameters(), connection)

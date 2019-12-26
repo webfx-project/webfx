@@ -12,36 +12,20 @@ import webfx.platform.shared.util.Arrays;
 public final class SubmitArgument {
 
     private final transient SubmitArgument originalArgument;
-
     private final Object dataSourceId;
-    private Object submitScope;
+    private final Object schemaScope;
     private final boolean returnGeneratedKeys;
-    private final String submitLang;
-    private final String submitString;
+    private final String language;
+    private final String statement;
     private final Object[] parameters;
 
-    public SubmitArgument(Object dataSourceId, String submitString, Object... parameters) {
-        this(dataSourceId, false, submitString, parameters);
-    }
-
-    public SubmitArgument(Object dataSourceId, boolean returnGeneratedKeys, String submitString, Object... parameters) {
-        this(null, dataSourceId, returnGeneratedKeys, null, submitString, parameters);
-    }
-
-    public SubmitArgument(Object dataSourceId, String submitLang, String submitString, Object... parameters) {
-        this(null, dataSourceId, false, submitLang, submitString, parameters);
-    }
-
-    public SubmitArgument(SubmitArgument originalArgument, String submitString) {
-        this(originalArgument, originalArgument.getDataSourceId(), originalArgument.returnGeneratedKeys(), null, submitString, originalArgument.getParameters());
-    }
-
-    public SubmitArgument(SubmitArgument originalArgument, Object dataSourceId, boolean returnGeneratedKeys, String submitLang, String submitString, Object... parameters) {
+    public SubmitArgument(SubmitArgument originalArgument, Object dataSourceId, Object schemaScope, boolean returnGeneratedKeys, String language, String statement, Object[] parameters) {
         this.originalArgument = originalArgument;
         this.dataSourceId = dataSourceId;
+        this.schemaScope = schemaScope;
         this.returnGeneratedKeys = returnGeneratedKeys;
-        this.submitLang = submitLang;
-        this.submitString = submitString;
+        this.language = language;
+        this.statement = statement;
         this.parameters = parameters;
     }
 
@@ -53,20 +37,20 @@ public final class SubmitArgument {
         return dataSourceId;
     }
 
-    public Object getSubmitScope() {
-        return submitScope;
+    public Object getSchemaScope() {
+        return schemaScope;
     }
 
     public boolean returnGeneratedKeys() {
         return returnGeneratedKeys;
     }
 
-    public String getSubmitLang() {
-        return submitLang;
+    public String getLanguage() {
+        return language;
     }
 
-    public String getSubmitString() {
-        return submitString;
+    public String getStatement() {
+        return statement;
     }
 
     public Object[] getParameters() {
@@ -75,7 +59,11 @@ public final class SubmitArgument {
 
     @Override
     public String toString() {
-        return "SubmitArgument('" + submitString + (parameters == null ? "'" : "', " + Arrays.toString(parameters)) + ')';
+        return "SubmitArgument('" + statement + (parameters == null ? "'" : "', " + Arrays.toString(parameters)) + ')';
+    }
+
+    public static SubmitArgumentBuilder builder() {
+        return new SubmitArgumentBuilder();
     }
 
     /****************************************************
@@ -84,12 +72,12 @@ public final class SubmitArgument {
 
     public static final class ProvidedSerialCodec extends SerialCodecBase<SubmitArgument> {
 
-        private static final String CODEC_ID = "SubmitArg";
-        private static final String UPDATE_LANG_KEY = "submitLang";
-        private static final String UPDATE_STRING_KEY = "submitString";
-        private static final String PARAMETERS_KEY = "params";
+        private static final String CODEC_ID = "SubmitArgument";
+        private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
         private static final String RETURN_GENERATED_KEYS_KEY = "genKeys";
-        private static final String DATA_SOURCE_ID_KEY = "dsId";
+        private static final String LANGUAGE_KEY = "lang";
+        private static final String STATEMENT_KEY = "statement";
+        private static final String PARAMETERS_KEY = "parameters";
 
         public ProvidedSerialCodec() {
             super(SubmitArgument.class, CODEC_ID);
@@ -99,9 +87,9 @@ public final class SubmitArgument {
         public void encodeToJson(SubmitArgument arg, WritableJsonObject json) {
             json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
             json.set(RETURN_GENERATED_KEYS_KEY, arg.returnGeneratedKeys());
-            if (arg.getSubmitLang() != null)
-                json.set(UPDATE_LANG_KEY, arg.getSubmitLang());
-            json.set(UPDATE_STRING_KEY, arg.getSubmitString());
+            if (arg.getLanguage() != null)
+                json.set(LANGUAGE_KEY, arg.getLanguage());
+            json.set(STATEMENT_KEY, arg.getStatement());
             if (!Arrays.isEmpty(arg.getParameters()))
                 json.set(PARAMETERS_KEY, SerialCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
         }
@@ -110,9 +98,10 @@ public final class SubmitArgument {
         public SubmitArgument decodeFromJson(JsonObject json) {
             return new SubmitArgument(null,
                     json.get(DATA_SOURCE_ID_KEY),
+                    null,
                     json.getBoolean(RETURN_GENERATED_KEYS_KEY),
-                    json.getString(UPDATE_LANG_KEY),
-                    json.getString(UPDATE_STRING_KEY),
+                    json.getString(LANGUAGE_KEY),
+                    json.getString(STATEMENT_KEY),
                     SerialCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY))
             );
         }

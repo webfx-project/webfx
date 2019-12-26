@@ -99,7 +99,7 @@ public final class VertxLocalConnectedQuerySubmitServiceProvider implements Quer
 
     private void executeQueryOnConnection(QueryArgument queryArgument, SQLConnection connection, Future<QueryResult> future) {
         // long t0 = System.currentTimeMillis();
-        executeQueryOnConnection(queryArgument.getQueryString(), queryArgument.getParameters(), connection, ar -> {
+        executeQueryOnConnection(queryArgument.getStatement(), queryArgument.getParameters(), connection, ar -> {
             if (ar.failed()) // Sql error
                 future.fail(ar.cause());
             else { // Sql succeeded
@@ -139,7 +139,7 @@ public final class VertxLocalConnectedQuerySubmitServiceProvider implements Quer
 
     private Future<SubmitResult> executeSubmitOnConnection(SubmitArgument submitArgument, SQLConnection connection, boolean close, Future<SubmitResult> future) {
         // Special case: submit with a returning clause must be managed differently using query() instead of update()
-        String submitString = submitArgument.getSubmitString().trim();
+        String submitString = submitArgument.getStatement().trim();
         String lowerCaseSubmitString = submitString.toLowerCase();
         if (lowerCaseSubmitString.startsWith("select ") || lowerCaseSubmitString.contains(" returning "))
             return executeReturningSubmitOnConnection(submitArgument, connection, close, future);
@@ -177,7 +177,7 @@ public final class VertxLocalConnectedQuerySubmitServiceProvider implements Quer
     }
 
     private Future<SubmitResult> executeReturningSubmitOnConnection(SubmitArgument submitArgument, SQLConnection connection, boolean close, Future<SubmitResult> future) {
-        executeQueryOnConnection(submitArgument.getSubmitString(), submitArgument.getParameters(), connection, res -> {
+        executeQueryOnConnection(submitArgument.getStatement(), submitArgument.getParameters(), connection, res -> {
             if (res.failed()) { // Sql error
                 Logger.log("Error executing " + submitArgument, res.cause());
                 future.fail(res.cause());

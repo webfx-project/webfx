@@ -33,9 +33,14 @@ public final class QueryPushServerService {
 
         @Override
         public void onSuccessfulSubmit(SubmitArgument submitArgument) {
-            Object submitScope = submitArgument.getSubmitScope();
-            if (submitScope == null) {
-                String dqlSubmit = getDqlSubmit(submitArgument);
+            Object submitScope = getOrBuildSubmitSchemaScope(submitArgument);
+            QueryPushService.executePulse(PulseArgument.createToRefreshAllQueriesImpactedBySchemaScope(submitArgument.getDataSourceId(), submitScope));
+        }
+
+        private static Object getOrBuildSubmitSchemaScope(SubmitArgument submitArgument) {
+            Object submitSchemaScope = submitArgument.getSchemaScope();
+            if (submitSchemaScope == null) {
+                String dqlSubmit = getDqlSubmitStatement(submitArgument);
                 if (dqlSubmit != null) {
                     // TODO Introducing a dependency to webfx-framework-shared-orm-domainmodel => see if we can move this into an interceptor in a new separate module
                     DataSourceModel dataSourceModel = DataSourceModelService.getDataSourceModel(submitArgument.getDataSourceId());
@@ -47,17 +52,17 @@ public final class QueryPushServerService {
                                         : dqlStatement instanceof Insert ? ((Insert<Object>) dqlStatement).getSetClause()
                                         : null;
                         if (modifyingExpressions != null)
-                            submitScope = collectModifiedFields(modifyingExpressions);
+                            submitSchemaScope = collectModifiedFields(modifyingExpressions);
                     }
                 }
             }
-            QueryPushService.executePulse(PulseArgument.createToRefreshAllQueriesImpactedByUpdate(submitArgument.getDataSourceId(), submitScope));
+            return submitSchemaScope;
         }
 
-        private static String getDqlSubmit(SubmitArgument submitArgument) {
+        private static String getDqlSubmitStatement(SubmitArgument submitArgument) {
             SubmitArgument originalArgument = submitArgument.getOriginalArgument();
-            return "DQL".equalsIgnoreCase(submitArgument.getSubmitLang()) ? submitArgument.getSubmitString()
-                    : originalArgument != null && originalArgument != submitArgument ? getDqlSubmit(originalArgument)
+            return "DQL".equalsIgnoreCase(submitArgument.getLanguage()) ? submitArgument.getStatement()
+                    : originalArgument != null && originalArgument != submitArgument ? getDqlSubmitStatement(originalArgument)
                     : null;
         }
 

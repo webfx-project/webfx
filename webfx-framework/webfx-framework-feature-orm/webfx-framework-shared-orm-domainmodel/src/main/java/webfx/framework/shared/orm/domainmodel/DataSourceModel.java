@@ -64,17 +64,17 @@ public final class DataSourceModel implements HasDomainModel {
         return ExpressionSqlCompiler.compileSelect(select, getDbmsSqlSyntax(), true, true, getCompilerDomainModelReader());
     }
 
-    public String translateQuery(String queryLang, String query) {
-        if ("DQL".equalsIgnoreCase(queryLang))
+    public String translateQuery(String queryLanguage, String query) {
+        if ("DQL".equalsIgnoreCase(queryLanguage))
             return parseAndCompileSelect(query).getSql();
         return query;
     }
 
-    public SqlCompiled parseAndCompileStatement(String stringUpdate) {
-        SqlCompiled sqlCompiled = sqlCompiledCache.get(stringUpdate);
+    public SqlCompiled parseAndCompileStatement(String statement) {
+        SqlCompiled sqlCompiled = sqlCompiledCache.get(statement);
         //if (sqlCompiled != null) Logger.log("Reusing cached sql compiled! :-)");
         if (sqlCompiled == null)
-            sqlCompiledCache.put(stringUpdate, sqlCompiled = compileStatement(parseStatement(stringUpdate)));
+            sqlCompiledCache.put(statement, sqlCompiled = compileStatement(parseStatement(statement)));
         return sqlCompiled;
     }
 

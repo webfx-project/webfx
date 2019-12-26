@@ -225,7 +225,7 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
 
     public static final class QueryInfo {
         private final QueryArgument queryArgument;
-        private Object queryScope;
+        private Object querySchemaScope;
         private final List<StreamInfo> streamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
         private int activeNewStreamCount;
         /*
@@ -240,7 +240,7 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
 
         public QueryInfo(QueryArgument queryArgument) {
             this.queryArgument = queryArgument;
-            queryScope = queryArgument.getQueryScope();
+            querySchemaScope = queryArgument.getSchemaScope();
         }
 
         public QueryArgument getQueryArgument() {
@@ -326,33 +326,33 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
             return streamInfos.isEmpty();
         }
 
-        public Object getQueryScope() {
-            if (queryScope == null) {
-                String dqlQuery = getDqlQuery(queryArgument);
-                if (dqlQuery != null) {
+        public Object getOrBuildQuerySchemaScope() {
+            if (querySchemaScope == null) {
+                String dqlStatement = getDqlQueryStatement(queryArgument);
+                if (dqlStatement != null) {
                     // TODO Introducing a dependency to webfx-framework-shared-orm-domainmodel => see if we can move this into an interceptor in a new separate module
                     DataSourceModel dataSourceModel = DataSourceModelService.getDataSourceModel(queryArgument.getDataSourceId());
                     if (dataSourceModel != null) {
-                        // TODO Should we cache this (dqlQuery => read fields)?
-                        DqlStatement<Object> dqlStatement = dataSourceModel.parseStatement(dqlQuery);
-                        if (dqlStatement instanceof Select) {
+                        // TODO Should we cache this (dqlStatement => read fields)?
+                        DqlStatement<Object> parsedStatement = dataSourceModel.parseStatement(dqlStatement);
+                        if (parsedStatement instanceof Select) {
                             CollectOptions collectOptions = new CollectOptions()
                                     .setFilterPersistentTerms(true)
                                     .setTraverseSelect(true)
                                     .setTraverseSqlExpressible(true);
-                            dqlStatement.collect(collectOptions);
-                            queryScope = collectOptions.getCollectedTerms();
+                            parsedStatement.collect(collectOptions);
+                            querySchemaScope = collectOptions.getCollectedTerms();
                         }
                     }
                 }
             }
-            return queryScope;
+            return querySchemaScope;
         }
 
-        private static String getDqlQuery(QueryArgument updateArgument) {
-            QueryArgument originalArgument = updateArgument.getOriginalArgument();
-            return "DQL".equalsIgnoreCase(updateArgument.getQueryLang()) ? updateArgument.getQueryString()
-                    : originalArgument != null && originalArgument != updateArgument ? getDqlQuery(originalArgument)
+        private static String getDqlQueryStatement(QueryArgument argument) {
+            QueryArgument originalArgument = argument.getOriginalArgument();
+            return "DQL".equalsIgnoreCase(argument.getLanguage()) ? argument.getStatement()
+                    : originalArgument != null && originalArgument != argument ? getDqlQueryStatement(originalArgument)
                     : null;
         }
 

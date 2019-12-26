@@ -65,7 +65,11 @@ public final class DomainModelLoader {
     }
 
     private QueryArgument toQueryArgument(String queryString) {
-        return new QueryArgument(dataSourceId, queryString, id);
+        return QueryArgument.builder()
+                .setStatement(queryString)
+                .setParameters(id)
+                .setDataSourceId(dataSourceId)
+                .build();
     }
 
     public DomainModel generateDomainModel(Batch<QueryResult> batchResult) {

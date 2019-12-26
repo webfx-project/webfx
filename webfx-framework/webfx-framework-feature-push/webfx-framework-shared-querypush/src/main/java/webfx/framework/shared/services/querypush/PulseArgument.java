@@ -7,28 +7,24 @@ package webfx.framework.shared.services.querypush;
 public final class PulseArgument {
 
     private final Object dataSourceId;
-    private final Object updateScope;
+    private final Object schemaScope;
 
-    public PulseArgument(Object dataSourceId, Object updateScope) {
+    public PulseArgument(Object dataSourceId, Object schemaScope) {
         this.dataSourceId = dataSourceId;
-        this.updateScope = updateScope;
+        this.schemaScope = schemaScope;
     }
 
     public Object getDataSourceId() {
         return dataSourceId;
     }
 
-    public Object getUpdateScope() {
-        return updateScope;
+    public Object getSchemaScope() {
+        return schemaScope;
     }
 
     // Static factory methods
 
-    public static PulseArgument createToRefreshAllQueries(Object dataSourceId) {
-        return new PulseArgument(dataSourceId, null);
-    }
-
-    public static PulseArgument createToRefreshAllQueriesImpactedByUpdate(Object dataSourceId, Object updateScope) {
-        return new PulseArgument(dataSourceId, updateScope);
+    public static PulseArgument createToRefreshAllQueriesImpactedBySchemaScope(Object dataSourceId, Object schemaScope) {
+        return new PulseArgument(dataSourceId, schemaScope);
     }
 }

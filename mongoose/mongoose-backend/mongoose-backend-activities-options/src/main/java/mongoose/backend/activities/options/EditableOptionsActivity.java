@@ -142,31 +142,34 @@ final class EditableOptionsActivity extends OptionsActivity {
     private void onOkAddOptionDialog() {
         Option selectedOption = addOptionDialogVisualMapper.getSelectedEntity();
         if (selectedOption != null) {
-            SubmitService.executeSubmit(new SubmitArgument(getDataSourceId(), true,
-                    "select copy_option(null,?::int,?::int,null)", selectedOption.getPrimaryKey(), getEventId()))
-                    .setHandler(ar -> {
-                        if (ar.failed())
-                            addOptionDialogCallback.showException(ar.cause());
-                        else {
-                            closeAddOptionDialog();
-                            OptionsPreselection selectedOptionsPreselection = getEventActiveOptionsPreselection();
-                            clearEventOptions();
-                            onEventFeesGroups().setHandler(ar2 -> {
-                                if (ar2.succeeded()) {
-                                    for (FeesGroup feesGroup : ar2.result()) {
-                                        for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
-                                            if (optionsPreselection.getLabel() == selectedOptionsPreselection.getLabel()) {
-                                                optionsPreselection.setEventActive();
-                                                optionsPreselection.getWorkingDocument().setEventActive();
-                                                startLogic();
-                                                return;
-                                            }
-                                        }
+            SubmitService.executeSubmit(SubmitArgument.builder()
+                    .setStatement("select copy_option(null,?::int,?::int,null)")
+                    .setParameters(selectedOption.getPrimaryKey(), getEventId())
+                    .setReturnGeneratedKeys(true)
+                    .setDataSourceId(getDataSourceId())
+                    .build()).setHandler(ar -> {
+                if (ar.failed())
+                    addOptionDialogCallback.showException(ar.cause());
+                else {
+                    closeAddOptionDialog();
+                    OptionsPreselection selectedOptionsPreselection = getEventActiveOptionsPreselection();
+                    clearEventOptions();
+                    onEventFeesGroups().setHandler(ar2 -> {
+                        if (ar2.succeeded()) {
+                            for (FeesGroup feesGroup : ar2.result()) {
+                                for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
+                                    if (optionsPreselection.getLabel() == selectedOptionsPreselection.getLabel()) {
+                                        optionsPreselection.setEventActive();
+                                        optionsPreselection.getWorkingDocument().setEventActive();
+                                        startLogic();
+                                        return;
                                     }
                                 }
-                            });
+                            }
                         }
                     });
+                }
+            });
         }
         closeAddOptionDialog();
     }

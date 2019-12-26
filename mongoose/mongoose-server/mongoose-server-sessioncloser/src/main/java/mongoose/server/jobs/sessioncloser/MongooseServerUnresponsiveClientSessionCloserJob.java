@@ -18,14 +18,17 @@ public final class MongooseServerUnresponsiveClientSessionCloserJob implements A
     @Override
     public void onStart() {
         PushServerService.addUnresponsivePushClientListener(disconnectListener = pushClientId ->
-                SubmitService.executeSubmit(new SubmitArgument(DataSourceModelService.getDefaultDataSourceId(), "DQL",
-                        "update SessionConnection set end=now() where process=?", pushClientId))
-                        .setHandler(ar -> {
-                            if (ar.failed())
-                                Logger.log("Error while closing session for pushClientId=" + pushClientId, ar.cause());
-                            else
-                                Logger.log("Closed session for pushClientId=" + pushClientId);
-                        }));
+                SubmitService.executeSubmit(SubmitArgument.builder()
+                        .setLanguage("DQL")
+                        .setStatement("update SessionConnection set end=now() where process=?")
+                        .setParameters(pushClientId)
+                        .setDataSourceId(DataSourceModelService.getDefaultDataSourceId())
+                        .build()).setHandler(ar -> {
+                    if (ar.failed())
+                        Logger.log("Error while closing session for pushClientId=" + pushClientId, ar.cause());
+                    else
+                        Logger.log("Closed session for pushClientId=" + pushClientId);
+                }));
     }
 
     @Override

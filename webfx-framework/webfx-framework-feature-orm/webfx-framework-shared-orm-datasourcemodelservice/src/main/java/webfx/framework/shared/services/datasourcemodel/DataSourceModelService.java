@@ -48,16 +48,16 @@ public class DataSourceModelService {
     static {
         SingleServiceProvider.registerServiceInterceptor(QueryServiceProvider.class, target ->
                 argument -> {
-                    String queryLang = argument.getQueryLang();
+                    String language = argument.getLanguage();
                     Object dataSourceId = argument.getDataSourceId();
-                    if (queryLang != null && LocalDataSourceService.isDataSourceLocal(dataSourceId)) {
+                    if (language != null && LocalDataSourceService.isDataSourceLocal(dataSourceId)) {
                         DataSourceModel dataSourceModel = getDataSourceModel(dataSourceId);
                         if (dataSourceModel != null) {
-                            String queryString = argument.getQueryString();
-                            String translatedQuery = dataSourceModel.translateQuery(queryLang, queryString);
-                            if (!queryString.equals(translatedQuery)) {
+                            String query = argument.getStatement();
+                            String translatedQuery = dataSourceModel.translateQuery(language, query);
+                            if (!query.equals(translatedQuery)) {
                                 //Logger.log("Translated to: " + translatedQuery);
-                                argument = new QueryArgument(argument, translatedQuery);
+                                argument = QueryArgument.builder().copy(argument).setLanguage(null).setStatement(translatedQuery).build();
                             }
                         }
                     }
@@ -70,7 +70,7 @@ public class DataSourceModelService {
 
                     @Override
                     public Future<SubmitResult> executeSubmit(SubmitArgument argument) {
-                        return target.executeSubmit(translateUpdate(argument));
+                        return target.executeSubmit(translateSubmit(argument));
                     }
 
                     @Override
@@ -78,17 +78,17 @@ public class DataSourceModelService {
                         return target.executeSubmitBatch(translateBatch(batch));
                     }
 
-                    private SubmitArgument translateUpdate(SubmitArgument argument) {
-                        String updateLang = argument.getSubmitLang();
+                    private SubmitArgument translateSubmit(SubmitArgument argument) {
+                        String submitLang = argument.getLanguage();
                         Object dataSourceId = argument.getDataSourceId();
-                        if (updateLang != null && LocalDataSourceService.isDataSourceLocal(dataSourceId)) {
+                        if (submitLang != null && LocalDataSourceService.isDataSourceLocal(dataSourceId)) {
                             DataSourceModel dataSourceModel = getDataSourceModel(dataSourceId);
                             if (dataSourceModel != null) {
-                                String updateString = argument.getSubmitString();
-                                String translatedUpdate = dataSourceModel.translateStatementIfDql(argument.getSubmitLang(), updateString);
-                                if (!updateString.equals(translatedUpdate)) {
-                                    //Logger.log("Translated to: " + translatedUpdate);
-                                    argument = new SubmitArgument(argument, translatedUpdate);
+                                String submitString = argument.getStatement();
+                                String translatedSubmit = dataSourceModel.translateStatementIfDql(argument.getLanguage(), submitString);
+                                if (!submitString.equals(translatedSubmit)) {
+                                    //Logger.log("Translated to: " + translatedSubmit);
+                                    argument = SubmitArgument.builder().copy(argument).setLanguage(null).setStatement(translatedSubmit).build();
                                 }
                             }
                         }
@@ -96,7 +96,7 @@ public class DataSourceModelService {
                     }
 
                     private Batch<SubmitArgument> translateBatch(Batch<SubmitArgument> batch) {
-                        return new Batch<>(Arrays.stream(batch.getArray()).map(this::translateUpdate).toArray(SubmitArgument[]::new));
+                        return new Batch<>(Arrays.stream(batch.getArray()).map(this::translateSubmit).toArray(SubmitArgument[]::new));
                     }
                 });
     }

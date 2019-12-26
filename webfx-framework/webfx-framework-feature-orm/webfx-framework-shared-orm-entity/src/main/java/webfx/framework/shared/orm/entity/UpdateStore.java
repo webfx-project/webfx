@@ -45,10 +45,6 @@ public interface UpdateStore extends EntityStore {
 
     void markChangesAsCommitted();
 
-    default Future<Batch<SubmitResult>> submitChanges() {
-        return submitChanges(null);
-    }
-
     Future<Batch<SubmitResult>> submitChanges(SubmitArgument... initialSubmits);
 
     // Factory

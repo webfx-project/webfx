@@ -13,7 +13,12 @@ public final class DqlQueryArgumentHelper {
     private final static String QUERY_LANGUAGE = DQL_LANGUAGE; // can be set to "DQL", "SQL" or null (null = default = SQL)
 
     public static QueryArgument createQueryArgument(String dqlQuery, Object[] parameters, DataSourceModel dataSourceModel) {
-        return new QueryArgument(dataSourceModel.getDataSourceId(), QUERY_LANGUAGE, DQL_LANGUAGE.equals(QUERY_LANGUAGE) ? dqlQuery : dataSourceModel.translateQuery(DQL_LANGUAGE, dqlQuery), resolveParameters(parameters));
+        return QueryArgument.builder()
+                .setLanguage(DQL_LANGUAGE)
+                .setStatement(DQL_LANGUAGE.equals(QUERY_LANGUAGE) ? dqlQuery : dataSourceModel.translateQuery(DQL_LANGUAGE, dqlQuery))
+                .setParameters(resolveParameters(parameters))
+                .setDataSourceId(dataSourceModel.getDataSourceId())
+                .build();
     }
 
     private static Object[] resolveParameters(Object[] parameters) {

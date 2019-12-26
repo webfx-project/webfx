@@ -110,8 +110,8 @@ public final class ReactiveQueryPushCall extends ReactiveQueryCall {
         QueryArgument transmittedQueryArgument = queryStreamId != null && !hasArgumentChangedSinceLastCall() ? null : queryArgument;
         if (transmittedQueryArgument != null && queryStreamId != null) {
             QueryArgument lastQueryArgument = getLastCallArgument();
-            if (lastQueryArgument != null && lastQueryArgument.getQueryString() != null && lastQueryArgument.getQueryString().equals(queryArgument.getQueryString()))
-                transmittedQueryArgument = new QueryArgument(queryArgument.getDataSourceId(), queryArgument.getQueryLang(), null, queryArgument.getParameters());
+            if (lastQueryArgument != null && lastQueryArgument.getStatement() != null && lastQueryArgument.getStatement().equals(queryArgument.getStatement()))
+                transmittedQueryArgument = QueryArgument.builder().copy(queryArgument).setStatement(null).build();
         }
         memorizeLastCallArgument();
         ReactiveQueryPushCall parent = getActiveParent();

@@ -215,7 +215,8 @@ final class EventAggregateImpl implements EventAggregate {
     @Override
     public Future<QueryResult> onEventAvailabilities() {
         if (eventAvailabilitiesFutureBroadcaster == null)
-            eventAvailabilitiesFutureBroadcaster = new FutureBroadcaster<>(() -> QueryService.executeQuery(new QueryArgument(getDataSourceId(),
+            eventAvailabilitiesFutureBroadcaster = new FutureBroadcaster<>(() -> QueryService.executeQuery(QueryArgument.builder()
+                    .setStatement(
                     "with ra as (select * from resource_availability_by_event_items(?) where max>0)," + // resources with max(=max_online)=0 (like private rooms) are not displayed in the frontend
                     // let's see if some options for this event require to have the per day availabilities details
                     " pda as (select site_id,item_id,item_family_id from option where per_day_availability and event_id=?)" +
@@ -225,7 +226,10 @@ final class EventAggregateImpl implements EventAggregate {
                     // for others, we group by site and item (=> dates disappears => simpler and less data to transfer to browser) and keep the min values for availability all over the event time range
                     " (select min(row_number), min(site_id) as site, min(item_id) as item, null as date, min(max - current) as available, min(i.ord) as ord from ra join item i on i.id=item_id where not exists(select * from pda where site_id=ra.site_id and (item_id=ra.item_id or item_id is null and item_family_id=i.family_id)) group by site_id,item_id)" +
                     // finally we order this query union by site, item and date
-                    " order by site,ord,date", eventId, eventId))
+                    " order by site,ord,date")
+                    .setParameters(eventId, eventId)
+                    .setDataSourceId(getDataSourceId())
+                    .build())
                     .map(rs -> eventAvailabilities = rs));
         return eventAvailabilitiesFutureBroadcaster.newClient();
     }

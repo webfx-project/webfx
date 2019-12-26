@@ -36,14 +36,17 @@ public final class CloneEventPresentationLogicActivity extends EventDependentPre
 
         pm.setOnSubmit(event -> {
             LocalDate startDate = pm.getDate();
-            SubmitService.executeSubmit(new SubmitArgument(getDataSourceId(), true,
-                    "select copy_event(?,?,?)", getEventId(), pm.getName(), startDate))
-                    .setHandler(ar -> {
-                        if (ar.succeeded())
-                            UiScheduler.runInUiThread(() ->
-                                    new RouteToBookingsRequest(ar.result().getGeneratedKeys()[0], getHistory()).execute()
-                            );
-                    });
+            SubmitService.executeSubmit(SubmitArgument.builder()
+                    .setStatement("select copy_event(?,?,?)")
+                    .setParameters(getEventId(), pm.getName(), startDate)
+                    .setReturnGeneratedKeys(true)
+                    .setDataSourceId(getDataSourceId())
+                    .build()).setHandler(ar -> {
+                if (ar.succeeded())
+                    UiScheduler.runInUiThread(() ->
+                            new RouteToBookingsRequest(ar.result().getGeneratedKeys()[0], getHistory()).execute()
+                    );
+            });
         });
     }
 }

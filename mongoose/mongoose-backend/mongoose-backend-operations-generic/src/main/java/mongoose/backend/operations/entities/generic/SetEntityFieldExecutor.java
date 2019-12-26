@@ -38,9 +38,10 @@ final class SetEntityFieldExecutor {
                 UpdateStore updateStore = UpdateStore.createAbove(entity.getStore());
                 Entity updateEntity = updateStore.updateEntity(entity);
                 leftExpression.setValue(updateEntity, rightExpression.evaluate(updateEntity, updateStore.getEntityDataWriter()), updateStore.getEntityDataWriter());
-                updateStore.submitChanges(new SubmitArgument(entity.getStore().getDataSourceId(),
-                        "select set_transaction_parameters(true)"))
-                        .setHandler(ar2 -> {
+                updateStore.submitChanges(SubmitArgument.builder()
+                        .setStatement("select set_transaction_parameters(true)")
+                        .setDataSourceId(entity.getStore().getDataSourceId())
+                        .build()).setHandler(ar2 -> {
                             if (ar2.failed())
                                 reportException(dialogCallback, parentContainer, ar2.cause());
                             else if (dialogCallback != null)

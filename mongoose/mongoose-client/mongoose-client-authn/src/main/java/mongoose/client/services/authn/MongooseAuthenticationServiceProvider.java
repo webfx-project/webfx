@@ -34,9 +34,14 @@ public final class MongooseAuthenticationServiceProvider implements Authenticati
         if (!(userCredentials instanceof UsernamePasswordCredentials))
             return Future.failedFuture(new IllegalArgumentException("MongooseAuthenticationServiceProvider requires a UsernamePasswordCredentials argument"));
         UsernamePasswordCredentials usernamePasswordCredentials = (UsernamePasswordCredentials) userCredentials;
-        return QueryService.executeQuery(new QueryArgument(getDataSourceId(), "DQL", "select id,frontendAccount.id from Person where frontendAccount.(corporation=? and username=? and password=?) order by id limit 1", 1, usernamePasswordCredentials.getUsername(), usernamePasswordCredentials.getPassword()))
-                .compose(result -> result.getRowCount() != 1 ? Future.failedFuture("Wrong user or password")
-                      : Future.succeededFuture(new MongooseUserPrincipal(result.getValue(0, 0), result.getValue(0, 1)))
-                );
+        return QueryService.executeQuery(QueryArgument.builder()
+                .setLanguage("DQL")
+                .setStatement("select id,frontendAccount.id from Person where frontendAccount.(corporation=? and username=? and password=?) order by id limit 1")
+                .setParameters(1, usernamePasswordCredentials.getUsername(), usernamePasswordCredentials.getPassword())
+                .setDataSourceId(getDataSourceId())
+                .build()
+        ).compose(result -> result.getRowCount() != 1 ? Future.failedFuture("Wrong user or password")
+                : Future.succeededFuture(new MongooseUserPrincipal(result.getValue(0, 0), result.getValue(0, 1)))
+        );
     }
 }

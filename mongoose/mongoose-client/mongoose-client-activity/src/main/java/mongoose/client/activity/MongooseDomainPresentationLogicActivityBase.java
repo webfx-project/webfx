@@ -29,7 +29,12 @@ public abstract class MongooseDomainPresentationLogicActivityBase<PM>
 
     private void loadActivityState(Object activityStateId) {
         // Loading the parameters from the requested activity state
-        QueryService.executeQuery(new QueryArgument(getDataSourceId(), "DQL", "select parameters from ActivityState where id=?", activityStateId)).setHandler(ar -> {
+        QueryService.executeQuery(QueryArgument.builder()
+                .setLanguage("DQL")
+                .setStatement("select parameters from ActivityState where id=?")
+                .setParameters(activityStateId)
+                .setDataSourceId(getDataSourceId())
+                .build()).setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
             else {

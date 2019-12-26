@@ -19,7 +19,7 @@ public class LocalQueryServiceProvider implements QueryServiceProvider {
     @Override
     public Future<QueryResult> executeQuery(QueryArgument argument) {
         Object dataSourceId = argument.getDataSourceId();
-        String queryString = argument.getQueryString();
+        String queryString = argument.getStatement();
         Logger.log("Query: " + queryString + (argument.getParameters() == null ? "" : "\nParameters: " + Arrays.toString(argument.getParameters())));
         QueryServiceProvider localConnectedProvider = getOrCreateLocalConnectedProvider(dataSourceId);
         if (localConnectedProvider != null)

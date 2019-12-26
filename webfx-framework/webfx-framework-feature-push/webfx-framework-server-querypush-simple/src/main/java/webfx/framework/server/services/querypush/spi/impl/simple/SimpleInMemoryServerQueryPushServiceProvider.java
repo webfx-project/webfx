@@ -92,9 +92,9 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
         QueryInfo requestedQueryInfo = queryInfos.get(queryArgument);
         if (requestedQueryInfo == null) { // creating it (and register it) if it doesn't exist
             // If the queryString was null (network optimization when it's the same as previous),
-            if (queryArgument.getQueryString() == null && previousQueryInfo != null)
+            if (queryArgument.getStatement() == null && previousQueryInfo != null)
                 // we reconstitute the complete argument reusing the previous queryString
-                queryArgument = new QueryArgument(queryArgument.getDataSourceId(), queryArgument.getQueryLang(), previousQueryInfo.getQueryArgument().getQueryString(), queryArgument.getParameters());
+                queryArgument = QueryArgument.builder().copy(queryArgument).setStatement(previousQueryInfo.getQueryArgument().getStatement()).build();
             queryInfos.put(queryArgument, requestedQueryInfo = new QueryInfo(queryArgument));
         }
         // Associating this streamInfo to this requested queryInfo
@@ -147,10 +147,10 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
                     if (!Objects.areEquals(dataSourceId, queryInfo.getQueryArgument().getDataSourceId()))
                         continue; // Avoiding an unnecessary costly query check! :-)
                     // Second criteria: the update scope must impact the query scope (ex: modify a field that the query reads)
-                    Object updateScope = argument.getUpdateScope();
-                    if (updateScope != null) {
-                        Object queryScope = queryInfo.getQueryScope();
-                        if (queryScope != null && !areScopesIntersecting(queryScope, updateScope))
+                    Object submitSchemaScope = argument.getSchemaScope();
+                    if (submitSchemaScope != null) {
+                        Object querySchemaScope = queryInfo.getOrBuildQuerySchemaScope();
+                        if (querySchemaScope != null && !areScopesIntersecting(querySchemaScope, submitSchemaScope))
                             continue; // Avoiding an unnecessary costly query check! :-)
                     }
                     queryInfo.markAsDirty();

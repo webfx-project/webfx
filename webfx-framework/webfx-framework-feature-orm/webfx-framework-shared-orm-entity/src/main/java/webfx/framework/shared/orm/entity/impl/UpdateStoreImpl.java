@@ -88,7 +88,7 @@ public final class UpdateStoreImpl extends EntityStoreImpl implements UpdateStor
     }
 
     @Override
-    public Future<Batch<SubmitResult>> submitChanges(SubmitArgument[] initialSubmits) {
+    public Future<Batch<SubmitResult>> submitChanges(SubmitArgument... initialSubmits) {
         try {
             EntityChangesToSubmitBatchGenerator.BatchGenerator updateBatchGenerator = EntityChangesToSubmitBatchGenerator.createSubmitBatchGenerator(getEntityChanges(), dataSourceModel, initialSubmits);
             Batch<SubmitArgument> batch = updateBatchGenerator.generate();

@@ -80,7 +80,7 @@ public final class EntityChangesToSubmitBatchGenerator {
             // values so that they can be used as is without any transformation by the SubmitService.
             sortStatementsByCreationOrder();
             // Returning the batch
-            return new Batch<>(submitArguments.toArray(new SubmitArgument[submitArguments.size()]));
+            return new Batch<>(submitArguments.toArray(new SubmitArgument[0]));
         }
 
         public void applyGeneratedKeys(Batch<SubmitResult> ar, EntityStore store) {
@@ -99,7 +99,8 @@ public final class EntityChangesToSubmitBatchGenerator {
             }
             while (sorted < size) {
                 boolean someResolved = false;
-                loop: for (int batchIndex = 0; batchIndex < size; batchIndex++) {
+                loop:
+                for (int batchIndex = 0; batchIndex < size; batchIndex++) {
                     SubmitArgument arg = submitArguments.get(batchIndex);
                     if (arg != null) {
                         Object[] parameters = arg.getParameters();
@@ -193,12 +194,17 @@ public final class EntityChangesToSubmitBatchGenerator {
                 addToBatch(ExpressionSqlCompiler.compileStatement(dqlStatement, dbmsSyntax, compilerModelReader), parameterValues);
         }
 
-        void addToBatch(SqlCompiled sqlcompiled, Object... parameterValues) {
-            addToBatch(null, sqlcompiled.getSql(), parameterValues);
+        void addToBatch(SqlCompiled sqlcompiled, Object... parameters) {
+            addToBatch(null, sqlcompiled.getSql(), parameters);
         }
 
-        void addToBatch(String updateLang, String updateString, Object... parameterValues) {
-            submitArguments.add(new SubmitArgument(dataSourceId, updateLang, updateString, parameterValues));
+        void addToBatch(String submitLang, String submitString, Object... parameters) {
+            submitArguments.add(SubmitArgument.builder()
+                    .setDataSourceId(dataSourceId)
+                    .setLanguage(submitLang)
+                    .setStatement(submitString)
+                    .setParameters(parameters)
+                    .build());
         }
     }
 }
