@@ -33,7 +33,7 @@ public final class ReactiveObjectsMapper<E extends Entity, T> implements Reactiv
 
     public ReactiveObjectsMapper<E,T> storeMappedObjectsInto(ObservableList<T> objects) {
         ObservableEntitiesToObjectsMapper<E, ? extends IndividualEntityToObjectMapper<E, T>> entitiesToObjectsMapper = new ObservableEntitiesToObjectsMapper<>(getObservableEntities(), entityToObjectMapperFactory, (e, m) -> m.onEntityChangedOrReplaced(e), (e1, m1) -> m1.onEntityRemoved(e1));
-        ObservableLists.bindConverted(objects, entitiesToObjectsMapper.getObservableObjects(), IndividualEntityToObjectMapper::getMappedObject);
+        ObservableLists.bindConverted(objects, entitiesToObjectsMapper.getMappedObjects(), IndividualEntityToObjectMapper::getMappedObject);
         return this;
     }
 

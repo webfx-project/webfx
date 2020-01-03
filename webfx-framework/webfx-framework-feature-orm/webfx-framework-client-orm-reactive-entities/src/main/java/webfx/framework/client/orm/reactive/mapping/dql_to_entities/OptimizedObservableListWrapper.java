@@ -19,6 +19,15 @@ public final class OptimizedObservableListWrapper<E> extends ObservableListWrapp
         super(list);
     }
 
+    public void runInTransaction(Runnable runnable) {
+        try {
+            beginChange();
+            runnable.run();
+        } finally {
+            endChange();
+        }
+    }
+
     @Override
     public boolean setAll(Collection<? extends E> col) {
         if (isEmpty())

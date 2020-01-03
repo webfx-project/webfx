@@ -16,53 +16,66 @@ import java.util.function.Function;
 final class ObservableEntitiesToObjectsMapper<E extends Entity, T> {
 
     private final ObservableList<E> observableEntities;
-    private final ObservableList<T> observableObjects = new OptimizedObservableListWrapper<>();
+    private final OptimizedObservableListWrapper<T> mappedObjects = new OptimizedObservableListWrapper<>();
 
-    ObservableEntitiesToObjectsMapper(ObservableList<E> observableEntities, Function<E, T> objectCreator, BiConsumer<E, T> objectUpdater, BiConsumer<E, T> objectDeleter) {
+    ObservableEntitiesToObjectsMapper(ObservableList<E> observableEntities, Function<E, T> mappedObjectCreator, BiConsumer<E, T> mappedObjectUpdater, BiConsumer<E, T> mappedObjectDeleter) {
         this.observableEntities = observableEntities;
-        observableEntities.addListener((ListChangeListener<E>) change -> {
+        observableEntities.addListener((ListChangeListener<E>) change -> mappedObjects.runInTransaction(() -> {
             while (change.next()) {
+                ObservableList<? extends E> list = change.getList();
+                int from = change.getFrom();
+                int to = change.getTo();
                 if (change.wasPermutated()) {
-                    List<T> copy = new ArrayList<>(observableObjects);
-                    for (int index1 = change.getFrom(); index1 < change.getTo(); index1++) {
+                    List<T> copy = new ArrayList<>(mappedObjects);
+                    for (int index1 = from; index1 < to; index1++) {
                         int index2 = change.getPermutation(index1);
-                        T e1 = copy.get(index1);
-                        T e2 = copy.set(index2, e1);
-                        copy.set(index1, e2);
-                        objectUpdater.accept(change.getList().get(index1), e2);
-                        objectUpdater.accept(change.getList().get(index2), e1);
+                        T mappedObject1 = copy.get(index1);
+                        T mappedObject2 = copy.set(index2, mappedObject1);
+                        copy.set(index1, mappedObject2);
+                        mappedObjectUpdater.accept(list.get(index1), mappedObject2);
+                        mappedObjectUpdater.accept(list.get(index2), mappedObject1);
                     }
-                    observableObjects.setAll(copy);
-                } else if (change.wasUpdated() || change.wasReplaced()) {
-                    for (int i = change.getFrom(); i < change.getTo(); i++)
-                        objectUpdater.accept(change.getList().get(i), observableObjects.get(i));
+                    mappedObjects.setAll(copy);
+                } else if (change.wasUpdated()) {
+                    for (int i = from; i < to; i++)
+                        mappedObjectUpdater.accept(list.get(i), mappedObjects.get(i));
                 } else {
-                    if (change.wasRemoved()) {
+                    int addedSize = change.getAddedSize();
+                    int removedSize = change.getRemovedSize();
+                    if (removedSize > addedSize) {
                         List<? extends E> removed = change.getRemoved();
-                        int n = removed.size();
-                        if (objectDeleter != null) {
-                            for (int i = 0; i < n; i++)
-                                objectDeleter.accept(removed.get(i), observableObjects.get(change.getFrom() + i));
+                        for (int i = 0; i < removedSize; i++) {
+                            int listIndex = from + i;
+                            T mappedObject = mappedObjects.get(listIndex);
+                            if (i < addedSize)
+                                mappedObjectUpdater.accept(list.get(listIndex), mappedObject);
+                            else
+                                mappedObjectDeleter.accept(removed.get(i), mappedObject);
                         }
-                        observableObjects.remove(change.getFrom(), change.getFrom() + n);
-                    }
-                    if (change.wasAdded()) {
-                        List<T> copy = new ArrayList<>(observableObjects);
-                        for (int i = change.getFrom(); i < change.getTo(); i++)
-                            copy.add(i, objectCreator.apply(change.getList().get(i)));
-                        observableObjects.setAll(copy);
+                        mappedObjects.remove(from + addedSize, from + removedSize);
+                    } else {
+                        List<T> copy = new ArrayList<>(mappedObjects);
+                        for (int i = 0; i < addedSize; i++) {
+                            int listIndex = from + i;
+                            E entity = list.get(listIndex);
+                            if (i < removedSize)
+                                mappedObjectUpdater.accept(entity, mappedObjects.get(listIndex));
+                            else
+                                copy.add(listIndex, mappedObjectCreator.apply(entity));
+                        }
+                        mappedObjects.setAll(copy);
                     }
                 }
             }
-        });
+        }));
     }
 
     ObservableList<E> getObservableEntities() {
         return observableEntities;
     }
 
-    ObservableList<T> getObservableObjects() {
-        return observableObjects;
+    ObservableList<T> getMappedObjects() {
+        return mappedObjects;
     }
 
 }
