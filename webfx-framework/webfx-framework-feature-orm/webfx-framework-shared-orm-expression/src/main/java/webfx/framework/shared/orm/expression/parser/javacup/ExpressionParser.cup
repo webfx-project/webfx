@@ -67,7 +67,7 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).*/
 terminal          EXPR_START;
-terminal          SELECT, DISTINCT, FROM, WHERE, GROUP_BY, HAVING, ORDER_BY, DESC, ASC, NULLS, FIRST, LAST, LIMIT, INSERT, UPDATE, SET, EXISTS, IS, LIKE, IN, AS, ANY, ALL, THIS;
+terminal          SELECT, DISTINCT, FROM, WHERE, GROUP_BY, HAVING, ORDER_BY, DESC, ASC, NULLS, FIRST, LAST, LIMIT, INSERT, UPDATE, DELETE, SET, EXISTS, IS, LIKE, IN, AS, ANY, ALL, THIS;
 terminal          OBJ_STATE, IMAGE;
 terminal          LPAREN, RPAREN, LBRACK, RBRACK, COLON, COMMA, DOT, LCURLY, RCURLY;
 terminal          PLUS, MINUS, MULT, DIV, EQ, GT, LT, NOT, QUESTION, EQEQ, LTEQ, GTEQ, NOTEQ, AND, OR;
@@ -81,6 +81,7 @@ non terminal Object                       parser_start;
 non terminal SelectBuilder                select_query, select_start, select_distinct, select_class, select_where, select_group, select_order, select_limit;
 non terminal InsertBuilder                insert_statement, insert_start, insert_class, insert_set;
 non terminal UpdateBuilder                update_statement, update_start, update_class, update_set, update_where;
+non terminal DeleteBuilder                delete_statement, delete_start, delete_class, delete_where;
 non terminal ExpressionBuilder            expr, expr_list_token, expr_or_list, left_dot, list_dot, list_dot_right, field_dot, field_dot_right, expr_dot, expr_dot_right, field, fields_group, val, constant, parameter, ordered, ordered_nulls;
 non terminal ExpressionArrayBuilder       expr_list, expr2_list, val_list, order_list;
 non terminal JsonObjectExpressionBuilder  json_token_list;
@@ -111,6 +112,8 @@ parser_start ::= select_query:select
               {: RESULT = insert; :}
             | update_statement:update
               {: RESULT = update; :}
+            | delete_statement:delete
+              {: RESULT = delete; :}
             | EXPR_START expr_list:e
               {: RESULT = e; :}
             | ORDER_BY order_list:o
@@ -454,3 +457,28 @@ update_statement  ::= update_where:update
                   ;
 
 /* delete expression */
+
+delete_start    ::= DELETE
+                    {: RESULT = new DeleteBuilder(); :}
+				  ;
+
+delete_class    ::= delete_start:delete IDENTIFIER:className
+                    {: RESULT = delete; RESULT.buildingClassName = className; :}
+                  | delete_start:delete IDENTIFIER:className IDENTIFIER:alias
+                    {: RESULT = delete; RESULT.buildingClassName = className; RESULT.buildingClassAlias = alias; :}
+                  | delete_start:delete FROM IDENTIFIER:className
+                    {: RESULT = delete; RESULT.buildingClassName = className; :}
+                  | delete_start:delete FROM IDENTIFIER:className IDENTIFIER:alias
+                    {: RESULT = delete; RESULT.buildingClassName = className; RESULT.buildingClassAlias = alias; :}
+                  ;
+
+delete_where	::= delete_class:delete WHERE expr:where
+                    {: RESULT = delete; RESULT.where = where; :}
+				  |	delete_class:delete
+                    {: RESULT = delete; :}
+				  ;
+
+delete_statement ::= delete_where:delete
+                    {: RESULT = delete; :}
+                  ;
+

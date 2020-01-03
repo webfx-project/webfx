@@ -31,10 +31,6 @@ public final class Update<T> extends DqlStatement<T> {
     }
 
     @Override
-    public String toString() {
-        return toString(new StringBuilder()).toString();
-    }
-
     public StringBuilder toString(StringBuilder sb) {
         return sb.append("update ")
                 .append(_ifNotEmpty(getDomainClass(), sb)).append(_if(" ", domainClassAlias, "", sb))

@@ -77,6 +77,7 @@ OrderBy = [Oo][Rr][Dd][Ee][Rr]{WhiteSpace}+[Bb][Yy]
     "limit"                        { return symbol(LIMIT); }
     "insert"                       { return symbol(INSERT); }
     "update"                       { return symbol(UPDATE); }
+    "delete"                       { return symbol(DELETE); }
     "set"                          { return symbol(SET); }
     "exists"                       { return symbol(EXISTS); }
     "is"                           { return symbol(IS); }

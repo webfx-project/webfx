@@ -8,63 +8,64 @@ package webfx.framework.shared.orm.expression.parser.javacup;
 /** CUP generated interface containing symbol constants. */
 public interface ExpressionSymbols {
   /* terminals */
-  public static final int GTEQ = 49;
+  public static final int GTEQ = 50;
   public static final int NULLS = 12;
-  public static final int MULT = 40;
-  public static final int ANY = 24;
-  public static final int LTEQ = 48;
-  public static final int OBJ_STATE = 27;
+  public static final int MULT = 41;
+  public static final int ANY = 25;
+  public static final int LTEQ = 49;
+  public static final int OBJ_STATE = 28;
   public static final int DESC = 10;
-  public static final int LPAREN = 29;
-  public static final int IMAGE = 28;
+  public static final int LPAREN = 30;
+  public static final int IMAGE = 29;
   public static final int UPDATE = 17;
-  public static final int MINUS = 39;
+  public static final int MINUS = 40;
+  public static final int DELETE = 18;
   public static final int WHERE = 6;
-  public static final int RPAREN = 30;
-  public static final int AND = 51;
-  public static final int NOT = 45;
-  public static final int IS = 20;
-  public static final int LT = 44;
+  public static final int RPAREN = 31;
+  public static final int AND = 52;
+  public static final int NOT = 46;
+  public static final int IS = 21;
+  public static final int LT = 45;
   public static final int FIRST = 13;
-  public static final int OR = 52;
-  public static final int IN = 22;
-  public static final int COMMA = 34;
-  public static final int DIV = 41;
+  public static final int OR = 53;
+  public static final int IN = 23;
+  public static final int COMMA = 35;
+  public static final int DIV = 42;
   public static final int SELECT = 3;
-  public static final int PLUS = 38;
-  public static final int THIS = 26;
-  public static final int DOT = 35;
-  public static final int BOOLEAN = 55;
+  public static final int PLUS = 39;
+  public static final int THIS = 27;
+  public static final int DOT = 36;
+  public static final int BOOLEAN = 56;
   public static final int EOF = 0;
   public static final int error = 1;
   public static final int DISTINCT = 4;
-  public static final int LIKE = 21;
+  public static final int LIKE = 22;
   public static final int LIMIT = 15;
-  public static final int LCURLY = 36;
-  public static final int NULL = 53;
-  public static final int EQEQ = 47;
-  public static final int EXISTS = 19;
-  public static final int NUMBER = 54;
-  public static final int EQ = 42;
+  public static final int LCURLY = 37;
+  public static final int NULL = 54;
+  public static final int EQEQ = 48;
+  public static final int EXISTS = 20;
+  public static final int NUMBER = 55;
+  public static final int EQ = 43;
   public static final int GROUP_BY = 7;
-  public static final int RCURLY = 37;
-  public static final int LBRACK = 31;
+  public static final int RCURLY = 38;
+  public static final int LBRACK = 32;
   public static final int FROM = 5;
   public static final int ASC = 11;
-  public static final int COLON = 33;
+  public static final int COLON = 34;
   public static final int LAST = 14;
-  public static final int RBRACK = 32;
+  public static final int RBRACK = 33;
   public static final int ORDER_BY = 9;
   public static final int INSERT = 16;
-  public static final int STRING = 56;
-  public static final int QUESTION = 46;
-  public static final int ALL = 25;
+  public static final int STRING = 57;
+  public static final int QUESTION = 47;
+  public static final int ALL = 26;
   public static final int EXPR_START = 2;
-  public static final int AS = 23;
-  public static final int GT = 43;
-  public static final int NOTEQ = 50;
-  public static final int SET = 18;
-  public static final int IDENTIFIER = 57;
+  public static final int AS = 24;
+  public static final int GT = 44;
+  public static final int NOTEQ = 51;
+  public static final int SET = 19;
+  public static final int IDENTIFIER = 58;
   public static final int HAVING = 8;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -85,6 +86,7 @@ public interface ExpressionSymbols {
   "LIMIT",
   "INSERT",
   "UPDATE",
+  "DELETE",
   "SET",
   "EXISTS",
   "IS",

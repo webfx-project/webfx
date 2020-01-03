@@ -94,8 +94,10 @@ public abstract class DqlStatement<T> {
 
     @Override
     public String toString() {
-        return getDefinition();
+        return toString(new StringBuilder()).toString();
     }
+
+    public abstract StringBuilder toString(StringBuilder sb);
 
     // Some Strings static methods helpers
 

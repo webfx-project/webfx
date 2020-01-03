@@ -48,7 +48,7 @@ public final class SystemMetricsRecorderJob implements ApplicationJob {
         metricsCleaningPeriodicTimer = Scheduler.schedulePeriodic(12 * 3600 * 1000, () ->
                 SubmitService.executeSubmit(SubmitArgument.builder()
                         .setLanguage("DQL")
-                        .setStatement("delete Metrics where lt_testSet is null and date < ?")
+                        .setStatement("delete Metrics where LtTestSet is null and date < ?")
                         .setParameters(Instant.now().minus(1, ChronoUnit.DAYS))
                         .setDataSourceId(dataSourceModel.getDataSourceId())
                         .build()

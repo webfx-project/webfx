@@ -23,10 +23,6 @@ public final class Insert<T> extends DqlStatement<T> {
     }
 
     @Override
-    public String toString() {
-        return toString(new StringBuilder()).toString();
-    }
-
     public StringBuilder toString(StringBuilder sb) {
         return sb.append("insert ")
                 .append(_ifNotEmpty(getDomainClass(), sb)).append(_if(" ", domainClassAlias, "", sb))
