@@ -59,6 +59,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-shared-orm-dql-submit-interceptor</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-kit-javafx</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
