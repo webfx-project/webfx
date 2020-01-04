@@ -1,0 +1,12 @@
+<module automatic="true">
+
+    <required-conditions>
+        <if-uses-java-package>webfx.framework.shared.services.querypush</if-uses-java-package>
+        <if-uses-java-package>webfx.framework.shared.orm.domainmodel</if-uses-java-package>
+    </required-conditions>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">webfx.framework.shared.interceptors.dqlquerypush.DqlQueryPushInterceptorModuleInitializer</provider>
+    </providers>
+
+</module>

@@ -2,23 +2,17 @@ package webfx.framework.server.services.querypush.spi.impl;
 
 import webfx.framework.server.services.push.PushServerService;
 import webfx.framework.server.services.querypush.QueryPushServerService;
-import webfx.framework.shared.orm.domainmodel.DataSourceModel;
-import webfx.framework.shared.orm.domainmodel.DomainField;
-import webfx.framework.shared.orm.expression.CollectOptions;
-import webfx.framework.shared.orm.expression.Expression;
-import webfx.framework.shared.orm.expression.terms.DqlStatement;
-import webfx.framework.shared.orm.expression.terms.Select;
-import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.framework.shared.services.querypush.PulseArgument;
 import webfx.framework.shared.services.querypush.QueryPushArgument;
 import webfx.framework.shared.services.querypush.QueryPushResult;
 import webfx.framework.shared.services.querypush.diff.QueryResultComparator;
 import webfx.framework.shared.services.querypush.diff.QueryResultDiff;
 import webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider;
-import webfx.platform.shared.schemascope.SchemaScope;
-import webfx.platform.shared.schemascope.SchemaScopeBuilder;
+import webfx.platform.shared.schemascope.Scope;
 import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.services.query.*;
+import webfx.platform.shared.services.query.QueryArgument;
+import webfx.platform.shared.services.query.QueryResult;
+import webfx.platform.shared.services.query.QueryService;
 import webfx.platform.shared.services.scheduler.Scheduler;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
@@ -227,7 +221,6 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
 
     public static final class QueryInfo {
         private final QueryArgument queryArgument;
-        private SchemaScope querySchemaScope;
         private final List<StreamInfo> streamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
         private int activeNewStreamCount;
         /*
@@ -242,7 +235,6 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
 
         public QueryInfo(QueryArgument queryArgument) {
             this.queryArgument = queryArgument;
-            querySchemaScope = queryArgument.getSchemaScope();
         }
 
         public QueryArgument getQueryArgument() {
@@ -328,43 +320,9 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
             return streamInfos.isEmpty();
         }
 
-        public SchemaScope getOrBuildQuerySchemaScope() {
-            if (querySchemaScope == null) {
-                String dqlStatement = getDqlQueryStatement(queryArgument);
-                if (dqlStatement != null) {
-                    // TODO Introducing a dependency to webfx-framework-shared-orm-domainmodel => see if we can move this into an interceptor in a new separate module
-                    DataSourceModel dataSourceModel = DataSourceModelService.getDataSourceModel(queryArgument.getDataSourceId());
-                    if (dataSourceModel != null) {
-                        // TODO Should we cache this (dqlStatement => read fields)?
-                        DqlStatement<Object> parsedStatement = dataSourceModel.parseStatement(dqlStatement);
-                        if (parsedStatement instanceof Select) {
-                            CollectOptions collectOptions = new CollectOptions()
-                                    .setFilterPersistentTerms(true)
-                                    .setTraverseSelect(true)
-                                    .setTraverseSqlExpressible(true);
-                            parsedStatement.collect(collectOptions);
-                            SchemaScopeBuilder ssb = new SchemaScopeBuilder();
-                            for (Expression<Object> term : collectOptions.getCollectedTerms()) {
-                                if (term instanceof DomainField) {
-                                    DomainField domainField = (DomainField) term;
-                                    ssb.addField(domainField.getDomainClass().getId(), domainField.getId());
-                                }
-                            }
-                            querySchemaScope = ssb.build();
-                        }
-                    }
-                }
-            }
-            return querySchemaScope;
+        public Scope getQuerySchemaScope() {
+            return queryArgument.getSchemaScope();
         }
-
-        private static String getDqlQueryStatement(QueryArgument argument) {
-            QueryArgument originalArgument = argument.getOriginalArgument();
-            return "DQL".equalsIgnoreCase(argument.getLanguage()) ? argument.getStatement()
-                    : originalArgument != null && originalArgument != argument ? getDqlQueryStatement(originalArgument)
-                    : null;
-        }
-
     }
 
     public final class StreamInfo {

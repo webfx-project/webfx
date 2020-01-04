@@ -1,7 +1,7 @@
 package webfx.framework.shared.services.querypush;
 
 
-import webfx.platform.shared.schemascope.SchemaScope;
+import webfx.platform.shared.schemascope.Scope;
 
 /**
  * @author Bruno Salmon
@@ -9,9 +9,9 @@ import webfx.platform.shared.schemascope.SchemaScope;
 public final class PulseArgument {
 
     private final Object dataSourceId;
-    private final SchemaScope schemaScope;
+    private final Scope schemaScope;
 
-    public PulseArgument(Object dataSourceId, SchemaScope schemaScope) {
+    public PulseArgument(Object dataSourceId, Scope schemaScope) {
         this.dataSourceId = dataSourceId;
         this.schemaScope = schemaScope;
     }
@@ -20,13 +20,13 @@ public final class PulseArgument {
         return dataSourceId;
     }
 
-    public SchemaScope getSchemaScope() {
+    public Scope getSchemaScope() {
         return schemaScope;
     }
 
     // Static factory methods
 
-    public static PulseArgument createToRefreshAllQueriesImpactedBySchemaScope(Object dataSourceId, SchemaScope schemaScope) {
+    public static PulseArgument createToRefreshAllQueriesImpactedBySchemaScope(Object dataSourceId, Scope schemaScope) {
         return new PulseArgument(dataSourceId, schemaScope);
     }
 }

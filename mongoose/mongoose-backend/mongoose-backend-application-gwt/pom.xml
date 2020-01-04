@@ -776,6 +776,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-shared-orm-dql-querypush-interceptor</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-framework-shared-orm-dql-submit-interceptor</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

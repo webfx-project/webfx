@@ -6,12 +6,17 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class SchemaScope {
+public final class SchemaScope implements Scope {
 
     private final Map<Object /*classId*/, ClassScope> classScopes;
 
     public SchemaScope(Map<Object, ClassScope> classScopes) {
         this.classScopes = classScopes;
+    }
+
+    @Override
+    public boolean intersects(Scope scope) {
+        return scope instanceof SchemaScope && intersects((SchemaScope) scope);
     }
 
     public boolean intersects(SchemaScope schemaScope) {

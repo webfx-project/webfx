@@ -3,8 +3,8 @@ package webfx.framework.server.services.querypush.spi.impl.simple;
 import webfx.framework.server.services.querypush.spi.impl.ServerQueryPushServiceProviderBase;
 import webfx.framework.shared.services.querypush.PulseArgument;
 import webfx.framework.shared.services.querypush.QueryPushArgument;
+import webfx.platform.shared.schemascope.Scope;
 import webfx.platform.shared.services.query.QueryArgument;
-import webfx.platform.shared.schemascope.SchemaScope;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
@@ -147,10 +147,10 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
                     if (!Objects.areEquals(dataSourceId, queryInfo.getQueryArgument().getDataSourceId()))
                         continue; // Avoiding an unnecessary costly query check! :-)
                     // Second criteria: the update scope must impact the query scope (ex: modify a field that the query reads)
-                    SchemaScope submitSchemaScope = argument.getSchemaScope();
-                    if (submitSchemaScope != null) {
-                        SchemaScope querySchemaScope = queryInfo.getOrBuildQuerySchemaScope();
-                        if (querySchemaScope != null && !querySchemaScope.intersects(submitSchemaScope))
+                    Scope modifiedSchemaScope = argument.getSchemaScope();
+                    if (modifiedSchemaScope != null) {
+                        Scope querySchemaScope = queryInfo.getQuerySchemaScope();
+                        if (querySchemaScope != null && !querySchemaScope.intersects(modifiedSchemaScope))
                             continue; // Avoiding an unnecessary costly query check! :-)
                     }
                     queryInfo.markAsDirty();

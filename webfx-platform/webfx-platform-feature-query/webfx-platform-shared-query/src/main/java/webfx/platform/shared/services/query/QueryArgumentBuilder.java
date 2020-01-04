@@ -1,6 +1,6 @@
 package webfx.platform.shared.services.query;
 
-import webfx.platform.shared.schemascope.SchemaScope;
+import webfx.platform.shared.schemascope.Scope;
 
 /**
  * @author Bruno Salmon
@@ -9,7 +9,7 @@ public final class QueryArgumentBuilder {
 
     private QueryArgument originalArgument;
     private Object dataSourceId;
-    private SchemaScope schemaScope;
+    private Scope schemaScope;
     private String language;
     private String statement;
     private Object[] parameters;
@@ -24,7 +24,7 @@ public final class QueryArgumentBuilder {
         return this;
     }
 
-    public QueryArgumentBuilder setSchemaScope(SchemaScope schemaScope) {
+    public QueryArgumentBuilder setSchemaScope(Scope schemaScope) {
         this.schemaScope = schemaScope;
         return this;
     }
