@@ -6,7 +6,6 @@ module webfx.framework.shared.orm.datasourcemodelservice {
     requires java.base;
     requires webfx.framework.shared.orm.domainmodel;
     requires webfx.platform.shared.datasource;
-    requires webfx.platform.shared.query;
     requires webfx.platform.shared.submit;
     requires webfx.platform.shared.util;
 

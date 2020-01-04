@@ -3,8 +3,6 @@ package webfx.framework.shared.services.datasourcemodel;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
 import webfx.framework.shared.services.datasourcemodel.spi.DataSourceModelProvider;
 import webfx.platform.shared.services.datasource.LocalDataSourceService;
-import webfx.platform.shared.services.query.QueryArgument;
-import webfx.platform.shared.services.query.spi.QueryServiceProvider;
 import webfx.platform.shared.services.submit.SubmitArgument;
 import webfx.platform.shared.services.submit.SubmitResult;
 import webfx.platform.shared.services.submit.spi.SubmitServiceProvider;
@@ -46,25 +44,6 @@ public class DataSourceModelService {
      * TODO (and same with webfx-platform-shared-submit and webfx-platform-shared-domainmodel)
      */
     static {
-        SingleServiceProvider.registerServiceInterceptor(QueryServiceProvider.class, target ->
-                argument -> {
-                    String language = argument.getLanguage();
-                    Object dataSourceId = argument.getDataSourceId();
-                    if (language != null && LocalDataSourceService.isDataSourceLocal(dataSourceId)) {
-                        DataSourceModel dataSourceModel = getDataSourceModel(dataSourceId);
-                        if (dataSourceModel != null) {
-                            String query = argument.getStatement();
-                            String translatedQuery = dataSourceModel.translateQuery(language, query);
-                            if (!query.equals(translatedQuery)) {
-                                //Logger.log("Translated to: " + translatedQuery);
-                                argument = QueryArgument.builder().copy(argument).setLanguage(null).setStatement(translatedQuery).build();
-                            }
-                        }
-                    }
-                    return target.executeQuery(argument);
-                }
-        );
-
         SingleServiceProvider.registerServiceInterceptor(SubmitServiceProvider.class, target ->
                 new SubmitServiceProvider() {
 

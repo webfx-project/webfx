@@ -99,6 +99,7 @@
     <inherits name="com.google.gwt.user.User"/>
     <!--===================================< java-base >====================================-->
     <!-- used by webfx-kit-javafxbase-emul (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-expression (SOURCE) -->
     <!-- used by webfx-platform-client-storage (SOURCE) -->
     <!-- used by webfx-platform-gwt-emul-javabase (SOURCE) -->
     <!-- used by webfx-platform-gwt-emul-javatime (SOURCE) -->
@@ -528,9 +529,11 @@
     <source path="webfx/framework/shared/operation"/>
     <!--===============< webfx-framework-shared-orm-datasourcemodelservice >================-->
     <!-- used by mongoose-shared-domainmodel (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-dql-query-interceptor (SOURCE) -->
     <source path="webfx/framework/shared/services/datasourcemodel"/>
     <source path="webfx/framework/shared/services/datasourcemodel/spi"/>
     <!--=====================< webfx-framework-shared-orm-domainmodel >=====================-->
+    <!-- used by webfx-framework-shared-orm-dql-query-interceptor (SOURCE) -->
     <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
     <source path="webfx/framework/shared/orm/domainmodel"/>
     <source path="webfx/framework/shared/orm/domainmodel/builder"/>
@@ -550,6 +553,9 @@
     <source path="webfx/framework/shared/orm/dql/sqlcompiler/sql"/>
     <source path="webfx/framework/shared/orm/dql/sqlcompiler/sql/dbms"/>
     <source path="webfx/framework/shared/orm/dql/sqlcompiler/terms"/>
+    <!--================< webfx-framework-shared-orm-dql-query-interceptor >================-->
+    <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
+    <source path="webfx/framework/shared/interceptors/dqlquery"/>
     <!--=======================< webfx-framework-shared-orm-entity >========================-->
     <!-- used by mongoose-shared-entities (SOURCE) -->
     <source path="webfx/framework/shared/orm/entity"/>
@@ -732,6 +738,7 @@
     <source path="webfx/platform/shared/services/buscall"/>
     <source path="webfx/platform/shared/services/buscall/spi"/>
     <!--========================< webfx-platform-shared-datasource >========================-->
+    <!-- used by webfx-framework-shared-orm-datasourcemodelservice (SOURCE) -->
     <!-- used by webfx-platform-shared-query (SOURCE) -->
     <!-- used by webfx-platform-shared-submit (SOURCE) -->
     <source path="webfx/platform/shared/services/datasource"/>
@@ -740,6 +747,7 @@
     <source path="webfx/platform/shared/services/datasource/spi/simple"/>
     <!--===========================< webfx-platform-shared-json >===========================-->
     <!-- used by webfx-framework-client-util (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-expression (SOURCE) -->
     <!-- used by webfx-platform-client-windowlocation (SOURCE) -->
     <!-- used by webfx-platform-gwt-json-impl (SOURCE) -->
     <!-- used by webfx-platform-gwt-websocket-impl (SOURCE) -->
@@ -763,6 +771,7 @@
     <source path="webfx/platform/shared/services/log"/>
     <source path="webfx/platform/shared/services/log/spi"/>
     <!--==========================< webfx-platform-shared-query >===========================-->
+    <!-- used by webfx-framework-shared-orm-dql-query-interceptor (SOURCE) -->
     <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
     <!-- used by webfx-platform-shared-query-impl-remote (SOURCE) -->
     <source path="webfx/platform/shared/services/query"/>
@@ -803,6 +812,7 @@
     <source path="webfx/platform/shared/services/shutdown/spi"/>
     <source path="webfx/platform/shared/services/shutdown/spi/impl"/>
     <!--==========================< webfx-platform-shared-submit >==========================-->
+    <!-- used by webfx-framework-shared-orm-datasourcemodelservice (SOURCE) -->
     <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
     <!-- used by webfx-platform-shared-submit-impl-remote (SOURCE) -->
     <source path="webfx/platform/shared/services/submit"/>
@@ -813,6 +823,7 @@
     <source path="webfx/platform/shared/services/submit/spi/impl/remote"/>
     <!--===========================< webfx-platform-shared-util >===========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-expression (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <!-- used by webfx-platform-client-storage (SOURCE) -->
     <!-- used by webfx-platform-client-windowlocation (SOURCE) -->

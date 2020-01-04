@@ -23,6 +23,7 @@
         <module>webfx-framework-shared-orm-domainmodel</module>
         <module>webfx-framework-shared-orm-domainmodelservice</module>
         <module>webfx-framework-shared-orm-dql</module>
+        <module>webfx-framework-shared-orm-dql-query-interceptor</module>
         <module>webfx-framework-shared-orm-entity</module>
         <module>webfx-framework-shared-orm-expression</module>
 

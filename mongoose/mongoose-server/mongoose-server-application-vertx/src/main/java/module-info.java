@@ -8,6 +8,7 @@ module mongoose.server.application.vertx {
     requires mongoose.server.systemmetrics.java;
     requires webfx.framework.server.push.simple;
     requires webfx.framework.server.querypush.simple;
+    requires webfx.framework.shared.orm.dql.query.interceptor;
     requires webfx.platform.java.resource.impl;
     requires webfx.platform.java.shutdown.impl;
     requires webfx.platform.shared.log.impl.simple;
