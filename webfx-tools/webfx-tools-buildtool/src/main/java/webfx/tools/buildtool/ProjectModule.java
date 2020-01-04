@@ -628,7 +628,7 @@ public class ProjectModule extends ModuleImpl {
         if (isExecutable())
             return automaticOrRequiredProvidersModulesSearchScopeCache
                     .filter(ProjectModule::isAutomatic)
-                    .filter(am -> am.getWebfxModuleFile().getRequiredPackages().allMatch(p -> getThisAndTransitiveModules().anyMatch(tm -> tm instanceof ProjectModule && ((ProjectModule) tm).usesJavaPackage(p))))
+                    .filter(am -> am.getWebfxModuleFile().getRequiredPackages().allMatch(p -> usesJavaPackage(p) || transitiveProjectModulesWithoutImplicitProvidersCache.anyMatch(tm -> tm.usesJavaPackage(p))))
                     ;
         return ReusableStream.empty();
     }
