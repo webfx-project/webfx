@@ -29,6 +29,10 @@ public final class WebFxModuleFile extends XmlModuleFile {
         return getBooleanModuleAttributeValue("interface");
     }
 
+    public boolean isAutomatic() {
+        return getBooleanModuleAttributeValue("automatic");
+    }
+
     public String implementingInterface() {
         return getModuleAttributeValue("implements-module");
     }
@@ -51,6 +55,10 @@ public final class WebFxModuleFile extends XmlModuleFile {
 
     public ReusableStream<String> getResourcePackages() {
         return lookupNodeListTextContent("/module/resource-packages//package");
+    }
+
+    public ReusableStream<String> getRequiredPackages() {
+        return lookupNodeListTextContent("/module/required-conditions//if-uses-java-package");
     }
 
     public ReusableStream<String> getEmbedResources() {

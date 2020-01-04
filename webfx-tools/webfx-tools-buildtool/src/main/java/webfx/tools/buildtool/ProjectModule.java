@@ -245,15 +245,9 @@ public class ProjectModule extends ModuleImpl {
             filterDestinationProjectModules(transitiveDependenciesWithoutImplicitProvidersCache);
 
     /**
-     * Defines the project modules scope to use when searching optional providers.
-     */
-    private final ReusableStream<ProjectModule> optionalJavaServiceImplementationScopeCache =
-            transitiveProjectModulesWithoutImplicitProvidersCache;
-
-    /**
      * Defines the project modules scope to use when searching required providers.
      */
-    private final ReusableStream<ProjectModule> requiredJavaServiceImplementationScopeCache =
+    private final ReusableStream<ProjectModule> automaticOrRequiredProvidersModulesSearchScopeCache =
             ReusableStream.concat(
                     transitiveProjectModulesWithoutImplicitProvidersCache,
                     ReusableStream.create(() -> ReusableStream.of(
@@ -267,6 +261,28 @@ public class ProjectModule extends ModuleImpl {
             )
                     .distinct()
                     .cache();
+
+    /**
+     * Returns the automatic modules required for this executable module (returns nothing if this module is not executable).
+     */
+    private final ReusableStream<ProjectModule> executableAutomaticModulesCaches =
+            ReusableStream.create(this::collectExecutableAutomaticModules)
+                    .cache();
+
+    /**
+     * Defines the project modules scope to use when searching optional providers.
+     */
+    private final ReusableStream<ProjectModule> optionalProvidersModulesSearchScopeCache =
+            ReusableStream.concat(
+                transitiveProjectModulesWithoutImplicitProvidersCache,
+                executableAutomaticModulesCaches
+            ).cache();
+
+    /**
+     * Defines the project modules scope to use when searching required providers.
+     */
+    private final ReusableStream<ProjectModule> requiredProvidersModulesSearchScopeCache =
+            automaticOrRequiredProvidersModulesSearchScopeCache;
 
     /**
      * Resolves and returns all implicit providers required by this executable module (returns nothing if this
@@ -544,6 +560,10 @@ public class ProjectModule extends ModuleImpl {
         return getWebfxModuleFile().isInterface();
     }
 
+    public boolean isAutomatic() {
+        return getWebfxModuleFile().isAutomatic();
+    }
+
     public boolean isImplementingInterface() {
         return getWebfxModuleFile().implementingInterface() != null;
     }
@@ -604,12 +624,21 @@ public class ProjectModule extends ModuleImpl {
         return ReusableStream.empty();
     }
 
-    private ReusableStream<ProjectModule> getRequiredJavaServiceImplementationScope() {
-        return requiredJavaServiceImplementationScopeCache;
+    private ReusableStream<ProjectModule> collectExecutableAutomaticModules() {
+        if (isExecutable())
+            return automaticOrRequiredProvidersModulesSearchScopeCache
+                    .filter(ProjectModule::isAutomatic)
+                    .filter(am -> am.getWebfxModuleFile().getRequiredPackages().allMatch(p -> getThisAndTransitiveModules().anyMatch(tm -> tm instanceof ProjectModule && ((ProjectModule) tm).usesJavaPackage(p))))
+                    ;
+        return ReusableStream.empty();
     }
 
-    private ReusableStream<ProjectModule> getOptionalJavaServiceImplementationScope() {
-        return optionalJavaServiceImplementationScopeCache;
+    private ReusableStream<ProjectModule> getRequiredProvidersModulesSearchScope() {
+        return requiredProvidersModulesSearchScopeCache;
+    }
+
+    private ReusableStream<ProjectModule> getOptionalProvidersModulesSearchScope() {
+        return optionalProvidersModulesSearchScopeCache;
     }
 
     public ReusableStream<Providers> getExecutableProviders() {
@@ -641,9 +670,9 @@ public class ProjectModule extends ModuleImpl {
 
     private ReusableStream<Providers> collectProviders(ProjectModule module, boolean single, Set<ProjectModule> allProviderModules, Set<String> allSpiClassNames) {
         ReusableStream<ProjectModule> searchScope = single ?
-                getRequiredJavaServiceImplementationScope() :
+                getRequiredProvidersModulesSearchScope() :
                 /* Adding provider modules in the optional scope because they may also provide optional , ex: webfx-platform-shared-gwt also declares a module initializer   */
-                ReusableStream.concat(getOptionalJavaServiceImplementationScope(), ReusableStream.create(allProviderModules::spliterator)).distinct();
+                ReusableStream.concat(getOptionalProvidersModulesSearchScope(), ReusableStream.create(allProviderModules::spliterator)).distinct();
         ReusableStream<Module> stackWithoutImplicitProviders = ReusableStream.concat(ReusableStream.of(module), mapDestinationModules(module.transitiveDependenciesWithoutImplicitProvidersCache));
         return ProjectModule.filterProjectModules(stackWithoutImplicitProviders)
                 .flatMap(m -> single ? m.getUsedRequiredJavaServices() : m.getUsedOptionalJavaServices())
@@ -665,7 +694,7 @@ public class ProjectModule extends ModuleImpl {
         if (isExecutable() && dependency.getDestinationModule() instanceof ProjectModule) {
             ProjectModule module = (ProjectModule) dependency.getDestinationModule();
             if (module.isInterface()) {
-                ReusableStream<ProjectModule> searchScope = getRequiredJavaServiceImplementationScope();
+                ReusableStream<ProjectModule> searchScope = getRequiredProvidersModulesSearchScope();
                 ProjectModule concreteModule = searchScope
                         .filter(m -> m.implementsModule(module))
                         .filter(m -> isCompatibleWithTargetModule(this))
