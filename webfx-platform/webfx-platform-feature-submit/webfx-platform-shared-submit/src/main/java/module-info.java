@@ -7,6 +7,7 @@ module webfx.platform.shared.submit {
     requires webfx.platform.shared.buscall;
     requires webfx.platform.shared.datasource;
     requires webfx.platform.shared.json;
+    requires webfx.platform.shared.schemascope;
     requires webfx.platform.shared.serial;
     requires webfx.platform.shared.util;
 

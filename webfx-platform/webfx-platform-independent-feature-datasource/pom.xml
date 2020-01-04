@@ -14,7 +14,8 @@
 
     <modules>
 
-        <module>webfx-platform-shared-datasource</module> <!-- depends on json module -->
+        <module>webfx-platform-shared-datasource</module>
+        <module>webfx-platform-shared-schemascope</module>
 
     </modules>
 

@@ -1,5 +1,6 @@
 package webfx.platform.shared.services.query;
 
+import webfx.platform.shared.schemascope.SchemaScope;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.services.serial.SerialCodecManager;
@@ -13,12 +14,12 @@ public final class QueryArgument {
 
     private final transient QueryArgument originalArgument;
     private final Object dataSourceId;
-    private final transient Object schemaScope;
+    private final SchemaScope schemaScope;
     private final String language;
     private final String statement;
     private final Object[] parameters;
 
-    public QueryArgument(QueryArgument originalArgument, Object dataSourceId, Object schemaScope, String language, String statement, Object... parameters) {
+    public QueryArgument(QueryArgument originalArgument, Object dataSourceId, SchemaScope schemaScope, String language, String statement, Object... parameters) {
         this.originalArgument = originalArgument;
         this.dataSourceId = dataSourceId;
         this.schemaScope = schemaScope;
@@ -35,7 +36,7 @@ public final class QueryArgument {
         return dataSourceId;
     }
 
-    public Object getSchemaScope() {
+    public SchemaScope getSchemaScope() {
         return schemaScope;
     }
 

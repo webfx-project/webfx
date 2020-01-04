@@ -8,6 +8,7 @@ module webfx.platform.shared.query {
     requires webfx.platform.shared.datasource;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
+    requires webfx.platform.shared.schemascope;
     requires webfx.platform.shared.serial;
     requires webfx.platform.shared.util;
 

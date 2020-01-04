@@ -4,12 +4,12 @@ import webfx.framework.server.services.querypush.spi.impl.ServerQueryPushService
 import webfx.framework.shared.services.querypush.PulseArgument;
 import webfx.framework.shared.services.querypush.QueryPushArgument;
 import webfx.platform.shared.services.query.QueryArgument;
+import webfx.platform.shared.schemascope.SchemaScope;
 import webfx.platform.shared.util.Objects;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -147,28 +147,16 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
                     if (!Objects.areEquals(dataSourceId, queryInfo.getQueryArgument().getDataSourceId()))
                         continue; // Avoiding an unnecessary costly query check! :-)
                     // Second criteria: the update scope must impact the query scope (ex: modify a field that the query reads)
-                    Object submitSchemaScope = argument.getSchemaScope();
+                    SchemaScope submitSchemaScope = argument.getSchemaScope();
                     if (submitSchemaScope != null) {
-                        Object querySchemaScope = queryInfo.getOrBuildQuerySchemaScope();
-                        if (querySchemaScope != null && !areScopesIntersecting(querySchemaScope, submitSchemaScope))
+                        SchemaScope querySchemaScope = queryInfo.getOrBuildQuerySchemaScope();
+                        if (querySchemaScope != null && !querySchemaScope.intersects(submitSchemaScope))
                             continue; // Avoiding an unnecessary costly query check! :-)
                     }
                     queryInfo.markAsDirty();
                     nextMostUrgentQueryNotYetRefreshed = null; // To force a re-computation of the most urgent query to refresh
                 }
             }
-        }
-
-        private boolean areScopesIntersecting(Object scope1, Object scope2) {
-            // TODO Should I introduce a Scope interface with intersects() method?
-            if (scope1 instanceof List && scope2 instanceof List) {
-                List<Object> list1 = (List<Object>) scope1;
-                List<Object> list2 = (List<Object>) scope2;
-                for (Object element1 : list1)
-                    if (list2.contains(element1))
-                        return true;
-            }
-            return false;
         }
 
         @Override

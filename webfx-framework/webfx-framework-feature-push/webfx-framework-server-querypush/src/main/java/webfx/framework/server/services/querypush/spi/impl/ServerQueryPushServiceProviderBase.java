@@ -3,7 +3,9 @@ package webfx.framework.server.services.querypush.spi.impl;
 import webfx.framework.server.services.push.PushServerService;
 import webfx.framework.server.services.querypush.QueryPushServerService;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.expression.CollectOptions;
+import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.terms.DqlStatement;
 import webfx.framework.shared.orm.expression.terms.Select;
 import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
@@ -13,10 +15,10 @@ import webfx.framework.shared.services.querypush.QueryPushResult;
 import webfx.framework.shared.services.querypush.diff.QueryResultComparator;
 import webfx.framework.shared.services.querypush.diff.QueryResultDiff;
 import webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider;
+import webfx.platform.shared.schemascope.SchemaScope;
+import webfx.platform.shared.schemascope.SchemaScopeBuilder;
 import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.services.query.QueryArgument;
-import webfx.platform.shared.services.query.QueryResult;
-import webfx.platform.shared.services.query.QueryService;
+import webfx.platform.shared.services.query.*;
 import webfx.platform.shared.services.scheduler.Scheduler;
 import webfx.platform.shared.util.async.Future;
 import webfx.platform.shared.util.collection.Collections;
@@ -225,7 +227,7 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
 
     public static final class QueryInfo {
         private final QueryArgument queryArgument;
-        private Object querySchemaScope;
+        private SchemaScope querySchemaScope;
         private final List<StreamInfo> streamInfos = new ArrayList<>(); // Contains new client streams that haven't received any result yet
         private int activeNewStreamCount;
         /*
@@ -326,7 +328,7 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
             return streamInfos.isEmpty();
         }
 
-        public Object getOrBuildQuerySchemaScope() {
+        public SchemaScope getOrBuildQuerySchemaScope() {
             if (querySchemaScope == null) {
                 String dqlStatement = getDqlQueryStatement(queryArgument);
                 if (dqlStatement != null) {
@@ -341,7 +343,14 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
                                     .setTraverseSelect(true)
                                     .setTraverseSqlExpressible(true);
                             parsedStatement.collect(collectOptions);
-                            querySchemaScope = collectOptions.getCollectedTerms();
+                            SchemaScopeBuilder ssb = new SchemaScopeBuilder();
+                            for (Expression<Object> term : collectOptions.getCollectedTerms()) {
+                                if (term instanceof DomainField) {
+                                    DomainField domainField = (DomainField) term;
+                                    ssb.addField(domainField.getDomainClass().getId(), domainField.getId());
+                                }
+                            }
+                            querySchemaScope = ssb.build();
                         }
                     }
                 }

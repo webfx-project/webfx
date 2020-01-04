@@ -904,6 +904,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-platform-shared-schemascope</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-platform-shared-serial</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

@@ -2,6 +2,7 @@ package webfx.framework.server.services.querypush;
 
 import webfx.framework.server.services.push.PushServerService;
 import webfx.framework.shared.orm.domainmodel.DataSourceModel;
+import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.DomainField;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.terms.*;
@@ -11,6 +12,8 @@ import webfx.framework.shared.services.querypush.QueryPushResult;
 import webfx.framework.shared.services.querypush.QueryPushService;
 import webfx.platform.server.services.submitlistener.SubmitListener;
 import webfx.platform.shared.services.bus.BusService;
+import webfx.platform.shared.schemascope.SchemaScope;
+import webfx.platform.shared.schemascope.SchemaScopeBuilder;
 import webfx.platform.shared.services.submit.SubmitArgument;
 import webfx.platform.shared.util.async.Future;
 
@@ -33,12 +36,12 @@ public final class QueryPushServerService {
 
         @Override
         public void onSuccessfulSubmit(SubmitArgument submitArgument) {
-            Object submitScope = getOrBuildSubmitSchemaScope(submitArgument);
+            SchemaScope submitScope = getOrBuildSubmitSchemaScope(submitArgument);
             QueryPushService.executePulse(PulseArgument.createToRefreshAllQueriesImpactedBySchemaScope(submitArgument.getDataSourceId(), submitScope));
         }
 
-        private static Object getOrBuildSubmitSchemaScope(SubmitArgument submitArgument) {
-            Object submitSchemaScope = submitArgument.getSchemaScope();
+        private static SchemaScope getOrBuildSubmitSchemaScope(SubmitArgument submitArgument) {
+            SchemaScope submitSchemaScope = submitArgument.getSchemaScope();
             if (submitSchemaScope == null) {
                 String dqlSubmit = getDqlSubmitStatement(submitArgument);
                 if (dqlSubmit != null) {
@@ -47,12 +50,16 @@ public final class QueryPushServerService {
                     if (dataSourceModel != null) {
                         // TODO Should we cache this (dqlSubmit => modified fields)?
                         DqlStatement<Object> dqlStatement = dataSourceModel.parseStatement(dqlSubmit);
-                        ExpressionArray<?> modifyingExpressions =
-                                dqlStatement instanceof Update ? ((Update<Object>) dqlStatement).getSetClause()
-                                        : dqlStatement instanceof Insert ? ((Insert<Object>) dqlStatement).getSetClause()
-                                        : null;
-                        if (modifyingExpressions != null)
-                            submitSchemaScope = collectModifiedFields(modifyingExpressions);
+                        SchemaScopeBuilder ssb = new SchemaScopeBuilder();
+                        if (dqlStatement instanceof Update) { // Update => only fields in set clause are impacted
+                            List<DomainField> modifiedFields = collectModifiedFields(((Update<Object>) dqlStatement).getSetClause());
+                            modifiedFields.forEach(domainField -> ssb.addField(domainField.getDomainClass().getId(), domainField.getId()));
+                        } else { // Insert or Delete => all fields are impacted
+                            DomainClass domainClass = dqlStatement.getDomainClass() instanceof DomainClass ? (DomainClass) dqlStatement.getDomainClass()
+                                    : dataSourceModel.getDomainModel().getClass(dqlStatement.getDomainClass());
+                            ssb.addClass(domainClass.getId());
+                        }
+                        submitSchemaScope = ssb.build();
                     }
                 }
             }
