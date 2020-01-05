@@ -23,13 +23,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-query</artifactId>
+            <artifactId>webfx-platform-shared-datascope</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-schemascope</artifactId>
+            <artifactId>webfx-platform-shared-query</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

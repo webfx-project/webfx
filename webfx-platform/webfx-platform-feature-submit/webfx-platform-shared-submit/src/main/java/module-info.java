@@ -5,9 +5,9 @@ module webfx.platform.shared.submit {
     // Direct dependencies modules
     requires java.base;
     requires webfx.platform.shared.buscall;
+    requires webfx.platform.shared.datascope;
     requires webfx.platform.shared.datasource;
     requires webfx.platform.shared.json;
-    requires webfx.platform.shared.schemascope;
     requires webfx.platform.shared.serial;
     requires webfx.platform.shared.util;
 

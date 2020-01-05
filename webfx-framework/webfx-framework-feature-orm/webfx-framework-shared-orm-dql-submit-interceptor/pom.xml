@@ -37,13 +37,13 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-datasource</artifactId>
+            <artifactId>webfx-platform-shared-datascope</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-schemascope</artifactId>
+            <artifactId>webfx-platform-shared-datasource</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

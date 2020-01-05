@@ -1,4 +1,4 @@
-package webfx.platform.shared.schemascope;
+package webfx.platform.shared.datascope;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class SchemaScope implements Scope {
+public final class SchemaScope implements DataScope {
 
     private final Map<Object /*classId*/, ClassScope> classScopes;
 
@@ -15,8 +15,8 @@ public final class SchemaScope implements Scope {
     }
 
     @Override
-    public boolean intersects(Scope scope) {
-        return scope instanceof SchemaScope && intersects((SchemaScope) scope);
+    public boolean intersects(DataScope dataScope) {
+        return dataScope instanceof SchemaScope && intersects((SchemaScope) dataScope);
     }
 
     public boolean intersects(SchemaScope schemaScope) {

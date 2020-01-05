@@ -1049,6 +1049,13 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-platform-shared-datascope</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-platform-shared-datasource</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -1092,13 +1099,6 @@
         
         <dependency>
             <artifactId>webfx-platform-shared-scheduler</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-platform-shared-schemascope</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>

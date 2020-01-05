@@ -10,8 +10,9 @@ import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.framework.shared.services.querypush.PulseArgument;
 import webfx.framework.shared.services.querypush.QueryPushArgument;
 import webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider;
+import webfx.platform.shared.schemascope.DataScope;
+import webfx.platform.shared.schemascope.SchemaScope;
 import webfx.platform.shared.schemascope.SchemaScopeBuilder;
-import webfx.platform.shared.schemascope.Scope;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platform.shared.services.datasource.LocalDataSourceService;
 import webfx.platform.shared.services.query.QueryArgument;
@@ -35,6 +36,8 @@ public class DqlQueryPushInterceptorModuleInitializer implements ApplicationModu
 
     @Override
     public void initModule() {
+        // The purpose of this interceptor is to automatically set the query schema scope if not set (works only with
+        // DQL select)
         SingleServiceProvider.registerServiceInterceptor(QueryPushServiceProvider.class, targetProvider ->
                 new QueryPushServiceProvider() {
                     @Override
@@ -51,10 +54,9 @@ public class DqlQueryPushInterceptorModuleInitializer implements ApplicationModu
     }
 
     private Future<Object> interceptAndExecuteQueryPush(QueryPushArgument argument, QueryPushServiceProvider targetProvider) {
-        // The purpose of this interception is to automatically set the query schema scope if not set (works only with DQL select)
         QueryArgument queryArgument = argument.getQueryArgument();
         if (queryArgument != null) {
-            Scope querySchemaScope = queryArgument.getSchemaScope();
+            DataScope querySchemaScope = queryArgument.getSchemaScope();
             if (querySchemaScope == null && LocalDataSourceService.isDataSourceLocal(argument.getDataSourceId())) {
                 String dqlStatement = getDqlQueryStatement(queryArgument);
                 if (dqlStatement != null) {
@@ -68,7 +70,7 @@ public class DqlQueryPushInterceptorModuleInitializer implements ApplicationModu
                                     .setTraverseSelect(true)
                                     .setTraverseSqlExpressible(true);
                             parsedStatement.collect(collectOptions);
-                            SchemaScopeBuilder ssb = new SchemaScopeBuilder();
+                            SchemaScopeBuilder ssb = SchemaScope.builder();
                             for (Expression<Object> term : collectOptions.getCollectedTerms()) {
                                 if (term instanceof DomainField) {
                                     DomainField domainField = (DomainField) term;

@@ -8,7 +8,7 @@ import webfx.framework.shared.services.querypush.QueryPushResult;
 import webfx.framework.shared.services.querypush.diff.QueryResultComparator;
 import webfx.framework.shared.services.querypush.diff.QueryResultDiff;
 import webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider;
-import webfx.platform.shared.schemascope.Scope;
+import webfx.platform.shared.datascope.DataScope;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryResult;
@@ -320,7 +320,7 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
             return streamInfos.isEmpty();
         }
 
-        public Scope getQuerySchemaScope() {
+        public DataScope getQuerySchemaScope() {
             return queryArgument.getSchemaScope();
         }
     }

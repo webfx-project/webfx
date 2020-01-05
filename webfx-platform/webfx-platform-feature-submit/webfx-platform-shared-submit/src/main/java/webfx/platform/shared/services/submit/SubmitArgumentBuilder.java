@@ -1,6 +1,6 @@
 package webfx.platform.shared.services.submit;
 
-import webfx.platform.shared.schemascope.Scope;
+import webfx.platform.shared.datascope.DataScope;
 
 /**
  * @author Bruno Salmon
@@ -9,7 +9,7 @@ public final class SubmitArgumentBuilder {
 
     private SubmitArgument originalArgument;
     private Object dataSourceId;
-    private Scope schemaScope;
+    private DataScope schemaScope;
     private boolean returnGeneratedKeys;
     private String language;
     private String statement;
@@ -25,7 +25,7 @@ public final class SubmitArgumentBuilder {
         return this;
     }
 
-    public SubmitArgumentBuilder setSchemaScope(Scope schemaScope) {
+    public SubmitArgumentBuilder setSchemaScope(DataScope schemaScope) {
         this.schemaScope = schemaScope;
         return this;
     }

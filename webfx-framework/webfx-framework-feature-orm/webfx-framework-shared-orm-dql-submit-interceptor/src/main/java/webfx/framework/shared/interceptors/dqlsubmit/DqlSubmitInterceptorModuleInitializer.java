@@ -9,9 +9,9 @@ import webfx.framework.shared.orm.expression.terms.Equals;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.expression.terms.Update;
 import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
-import webfx.platform.shared.schemascope.SchemaScope;
-import webfx.platform.shared.schemascope.SchemaScopeBuilder;
-import webfx.platform.shared.schemascope.Scope;
+import webfx.platform.shared.datascope.SchemaScope;
+import webfx.platform.shared.datascope.SchemaScopeBuilder;
+import webfx.platform.shared.datascope.DataScope;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platform.shared.services.datasource.LocalDataSourceService;
 import webfx.platform.shared.services.submit.SubmitArgument;
@@ -92,11 +92,11 @@ public class DqlSubmitInterceptorModuleInitializer implements ApplicationModuleI
         return new Batch<>(Arrays.stream(batch.getArray()).map(DqlSubmitInterceptorModuleInitializer::translateSubmit).toArray(SubmitArgument[]::new));
     }
 
-    private static Scope createSchemaScope(String dqlSubmit, DataSourceModel dataSourceModel) {
-        return new Scope() { // returning a Scope wrapper so the scope computation can be skipped when not necessary (ie if intersects method is never called)
+    private static DataScope createSchemaScope(String dqlSubmit, DataSourceModel dataSourceModel) {
+        return new DataScope() { // returning a Scope wrapper so the scope computation can be skipped when not necessary (ie if intersects method is never called)
             private SchemaScope computedScope;
             @Override
-            public boolean intersects(Scope scope) {
+            public boolean intersects(DataScope dataScope) {
                 if (computedScope == null) {
                     // TODO Should we cache this (dqlStatement => modified fields)?
                     DqlStatement<Object> dqlStatement = dataSourceModel.parseStatement(dqlSubmit);
@@ -111,7 +111,7 @@ public class DqlSubmitInterceptorModuleInitializer implements ApplicationModuleI
                     }
                     computedScope = ssb.build();
                 }
-                return computedScope.intersects(scope);
+                return computedScope.intersects(dataScope);
             }
         };
     }

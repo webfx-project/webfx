@@ -750,6 +750,11 @@
     <!-- used by webfx-platform-shared-submit (SOURCE) -->
     <source path="webfx/platform/shared/services/buscall"/>
     <source path="webfx/platform/shared/services/buscall/spi"/>
+    <!--========================< webfx-platform-shared-datascope >=========================-->
+    <!-- used by webfx-framework-shared-orm-dql-submit-interceptor (SOURCE) -->
+    <!-- used by webfx-platform-shared-query (SOURCE) -->
+    <!-- used by webfx-platform-shared-submit (SOURCE) -->
+    <source path="webfx/platform/shared/datascope"/>
     <!--========================< webfx-platform-shared-datasource >========================-->
     <!-- used by webfx-framework-shared-orm-dql-query-interceptor (SOURCE) -->
     <!-- used by webfx-framework-shared-orm-dql-submit-interceptor (SOURCE) -->
@@ -809,11 +814,6 @@
     <!-- used by webfx-platform-shared-bus (SOURCE) -->
     <source path="webfx/platform/shared/services/scheduler"/>
     <source path="webfx/platform/shared/services/scheduler/spi"/>
-    <!--=======================< webfx-platform-shared-schemascope >========================-->
-    <!-- used by webfx-framework-shared-orm-dql-submit-interceptor (SOURCE) -->
-    <!-- used by webfx-platform-shared-query (SOURCE) -->
-    <!-- used by webfx-platform-shared-submit (SOURCE) -->
-    <source path="webfx/platform/shared/schemascope"/>
     <!--==========================< webfx-platform-shared-serial >==========================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-platform-shared-buscall (SOURCE) -->

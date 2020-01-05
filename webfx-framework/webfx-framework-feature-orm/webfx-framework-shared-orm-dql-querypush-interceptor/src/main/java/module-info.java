@@ -8,9 +8,9 @@ module webfx.framework.shared.orm.dql.querypush.interceptor {
     requires webfx.framework.shared.orm.expression;
     requires webfx.framework.shared.querypush;
     requires webfx.platform.shared.appcontainer;
+    requires webfx.platform.shared.datascope;
     requires webfx.platform.shared.datasource;
     requires webfx.platform.shared.query;
-    requires webfx.platform.shared.schemascope;
     requires webfx.platform.shared.util;
 
     // Exported packages

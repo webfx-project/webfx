@@ -1,6 +1,6 @@
 package webfx.platform.shared.services.submit;
 
-import webfx.platform.shared.schemascope.Scope;
+import webfx.platform.shared.datascope.DataScope;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.services.serial.SerialCodecManager;
@@ -14,13 +14,13 @@ public final class SubmitArgument {
 
     private final transient SubmitArgument originalArgument;
     private final Object dataSourceId;
-    private final Scope schemaScope;
+    private final DataScope schemaScope;
     private final boolean returnGeneratedKeys;
     private final String language;
     private final String statement;
     private final Object[] parameters;
 
-    public SubmitArgument(SubmitArgument originalArgument, Object dataSourceId, Scope schemaScope, boolean returnGeneratedKeys, String language, String statement, Object[] parameters) {
+    public SubmitArgument(SubmitArgument originalArgument, Object dataSourceId, DataScope schemaScope, boolean returnGeneratedKeys, String language, String statement, Object[] parameters) {
         this.originalArgument = originalArgument;
         this.dataSourceId = dataSourceId;
         this.schemaScope = schemaScope;
@@ -38,7 +38,7 @@ public final class SubmitArgument {
         return dataSourceId;
     }
 
-    public Scope getSchemaScope() {
+    public DataScope getSchemaScope() {
         return schemaScope;
     }
 

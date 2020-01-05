@@ -1,4 +1,4 @@
-package webfx.platform.shared.schemascope;
+package webfx.platform.shared.datascope;
 
 import java.util.ArrayList;
 import java.util.HashMap;
