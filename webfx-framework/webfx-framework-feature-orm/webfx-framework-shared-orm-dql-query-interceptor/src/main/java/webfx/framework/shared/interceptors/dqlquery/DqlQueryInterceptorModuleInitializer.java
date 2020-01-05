@@ -27,6 +27,7 @@ public class DqlQueryInterceptorModuleInitializer implements ApplicationModuleIn
 
     @Override
     public void initModule() {
+        // The purpose of this interceptor is to automatically translate DQL to SQL when the query reaches its local data source
         SingleServiceProvider.registerServiceInterceptor(QueryServiceProvider.class, targetProvider ->
                 argument -> interceptAndExecuteQuery(argument, targetProvider)
         );
@@ -41,7 +42,7 @@ public class DqlQueryInterceptorModuleInitializer implements ApplicationModuleIn
                 // Translating DQL to SQL
                 String statement = argument.getStatement(); // can be DQL or SQL
                 String sqlStatement = dataSourceModel.translateQuery(language, statement);
-                if (!statement.equals(sqlStatement)) {
+                if (!statement.equals(sqlStatement)) { // happens when DQL has been translated to SQL
                     //Logger.log("Translated to: " + sqlStatement);
                     argument = QueryArgument.builder().copy(argument).setLanguage(null).setStatement(sqlStatement).build();
                 }

@@ -150,7 +150,7 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
                     Scope modifiedSchemaScope = argument.getSchemaScope();
                     if (modifiedSchemaScope != null) {
                         Scope querySchemaScope = queryInfo.getQuerySchemaScope();
-                        if (querySchemaScope != null && !querySchemaScope.intersects(modifiedSchemaScope))
+                        if (querySchemaScope != null && !modifiedSchemaScope.intersects(querySchemaScope))
                             continue; // Avoiding an unnecessary costly query check! :-)
                     }
                     queryInfo.markAsDirty();

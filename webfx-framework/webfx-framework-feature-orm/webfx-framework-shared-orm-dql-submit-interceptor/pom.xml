@@ -25,6 +25,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-framework-shared-orm-expression</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-platform-shared-appcontainer</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -32,6 +38,12 @@
         
         <dependency>
             <artifactId>webfx-platform-shared-datasource</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-shared-schemascope</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
