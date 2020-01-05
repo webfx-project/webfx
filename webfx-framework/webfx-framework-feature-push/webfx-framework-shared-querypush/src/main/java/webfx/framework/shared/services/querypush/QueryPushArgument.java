@@ -16,15 +16,11 @@ public final class QueryPushArgument {
     private final Object parentQueryStreamId;
     private final Object pushClientId;
     private final QueryArgument queryArgument;
-    private final Consumer<QueryPushResult> queryPushResultConsumer;
     private final Object dataSourceId;
     private final Boolean active;
     private final Boolean resend;
     private final Boolean close;
-
-    public QueryPushArgument(Object queryStreamId, Object parentQueryStreamId, Object pushClientId, QueryArgument queryArgument, Boolean active, Boolean resend, Boolean close, Consumer<QueryPushResult> queryPushResultConsumer) {
-        this(queryStreamId, parentQueryStreamId, pushClientId, queryArgument, queryArgument.getDataSourceId(), active, resend, close, queryPushResultConsumer);
-    }
+    private final transient Consumer<QueryPushResult> queryPushResultConsumer;
 
     public QueryPushArgument(Object queryStreamId, Object parentQueryStreamId, Object pushClientId, QueryArgument queryArgument, Object dataSourceId, Boolean active, Boolean resend, Boolean close, Consumer<QueryPushResult> queryPushResultConsumer) {
         this.queryStreamId = queryStreamId;
@@ -32,7 +28,7 @@ public final class QueryPushArgument {
         this.pushClientId = pushClientId;
         this.queryArgument = queryArgument;
         this.queryPushResultConsumer = queryPushResultConsumer;
-        this.dataSourceId = dataSourceId;
+        this.dataSourceId = dataSourceId != null || queryArgument == null ? dataSourceId : queryArgument.getDataSourceId();
         this.active = active;
         this.resend = resend;
         this.close = close;
@@ -86,8 +82,12 @@ public final class QueryPushArgument {
         return queryStreamId != null && close != null;
     }
 
+    public static QueryPushArgumentBuilder builder() {
+        return new QueryPushArgumentBuilder();
+    }
+
     public static QueryPushArgument openStreamArgument(Object parentQueryStreamId, Object pushClientId, QueryArgument queryArgument, Consumer<QueryPushResult> queryResultConsumer) {
-        return new QueryPushArgument(null, parentQueryStreamId, pushClientId, queryArgument, true, null, null, queryResultConsumer);
+        return new QueryPushArgument(null, parentQueryStreamId, pushClientId, queryArgument, null, true, null, null, queryResultConsumer);
     }
 
     public static QueryPushArgument updateStreamArgument(Object queryStreamId, QueryArgument queryArgument) {

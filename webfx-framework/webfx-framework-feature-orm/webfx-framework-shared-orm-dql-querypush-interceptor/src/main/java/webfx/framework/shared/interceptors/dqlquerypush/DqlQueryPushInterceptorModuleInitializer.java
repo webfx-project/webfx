@@ -10,9 +10,9 @@ import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.framework.shared.services.querypush.PulseArgument;
 import webfx.framework.shared.services.querypush.QueryPushArgument;
 import webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider;
-import webfx.platform.shared.schemascope.DataScope;
-import webfx.platform.shared.schemascope.SchemaScope;
-import webfx.platform.shared.schemascope.SchemaScopeBuilder;
+import webfx.platform.shared.datascope.DataScope;
+import webfx.platform.shared.datascope.SchemaScope;
+import webfx.platform.shared.datascope.SchemaScopeBuilder;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platform.shared.services.datasource.LocalDataSourceService;
 import webfx.platform.shared.services.query.QueryArgument;
@@ -79,7 +79,7 @@ public class DqlQueryPushInterceptorModuleInitializer implements ApplicationModu
                             }
                             querySchemaScope = ssb.build();
                             queryArgument = QueryArgument.builder().copy(queryArgument).setSchemaScope(querySchemaScope).build();
-                            argument = new QueryPushArgument(argument.getQueryStreamId(), argument.getParentQueryStreamId(), argument.getPushClientId(), queryArgument, argument.getDataSourceId(), argument.getActive(), argument.getResend(), argument.getClose(), argument.getQueryPushResultConsumer());
+                            argument = QueryPushArgument.builder().copy(argument).setQueryArgument(queryArgument).build();
                         }
                     }
                 }

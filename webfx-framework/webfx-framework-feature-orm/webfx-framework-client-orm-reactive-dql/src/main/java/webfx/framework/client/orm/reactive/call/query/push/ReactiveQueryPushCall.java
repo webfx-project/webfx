@@ -117,38 +117,37 @@ public final class ReactiveQueryPushCall extends ReactiveQueryCall {
         ReactiveQueryPushCall parent = getActiveParent();
         Object parentQueryStreamId = parent == null ? null : parent.queryStreamId;
         waitingQueryStreamId = queryStreamId == null; // Setting the waitingQueryStreamId flag to true when queryStreamId is not yet known
-        QueryPushService.executeQueryPush(new QueryPushArgument(
-                queryStreamId,
-                parentQueryStreamId,
-                getPushClientId(),
-                transmittedQueryArgument,
-                queryArgument.getDataSourceId(),
-                isActive(),
-                resend,
-                null,
+        QueryPushService.executeQueryPush(QueryPushArgument.builder()
+                .setQueryStreamId(queryStreamId)
+                .setParentQueryStreamId(parentQueryStreamId)
+                .setPushClientId(getPushClientId())
+                .setQueryArgument(transmittedQueryArgument)
+                .setActive(isActive())
+                .setResend(resend)
                 // This consumer will be called each time the server will push a change notification on the result
-                queryPushResult -> onCallResult(computeQueryResult(queryPushResult), null)))
-                .setHandler(ar -> { // This handler is called only once when the query push service call returns
-                    boolean refreshChildren = false;
-                    // Cases where we need to trigger a new query push service call:
-                    if (ar.failed() // 1) on failure (this may happen if queryStreamId is not registered on the server anymore, for ex after server restart with a non persistent query push provider such as the in-memory default one)
-                            || queryHasChangeWhileWaitingQueryStreamId) { // 2) when the query has changed while we were waiting for the query stream id
-                        log((isActive() ? "Refreshing queryStreamId=" + queryStreamId : "queryStreamId=" + queryStreamId + " will be refreshed when active") + (queryHasChangeWhileWaitingQueryStreamId ? " because the query has changed while waiting the queryStreamId" : " because a failure occurred while updating the query (may be an unrecognized queryStreamId after server restart)"));
-                        queryHasChangeWhileWaitingQueryStreamId = false; // Resetting the flag
-                        fireCallWhenReady(); // This will trigger an new pass (when active) leading to a new call to the query push service
-                    } else {
-                        resend = false;
-                        Logger.log("Ok " + ar.result());
-                        if (lostConnection || queryStreamId == null) {
-                            lostConnection = false;
-                            refreshChildren = true;
-                        }
-                    }
-                    queryStreamId = ar.result(); // the result is the queryStreamId returned by server (or null if failed)
-                    waitingQueryStreamId = false; // Resetting the waitingQueryStreamId flag to false
-                    if (refreshChildren)
-                        activeChildren.forEach(ReactiveQueryPushCall::fireCallWhenReady);
-                });
+                .setQueryPushResultConsumer(queryPushResult -> onCallResult(computeQueryResult(queryPushResult), null))
+                .build()
+        ).setHandler(ar -> { // This handler is called only once when the query push service call returns
+            boolean refreshChildren = false;
+            // Cases where we need to trigger a new query push service call:
+            if (ar.failed() // 1) on failure (this may happen if queryStreamId is not registered on the server anymore, for ex after server restart with a non persistent query push provider such as the in-memory default one)
+                    || queryHasChangeWhileWaitingQueryStreamId) { // 2) when the query has changed while we were waiting for the query stream id
+                log((isActive() ? "Refreshing queryStreamId=" + queryStreamId : "queryStreamId=" + queryStreamId + " will be refreshed when active") + (queryHasChangeWhileWaitingQueryStreamId ? " because the query has changed while waiting the queryStreamId" : " because a failure occurred while updating the query (may be an unrecognized queryStreamId after server restart)"));
+                queryHasChangeWhileWaitingQueryStreamId = false; // Resetting the flag
+                fireCallWhenReady(); // This will trigger an new pass (when active) leading to a new call to the query push service
+            } else {
+                resend = false;
+                Logger.log("Ok " + ar.result());
+                if (lostConnection || queryStreamId == null) {
+                    lostConnection = false;
+                    refreshChildren = true;
+                }
+            }
+            queryStreamId = ar.result(); // the result is the queryStreamId returned by server (or null if failed)
+            waitingQueryStreamId = false; // Resetting the waitingQueryStreamId flag to false
+            if (refreshChildren)
+                activeChildren.forEach(ReactiveQueryPushCall::fireCallWhenReady);
+        });
         // Logging after the actual call (and not before) for optimization reason (better to log while the request is in process)
         log("Calling query push: queryStreamId=" + queryStreamId + ", parentQueryStreamId=" + parentQueryStreamId + ", pushClientId=" + getPushClientId() + ", active=" + isActive() + ", resend=" + resend + ", queryArgument=" + transmittedQueryArgument);
         // If the query argument hasn't changed, it's still possible that there is a change in the columns (but that didn't induce a change at the query level)
