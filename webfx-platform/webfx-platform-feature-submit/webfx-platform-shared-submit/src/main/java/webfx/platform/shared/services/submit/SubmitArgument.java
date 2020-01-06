@@ -14,16 +14,16 @@ public final class SubmitArgument {
 
     private final transient SubmitArgument originalArgument;
     private final Object dataSourceId;
-    private final DataScope schemaScope;
+    private final DataScope dataScope;
     private final boolean returnGeneratedKeys;
     private final String language;
     private final String statement;
     private final Object[] parameters;
 
-    public SubmitArgument(SubmitArgument originalArgument, Object dataSourceId, DataScope schemaScope, boolean returnGeneratedKeys, String language, String statement, Object[] parameters) {
+    public SubmitArgument(SubmitArgument originalArgument, Object dataSourceId, DataScope dataScope, boolean returnGeneratedKeys, String language, String statement, Object[] parameters) {
         this.originalArgument = originalArgument;
         this.dataSourceId = dataSourceId;
-        this.schemaScope = schemaScope;
+        this.dataScope = dataScope;
         this.returnGeneratedKeys = returnGeneratedKeys;
         this.language = language;
         this.statement = statement;
@@ -38,8 +38,8 @@ public final class SubmitArgument {
         return dataSourceId;
     }
 
-    public DataScope getSchemaScope() {
-        return schemaScope;
+    public DataScope getDataScope() {
+        return dataScope;
     }
 
     public boolean returnGeneratedKeys() {

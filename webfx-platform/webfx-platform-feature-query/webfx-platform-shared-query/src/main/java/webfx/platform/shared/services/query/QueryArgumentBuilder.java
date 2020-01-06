@@ -9,7 +9,7 @@ public final class QueryArgumentBuilder {
 
     private QueryArgument originalArgument;
     private Object dataSourceId;
-    private DataScope schemaScope;
+    private DataScope dataScope;
     private String language;
     private String statement;
     private Object[] parameters;
@@ -24,9 +24,13 @@ public final class QueryArgumentBuilder {
         return this;
     }
 
-    public QueryArgumentBuilder setSchemaScope(DataScope schemaScope) {
-        this.schemaScope = schemaScope;
+    public QueryArgumentBuilder setDataScope(DataScope dataScope) {
+        this.dataScope = dataScope;
         return this;
+    }
+
+    public QueryArgumentBuilder addDataScope(DataScope dataScope) {
+        return setDataScope(DataScope.concat(this.dataScope, dataScope));
     }
 
     public QueryArgumentBuilder setLanguage(String language) {
@@ -47,7 +51,7 @@ public final class QueryArgumentBuilder {
     public QueryArgumentBuilder copy(QueryArgument argument) {
         return setOriginalArgument(argument)
                 .setDataSourceId(argument.getDataSourceId())
-                .setSchemaScope(argument.getSchemaScope())
+                .setDataScope(argument.getSchemaScope())
                 .setLanguage(argument.getLanguage())
                 .setStatement(argument.getStatement())
                 .setParameters(argument.getParameters())
@@ -55,6 +59,6 @@ public final class QueryArgumentBuilder {
     }
 
     public QueryArgument build() {
-        return new QueryArgument(originalArgument, dataSourceId, schemaScope, language, statement, parameters);
+        return new QueryArgument(originalArgument, dataSourceId, dataScope, language, statement, parameters);
     }
 }

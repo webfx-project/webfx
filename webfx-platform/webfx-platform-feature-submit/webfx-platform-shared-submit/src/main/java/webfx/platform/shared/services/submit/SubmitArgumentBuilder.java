@@ -9,7 +9,7 @@ public final class SubmitArgumentBuilder {
 
     private SubmitArgument originalArgument;
     private Object dataSourceId;
-    private DataScope schemaScope;
+    private DataScope dataScope;
     private boolean returnGeneratedKeys;
     private String language;
     private String statement;
@@ -25,9 +25,13 @@ public final class SubmitArgumentBuilder {
         return this;
     }
 
-    public SubmitArgumentBuilder setSchemaScope(DataScope schemaScope) {
-        this.schemaScope = schemaScope;
+    public SubmitArgumentBuilder setDataScope(DataScope dataScope) {
+        this.dataScope = dataScope;
         return this;
+    }
+
+    public SubmitArgumentBuilder addDataScope(DataScope dataScope) {
+        return setDataScope(DataScope.concat(this.dataScope, dataScope));
     }
 
     public SubmitArgumentBuilder setReturnGeneratedKeys(boolean returnGeneratedKeys) {
@@ -53,7 +57,7 @@ public final class SubmitArgumentBuilder {
     public SubmitArgumentBuilder copy(SubmitArgument argument) {
         return setOriginalArgument(argument)
                 .setDataSourceId(argument.getDataSourceId())
-                .setSchemaScope(argument.getSchemaScope())
+                .setDataScope(argument.getDataScope())
                 .setReturnGeneratedKeys(argument.returnGeneratedKeys())
                 .setLanguage(argument.getLanguage())
                 .setStatement(argument.getStatement())
@@ -61,6 +65,6 @@ public final class SubmitArgumentBuilder {
     }
 
     public SubmitArgument build() {
-        return new SubmitArgument(originalArgument, dataSourceId, schemaScope, returnGeneratedKeys, language, statement, parameters);
+        return new SubmitArgument(originalArgument, dataSourceId, dataScope, returnGeneratedKeys, language, statement, parameters);
     }
 }

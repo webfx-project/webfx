@@ -33,7 +33,7 @@ public final class QueryPushServerService {
             QueryPushService.executePulse(
                     PulseArgument.createToRefreshAllQueriesImpactedBySchemaScope(
                             argument.getDataSourceId(),
-                            argument.getSchemaScope()
+                            argument.getDataScope()
                     )
             );
         }

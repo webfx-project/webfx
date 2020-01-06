@@ -6,12 +6,19 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class SchemaScope implements DataScope {
+public final class SchemaScope implements KeyDataScope {
+
+    public static String KEY = "schema";
 
     private final Map<Object /*classId*/, ClassScope> classScopes;
 
     public SchemaScope(Map<Object, ClassScope> classScopes) {
         this.classScopes = classScopes;
+    }
+
+    @Override
+    public Object getKey() {
+        return KEY;
     }
 
     @Override

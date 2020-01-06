@@ -9,9 +9,10 @@ import webfx.framework.shared.orm.expression.terms.Equals;
 import webfx.framework.shared.orm.expression.terms.ExpressionArray;
 import webfx.framework.shared.orm.expression.terms.Update;
 import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
+import webfx.platform.shared.datascope.DataScope;
+import webfx.platform.shared.datascope.KeyDataScope;
 import webfx.platform.shared.datascope.SchemaScope;
 import webfx.platform.shared.datascope.SchemaScopeBuilder;
-import webfx.platform.shared.datascope.DataScope;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platform.shared.services.datasource.LocalDataSourceService;
 import webfx.platform.shared.services.submit.SubmitArgument;
@@ -80,7 +81,7 @@ public class DqlSubmitInterceptorModuleInitializer implements ApplicationModuleI
                     //Logger.log("Translated to: " + sqlStatement);
                     argument = SubmitArgument.builder().copy(argument)
                             .setLanguage(null).setStatement(sqlStatement)
-                            .setSchemaScope(createSchemaScope(statement, dataSourceModel))
+                            .addDataScope(createSchemaScope(statement, dataSourceModel))
                             .build();
                 }
             }
@@ -92,9 +93,15 @@ public class DqlSubmitInterceptorModuleInitializer implements ApplicationModuleI
         return new Batch<>(Arrays.stream(batch.getArray()).map(DqlSubmitInterceptorModuleInitializer::translateSubmit).toArray(SubmitArgument[]::new));
     }
 
-    private static DataScope createSchemaScope(String dqlSubmit, DataSourceModel dataSourceModel) {
-        return new DataScope() { // returning a Scope wrapper so the scope computation can be skipped when not necessary (ie if intersects method is never called)
+    private static KeyDataScope createSchemaScope(String dqlSubmit, DataSourceModel dataSourceModel) {
+        return new KeyDataScope() { // returning a Scope wrapper so the scope computation can be skipped when not necessary (ie if intersects method is never called)
             private SchemaScope computedScope;
+
+            @Override
+            public Object getKey() {
+                return SchemaScope.KEY;
+            }
+
             @Override
             public boolean intersects(DataScope dataScope) {
                 if (computedScope == null) {

@@ -78,7 +78,7 @@ public class DqlQueryPushInterceptorModuleInitializer implements ApplicationModu
                                 }
                             }
                             querySchemaScope = ssb.build();
-                            queryArgument = QueryArgument.builder().copy(queryArgument).setSchemaScope(querySchemaScope).build();
+                            queryArgument = QueryArgument.builder().copy(queryArgument).addDataScope(querySchemaScope).build();
                             argument = QueryPushArgument.builder().copy(argument).setQueryArgument(queryArgument).build();
                         }
                     }
