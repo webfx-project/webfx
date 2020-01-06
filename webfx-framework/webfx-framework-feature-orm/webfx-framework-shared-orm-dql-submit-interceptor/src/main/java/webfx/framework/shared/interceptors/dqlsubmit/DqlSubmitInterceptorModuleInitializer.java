@@ -103,7 +103,7 @@ public class DqlSubmitInterceptorModuleInitializer implements ApplicationModuleI
             }
 
             @Override
-            public boolean intersects(DataScope dataScope) {
+            public boolean intersects(DataScope otherScope) {
                 if (computedScope == null) {
                     // TODO Should we cache this (dqlStatement => modified fields)?
                     DqlStatement<Object> dqlStatement = dataSourceModel.parseStatement(dqlSubmit);
@@ -118,7 +118,7 @@ public class DqlSubmitInterceptorModuleInitializer implements ApplicationModuleI
                     }
                     computedScope = ssb.build();
                 }
-                return computedScope.intersects(dataScope);
+                return computedScope.intersects(otherScope);
             }
         };
     }

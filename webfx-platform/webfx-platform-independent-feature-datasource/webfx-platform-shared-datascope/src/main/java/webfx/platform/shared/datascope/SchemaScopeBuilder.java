@@ -2,32 +2,36 @@ package webfx.platform.shared.datascope;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
  */
 public final class SchemaScopeBuilder {
 
-    private final Map<Object /*classId*/, SchemaScope.ClassScope> classScopes = new HashMap<>();
+    private final Map<Object /*classId*/, List<Object>> classFields = new HashMap<>();
 
     public SchemaScopeBuilder addClass(Object classId) {
         return addField(classId, null);
     }
 
     public SchemaScopeBuilder addField(Object classId, Object fieldId) {
-        SchemaScope.ClassScope classScope = classScopes.get(classId);
-        if (classScope == null)
-            classScopes.put(classId, classScope = new SchemaScope.ClassScope(classId, new ArrayList<>()));
-        if (fieldId == null)
-            classScope.fieldIds = null;
-        else if (classScope.fieldIds != null)
-            classScope.fieldIds.add(fieldId);
+        List<Object> fields = classFields.get(classId);
+        if (fields == null || fieldId == null)
+            classFields.put(classId, fields = fieldId == null ? null : new ArrayList<>());
+        if (fields != null)
+            fields.add(fieldId);
         return this;
     }
 
     public SchemaScope build() {
-        return new SchemaScope(classScopes);
+        return new SchemaScope(classFields.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> new SchemaScope.ClassScope(e.getKey(), e.getValue() == null ? null : e.getValue().toArray())
+                )));
     }
 
 }

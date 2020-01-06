@@ -730,7 +730,6 @@
     <!--=======================< webfx-platform-shared-appcontainer >=======================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-framework-shared-orm-dql-query-interceptor (SOURCE) -->
-    <!-- used by webfx-framework-shared-orm-dql-submit-interceptor (SOURCE) -->
     <!-- used by webfx-kit-launcher (SOURCE) -->
     <!-- used by webfx-platform-gwt-appcontainer-impl (SOURCE) -->
     <!-- used by webfx-platform-gwt-resource-impl (SOURCE) -->
@@ -817,6 +816,7 @@
     <!--==========================< webfx-platform-shared-serial >==========================-->
     <!-- used by mongoose-frontend-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-platform-shared-buscall (SOURCE) -->
+    <!-- used by webfx-platform-shared-datascope (SOURCE) -->
     <!-- used by webfx-platform-shared-query (SOURCE) -->
     <source path="webfx/platform/shared/services/serial"/>
     <source path="webfx/platform/shared/services/serial/spi"/>

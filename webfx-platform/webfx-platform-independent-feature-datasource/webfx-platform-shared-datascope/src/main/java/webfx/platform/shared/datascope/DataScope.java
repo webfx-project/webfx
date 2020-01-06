@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public interface DataScope {
 
-    boolean intersects(DataScope dataScope);
+    boolean intersects(DataScope otherScope);
 
     static DataScope concat(DataScope... dataScopes) {
         if (dataScopes == null || dataScopes.length == 0)

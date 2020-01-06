@@ -1,6 +1,5 @@
 package webfx.platform.shared.datascope;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,8 +21,8 @@ public final class SchemaScope implements KeyDataScope {
     }
 
     @Override
-    public boolean intersects(DataScope dataScope) {
-        return dataScope instanceof SchemaScope && intersects((SchemaScope) dataScope);
+    public boolean intersects(DataScope otherScope) {
+        return otherScope instanceof SchemaScope && intersects((SchemaScope) otherScope);
     }
 
     public boolean intersects(SchemaScope schemaScope) {
@@ -41,9 +40,9 @@ public final class SchemaScope implements KeyDataScope {
 
     public static final class ClassScope {
         private final Object classId;
-        List<Object> fieldIds; // may be null (=> means any field), otherwise list of fields
+        Object[] fieldIds; // may be null (=> means any field), otherwise list of fields
 
-        public ClassScope(Object classId, List<Object> fieldIds) {
+        public ClassScope(Object classId, Object[] fieldIds) {
             this.classId = classId;
             this.fieldIds = fieldIds;
         }
@@ -53,10 +52,7 @@ public final class SchemaScope implements KeyDataScope {
                 return false;
             if (fieldIds == null || classScope.fieldIds == null)
                 return true;
-            for (Object element1 : fieldIds)
-                if (classScope.fieldIds.contains(element1))
-                    return true;
-            return false;
+            return ScopeUtil.arraysIntersect(fieldIds, classScope.fieldIds);
         }
     }
 

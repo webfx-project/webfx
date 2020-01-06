@@ -4,8 +4,13 @@ module webfx.platform.shared.datascope {
 
     // Direct dependencies modules
     requires java.base;
+    requires webfx.platform.shared.json;
+    requires webfx.platform.shared.serial;
 
     // Exported packages
     exports webfx.platform.shared.datascope;
+
+    // Provided services
+    provides webfx.platform.shared.services.serial.spi.SerialCodec with webfx.platform.shared.datascope.AggregateScope.ProvidedSerialCodec;
 
 }

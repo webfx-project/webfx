@@ -15,11 +15,11 @@ public final class MultiKeyDataScope implements DataScope {
     }
 
     @Override
-    public boolean intersects(DataScope dataScope) {
-        if (dataScope instanceof MultiKeyDataScope)
-            return intersects((MultiKeyDataScope) dataScope);
-        if (dataScope instanceof KeyDataScope)
-            return intersects((KeyDataScope) dataScope);
+    public boolean intersects(DataScope otherScope) {
+        if (otherScope instanceof MultiKeyDataScope)
+            return intersects((MultiKeyDataScope) otherScope);
+        if (otherScope instanceof KeyDataScope)
+            return intersects((KeyDataScope) otherScope);
         return false;
     }
 

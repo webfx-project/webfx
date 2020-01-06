@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.datascope.AggregateScope$ProvidedSerialCodec</provider>
+    </providers>
+
+</module>
