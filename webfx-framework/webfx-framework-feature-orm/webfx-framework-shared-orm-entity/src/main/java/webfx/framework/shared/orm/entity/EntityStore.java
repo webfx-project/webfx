@@ -167,7 +167,7 @@ public interface EntityStore extends HasDataSourceModel {
     }
 
     default QueryArgument createQueryArgument(String dqlQuery, Object[] parameters) {
-        return DqlQueryArgumentHelper.createQueryArgument(dqlQuery, parameters, getDataSourceModel());
+        return DqlQueryArgumentHelper.createQueryArgument(dqlQuery, parameters, getDataSourceModel(), null);
     }
 
     default Future<EntityList[]> executeQueryBatch(EntityStoreQuery... queries) {

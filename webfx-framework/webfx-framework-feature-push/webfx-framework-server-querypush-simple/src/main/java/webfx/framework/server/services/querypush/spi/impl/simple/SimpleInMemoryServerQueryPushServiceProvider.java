@@ -141,18 +141,22 @@ public final class SimpleInMemoryServerQueryPushServiceProvider extends ServerQu
         protected void applyPulseArgument(PulseArgument argument) {
             if (argument != null) { // argument may be null (some code can wake up pulse by calling executePulse(null))
                 // We need to mark dirty all queries impacted by the modification
+                //System.out.println("applyPulseArgument(" + argument + ")");
                 Object dataSourceId = argument.getDataSourceId();
                 for (QueryInfo queryInfo : queryInfos.values()) {
                     // First criteria: must be of the same data source
                     if (!Objects.areEquals(dataSourceId, queryInfo.getQueryArgument().getDataSourceId()))
                         continue; // Avoiding an unnecessary costly query check! :-)
                     // Second criteria: the update scope must impact the query scope (ex: modify a field that the query reads)
-                    DataScope modifiedSchemaScope = argument.getSchemaScope();
-                    if (modifiedSchemaScope != null) {
-                        DataScope querySchemaScope = queryInfo.getQuerySchemaScope();
-                        if (querySchemaScope != null && !modifiedSchemaScope.intersects(querySchemaScope))
+                    DataScope modifiedScope = argument.getDataScope();
+                    if (modifiedScope != null) {
+                        DataScope queryScope = queryInfo.getQueryScope();
+                        if (queryScope != null && !modifiedScope.intersects(queryScope)) {
+                            //System.out.println("Skipped non intersecting scopes " + modifiedScope.getClass().getSimpleName() + " and " + queryScope.getClass().getSimpleName());
                             continue; // Avoiding an unnecessary costly query check! :-)
+                        }
                     }
+                    //System.out.println("Marked query info as dirty: " + queryInfo.getQueryArgument().getStatement());
                     queryInfo.markAsDirty();
                     nextMostUrgentQueryNotYetRefreshed = null; // To force a re-computation of the most urgent query to refresh
                 }

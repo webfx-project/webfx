@@ -751,9 +751,12 @@
     <source path="webfx/platform/shared/services/buscall/spi"/>
     <!--========================< webfx-platform-shared-datascope >=========================-->
     <!-- used by webfx-framework-shared-orm-dql-submit-interceptor (SOURCE) -->
+    <!-- used by webfx-framework-shared-orm-entity (SOURCE) -->
     <!-- used by webfx-platform-shared-query (SOURCE) -->
     <!-- used by webfx-platform-shared-submit (SOURCE) -->
     <source path="webfx/platform/shared/datascope"/>
+    <source path="webfx/platform/shared/datascope/aggregate"/>
+    <source path="webfx/platform/shared/datascope/schema"/>
     <!--========================< webfx-platform-shared-datasource >========================-->
     <!-- used by webfx-framework-shared-orm-dql-query-interceptor (SOURCE) -->
     <!-- used by webfx-framework-shared-orm-dql-submit-interceptor (SOURCE) -->

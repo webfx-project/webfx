@@ -6,16 +6,11 @@ import java.util.Arrays;
 /**
  * @author Bruno Salmon
  */
-public final class MultiKeyDataScope implements DataScope {
+public interface MultiKeyDataScope extends DataScope {
 
-    private final KeyDataScope[] keyDataScopes;
+    KeyDataScope[] getKeyDataScopes();
 
-    public MultiKeyDataScope(KeyDataScope... keyDataScopes) {
-        this.keyDataScopes = keyDataScopes;
-    }
-
-    @Override
-    public boolean intersects(DataScope otherScope) {
+    default boolean intersects(DataScope otherScope) {
         if (otherScope instanceof MultiKeyDataScope)
             return intersects((MultiKeyDataScope) otherScope);
         if (otherScope instanceof KeyDataScope)
@@ -23,16 +18,16 @@ public final class MultiKeyDataScope implements DataScope {
         return false;
     }
 
-    public boolean intersects(MultiKeyDataScope multiKeyDataScope) {
-        for (KeyDataScope kds : multiKeyDataScope.keyDataScopes)
+    default boolean intersects(MultiKeyDataScope multiKeyDataScope) {
+        for (KeyDataScope kds : multiKeyDataScope.getKeyDataScopes())
             if (!intersects(kds))
                 return false;
         return true;
     }
 
-    public boolean intersects(KeyDataScope keyDataScope) {
+    default boolean intersects(KeyDataScope keyDataScope) {
         Object key = keyDataScope.getKey();
-        for (KeyDataScope kds : keyDataScopes)
+        for (KeyDataScope kds : getKeyDataScopes())
             if (key.equals(kds.getKey()))
                 return kds.intersects(keyDataScope);
         return true;
@@ -43,7 +38,7 @@ public final class MultiKeyDataScope implements DataScope {
             if (dataScope instanceof KeyDataScope)
                 keyDataScopes.add((KeyDataScope) dataScope);
             else if (dataScope instanceof MultiKeyDataScope)
-                keyDataScopes.addAll(Arrays.asList(((MultiKeyDataScope) dataScope).keyDataScopes));
+                keyDataScopes.addAll(Arrays.asList(((MultiKeyDataScope) dataScope).getKeyDataScopes()));
             else if (dataScope != null)
                 throw new IllegalArgumentException("Cant concat this data scope type " + dataScope.getClass());
         }

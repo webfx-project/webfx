@@ -38,7 +38,6 @@ public interface ReactiveDqlStatementAPI<E, THIS> {
       ============================================== Fluent API ========================================================
       ================================================================================================================*/
 
-
     default THIS always(ObservableValue<DqlStatement> dqlStatementProperty) {
         getReactiveDqlStatement().always(dqlStatementProperty);
         return (THIS) this;

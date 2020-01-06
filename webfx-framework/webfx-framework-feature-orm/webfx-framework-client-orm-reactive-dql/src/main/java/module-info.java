@@ -14,6 +14,7 @@ module webfx.framework.client.orm.reactive.dql {
     requires webfx.framework.shared.querypush;
     requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
+    requires webfx.platform.shared.datascope;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.query;

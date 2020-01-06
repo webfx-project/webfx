@@ -126,8 +126,7 @@ public final class BookingDetailsPanel implements
                 .bindActivePropertyTo(tab.selectedProperty())
                 .setDataSourceModel(dataSourceModel)
                 .applyDomainModelRowStyle()
-                .visualizeResultInto(table.visualResultProperty())
-                .setVisualSelectionProperty(table.visualSelectionProperty())
+                .visualizeResultInto(table)
                 .setSelectedEntityHandler(selectedEntityProperty::set)
                 .start();
 

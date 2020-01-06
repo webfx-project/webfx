@@ -1,12 +1,13 @@
-package webfx.platform.shared.datascope;
+package webfx.platform.shared.datascope.aggregate;
 
+import webfx.platform.shared.datascope.KeyDataScope;
+import webfx.platform.shared.datascope.ScopeUtil;
 import webfx.platform.shared.services.json.JsonArray;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.services.serial.SerialCodecManager;
 import webfx.platform.shared.services.serial.spi.impl.SerialCodecBase;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,10 +29,8 @@ public final class AggregateScope implements KeyDataScope {
     }
 
     @Override
-    public boolean intersects(DataScope otherScope) {
-        return otherScope instanceof AggregateScope && intersects((AggregateScope) otherScope)
-                || otherScope instanceof MultiKeyDataScope && ((MultiKeyDataScope) otherScope).intersects(this)
-                ;
+    public boolean intersects(KeyDataScope otherScope) {
+        return otherScope instanceof AggregateScope && intersects((AggregateScope) otherScope);
     }
 
     public boolean intersects(AggregateScope otherScope) {
@@ -71,14 +70,15 @@ public final class AggregateScope implements KeyDataScope {
 
         @Override
         public AggregateScope decodeFromJson(JsonObject json) {
-            Map<Object, Object[]> aggregates = new HashMap<>();
+            AggregateScopeBuilder asb = AggregateScope.builder();
             JsonArray keys = json.keys();
-            for (int i = 0; i < keys.size(); i++) {
+            for (int i = 1; i < keys.size(); i++) { // Skipping index 0 = $codec key (quite ugly)
                 String key = keys.getString(i);
-                aggregates.put(key, SerialCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(key)));
+                JsonArray array = json.getArray(key);
+                for (int j = 0; j < array.size(); j++)
+                    asb.addAggregate(key, array.getNativeElement(j));
             }
-            return new AggregateScope(aggregates);
+            return asb.build();
         }
     }
-
 }

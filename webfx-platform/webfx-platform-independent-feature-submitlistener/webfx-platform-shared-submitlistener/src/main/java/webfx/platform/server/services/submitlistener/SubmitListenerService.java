@@ -20,7 +20,7 @@ public final class SubmitListenerService {
         listeners.add(listener);
     }
 
-    public static void fireSuccessfulSubmit(SubmitArgument submitArgument) {
+    public static void fireSuccessfulSubmit(SubmitArgument... submitArgument) {
         listeners.forEach(l -> l.onSuccessfulSubmit(submitArgument));
     }
 }

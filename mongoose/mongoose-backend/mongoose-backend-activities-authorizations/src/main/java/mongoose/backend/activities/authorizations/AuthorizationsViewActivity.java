@@ -45,8 +45,7 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase {
                 .always("{class: 'AuthorizationManagement', orderBy: 'id'}")
                 .ifNotNullOtherwiseEmpty(userPrincipalProperty(), principal -> where("manager=?", MongooseUserPrincipal.getUserPersonId(principal)))
                 .setEntityColumns(manageeColumns)
-                .visualizeResultInto(usersGrid.visualResultProperty())
-                .setVisualSelectionProperty(usersGrid.visualSelectionProperty())
+                .visualizeResultInto(usersGrid)
                 .setSelectedEntityHandler(selectedManagementProperty::setValue)
                 .start();
 
@@ -54,8 +53,7 @@ final class AuthorizationsViewActivity extends ViewDomainActivityBase {
                 .always("{class: 'AuthorizationAssignment', orderBy: 'id'}")
                 .ifNotNullOtherwiseEmpty(selectedManagementProperty, management -> where("management=?", management))
                 .setEntityColumns(assignmentColumns)
-                .visualizeResultInto(assignmentsGrid.visualResultProperty())
-                .setVisualSelectionProperty(assignmentsGrid.visualSelectionProperty())
+                .visualizeResultInto(assignmentsGrid)
                 .start();
     }
 }

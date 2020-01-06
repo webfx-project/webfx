@@ -4,9 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import webfx.extras.type.PrimType;
-import webfx.extras.visual.VisualColumnBuilder;
-import webfx.extras.visual.VisualResult;
-import webfx.extras.visual.VisualSelection;
+import webfx.extras.visual.*;
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedGroupProperty;
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedGroupReferenceResolver;
 import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedMasterProperty;
@@ -75,6 +73,12 @@ public final class ReactiveVisualMapper<E extends Entity> extends ReactiveGridMa
 
     public Property<VisualResult> visualResultProperty() {
         return visualResultProperty;
+    }
+
+    public ReactiveVisualMapper<E> visualizeResultInto(HasVisualResultProperty hasVisualResultProperty) {
+        if (hasVisualResultProperty instanceof HasVisualSelectionProperty)
+            setVisualSelectionProperty(((HasVisualSelectionProperty) hasVisualResultProperty).visualSelectionProperty());
+        return visualizeResultInto(hasVisualResultProperty.visualResultProperty());
     }
 
     public ReactiveVisualMapper<E> visualizeResultInto(Property<VisualResult> visualResultProperty) {

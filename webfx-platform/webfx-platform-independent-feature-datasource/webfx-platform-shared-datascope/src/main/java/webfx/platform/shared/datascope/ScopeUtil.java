@@ -5,9 +5,9 @@ import java.util.Objects;
 /**
  * @author Bruno Salmon
  */
-final class ScopeUtil {
+public final class ScopeUtil {
 
-    static <T> boolean arraysIntersect(T[] a1, T[] a2) {
+    public static <T> boolean arraysIntersect(T[] a1, T[] a2) {
         for (T e1 : a1)
             for (T e2 : a2)
                 if (Objects.equals(e1, e2))

@@ -34,6 +34,7 @@ import webfx.framework.client.ui.action.operation.OperationActionFactoryMixin;
 import webfx.framework.client.ui.util.layout.LayoutUtil;
 import webfx.framework.shared.orm.entity.Entity;
 import webfx.kit.util.properties.Properties;
+import webfx.platform.shared.datascope.aggregate.AggregateScope;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.serial.SerialCodecManager;
 
@@ -184,10 +185,11 @@ final class RoomsGraphicActivity extends EventDependentViewDomainActivity implem
                             .setActiveParent(siteItemResourceConfigurationsToBoxesMapper)
                             .always("{class: 'DocumentLine', columns: 'document.<ident>', where: `!cancelled`, orderBy: 'id'}")
                             .ifNotNullOtherwiseEmpty(siteItemResourceConfigurationProperty, rc -> where("resourceConfiguration=?", rc))
-                            .unbindActiveProperty()
-                            .visualizeResultInto(peopleGrid.visualResultProperty())
+                            // Setting the aggregate scope TODO Can this be automatically set by the Dql query push interceptor (or QueryInfo.getQueryScope())?
+                            .setAggregateScope(siteItemResourceConfigurationProperty, rc -> AggregateScope.builder().addAggregate("ResourceConfiguration", rc.getPrimaryKey()).build())
+                            .unbindActiveProperty() // always active (under parent), no need for additional (and costly) active calls
+                            .visualizeResultInto(peopleGrid)
                             .applyDomainModelRowStyle()
-                            .setVisualSelectionProperty(peopleGrid.visualSelectionProperty())
                             .setSelectedEntityHandler(dl -> {
                                 if (dl != null) {
                                     setSelectedDocument(dl.getDocument());

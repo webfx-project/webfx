@@ -9,24 +9,24 @@ import webfx.platform.shared.datascope.DataScope;
 public final class PulseArgument {
 
     private final Object dataSourceId;
-    private final DataScope schemaScope;
+    private final DataScope dataScope;
 
-    public PulseArgument(Object dataSourceId, DataScope schemaScope) {
+    public PulseArgument(Object dataSourceId, DataScope dataScope) {
         this.dataSourceId = dataSourceId;
-        this.schemaScope = schemaScope;
+        this.dataScope = dataScope;
     }
 
     public Object getDataSourceId() {
         return dataSourceId;
     }
 
-    public DataScope getSchemaScope() {
-        return schemaScope;
+    public DataScope getDataScope() {
+        return dataScope;
     }
 
     // Static factory methods
 
-    public static PulseArgument createToRefreshAllQueriesImpactedBySchemaScope(Object dataSourceId, DataScope schemaScope) {
-        return new PulseArgument(dataSourceId, schemaScope);
+    public static PulseArgument createToRefreshAllQueriesImpactedByDataScope(Object dataSourceId, DataScope dataScope) {
+        return new PulseArgument(dataSourceId, dataScope);
     }
 }

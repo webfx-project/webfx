@@ -10,7 +10,9 @@ import webfx.framework.shared.orm.domainmodel.DomainClass;
 import webfx.framework.shared.orm.domainmodel.HasDataSourceModel;
 import webfx.framework.shared.orm.dql.sqlcompiler.sql.SqlCompiled;
 import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
+import webfx.platform.shared.datascope.aggregate.AggregateScope;
 import webfx.platform.shared.services.query.QueryResult;
+import webfx.platform.shared.util.function.Converter;
 
 /**
  * @author Bruno Salmon
@@ -77,6 +79,11 @@ public interface ReactiveDqlQueryAPI<E, THIS> extends HasDataSourceModel, HasAct
     /*==================================================================================================================
       ============================================== Fluent API ========================================================
       ================================================================================================================*/
+
+    default <T> THIS setAggregateScope(ObservableValue<T> property, Converter<T, AggregateScope> toAggregateScopeConverter) {
+        getReactiveDqlQuery().setAggregateScope(property, toAggregateScopeConverter);
+        return (THIS) this;
+    }
 
     default THIS setDataSourceModel(DataSourceModel dataSourceModel) {
         getReactiveDqlQuery().setDataSourceModel(dataSourceModel);

@@ -7,6 +7,6 @@ import webfx.platform.shared.services.submit.SubmitArgument;
  */
 public interface SubmitListener {
 
-    void onSuccessfulSubmit(SubmitArgument submitArgument);
+    void onSuccessfulSubmit(SubmitArgument... submitArguments);
 
 }

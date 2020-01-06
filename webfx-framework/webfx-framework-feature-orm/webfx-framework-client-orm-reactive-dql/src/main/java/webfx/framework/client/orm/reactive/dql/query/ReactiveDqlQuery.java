@@ -18,9 +18,12 @@ import webfx.framework.shared.orm.expression.builder.ReferenceResolver;
 import webfx.framework.shared.orm.expression.builder.ThreadLocalReferenceResolver;
 import webfx.framework.shared.orm.expression.terms.Alias;
 import webfx.framework.shared.orm.expression.terms.As;
+import webfx.kit.util.properties.Properties;
+import webfx.platform.shared.datascope.aggregate.AggregateScope;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.query.QueryArgument;
 import webfx.platform.shared.services.query.QueryResult;
+import webfx.platform.shared.util.function.Converter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,12 +65,6 @@ public class ReactiveDqlQuery<E> implements ReactiveDqlQueryAPI<E, ReactiveDqlQu
     }
 
     @Override
-    public ReactiveDqlQuery<E> setDataSourceModel(DataSourceModel dataSourceModel) {
-        this.dataSourceModel = dataSourceModel;
-        return this;
-    }
-
-    @Override
     public DataSourceModel getDataSourceModel() {
         return dataSourceModel;
     }
@@ -75,6 +72,21 @@ public class ReactiveDqlQuery<E> implements ReactiveDqlQueryAPI<E, ReactiveDqlQu
     /*==================================================================================================================
       ============================================== Fluent API ========================================================
       ================================================================================================================*/
+
+    private AggregateScope aggregateScope;
+
+    @Override
+    public <T> ReactiveDqlQuery<E> setAggregateScope(ObservableValue<T> property, Converter<T, AggregateScope> toAggregateScopeConverter) {
+        Properties.runNowAndOnPropertiesChange(() -> aggregateScope = toAggregateScopeConverter.convert(property.getValue()) , property);
+        return this;
+    }
+
+
+    @Override
+    public ReactiveDqlQuery<E> setDataSourceModel(DataSourceModel dataSourceModel) {
+        this.dataSourceModel = dataSourceModel;
+        return this;
+    }
 
     @Override
     public ReactiveDqlQuery<E> bindActivePropertyTo(ObservableValue<Boolean> activeProperty) {
@@ -146,7 +158,7 @@ public class ReactiveDqlQuery<E> implements ReactiveDqlQueryAPI<E, ReactiveDqlQu
     private QueryArgument createQueryArgument(String dqlQuery, Object[] parameters) {
         this.dqlQuery = dqlQuery;
         sqlCompiled = null;
-        return DqlQueryArgumentHelper.createQueryArgument(dqlQuery, parameters, getDataSourceModel());
+        return DqlQueryArgumentHelper.createQueryArgument(dqlQuery, parameters, getDataSourceModel(), aggregateScope);
     }
 
     @Override

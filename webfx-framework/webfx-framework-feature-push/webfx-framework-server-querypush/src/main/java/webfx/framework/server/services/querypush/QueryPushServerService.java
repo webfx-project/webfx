@@ -5,9 +5,12 @@ import webfx.framework.shared.services.querypush.PulseArgument;
 import webfx.framework.shared.services.querypush.QueryPushResult;
 import webfx.framework.shared.services.querypush.QueryPushService;
 import webfx.platform.server.services.submitlistener.SubmitListener;
+import webfx.platform.shared.datascope.DataScope;
 import webfx.platform.shared.services.bus.BusService;
 import webfx.platform.shared.services.submit.SubmitArgument;
 import webfx.platform.shared.util.async.Future;
+
+import java.util.Arrays;
 
 import static webfx.framework.shared.services.querypush.QueryPushService.QUERY_PUSH_RESULT_LISTENER_CLIENT_SERVICE_ADDRESS;
 
@@ -29,13 +32,14 @@ public final class QueryPushServerService {
     public static class ProvidedSubmitListener implements SubmitListener {
 
         @Override
-        public void onSuccessfulSubmit(SubmitArgument argument) {
-            QueryPushService.executePulse(
-                    PulseArgument.createToRefreshAllQueriesImpactedBySchemaScope(
-                            argument.getDataSourceId(),
-                            argument.getDataScope()
-                    )
-            );
+        public void onSuccessfulSubmit(SubmitArgument... arguments) {
+            if (arguments != null && arguments.length > 0)
+                QueryPushService.executePulse(
+                        PulseArgument.createToRefreshAllQueriesImpactedByDataScope(
+                                arguments[0].getDataSourceId(),
+                                DataScope.concat(Arrays.stream(arguments).map(SubmitArgument::getDataScope).toArray(DataScope[]::new))
+                        )
+                );
         }
 
     }

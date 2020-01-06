@@ -320,8 +320,8 @@ public abstract class ServerQueryPushServiceProviderBase implements QueryPushSer
             return streamInfos.isEmpty();
         }
 
-        public DataScope getQuerySchemaScope() {
-            return queryArgument.getSchemaScope();
+        public DataScope getQueryScope() {
+            return queryArgument.getDataScope();
         }
     }
 

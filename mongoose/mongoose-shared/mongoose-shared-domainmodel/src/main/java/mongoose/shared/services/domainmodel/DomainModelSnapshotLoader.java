@@ -49,6 +49,8 @@ final class DomainModelSnapshotLoader {
             JsonElement json = Json.parseObject(jsonString);
             Batch<QueryResult> snapshotBatch = SerialCodecManager.decodeFromJson(json);
             DomainModel domainModel = new DomainModelLoader(1).generateDomainModel(snapshotBatch);
+            // Registering aggregates TODO: Move this into the framework model (aggregate boolean field of domain class)
+            domainModel.getClass("ResourceConfiguration").setAggregate(true);
             // Registering functions
             new AbcNames().register();
             new AbcNames("alphaSearch").register();

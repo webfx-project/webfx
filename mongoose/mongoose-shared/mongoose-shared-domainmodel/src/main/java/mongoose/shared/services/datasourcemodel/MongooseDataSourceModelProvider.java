@@ -11,7 +11,7 @@ import webfx.platform.shared.util.async.Future;
  */
 public final class MongooseDataSourceModelProvider implements DataSourceModelProvider {
 
-    private final static Object MONGOOSE_DATA_SOURCE_ID = "MDS";
+    public final static Object MONGOOSE_DATA_SOURCE_ID = "MDS";
 
     private final static DataSourceModel MONGOOSE_DATA_SOURCE_MODEL = new DataSourceModel(
             MONGOOSE_DATA_SOURCE_ID,

@@ -1,4 +1,4 @@
-package webfx.platform.shared.datascope;
+package webfx.platform.shared.datascope.aggregate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,11 +14,8 @@ public final class AggregateScopeBuilder {
     private final Map<Object /* Aggregate type */, List<Object>> aggregates = new HashMap<>();
 
     public AggregateScopeBuilder addAggregate(Object type, Object key) {
-        List<Object> aggregates = this.aggregates.get(type);
-        if (aggregates == null)
-            this.aggregates.put(type, aggregates = new ArrayList<>());
-        if (aggregates != null)
-            aggregates.add(key);
+        List<Object> aggregates = this.aggregates.computeIfAbsent(type, k -> new ArrayList<>());
+        aggregates.add(key);
         return this;
     }
 

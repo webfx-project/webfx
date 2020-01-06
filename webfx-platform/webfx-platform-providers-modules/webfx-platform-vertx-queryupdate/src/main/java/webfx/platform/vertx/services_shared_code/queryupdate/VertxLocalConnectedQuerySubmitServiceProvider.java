@@ -134,15 +134,15 @@ public final class VertxLocalConnectedQuerySubmitServiceProvider implements Quer
 
     @Override
     public Future<SubmitResult> executeSubmit(SubmitArgument submitArgument) {
-        return connectAndExecute(true, (connection, future) -> executeSubmitOnConnection(submitArgument, connection, true, future));
+        return connectAndExecute(true, (connection, future) -> executeSubmitOnConnection(submitArgument, connection, false, future));
     }
 
-    private Future<SubmitResult> executeSubmitOnConnection(SubmitArgument submitArgument, SQLConnection connection, boolean close, Future<SubmitResult> future) {
+    private Future<SubmitResult> executeSubmitOnConnection(SubmitArgument submitArgument, SQLConnection connection, boolean batch, Future<SubmitResult> future) {
         // Special case: submit with a returning clause must be managed differently using query() instead of update()
         String submitString = submitArgument.getStatement().trim();
         String lowerCaseSubmitString = submitString.toLowerCase();
         if (lowerCaseSubmitString.startsWith("select ") || lowerCaseSubmitString.contains(" returning "))
-            return executeReturningSubmitOnConnection(submitArgument, connection, close, future);
+            return executeReturningSubmitOnConnection(submitArgument, connection, batch, future);
 
         // Calling update() or updateWithParams() depending if parameters are provided or not
         executeSubmitOnConnection(submitString, submitArgument.getParameters(), connection, res -> {
@@ -160,10 +160,12 @@ public final class VertxLocalConnectedQuerySubmitServiceProvider implements Quer
                 }
                 // Returning the final QueryResult
                 future.complete(new SubmitResult(vertxUpdateResult.getUpdated(), generatedKeys));
-                onSuccessfulSubmit(submitArgument);
+                // Unless from batch, calling on successful submit now
+                if (!batch)
+                    onSuccessfulSubmit(submitArgument);
             }
-            // Closing the connection so it can go back to the pool
-            if (close)
+            // Unless from batch, closing the connection now so it can go back to the pool
+            if (!batch)
                 closeConnection(connection);
         });
         return future;
@@ -176,7 +178,7 @@ public final class VertxLocalConnectedQuerySubmitServiceProvider implements Quer
             connection.updateWithParams(submitString, toJsonParameters(parameters), resultHandler);
     }
 
-    private Future<SubmitResult> executeReturningSubmitOnConnection(SubmitArgument submitArgument, SQLConnection connection, boolean close, Future<SubmitResult> future) {
+    private Future<SubmitResult> executeReturningSubmitOnConnection(SubmitArgument submitArgument, SQLConnection connection, boolean batch, Future<SubmitResult> future) {
         executeQueryOnConnection(submitArgument.getStatement(), submitArgument.getParameters(), connection, res -> {
             if (res.failed()) { // Sql error
                 Logger.log("Error executing " + submitArgument, res.cause());
@@ -186,10 +188,12 @@ public final class VertxLocalConnectedQuerySubmitServiceProvider implements Quer
                 ResultSet resultSet = res.result();
                 Object[] generatedKeys = resultSet.getResults().get(0).stream().toArray();
                 future.complete(new SubmitResult(resultSet.getNumRows(), generatedKeys));
-                onSuccessfulSubmit(submitArgument);
+                // Unless from batch, calling on successful submit now
+                if (!batch)
+                    onSuccessfulSubmit(submitArgument);
             }
-            // Closing the connection so it can go back to the pool
-            if (close)
+            // Unless from batch, closing the connection now so it can go back to the pool
+            if (!batch)
                 closeConnection(connection);
         });
         return future;
@@ -218,7 +222,7 @@ public final class VertxLocalConnectedQuerySubmitServiceProvider implements Quer
                 if (value instanceof GeneratedKeyBatchIndex)
                     parameters[i] = batchIndexGeneratedKeys.get(((GeneratedKeyBatchIndex) value).getBatchIndex());
             }
-            executeSubmitOnConnection(updateArgument, connection, false, Future.future()).setHandler(ar -> {
+            executeSubmitOnConnection(updateArgument, connection, true, Future.future()).setHandler(ar -> {
                 if (ar.failed()) { // Sql error
                     statementFuture.fail(ar.cause());
                     connection.rollback(event -> closeConnection(connection));
@@ -281,7 +285,7 @@ public final class VertxLocalConnectedQuerySubmitServiceProvider implements Quer
     }
 
     private static void onSuccessfulSubmit(Batch<SubmitArgument> batch) {
-        onSuccessfulSubmit(batch.getArray()[0]);
+        SubmitListenerService.fireSuccessfulSubmit(batch.getArray());
     }
 
     private static JsonArray toJsonParameters(Object[] parameters) {

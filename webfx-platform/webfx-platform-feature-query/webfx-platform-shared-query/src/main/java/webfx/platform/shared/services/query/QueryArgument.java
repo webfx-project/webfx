@@ -14,15 +14,15 @@ public final class QueryArgument {
 
     private final transient QueryArgument originalArgument;
     private final Object dataSourceId;
-    private final DataScope schemaScope;
+    private final DataScope dataScope;
     private final String language;
     private final String statement;
     private final Object[] parameters;
 
-    public QueryArgument(QueryArgument originalArgument, Object dataSourceId, DataScope schemaScope, String language, String statement, Object... parameters) {
+    public QueryArgument(QueryArgument originalArgument, Object dataSourceId, DataScope dataScope, String language, String statement, Object... parameters) {
         this.originalArgument = originalArgument;
         this.dataSourceId = dataSourceId;
-        this.schemaScope = schemaScope;
+        this.dataScope = dataScope;
         this.language = language;
         this.statement = statement;
         this.parameters = parameters;
@@ -36,8 +36,8 @@ public final class QueryArgument {
         return dataSourceId;
     }
 
-    public DataScope getSchemaScope() {
-        return schemaScope;
+    public DataScope getDataScope() {
+        return dataScope;
     }
 
     public String getLanguage() {
@@ -98,6 +98,7 @@ public final class QueryArgument {
 
         private static final String CODEC_ID = "QueryArgument";
         private static final String DATA_SOURCE_ID_KEY = "dataSourceId";
+        private static final String DATA_SCOPE_KEY = "dataScope";
         private static final String LANGUAGE_KEY = "lang";
         private static final String STATEMENT_KEY = "statement";
         private static final String PARAMETERS_KEY = "parameters";
@@ -109,6 +110,7 @@ public final class QueryArgument {
         @Override
         public void encodeToJson(QueryArgument arg, WritableJsonObject json) {
             json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
+            json.set(DATA_SCOPE_KEY, SerialCodecManager.encodeToJson(arg.getDataScope()));
             json.set(LANGUAGE_KEY, arg.getLanguage());
             json.set(STATEMENT_KEY, arg.getStatement());
             if (!Arrays.isEmpty(arg.getParameters()))
@@ -119,7 +121,7 @@ public final class QueryArgument {
         public QueryArgument decodeFromJson(JsonObject json) {
             return new QueryArgument(null,
                     json.get(DATA_SOURCE_ID_KEY),
-                    null,
+                    SerialCodecManager.decodeFromJson(json.getObject(DATA_SCOPE_KEY)),
                     json.getString(LANGUAGE_KEY),
                     json.getString(STATEMENT_KEY),
                     SerialCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY))

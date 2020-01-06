@@ -7,6 +7,7 @@ import webfx.framework.shared.orm.entity.EntityId;
 import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.entity.UpdateStore;
 import webfx.framework.shared.orm.entity.result.*;
+import webfx.platform.shared.datascope.DataScope;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.submit.SubmitArgument;
 import webfx.platform.shared.services.submit.SubmitService;
@@ -23,6 +24,7 @@ public final class UpdateStoreImpl extends EntityStoreImpl implements UpdateStor
 
     private final EntityChangesBuilder changesBuilder = EntityChangesBuilder.create();
     private EntityResultBuilder previousValues;
+    private DataScope submitScope;
 
     public UpdateStoreImpl(DataSourceModel dataSourceModel) {
         super(dataSourceModel);
@@ -88,9 +90,14 @@ public final class UpdateStoreImpl extends EntityStoreImpl implements UpdateStor
     }
 
     @Override
+    public void setSubmitScope(DataScope submitScope) {
+        this.submitScope = submitScope;
+    }
+
+    @Override
     public Future<Batch<SubmitResult>> submitChanges(SubmitArgument... initialSubmits) {
         try {
-            EntityChangesToSubmitBatchGenerator.BatchGenerator updateBatchGenerator = EntityChangesToSubmitBatchGenerator.createSubmitBatchGenerator(getEntityChanges(), dataSourceModel, initialSubmits);
+            EntityChangesToSubmitBatchGenerator.BatchGenerator updateBatchGenerator = EntityChangesToSubmitBatchGenerator.createSubmitBatchGenerator(getEntityChanges(), dataSourceModel, submitScope, initialSubmits);
             Batch<SubmitArgument> batch = updateBatchGenerator.generate();
             Logger.log("Executing submit batch " + Arrays.toStringWithLineFeeds(batch.getArray()));
             return SubmitService.executeSubmitBatch(batch).compose((ar, finalFuture) -> {

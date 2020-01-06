@@ -18,6 +18,8 @@ final class MoveToResourceConfigurationExecutor {
             DocumentLine documentLine = updateStore.getOrCreateEntity(DocumentLine.class, primaryKey);
             updateStore.updateEntity(documentLine).setForeignField("resourceConfiguration", resourceConfiguration);
         }
+        // Commented as now automatically set by the Dql submit interceptor TODO Remove this comment once the feature is completed
+        //updateStore.setSubmitScope(AggregateScope.builder().addAggregate("ResourceConfiguration", resourceConfiguration.getPrimaryKey()).build());
         updateStore.submitChanges().setHandler(ar -> {
             if (ar.failed()) {
                 future.fail(ar.cause());

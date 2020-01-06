@@ -51,7 +51,7 @@ public final class QueryArgumentBuilder {
     public QueryArgumentBuilder copy(QueryArgument argument) {
         return setOriginalArgument(argument)
                 .setDataSourceId(argument.getDataSourceId())
-                .setDataScope(argument.getSchemaScope())
+                .setDataScope(argument.getDataScope())
                 .setLanguage(argument.getLanguage())
                 .setStatement(argument.getStatement())
                 .setParameters(argument.getParameters())

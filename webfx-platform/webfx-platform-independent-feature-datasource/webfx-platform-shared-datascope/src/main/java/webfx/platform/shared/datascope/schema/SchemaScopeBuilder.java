@@ -1,4 +1,4 @@
-package webfx.platform.shared.datascope;
+package webfx.platform.shared.datascope.schema;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public final class SchemaScopeBuilder {
     }
 
     public SchemaScope build() {
-        return new SchemaScope(classFields.entrySet().stream()
+        return new SchemaScopeImpl(classFields.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         e -> new SchemaScope.ClassScope(e.getKey(), e.getValue() == null ? null : e.getValue().toArray())

@@ -11,6 +11,7 @@ import webfx.framework.shared.orm.entity.EntityStore;
 import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.expression.parser.lci.ParserDomainModelReader;
 import webfx.framework.shared.orm.expression.terms.*;
+import webfx.platform.shared.datascope.DataScope;
 import webfx.platform.shared.services.submit.GeneratedKeyBatchIndex;
 import webfx.platform.shared.services.submit.SubmitArgument;
 import webfx.platform.shared.services.submit.SubmitResult;
@@ -29,20 +30,20 @@ public final class EntityChangesToSubmitBatchGenerator {
     private EntityChangesToSubmitBatchGenerator() {
     }
 
-    public static BatchGenerator createSubmitBatchGenerator(EntityChanges changes, DataSourceModel dataSourceModel, SubmitArgument... initialUpdates) {
-        return createSubmitBatchGenerator(changes, dataSourceModel.getDataSourceId(), dataSourceModel.getDbmsSqlSyntax(), dataSourceModel.getDomainModel().getParserDomainModelReader(), dataSourceModel.getCompilerDomainModelReader(), initialUpdates);
+    public static BatchGenerator createSubmitBatchGenerator(EntityChanges changes, DataSourceModel dataSourceModel, DataScope dataScope, SubmitArgument... initialUpdates) {
+        return createSubmitBatchGenerator(changes, dataSourceModel.getDataSourceId(), dataScope, dataSourceModel.getDbmsSqlSyntax(), dataSourceModel.getDomainModel().getParserDomainModelReader(), dataSourceModel.getCompilerDomainModelReader(), initialUpdates);
     }
 
-    public static BatchGenerator createSubmitBatchGenerator(EntityChanges changes, Object dataSourceId, DbmsSqlSyntax dbmsSyntax, ParserDomainModelReader parserModelReader, CompilerDomainModelReader compilerModelReader, SubmitArgument... initialUpdates) {
-        return new BatchGenerator(changes, dataSourceId, dbmsSyntax, compilerModelReader, initialUpdates);
+    public static BatchGenerator createSubmitBatchGenerator(EntityChanges changes, Object dataSourceId, DataScope dataScope, DbmsSqlSyntax dbmsSyntax, ParserDomainModelReader parserModelReader, CompilerDomainModelReader compilerModelReader, SubmitArgument... initialUpdates) {
+        return new BatchGenerator(changes, dataSourceId, dataScope, dbmsSyntax, compilerModelReader, initialUpdates);
     }
 
-    public static Batch<SubmitArgument> generateSubmitBatch(EntityChanges changes, DataSourceModel dataSourceModel, SubmitArgument... initialUpdates) {
-        return createSubmitBatchGenerator(changes, dataSourceModel, initialUpdates).generate();
+    public static Batch<SubmitArgument> generateSubmitBatch(EntityChanges changes, DataSourceModel dataSourceModel, DataScope dataScope, SubmitArgument... initialUpdates) {
+        return createSubmitBatchGenerator(changes, dataSourceModel, dataScope, initialUpdates).generate();
     }
 
-    public static Batch<SubmitArgument> generateSubmitBatch(EntityChanges changes, Object dataSourceId, DbmsSqlSyntax dbmsSyntax, ParserDomainModelReader parserModelReader, CompilerDomainModelReader compilerModelReader, SubmitArgument... initialUpdates) {
-        return createSubmitBatchGenerator(changes, dataSourceId, dbmsSyntax, parserModelReader, compilerModelReader, initialUpdates).generate();
+    public static Batch<SubmitArgument> generateSubmitBatch(EntityChanges changes, Object dataSourceId, DataScope dataScope, DbmsSqlSyntax dbmsSyntax, ParserDomainModelReader parserModelReader, CompilerDomainModelReader compilerModelReader, SubmitArgument... initialUpdates) {
+        return createSubmitBatchGenerator(changes, dataSourceId, dataScope, dbmsSyntax, parserModelReader, compilerModelReader, initialUpdates).generate();
     }
 
     public static final class BatchGenerator {
@@ -51,16 +52,18 @@ public final class EntityChangesToSubmitBatchGenerator {
 
         private final EntityChanges changes;
         private final Object dataSourceId;
+        private final DataScope dataScope;
         private final DbmsSqlSyntax dbmsSyntax;
         private final CompilerDomainModelReader compilerModelReader;
         private final List<SubmitArgument> submitArguments;
         private final Map<EntityId, Integer> newEntityIdInitialInsertBatchIndexes = new IdentityHashMap<>();
         private List<Integer> newEntityFinalInsertBatchIndexes;
 
-        BatchGenerator(EntityChanges changes, Object dataSourceId, DbmsSqlSyntax dbmsSyntax, CompilerDomainModelReader compilerModelReader, SubmitArgument... initialUpdates) {
+        BatchGenerator(EntityChanges changes, Object dataSourceId, DataScope dataScope, DbmsSqlSyntax dbmsSyntax, CompilerDomainModelReader compilerModelReader, SubmitArgument... initialUpdates) {
             submitArguments = initialUpdates == null ? new ArrayList<>() : new ArrayList<>(Arrays.asList(initialUpdates));
             this.changes = changes;
             this.dataSourceId = dataSourceId;
+            this.dataScope = dataScope;
             this.dbmsSyntax = dbmsSyntax;
             this.compilerModelReader = compilerModelReader;
         }
@@ -201,6 +204,7 @@ public final class EntityChangesToSubmitBatchGenerator {
         void addToBatch(String submitLang, String submitString, Object... parameters) {
             submitArguments.add(SubmitArgument.builder()
                     .setDataSourceId(dataSourceId)
+                    .setDataScope(dataScope)
                     .setLanguage(submitLang)
                     .setStatement(submitString)
                     .setParameters(parameters)

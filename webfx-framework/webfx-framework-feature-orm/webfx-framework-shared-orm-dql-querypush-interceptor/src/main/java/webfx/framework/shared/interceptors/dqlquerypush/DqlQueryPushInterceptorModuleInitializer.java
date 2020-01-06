@@ -10,9 +10,8 @@ import webfx.framework.shared.services.datasourcemodel.DataSourceModelService;
 import webfx.framework.shared.services.querypush.PulseArgument;
 import webfx.framework.shared.services.querypush.QueryPushArgument;
 import webfx.framework.shared.services.querypush.spi.QueryPushServiceProvider;
-import webfx.platform.shared.datascope.DataScope;
-import webfx.platform.shared.datascope.SchemaScope;
-import webfx.platform.shared.datascope.SchemaScopeBuilder;
+import webfx.platform.shared.datascope.schema.SchemaScope;
+import webfx.platform.shared.datascope.schema.SchemaScopeBuilder;
 import webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 import webfx.platform.shared.services.datasource.LocalDataSourceService;
 import webfx.platform.shared.services.query.QueryArgument;
@@ -55,32 +54,29 @@ public class DqlQueryPushInterceptorModuleInitializer implements ApplicationModu
 
     private Future<Object> interceptAndExecuteQueryPush(QueryPushArgument argument, QueryPushServiceProvider targetProvider) {
         QueryArgument queryArgument = argument.getQueryArgument();
-        if (queryArgument != null) {
-            DataScope querySchemaScope = queryArgument.getSchemaScope();
-            if (querySchemaScope == null && LocalDataSourceService.isDataSourceLocal(argument.getDataSourceId())) {
-                String dqlStatement = getDqlQueryStatement(queryArgument);
-                if (dqlStatement != null) {
-                    DataSourceModel dataSourceModel = DataSourceModelService.getDataSourceModel(queryArgument.getDataSourceId());
-                    if (dataSourceModel != null) {
-                        // TODO Should we cache this (dqlStatement => read fields)?
-                        DqlStatement<Object> parsedStatement = dataSourceModel.parseStatement(dqlStatement);
-                        if (parsedStatement instanceof Select) {
-                            CollectOptions collectOptions = new CollectOptions()
-                                    .setFilterPersistentTerms(true)
-                                    .setTraverseSelect(true)
-                                    .setTraverseSqlExpressible(true);
-                            parsedStatement.collect(collectOptions);
-                            SchemaScopeBuilder ssb = SchemaScope.builder();
-                            for (Expression<Object> term : collectOptions.getCollectedTerms()) {
-                                if (term instanceof DomainField) {
-                                    DomainField domainField = (DomainField) term;
-                                    ssb.addField(domainField.getDomainClass().getId(), domainField.getId());
-                                }
+        if (queryArgument != null && LocalDataSourceService.isDataSourceLocal(argument.getDataSourceId())) {
+            String dqlStatement = getDqlQueryStatement(queryArgument);
+            if (dqlStatement != null) {
+                DataSourceModel dataSourceModel = DataSourceModelService.getDataSourceModel(queryArgument.getDataSourceId());
+                if (dataSourceModel != null) {
+                    // TODO Should we cache this (dqlStatement => read fields)?
+                    DqlStatement<Object> parsedStatement = dataSourceModel.parseStatement(dqlStatement);
+                    if (parsedStatement instanceof Select) {
+                        CollectOptions collectOptions = new CollectOptions()
+                                .setFilterPersistentTerms(true)
+                                .setTraverseSelect(true)
+                                .setTraverseSqlExpressible(true);
+                        parsedStatement.collect(collectOptions);
+                        SchemaScopeBuilder ssb = SchemaScope.builder();
+                        for (Expression<Object> term : collectOptions.getCollectedTerms()) {
+                            if (term instanceof DomainField) {
+                                DomainField domainField = (DomainField) term;
+                                ssb.addField(domainField.getDomainClass().getId(), domainField.getId());
                             }
-                            querySchemaScope = ssb.build();
-                            queryArgument = QueryArgument.builder().copy(queryArgument).addDataScope(querySchemaScope).build();
-                            argument = QueryPushArgument.builder().copy(argument).setQueryArgument(queryArgument).build();
                         }
+                        SchemaScope querySchemaScope = ssb.build();
+                        queryArgument = QueryArgument.builder().copy(queryArgument).addDataScope(querySchemaScope).build();
+                        argument = QueryPushArgument.builder().copy(argument).setQueryArgument(queryArgument).build();
                     }
                 }
             }

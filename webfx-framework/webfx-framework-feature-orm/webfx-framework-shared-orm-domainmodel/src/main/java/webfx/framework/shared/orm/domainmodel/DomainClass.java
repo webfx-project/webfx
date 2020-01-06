@@ -31,6 +31,8 @@ public final class DomainClass implements HasLabel, HasDomainModel {
     private final Map<String /* sql column */, DomainField> sqlMap;
     private final Map<Object /* modelId or name */, FieldsGroup> fieldsGroupMap;
 
+    boolean isAggregate;
+
     public DomainClass(DomainModel domainModel, Object id, Object modelId, String name, String sqlTableName, String idColumnName, Label label, String foreignFieldsDefinition, String searchCondition, String css, String styleClassesExpressionArrayDefinition, Map<Object, DomainField> fieldMap, Map<String, DomainField> sqlMap, Map<Object, FieldsGroup> fieldsGroupMap, String fxmlForm) {
         this.domainModel = domainModel;
         this.id = id;
@@ -47,6 +49,14 @@ public final class DomainClass implements HasLabel, HasDomainModel {
         this.sqlMap = sqlMap;
         this.fieldsGroupMap = fieldsGroupMap;
         this.fxmlForm = fxmlForm;
+    }
+
+    public boolean isAggregate() {
+        return isAggregate;
+    }
+
+    public void setAggregate(boolean aggregate) {
+        isAggregate = aggregate;
     }
 
     @Override
