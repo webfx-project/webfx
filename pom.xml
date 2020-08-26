@@ -58,7 +58,7 @@
         <plugin.jar.version>3.2.0</plugin.jar.version>
         <plugin.source.version>3.2.0</plugin.source.version>
         <plugin.dependency.version>3.1.2</plugin.dependency.version>
-        <plugin.shade.version>3.2.3</plugin.shade.version>
+        <plugin.shade.version>3.2.4</plugin.shade.version>
 
         <!-- Third-party plugins versions -->
         <plugin.javacup.version>11b-20160615</plugin.javacup.version>
