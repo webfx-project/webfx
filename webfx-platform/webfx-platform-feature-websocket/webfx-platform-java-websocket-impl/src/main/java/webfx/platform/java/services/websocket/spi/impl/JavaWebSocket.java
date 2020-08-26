@@ -17,7 +17,6 @@
  */
 package webfx.platform.java.services.websocket.spi.impl;
 
-import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
@@ -33,6 +32,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.nio.charset.StandardCharsets;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
@@ -41,7 +41,7 @@ import java.nio.charset.CharsetDecoder;
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
 public final class JavaWebSocket implements WebSocket {
-    private static final Charset charset = Charset.forName("UTF-8");
+    private static final Charset charset = StandardCharsets.UTF_8;
     private static final CharsetDecoder decoder = charset.newDecoder();
 
     private static String toString(ByteBuffer buffer) throws CharacterCodingException {
@@ -52,7 +52,7 @@ public final class JavaWebSocket implements WebSocket {
         return data;
     }
 
-    private WebSocketClient socket;
+    private final WebSocketClient socket;
     private WebSocketListener listener;
 
     public JavaWebSocket(String uri) {
@@ -111,14 +111,19 @@ public final class JavaWebSocket implements WebSocket {
 
     @Override
     public State getReadyState() {
-        READYSTATE readyState = socket.getReadyState();
-        return readyState == READYSTATE.NOT_YET_CONNECTED ? State.CONNECTING : State.values[readyState.ordinal() - 1];
+        switch (socket.getReadyState()) {
+            case NOT_YET_CONNECTED: return State.CONNECTING;
+            case OPEN: return State.OPEN;
+            case CLOSED: return State.CLOSED;
+            case CLOSING: return State.CLOSING;
+        }
+        return null;
     }
 
     @Override
     public void send(String data) {
         try {
-            //log.finest("Websocket send: " + data);
+            //Logger.log("WebSocket send: " + data);
             socket.getConnection().send(data);
         } catch (Throwable e) {
             throw new RuntimeException(e);

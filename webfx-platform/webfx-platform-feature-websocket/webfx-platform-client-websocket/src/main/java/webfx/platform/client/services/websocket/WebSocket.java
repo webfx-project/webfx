@@ -24,7 +24,6 @@ public interface WebSocket {
 
     enum State {
         CONNECTING, OPEN, CLOSING, CLOSED;
-        public static final State values[] = State.values();
     }
 
     State getReadyState();
