@@ -135,8 +135,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
                     .setStore(filterStore)
                     .setRestrictedFilterList(restrictedFilterList)
                     .setEntityColumns(VisualEntityColumnFactory.get().create(renderingExpression))
-                    .visualizeResultInto(dialogVisualGrid.visualResultProperty())
-                    .setVisualSelectionProperty(dialogVisualGrid.visualSelectionProperty())
+                    .visualizeResultInto(dialogVisualGrid)
                     .setSelectedEntityHandler(e -> {
                         if (e != null && button != null)
                             onDialogOk();
