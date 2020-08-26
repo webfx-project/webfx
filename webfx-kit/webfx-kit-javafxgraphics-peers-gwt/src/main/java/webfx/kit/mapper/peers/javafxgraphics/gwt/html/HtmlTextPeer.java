@@ -117,12 +117,14 @@ public final class HtmlTextPeer
     @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
         setElementStyleAttribute("text-align", toCssTextAlignment(textAlignment));
+        clearCache();
     }
 
     @Override
     public void updateFont(Font font) {
         setFontAttributes(font);
         updateYOnNextPulse();
+        clearCache();
     }
 
     @Override
@@ -133,6 +135,7 @@ public final class HtmlTextPeer
         boolean hasStroke = color != null && strokeWidth > 0;
         setElementStyleAttribute("-webkit-text-stroke-color", hasStroke ? color : null);
         setElementStyleAttribute("-webkit-text-stroke-width", hasStroke ? toPx(strokeWidth) : null);
+        clearCache();
     }
 
     private static final HTMLCanvasElement canvas = HtmlUtil.createElement("canvas");

@@ -65,9 +65,13 @@ public final class SvgUtil {
         return HtmlUtil.setAttribute(createSvgElement("linearGradient"), "id", "LG" + ++lgSeq);
     }
 
-    private static int filterSeq;
     public static Element createFilter() {
-        return HtmlUtil.setAttribute(createSvgElement("filter"), "id", "F" + ++filterSeq);
+        return HtmlUtil.setAttribute(createSvgElement("filter"), "id", generateNewFilterId());
+    }
+
+    private static int filterSeq;
+    public static String generateNewFilterId() {
+        return "F" + ++filterSeq;
     }
 
     public static Element updateLinearGradient(LinearGradient lg, Element svgLg) {

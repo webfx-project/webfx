@@ -72,8 +72,8 @@ public final class HtmlPaints {
         CycleMethod m = rg.getCycleMethod();
         StringBuilder sb = new StringBuilder(m == CycleMethod.REPEAT ? "repeating-" : "");
         sb.append("radial-gradient(circle at ");
-        appendOffset(rg.getCenterX(), rg.getRadius(), rg.isProportional(), sb);
-        appendOffset(rg.getCenterY(), rg.getRadius(), rg.isProportional(), sb.append(' '));
+        appendOffset(rg.getCenterX() + rg.getRadius(), rg.getRadius(), rg.isProportional(), sb);
+        appendOffset(rg.getCenterY() + rg.getRadius(), rg.getRadius(), rg.isProportional(), sb.append(' '));
         toCssStops(rg.getStops(), rg.getRadius(), rg.isProportional(), sb);
         sb.append(')');
         return sb.toString();

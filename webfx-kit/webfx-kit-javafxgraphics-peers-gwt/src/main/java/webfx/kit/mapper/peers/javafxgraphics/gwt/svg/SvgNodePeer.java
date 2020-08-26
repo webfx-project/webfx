@@ -3,23 +3,20 @@ package webfx.kit.mapper.peers.javafxgraphics.gwt.svg;
 import elemental2.dom.Element;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
+import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
+import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
+import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.shared.SvgRoot;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
-import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
-import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
-import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 
 import java.util.*;
 
@@ -64,7 +61,7 @@ public abstract class SvgNodePeer
     }
 
     private Element toSvgEffectFilter(Effect effect) {
-        Collection<Element> filterPrimitives = toSvgEffectFilterPrimitives(effect);
+        Collection<Element> filterPrimitives = toSvgEffectFilterPrimitives(effect, null, null);
         if (filterPrimitives == null || filterPrimitives.isEmpty())
             return null;
         Element filter = SvgUtil.createFilter();
@@ -72,21 +69,25 @@ public abstract class SvgNodePeer
         return getSvgRoot().addDef(filter);
     }
 
-    private static Collection<Element> toSvgEffectFilterPrimitives(Effect effect) {
+    private static Collection<Element> toSvgEffectFilterPrimitives(Effect effect, String filterResult, Collection<Element> filterPrimitives) {
         if (effect == null)
-            return null;
+            return filterPrimitives;
         if (effect instanceof GaussianBlur) {
             Element fe = SvgUtil.createSvgElement("feGaussianBlur");
             fe.setAttribute("in", "SourceGraphic");
             fe.setAttribute("stdDeviation", ((GaussianBlur) effect).getSigma());
-            return Collections.singleton(fe);
+            if (filterResult != null)
+                fe.setAttribute("result", filterResult);
+            return addFilterPrimitive(filterPrimitives, fe);
         }
         if (effect instanceof BoxBlur) {
             // Is it supported by SVG? For now doing a gaussian blur instead
             Element fe = SvgUtil.createSvgElement("feGaussianBlur");
             fe.setAttribute("in", "SourceGraphic");
             fe.setAttribute("stdDeviation", GaussianBlur.getSigma(((BoxBlur) effect).getWidth()));
-            return Collections.singleton(fe);
+            if (filterResult != null)
+                fe.setAttribute("result", filterResult);
+            return addFilterPrimitive(filterPrimitives, fe);
         }
         if (effect instanceof DropShadow) {
             DropShadow dropShadow = (DropShadow) effect;
@@ -95,9 +96,68 @@ public abstract class SvgNodePeer
             fe.setAttribute("dy", dropShadow.getOffsetY());
             fe.setAttribute("stdDeviation", dropShadow.getRadius() / 2);
             fe.setAttribute("flood-color", HtmlPaints.toSvgCssPaint(dropShadow.getColor()));
-            return Collections.singleton(fe);
+            Effect inputEffect = dropShadow.getInput();
+            if (inputEffect != null) {
+                String inputResult = SvgUtil.generateNewFilterId();
+                filterPrimitives = toSvgEffectFilterPrimitives(inputEffect, inputResult, filterPrimitives);
+                fe.setAttribute("in", inputResult);
+            }
+            if (filterResult != null)
+                fe.setAttribute("result", filterResult);
+            return addFilterPrimitive(filterPrimitives, fe);
         }
-        return null;
+        if (effect instanceof InnerShadow) {
+            InnerShadow innerShadow = (InnerShadow) effect;
+
+            //String feBlurResult = SvgUtil.generateNewFilterId();
+            Element feBlur = SvgUtil.createSvgElement("feGaussianBlur");
+            feBlur.setAttribute("in", "SourceAlpha");
+            feBlur.setAttribute("stdDeviation", innerShadow.getRadius() / 2);
+            //feBlur.setAttribute("result", feBlurResult);
+
+            Element feOffset = SvgUtil.createSvgElement("feOffset");
+            feOffset.setAttribute("dx", innerShadow.getOffsetX());
+            feOffset.setAttribute("dy", innerShadow.getOffsetY());
+
+            Element feShadowDiff = SvgUtil.createSvgElement("feComposite");
+            String feShadowDiffResult = SvgUtil.generateNewFilterId();
+            feShadowDiff.setAttribute("in2", "SourceAlpha");
+            feShadowDiff.setAttribute("operator", "arithmetic");
+            feShadowDiff.setAttribute("k2", "-1");
+            feShadowDiff.setAttribute("k3", "1");
+            feShadowDiff.setAttribute("result", feShadowDiffResult);
+
+            Element feFlood = SvgUtil.createSvgElement("feFlood");
+            feFlood.setAttribute("flood-color", HtmlPaints.toSvgCssPaint(innerShadow.getColor()));
+
+            Element feIn = SvgUtil.createSvgElement("feComposite");
+            feIn.setAttribute("in2", feShadowDiffResult);
+            feIn.setAttribute("operator", "in");
+
+            Element feOver = SvgUtil.createSvgElement("feComposite");
+            feOver.setAttribute("in2", "SourceGraphic");
+            feOver.setAttribute("operator", "over");
+
+            Effect inputEffect = innerShadow.getInput();
+            if (inputEffect != null) {
+                String inputResult = SvgUtil.generateNewFilterId();
+                filterPrimitives = toSvgEffectFilterPrimitives(inputEffect, inputResult, filterPrimitives);
+                feOver.setAttribute("in2", inputResult);
+            }
+            if (filterResult != null)
+                feOver.setAttribute("result", filterResult);
+            return addFilterPrimitive(filterPrimitives, feBlur, feOffset, feShadowDiff, feFlood, feIn, feOver);
+        }
+        return filterPrimitives;
+    }
+
+    private static Collection<Element> addFilterPrimitive(Collection<Element> allPrimitives, Element... primitivesToAdd) {
+        if (primitivesToAdd.length > 0) {
+            if (allPrimitives == null)
+                allPrimitives = new ArrayList<>();
+            Collections.addAll(allPrimitives, primitivesToAdd);
+        }
+        return allPrimitives;
     }
 
     void setPaintAttribute(String name, Paint paint) {

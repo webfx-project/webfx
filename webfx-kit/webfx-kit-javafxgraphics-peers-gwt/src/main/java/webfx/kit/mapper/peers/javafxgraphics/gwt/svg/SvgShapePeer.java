@@ -9,9 +9,9 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
 import webfx.kit.mapper.peers.javafxgraphics.base.ShapePeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.base.ShapePeerMixin;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
@@ -96,13 +96,17 @@ abstract class SvgShapePeer
 
     @Override
     public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
-        // Before transformation, the top left corner of the container refers to the axis origin (0,0) in SVG whereas it
-        // refers to the top left corner of the path in JavaFx. So to emulate the same behavior as JavaFx, we need to
-        // add a translation of the shape so it appears on the top left corner.
+        // We also need to consider here a difference between standard SVG and JavaFx regarding the coordinate system:
+        // - In standard SVG, the top left corner of the viewport always refers to (x=0,y=0) even if part of the shape
+        //   is negative (so this negative part actually won't show on the viewport)
+        // - In JavaFx, the top left corner of the viewport also refers to (x=0,y=0) in general, except a part of the
+        //   shape is negative. In that case, the coordinate system is shifted so that the negative part of the shape
+        //   automatically appears on the viewport
+        // We need here to emulate the same behavior as JavaFx by translating the shape when part of it is negative.
         SVGRect bBox = getBBox();
-        if (bBox != null) {
+        if (bBox != null && (bBox.x < 0 || bBox.y < 0)) {
             List<Transform> forSvgTransforms = new ArrayList<>(localToParentTransforms.size() + 1);
-            forSvgTransforms.add(new Translate(-bBox.x, -bBox.y));
+            forSvgTransforms.add(new Translate(Math.max(-bBox.x, 0), Math.max(-bBox.y, 0)));
             forSvgTransforms.addAll(localToParentTransforms);
             localToParentTransforms = forSvgTransforms;
         }

@@ -6,6 +6,8 @@ import javafx.collections.ListChangeListener;
 import javafx.scene.shape.FillRule;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathElement;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.shared.SvgRoot;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.shared.SvgRootBase;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgPathPeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
@@ -39,10 +41,12 @@ public final class HtmlPathPeer
         getNodePeerBase().setNode(node);
         svgPathPeer.bind(node, sceneRequester);
         Element svgElement = SvgUtil.createSvgElement("svg");
+        SvgRoot svgRoot = new SvgRootBase();
+        node.getProperties().put("svgRoot", svgRoot);
         // Setting arbitrary large size to avoid the path to be cropped by the svg tag
         svgElement.setAttribute("width", 100_000);
         svgElement.setAttribute("height", 100_000);
-        HtmlUtil.setChild(svgElement, svgPathPeer.getElement());
+        HtmlUtil.setChildren(svgElement, svgRoot.getDefsElement(), svgPathPeer.getElement());
         HtmlUtil.setChild(getElement(), svgElement);
     }
 
