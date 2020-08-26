@@ -49,12 +49,7 @@
         <lib.vertx.version>3.8.4</lib.vertx.version>
         <lib.javawebsocket.version>1.5.1</lib.javawebsocket.version>
 
-        <!--
-       <lib.javacuprutime.version>11b</lib.javacuprutime.version>
-       <lib.rxjava.version>1.1.1</lib.rxjava.version>
-       -->
-
-        <lib.javafxsvg.version>1.2.1</lib.javafxsvg.version>
+        <lib.javafxsvg.version>1.3.0</lib.javafxsvg.version>
 
         <lib.junit.version>4.12</lib.junit.version>
 
