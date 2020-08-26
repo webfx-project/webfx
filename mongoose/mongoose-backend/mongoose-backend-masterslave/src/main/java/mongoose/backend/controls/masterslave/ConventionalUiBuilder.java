@@ -8,10 +8,11 @@ import javafx.scene.layout.Pane;
 import mongoose.backend.controls.masterslave.group.GroupMasterSlaveView;
 import mongoose.client.entities.util.filters.FilterButtonSelectorFactoryMixin;
 import mongoose.client.entities.util.filters.FilterSearchBar;
+import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedMasterProperty;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasGroupVisualResultProperty;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.conventions.HasMasterVisualResultProperty;
-import webfx.framework.client.orm.reactive.dql.statement.conventions.HasSelectedMasterProperty;
 import webfx.framework.client.ui.controls.ControlFactoryMixin;
+import webfx.framework.shared.orm.entity.Entity;
 
 import static webfx.framework.client.ui.util.layout.LayoutUtil.setHGrowable;
 
@@ -61,7 +62,7 @@ public class ConventionalUiBuilder implements UiBuilder {
             }
 
             if (pm instanceof HasGroupVisualResultProperty && pm instanceof HasMasterVisualResultProperty && pm instanceof HasSelectedMasterProperty) {
-                groupMasterSlaveView = GroupMasterSlaveView.createAndBind((HasGroupVisualResultProperty & HasMasterVisualResultProperty & HasSelectedMasterProperty) pm, mixin, () -> container);
+                groupMasterSlaveView = GroupMasterSlaveView.createAndBind((HasGroupVisualResultProperty & HasMasterVisualResultProperty & HasSelectedMasterProperty<Entity/*necessary for GWT 2.9*/>) pm, mixin, () -> container);
                 container.setCenter(groupMasterSlaveView.buildUi());
             }
         }

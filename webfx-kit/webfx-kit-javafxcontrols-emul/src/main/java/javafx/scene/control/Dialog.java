@@ -213,7 +213,7 @@ public class Dialog<R> implements EventTarget {
      *
      **************************************************************************/
 
-    final FXDialog dialog;
+    final FXDialog dialog = new HeavyweightDialog(this); // Initialization moved to declaration for GWT 2.9
 
     private boolean isClosing;
 
@@ -229,7 +229,7 @@ public class Dialog<R> implements EventTarget {
      * Creates a dialog without a specified owner.
      */
     public Dialog() {
-        this.dialog = new HeavyweightDialog(this);
+        //this.dialog = new HeavyweightDialog(this); // Initialization moved to declaration for GWT 2.9 (otherwise compilation error with GWT 2.9)
         setDialogPane(new DialogPane());
         initModality(Modality.APPLICATION_MODAL);
     }
