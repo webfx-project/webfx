@@ -142,8 +142,6 @@
                             <archive>
                                 <manifest>
                                     <mainClass>${plugins.param.jre.mainClass}</mainClass>
-                                    <addClasspath>true</addClasspath>
-                                    <classpathPrefix>lib/</classpathPrefix>
                                 </manifest>
                             </archive>
                         </configuration>

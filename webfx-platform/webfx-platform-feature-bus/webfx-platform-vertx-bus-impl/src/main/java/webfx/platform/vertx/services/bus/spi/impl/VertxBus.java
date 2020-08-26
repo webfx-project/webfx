@@ -41,7 +41,7 @@ final class VertxBus implements Bus {
     }
 
     public <T> Bus send(boolean local, String address, Object msg, Handler<AsyncResult<Message<T>>> replyHandler) {
-        eventBus.<T>send(address, genericToVertxObject(msg), ar -> replyHandler.handle(vertxToGenericMessageAsyncResult(ar, local)));
+        eventBus.<T>request(address, genericToVertxObject(msg), ar -> replyHandler.handle(vertxToGenericMessageAsyncResult(ar, local)));
         return this;
     }
 
@@ -76,7 +76,7 @@ final class VertxBus implements Bus {
     }
 
     private static <T> Message<T> vertxToGenericMessage(io.vertx.core.eventbus.Message<T> vertxMessage, boolean local) {
-        return new Message<T>() {
+        return new Message<>() {
             @Override
             public T body() {
                 return (T) vertxToGenericObject(vertxMessage.body());
@@ -99,7 +99,7 @@ final class VertxBus implements Bus {
 
             @Override
             public <T1> void reply(Object msg, Handler<AsyncResult<Message<T1>>> replyHandler) {
-                vertxMessage.<T1>reply(genericToVertxObject(msg), ar -> replyHandler.handle(vertxToGenericMessageAsyncResult(ar, false)));
+                vertxMessage.<T1>replyAndRequest(genericToVertxObject(msg), ar -> replyHandler.handle(vertxToGenericMessageAsyncResult(ar, false)));
             }
 
             @Override

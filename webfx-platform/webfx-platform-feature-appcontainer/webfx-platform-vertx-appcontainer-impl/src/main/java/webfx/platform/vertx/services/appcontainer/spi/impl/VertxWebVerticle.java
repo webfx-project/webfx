@@ -10,7 +10,7 @@ import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.LoggerHandler;
 import io.vertx.ext.web.handler.StaticHandler;
-import io.vertx.ext.web.handler.sockjs.BridgeOptions;
+import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 
 import java.nio.file.Files;
@@ -26,14 +26,16 @@ final class VertxWebVerticle extends AbstractVerticle {
         // Http server
         createHttpServer(9090, null);
         // Https server (using Let's encrypt certificates)
-        if (Files.exists(Path.of("fullchain.pem")) && Files.exists(Path.of("privkey.pem")))
-            createHttpServer(9191, new PemKeyCertOptions().setCertPath("fullchain.pem").setKeyPath("privkey.pem"));
+        String certPath = "fullchain.pem";
+        String keyPath = "privkey.pem";
+        if (Files.exists(Path.of(certPath)) && Files.exists(Path.of(keyPath)))
+            createHttpServer(9191, new PemKeyCertOptions().setCertPath(certPath).setKeyPath(keyPath));
     }
 
     private void createHttpServer(int port, PemKeyCertOptions pemKeyCertOptions) {
         // Creating web server and its router
         HttpServerOptions httpServerOptions = new HttpServerOptions()
-                .setMaxWebsocketFrameSize(65536 * 100) // Increasing the frame size to allow big client request
+                .setMaxWebSocketFrameSize(65536 * 100) // Increasing the frame size to allow big client request
                 .setCompressionSupported(true) // enabling gzip and deflate compression
                 .setPort(port) // web port
                 .setSsl(pemKeyCertOptions != null)
@@ -48,7 +50,7 @@ final class VertxWebVerticle extends AbstractVerticle {
 
         // SockJS event bus bridge
         router.mountSubRouter("/eventbus", SockJSHandler.create(vertx)
-                .bridge(new BridgeOptions()
+                .bridge(new SockJSBridgeOptions()
                         .setPingTimeout(40_000) // Should be higher than client WebSocketBusOptions.pingInterval (which is set to 30_000 at the time of writing this code)
                         .addInboundPermitted(new PermittedOptions(new JsonObject()))
                         .addOutboundPermitted(new PermittedOptions(new JsonObject()))
@@ -72,6 +74,6 @@ final class VertxWebVerticle extends AbstractVerticle {
         router.route("/*").handler(StaticHandler.create()); // Default one day MAX_AGE is ok except for root index page (how to fix that?)
 
         // Binding the web port
-        server.requestHandler(router::accept).listen();
+        server.requestHandler(router).listen();
     }
 }
