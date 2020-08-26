@@ -193,7 +193,8 @@ public class ReactiveCall<A,R> {
         scheduleFireCallNowIfRequired();
     }
 
-    protected void fireCallWhenReady() {
+    // Should be protected but causes a Java compiler error with OpenJDK-14.0.1 so leave it public for now)
+    public void fireCallWhenReady() {
         fireCallWhenReadyRequested = true;
         scheduleFireCallNowIfRequired();
     }
