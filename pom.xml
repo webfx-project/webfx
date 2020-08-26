@@ -62,7 +62,7 @@
 
         <!-- Third-party plugins versions -->
         <plugin.javacup.version>11b-20160615</plugin.javacup.version>
-        <plugin.jflex.version>1.7.0</plugin.jflex.version>
+        <plugin.jflex.version>1.8.2</plugin.jflex.version>
         <plugin.proguard.version>2.0.14</plugin.proguard.version>
         <plugin.gwt.version>1.0.0</plugin.gwt.version>
 
