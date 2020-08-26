@@ -46,7 +46,7 @@
         <lib.elemental2.groupId>com.google.elemental2</lib.elemental2.groupId>
         <lib.elemental2.version>1.0.0</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
-        <lib.vertx.version>3.8.5</lib.vertx.version>
+        <lib.vertx.version>3.9.0</lib.vertx.version>
         <lib.javawebsocket.version>1.5.1</lib.javawebsocket.version>
 
         <lib.javafxsvg.version>1.3.0</lib.javafxsvg.version>
