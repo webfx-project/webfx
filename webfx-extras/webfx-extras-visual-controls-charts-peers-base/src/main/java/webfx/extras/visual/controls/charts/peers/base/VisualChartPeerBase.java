@@ -1,11 +1,10 @@
 package webfx.extras.visual.controls.charts.peers.base;
 
-import webfx.extras.visual.controls.charts.VisualChart;
-import webfx.extras.visual.controls.peers.base.SelectableVisualResultControlPeerBase;
+import webfx.extras.type.Type;
 import webfx.extras.visual.VisualColumn;
 import webfx.extras.visual.VisualResult;
-import webfx.extras.type.PrimType;
-import webfx.extras.type.Type;
+import webfx.extras.visual.controls.charts.VisualChart;
+import webfx.extras.visual.controls.peers.base.SelectableVisualResultControlPeerBase;
 import webfx.platform.shared.util.Strings;
 
 /**
@@ -48,7 +47,7 @@ public abstract class VisualChartPeerBase
                 columnCount = 2;
             int seriesCount = rowCount;
             int pointPerSeriesCount = columnCount - 1;
-            Type xType = hasXAxis ? PrimType.fromObject(columns[1].getName()) : null;
+            Type xType = hasXAxis ? columns[1].getType() : null;
             Type yType = columns[pointPerSeriesCount].getType();
             mixin.createChartData(xType, yType, pointPerSeriesCount, seriesCount, seriesIndex -> Strings.toString(rs.getValue(seriesIndex, 0)));
             for (int pointIndex = 0; pointIndex < pointPerSeriesCount; pointIndex++) {

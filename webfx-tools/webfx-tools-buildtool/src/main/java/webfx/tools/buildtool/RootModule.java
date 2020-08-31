@@ -62,7 +62,10 @@ public final class RootModule extends ProjectModule {
         registerJavaPackageModule(createThirdPartyModule("elemental2-dom"), "elemental2.dom");
         registerJavaPackageModule(createThirdPartyModule("elemental2-svg"), "elemental2.svg");
 
-        // GWT charts
+        // GWT Charba charts
+        registerJavaPackageModule(createThirdPartyModule("charba"), "org.pepstock.charba.client", "org.pepstock.charba.client.configuration", "org.pepstock.charba.client.data", "org.pepstock.charba.client.enums", "org.pepstock.charba.client.resources");
+
+        // GWT Google charts
         registerJavaPackageModule(createThirdPartyModule("gwt-charts"), "com.googlecode.gwt.charts.client", "com.googlecode.gwt.charts.client.corechart");
 
         // Vert.x

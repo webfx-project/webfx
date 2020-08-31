@@ -79,8 +79,10 @@
     <source path="webfx/kit/mapper/peers/javafxgraphics/emul_coupling/base"/>
     <source path="webfx/kit/mapper/spi"/>
     <source path="webfx/kit/mapper/spi/base"/>
+    <!--=====================================< charba >=====================================-->
+    <!-- used by webfx-extras-visual-controls-charts-peers-gwt-charba (SOURCE) -->
+    <inherits name="org.pepstock.charba.Charba"/>
     <!--=================================< elemental2-dom >=================================-->
-    <!-- used by webfx-extras-visual-controls-charts-peers-gwt (SOURCE) -->
     <!-- used by webfx-extras-visual-controls-grid-peers-gwt (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-gwt-shutdown-impl (SOURCE) -->
@@ -88,9 +90,6 @@
     <!--=================================< elemental2-svg >=================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <inherits name="elemental2.svg.Svg"/>
-    <!--===================================< gwt-charts >===================================-->
-    <!-- used by webfx-extras-visual-controls-charts-peers-gwt (SOURCE) -->
-    <inherits name="com.googlecode.gwt.charts.Charts"/>
     <!--====================================< gwt-user >====================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-gwt-appcontainer-impl (SOURCE) -->
@@ -469,14 +468,14 @@
     <source path="webfx/extras/visual/controls"/>
     <!--======================< webfx-extras-visual-controls-charts >=======================-->
     <!-- used by mongoose-backend-masterslave (SOURCE) -->
-    <!-- used by webfx-extras-visual-controls-charts-peers-gwt (SOURCE) -->
+    <!-- used by webfx-extras-visual-controls-charts-peers-gwt-charba (SOURCE) -->
     <source path="webfx/extras/visual/controls/charts"/>
     <!--=================< webfx-extras-visual-controls-charts-peers-base >=================-->
-    <!-- used by webfx-extras-visual-controls-charts-peers-gwt (SOURCE) -->
+    <!-- used by webfx-extras-visual-controls-charts-peers-gwt-charba (SOURCE) -->
     <source path="webfx/extras/visual/controls/charts/peers/base"/>
-    <!--=================< webfx-extras-visual-controls-charts-peers-gwt >==================-->
+    <!--==============< webfx-extras-visual-controls-charts-peers-gwt-charba >==============-->
     <!-- used by mongoose-backend-application-gwt (IMPLICIT_PROVIDER) -->
-    <source path="webfx/extras/visual/controls/charts/peers/gwt/html"/>
+    <source path="webfx/extras/visual/controls/charts/peers/gwt/charba"/>
     <source path="webfx/extras/visual/controls/charts/registry"/>
     <!--=======================< webfx-extras-visual-controls-grid >========================-->
     <!-- used by webfx-extras-visual-controls-grid-peers-gwt (SOURCE) -->
@@ -745,7 +744,7 @@
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <source path="webfx/kit/mapper/peers/javafxgraphics/base"/>
     <!--=======================< webfx-kit-javafxgraphics-peers-gwt >=======================-->
-    <!-- used by webfx-extras-visual-controls-charts-peers-gwt (SOURCE) -->
+    <!-- used by webfx-extras-visual-controls-charts-peers-gwt-charba (SOURCE) -->
     <!-- used by webfx-extras-visual-controls-grid-peers-gwt (SOURCE) -->
     <!-- used by webfx-extras-webtext-controls-peers-gwt (SOURCE) -->
     <!-- used by webfx-kit-gwt (SOURCE) -->

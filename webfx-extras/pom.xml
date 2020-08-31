@@ -30,7 +30,7 @@
         <module>webfx-extras-visual-controls-grid-registry</module>
 
         <module>webfx-extras-visual-controls-charts-peers-base</module>
-        <module>webfx-extras-visual-controls-charts-peers-gwt</module>
+        <module>webfx-extras-visual-controls-charts-peers-gwt-charba</module>
         <module>webfx-extras-visual-controls-charts-peers-javafx</module>
 
         <module>webfx-extras-visual-controls-charts-registry</module>

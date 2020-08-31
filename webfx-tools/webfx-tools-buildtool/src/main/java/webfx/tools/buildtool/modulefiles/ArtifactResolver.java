@@ -42,6 +42,8 @@ final class ArtifactResolver {
                     return null;
                 case "gwt-user":
                     return "gwt-dev";
+                case "gwt-time":
+                    return "org.jresearch.gwt.time";
             }
         }
         return moduleName;
@@ -54,7 +56,9 @@ final class ArtifactResolver {
             case "elemental2-dom":
             case "elemental2-svg":
                 return "${lib.elemental2.groupId}";
+            case "gwt-time": return "org.jresearch.gwt.time";
             case "gwt-charts": return "com.googlecode.gwt-charts";
+            case "charba": return "org.pepstock";
             case "Java-WebSocket": return "org.java-websocket";
             case "com-zaxxer-hikari": return "com.zaxxer";
             case "slf4j-api": return "org.slf4j";
@@ -83,6 +87,8 @@ final class ArtifactResolver {
                 return null; // Managed by root pom
             case "com-zaxxer-hikari": return "3.3.1";
             case "slf4j-api": return "1.7.15";
+            case "gwt-time": return "1.4.11";
+            case "charba": return "3.2-gwt";
         }
         if (moduleName.startsWith("javafx-") || !isForGwt && !isRegistry && RootModule.isJavaFxEmulModule(moduleName))
             return "${lib.openjfx.version}";
