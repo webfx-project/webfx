@@ -11,7 +11,7 @@ import webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
 public final class HtmlFonts {
 
     public static String getHtmlFontDefinition(Font font) {
-        return getHtmlFontStyle(font) + " " + getHtmlFontWeight(font) + " " + getHtmlFontSize(font) + " " + getHtmlFontFamily(font);
+        return font == null ? null : getHtmlFontStyle(font) + " " + getHtmlFontWeight(font) + " " + getHtmlFontSize(font) + " " + getHtmlFontFamily(font);
     }
 
     public static void setHtmlFontStyleAttributes(Font font, Element element) {

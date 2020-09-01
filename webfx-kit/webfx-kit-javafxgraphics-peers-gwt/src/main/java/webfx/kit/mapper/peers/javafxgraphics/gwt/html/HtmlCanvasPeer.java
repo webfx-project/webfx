@@ -2,7 +2,9 @@ package webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.WritableImage;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerMixin;
@@ -34,4 +36,8 @@ public final class HtmlCanvasPeer
         ((HTMLCanvasElement) getElement()).height = height.intValue();
     }
 
+    @Override
+    public WritableImage snapshot(SnapshotParameters params, WritableImage image) {
+        return new HtmlCanvasImage(this);
+    }
 }

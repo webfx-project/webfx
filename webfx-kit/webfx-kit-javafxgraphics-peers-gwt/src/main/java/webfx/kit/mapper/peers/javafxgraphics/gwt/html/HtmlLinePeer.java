@@ -3,6 +3,8 @@ package webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.HTMLElement;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeLineCap;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.kit.mapper.peers.javafxgraphics.base.LinePeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.base.LinePeerMixin;
@@ -45,6 +47,12 @@ public final class HtmlLinePeer
         updateElement();
     }
 
+    @Override
+    public void updateStrokeWidth(Double strokeWidth) {
+        super.updateStrokeWidth(strokeWidth);
+        updateElement();
+    }
+
     private void updateElement() {
         N n = getNode();
         Double startX = n.getStartX();
@@ -52,9 +60,20 @@ public final class HtmlLinePeer
         Double startY = n.getStartY();
         Double endY = n.getEndY();
         HTMLElement e = getElement();
-        e.style.left = toPx(Math.min(startX, endX));
-        e.style.top = toPx(Math.min(startY, endY));
+        e.style.left = toPx(Math.min(startX, endX) - n.getStrokeWidth() / 2);
+        e.style.top = toPx(Math.min(startY, endY)  - n.getStrokeWidth() / 2);
         e.style.width = CSSProperties.WidthUnionType.of(toPx(Math.abs(endX - startX)));
         e.style.height = CSSProperties.HeightUnionType.of(toPx(Math.abs(endY - startY)));
+    }
+
+    @Override
+    protected void updateStroke() {
+        super.updateStroke();
+        N shape = getNode();
+        String color = HtmlPaints.toHtmlCssPaint(shape.getStroke());
+        Double strokeWidth = shape.getStrokeWidth();
+        boolean hasStroke = color != null && strokeWidth > 0;
+        setElementStyleAttribute("border-width", hasStroke ? toPx(strokeWidth / 2) : null);
+        setElementStyleAttribute("border-radius", hasStroke && shape.getStrokeLineCap() == StrokeLineCap.ROUND ? toPx(strokeWidth / 2) : null);
     }
 }

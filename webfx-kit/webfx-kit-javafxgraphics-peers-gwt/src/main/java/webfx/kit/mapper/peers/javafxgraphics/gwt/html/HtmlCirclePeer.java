@@ -42,5 +42,7 @@ public final class HtmlCirclePeer
         style.width = CSSProperties.WidthUnionType.of(px);
         style.height = CSSProperties.HeightUnionType.of(px);
         style.borderRadius = CSSProperties.BorderRadiusUnionType.of(toPx(radius));
+        updateCenterX(getNode().getCenterX());
+        updateCenterY(getNode().getCenterY());
     }
 }

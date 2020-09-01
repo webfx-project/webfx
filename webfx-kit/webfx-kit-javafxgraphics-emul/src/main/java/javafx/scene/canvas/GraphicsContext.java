@@ -4,6 +4,7 @@ import javafx.geometry.VPos;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
@@ -1217,7 +1218,7 @@ public interface GraphicsContext {
      * @return the {@code PixelWriter} for modifying the pixels of this
      *         {@code Canvas}
      */
-    //PixelWriter getPixelWriter();
+    PixelWriter getPixelWriter();
 
     /**
      * Sets the effect to be applied after the next draw call, or null to

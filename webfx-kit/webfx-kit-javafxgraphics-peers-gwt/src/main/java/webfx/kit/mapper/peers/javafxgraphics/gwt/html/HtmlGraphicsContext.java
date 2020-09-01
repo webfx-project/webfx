@@ -6,8 +6,10 @@ import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.StrokeLineCap;
@@ -60,7 +62,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void rotate(double degrees) {
-        ctx.rotate(degrees);
+        ctx.rotate(degreesToRadiant(degrees));
     }
 
     @Override
@@ -213,15 +215,26 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return null;
     }
 
+    private VPos textBaseline;
     @Override
     public void setTextBaseline(VPos baseline) {
-        Logger.log("HtmlGraphicsContext.setTextBaseline() not implemented");
+        textBaseline = baseline;
+        ctx.setTextBaseline(toCssBaseLine(baseline));
+    }
+
+    private static String toCssBaseLine(VPos baseline) {
+        switch (baseline) {
+            case TOP: return "top";
+            case CENTER: return "middle";
+            case BASELINE: return "alphabetic";
+            case BOTTOM: return "bottom";
+        }
+        return null;
     }
 
     @Override
     public VPos getTextBaseline() {
-        Logger.log("HtmlGraphicsContext.getTextBaseline() not implemented");
-        return null;
+        return textBaseline;
     }
 
     @Override
@@ -276,7 +289,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void arc(double centerX, double centerY, double radiusX, double radiusY, double startAngle, double length) {
-        ctx.arc(centerX, centerY, radiusX, toRadiant(startAngle), toRadiant(startAngle + length));
+        ctx.arc(centerX, centerY, radiusX, - degreesToRadiant(startAngle), - degreesToRadiant(startAngle + length));
     }
 
     @Override
@@ -344,7 +357,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private void arc(double x, double y, double w, double h, double startAngle, double arcExtent, ArcType closure) {
-        ctx.arc(x + w / 2, y + h / 2, w / 2, toRadiant(startAngle), toRadiant(startAngle + arcExtent));
+        ctx.arc(x + w / 2, y + h / 2, w / 2, - degreesToRadiant(startAngle), - degreesToRadiant(startAngle + arcExtent));
     }
 
         @Override
@@ -382,7 +395,10 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void drawImage(Image img, double x, double y) {
-        Logger.log("HtmlGraphicsContext.drawImage() not implemented");
+        if (img instanceof HtmlCanvasImage)
+            ctx.drawImage((HTMLCanvasElement) ((HtmlCanvasImage) img).getHtmlCanvasPeer().getElement(), x, y);
+        else
+            Logger.log("HtmlGraphicsContext.drawImage() not implemented for img = " + img);
     }
 
     @Override
@@ -396,14 +412,30 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     @Override
+    public PixelWriter getPixelWriter() {
+        Logger.log("HtmlGraphicsContext.getPixelWriter() not implemented");
+        return null;
+    }
+
+    private Effect effect;
+    @Override
     public void setEffect(Effect e) {
-        Logger.log("HtmlGraphicsContext.setEffect() not implemented");
+        effect = e;
+        if (e instanceof DropShadow) {
+            DropShadow dropShadow = (DropShadow) e;
+            ctx.shadowBlur = dropShadow.getRadius();
+            ctx.shadowOffsetX = dropShadow.getOffsetX();
+            ctx.shadowOffsetY = dropShadow.getOffsetY();
+            ctx.shadowColor = HtmlPaints.toCssColor(dropShadow.getColor());
+        } else {
+            ctx.shadowBlur = 0;
+            Logger.log("HtmlGraphicsContext.setEffect() not implemented for effect = " + e);
+        }
     }
 
     @Override
     public Effect getEffect(Effect e) {
-        Logger.log("HtmlGraphicsContext.getEffect() not implemented");
-        return null;
+        return effect;
     }
 
     @Override
@@ -411,7 +443,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         Logger.log("HtmlGraphicsContext.applyEffect() not implemented");
     }
 
-    private double toRadiant(double degree) {
-        return (degree + 90) * Math.PI / 180;
+    private double degreesToRadiant(double degree) {
+        return degree * Math.PI / 180;
     }
 }

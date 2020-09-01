@@ -6,8 +6,10 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Transform;
@@ -105,4 +107,9 @@ public interface NodePeerMixin
     void updateOnDragExited(EventHandler<? super DragEvent> eventHandler);
 
     void updateOnDragDone(EventHandler<? super DragEvent> eventHandler);
+
+    @Override
+    default WritableImage snapshot(SnapshotParameters params, WritableImage image) {
+        return getNodePeerBase().snapshot(params, image);
+    }
 }

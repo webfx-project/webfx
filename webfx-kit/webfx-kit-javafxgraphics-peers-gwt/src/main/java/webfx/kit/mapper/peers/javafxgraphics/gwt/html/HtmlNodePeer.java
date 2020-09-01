@@ -7,10 +7,7 @@ import elemental2.dom.HTMLElement;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
@@ -69,6 +66,30 @@ public abstract class HtmlNodePeer
             }
         }
         return null;
+    }
+
+    @Override
+    public void updateEffect(Effect effect) {
+        String boxShadow = toBoxShadow(effect);
+        CSSStyleDeclaration style = getElement().style;
+        style.boxShadow = boxShadow;
+        super.updateEffect(boxShadow != null ? null : effect); // other effects managed by filter function
+    }
+
+    private String toBoxShadow(Effect effect) {
+        String boxShadow = null;
+        if (effect instanceof InnerShadow) {
+            InnerShadow innerShadow = (InnerShadow) effect;
+            boxShadow = innerShadow.getOffsetX() + "px " + innerShadow.getOffsetY() + "px " + innerShadow.getRadius() + "px " + innerShadow.getChoke() + "px " + HtmlPaints.toCssColor(innerShadow.getColor()) + " inset";
+            if (innerShadow.getInput() != null)
+                boxShadow = toBoxShadow(innerShadow.getInput()) + ", " + boxShadow;
+        } else if (effect instanceof DropShadow) {
+            DropShadow dropShadow = (DropShadow) effect;
+            boxShadow = dropShadow.getOffsetX() + "px " + dropShadow.getOffsetY() + "px " + dropShadow.getRadius() + "px " + HtmlPaints.toCssColor(dropShadow.getColor());
+            if (dropShadow.getInput() != null)
+                boxShadow = toBoxShadow(dropShadow.getInput()) + ", " + boxShadow;
+        }
+        return boxShadow;
     }
 
     @Override

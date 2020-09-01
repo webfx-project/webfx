@@ -13,6 +13,7 @@ public class DropShadow implements Effect {
     private double spread;
     private double offsetX;
     private double offsetY;
+    private Effect input;
 
     /**
      * Creates a new instance of DropShadow with default parameters.
@@ -114,5 +115,13 @@ public class DropShadow implements Effect {
 
     public void setOffsetY(double offsetY) {
         this.offsetY = offsetY;
+    }
+
+    public Effect getInput() {
+        return input;
+    }
+
+    public void setInput(Effect input) {
+        this.input = input;
     }
 }

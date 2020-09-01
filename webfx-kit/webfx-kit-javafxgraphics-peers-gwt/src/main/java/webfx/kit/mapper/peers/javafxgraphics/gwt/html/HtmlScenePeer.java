@@ -191,8 +191,11 @@ public final class HtmlScenePeer extends ScenePeerBase {
         Element element = document.elementFromPoint(sceneX, sceneY);
         NodePeer peer = HtmlSvgNodePeer.getPeerFromElementOrParents(element);
         // Checking that the we pick it from the right scene (in case there are several windows/scenes within the DOM)
-        if (peer != null && peer.getNode().getScene() != getScene())
-            peer = null;
+        if (peer != null) {
+            Node node = peer.getNode();
+            if (node == null || node.getScene() != getScene())
+                peer = null;
+        }
         return peer;
     }
 

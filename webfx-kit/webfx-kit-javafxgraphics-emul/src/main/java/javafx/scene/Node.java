@@ -16,12 +16,10 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.css.Styleable;
 import javafx.event.*;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
-import javafx.geometry.Orientation;
-import javafx.geometry.Point2D;
+import javafx.geometry.*;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.transform.Transform;
@@ -1203,9 +1201,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
             peerFocusRequested = true;
     }
 
-    private Property<Scene> scene = new SimpleObjectProperty<>();
+    private ObjectProperty<Scene> scene = new SimpleObjectProperty<>();
 
-    public Property<Scene> sceneProperty() {
+    public ObjectProperty<Scene> sceneProperty() {
         return scene;
     }
 
@@ -1902,6 +1900,28 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return getEventHandlerProperties().onMousePressedProperty();
     }
 
+    public final void setOnMouseReleased(
+            EventHandler<? super MouseEvent> value) {
+        onMouseReleasedProperty().set(value);
+    }
+
+    public final EventHandler<? super MouseEvent> getOnMouseReleased() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnMouseReleased();
+    }
+
+    /**
+     * Defines a function to be called when a mouse button
+     * has been released on this {@code Node}.
+     * @return the event handler that is called when a mouse button has been
+     * released on this {@code Node}
+     */
+    public final ObjectProperty<EventHandler<? super MouseEvent>>
+    onMouseReleasedProperty() {
+        return getEventHandlerProperties().onMouseReleasedProperty();
+    }
+
+
     public final void setOnMouseEntered(
             EventHandler<? super MouseEvent> value) {
         onMouseEnteredProperty().set(value);
@@ -2127,4 +2147,65 @@ public abstract class Node implements INode, EventTarget, Styleable {
                 + "that is not in scene");
     }
 
+    /**
+     * Takes a snapshot of this node and returns the rendered image when
+     * it is ready.
+     * CSS and layout processing will be done for the node, and any of its
+     * children, prior to rendering it.
+     * The entire destination image is cleared to the fill {@code Paint}
+     * specified by the SnapshotParameters. This node is then rendered to
+     * the image.
+     * If the viewport specified by the SnapshotParameters is null, the
+     * upper-left pixel of the {@code boundsInParent} of this
+     * node, after first applying the transform specified by the
+     * SnapshotParameters,
+     * is mapped to the upper-left pixel (0,0) in the image.
+     * If a non-null viewport is specified,
+     * the upper-left pixel of the viewport is mapped to upper-left pixel
+     * (0,0) in the image.
+     * In both cases, this mapping to (0,0) of the image is done with an integer
+     * translation. The portion of the node that is outside of the rendered
+     * image will be clipped by the image.
+     *
+     * <p>
+     * When taking a snapshot of a scene that is being animated, either
+     * explicitly by the application or implicitly (such as chart animation),
+     * the snapshot will be rendered based on the state of the scene graph at
+     * the moment the snapshot is taken and will not reflect any subsequent
+     * animation changes.
+     * </p>
+     *
+     * <p>
+     * NOTE: In order for CSS and layout to function correctly, the node
+     * must be part of a Scene (the Scene may be attached to a Stage, but need
+     * not be).
+     * </p>
+     *
+     * @param params the snapshot parameters containing attributes that
+     * will control the rendering. If the SnapshotParameters object is null,
+     * then the Scene's attributes will be used if this node is part of a scene,
+     * or default attributes will be used if this node is not part of a scene.
+     *
+     * @param image the writable image that will be used to hold the rendered node.
+     * It may be null in which case a new WritableImage will be constructed.
+     * The new image is constructed using integer width and
+     * height values that are derived either from the transformed bounds of this
+     * Node or from the size of the viewport as specified in the
+     * SnapShotParameters. These integer values are chosen such that the image
+     * will wholly contain the bounds of this Node or the specified viewport.
+     * If the image is non-null, the node will be rendered into the
+     * existing image.
+     * In this case, the width and height of the image determine the area
+     * that is rendered instead of the width and height of the bounds or
+     * viewport.
+     *
+     * @throws IllegalStateException if this method is called on a thread
+     *     other than the JavaFX Application Thread.
+     *
+     * @return the rendered image
+     * @since JavaFX 2.2
+     */
+    public WritableImage snapshot(SnapshotParameters params, WritableImage image) {
+        return getNodePeer().snapshot(params, image);
+    }
 }

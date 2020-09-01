@@ -1,6 +1,5 @@
 package javafx.scene.paint;
 
-import webfx.platform.shared.util.Numbers;
 import javafx.animation.Interpolatable;
 
 import java.util.HashMap;
@@ -1944,7 +1943,7 @@ public final class Color implements Paint, Interpolatable<Color> {
         int g = (int)Math.round(green * 255.0);
         int b = (int)Math.round(blue * 255.0);
         int o = (int)Math.round(opacity * 255.0);
-        return "0x" + Numbers.twoDigits(r) + 'x' + Numbers.twoDigits(g) + 'x' + Numbers.twoDigits(b) + 'x' + Numbers.twoDigits(o);
+        return "0x" + Integer.toHexString(r) + Integer.toHexString(g) + Integer.toHexString(b) + Integer.toHexString(o);
     }
 
     /***************************************************************************

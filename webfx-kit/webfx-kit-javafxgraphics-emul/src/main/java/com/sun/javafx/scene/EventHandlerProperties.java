@@ -139,7 +139,7 @@ public final class EventHandlerProperties {
                     MouseEvent.MOUSE_PRESSED);
         }
         return onMousePressed;
-    }/*
+    }
 
     private EventHandlerProperty<MouseEvent> onMouseReleased;
 
@@ -157,7 +157,7 @@ public final class EventHandlerProperties {
         }
         return onMouseReleased;
     }
-*/
+
     private EventHandlerProperty<MouseEvent> onDragDetected;
 
     public final EventHandler<? super MouseEvent> getOnDragDetected() {

@@ -91,7 +91,7 @@ public final class SvgScenePeer extends ScenePeerBase implements SvgRoot {
     @Override
     public NodePeer pickPeer(double sceneX, double sceneY) {
         Element element = DomGlobal.document.elementFromPoint(sceneX, sceneY);
-        return (NodePeer) HtmlUtil.getJsJavaObjectAttribute((JavaScriptObject) (Object) element, "peer");
+        return HtmlUtil.getJsJavaObjectAttribute((JavaScriptObject) (Object) element, "peer");
     }
 
     @Override

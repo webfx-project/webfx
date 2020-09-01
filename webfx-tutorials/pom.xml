@@ -19,6 +19,8 @@
         <module>webfx-tutorials-responsivedesign</module>
         <module>webfx-tutorials-customcontrol</module>
         <module>webfx-tutorials-css</module>
+        <module>webfx-tutorials-tallycounter</module>
+        <module>webfx-tutorials-gauge</module>
     </modules>
 
 </project>
