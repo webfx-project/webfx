@@ -195,9 +195,6 @@
         <!-- Setting the GWT plugin configuration parameters -->
         <plugin.gwt.param.module>webfx-tutorials-responsivedesign-application-gwt</plugin.gwt.param.module>
         <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>
-        <!-- Changing parameters to speed up compilation time while in development -->
-        <plugin.gwt.param.draftCompile>true</plugin.gwt.param.draftCompile>
-        <plugin.gwt.param.optimize>0</plugin.gwt.param.optimize>
         <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
         <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
     </properties>
