@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="javafx.application.Application">webfx.demos.clock.ClockApplication</provider>
+    </providers>
+
+</module>
