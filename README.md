@@ -7,7 +7,30 @@ For low level features such as json, timers, websockets, etc... WebFx provides s
 
 You will have 2 builds of your application. A pure JavaFx build that you will use for the development, testing and debugging in your preferred Java IDE. And a web build resulting from the compilation of your application code together with the WebFx code by GWT.
 
+
+# Live demos
+
+* [Colorful circles][webfx-colorfulcircles-demo-link]
+
+An Oracle demo when JavaFx was first launched (slightly modified to better fit in the browser window)
+
+* [Tally Counter][webfx-tallycounter-demo-link]
+
+A Tally counter using the JavaFx Odometer control (written by Hansolo)
+
+* [Clock][webfx-clock-demo-link]
+
+A clock custom control with different skins (written by Hansolo)
+
+* [Gauge][webfx-gauge-demo-link]
+
+A Gauge control with its Modern skin (written by Hansolo)
+
 [gwt-website]: http://www.gwtproject.org
 [webfx-kit-link]: https://github.com/webfx-project/webfx/blob/master/webfx-kit
 [webfx-framework-link]: https://github.com/webfx-project/webfx/blob/master/webfx-framework
 [webfx-platform-link]: https://github.com/webfx-project/webfx/blob/master/webfx-platform
+[webfx-colorfulcircles-demo-link]: https://webfx-project.github.io/webfx-demos-colorfulcircles-website/
+[webfx-tallycounter-demo-link]: https://webfx-project.github.io/webfx-demos-tallycounter-website/
+[webfx-clock-demo-link]: https://webfx-project.github.io/webfx-demos-clock-website/
+[webfx-gauge-demo-link]: https://webfx-project.github.io/webfx-demos-gauge-website/
