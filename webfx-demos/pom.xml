@@ -13,12 +13,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>webfx-demos-helloworld</module>
         <module>webfx-demos-colorfulcircles</module>
-        <module>webfx-demos-service</module>
-        <module>webfx-demos-responsivedesign</module>
         <module>webfx-demos-clock</module>
-        <module>webfx-demos-css</module>
         <module>webfx-demos-tallycounter</module>
         <module>webfx-demos-gauge</module>
     </modules>
