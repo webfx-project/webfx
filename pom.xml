@@ -20,9 +20,6 @@
         <module>webfx-framework</module>
         <module>webfx-tools</module>
 
-        <!-- Mongoose app (will move to another repo once webfx API will be stable) -->
-        <module>mongoose</module>
-
     </modules>
 
     <properties>
@@ -583,6 +580,7 @@
     </build>
 
     <profiles>
+
         <profile>
             <id>webfx-demos</id>
             <activation>
@@ -593,29 +591,40 @@
             </modules>
         </profile>
 
-<!--
         <profile>
-            <id>idea-build-fix</id>
+            <id>mongoose</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.google.gwt</groupId>
-                        <artifactId>gwt-user</artifactId>
-                        <version>${lib.gwt.version}</version>
-                        <exclusions>
-                            <exclusion>
-                                <groupId>javax.validation</groupId>
-                                <artifactId>validation-api</artifactId>
-                            </exclusion>
-                        </exclusions>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
+            <modules>
+                <!-- Mongoose app (will move to another repo once webfx API will be stable) -->
+                <module>mongoose</module>
+            </modules>
         </profile>
--->
+
+        <!--
+                        <profile>
+                            <id>idea-build-fix</id>
+                            <activation>
+                                <activeByDefault>false</activeByDefault>
+                            </activation>
+                            <dependencyManagement>
+                                <dependencies>
+                                    <dependency>
+                                        <groupId>com.google.gwt</groupId>
+                                        <artifactId>gwt-user</artifactId>
+                                        <version>${lib.gwt.version}</version>
+                                        <exclusions>
+                                            <exclusion>
+                                                <groupId>javax.validation</groupId>
+                                                <artifactId>validation-api</artifactId>
+                                            </exclusion>
+                                        </exclusions>
+                                    </dependency>
+                                </dependencies>
+                            </dependencyManagement>
+                        </profile>
+                -->
     </profiles>
 
 </project>
