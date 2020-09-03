@@ -584,12 +584,12 @@
 
     <profiles>
         <profile>
-            <id>webfx-tutorials</id>
+            <id>webfx-demos</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>webfx-tutorials</module>
+                <module>webfx-demos</module>
             </modules>
         </profile>
 

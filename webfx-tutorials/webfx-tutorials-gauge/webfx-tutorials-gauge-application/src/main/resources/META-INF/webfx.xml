@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="javafx.application.Application">webfx.tutorials.gauge.GaugeApplication</provider>
-    </providers>
-
-</module>

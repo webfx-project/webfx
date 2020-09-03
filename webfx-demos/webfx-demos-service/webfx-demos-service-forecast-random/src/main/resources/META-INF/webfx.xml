@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.demos.service.services.forecast.spi.ForecastServiceProvider">webfx.demos.service.services.forecast.spi.impl.random.RandomForecastServiceProvider</provider>
+    </providers>
+
+</module>
