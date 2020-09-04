@@ -8,7 +8,7 @@ For low level features such as json, timers, websockets, etc... WebFx provides s
 You will have 2 builds of your application. A pure JavaFx build that you will use for the development, testing and debugging in your preferred Java IDE. And a web build resulting from the compilation of your application code together with the WebFx code by GWT.
 
 
-# Live demos
+## Live demos
 
 * [Colorful circles][webfx-colorfulcircles-demo-link]
 
@@ -16,15 +16,15 @@ An Oracle demo when JavaFx was first launched (slightly modified to better fit i
 
 * [Tally Counter][webfx-tallycounter-demo-link]
 
-A Tally counter using the JavaFx Odometer control (written by Hansolo)
+A Tally counter using the [Odometer][hansolo-odometer-link] control
 
 * [Clock][webfx-clock-demo-link]
 
-A clock custom control with different skins (written by Hansolo)
+A Clock control with different skins (from [Medusa][hansolo-medusa-link] library)
 
 * [Gauge][webfx-gauge-demo-link]
 
-A Gauge control with its Modern skin (written by Hansolo)
+A Gauge control with the Modern skin (from [Medusa][hansolo-medusa-link] library)
 
 [gwt-website]: http://www.gwtproject.org
 [webfx-kit-link]: https://github.com/webfx-project/webfx/blob/master/webfx-kit
@@ -34,3 +34,5 @@ A Gauge control with its Modern skin (written by Hansolo)
 [webfx-tallycounter-demo-link]: https://webfx-project.github.io/webfx-demos-tallycounter-website/
 [webfx-clock-demo-link]: https://webfx-project.github.io/webfx-demos-clock-website/
 [webfx-gauge-demo-link]: https://webfx-project.github.io/webfx-demos-gauge-website/
+[hansolo-odometer-link]: https://github.com/HanSolo/odometer
+[hansolo-medusa-link]: https://github.com/HanSolo/Medusa
