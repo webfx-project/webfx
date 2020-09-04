@@ -57,7 +57,7 @@ public final class RootModule extends ProjectModule {
         registerJavaPackageModule(createThirdPartyModule("javafxsvg"), "de.codecentric.centerdevice.javafxsvg");
 
         // GWT
-        registerJavaPackageModule(createThirdPartyModule("gwt-user"), "com.google.gwt.user.client", "com.google.gwt.core.client", "com.google.gwt.resources.client", "com.google.gwt.regexp.shared", "com.google.gwt.storage.client");
+        registerJavaPackageModule(createThirdPartyModule("gwt-user"), "com.google.gwt.user.client", "com.google.gwt.core.client", "com.google.gwt.resources.client", "com.google.gwt.regexp.shared", "com.google.gwt.storage.client", "com.google.gwt.media.client");
         registerJavaPackageModule(createThirdPartyModule("jsinterop-annotations"), "jsinterop.annotations");
         registerJavaPackageModule(createThirdPartyModule("elemental2-dom"), "elemental2.dom");
         registerJavaPackageModule(createThirdPartyModule("elemental2-svg"), "elemental2.svg");

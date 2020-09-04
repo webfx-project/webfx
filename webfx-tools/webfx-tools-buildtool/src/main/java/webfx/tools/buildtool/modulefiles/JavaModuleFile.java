@@ -97,6 +97,8 @@ public class JavaModuleFile extends ModuleFile {
                 return "javafx.controls";
             case "webfx-kit-javafxgraphics-emul":
                 return "javafx.graphics";
+            case "webfx-kit-javafxmedia-emul":
+                return "javafx.media";
             default:
                 if (module instanceof ProjectModule) {
                     ProjectModule projectModule = (ProjectModule) module;

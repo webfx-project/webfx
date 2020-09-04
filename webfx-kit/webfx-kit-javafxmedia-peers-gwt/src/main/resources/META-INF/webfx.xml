@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider">webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtWebFxKitMediaMapperProvider</provider>
+    </providers>
+
+</module>

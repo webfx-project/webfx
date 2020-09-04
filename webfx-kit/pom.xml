@@ -30,9 +30,12 @@
         <module>webfx-kit-javafxcontrols-registry</module>
         <module>webfx-kit-javafxcontrols-registry-gwt</module>
 
+        <module>webfx-kit-javafxmedia-peers-gwt</module>
+
         <module>webfx-kit-javafxbase-emul</module>
         <module>webfx-kit-javafxgraphics-emul</module>
         <module>webfx-kit-javafxcontrols-emul</module>
+        <module>webfx-kit-javafxmedia-emul</module>
 
         <module>webfx-kit-javafx</module>
         <module>webfx-kit-gwt</module>
