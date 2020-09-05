@@ -23,6 +23,10 @@ public final class ResourceService {
         PROVIDER = provider;
     }
 
+    public static String toUrl(String resourcePath, Class<?> loadingClass) {
+        return getProvider().toUrl(resourcePath, loadingClass);
+    }
+
     public static Future<String> getText(String resourcePath) {
         return getProvider().getText(resourcePath);
     }

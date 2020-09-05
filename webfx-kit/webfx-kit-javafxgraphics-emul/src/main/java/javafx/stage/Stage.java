@@ -207,7 +207,7 @@ public class Stage extends Window implements HasTitleProperty {
         super.setScene(value);
          /* Webfx addition: if the stage is not resizable (ex: browser window), we actually resize the scene to the
          stage right now so the user code can read back the scene width and height final values (ex: in application start
-          method) before showing the stage. See ColorfulCircle tutorial as example. */
+          method) before showing the stage. See ColorfulCircles demo as example. */
         if (!WebFxKitLauncher.getProvider().isStageProgrammaticallyRelocatableAndResizable())
             resizeSceneToStage();
     }

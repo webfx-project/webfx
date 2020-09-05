@@ -22,9 +22,9 @@ import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerImpl;
 import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
+import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgNodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.*;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.collection.Collections;
@@ -193,11 +193,11 @@ public abstract class HtmlSvgNodePeer
 
     /*********** End of "Drag & drop support" section ************/
 
-    private boolean passOnToFx(javafx.event.Event fxEvent) {
-        return isFxEventConsumed(EventUtil.fireEvent(getNode(), fxEvent));
+    private static boolean passOnToFx(javafx.event.EventTarget eventTarget, javafx.event.Event fxEvent) {
+        return isFxEventConsumed(EventUtil.fireEvent(eventTarget, fxEvent));
     }
 
-    private boolean isFxEventConsumed(javafx.event.Event fxEvent) {
+    private static boolean isFxEventConsumed(javafx.event.Event fxEvent) {
         return fxEvent != null && fxEvent.isConsumed();
     }
 
@@ -218,14 +218,18 @@ public abstract class HtmlSvgNodePeer
     }
 
     private void installKeyboardListeners() {
-        registerKeyboardListener("keydown");
-        registerKeyboardListener("keyup");
-        registerKeyboardListener("keypress");
+        installKeyboardListeners(element, getNode());
     }
 
-    private void registerKeyboardListener(String type) {
-        element.addEventListener(type, e -> {
-            boolean fxConsumed = passHtmlKeyEventOnToFx((KeyboardEvent) e, type);
+    public static void installKeyboardListeners(EventTarget htmlTarget, javafx.event.EventTarget fxTarget) {
+        registerKeyboardListener(htmlTarget, "keydown", fxTarget);
+        registerKeyboardListener(htmlTarget, "keyup", fxTarget);
+        registerKeyboardListener(htmlTarget, "keypress", fxTarget);
+    }
+
+    private static void registerKeyboardListener(EventTarget htmlTarget, String type, javafx.event.EventTarget fxTarget) {
+        htmlTarget.addEventListener(type, e -> {
+            boolean fxConsumed = passHtmlKeyEventOnToFx((KeyboardEvent) e, type, fxTarget);
             if (fxConsumed) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -233,8 +237,8 @@ public abstract class HtmlSvgNodePeer
         });
     }
 
-    protected boolean passHtmlKeyEventOnToFx(KeyboardEvent e, String type) {
-        return passOnToFx(toFxKeyEvent(e, type));
+    protected static boolean passHtmlKeyEventOnToFx(KeyboardEvent e, String type, javafx.event.EventTarget fxTarget) {
+        return passOnToFx(fxTarget, toFxKeyEvent(e, type));
     }
 
     @Override
@@ -375,9 +379,9 @@ public abstract class HtmlSvgNodePeer
             eventType = KeyEvent.KEY_PRESSED;
         else
             switch (type) {
-                case "keydown": eventType = KeyEvent.KEY_TYPED; break;
+                case "keydown": eventType = KeyEvent.KEY_PRESSED; break;
                 case "keyup": eventType = KeyEvent.KEY_RELEASED; break;
-                default: eventType = KeyEvent.KEY_PRESSED;
+                default: eventType = KeyEvent.KEY_TYPED;
             }
         return new KeyEvent(eventType, e.char_, e.keyIdentifier, keyCode, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
     }
@@ -410,6 +414,7 @@ public abstract class HtmlSvgNodePeer
             case "ShiftRight" : return KeyCode.SHIFT; // 0x0036
             case "NumpadMultiply": return KeyCode.MULTIPLY; // 0x0037
             case "AltLeft": return KeyCode.ALT; // 0x0038
+            case " ":
             case "Space": return KeyCode.SPACE; // 0x0039
             case "CapsLock": return KeyCode.CAPS; // 0x003A
             // F1 (0x003B) to F10 (0x0044) -> default

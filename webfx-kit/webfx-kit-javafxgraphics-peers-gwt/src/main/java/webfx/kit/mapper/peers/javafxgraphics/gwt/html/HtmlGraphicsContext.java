@@ -1,7 +1,9 @@
 package webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
+import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLImageElement;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,8 +21,12 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Affine;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.services.log.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -40,14 +46,21 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return canvas;
     }
 
+    // Temporary workaround to fix a mysterious behavior : textAlign can be wipe out
+    private String textAlignToSave; // So we keep the value here again and apply it when saving the context
+
     @Override
     public void save() {
+        if (textAlignToSave != null)
+            ctx.textAlign = textAlignToSave;
+        setTextBaseline(textBaseline);
         ctx.save();
     }
 
     @Override
     public void restore() {
         ctx.restore();
+        textAlignToSave = null;
     }
 
     @Override
@@ -118,7 +131,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void setStroke(Paint p) {
         stroke = p; // Memorizing the value for getStroke()
-        ctx.strokeStyle =  CanvasRenderingContext2D.StrokeStyleUnionType.of(HtmlPaints.toHtmlCssPaint(stroke));
+        ctx.strokeStyle = CanvasRenderingContext2D.StrokeStyleUnionType.of(HtmlPaints.toHtmlCssPaint(stroke));
     }
 
     @Override
@@ -206,7 +219,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void setTextAlign(TextAlignment align) {
-        ctx.textAlign = HtmlNodePeer.toCssTextAlignment(align);
+        textAlignToSave = ctx.textAlign = HtmlNodePeer.toCssTextAlignment(align);
     }
 
     @Override
@@ -223,12 +236,13 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private static String toCssBaseLine(VPos baseline) {
-        switch (baseline) {
-            case TOP: return "top";
-            case CENTER: return "middle";
-            case BASELINE: return "alphabetic";
-            case BOTTOM: return "bottom";
-        }
+        if (baseline != null)
+            switch (baseline) {
+                case TOP: return "top";
+                case CENTER: return "middle";
+                case BASELINE: return "alphabetic";
+                case BOTTOM: return "bottom";
+            }
         return null;
     }
 
@@ -395,20 +409,74 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void drawImage(Image img, double x, double y) {
-        if (img instanceof HtmlCanvasImage)
-            ctx.drawImage((HTMLCanvasElement) ((HtmlCanvasImage) img).getHtmlCanvasPeer().getElement(), x, y);
-        else
-            Logger.log("HtmlGraphicsContext.drawImage() not implemented for img = " + img);
+        drawImage(img, x, y, Math.max(img.getWidth(), img.getRequestedWidth()), Math.max(img.getHeight(), img.getRequestedHeight()));
     }
 
     @Override
     public void drawImage(Image img, double x, double y, double w, double h) {
-        Logger.log("HtmlGraphicsContext.drawImage() not implemented");
+        if (img instanceof HtmlCanvasImage)
+            ctx.drawImage((HTMLCanvasElement) ((HtmlCanvasImage) img).getHtmlCanvasPeer().getElement(), x, y, w, h);
+        else if (img != null) {
+            HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
+            ctx.drawImage(imageElement, x, y, w, h);
+            if (!imageElement.complete) {
+                drawUnloadedImage(x, y, w, h, "#C0C0C0C0");
+                imageElement.onload = e -> {
+                    HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+                    return null;
+                };
+            } else
+                HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+
+        }
+    }
+
+    private void drawUnloadedImage(double x, double y, double w, double h, String strokeStyle) {
+        ctx.save();
+        ctx.beginPath();
+        double cx = x + w / 2;
+        double cy = y + h / 2;
+        double r = Math.min(w, h) / 2;
+        ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+        ctx.strokeStyle = BaseRenderingContext2D.StrokeStyleUnionType.of(strokeStyle);
+        ctx.stroke();
+        if (r > 20)
+            ctx.strokeRect(x + 5, cy - 5, w - 10, 10);
+        ctx.closePath();
+        ctx.restore();
+    }
+
+    private static final Map<String, HTMLImageElement> htmlImageElementMap = new HashMap<>();
+
+    private HTMLImageElement getHTMLImageElement(String url) {
+        HTMLImageElement imageElement = htmlImageElementMap.get(url);
+        if (imageElement == null) {
+            htmlImageElementMap.put(url, imageElement = HtmlUtil.createImageElement());
+            imageElement.src = url;
+        }
+        return imageElement;
     }
 
     @Override
     public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
-        Logger.log("HtmlGraphicsContext.drawImage() not implemented");
+        if (img instanceof HtmlCanvasImage)
+            ctx.drawImage((HTMLCanvasElement) ((HtmlCanvasImage) img).getHtmlCanvasPeer().getElement(), sx, sy, sw, sh, dx, dy, dw, dh);
+        else if (img != null) {
+            HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
+            // This scaleX/Y computation was necessary to make SpaceFX work
+            // (perhaps it's because this method behaves differently between html and JavaFx?)
+            double scaleX = imageElement.width / img.getWidth();
+            double scaleY = imageElement.height / img.getHeight();
+            ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);
+            if (!imageElement.complete) {
+                //drawUnloadedImage(dx, dy, dw, dh, "#C0C0C010");
+                imageElement.onload = e -> {
+                    HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+                    return null;
+                };
+            } else
+                HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+        }
     }
 
     @Override

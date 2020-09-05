@@ -9,6 +9,7 @@ import javafx.event.EventType;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
 
 public final class EventHandlerProperties {
     private final EventHandlerManager eventDispatcher;
@@ -106,7 +107,6 @@ public final class EventHandlerProperties {
         return onMouseExited;
     }
 
-/*
     private EventHandlerProperty<MouseEvent> onMouseMoved;
 
     public final EventHandler<? super MouseEvent> getOnMouseMoved() {
@@ -122,7 +122,7 @@ public final class EventHandlerProperties {
                     MouseEvent.MOUSE_MOVED);
         }
         return onMouseMoved;
-    }*/
+    }
 
     private EventHandlerProperty<MouseEvent> onMousePressed;
 
@@ -654,7 +654,6 @@ public final class EventHandlerProperties {
         }
     }
 
-/*
     private EventHandlerProperty<TouchEvent> onTouchPressed;
 
     public final EventHandler<? super TouchEvent> getOnTouchPressed() {
@@ -722,5 +721,4 @@ public final class EventHandlerProperties {
         }
         return onTouchStationary;
     }
-*/
 }

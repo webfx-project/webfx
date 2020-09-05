@@ -298,4 +298,42 @@ public class Image implements
     public DoubleProperty heightProperty() {
         return heightProperty;
     }
+
+    /**
+     * The approximate percentage of image's loading that
+     * has been completed. A positive value between 0 and 1 where 0 is 0% and 1
+     * is 100%.
+     *
+     * @defaultValue 0
+     */
+    private DoubleProperty progress;
+
+
+    /**
+     * This is package private *only* for the sake of testing. We need a way to feed fake progress
+     * values. It would be better if Image were refactored to be testable (for example, by allowing
+     * the test code to provide its own implementation of background loading), but this is a simpler
+     * and safer change for now.
+     *
+     * @param value should be 0-1.
+     */
+    public final void setProgress(double value) {
+        progressPropertyImpl().set(value);
+    }
+
+    public final double getProgress() {
+        return progress == null ? 0.0 : progress.get();
+    }
+
+    public final DoubleProperty progressProperty() {
+        return progressPropertyImpl();
+    }
+
+    private DoubleProperty progressPropertyImpl() {
+        if (progress == null) {
+            progress = new SimpleDoubleProperty(this, "progress");
+        }
+        return progress;
+    }
+
 }

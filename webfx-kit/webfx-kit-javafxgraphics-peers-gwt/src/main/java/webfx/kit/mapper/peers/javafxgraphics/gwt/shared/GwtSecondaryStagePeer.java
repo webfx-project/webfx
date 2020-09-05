@@ -11,7 +11,6 @@ import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.StagePeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlScenePeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import webfx.platform.shared.services.log.Logger;
 
 import static elemental2.dom.DomGlobal.document;
 
@@ -49,7 +48,7 @@ public final class GwtSecondaryStagePeer extends StagePeerBase {
 
     @Override
     public void setBounds(float x, float y, boolean xSet, boolean ySet, float w, float h, float cw, float ch, float xGravity, float yGravity) {
-        Logger.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
+        //Logger.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
         if (xSet)
             stageDivStyle.left = x + "px";
         if (ySet)

@@ -118,20 +118,22 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
 
     protected void executeAnimationPipe() {
         animationFrame.set(Boolean.TRUE);
-        long uiPassStart = nanoTime();
+//        long uiPassStart = nanoTime();
         executeAnimations(uiAnimations);
-        long propertiesPassStart = nanoTime();
+//        long propertiesPassStart = nanoTime();
         executeAnimations(propertiesAnimations);
-        long pulsePassStart = nanoTime();
+//        long pulsePassStart = nanoTime();
         executeAnimations(pulseAnimations);
-        long nanoEnd = nanoTime();
-        long animationDuration = nanoEnd - uiPassStart;
+//        long nanoEnd = nanoTime();
+//        long animationDuration = nanoEnd - uiPassStart;
         animationFrame.set(Boolean.FALSE);
+/*
         if (animationDuration > MAX_ANIMATION_FRAME_DURATION_NANO)
             log("Long animation: " + animationDuration / MILLIS_IN_NANO + "ms (60 FPS = 16ms) = "
                     + (propertiesPassStart - uiPassStart) / MILLIS_IN_NANO + "ms ui + " +
                     + (pulsePassStart - propertiesPassStart) / MILLIS_IN_NANO + "ms properties + "
                     + (nanoEnd - pulsePassStart) / MILLIS_IN_NANO  + "ms layout/pulse");
+*/
         boolean noMoreAnimationScheduled = propertiesAnimations.isEmpty() && uiAnimations.isEmpty() && pulseAnimations.isEmpty();
         onExecuteAnimationPipeFinished(noMoreAnimationScheduled);
         if (!noMoreAnimationScheduled)

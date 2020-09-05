@@ -63,18 +63,22 @@ public final class HtmlImageViewPeer
     }
 
     private void onLoad() {
-        N node = getNode();
-        Image image = node.getImage();
+        Image image = getNode().getImage();
         if (image != null) {
             HTMLElement element = getElement();
-            if (element instanceof HTMLImageElement) {
-                HTMLImageElement imageElement = (HTMLImageElement) element;
-                image.setWidth((double) imageElement.naturalWidth);
-                image.setHeight((double) imageElement.naturalHeight);
-            }
+            if (element instanceof HTMLImageElement)
+                onHTMLImageLoaded((HTMLImageElement) element, image);
         }
         if (sizeChangedCallback != null) // && loadedWidth == null && loadedHeight == null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
             sizeChangedCallback.run();
+    }
+
+    public static void onHTMLImageLoaded(HTMLImageElement imageElement, Image image) {
+        double requestedWidth = image.getRequestedWidth();
+        image.setWidth(requestedWidth > 0 ? requestedWidth : (double) imageElement.naturalWidth);
+        double requestedHeight = image.getRequestedHeight();
+        image.setHeight(requestedWidth > 0 ? requestedHeight : (double) imageElement.naturalHeight);
+        image.setProgress(1);
     }
 
     @Override

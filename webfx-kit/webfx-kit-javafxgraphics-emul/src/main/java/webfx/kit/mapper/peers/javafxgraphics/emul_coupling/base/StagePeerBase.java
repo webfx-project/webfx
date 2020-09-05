@@ -3,7 +3,6 @@ package webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base;
 import com.sun.javafx.tk.TKStageListener;
 import javafx.stage.Stage;
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.StagePeer;
-import webfx.platform.shared.services.log.Logger;
 
 /**
  * @author Bruno Salmon
@@ -28,7 +27,7 @@ public abstract class StagePeerBase extends WindowPeerBase implements StagePeer 
 
     @Override
     public void setBounds(float x, float y, boolean xSet, boolean ySet, float w, float h, float cw, float ch, float xGravity, float yGravity) {
-        Logger.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
+        //Logger.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
         changedWindowSize();
     }
 

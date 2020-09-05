@@ -15,10 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import javafx.event.Event;
-import javafx.event.EventDispatchChain;
-import javafx.event.EventDispatcher;
-import javafx.event.EventTarget;
+import javafx.event.*;
 import javafx.geometry.Orientation;
 import javafx.scene.input.*;
 import javafx.scene.layout.Background;
@@ -2647,6 +2644,151 @@ public class Scene implements EventTarget,
         NOT_YET,
         PROCESSING,
         DONE
+    }
+
+    /***************************************************************************
+     *                                                                         *
+     *                           Keyboard Handling                             *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Defines a function to be called when some {@code Node} of this
+     * {@code Scene} has input focus and a key has been pressed. The function
+     * is called only if the event hasn't been already consumed during its
+     * capturing or bubbling phase.
+     */
+    private ObjectProperty<EventHandler<? super KeyEvent>> onKeyPressed;
+
+    public final void setOnKeyPressed(EventHandler<? super KeyEvent> value) {
+        onKeyPressedProperty().set(value);
+    }
+
+    public final EventHandler<? super KeyEvent> getOnKeyPressed() {
+        return onKeyPressed == null ? null : onKeyPressed.get();
+    }
+
+    public final ObjectProperty<EventHandler<? super KeyEvent>> onKeyPressedProperty() {
+        if (onKeyPressed == null) {
+            onKeyPressed = new ObjectPropertyBase<EventHandler<? super KeyEvent>>() {
+
+                @Override
+                protected void invalidated() {
+                    setEventHandler(KeyEvent.KEY_PRESSED, get());
+                }
+
+                @Override
+                public Object getBean() {
+                    return Scene.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "onKeyPressed";
+                }
+            };
+        }
+        return onKeyPressed;
+    }
+
+    /**
+     * Defines a function to be called when some {@code Node} of this
+     * {@code Scene} has input focus and a key has been released. The function
+     * is called only if the event hasn't been already consumed during its
+     * capturing or bubbling phase.
+     */
+    private ObjectProperty<EventHandler<? super KeyEvent>> onKeyReleased;
+
+    public final void setOnKeyReleased(EventHandler<? super KeyEvent> value) {
+        onKeyReleasedProperty().set(value);
+    }
+
+    public final EventHandler<? super KeyEvent> getOnKeyReleased() {
+        return onKeyReleased == null ? null : onKeyReleased.get();
+    }
+
+    public final ObjectProperty<EventHandler<? super KeyEvent>> onKeyReleasedProperty() {
+        if (onKeyReleased == null) {
+            onKeyReleased = new ObjectPropertyBase<EventHandler<? super KeyEvent>>() {
+
+                @Override
+                protected void invalidated() {
+                    setEventHandler(KeyEvent.KEY_RELEASED, get());
+                }
+
+                @Override
+                public Object getBean() {
+                    return Scene.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "onKeyReleased";
+                }
+            };
+        }
+        return onKeyReleased;
+    }
+
+    /**
+     * Defines a function to be called when some {@code Node} of this
+     * {@code Scene} has input focus and a key has been typed. The function
+     * is called only if the event hasn't been already consumed during its
+     * capturing or bubbling phase.
+     */
+    private ObjectProperty<EventHandler<? super KeyEvent>> onKeyTyped;
+
+    public final void setOnKeyTyped(
+            EventHandler<? super KeyEvent> value) {
+        onKeyTypedProperty().set( value);
+
+    }
+
+    public final EventHandler<? super KeyEvent> getOnKeyTyped(
+    ) {
+        return onKeyTyped == null ? null : onKeyTyped.get();
+    }
+
+    public final ObjectProperty<EventHandler<? super KeyEvent>> onKeyTypedProperty(
+    ) {
+        if (onKeyTyped == null) {
+            onKeyTyped = new ObjectPropertyBase<EventHandler<? super KeyEvent>>() {
+
+                @Override
+                protected void invalidated() {
+                    setEventHandler(KeyEvent.KEY_TYPED, get());
+                }
+
+                @Override
+                public Object getBean() {
+                    return Scene.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "onKeyTyped";
+                }
+            };
+        }
+        return onKeyTyped;
+    }
+
+    /**
+     * Sets the handler to use for this event type. There can only be one such
+     * handler specified at a time. This handler is guaranteed to be called
+     * first. This is used for registering the user-defined onFoo event
+     * handlers.
+     *
+     * @param <T> the specific event class of the handler
+     * @param eventType the event type to associate with the given eventHandler
+     * @param eventHandler the handler to register, or null to unregister
+     * @throws NullPointerException if the event type is null
+     */
+    protected final <T extends Event> void setEventHandler(
+            final EventType<T> eventType,
+            final EventHandler<? super T> eventHandler) {
+        getInternalEventDispatcher().getEventHandlerManager()
+                .setEventHandler(eventType, eventHandler);
     }
 
 }

@@ -12,6 +12,11 @@ import java.util.Scanner;
 public final class JavaResourceServiceProvider implements ResourceServiceProvider {
 
     @Override
+    public String toUrl(String resourcePath, Class<?> loadingClass) {
+        return loadingClass.getResource(resourcePath).toExternalForm();
+    }
+
+    @Override
     public Future<String> getText(String resourcePath) {
         try (Scanner scanner = createScanner(getClass().getClassLoader().getResourceAsStream(resourcePath))) {
             return Future.succeededFuture(scanner == null ? null : scanner.useDelimiter("\\A").next());

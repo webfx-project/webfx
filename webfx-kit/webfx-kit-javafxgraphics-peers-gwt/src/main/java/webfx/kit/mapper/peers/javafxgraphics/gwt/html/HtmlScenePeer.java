@@ -1,22 +1,19 @@
 package webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import elemental2.dom.CSSStyleDeclaration;
-import elemental2.dom.Element;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.MouseEvent;
+import elemental2.dom.*;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.text.TextFlow;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.FxEvents;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.kit.util.properties.Properties;
 import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
@@ -42,6 +39,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(),   scene.fillProperty());
         installMouseListeners();
         installStylesheetsListener(scene);
+        HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
     }
 
     private void installMouseListeners() {

@@ -2208,4 +2208,94 @@ public abstract class Node implements INode, EventTarget, Styleable {
     public WritableImage snapshot(SnapshotParameters params, WritableImage image) {
         return getNodePeer().snapshot(params, image);
     }
+
+    /* *************************************************************************
+     *                                                                         *
+     *                             Touch Handling                              *
+     *                                                                         *
+     **************************************************************************/
+
+    public final void setOnTouchPressed(
+            EventHandler<? super TouchEvent> value) {
+        onTouchPressedProperty().set(value);
+    }
+
+    public final EventHandler<? super TouchEvent> getOnTouchPressed() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnTouchPressed();
+    }
+
+    /**
+     * Defines a function to be called when a new touch point is pressed.
+     * @return the event handler that is called when a new touch point is pressed
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super TouchEvent>>
+    onTouchPressedProperty() {
+        return getEventHandlerProperties().onTouchPressedProperty();
+    }
+
+    public final void setOnTouchMoved(
+            EventHandler<? super TouchEvent> value) {
+        onTouchMovedProperty().set(value);
+    }
+
+    public final EventHandler<? super TouchEvent> getOnTouchMoved() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnTouchMoved();
+    }
+
+    /**
+     * Defines a function to be called when a touch point is moved.
+     * @return the event handler that is called when a touch point is moved
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super TouchEvent>>
+    onTouchMovedProperty() {
+        return getEventHandlerProperties().onTouchMovedProperty();
+    }
+
+    public final void setOnTouchReleased(
+            EventHandler<? super TouchEvent> value) {
+        onTouchReleasedProperty().set(value);
+    }
+
+    public final EventHandler<? super TouchEvent> getOnTouchReleased() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnTouchReleased();
+    }
+
+    /**
+     * Defines a function to be called when a touch point is released.
+     * @return the event handler that is called when a touch point is released
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super TouchEvent>>
+    onTouchReleasedProperty() {
+        return getEventHandlerProperties().onTouchReleasedProperty();
+    }
+
+    public final void setOnTouchStationary(
+            EventHandler<? super TouchEvent> value) {
+        onTouchStationaryProperty().set(value);
+    }
+
+    public final EventHandler<? super TouchEvent> getOnTouchStationary() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnTouchStationary();
+    }
+
+    /**
+     * Defines a function to be called when a touch point stays pressed and
+     * still.
+     * @return the event handler that is called when a touch point stays pressed
+     * and still
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super TouchEvent>>
+    onTouchStationaryProperty() {
+        return getEventHandlerProperties().onTouchStationaryProperty();
+    }
+
+
 }

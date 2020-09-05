@@ -12,10 +12,17 @@ import java.util.List;
  */
 public final class GwtResourceServiceProvider implements ResourceServiceProvider {
 
-    private List<GwtResourceBundle> bundles = new ArrayList<>();
+    private final List<GwtResourceBundle> bundles = new ArrayList<>();
 
     public void register(GwtResourceBundle bundle) {
         bundles.add(bundle);
+    }
+
+    @Override
+    public String toUrl(String resourcePath, Class<?> loadingClass) {
+        if (resourcePath != null && resourcePath.startsWith("/"))
+            resourcePath = resourcePath.substring(1);
+        return resourcePath;
     }
 
     @Override

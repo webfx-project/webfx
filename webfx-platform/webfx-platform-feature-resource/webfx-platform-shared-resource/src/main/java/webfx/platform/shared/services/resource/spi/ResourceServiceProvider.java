@@ -7,6 +7,8 @@ import webfx.platform.shared.util.async.Future;
  */
 public interface ResourceServiceProvider {
 
+    String toUrl(String resourcePath, Class<?> loadingClass);
+
     Future<String> getText(String resourcePath);
 
 }

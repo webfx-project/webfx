@@ -134,23 +134,23 @@ public abstract class HtmlRegionPeer
         CornerRadii radii = firstFill == null ? null : firstFill.getRadii();
         if (radii == null)
             style.border = null;
-        else
-            applyBorderRadii(radii);
+        applyBorderRadii(radii);
     }
 
     @Override
     public void updateBorder(Border border) {
         BorderStroke firstStroke = border == null ? null : Collections.get(border.getStrokes(), 0);
+        CSSStyleDeclaration style = getElement().style;
         if (firstStroke != null) {
-            CSSStyleDeclaration style = getElement().style;
             BorderWidths widths = firstStroke.getWidths();
             style.borderLeft = toCssBorder(firstStroke.getLeftStroke(), firstStroke.getLeftStyle(), widths.getLeft(), widths.isLeftAsPercentage());
             style.borderTop = toCssBorder(firstStroke.getTopStroke(), firstStroke.getTopStyle(), widths.getTop(), widths.isTopAsPercentage());
             style.borderRight = toCssBorder(firstStroke.getRightStroke(), firstStroke.getRightStyle(), widths.getRight(), widths.isRightAsPercentage());
             style.borderBottom = toCssBorder(firstStroke.getBottomStroke(), firstStroke.getBottomStyle(), widths.getBottom(), widths.isBottomAsPercentage());
-            CornerRadii radii = firstStroke.getRadii();
-            if (radii != null)
-                applyBorderRadii(radii);
+            applyBorderRadii(firstStroke.getRadii());
+        } else {
+            style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
+            applyBorderRadii(null);
         }
     }
 
@@ -170,10 +170,13 @@ public abstract class HtmlRegionPeer
 
     private void applyBorderRadii(CornerRadii radii) {
         CSSStyleDeclaration style = getElement().style;
-        style.borderTopLeftRadius = CSSProperties.BorderTopLeftRadiusUnionType.of(toPx(Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius())));
-        style.borderTopRightRadius = CSSProperties.BorderTopRightRadiusUnionType.of(toPx(Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius())));
-        style.borderBottomRightRadius = CSSProperties.BorderBottomRightRadiusUnionType.of(toPx(Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius())));
-        style.borderBottomLeftRadius = CSSProperties.BorderBottomLeftRadiusUnionType.of(toPx(Math.max(radii.getBottomLeftHorizontalRadius(), radii.getBottomLeftVerticalRadius())));
+        if (radii != null) {
+            style.borderTopLeftRadius = CSSProperties.BorderTopLeftRadiusUnionType.of(toPx(Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius())));
+            style.borderTopRightRadius = CSSProperties.BorderTopRightRadiusUnionType.of(toPx(Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius())));
+            style.borderBottomRightRadius = CSSProperties.BorderBottomRightRadiusUnionType.of(toPx(Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius())));
+            style.borderBottomLeftRadius = CSSProperties.BorderBottomLeftRadiusUnionType.of(toPx(Math.max(radii.getBottomLeftHorizontalRadius(), radii.getBottomLeftVerticalRadius())));
+        } else
+            style.borderRadius = null;
     }
 
     private static String toCssBorder(Paint stroke, BorderStrokeStyle style, double width, boolean isPercentage) {
