@@ -1,0 +1,11 @@
+<module>
+
+    <providers>
+        <provider spi="javafx.application.Application">eu.hansolo.spacefx.SpaceFX</provider>
+    </providers>
+
+    <resource-packages>
+        <package>eu.hansolo.spacefx</package>
+    </resource-packages>
+
+</module>

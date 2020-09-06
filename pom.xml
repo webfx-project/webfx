@@ -38,7 +38,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- libraries versions -->
-        <lib.openjfx.version>14.0.1</lib.openjfx.version>
+        <lib.openjfx.version>15</lib.openjfx.version>
         <lib.gwt.version>2.9.0</lib.gwt.version> <!-- can be switched to HEAD-SNAPSHOT on development machines to test the latest GWT version -->
         <lib.elemental2.groupId>com.google.elemental2</lib.elemental2.groupId>
         <lib.elemental2.version>1.0.0</lib.elemental2.version>

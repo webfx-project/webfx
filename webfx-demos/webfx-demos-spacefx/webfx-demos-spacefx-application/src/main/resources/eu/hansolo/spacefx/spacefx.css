@@ -1,0 +1,57 @@
+@font-face {
+    font-family: "Spaceboy";
+    src : url("spaceboy.ttf");
+}
+
+/* For JavaFX */
+
+.label {
+    -fx-text-fill  : rgb(51, 210, 206);
+    -fx-font-family: "Spaceboy";
+    -fx-font-size  : 2.5em;
+    -fx-alignment  : center;
+}
+
+.button {
+    -fx-alignment          : center;
+    -fx-font-family        : "Spaceboy";
+    -fx-font-size          : 2em;
+    -fx-text-fill          : rgb(51, 210, 206);
+    -fx-background-color   : transparent;
+    -fx-faint-focus-color  : transparent;
+    -fx-background-insets  : 0;
+    -fx-background-radius  : 0;
+    -fx-highlight-fill     : transparent;
+    -fx-padding            : 0 0 0.5em 0;
+    -fx-border-color       : rgb(51, 210, 206);
+    -fx-border-width       : 0.08333333em;
+    -fx-border-radius      : 1em;
+}
+
+/* For Browser */
+
+.label {
+    color  : rgb(51, 210, 206);
+    font-family: "Spaceboy";
+    font-size  : 1.8em;
+    alignment  : center;
+}
+
+button + span span.text {
+    alignment          : center;
+    font-family        : "Spaceboy";
+    font-size          : 1.5em;
+    color              : rgb(51, 210, 206);
+}
+
+button {
+    background-color   : transparent;
+    faint-focus-color  : transparent;
+    background-insets  : 0;
+    background-radius  : 0;
+    highlight-fill     : transparent;
+    padding            : 0 0 0.5em 0;
+    border-color       : rgb(51, 210, 206);
+    border-width       : 0.08333333em;
+    border-radius      : 1em;
+}

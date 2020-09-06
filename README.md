@@ -26,6 +26,10 @@ A Clock control with different skins (from [Medusa][hansolo-medusa-link] library
 
 A Gauge control with the Modern skin (from [Medusa][hansolo-medusa-link] library)
 
+* [SpaceFX][webfx-spacefx-demo-link]
+
+A web version of this [game][hansolo-spacefx-link] written in JavaFx and transpiled by WebFx
+
 [gwt-website]: http://www.gwtproject.org
 [webfx-kit-link]: https://github.com/webfx-project/webfx/blob/master/webfx-kit
 [webfx-framework-link]: https://github.com/webfx-project/webfx/blob/master/webfx-framework
@@ -34,5 +38,7 @@ A Gauge control with the Modern skin (from [Medusa][hansolo-medusa-link] library
 [webfx-tallycounter-demo-link]: https://webfx-project.github.io/webfx-demos-tallycounter-website/
 [webfx-clock-demo-link]: https://webfx-project.github.io/webfx-demos-clock-website/
 [webfx-gauge-demo-link]: https://webfx-project.github.io/webfx-demos-gauge-website/
+[webfx-spacefx-demo-link]: https://webfx-project.github.io/webfx-demos-spacefx-website/
 [hansolo-odometer-link]: https://github.com/HanSolo/odometer
 [hansolo-medusa-link]: https://github.com/HanSolo/Medusa
+[hansolo-spacefx-link]: https://github.com/HanSolo/SpaceFX

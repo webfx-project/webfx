@@ -17,6 +17,7 @@
         <module>webfx-demos-clock</module>
         <module>webfx-demos-tallycounter</module>
         <module>webfx-demos-gauge</module>
+        <module>webfx-demos-spacefx</module>
     </modules>
 
 </project>
