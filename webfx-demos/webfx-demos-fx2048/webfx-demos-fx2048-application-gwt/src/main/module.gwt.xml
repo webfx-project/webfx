@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><module rename-to="webfx_demos_tallycounter_application_gwt">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module rename-to="webfx_demos_fx2048_application_gwt">
 
     <!-- Configuring logging (must be in first position) -->
     <inherits name="com.google.gwt.logging.Logging"/>
@@ -8,8 +8,8 @@
 
     <!-- Listing transitive dependencies modules -->
     <!--===========================< webfx-kit-javafxbase-emul >============================-->
+    <!-- used by webfx-kit-javafxcontrols-emul (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
-    <!-- used by webfx-demos-tallycounter-application (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <source path="com/sun/javafx"/>
     <source path="com/sun/javafx/binding"/>
@@ -23,8 +23,19 @@
     <source path="javafx/collections/transformation"/>
     <source path="javafx/event"/>
     <source path="javafx/util"/>
+    <!--=========================< webfx-kit-javafxcontrols-emul >==========================-->
+    <!-- used by webfx-demos-fx2048-application (SOURCE) -->
+    <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
+    <source path="com/sun/javafx/scene/control"/>
+    <source path="com/sun/javafx/scene/control/behavior"/>
+    <source path="com/sun/javafx/scene/control/skin"/>
+    <source path="javafx/scene/control"/>
+    <source path="javafx/scene/control/skin"/>
+    <resource path="images/checkbox"/>
+    <public includes="images/checkbox/" path=""/>
     <!--=========================< webfx-kit-javafxgraphics-emul >==========================-->
-    <!-- used by webfx-demos-tallycounter-application (SOURCE) -->
+    <!-- used by webfx-kit-javafxcontrols-emul (SOURCE) -->
+    <!-- used by webfx-demos-fx2048-application (SOURCE) -->
     <!-- used by webfx-kit-gwt (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <source path="com/sun/javafx/application"/>
@@ -85,16 +96,25 @@
     <inherits name="com.google.gwt.logging.Logging"/>
     <!--==================================< javafx-base >===================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-base (SOURCE) -->
-    <!--======================< webfx-demos-tallycounter-application >======================-->
-    <!-- used by webfx-demos-tallycounter-application-gwt (APPLICATION) -->
-    <source path="eu/hansolo/fx/odometer"/>
-    <source path="eu/hansolo/fx/odometer/event"/>
-    <source path="webfx/demos/tallycounter"/>
+    <!--=========================< webfx-demos-fx2048-application >=========================-->
+    <!-- used by webfx-demos-fx2048-application-gwt (APPLICATION) -->
+    <source path="io/fxgame/game2048"/>
+    <resource path="io/fxgame/game2048"/>
+    <public includes="io/fxgame/game2048/" path=""/>
     <!--=================================< webfx-kit-gwt >==================================-->
-    <!-- used by webfx-demos-tallycounter-application-gwt (IMPLICIT_PROVIDER) -->
-    <!-- used by webfx-demos-tallycounter-application-gwt (EMULATION) -->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-demos-fx2048-application-gwt (EMULATION) -->
     <source path="webfx/kit/launcher/spi/gwt"/>
     <source path="webfx/kit/mapper/spi/gwt"/>
+    <!--======================< webfx-kit-javafxcontrols-peers-base >=======================-->
+    <!-- used by webfx-kit-javafxcontrols-peers-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxcontrols/base"/>
+    <!--=======================< webfx-kit-javafxcontrols-peers-gwt >=======================-->
+    <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
+    <source path="webfx/kit/mapper/peers/javafxcontrols/gwt/html"/>
+    <!--=====================< webfx-kit-javafxcontrols-registry-gwt >======================-->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
+    <source path="webfx/kit/registry/javafxcontrols"/>
     <!--=========================< webfx-kit-javafxgraphics-peers >=========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-registry-gwt (SOURCE) -->
@@ -105,6 +125,7 @@
     <source path="webfx/kit/mapper/peers/javafxgraphics/base"/>
     <!--=======================< webfx-kit-javafxgraphics-peers-gwt >=======================-->
     <!-- used by webfx-kit-gwt (SOURCE) -->
+    <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-registry-gwt (SOURCE) -->
     <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/html"/>
     <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/html/layoutmeasurable"/>
@@ -112,7 +133,7 @@
     <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/svg"/>
     <source path="webfx/kit/mapper/peers/javafxgraphics/gwt/util"/>
     <!--=====================< webfx-kit-javafxgraphics-registry-gwt >======================-->
-    <!-- used by webfx-demos-tallycounter-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/kit/registry/javafxgraphics"/>
     <!--===============================< webfx-kit-launcher >===============================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
@@ -130,19 +151,19 @@
     <source path="webfx/platform/client/services/uischeduler/spi"/>
     <source path="webfx/platform/client/services/uischeduler/spi/impl"/>
     <!--======================< webfx-platform-gwt-appcontainer-impl >======================-->
-    <!-- used by webfx-demos-tallycounter-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/appcontainer/spi/impl"/>
     <!--==========================< webfx-platform-gwt-log-impl >===========================-->
-    <!-- used by webfx-demos-tallycounter-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/log/spi/impl"/>
     <!--========================< webfx-platform-gwt-resource-impl >========================-->
-    <!-- used by webfx-demos-tallycounter-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/resource/spi/impl"/>
     <!--========================< webfx-platform-gwt-shutdown-impl >========================-->
-    <!-- used by webfx-demos-tallycounter-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/shutdown/spi/impl"/>
     <!--======================< webfx-platform-gwt-uischeduler-impl >=======================-->
-    <!-- used by webfx-demos-tallycounter-application-gwt (IMPLICIT_PROVIDER) -->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/uischeduler/spi/impl"/>
     <!--=======================< webfx-platform-shared-appcontainer >=======================-->
     <!-- used by webfx-kit-launcher (SOURCE) -->

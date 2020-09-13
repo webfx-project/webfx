@@ -1,0 +1,344 @@
+.game-root {
+    -fx-background-color: #faf8ef; 
+}
+.game-vbox {
+    -fx-background-color: #bbada0;
+    -fx-padding: 5 15 5 15;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-titScore {
+    -fx-font-size: 13px;
+    -fx-text-fill: #eee4da;
+}
+.game-score {
+    -fx-font-size: 25px;
+    -fx-text-fill: white;
+}
+.game-points {
+    -fx-font-size: 25px;
+    -fx-text-fill: rgba(119, 110, 101, 0.9);
+}
+.game-time {
+    -fx-font-size: 14px;
+    -fx-text-fill: #bbada0;
+}
+.game-backGrid {
+    -fx-background-color: #bbada0;
+    -fx-border-color: #bbada0; 
+    -fx-border-width: 2; 
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}
+.game-grid {
+    -fx-background-color: #bbada0; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-grid-cell {
+    -fx-fill: #cdc1b4;
+    -fx-stroke-width: 14px;
+    -fx-stroke-type: centered;
+    -fx-stroke: #BBADA0;
+}
+
+.game-label {
+    -fx-font-smoothing-type: lcd;
+    -fx-smooth: true;
+    -fx-font-family: 'Clear Sans Bold';
+}
+
+.game-title {
+    -fx-font-size: 80px;
+    -fx-text-fill: #776e65;
+}
+.game-subtitle {
+    -fx-font-size: 40px;
+    -fx-text-fill: #f2b179; // f9f6f2
+    -fx-effect: dropshadow( three-pass-box, rgba(243, 215, 116, 1), 10, 0.5, 0, 0 );
+}
+
+.game-overlay {
+    -fx-font-size: 60px;
+    -fx-text-fill: #f9f6f2;
+    -fx-border-color: #f9f6f2; 
+    -fx-border-width: 2; 
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}
+
+.game-overlay-pause, .game-overlay-quit {
+    -fx-opacity: 0.9;
+    -fx-background-color: #f9f6f2;
+}
+.game-lblPause, .game-lblOver, .game-lblQuit {
+    -fx-font-size: 60px;
+    -fx-text-fill: #776e65;
+}
+.game-lblWarning {
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-text-fill: #f65e3b;
+}
+.game-lblAbout {
+    -fx-font-size: 50px;
+    -fx-fill: #776e65;
+}
+.game-lblAbout2 {
+    -fx-font-size: 25px;
+    -fx-fill: #f2b179;
+    -fx-effect: dropshadow( three-pass-box, rgba(243, 215, 116, 1), 10, 0.5, 0, 0 );
+    -fx-translate-y: -25;
+}
+.game-lblAboutSub {
+    -fx-font-size: 25px;
+    -fx-text-fill: #cdc1b4;
+}
+.game-lblAboutSub2 {
+    -fx-font-size: 25px;
+    -fx-text-fill: derive(#cdc1b4,-40%);
+}
+.game-overlay-won {
+    -fx-background-color: rgba(237, 194, 46, 0.5);
+}
+.game-lblWon {
+    -fx-font-size: 60px;
+    -fx-text-fill: #f9f6f2;
+}
+.game-overlay-over {
+    -fx-opacity: 0.6;
+    -fx-background-color: #f9f6f2;
+}
+.game-button { 
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+    -fx-background-color: #8f7a66;
+    -fx-border-color: #8f7a66; 
+    -fx-border-width: 2; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-padding: 6 20 12 20;
+}
+.game-button:pressed {
+    -fx-padding: 4 22 12 22;
+}
+.game-button:focused, .game-button:hover {
+    -fx-border-color: -fx-focus-color;
+    -fx-border-width: 0.5px;
+}
+.game-tile-2    { 
+    -fx-font-size: 55px;
+    -fx-text-fill: #776e65;
+    -fx-background-color: #eee4da; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-4    { 
+    -fx-font-size: 55px;
+    -fx-text-fill: #776e65;
+    -fx-background-color: #ede0c8; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-8    { 
+    -fx-font-size: 55px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #f2b179; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-16   { 
+    -fx-font-size: 55px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #f59563; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-32   { 
+    -fx-font-size: 55px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #f67c5f; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-64   { 
+    -fx-font-size: 55px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #f65e3b; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-128  { 
+    -fx-font-size: 45px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #edcf72; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-effect: dropshadow( three-pass-box, rgba(243, 215, 116, 0.2381), 30, 0.5, 0, 0 );
+    -fx-border-color: rgba(255, 255, 255, 0.14286);
+    -fx-border-width: 1;
+}
+.game-tile-256  { 
+    -fx-font-size: 45px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #edcc61;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-effect: dropshadow( three-pass-box, rgba(243, 215, 116, 0.31746), 30, 0.5, 0, 0 );
+    -fx-border-color: rgba(255, 255, 255, 0.19048);
+    -fx-border-width: 1;
+}
+.game-tile-512  { 
+    -fx-font-size: 45px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #edc850; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-effect: dropshadow( three-pass-box, rgba(243, 215, 116, 0.39683), 30, 0.5, 0, 0 );
+    -fx-border-color: rgba(255, 255, 255, 0.2381);
+    -fx-border-width: 1;
+}
+.game-tile-1024 { 
+    -fx-font-size: 35px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #edc53f; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-effect: dropshadow( three-pass-box, rgba(243, 215, 116, 0.47619), 30, 0.5, 0, 0 );
+    -fx-border-color: rgba(255, 255, 255, 0.28571);
+    -fx-border-width: 1;
+}
+.game-tile-2048 { 
+    -fx-font-size: 35px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #edc22e; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-effect: dropshadow( three-pass-box, rgba(243, 215, 116, 0.55556), 30, 0.5, 0, 0 );
+    -fx-border-color: rgba(255, 255, 255, 0.33333);
+    -fx-border-width: 1;
+}
+.game-tile-4096   { 
+    -fx-font-size: 30px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #b885ac; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-8192   { 
+    -fx-font-size: 30px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #af6da9; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-16384 { 
+    -fx-font-size: 30px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #ab61a7; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-32768 { 
+    -fx-font-size: 30px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #a755a6; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.game-tile-65536, .game-tile-131072, .game-tile-262144 { 
+    -fx-font-size: 25px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #3c3a32; 
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+
+/*
+SVG ICONS https://icomoon.io/app/
+*/
+
+#mSave { 
+    -fx-shape: "M16 18l8-8h-6v-8h-4v8h-6zM23.273 14.727l-2.242 2.242 8.128 3.031-13.158 4.907-13.158-4.907 8.127-3.031-2.242-2.242-8.727 3.273v8l16 6 16-6v-8z";
+    -fx-background-color: #f9f6f2;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+    -fx-focus-traversable: true;
+}
+#mSave:hover {
+    -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0.5,0,0);
+}
+#mSave:pressed {
+    -fx-translate-y: 2px;
+    -fx-effect: dropshadow(gaussian,derive(-fx-focus-color,-20%),10,0.5,0,0);
+}
+#mRestore { 
+    -fx-shape: "M0 28h32v2h-32zM32 24v2h-32v-2l4-8h8v4h8v-4h8zM7 10l9-9 9 9h-7v8h-4v-8z";
+    -fx-background-color: #f9f6f2;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+    -fx-focus-traversable: true;
+}
+#mRestore:hover {
+    -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0.5,0,0);
+}
+#mRestore:pressed {
+    -fx-translate-y: 2px;
+    -fx-effect: dropshadow(gaussian,derive(-fx-focus-color,-20%),10,0.5,0,0);
+}
+#mPause { 
+    -fx-shape: "M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13zM10 10h4v12h-4zM18 10h4v12h-4z";
+    -fx-background-color: #f9f6f2;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-focus-traversable: true;
+}
+#mPause:hover {
+    -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0.5,0,0);
+}
+#mPause:pressed {
+    -fx-translate-y: 2px;
+    -fx-effect: dropshadow(gaussian,derive(-fx-focus-color,-20%),10,0.5,0,0);
+}
+#mReplay { 
+    -fx-shape: "M0 27.429v-8q0-0.464 0.339-0.804t0.804-0.339h8q0.464 0 0.804 0.339t0.339 0.804-0.339 0.804l-2.446 2.446q1.268 1.179 2.875 1.821t3.339 0.643q2.393 0 4.464-1.161t3.321-3.196q0.196-0.304 0.946-2.089 0.143-0.411 0.536-0.411h3.429q0.232 0 0.402 0.17t0.17 0.402q0 0.089-0.018 0.125-1.143 4.786-4.786 7.759t-8.536 2.973q-2.607 0-5.045-0.982t-4.348-2.804l-2.304 2.304q-0.339 0.339-0.804 0.339t-0.804-0.339-0.339-0.804zM0.321 13.143v-0.125q1.161-4.786 4.821-7.759t8.571-2.973q2.607 0 5.071 0.991t4.375 2.795l2.321-2.304q0.339-0.339 0.804-0.339t0.804 0.339 0.339 0.804v8q0 0.464-0.339 0.804t-0.804 0.339h-8q-0.464 0-0.804-0.339t-0.339-0.804 0.339-0.804l2.464-2.464q-2.643-2.446-6.232-2.446-2.393 0-4.464 1.161t-3.321 3.196q-0.196 0.304-0.946 2.089-0.143 0.411-0.536 0.411h-3.554q-0.232 0-0.402-0.17t-0.17-0.402z";
+    -fx-background-color: #f9f6f2;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+    -fx-focus-traversable: true;
+}
+#mReplay:hover {
+    -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0.5,0,0);
+}
+#mReplay:pressed {
+    -fx-translate-y: 2px;
+    -fx-effect: dropshadow(gaussian,derive(-fx-focus-color,-20%),10,0.5,0,0);
+}
+#mInfo {
+    -fx-shape: "M1344 1472v128q0 26-19 45t-45 19h-512q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h64v-384h-64q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h384q26 0 45 19t19 45v576h64q26 0 45 19t19 45zm-128-1152v192q0 26-19 45t-45 19h-256q-26 0-45-19t-19-45v-192q0-26 19-45t45-19h256q26 0 45 19t19 45z";
+    -fx-background-color: #f9f6f2;
+    -fx-scale-x: 0.7;
+    -fx-scale-y: 1.0;
+    -fx-focus-traversable: true;
+}
+#mInfo:hover {
+    -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0.5,0,0);
+}
+#mInfo:pressed {
+    -fx-translate-y: 2px;
+    -fx-effect: dropshadow(gaussian,derive(-fx-focus-color,-20%),10,0.5,0,0);
+}
+#mQuit {
+    -fx-shape: "M20 4.581v4.249c1.131 0.494 2.172 1.2 3.071 2.099 1.889 1.889 2.929 4.4 2.929 7.071s-1.040 5.182-2.929 7.071c-1.889 1.889-4.4 2.929-7.071 2.929s-5.182-1.040-7.071-2.929c-1.889-1.889-2.929-4.4-2.929-7.071s1.040-5.182 2.929-7.071c0.899-0.899 1.94-1.606 3.071-2.099v-4.249c-5.783 1.721-10 7.077-10 13.419 0 7.732 6.268 14 14 14s14-6.268 14-14c0-6.342-4.217-11.698-10-13.419zM14 0h4v16h-4z";
+    -fx-background-color: #f9f6f2;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+    -fx-focus-traversable: true;
+}
+#mQuit:hover {
+    -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0.5,0,0);
+}
+#mQuit:pressed {
+    -fx-translate-y: 2px;
+    -fx-effect: dropshadow(gaussian,derive(-fx-focus-color,-20%),10,0.5,0,0);
+}
