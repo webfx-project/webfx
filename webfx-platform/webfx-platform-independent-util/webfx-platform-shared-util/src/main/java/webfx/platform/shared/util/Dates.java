@@ -22,6 +22,10 @@ public final class Dates {
         return value == null || !(value instanceof LocalDate) ? null : (LocalDate) value;
     }
 
+    public static LocalTime asLocalTime(Object value) {
+        return value == null || !(value instanceof LocalTime) ? null : (LocalTime) value;
+    }
+
     public static Instant parseIsoInstant(String s) {
         if (s == null)
             return null;
@@ -91,6 +95,9 @@ public final class Dates {
         localDateTime = toLocalDateTime(asLocalDate(value));
         if (localDateTime != null)
             return localDateTime;
+        localDateTime = toLocalDateTime(asLocalTime(value));
+        if (localDateTime != null)
+            return localDateTime;
         localDateTime = toLocalDateTime(value.toString());
         if (localDateTime != null)
             return localDateTime;
@@ -99,6 +106,10 @@ public final class Dates {
 
     public static LocalDateTime toLocalDateTime(LocalDate localDate) {
         return localDate == null ? null : LocalDateTime.of(localDate.getYear(), localDate.getMonth(), localDate.getDayOfMonth(), 0, 0);
+    }
+
+    public static LocalDateTime toLocalDateTime(LocalTime localTime) {
+        return localTime == null ? null : LocalDateTime.of(0, 1, 1, localTime.getHour(), localTime.getMinute(), localTime.getSecond(), localTime.getNano());
     }
 
     public static LocalDateTime toLocalDateTime(String s) {

@@ -27,13 +27,7 @@
             <groupId>org.openjfx</groupId>
             <version>${lib.openjfx.version}</version>
         </dependency>
-
-        <dependency>
-            <artifactId>javafx-media</artifactId>
-            <groupId>org.openjfx</groupId>
-            <version>${lib.openjfx.version}</version>
-        </dependency>
-
+        
         <dependency>
             <artifactId>webfx-kit-javafxgraphics-peers</artifactId>
             <groupId>${webfx.groupId}</groupId>

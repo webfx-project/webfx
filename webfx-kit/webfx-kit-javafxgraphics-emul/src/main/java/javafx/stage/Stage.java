@@ -610,4 +610,23 @@ public class Stage extends Window implements HasTitleProperty {
         }
     }
 
+    public final void setFullScreen(boolean value) {
+/*
+        fullScreenPropertyImpl().set(value);
+        Toolkit.getToolkit().checkFxUserThread();
+        if (getPeer() != null)
+            getPeer().setFullScreen(value);
+*/
+    }
+
+    public void setFullScreenExitHint(String hint) {}
+
+    public final boolean isFullScreen() {
+        return false; //fullScreen == null ? false : fullScreen.get();
+    }
+
+    public void setMinWidth(double minWidth) {}
+
+    public void setMinHeight(double minHeight) {}
+
 }

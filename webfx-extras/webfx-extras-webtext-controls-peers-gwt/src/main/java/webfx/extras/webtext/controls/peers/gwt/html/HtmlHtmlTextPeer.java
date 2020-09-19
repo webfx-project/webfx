@@ -7,7 +7,7 @@ import elemental2.dom.NodeList;
 import webfx.extras.webtext.controls.HtmlText;
 import webfx.extras.webtext.controls.peers.base.HtmlTextPeerBase;
 import webfx.extras.webtext.controls.peers.base.HtmlTextPeerMixin;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
+import webfx.kit.mapper.peers.javafxcontrols.gwt.html.HtmlControlPeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.html.NormalWhiteSpacePeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
@@ -18,7 +18,7 @@ import webfx.platform.shared.util.Strings;
  */
 public final class HtmlHtmlTextPeer
         <N extends HtmlText, NB extends HtmlTextPeerBase<N, NB, NM>, NM extends HtmlTextPeerMixin<N, NB, NM>>
-        extends HtmlRegionPeer<N, NB, NM>
+        extends HtmlControlPeer<N, NB, NM>
         implements HtmlTextPeerMixin<N, NB, NM>, HtmlLayoutMeasurable, NormalWhiteSpacePeer {
 
     public HtmlHtmlTextPeer() {
@@ -26,7 +26,7 @@ public final class HtmlHtmlTextPeer
     }
 
     HtmlHtmlTextPeer(NB base) {
-        super(base, HtmlUtil.createSpanElement());
+        super(base, HtmlUtil.createElement("fx-htmltext"));
         setElementStyleAttribute("color", "white"); // Temporary hack to make the text white by default in the payment activity TODO: remove this hack
     }
 

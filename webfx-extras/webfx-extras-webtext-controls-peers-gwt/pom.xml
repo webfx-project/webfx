@@ -39,6 +39,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-kit-javafxcontrols-peers-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-kit-javafxgraphics-peers</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>

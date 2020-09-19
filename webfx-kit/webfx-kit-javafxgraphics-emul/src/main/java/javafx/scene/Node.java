@@ -16,12 +16,16 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.css.Styleable;
 import javafx.event.*;
-import javafx.geometry.*;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.geometry.Orientation;
+import javafx.geometry.Point2D;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.LayoutFlags;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Window;
@@ -30,6 +34,7 @@ import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallbac
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import webfx.kit.mapper.peers.javafxgraphics.markers.*;
 import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.log.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -626,19 +631,43 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return transforms;
     }
 
-    private Translate layoutTransform;
+    private Translate layoutTranslateTransform;
+    private Scale scaleTransform;
+    
     @Override
     public List<Transform> localToParentTransforms() {
-        if (getLayoutX() == 0 && getLayoutY() == 0)
-            return getTransforms();
-        if (layoutTransform == null)
-            layoutTransform = Translate.create();
-        layoutTransform.setX(getLayoutX());
-        layoutTransform.setY(getLayoutY());
-        List<Transform> allTransforms = new ArrayList<>(transforms.size() + 1);
-        allTransforms.add(layoutTransform);
-        allTransforms.addAll(getTransforms());
-        return allTransforms;
+        ObservableList<Transform> transforms = getTransforms();
+        List<Transform> allTransforms = null;
+        double ltX = getTranslateX();
+        double ltY = getTranslateY();
+        //if (!(getParent() instanceof Group)) { // Breaks clock, Tallycounter and SpaceFX demos
+            ltX += getLayoutX();
+            ltY += getLayoutY();
+        //}
+        if (ltX != 0 || ltY != 0) {
+            if (layoutTranslateTransform == null)
+                layoutTranslateTransform = Translate.create();
+            layoutTranslateTransform.setX(ltX);
+            layoutTranslateTransform.setY(ltY);
+            allTransforms = new ArrayList<>();
+            allTransforms.add(layoutTranslateTransform);
+        }
+        double scaleX = getScaleX(), scaleY = getScaleY();
+        if (scaleX != 1 || scaleY != 1) {
+            if (scaleTransform == null)
+                scaleTransform = new Scale();
+            scaleTransform.setX(scaleX);
+            scaleTransform.setY(scaleY);
+            if (allTransforms == null)
+                allTransforms = new ArrayList<>();
+            allTransforms.add(scaleTransform);
+            //webfx.platform.shared.services.log.Logger.log("ltX = " + ltX + ", ltY = " + ltY);
+        }
+        if (allTransforms != null) {
+            allTransforms.addAll(transforms);
+            return allTransforms;
+        }
+        return transforms;
     }
 
     @Override
@@ -1341,6 +1370,142 @@ public abstract class Node implements INode, EventTarget, Styleable {
         };
     }
 
+    private final static double DEFAULT_TRANSLATE_X = 0;
+    private DoubleProperty translateXProperty;
+
+    public final void setTranslateX(double value) {
+        translateXProperty().set(value);
+    }
+
+    public final double getTranslateX() {
+        return (translateXProperty == null) ? DEFAULT_TRANSLATE_X
+                : translateXProperty.get();
+    }
+
+    public final DoubleProperty translateXProperty() {
+        if (translateXProperty == null)
+            translateXProperty = new SimpleDoubleProperty(DEFAULT_TRANSLATE_X);
+        return translateXProperty;
+    }
+
+    private final static double DEFAULT_TRANSLATE_Y = 0;
+    private DoubleProperty translateYProperty;
+
+    public final void setTranslateY(double value) {
+        translateYProperty().set(value);
+    }
+
+    public final double getTranslateY() {
+        return (translateYProperty == null) ? DEFAULT_TRANSLATE_Y
+                : translateYProperty.get();
+    }
+
+    public final DoubleProperty translateYProperty() {
+        if (translateYProperty == null)
+            translateYProperty = new SimpleDoubleProperty(DEFAULT_TRANSLATE_Y);
+        return translateYProperty;
+    }
+
+    private final static double DEFAULT_SCALE_X = 1;
+    private DoubleProperty scaleXProperty;
+
+    public final void setScaleX(double value) {
+        scaleXProperty().set(value);
+    }
+
+    public final double getScaleX() {
+        return (scaleXProperty == null) ? DEFAULT_SCALE_X
+                : scaleXProperty.get();
+    }
+
+    /**
+     * Defines the factor by which coordinates are scaled about the center of the
+     * object along the X axis of this {@code Node}. This is used to stretch or
+     * shrink the node either manually or by using an animation.
+     * <p>
+     * This scale factor is not included in {@link #layoutBoundsProperty layoutBounds} by
+     * default, which makes it ideal for scaling the entire node after
+     * all effects and transforms have been taken into account.
+     * <p>
+     * The pivot point about which the scale occurs is the center of the
+     * untransformed {@link #layoutBoundsProperty layoutBounds}.
+     *
+     * @return the scaleX for this {@code Node}
+     * @defaultValue 1.0
+     */
+
+    public final DoubleProperty scaleXProperty() {
+        if (scaleXProperty == null)
+            scaleXProperty = new SimpleDoubleProperty(DEFAULT_SCALE_X);
+        return scaleXProperty;
+    }
+
+    private final static double DEFAULT_SCALE_Y = 1;
+    private DoubleProperty scaleYProperty;
+
+    public final void setScaleY(double value) {
+        scaleYProperty().set(value);
+    }
+
+    public final double getScaleY() {
+        return (scaleYProperty == null) ? DEFAULT_SCALE_Y
+                : scaleYProperty.get();
+    }
+
+    /**
+     * Defines the factor by which coordinates are scaled about the center of the
+     * object along the Y axis of this {@code Node}. This is used to stretch or
+     * shrink the node either manually or by using an animation.
+     * <p>
+     * This scale factor is not included in {@link #layoutBoundsProperty layoutBounds} by
+     * default, which makes it ideal for scaling the entire node after
+     * all effects and transforms have been taken into account.
+     * <p>
+     * The pivot point about which the scale occurs is the center of the
+     * untransformed {@link #layoutBoundsProperty layoutBounds}.
+     *
+     * @return the scaleY for this {@code Node}
+     * @defaultValue 1.0
+     */
+    public final DoubleProperty scaleYProperty() {
+        if (scaleYProperty == null)
+            scaleYProperty = new SimpleDoubleProperty(DEFAULT_SCALE_Y);
+        return scaleYProperty;
+    }
+
+    private final static double DEFAULT_SCALE_Z = 1;
+    private DoubleProperty scaleZProperty;
+
+    public final void setScaleZ(double value) {
+        scaleZProperty().set(value);
+    }
+
+    public final double getScaleZ() {
+        return (scaleZProperty == null) ? DEFAULT_SCALE_Z
+                : scaleYProperty.get();
+    }
+
+    /**
+     * Defines the factor by which coordinates are scaled about the center of the
+     * object along the Z axis of this {@code Node}. This is used to stretch or
+     * shrink the node either manually or by using an animation.
+     * <p>
+     * This scale factor is not included in {@link #layoutBoundsProperty layoutBounds} by
+     * default, which makes it ideal for scaling the entire node after
+     * all effects and transforms have been taken into account.
+     * <p>
+     * The pivot point about which the scale occurs is the center of the
+     * untransformed {@link #layoutBoundsProperty layoutBounds}.
+     *
+     * @return the scaleZ for this {@code Node}
+     * @defaultValue 1.0
+     */
+    public final DoubleProperty scaleZProperty() {
+        if (scaleZProperty == null)
+            scaleZProperty = new SimpleDoubleProperty(DEFAULT_SCALE_Z);
+        return scaleZProperty;
+    }
+
     /**
      * The rectangular bounds that should be used for layout calculations for
      * this node. {@code layoutBounds} may differ from the visual bounds
@@ -1729,6 +1894,14 @@ public abstract class Node implements INode, EventTarget, Styleable {
             pt.x = p.x;
             pt.y = p.y;
         }
+    }
+
+    public Point2D localToParent(double localX, double localY) {
+        final com.sun.javafx.geom.Point2D tempPt =
+                TempState.getInstance().point;
+        tempPt.setLocation((float)localX, (float)localY);
+        localToParent(tempPt);
+        return new Point2D(tempPt.x, tempPt.y);
     }
 
     public Point2D sceneToLocal(double localX, double localY) {
@@ -2211,6 +2384,82 @@ public abstract class Node implements INode, EventTarget, Styleable {
 
     /* *************************************************************************
      *                                                                         *
+     *                           Keyboard Handling                             *
+     *                                                                         *
+     **************************************************************************/
+
+    public final void setOnKeyPressed(
+            EventHandler<? super KeyEvent> value) {
+        onKeyPressedProperty().set(value);
+    }
+
+    public final EventHandler<? super KeyEvent> getOnKeyPressed() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnKeyPressed();
+    }
+
+    /**
+     * Defines a function to be called when this {@code Node} or its child
+     * {@code Node} has input focus and a key has been pressed. The function
+     * is called only if the event hasn't been already consumed during its
+     * capturing or bubbling phase.
+     * @return the event handler that is called when this {@code Node} or its
+     * child {@code Node} has input focus and a key has been pressed
+     */
+    public final ObjectProperty<EventHandler<? super KeyEvent>>
+    onKeyPressedProperty() {
+        return getEventHandlerProperties().onKeyPressedProperty();
+    }
+
+    public final void setOnKeyReleased(
+            EventHandler<? super KeyEvent> value) {
+        onKeyReleasedProperty().set(value);
+    }
+
+    public final EventHandler<? super KeyEvent> getOnKeyReleased() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnKeyReleased();
+    }
+
+    /**
+     * Defines a function to be called when this {@code Node} or its child
+     * {@code Node} has input focus and a key has been released. The function
+     * is called only if the event hasn't been already consumed during its
+     * capturing or bubbling phase.
+     * @return the event handler that is called when this {@code Node} or its
+     * child {@code Node} has input focus and a key has been released
+     */
+    public final ObjectProperty<EventHandler<? super KeyEvent>>
+    onKeyReleasedProperty() {
+        return getEventHandlerProperties().onKeyReleasedProperty();
+    }
+
+    public final void setOnKeyTyped(
+            EventHandler<? super KeyEvent> value) {
+        onKeyTypedProperty().set(value);
+    }
+
+    public final EventHandler<? super KeyEvent> getOnKeyTyped() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnKeyTyped();
+    }
+
+    /**
+     * Defines a function to be called when this {@code Node} or its child
+     * {@code Node} has input focus and a key has been typed. The function
+     * is called only if the event hasn't been already consumed during its
+     * capturing or bubbling phase.
+     * @return the event handler that is called when this {@code Node} or its
+     * child {@code Node} has input focus and a key has been typed
+     */
+    public final ObjectProperty<EventHandler<? super KeyEvent>>
+    onKeyTypedProperty() {
+        return getEventHandlerProperties().onKeyTypedProperty();
+    }
+
+
+    /* *************************************************************************
+     *                                                                         *
      *                             Touch Handling                              *
      *                                                                         *
      **************************************************************************/
@@ -2295,6 +2544,31 @@ public abstract class Node implements INode, EventTarget, Styleable {
     public final ObjectProperty<EventHandler<? super TouchEvent>>
     onTouchStationaryProperty() {
         return getEventHandlerProperties().onTouchStationaryProperty();
+    }
+
+
+    /**
+     * Moves this {@code Node} to the back of its sibling nodes in terms of
+     * z-order.  This is accomplished by moving this {@code Node} to the
+     * first position in its parent's {@code content} ObservableList.
+     * This function has no effect if this {@code Node} is not part of a group.
+     */
+    public void toBack() {
+        if (getParent() != null) {
+            getParent().toBack(this);
+        }
+    }
+
+    /**
+     * Moves this {@code Node} to the front of its sibling nodes in terms of
+     * z-order.  This is accomplished by moving this {@code Node} to the
+     * last position in its parent's {@code content} ObservableList.
+     * This function has no effect if this {@code Node} is not part of a group.
+     */
+    public void toFront() {
+        if (getParent() != null) {
+            getParent().toFront(this);
+        }
     }
 
 

@@ -110,6 +110,26 @@ public abstract class FxNodePeer
     }
 
     @Override
+    public void updateTranslateX(Number translateX) {
+        fxNode.setTranslateX(Numbers.doubleValue(translateX));
+    }
+
+    @Override
+    public void updateTranslateY(Number translateY) {
+        fxNode.setTranslateY(Numbers.doubleValue(translateY));
+    }
+
+    @Override
+    public void updateScaleX(Number scaleX) {
+        fxNode.setScaleX(Numbers.doubleValue(scaleX));
+    }
+
+    @Override
+    public void updateScaleY(Number scaleX) {
+        fxNode.setScaleX(Numbers.doubleValue(scaleX));
+    }
+
+    @Override
     public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
         fxNode.getTransforms().setAll(transforms);
     }

@@ -12,13 +12,13 @@ import webfx.kit.mapper.peers.javafxcontrols.base.ControlPeerMixin;
 /**
  * @author Bruno Salmon
  */
-abstract class HtmlControlPeer
+public abstract class HtmlControlPeer
         <N extends Control, NB extends ControlPeerBase<N, NB, NM>, NM extends ControlPeerMixin<N, NB, NM>>
 
         extends HtmlRegionPeer<N, NB, NM>
         implements ControlPeerMixin<N, NB, NM> {
 
-    HtmlControlPeer(NB base, HTMLElement element) {
+    public HtmlControlPeer(NB base, HTMLElement element) {
         super(base, element);
     }
 

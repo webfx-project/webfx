@@ -13,9 +13,9 @@ import javafx.scene.layout.VBox;
  */
 public class TextFlow extends /*Pane */ VBox {
 
-    {
+    /*{
         prefWidthProperty().bind(maxWidthProperty());
-    }
+    }*/
 
     public TextFlow() {
     }
@@ -41,5 +41,7 @@ public class TextFlow extends /*Pane */ VBox {
                 childPrefHeight +
                 snapSpace(insets.getBottom());
     }
+
+    public void setTextAlignment(TextAlignment textAlignment) {}
 
 }

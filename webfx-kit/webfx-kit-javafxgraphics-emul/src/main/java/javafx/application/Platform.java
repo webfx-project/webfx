@@ -1,6 +1,7 @@
 package javafx.application;
 
 import webfx.platform.client.services.uischeduler.UiScheduler;
+import webfx.platform.shared.services.shutdown.Shutdown;
 
 /**
  * Application platform support class.
@@ -88,11 +89,11 @@ public final class Platform {
      * <p>Note: if the application is embedded in a browser, then this method
      * may have no effect.
      */
-/*
+
     public static void exit() {
-        PlatformImpl.exit();
+        //PlatformImpl.exit();
+        Shutdown.softwareShutdown(true, 0);
     }
-*/
 
     /**
      * Sets the implicitExit attribute to the specified value. If this

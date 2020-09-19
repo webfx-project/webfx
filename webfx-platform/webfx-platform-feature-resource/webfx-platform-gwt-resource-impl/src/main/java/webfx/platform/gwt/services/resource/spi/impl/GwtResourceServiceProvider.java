@@ -20,8 +20,14 @@ public final class GwtResourceServiceProvider implements ResourceServiceProvider
 
     @Override
     public String toUrl(String resourcePath, Class<?> loadingClass) {
-        if (resourcePath != null && resourcePath.startsWith("/"))
-            resourcePath = resourcePath.substring(1);
+        if (resourcePath != null) {
+            if (resourcePath.startsWith("/"))
+                resourcePath = resourcePath.substring(1);
+            else {
+                String className = loadingClass.getName();
+                resourcePath = className.replace(".", "/").substring(0, className.length() - loadingClass.getSimpleName().length()) + resourcePath;
+            }
+        }
         return resourcePath;
     }
 

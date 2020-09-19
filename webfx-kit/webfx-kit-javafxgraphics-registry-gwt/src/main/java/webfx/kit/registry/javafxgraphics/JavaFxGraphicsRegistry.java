@@ -1,6 +1,5 @@
 package webfx.kit.registry.javafxgraphics;
 
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
@@ -17,7 +16,12 @@ import static webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry.regi
 public class JavaFxGraphicsRegistry {
 
     public static void registerGroup() {
-        registerNodePeerFactory(Group.class, HtmlGroupPeer::new);
+        NodePeerFactoryRegistry.registerDefaultGroupPeerFactory(node -> {
+            // Generating the tag to use for the
+            String tag = "fx-" + node.getClass().getSimpleName().toLowerCase();
+            registerNodePeerFactory(node.getClass(), () -> new HtmlGroupPeer<>(tag));
+            return new HtmlGroupPeer<>(tag);
+        });
     }
 
     public static void registerRectangle() {

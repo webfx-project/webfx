@@ -1,17 +1,17 @@
 package javafx.scene;
 
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.RectBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.RectBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import webfx.kit.util.properties.ObservableLists;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasManagedProperty;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.layout.PreferenceResizableNode;
+import webfx.kit.mapper.peers.javafxgraphics.markers.HasManagedProperty;
+import webfx.kit.util.properties.ObservableLists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -507,7 +507,7 @@ public class Parent extends Node {
      * The number of dirty children which bounds haven't been incorporated
      * into the cached bounds yet. Can be used even when dirtyChildren is null.
      */
-    private int dirtyChildrenCount;
+    //private int dirtyChildrenCount;
 
     /**
      * This set is used to track all of the children of this group which are
@@ -517,6 +517,7 @@ public class Parent extends Node {
      * null unless the number of children ever crosses the threshold where
      * it will be activated.
      */
+/*
     private ArrayList<Node> dirtyChildren;
 
     private Node top;
@@ -525,6 +526,7 @@ public class Parent extends Node {
     private Node right;
     private Node near;
     private Node far;
+*/
 
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
@@ -540,10 +542,10 @@ public class Parent extends Node {
             if (true || cachedBoundsInvalid) {
                 recomputeBounds();
 
-                if (dirtyChildren != null)
-                    dirtyChildren.clear();
+                /*if (dirtyChildren != null)
+                    dirtyChildren.clear();*/
                 cachedBoundsInvalid = false;
-                dirtyChildrenCount = 0;
+                //dirtyChildrenCount = 0;
             }
             if (!tx.isIdentity()) {
                 throw new UnsupportedOperationException("Transform other than Identity not supported in Parent.impl_computeGeomBounds()");
@@ -617,7 +619,7 @@ public class Parent extends Node {
             node.boundsChanged = false;
             if (node.isVisible()) {
                 cachedBounds = getChildTransformedBounds(node, BaseTransform.IDENTITY_TRANSFORM, cachedBounds);
-                top = left = bottom = right = near = far = node;
+                // top = left = bottom = right = near = far = node;
             } else {
                 cachedBounds.makeEmpty();
                 // no need to null edge nodes here, it was done in childExcluded
@@ -667,14 +669,14 @@ public class Parent extends Node {
                 tmp = node.getTransformedBounds(
                         tmp, BaseTransform.IDENTITY_TRANSFORM);
                 if (!tmp.isEmpty()) {
-                    left = top = near = right = bottom = far = node;
+                    //left = top = near = right = bottom = far = node;
                     break;
                 }
             }
         }
 
         if (i == nodeCount) {
-            left = top = near = right = bottom = far = null;
+            //left = top = near = right = bottom = far = null;
             cachedBounds.makeEmpty();
             return;
         }
@@ -701,16 +703,61 @@ public class Parent extends Node {
                     double tmpy2 = tmp.getMaxY();
                     double tmpz2 = tmp.getMaxZ();
 
-                    if (tmpx < minX) { minX = tmpx; left = node; }
-                    if (tmpy < minY) { minY = tmpy; top = node; }
-                    if (tmpz < minZ) { minZ = tmpz; near = node; }
-                    if (tmpx2 > maxX) { maxX = tmpx2; right = node; }
-                    if (tmpy2 > maxY) { maxY = tmpy2; bottom = node; }
-                    if (tmpz2 > maxZ) { maxZ = tmpz2; far = node; }
+                    if (tmpx < minX) { minX = tmpx; /*left = node;*/ }
+                    if (tmpy < minY) { minY = tmpy; /*top = node;*/ }
+                    if (tmpz < minZ) { minZ = tmpz; /*near = node;*/ }
+                    if (tmpx2 > maxX) { maxX = tmpx2; /*right = node;*/ }
+                    if (tmpy2 > maxY) { maxY = tmpy2; /*bottom = node;*/ }
+                    if (tmpz2 > maxZ) { maxZ = tmpz2; /*far = node;*/ }
                 }
             }
         }
 
         cachedBounds = cachedBounds.deriveWithNewBounds((float) minX, (float) minY, (float) minZ, (float) maxX, (float) maxY, (float) maxZ);
     }
+
+    // implementation of Node.toFront function
+    final void toFront(Node node) {
+/*
+        if (Utils.assertionEnabled()) {
+            if (!childSet.contains(node)) {
+                throw new java.lang.AssertionError(
+                        "specified node is not in the list of children");
+            }
+        }
+*/
+
+        if (children.get(children.size() - 1) != node) {
+            //childrenTriggerPermutation = true;
+            try {
+                children.remove(node);
+                children.add(node);
+            } finally {
+                //childrenTriggerPermutation = false;
+            }
+        }
+    }
+
+    // implementation of Node.toBack function
+    final void toBack(Node node) {
+/*
+        if (Utils.assertionEnabled()) {
+            if (!childSet.contains(node)) {
+                throw new java.lang.AssertionError(
+                        "specified node is not in the list of children");
+            }
+        }
+*/
+
+        if (children.get(0) != node) {
+            //childrenTriggerPermutation = true;
+            try {
+                children.remove(node);
+                children.add(0, node);
+            } finally {
+                //childrenTriggerPermutation = false;
+            }
+        }
+    }
+
 }
