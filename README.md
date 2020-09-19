@@ -28,7 +28,11 @@ A Gauge control with the Modern skin (from [Medusa][hansolo-medusa-link] library
 
 * [SpaceFX][webfx-spacefx-demo-link]
 
-A web version of this [game][hansolo-spacefx-link] written in JavaFx and transpiled by WebFx
+A web version of this [game][hansolo-spacefx-link] written in JavaFx and transpiled by WebFx (use the arrow keys to play)
+
+* [FX2048][webfx-fx2048-demo-link]
+
+A web version of this [game][fx2048-link] written in JavaFx and transpiled by WebFx (use the arrow keys to play)
 
 [gwt-website]: http://www.gwtproject.org
 [webfx-kit-link]: https://github.com/webfx-project/webfx/blob/master/webfx-kit
@@ -39,6 +43,8 @@ A web version of this [game][hansolo-spacefx-link] written in JavaFx and transpi
 [webfx-clock-demo-link]: https://webfx-project.github.io/webfx-demos-clock-website/
 [webfx-gauge-demo-link]: https://webfx-project.github.io/webfx-demos-gauge-website/
 [webfx-spacefx-demo-link]: https://webfx-project.github.io/webfx-demos-spacefx-website/
+[webfx-fx2048-demo-link]: https://webfx-project.github.io/webfx-demos-fx2048-build/
 [hansolo-odometer-link]: https://github.com/HanSolo/odometer
 [hansolo-medusa-link]: https://github.com/HanSolo/Medusa
 [hansolo-spacefx-link]: https://github.com/HanSolo/SpaceFX
+[fx2048-link]: https://github.com/brunoborges/fx2048
