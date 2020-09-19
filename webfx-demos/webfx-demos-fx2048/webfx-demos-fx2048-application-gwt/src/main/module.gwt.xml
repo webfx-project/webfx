@@ -10,6 +10,7 @@
     <!--===========================< webfx-kit-javafxbase-emul >============================-->
     <!-- used by webfx-kit-javafxcontrols-emul (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
+    <!-- used by webfx-extras-webtext-controls (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
     <source path="com/sun/javafx"/>
     <source path="com/sun/javafx/binding"/>
@@ -25,6 +26,7 @@
     <source path="javafx/util"/>
     <!--=========================< webfx-kit-javafxcontrols-emul >==========================-->
     <!-- used by webfx-demos-fx2048-application (SOURCE) -->
+    <!-- used by webfx-extras-webtext-controls (SOURCE) -->
     <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
     <source path="com/sun/javafx/scene/control"/>
     <source path="com/sun/javafx/scene/control/behavior"/>
@@ -83,10 +85,12 @@
     <!-- used by webfx-platform-gwt-appcontainer-impl (SOURCE) -->
     <!-- used by webfx-platform-gwt-emul-javabase (SOURCE) -->
     <!-- used by webfx-platform-gwt-resource-impl (SOURCE) -->
+    <!-- used by webfx-platform-gwt-storage-impl (SOURCE) -->
     <!-- used by webfx-platform-gwt-uischeduler-impl (SOURCE) -->
     <inherits name="com.google.gwt.user.User"/>
     <!--===================================< java-base >====================================-->
     <!-- used by webfx-kit-javafxbase-emul (SOURCE) -->
+    <!-- used by webfx-platform-client-storage (SOURCE) -->
     <!-- used by webfx-platform-gwt-emul-javabase (SOURCE) -->
     <!-- used by webfx-platform-gwt-emul-javatime (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
@@ -99,17 +103,31 @@
     <!--=========================< webfx-demos-fx2048-application >=========================-->
     <!-- used by webfx-demos-fx2048-application-gwt (APPLICATION) -->
     <source path="io/fxgame/game2048"/>
+    <source path="io/fxgame/game2048/emul"/>
     <resource path="io/fxgame/game2048"/>
     <public includes="io/fxgame/game2048/" path=""/>
+    <!--=========================< webfx-extras-webtext-controls >==========================-->
+    <!-- used by webfx-demos-fx2048-application (SOURCE) -->
+    <!-- used by webfx-extras-webtext-controls-peers-gwt (SOURCE) -->
+    <source path="webfx/extras/webtext/controls"/>
+    <!--====================< webfx-extras-webtext-controls-peers-base >====================-->
+    <!-- used by webfx-extras-webtext-controls-peers-gwt (SOURCE) -->
+    <source path="webfx/extras/webtext/controls/peers/base"/>
+    <!--====================< webfx-extras-webtext-controls-peers-gwt >=====================-->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
+    <source path="webfx/extras/webtext/controls/peers/gwt/html"/>
+    <source path="webfx/extras/webtext/controls/registry"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-demos-fx2048-application-gwt (EMULATION) -->
     <source path="webfx/kit/launcher/spi/gwt"/>
     <source path="webfx/kit/mapper/spi/gwt"/>
     <!--======================< webfx-kit-javafxcontrols-peers-base >=======================-->
+    <!-- used by webfx-extras-webtext-controls-peers-base (SOURCE) -->
     <!-- used by webfx-kit-javafxcontrols-peers-gwt (SOURCE) -->
     <source path="webfx/kit/mapper/peers/javafxcontrols/base"/>
     <!--=======================< webfx-kit-javafxcontrols-peers-gwt >=======================-->
+    <!-- used by webfx-extras-webtext-controls-peers-gwt (SOURCE) -->
     <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
     <source path="webfx/kit/mapper/peers/javafxcontrols/gwt/html"/>
     <!--=====================< webfx-kit-javafxcontrols-registry-gwt >======================-->
@@ -124,6 +142,7 @@
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <source path="webfx/kit/mapper/peers/javafxgraphics/base"/>
     <!--=======================< webfx-kit-javafxgraphics-peers-gwt >=======================-->
+    <!-- used by webfx-extras-webtext-controls-peers-gwt (SOURCE) -->
     <!-- used by webfx-kit-gwt (SOURCE) -->
     <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-registry-gwt (SOURCE) -->
@@ -144,6 +163,11 @@
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/kit/util/properties"/>
     <source path="webfx/kit/util/properties/conversion"/>
+    <!--=========================< webfx-platform-client-storage >==========================-->
+    <!-- used by webfx-demos-fx2048-application (SOURCE) -->
+    <!-- used by webfx-platform-gwt-storage-impl (SOURCE) -->
+    <source path="webfx/platform/client/services/storage"/>
+    <source path="webfx/platform/client/services/storage/spi"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-gwt-uischeduler-impl (SOURCE) -->
@@ -162,6 +186,9 @@
     <!--========================< webfx-platform-gwt-shutdown-impl >========================-->
     <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/shutdown/spi/impl"/>
+    <!--========================< webfx-platform-gwt-storage-impl >=========================-->
+    <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
+    <source path="webfx/platform/gwt/services/storage/spi/impl"/>
     <!--======================< webfx-platform-gwt-uischeduler-impl >=======================-->
     <!-- used by webfx-demos-fx2048-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/uischeduler/spi/impl"/>
@@ -180,6 +207,7 @@
     <source path="webfx/platform/shared/services/log"/>
     <source path="webfx/platform/shared/services/log/spi"/>
     <!--=========================< webfx-platform-shared-resource >=========================-->
+    <!-- used by webfx-demos-fx2048-application (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-gwt-resource-impl (SOURCE) -->
     <source path="webfx/platform/shared/services/resource"/>
@@ -189,6 +217,7 @@
     <source path="webfx/platform/shared/services/scheduler"/>
     <source path="webfx/platform/shared/services/scheduler/spi"/>
     <!--=========================< webfx-platform-shared-shutdown >=========================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-gwt-shutdown-impl (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <source path="webfx/platform/shared/services/shutdown"/>
@@ -197,6 +226,7 @@
     <!--===========================< webfx-platform-shared-util >===========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
+    <!-- used by webfx-platform-client-storage (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <!-- used by webfx-platform-shared-log (SOURCE) -->
     <!-- used by webfx-platform-shared-resource (SOURCE) -->

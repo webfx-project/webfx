@@ -38,7 +38,6 @@ public interface TKSceneListener {
      */
 /*
     void keyEvent(KeyEvent keyEvent);
-*/
 
     /**
      * Pass an input method event to the scene to handle

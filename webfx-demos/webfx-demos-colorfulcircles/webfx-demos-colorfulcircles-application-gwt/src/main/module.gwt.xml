@@ -164,6 +164,7 @@
     <source path="webfx/platform/shared/services/scheduler"/>
     <source path="webfx/platform/shared/services/scheduler/spi"/>
     <!--=========================< webfx-platform-shared-shutdown >=========================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-gwt-shutdown-impl (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <source path="webfx/platform/shared/services/shutdown"/>

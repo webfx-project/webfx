@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasLayoutYProperty {
 
     DoubleProperty layoutYProperty();
-    default void setLayoutY(Double layoutY) { layoutYProperty().setValue(layoutY); }
+    default void setLayoutY(Number layoutY) { layoutYProperty().setValue(layoutY); }
     default Double getLayoutY() { return layoutYProperty().getValue(); }
 
 }

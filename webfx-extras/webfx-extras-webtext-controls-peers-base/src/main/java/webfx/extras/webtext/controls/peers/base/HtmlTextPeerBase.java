@@ -2,7 +2,7 @@ package webfx.extras.webtext.controls.peers.base;
 
 import javafx.beans.value.ObservableValue;
 import webfx.extras.webtext.controls.HtmlText;
-import webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerBase;
+import webfx.kit.mapper.peers.javafxcontrols.base.ControlPeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 
 /**
@@ -11,7 +11,7 @@ import webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 public class HtmlTextPeerBase
         <N extends HtmlText, NB extends HtmlTextPeerBase<N, NB, NM>, NM extends HtmlTextPeerMixin<N, NB, NM>>
 
-        extends RegionPeerBase<N, NB, NM> {
+        extends ControlPeerBase<N, NB, NM> {
 
     @Override
     public void bind(N t, SceneRequester sceneRequester) {

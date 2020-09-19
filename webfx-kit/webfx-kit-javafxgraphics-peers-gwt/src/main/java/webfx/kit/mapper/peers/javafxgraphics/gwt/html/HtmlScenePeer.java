@@ -40,6 +40,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         installMouseListeners();
         installStylesheetsListener(scene);
         HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
+        document.fonts.setOnloadingdone(p0 -> { onCssOrFontLoaded(); return null; });
     }
 
     private void installMouseListeners() {
@@ -125,7 +126,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             link.setAttribute("rel", "stylesheet");
             link.setAttribute("type", "text/css");
             link.setAttribute("href", href);
-            link.onload = e -> updateSceneGraphLayout();
+            link.onload = e -> onCssOrFontLoaded();
             document.body.appendChild(link);
             stylesheetLinks.put(href, link); // Keeping a reference to the link for eventual removal
         });
@@ -139,10 +140,8 @@ public final class HtmlScenePeer extends ScenePeerBase {
         });
     }
 
-    private void updateSceneGraphLayout() {
-        Parent root = scene.getRoot();
-        clearLayoutCache(root);
-        root.onPeerSizeChanged();
+    private void onCssOrFontLoaded() {
+        clearLayoutCache(scene.getRoot());
     }
 
     private static void clearLayoutCache(Node node) {
@@ -152,6 +151,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             parent.setLayoutFlag(LayoutFlags.NEEDS_LAYOUT);
             parent.getChildren().forEach(HtmlScenePeer::clearLayoutCache);
         }
+        node.onPeerSizeChanged();
     }
 
     private void updateContainerWidth() {

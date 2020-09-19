@@ -27,6 +27,7 @@ public final class HtmlSliderPeer
     public HtmlSliderPeer(NB base, HTMLElement element) {
         super(base, element);
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
+        setElementStyleAttribute("-web-kit-appearance", "slider-vertical");
         inputElement.oninput = e -> {
             updateNodeValue(Numbers.doubleValue(inputElement.value));
             return null;

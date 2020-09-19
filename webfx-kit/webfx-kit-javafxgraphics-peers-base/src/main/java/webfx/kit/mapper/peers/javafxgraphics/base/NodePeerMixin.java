@@ -76,17 +76,19 @@ public interface NodePeerMixin
 
     void updateEffect(Effect effect);
 
-    /*default*/ void updateLayoutX(Number layoutX); /*{
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
-    }*/
+    void updateLayoutX(Number layoutX);
 
-    /*default*/ void updateLayoutY(Number layoutY); /*{
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
-    }*/
+    void updateLayoutY(Number layoutY);
 
-    /*default*/ void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change); /*{
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
-    }*/
+    void updateTranslateX(Number translateX);
+
+    void updateTranslateY(Number translateY);
+
+    void updateScaleX(Number scaleX);
+
+    void updateScaleY(Number scaleX);
+
+    void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change);
 
     void updateLocalToParentTransforms(List<Transform> localToParentTransforms);
 

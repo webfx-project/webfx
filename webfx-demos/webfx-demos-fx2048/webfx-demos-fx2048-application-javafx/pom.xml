@@ -17,6 +17,18 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-extras-webtext-controls-peers-javafx</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-webtext-controls-registry-spi</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-kit-javafx</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -29,7 +41,19 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-platform-java-resource-impl</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-platform-java-shutdown-impl</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-java-storage-impl</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

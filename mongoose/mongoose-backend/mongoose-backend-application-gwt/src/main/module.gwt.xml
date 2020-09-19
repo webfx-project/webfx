@@ -726,9 +726,11 @@
     <source path="webfx/kit/mapper/spi/gwt"/>
     <!--======================< webfx-kit-javafxcontrols-peers-base >=======================-->
     <!-- used by webfx-extras-visual-controls-peers-base (SOURCE) -->
+    <!-- used by webfx-extras-webtext-controls-peers-base (SOURCE) -->
     <!-- used by webfx-kit-javafxcontrols-peers-gwt (SOURCE) -->
     <source path="webfx/kit/mapper/peers/javafxcontrols/base"/>
     <!--=======================< webfx-kit-javafxcontrols-peers-gwt >=======================-->
+    <!-- used by webfx-extras-webtext-controls-peers-gwt (SOURCE) -->
     <!-- used by webfx-kit-javafxcontrols-registry-gwt (SOURCE) -->
     <source path="webfx/kit/mapper/peers/javafxcontrols/gwt/html"/>
     <!--=====================< webfx-kit-javafxcontrols-registry-gwt >======================-->
@@ -935,6 +937,7 @@
     <source path="webfx/platform/shared/services/serial/spi"/>
     <source path="webfx/platform/shared/services/serial/spi/impl"/>
     <!--=========================< webfx-platform-shared-shutdown >=========================-->
+    <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-gwt-shutdown-impl (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
     <source path="webfx/platform/shared/services/shutdown"/>

@@ -12,6 +12,8 @@ public class ServiceLoader<S> implements Iterable<S> {
             case "javafx.application.Application": return new ServiceLoader<S>(io.fxgame.game2048.Game2048::new);
             case "webfx.kit.launcher.spi.WebFxKitLauncherProvider": return new ServiceLoader<S>(webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider::new);
             case "webfx.kit.mapper.spi.WebFxKitMapperProvider": return new ServiceLoader<S>(webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider::new);
+            case "webfx.platform.client.services.storage.spi.LocalStorageProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.storage.spi.impl.GwtLocalStorageProvider::new);
+            case "webfx.platform.client.services.storage.spi.SessionStorageProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.storage.spi.impl.GwtSessionStorageProvider::new);
             case "webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.uischeduler.spi.impl.GwtUiSchedulerProvider::new);
             case "webfx.platform.gwt.services.resource.spi.impl.GwtResourceBundle": return new ServiceLoader<S>();
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.appcontainer.spi.impl.GwtApplicationContainerProvider::new);

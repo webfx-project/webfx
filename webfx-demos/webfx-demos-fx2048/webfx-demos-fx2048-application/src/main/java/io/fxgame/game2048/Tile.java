@@ -15,6 +15,11 @@ public class Tile extends Label {
     private Location location;
     private Boolean merged;
 
+    @Override
+    public void relocate(double x, double y) {
+        // Overriding relocate to fix a problem in WebFx where the tile is relocated at the let top corner of the board when created
+    }
+
     public static Tile newRandomTile() {
         int value = new Random().nextDouble() < 0.9 ? 2 : 4;
         return new Tile(value);
@@ -39,6 +44,7 @@ public class Tile extends Label {
         this.merged = false;
         setText(value.toString());
         getStyleClass().addAll("game-label", "game-tile-" + value);
+        setTextFill(null);
     }
 
     public void merge(Tile another) {

@@ -26,14 +26,17 @@
 package javafx.beans.binding;
 
 import com.sun.javafx.binding.BidirectionalBinding;
+import com.sun.javafx.binding.IntegerConstant;
 import com.sun.javafx.collections.ImmutableObservableList;
+import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.Property;
-import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.StringConverter;
 
+import java.lang.ref.WeakReference;
 import java.util.concurrent.Callable;
 
 /**
@@ -273,5 +276,209 @@ public final class Bindings {
         BidirectionalBinding.bind(stringProperty, otherProperty, converter);
     }
 
+    // boolean
+    // =================================================================================================================
+
+    private static class BooleanAndBinding extends BooleanBinding {
+
+        private final ObservableBooleanValue op1;
+        private final ObservableBooleanValue op2;
+        private final InvalidationListener observer;
+
+        public BooleanAndBinding(ObservableBooleanValue op1, ObservableBooleanValue op2) {
+            this.op1 = op1;
+            this.op2 = op2;
+
+            observer = new ShortCircuitAndInvalidator(this);
+
+            op1.addListener(observer);
+            op2.addListener(observer);
+        }
+
+
+        @Override
+        public void dispose() {
+            op1.removeListener(observer);
+            op2.removeListener(observer);
+        }
+
+        @Override
+        protected boolean computeValue() {
+            return op1.get() && op2.get();
+        }
+
+        @Override
+        public ObservableList<?> getDependencies() {
+            return new ImmutableObservableList<>(op1, op2);
+        }
+    }
+
+    private static class ShortCircuitAndInvalidator implements InvalidationListener {
+
+        private final WeakReference<BooleanAndBinding> ref;
+
+        private ShortCircuitAndInvalidator(BooleanAndBinding binding) {
+            assert binding != null;
+            ref = new WeakReference<>(binding);
+        }
+
+        @Override
+        public void invalidated(Observable observable) {
+            final BooleanAndBinding binding = ref.get();
+            if (binding == null) {
+                observable.removeListener(this);
+            } else {
+                // short-circuit invalidation. This BooleanBinding becomes
+                // only invalid if the first operator changes or the
+                // first parameter is true.
+                if ((binding.op1.equals(observable) || (binding.isValid() && binding.op1.get()))) {
+                    binding.invalidate();
+                }
+            }
+        }
+
+    }
+
+    /**
+     * Creates a {@link BooleanBinding} that calculates the conditional-AND
+     * operation on the value of two instance of
+     * {@link javafx.beans.value.ObservableBooleanValue}.
+     *
+     * @param op1
+     *            first {@code ObservableBooleanValue}
+     * @param op2
+     *            second {@code ObservableBooleanValue}
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if one of the operands is {@code null}
+     */
+    public static BooleanBinding and(final ObservableBooleanValue op1, final ObservableBooleanValue op2) {
+        if ((op1 == null) || (op2 == null)) {
+            throw new NullPointerException("Operands cannot be null.");
+        }
+
+        return new BooleanAndBinding(op1, op2);
+    }
+
+    // =================================================================================================================
+    // Divide
+
+    private static NumberBinding divide(final ObservableNumberValue op1, final ObservableNumberValue op2, final Observable... dependencies) {
+        if ((op1 == null) || (op2 == null)) {
+            throw new NullPointerException("Operands cannot be null.");
+        }
+        assert (dependencies != null) && (dependencies.length > 0);
+
+        if ((op1 instanceof ObservableDoubleValue) || (op2 instanceof ObservableDoubleValue)) {
+            return new DoubleBinding() {
+                {
+                    super.bind(dependencies);
+                }
+
+                @Override
+                public void dispose() {
+                    super.unbind(dependencies);
+                }
+
+                @Override
+                protected double computeValue() {
+                    return op1.doubleValue() / op2.doubleValue();
+                }
+
+                @Override
+                public ObservableList<?> getDependencies() {
+                    return (dependencies.length == 1)?
+                            FXCollections.singletonObservableList(dependencies[0])
+                            : new ImmutableObservableList<Observable>(dependencies);
+                }
+            };
+        } /*else if ((op1 instanceof ObservableFloatValue) || (op2 instanceof ObservableFloatValue)) {
+            return new FloatBinding() {
+                {
+                    super.bind(dependencies);
+                }
+
+                @Override
+                public void dispose() {
+                    super.unbind(dependencies);
+                }
+
+                @Override
+                protected float computeValue() {
+                    return op1.floatValue() / op2.floatValue();
+                }
+
+                @Override
+                public ObservableList<?> getDependencies() {
+                    return (dependencies.length == 1)?
+                            FXCollections.singletonObservableList(dependencies[0])
+                            : new ImmutableObservableList<Observable>(dependencies);
+                }
+            };
+        }*/ else if ((op1 instanceof ObservableLongValue) || (op2 instanceof ObservableLongValue)) {
+            return new LongBinding() {
+                {
+                    super.bind(dependencies);
+                }
+
+                @Override
+                public void dispose() {
+                    super.unbind(dependencies);
+                }
+
+                @Override
+                protected long computeValue() {
+                    return op1.longValue() / op2.longValue();
+                }
+
+                @Override
+                public ObservableList<?> getDependencies() {
+                    return (dependencies.length == 1)?
+                            FXCollections.singletonObservableList(dependencies[0])
+                            : new ImmutableObservableList<Observable>(dependencies);
+                }
+            };
+        } else {
+            return new IntegerBinding() {
+                {
+                    super.bind(dependencies);
+                }
+
+                @Override
+                public void dispose() {
+                    super.unbind(dependencies);
+                }
+
+                @Override
+                protected int computeValue() {
+                    return op1.intValue() / op2.intValue();
+                }
+
+                @Override
+                public ObservableList<?> getDependencies() {
+                    return (dependencies.length == 1)?
+                            FXCollections.singletonObservableList(dependencies[0])
+                            : new ImmutableObservableList<Observable>(dependencies);
+                }
+            };
+        }
+    }
+    /**
+     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
+     * the division of the value of a
+     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
+     *
+     * @param op1
+     *            the constant value
+     * @param op2
+     *            the {@code ObservableNumberValue}
+     * @return the new {@code NumberBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableNumberValue} is {@code null}
+     */
+
+    public static NumberBinding divide(final ObservableNumberValue op1, int op2) {
+        return Bindings.divide(op1, IntegerConstant.valueOf(op2), op1);
+    }
 
 }

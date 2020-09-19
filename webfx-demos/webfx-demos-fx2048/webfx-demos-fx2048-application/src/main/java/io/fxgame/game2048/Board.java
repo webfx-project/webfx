@@ -1,5 +1,6 @@
 package io.fxgame.game2048;
 
+import io.fxgame.game2048.emul.DateTimeFormatter;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -9,27 +10,20 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.beans.value.WritableBooleanValue;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
+import javafx.geometry.*;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+import webfx.extras.webtext.controls.HtmlText;
 
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -38,7 +32,7 @@ import java.util.Set;
  * @author Jose Pereda
  * @author Bruno Borges
  */
-public class Board extends Pane {
+public class Board extends VBox {
 
     public static final int CELL_SIZE = 128;
     private static final int BORDER_WIDTH = (14 + 2) / 2;
@@ -70,16 +64,16 @@ public class Board extends Pane {
 
     // User Interface controls
     private final VBox vGame = new VBox(0);
-    private final Group gridGroup = new Group();
+    private final Pane gridGroup = new Pane();
 
     private final HBox hTop = new HBox(0);
-    private final VBox vScore = new VBox(-5);
+    private final VBox vScore = new VBox(3);
     private final Label lblScore = new Label("0");
     private final Label lblBest = new Label("0");
     private final Label lblPoints = new Label();
 
     private final HBox overlay = new HBox();
-    private final VBox txtOverlay = new VBox(10);
+    private final VBox txtOverlay = new VBox(30);
     private final Label lOvrText = new Label();
     private final Label lOvrSubText = new Label();
     private final HBox buttonsOverlay = new HBox();
@@ -104,6 +98,9 @@ public class Board extends Pane {
         this.gridOperator = grid;
         gridWidth = CELL_SIZE * grid.getGridSize() + BORDER_WIDTH * 2;
         sessionManager = new SessionManager(gridOperator);
+        lblPoints.setManaged(false);
+        lblPoints.setTextFill(null);
+        lblTime.setTextFill(null);
 
         createScore();
         createGrid();
@@ -114,9 +111,11 @@ public class Board extends Pane {
     private void createScore() {
         var lblTitle = new Label("2048");
         lblTitle.getStyleClass().addAll("game-label", "game-title");
+        lblTitle.setTextFill(null);
 
         var lblSubtitle = new Label("FX");
         lblSubtitle.getStyleClass().addAll("game-label", "game-subtitle");
+        lblSubtitle.setTextFill(null);
 
         var hFill = new HBox();
         HBox.setHgrow(hFill, Priority.ALWAYS);
@@ -130,18 +129,26 @@ public class Board extends Pane {
 
         var lblTit = new Label("SCORE");
         lblTit.getStyleClass().addAll("game-label", "game-titScore");
+        lblTit.setTextFill(null);
 
         lblScore.getStyleClass().addAll("game-label", "game-score");
+        lblScore.setTextFill(null);
         lblScore.textProperty().bind(gameScoreProperty.asString());
+        //lblScore.setPadding(new Insets(5));
         vScore.getChildren().addAll(lblTit, lblScore);
+        vScore.setPadding(new Insets(10, 15, 10, 15));
 
-        var vRecord = new VBox(-5);
+        var vRecord = new VBox(vScore.getSpacing());
         vRecord.setAlignment(Pos.CENTER);
         vRecord.getStyleClass().add("game-vbox");
+        vRecord.setPadding(vScore.getPadding());
 
         var lblTitBest = new Label("BEST");
         lblTitBest.getStyleClass().addAll("game-label", "game-titScore");
+        lblTitBest.setTextFill(null);
         lblBest.getStyleClass().addAll("game-label", "game-score");
+        lblBest.setTextFill(null);
+        //lblBest.setPadding(new Insets(5));
         lblBest.textProperty().bind(gameBestProperty.asString());
         vRecord.getChildren().addAll(lblTitBest, lblBest);
         hScores.getChildren().addAll(vScore, vRecord);
@@ -161,9 +168,10 @@ public class Board extends Pane {
         hTime.setMinSize(gridWidth, GAP_HEIGHT);
         hTime.setAlignment(Pos.BOTTOM_RIGHT);
         lblTime.getStyleClass().addAll("game-label", "game-time");
+        lblTime.setPadding(new Insets(3));
         lblTime.textProperty().bind(clock);
         timer = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            clock.set(LocalTime.now().minusNanos(time.toNanoOfDay()).format(fmt));
+            clock.set(fmt.format(LocalTime.now().minusNanos(time.toNanoOfDay())/*.format(fmt)*/));
         }), new KeyFrame(Duration.seconds(1)));
         timer.setCycleCount(Animation.INDEFINITE);
         hTime.getChildren().add(lblTime);
@@ -172,20 +180,26 @@ public class Board extends Pane {
         getChildren().add(vGame);
 
         lblPoints.getStyleClass().addAll("game-label", "game-points");
-        lblPoints.setAlignment(Pos.CENTER);
+        //lblPoints.setAlignment(Pos.CENTER);
         lblPoints.setMinWidth(100);
         getChildren().add(lblPoints);
     }
 
     private Rectangle createCell(int i, int j) {
-        final double arcSize = CELL_SIZE / 6d;
-        var cell = new Rectangle(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        double gap = 7;
+        var cell = new Rectangle(i * CELL_SIZE + gap , j * CELL_SIZE + gap, CELL_SIZE - 2 * gap, CELL_SIZE - 2 * gap);
         // provide default style in case css are not loaded
-        cell.setFill(Color.WHITE);
-        cell.setStroke(Color.GREY);
+/*
+        cell.setFill(Color.web("#cdc1b4"));
+        cell.setStroke(Color.web("#BBADA0"));
+        cell.setStrokeType(StrokeType.CENTERED);
+        cell.setStrokeWidth(14);
+        final double arcSize = CELL_SIZE / 6d;
         cell.setArcHeight(arcSize);
         cell.setArcWidth(arcSize);
+*/
         cell.getStyleClass().add("game-grid-cell");
+        cell.setFill(null);
         return cell;
     }
 
@@ -291,13 +305,17 @@ public class Board extends Pane {
             overlay.getStyleClass().setAll("game-overlay", style1);
             lOvrText.setText(message);
             lOvrText.getStyleClass().setAll("game-label", style2);
+            lOvrText.setTextFill(null);
             lOvrSubText.setText(warning);
             lOvrSubText.getStyleClass().setAll("game-label", "game-lblWarning");
+            lOvrSubText.setTextFill(null);
             txtOverlay.getChildren().setAll(lOvrText, lOvrSubText);
             buttonsOverlay.getChildren().setAll(btn1);
+            prepareButtonForCss(btn1);
 
             if (btn2 != null) {
                 buttonsOverlay.getChildren().add(btn2);
+                prepareButtonForCss(btn2);
             }
 
             if (!layerOnProperty.get()) {
@@ -305,23 +323,45 @@ public class Board extends Pane {
                 defaultBtn.requestFocus();
                 defaultBtn.setDefaultButton(true);
 
-                Board.this.getChildren().addAll(overlay, buttonsOverlay);
+                showOverlay();
                 layerOnProperty.set(true);
             }
         }
     }
 
+    private static void prepareButtonForCss(Button button) {
+        button.setBackground(null);
+        button.setBorder(null);
+        button.setTextFill(null);
+        button.setPadding(new Insets(8, 25, 18, 25));
+    }
+
+    private final VBox overlayContainer = new VBox(overlay, buttonsOverlay);
+
+    private void showOverlay() {
+        overlayContainer.setManaged(false);
+        getChildren().add(overlayContainer);
+        var gridParent = gridGroup.getParent();
+        layoutInArea(overlayContainer, gridParent.getLayoutX(), gridParent.getLayoutY(), gridWidth, gridWidth, 0, HPos.LEFT, VPos.TOP);
+    }
+
+    private void removeOverlay() {
+        getChildren().remove(overlayContainer);
+    }
+
     private void initGameProperties() {
-        overlay.setMinSize(gridWidth, gridWidth);
+        //overlay.setMinSize(gridWidth, gridWidth);
+        overlay.setMinHeight(gridWidth);
         overlay.setAlignment(Pos.CENTER);
-        overlay.setTranslateY(TOP_HEIGHT + GAP_HEIGHT);
+        //overlay.setTranslateY(TOP_HEIGHT + GAP_HEIGHT);
 
         overlay.getChildren().setAll(txtOverlay);
         txtOverlay.setAlignment(Pos.CENTER);
 
         buttonsOverlay.setAlignment(Pos.CENTER);
-        buttonsOverlay.setTranslateY(TOP_HEIGHT + GAP_HEIGHT + gridWidth / 2);
-        buttonsOverlay.setMinSize(gridWidth, gridWidth / 2);
+        //buttonsOverlay.setTranslateY(TOP_HEIGHT + GAP_HEIGHT + gridWidth / 2);
+        //buttonsOverlay.setMinSize(gridWidth, gridWidth / 2);
+        buttonsOverlay.setTranslateY(- gridWidth / 3.5);
         buttonsOverlay.setSpacing(10);
 
         bTry.getStyleClass().add("game-button");
@@ -357,7 +397,7 @@ public class Board extends Pane {
             if (newValue) {
                 timer.stop();
                 overlay.getStyleClass().setAll("game-overlay", "game-overlay-quit");
-
+/*
                 TextFlow flow = new TextFlow();
                 flow.setTextAlignment(TextAlignment.CENTER);
                 flow.setPadding(new Insets(10, 0, 0, 0));
@@ -416,10 +456,38 @@ public class Board extends Pane {
 
                 flow.getChildren().setAll(t00, t01, t02, t1, t20, link1, t21, t23, link2, t22, link3);
                 flow.getChildren().addAll(t24, t31);
-                txtOverlay.getChildren().setAll(flow);
+                txtOverlay.getChildren().setAll(flow);*/
+                HtmlText htmlText = new HtmlText("<center class='game-label'>\n" +
+                        "    <div class='game-lblAbout'>\n" +
+                        "        2048<span class='game-lblAbout2'>FX</span> Game\n" +
+                        "    </div>\n" +
+                        "    <div class='game-lblAboutSub'>\n" +
+                        "        <div>\n" +
+                        "            JavaFx game - WebFx version\n" +
+                        "        </div>\n" +
+                        "        <br/>\n" +
+                        "        <div>\n" +
+                        "            Powered by <a class='game-lblAboutSub2' href='https://openjfx.io/ target='_blank'>OpenJFX</a> Project\n" +
+                        "        </div>\n" +
+                        "        <br/>\n" +
+                        "        <div>\n" +
+                        "            ©\n" +
+                        "            <a class='game-lblAboutSub2' href='https://twitter.com/JPeredaDnr' target='_blank'>@JPeredaDnr</a>\n" +
+                        "            &\n" +
+                        "            <a class='game-lblAboutSub2' href='https://twitter.com/brunoborges' target='_blank'>@brunoborges</a>\n" +
+                        "        </div>\n" +
+                        "        <br/>\n" +
+                        "        <div>\n" +
+                        "            Version 1.1.0 - 2015\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "</center>");
+                htmlText.setPrefWidth(gridWidth);
+                //htmlText.setMaxHeight(400);
+                txtOverlay.getChildren().setAll(htmlText);
                 buttonsOverlay.getChildren().setAll(bContinue);
-                this.getChildren().removeAll(overlay, buttonsOverlay);
-                this.getChildren().addAll(overlay, buttonsOverlay);
+                prepareButtonForCss(bContinue);
+                showOverlay();
                 layerOnProperty.set(true);
             }
         });
@@ -436,7 +504,7 @@ public class Board extends Pane {
 
         layerOnProperty.addListener((ov, b, b1) -> {
             if (!b1) {
-                getChildren().removeAll(overlay, buttonsOverlay);
+                removeOverlay();
                 // Keep the focus on the game when the layer is removed:
                 getParent().requestFocus();
             } else if (b1) {
@@ -450,11 +518,11 @@ public class Board extends Pane {
     private void doClearGame() {
         saveRecord();
         gridGroup.getChildren().removeIf(c -> c instanceof Tile);
-        getChildren().removeAll(overlay, buttonsOverlay);
+        removeOverlay();
 
         Arrays.asList(clearGame, resetGame, restoreGame, saveGame, layerOnProperty, gameWonProperty, gameOverProperty,
                 gameAboutProperty, gamePauseProperty, gameTryAgainProperty, gameSaveProperty, gameRestoreProperty,
-                gameQuitProperty).forEach(a -> ((WritableBooleanValue) a).set(false));
+                gameQuitProperty).forEach(a -> a.set(false));
 
         gameScoreProperty.set(0);
 
@@ -473,15 +541,22 @@ public class Board extends Pane {
 
         final var timeline = new Timeline();
         lblPoints.setText("+" + gameMovePoints.getValue().toString());
+
         lblPoints.setOpacity(1);
 
-        double posX = vScore.localToScene(vScore.getWidth() / 2d, 0).getX();
+        Bounds scoreBounds = lblScore.getLayoutBounds();
+        Point2D scoreBottomRight = new Point2D(scoreBounds.getMaxX(), scoreBounds.getMaxY());
+        for (Parent p = lblScore; p != lblPoints.getParent(); p = p.getParent())
+            scoreBottomRight = p.localToParent(scoreBottomRight.getX(), scoreBottomRight.getY());
         lblPoints.setTranslateX(0);
-        lblPoints.setTranslateX(lblPoints.sceneToLocal(posX, 0).getX() - lblPoints.getWidth() / 2d);
-        lblPoints.setLayoutY(20);
+        double lblPointsWidth = lblPoints.getText().length() * 12; //lblPoints.getLayoutBounds().getWidth(); <= return 0 in the browser :-(
+        lblPoints.setLayoutX(scoreBottomRight.getX() - 12 - lblPointsWidth);
+        lblPoints.setLayoutY(scoreBottomRight.getY());
+        lblPoints.toFront();
+        //Logger.log("scoreBounds = " + scoreBounds + "\nsceneScoreBottomRight = " + sceneScoreBottomRight + "\nlocalScoreBottomRight = " + localScoreBottomRight + "\nlblPointsWidth = " + lblPointsWidth + "\nlayoutX = " + lblPoints.getLayoutX());
 
         final var kvO = new KeyValue(lblPoints.opacityProperty(), 0);
-        final var kvY = new KeyValue(lblPoints.layoutYProperty(), 100);
+        final var kvY = new KeyValue(lblPoints.layoutYProperty(), lblPoints.getLayoutY() + 50);
 
         var animationDuration = Duration.millis(600);
         final KeyFrame kfO = new KeyFrame(animationDuration, kvO);

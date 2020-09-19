@@ -6,7 +6,9 @@ module webfx.demos.fx2048.application.javafx {
     requires webfx.demos.fx2048.application;
     requires webfx.kit.javafx;
     requires webfx.platform.java.appcontainer.impl;
+    requires webfx.platform.java.resource.impl;
     requires webfx.platform.java.shutdown.impl;
+    requires webfx.platform.java.storage.impl;
     requires webfx.platform.shared.log.impl.simple;
 
 }

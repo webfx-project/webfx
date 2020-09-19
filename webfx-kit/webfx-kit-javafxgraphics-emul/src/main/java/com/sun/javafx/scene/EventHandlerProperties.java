@@ -6,10 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TouchEvent;
+import javafx.scene.input.*;
 
 public final class EventHandlerProperties {
     private final EventHandlerManager eventDispatcher;
@@ -463,7 +460,7 @@ public final class EventHandlerProperties {
         }
         return onMouseDragExited;
     }
-
+*/
     private EventHandlerProperty<KeyEvent> onKeyPressed;
 
     public final EventHandler<? super KeyEvent> getOnKeyPressed() {
@@ -514,7 +511,7 @@ public final class EventHandlerProperties {
         }
         return onKeyTyped;
     }
-
+/*
     private EventHandlerProperty<InputMethodEvent> onInputMethodTextChanged;
 
     public final EventHandler<? super InputMethodEvent>

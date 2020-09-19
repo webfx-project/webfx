@@ -1,12 +1,9 @@
 package io.fxgame.game2048;
 
 import javafx.application.Application;
-import javafx.application.ConditionalFeature;
-import javafx.application.Platform;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
+import webfx.platform.shared.services.resource.ResourceService;
 
 /**
  * @author Bruno Borges
@@ -26,8 +23,8 @@ public class Game2048 extends Application {
     public void start(Stage primaryStage) {
         gamePane = new GamePane();
 
-        var scene = new Scene(gamePane);
-        scene.getStylesheets().add(getClass().getResource("game.css").toExternalForm());
+        var scene = new Scene(gamePane, 600, 600);
+        scene.getStylesheets().add(ResourceService.toUrl("game.css", getClass())/*getClass().getResource("game.css").toExternalForm()*/);
 
         setGameBounds(primaryStage, scene);
         setEnhancedDeviceSettings(primaryStage, scene);
@@ -45,29 +42,35 @@ public class Game2048 extends Application {
     }
 
     private void setEnhancedDeviceSettings(Stage primaryStage, Scene scene) {
+/*
         var isARM = System.getProperty("os.arch").toUpperCase().contains("ARM");
         if (isARM) {
             primaryStage.setFullScreen(true);
             primaryStage.setFullScreenExitHint("");
         }
+*/
 
-        if (Platform.isSupported(ConditionalFeature.INPUT_TOUCH)) {
+        /*if (Platform.isSupported(ConditionalFeature.INPUT_TOUCH)) {
             scene.setCursor(Cursor.NONE);
-        }
+        }*/
     }
 
     private void setGameBounds(Stage primaryStage, Scene scene) {
+/*
         var margin = UserSettings.MARGIN;
         var gameBounds = gamePane.getGameManager().getLayoutBounds();
         var visualBounds = Screen.getPrimary().getVisualBounds();
         double factor = Math.min(visualBounds.getWidth() / (gameBounds.getWidth() + margin),
                 visualBounds.getHeight() / (gameBounds.getHeight() + margin));
+*/
         primaryStage.setTitle("2048FX");
         primaryStage.setScene(scene);
+/*
         primaryStage.setMinWidth(gameBounds.getWidth() / 2d);
         primaryStage.setMinHeight(gameBounds.getHeight() / 2d);
         primaryStage.setWidth(((gameBounds.getWidth() + margin) * factor) / 1.5d);
         primaryStage.setHeight(((gameBounds.getHeight() + margin) * factor) / 1.5d);
+*/
     }
 
     public static interface URLOpener {
@@ -79,6 +82,7 @@ public class Game2048 extends Application {
     }
 
     private synchronized static Game2048 getInstance() {
+/*
         if (applicationInstance == null) {
             while (applicationInstance == null) {
                 try {
@@ -88,7 +92,7 @@ public class Game2048 extends Application {
                 }
             }
         }
-
+*/
         return applicationInstance;
     }
 

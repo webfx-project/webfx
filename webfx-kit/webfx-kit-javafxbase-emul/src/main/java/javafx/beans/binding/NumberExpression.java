@@ -808,7 +808,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *
      * @return the new {@code StringBinding}
      */
-    //StringBinding asString();
+    StringBinding asString();
 
     /**
      * Creates a {@link javafx.beans.binding.StringBinding} that holds the value

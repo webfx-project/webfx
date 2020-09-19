@@ -252,18 +252,49 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void updateLayoutX(Number layoutX) {
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+        updateLocalToParentTransforms();
     }
 
     @Override
     public void updateLayoutY(Number layoutY) {
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateTranslateX(Number translateX) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateTranslateY(Number translateY) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateScaleX(Number scaleX) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateScaleY(Number scaleX) {
+        updateLocalToParentTransforms();
     }
 
     @Override
     public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
+        updateLocalToParentTransforms();
+    }
+
+    private void updateLocalToParentTransforms() {
         updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
     }
+
+    @Override
+    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+        boolean isSvg = containerType == DomType.SVG;
+        setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
+    }
+
 
     @Override
     public boolean isTreeVisible() {
@@ -343,12 +374,6 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected abstract String toFilter(Effect effect);
-
-    @Override
-    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
-        boolean isSvg = containerType == DomType.SVG;
-        setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
-    }
 
     @Override
     public void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change) {

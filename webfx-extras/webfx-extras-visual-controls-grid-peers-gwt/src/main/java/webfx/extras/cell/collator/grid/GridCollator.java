@@ -259,6 +259,22 @@ public final class GridCollator extends VisualGrid {
         }
 
         @Override
+        public void updateTranslateX(Number translateX) {
+        }
+
+        @Override
+        public void updateTranslateY(Number translateY) {
+        }
+
+        @Override
+        public void updateScaleX(Number scaleX) {
+        }
+
+        @Override
+        public void updateScaleY(Number scaleX) {
+        }
+
+        @Override
         public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
             container.getTransforms().setAll(transforms);
         }

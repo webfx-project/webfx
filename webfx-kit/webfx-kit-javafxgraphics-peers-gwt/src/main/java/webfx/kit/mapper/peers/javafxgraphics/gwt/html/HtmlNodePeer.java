@@ -42,8 +42,10 @@ public abstract class HtmlNodePeer
             String transform = HtmlTransforms.toHtmlTransforms(localToParentTransforms);
             CSSStyleDeclaration style = ((HTMLElement) container).style;
             style.transform = transform;
-            if (Strings.contains(transform, "matrix") || Strings.contains(transform,"scale"))
+            if (Strings.contains(transform, "matrix"))
                 style.transformOrigin = CSSProperties.TransformOriginUnionType.of("0px 0px 0px");
+            else if (Strings.contains(transform,"scale"))
+                style.transformOrigin = CSSProperties.TransformOriginUnionType.of("center");
         }
     }
 

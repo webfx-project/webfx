@@ -1,15 +1,13 @@
 package io.fxgame.game2048;
 
 import javafx.animation.*;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 import java.util.*;
@@ -21,7 +19,7 @@ import java.util.stream.Stream;
  * @author Bruno Borges
  * @author Jose Pereda
  */
-public class GameManager extends Group {
+public class GameManager extends Pane {
 
     public static final int FINAL_VALUE_TO_WIN = 2048;
 
@@ -54,16 +52,32 @@ public class GameManager extends Group {
         board.setToolBar(createToolBar());
         this.getChildren().add(board);
 
-        var trueProperty = new SimpleBooleanProperty(true);
-        board.clearGameProperty().and(trueProperty).addListener((ov, b1, b2) -> initializeGameGrid());
-        board.resetGameProperty().and(trueProperty).addListener((ov, b1, b2) -> startGame());
-        board.restoreGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doRestoreSession());
-        board.saveGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doSaveSession());
+        board.clearGameProperty().addListener((ov, b1, b2) -> initializeGameGrid());
+        board.resetGameProperty().addListener((ov, b1, b2) -> startGame());
+        board.restoreGameProperty().addListener((ov, b1, b2) -> doRestoreSession());
+        board.saveGameProperty().addListener((ov, b1, b2) -> doSaveSession());
 
         initializeGameGrid();
         startGame();
     }
 
+    @Override
+    protected void layoutChildren() {
+        double width = getWidth();
+        double height = getHeight();
+        double boardWidth = board.prefWidth(height);
+        double boardHeight = board.prefHeight(width);
+        double scale = Math.min((width - UserSettings.MARGIN) / boardWidth,
+                (height - UserSettings.MARGIN) / boardHeight);
+        setScale(scale);
+        double layoutX = (width - boardWidth * scale) / 2d;
+        double layoutY = (height - boardHeight * scale) / 2d;
+        board.setLayoutX(layoutX);
+        board.setLayoutY(layoutY);
+        //webfx.platform.shared.services.log.Logger.log("width = " + width + ", height = " + height + ", boardWidth = " + boardWidth + ", boardHeight = " + boardHeight + ", scale = " + scale);
+        //layoutInArea(board, 0, 0, width, height, 0, HPos.CENTER, VPos.CENTER);
+
+    }
     /**
      * Initializes all cells in gameGrid map to null
      */
@@ -369,8 +383,8 @@ public class GameManager extends Group {
      * @param scale
      */
     public void setScale(double scale) {
-        this.setScaleX(scale);
-        this.setScaleY(scale);
+        board.setScaleX(scale);
+        board.setScaleY(scale);
     }
 
     /**
@@ -444,7 +458,7 @@ public class GameManager extends Group {
         g.setPrefSize(40, 40);
         g.setId(symbol);
         g.setOnAction(t);
-        g.setTooltip(new Tooltip(text));
+        //g.setTooltip(new Tooltip(text));
         return g;
     }
 

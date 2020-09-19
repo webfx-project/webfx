@@ -27,7 +27,7 @@ public class GridOperator {
 
     public GridOperator(int gridSize) {
         if (gridSize < MIN_GRID_SIZE || gridSize > MAX_GRID_SIZE) {
-            throw new IllegalArgumentException(String.format("Grid size must be of range %s and %s.", MIN_GRID_SIZE, MAX_GRID_SIZE));
+            throw new IllegalArgumentException("Grid size must be of range " + MIN_GRID_SIZE + " and " + MAX_GRID_SIZE + ".");
         }
 
         this.gridSize = gridSize;
