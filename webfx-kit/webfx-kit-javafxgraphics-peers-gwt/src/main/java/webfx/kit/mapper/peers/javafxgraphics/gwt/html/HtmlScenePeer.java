@@ -39,7 +39,6 @@ public final class HtmlScenePeer extends ScenePeerBase {
         Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(),   scene.fillProperty());
         installMouseListeners();
         HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
-        HtmlSvgNodePeer.installTouchListeners(DomGlobal.window, scene);
         installStylesheetsListener(scene);
         document.fonts.setOnloadingdone(p0 -> { onCssOrFontLoaded(); return null; });
     }

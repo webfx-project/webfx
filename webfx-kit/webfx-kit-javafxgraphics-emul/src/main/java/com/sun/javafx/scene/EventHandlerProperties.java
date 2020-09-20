@@ -650,7 +650,7 @@ public final class EventHandlerProperties {
         protected void invalidated() {
             //webfx.platform.shared.services.log.Logger.log("[invalidated] eventType = " + eventType);
             eventDispatcher.setEventHandler(eventType, get());
-            if (bean instanceof Node && eventType.getName().startsWith("TOUCH") && get() != null)
+            if (bean instanceof Node && (eventType.getName().startsWith("TOUCH") || eventType.getName().startsWith("SWIPE")) && get() != null)
                 ((Node) bean).onNodePeerReady(peer -> peer.onListeningTouchEvents(true));
         }
     }

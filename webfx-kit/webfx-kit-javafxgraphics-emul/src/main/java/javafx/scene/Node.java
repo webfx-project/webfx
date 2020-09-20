@@ -2478,6 +2478,95 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
 
+    public final void setOnSwipeUp(
+            EventHandler<? super SwipeEvent> value) {
+        onSwipeUpProperty().set(value);
+    }
+
+    public final EventHandler<? super SwipeEvent> getOnSwipeUp() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnSwipeUp();
+    }
+
+    /**
+     * Defines a function to be called when an upward swipe gesture
+     * centered over this node happens.
+     * @return the event handler that is called when an upward swipe gesture
+     * centered over this node happens
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super SwipeEvent>>
+    onSwipeUpProperty() {
+        return getEventHandlerProperties().onSwipeUpProperty();
+    }
+
+    public final void setOnSwipeDown(
+            EventHandler<? super SwipeEvent> value) {
+        onSwipeDownProperty().set(value);
+    }
+
+    public final EventHandler<? super SwipeEvent> getOnSwipeDown() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnSwipeDown();
+    }
+
+    /**
+     * Defines a function to be called when a downward swipe gesture
+     * centered over this node happens.
+     * @return the event handler that is called when a downward swipe gesture
+     * centered over this node happens
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super SwipeEvent>>
+    onSwipeDownProperty() {
+        return getEventHandlerProperties().onSwipeDownProperty();
+    }
+
+    public final void setOnSwipeLeft(
+            EventHandler<? super SwipeEvent> value) {
+        onSwipeLeftProperty().set(value);
+    }
+
+    public final EventHandler<? super SwipeEvent> getOnSwipeLeft() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnSwipeLeft();
+    }
+
+    /**
+     * Defines a function to be called when a leftward swipe gesture
+     * centered over this node happens.
+     * @return the event handler that is called when a leftward swipe gesture
+     * centered over this node happens
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super SwipeEvent>>
+    onSwipeLeftProperty() {
+        return getEventHandlerProperties().onSwipeLeftProperty();
+    }
+
+    public final void setOnSwipeRight(
+            EventHandler<? super SwipeEvent> value) {
+        onSwipeRightProperty().set(value);
+    }
+
+    public final EventHandler<? super SwipeEvent> getOnSwipeRight() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnSwipeRight();
+    }
+
+    /**
+     * Defines a function to be called when an rightward swipe gesture
+     * centered over this node happens.
+     * @return the event handler that is called when an rightward swipe gesture
+     * centered over this node happens
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super SwipeEvent>>
+    onSwipeRightProperty() {
+        return getEventHandlerProperties().onSwipeRightProperty();
+    }
+
+
     /* *************************************************************************
      *                                                                         *
      *                             Touch Handling                              *

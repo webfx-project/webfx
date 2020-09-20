@@ -3,6 +3,8 @@ package webfx.kit.mapper.peers.javafxgraphics.gwt.shared;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.sun.javafx.cursor.CursorType;
 import com.sun.javafx.event.EventUtil;
+import com.sun.javafx.tk.quantum.GestureRecognizers;
+import com.sun.javafx.tk.quantum.SwipeGestureRecognizer;
 import elemental2.dom.*;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
@@ -26,7 +28,6 @@ import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgNodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.*;
-import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.collection.Collections;
@@ -109,9 +110,8 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void onListeningTouchEvents(boolean listening) {
-        if (listening) {
+        if (listening)
             installTouchListeners();
-        }
     }
 
     private boolean touchListenersInstalled;
@@ -380,8 +380,8 @@ public abstract class HtmlSvgNodePeer
     }
 
     public static void installTouchListeners(EventTarget htmlTarget, javafx.event.EventTarget fxTarget) {
-        if (fxTarget == null)
-            Logger.log("fxTarget is null!!!!");
+        //Logger.log("installTouchListeners()");
+        //Logger.log(htmlTarget);
         registerTouchListener(htmlTarget, "touchstart", fxTarget);
         registerTouchListener(htmlTarget, "touchmove", fxTarget);
         registerTouchListener(htmlTarget, "touchend", fxTarget);
@@ -411,7 +411,8 @@ public abstract class HtmlSvgNodePeer
             case "touchcancel":
             default : eventType = javafx.scene.input.TouchEvent.TOUCH_RELEASED; break;
         }
-        List<TouchPoint> touchPoints = e.touches.asList().stream().map(t -> toFxTouchPoint(t, e)).collect(Collectors.toList());
+        SwipeGestureRecognizer.CURRENT_TARGET = fxTarget;
+        List<TouchPoint> touchPoints = e.changedTouches.asList().stream().map(t -> toFxTouchPoint(t, e)).collect(Collectors.toList());
         return new javafx.scene.input.TouchEvent(null, fxTarget, eventType, touchPoints.get(0),
                 touchPoints,
                 0, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
@@ -419,15 +420,23 @@ public abstract class HtmlSvgNodePeer
 
     private static TouchPoint toFxTouchPoint(Touch touch, TouchEvent e) {
         TouchPoint.State state = TouchPoint.State.STATIONARY;
-        if (e.changedTouches.asList().contains(touch)) {
+        //if (e.changedTouches.asList().contains(touch)) {
             switch (e.type) {
                 case "touchstart": state = TouchPoint.State.PRESSED; break;
                 case "touchend": state = TouchPoint.State.RELEASED; break;
                 case "touchmove": state = TouchPoint.State.MOVED; break;
             }
-        }
+        //}
+        if (state == TouchPoint.State.PRESSED)
+            gestureRecognizers.notifyBeginTouchEvent((long) e.timeStamp, 0, false, 1);
+        gestureRecognizers.notifyNextTouchEvent((long) e.timeStamp, state.name(), touch.identifier, (int) touch.clientX, (int) touch.clientY, (int) touch.screenX, (int) touch.screenY);
+        if (state == TouchPoint.State.RELEASED)
+            gestureRecognizers.notifyEndTouchEvent((long) e.timeStamp);
         return new TouchPoint(touch.identifier, state, touch.clientX, touch.clientY, touch.screenX, touch.screenY, null, null);
     }
+
+    private static GestureRecognizers gestureRecognizers = new GestureRecognizers();
+
 
     @Override
     public void requestFocus() {
