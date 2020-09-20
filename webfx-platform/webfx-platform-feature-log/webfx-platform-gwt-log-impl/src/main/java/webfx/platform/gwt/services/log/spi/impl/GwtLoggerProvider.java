@@ -15,6 +15,11 @@ public class GwtLoggerProvider implements LoggerProvider {
             logConsole(throwable);
     }
 
+    @Override
+    public void log(Object message) {
+        logConsole(message);
+    }
+
     private static native void logConsole(Object message) /*-{ $wnd.console.log(message); }-*/;
 
 }

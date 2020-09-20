@@ -689,6 +689,7 @@ public class Scene implements EventTarget,
                     Properties.onPropertySet((ObservableValue) node.getProperties().get("skinProperty"),
                             skin -> keepParentAndChildrenPeersUpdated((Parent) node), true);
             }
+            node.callNodePeerHandlers();
         }
         return nodePeer;
     }

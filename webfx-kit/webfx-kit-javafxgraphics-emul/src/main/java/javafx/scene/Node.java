@@ -34,11 +34,11 @@ import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallbac
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import webfx.kit.mapper.peers.javafxgraphics.markers.*;
 import webfx.platform.client.services.uischeduler.UiScheduler;
-import webfx.platform.shared.services.log.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static javafx.scene.layout.PreferenceResizableNode.USE_COMPUTED_SIZE;
 import static javafx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
@@ -1218,6 +1218,26 @@ public abstract class Node implements INode, EventTarget, Styleable {
         if (peerFocusRequested && nodePeer != null) {
             nodePeer.requestFocus();
             peerFocusRequested = false;
+        }
+    }
+
+    private List<Consumer<NodePeer>> onNodePeerReadyHandlers;
+
+    public void onNodePeerReady(Consumer<NodePeer> handler) { // handler will be called when nodePeer is set and nodePeer.getNode() doesn't return null
+        if (nodePeer != null && nodePeer.getNode() != null)
+            handler.accept(nodePeer);
+        else {
+            if (onNodePeerReadyHandlers == null)
+                onNodePeerReadyHandlers = new ArrayList<>();
+            onNodePeerReadyHandlers.add(handler);
+        }
+    }
+
+    // Called by Scene once nodePeer is bound to node
+    void callNodePeerHandlers() {
+        if (nodePeer != null && onNodePeerReadyHandlers != null) {
+            onNodePeerReadyHandlers.forEach(handler -> handler.accept(nodePeer));
+            onNodePeerReadyHandlers = null;
         }
     }
 

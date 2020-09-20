@@ -75,7 +75,10 @@ public abstract class NodePeerBase
 
     @Override
     public void requestFocus() {
+    }
 
+    @Override
+    public void onListeningTouchEvents(boolean listening) {
     }
 
     protected void requestUpdateOnPropertiesChange(SceneRequester sceneRequester, ObservableValue... properties) {
