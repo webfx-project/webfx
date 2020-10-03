@@ -101,7 +101,7 @@ public final class HtmlTextPeer
                 if (sizeChangedCallback != null)
                     sizeChangedCallback.run();
             };
-            UiScheduler.schedulePropertyChangeInNextAnimationFrame(updateYRunnable);
+            UiScheduler.schedulePropertyChangeInAnimationFrame(updateYRunnable);
         }
     }
 

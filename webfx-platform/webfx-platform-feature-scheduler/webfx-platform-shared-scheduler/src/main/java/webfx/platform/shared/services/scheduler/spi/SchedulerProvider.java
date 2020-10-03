@@ -41,13 +41,6 @@ public interface SchedulerProvider {
      */
     Scheduled scheduleDelay(long delayMs, Runnable runnable);
 
-    default Scheduled scheduleDelay(long delayMs, Consumer<Scheduled> runnable) {
-        Unit<Scheduled> scheduledHolder = new Unit<>();
-        Scheduled scheduled = scheduleDelay(delayMs, () -> runnable.accept(scheduledHolder.get()));
-        scheduledHolder.set(scheduled);
-        return scheduled;
-    }
-
     /**
      * Schedules a repeating handler that is scheduled with a constant periodicity. That is, the
      * handler will be invoked every <code>delayMs</code> milliseconds, regardless of how long the

@@ -1197,7 +1197,7 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
             setSkin(createDefaultSkin()); // Setting the skin to the default one
             // Postponing the showRunnable to the shortest delay after the DOM has been updated with the skin
             // Note: Platform.runLater() is too short (next animation frame), but skipping an additional frame seems to work
-            UiScheduler.scheduleInFutureAnimationFrame(1, showRunnable, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+            UiScheduler.scheduleInAnimationFrame(showRunnable, 1, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
         }
     }
 }

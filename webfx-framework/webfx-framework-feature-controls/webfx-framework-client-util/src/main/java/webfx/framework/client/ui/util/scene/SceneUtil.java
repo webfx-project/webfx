@@ -212,11 +212,11 @@ public final class SceneUtil {
                 }
                 virtualKeyboardShowingProperty.setValue(showing);
                 // Also keeping focused text input control visible on screen when changing height
-                UiScheduler.scheduleInFutureAnimationFrame(2, () -> {
+                UiScheduler.scheduleInAnimationFrame(() -> {
                     Node focusOwner = scene.getFocusOwner();
                     if (focusOwner instanceof TextInputControl)
                         scrollNodeToBeVerticallyVisibleOnScene(focusOwner, true, true);
-                }, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+                }, 2, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
             });
         }
 

@@ -32,10 +32,6 @@ public class Scheduler {
         return getProvider().scheduleDelay(delayMs, runnable);
     }
 
-    public static Scheduled scheduleDelay(long delayMs, Consumer<Scheduled> runnable) {
-        return getProvider().scheduleDelay(delayMs, runnable);
-    }
-
     /**
      * Schedules a repeating handler that is scheduled with a constant periodicity. That is, the
      * handler will be invoked every <code>delayMs</code> milliseconds, regardless of how long the

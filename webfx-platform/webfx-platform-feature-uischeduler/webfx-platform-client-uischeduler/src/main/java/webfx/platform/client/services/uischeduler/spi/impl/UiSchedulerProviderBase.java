@@ -14,22 +14,17 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
 
     @Override
     public void scheduleDeferred(Runnable runnable) {
-        scheduleInNextAnimationFrame(runnable, AnimationFramePass.UI_UPDATE_PASS);
+        scheduleInAnimationFrameImpl(0, runnable, 0, AnimationFramePass.UI_UPDATE_PASS, false);
     }
 
     @Override
     public Scheduled scheduleDelay(long delayMs, Runnable runnable) {
-        return scheduleDelayInAnimationFrame(delayMs, runnable, AnimationFramePass.UI_UPDATE_PASS);
+        return scheduleInAnimationFrameImpl(delayMs, runnable, 1, AnimationFramePass.UI_UPDATE_PASS, false);
     }
 
     @Override
-    public Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
-        return scheduleInAnimationFrame(delayMs, animationTask, pass, false, 1 /* Important to postpone to the next frame otherwise there is no UI refresh between 2 animation calls (observed in Mandelbrot demo) */);
-    }
-
-    @Override
-    public Scheduled scheduleInFutureAnimationFrame(int frameCount, Runnable animationTask, AnimationFramePass pass) {
-        return scheduleInAnimationFrame(0, animationTask, pass, false, frameCount);
+    public Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, int afterFrameCount, AnimationFramePass pass) {
+        return scheduleInAnimationFrameImpl(delayMs, animationTask, afterFrameCount, pass, false);
     }
 
     @Override
@@ -39,11 +34,11 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
 
     @Override
     public Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
-        return scheduleInAnimationFrame(delayMs, animationTask, pass, true, 1);
+        return scheduleInAnimationFrameImpl(delayMs, animationTask, 0, pass, true);
     }
 
-    private Scheduled scheduleInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass, boolean periodic, int postponeFrameCount) {
-        return new AnimationScheduled(delayMs, animationTask, pass, periodic, postponeFrameCount);
+    private Scheduled scheduleInAnimationFrameImpl(long delayMs, Runnable animationTask, int afterFrameCount, AnimationFramePass pass, boolean periodic) {
+        return new AnimationScheduled(delayMs, animationTask, afterFrameCount, pass, periodic);
     }
 
     @Override
@@ -52,18 +47,18 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
     }
 
     public class AnimationScheduled implements Scheduled {
-        private final Runnable runnable;
         private final long delayMs;
-        private final boolean periodic;
+        private final Runnable runnable;
         private int futureFrameCount;
+        private final boolean periodic;
         private long nextExecutionTime;
         private boolean cancelled;
 
-        private AnimationScheduled(long delayMs, Runnable runnable, AnimationFramePass pass, boolean periodic, int futureFrameCount) {
-            this.runnable = runnable;
+        private AnimationScheduled(long delayMs, Runnable runnable, int afterFrameCount, AnimationFramePass pass, boolean periodic) {
             this.delayMs = delayMs;
+            this.runnable = runnable;
+            this.futureFrameCount = afterFrameCount;
             this.periodic = periodic;
-            this.futureFrameCount = futureFrameCount;
             nextExecutionTime = delayMs == 0 ? 0 : System.currentTimeMillis() + delayMs;
             switch (pass) {
                 case UI_UPDATE_PASS: uiAnimations.add(this); break;
@@ -161,10 +156,12 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
         }
     }
 
+/* Deprecated
     public void runLikeInAnimationFrame(Runnable runnable) {
         Boolean af = animationFrame.get();
         animationFrame.set(Boolean.TRUE);
         runnable.run();
         animationFrame.set(af);
     }
+*/
 }

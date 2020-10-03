@@ -15,7 +15,6 @@ import javafx.scene.shape.Rectangle;
 import webfx.extras.visual.*;
 import webfx.extras.visual.controls.SelectableVisualResultControlSkinBase;
 import webfx.kit.util.properties.Properties;
-import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.scheduler.Scheduled;
 import webfx.platform.shared.util.collection.Collections;
@@ -126,7 +125,7 @@ public final class VisualGridSkin extends SelectableVisualResultControlSkinBase<
                         rowIndex++;
                     }
                 }
-            }, AnimationFramePass.UI_UPDATE_PASS);
+            });
     }
 
     @Override

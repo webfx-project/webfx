@@ -620,7 +620,7 @@ public class Scene implements EventTarget,
             if (UiScheduler.isAnimationFrameNow())
                 runnable.run();
             else
-                UiScheduler.schedulePropertyChangeInNextAnimationFrame(runnable);
+                UiScheduler.schedulePropertyChangeInAnimationFrame(runnable);
         }
     };
 

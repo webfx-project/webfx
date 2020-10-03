@@ -399,10 +399,10 @@ public abstract class ButtonSelector<T> {
         if (isLoadedContentLayoutInDialog())
             applyNewDecidedShowModeNow();
         else if (scheduled == null)
-            scheduled = UiScheduler.scheduleInFutureAnimationFrame(1, () -> {
+            scheduled = UiScheduler.scheduleInAnimationFrame(() -> {
                 scheduled = null;
                 applyNewDecidedShowMode();
-            }, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+            }, 1, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
     }
 
     private boolean isLoadedContentLayoutInDialog() {
@@ -422,9 +422,8 @@ public abstract class ButtonSelector<T> {
             } else {
                 // This code is in case a virtual keyboard just appeared, at this stage, the layout is not finished so we
                 // update the dialog position again later (2 animation frames later seems necessary)
-                UiScheduler.scheduleInFutureAnimationFrame(2,
-                    this::updateDropUpOrDownDialogPosition
-                , AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+                UiScheduler.scheduleInAnimationFrame(this::updateDropUpOrDownDialogPosition, 2,
+                        AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
             }
             updateDropUpOrDownDialogPosition();
             if (!dialogPane.isVisible())
