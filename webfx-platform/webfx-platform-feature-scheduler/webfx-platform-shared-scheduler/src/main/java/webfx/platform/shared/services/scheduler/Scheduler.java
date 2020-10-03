@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-public final class Scheduler {
+public class Scheduler {
 
     public static SchedulerProvider getProvider() {
         return SingleServiceProvider.getProvider(SchedulerProvider.class, () -> ServiceLoader.load(SchedulerProvider.class));
@@ -59,6 +59,10 @@ public final class Scheduler {
 
     public static long nanoTime() { // because System.nanoTime() is not GWT compatible
         return getProvider().nanoTime();
+    }
+
+    public static int availableProcessors() {
+        return getProvider().availableProcessors();
     }
 
 }

@@ -15,6 +15,11 @@ public final class GwtUiSchedulerProvider extends UiSchedulerProviderBase {
     private static final long START_NANO = System.currentTimeMillis() * MILLIS_IN_NANO - performanceNano();
 
     @Override
+    public int availableProcessors() {
+        return 1;
+    }
+
+    @Override
     public boolean isUiThread() {
         return true;
     }

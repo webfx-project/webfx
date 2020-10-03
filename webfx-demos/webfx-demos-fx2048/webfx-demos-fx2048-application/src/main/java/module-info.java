@@ -9,7 +9,6 @@ module webfx.demos.fx2048.application {
     requires javafx.graphics;
     requires webfx.extras.webtext.controls;
     requires webfx.platform.client.storage;
-    requires webfx.platform.shared.log;
     requires webfx.platform.shared.resource;
     requires webfx.platform.shared.util;
 

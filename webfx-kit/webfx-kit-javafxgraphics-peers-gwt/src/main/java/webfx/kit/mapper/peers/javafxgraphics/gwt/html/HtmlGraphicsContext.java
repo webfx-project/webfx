@@ -415,7 +415,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double x, double y, double w, double h) {
         if (img instanceof HtmlCanvasImage)
-            ctx.drawImage((HTMLCanvasElement) ((HtmlCanvasImage) img).getHtmlCanvasPeer().getElement(), x, y, w, h);
+            ctx.drawImage(((HtmlCanvasImage) img).getSnapshotCanvasElement(), x, y, w, h);
         else if (img != null) {
             HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
             ctx.drawImage(imageElement, x, y, w, h);
@@ -460,7 +460,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
         if (img instanceof HtmlCanvasImage)
-            ctx.drawImage((HTMLCanvasElement) ((HtmlCanvasImage) img).getHtmlCanvasPeer().getElement(), sx, sy, sw, sh, dx, dy, dw, dh);
+            ctx.drawImage(((HtmlCanvasImage) img).getSnapshotCanvasElement(), sx, sy, sw, sh, dx, dy, dw, dh);
         else if (img != null) {
             HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
             // This scaleX/Y computation was necessary to make SpaceFX work

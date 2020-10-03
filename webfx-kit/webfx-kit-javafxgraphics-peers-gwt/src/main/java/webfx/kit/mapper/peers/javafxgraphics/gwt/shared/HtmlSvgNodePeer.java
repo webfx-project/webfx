@@ -303,23 +303,23 @@ public abstract class HtmlSvgNodePeer
         return true;
     }
 
-    protected boolean isStyleAttribute(String name) {
+    protected String getStyleAttribute(String name) {
         if (containerType == DomType.HTML)
             switch (name) {
-                case "pointer-events":
+                case "pointer-events": return "pointerEvents";
+                case "clip-path": return "clipPath";
+                case "font-family": return "fontFamily";
+                case "font-style": return "fontStyle";
+                case "font-weight": return "fontWeight";
+                case "font-size": return "fontSize";
+                case "mix-blend-mode": return "mixBlendMode";
                 case "visibility":
                 case "opacity":
-                case "clip-path":
-                case "mix-blend-mode":
                 case "filter":
-                case "font-family":
-                case "font-style":
-                case "font-weight":
-                case "font-size":
                 case "transform":
-                    return true;
+                    return name;
             }
-        return false;
+        return null;
     }
 
     protected void setElementStyleAttribute(String name, Object value) {
@@ -538,8 +538,9 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setElementAttribute(String name, String value) {
-        if (isStyleAttribute(name))
-            setElementStyleAttribute(name, value);
+        String styleAttribute = getStyleAttribute(name);
+        if (styleAttribute != null)
+            setElementStyleAttribute(styleAttribute, value);
         else
             setElementAttribute(container, name, value);
     }
@@ -560,8 +561,9 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setElementAttribute(String name, Number value) {
-        if (container == element && isStyleAttribute(name))
-            setElementStyleAttribute(name, value);
+        String styleAttribute;
+        if (container == element && (styleAttribute = getStyleAttribute(name)) != null)
+            setElementStyleAttribute(styleAttribute, value);
         else
             setElementAttribute(container, name, value);
     }

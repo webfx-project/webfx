@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-public final class UiScheduler {
+public final class UiScheduler extends Scheduler {
 
     static {
         SchedulerProvider schedulerProvider = Scheduler.getProvider();

@@ -2052,6 +2052,27 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return eventHandlerProperties;
     }
 
+    public final void setOnMouseMoved(
+            EventHandler<? super MouseEvent> value) {
+        onMouseMovedProperty().set(value);
+    }
+
+    public final EventHandler<? super MouseEvent> getOnMouseMoved() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnMouseMoved();
+    }
+
+    /**
+     * Defines a function to be called when mouse cursor moves within
+     * this {@code Node} but no buttons have been pushed.
+     * @return the event handler that is called when a mouse cursor moves
+     * within this {@code Node} but no buttons have been pushed
+     */
+    public final ObjectProperty<EventHandler<? super MouseEvent>>
+    onMouseMovedProperty() {
+        return getEventHandlerProperties().onMouseMovedProperty();
+    }
+
     public final void setOnMousePressed(
             EventHandler<? super MouseEvent> value) {
         onMousePressedProperty().set(value);

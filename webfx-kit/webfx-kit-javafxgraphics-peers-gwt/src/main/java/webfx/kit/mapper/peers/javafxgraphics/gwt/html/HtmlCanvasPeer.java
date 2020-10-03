@@ -38,6 +38,6 @@ public final class HtmlCanvasPeer
 
     @Override
     public WritableImage snapshot(SnapshotParameters params, WritableImage image) {
-        return new HtmlCanvasImage(this);
+        return new HtmlCanvasImage((HTMLCanvasElement) getElement());
     }
 }

@@ -18,21 +18,19 @@
 package webfx.platform.java.services.scheduler.spi.impl;
 
 
+import webfx.platform.shared.services.log.Logger;
 import webfx.platform.shared.services.scheduler.Scheduled;
 import webfx.platform.shared.services.scheduler.spi.SchedulerProvider;
-import webfx.platform.shared.services.log.Logger;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /*
  * @author Bruno Salmon
  */
 public final class JavaSchedulerProvider implements SchedulerProvider {
 
-    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    //private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(availableProcessors());
 
     public JavaSchedulerProvider() {
 /* Commented as this scheduler may still be used by other shutdown tasks (avoiding a RejectedExecutionException)
@@ -94,5 +92,10 @@ public final class JavaSchedulerProvider implements SchedulerProvider {
     @Override
     public long nanoTime() {
         return System.nanoTime();
+    }
+
+    @Override
+    public int availableProcessors() {
+        return Runtime.getRuntime().availableProcessors();
     }
 }

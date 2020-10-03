@@ -18,8 +18,9 @@
 package webfx.platform.shared.services.scheduler.spi;
 
 import webfx.platform.shared.services.scheduler.Scheduled;
-import java.util.function.Consumer;
 import webfx.platform.shared.util.tuples.Unit;
+
+import java.util.function.Consumer;
 
 /**
  * This class provides low-level task scheduling primitives.
@@ -69,5 +70,7 @@ public interface SchedulerProvider {
         scheduleDeferred(runnable);
     }
 
-    long nanoTime(); // because System.nanoTime() is not GWT compatible
+    long nanoTime(); // because System.nanoTime() raises a compilation error with GWT
+
+    int availableProcessors(); // because Runtime.getRuntime().availableProcessors()) raises a compilation error with GWT
 }

@@ -1,0 +1,11 @@
+<module>
+
+    <providers>
+        <provider spi="javafx.application.Application">webfx.demos.mandelbrot.MandelbrotApplication</provider>
+    </providers>
+
+    <resource-packages>
+        <package>webfx.demos.mandelbrot</package>
+    </resource-packages>
+
+</module>

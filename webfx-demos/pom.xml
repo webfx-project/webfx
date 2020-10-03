@@ -19,6 +19,7 @@
         <module>webfx-demos-gauge</module>
         <module>webfx-demos-spacefx</module>
         <module>webfx-demos-fx2048</module>
+        <module>webfx-demos-mandelbrot</module>
     </modules>
 
 </project>

@@ -134,6 +134,7 @@ public final class HtmlUtil {
         return setAttribute(e, "style", style);
     }
 
+/*
     private final static String[] browserPrefixes = {"-webkit-", "-moz-"};
     private static String[] getAttributeBrowserPrefixes(String name) {
         switch (name) {
@@ -142,6 +143,7 @@ public final class HtmlUtil {
         }
         return null;
     }
+*/
 
     public static <N extends Node> N setStyleAttribute(N node, String name, Object value) {
         if (node instanceof Element)
@@ -150,10 +152,12 @@ public final class HtmlUtil {
     }
 
     public static <E extends Element> E setStyleAttribute(E e, String name, Object value) {
+/*
         String[] prefixes = getAttributeBrowserPrefixes(name);
         if (prefixes != null)
             for (String prefix: prefixes)
                 setPrefixedStyleAttribute(e, prefix + name, value);
+*/
         return setPrefixedStyleAttribute(e, name, value);
     }
 

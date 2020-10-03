@@ -31,6 +31,11 @@ public final class FxUiSchedulerProvider extends UiSchedulerProviderBase {
     }
 
     @Override
+    public int availableProcessors() {
+        return Runtime.getRuntime().availableProcessors();
+    }
+
+    @Override
     public boolean isUiThread() {
         return WebFxKitLauncher.isReady() && Platform.isFxApplicationThread();
     }

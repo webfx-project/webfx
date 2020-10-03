@@ -24,7 +24,7 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
 
     @Override
     public Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
-        return scheduleInAnimationFrame(delayMs, animationTask, pass, false, 0);
+        return scheduleInAnimationFrame(delayMs, animationTask, pass, false, 1 /* Important to postpone to the next frame otherwise there is no UI refresh between 2 animation calls (observed in Mandelbrot demo) */);
     }
 
     @Override
@@ -39,7 +39,7 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
 
     @Override
     public Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
-        return scheduleInAnimationFrame(delayMs, animationTask, pass, true, 0);
+        return scheduleInAnimationFrame(delayMs, animationTask, pass, true, 1);
     }
 
     private Scheduled scheduleInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass, boolean periodic, int postponeFrameCount) {

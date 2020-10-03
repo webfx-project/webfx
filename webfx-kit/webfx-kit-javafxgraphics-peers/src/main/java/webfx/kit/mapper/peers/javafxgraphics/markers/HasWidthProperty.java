@@ -9,6 +9,6 @@ public interface HasWidthProperty {
 
     DoubleProperty widthProperty();
     default void setWidth(Number width) { widthProperty().setValue(width); }
-    default Double getWidth() { return widthProperty().getValue(); }
+    default double getWidth() { return widthProperty().getValue(); }
 
 }

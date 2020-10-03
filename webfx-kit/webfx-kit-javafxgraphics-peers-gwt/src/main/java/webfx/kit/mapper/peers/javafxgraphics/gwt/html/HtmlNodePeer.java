@@ -12,11 +12,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Transform;
+import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
+import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlTransforms;
-import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
-import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import webfx.platform.shared.util.Strings;
 
 import java.util.List;
@@ -62,9 +62,12 @@ public abstract class HtmlNodePeer
                 double left = r.getX();
                 double right = left + r.getWidth();
                 double bottom = top + r.getHeight();
+/*
                 double leftRadius = r.getArcWidth() / 2, rightRadius = leftRadius;
                 double topRadius = r.getArcHeight() / 2, bottomRadius = topRadius;
-                return "inset(" + toPx(top) + " " + toPx(right) + " " + toPx(bottom) + " " + toPx(left) + " round " + topRadius + "px " + rightRadius + "px " + bottomRadius + "px" + leftRadius + "px)";
+                return "inset(" + toPx(top) + " " + toPx(right) + " " + toPx(bottom) + " " + toPx(left) + " round " + topRadius + "px " + rightRadius + "px " + bottomRadius + "px " + leftRadius + "px)";
+*/
+                return "polygon(" + toPx(left) + " " + toPx(top) + ", " + toPx(right) + " " + toPx(top) + ", " + toPx(right) + " " + toPx(bottom) + ", " + toPx(left) + " " + toPx(bottom) + ")";
             }
         }
         return null;
