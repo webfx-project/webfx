@@ -26,6 +26,10 @@ public final class Logger {
         getProvider().log(message, error);
     }
 
+    public static void logNative(Object nativeObject) {
+        getProvider().logNative(nativeObject);
+    }
+
     public static String captureStackTrace(Throwable exception) {
 /* Not GWT compatible
         StringWriter sw = new StringWriter();
