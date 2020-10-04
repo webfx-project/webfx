@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.worker.spi.WorkerServiceProvider">webfx.platform.gwt.services.worker.spi.impl.GwtWorkerServiceProvider</provider>
+    </providers>
+
+</module>

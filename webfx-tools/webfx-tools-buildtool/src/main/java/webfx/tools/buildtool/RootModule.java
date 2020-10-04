@@ -58,7 +58,9 @@ public final class RootModule extends ProjectModule {
 
         // GWT
         registerJavaPackageModule(createThirdPartyModule("gwt-user"), "com.google.gwt.user.client", "com.google.gwt.core.client", "com.google.gwt.resources.client", "com.google.gwt.regexp.shared", "com.google.gwt.storage.client", "com.google.gwt.media.client");
+        registerJavaPackageModule(createThirdPartyModule("jsinterop-base"), "jsinterop.base");
         registerJavaPackageModule(createThirdPartyModule("jsinterop-annotations"), "jsinterop.annotations");
+        registerJavaPackageModule(createThirdPartyModule("elemental2-core"), "elemental2.core");
         registerJavaPackageModule(createThirdPartyModule("elemental2-dom"), "elemental2.dom");
         registerJavaPackageModule(createThirdPartyModule("elemental2-svg"), "elemental2.svg");
 
@@ -67,6 +69,14 @@ public final class RootModule extends ProjectModule {
 
         // GWT Google charts
         registerJavaPackageModule(createThirdPartyModule("gwt-charts"), "com.googlecode.gwt.charts.client", "com.googlecode.gwt.charts.client.corechart");
+
+        // GWT Web Worker
+        registerJavaPackageModule(createThirdPartyModule("gwt-webworker"), "com.google.gwt.webworker.client");
+
+        // TeaVM
+        registerJavaPackageModule(createThirdPartyModule("teavm-interop"), "org.teavm.interop");
+        registerJavaPackageModule(createThirdPartyModule("teavm-jso"), "org.teavm.jso");
+        registerJavaPackageModule(createThirdPartyModule("teavm-jso-apis"), "org.teavm.jso.core", "org.teavm.jso.dom.events");
 
         // Vert.x
         registerJavaPackageModule(createThirdPartyModule("vertx-core"), "io.vertx.core", "io.vertx.core.eventbus", "io.vertx.core.http", "io.vertx.core.json", "io.vertx.core.net");

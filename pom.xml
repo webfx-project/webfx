@@ -43,6 +43,7 @@
         <lib.elemental2.groupId>com.google.elemental2</lib.elemental2.groupId>
         <lib.elemental2.version>1.0.0</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
+        <lib.teavm.version>0.6.1</lib.teavm.version>
         <lib.vertx.version>3.9.1</lib.vertx.version>
         <lib.javawebsocket.version>1.5.1</lib.javawebsocket.version>
 
@@ -62,6 +63,7 @@
         <plugin.jflex.version>1.8.2</plugin.jflex.version>
         <plugin.proguard.version>2.0.14</plugin.proguard.version>
         <plugin.gwt.version>1.0.0</plugin.gwt.version>
+        <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
 
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
         <plugin.compiler.param.exclude></plugin.compiler.param.exclude>
@@ -79,6 +81,9 @@
         <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
+        <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
+        <plugin.teavm.minifying>true</plugin.teavm.minifying>
+        <plugin.teavm.debug>false</plugin.teavm.debug>
 
         <application.name>${project.name}</application.name>
         <application.version>${project.version}</application.version>
@@ -249,6 +254,42 @@
                 <groupId>com.googlecode.gwt-charts</groupId>
                 <artifactId>gwt-charts</artifactId>
                 <version>${lib.gwt-charts.version}</version>
+            </dependency>
+
+            <!--
+             ********************************************************************
+             * Libraries required for the TeaVM Platform (webfx-platform-teavm) *
+             ********************************************************************
+             -->
+
+            <!-- Emulator of Java class library for TeaVM -->
+            <dependency>
+                <groupId>org.teavm</groupId>
+                <artifactId>teavm-classlib</artifactId>
+                <version>${lib.teavm.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- JavaScriptObjects (JSO) - a JavaScript binding for TeaVM -->
+            <dependency>
+                <groupId>org.teavm</groupId>
+                <artifactId>teavm-jso</artifactId>
+                <version>${lib.teavm.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.teavm</groupId>
+                <artifactId>teavm-interop</artifactId>
+                <version>${lib.teavm.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.teavm</groupId>
+                <artifactId>teavm-jso-apis</artifactId>
+                <version>${lib.teavm.version}</version>
+                <scope>provided</scope>
             </dependency>
 
             <!--
@@ -572,6 +613,51 @@
                         </jvmArgs>
                         <!--<localWorkers>1</localWorkers>-->
                     </configuration>
+                </plugin>
+
+                <!--
+                 ******************************
+                 * TeaVM plugin configuration *
+                 ******************************
+                 -->
+                <plugin>
+                    <groupId>org.teavm</groupId>
+                    <artifactId>teavm-maven-plugin</artifactId>
+                    <version>${plugin.teavm.version}</version>
+                    <dependencies>
+                        <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
+                        <dependency>
+                            <groupId>org.teavm</groupId>
+                            <artifactId>teavm-classlib</artifactId>
+                            <version>${lib.teavm.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <id>JavaScript</id>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <phase>process-classes</phase>
+                            <configuration>
+                                <targetType>JAVASCRIPT</targetType>
+                                <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
+                                <targetDirectory>${project.build.directory}/webroot/${project.artifactId}/js</targetDirectory>
+
+                                <!-- Main class, containing static void main(String[]) -->
+                                <mainClass>${plugin.teavm.param.mainClass}</mainClass>
+
+                                <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
+                                <minifying>${plugin.teavm.minifying}</minifying>
+                                <!-- Whether TeaVM should produce debug information for its built-in debugger -->
+                                <debugInformationGenerated>${plugin.teavm.debug}</debugInformationGenerated>
+                                <!-- Whether TeaVM should produce source maps file -->
+                                <sourceMapsGenerated>${plugin.teavm.debug}</sourceMapsGenerated>
+                                <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
+                                <sourceFilesCopied>${plugin.teavm.debug}</sourceFilesCopied>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
             </plugins>

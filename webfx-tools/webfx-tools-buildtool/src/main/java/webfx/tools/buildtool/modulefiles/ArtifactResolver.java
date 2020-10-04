@@ -20,6 +20,7 @@ final class ArtifactResolver {
             return null;
         switch (moduleName) {
             //case "gwt-charts":
+            case "jsinterop-base":
             case "jsinterop-annotations":
                 return null;
             case "webfx-kit-javafxbase-emul":
@@ -37,6 +38,7 @@ final class ArtifactResolver {
             return "webfx-kit-javafxgraphics-emul";
         if (isForGwt && isExecutable) {
             switch (moduleName) {
+                case "elemental2-core":
                 case "elemental2-dom":
                 case "javafx-base":
                 case "javafx-graphics":
@@ -61,6 +63,7 @@ final class ArtifactResolver {
                 return "${lib.elemental2.groupId}";
             case "gwt-time": return "org.jresearch.gwt.time";
             case "gwt-charts": return "com.googlecode.gwt-charts";
+            case "gwt-webworker": return "de.knightsoft-net";
             case "charba": return "org.pepstock";
             case "Java-WebSocket": return "org.java-websocket";
             case "com-zaxxer-hikari": return "com.zaxxer";
@@ -71,6 +74,8 @@ final class ArtifactResolver {
             return "org.openjfx";
         if (moduleName.startsWith("gwt-"))
             return "com.google.gwt";
+        if (moduleName.startsWith("teavm-"))
+            return "org.teavm";
         if (moduleName.startsWith("webfx-"))
             return "${webfx.groupId}";
         if (moduleName.startsWith("mongoose-"))
@@ -83,6 +88,7 @@ final class ArtifactResolver {
     static String getVersion(Module module, boolean isForGwt, boolean isRegistry) {
         String moduleName = module.getName();
         switch (moduleName) {
+            case "elemental2-core":
             case "elemental2-dom":
             case "elemental2-svg":
             case "Java-WebSocket":
@@ -91,11 +97,14 @@ final class ArtifactResolver {
             case "com-zaxxer-hikari": return "3.3.1";
             case "slf4j-api": return "1.7.15";
             case "gwt-time": return "1.4.11";
+            case "gwt-webworker": return "1.0.6";
             case "charba": return "3.2-gwt";
         }
         if (moduleName.startsWith("javafx-") || !isForGwt && !isRegistry && RootModule.isJavaFxEmulModule(moduleName))
             return "${lib.openjfx.version}";
         if (moduleName.startsWith("gwt-"))
+            return null; // Managed by root pom
+        if (moduleName.startsWith("teavm-"))
             return null; // Managed by root pom
         if (moduleName.startsWith("webfx-"))
             return "${webfx.version}";
