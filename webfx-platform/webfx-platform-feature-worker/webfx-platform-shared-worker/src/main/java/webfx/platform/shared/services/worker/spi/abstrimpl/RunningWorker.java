@@ -13,6 +13,8 @@ public interface RunningWorker extends Worker {
 
     Object toNativeJsonArray(double[] doubleArray);
 
+    Object toNativeJsonArray(int[] intArray);
+
     int getJsonInt(Object nativeObject, String key);
 
     double getJsonDouble(Object nativeObject, String key);

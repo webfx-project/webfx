@@ -51,6 +51,16 @@ public final class TeaVmRunningWorker implements RunningWorker {
     }
 
     @Override
+    public Object toNativeJsonArray(int[] intArray) {
+        int n = intArray.length;
+        JSArray jsArray = JSArray.create();
+        for (int i = 0; i < n; ++i) {
+            native_setDoubleArray(jsArray, i, intArray[i]);
+        }
+        return jsArray;
+    }
+
+    @Override
     public int getJsonInt(Object nativeObject, String key) {
         return (int) getJsonDouble(nativeObject, key);
     }
@@ -73,6 +83,10 @@ public final class TeaVmRunningWorker implements RunningWorker {
     @JSBody(params={"jsArray", "index", "value"}, script="jsArray[index] = value")
     @Import(name = "setDoubleArray")
     private static native void native_setDoubleArray(JSArray jsArray, int index, double value);
+
+    @JSBody(params={"jsArray", "index", "value"}, script="jsArray[index] = value")
+    @Import(name = "setIntArray")
+    private static native void native_setIntArray(JSArray jsArray, int index, int value);
 
     @Override
     public void setOnMessageHandler(Consumer<Object> onMessageHandler) {

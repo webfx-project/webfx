@@ -46,6 +46,11 @@ public abstract class JavaApplicationWorker implements RunningWorker {
     }
 
     @Override
+    public Object toNativeJsonArray(int[] intArray) {
+        return platformWorker.toNativeJsonArray(intArray);
+    }
+
+    @Override
     public int getJsonInt(Object nativeObject, String key) {
         return platformWorker.getJsonInt(nativeObject, key);
     }

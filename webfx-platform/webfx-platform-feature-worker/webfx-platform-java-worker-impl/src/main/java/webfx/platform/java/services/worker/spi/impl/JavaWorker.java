@@ -27,7 +27,12 @@ public class JavaWorker extends AbstractWorker { // this instance represents the
 
         @Override
         public Object toNativeJsonArray(double[] doubleArray) {
-            return doubleArray; // DoubleStream.of(doubleArray).boxed().collect(Collectors.toList());
+            return doubleArray;
+        }
+
+        @Override
+        public Object toNativeJsonArray(int[] intArray) {
+            return intArray;
         }
 
         @Override
