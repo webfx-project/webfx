@@ -31,4 +31,9 @@ public final class ListJsonArray extends ListBasedJsonArray {
         return list;
     }
 
+    // Added default implementation due to TeaVm bug
+    @Override
+    public Object javaToNativeScalar(Object scalar) {
+        return scalar;
+    }
 }
