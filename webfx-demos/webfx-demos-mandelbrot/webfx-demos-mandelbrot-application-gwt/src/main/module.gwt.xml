@@ -74,6 +74,7 @@
     <!--=================================< elemental2-dom >=================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-gwt-shutdown-impl (SOURCE) -->
+    <!-- used by webfx-platform-gwt-worker-impl (SOURCE) -->
     <inherits name="elemental2.dom.Dom"/>
     <!--=================================< elemental2-svg >=================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
@@ -82,6 +83,7 @@
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-gwt-appcontainer-impl (SOURCE) -->
     <!-- used by webfx-platform-gwt-emul-javabase (SOURCE) -->
+    <!-- used by webfx-platform-gwt-json-impl (SOURCE) -->
     <!-- used by webfx-platform-gwt-resource-impl (SOURCE) -->
     <!-- used by webfx-platform-gwt-uischeduler-impl (SOURCE) -->
     <inherits name="com.google.gwt.user.User"/>
@@ -91,19 +93,27 @@
     <!-- used by webfx-platform-gwt-emul-javatime (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
     <!-- used by webfx-platform-shared-util (SOURCE) -->
+    <!-- used by webfx-platform-shared-worker (SOURCE) -->
     <!--==================================< java-logging >==================================-->
     <!-- used by webfx-platform-shared-util (SOURCE) -->
     <inherits name="com.google.gwt.logging.Logging"/>
     <!--==================================< javafx-base >===================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-base (SOURCE) -->
+    <!--===================================< teavm-jso >====================================-->
+    <!-- used by webfx-platform-teavm-webassembly-impl (SOURCE) -->
     <!--=======================< webfx-demos-mandelbrot-application >=======================-->
     <!-- used by webfx-demos-mandelbrot-application-gwt (APPLICATION) -->
     <source path="webfx/demos/mandelbrot"/>
     <source path="webfx/demos/mandelbrot/canvastracer"/>
-    <source path="webfx/demos/mandelbrot/canvastracer/model"/>
-    <source path="webfx/demos/mandelbrot/mandelbrotmodel"/>
     <resource path="webfx/demos/mandelbrot"/>
     <public includes="webfx/demos/mandelbrot/" path=""/>
+    <!--=======================< webfx-demos-mandelbrot-computation >=======================-->
+    <!-- used by webfx-demos-mandelbrot-application (SOURCE) -->
+    <source path="webfx/demos/mandelbrot/computation"/>
+    <source path="webfx/demos/mandelbrot/computation/original"/>
+    <!--=========================< webfx-demos-mandelbrot-worker >==========================-->
+    <!-- used by webfx-demos-mandelbrot-application (SOURCE) -->
+    <source path="webfx/demos/mandelbrot/worker"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <!-- used by webfx-demos-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-demos-mandelbrot-application-gwt (EMULATION) -->
@@ -147,15 +157,26 @@
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/kit/util/properties"/>
     <source path="webfx/kit/util/properties/conversion"/>
+    <!--===========================< webfx-libs-javacupruntime >============================-->
+    <!-- used by webfx-platform-shared-json (SOURCE) -->
+    <source path="java_cup/runtime"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-gwt-uischeduler-impl (SOURCE) -->
     <source path="webfx/platform/client/services/uischeduler"/>
     <source path="webfx/platform/client/services/uischeduler/spi"/>
     <source path="webfx/platform/client/services/uischeduler/spi/impl"/>
+    <!--=======================< webfx-platform-client-webassembly >========================-->
+    <!-- used by webfx-demos-mandelbrot-worker (SOURCE) -->
+    <!-- used by webfx-platform-teavm-webassembly-impl (SOURCE) -->
+    <source path="webfx/platform/client/services/webassembly"/>
+    <source path="webfx/platform/client/services/webassembly/spi"/>
     <!--======================< webfx-platform-gwt-appcontainer-impl >======================-->
     <!-- used by webfx-demos-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/appcontainer/spi/impl"/>
+    <!--==========================< webfx-platform-gwt-json-impl >==========================-->
+    <!-- used by webfx-demos-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
+    <source path="webfx/platform/gwt/services/json/spi/impl"/>
     <!--==========================< webfx-platform-gwt-log-impl >===========================-->
     <!-- used by webfx-demos-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/log/spi/impl"/>
@@ -168,6 +189,9 @@
     <!--======================< webfx-platform-gwt-uischeduler-impl >=======================-->
     <!-- used by webfx-demos-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/uischeduler/spi/impl"/>
+    <!--=========================< webfx-platform-gwt-worker-impl >=========================-->
+    <!-- used by webfx-demos-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
+    <source path="webfx/platform/gwt/services/worker/spi/impl"/>
     <!--=======================< webfx-platform-shared-appcontainer >=======================-->
     <!-- used by webfx-kit-launcher (SOURCE) -->
     <!-- used by webfx-platform-gwt-appcontainer-impl (SOURCE) -->
@@ -175,6 +199,15 @@
     <source path="webfx/platform/shared/services/appcontainer"/>
     <source path="webfx/platform/shared/services/appcontainer/spi"/>
     <source path="webfx/platform/shared/services/appcontainer/spi/impl"/>
+    <!--===========================< webfx-platform-shared-json >===========================-->
+    <!-- used by webfx-demos-mandelbrot-worker (SOURCE) -->
+    <!-- used by webfx-platform-gwt-json-impl (SOURCE) -->
+    <source path="webfx/platform/shared/services/json"/>
+    <source path="webfx/platform/shared/services/json/parser"/>
+    <source path="webfx/platform/shared/services/json/parser/javacup"/>
+    <source path="webfx/platform/shared/services/json/parser/jflex"/>
+    <source path="webfx/platform/shared/services/json/spi"/>
+    <source path="webfx/platform/shared/services/json/spi/impl/listmap"/>
     <!--===========================< webfx-platform-shared-log >============================-->
     <!-- used by webfx-kit-launcher (SOURCE) -->
     <!-- used by webfx-platform-gwt-log-impl (SOURCE) -->
@@ -202,10 +235,13 @@
     <!--===========================< webfx-platform-shared-util >===========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers (SOURCE) -->
+    <!-- used by webfx-platform-client-webassembly (SOURCE) -->
     <!-- used by webfx-platform-shared-appcontainer (SOURCE) -->
+    <!-- used by webfx-platform-shared-json (SOURCE) -->
     <!-- used by webfx-platform-shared-log (SOURCE) -->
     <!-- used by webfx-platform-shared-resource (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
+    <!-- used by webfx-platform-shared-worker (SOURCE) -->
     <source path="webfx/platform/shared/util"/>
     <source path="webfx/platform/shared/util/async"/>
     <source path="webfx/platform/shared/util/collection"/>
@@ -214,6 +250,15 @@
     <source path="webfx/platform/shared/util/serviceloader"/>
     <source path="webfx/platform/shared/util/tuples"/>
     <source path="webfx/platform/shared/util/uuid"/>
+    <!--==========================< webfx-platform-shared-worker >==========================-->
+    <!-- used by webfx-demos-mandelbrot-worker (SOURCE) -->
+    <!-- used by webfx-platform-gwt-worker-impl (SOURCE) -->
+    <source path="webfx/platform/shared/services/worker"/>
+    <source path="webfx/platform/shared/services/worker/spi"/>
+    <source path="webfx/platform/shared/services/worker/spi/abstrimpl"/>
+    <!--=====================< webfx-platform-teavm-webassembly-impl >======================-->
+    <!-- used by webfx-demos-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
+    <source path="webfx/platform/teavm/services/webassembly/spi/impl"/>
 
     <source path="mongoose/client/services/bus/conf/gwt"/>
     <source path="mongoose/shared/domainmodel/gwt"/>

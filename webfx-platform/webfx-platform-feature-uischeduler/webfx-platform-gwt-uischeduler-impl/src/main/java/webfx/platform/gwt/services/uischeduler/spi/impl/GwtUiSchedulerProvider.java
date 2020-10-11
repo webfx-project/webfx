@@ -2,6 +2,7 @@ package webfx.platform.gwt.services.uischeduler.spi.impl;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
+import elemental2.dom.DomGlobal;
 import webfx.platform.shared.services.log.Logger;
 import webfx.platform.client.services.uischeduler.spi.impl.UiSchedulerProviderBase;
 
@@ -16,7 +17,7 @@ public final class GwtUiSchedulerProvider extends UiSchedulerProviderBase {
 
     @Override
     public int availableProcessors() {
-        return 1;
+        return DomGlobal.navigator.hardwareConcurrency;
     }
 
     @Override

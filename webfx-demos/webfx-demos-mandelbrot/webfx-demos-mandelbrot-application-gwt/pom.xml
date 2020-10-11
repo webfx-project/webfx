@@ -50,6 +50,20 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-demos-mandelbrot-computation</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-demos-mandelbrot-worker</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-kit-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -120,7 +134,21 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-libs-javacupruntime</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-platform-client-uischeduler</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-client-webassembly</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -145,6 +173,13 @@
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>shaded-sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-gwt-json-impl</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
         </dependency>
         
         <dependency>
@@ -176,7 +211,21 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-platform-gwt-worker-impl</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-platform-shared-appcontainer</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-shared-json</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -216,7 +265,14 @@
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
         </dependency>
-    
+        
+        <dependency>
+            <artifactId>webfx-platform-shared-worker</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
     </dependencies>
 
     <properties>
@@ -233,6 +289,28 @@
             <!-- Generating the source artifact for another GWT compilation (ex: KBS) -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>append-main</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <target>
+                                <!-- Copying the JavaScript file of the worker (compiled by TeaVM) -->
+                                <copy file="${project.basedir}/../webfx-demos-mandelbrot-worker-teavm/target/teavm/classes.js"   tofile="${build.outputDirectory}/public/webfx.demos.mandelbrot.worker.MandelbrotWorker.js"/>
+                                <!-- Copying the WebAssemble file of the computation (compiled by TeaVM) -->
+                                <copy file="${project.basedir}/../webfx-demos-mandelbrot-worker-teavm/target/teavm/classes.wasm" tofile="${build.outputDirectory}/public/classes.wasm"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->

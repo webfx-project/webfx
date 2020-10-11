@@ -17,10 +17,12 @@ public class ServiceLoader<S> implements Iterable<S> {
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.appcontainer.spi.impl.GwtApplicationContainerProvider::new);
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationJob": return new ServiceLoader<S>();
             case "webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer": return new ServiceLoader<S>(webfx.kit.launcher.WebFxKitLauncherModuleInitializer::new, webfx.platform.shared.services.appcontainer.spi.impl.ApplicationJobsStarter::new, webfx.platform.gwt.services.resource.spi.impl.GwtResourceModuleInitializer::new);
+            case "webfx.platform.shared.services.json.spi.JsonProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.json.spi.impl.GwtJsonObject::create);
             case "webfx.platform.shared.services.log.spi.LoggerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.log.spi.impl.GwtLoggerProvider::new);
             case "webfx.platform.shared.services.resource.spi.ResourceServiceProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.resource.spi.impl.GwtResourceServiceProvider::new);
             case "webfx.platform.shared.services.scheduler.spi.SchedulerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.uischeduler.spi.impl.GwtUiSchedulerProvider::new);
             case "webfx.platform.shared.services.shutdown.spi.ShutdownProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.shutdown.spi.impl.GwtShutdownProvider::new);
+            case "webfx.platform.shared.services.worker.spi.WorkerServiceProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.worker.spi.impl.GwtWorkerServiceProvider::new);
             // UNKNOWN SPI
             default:
                Logger.getLogger(ServiceLoader.class.getName()).warning("Unknown " + serviceClass + " SPI - returning no provider");

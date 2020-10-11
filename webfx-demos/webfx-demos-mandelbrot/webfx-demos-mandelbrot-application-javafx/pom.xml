@@ -49,10 +49,22 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-platform-java-worker-impl</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-platform-shared-json-impl</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-platform-shared-log-impl-simple</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
-    
+
     </dependencies>
 </project>

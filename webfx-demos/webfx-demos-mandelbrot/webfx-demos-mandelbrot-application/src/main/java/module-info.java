@@ -7,15 +7,18 @@ module webfx.demos.mandelbrot.application {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
+    requires webfx.demos.mandelbrot.computation;
+    requires webfx.demos.mandelbrot.worker;
     requires webfx.platform.client.uischeduler;
+    requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
     requires webfx.platform.shared.resource;
+    requires webfx.platform.shared.worker;
+    requires webfx.kit.launcher;
 
     // Exported packages
     exports webfx.demos.mandelbrot;
     exports webfx.demos.mandelbrot.canvastracer;
-    exports webfx.demos.mandelbrot.canvastracer.model;
-    exports webfx.demos.mandelbrot.mandelbrotmodel;
 
     // Resources packages
     opens webfx.demos.mandelbrot;

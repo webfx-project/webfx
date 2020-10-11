@@ -18,13 +18,9 @@
 package webfx.demos.mandelbrot;
 
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.beans.property.DoubleProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,40 +31,39 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import webfx.demos.mandelbrot.canvastracer.CanvasTracer;
-import webfx.demos.mandelbrot.mandelbrotmodel.MandelbrotModel;
-import webfx.demos.mandelbrot.mandelbrotmodel.MandelbrotPixelColorComputer;
-import webfx.demos.mandelbrot.mandelbrotmodel.MandelbrotPlaces;
-import webfx.platform.shared.services.log.Logger;
+import webfx.demos.mandelbrot.canvastracer.MandelbrotModel;
+import webfx.demos.mandelbrot.canvastracer.MandelbrotPlaces;
+import webfx.demos.mandelbrot.canvastracer.MandelbrotTracer;
+import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.resource.ResourceService;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon
  */
 public class MandelbrotApplication extends Application {
 
-    private final static double FILM_ZOOM_FACTOR = 0.9;
-    private final static double BUTTON_ZOOM_FACTOR = 0.5;
+    private final static double COMPUTING_ZOOM_FACTOR = 0.9;
     private final static long MILLIS_IN_NANO = 1_000_000;
     private final static long TIME_BETWEEN_FRAME_NS = 16 * MILLIS_IN_NANO; // 16ms per frame
-    private static boolean playBetweenComputations = false;
 
-    private static int CANVAS_WIDTH = 640, CANVAS_HEIGHT = 480;
+    private static int CANVAS_WIDTH = 640, CANVAS_HEIGHT = 480; // Requested default size but can be different if in browser
     private Canvas canvas, overlayCanvas;
-    private CanvasTracer canvasTracer;
+    private Color overlayFillColor = Color.WHITE;
     private MandelbrotModel model;
+    private MandelbrotTracer tracer;
     private final List<Image> snapshots = new ArrayList<>();
     private AnimationTimer snapshotsPlayer;
     private StackPane stackPane;
@@ -80,36 +75,20 @@ public class MandelbrotApplication extends Application {
         Scene scene = new Scene(root, CANVAS_WIDTH, CANVAS_HEIGHT);
         primaryStage.setScene(scene);
         // Reading back the real window size in case we run in the browser
-        CANVAS_WIDTH  = Math.min((int) scene.getWidth(), CANVAS_WIDTH);
+        CANVAS_WIDTH = Math.min((int) scene.getWidth(), CANVAS_WIDTH);
         CANVAS_HEIGHT = Math.min((int) scene.getHeight(), 640 * 480 / CANVAS_WIDTH);
 
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         overlayCanvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-        canvasTracer = new CanvasTracer(canvas);
+        tracer = new MandelbrotTracer(canvas);
 
-        stackPane = new StackPane(canvas, overlayCanvas);
+        stackPane = new StackPane(canvas, overlayCanvas, placeButtonBar);
         stackPane.setMaxSize(CANVAS_WIDTH, CANVAS_HEIGHT);
+        stackPane.setClip(new Rectangle(CANVAS_WIDTH, CANVAS_HEIGHT)); // To hide the button bar when it's down
         root.setCenter(stackPane);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 
-/*
-        overlayCanvas.setOnMouseMoved(e -> {
-            if (isPlaceMenuShowing())
-                updateOverlayCanvas(e.getX(), e.getY());
-        });
-        overlayCanvas.setOnMouseClicked(e -> {
-            if (isPlaceMenuShowing())
-                center(e.getX(), e.getY());
-            else
-                showPlaceMenu();
-        });
-        overlayCanvas.setOnMouseExited(e -> {
-            if (isPlaceMenuShowing())
-                updateOverlayCanvas(null, null);
-        });
-*/
-        overlayCanvas.setOnMouseClicked(e -> showPlaceMenu());
-
+        scene.getStylesheets().setAll(ResourceService.toUrl("mandelbrot.css", getClass()));
         primaryStage.setTitle("MandelbrotFX");
         primaryStage.show();
         showPlacesMenu();
@@ -145,51 +124,25 @@ public class MandelbrotApplication extends Application {
                 }
             };
         }
-        stopRecording();
+        stopComputing();
         stackPane.getChildren().add(placesMenu);
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().setAll(
-                new KeyFrame(new Duration(0)  , Arrays.stream(placesNodes).map(n -> new KeyValue(n.scaleXProperty(), 0)).toArray(KeyValue[]::new)),
-                new KeyFrame(new Duration(0)  , Arrays.stream(placesNodes).map(n -> new KeyValue(n.scaleYProperty(), 0)).toArray(KeyValue[]::new)),
-                new KeyFrame(new Duration(500), Arrays.stream(placesNodes).map(n -> new KeyValue(n.scaleXProperty(), 1)).toArray(KeyValue[]::new)),
-                new KeyFrame(new Duration(500), Arrays.stream(placesNodes).map(n -> new KeyValue(n.scaleYProperty(), 1)).toArray(KeyValue[]::new))
-        );
-        timeline.play();
+        new Timeline(
+                placesNodeKeyFrame(0, Node::scaleXProperty, 0),
+                placesNodeKeyFrame(0, Node::scaleYProperty, 0),
+                //placesNodeKeyFrame(0, Node::rotateProperty, 360),
+                placesNodeKeyFrame(500, Node::scaleXProperty, 1),
+                placesNodeKeyFrame(500, Node::scaleYProperty, 1)
+                //placesNodeKeyFrame(500, Node::rotateProperty, 0)
+        ).play();
+        hidePlaceButtonBar();
+    }
+
+    private KeyFrame placesNodeKeyFrame(double millis, Function<Node, DoubleProperty> nodePropertyGetter, double endValue) {
+        return new KeyFrame(new Duration(millis), Arrays.stream(placesNodes).map(n -> new KeyValue(nodePropertyGetter.apply(n), endValue)).toArray(KeyValue[]::new));
     }
 
     private Node createPlaceNode(int placeIndex) {
-        ImageView imageView = new ImageView(ResourceService.toUrl(MandelbrotPlaces.PLACES[placeIndex].thumbnailUrl, getClass())) {
-            @Override
-            public boolean isResizable() {
-                return true;
-            }
-
-            @Override
-            public void resize(double width, double height) {
-                setFitWidth(width);
-                setFitHeight(height);
-            }
-
-            @Override
-            public double minWidth(double height) {
-                return 0;
-            }
-
-            @Override
-            public double maxWidth(double height) {
-                return Double.MAX_VALUE;
-            }
-
-            @Override
-            public double minHeight(double width) {
-                return 0;
-            }
-
-            @Override
-            public double maxHeight(double width) {
-                return Double.MAX_VALUE;
-            }
-        };
+        ImageView imageView = new ResizableImageView(ResourceService.toUrl(MandelbrotPlaces.PLACES[placeIndex].thumbnailUrl, MandelbrotApplication.this.getClass()));
         imageView.setCursor(Cursor.HAND);
         imageView.setOnMouseClicked(e -> showPlace(placeIndex));
         return imageView;
@@ -198,182 +151,229 @@ public class MandelbrotApplication extends Application {
     private void showPlace(int placeIndex) {
         stackPane.getChildren().remove(placesMenu);
         drawMandelbrot(MandelbrotPlaces.PLACES[placeIndex]);
-        startRecording();
+        showPlaceButtonBar();
     }
 
-    /*private final CheckBox checkBox = new CheckBox("Play between computations");
+    private final HBox placeButtonBar = new HBox(8);
     {
-        checkBox.setSelected(playBetweenComputations);
-        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> playBetweenComputations = newValue);
-    }*/
-
-    private final HBox placeMenu = new HBox(10,
-            //checkBox,
-            createButton("Play", e -> onPlaceMenuPlay()),
-            createButton("Slow", e -> onPlaceMenuSlow()),
-            createButton("Continue", e -> onPlaceMenuContinue()),
-            createButton("Exit", e -> onPlaceMenuExit())
-            //createButton("+", e -> zoomIn()),
-            //createButton("-", e -> zoomOut()),
-            //createPrintPlaceButton()
-    );
-    {
-        placeMenu.setMaxHeight(30);
-        placeMenu.setPadding(new Insets(10));
-        placeMenu.setAlignment(Pos.BOTTOM_CENTER);
-        StackPane.setAlignment(placeMenu, Pos.BOTTOM_CENTER);
+        placeButtonBar.setMaxHeight(30);
+        placeButtonBar.setPadding(new Insets(10));
+        placeButtonBar.setAlignment(Pos.BOTTOM_CENTER);
+        placeButtonBar.setTranslateY(100); // Initially down
+        StackPane.setAlignment(placeButtonBar, Pos.BOTTOM_CENTER);
+        populatePlaceButtonBar();
     }
 
-    private void showPlaceMenu() {
-        startOrPauseOrResumeRecording();
-        if (!isPlaceMenuShowing())
-            stackPane.getChildren().add(placeMenu);
+    private void populatePlaceButtonBar() {
+        placeButtonBar.getChildren().setAll(
+                createImageButton(imageName("play-#theme.png"),   this::onSlowPlayClicked),
+                createImageButton(imageName("play2-#theme.png"),  this::onFullPlayClicked),
+                createImageButton(imageName("#compute-#theme.png"), this::onResumedClicked),
+                createImageButton(imageName("fill-#theme.png"),   this::onLampClicked),
+                createImageButton(imageName("exit-#theme.png"),   this::onExitClicked)
+        );
     }
 
-    private void hidePlaceMenu() {
-        stackPane.getChildren().remove(placeMenu);
+    private String imageName(String patternName) {
+        boolean white = overlayFillColor == Color.WHITE;
+        return patternName.replaceAll("#theme", white ? "white" : "black").replaceAll("#compute", computingPaused ? "resume" : "pause");
     }
 
-    private boolean isPlaceMenuShowing() {
-        return stackPane.getChildren().contains(placeMenu);
+    private Node createImageButton(String imagePath, Runnable clickRunnable) {
+        ImageView imageView = new ImageView(ResourceService.toUrl(imagePath, getClass()));
+        imageView.setFitWidth(64);
+        imageView.setFitHeight(64);
+        imageView.setOnMouseClicked(e -> clickRunnable.run());
+        return imageView;
     }
 
-    private void onPlaceMenuPlay() {
-        playOrStopSnapshots(1);
+    private void showPlaceButtonBar() {
+        new Timeline(new KeyFrame(new Duration(200), new KeyValue(placeButtonBar.translateYProperty(), 0, Interpolator.EASE_OUT))).play();
     }
 
-    private void onPlaceMenuSlow() {
+    private void hidePlaceButtonBar() {
+        new Timeline(new KeyFrame(new Duration(200), new KeyValue(placeButtonBar.translateYProperty(), 100))).play();
+        stopOverlayTextAnimation();
+        clearOverlay();
+    }
+
+    private void onSlowPlayClicked() {
         playOrStopSnapshots(0.5);
     }
 
-    private void onPlaceMenuContinue() {
-        hidePlaceMenu();
-        startOrPauseOrResumeRecording();
+    private void onFullPlayClicked() {
+        playOrStopSnapshots(1);
     }
 
-    private void onPlaceMenuExit() {
-        hidePlaceMenu();
+    private void onResumedClicked() {
+        startOrPauseOrResumeComputing();
+        populatePlaceButtonBar();
+    }
+
+    private void onLampClicked() {
+        setOverlayFillColor(overlayFillColor == Color.BLACK ? Color.WHITE : Color.BLACK);
+    }
+
+    private void onExitClicked() {
+        hidePlaceButtonBar();
         showPlacesMenu();
     }
 
-    private Button createPrintPlaceButton() {
-        return createButton("Pr", e -> {
-            Logger.log("zoom = " + zoom);
-            BigDecimal xmin = model.xmin;
-            BigDecimal xmax = model.xmax;
-            BigDecimal ymin = model.ymin;
-            BigDecimal ymax = model.ymax;
-            Logger.log(xmin + ",");
-            Logger.log(xmax + ",");
-            Logger.log(ymin + ",");
-            Logger.log(ymax + ",");
-            if (zoom != 1) {
-                BigDecimal xc = xmin.add(xmax).divide(model.TWO);
-                BigDecimal yc = ymin.add(ymax).divide(model.TWO);
-                BigDecimal halfWidth = BigDecimal.valueOf(xmax.subtract(xmin).doubleValue() / 2 / zoom);
-                BigDecimal halfHeight = BigDecimal.valueOf(ymax.subtract(ymin).doubleValue() / 2 / zoom);
-                xmin = xc.subtract(halfWidth);
-                xmax = xc.add(halfWidth);
-                ymin = yc.subtract(halfHeight);
-                ymax = yc.add(halfHeight);
-                Logger.log("zoom = 1");
-                Logger.log(xmin + ",");
-                Logger.log(xmax + ",");
-                Logger.log(ymin + ",");
-                Logger.log(ymax + ",");
-            }
-        });
+    private void setOverlayFillColor(Color overlayFillColor) {
+        if (overlayFillColor != this.overlayFillColor) {
+            this.overlayFillColor = overlayFillColor;
+            updateOverlayCanvas();
+            populatePlaceButtonBar();
+        }
     }
 
-    private Button createButton(String text, EventHandler<ActionEvent> actionHandler) {
-        Button button = new Button(text);
-        button.setOnAction(actionHandler);
-        return button;
-    }
+    private Font overlayFont;
+    private GraphicsContext ctx;
 
-    private void updateOverlayCanvas(Double x, Double y) {
-        GraphicsContext ctx = overlayCanvas.getGraphicsContext2D();
+    private void clearOverlay() {
+        if (ctx == null) {
+            ctx = overlayCanvas.getGraphicsContext2D();
+            overlayFont = new Font("Spaceboy", 16);
+        }
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        if (x != null && y != null) {
-            ctx.setStroke(Color.RED);
-            ctx.strokeLine(x, 0, x, CANVAS_HEIGHT);
-            ctx.strokeLine(0, y, CANVAS_WIDTH, y);
+    }
+
+    private void updateOverlayCanvas() {
+        clearOverlay();
+        if (computing && !computingPaused) {
+            if (snapshots.isEmpty())
+                showOverlayTexts("Waiting frame completion", "");
+            else {
+                int count = tracer.getLastFrameIterations();
+                long t = tracer.getLastFrameComputationTime();
+                showOverlayTexts(
+                        completeSpace("Frame:"), "" + snapshots.size(),
+                        completeSpace("Iterations:"), getIntegerWith1Decimal(count * 10 / 1_000_000) + "M",
+                        completeSpace("Time:"), "" + getIntegerWith1Decimal(t * 10 / 1000) + "s",
+                        completeSpace("IPS:"), "" + getIntegerWith1Decimal(count * 10 / t * 1_000 / 1_000_000) + "M",
+                        completeSpace("FPS:"), "" + getIntegerWith1Decimal(1_000 * 10 / t),
+                        completeSpace("CPU cores:"), "" + UiScheduler.availableProcessors(),
+                        completeSpace("Threads:"), "" + tracer.getComputedThreadCount() + " workers",
+                        completeSpace("Backend:"), "WebAssembly"
+                        //"Agent", WebFxKitLauncher.getUserAgent(),
+                );
+            }
         }
-        if (recording && !recordingPaused) {
-            ctx.setFill(Color.WHITE);
-            ctx.fillText("" + (snapshots.size() + 1), 10, 50);
+    }
+
+    private String completeSpace(String text) {
+        StringBuilder sb = new StringBuilder(text);
+        while (sb.length() < 11)
+            sb.append("\u3000");
+        return sb.toString();
+    }
+
+    private static String getIntegerWith1Decimal(long tenValue) {
+        return tenValue / 10 + (tenValue >= 100 ? "" : "." + tenValue % 10);
+    }
+
+    private AnimationTimer overlayTextAnimationTimer;
+    private int overlayCharactersMax;
+    private String[] lastOverlayTexts;
+
+    private void showOverlayTexts(String... texts) {
+        if (lastOverlayTexts != null && lastOverlayTexts.length == 2 && texts.length > 2)
+            overlayCharactersMax = 1;
+        startOverlayTextAnimationIfNeeded();
+        ctx.setFill(overlayFillColor);
+        ctx.setFont(overlayFont);
+        int charCount = 0;
+        for (int i = 0; i < texts.length && charCount < overlayCharactersMax; i++) {
+            String text = texts[i];
+            int length = text.length();
+            charCount += length;
+            if (charCount > overlayCharactersMax)
+                text = text.substring(0, length - charCount + overlayCharactersMax) + "\u25FC";
+            ctx.fillText(text, i % 2 == 0 ? 10 : 175, 50 + 20 * (i / 2));
+        }
+        if (overlayTextAnimationTimer != null && overlayCharactersMax > charCount + 2) {
+            if (overlayCharactersMax / 20 % 2 == 0)
+                ctx.fillText("\u25FC", 10, 50 + 20 * (texts.length / 2));
+            if (overlayCharactersMax > charCount + 200)
+                stopOverlayTextAnimation();
+        }
+        lastOverlayTexts = texts;
+    }
+
+    private void startOverlayTextAnimationIfNeeded() {
+        if (overlayTextAnimationTimer == null) {
+            overlayTextAnimationTimer = new AnimationTimer() {
+                private long lastKeyTime = UiScheduler.nanoTime();
+
+                @Override
+                public void handle(long now) {
+                    if (now - lastKeyTime >= 30 * 1_000_000) {
+                        overlayCharactersMax++;
+                        clearOverlay();
+                        showOverlayTexts(lastOverlayTexts);
+                        lastKeyTime = now;
+                    }
+                }
+            };
+            overlayTextAnimationTimer.start();
         }
     }
 
-    private void center(double cx, double cy) {
-        model.centerPercent(cx / CANVAS_WIDTH, 1d - cy / CANVAS_HEIGHT);
-        drawMandelbrot(model);
+    private void stopOverlayTextAnimation() {
+        if (overlayTextAnimationTimer != null) {
+            overlayTextAnimationTimer.stop();
+            overlayTextAnimationTimer = null;
+        }
     }
-
-    private void zoomIn() {
-        stopRecordingAndClearSnapshots();
-        zoom(BUTTON_ZOOM_FACTOR);
-    }
-
-    private void zoomOut() {
-        stopRecordingAndClearSnapshots();
-        zoom(1 / BUTTON_ZOOM_FACTOR);
-    }
-
-    private double zoom;
 
     private void zoom(double zoomFactor) {
-        zoom *= zoomFactor;
         model.zoom(zoomFactor);
         drawMandelbrot(model);
     }
 
-    private boolean recording;
-    private boolean recordingPaused;
+    private boolean computing, computingPaused;
 
-    private void startOrPauseOrResumeRecording() {
-        if (!recording) { // Start
-            startRecording();
-        } else { // Pause or resume
-            recordingPaused = !recordingPaused;
-            if (!recordingPaused)
-                zoomInIfRecording();
+    private void startOrPauseOrResumeComputing() {
+        if (!computing || computingPaused)
+            overlayCharactersMax = 1;
+        if (!computing) // Start
+            startComputing();
+        else { // Pause or resume
+            computingPaused = !computingPaused;
+            zoomInIfComputing();
         }
     }
 
-    private void startRecording() {
-        recording = true;
-        recordingPaused = false;
-        canvasTracer.setOnFinished(this::takeSnapshotAndZoomIfRecording);
-        //takeSnapshotAndZoomIfRecording();
+    private void startComputing() {
+        computing = true;
+        computingPaused = false;
+        if (!tracer.isRunning()) {
+            tracer.setOnFinished(this::takeSnapshotAndZoomIfComputing);
+            tracer.start();
+            if (snapshotsPlayer == null)
+                updateOverlayCanvas(); // Will start displaying the text overlay animation
+        }
     }
 
-    private void stopRecording() {
-        recording = false;
-        recordingPaused = false;
-        canvasTracer.setOnFinished(null);
-        canvasTracer.stop();
+    private void stopComputing() {
+        computing = computingPaused = false;
+        tracer.setOnFinished(null);
+        tracer.stop();
     }
 
-    private void stopRecordingAndClearSnapshots() {
-        canvasTracer.setOnFinished(null);
-        recording = false;
+    private void stopComputingAndClearSnapshots() {
+        stopComputing();
         snapshots.clear();
     }
 
-    private void takeSnapshotAndZoomIfRecording() {
-        takeSnapshot();
-        if (recording && !recordingPaused) {
-            if (playBetweenComputations)
-                playOrStopSnapshots(1);
-            else
-                zoomInIfRecording();
-        }
+    private void takeSnapshotAndZoomIfComputing() {
+        takeMandelbrotSnapshot();
+        zoomInIfComputing();
     }
 
-    private void zoomInIfRecording() {
-        if (recording && !recordingPaused)
-            zoom(FILM_ZOOM_FACTOR);
+    private void zoomInIfComputing() {
+        if (computing && !computingPaused)
+            zoom(COMPUTING_ZOOM_FACTOR);
     }
 
     private void playOrStopSnapshots(double playSpeed) {
@@ -384,42 +384,43 @@ public class MandelbrotApplication extends Application {
             snapshotsPlayer = new AnimationTimer() {
                 private int index = -1;
                 private long lastFrameTime;
+                private final GraphicsContext ctx = overlayCanvas.getGraphicsContext2D();
 
                 @Override
                 public void handle(long now) {
                     int size = snapshots.size();
                     if (playSpeed * (now - lastFrameTime) >= TIME_BETWEEN_FRAME_NS) {
-                        index++;
-                        if (index >= size) {
+                        if (++index >= size) {
                             stop();
                             snapshotsPlayer = null;
-                            if (playBetweenComputations)
-                                zoomInIfRecording();
+                            showPlaceButtonBar();
+                            updateOverlayCanvas();
                             return;
                         }
-                        canvas.getGraphicsContext2D().drawImage(snapshots.get(index), 0, 0);
+                        ctx.drawImage(snapshots.get(index), 0, 0);
                         lastFrameTime = now;
                     }
                 }
             };
+            hidePlaceButtonBar();
             snapshotsPlayer.start();
-            updateOverlayCanvas(null, null);
         }
     }
 
-    private void takeSnapshot() {
+    private void takeMandelbrotSnapshot() {
         snapshots.add(canvas.snapshot(new SnapshotParameters(), null));
     }
 
     private void drawMandelbrot(MandelbrotModel model) {
         if (model != this.model) {
+            stopComputingAndClearSnapshots();
+            showPlaceButtonBar();
+            overlayCharactersMax = 1;
+            setOverlayFillColor(Color.WHITE);
             this.model = model.duplicate();
-            stopRecordingAndClearSnapshots();
-            zoom = 1;
+            tracer.setModel(this.model);
+            this.model.adjustAspect(CANVAS_WIDTH, CANVAS_HEIGHT);
         }
-        canvasTracer.setPixelComputer(MandelbrotPixelColorComputer.create(model, CANVAS_WIDTH, CANVAS_HEIGHT));
-        canvasTracer.start();
-        if (recording && !recordingPaused)
-            updateOverlayCanvas(null, null);
+        startComputing();
     }
 }

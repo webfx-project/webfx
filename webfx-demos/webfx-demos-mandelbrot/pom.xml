@@ -13,9 +13,12 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>webfx-demos-mandelbrot-worker</module>
+        <module>webfx-demos-mandelbrot-worker-teavm</module>
         <module>webfx-demos-mandelbrot-application</module>
         <module>webfx-demos-mandelbrot-application-javafx</module>
         <module>webfx-demos-mandelbrot-application-gwt</module>
+        <module>webfx-demos-mandelbrot-computation</module>
     </modules>
 
 </project>
