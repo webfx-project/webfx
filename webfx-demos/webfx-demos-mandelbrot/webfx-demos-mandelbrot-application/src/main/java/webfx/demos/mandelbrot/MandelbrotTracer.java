@@ -14,8 +14,6 @@ import webfx.platform.shared.services.json.WritableJsonObject;
 import webfx.platform.shared.services.worker.Worker;
 import webfx.platform.shared.services.worker.pool.WorkerPool;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -23,27 +21,25 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 final class MandelbrotTracer {
 
-    private static final int availableProcessors = UiScheduler.availableProcessors();
-
-    private double width, height;
+    private int width, height;
     private final Canvas canvas;
     private GraphicsContext ctx;
     private MandelbrotModel model;
-    private int threadsCount = availableProcessors == -1 ? 2 : Math.max(1, availableProcessors - 1);
+    private int threadsCount = Math.max(2, UiScheduler.availableProcessors());
+    private int lastThreadsCount;
     private Runnable onFinished;
     private AnimationTimer animationTimer;
     private final AtomicInteger computingThreadsCount = new AtomicInteger();
-    private boolean usingWorkers = true;
+    private boolean usingWorkers = true, usingWebAssembly = true, lastFrameUsedWebAssembly;
     private final WorkerPool<MandelbrotWorker> workerPool = new WorkerPool<>(MandelbrotWorker.class);
     private long currentFrameIterations, lastFrameIterations;
     private long t0, cumulatedComputationTime, lastFrameComputationTime;
-    private int lastLineIndex;
-    private LineComputationInfo[] lines;
-    private List<LineComputationInfo> readyToPaintLines;
+    private int lastComputedLineIndex, readyLinesCount, nextLineToPaintIndex, startNumber;
+    private LineComputationInfo[] computingLines, readyLines;
 
     private static class LineComputationInfo {
-        private double cy; // vertical position of the line in the canvas
-        private double cx; // used only in mono-thread (ex: browser) to memorize the horizontal position where the computation stopped and the end of the animation frame
+        private int cy; // vertical position of the line in the canvas
+        private int cx; // used only in mono-thread (ex: browser) to memorize the horizontal position where the computation stopped and the end of the animation frame
         private int[] pixelIterations;
     }
 
@@ -75,6 +71,18 @@ final class MandelbrotTracer {
         this.usingWorkers = usingWorkers;
     }
 
+    public boolean isUsingWebAssembly() {
+        return usingWebAssembly;
+    }
+
+    public void setUsingWebAssembly(boolean usingWebAssembly) {
+        this.usingWebAssembly = usingWebAssembly;
+    }
+
+    public boolean wasLastFrameUsingWebAssembly() {
+        return lastFrameUsedWebAssembly;
+    }
+
     public void setOnFinished(Runnable onFinished) {
         this.onFinished = onFinished;
     }
@@ -87,20 +95,30 @@ final class MandelbrotTracer {
         return lastFrameComputationTime;
     }
 
+    public int getLastThreadsCount() {
+        return lastThreadsCount;
+    }
+
     public void start() {
         stop(); // Stopping any previous running computation eventually
-        width = canvas.getWidth();
-        height = canvas.getHeight();
+        startNumber++;
+        width = (int) canvas.getWidth();
+        height = (int) canvas.getHeight();
         ctx = canvas.getGraphicsContext2D();
-        lines = new LineComputationInfo[(int) height];
-        readyToPaintLines = new ArrayList<>();
+        if (computingLines == null || computingLines.length != height) {
+            // Will contain the computing info of each line (ordered vertically)
+            computingLines = new LineComputationInfo[height];
+            // Same array be will be filled with computed lines ready to be paint (the order may differ depending on their computation time)
+            readyLines     = new LineComputationInfo[height];
+        }
+        readyLinesCount = nextLineToPaintIndex = 0;
         MandelbrotComputation.init();
         cumulatedComputationTime = 0;
         currentFrameIterations = 0;
         t0 = UiScheduler.nanoTime();
         computingThreadsCount.set(threadsCount);
-        if (availableProcessors > 1) { // Multi-threading :)
-            lastLineIndex = -1;
+        if (threadsCount > 0) { // Using background thread(s) for the computation
+            lastComputedLineIndex = -1;
             // Starting computation jobs in the background
             for (int i = 1; i <= threadsCount; i++) // Starting non-UI thread
                 if (usingWorkers)
@@ -114,15 +132,13 @@ final class MandelbrotTracer {
                     paintReadyLines();
                 }
             };
-        } else { // Mono-threading
-            lastLineIndex = 0;
+        } else { // Using UI thread for the computation
+            lastComputedLineIndex = 0;
             // Using the UI thread to compute and paint the canvas on each animation frame
             animationTimer = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
                     pulseComputingUi(now);
-                    if (computingThreadsCount.get() == 0)
-                        finish();
                 }
             };
         }
@@ -137,7 +153,11 @@ final class MandelbrotTracer {
     private void startComputingUsingWorker() {
         Worker worker = workerPool.getWorker();
         LineComputationInfo[] unit = new LineComputationInfo[1];
+        int workerStartNumber = startNumber;
         worker.setOnMessageHandler(data -> {
+            // Checking the tracer hasn't been restarted with new parameters meanwhile
+            if (workerStartNumber != startNumber) // If this is the case,
+                return; // we don't continue this old stuff computation
             int[] values;
             if (data instanceof int[])
                 values = (int[]) data;
@@ -157,14 +177,15 @@ final class MandelbrotTracer {
     }
 
     private void startComputingLineWorker(Worker worker, LineComputationInfo[] unit) {
+        boolean firstWorkerCall = unit[0] == null;
         int lineIndex = pickNextLineIndexToCompute();
-        LineComputationInfo lineComputationInfo = getLineComputationInfo(lineIndex);
+        LineComputationInfo lineComputationInfo = unit[0] = getLineComputationInfo(lineIndex);
         if (lineComputationInfo == null) {
             worker.terminate(); // Will actually put it back into the worker pool
             logIfComplete();
         } else {
             WritableJsonObject json = Json.createObject().set("cy", lineComputationInfo.cy);
-            if (unit[0] == null) {
+            if (firstWorkerCall) {
                 // Serializing BigDecimals to Strings in JSON
                 json.set("sxmin", model.xmin.toString());
                 json.set("sxmax", model.xmax.toString());
@@ -173,10 +194,10 @@ final class MandelbrotTracer {
                 json.set("maxIterations", model.maxIterations);
                 json.set("width", width);
                 json.set("height", height);
+                json.set("wasm", usingWebAssembly);
             }
             worker.postMessage(json);
         }
-        unit[0] = lineComputationInfo;
     }
 
     public void stop() {
@@ -197,39 +218,32 @@ final class MandelbrotTracer {
             onFinished.run();
     }
 
-    private List<LineComputationInfo> getReadyToPaintLines() {
-        synchronized (this) {
-            List<LineComputationInfo> lineInfos = readyToPaintLines;
-            readyToPaintLines = new ArrayList<>();
-            return lineInfos;
-        }
-    }
-
     private void addReadyToPaintLine(LineComputationInfo readyToPaintLine) {
         synchronized (this) {
-            readyToPaintLines.add(readyToPaintLine);
+            readyLines[readyLinesCount++] = readyToPaintLine;
         }
     }
 
     private void paintReadyLines() { // Must be called by UI thread only
-        getReadyToPaintLines().forEach(lci -> {
-            double cy = lci.cy;
+        while (nextLineToPaintIndex < readyLinesCount) {
+            LineComputationInfo lci = readyLines[nextLineToPaintIndex];
+            int cy = lci.cy;
             for (int cx = 0; cx < lci.pixelIterations.length; cx++) {
                 int count = lci.pixelIterations[cx];
                 colorizePixel(cx, cy, count);
                 currentFrameIterations += count;
             }
-            if (cy == height - 1)
+            if (++nextLineToPaintIndex == height)
                 finish();
-        });
+        }
     }
 
-    private void colorizePixel(double x, double y, int iteration) {
+    private void colorizePixel(int x, int y, int iteration) {
         Color pixelColor = convertModelPointValueToPixelColor(iteration);
         colorizePixel(x, y, pixelColor);
     }
 
-    private void colorizePixel(double x, double y, Color pixelColor) {
+    private void colorizePixel(int x, int y, Color pixelColor) {
         if (pixelColor != null) { // in multi-pass, null means unchanged color
             ctx.setFill(pixelColor);
             ctx.fillRect(x, y, 1, 1);
@@ -241,16 +255,16 @@ final class MandelbrotTracer {
 
     private int pickNextLineIndexToCompute() { // Returning height means they have all been computed
         synchronized (this) {
-            return ++lastLineIndex;
+            return ++lastComputedLineIndex;
         }
     }
 
     private LineComputationInfo getLineComputationInfo(int lineIndex) {
         if (lineIndex >= height)
             return null;
-        LineComputationInfo lineComputationInfo = lines[lineIndex];
+        LineComputationInfo lineComputationInfo = computingLines[lineIndex];
         if (lineComputationInfo == null) {
-            lines[lineIndex] = lineComputationInfo = new LineComputationInfo();
+            computingLines[lineIndex] = lineComputationInfo = new LineComputationInfo();
             lineComputationInfo.cy = lineIndex;
         }
         return lineComputationInfo;
@@ -258,11 +272,11 @@ final class MandelbrotTracer {
 
     private void pulseComputingUi(long now) { // Called by the animation timer every 16ms (60 FPS)
         // Getting the next line index to computed (but for UI thread, we just continue where we stopped last time)
-        int lineIndex = lastLineIndex;
+        int lineIndex = lastComputedLineIndex;
         LineComputationInfo lineComputationInfo = getLineComputationInfo(lineIndex);
         while (lineComputationInfo != null) { // non null value until all lines have benn computed
-            double cy = lineComputationInfo.cy;
-            double cx = lineComputationInfo.cx;
+            int cy = lineComputationInfo.cy;
+            int cx = lineComputationInfo.cx;
             while (cx < width) {
                 MandelbrotPoint mbp = MandelbrotComputation.convertCanvasPixelToModelPoint(cx, cy, width, height, model);
                 int count = MandelbrotComputation.computeModelPointValue(mbp.x, mbp.y, model.maxIterations);
@@ -282,6 +296,7 @@ final class MandelbrotTracer {
             lineComputationInfo = getLineComputationInfo(pickNextLineIndexToCompute());
         }
         logIfComplete();
+        finish();
     }
 
     private void logIfComplete() {
@@ -290,6 +305,8 @@ final class MandelbrotTracer {
             // If yes, logging the computation time
             long totalTime = UiScheduler.nanoTime() - t0;
             lastFrameComputationTime = totalTime / MILLIS_IN_NANO;
+            lastFrameUsedWebAssembly = usingWebAssembly;
+            lastThreadsCount = threadsCount;
             webfx.platform.shared.services.log.Logger.log("Completed in " + lastFrameComputationTime + "ms (computation: " + cumulatedComputationTime / MILLIS_IN_NANO + "ms (" + 100 * cumulatedComputationTime / totalTime + "%) - UI: " + (totalTime - cumulatedComputationTime) / MILLIS_IN_NANO + "ms (" + 100 * (totalTime - cumulatedComputationTime) / totalTime + "%)");
         }
     }
@@ -299,14 +316,14 @@ final class MandelbrotTracer {
         int lineIndex = pickNextLineIndexToCompute();
         LineComputationInfo lineComputationInfo = getLineComputationInfo(lineIndex);
         while (lineComputationInfo != null) { // non null value until all lines have benn computed
-            lineComputationInfo.pixelIterations = new int[(int) width];
-            double cy = lineComputationInfo.cy;
-            double cx = lineComputationInfo.cx;
+            lineComputationInfo.pixelIterations = new int[width];
+            int cy = lineComputationInfo.cy;
+            int cx = lineComputationInfo.cx;
             while (cx < width) {
                 // Passing the canvas pixel for the pixel color computation
                 MandelbrotPoint mbp = MandelbrotComputation.convertCanvasPixelToModelPoint(cx, cy, width, height, model);
                 int count = MandelbrotComputation.computeModelPointValue(mbp.x, mbp.y, model.maxIterations);
-                lineComputationInfo.pixelIterations[(int) cx++] = count;
+                lineComputationInfo.pixelIterations[cx++] = count;
             }
             // Once all colors of the line have been computed, we pass them to the UI thread
             addReadyToPaintLine(lineComputationInfo);

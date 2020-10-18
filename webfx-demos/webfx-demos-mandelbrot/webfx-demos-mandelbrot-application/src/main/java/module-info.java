@@ -8,6 +8,7 @@ module webfx.demos.mandelbrot.application {
     requires javafx.graphics;
     requires webfx.demos.mandelbrot.computation;
     requires webfx.demos.mandelbrot.worker;
+    requires webfx.lib.odometer;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;

@@ -6,6 +6,8 @@ public class JavaFxGraphicsRegistry {
 
     public static native void registerRectangle();
 
+    public static native void registerArc();
+
     public static native void registerCircle();
 
     public static native void registerLine();

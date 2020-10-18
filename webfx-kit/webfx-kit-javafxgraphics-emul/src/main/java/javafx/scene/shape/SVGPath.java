@@ -181,7 +181,10 @@ public class SVGPath extends Shape {
             System.out.println("Warning: SVGPath.impl_computeGeomBounds() not implemented");
             warned = true;
         }
-        return new BoxBounds(0, 0, 0, 64, 64, 0);
+        // Temporary hack for Mandelbrot demo
+        Object ms = getProperties().get("webfx-svgpath-maxSize");
+        float maxSize = ms instanceof Number ? ((Number) ms).floatValue() : 64;
+        return new BoxBounds(0, 0, 0, maxSize, maxSize, 0);
     }
 
 //private Object svgPathObject;

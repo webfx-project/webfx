@@ -22,9 +22,8 @@ public class TeaVmMandelbrotWebAssembly {
     private static int[] outputBuffer;
 
     private static final MandelbrotViewport viewport = new MandelbrotViewport();
-    private static double width, height;
+    private static int width, height;
     private static int maxIterations;
-    private static Address address;
 
     @Export(name = "getInputBufferAddress")
     public static int getInputBufferAddress() {
@@ -32,7 +31,7 @@ public class TeaVmMandelbrotWebAssembly {
     }
 
     @Export(name = "initAndComputeLinePixelIterations")
-    public static int initAndComputeLinePixelIterations(double cy, double width, double height, int maxIterations) {
+    public static int initAndComputeLinePixelIterations(int cy, int width, int height, int maxIterations) {
         TeaVmWasmMemoryBufferReader inputBufferReader = WasmUtil.getMemoryBufferReader(Address.ofData(inputBuffer));
         String sxmin = inputBufferReader.readString();
         String sxmax = inputBufferReader.readString();
@@ -47,25 +46,25 @@ public class TeaVmMandelbrotWebAssembly {
         TeaVmMandelbrotWebAssembly.height = height;
         TeaVmMandelbrotWebAssembly.maxIterations = maxIterations;
         if (outputBuffer == null || outputBuffer.length != width)
-            outputBuffer = new int[(int) width];
+            outputBuffer = new int[width];
         MandelbrotComputation.init();
         computeLinePixelIterations(cy);
         return Address.ofData(outputBuffer).toInt();
     }
 
     @Export(name = "computeLinePixelIterations")
-    public static void computeLinePixelIterations(double cy) {
-        double cx = 0;
+    public static void computeLinePixelIterations(int cy) {
+        int cx = 0;
         while (cx < width) {
             // Passing the canvas pixel for the pixel color computation
             MandelbrotPoint mbp = MandelbrotComputation.convertCanvasPixelToModelPoint(cx, cy, width, height, viewport);
             int count = MandelbrotComputation.computeModelPointValue(mbp.x, mbp.y, maxIterations);
-            outputBuffer[(int) cx++] = count;
-            //setPixelIteration((int) cx++, count);
+            outputBuffer[cx++] = count; // First method: storing the count in the output buffer
+            //setPixelIteration(cx++, count); // Second method: passing each count with a JS callback
         }
     }
 
     @Import(module = "mandelbrot", name = "setPixelIteration")
-    private static native void setPixelIteration(int x, int count);
+    private static native void setPixelIteration(int cx, int count);
 
 }

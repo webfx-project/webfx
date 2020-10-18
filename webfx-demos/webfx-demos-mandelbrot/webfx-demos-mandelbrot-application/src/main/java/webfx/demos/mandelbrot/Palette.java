@@ -1,8 +1,11 @@
 package webfx.demos.mandelbrot;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a palette, that is a sequence of colors.  A palette assigns
@@ -27,50 +30,22 @@ final class Palette {
     public final static int COLOR_TYPE_HSB = 1;
 
     private final int colorType;
+    LinearGradient linearGradient;
     private boolean mirrorOutOfRangeComponents;
 
-    private final ArrayList<Double> divisionPoints;  // First element is always 0; last value is always 1
-    private final ArrayList<float[]> divisionPointColors; // Size is divisionPoints.size() + 1
-
-    /**
-     * Creates a palette of HSB color type, showing a rainbow spectrum.
-     */
-    public Palette() {
-        this(COLOR_TYPE_HSB);
-    }
-
-    /**
-     * Create a palette of specified color type.  For HSB color type, the palette
-     * is a rainbow spectrum.  For the RGB color type, the palette is a grayscale
-     * from white to black.
-     * @param colorType One of the constants Palette.COLOR_TYPE_HSB or Palette.COLOR_TYPE_RGB.
-     * @throws IllegalArgumentException if the parameter is not one of the two valid color type constants.
-     */
-    public Palette(int colorType) {
-        this.colorType = colorType;
-        mirrorOutOfRangeComponents = true;
-        divisionPoints = new ArrayList<>();
-        divisionPointColors = new ArrayList<>();
-        divisionPoints.add(0.0);
-        divisionPoints.add(1.0);
-        if (colorType == COLOR_TYPE_HSB) { // spectrum
-            divisionPointColors.add(new float[] {0, 1, 1});
-            divisionPointColors.add(new float[] {1, 1, 1});
-        }
-        else if (colorType == COLOR_TYPE_RGB){ // grayscale
-            divisionPointColors.add(new float[] {1, 1, 1});
-            divisionPointColors.add(new float[] {0, 0, 0});
-        }
-        else
-            throw new IllegalArgumentException("Palette color type must be TYPE_COLOR_RGB or TYPE_COLOR_HSB");
-    }
-
-    Palette(int colorType, boolean mirrored, ArrayList<Double> divisionPoints, ArrayList<float[]> colorComponents) {
-        // For use by the PaletteIO and PaletteEditDialog classes in the same package; no error checking done here.
-        this.colorType = colorType;
+    public Palette(LinearGradient lg, int colorType, boolean mirrored) {
+        if (colorType == COLOR_TYPE_HSB) {
+            linearGradient = new LinearGradient(lg.getStartX(), lg.getStartY(), lg.getEndX(), lg.getEndY(), lg.isProportional(), lg.getCycleMethod(), lg.getStops().stream().map(s -> {
+                Color c = s.getColor();
+                double hue = c.getHue();
+                if (hue == 0 && s == lg.getStops().get(lg.getStops().size() - 1))
+                    hue = 360;
+                return new Stop(s.getOffset(), Color.color(hue / 360, c.getSaturation(), c.getBrightness()));
+            }).collect(Collectors.toList()));
+        } else
+            linearGradient = lg;
         this.mirrorOutOfRangeComponents = mirrored;
-        this.divisionPoints = divisionPoints;
-        this.divisionPointColors = colorComponents;
+        this.colorType = colorType;
     }
 
     /**
@@ -85,41 +60,54 @@ final class Palette {
         Color[] rgb;
         rgb = new Color[paletteLength];
         Color divisionPointColor = getDivisionPointColor(0);
-        //int rgb1 = getRGB(divisionPointColor);
         rgb[offset % paletteLength] = divisionPointColor;
         int ct = 1;
-        double dx = 1.0 / (paletteLength-1);
+        double dx = 1.0 / (paletteLength - 1);
         int pt = 1;
-        while (ct < paletteLength-1) {
-            double position = dx*ct;
-            while (position > divisionPoints.get(pt))
+        List<Stop> stops = linearGradient.getStops();
+        while (ct < paletteLength - 1) {
+            double position = dx * ct;
+            Stop s1 = null, s2;
+            while (position > (s2 = stops.get(pt)).getOffset()) {
+                s1 = s2;
                 pt++;
-            float ratio = (float)( (position - divisionPoints.get(pt-1))
-                    / (divisionPoints.get(pt) - divisionPoints.get(pt-1)) );
-            float[] c1 = divisionPointColors.get(pt-1);
-            float[] c2 = divisionPointColors.get(pt);
-            float a = clamp1(c1[0] + ratio*(c2[0] - c1[0]));
-            float b = clamp2(c1[1] + ratio*(c2[1] - c1[1]));
-            float c = clamp2(c1[2] + ratio*(c2[2] - c1[2]));
+            }
+            if (s1 == null)
+                s1 = stops.get(pt - 1);
+            double ratio = (position - s1.getOffset())
+                    / (s2.getOffset() - s1.getOffset());
+            Color c1 = s1.getColor();
+            Color c2 = s2.getColor();
+            double red1 = c1.getRed(), green1 = c1.getGreen(), blue1 = c1.getBlue();
+            double red2 = c2.getRed(), green2 = c2.getGreen(), blue2 = c2.getBlue();
+            double red   = clamp1(red1   + ratio * (red2   - red1));
+            double green = clamp2(green1 + ratio * (green2 - green1));
+            double blue  = clamp2(blue1  + ratio * (blue2  - blue1));
             Color color;
             if (colorType == COLOR_TYPE_HSB)
-                color = getHSBColor(a, b, c);
+                color = getHSBColor(red, green, blue);
             else
-                color = getRGBColor(a, b, c);
-            //int rgb2 = getRGB(color);
+                color = getRGBColor(red, green, blue);
             rgb[(ct + offset) % paletteLength] = color;
             ct++;
         }
-        rgb[(offset + paletteLength-1) % paletteLength] = getDivisionPointColor(divisionPoints.size()-1);
+        rgb[(offset + paletteLength-1) % paletteLength] = getDivisionPointColor(stops.size() - 1);
         return rgb;
     }
 
-    private Color getHSBColor(float h, float s, float b) {
+    private Color getHSBColor(double h, double s, double b) {
         return Color.hsb(360 * h, s, b);
     }
 
-    private Color getRGBColor(float r, float g, float b) {
+    private Color getRGBColor(double r, double g, double b) {
         return Color.color(r, g, b);
+    }
+
+    private static double getBrightness(Color c) {
+        return Math.sqrt(
+                c.getRed() * c.getRed() * .241 +
+                        c.getGreen() * c.getGreen() * .691 +
+                        c.getBlue() * c.getBlue() * .068);
     }
 
     /**
@@ -127,10 +115,10 @@ final class Palette {
      * @param index The index of the division point in the list of points.
      */
     public Color getDivisionPointColor(int index) {
-        float[] components = divisionPointColors.get(index);
-        float a = clamp1(components[0]);
-        float b = clamp2(components[1]);
-        float c = clamp2(components[2]);
+        Color color = linearGradient.getStops().get(index).getColor();
+        double a = clamp1(color.getRed());
+        double b = clamp2(color.getBlue());
+        double c = clamp2(color.getGreen());
         if (colorType == COLOR_TYPE_RGB)
             return getRGBColor(a,b,c);
         else
@@ -154,22 +142,20 @@ final class Palette {
      * changed in the Mandelbrot application.  So, really, you shouldn't even be reading this.
      */
     public void setMirrorOutOfRangeComponents(boolean mirrorOutOfRangeComponents) {
-        if (this.mirrorOutOfRangeComponents == mirrorOutOfRangeComponents)
-            return;
         this.mirrorOutOfRangeComponents = mirrorOutOfRangeComponents;
     }
 
-    private float clamp1(float x) {
+    private double clamp1(double x) {
         if (colorType == COLOR_TYPE_HSB || !mirrorOutOfRangeComponents)
-            return x - (float)Math.floor(x);
+            return x - Math.floor(x);
         else
             return clamp2(x);
     }
 
-    private float clamp2(float x) {
+    private double clamp2(double x) {
         if (!mirrorOutOfRangeComponents)
-            return x - (float)Math.floor(x);
-        x = 2*(x/2 - (float)Math.floor(x/2));
+            return x - Math.floor(x);
+        x = 2 * (x / 2 - Math.floor(x / 2));
         if (x > 1)
             x = 2 - x;
         return x;

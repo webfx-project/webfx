@@ -148,7 +148,7 @@ public abstract class HtmlRegionPeer
             style.borderRight = toCssBorder(firstStroke.getRightStroke(), firstStroke.getRightStyle(), widths.getRight(), widths.isRightAsPercentage());
             style.borderBottom = toCssBorder(firstStroke.getBottomStroke(), firstStroke.getBottomStyle(), widths.getBottom(), widths.isBottomAsPercentage());
             applyBorderRadii(firstStroke.getRadii());
-        } else {
+        } else if (getNode().getBackground() == null) { // Avoiding erasing the possible border associated with background
             style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
             applyBorderRadii(null);
         }

@@ -134,16 +134,14 @@ public final class HtmlUtil {
         return setAttribute(e, "style", style);
     }
 
-/*
     private final static String[] browserPrefixes = {"-webkit-", "-moz-"};
     private static String[] getAttributeBrowserPrefixes(String name) {
         switch (name) {
-            case "clip-path":
+            case "background-clip": // necessary for handling "text" value (used by HtmlTextPeer to apply gradient on text)
                 return browserPrefixes;
         }
         return null;
     }
-*/
 
     public static <N extends Node> N setStyleAttribute(N node, String name, Object value) {
         if (node instanceof Element)
@@ -152,12 +150,10 @@ public final class HtmlUtil {
     }
 
     public static <E extends Element> E setStyleAttribute(E e, String name, Object value) {
-/*
         String[] prefixes = getAttributeBrowserPrefixes(name);
         if (prefixes != null)
             for (String prefix: prefixes)
                 setPrefixedStyleAttribute(e, prefix + name, value);
-*/
         return setPrefixedStyleAttribute(e, name, value);
     }
 

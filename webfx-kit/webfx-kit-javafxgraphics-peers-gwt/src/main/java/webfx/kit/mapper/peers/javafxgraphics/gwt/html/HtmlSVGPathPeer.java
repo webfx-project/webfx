@@ -40,6 +40,13 @@ public final class HtmlSVGPathPeer
         SvgRoot svgRoot = new SvgRootBase();
         node.getProperties().put("svgRoot", svgRoot);
         svgPathPeer.getNodePeerBase().setNode(node); // Necessary, otherwise NPE when fill is a gradient
+        // Hack used by Mandelbrot demo TODO: see if we can automatically compute the size from the path element
+        Object ms = node.getProperties().get("webfx-svgpath-maxSize");
+        if (ms instanceof Number) {
+            double maxSize = ((Number) ms).doubleValue();
+            svgElement.setAttribute("width",  maxSize);
+            svgElement.setAttribute("height", maxSize);
+        }
         HtmlUtil.setChildren(svgElement, svgRoot.getDefsElement(), svgPathPeer.getElement());
         HtmlUtil.setChild(getElement(), svgElement);
     }

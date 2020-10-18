@@ -30,7 +30,9 @@ final class ThumbnailCanvas extends Canvas {
         setHeight(height);
         thumbnailTracer.getModel().adjustAspect(width, height);
         if (thumbnailTracer != null) {
-            thumbnailTracer.setThreadsCount(1); // Only 1 worker per thumbnail otherwise it may be too much for the device
+            // Only 1 worker per thumbnail (we have 9 thumbnails) otherwise it may be too many workers for the device
+            // (ex: 9 * 8 cores = 72 workers make my mobile crash)
+            thumbnailTracer.setThreadsCount(1);
             thumbnailTracer.start();
         }
     }

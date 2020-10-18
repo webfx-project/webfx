@@ -44,6 +44,9 @@ public interface KeyObject {
         return Objects.coalesce(getScalar(key), defaultValue);
     }
 
+    default boolean isTrue(String key) {
+        return Boolean.TRUE.equals(getBoolean(key));
+    }
     /**
      * Return the element as a boolean. If the type is not a boolean, this can result in runtime errors.
      */

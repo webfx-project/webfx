@@ -4,19 +4,20 @@ import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
 import javafx.geometry.VPos;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
+import webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
+import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutCache;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurableNoHGrow;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
-import webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.Numbers;
 import webfx.platform.shared.util.Objects;
@@ -66,7 +67,15 @@ public final class HtmlTextPeer
 
     @Override
     public void updateFill(Paint fill) {
-        getElement().style.color = HtmlPaints.toHtmlCssPaint(fill);
+        String color;
+        if (fill == null || fill instanceof Color)
+            color = HtmlPaints.toCssColor((Color) fill);
+        else {
+            color = "transparent";
+            super.updateFill(fill); // Apply the fill (ex: gradient) to the background
+            setElementStyleAttribute("background-clip", "text");
+        }
+        getElement().style.color = color;
     }
 
     @Override

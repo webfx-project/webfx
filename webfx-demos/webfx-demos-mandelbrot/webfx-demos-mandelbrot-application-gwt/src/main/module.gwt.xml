@@ -135,6 +135,10 @@
     <!--============================< webfx-lib-javacupruntime >============================-->
     <!-- used by webfx-platform-shared-json (SOURCE) -->
     <source path="java_cup/runtime"/>
+    <!--===============================< webfx-lib-odometer >===============================-->
+    <!-- used by webfx-demos-mandelbrot-application (SOURCE) -->
+    <source path="eu/hansolo/fx/odometer"/>
+    <source path="eu/hansolo/fx/odometer/event"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-gwt-uischeduler-impl (SOURCE) -->

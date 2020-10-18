@@ -16,11 +16,14 @@ import java.math.BigDecimal;
  */
 public class MandelbrotWorker extends JavaCodedWorkerBase {
 
+    // These fields will store the input parameters passed by the JS UI through JSON
     private String sXmin, sXmax, sYmin, sYmax;
+    private int width, height, maxIterations;
+    private boolean usingWebAssembly;
+    // Mandelbrot view port (actually used only when computing here in JS, not when calling WebAssembly)
     private final MandelbrotViewport viewport = new MandelbrotViewport();
-    private double width, height;
-    private int maxIterations;
-    private int[] pixelIterations;
+    private int[] pixelIterations; // Output fields that will hold the result of the computation
+    // Fields for WebAssembly management
     private WebAssemblyInstance webAssemblyInstance;
     private WebAssemblyMemoryBufferWriter inputBufferWriter;
     private WebAssemblyMemoryBufferReader outputBufferReader;
@@ -38,7 +41,7 @@ public class MandelbrotWorker extends JavaCodedWorkerBase {
         }
         setOnMessageHandler(data -> {
             JsonObject json = Json.createObject(data);
-            double cy = json.getDouble("cy");
+            int cy = json.getInteger("cy", 0); // TODO: fix bug returning null for 0 value in TeaVM implementation
             String sxmin = json.get("sxmin");
             boolean initViewPort = sxmin != null;
             if (initViewPort) {
@@ -46,11 +49,12 @@ public class MandelbrotWorker extends JavaCodedWorkerBase {
                 sXmax = json.getString("sxmax");
                 sYmin = json.getString("symin");
                 sYmax = json.getString("symax");
-                width = json.getDouble("width");
-                height = json.getDouble("height");
+                width = json.getInteger("width");
+                height = json.getInteger("height");
                 maxIterations = json.getInteger("maxIterations");
+                usingWebAssembly = json.isTrue("wasm");
             }
-            if (webAssemblyInstance != null) {
+            if (usingWebAssembly && webAssemblyInstance != null) {
                 //pixelIterations = new int[(int) width];
                 if (initViewPort || !webAssemblyInstanceInited) {
                     inputBufferWriter.resetMemoryBufferOffset();
@@ -64,7 +68,7 @@ public class MandelbrotWorker extends JavaCodedWorkerBase {
                 } else
                     webAssemblyInstance.call("computeLinePixelIterations", cy);
                 outputBufferReader.resetMemoryBufferOffset();
-                pixelIterations = outputBufferReader.readIntArray((int) width);
+                pixelIterations = outputBufferReader.readIntArray(width);
             } else {
                 if (initViewPort) {
                     MandelbrotComputation.init();
@@ -79,18 +83,18 @@ public class MandelbrotWorker extends JavaCodedWorkerBase {
         });
     }
 
-    private void setPixelIteration(int x, int count) {
-        pixelIterations[x] = count;
+    private void setPixelIteration(int cx, int count) {
+        pixelIterations[cx] = count;
     }
 
-    private static int[] computeLinePixelIterations(double cy, double width, double height, MandelbrotViewport viewport, int maxIterations) {
-        int[] pixelIterations = new int[(int) width];
-        double cx = 0;
+    private static int[] computeLinePixelIterations(int cy, int width, int height, MandelbrotViewport viewport, int maxIterations) {
+        int[] pixelIterations = new int[width];
+        int cx = 0;
         while (cx < width) {
             // Passing the canvas pixel for the pixel color computation
             MandelbrotPoint mbp = MandelbrotComputation.convertCanvasPixelToModelPoint(cx, cy, width, height, viewport);
             int count = MandelbrotComputation.computeModelPointValue(mbp.x, mbp.y, maxIterations);
-            pixelIterations[(int) cx++] = count;
+            pixelIterations[cx++] = count;
         }
         return pixelIterations;
     }

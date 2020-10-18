@@ -25,6 +25,10 @@ public class JavaFxGraphicsRegistry {
         registerNodePeerFactory(Rectangle.class, HtmlRectanglePeer::new);
     }
 
+    public static void registerArc() {
+        registerNodePeerFactory(Arc.class, HtmlArcPeer::new);
+    }
+
     public static void registerCircle() {
         registerNodePeerFactory(Circle.class, HtmlCirclePeer::new);
     }

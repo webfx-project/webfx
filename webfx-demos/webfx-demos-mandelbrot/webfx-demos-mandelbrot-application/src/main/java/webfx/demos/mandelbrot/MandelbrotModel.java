@@ -30,8 +30,8 @@ public final class MandelbrotModel extends MandelbrotViewport {
     Palette palette;
     PaletteMapping paletteMapping;
 
-    public String thumbnailUrl;
-    int thumbnailFrame;
+    int thumbnailFrame, lastFrame;
+    long totalIterations;
     private ThumbnailCanvas thumbnailCanvas;
 
     // Generated data
@@ -46,7 +46,7 @@ public final class MandelbrotModel extends MandelbrotViewport {
     public MandelbrotModel() {
     }
 
-    public ThumbnailCanvas getThumbnailCanvas() {
+    ThumbnailCanvas getThumbnailCanvas() {
         if (thumbnailCanvas == null) {
             thumbnailCanvas = new ThumbnailCanvas();
             MandelbrotTracer thumbnailTracer = new MandelbrotTracer(thumbnailCanvas);
@@ -147,6 +147,8 @@ public final class MandelbrotModel extends MandelbrotViewport {
         copy.paletteMapping = paletteMapping;
         copy.mandelbrotColor = mandelbrotColor;
         copy.paletteColors = paletteColors;
+        copy.thumbnailFrame = thumbnailFrame;
+        copy.lastFrame = lastFrame;
         return copy;
     }
 }

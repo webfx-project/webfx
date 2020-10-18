@@ -1,10 +1,9 @@
 package webfx.demos.mandelbrot;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author Bruno Salmon
@@ -12,151 +11,115 @@ import java.util.Arrays;
 final class MandelbrotPlaces {
 
     public static MandelbrotModel[] PLACES = {
-            createPlace9(),
-            createPlace4(),
-            createPlace6(),
-            createPlace1(),
-            createPlace2(),
-            createPlace3(),
-            createPlace12(),
-            createPlace10(),
-            createPlace13(),
+            createPlace9(),  createPlace4(),  createPlace6(),
+            createPlace1(),  createPlace2(),  createPlace3(),
+            createPlace12(), createPlace10(), createPlace13(),
     };
 
-    public static MandelbrotModel createPlace(double xmin, double xmax, double ymin, double ymax, Color rgbForMandelbrot, int paletteColorType, Double[] divisionPoints, float[][] colorComponents, int paletteMappingLength, int paletteMappingOffset, int maxIterations, int thumbnailFrame, String thumbnailUrl) {
+    public static MandelbrotModel createPlace(double xmin, double xmax, double ymin, double ymax, Color rgbForMandelbrot, LinearGradient linearGradient, int colorType, int paletteMappingLength, int paletteMappingOffset, int maxIterations, int thumbnailFrame, int lastFrame, long totalIterations) {
         MandelbrotModel model = new MandelbrotModel();
         model.xmin = BigDecimal.valueOf(xmin);
         model.xmax = BigDecimal.valueOf(xmax);
         model.ymin = BigDecimal.valueOf(ymin);
         model.ymax = BigDecimal.valueOf(ymax);
         model.mandelbrotColor = rgbForMandelbrot;
-        model.palette = new Palette(paletteColorType, true, new ArrayList<>(Arrays.asList(divisionPoints)), new ArrayList<>(Arrays.asList(colorComponents)));
+        model.palette = new Palette(linearGradient, colorType, true);
         model.paletteMapping = new PaletteMapping(paletteMappingLength, paletteMappingOffset);
         model.maxIterations = maxIterations;
         model.thumbnailFrame = thumbnailFrame;
-        model.thumbnailUrl = thumbnailUrl == null ? "place1.png" : thumbnailUrl;
+        model.lastFrame = lastFrame;
+        model.totalIterations = totalIterations;
         return model;
     }
 
-    public static MandelbrotModel createPlace1() { // 330 frames
+    public static MandelbrotModel createPlace1() {
         return createPlace(
                 0.32559696638634449700,
                 0.38386410145977916300,
                 0.07356094433491353404,
                 0.11726129563998953596,
                 Color.BLACK,
+                LinearGradient.valueOf("red, red"),
                 Palette.COLOR_TYPE_HSB,
-                new Double[]{0d, 1.0},
-                new float[][]{
-                        {0, 1, 1},
-                        {1, 1, 1}
-                },
                 0,
                 12,
                 3000,
-                73, "place1.png");
+                73, 330, 114422252224L);
     }
 
-    public static MandelbrotModel createPlace2() { // 252 frames
+    public static MandelbrotModel createPlace2() {
         return createPlace(
                 -1.90735282229322523912,
                 -1.90735149248092120328,
                 0.00198475588464815965,
                 0.00198575324387618653,
                 Color.BLACK,
+                LinearGradient.valueOf("white, rgb(0, 102, 255) 18% , rgb(51, 51, 51) 50%, rgb(229, 0, 178) 85%, white"),
                 Palette.COLOR_TYPE_RGB,
-                new Double[]{0d, 0.18604651162790697, 0.5, 0.8462, 1.0},
-                new float[][]{
-                        {1, 1, 1},
-                        {0, 0.4f, 1},
-                        {0.2f, 0.2f, 0.2f},
-                        {0.9f, 0, 0.7f},
-                        {1, 1, 1}
-                },
                 1157,
                 565,
                 5000,
-                126, "place2.png");
+                126, 252, 76945411145L);
     }
 
-    public static MandelbrotModel createPlace3() { // 233 frames
+    public static MandelbrotModel createPlace3() {
         return createPlace(
                 -1.94102269174208500814,
                 -1.94094306644316698850,
                 0.00061826443327335312,
                 0.00067798340746186786,
                 Color.BLACK,
+                LinearGradient.valueOf("red, red"),
                 Palette.COLOR_TYPE_HSB,
-                new Double[]{0d, 1.0},
-                new float[][]{
-                        {0, 1, 1},
-                        {1, 1, 1}
-                },
                 250,
                 1,
                 5000,
-                118, "place3.png");
+                118, 253, 148766555135L);
     }
 
-    public static MandelbrotModel createPlace4() { // 183 frames
+    public static MandelbrotModel createPlace4() {
         return createPlace(
                 -1.61761763190675491000,
                 2.08212433045193209000,
                 -0.83790581376914740202,
                 1.93690065799986800202,
                 Color.BLACK,
+                LinearGradient.valueOf("cyan, black"),
                 Palette.COLOR_TYPE_RGB,
-                new Double[]{0d, 1.0},
-                new float[][]{
-                        {0, 1, 1},
-                        {0, 0, 0}
-                },
                 0,
                 0,
                 250,
-                123, "place4.png");
+                123, 183, 7803669148L);
     }
 
-    public static MandelbrotModel createPlace6() {  // 298 frames
+    public static MandelbrotModel createPlace6() {
         return createPlace(
                 -0.39236041546562448760,
                 -0.35385390657205185240,
                 0.63374498262526876100,
                 0.66262486429544823900,
                 Color.BLACK,
+                LinearGradient.valueOf("red, red"),
                 Palette.COLOR_TYPE_HSB,
-                new Double[]{0.0, 1.0},
-                new float[][]{
-                        {0, 1, 1},
-                        {1, 1, 1}
-                },
                 2486,
                 1360,
                 5000,
-                100, "place6.png");
+                100, 298, 62297329304L);
     }
 
-    public static MandelbrotModel createPlace9() { // 371 frames
+    public static MandelbrotModel createPlace9() {
         return createPlace(
                 -3.901275720262803480000005,
                 0.363215535788634519999995,
                 -1.596029975905122196803487,
                 1.602338458831756603196513,
                 Color.BLACK,
+                LinearGradient.valueOf("white, rgb(255, 204, 0) 15%, rgb(135, 31, 19) 33%, rgb(0, 0, 153) 67%, rgb(0, 102, 255) 85%, white"),
                 Palette.COLOR_TYPE_RGB,
-                new Double[]{0.0, 0.15, 0.33, 0.67, 0.85, 1.0},
-                new float[][]{
-                        {1, 1, 1},
-                        {1, 0.8f, 0},
-                        {0.53f, 0.12f, 0.075f},
-                        {0, 0, 0.6f},
-                        {0, 0.4f, 1},
-                        {1, 1, 1}
-                },
                 321,
                 44,
                 1000,
-                145, "place9.png");
+                145, 371, 41588766216L);
     }
 
     public static MandelbrotModel createPlace10() {
@@ -166,18 +129,12 @@ final class MandelbrotPlaces {
                 -0.30991904708784934612,
                 1.25613526949908609080,
                 Color.BLACK,
+                LinearGradient.valueOf("black, red 17%, yellow 83%, white"),
                 Palette.COLOR_TYPE_RGB,
-                new Double[]{0.0, 0.17, 0.83, 1.0},
-                new float[][]{
-                        {0, 0, 0},
-                        {1, 0, 0},
-                        {1, 1, 0},
-                        {1, 1, 1}
-                },
                 0,
                 0,
                 10000,
-                54, "place10.png");
+                54, 207, 280002108456L);
     }
 
     public static MandelbrotModel createPlace12() {
@@ -187,19 +144,12 @@ final class MandelbrotPlaces {
                 -0.00000269122434052013,
                 -8.7235132469165E-7,
                 Color.BLACK,
+                LinearGradient.valueOf("red, yellow 18%, green 29%, #1E90FF 44%, red"),
                 Palette.COLOR_TYPE_HSB,
-                new Double[]{0.0, 0.18604651162790697, 0.295169946332737, 0.44364937388193204, 1.0},
-                new float[][]{
-                        {0, 1, 1},
-                        {0.18604651f, 1, 1},
-                        {0.33333334f, 1, 1},
-                        {0.6010734f, 1, 1},
-                        {1, 1, 1}
-                },
                 1092,
                 539,
                 5000,
-                144, "place12.png");
+                144, 181, 39840341628L);
     }
 
     public static MandelbrotModel createPlace13() {
@@ -209,19 +159,11 @@ final class MandelbrotPlaces {
                 -0.00031927191194277593,
                 -0.00003519299012499159,
                 Color.BLACK,
+                LinearGradient.valueOf("white, blue, black, rgb(255, 80, 0), yellow, white"),
                 Palette.COLOR_TYPE_RGB,
-                new Double[]{0.0, 0.2, 0.4, 0.6, 0.8, 1.0},
-                new float[][]{
-                        {1, 1, 1},
-                        {0, 0, 1},
-                        {0, 0, 0},
-                        {1, 80f/255f, 0},
-                        {1, 1, 0},
-                        {1, 1, 1},
-                },
                 1300,
                 0,
                 50000,
-                125, "place13.png");
+                125, 288, 338885034418L);
     }
 }

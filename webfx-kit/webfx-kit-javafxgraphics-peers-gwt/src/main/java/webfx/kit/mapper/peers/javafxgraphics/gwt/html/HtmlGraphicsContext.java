@@ -37,7 +37,20 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     public HtmlGraphicsContext(Canvas canvas) {
         this.canvas = canvas;
-        Properties.onPropertySet(canvas.sceneProperty(), scene -> ctx = (CanvasRenderingContext2D) (Object) ((HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement()).getContext("2d"));
+        Properties.onPropertySet(canvas.sceneProperty(), scene -> ctx = getCanvasRenderingContext2D((HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement()));
+    }
+
+    HtmlGraphicsContext(HTMLCanvasElement canvasElement) {
+        this(getCanvasRenderingContext2D(canvasElement));
+    }
+
+    HtmlGraphicsContext(CanvasRenderingContext2D ctx) {
+        canvas = null;
+        this.ctx = ctx;
+    }
+
+    private static CanvasRenderingContext2D getCanvasRenderingContext2D(HTMLCanvasElement canvasElement) {
+        return (CanvasRenderingContext2D) (Object) canvasElement.getContext("2d");
     }
 
     @Override
@@ -412,7 +425,11 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private void arc(double x, double y, double w, double h, double startAngle, double arcExtent, ArcType closure) {
+        if (proportionalFillLinearGradient)
+            applyProportionalFillLinearGradiant(x, y, w, h);
         ctx.arc(x + w / 2, y + h / 2, w / 2, - degreesToRadiant(startAngle), - degreesToRadiant(startAngle + arcExtent));
+        if (closure == ArcType.ROUND)
+            ctx.lineTo(x + w / 2, y + h / 2);
     }
 
         @Override
