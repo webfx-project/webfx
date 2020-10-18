@@ -4,7 +4,7 @@ module webfx.platform.shared.json {
 
     // Direct dependencies modules
     requires java.base;
-    requires webfx.libs.javacupruntime;
+    requires webfx.lib.javacupruntime;
     requires webfx.platform.shared.util;
 
     // Exported packages

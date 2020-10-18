@@ -771,7 +771,7 @@
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/kit/util/properties"/>
     <source path="webfx/kit/util/properties/conversion"/>
-    <!--===========================< webfx-libs-javacupruntime >============================-->
+    <!--===========================< webfx-lib-javacupruntime >============================-->
     <!-- used by webfx-platform-shared-json (SOURCE) -->
     <source path="java_cup/runtime"/>
     <!--=========================< webfx-platform-client-storage >==========================-->

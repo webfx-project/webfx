@@ -106,7 +106,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-libs-javacupruntime</artifactId>
+            <artifactId>webfx-lib-javacupruntime</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
