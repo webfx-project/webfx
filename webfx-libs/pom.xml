@@ -15,6 +15,7 @@
     <modules>
         <!-- Java CUP parser runtime module (forked to make it compilable with transpilers) -->
         <module>webfx-lib-javacupruntime</module>
+        <module>webfx-lib-odometer</module>
     </modules>
 
 </project>

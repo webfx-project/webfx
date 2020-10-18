@@ -19,6 +19,7 @@ package eu.hansolo.fx.odometer;
 import eu.hansolo.fx.odometer.event.OdometerEvent;
 import eu.hansolo.fx.odometer.event.OdometerObserver;
 import eu.hansolo.fx.odometer.event.Type;
+import javafx.application.Platform;
 import javafx.beans.DefaultProperty;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -39,7 +40,6 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import webfx.kit.util.properties.Properties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,6 +180,7 @@ public class Odometer extends Region {
         value.addListener((o, ov, nv) -> oldValue = ov.doubleValue());
         sceneProperty().addListener(o -> {
             if (null == getScene()) { return; }
+            Platform.runLater(this::initAndResize);
             getScene().windowProperty().addListener(o1 -> {
                 if (null == getScene().getWindow()) { return; }
                 showing = Bindings.createBooleanBinding(() -> {
@@ -198,16 +199,18 @@ public class Odometer extends Region {
     }
 
     private void initAndResize() {
-        if (digitCanvas.getScene() == null)
-            Properties.onPropertySet(digitCanvas.sceneProperty(), scene -> initAndResize());
-        else {
+        if (isReadyToInit()) {
             init();
             resize();
         }
     }
 
+    private boolean isReadyToInit() {
+        return digitCanvas.getScene() != null;
+    }
+
     private void init() {
-        if (!isShowing()) { return; }
+        //if (!isShowing()) { return; }
         digitCtx.setFill(getDigitBackgroundColor());
         digitCtx.fillRect(0, 0, digitWidth, extendedHeight);
 
@@ -525,6 +528,7 @@ public class Odometer extends Region {
     }
 
     private void redraw() {
+        if (!isReadyToInit()) return;
         foreground.setFill(foregroundGradient);
         if (!initialized) { init(); }
         drawDigits();

@@ -31,31 +31,30 @@ import javafx.util.Duration;
 
 
 /**
- * User: hansolo
- * Date: 26.11.18
- * Time: 12:50
+ * @author Bruno Salmon
  */
-public class TallyCounterApplication extends Application {
+public final class TallyCounterApplication extends Application {
 
     private int counter = 0, beforeResetCounter;
     private Odometer odometer;
     private Timeline odometerTimeline, swapTimeline;
     private boolean swapped;
-    private final LedButton incrementButton = createLedButton(Color.GREEN, true, this::increment);
-    private final LedButton decrementButton = createLedButton(Color.ORANGE, false, this::decrement);
-    private final LedButton resetButton = createLedButton(Color.RED, null, this::reset);
-    private final LedButton swapButton = createLedButton(Color.BLUE, null, this::swap);
+    private final LedButton incrementButton = LedButton.create(Color.GREEN,  true,  this::increment);
+    private final LedButton decrementButton = LedButton.create(Color.ORANGE, false, this::decrement);
+    private final LedButton resetButton     = LedButton.create(Color.RED,    null,  this::reset);
+    private final LedButton swapButton      = LedButton.create(Color.BLUE,    null, this::swap);
+
     private double leftButtonX, rightButtonX;
 
-    private static LedButton createLedButton(Color ledColor, Boolean plus, Runnable actionHandler) {
-        LedButton ledButton = new LedButton(ledColor, plus);
-        ledButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        ledButton.setOnAction(e -> actionHandler.run());
-        return ledButton;
+    @Override
+    public void start(Stage stage) {
+        Scene scene = new Scene(createTallyCounterPane(), 800, 600);
+        stage.setTitle("JavaFx Tally Counter");
+        stage.setScene(scene);
+        stage.show();
     }
 
-    @Override
-    public void init() {
+    private Pane createTallyCounterPane() {
         odometer = OdometerBuilder.create()
                 .digits(4)
                 .decimals(0)
@@ -64,10 +63,6 @@ public class TallyCounterApplication extends Application {
                 .decimalBackgroundColor(Color.BLACK)
                 .decimalForegroundColor(Color.WHITE)
                 .build();
-    }
-
-    @Override
-    public void start(Stage stage) {
         odometer.setPrefHeight(Region.USE_COMPUTED_SIZE);
         odometer.setPrefWidth(Region.USE_COMPUTED_SIZE);
         double gap = 10;
@@ -139,12 +134,7 @@ public class TallyCounterApplication extends Application {
         };
         pane.setPadding(new Insets(gap));
         pane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        Scene scene = new Scene(pane, 800, 600);
-
-        stage.setTitle("JavaFx Tally Counter");
-        stage.setScene(scene);
-        stage.show();
+        return pane;
     }
 
     private void increment() {

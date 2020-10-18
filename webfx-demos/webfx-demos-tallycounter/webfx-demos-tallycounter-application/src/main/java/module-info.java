@@ -3,14 +3,11 @@
 module webfx.demos.tallycounter.application {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.base;
     requires javafx.graphics;
-    requires webfx.kit.util;
+    requires webfx.lib.odometer;
 
     // Exported packages
-    exports eu.hansolo.fx.odometer;
-    exports eu.hansolo.fx.odometer.event;
     exports webfx.demos.tallycounter;
 
     // Provided services

@@ -18,13 +18,13 @@ import javafx.scene.shape.StrokeLineCap;
 /**
  * @author Bruno Salmon
  */
-public class LedButton extends Region {
+final class LedButton extends Region {
 
     private final Circle ledBorder = new Circle(), ledCentre = new Circle(), highlight = new Circle();
     private final Line hLine = new Line(), vLine = new Line();
     private final Paint pressedFill, releasedFill;
 
-    public LedButton(Color ledColor, Boolean plus) {
+    LedButton(Color ledColor, Boolean plus) {
         Paint borderFill = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE,
                 new Stop(0.0, Color.rgb(20, 20, 20, 0.65)),
                 new Stop(0.15, Color.rgb(20, 20, 20, 0.65)),
@@ -64,7 +64,7 @@ public class LedButton extends Region {
             sign.setVisible(false);
     }
 
-    public final void setOnAction(EventHandler<ActionEvent> actionHandler) {
+    final void setOnAction(EventHandler<ActionEvent> actionHandler) {
         ledCentre.setOnMouseClicked(e -> actionHandler.handle(new ActionEvent(this, this)));
     }
 
@@ -95,4 +95,10 @@ public class LedButton extends Region {
         layoutInArea(vLine, 0, 0, width, height, 0 , HPos.CENTER, VPos.CENTER);
     }
 
+    static LedButton create(Color ledColor, Boolean plus, Runnable actionHandler) {
+        LedButton ledButton = new LedButton(ledColor, plus);
+        ledButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        ledButton.setOnAction(e -> actionHandler.run());
+        return ledButton;
+    }
 }

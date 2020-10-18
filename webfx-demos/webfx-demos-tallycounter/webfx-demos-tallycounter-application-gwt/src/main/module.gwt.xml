@@ -88,8 +88,6 @@
     <!-- used by webfx-kit-javafxgraphics-peers-base (SOURCE) -->
     <!--======================< webfx-demos-tallycounter-application >======================-->
     <!-- used by webfx-demos-tallycounter-application-gwt (APPLICATION) -->
-    <source path="eu/hansolo/fx/odometer"/>
-    <source path="eu/hansolo/fx/odometer/event"/>
     <source path="webfx/demos/tallycounter"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <!-- used by webfx-demos-tallycounter-application-gwt (IMPLICIT_PROVIDER) -->
@@ -124,6 +122,10 @@
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/kit/util/properties"/>
     <source path="webfx/kit/util/properties/conversion"/>
+    <!--===============================< webfx-lib-odometer >===============================-->
+    <!-- used by webfx-demos-tallycounter-application (SOURCE) -->
+    <source path="eu/hansolo/fx/odometer"/>
+    <source path="eu/hansolo/fx/odometer/event"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <!-- used by webfx-platform-gwt-uischeduler-impl (SOURCE) -->

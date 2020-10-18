@@ -25,7 +25,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-kit-util</artifactId>
+            <artifactId>webfx-lib-odometer</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
