@@ -3,10 +3,10 @@
 module webfx.platform.java.worker.impl {
 
     // Direct dependencies modules
+    requires java.base;
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
-    requires webfx.platform.shared.scheduler;
     requires webfx.platform.shared.worker;
 
     // Exported packages

@@ -3,18 +3,23 @@ package webfx.platform.java.services.worker.spi.impl;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.log.Logger;
-import webfx.platform.shared.services.scheduler.Scheduler;
-import webfx.platform.shared.services.worker.spi.abstrimpl.AbstractPlatformWorker;
-import webfx.platform.shared.services.worker.spi.abstrimpl.AbstractWorker;
-import webfx.platform.shared.services.worker.spi.abstrimpl.JavaApplicationWorker;
+import webfx.platform.shared.services.worker.spi.base.JavaCodedWorkerBase;
+import webfx.platform.shared.services.worker.spi.base.PlatformWorkerBase;
+import webfx.platform.shared.services.worker.spi.base.WorkerBase;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Bruno Salmon
  */
-public class JavaWorker extends AbstractWorker { // this instance represents the proxy the application interacts with
+public class JavaWorker extends WorkerBase { // this instance represents the proxy the application interacts with
 
-    private final JavaApplicationWorker applicationWorker; // This instance represents the actual running worker coded in Java (instantiated through the passed class)
-    private final AbstractPlatformWorker javaPlatformWorker = new AbstractPlatformWorker() { // This instance represents the java platform layer the application worker interacts with
+    private ScheduledExecutorService workerExecutor = Executors.newSingleThreadScheduledExecutor();
+
+    private final JavaCodedWorkerBase applicationWorker; // This instance represents the actual running worker coded in Java (instantiated through the passed class)
+    private final PlatformWorkerBase javaPlatformWorker = new PlatformWorkerBase() { // This instance represents the java platform layer the application worker interacts with
         @Override
         public void log(String message) {
             Logger.log(message);
@@ -53,6 +58,7 @@ public class JavaWorker extends AbstractWorker { // this instance represents the
 
         @Override
         public void terminate() {
+            workerExecutor.shutdown();
         }
     };
 
@@ -60,8 +66,8 @@ public class JavaWorker extends AbstractWorker { // this instance represents the
         throw new UnsupportedOperationException();
     }
 
-    public JavaWorker(Class<? extends JavaApplicationWorker> javaCodedWorkerClass) {
-        JavaApplicationWorker javaApplicationWorker;
+    public JavaWorker(Class<? extends JavaCodedWorkerBase> javaCodedWorkerClass) {
+        JavaCodedWorkerBase javaApplicationWorker;
         try {
             javaApplicationWorker = javaCodedWorkerClass.getDeclaredConstructor().newInstance();
             javaApplicationWorker.setPlatformWorker(javaPlatformWorker);
@@ -76,7 +82,7 @@ public class JavaWorker extends AbstractWorker { // this instance represents the
     @Override
     public void postMessage(Object msg) {
         // When the application calls this method, we need to pass this to the onMessageHandler of the application
-        Scheduler.runInBackground(() -> javaPlatformWorker.getOnMessageHandler().accept(msg));
+        workerExecutor.schedule(() -> javaPlatformWorker.getOnMessageHandler().accept(msg), 0, TimeUnit.SECONDS);
     }
 
     @Override

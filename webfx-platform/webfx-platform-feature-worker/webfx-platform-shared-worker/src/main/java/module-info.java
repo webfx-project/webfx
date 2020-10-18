@@ -8,8 +8,9 @@ module webfx.platform.shared.worker {
 
     // Exported packages
     exports webfx.platform.shared.services.worker;
+    exports webfx.platform.shared.services.worker.pool;
     exports webfx.platform.shared.services.worker.spi;
-    exports webfx.platform.shared.services.worker.spi.abstrimpl;
+    exports webfx.platform.shared.services.worker.spi.base;
 
     // Used services
     uses webfx.platform.shared.services.worker.spi.WorkerServiceProvider;

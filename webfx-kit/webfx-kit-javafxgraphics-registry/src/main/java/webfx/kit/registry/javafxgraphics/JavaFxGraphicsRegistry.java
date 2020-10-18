@@ -18,6 +18,8 @@ public class JavaFxGraphicsRegistry {
 
     public static native void registerPath();
 
+    public static native void registerSVGPath();
+
     public static native void registerRegion();
 
 }

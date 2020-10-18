@@ -20,7 +20,11 @@ public final class WebAssembly {
         return provider != null && provider.isSupported();
     }
 
-    public static Future<WebAssemblyInstance> load(String webAssemblyUrl, Import... imports) {
-        return getProvider().load(webAssemblyUrl, imports);
+    public static Future<WebAssemblyModule> loadModule(String webAssemblyUrl) {
+        return getProvider().loadModule(webAssemblyUrl);
+    }
+
+    public static Future<WebAssemblyInstance> loadAndInstantiate(String webAssemblyUrl, WebAssemblyImport... imports) {
+        return getProvider().loadAndInstantiate(webAssemblyUrl, imports);
     }
 }

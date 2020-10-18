@@ -5,9 +5,9 @@ import elemental2.svg.SVGPathElement;
 import elemental2.svg.SVGRect;
 import javafx.collections.ListChangeListener;
 import javafx.scene.shape.*;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
 import webfx.kit.mapper.peers.javafxgraphics.base.PathPeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.base.PathPeerMixin;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
 import webfx.platform.shared.util.collection.Collections;
 
 import java.util.List;
@@ -31,12 +31,15 @@ public final class SvgPathPeer
 
     @Override
     public void updateFillRule(FillRule fillRule) {
+    }
 
+    public void updatePath(String path) {
+        setElementAttribute("d", path);
     }
 
     @Override
     public void updateElements(List<PathElement> elements, ListChangeListener.Change<PathElement> change) {
-        setElementAttribute("d", toSvgPathData(elements));
+        updatePath(toSvgPathData(elements));
         updateLocalToParentTransforms(getNode().localToParentTransforms());
     }
 

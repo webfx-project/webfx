@@ -1,6 +1,6 @@
 package webfx.platform.shared.services.worker.spi;
 
-import webfx.platform.shared.services.worker.spi.abstrimpl.JavaApplicationWorker;
+import webfx.platform.shared.services.worker.spi.base.JavaCodedWorkerBase;
 import webfx.platform.shared.services.worker.Worker;
 
 /**
@@ -10,5 +10,5 @@ public interface WorkerServiceProvider {
 
      Worker createWorker(String scriptUrl);
 
-     Worker createWorker(Class<? extends JavaApplicationWorker> javaCodedWorkerClass);
+     Worker createWorker(Class<? extends JavaCodedWorkerBase> javaCodedWorkerClass);
 }

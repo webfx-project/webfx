@@ -31,42 +31,55 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import webfx.demos.mandelbrot.canvastracer.MandelbrotModel;
-import webfx.demos.mandelbrot.canvastracer.MandelbrotPlaces;
-import webfx.demos.mandelbrot.canvastracer.MandelbrotTracer;
 import webfx.platform.client.services.uischeduler.UiScheduler;
-import webfx.platform.shared.services.resource.ResourceService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
  * @author Bruno Salmon
  */
-public class MandelbrotApplication extends Application {
+public final class MandelbrotApplication extends Application {
 
-    private final static double COMPUTING_ZOOM_FACTOR = 0.9;
-    private final static long MILLIS_IN_NANO = 1_000_000;
+    private static int CANVAS_WIDTH = 640, CANVAS_HEIGHT = 480; // Initial requested size but final size can be different when running in the browser
+    private static final int MAX_PIXELS_COUNT = CANVAS_WIDTH * CANVAS_HEIGHT;
+    final static double COMPUTING_ZOOM_FACTOR = 0.9;
+    private final static long MILLION = 1_000_000;
+    private final static long MILLIS_IN_NANO = MILLION;
     private final static long TIME_BETWEEN_FRAME_NS = 16 * MILLIS_IN_NANO; // 16ms per frame
+    private final Paint[] OVERLAY_FILLS = {
+            Color.WHITE, Color.BLACK, Color.RED, Color.BLUE,
+            LinearGradient.valueOf("linear-gradient(to bottom, blue, green, red)"),
+            LinearGradient.valueOf("linear-gradient(to bottom, green, brown, orange)"),
+            LinearGradient.valueOf("linear-gradient(to bottom, red, purple, blue)"),
+    };
 
-    private static int CANVAS_WIDTH = 640, CANVAS_HEIGHT = 480; // Requested default size but can be different if in browser
+    private StackPane stackPane;
+    private Text selectPlaceText = new Text("Select a place to visit");
+    private final static DropShadow dropShadow = new DropShadow(5, 4, 4, Color.BLACK);
     private Canvas canvas, overlayCanvas;
-    private Color overlayFillColor = Color.WHITE;
+    private Paint overlayFill;
     private MandelbrotModel model;
     private MandelbrotTracer tracer;
+    private boolean computing, computingPaused;
     private final List<Image> snapshots = new ArrayList<>();
     private AnimationTimer snapshotsPlayer;
-    private StackPane stackPane;
 
     @Override
     public void start(Stage primaryStage) {
@@ -76,22 +89,23 @@ public class MandelbrotApplication extends Application {
         primaryStage.setScene(scene);
         // Reading back the real window size in case we run in the browser
         CANVAS_WIDTH = Math.min((int) scene.getWidth(), CANVAS_WIDTH);
-        CANVAS_HEIGHT = Math.min((int) scene.getHeight(), 640 * 480 / CANVAS_WIDTH);
+        CANVAS_HEIGHT = Math.min((int) scene.getHeight(), MAX_PIXELS_COUNT / CANVAS_WIDTH);
 
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         overlayCanvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         tracer = new MandelbrotTracer(canvas);
 
         stackPane = new StackPane(canvas, overlayCanvas, placeButtonBar);
+        stackPane.setMinSize(CANVAS_WIDTH, CANVAS_HEIGHT);
         stackPane.setMaxSize(CANVAS_WIDTH, CANVAS_HEIGHT);
         stackPane.setClip(new Rectangle(CANVAS_WIDTH, CANVAS_HEIGHT)); // To hide the button bar when it's down
         root.setCenter(stackPane);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 
-        scene.getStylesheets().setAll(ResourceService.toUrl("mandelbrot.css", getClass()));
-        primaryStage.setTitle("MandelbrotFX");
+        primaryStage.setTitle("WebFx Mandelbrot");
         primaryStage.show();
         showPlacesMenu();
+        setOverlayFill(OVERLAY_FILLS[0]);
     }
 
     private Pane placesMenu;
@@ -99,6 +113,7 @@ public class MandelbrotApplication extends Application {
     private final static Insets MARGIN = new Insets(5);
 
     private void showPlacesMenu() {
+        stopComputing();
         if (placesMenu == null) {
             int n = MandelbrotPlaces.PLACES.length;
             placesNodes = new Node[n];
@@ -123,18 +138,42 @@ public class MandelbrotApplication extends Application {
                     }
                 }
             };
-        }
-        stopComputing();
+            selectPlaceText.setFont(Font.font("Arial", FontWeight.BOLD, null, 48));
+            selectPlaceText.setFill(Color.WHITE);
+            selectPlaceText.setEffect(dropShadow);
+            selectPlaceText.setMouseTransparent(true);
+        } else
+            new Timeline(
+                    placesNodeKeyFrame(0, Node::scaleXProperty, 0),
+                    placesNodeKeyFrame(0, Node::scaleYProperty, 0),
+                    //placesNodeKeyFrame(0, Node::rotateProperty, 360),
+                    placesNodeKeyFrame(500, Node::scaleXProperty, 1),
+                    placesNodeKeyFrame(500, Node::scaleYProperty, 1)
+                    //placesNodeKeyFrame(500, Node::rotateProperty, 0)
+            ).play();
         stackPane.getChildren().add(placesMenu);
-        new Timeline(
-                placesNodeKeyFrame(0, Node::scaleXProperty, 0),
-                placesNodeKeyFrame(0, Node::scaleYProperty, 0),
-                //placesNodeKeyFrame(0, Node::rotateProperty, 360),
-                placesNodeKeyFrame(500, Node::scaleXProperty, 1),
-                placesNodeKeyFrame(500, Node::scaleYProperty, 1)
-                //placesNodeKeyFrame(500, Node::rotateProperty, 0)
-        ).play();
+        if (selectPlaceText != null) {
+            stackPane.getChildren().add(selectPlaceText);
+            // Responsive design: rescaling the text if too large
+            selectPlaceText.setVisible(false);
+            measureNodeWidth(selectPlaceText, textWidth -> {
+                double maxWidth = CANVAS_WIDTH - 25;
+                if (textWidth > maxWidth) {
+                    double scale = maxWidth / textWidth;
+                    selectPlaceText.setScaleX(scale);
+                    selectPlaceText.setScaleY(scale);
+                }
+                selectPlaceText.setVisible(true);
+            });
+        }
         hidePlaceButtonBar();
+    }
+
+    private void measureNodeWidth(Node node, Consumer<Double> widthConsumer) {
+        // WebFx can't calculate layoutBounds before the node is inserted in the DOM so we postpone the call
+        UiScheduler.scheduleInAnimationFrame(
+                () -> widthConsumer.accept(node.getLayoutBounds().getWidth()),
+                2); // 2 frames delay should be ok
     }
 
     private KeyFrame placesNodeKeyFrame(double millis, Function<Node, DoubleProperty> nodePropertyGetter, double endValue) {
@@ -142,59 +181,53 @@ public class MandelbrotApplication extends Application {
     }
 
     private Node createPlaceNode(int placeIndex) {
-        ImageView imageView = new ResizableImageView(ResourceService.toUrl(MandelbrotPlaces.PLACES[placeIndex].thumbnailUrl, MandelbrotApplication.this.getClass()));
-        imageView.setCursor(Cursor.HAND);
-        imageView.setOnMouseClicked(e -> showPlace(placeIndex));
-        return imageView;
+        ThumbnailCanvas placeNode = MandelbrotPlaces.PLACES[placeIndex].getThumbnailCanvas();
+        placeNode.setCursor(Cursor.HAND);
+        placeNode.setOnMouseClicked(e -> showPlace(placeIndex));
+        if (placeIndex == 0)
+            placeNode.getThumbnailTracer().setOnFinished(() -> new Timeline(new KeyFrame(new Duration(2000), new KeyValue(selectPlaceText.opacityProperty(), 0))).play());
+        return placeNode;
     }
 
     private void showPlace(int placeIndex) {
         stackPane.getChildren().remove(placesMenu);
+        if (selectPlaceText != null) {
+            stackPane.getChildren().remove(selectPlaceText);
+            selectPlaceText = null;
+        }
         drawMandelbrot(MandelbrotPlaces.PLACES[placeIndex]);
         showPlaceButtonBar();
     }
 
-    private final HBox placeButtonBar = new HBox(8);
+    // Keeping reference to show or hide these buttons
+    private final SVGPath pauseButton, resumeButton, exitButton;
+
+    private final HBox placeButtonBar = new HBox(6);
     {
+        placeButtonBar.getChildren().setAll(
+                                createSvgButton(SvgButtonPaths.getRollColorsPath(), this::onRollColorsClicked),
+                pauseButton  =  createSvgButton(SvgButtonPaths.getPausePath(),      this::onResumedClicked),
+                resumeButton =  createSvgButton(SvgButtonPaths.getResumePath(),     this::onResumedClicked),
+                                createSvgButton(SvgButtonPaths.getPlayPath(),       this::onSlowPlayClicked),
+                                createSvgButton(SvgButtonPaths.getPlay2Path(),      this::onFullPlayClicked),
+                                createSvgButton(SvgButtonPaths.getGearPath(),       this::onGearClicked),
+                exitButton   =  createSvgButton(SvgButtonPaths.getExitPath(),       this::onExitClicked)
+        );
         placeButtonBar.setMaxHeight(30);
         placeButtonBar.setPadding(new Insets(10));
         placeButtonBar.setAlignment(Pos.BOTTOM_CENTER);
         placeButtonBar.setTranslateY(100); // Initially down
+        //placeButtonBar.setEffect(dropShadow); // Doesn't work in the browser
         StackPane.setAlignment(placeButtonBar, Pos.BOTTOM_CENTER);
-        populatePlaceButtonBar();
-    }
-
-    private void populatePlaceButtonBar() {
-        placeButtonBar.getChildren().setAll(
-                createImageButton(imageName("play-#theme.png"),   this::onSlowPlayClicked),
-                createImageButton(imageName("play2-#theme.png"),  this::onFullPlayClicked),
-                createImageButton(imageName("#compute-#theme.png"), this::onResumedClicked),
-                createImageButton(imageName("fill-#theme.png"),   this::onLampClicked),
-                createImageButton(imageName("exit-#theme.png"),   this::onExitClicked)
-        );
-    }
-
-    private String imageName(String patternName) {
-        boolean white = overlayFillColor == Color.WHITE;
-        return patternName.replaceAll("#theme", white ? "white" : "black").replaceAll("#compute", computingPaused ? "resume" : "pause");
-    }
-
-    private Node createImageButton(String imagePath, Runnable clickRunnable) {
-        ImageView imageView = new ImageView(ResourceService.toUrl(imagePath, getClass()));
-        imageView.setFitWidth(64);
-        imageView.setFitHeight(64);
-        imageView.setOnMouseClicked(e -> clickRunnable.run());
-        return imageView;
-    }
-
-    private void showPlaceButtonBar() {
-        new Timeline(new KeyFrame(new Duration(200), new KeyValue(placeButtonBar.translateYProperty(), 0, Interpolator.EASE_OUT))).play();
-    }
-
-    private void hidePlaceButtonBar() {
-        new Timeline(new KeyFrame(new Duration(200), new KeyValue(placeButtonBar.translateYProperty(), 100))).play();
-        stopOverlayTextAnimation();
-        clearOverlay();
+        // Responsive design: moving the exit button on top right if the button bar is too large for the screen
+        measureNodeWidth(placeButtonBar, barWidth -> {
+            if (barWidth > CANVAS_WIDTH) {
+                placeButtonBar.getChildren().remove(exitButton);
+                stackPane.getChildren().add(exitButton);
+                StackPane.setAlignment(exitButton, Pos.TOP_RIGHT);
+                StackPane.setMargin(exitButton, MARGIN);
+            }
+        });
     }
 
     private void onSlowPlayClicked() {
@@ -207,11 +240,14 @@ public class MandelbrotApplication extends Application {
 
     private void onResumedClicked() {
         startOrPauseOrResumeComputing();
-        populatePlaceButtonBar();
+        updatePlaceButtonBar();
     }
 
-    private void onLampClicked() {
-        setOverlayFillColor(overlayFillColor == Color.BLACK ? Color.WHITE : Color.BLACK);
+    private void onRollColorsClicked() {
+        setOverlayFill(OVERLAY_FILLS[(Arrays.asList(OVERLAY_FILLS).indexOf(overlayFill) + 1) % OVERLAY_FILLS.length]);
+    }
+
+    private void onGearClicked() {
     }
 
     private void onExitClicked() {
@@ -219,11 +255,42 @@ public class MandelbrotApplication extends Application {
         showPlacesMenu();
     }
 
-    private void setOverlayFillColor(Color overlayFillColor) {
-        if (overlayFillColor != this.overlayFillColor) {
-            this.overlayFillColor = overlayFillColor;
+    private static SVGPath createSvgButton(String content, Runnable clickRunnable) {
+        SVGPath svgPath = new SVGPath();
+        svgPath.setContent(content);
+        svgPath.setOnMouseClicked(e -> clickRunnable.run());
+        return svgPath;
+    }
+
+    private void updatePlaceButtonBar() {
+        placeButtonBar.getChildren().stream().filter(n -> n instanceof SVGPath).forEach(n -> ((SVGPath) n).setFill(overlayFill));
+        exitButton.setFill(overlayFill); // In case it's not in the button bar but has been moved on right top corner
+        showButton(pauseButton, !computingPaused);
+        showButton(resumeButton, computingPaused);
+    }
+
+    private static void showButton(Node button, boolean isShown) {
+        button.setVisible(isShown);
+        button.setManaged(isShown);
+    }
+
+    private void showPlaceButtonBar() {
+        new Timeline(new KeyFrame(new Duration(200), new KeyValue(placeButtonBar.translateYProperty(), 0, Interpolator.EASE_OUT))).play();
+        exitButton.setVisible(true);
+    }
+
+    private void hidePlaceButtonBar() {
+        new Timeline(new KeyFrame(new Duration(200), new KeyValue(placeButtonBar.translateYProperty(), 100))).play();
+        stopOverlayTextAnimation();
+        clearOverlay();
+        exitButton.setVisible(false);
+    }
+
+    private void setOverlayFill(Paint overlayFill) {
+        if (overlayFill != this.overlayFill) {
+            this.overlayFill = overlayFill;
             updateOverlayCanvas();
-            populatePlaceButtonBar();
+            updatePlaceButtonBar();
         }
     }
 
@@ -233,7 +300,7 @@ public class MandelbrotApplication extends Application {
     private void clearOverlay() {
         if (ctx == null) {
             ctx = overlayCanvas.getGraphicsContext2D();
-            overlayFont = new Font("Spaceboy", 16);
+            overlayFont = Font.font("Courier", FontWeight.BOLD, null, 18);
         }
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
@@ -244,18 +311,22 @@ public class MandelbrotApplication extends Application {
             if (snapshots.isEmpty())
                 showOverlayTexts("Waiting frame completion", "");
             else {
-                int count = tracer.getLastFrameIterations();
+                long count = tracer.getLastFrameIterations();
                 long t = tracer.getLastFrameComputationTime();
                 showOverlayTexts(
-                        completeSpace("Frame:"), "" + snapshots.size(),
-                        completeSpace("Iterations:"), getIntegerWith1Decimal(count * 10 / 1_000_000) + "M",
-                        completeSpace("Time:"), "" + getIntegerWith1Decimal(t * 10 / 1000) + "s",
-                        completeSpace("IPS:"), "" + getIntegerWith1Decimal(count * 10 / t * 1_000 / 1_000_000) + "M",
-                        completeSpace("FPS:"), "" + getIntegerWith1Decimal(1_000 * 10 / t),
-                        completeSpace("CPU cores:"), "" + UiScheduler.availableProcessors(),
-                        completeSpace("Threads:"), "" + tracer.getComputedThreadCount() + " workers",
-                        completeSpace("Backend:"), "WebAssembly"
-                        //"Agent", WebFxKitLauncher.getUserAgent(),
+                        completeSpace("Frame"), "" + snapshots.size(),
+                        completeSpace("Iterations"), getIntegerWith1Decimal(count * 10 / MILLION) + "M",
+                        completeSpace("Time"), "" + getIntegerWith1Decimal(t * 10 / 1000) + "s",
+                        completeSpace("IPS"), "" + getIntegerWith1Decimal(count * 10 / t * 1_000 / MILLION) + "M",
+                        completeSpace("FPS"), "" + getIntegerWith1Decimal(1_000 * 10 / t),
+                        completeSpace("CPU cores"), UiScheduler.availableProcessors() <= 0 ? "Unrevealed" : "" + UiScheduler.availableProcessors(),
+                        completeSpace("Threads"), "" + tracer.getThreadsCount() + " worker" + (tracer.getThreadsCount() > 1 ? "s" : ""),
+                        completeSpace("UI source"), "JavaFX",
+                        completeSpace("UI target"), "JavaScript",
+                        completeSpace("Compiler"), "GWT",
+                        completeSpace("Math source"), "Java",
+                        completeSpace("Math target"), "WebAssembly",
+                        completeSpace("Compiler"), "TeaVM"
                 );
             }
         }
@@ -280,7 +351,8 @@ public class MandelbrotApplication extends Application {
         if (lastOverlayTexts != null && lastOverlayTexts.length == 2 && texts.length > 2)
             overlayCharactersMax = 1;
         startOverlayTextAnimationIfNeeded();
-        ctx.setFill(overlayFillColor);
+        ctx.setFill(overlayFill);
+        //ctx.setEffect(dropShadow);
         ctx.setFont(overlayFont);
         int charCount = 0;
         for (int i = 0; i < texts.length && charCount < overlayCharactersMax; i++) {
@@ -289,11 +361,11 @@ public class MandelbrotApplication extends Application {
             charCount += length;
             if (charCount > overlayCharactersMax)
                 text = text.substring(0, length - charCount + overlayCharactersMax) + "\u25FC";
-            ctx.fillText(text, i % 2 == 0 ? 10 : 175, 50 + 20 * (i / 2));
+            ctx.fillText(text, i % 2 == 0 ? 10 : 175, 20 + 20 * (i / 2));
         }
         if (overlayTextAnimationTimer != null && overlayCharactersMax > charCount + 2) {
             if (overlayCharactersMax / 20 % 2 == 0)
-                ctx.fillText("\u25FC", 10, 50 + 20 * (texts.length / 2));
+                ctx.fillText("\u25FC", 10, 20 + 20 * (texts.length / 2));
             if (overlayCharactersMax > charCount + 200)
                 stopOverlayTextAnimation();
         }
@@ -330,8 +402,6 @@ public class MandelbrotApplication extends Application {
         model.zoom(zoomFactor);
         drawMandelbrot(model);
     }
-
-    private boolean computing, computingPaused;
 
     private void startOrPauseOrResumeComputing() {
         if (!computing || computingPaused)
@@ -416,7 +486,6 @@ public class MandelbrotApplication extends Application {
             stopComputingAndClearSnapshots();
             showPlaceButtonBar();
             overlayCharactersMax = 1;
-            setOverlayFillColor(Color.WHITE);
             this.model = model.duplicate();
             tracer.setModel(this.model);
             this.model.adjustAspect(CANVAS_WIDTH, CANVAS_HEIGHT);

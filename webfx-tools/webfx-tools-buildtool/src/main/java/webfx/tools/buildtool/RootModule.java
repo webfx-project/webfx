@@ -76,7 +76,7 @@ public final class RootModule extends ProjectModule {
         // TeaVM
         registerJavaPackageModule(createThirdPartyModule("teavm-interop"), "org.teavm.interop");
         registerJavaPackageModule(createThirdPartyModule("teavm-jso"), "org.teavm.jso");
-        registerJavaPackageModule(createThirdPartyModule("teavm-jso-apis"), "org.teavm.jso.core", "org.teavm.jso.dom.events");
+        registerJavaPackageModule(createThirdPartyModule("teavm-jso-apis"), "org.teavm.jso.core", "org.teavm.jso.dom.events", "org.teavm.jso.typedarrays");
 
         // Vert.x
         registerJavaPackageModule(createThirdPartyModule("vertx-core"), "io.vertx.core", "io.vertx.core.eventbus", "io.vertx.core.http", "io.vertx.core.json", "io.vertx.core.net");

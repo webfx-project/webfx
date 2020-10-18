@@ -5,6 +5,10 @@ package webfx.platform.client.services.webassembly;
  */
 public interface WebAssemblyInstance {
 
-    void call(String webAssemblyMethod, Object... arguments);
+    WebAssemblyMemoryBufferReader getDataReader(int memoryBufferOffset);
+
+    WebAssemblyMemoryBufferWriter getDataWriter(int memoryBufferOffset);
+
+    Object call(String webAssemblyMethod, Object... arguments);
 
 }

@@ -17,7 +17,9 @@ public final class GwtUiSchedulerProvider extends UiSchedulerProviderBase {
 
     @Override
     public int availableProcessors() {
-        return DomGlobal.navigator.hardwareConcurrency;
+        int hardwareConcurrency = DomGlobal.navigator.hardwareConcurrency; // Note: may be undefined if privacy settings refuse to reveal it
+        boolean defined = Character.isDigit(("" + hardwareConcurrency /* should return "undefined" or "NaN" if not defined */).charAt(0));
+        return defined ? hardwareConcurrency : -1; // returning -1 when undefined
     }
 
     @Override

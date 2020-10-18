@@ -19,13 +19,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-kit-javafxcontrols-emul</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-kit-javafxgraphics-emul</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -65,27 +58,6 @@
         
         <dependency>
             <artifactId>webfx-kit-gwt</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-kit-javafxcontrols-peers-base</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-kit-javafxcontrols-peers-gwt</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-kit-javafxcontrols-registry-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -272,7 +244,7 @@
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
         </dependency>
-
+    
     </dependencies>
 
     <properties>
@@ -304,7 +276,7 @@
                         <configuration>
                             <target>
                                 <!-- Copying the JavaScript file of the worker (compiled by TeaVM) -->
-                                <copy file="${project.basedir}/../webfx-demos-mandelbrot-worker-teavm/target/teavm/classes.js"   tofile="${build.outputDirectory}/public/webfx.demos.mandelbrot.worker.MandelbrotWorker.js"/>
+                                <copy file="${project.basedir}/../webfx-demos-mandelbrot-worker-teavm/target/teavm/classes.js" tofile="${build.outputDirectory}/public/webfx.demos.mandelbrot.worker.MandelbrotWorker.js"/>
                                 <!-- Copying the WebAssemble file of the computation (compiled by TeaVM) -->
                                 <copy file="${project.basedir}/../webfx-demos-mandelbrot-worker-teavm/target/teavm/classes.wasm" tofile="${build.outputDirectory}/public/classes.wasm"/>
                             </target>

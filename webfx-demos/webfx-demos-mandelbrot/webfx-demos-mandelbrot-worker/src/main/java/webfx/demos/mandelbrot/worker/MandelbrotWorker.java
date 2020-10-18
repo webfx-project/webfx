@@ -3,12 +3,10 @@ package webfx.demos.mandelbrot.worker;
 import webfx.demos.mandelbrot.computation.MandelbrotComputation;
 import webfx.demos.mandelbrot.computation.MandelbrotPoint;
 import webfx.demos.mandelbrot.computation.MandelbrotViewport;
-import webfx.platform.client.services.webassembly.Import;
-import webfx.platform.client.services.webassembly.WebAssembly;
-import webfx.platform.client.services.webassembly.WebAssemblyInstance;
+import webfx.platform.client.services.webassembly.*;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
-import webfx.platform.shared.services.worker.spi.abstrimpl.JavaApplicationWorker;
+import webfx.platform.shared.services.worker.spi.base.JavaCodedWorkerBase;
 import webfx.platform.shared.util.async.Future;
 
 import java.math.BigDecimal;
@@ -16,38 +14,65 @@ import java.math.BigDecimal;
 /**
  * @author Bruno Salmon
  */
-public class MandelbrotWorker extends JavaApplicationWorker {
+public class MandelbrotWorker extends JavaCodedWorkerBase {
 
-    private MandelbrotViewport viewport;
+    private String sXmin, sXmax, sYmin, sYmax;
+    private final MandelbrotViewport viewport = new MandelbrotViewport();
     private double width, height;
     private int maxIterations;
     private int[] pixelIterations;
     private WebAssemblyInstance webAssemblyInstance;
+    private WebAssemblyMemoryBufferWriter inputBufferWriter;
+    private WebAssemblyMemoryBufferReader outputBufferReader;
+    private boolean webAssemblyInstanceInited;
 
     @Override
     public void onLoaded() {
         if (WebAssembly.isSupported()) {
-            Future<WebAssemblyInstance> future = WebAssembly.load("classes.wasm", new Import("mandelbrot", "setPixelIteration", this::setPixelIteration));
-            future.setHandler(ar -> webAssemblyInstance = ar.result());
+            Future<WebAssemblyInstance> future = WebAssembly.loadAndInstantiate("classes.wasm", new WebAssemblyImport("mandelbrot", "setPixelIteration", this::setPixelIteration));
+            future.setHandler(ar -> {
+                webAssemblyInstance = ar.result();
+                inputBufferWriter = webAssemblyInstance.getDataWriter(((Number) webAssemblyInstance.call("getInputBufferAddress")).intValue());
+                outputBufferReader = webAssemblyInstance.getDataReader(0);
+            });
         }
         setOnMessageHandler(data -> {
-            MandelbrotComputation.init();
             JsonObject json = Json.createObject(data);
             double cy = json.getDouble("cy");
-            if (viewport == null) {
-                viewport = new MandelbrotViewport();
-                viewport.xmin = BigDecimal.valueOf(json.getDouble("xmin"));
-                viewport.xmax = BigDecimal.valueOf(json.getDouble("xmax"));
-                viewport.ymin = BigDecimal.valueOf(json.getDouble("ymin"));
-                viewport.ymax = BigDecimal.valueOf(json.getDouble("ymax"));
+            String sxmin = json.get("sxmin");
+            boolean initViewPort = sxmin != null;
+            if (initViewPort) {
+                sXmin = sxmin;
+                sXmax = json.getString("sxmax");
+                sYmin = json.getString("symin");
+                sYmax = json.getString("symax");
                 width = json.getDouble("width");
                 height = json.getDouble("height");
                 maxIterations = json.getInteger("maxIterations");
             }
             if (webAssemblyInstance != null) {
-                pixelIterations = new int[(int) width];
-                webAssemblyInstance.call("computeLinePixelIterations", cy, width, height, viewport.xmin.doubleValue(), viewport.xmax.doubleValue(), viewport.ymin.doubleValue(), viewport.ymax.doubleValue(), maxIterations);
+                //pixelIterations = new int[(int) width];
+                if (initViewPort || !webAssemblyInstanceInited) {
+                    inputBufferWriter.resetMemoryBufferOffset();
+                    inputBufferWriter.writeString(sXmin);
+                    inputBufferWriter.writeString(sXmax);
+                    inputBufferWriter.writeString(sYmin);
+                    inputBufferWriter.writeString(sYmax);
+                    int outputBufferOffset = ((Number) webAssemblyInstance.call("initAndComputeLinePixelIterations", cy, width, height, maxIterations)).intValue();
+                    outputBufferReader.setMemoryBufferOffset(outputBufferOffset);
+                    webAssemblyInstanceInited = true;
+                } else
+                    webAssemblyInstance.call("computeLinePixelIterations", cy);
+                outputBufferReader.resetMemoryBufferOffset();
+                pixelIterations = outputBufferReader.readIntArray((int) width);
             } else {
+                if (initViewPort) {
+                    MandelbrotComputation.init();
+                    viewport.xmin = new BigDecimal(sXmin);
+                    viewport.xmax = new BigDecimal(sXmax);
+                    viewport.ymin = new BigDecimal(sYmin);
+                    viewport.ymax = new BigDecimal(sYmax);
+                }
                 pixelIterations = computeLinePixelIterations(cy, width, height, viewport, maxIterations);
             }
             postMessage(toNativeJsonArray(pixelIterations));

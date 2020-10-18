@@ -31,12 +31,6 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-java-resource-impl</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-        </dependency>
-        
-        <dependency>
             <artifactId>webfx-platform-java-scheduler-impl</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -65,6 +59,6 @@
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
-
+    
     </dependencies>
 </project>

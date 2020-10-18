@@ -1,7 +1,7 @@
 package webfx.platform.shared.services.worker;
 
 import webfx.platform.shared.services.worker.spi.WorkerServiceProvider;
-import webfx.platform.shared.services.worker.spi.abstrimpl.JavaApplicationWorker;
+import webfx.platform.shared.services.worker.spi.base.JavaCodedWorkerBase;
 import webfx.platform.shared.util.serviceloader.SingleServiceProvider;
 
 import java.util.ServiceLoader;
@@ -19,7 +19,7 @@ public class WorkerService {
         return getProvider().createWorker(scriptUrl);
     }
 
-    public static Worker createWorker(Class<? extends JavaApplicationWorker> javaCodedWorkerClass) {
+    public static Worker createWorker(Class<? extends JavaCodedWorkerBase> javaCodedWorkerClass) {
         return getProvider().createWorker(javaCodedWorkerClass);
     }
 

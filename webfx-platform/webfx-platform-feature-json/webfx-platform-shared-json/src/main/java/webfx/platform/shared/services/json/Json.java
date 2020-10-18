@@ -45,6 +45,10 @@ public final class Json {
         return getProvider().javaToNativeScalar(scalar);
     }
 
+    public static Object nativeToJavaScalar(Object nativeScalar) {
+        return getProvider().nativeToJavaScalar(nativeScalar);
+    }
+
 
     private static JsonProvider PROVIDER;
 

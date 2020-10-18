@@ -1,6 +1,6 @@
 package webfx.platform.gwt.services.worker.spi.impl;
 
-import webfx.platform.shared.services.worker.spi.abstrimpl.JavaApplicationWorker;
+import webfx.platform.shared.services.worker.spi.base.JavaCodedWorkerBase;
 import webfx.platform.shared.services.worker.Worker;
 import webfx.platform.shared.services.worker.spi.WorkerServiceProvider;
 
@@ -15,7 +15,7 @@ public class GwtWorkerServiceProvider implements WorkerServiceProvider {
     }
 
     @Override
-    public Worker createWorker(Class<? extends JavaApplicationWorker> javaCodedWorkerClass) {
+    public Worker createWorker(Class<? extends JavaCodedWorkerBase> javaCodedWorkerClass) {
         return createWorker(javaCodedWorkerClass.getName() + ".js");
     }
 }

@@ -7,8 +7,8 @@ import org.teavm.jso.core.JSArray;
 import org.teavm.jso.core.JSNumber;
 import org.teavm.jso.dom.events.EventListener;
 import org.teavm.jso.dom.events.MessageEvent;
-import webfx.platform.shared.services.worker.spi.abstrimpl.RunningWorker;
-import webfx.platform.shared.services.worker.spi.abstrimpl.JavaApplicationWorker;
+import webfx.platform.shared.services.worker.spi.base.RunningWorker;
+import webfx.platform.shared.services.worker.spi.base.JavaCodedWorkerBase;
 
 import java.util.function.Consumer;
 
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  */
 public final class TeaVmRunningWorker implements RunningWorker {
 
-    public static void executeJavaCodedWorker(JavaApplicationWorker javaApplicationWorker) {
+    public static void executeJavaCodedWorker(JavaCodedWorkerBase javaApplicationWorker) {
         javaApplicationWorker.setPlatformWorker(new TeaVmRunningWorker());
         javaApplicationWorker.onLoaded();
     }
