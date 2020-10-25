@@ -2,10 +2,7 @@ package webfx.platform.teavm.services.webassembly.spi.impl;
 
 import org.teavm.jso.JSBody;
 import org.teavm.jso.JSObject;
-import org.teavm.jso.typedarrays.ArrayBuffer;
-import org.teavm.jso.typedarrays.Int16Array;
-import org.teavm.jso.typedarrays.Int32Array;
-import org.teavm.jso.typedarrays.Int8Array;
+import org.teavm.jso.typedarrays.*;
 import webfx.platform.client.services.webassembly.WebAssemblyInstance;
 import webfx.platform.client.services.webassembly.WebAssemblyMemoryBufferReader;
 import webfx.platform.client.services.webassembly.WebAssemblyMemoryBufferWriter;
@@ -20,6 +17,8 @@ final class TeaVmWebAssemblyInstance implements WebAssemblyInstance {
     final Int8Array int8Array; // byte
     final Int16Array int16Array; // short
     final Int32Array int32Array; // int
+    final Float32Array float32Array; // float
+    final Float64Array float64Array; // double
 
     TeaVmWebAssemblyInstance(JSObject instance) {
         this.instance = instance;
@@ -27,6 +26,8 @@ final class TeaVmWebAssemblyInstance implements WebAssemblyInstance {
         int8Array = Int8Array.create(memoryBuffer);
         int16Array = Int16Array.create(memoryBuffer);
         int32Array = Int32Array.create(memoryBuffer);
+        float32Array = Float32Array.create(memoryBuffer);
+        float64Array = Float64Array.create(memoryBuffer);
     }
 
     @JSBody(params = {"memory"}, script = "return memory.buffer")

@@ -3,8 +3,7 @@
 module webfx.demos.mandelbrot.worker {
 
     // Direct dependencies modules
-    requires java.base;
-    requires webfx.demos.mandelbrot.computation;
+    requires webfx.demos.mandelbrot.math;
     requires webfx.platform.client.webassembly;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.util;

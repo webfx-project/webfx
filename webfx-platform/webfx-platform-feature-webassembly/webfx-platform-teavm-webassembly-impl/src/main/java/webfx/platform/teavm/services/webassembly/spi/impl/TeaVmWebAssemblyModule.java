@@ -67,6 +67,11 @@ final class TeaVmWebAssemblyModule implements WebAssemblyModule {
             "            logString: console.log,\n" +
             "            logInt: console.log,\n" +
             "            logOutOfMemory: function() { console.log(\"Out of memory\") }\n" +
+            "        }, teavmMath: {\n" +
+            "            sqrt: Math.sqrt,\n" +
+            "            pow: Math.pow,\n" +
+            "            sin: Math.sin,\n" +
+            "            cos: Math.cos,\n" +
             "        }}))\n" +
             ".then( function(instance) { return instanceHandler(instance) } )")
     private static native void instantiateModule(JSObject module, JSObject imports, JSObjectHandler instanceHandler, IntHandler putwchar);

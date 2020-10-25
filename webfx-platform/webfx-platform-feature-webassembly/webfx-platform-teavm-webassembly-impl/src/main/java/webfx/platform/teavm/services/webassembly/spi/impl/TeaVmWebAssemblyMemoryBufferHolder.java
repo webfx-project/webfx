@@ -1,8 +1,6 @@
 package webfx.platform.teavm.services.webassembly.spi.impl;
 
-import org.teavm.jso.typedarrays.Int16Array;
-import org.teavm.jso.typedarrays.Int32Array;
-import org.teavm.jso.typedarrays.Int8Array;
+import org.teavm.jso.typedarrays.*;
 import webfx.platform.client.services.webassembly.WebAssemblyMemoryBufferHolder;
 
 /**
@@ -13,12 +11,16 @@ class TeaVmWebAssemblyMemoryBufferHolder implements WebAssemblyMemoryBufferHolde
     protected final Int8Array int8Array; // byte
     protected final Int16Array int16Array; // short
     protected final Int32Array int32Array; // int
+    protected final Float32Array float32Array; // float
+    protected final Float64Array float64Array; // double
     protected int offset, initialOffset;
 
     TeaVmWebAssemblyMemoryBufferHolder(TeaVmWebAssemblyInstance instance, int offset) {
         int8Array = instance.int8Array;
         int16Array = instance.int16Array;
         int32Array = instance.int32Array;
+        float32Array = instance.float32Array;
+        float64Array = instance.float64Array;
         setMemoryBufferOffset(offset);
     }
 

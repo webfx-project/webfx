@@ -82,6 +82,7 @@
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
         <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
+        <plugin.teavm.targetType>JAVASCRIPT</plugin.teavm.targetType>
         <plugin.teavm.minifying>true</plugin.teavm.minifying>
         <plugin.teavm.debug>false</plugin.teavm.debug>
 
@@ -634,13 +635,13 @@
                     </dependencies>
                     <executions>
                         <execution>
-                            <id>JavaScript</id>
+                            <id>TeaVm-Compile</id>
                             <goals>
                                 <goal>compile</goal>
                             </goals>
                             <phase>process-classes</phase>
                             <configuration>
-                                <targetType>JAVASCRIPT</targetType>
+                                <targetType>${plugin.teavm.targetType}</targetType>
                                 <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
                                 <targetDirectory>${project.build.directory}/teavm/</targetDirectory>
 

@@ -11,6 +11,8 @@ public interface RunningWorker extends Worker {
 
     void log(Object object);
 
+    Object toNativeJsonArray(byte[] byteArray);
+
     Object toNativeJsonArray(double[] doubleArray);
 
     Object toNativeJsonArray(int[] intArray);

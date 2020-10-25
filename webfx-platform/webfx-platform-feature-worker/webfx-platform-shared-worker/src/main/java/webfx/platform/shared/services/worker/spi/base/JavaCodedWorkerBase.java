@@ -32,6 +32,11 @@ public abstract class JavaCodedWorkerBase extends DelegatingWorker implements Ru
     }
 
     @Override
+    public Object toNativeJsonArray(byte[] byteArray) {
+        return platformWorker.toNativeJsonArray(byteArray);
+    }
+
+    @Override
     public Object toNativeJsonArray(double[] doubleArray) {
         return platformWorker.toNativeJsonArray(doubleArray);
     }

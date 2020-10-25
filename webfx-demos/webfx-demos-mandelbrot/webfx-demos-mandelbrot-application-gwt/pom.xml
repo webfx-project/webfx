@@ -43,7 +43,14 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-demos-mandelbrot-computation</artifactId>
+            <artifactId>webfx-demos-mandelbrot-math</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-demos-mandelbrot-tracerframework</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -284,8 +291,8 @@
                             <target>
                                 <!-- Copying the JavaScript file of the worker (compiled by TeaVM) -->
                                 <copy file="${project.basedir}/../webfx-demos-mandelbrot-worker-teavm/target/teavm/classes.js" tofile="${build.outputDirectory}/public/webfx.demos.mandelbrot.worker.MandelbrotWorker.js"/>
-                                <!-- Copying the WebAssemble file of the computation (compiled by TeaVM) -->
-                                <copy file="${project.basedir}/../webfx-demos-mandelbrot-worker-teavm/target/teavm/classes.wasm" tofile="${build.outputDirectory}/public/classes.wasm"/>
+                                <!-- Copying the WebAssembly file of the computation (compiled by TeaVM) -->
+                                <copy file="${project.basedir}/../webfx-demos-mandelbrot-webassembly-teavm/target/teavm/classes.wasm" tofile="${build.outputDirectory}/public/classes.wasm"/>
                             </target>
                         </configuration>
                     </execution>

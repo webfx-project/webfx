@@ -9,4 +9,8 @@ public interface WebAssemblyMemoryBufferReader extends WebAssemblyMemoryBufferHo
 
     int[] readIntArray(int length);
 
+    float[] readFloatArray(int length);
+
+    double[] readDoubleArray(int length);
+
 }

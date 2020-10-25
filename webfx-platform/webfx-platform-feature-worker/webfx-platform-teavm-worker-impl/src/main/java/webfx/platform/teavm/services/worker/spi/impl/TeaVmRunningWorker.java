@@ -41,12 +41,11 @@ public final class TeaVmRunningWorker implements RunningWorker {
     }
 
     @Override
-    public Object toNativeJsonArray(double[] doubleArray) {
-        int n = doubleArray.length;
+    public Object toNativeJsonArray(byte[] byteArray) {
+        int n = byteArray.length;
         JSArray jsArray = JSArray.create();
-        for (int i = 0; i < n; ++i) {
-            native_setDoubleArray(jsArray, i, doubleArray[i]);
-        }
+        for (int i = 0; i < n; ++i)
+            native_setByteArray(jsArray, i, byteArray[i]);
         return jsArray;
     }
 
@@ -54,9 +53,17 @@ public final class TeaVmRunningWorker implements RunningWorker {
     public Object toNativeJsonArray(int[] intArray) {
         int n = intArray.length;
         JSArray jsArray = JSArray.create();
-        for (int i = 0; i < n; ++i) {
-            native_setDoubleArray(jsArray, i, intArray[i]);
-        }
+        for (int i = 0; i < n; ++i)
+            native_setIntArray(jsArray, i, intArray[i]);
+        return jsArray;
+    }
+
+    @Override
+    public Object toNativeJsonArray(double[] doubleArray) {
+        int n = doubleArray.length;
+        JSArray jsArray = JSArray.create();
+        for (int i = 0; i < n; ++i)
+            native_setDoubleArray(jsArray, i, doubleArray[i]);
         return jsArray;
     }
 
@@ -81,12 +88,16 @@ public final class TeaVmRunningWorker implements RunningWorker {
     static native boolean isUndefined(JSObject object);
 
     @JSBody(params={"jsArray", "index", "value"}, script="jsArray[index] = value")
-    @Import(name = "setDoubleArray")
-    private static native void native_setDoubleArray(JSArray jsArray, int index, double value);
+    @Import(name = "setByteArray")
+    private static native void native_setByteArray(JSArray jsArray, int index, byte value);
 
     @JSBody(params={"jsArray", "index", "value"}, script="jsArray[index] = value")
     @Import(name = "setIntArray")
     private static native void native_setIntArray(JSArray jsArray, int index, int value);
+
+    @JSBody(params={"jsArray", "index", "value"}, script="jsArray[index] = value")
+    @Import(name = "setDoubleArray")
+    private static native void native_setDoubleArray(JSArray jsArray, int index, double value);
 
     @Override
     public void setOnMessageHandler(Consumer<Object> onMessageHandler) {

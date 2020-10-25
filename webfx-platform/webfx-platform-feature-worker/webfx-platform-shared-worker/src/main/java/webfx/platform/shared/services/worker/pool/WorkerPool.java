@@ -11,12 +11,12 @@ import java.util.Queue;
 /**
  * @author Bruno Salmon
  */
-public class WorkerPool<T extends JavaCodedWorkerBase> {
+public class WorkerPool {
 
-    private final Class<T> workerClass;
+    private final Class<? extends JavaCodedWorkerBase> workerClass;
     private final Queue<Worker> pool = new LinkedList<>();
 
-    public WorkerPool(Class<T> workerClass) {
+    public WorkerPool(Class<? extends JavaCodedWorkerBase> workerClass) {
         this.workerClass = workerClass;
     }
 

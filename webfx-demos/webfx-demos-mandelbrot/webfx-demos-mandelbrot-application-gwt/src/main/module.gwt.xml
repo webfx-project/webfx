@@ -90,12 +90,13 @@
     <!--=======================< webfx-demos-mandelbrot-application >=======================-->
     <!-- used by webfx-demos-mandelbrot-application-gwt (APPLICATION) -->
     <source path="webfx/demos/mandelbrot"/>
-    <resource path="webfx/demos/mandelbrot"/>
-    <public includes="webfx/demos/mandelbrot/" path=""/>
-    <!--=======================< webfx-demos-mandelbrot-computation >=======================-->
+    <!--==========================< webfx-demos-mandelbrot-math >===========================-->
     <!-- used by webfx-demos-mandelbrot-application (SOURCE) -->
-    <source path="webfx/demos/mandelbrot/computation"/>
-    <source path="webfx/demos/mandelbrot/computation/original"/>
+    <source path="webfx/demos/mandelbrot/math"/>
+    <source path="webfx/demos/mandelbrot/math/original"/>
+    <!--=====================< webfx-demos-mandelbrot-tracerframework >=====================-->
+    <!-- used by webfx-demos-mandelbrot-application (SOURCE) -->
+    <source path="webfx/demos/mandelbrot/tracerframework"/>
     <!--=========================< webfx-demos-mandelbrot-worker >==========================-->
     <!-- used by webfx-demos-mandelbrot-application (SOURCE) -->
     <source path="webfx/demos/mandelbrot/worker"/>
@@ -136,7 +137,7 @@
     <!-- used by webfx-platform-shared-json (SOURCE) -->
     <source path="java_cup/runtime"/>
     <!--===============================< webfx-lib-odometer >===============================-->
-    <!-- used by webfx-demos-mandelbrot-application (SOURCE) -->
+    <!-- used by webfx-demos-mandelbrot-tracerframework (SOURCE) -->
     <source path="eu/hansolo/fx/odometer"/>
     <source path="eu/hansolo/fx/odometer/event"/>
     <!--=======================< webfx-platform-client-uischeduler >========================-->
@@ -178,7 +179,7 @@
     <source path="webfx/platform/shared/services/appcontainer/spi"/>
     <source path="webfx/platform/shared/services/appcontainer/spi/impl"/>
     <!--===========================< webfx-platform-shared-json >===========================-->
-    <!-- used by webfx-demos-mandelbrot-worker (SOURCE) -->
+    <!-- used by webfx-demos-mandelbrot-tracerframework (SOURCE) -->
     <!-- used by webfx-platform-gwt-json-impl (SOURCE) -->
     <source path="webfx/platform/shared/services/json"/>
     <source path="webfx/platform/shared/services/json/parser"/>
@@ -227,7 +228,7 @@
     <source path="webfx/platform/shared/util/tuples"/>
     <source path="webfx/platform/shared/util/uuid"/>
     <!--==========================< webfx-platform-shared-worker >==========================-->
-    <!-- used by webfx-demos-mandelbrot-worker (SOURCE) -->
+    <!-- used by webfx-demos-mandelbrot-tracerframework (SOURCE) -->
     <!-- used by webfx-platform-gwt-worker-impl (SOURCE) -->
     <source path="webfx/platform/shared/services/worker"/>
     <source path="webfx/platform/shared/services/worker/pool"/>

@@ -4,21 +4,15 @@ module webfx.demos.mandelbrot.application {
 
     // Direct dependencies modules
     requires java.base;
-    requires javafx.base;
     requires javafx.graphics;
-    requires webfx.demos.mandelbrot.computation;
+    requires webfx.demos.mandelbrot.math;
+    requires webfx.demos.mandelbrot.tracerframework;
     requires webfx.demos.mandelbrot.worker;
-    requires webfx.lib.odometer;
-    requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.json;
-    requires webfx.platform.shared.log;
     requires webfx.platform.shared.worker;
 
     // Exported packages
     exports webfx.demos.mandelbrot;
-
-    // Resources packages
-    opens webfx.demos.mandelbrot;
 
     // Provided services
     provides javafx.application.Application with webfx.demos.mandelbrot.MandelbrotApplication;

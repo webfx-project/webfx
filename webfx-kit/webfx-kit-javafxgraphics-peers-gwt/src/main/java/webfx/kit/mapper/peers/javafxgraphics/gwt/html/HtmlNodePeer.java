@@ -67,7 +67,8 @@ public abstract class HtmlNodePeer
                 double topRadius = r.getArcHeight() / 2, bottomRadius = topRadius;
                 return "inset(" + toPx(top) + " " + toPx(right) + " " + toPx(bottom) + " " + toPx(left) + " round " + topRadius + "px " + rightRadius + "px " + bottomRadius + "px " + leftRadius + "px)";
 */
-                return "polygon(" + toPx(left) + " " + toPx(top) + ", " + toPx(right) + " " + toPx(top) + ", " + toPx(right) + " " + toPx(bottom) + ", " + toPx(left) + " " + toPx(bottom) + ")";
+                // Note: replaced toPx(top) by top + "px" etc... to preserve precision (required for Mandelbrot thumbnails zoom effect as scale is between 1.0 and 1.1)
+                return "polygon(" + left + "px " + top + "px, " + right + "px " + top + "px, " + right + "px " + bottom + "px, " + left + "px " + bottom + "px)";
             }
         }
         return null;

@@ -22,19 +22,19 @@ final class Palette {
     /**
      * The colorType for a palette in which colors are specified as Red/Green/Blue values.
      */
-    public final static int COLOR_TYPE_RGB = 0;
+    //final static int COLOR_TYPE_RGB = 0;
 
     /**
      * The colorType for a palette in which colors are specified as Hue/Saturation/Brightness values.
      */
-    public final static int COLOR_TYPE_HSB = 1;
+    //final static int COLOR_TYPE_HSB = 1;
 
-    private final int colorType;
-    LinearGradient linearGradient;
+    private final boolean hsbInterpolation;
+    private final LinearGradient linearGradient;
     private boolean mirrorOutOfRangeComponents;
 
-    public Palette(LinearGradient lg, int colorType, boolean mirrored) {
-        if (colorType == COLOR_TYPE_HSB) {
+    Palette(LinearGradient lg, boolean hsbInterpolation, boolean mirrored) {
+        if (hsbInterpolation) {
             linearGradient = new LinearGradient(lg.getStartX(), lg.getStartY(), lg.getEndX(), lg.getEndY(), lg.isProportional(), lg.getCycleMethod(), lg.getStops().stream().map(s -> {
                 Color c = s.getColor();
                 double hue = c.getHue();
@@ -45,7 +45,7 @@ final class Palette {
         } else
             linearGradient = lg;
         this.mirrorOutOfRangeComponents = mirrored;
-        this.colorType = colorType;
+        this.hsbInterpolation = hsbInterpolation;
     }
 
     /**
@@ -56,7 +56,7 @@ final class Palette {
      * That is, the color value corresponding to 0.0 is in the array at index = offset
      * (or, more exactly, paletteLength % offset).
      */
-    public Color[] makeRGBs(int paletteLength, int offset) {
+    Color[] computePaletteColors(int paletteLength, int offset) {
         Color[] rgb;
         rgb = new Color[paletteLength];
         Color divisionPointColor = getDivisionPointColor(0);
@@ -84,7 +84,7 @@ final class Palette {
             double green = clamp2(green1 + ratio * (green2 - green1));
             double blue  = clamp2(blue1  + ratio * (blue2  - blue1));
             Color color;
-            if (colorType == COLOR_TYPE_HSB)
+            if (hsbInterpolation)
                 color = getHSBColor(red, green, blue);
             else
                 color = getRGBColor(red, green, blue);
@@ -103,32 +103,21 @@ final class Palette {
         return Color.color(r, g, b);
     }
 
-    private static double getBrightness(Color c) {
-        return Math.sqrt(
-                c.getRed() * c.getRed() * .241 +
-                        c.getGreen() * c.getGreen() * .691 +
-                        c.getBlue() * c.getBlue() * .068);
-    }
-
     /**
      * Get the color associated with a given division point.
      * @param index The index of the division point in the list of points.
      */
-    public Color getDivisionPointColor(int index) {
+    private Color getDivisionPointColor(int index) {
         Color color = linearGradient.getStops().get(index).getColor();
         double a = clamp1(color.getRed());
         double b = clamp2(color.getBlue());
         double c = clamp2(color.getGreen());
-        if (colorType == COLOR_TYPE_RGB)
-            return getRGBColor(a,b,c);
-        else
+        if (hsbInterpolation)
             return getHSBColor(a,b,c);
+        else
+            return getRGBColor(a,b,c);
     }
 
-
-    public boolean getMirrorOutOfRangeComponents() {
-        return mirrorOutOfRangeComponents;
-    }
 
     /**
      * Sets the value of the confusing mirrorOutOfRangeComponents property.  This only has
@@ -146,7 +135,7 @@ final class Palette {
     }
 
     private double clamp1(double x) {
-        if (colorType == COLOR_TYPE_HSB || !mirrorOutOfRangeComponents)
+        if (hsbInterpolation || !mirrorOutOfRangeComponents)
             return x - Math.floor(x);
         else
             return clamp2(x);

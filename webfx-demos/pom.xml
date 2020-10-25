@@ -20,6 +20,7 @@
         <module>webfx-demos-spacefx</module>
         <module>webfx-demos-fx2048</module>
         <module>webfx-demos-mandelbrot</module>
+        <module>webfx-demos-raytracer</module>
     </modules>
 
 </project>

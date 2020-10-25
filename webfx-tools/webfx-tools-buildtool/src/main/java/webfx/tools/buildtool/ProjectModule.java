@@ -170,7 +170,7 @@ public class ProjectModule extends ModuleImpl {
                 ProjectModule applicationModule = null;
                 if (isExecutable()) {
                     String moduleName = getName();
-                    applicationModule = getRootModule().findProjectModule(moduleName.substring(0, moduleName.lastIndexOf('-')));
+                    applicationModule = getRootModule().findProjectModule(moduleName.substring(0, moduleName.lastIndexOf('-')), true);
                 }
                 return applicationModule != null ? ReusableStream.of(ModuleDependency.createApplicationDependency(this, applicationModule)) : ReusableStream.empty();
             });

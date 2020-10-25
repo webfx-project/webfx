@@ -31,6 +31,11 @@ public class JavaWorker extends WorkerBase { // this instance represents the pro
         }
 
         @Override
+        public Object toNativeJsonArray(byte[] byteArray) {
+            return byteArray;
+        }
+
+        @Override
         public Object toNativeJsonArray(double[] doubleArray) {
             return doubleArray;
         }
