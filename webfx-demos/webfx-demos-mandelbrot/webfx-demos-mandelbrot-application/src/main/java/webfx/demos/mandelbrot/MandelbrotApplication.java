@@ -44,7 +44,7 @@ public final class MandelbrotApplication extends Application {
 
         // Deciding the canvas size
         int canvasWidth  = Math.min((int) finalSceneWidth,  REQUESTED_WIDTH);
-        int canvasHeight = Math.min((int) finalSceneHeight, MAX_PIXELS_COUNT / REQUESTED_WIDTH);
+        int canvasHeight = Math.min((int) finalSceneHeight, MAX_PIXELS_COUNT / canvasWidth);
 
         scene.setRoot(new TracerView(canvasWidth, canvasHeight, new MandelbrotPixelComputer()).buildView());
 

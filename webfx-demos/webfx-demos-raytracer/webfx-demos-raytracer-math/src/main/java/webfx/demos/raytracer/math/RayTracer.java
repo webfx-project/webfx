@@ -31,7 +31,7 @@ public class RayTracer {
     private final static int amount = 4;
 
     public static Colour renderPixel(double x, double y, View view, int bmpWidth, int bmpHeight) {
-        // Adjusting view port in case it's not square
+        // WebFx addition: adjusting view port in case it's not square to preserve the ratio (otherwise spheres appear elliptical)
         if (bmpWidth != bmpHeight) {
             if (bmpWidth < bmpHeight) {
                 x += 0.5 * (bmpHeight - bmpWidth);
