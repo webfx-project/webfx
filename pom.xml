@@ -11,15 +11,12 @@
     <packaging>pom</packaging>
 
     <modules>
-
-        <!-- Webfx modules -->
         <module>webfx-libs</module>
         <module>webfx-platform</module>
         <module>webfx-kit</module>
         <module>webfx-extras</module>
         <module>webfx-framework</module>
         <module>webfx-tools</module>
-
     </modules>
 
     <properties>
@@ -41,7 +38,7 @@
         <lib.openjfx.version>15</lib.openjfx.version>
         <lib.gwt.version>2.9.0</lib.gwt.version> <!-- can be switched to HEAD-SNAPSHOT on development machines to test the latest GWT version -->
         <lib.elemental2.groupId>com.google.elemental2</lib.elemental2.groupId>
-        <lib.elemental2.version>1.0.0</lib.elemental2.version>
+        <lib.elemental2.version>1.1.0</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
         <lib.teavm.version>0.6.1</lib.teavm.version>
         <lib.vertx.version>3.9.1</lib.vertx.version>

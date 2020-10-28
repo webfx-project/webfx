@@ -28,6 +28,8 @@ public interface NodePeer<N extends Node> {
         return true;
     }
 
+    void onListeningTouchEvents(boolean listening);
+
     default WritableImage snapshot(SnapshotParameters params, WritableImage image) {
         throw new UnsupportedOperationException();
     }

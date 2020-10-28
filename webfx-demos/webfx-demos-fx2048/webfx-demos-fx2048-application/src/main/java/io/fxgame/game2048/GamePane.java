@@ -78,12 +78,10 @@ public class GamePane extends BorderPane {
     }
 
     private void addSwipeHandlers() {
-/*
         setOnSwipeUp(e -> move(Direction.UP));
         setOnSwipeRight(e -> move(Direction.RIGHT));
         setOnSwipeLeft(e -> move(Direction.LEFT));
         setOnSwipeDown(e -> move(Direction.DOWN));
-*/
     }
 
     private void move(Direction direction) {
