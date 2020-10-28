@@ -30,7 +30,7 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 public class HtmlGraphicsContext implements GraphicsContext {
-    
+
     private final Canvas canvas;
     private CanvasRenderingContext2D ctx;
     private boolean proportionalFillLinearGradient;
@@ -116,15 +116,40 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return ctx.globalAlpha;
     }
 
+    private BlendMode blendMode;
     @Override
     public void setGlobalBlendMode(BlendMode op) {
-        Logger.log("HtmlGraphicsContext.setGlobalBlendMode() not implemented");
+        blendMode = op;
+        ctx.globalCompositeOperation = toCompositeOperation(op);
+    }
+
+    private static String toCompositeOperation(BlendMode op) {
+        if (op != null)
+            switch (op) {
+                case DARKEN: return "darken";
+                case SCREEN: return "screen";
+                case OVERLAY: return "overlay";
+                case MULTIPLY: return "multiply";
+                case SRC_ATOP: return "source-atop";
+                case SRC_OVER: return "source-over";
+                case EXCLUSION: return "exclusion";
+                case COLOR_BURN: return "color-burn";
+                case DIFFERENCE: return "difference";
+                case HARD_LIGHT: return "hard-light";
+                case SOFT_LIGHT: return "soft-light";
+                case COLOR_DODGE: return "color-dodge";
+                case LIGHTEN: return "lighten";
+                case ADD: // ??
+                case RED: // ??
+                case BLUE: // ??
+                case GREEN: // ??
+            }
+        return null;
     }
 
     @Override
     public BlendMode getGlobalBlendMode() {
-        Logger.log("HtmlGraphicsContext.getGlobalBlendMode() not implemented");
-        return null;
+        return blendMode;
     }
 
     private Paint fill;

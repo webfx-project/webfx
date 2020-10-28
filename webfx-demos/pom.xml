@@ -14,8 +14,9 @@
 
     <modules>
         <module>webfx-demos-colorfulcircles</module>
-        <module>webfx-demos-clock</module>
+        <module>webfx-demos-particles</module>
         <module>webfx-demos-tallycounter</module>
+        <module>webfx-demos-clock</module>
         <module>webfx-demos-gauge</module>
         <module>webfx-demos-spacefx</module>
         <module>webfx-demos-fx2048</module>
