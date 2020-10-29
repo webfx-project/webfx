@@ -289,9 +289,9 @@
                         <configuration>
                             <target>
                                 <!-- Copying the JavaScript file of the worker (compiled by TeaVM) -->
-                                <copy file="${project.basedir}/../webfx-demos-raytracer-worker-teavm/target/teavm/classes.js" tofile="${build.outputDirectory}/public/webfx.demos.raytracer.worker.RayTracerWorker.js"/>
+                                <copy file="${project.basedir}/../webfx-demos-raytracer-worker-teavm/target/teavm/classes.js" tofile="${project.build.outputDirectory}/public/webfx.demos.raytracer.worker.RayTracerWorker.js"/>
                                 <!-- Copying the WebAssembly file of the computation (compiled by TeaVM) -->
-                                <copy file="${project.basedir}/../webfx-demos-raytracer-webassembly-teavm/target/teavm/classes.wasm" tofile="${build.outputDirectory}/public/classes.wasm"/>
+                                <copy file="${project.basedir}/../webfx-demos-raytracer-webassembly-teavm/target/teavm/classes.wasm" tofile="${project.build.outputDirectory}/public/classes.wasm"/>
                             </target>
                         </configuration>
                     </execution>
