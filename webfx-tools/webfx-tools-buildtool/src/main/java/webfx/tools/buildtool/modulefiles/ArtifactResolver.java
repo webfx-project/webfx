@@ -98,7 +98,7 @@ final class ArtifactResolver {
             case "slf4j-api": return "1.7.15";
             case "gwt-time": return "1.4.11";
             case "gwt-webworker": return "1.0.6";
-            case "charba": return "3.2-gwt";
+            case "charba": return "3.3-gwt";
         }
         if (moduleName.startsWith("javafx-") || !isForGwt && !isRegistry && RootModule.isJavaFxEmulModule(moduleName))
             return "${lib.openjfx.version}";
