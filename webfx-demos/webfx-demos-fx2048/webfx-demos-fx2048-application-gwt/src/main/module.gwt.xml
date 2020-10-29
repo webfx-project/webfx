@@ -51,6 +51,7 @@
     <source path="com/sun/javafx/scene/traversal"/>
     <source path="com/sun/javafx/stage"/>
     <source path="com/sun/javafx/tk"/>
+    <source path="com/sun/javafx/tk/quantum"/>
     <source path="com/sun/javafx/util"/>
     <source path="com/sun/scenario/animation"/>
     <source path="javafx/animation"/>
