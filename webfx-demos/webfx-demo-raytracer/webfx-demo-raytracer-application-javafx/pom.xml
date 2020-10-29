@@ -43,7 +43,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-java-worker-impl</artifactId>
+            <artifactId>webfx-platform-java-webworker-impl</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

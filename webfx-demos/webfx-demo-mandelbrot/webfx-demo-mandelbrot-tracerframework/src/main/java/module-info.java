@@ -10,7 +10,7 @@ module webfx.demo.mandelbrot.tracerframework {
     requires webfx.platform.client.uischeduler;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.log;
-    requires webfx.platform.shared.worker;
+    requires webfx.platform.shared.webworker;
 
     // Exported packages
     exports webfx.demo.mandelbrot.tracerframework;

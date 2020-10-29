@@ -64,7 +64,7 @@
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-gwt-shutdown-impl (SOURCE) -->
     <!-- used by webfx-platform-gwt-uischeduler-impl (SOURCE) -->
-    <!-- used by webfx-platform-gwt-worker-impl (SOURCE) -->
+    <!-- used by webfx-platform-gwt-webworker-impl (SOURCE) -->
     <inherits name="elemental2.dom.Dom"/>
     <!--=================================< elemental2-svg >=================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
@@ -82,7 +82,6 @@
     <!-- used by webfx-platform-gwt-emul-javatime (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
     <!-- used by webfx-platform-shared-util (SOURCE) -->
-    <!-- used by webfx-platform-shared-worker (SOURCE) -->
     <!--==================================< java-logging >==================================-->
     <!-- used by webfx-platform-shared-util (SOURCE) -->
     <inherits name="com.google.gwt.logging.Logging"/>
@@ -98,9 +97,9 @@
     <!--=====================< webfx-demo-mandelbrot-tracerframework >======================-->
     <!-- used by webfx-demo-mandelbrot-application (SOURCE) -->
     <source path="webfx/demo/mandelbrot/tracerframework"/>
-    <!--==========================< webfx-demo-mandelbrot-worker >==========================-->
+    <!--========================< webfx-demo-mandelbrot-webworker >=========================-->
     <!-- used by webfx-demo-mandelbrot-application (SOURCE) -->
-    <source path="webfx/demo/mandelbrot/worker"/>
+    <source path="webfx/demo/mandelbrot/webworker"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <!-- used by webfx-demo-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
     <!-- used by webfx-demo-mandelbrot-application-gwt (EMULATION) -->
@@ -148,7 +147,7 @@
     <source path="webfx/platform/client/services/uischeduler/spi"/>
     <source path="webfx/platform/client/services/uischeduler/spi/impl"/>
     <!--=======================< webfx-platform-client-webassembly >========================-->
-    <!-- used by webfx-demo-mandelbrot-worker (SOURCE) -->
+    <!-- used by webfx-demo-mandelbrot-webworker (SOURCE) -->
     <source path="webfx/platform/client/services/webassembly"/>
     <source path="webfx/platform/client/services/webassembly/spi"/>
     <!--======================< webfx-platform-gwt-appcontainer-impl >======================-->
@@ -169,9 +168,9 @@
     <!--======================< webfx-platform-gwt-uischeduler-impl >=======================-->
     <!-- used by webfx-demo-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
     <source path="webfx/platform/gwt/services/uischeduler/spi/impl"/>
-    <!--=========================< webfx-platform-gwt-worker-impl >=========================-->
+    <!--=======================< webfx-platform-gwt-webworker-impl >========================-->
     <!-- used by webfx-demo-mandelbrot-application-gwt (IMPLICIT_PROVIDER) -->
-    <source path="webfx/platform/gwt/services/worker/spi/impl"/>
+    <source path="webfx/platform/gwt/services/webworker/spi/impl"/>
     <!--=======================< webfx-platform-shared-appcontainer >=======================-->
     <!-- used by webfx-kit-launcher (SOURCE) -->
     <!-- used by webfx-platform-gwt-appcontainer-impl (SOURCE) -->
@@ -219,7 +218,7 @@
     <!-- used by webfx-platform-shared-log (SOURCE) -->
     <!-- used by webfx-platform-shared-resource (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
-    <!-- used by webfx-platform-shared-worker (SOURCE) -->
+    <!-- used by webfx-platform-shared-webworker (SOURCE) -->
     <source path="webfx/platform/shared/util"/>
     <source path="webfx/platform/shared/util/async"/>
     <source path="webfx/platform/shared/util/collection"/>
@@ -228,13 +227,13 @@
     <source path="webfx/platform/shared/util/serviceloader"/>
     <source path="webfx/platform/shared/util/tuples"/>
     <source path="webfx/platform/shared/util/uuid"/>
-    <!--==========================< webfx-platform-shared-worker >==========================-->
+    <!--========================< webfx-platform-shared-webworker >=========================-->
     <!-- used by webfx-demo-mandelbrot-tracerframework (SOURCE) -->
-    <!-- used by webfx-platform-gwt-worker-impl (SOURCE) -->
-    <source path="webfx/platform/shared/services/worker"/>
-    <source path="webfx/platform/shared/services/worker/pool"/>
-    <source path="webfx/platform/shared/services/worker/spi"/>
-    <source path="webfx/platform/shared/services/worker/spi/base"/>
+    <!-- used by webfx-platform-gwt-webworker-impl (SOURCE) -->
+    <source path="webfx/platform/shared/services/webworker"/>
+    <source path="webfx/platform/shared/services/webworker/pool"/>
+    <source path="webfx/platform/shared/services/webworker/spi"/>
+    <source path="webfx/platform/shared/services/webworker/spi/base"/>
 
     <source path="mongoose/client/services/bus/conf/gwt"/>
     <source path="mongoose/shared/domainmodel/gwt"/>

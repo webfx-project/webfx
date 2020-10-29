@@ -6,7 +6,7 @@ import webfx.demo.mandelbrot.tracerframework.TracerThumbnail;
 import webfx.demo.mandelbrot.tracerframework.TracerEngine;
 import webfx.demo.raytracer.math.RayTracerMath;
 import webfx.demo.raytracer.math.Views;
-import webfx.demo.raytracer.worker.RayTracerWorker;
+import webfx.demo.raytracer.webworker.RayTracerWebWorker;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonArray;
@@ -98,8 +98,8 @@ final class RayTracerPixelComputer implements PixelComputer {
     }
 
     @Override
-    public Class<RayTracerWorker> getWorkerClass() {
-        return RayTracerWorker.class;
+    public Class<RayTracerWebWorker> getWorkerClass() {
+        return RayTracerWebWorker.class;
     }
 
     @Override

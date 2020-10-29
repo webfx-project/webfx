@@ -57,7 +57,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-demo-mandelbrot-worker</artifactId>
+            <artifactId>webfx-demo-mandelbrot-webworker</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -197,7 +197,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-gwt-worker-impl</artifactId>
+            <artifactId>webfx-platform-gwt-webworker-impl</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -253,7 +253,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-worker</artifactId>
+            <artifactId>webfx-platform-shared-webworker</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>
@@ -289,8 +289,8 @@
                         <phase>compile</phase>
                         <configuration>
                             <target>
-                                <!-- Copying the JavaScript file of the worker (compiled by TeaVM) -->
-                                <copy file="${project.basedir}/../webfx-demo-mandelbrot-worker-teavm/target/teavm/classes.js" tofile="${project.build.outputDirectory}/public/webfx.demo.mandelbrot.worker.MandelbrotWorker.js"/>
+                                <!-- Copying the JavaScript file of the webWorker (compiled by TeaVM) -->
+                                <copy file="${project.basedir}/../webfx-demo-mandelbrot-webworker-teavm/target/teavm/classes.js" tofile="${project.build.outputDirectory}/public/webfx.demo.mandelbrot.webworker.MandelbrotWebWorker.js"/>
                                 <!-- Copying the WebAssembly file of the computation (compiled by TeaVM) -->
                                 <copy file="${project.basedir}/../webfx-demo-mandelbrot-webassembly-teavm/target/teavm/classes.wasm" tofile="${project.build.outputDirectory}/public/classes.wasm"/>
                             </target>

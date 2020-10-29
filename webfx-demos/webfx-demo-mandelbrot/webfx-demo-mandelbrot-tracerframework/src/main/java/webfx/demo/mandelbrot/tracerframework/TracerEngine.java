@@ -5,9 +5,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import webfx.platform.client.services.uischeduler.UiScheduler;
-import webfx.platform.shared.services.worker.Worker;
-import webfx.platform.shared.services.worker.pool.WorkerPool;
-import webfx.platform.shared.services.worker.spi.base.JavaCodedWorkerBase;
+import webfx.platform.shared.services.webworker.WebWorker;
+import webfx.platform.shared.services.webworker.pool.WebWorkerPool;
+import webfx.platform.shared.services.webworker.spi.base.JavaCodedWebWorkerBase;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,7 +27,7 @@ public final class TracerEngine {
     private final AtomicInteger computingThreadsCount = new AtomicInteger();
     private final boolean usingWorkers;
     private boolean lastFrameUsedWebAssembly;
-    private final WorkerPool workerPool;
+    private final WebWorkerPool webWorkerPool;
     private long t0, cumulatedComputationTime, lastFrameComputationTime;
     private int lastComputedLineIndex, readyLinesCount, nextLineToPaintIndex, startNumber;
     private LineComputationInfo[] computingLines, readyLines;
@@ -36,9 +36,9 @@ public final class TracerEngine {
     public TracerEngine(Canvas canvas, PixelComputer pixelComputer) {
         this.canvas = canvas;
         this.pixelComputer = pixelComputer;
-        Class<? extends JavaCodedWorkerBase> workerClass = pixelComputer.getWorkerClass();
+        Class<? extends JavaCodedWebWorkerBase> workerClass = pixelComputer.getWorkerClass();
         usingWorkers = workerClass != null;
-        workerPool = usingWorkers ? new WorkerPool(workerClass) : null;
+        webWorkerPool = usingWorkers ? new WebWorkerPool(workerClass) : null;
     }
 
     public int getPlaceIndex() {
@@ -132,30 +132,30 @@ public final class TracerEngine {
     }
 
     private void startComputingUsingWorker() {
-        Worker worker = workerPool.getWorker();
+        WebWorker webWorker = webWorkerPool.getWorker();
         LineComputationInfo[] unit = new LineComputationInfo[1];
         int workerStartNumber = startNumber;
-        worker.setOnMessageHandler(data -> {
+        webWorker.setOnMessageHandler(data -> {
             // Checking the tracer hasn't been restarted with new parameters meanwhile
             if (workerStartNumber != startNumber) // If this is the case,
                 return; // we don't continue this old stuff computation
             LineComputationInfo lineComputationInfo = unit[0];
             lineComputationInfo.linePixelResultStorage = pixelComputer.getLinePixelResultStorage(data);
-            startComputingLineWorker(worker, unit);
+            startComputingLineWorker(webWorker, unit);
             addReadyToPaintLine(lineComputationInfo);
         });
-        startComputingLineWorker(worker, unit);
+        startComputingLineWorker(webWorker, unit);
     }
 
-    private void startComputingLineWorker(Worker worker, LineComputationInfo[] unit) {
+    private void startComputingLineWorker(WebWorker webWorker, LineComputationInfo[] unit) {
         boolean firstWorkerCall = unit[0] == null;
         int lineIndex = pickNextLineIndexToCompute();
         LineComputationInfo lineComputationInfo = unit[0] = getLineComputationInfo(lineIndex);
         if (lineComputationInfo == null) {
-            worker.terminate(); // Will actually put it back into the worker pool
+            webWorker.terminate(); // Will actually put it back into the webWorker pool
             logIfComplete();
         } else
-            worker.postMessage(pixelComputer.getLineWorkerParameters(lineComputationInfo.cy, firstWorkerCall));
+            webWorker.postMessage(pixelComputer.getLineWorkerParameters(lineComputationInfo.cy, firstWorkerCall));
     }
 
     public void stop() {

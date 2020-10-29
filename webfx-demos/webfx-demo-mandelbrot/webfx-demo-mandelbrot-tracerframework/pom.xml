@@ -49,7 +49,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-platform-shared-worker</artifactId>
+            <artifactId>webfx-platform-shared-webworker</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

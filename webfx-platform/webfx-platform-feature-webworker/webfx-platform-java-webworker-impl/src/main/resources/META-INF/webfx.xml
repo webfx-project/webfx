@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="webfx.platform.shared.services.webworker.spi.WorkerServiceProvider">webfx.platform.java.services.webworker.spi.impl.JavaWorkerServiceProvider</provider>
+    </providers>
+
+</module>

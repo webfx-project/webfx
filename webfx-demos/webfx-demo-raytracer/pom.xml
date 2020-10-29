@@ -14,8 +14,8 @@
 
     <modules>
         <module>webfx-demo-raytracer-math</module>
-        <module>webfx-demo-raytracer-worker</module>
-        <module>webfx-demo-raytracer-worker-teavm</module>
+        <module>webfx-demo-raytracer-webworker</module>
+        <module>webfx-demo-raytracer-webworker-teavm</module>
         <module>webfx-demo-raytracer-webassembly-teavm</module>
         <module>webfx-demo-raytracer-application</module>
         <module>webfx-demo-raytracer-application-javafx</module>

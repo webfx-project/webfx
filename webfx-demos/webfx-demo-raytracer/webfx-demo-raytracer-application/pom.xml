@@ -30,7 +30,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-demo-raytracer-worker</artifactId>
+            <artifactId>webfx-demo-raytracer-webworker</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>

@@ -6,7 +6,7 @@ module webfx.demo.raytracer.application {
     requires javafx.graphics;
     requires webfx.demo.mandelbrot.tracerframework;
     requires webfx.demo.raytracer.math;
-    requires webfx.demo.raytracer.worker;
+    requires webfx.demo.raytracer.webworker;
     requires webfx.platform.shared.json;
 
     // Exported packages

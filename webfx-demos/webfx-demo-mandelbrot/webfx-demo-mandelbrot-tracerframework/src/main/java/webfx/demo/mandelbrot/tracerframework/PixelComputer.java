@@ -2,7 +2,7 @@ package webfx.demo.mandelbrot.tracerframework;
 
 import javafx.scene.paint.Color;
 import webfx.platform.shared.services.json.JsonObject;
-import webfx.platform.shared.services.worker.spi.base.JavaCodedWorkerBase;
+import webfx.platform.shared.services.webworker.spi.base.JavaCodedWebWorkerBase;
 
 /**
  * @author Bruno Salmon
@@ -36,7 +36,7 @@ public interface PixelComputer {
 
     // API when working with workers
 
-    Class<? extends JavaCodedWorkerBase> getWorkerClass();
+    Class<? extends JavaCodedWebWorkerBase> getWorkerClass();
 
     JsonObject getLineWorkerParameters(int y, boolean firstWorkerCall);
 

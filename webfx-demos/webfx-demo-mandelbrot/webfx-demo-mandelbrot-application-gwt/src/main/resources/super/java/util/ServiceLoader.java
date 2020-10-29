@@ -23,7 +23,7 @@ public class ServiceLoader<S> implements Iterable<S> {
             case "webfx.platform.shared.services.resource.spi.ResourceServiceProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.resource.spi.impl.GwtResourceServiceProvider::new);
             case "webfx.platform.shared.services.scheduler.spi.SchedulerProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.uischeduler.spi.impl.GwtUiSchedulerProvider::new);
             case "webfx.platform.shared.services.shutdown.spi.ShutdownProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.shutdown.spi.impl.GwtShutdownProvider::new);
-            case "webfx.platform.shared.services.worker.spi.WorkerServiceProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.worker.spi.impl.GwtWorkerServiceProvider::new);
+            case "webfx.platform.shared.services.webworker.spi.WorkerServiceProvider": return new ServiceLoader<S>(webfx.platform.gwt.services.webworker.spi.impl.GwtWorkerServiceProvider::new);
             // UNKNOWN SPI
             default:
                Logger.getLogger(ServiceLoader.class.getName()).warning("Unknown " + serviceClass + " SPI - returning no provider");

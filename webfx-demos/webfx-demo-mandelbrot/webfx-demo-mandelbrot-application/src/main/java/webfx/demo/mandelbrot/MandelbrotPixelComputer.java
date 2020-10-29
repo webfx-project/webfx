@@ -8,12 +8,12 @@ import webfx.demo.mandelbrot.math.MandelbrotPlaces;
 import webfx.demo.mandelbrot.tracerframework.PixelComputer;
 import webfx.demo.mandelbrot.tracerframework.TracerThumbnail;
 import webfx.demo.mandelbrot.tracerframework.TracerEngine;
-import webfx.demo.mandelbrot.worker.MandelbrotWorker;
+import webfx.demo.mandelbrot.webworker.MandelbrotWebWorker;
 import webfx.platform.shared.services.json.Json;
 import webfx.platform.shared.services.json.JsonObject;
 import webfx.platform.shared.services.json.WritableJsonArray;
 import webfx.platform.shared.services.json.WritableJsonObject;
-import webfx.platform.shared.services.worker.spi.base.JavaCodedWorkerBase;
+import webfx.platform.shared.services.webworker.spi.base.JavaCodedWebWorkerBase;
 
 /**
  * @author Bruno Salmon
@@ -123,8 +123,8 @@ final class MandelbrotPixelComputer implements PixelComputer {
     }
 
     @Override
-    public Class<? extends JavaCodedWorkerBase> getWorkerClass() {
-        return MandelbrotWorker.class;
+    public Class<? extends JavaCodedWebWorkerBase> getWorkerClass() {
+        return MandelbrotWebWorker.class;
     }
 
     @Override

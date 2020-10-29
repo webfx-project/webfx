@@ -15,8 +15,8 @@
     <modules>
         <module>webfx-demo-mandelbrot-tracerframework</module>
         <module>webfx-demo-mandelbrot-math</module>
-        <module>webfx-demo-mandelbrot-worker</module>
-        <module>webfx-demo-mandelbrot-worker-teavm</module>
+        <module>webfx-demo-mandelbrot-webworker</module>
+        <module>webfx-demo-mandelbrot-webworker-teavm</module>
         <module>webfx-demo-mandelbrot-webassembly-teavm</module>
         <module>webfx-demo-mandelbrot-application</module>
         <module>webfx-demo-mandelbrot-application-javafx</module>
