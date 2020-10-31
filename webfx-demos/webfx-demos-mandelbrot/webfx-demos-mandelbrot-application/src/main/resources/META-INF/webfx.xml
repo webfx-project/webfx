@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="javafx.application.Application">webfx.demos.mandelbrot.MandelbrotApplication</provider>
-    </providers>
-
-</module>

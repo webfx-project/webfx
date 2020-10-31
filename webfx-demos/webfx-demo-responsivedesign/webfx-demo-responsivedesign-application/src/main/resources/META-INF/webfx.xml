@@ -1,0 +1,7 @@
+<module>
+
+    <providers>
+        <provider spi="javafx.application.Application">webfx.demo.responsivedesign.ResponsiveDesignApplication</provider>
+    </providers>
+
+</module>

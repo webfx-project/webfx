@@ -10,8 +10,6 @@ import javafx.scene.layout.Region;
 import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 
-import java.lang.ref.WeakReference;
-
 /**
  * @author Bruno Salmon
  */
@@ -22,7 +20,7 @@ public abstract class Control extends Region implements Skinnable {
      * The ContextMenu to show for this control.
      */
     private ObjectProperty<ContextMenu> contextMenu = new SimpleObjectProperty<ContextMenu>(this, "contextMenu") {
-        private WeakReference<ContextMenu> contextMenuRef;
+        //private WeakReference<ContextMenu> contextMenuRef;
 
         @Override protected void invalidated() {
             /*ContextMenu oldMenu = contextMenuRef == null ? null : contextMenuRef.get();
@@ -31,7 +29,7 @@ public abstract class Control extends Region implements Skinnable {
             }*/
 
             ContextMenu ctx = get();
-            contextMenuRef = new WeakReference<>(ctx);
+            //contextMenuRef = new WeakReference<>(ctx);
 
             if (ctx != null) {
                 // set this flag so contextmenu show will be relative to parent window not anchor
@@ -249,6 +247,11 @@ public abstract class Control extends Region implements Skinnable {
                     // getCssMetaData() method is never called, so the
                     // skin properties are never exposed.
                     //impl_reapplyCSS();
+
+                    // WebFx addition to fix the following problem: SplitPaneSkin.layoutChildren() was not called
+                    // when initializing the scene with a SplitPane as root node (ex: in responsive design demo)
+                    // so the window just looked empty (but resizing it made the nodes appear).
+                    layoutChildren();
 
                     // DEBUG: Log that we've changed the skin
 /*

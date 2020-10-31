@@ -8,8 +8,6 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.effect.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Transform;
 import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
@@ -47,31 +45,6 @@ public abstract class HtmlNodePeer
             else if (Strings.contains(transform,"scale"))
                 style.transformOrigin = CSSProperties.TransformOriginUnionType.of("center");
         }
-    }
-
-    @Override
-    protected String toClipPath(Node clip) {
-        if (clip != null) {
-            if (clip instanceof Circle) {
-                Circle c = (Circle) clip;
-                return "circle(" + toPx(c.getRadius()) + " at " + toPx(c.getCenterX()) + " " + toPx(c.getCenterY());
-            } else if (clip instanceof Rectangle) {
-                Rectangle r = (Rectangle) clip;
-                // inset(top right bottom left round top-radius right-radius bottom-radius left-radius)
-                double top = r.getY();
-                double left = r.getX();
-                double right = left + r.getWidth();
-                double bottom = top + r.getHeight();
-/*
-                double leftRadius = r.getArcWidth() / 2, rightRadius = leftRadius;
-                double topRadius = r.getArcHeight() / 2, bottomRadius = topRadius;
-                return "inset(" + toPx(top) + " " + toPx(right) + " " + toPx(bottom) + " " + toPx(left) + " round " + topRadius + "px " + rightRadius + "px " + bottomRadius + "px " + leftRadius + "px)";
-*/
-                // Note: replaced toPx(top) by top + "px" etc... to preserve precision (required for Mandelbrot thumbnails zoom effect as scale is between 1.0 and 1.1)
-                return "polygon(" + left + "px " + top + "px, " + right + "px " + top + "px, " + right + "px " + bottom + "px, " + left + "px " + bottom + "px)";
-            }
-        }
-        return null;
     }
 
     @Override

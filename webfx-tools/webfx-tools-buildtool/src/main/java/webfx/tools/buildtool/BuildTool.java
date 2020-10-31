@@ -46,14 +46,14 @@ public final class BuildTool {
             .getUsedJavaPackages()
                 .forEach(System.out::println);
 */
-        //GwtServiceLoaderSuperSourceGenerator.generateServiceLoaderSuperSource(webfxRootModule.getChildModuleInDepth("webfx-demos-colorfulcircles-application-gwt"));
+        //GwtServiceLoaderSuperSourceGenerator.generateServiceLoaderSuperSource(webfxRootModule.getChildModuleInDepth("webfx-demo-colorfulcircles-application-gwt"));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.compatiblePlatforms().collect(Collectors.toList())));
         //webfxRootModule.getThisAndChildrenModulesInDepth().forEach(m -> System.out.println(m.getArtifactId() + " : " + m.getUsedJavaServices().collect(Collectors.toList())));
-        //webfxRootModule.getChildModuleInDepth("webfx-demos-helloworld-fxkit-gwt").getTransitiveRequiredJavaServicesImplementationModules().forEach(System.out::println);
+        //webfxRootModule.getChildModuleInDepth("webfx-demo-helloworld-fxkit-gwt").getTransitiveRequiredJavaServicesImplementationModules().forEach(System.out::println);
 
 /*
         ReusableStream<Module> transitiveDependencies =
-                webfxRootModule.getChildModuleInDepth("webfx-demos-helloworld-fxkit-gwt").getThisAndTransitiveDependencies()
+                webfxRootModule.getChildModuleInDepth("webfx-demo-helloworld-fxkit-gwt").getThisAndTransitiveDependencies()
                 ;
         transitiveDependencies.forEach(System.out::println);
         ReusableStream<ProjectModule> transitiveProjectModules = ProjectModule.filterProjectModules(transitiveDependencies);

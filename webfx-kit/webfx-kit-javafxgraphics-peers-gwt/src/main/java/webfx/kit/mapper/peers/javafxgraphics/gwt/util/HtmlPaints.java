@@ -28,7 +28,7 @@ public final class HtmlPaints {
     }
 
     public static String toCssColor(Color color) {
-        return toCssColor(color, new StringBuilder()).toString();
+        return color == null ? null : toCssColor(color, new StringBuilder()).toString();
     }
 
     public static String toCssOpaqueColor(Color color) {
