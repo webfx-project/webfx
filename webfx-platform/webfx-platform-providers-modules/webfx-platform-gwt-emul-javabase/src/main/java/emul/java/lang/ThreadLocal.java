@@ -18,4 +18,7 @@ public class ThreadLocal<T> {
         this.value = value;
     }
 
+    public void remove() {
+        value = null;
+    }
 }

@@ -5,7 +5,7 @@ module webfx.framework.shared.orm.expression {
     // Direct dependencies modules
     requires java.base;
     requires webfx.extras.type;
-    requires webfx.libs.javacupruntime;
+    requires webfx.lib.javacupruntime;
     requires webfx.platform.shared.json;
     requires webfx.platform.shared.util;
 

@@ -18,8 +18,9 @@
 package webfx.platform.shared.services.scheduler.spi;
 
 import webfx.platform.shared.services.scheduler.Scheduled;
-import java.util.function.Consumer;
 import webfx.platform.shared.util.tuples.Unit;
+
+import java.util.function.Consumer;
 
 /**
  * This class provides low-level task scheduling primitives.
@@ -39,13 +40,6 @@ public interface SchedulerProvider {
      * @return the timer
      */
     Scheduled scheduleDelay(long delayMs, Runnable runnable);
-
-    default Scheduled scheduleDelay(long delayMs, Consumer<Scheduled> runnable) {
-        Unit<Scheduled> scheduledHolder = new Unit<>();
-        Scheduled scheduled = scheduleDelay(delayMs, () -> runnable.accept(scheduledHolder.get()));
-        scheduledHolder.set(scheduled);
-        return scheduled;
-    }
 
     /**
      * Schedules a repeating handler that is scheduled with a constant periodicity. That is, the
@@ -69,5 +63,7 @@ public interface SchedulerProvider {
         scheduleDeferred(runnable);
     }
 
-    long nanoTime(); // because System.nanoTime() is not GWT compatible
+    long nanoTime(); // because System.nanoTime() raises a compilation error with GWT
+
+    int availableProcessors(); // because Runtime.getRuntime().availableProcessors()) raises a compilation error with GWT
 }

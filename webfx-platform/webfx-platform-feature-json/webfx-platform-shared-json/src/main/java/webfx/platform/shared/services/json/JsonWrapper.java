@@ -20,9 +20,11 @@ public interface JsonWrapper {
 
     default <T> T nativeToJavaScalar(Object nativeScalar) { return (T) nativeScalar; }
 
-    default WritableJsonArray nativeToJavaJsonArray(Object nativeArray) { return  (WritableJsonArray) nativeArray; }
+    // Temporary removed default implementation due to TeaVm bug
+    /*default*/ WritableJsonArray nativeToJavaJsonArray(Object nativeArray); /*{ return  (WritableJsonArray) nativeArray; }*/
 
-    default WritableJsonObject nativeToJavaJsonObject(Object nativeObject) { return (WritableJsonObject) nativeObject; }
+    // Temporary removed default implementation due to TeaVm bug
+    /*default*/ WritableJsonObject nativeToJavaJsonObject(Object nativeObject); /*{ return (WritableJsonObject) nativeObject; }*/
 
     default Object anyJavaToNative(Object value) {
         if (value == null)
@@ -34,7 +36,8 @@ public interface JsonWrapper {
         return javaToNativeScalar(value);
     }
 
-    default Object javaToNativeScalar(Object scalar) { return scalar; }
+    // Temporary removed default implementation due to TeaVm bug
+    /*default*/ Object javaToNativeScalar(Object scalar); /*{ return scalar; }*/
 
     default Object javaToNativeJsonArray(JsonArray array) { return array.getNativeElement(); }
 

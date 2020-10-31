@@ -27,45 +27,107 @@ public interface UiSchedulerProvider extends SchedulerProvider {
             runInBackground(runnable);
     }
 
-    default Scheduled schedulePropertyChangeInNextAnimationFrame(Runnable propertyChangeTask) {
-        return scheduleInNextAnimationFrame(propertyChangeTask, AnimationFramePass.PROPERTY_CHANGE_PASS);
-    }
-
-    default Scheduled scheduleInNextAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
-        return scheduleDelayInAnimationFrame(0, animationTask, pass);
-    }
-
-    Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass);
-
-    Scheduled scheduleInFutureAnimationFrame(int frameCount, Runnable animationTask, AnimationFramePass pass);
-
-    default Scheduled scheduleDelayInAnimationFrame(long delayMs, Consumer<Scheduled> animationTask, AnimationFramePass pass) {
-        Unit<Scheduled> scheduledHolder = new Unit<>();
-        Scheduled scheduled = scheduleDelayInAnimationFrame(delayMs, () -> animationTask.accept(scheduledHolder.get()), pass);
-        scheduledHolder.set(scheduled);
-        return scheduled;
-    }
-
-    default Scheduled schedulePeriodicInAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
-        return schedulePeriodicInAnimationFrame(0, animationTask, pass);
-    }
-
-    default Scheduled schedulePeriodicInAnimationFrame(Consumer<Scheduled> animationTask, AnimationFramePass pass) {
-        Unit<Scheduled> scheduledHolder = new Unit<>();
-        Scheduled scheduled = schedulePeriodicInAnimationFrame(() -> animationTask.accept(scheduledHolder.get()), pass);
-        scheduledHolder.set(scheduled);
-        return scheduled;
-    }
-
-    Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass);
-
     void requestNextScenePulse();
 
     boolean isAnimationFrameNow();
 
-    // Run immediately but isAnimationFrame() returns true -> the layout pass is executed immediately instead of being
-    // postponed to the next animation frame. This is can be useful if a node rendering is needed outside the animation
-    // frame (for example when rendering a table cell during a repaint triggered by Swing).
-    void runLikeInAnimationFrame(Runnable runnable);
+    Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, int afterFrameCount, AnimationFramePass pass);
 
+    // Note: may be in the same animation frame if delay make it possible
+    default Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
+        return scheduleDelayInAnimationFrame(delayMs, animationTask, 0, pass);
+    }
+
+    // Exclude the possibility for an execution in the current animation frame (if called during an animation frame)
+    default Scheduled scheduleDelayInFutureAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
+        return scheduleDelayInAnimationFrame(delayMs, animationTask, isAnimationFrameNow() ? 1 : 0, pass);
+    }
+
+    // Same API but with no delay
+
+    default Scheduled scheduleInAnimationFrame(Runnable animationTask, int afterFrameCount, AnimationFramePass pass) {
+        return scheduleDelayInAnimationFrame(0, animationTask, afterFrameCount, pass);
+    }
+
+    // Note: may be in the same animation frame if possible
+    default Scheduled scheduleInAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
+        return scheduleDelayInAnimationFrame(0, animationTask, pass);
+    }
+
+    // Exclude the possibility for an execution in the current animation frame (if called during an animation frame)
+    default Scheduled scheduleInFutureAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
+        return scheduleDelayInFutureAnimationFrame(0, animationTask, pass);
+    }
+
+    // Correct way of scheduling a property change in the next animation frame
+    default Scheduled schedulePropertyChangeInAnimationFrame(Runnable propertyChangeTask) {
+        return scheduleInAnimationFrame(propertyChangeTask, AnimationFramePass.PROPERTY_CHANGE_PASS);
+    }
+
+    // Periodic API
+
+    // With an initial delay first, then on each animation frame until cancellation
+    Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass);
+
+    // Same but without initial delay
+    default Scheduled schedulePeriodicInAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
+        return schedulePeriodicInAnimationFrame(0, animationTask, pass);
+    }
+
+
+    // Same Periodic API but with Consumer to make the cancellation easier
+    default Scheduled schedulePeriodicInAnimationFrame(long delayMs, Consumer<Scheduled> animationTask, AnimationFramePass pass) {
+        Unit<Scheduled> scheduledHolder = new Unit<>();
+        Scheduled scheduled = schedulePeriodicInAnimationFrame(delayMs, () -> animationTask.accept(scheduledHolder.get()), pass);
+        scheduledHolder.set(scheduled);
+        return scheduled;
+    }
+
+
+    default Scheduled schedulePeriodicInAnimationFrame(Consumer<Scheduled> animationTask, AnimationFramePass pass) {
+        return schedulePeriodicInAnimationFrame(0, animationTask, pass);
+    }
+
+
+    // Finally repeating the same API but without specifying the animation frame pass (implicitly UI_UPDATE_PASS)
+
+    default Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, int afterFrameCount) {
+        return scheduleDelayInAnimationFrame(delayMs, animationTask, afterFrameCount, AnimationFramePass.UI_UPDATE_PASS);
+    }
+
+    default Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask) {
+        return scheduleDelayInAnimationFrame(delayMs, animationTask, AnimationFramePass.UI_UPDATE_PASS);
+    }
+
+    default Scheduled scheduleDelayInFutureAnimationFrame(long delayMs, Runnable animationTask) {
+        return scheduleDelayInFutureAnimationFrame(delayMs, animationTask, AnimationFramePass.UI_UPDATE_PASS);
+    }
+
+    default Scheduled scheduleInAnimationFrame(Runnable animationTask, int afterFrameCount) {
+        return scheduleInAnimationFrame(animationTask, afterFrameCount, AnimationFramePass.UI_UPDATE_PASS);
+    }
+
+    default Scheduled scheduleInAnimationFrame(Runnable animationTask) {
+        return scheduleInAnimationFrame(animationTask, AnimationFramePass.UI_UPDATE_PASS);
+    }
+
+    default Scheduled scheduleInFutureAnimationFrame(Runnable animationTask) {
+        return scheduleInFutureAnimationFrame(animationTask, AnimationFramePass.UI_UPDATE_PASS);
+    }
+
+    default Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask) {
+        return schedulePeriodicInAnimationFrame(delayMs, animationTask, AnimationFramePass.UI_UPDATE_PASS);
+    }
+
+    default Scheduled schedulePeriodicInAnimationFrame(Runnable animationTask) {
+        return schedulePeriodicInAnimationFrame(animationTask, AnimationFramePass.UI_UPDATE_PASS);
+    }
+
+    default Scheduled schedulePeriodicInAnimationFrame(long delayMs, Consumer<Scheduled> animationTask) {
+        return schedulePeriodicInAnimationFrame(delayMs, animationTask, AnimationFramePass.UI_UPDATE_PASS);
+    }
+
+    default Scheduled schedulePeriodicInAnimationFrame(Consumer<Scheduled> animationTask) {
+        return schedulePeriodicInAnimationFrame(animationTask, AnimationFramePass.UI_UPDATE_PASS);
+    }
 }

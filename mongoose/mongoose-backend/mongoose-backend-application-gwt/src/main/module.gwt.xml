@@ -57,6 +57,7 @@
     <source path="com/sun/javafx/scene/traversal"/>
     <source path="com/sun/javafx/stage"/>
     <source path="com/sun/javafx/tk"/>
+    <source path="com/sun/javafx/tk/quantum"/>
     <source path="com/sun/javafx/util"/>
     <source path="com/sun/scenario/animation"/>
     <source path="javafx/animation"/>
@@ -86,6 +87,7 @@
     <!-- used by webfx-extras-visual-controls-grid-peers-gwt (SOURCE) -->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-gwt-shutdown-impl (SOURCE) -->
+    <!-- used by webfx-platform-gwt-uischeduler-impl (SOURCE) -->
     <inherits name="elemental2.dom.Dom"/>
     <!--=================================< elemental2-svg >=================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
@@ -770,7 +772,7 @@
     <!-- used by webfx-kit-javafxgraphics-emul (SOURCE) -->
     <source path="webfx/kit/util/properties"/>
     <source path="webfx/kit/util/properties/conversion"/>
-    <!--===========================< webfx-libs-javacupruntime >============================-->
+    <!--============================< webfx-lib-javacupruntime >============================-->
     <!-- used by webfx-platform-shared-json (SOURCE) -->
     <source path="java_cup/runtime"/>
     <!--=========================< webfx-platform-client-storage >==========================-->

@@ -35,7 +35,7 @@
         <dependency>
             <artifactId>charba</artifactId>
             <groupId>org.pepstock</groupId>
-            <version>3.2-gwt</version>
+            <version>3.3-gwt</version>
             <classifier>sources</classifier>
         </dependency>
         
@@ -897,7 +897,7 @@
         </dependency>
         
         <dependency>
-            <artifactId>webfx-libs-javacupruntime</artifactId>
+            <artifactId>webfx-lib-javacupruntime</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>sources</classifier>

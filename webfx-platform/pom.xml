@@ -25,9 +25,11 @@
         <module>webfx-platform-feature-storage</module>
         <module>webfx-platform-feature-submit</module>
         <module>webfx-platform-feature-uischeduler</module>
+        <module>webfx-platform-feature-webassembly</module>
         <module>webfx-platform-feature-websocket</module>
         <module>webfx-platform-feature-windowhistory</module>
         <module>webfx-platform-feature-windowlocation</module>
+        <module>webfx-platform-feature-webworker</module>
 
         <module>webfx-platform-independent-feature-buscall</module>
         <module>webfx-platform-independent-feature-datasource</module>

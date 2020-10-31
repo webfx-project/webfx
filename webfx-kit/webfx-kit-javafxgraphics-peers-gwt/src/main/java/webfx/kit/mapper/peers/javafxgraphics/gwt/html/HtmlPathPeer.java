@@ -26,7 +26,7 @@ public final class HtmlPathPeer
         extends HtmlShapePeer<N, NB, NM>
         implements PathPeerMixin<N, NB, NM> {
 
-    private SvgPathPeer svgPathPeer = new SvgPathPeer();
+    private final SvgPathPeer svgPathPeer = new SvgPathPeer();
 
     public HtmlPathPeer() {
         this((NB) new PathPeerBase(), HtmlUtil.createElement("fx-path"));

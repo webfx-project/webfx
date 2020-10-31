@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-public final class UiScheduler {
+public final class UiScheduler extends Scheduler {
 
     static {
         SchedulerProvider schedulerProvider = Scheduler.getProvider();
@@ -36,38 +36,6 @@ public final class UiScheduler {
         getProvider().runOutUiThread(runnable);
     }
 
-    public static Scheduled schedulePropertyChangeInNextAnimationFrame(Runnable propertyChangeTask) {
-        return getProvider().schedulePropertyChangeInNextAnimationFrame(propertyChangeTask);
-    }
-
-    public static Scheduled scheduleInNextAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
-        return getProvider().scheduleInNextAnimationFrame(animationTask, pass);
-    }
-
-    public static Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
-        return getProvider().scheduleDelayInAnimationFrame(delayMs, animationTask, pass);
-    }
-
-    public static Scheduled scheduleInFutureAnimationFrame(int frameCount, Runnable animationTask, AnimationFramePass pass) {
-        return getProvider().scheduleInFutureAnimationFrame(frameCount, animationTask, pass);
-    }
-
-    public static Scheduled scheduleDelayInAnimationFrame(long delayMs, Consumer<Scheduled> animationTask, AnimationFramePass pass) {
-        return getProvider().scheduleDelayInAnimationFrame(delayMs, animationTask, pass);
-    }
-
-    public static Scheduled schedulePeriodicInAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
-        return getProvider().schedulePeriodicInAnimationFrame(animationTask, pass);
-    }
-
-    public static Scheduled schedulePeriodicInAnimationFrame(Consumer<Scheduled> animationTask, AnimationFramePass pass) {
-        return getProvider().schedulePeriodicInAnimationFrame(animationTask, pass);
-    }
-
-    public static Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
-        return getProvider().schedulePeriodicInAnimationFrame(delayMs, animationTask, pass);
-    }
-
     public static void requestNextScenePulse() {
         getProvider().requestNextScenePulse();
     }
@@ -76,13 +44,94 @@ public final class UiScheduler {
         return getProvider().isAnimationFrameNow();
     }
 
-    // Run immediately but isAnimationFrame() returns true -> the layout pass is executed immediately instead of being
-    // postponed to the next animation frame. This is can be useful if a node rendering is needed outside the animation
-    // frame (for example when rendering a table cell during a repaint triggered by Swing).
-    public static void runLikeInAnimationFrame(Runnable runnable) {
-        getProvider().runLikeInAnimationFrame(runnable);
+    public static Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, int afterFrameCount, AnimationFramePass pass) {
+        return getProvider().scheduleDelayInAnimationFrame(delayMs, animationTask, afterFrameCount, pass);
     }
 
+    public static Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
+        return getProvider().scheduleDelayInAnimationFrame(delayMs, animationTask, pass);
+    }
+
+    public static Scheduled scheduleDelayInFutureAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
+        return getProvider().scheduleDelayInFutureAnimationFrame(delayMs, animationTask, pass);
+    }
+
+    public static Scheduled scheduleInAnimationFrame(Runnable animationTask, int afterFrameCount, AnimationFramePass pass) {
+        return getProvider().scheduleInAnimationFrame(animationTask, afterFrameCount, pass);
+    }
+
+    public static Scheduled scheduleInAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
+        return getProvider().scheduleInAnimationFrame(animationTask, pass);
+    }
+
+    public static Scheduled scheduleInFutureAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
+        return getProvider().scheduleInFutureAnimationFrame(animationTask, pass);
+    }
+
+
+    public static Scheduled schedulePropertyChangeInAnimationFrame(Runnable propertyChangeTask) {
+        return getProvider().schedulePropertyChangeInAnimationFrame(propertyChangeTask);
+    }
+
+    public static Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
+        return getProvider().schedulePeriodicInAnimationFrame(delayMs, animationTask, pass);
+    }
+
+    public static Scheduled schedulePeriodicInAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
+        return getProvider().schedulePeriodicInAnimationFrame(animationTask, pass);
+    }
+
+    public static Scheduled schedulePeriodicInAnimationFrame(long delayMs, Consumer<Scheduled> animationTask, AnimationFramePass pass) {
+        return getProvider().schedulePeriodicInAnimationFrame(delayMs, animationTask, pass);
+    }
+
+
+    public static Scheduled schedulePeriodicInAnimationFrame(Consumer<Scheduled> animationTask, AnimationFramePass pass) {
+        return getProvider().schedulePeriodicInAnimationFrame(animationTask, pass);
+    }
+
+    public static Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, int afterFrameCount) {
+        return getProvider().scheduleDelayInAnimationFrame(delayMs, animationTask, afterFrameCount);
+    }
+
+    public static Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask) {
+        return getProvider().scheduleDelayInAnimationFrame(delayMs, animationTask);
+    }
+
+    public static Scheduled scheduleDelayInFutureAnimationFrame(long delayMs, Runnable animationTask) {
+        return getProvider().scheduleDelayInFutureAnimationFrame(delayMs, animationTask);
+    }
+
+    public static Scheduled scheduleInAnimationFrame(Runnable animationTask, int afterFrameCount) {
+        return getProvider().scheduleInAnimationFrame(animationTask, afterFrameCount);
+    }
+
+    public static Scheduled scheduleInAnimationFrame(Runnable animationTask) {
+        return getProvider().scheduleInAnimationFrame(animationTask);
+    }
+
+    public static Scheduled scheduleInFutureAnimationFrame(Runnable animationTask) {
+        return getProvider().scheduleInFutureAnimationFrame(animationTask);
+    }
+
+    public static Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask) {
+        return getProvider().schedulePeriodicInAnimationFrame(delayMs, animationTask);
+    }
+
+    public static Scheduled schedulePeriodicInAnimationFrame(Runnable animationTask) {
+        return getProvider().schedulePeriodicInAnimationFrame(animationTask);
+    }
+
+    public static Scheduled schedulePeriodicInAnimationFrame(long delayMs, Consumer<Scheduled> animationTask) {
+        return getProvider().schedulePeriodicInAnimationFrame(delayMs, animationTask);
+    }
+
+    public static Scheduled schedulePeriodicInAnimationFrame(Consumer<Scheduled> animationTask) {
+        return getProvider().schedulePeriodicInAnimationFrame(animationTask);
+    }
+
+
+    // Repeating Scheduler API
 
     /**
      * A deferred command is executed not now but as soon as possible (ex: after the event loop returns).
@@ -98,10 +147,6 @@ public final class UiScheduler {
      * @return the timer
      */
     public static Scheduled scheduleDelay(long delayMs, Runnable runnable) {
-        return getProvider().scheduleDelay(delayMs, runnable);
-    }
-
-    public static Scheduled scheduleDelay(long delayMs, Consumer<Scheduled> runnable) {
         return getProvider().scheduleDelay(delayMs, runnable);
     }
 

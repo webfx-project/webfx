@@ -2,10 +2,7 @@ package webfx.kit.registry.javafxgraphics;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.html.*;
@@ -26,6 +23,10 @@ public class JavaFxGraphicsRegistry {
 
     public static void registerRectangle() {
         registerNodePeerFactory(Rectangle.class, HtmlRectanglePeer::new);
+    }
+
+    public static void registerArc() {
+        registerNodePeerFactory(Arc.class, HtmlArcPeer::new);
     }
 
     public static void registerCircle() {
@@ -50,6 +51,10 @@ public class JavaFxGraphicsRegistry {
 
     public static void registerPath() {
         registerNodePeerFactory(Path.class, HtmlPathPeer::new);
+    }
+
+    public static void registerSVGPath() {
+        registerNodePeerFactory(SVGPath.class, HtmlSVGPathPeer::new);
     }
 
     public static void registerRegion() {

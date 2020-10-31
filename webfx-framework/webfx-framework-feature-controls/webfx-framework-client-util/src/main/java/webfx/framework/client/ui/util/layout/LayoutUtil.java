@@ -41,7 +41,7 @@ public final class LayoutUtil {
         RowConstraints headerRowConstraints = new RowConstraints();
         // Making the gold pane invisible during a few animation frames because its height may not be stable on start
         goldPane.setVisible(false);
-        UiScheduler.scheduleInFutureAnimationFrame(5, () -> goldPane.setVisible(true), AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+        UiScheduler.scheduleInAnimationFrame(() -> goldPane.setVisible(true), 5, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
         headerRowConstraints.prefHeightProperty().bind(Properties.combine(goldPane.heightProperty(), child.heightProperty(),
                 (gpHeight, cHeight) -> {
                     if (percentageHeight != 0)

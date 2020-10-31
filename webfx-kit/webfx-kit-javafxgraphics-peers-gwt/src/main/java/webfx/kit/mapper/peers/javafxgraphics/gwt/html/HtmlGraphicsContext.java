@@ -1,9 +1,6 @@
 package webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import elemental2.dom.BaseRenderingContext2D;
-import elemental2.dom.CanvasRenderingContext2D;
-import elemental2.dom.HTMLCanvasElement;
-import elemental2.dom.HTMLImageElement;
+import elemental2.dom.*;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,6 +9,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
+import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.StrokeLineCap;
@@ -32,13 +30,27 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 public class HtmlGraphicsContext implements GraphicsContext {
-    
+
     private final Canvas canvas;
     private CanvasRenderingContext2D ctx;
+    private boolean proportionalFillLinearGradient;
 
     public HtmlGraphicsContext(Canvas canvas) {
         this.canvas = canvas;
-        Properties.onPropertySet(canvas.sceneProperty(), scene -> ctx = (CanvasRenderingContext2D) (Object) ((HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement()).getContext("2d"));
+        Properties.onPropertySet(canvas.sceneProperty(), scene -> ctx = getCanvasRenderingContext2D((HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement()));
+    }
+
+    HtmlGraphicsContext(HTMLCanvasElement canvasElement) {
+        this(getCanvasRenderingContext2D(canvasElement));
+    }
+
+    HtmlGraphicsContext(CanvasRenderingContext2D ctx) {
+        canvas = null;
+        this.ctx = ctx;
+    }
+
+    private static CanvasRenderingContext2D getCanvasRenderingContext2D(HTMLCanvasElement canvasElement) {
+        return (CanvasRenderingContext2D) (Object) canvasElement.getContext("2d");
     }
 
     @Override
@@ -104,22 +116,48 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return ctx.globalAlpha;
     }
 
+    private BlendMode blendMode;
     @Override
     public void setGlobalBlendMode(BlendMode op) {
-        Logger.log("HtmlGraphicsContext.setGlobalBlendMode() not implemented");
+        blendMode = op;
+        ctx.globalCompositeOperation = toCompositeOperation(op);
+    }
+
+    private static String toCompositeOperation(BlendMode op) {
+        if (op != null)
+            switch (op) {
+                case DARKEN: return "darken";
+                case SCREEN: return "screen";
+                case OVERLAY: return "overlay";
+                case MULTIPLY: return "multiply";
+                case SRC_ATOP: return "source-atop";
+                case SRC_OVER: return "source-over";
+                case EXCLUSION: return "exclusion";
+                case COLOR_BURN: return "color-burn";
+                case DIFFERENCE: return "difference";
+                case HARD_LIGHT: return "hard-light";
+                case SOFT_LIGHT: return "soft-light";
+                case COLOR_DODGE: return "color-dodge";
+                case LIGHTEN: return "lighten";
+                case ADD: // ??
+                case RED: // ??
+                case BLUE: // ??
+                case GREEN: // ??
+            }
+        return null;
     }
 
     @Override
     public BlendMode getGlobalBlendMode() {
-        Logger.log("HtmlGraphicsContext.getGlobalBlendMode() not implemented");
-        return null;
+        return blendMode;
     }
 
     private Paint fill;
     @Override
     public void setFill(Paint p) {
         fill = p; // Memorizing the value for getFill()
-        ctx.fillStyle = CanvasRenderingContext2D.FillStyleUnionType.of(HtmlPaints.toHtmlCssPaint(fill));
+        proportionalFillLinearGradient = false;
+        ctx.fillStyle = CanvasRenderingContext2D.FillStyleUnionType.of(toCanvasPaint(p));
     }
 
     @Override
@@ -128,15 +166,35 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private Paint stroke;
+
     @Override
     public void setStroke(Paint p) {
         stroke = p; // Memorizing the value for getStroke()
-        ctx.strokeStyle = CanvasRenderingContext2D.StrokeStyleUnionType.of(HtmlPaints.toHtmlCssPaint(stroke));
+        ctx.strokeStyle = CanvasRenderingContext2D.StrokeStyleUnionType.of(toCanvasPaint(p));
     }
-
     @Override
     public Paint getStroke() {
         return stroke;
+    }
+
+    private Object toCanvasPaint(Paint paint) {
+        if (paint instanceof LinearGradient)
+            return toCanvasLinearGradient((LinearGradient) paint, 0, 0, 1, 1);
+        return HtmlPaints.toHtmlCssPaint(paint);
+    }
+
+    private CanvasGradient toCanvasLinearGradient(LinearGradient lg, double x, double y, double width, double height) {
+        proportionalFillLinearGradient = lg.isProportional();
+        if (!proportionalFillLinearGradient)
+            width = height = 1;
+        CanvasGradient clg = ctx.createLinearGradient(x + lg.getStartX() * width, y + lg.getStartY() * height, x + lg.getEndX() * width, y + lg.getEndY() * height);
+        lg.getStops().forEach(s -> clg.addColorStop(s.getOffset(), HtmlPaints.toCssColor(s.getColor())));
+        return clg;
+    }
+
+    private void applyProportionalFillLinearGradiant(double x, double y, double width, double height) {
+        // setStroke(Color.CYAN); ctx.strokeRect(x, y, width, height); // For visual debugging
+        ctx.fillStyle = CanvasRenderingContext2D.FillStyleUnionType.of(toCanvasLinearGradient((LinearGradient) fill, x, y, width, height));
     }
 
     @Override
@@ -174,35 +232,34 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void setMiterLimit(double ml) {
-        Logger.log("HtmlGraphicsContext.setMiterLimit() not implemented");
+        ctx.miterLimit = ml;
     }
 
     @Override
     public double getMiterLimit() {
-        Logger.log("HtmlGraphicsContext.getMiterLimit() not implemented");
-        return 0;
+        return ctx.miterLimit;
     }
 
+    private double[] dashes;
     @Override
     public void setLineDashes(double... dashes) {
-        Logger.log("HtmlGraphicsContext.setLineDashes() not implemented");
+        this.dashes = dashes;
+        ctx.setLineDash(dashes);
     }
 
     @Override
     public double[] getLineDashes() {
-        Logger.log("HtmlGraphicsContext.getLineDashes() not implemented");
-        return new double[0];
+        return dashes;
     }
 
     @Override
     public void setLineDashOffset(double dashOffset) {
-        Logger.log("HtmlGraphicsContext.setLineDashOffset() not implemented");
+        ctx.lineDashOffset = dashOffset;
     }
 
     @Override
     public double getLineDashOffset() {
-        Logger.log("HtmlGraphicsContext.getLineDashOffset() not implemented");
-        return 0;
+        return ctx.lineDashOffset;
     }
 
     private Font font;
@@ -217,15 +274,16 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return font;
     }
 
+    private TextAlignment textAlign;
     @Override
     public void setTextAlign(TextAlignment align) {
+        textAlign = align;
         textAlignToSave = ctx.textAlign = HtmlNodePeer.toCssTextAlignment(align);
     }
 
     @Override
     public TextAlignment getTextAlign() {
-        Logger.log("HtmlGraphicsContext.getTextAlign() not implemented");
-        return null;
+        return textAlign;
     }
 
     private VPos textBaseline;
@@ -253,7 +311,27 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void fillText(String text, double x, double y) {
+        applyProportionalFillLinearGradiantForTextIfApplicable(text, x, y);
         ctx.fillText(text, x, y);
+    }
+
+    private void applyProportionalFillLinearGradiantForTextIfApplicable(String text, double x, double y) {
+        if (proportionalFillLinearGradient) {
+            double width = ctx.measureText(text).width;
+            // Pb: measureText() doesn't return height nor any information about the font (should change in the future)
+            double height = ctx.measureText("M").width; // Quick dirty approximation for now
+            double dy = 0;
+            VPos tbl = textBaseline;
+            if (tbl == null)
+                tbl = VPos.BASELINE;
+            switch (tbl) {
+                case CENTER:   dy = height * 0.5; break;
+                case BASELINE: dy = height * 0.7; break; // Quick dirty approximation for now
+                case BOTTOM:   dy = height; break;
+            }
+            //Logger.log("Text height = " + height + ", y = " + y + ", dy = " + y + ", new y = " + (y - dy));
+            applyProportionalFillLinearGradiant(x, y - dy, width, height);
+        }
     }
 
     @Override
@@ -263,6 +341,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void fillText(String text, double x, double y, double maxWidth) {
+        applyProportionalFillLinearGradiantForTextIfApplicable(text, x, y);
         ctx.fillText(text, x, y, maxWidth);
     }
 
@@ -371,7 +450,11 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private void arc(double x, double y, double w, double h, double startAngle, double arcExtent, ArcType closure) {
+        if (proportionalFillLinearGradient)
+            applyProportionalFillLinearGradiant(x, y, w, h);
         ctx.arc(x + w / 2, y + h / 2, w / 2, - degreesToRadiant(startAngle), - degreesToRadiant(startAngle + arcExtent));
+        if (closure == ArcType.ROUND)
+            ctx.lineTo(x + w / 2, y + h / 2);
     }
 
         @Override
@@ -415,7 +498,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double x, double y, double w, double h) {
         if (img instanceof HtmlCanvasImage)
-            ctx.drawImage((HTMLCanvasElement) ((HtmlCanvasImage) img).getHtmlCanvasPeer().getElement(), x, y, w, h);
+            ctx.drawImage(((HtmlCanvasImage) img).getSnapshotCanvasElement(), x, y, w, h);
         else if (img != null) {
             HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
             ctx.drawImage(imageElement, x, y, w, h);
@@ -460,7 +543,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
         if (img instanceof HtmlCanvasImage)
-            ctx.drawImage((HTMLCanvasElement) ((HtmlCanvasImage) img).getHtmlCanvasPeer().getElement(), sx, sy, sw, sh, dx, dy, dw, dh);
+            ctx.drawImage(((HtmlCanvasImage) img).getSnapshotCanvasElement(), sx, sy, sw, sh, dx, dy, dw, dh);
         else if (img != null) {
             HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
             // This scaleX/Y computation was necessary to make SpaceFX work

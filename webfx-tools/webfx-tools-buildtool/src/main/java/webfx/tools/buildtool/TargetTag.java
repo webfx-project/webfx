@@ -11,7 +11,9 @@ public enum TargetTag {
     JAVA            ("java", PLAT_API_PARTITION, Platform.JRE /*, Platform.ANDROID*/),
     JRE             ("jre", JAVA, Platform.JRE),
     JAVAFX          ("javafx", JRE), // => DESKTOP
-    GWT             ("gwt", PLAT_API_PARTITION, Platform.GWT), // => WEB
+    WEB             ("web", PLAT_API_PARTITION, Platform.GWT, Platform.TEAVM), // => BROWSER
+    GWT             ("gwt", WEB, Platform.GWT),
+    TEAVM           ("teavm", WEB, Platform.TEAVM),
 
     ARCH_PARTITION  (),
     SHARED          ("shared", ARCH_PARTITION),
@@ -23,7 +25,7 @@ public enum TargetTag {
     VIEWER_PARTITION(), // => CLIENT
     DESKTOP         ("desktop", VIEWER_PARTITION), // => JRE
     MOBILE          ("mobile", VIEWER_PARTITION),
-    WEB             ("web", VIEWER_PARTITION), // => GWT
+    BROWSER         ("browser", VIEWER_PARTITION),
 
     WEB_TECHNO_PARTITION(), // => WEB
     HTML            ("html", WEB_TECHNO_PARTITION),
@@ -39,10 +41,10 @@ public enum TargetTag {
         switch (tag) {
             case SERVER: return JRE;
             case JAVAFX: return DESKTOP;
-            case GWT: return WEB;
+            case WEB: return BROWSER;
             case VIEWER_PARTITION: return CLIENT;
             case DESKTOP: return JRE;
-            case WEB: return GWT;
+            //case WEB: return GWT;
             case WEB_TECHNO_PARTITION: return WEB;
             case SERVER_TECHNO_PARTITION: return SERVER;
             case EMUL: return GWT;

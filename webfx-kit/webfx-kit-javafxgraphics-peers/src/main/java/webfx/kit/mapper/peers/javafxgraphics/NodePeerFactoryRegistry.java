@@ -31,13 +31,25 @@ public final class NodePeerFactoryRegistry {
     }
 
     public static <N extends Node, V extends NodePeer<N>> V createNodePeer(N node) {
-        Factory<? extends NodePeer> factory = nodePeerFactories.get(node.getClass());
+        Class<?> nodeClass = node.getClass();
+        // Searching the peer factory associated with the node class
+        Factory<? extends NodePeer> factory = nodePeerFactories.get(nodeClass);
         if (factory != null)
             return (V) factory.create();
+        // If not found, it can be because it's a derived class
+        // For regions and groups, we delegate this search to their default factory
         if (node instanceof Region && defaultRegionFactory != null)
             return (V) defaultRegionFactory.apply((Region) node);
         if (node instanceof Group && defaultGroupFactory != null)
             return (V) defaultGroupFactory.apply((Group) node);
+        // For other nodes, we search recursively in super classes
+        while (nodeClass != null) {
+            nodeClass = nodeClass.getSuperclass();
+            factory = nodePeerFactories.get(nodeClass);
+            if (factory != null)
+                return (V) factory.create();
+        }
+        // If still not found, we return null after logging the problem
         System.out.println("WARNING: No NodePeer factory registered for " + node.getClass());
         return null;
     }

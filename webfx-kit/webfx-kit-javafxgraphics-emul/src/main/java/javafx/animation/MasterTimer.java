@@ -1,7 +1,6 @@
 package javafx.animation;
 
 import webfx.platform.client.services.uischeduler.UiScheduler;
-import webfx.platform.client.services.uischeduler.AnimationFramePass;
 
 /**
  * @author Bruno Salmon
@@ -17,7 +16,7 @@ class MasterTimer extends AbstractMasterTimer {
 
     @Override
     protected void postUpdateAnimationRunnable(DelayedRunnable animationRunnable) {
-        UiScheduler.scheduleDelayInAnimationFrame(animationRunnable.getDelay(), animationRunnable, AnimationFramePass.UI_UPDATE_PASS);
+        UiScheduler.scheduleDelayInFutureAnimationFrame(animationRunnable.getDelay(), animationRunnable);
     }
 
     @Override

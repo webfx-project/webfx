@@ -32,6 +32,7 @@ import javafx.beans.property.DoublePropertyBase;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.scene.paint.Paint;
+import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 
 /**
@@ -480,5 +481,9 @@ public class Arc extends Shape {
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
         throw new UnsupportedOperationException("Arc.impl_computeGeomBounds() not implemented!");
+    }
+
+    static {
+        JavaFxGraphicsRegistry.registerArc();
     }
 }

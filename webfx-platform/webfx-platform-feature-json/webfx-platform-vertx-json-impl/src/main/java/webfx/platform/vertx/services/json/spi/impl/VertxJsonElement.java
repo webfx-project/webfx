@@ -50,5 +50,10 @@ interface VertxJsonElement extends ListMapBasedJsonElement {
             return new VertxJsonArray((io.vertx.core.json.JsonArray) nativeArray);
         return new VertxJsonArray((List) nativeArray);
     }
+
+    @Override
+    default Object javaToNativeScalar(Object scalar) {
+        return scalar;
+    }
 }
 

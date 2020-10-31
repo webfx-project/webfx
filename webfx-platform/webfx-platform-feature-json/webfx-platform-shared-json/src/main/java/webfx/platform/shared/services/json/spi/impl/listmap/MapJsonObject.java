@@ -31,4 +31,9 @@ public class MapJsonObject extends MapBasedJsonObject {
         return map;
     }
 
+    // Added default implementation due to TeaVm bug
+    @Override
+    public Object javaToNativeScalar(Object scalar) {
+        return scalar;
+    }
 }

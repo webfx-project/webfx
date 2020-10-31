@@ -16,11 +16,10 @@ import webfx.framework.client.orm.reactive.mapping.entities_to_grid.EntityColumn
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.VisualEntityColumn;
 import webfx.framework.client.orm.reactive.mapping.entities_to_visual.VisualEntityColumnFactory;
 import webfx.framework.shared.orm.domainmodel.DomainClass;
-import webfx.framework.shared.orm.entity.Entity;
-import webfx.framework.shared.orm.expression.Expression;
 import webfx.framework.shared.orm.domainmodel.formatter.ValueFormatter;
 import webfx.framework.shared.orm.domainmodel.formatter.ValueParser;
-import webfx.platform.client.services.uischeduler.AnimationFramePass;
+import webfx.framework.shared.orm.entity.Entity;
+import webfx.framework.shared.orm.expression.Expression;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.Arrays;
 
@@ -162,10 +161,10 @@ public final class EntityPropertiesSheet<E extends Entity> extends EntityUpdateD
                 }
             // The following code is a workaround for the web version which doesn't compute correctly on first show the widths of the drop down buttons (if any present in the value column)
             if (oldRs == null) // => indicates first show
-                UiScheduler.scheduleInFutureAnimationFrame(2, () -> { // 2 frames is enough to make it work
+                UiScheduler.scheduleInAnimationFrame(() -> {
                     visualGrid.setVisualResult(null); // Resetting to null and then reestablishing the result set forces
                     visualGrid.setVisualResult(rs);   // the data grid to recompute all widths (correctly now)
-                }, AnimationFramePass.UI_UPDATE_PASS);
+                }, 2); // 2 frames is enough to make it work
         } else
             ((Pane) node).getChildren().setAll(children);
     }

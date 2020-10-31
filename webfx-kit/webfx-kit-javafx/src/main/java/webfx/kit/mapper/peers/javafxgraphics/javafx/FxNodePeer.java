@@ -46,11 +46,11 @@ public abstract class FxNodePeer
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
-        node.getProperties().put("nodePeer", this); // used by HtmlText in webfx-kits-core module
+        node.getProperties().put("nodePeer", this); // used by HtmlText in webfx-extras-webtext-controls module
         fxNode = createFxNode();
         getNodePeerBase().bind(node, sceneRequester);
-        fxNode.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> getNode().fireEvent(toMouseEvent(getNode(), getNode(), event)));
-        fxNode.addEventFilter(javafx.event.ActionEvent.ACTION, event -> getNode().fireEvent(toActionEvent(getNode(), getNode(), event)));
+        fxNode.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> getNode().fireEvent(toMouseEvent( getNode(), getNode(), event)));
+        fxNode.addEventFilter(ActionEvent.ACTION,       event -> getNode().fireEvent(toActionEvent(getNode(), getNode(), event)));
         onFxNodeCreated();
     }
 
@@ -178,11 +178,15 @@ public abstract class FxNodePeer
         fxNode.setOnDragDone(eventHandler);
     }
 
-    private static MouseEvent toMouseEvent(Object source, EventTarget target, javafx.scene.input.MouseEvent e) {
+    @Override
+    public void onListeningTouchEvents(boolean listening) {
+    }
+
+    private static MouseEvent toMouseEvent(Object source, EventTarget target, MouseEvent e) {
         return new MouseEvent(source, target, e.getEventType(), e.getX(), e.getY(), e.getScreenX(), e.getScreenY(), null, e.getClickCount(), e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(), e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), null);
     }
 
-    private static ActionEvent toActionEvent(Object source, EventTarget target, javafx.event.ActionEvent e) {
+    private static ActionEvent toActionEvent(Object source, EventTarget target, ActionEvent e) {
         return new ActionEvent(source, target);
     }
 }

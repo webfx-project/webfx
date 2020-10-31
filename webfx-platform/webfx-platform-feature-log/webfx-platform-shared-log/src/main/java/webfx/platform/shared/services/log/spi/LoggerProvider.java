@@ -23,4 +23,8 @@ public interface LoggerProvider {
             error.printStackTrace(System.err);
     }
 
+    default void logNative(Object nativeObject) {
+        System.out.println(nativeObject);
+    }
+
 }

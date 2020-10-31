@@ -32,6 +32,11 @@ public final class VertxSchedulerProvider implements SchedulerProvider {
         return System.nanoTime();
     }
 
+    @Override
+    public int availableProcessors() {
+        return Runtime.getRuntime().availableProcessors();
+    }
+
     private final class VertxScheduled implements Scheduled {
         private final long timerId;
 

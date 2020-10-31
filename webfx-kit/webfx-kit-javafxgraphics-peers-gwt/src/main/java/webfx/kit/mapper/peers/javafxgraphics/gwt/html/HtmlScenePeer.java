@@ -15,7 +15,6 @@ import webfx.kit.mapper.peers.javafxgraphics.gwt.util.FxEvents;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.kit.util.properties.Properties;
-import webfx.platform.client.services.uischeduler.AnimationFramePass;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.util.collection.Collections;
 
@@ -34,12 +33,13 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     public HtmlScenePeer(Scene scene) {
         super(scene);
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerWidth(),  scene.widthProperty());
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(),   scene.fillProperty());
+        // Note: was previously Properties.runNowAndOnPropertiesChange() but this caused a stack overflow in responsive design demo (infinite loop between Scene and ScrollPane peers creations)
+        Properties.runOnPropertiesChange(property -> updateContainerWidth(),  scene.widthProperty());
+        Properties.runOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
+        Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
-        installStylesheetsListener(scene);
         HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
+        installStylesheetsListener(scene);
         document.fonts.setOnloadingdone(p0 -> { onCssOrFontLoaded(); return null; });
     }
 
@@ -91,12 +91,12 @@ public final class HtmlScenePeer extends ScenePeerBase {
             // the button pressedProperty) to appear before the action (which might be time consuming) is fired, so the
             // user doesn't know if the button has been successfully pressed or not during the action execution.
             if (fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_RELEASED && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
-                UiScheduler.scheduleInFutureAnimationFrame(1, () -> scene.impl_processMouseEvent(fxMouseEvent), AnimationFramePass.UI_UPDATE_PASS);
+                UiScheduler.scheduleInAnimationFrame(() -> scene.impl_processMouseEvent(fxMouseEvent), 1);
             else {
                 scene.impl_processMouseEvent(fxMouseEvent);
                 if (fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_PRESSED) {
                     atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
-                    UiScheduler.scheduleInFutureAnimationFrame(1, () -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, AnimationFramePass.UI_UPDATE_PASS);
+                    UiScheduler.scheduleInAnimationFrame(() -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, 1);
                 }
             }
             // Stopping propagation if the event has been consumed by JavaFx

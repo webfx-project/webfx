@@ -3,6 +3,8 @@ package webfx.kit.mapper.peers.javafxgraphics.gwt.shared;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.sun.javafx.cursor.CursorType;
 import com.sun.javafx.event.EventUtil;
+import com.sun.javafx.tk.quantum.GestureRecognizers;
+import com.sun.javafx.tk.quantum.SwipeGestureRecognizer;
 import elemental2.dom.*;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
@@ -15,6 +17,7 @@ import javafx.scene.effect.Effect;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.TouchPoint;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Transform;
 import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
@@ -29,8 +32,11 @@ import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.collection.Collections;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
@@ -102,6 +108,21 @@ public abstract class HtmlSvgNodePeer
         super.bind(node, sceneRequester);
         installFocusListener();
         installKeyboardListeners();
+    }
+
+    @Override
+    public void onListeningTouchEvents(boolean listening) {
+        if (listening)
+            installTouchListeners();
+    }
+
+    private boolean touchListenersInstalled;
+
+    private void installTouchListeners() {
+        if (!touchListenersInstalled) {
+            installTouchListeners(element, getNode());
+            touchListenersInstalled = true;
+        }
     }
 
     /******************* Drag & drop support *********************/
@@ -241,162 +262,6 @@ public abstract class HtmlSvgNodePeer
         return passOnToFx(fxTarget, toFxKeyEvent(e, type));
     }
 
-    @Override
-    public void requestFocus() {
-        getFocusElement().focus();
-    }
-
-    protected Element getFocusElement() {
-        return getElement();
-    }
-
-    @Override
-    public void updateLayoutX(Number layoutX) {
-        updateLocalToParentTransforms();
-    }
-
-    @Override
-    public void updateLayoutY(Number layoutY) {
-        updateLocalToParentTransforms();
-    }
-
-    @Override
-    public void updateTranslateX(Number translateX) {
-        updateLocalToParentTransforms();
-    }
-
-    @Override
-    public void updateTranslateY(Number translateY) {
-        updateLocalToParentTransforms();
-    }
-
-    @Override
-    public void updateScaleX(Number scaleX) {
-        updateLocalToParentTransforms();
-    }
-
-    @Override
-    public void updateScaleY(Number scaleX) {
-        updateLocalToParentTransforms();
-    }
-
-    @Override
-    public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
-        updateLocalToParentTransforms();
-    }
-
-    private void updateLocalToParentTransforms() {
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
-    }
-
-    @Override
-    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
-        boolean isSvg = containerType == DomType.SVG;
-        setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
-    }
-
-
-    @Override
-    public boolean isTreeVisible() {
-        if (container instanceof HTMLElement)
-            return ((HTMLElement) container).offsetParent != null;
-        return true;
-    }
-
-    protected boolean isStyleAttribute(String name) {
-        if (containerType == DomType.HTML)
-            switch (name) {
-                case "pointer-events":
-                case "visibility":
-                case "opacity":
-                case "clip-path":
-                case "mix-blend-mode":
-                case "filter":
-                case "font-family":
-                case "font-style":
-                case "font-weight":
-                case "font-size":
-                case "transform":
-                    return true;
-            }
-        return false;
-    }
-
-    protected void setElementStyleAttribute(String name, Object value) {
-        HtmlUtil.setStyleAttribute(container, name, value);
-    }
-
-    @Override
-    public void updateMouseTransparent(Boolean mouseTransparent) {
-        setElementAttribute("pointer-events", mouseTransparent ? "none" : null);
-    }
-
-    @Override
-    public void updateId(String id) {
-        setElementAttribute("id", id);
-    }
-
-    @Override
-    public void updateVisible(Boolean visible) {
-        setElementAttribute("visibility", visible ? null : "hidden");
-    }
-
-    @Override
-    public void updateOpacity(Double opacity) {
-        setElementAttribute("opacity", opacity == 1d ? null : opacity);
-    }
-
-    @Override
-    public void updateDisabled(Boolean disabled) {
-        setElementAttribute(getElement(),"disabled", Booleans.isTrue(disabled) ? "disabled" : null);
-    }
-
-    @Override
-    public void updateClip(Node clip) {
-        setElementAttribute("clip-path", toClipPath(clip));
-    }
-
-    @Override
-    public void updateCursor(Cursor cursor) {
-        setElementStyleAttribute("cursor", toCssCursor(cursor));
-    }
-
-    protected abstract String toClipPath(Node clip);
-
-    @Override
-    public void updateBlendMode(BlendMode blendMode) {
-        setElementStyleAttribute("mix-blend-mode", toSvgBlendMode(blendMode));
-    }
-
-    @Override
-    public void updateEffect(Effect effect) {
-        setElementAttribute("filter", effect == null ? null : toFilter(effect));
-    }
-
-    protected abstract String toFilter(Effect effect);
-
-    @Override
-    public void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change) {
-        if (change == null)
-            addToElementClassList(styleClass);
-        else while (change.next()) {
-            if (change.wasRemoved())
-                removeFromElementClassList(change.getRemoved());
-            if (change.wasAdded())
-                addToElementClassList(change.getAddedSubList());
-        }
-    }
-
-    private void addToElementClassList(List<String> styleClass) {
-        if (!Collections.isEmpty(styleClass))
-            element.classList.add(Collections.toArray(styleClass, String[]::new));
-    }
-
-    private void removeFromElementClassList(List<String> styleClass) {
-        if (!Collections.isEmpty(styleClass))
-            element.classList.remove(Collections.toArray(styleClass, String[]::new));
-    }
-
     private static KeyEvent toFxKeyEvent(KeyboardEvent e, String type) {
         KeyCode keyCode = toFxKeyCode(e.key); // e.key = physical key, e.code = logical key (ie taking into account selected system keyboard)
         EventType<KeyEvent> eventType;
@@ -516,6 +381,270 @@ public abstract class HtmlSvgNodePeer
         }
     }
 
+    public static void installTouchListeners(EventTarget htmlTarget, javafx.event.EventTarget fxTarget) {
+        //Logger.log("installTouchListeners()");
+        //Logger.log(htmlTarget);
+        registerTouchListener(htmlTarget, "touchstart", fxTarget);
+        registerTouchListener(htmlTarget, "touchmove", fxTarget);
+        registerTouchListener(htmlTarget, "touchend", fxTarget);
+        registerTouchListener(htmlTarget, "touchcancel", fxTarget);
+    }
+
+    private static void registerTouchListener(EventTarget htmlTarget, String type, javafx.event.EventTarget fxTarget) {
+        htmlTarget.addEventListener(type, e -> {
+            boolean fxConsumed = passHtmlTouchEventOnToFx((TouchEvent) e, type, fxTarget);
+            if (fxConsumed) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        });
+    }
+
+    protected static boolean passHtmlTouchEventOnToFx(TouchEvent e, String type, javafx.event.EventTarget fxTarget) {
+        return passOnToFx(fxTarget, toFxTouchEvent(e, type, fxTarget));
+    }
+
+    private static javafx.scene.input.TouchEvent toFxTouchEvent(TouchEvent e, String type, javafx.event.EventTarget fxTarget) {
+        EventType<javafx.scene.input.TouchEvent> eventType;
+        switch (type) {
+            case "touchstart": eventType = javafx.scene.input.TouchEvent.TOUCH_PRESSED; break;
+            case "touchmove": eventType = javafx.scene.input.TouchEvent.TOUCH_MOVED; break;
+            case "touchend":
+            case "touchcancel":
+            default : eventType = javafx.scene.input.TouchEvent.TOUCH_RELEASED; break;
+        }
+        SwipeGestureRecognizer.CURRENT_TARGET = fxTarget;
+        List<TouchPoint> touchPoints = e.changedTouches.asList().stream().map(t -> toFxTouchPoint(t, e)).collect(Collectors.toList());
+        return new javafx.scene.input.TouchEvent(null, fxTarget, eventType, touchPoints.get(0),
+                touchPoints,
+                0, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
+    }
+
+    private static TouchPoint toFxTouchPoint(Touch touch, TouchEvent e) {
+        TouchPoint.State state = TouchPoint.State.STATIONARY;
+        //if (e.changedTouches.asList().contains(touch)) {
+            switch (e.type) {
+                case "touchstart": state = TouchPoint.State.PRESSED; break;
+                case "touchend": state = TouchPoint.State.RELEASED; break;
+                case "touchmove": state = TouchPoint.State.MOVED; break;
+            }
+        //}
+        if (state == TouchPoint.State.PRESSED)
+            gestureRecognizers.notifyBeginTouchEvent((long) e.timeStamp, 0, false, 1);
+        gestureRecognizers.notifyNextTouchEvent((long) e.timeStamp, state.name(), touch.identifier, (int) touch.clientX, (int) touch.clientY, (int) touch.screenX, (int) touch.screenY);
+        if (state == TouchPoint.State.RELEASED)
+            gestureRecognizers.notifyEndTouchEvent((long) e.timeStamp);
+        return new TouchPoint(touch.identifier, state, touch.clientX, touch.clientY, touch.screenX, touch.screenY, null, null);
+    }
+
+    private static GestureRecognizers gestureRecognizers = new GestureRecognizers();
+
+
+    @Override
+    public void requestFocus() {
+        getFocusElement().focus();
+    }
+
+    protected Element getFocusElement() {
+        return getElement();
+    }
+
+    @Override
+    public void updateLayoutX(Number layoutX) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateLayoutY(Number layoutY) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateTranslateX(Number translateX) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateTranslateY(Number translateY) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateScaleX(Number scaleX) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateScaleY(Number scaleX) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
+        updateLocalToParentTransforms();
+    }
+
+    private void updateLocalToParentTransforms() {
+        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+    }
+
+    @Override
+    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+        boolean isSvg = containerType == DomType.SVG;
+        setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
+    }
+
+
+    @Override
+    public boolean isTreeVisible() {
+        if (container instanceof HTMLElement)
+            return ((HTMLElement) container).offsetParent != null;
+        return true;
+    }
+
+    protected String getStyleAttribute(String name) {
+        if (containerType == DomType.HTML)
+            switch (name) {
+                case "pointer-events": return "pointerEvents";
+                case "clip-path": return "clipPath";
+                case "font-family": return "fontFamily";
+                case "font-style": return "fontStyle";
+                case "font-weight": return "fontWeight";
+                case "font-size": return "fontSize";
+                case "mix-blend-mode": return "mixBlendMode";
+                case "visibility":
+                case "opacity":
+                case "filter":
+                case "transform":
+                    return name;
+            }
+        return null;
+    }
+
+    protected void setElementStyleAttribute(String name, Object value) {
+        HtmlUtil.setStyleAttribute(container, name, value);
+    }
+
+    @Override
+    public void updateMouseTransparent(Boolean mouseTransparent) {
+        setElementAttribute("pointer-events", mouseTransparent ? "none" : null);
+    }
+
+    @Override
+    public void updateId(String id) {
+        setElementAttribute("id", id);
+    }
+
+    @Override
+    public void updateVisible(Boolean visible) {
+        setElementAttribute("visibility", visible ? null : "hidden");
+    }
+
+    @Override
+    public void updateOpacity(Double opacity) {
+        setElementAttribute("opacity", opacity == 1d ? null : opacity);
+    }
+
+    @Override
+    public void updateDisabled(Boolean disabled) {
+        setElementAttribute(getElement(),"disabled", Booleans.isTrue(disabled) ? "disabled" : null);
+    }
+
+    @Override
+    public void updateClip(Node clip) {
+        if (clip == null)
+            applyClipPath(null);
+        else
+            ((HtmlSvgNodePeer) clip.getOrCreateAndBindNodePeer()).bindAsClip(getNode());
+    }
+
+    protected boolean clip;
+    protected List<Node> clipNodes; // Contains the list of nodes that use this node as a clip
+    protected String clipPath;
+
+    private void bindAsClip(Node clipNode) {
+        clip = true;
+        if (clipNodes == null)
+            clipNodes = new ArrayList<>();
+        if (!clipNodes.contains(clipNode)) {
+            clipNodes.add(clipNode);
+            applyClipPathToClipNode(clipNode);
+        }
+    }
+
+    protected final boolean isClip() {
+        return clip;
+    }
+
+    protected final void applyClipPathToClipNodes() { // Should be called when this node is a clip and that its properties has changed
+        clipPath = null; // To fore computation
+        N thisClip = getNode();
+        for (Iterator<Node> it = clipNodes.iterator(); it.hasNext(); ) {
+            Node clipNode = it.next();
+            if (clipNode.getClip() == thisClip) // double checking we are still the clip
+                applyClipPathToClipNode(clipNode);
+            else // Otherwise we remove that node from the clip nodes
+                it.remove();
+        }
+    }
+
+    private void applyClipPathToClipNode(Node clipNode) {
+        ((HtmlSvgNodePeer) clipNode.getNodePeer()).applyClipPath(getClipPath());
+    }
+
+    private String getClipPath() {
+        if (clipPath == null)
+            clipPath = computeClipPath();
+        return clipPath;
+    }
+
+    protected String computeClipPath() { // To override for node that can be clip
+        return null;
+    }
+
+    protected void applyClipPath(String clipPah) {
+        setElementAttribute("clip-path", clipPah);
+    }
+
+    @Override
+    public void updateCursor(Cursor cursor) {
+        setElementStyleAttribute("cursor", toCssCursor(cursor));
+    }
+
+    @Override
+    public void updateBlendMode(BlendMode blendMode) {
+        setElementStyleAttribute("mix-blend-mode", toSvgBlendMode(blendMode));
+    }
+
+    @Override
+    public void updateEffect(Effect effect) {
+        setElementAttribute("filter", effect == null ? null : toFilter(effect));
+    }
+
+    protected abstract String toFilter(Effect effect);
+
+    @Override
+    public void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change) {
+        if (change == null)
+            addToElementClassList(styleClass);
+        else while (change.next()) {
+            if (change.wasRemoved())
+                removeFromElementClassList(change.getRemoved());
+            if (change.wasAdded())
+                addToElementClassList(change.getAddedSubList());
+        }
+    }
+
+    private void addToElementClassList(List<String> styleClass) {
+        if (!Collections.isEmpty(styleClass))
+            element.classList.add(Collections.toArray(styleClass, String[]::new));
+    }
+
+    private void removeFromElementClassList(List<String> styleClass) {
+        if (!Collections.isEmpty(styleClass))
+            element.classList.remove(Collections.toArray(styleClass, String[]::new));
+    }
+
     protected void setElementTextContent(String textContent) {
         String text = Strings.toSafeString(textContent);
         if (!Objects.equals(element.textContent, text)) {
@@ -538,8 +667,9 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setElementAttribute(String name, String value) {
-        if (isStyleAttribute(name))
-            setElementStyleAttribute(name, value);
+        String styleAttribute = getStyleAttribute(name);
+        if (styleAttribute != null)
+            setElementStyleAttribute(styleAttribute, value);
         else
             setElementAttribute(container, name, value);
     }
@@ -560,8 +690,9 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setElementAttribute(String name, Number value) {
-        if (container == element && isStyleAttribute(name))
-            setElementStyleAttribute(name, value);
+        String styleAttribute;
+        if (container == element && (styleAttribute = getStyleAttribute(name)) != null)
+            setElementStyleAttribute(styleAttribute, value);
         else
             setElementAttribute(container, name, value);
     }

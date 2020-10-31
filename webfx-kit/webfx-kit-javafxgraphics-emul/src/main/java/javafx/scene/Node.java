@@ -34,11 +34,11 @@ import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallbac
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import webfx.kit.mapper.peers.javafxgraphics.markers.*;
 import webfx.platform.client.services.uischeduler.UiScheduler;
-import webfx.platform.shared.services.log.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static javafx.scene.layout.PreferenceResizableNode.USE_COMPUTED_SIZE;
 import static javafx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
@@ -1221,6 +1221,26 @@ public abstract class Node implements INode, EventTarget, Styleable {
         }
     }
 
+    private List<Consumer<NodePeer>> onNodePeerReadyHandlers;
+
+    public void onNodePeerReady(Consumer<NodePeer> handler) { // handler will be called when nodePeer is set and nodePeer.getNode() doesn't return null
+        if (nodePeer != null && nodePeer.getNode() != null)
+            handler.accept(nodePeer);
+        else {
+            if (onNodePeerReadyHandlers == null)
+                onNodePeerReadyHandlers = new ArrayList<>();
+            onNodePeerReadyHandlers.add(handler);
+        }
+    }
+
+    // Called by Scene once nodePeer is bound to node
+    void callNodePeerHandlers() {
+        if (nodePeer != null && onNodePeerReadyHandlers != null) {
+            onNodePeerReadyHandlers.forEach(handler -> handler.accept(nodePeer));
+            onNodePeerReadyHandlers = null;
+        }
+    }
+
     // Called by emulated Scene on focus owner change
     public void requestPeerFocus() {
         NodePeer nodePeer = getNodePeer();
@@ -2052,6 +2072,27 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return eventHandlerProperties;
     }
 
+    public final void setOnMouseMoved(
+            EventHandler<? super MouseEvent> value) {
+        onMouseMovedProperty().set(value);
+    }
+
+    public final EventHandler<? super MouseEvent> getOnMouseMoved() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnMouseMoved();
+    }
+
+    /**
+     * Defines a function to be called when mouse cursor moves within
+     * this {@code Node} but no buttons have been pushed.
+     * @return the event handler that is called when a mouse cursor moves
+     * within this {@code Node} but no buttons have been pushed
+     */
+    public final ObjectProperty<EventHandler<? super MouseEvent>>
+    onMouseMovedProperty() {
+        return getEventHandlerProperties().onMouseMovedProperty();
+    }
+
     public final void setOnMousePressed(
             EventHandler<? super MouseEvent> value) {
         onMousePressedProperty().set(value);
@@ -2455,6 +2496,95 @@ public abstract class Node implements INode, EventTarget, Styleable {
     public final ObjectProperty<EventHandler<? super KeyEvent>>
     onKeyTypedProperty() {
         return getEventHandlerProperties().onKeyTypedProperty();
+    }
+
+
+    public final void setOnSwipeUp(
+            EventHandler<? super SwipeEvent> value) {
+        onSwipeUpProperty().set(value);
+    }
+
+    public final EventHandler<? super SwipeEvent> getOnSwipeUp() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnSwipeUp();
+    }
+
+    /**
+     * Defines a function to be called when an upward swipe gesture
+     * centered over this node happens.
+     * @return the event handler that is called when an upward swipe gesture
+     * centered over this node happens
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super SwipeEvent>>
+    onSwipeUpProperty() {
+        return getEventHandlerProperties().onSwipeUpProperty();
+    }
+
+    public final void setOnSwipeDown(
+            EventHandler<? super SwipeEvent> value) {
+        onSwipeDownProperty().set(value);
+    }
+
+    public final EventHandler<? super SwipeEvent> getOnSwipeDown() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnSwipeDown();
+    }
+
+    /**
+     * Defines a function to be called when a downward swipe gesture
+     * centered over this node happens.
+     * @return the event handler that is called when a downward swipe gesture
+     * centered over this node happens
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super SwipeEvent>>
+    onSwipeDownProperty() {
+        return getEventHandlerProperties().onSwipeDownProperty();
+    }
+
+    public final void setOnSwipeLeft(
+            EventHandler<? super SwipeEvent> value) {
+        onSwipeLeftProperty().set(value);
+    }
+
+    public final EventHandler<? super SwipeEvent> getOnSwipeLeft() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnSwipeLeft();
+    }
+
+    /**
+     * Defines a function to be called when a leftward swipe gesture
+     * centered over this node happens.
+     * @return the event handler that is called when a leftward swipe gesture
+     * centered over this node happens
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super SwipeEvent>>
+    onSwipeLeftProperty() {
+        return getEventHandlerProperties().onSwipeLeftProperty();
+    }
+
+    public final void setOnSwipeRight(
+            EventHandler<? super SwipeEvent> value) {
+        onSwipeRightProperty().set(value);
+    }
+
+    public final EventHandler<? super SwipeEvent> getOnSwipeRight() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnSwipeRight();
+    }
+
+    /**
+     * Defines a function to be called when an rightward swipe gesture
+     * centered over this node happens.
+     * @return the event handler that is called when an rightward swipe gesture
+     * centered over this node happens
+     * @since JavaFX 2.2
+     */
+    public final ObjectProperty<EventHandler<? super SwipeEvent>>
+    onSwipeRightProperty() {
+        return getEventHandlerProperties().onSwipeRightProperty();
     }
 
 

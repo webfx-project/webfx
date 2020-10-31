@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.scene.Node;
 import javafx.scene.input.*;
 
 public final class EventHandlerProperties {
@@ -324,7 +325,7 @@ public final class EventHandlerProperties {
         }
         return onZoomFinished;
     }
-
+*/
     private EventHandlerProperty<SwipeEvent> onSwipeUp;
 
     public final EventHandler<? super SwipeEvent> getOnSwipeUp() {
@@ -460,7 +461,7 @@ public final class EventHandlerProperties {
         }
         return onMouseDragExited;
     }
-*/
+
     private EventHandlerProperty<KeyEvent> onKeyPressed;
 
     public final EventHandler<? super KeyEvent> getOnKeyPressed() {
@@ -647,7 +648,10 @@ public final class EventHandlerProperties {
 
         @Override
         protected void invalidated() {
+            //webfx.platform.shared.services.log.Logger.log("[invalidated] eventType = " + eventType);
             eventDispatcher.setEventHandler(eventType, get());
+            if (bean instanceof Node && (eventType.getName().startsWith("TOUCH") || eventType.getName().startsWith("SWIPE")) && get() != null)
+                ((Node) bean).onNodePeerReady(peer -> peer.onListeningTouchEvents(true));
         }
     }
 

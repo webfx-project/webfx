@@ -137,7 +137,7 @@ public final class HtmlUtil {
     private final static String[] browserPrefixes = {"-webkit-", "-moz-"};
     private static String[] getAttributeBrowserPrefixes(String name) {
         switch (name) {
-            case "clip-path":
+            case "background-clip": // necessary for handling "text" value (used by HtmlTextPeer to apply gradient on text)
                 return browserPrefixes;
         }
         return null;

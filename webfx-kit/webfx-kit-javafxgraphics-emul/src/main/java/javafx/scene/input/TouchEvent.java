@@ -26,6 +26,7 @@
 package javafx.scene.input;
 
 import javafx.beans.NamedArg;
+import javafx.event.Event;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
 
@@ -173,6 +174,12 @@ public final class TouchEvent extends InputEvent {
         TouchEvent e = (TouchEvent) super.copyFor(newSource, newTarget);
         recomputeToSource(e, getSource(), newSource);
         return e;
+    }
+
+
+    @Override
+    public Event duplicate() {
+        return new TouchEvent(source, target, getEventType(), touchPoint, touchPoints, eventSetId, shiftDown, controlDown, altDown, metaDown);
     }
 
     /**
