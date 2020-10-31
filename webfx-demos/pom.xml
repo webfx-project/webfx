@@ -18,6 +18,7 @@
         <module>webfx-demo-tallycounter</module>
         <module>webfx-demo-clock</module>
         <module>webfx-demo-gauge</module>
+        <module>webfx-demo-responsivedesign</module>
         <module>webfx-demo-spacefx</module>
         <module>webfx-demo-fx2048</module>
         <module>webfx-demo-mandelbrot</module>
