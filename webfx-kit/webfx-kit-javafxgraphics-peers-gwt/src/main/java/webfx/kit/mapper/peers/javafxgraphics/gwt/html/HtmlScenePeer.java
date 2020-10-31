@@ -33,9 +33,10 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     public HtmlScenePeer(Scene scene) {
         super(scene);
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerWidth(),  scene.widthProperty());
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(),   scene.fillProperty());
+        // Note: was previously Properties.runNowAndOnPropertiesChange() but this caused a stack overflow in responsive design demo (infinite loop between Scene and ScrollPane peers creations)
+        Properties.runOnPropertiesChange(property -> updateContainerWidth(),  scene.widthProperty());
+        Properties.runOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
+        Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
         HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
         installStylesheetsListener(scene);

@@ -8,7 +8,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
-import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
@@ -36,16 +35,11 @@ public abstract class SvgNodePeer
     }
 
     @Override
-    protected String toClipPath(Node clip) {
-        String value = null;
-        if (clip != null) {
-            NodePeer nodePeer = clip.getOrCreateAndBindNodePeer();
-            if (svgClipPath == null)
-                svgClipPath = getSvgRoot().addDef(SvgUtil.createClipPath());
-            HtmlUtil.setChild(svgClipPath, ((SvgNodePeer) nodePeer).getElement());
-            value = SvgUtil.getDefUrl(svgClipPath);
-        }
-        return value;
+    protected String computeClipPath() {
+        if (svgClipPath == null)
+            svgClipPath = getSvgRoot().addDef(SvgUtil.createClipPath());
+        HtmlUtil.setChild(svgClipPath, getElement());
+        return SvgUtil.getDefUrl(svgClipPath);
     }
 
     private SvgRoot getSvgRoot() {

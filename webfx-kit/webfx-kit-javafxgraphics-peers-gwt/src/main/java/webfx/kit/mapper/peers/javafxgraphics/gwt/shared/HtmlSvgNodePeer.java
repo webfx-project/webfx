@@ -32,6 +32,8 @@ import webfx.platform.shared.util.Booleans;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.collection.Collections;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -550,15 +552,64 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void updateClip(Node clip) {
-        setElementAttribute("clip-path", toClipPath(clip));
+        if (clip == null)
+            applyClipPath(null);
+        else
+            ((HtmlSvgNodePeer) clip.getOrCreateAndBindNodePeer()).bindAsClip(getNode());
+    }
+
+    protected boolean clip;
+    protected List<Node> clipNodes; // Contains the list of nodes that use this node as a clip
+    protected String clipPath;
+
+    private void bindAsClip(Node clipNode) {
+        clip = true;
+        if (clipNodes == null)
+            clipNodes = new ArrayList<>();
+        if (!clipNodes.contains(clipNode)) {
+            clipNodes.add(clipNode);
+            applyClipPathToClipNode(clipNode);
+        }
+    }
+
+    protected final boolean isClip() {
+        return clip;
+    }
+
+    protected final void applyClipPathToClipNodes() { // Should be called when this node is a clip and that its properties has changed
+        clipPath = null; // To fore computation
+        N thisClip = getNode();
+        for (Iterator<Node> it = clipNodes.iterator(); it.hasNext(); ) {
+            Node clipNode = it.next();
+            if (clipNode.getClip() == thisClip) // double checking we are still the clip
+                applyClipPathToClipNode(clipNode);
+            else // Otherwise we remove that node from the clip nodes
+                it.remove();
+        }
+    }
+
+    private void applyClipPathToClipNode(Node clipNode) {
+        ((HtmlSvgNodePeer) clipNode.getNodePeer()).applyClipPath(getClipPath());
+    }
+
+    private String getClipPath() {
+        if (clipPath == null)
+            clipPath = computeClipPath();
+        return clipPath;
+    }
+
+    protected String computeClipPath() { // To override for node that can be clip
+        return null;
+    }
+
+    protected void applyClipPath(String clipPah) {
+        setElementAttribute("clip-path", clipPah);
     }
 
     @Override
     public void updateCursor(Cursor cursor) {
         setElementStyleAttribute("cursor", toCssCursor(cursor));
     }
-
-    protected abstract String toClipPath(Node clip);
 
     @Override
     public void updateBlendMode(BlendMode blendMode) {

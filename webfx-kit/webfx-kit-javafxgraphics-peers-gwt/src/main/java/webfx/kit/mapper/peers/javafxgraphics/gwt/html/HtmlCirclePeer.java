@@ -26,23 +26,39 @@ public final class HtmlCirclePeer
     }
 
     @Override
+    protected String computeClipPath() {
+        Circle c = getNode();
+        return "circle(" + toPx(c.getRadius()) + " at " + toPx(c.getCenterX()) + " " + toPx(c.getCenterY());
+    }
+
+    @Override
     public void updateCenterX(Double centerX) {
-        getElement().style.left = (centerX - getNode().getRadius()) + "px";
+        if (isClip())
+            applyClipPathToClipNodes();
+        else
+            getElement().style.left = (centerX - getNode().getRadius()) + "px";
     }
 
     @Override
     public void updateCenterY(Double centerY) {
-        getElement().style.top = toPx(centerY - getNode().getRadius());
+        if (isClip())
+            applyClipPathToClipNodes();
+        else
+            getElement().style.top = toPx(centerY - getNode().getRadius());
     }
 
     @Override
     public void updateRadius(Double radius) {
-        CSSStyleDeclaration style = getElement().style;
-        String px = toPx(2 * radius);
-        style.width = CSSProperties.WidthUnionType.of(px);
-        style.height = CSSProperties.HeightUnionType.of(px);
-        style.borderRadius = CSSProperties.BorderRadiusUnionType.of(toPx(radius));
-        updateCenterX(getNode().getCenterX());
-        updateCenterY(getNode().getCenterY());
+        if (isClip())
+            applyClipPathToClipNodes();
+        else {
+            CSSStyleDeclaration style = getElement().style;
+            String px = toPx(2 * radius);
+            style.width = CSSProperties.WidthUnionType.of(px);
+            style.height = CSSProperties.HeightUnionType.of(px);
+            style.borderRadius = CSSProperties.BorderRadiusUnionType.of(toPx(radius));
+            updateCenterX(getNode().getCenterX());
+            updateCenterY(getNode().getCenterY());
+        }
     }
 }

@@ -25,23 +25,52 @@ public final class HtmlRectanglePeer
     }
 
     @Override
+    protected String computeClipPath() {
+        Rectangle r = getNode();
+        // inset(top right bottom left round top-radius right-radius bottom-radius left-radius)
+        double top = r.getY();
+        double left = r.getX();
+        double right = left + r.getWidth();
+        double bottom = top + r.getHeight();
+/*
+            double leftRadius = r.getArcWidth() / 2, rightRadius = leftRadius;
+            double topRadius = r.getArcHeight() / 2, bottomRadius = topRadius;
+            return "inset(" + toPx(top) + " " + toPx(right) + " " + toPx(bottom) + " " + toPx(left) + " round " + topRadius + "px " + rightRadius + "px " + bottomRadius + "px " + leftRadius + "px)";
+*/
+        // Note: replaced toPx(top) by top + "px" etc... to preserve precision (required for Mandelbrot thumbnails zoom effect as scale is not 1)
+        return "polygon(" + left + "px " + top + "px, " + right + "px " + top + "px, " + right + "px " + bottom + "px, " + left + "px " + bottom + "px)";
+    }
+
+    @Override
     public void updateX(Double x) {
-        getElement().style.left = toPx(x);
+        if (isClip())
+            applyClipPathToClipNodes();
+        else
+            getElement().style.left = toPx(x);
     }
 
     @Override
     public void updateY(Double y) {
-        getElement().style.top = toPx(y);
+        if (isClip())
+            applyClipPathToClipNodes();
+        else
+            getElement().style.top = toPx(y);
     }
 
     @Override
     public void updateWidth(Double width) {
-        getElement().style.width = CSSProperties.WidthUnionType.of(toPx(width));
+        if (isClip())
+            applyClipPathToClipNodes();
+        else
+            getElement().style.width = CSSProperties.WidthUnionType.of(toPx(width));
     }
 
     @Override
     public void updateHeight(Double height) {
-        getElement().style.height = CSSProperties.HeightUnionType.of(toPx(height));
+        if (isClip())
+            applyClipPathToClipNodes();
+        else
+            getElement().style.height = CSSProperties.HeightUnionType.of(toPx(height));
     }
 
     @Override
@@ -55,7 +84,11 @@ public final class HtmlRectanglePeer
     }
 
     private void updateBorderRadius() {
-        Rectangle r = getNode();
-        getElement().style.borderRadius = CSSProperties.BorderRadiusUnionType.of(toPx(r.getArcWidth()/2) + " " + toPx(r.getArcHeight()/2));
+        if (isClip())
+            applyClipPathToClipNodes();
+        else {
+            Rectangle r = getNode();
+            getElement().style.borderRadius = CSSProperties.BorderRadiusUnionType.of(toPx(r.getArcWidth()/2) + " " + toPx(r.getArcHeight()/2));
+        }
     }
 }
