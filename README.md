@@ -28,9 +28,9 @@ In this example, WebFx maps the JavaFx scene graph into the browser DOM.
 
 * [Particles][webfx-particles-demo-link] ([source code][webfx-particles-source-link])
 
-It was very easy (1/2h) to rewrite this [sketch.js demo][sketch-particles-demo-link] in JavaFx
+It was very easy (30mn) to rewrite this [sketch.js demo][sketch-particles-demo-link] in JavaFx
 and recompile it to JavaScript with WebFx.
-Of course the JS size is bigger (87k vs 7k) due to the JavaFx layer (javafx-base + javafx-graphics modules), but it's not that bad!
+Of course the JS size is bigger (85k vs 7k) due to the JavaFx layer (javafx-base + javafx-graphics modules), but it's not that bad!
 In this example, WebFx maps a JavaFx canvas into a browser canvas.
 
 ### Custom controls
@@ -100,15 +100,15 @@ The ray tracing computation code was taken from this [JavaFx application][raytra
 [webfx-framework-link]: https://github.com/webfx-project/webfx/blob/master/webfx-framework
 [webfx-platform-link]: https://github.com/webfx-project/webfx/blob/master/webfx-platform
 [webfx-colorfulcircles-demo-link]: https://webfx-colorfulcircles-demo.netlify.app
-[webfx-colorfulcircles-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demo/webfx-demo-colorfulcircles/webfx-demo-colorfulcircles-application/src/main/java/webfx/demo/colorfulcircles/ColorfulCircles.java
+[webfx-colorfulcircles-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-colorfulcircles/webfx-demo-colorfulcircles-application/src/main/java/webfx/demo/colorfulcircles/ColorfulCircles.java
 [webfx-particles-demo-link]: https://webfx-particles-demo.netlify.app
-[webfx-particles-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demo/webfx-demo-particles/webfx-demo-particles-application/src/main/java/webfx/demo/colorfulcircles/ColorfulCircles.java
+[webfx-particles-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-particles/webfx-demo-particles-application/src/main/java/webfx/demo/particles/ParticlesApplication.java
 [webfx-tallycounter-demo-link]: https://webfx-tallycounter-demo.netlify.app
-[webfx-tallycounter-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demo/webfx-demo-tallycounter/webfx-demo-tallycounter-application/src/main/java/webfx/demo/tallycounter/TallyCounterApplication.java
+[webfx-tallycounter-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-tallycounter/webfx-demo-tallycounter-application/src/main/java/webfx/demo/tallycounter/TallyCounterApplication.java
 [webfx-clock-demo-link]: https://webfx-clock-demo.netlify.app
-[webfx-clock-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demo/webfx-demo-clock/webfx-demo-clock-application/src/main/java/webfx/demo/clock/ClockApplication.java
+[webfx-clock-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-clock/webfx-demo-clock-application/src/main/java/webfx/demo/clock/ClockApplication.java
 [webfx-gauge-demo-link]: https://webfx-gauge-demo.netlify.app
-[webfx-gauge-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demo/webfx-demo-gauge/webfx-demo-gauge-application/src/main/java/webfx/demo/gauge/GaugeApplication.java
+[webfx-gauge-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-gauge/webfx-demo-gauge-application/src/main/java/webfx/demo/gauge/GaugeApplication.java
 [webfx-spacefx-demo-link]: https://webfx-spacefx-demo.netlify.app
 [webfx-fx2048-demo-link]: https://webfx-fx2048-demo.netlify.app
 [webfx-mandelbrot-demo-link]: https://webfx-mandelbrot-demo.netlify.app
