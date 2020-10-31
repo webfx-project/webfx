@@ -24,53 +24,47 @@ import webfx.demo.clock.hansolo.skins.TileClockSkin;
 /**
  * @author Bruno Salmon
  */
-public class ClockApplication extends Application {
+public final class ClockApplication extends Application {
 
     private final BorderPane borderPane = new BorderPane();
-    private CheckBox discreteCheckbox = new CheckBox("Discrete");
+    private final CheckBox discreteCheckbox = new CheckBox("Discrete");
+    private final ToggleGroup skinGroup = new ToggleGroup();
     private Clock clock;
 
     @Override
     public void start(Stage stage) {
-        ToggleGroup skinGroup = new ToggleGroup();
-
-        ToggleButton skin1Button = new ToggleButton("Skin 1");
-        skin1Button.setToggleGroup(skinGroup);
-        skin1Button.setOnAction(e -> createYota2Clock());
-
-        ToggleButton skin2Button = new ToggleButton("Skin 2");
-        skin2Button.setToggleGroup(skinGroup);
-        skin2Button.setOnAction(e -> createDBClock());
-
-        ToggleButton skin3Button = new ToggleButton("Skin 3");
-        skin3Button.setToggleGroup(skinGroup);
-        skin3Button.setOnAction(e -> createTileClock());
-
-        ToggleButton skin4Button = new ToggleButton("Skin 4");
-        skin4Button.setToggleGroup(skinGroup);
-        skin4Button.setOnAction(e -> createMorphingClock());
-
-        skin1Button.fire();
-
+        HBox hBox = new HBox(
+                createSkinButton("Skin 1", this::createYota2Clock),
+                createSkinButton("Skin 2", this::createDBClock),
+                createSkinButton("Skin 3", this::createTileClock),
+                createSkinButton("Skin 4", this::createMorphingClock),
+                discreteCheckbox);
+        hBox.setAlignment(Pos.CENTER);
         HBox.setMargin(discreteCheckbox, new Insets(0, 0, 0, 10));
         discreteCheckbox.setAlignment(Pos.CENTER);
-        HBox hBox = new HBox(skin1Button, skin2Button, skin3Button, skin4Button, discreteCheckbox);
-        hBox.setAlignment(Pos.CENTER);
+        discreteCheckbox.setTextFill(Color.WHITE);
         borderPane.setTop(hBox);
 
         borderPane.setBackground(new Background(new BackgroundFill(LinearGradient.valueOf("linear-gradient(to right, #43cea2, #185a9d)"), null, null)));
-        discreteCheckbox.setTextFill(Color.WHITE);
 
-        stage.setTitle("Custom control");
+        stage.setTitle("Medusa clock control");
         stage.setScene(new Scene(borderPane, 600, 600));
         stage.show();
 
+        createYota2Clock();
         new AnimationTimer() {
             @Override
             public void handle(long now) {
                 clock.setTimeMs(System.currentTimeMillis());
             }
         }.start();
+    }
+
+    private ToggleButton createSkinButton(String text, Runnable actionRunnable) {
+        ToggleButton skinButton = new ToggleButton(text);
+        skinButton.setToggleGroup(skinGroup);
+        skinButton.setOnAction(e -> actionRunnable.run());
+        return skinButton;
     }
 
     private void createClock() {

@@ -13,19 +13,14 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import webfx.platform.shared.services.scheduler.Scheduler;
 
-import java.util.Random;
-
 /**
  * @author Bruno Salmon
  */
-public class GaugeApplication extends Application {
-
-    private static final Random RND = new Random();
-    private Gauge gauge;
+public final class GaugeApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        gauge = GaugeBuilder.create()
+        Gauge gauge = GaugeBuilder.create()
                 .skinType(Gauge.SkinType.MODERN)
                 .prefSize(400, 400)
                 .sectionTextVisible(true)
@@ -34,15 +29,14 @@ public class GaugeApplication extends Application {
                 .threshold(85)
                 .thresholdVisible(true)
                 .animated(true)
-                //.interactive(true)
                 .build();
         StackPane root = new StackPane(gauge);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         Scene scene = new Scene(root,800, 600);
         stage.setScene(scene);
-        stage.setTitle("JavaFx Modern Gauge");
+        stage.setTitle("Medusa Modern Gauge");
         stage.show();
-        Scheduler.schedulePeriodic(1500, () -> gauge.setValue(RND.nextDouble() * gauge.getRange() + gauge.getMinValue()));
+        Scheduler.schedulePeriodic(1500, () -> gauge.setValue(Math.random() * gauge.getRange() + gauge.getMinValue()));
     }
 
 }

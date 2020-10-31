@@ -1,7 +1,7 @@
 <module>
 
     <providers>
-        <provider spi="javafx.application.Application">webfx.demo.colorfulcircles.ColorfulCircles4</provider>
+        <provider spi="javafx.application.Application">webfx.demo.colorfulcircles.ColorfulCircles</provider>
     </providers>
 
 </module>

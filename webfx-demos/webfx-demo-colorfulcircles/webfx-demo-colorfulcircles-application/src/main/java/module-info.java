@@ -11,6 +11,6 @@ module webfx.demo.colorfulcircles.application {
     exports webfx.demo.colorfulcircles;
 
     // Provided services
-    provides javafx.application.Application with webfx.demo.colorfulcircles.ColorfulCircles4;
+    provides javafx.application.Application with webfx.demo.colorfulcircles.ColorfulCircles;
 
 }

@@ -21,7 +21,13 @@
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
         </dependency>
-        
+
+        <dependency>
+            <artifactId>javafx-media</artifactId>
+            <groupId>org.openjfx</groupId>
+            <version>${lib.openjfx.version}</version>
+        </dependency>
+
         <dependency>
             <artifactId>webfx-platform-java-appcontainer-impl</artifactId>
             <groupId>${webfx.groupId}</groupId>
