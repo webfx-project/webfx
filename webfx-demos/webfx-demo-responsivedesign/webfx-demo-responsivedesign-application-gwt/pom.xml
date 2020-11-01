@@ -38,6 +38,12 @@
         </dependency>
         
         <dependency>
+            <artifactId>org.jresearch.gwt.time</artifactId>
+            <groupId>org.jresearch.gwt.time</groupId>
+            <version>2.0.1</version>
+        </dependency>
+        
+        <dependency>
             <artifactId>gwt-dev</artifactId>
             <groupId>com.google.gwt</groupId>
         </dependency>
@@ -135,13 +141,6 @@
         
         <dependency>
             <artifactId>webfx-platform-gwt-emul-javabase</artifactId>
-            <groupId>${webfx.groupId}</groupId>
-            <version>${webfx.version}</version>
-            <classifier>shaded-sources</classifier>
-        </dependency>
-        
-        <dependency>
-            <artifactId>webfx-platform-gwt-emul-javatime</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
             <classifier>shaded-sources</classifier>

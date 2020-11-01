@@ -55,11 +55,9 @@ public final class GwtModuleFile extends XmlModuleFile {
                     "    <super-source path=\"super\"/>\n" +
                     "    <super-source path=\"\" includes=\"java/io/\"/>\n" +
                     "    <super-source path=\"\" includes=\"java/lang/\"/>\n" +
-                    "    <super-source path=\"\" includes=\"java/nio/\"/>\n" +
                     "    <super-source path=\"\" includes=\"java/security/\"/>\n" +
                     "    <super-source path=\"\" includes=\"java/text/\"/>\n" +
                     "    <super-source path=\"\" includes=\"java/util/\"/>\n" +
-                    "    <super-source path=\"\" includes=\"java/time/\"/>\n" +
                     "\n" +
                     "    <public path=\"public\"/>\n" +
                     "\n" +

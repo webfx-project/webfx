@@ -68,6 +68,8 @@
     <!--=================================< elemental2-svg >=================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <inherits name="elemental2.svg.Svg"/>
+    <!--====================================< gwt-time >====================================-->
+    <!-- used by webfx-demo-colorfulcircles-application-gwt (EMULATION) -->
     <!--====================================< gwt-user >====================================-->
     <!-- used by webfx-kit-javafxgraphics-peers-gwt (SOURCE) -->
     <!-- used by webfx-platform-gwt-appcontainer-impl (SOURCE) -->
@@ -77,7 +79,6 @@
     <inherits name="com.google.gwt.user.User"/>
     <!--===================================< java-base >====================================-->
     <!-- used by webfx-platform-gwt-emul-javabase (SOURCE) -->
-    <!-- used by webfx-platform-gwt-emul-javatime (SOURCE) -->
     <!-- used by webfx-platform-shared-shutdown (SOURCE) -->
     <!-- used by webfx-platform-shared-util (SOURCE) -->
     <!--==================================< java-logging >==================================-->
@@ -202,11 +203,9 @@
     <super-source path="super"/>
     <super-source includes="java/io/" path=""/>
     <super-source includes="java/lang/" path=""/>
-    <super-source includes="java/nio/" path=""/>
     <super-source includes="java/security/" path=""/>
     <super-source includes="java/text/" path=""/>
     <super-source includes="java/util/" path=""/>
-    <super-source includes="java/time/" path=""/>
 
     <public path="public"/>
 
