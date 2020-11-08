@@ -178,24 +178,26 @@ public final class TallyCounterApplication extends Application {
         private final Circle ledBorder = new Circle(), ledCentre = new Circle(), highlight = new Circle();
         private final Line hLine = new Line(), vLine = new Line();
         private final Paint pressedFill, releasedFill;
+        private final InnerShadow innerShadow = new InnerShadow(BlurType.TWO_PASS_BOX, Color.rgb(0, 0, 0, 0.65), 0, 0, 0, 0);
 
         LedButton(Color ledColor, Boolean plus) {
-            Paint borderFill = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE,
-                    new Stop(0.0, Color.rgb(20, 20, 20, 0.65)),
-                    new Stop(0.15, Color.rgb(20, 20, 20, 0.65)),
-                    new Stop(0.26, Color.rgb(41, 41, 41, 0.65)),
-                    new Stop(0.4, Color.rgb(100, 100, 100, 0.8)),
-                    new Stop(1.0, Color.rgb(20, 20, 20, 0.65)));
+            Paint borderFill = new LinearGradient( 0,  0, 1, 1, true, CycleMethod.NO_CYCLE,
+                    new Stop(0.0,  Color.rgb( 20,  20,  20, 0.65)),
+                    new Stop(0.15, Color.rgb( 20,  20,  20, 0.65)),
+                    new Stop(0.26, Color.rgb( 41,  41,  41, 0.65)),
+                    new Stop(0.4,  Color.rgb(100, 100, 100, 0.80)),
+                    new Stop(1.0,  Color.rgb( 20,  20,  20, 0.65)));
             ledBorder.setFill(borderFill);
             pressedFill = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE,
-                    new Stop(0.0, ledColor.deriveColor(0d, 1d, 0.77, 1d)),
-                    new Stop(0.49, ledColor.deriveColor(0d, 1d, 0.5, 1d)),
-                    new Stop(1.0, ledColor));
+                    new Stop(0.0,  ledColor.deriveColor(0d, 1d, 0.77, 1d)),
+                    new Stop(0.49, ledColor.deriveColor(0d, 1d, 0.5,  1d)),
+                    new Stop(1.0,  ledColor));
             releasedFill = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE,
-                    new Stop(0.0, ledColor.deriveColor(0d, 1d, 0.57, 1d)),
-                    new Stop(0.49, ledColor.deriveColor(0d, 1d, 0.4, 1d)),
-                    new Stop(1.0, ledColor.deriveColor(0d, 1d, 0.2, 1d)));
+                    new Stop(0.0,  ledColor.deriveColor(0d, 1d, 0.57, 1d)),
+                    new Stop(0.49, ledColor.deriveColor(0d, 1d, 0.4,  1d)),
+                    new Stop(1.0,  ledColor.deriveColor(0d, 1d, 0.2,  1d)));
             ledCentre.setFill(releasedFill);
+            ledCentre.setEffect(innerShadow);
             ledCentre.setOnMousePressed(e -> {
                 ledCentre.setFill(pressedFill);
                 ledCentre.setEffect(new DropShadow(ledCentre.getRadius() * 0.3, ledColor));
@@ -230,9 +232,7 @@ public final class TallyCounterApplication extends Application {
             ledBorder.setRadius(radius);
             ledCentre.setRadius(0.8 * radius);
             highlight.setRadius(0.7 * radius);
-            InnerShadow innerShadow = new InnerShadow(BlurType.TWO_PASS_BOX, Color.rgb(0, 0, 0, 0.65), 0, 0, 0, 0);
             innerShadow.setRadius(0.8 * 0.075 / 0.15 * radius);
-            ledCentre.setEffect(innerShadow);
             Paint highlightFill = new RadialGradient(0, 0, 0 - highlight.getRadius(), 0 - highlight.getRadius(), highlight.getRadius(), false,
                     CycleMethod.NO_CYCLE, new Stop(0.0, Color.WHITE), new Stop(1.0, Color.TRANSPARENT));
             highlight.setFill(highlightFill);

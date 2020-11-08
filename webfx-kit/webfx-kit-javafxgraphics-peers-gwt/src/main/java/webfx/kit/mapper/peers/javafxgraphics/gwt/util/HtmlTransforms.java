@@ -38,6 +38,10 @@ public final class HtmlTransforms {
     }
 
     private static StringBuilder toHtmlRotate(Rotate rotate, StringBuilder sb) {
+        if (Rotate.X_AXIS.equals(rotate.getAxis())) // Assuming half height pivot (used for FlipPanel in Enzo Clock demo) TODO: generalize pivot
+            return sb.append("rotateX(").append(rotate.getAngle()).append("deg)");
+        if (Rotate.Y_AXIS.equals(rotate.getAxis())) // Assuming half width pivot (used for FlipPanel in Enzo Clock demo) TODO: generalize pivot
+            return sb.append("rotateY(").append(rotate.getAngle()).append("deg)");
         if (rotate.getPivotX() == 0 && rotate.getPivotY() == 0)
             return sb.append("rotate(").append(rotate.getAngle()).append("deg)");
         return toHtmlAffine(rotate.toAffine(), sb);

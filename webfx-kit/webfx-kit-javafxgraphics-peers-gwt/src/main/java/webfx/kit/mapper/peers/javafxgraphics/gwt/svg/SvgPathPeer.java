@@ -66,7 +66,7 @@ public final class SvgPathPeer
     }
 
     @Override
-    protected SVGRect getBBox() {
+    public SVGRect getBBox() {
         return ((SVGPathElement) getElement()).getBBox();
     }
 

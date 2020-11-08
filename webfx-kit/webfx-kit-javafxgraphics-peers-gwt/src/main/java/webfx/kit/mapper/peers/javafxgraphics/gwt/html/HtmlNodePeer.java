@@ -112,11 +112,7 @@ public abstract class HtmlNodePeer
     }
 
     public static String toPx(double position) {
-        return toPixel(position) + "px";
-    }
-
-    static long toPixel(double position) {
-        return Math.round(position);
+        return position + "px";
     }
 
 }

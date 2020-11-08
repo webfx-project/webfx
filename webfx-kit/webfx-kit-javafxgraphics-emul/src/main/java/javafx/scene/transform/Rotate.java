@@ -1,10 +1,9 @@
 package javafx.scene.transform;
 
 import com.sun.javafx.geom.Point2D;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 import javafx.geometry.GeometryUtil;
+import javafx.geometry.Point3D;
 import webfx.kit.mapper.peers.javafxgraphics.markers.HasAngleProperty;
 
 /**
@@ -12,6 +11,22 @@ import webfx.kit.mapper.peers.javafxgraphics.markers.HasAngleProperty;
  */
 public class Rotate extends PivotTransform implements
         HasAngleProperty {
+
+    /**
+     * Specifies the X-axis as the axis of rotation.
+     */
+    public static final Point3D X_AXIS = new Point3D(1,0,0);
+
+    /**
+     * Specifies the Y-axis as the axis of rotation.
+     */
+    public static final Point3D Y_AXIS = new Point3D(0,1,0);
+
+    /**
+     * Specifies the Z-axis as the axis of rotation.
+     */
+    public static final Point3D Z_AXIS = new Point3D(0,0,1);
+
 
     /**
      * Creates a default Rotate transform (identity).
@@ -26,6 +41,17 @@ public class Rotate extends PivotTransform implements
      */
     public Rotate(double angle) {
         setAngle(angle);
+    }
+
+    /**
+     * Creates a three-dimensional Rotate transform.
+     * The pivot point is set to (0,0,0)
+     * @param angle the angle of rotation measured in degrees
+     * @param axis the axis of rotation
+     */
+    public Rotate(double angle, Point3D axis) {
+        setAngle(angle);
+        setAxis(axis);
     }
 
     /**
@@ -44,6 +70,45 @@ public class Rotate extends PivotTransform implements
     @Override
     public DoubleProperty angleProperty() {
         return angleProperty;
+    }
+
+    /**
+     * Defines the axis of rotation at the pivot point.
+     */
+    private ObjectProperty<Point3D> axis;
+
+
+    public final void setAxis(Point3D value) {
+        axisProperty().set(value);
+    }
+
+    public final Point3D getAxis() {
+        return axis == null ? Z_AXIS : axis.get();
+    }
+
+    public final ObjectProperty<Point3D> axisProperty() {
+        if (axis == null) {
+            axis = new ObjectPropertyBase<Point3D>(Z_AXIS) {
+
+/*
+                @Override
+                public void invalidated() {
+                    transformChanged();
+                }
+*/
+
+                @Override
+                public Object getBean() {
+                    return Rotate.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "axis";
+                }
+            };
+        }
+        return axis;
     }
 
     @Override

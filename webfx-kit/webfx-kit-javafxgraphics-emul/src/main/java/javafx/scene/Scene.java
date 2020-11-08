@@ -65,6 +65,10 @@ public class Scene implements EventTarget,
         this(root, width, height, Color.WHITE);
     }
 
+    public Scene(Parent root, Paint fill) {
+        this(root, -1, -1, fill);
+    }
+
     public Scene(Parent root, double width, double height, Paint fill) {
         setRoot(root);
         init(width, height);

@@ -32,8 +32,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.StringPropertyBase;
+import javafx.geometry.Bounds;
 import javafx.scene.paint.Paint;
+import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import webfx.platform.shared.services.log.Logger;
 
 /**
  * The {@code SVGPath} class represents a simple shape that is constructed by
@@ -177,14 +181,16 @@ public class SVGPath extends Shape {
     private static boolean warned;
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        NodePeer nodePeer = getNodePeer();
+        if (nodePeer instanceof LayoutMeasurable) {
+            Bounds layoutBounds = ((LayoutMeasurable) nodePeer).getLayoutBounds();
+            return new BoxBounds((float) layoutBounds.getMinX(), (float) layoutBounds.getMinY(), 0, (float) layoutBounds.getMaxX(), (float) layoutBounds.getMaxY(), 0);
+        }
         if (!warned) {
-            System.out.println("Warning: SVGPath.impl_computeGeomBounds() not implemented");
+            Logger.log("Warning: SVGPath.impl_computeGeomBounds() not implemented");
             warned = true;
         }
-        // Temporary hack for Mandelbrot demo
-        Object ms = getProperties().get("webfx-svgpath-maxSize");
-        float maxSize = ms instanceof Number ? ((Number) ms).floatValue() : 64;
-        return new BoxBounds(0, 0, 0, maxSize, maxSize, 0);
+        return new BoxBounds(0, 0, 0, 0, 0, 0);
     }
 
 //private Object svgPathObject;

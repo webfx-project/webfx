@@ -17,6 +17,8 @@ public class TextPeerBase
         super.bind(t, sceneRequester);
         requestUpdateOnPropertiesChange(sceneRequester
                 , t.textOriginProperty()
+                , t.xProperty()
+                , t.yProperty()
                 , t.wrappingWidthProperty()
                 , t.textAlignmentProperty()
                 , t.fontProperty()

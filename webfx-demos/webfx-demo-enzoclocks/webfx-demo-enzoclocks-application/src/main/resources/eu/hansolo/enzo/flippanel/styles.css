@@ -1,0 +1,88 @@
+/*
+ * Copyright (c) 2015 by Gerrit Grunwald
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.panel {
+    -fx-background-color : linear-gradient(to bottom,
+    rgb(150, 150, 150) 0%,
+    rgb(100, 100, 100) 100%);
+    -fx-background-radius: 5;
+    -fx-effect           : dropshadow(gaussian, rgba(0, 0, 0, 0.65), 10, 0.0, 10, 10);
+}
+
+.settings-button {
+    -fx-pref-width      : 16;
+    -fx-pref-height     : 16;
+    -fx-max-width       : 16;
+    -fx-max-height      : 16;
+    -fx-background-color: white;
+    -fx-scale-shape     : true;
+    -fx-shape           : "M 28 1.9999 L 28 5.3251 L 28 6.8741 L 29.5 7.2617 C 31.1973 7.7002 32.8164 8.3818 34.3125 9.2901 L 35.6543 10.1044 L 36.7637 8.9942 L 39.1426 6.6163 L 43.3848 10.8584 L 40.9258 13.3174 L 39.8428 14.3994 L 40.6055 15.7275 C 41.4512 17.2001 42.084 18.795 42.4843 20.4667 L 42.8524 22 L 44.4297 22 L 47.9999 22 L 47.9999 27.9999 L 44.2598 27.9999 L 42.7373 27.9999 L 42.332 29.4678 C 41.8945 31.0508 41.2383 32.5693 40.3809 33.9815 L 39.5664 35.3242 L 40.6768 36.4335 L 43.3848 39.1417 L 39.1426 43.3837 L 36.3535 40.5958 L 35.2704 39.5126 L 33.9434 40.2753 C 32.5664 41.0673 31.0713 41.6729 29.501 42.0781 L 28 42.4648 L 28 44.0146 L 28 48 L 22 48 L 22 44.0146 L 22 42.4648 L 20.499 42.0781 C 18.9287 41.6729 17.4336 41.0673 16.0566 40.2753 L 14.7285 39.5126 L 13.6465 40.5958 L 10.8574 43.3848 L 6.6152 39.1417 L 9.3232 36.4335 L 10.4336 35.3242 L 9.6191 33.9815 C 8.7617 32.5693 8.1055 31.0508 7.668 29.4678 L 7.2627 27.9999 L 5.7402 27.9999 L 2 27.9999 L 2 22 L 5.5703 22 L 7.1475 22 L 7.5156 20.4667 C 7.916 18.795 8.5488 17.2001 9.3944 15.7275 L 10.1572 14.3994 L 9.0742 13.3174 L 6.6152 10.8584 L 10.8574 6.6163 L 13.2363 8.9942 L 14.3457 10.1044 L 15.6875 9.2901 C 17.1836 8.3818 18.8027 7.7002 20.5 7.2617 L 22 6.8741 L 22 5.3251 L 22 1.9999 L 28 1.9999 M 24.9999 34.002 C 29.9629 34.002 34 29.9639 34 25 C 34 20.0372 29.9629 15.9991 24.9999 15.9991 C 20.037 15.9991 16 20.0372 16 25 C 16 29.9639 20.037 34.002 24.9999 34.002 M 30 0 L 20 0 L 20 5.3251 C 18.0898 5.8184 16.2949 6.5821 14.6504 7.5801 L 10.8574 3.7871 L 3.7871 10.8584 L 7.6602 14.7314 C 6.7256 16.3583 6.0195 18.127 5.5703 19.9999 L 0 19.9999 L 0 29.9999 L 5.7402 29.9999 C 6.2344 31.7881 6.9686 33.4698 7.9092 35.0195 L 3.7871 39.1417 L 10.8574 46.2138 L 15.0605 42.0098 C 16.5917 42.8896 18.249 43.5635 20 44.0146 L 20 49.9999 L 30 49.9999 L 30 44.0146 C 31.751 43.5635 33.4081 42.8896 34.9395 42.0098 L 39.1426 46.2128 L 46.2129 39.1417 L 42.0908 35.0195 C 43.0312 33.4698 43.7656 31.7881 44.2598 29.9999 L 50 29.9999 L 50 19.9999 L 44.4297 19.9999 C 43.9805 18.127 43.2744 16.3583 42.3398 14.7314 L 46.2129 10.8584 L 39.1426 3.7871 L 35.3496 7.5801 C 33.7051 6.5821 31.9102 5.8184 30 5.3251 L 30 0 L 30 0 ZM 24.9999 32.002 C 21.1328 32.002 17.9999 28.8671 17.9999 25 C 17.9999 21.1329 21.1328 17.9991 24.9999 17.9991 C 28.8672 17.9991 32 21.1329 32 25 C 32 28.8671 28.8672 32.002 24.9999 32.002 L 24.9999 32.002 Z";
+}
+.settings-button:pressed {
+    -fx-background-color: #5AC8FA;
+}
+
+.back-button {
+    -fx-pref-width      : 16;
+    -fx-pref-height     : 16;
+    -fx-max-width       : 16;
+    -fx-max-height      : 16;
+    -fx-background-color: white;
+    -fx-scale-shape     : true;
+    -fx-shape           : "M 25 50 C 38.8067 50 50 38.8076 50 25 C 50 11.1923 38.8067 -0.0001 25 -0.0001 C 11.1934 -0.0001 0 11.1923 0 25 C 0 38.8076 11.1934 50 25 50 ZM 25 1.9999 C 37.6827 1.9999 48 12.3184 48 25 C 48 37.6817 37.6827 47.9999 25 47.9999 C 12.3174 47.9999 2 37.6817 2 25 C 2 12.3184 12.3174 1.9999 25 1.9999 ZM 14.2365 25.5 L 15.6508 26.9142 L 30.5 41.7635 L 31.9142 40.3492 L 17.065 25.5 L 31.9142 10.6508 L 30.5 9.2365 L 15.6508 24.0858 L 14.2365 25.5 Z";
+}
+.back-button:pressed {
+    -fx-background-color: #5AC8FA;
+}
+
+.radio-button .label {
+    -fx-alignment: bottom-center;
+}
+.radio-button:focused {
+    -fx-background-insets: 0;
+}
+.radio-button:hover {
+    -fx-background-insets: 0;
+}
+.radio-button:selected {
+    -fx-background-insets: 0;
+}
+.radio-button > .radio {
+    -fx-background-color : white, rgb(125, 125, 125);
+    -fx-background-insets: -1, 0;
+    -fx-background-radius: 1024, 1024;
+}
+.radio-button > .radio > .dot {
+    -fx-background-color : transparent;
+    -fx-background-insets: 0;
+}
+.radio-button:focused > .radio > .dot {
+    -fx-mark-highlight-color: transparent;
+    -fx-mark-color          : white;
+    -fx-background-insets   : 0;
+}
+.radio-button:hover > .radio > .dot {
+    -fx-mark-highlight-color: transparent;
+    -fx-mark-color          : white;
+    -fx-background-insets   : 0;
+}
+.radio-button:selected > .radio > .dot {
+    -fx-mark-highlight-color: transparent;
+    -fx-mark-color          : white;
+    -fx-background-color    : -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets   : 0;
+}
+

@@ -23,11 +23,15 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
             if (layoutBounds != null)
                 return layoutBounds;
         }
-        HTMLElement e = getElement();
-        layoutBounds = new BoundingBox(0, 0, 0, measure(e, true), measure(e, false), 0);
+        layoutBounds = measureLayoutBounds();
         if (cache != null)
             cache.setCachedLayoutBounds(layoutBounds);
         return layoutBounds;
+    }
+
+    default Bounds measureLayoutBounds() {
+        HTMLElement e = getElement();
+        return new BoundingBox(0, 0, 0, measure(e, true), measure(e, false), 0);
     }
 
     default double minWidth(double height) {
