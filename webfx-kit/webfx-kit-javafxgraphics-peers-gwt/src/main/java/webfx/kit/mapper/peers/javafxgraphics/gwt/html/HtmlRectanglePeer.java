@@ -27,11 +27,17 @@ public final class HtmlRectanglePeer
     @Override
     protected String computeClipPath() {
         Rectangle r = getNode();
+        double width = r.getWidth();
+        double height = r.getHeight();
+        // Temporary hack: skipping empty rectangles because they are likely coming from wrong computation and cause
+        // the node to be completely hidden (observed with Label). TODO: Fix problem cause (wrong computation)
+        if (width == 0 && height == 0)
+            return null;
         // inset(top right bottom left round top-radius right-radius bottom-radius left-radius)
         double top = r.getY();
         double left = r.getX();
-        double right = left + r.getWidth();
-        double bottom = top + r.getHeight();
+        double right = left + width;
+        double bottom = top + height;
 /*
             double leftRadius = r.getArcWidth() / 2, rightRadius = leftRadius;
             double topRadius = r.getArcHeight() / 2, bottomRadius = topRadius;
