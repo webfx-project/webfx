@@ -18,10 +18,10 @@ import javafx.scene.transform.Rotate;
 import webfx.demo.clock.hansolo.Alarm;
 import webfx.demo.clock.hansolo.Clock;
 import webfx.demo.clock.hansolo.TimeSection;
-import webfx.demo.clock.hansolo.emul.DateTimeFormatter;
 import webfx.demo.clock.hansolo.tools.Helper;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /** Created by hansolo on 29.01.16.
         */
 public class DBClockSkin extends ClockSkinBase {
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("EEEE\ndd.MM.YYYY\nHH:mm:ss");
+    private static final DateTimeFormatter  DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("EEEE\ndd.MM.YYYY\nHH:mm:ss");
     private static final DateTimeFormatter  TIME_FORMATTER      = DateTimeFormatter.ofPattern("HH:mm");
     private Map<Alarm, Circle> alarmMap            = new ConcurrentHashMap<>();
     private              double             size;

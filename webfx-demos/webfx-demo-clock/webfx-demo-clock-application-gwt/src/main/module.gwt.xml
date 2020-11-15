@@ -103,7 +103,6 @@
     <!-- used by webfx-demo-clock-application-gwt (APPLICATION) -->
     <source path="webfx/demo/clock"/>
     <source path="webfx/demo/clock/hansolo"/>
-    <source path="webfx/demo/clock/hansolo/emul"/>
     <source path="webfx/demo/clock/hansolo/events"/>
     <source path="webfx/demo/clock/hansolo/skins"/>
     <source path="webfx/demo/clock/hansolo/tools"/>

@@ -12,7 +12,6 @@ module webfx.demo.clock.application {
     // Exported packages
     exports webfx.demo.clock;
     exports webfx.demo.clock.hansolo;
-    exports webfx.demo.clock.hansolo.emul;
     exports webfx.demo.clock.hansolo.events;
     exports webfx.demo.clock.hansolo.skins;
     exports webfx.demo.clock.hansolo.tools;

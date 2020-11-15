@@ -22,12 +22,13 @@ import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import webfx.demo.clock.hansolo.Clock;
-import webfx.demo.clock.hansolo.emul.DateTimeFormatter;
 import webfx.demo.clock.hansolo.tools.Helper;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 

@@ -29,13 +29,12 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import webfx.demo.clock.hansolo.Clock;
+import webfx.demo.clock.hansolo.tools.Helper;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
-
-import webfx.demo.clock.hansolo.Clock;
-import webfx.demo.clock.hansolo.emul.DateTimeFormatter;
-import webfx.demo.clock.hansolo.tools.Helper;
 
 
 /**

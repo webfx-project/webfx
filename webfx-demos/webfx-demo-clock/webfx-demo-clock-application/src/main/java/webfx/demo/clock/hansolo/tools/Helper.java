@@ -27,10 +27,10 @@ import webfx.demo.clock.hansolo.Alarm;
 import webfx.demo.clock.hansolo.Clock;
 import webfx.demo.clock.hansolo.TickLabelLocation;
 import webfx.demo.clock.hansolo.TimeSection;
-import webfx.demo.clock.hansolo.emul.DateTimeFormatter;
 
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
