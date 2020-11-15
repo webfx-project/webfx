@@ -96,7 +96,7 @@ final class ArtifactResolver {
                 return null; // Managed by root pom
             case "com-zaxxer-hikari": return "3.3.1";
             case "slf4j-api": return "1.7.15";
-            case "gwt-time": return "1.4.11";
+            case "gwt-time": return "2.0.1";
             case "gwt-webworker": return "1.0.6";
             case "charba": return "3.3-gwt";
         }

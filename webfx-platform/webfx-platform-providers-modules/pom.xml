@@ -18,7 +18,6 @@
         <module>webfx-platform-vertx-instance</module>
         <module>webfx-platform-vertx-queryupdate</module>
         <module>webfx-platform-gwt-emul-javabase</module>
-        <module>webfx-platform-gwt-emul-javatime</module>
 
     </modules>
 </project>

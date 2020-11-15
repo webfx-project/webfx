@@ -75,7 +75,7 @@ public final class SvgTextPeer
     }
 
     @Override
-    protected SVGRect getBBox() {
+    public SVGRect getBBox() {
         return ((SVGTextElement) getElement()).getBBox();
     }
 }

@@ -4,10 +4,7 @@ import eu.hansolo.fx.odometer.Odometer;
 import eu.hansolo.fx.odometer.OdometerBuilder;
 import javafx.animation.*;
 import javafx.beans.value.WritableValue;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.geometry.*;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -71,7 +68,7 @@ public class TracerView {
     // Keeping reference to show or hide these buttons
     private SVGPath pauseButton, resumeButton, gearButton, exitButton;
     private Arc progressArc;
-    private final Rotate gearRotate = new Rotate(0, 32, 32);
+    private final Rotate gearRotate = new Rotate();
 
     private final HBox placeButtonBar = new HBox(6);
 
@@ -96,13 +93,13 @@ public class TracerView {
         stackPane.setClip(new Rectangle(canvasWidth, canvasHeight)); // To hide the button bar when it's animated down
 
         placeButtonBar.getChildren().setAll(
-                createSvgButton(SvgButtonPaths.getLightPath(),      this::onLightClicked,64),
-                pauseButton  =  createSvgButton(SvgButtonPaths.getPausePath(),      this::onPauseOrResumeClicked,   64),
-                resumeButton =  createSvgButton(SvgButtonPaths.getResumePath(),     this::onPauseOrResumeClicked,   64),
-                createSvgButton(SvgButtonPaths.getPlayPath(),       this::onSlowPlayClicked,  64),
-                createSvgButton(SvgButtonPaths.getPlay2Path(),      this::onFullPlayClicked,  64),
-                gearButton   =  createSvgButton(SvgButtonPaths.getGearPath(),       this::onGearClicked,      64),
-                exitButton   =  createSvgButton(SvgButtonPaths.getExitPath(),       this::onExitClicked,      64),
+                createSvgButton(SvgButtonPaths.getLightPath(),      this::onLightClicked),
+                pauseButton  =  createSvgButton(SvgButtonPaths.getPausePath(),      this::onPauseOrResumeClicked),
+                resumeButton =  createSvgButton(SvgButtonPaths.getResumePath(),     this::onPauseOrResumeClicked),
+                createSvgButton(SvgButtonPaths.getPlayPath(),       this::onSlowPlayClicked),
+                createSvgButton(SvgButtonPaths.getPlay2Path(),      this::onFullPlayClicked),
+                gearButton   =  createSvgButton(SvgButtonPaths.getGearPath(),       this::onGearClicked),
+                exitButton   =  createSvgButton(SvgButtonPaths.getExitPath(),       this::onExitClicked),
                 progressArc  =  new Arc(32, 32, 30, 30, 90, 0)
         );
         gearButton.getTransforms().add(gearRotate);
@@ -128,6 +125,10 @@ public class TracerView {
                 exitButton.translateXProperty().bind(placeButtonBar.translateXProperty());
                 exitButton.setVisible(false); // initially invisible
             }
+            Bounds gearBounds = gearButton.getLayoutBounds();
+            gearRotate.setPivotX((gearBounds.getMinX() + gearBounds.getMaxX()) / 2);
+            gearRotate.setPivotY((gearBounds.getMinY() + gearBounds.getMaxY()) / 2);
+            //Logger.log("Gear pivot = " + gearRotate.getPivotX() + ", " + gearRotate.getPivotY());
             updatePlaceButtonBar(); // To refresh buttons color
             if (!hasSeveralPlaces)
                 showPlace(0);
@@ -253,8 +254,8 @@ public class TracerView {
     private GridPane settingsView;
     private Odometer odometer;
     private Timeline odometerTimeline;
-    private final SVGPath incrementButton = createSvgButton(SvgButtonPaths.getUpPath(),   this::increment, 24);
-    private final SVGPath decrementButton = createSvgButton(SvgButtonPaths.getDownPath(), this::decrement, 24);
+    private final SVGPath incrementButton = createSvgButton(SvgButtonPaths.getUpPath(),   this::increment);
+    private final SVGPath decrementButton = createSvgButton(SvgButtonPaths.getDownPath(), this::decrement);
     private final Text workersText = new Text("Workers"), webAssemblyText = new Text("WebAssembly");
     private int requestedThreadCounts = -1;
     private boolean requestUsingWebAssembly;
@@ -358,12 +359,11 @@ public class TracerView {
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     }
 
-    private static SVGPath createSvgButton(String content, Runnable clickRunnable, double size) {
+    private static SVGPath createSvgButton(String content, Runnable clickRunnable) {
         SVGPath svgPath = new SVGPath();
         svgPath.setContent(content);
         svgPath.setCursor(Cursor.HAND);
         svgPath.setOnMouseClicked(e -> clickRunnable.run());
-        svgPath.getProperties().put("webfx-svgpath-maxSize", size); // Temporary WebFx hack (see SVGPath.impl_computeGeomBounds() emul code)
         return svgPath;
     }
 

@@ -1,14 +1,11 @@
 package webfx.kit.mapper.peers.javafxgraphics.gwt.util;
 
 import elemental2.dom.Element;
-import webfx.platform.shared.util.collection.Collections;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
+import javafx.scene.paint.*;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
+import webfx.platform.shared.util.collection.Collections;
 
 import static elemental2.dom.DomGlobal.document;
 
@@ -65,6 +62,11 @@ public final class SvgUtil {
         return HtmlUtil.setAttribute(createSvgElement("linearGradient"), "id", "LG" + ++lgSeq);
     }
 
+    private static int rgSeq;
+    public static Element createRadialGradient() {
+        return HtmlUtil.setAttribute(createSvgElement("radialGradient"), "id", "RG" + ++rgSeq);
+    }
+
     public static Element createFilter() {
         return HtmlUtil.setAttribute(createSvgElement("filter"), "id", generateNewFilterId());
     }
@@ -85,6 +87,18 @@ public final class SvgUtil {
         svgLg.setAttribute("spreadMethod", cycleMethod == CycleMethod.REPEAT ? "repeat" : cycleMethod == CycleMethod.REFLECT ? "reflect" : "pad");
         svgLg.setAttribute("gradientUnits", lg.isProportional() ? "objectBoundingBox" : "userSpaceOnUse");
         return HtmlUtil.setChildren(svgLg, Collections.map(lg.getStops(), SvgUtil::toSvgStop));
+    }
+
+    public static Element updateRadialGradient(RadialGradient rg, Element svgRg) {
+        if (svgRg == null)
+            svgRg = createRadialGradient();
+        svgRg.setAttribute("cx", rg.getCenterX());
+        svgRg.setAttribute("cy", rg.getCenterY());
+        svgRg.setAttribute("r", rg.getRadius());
+        CycleMethod cycleMethod = rg.getCycleMethod();
+        svgRg.setAttribute("spreadMethod", cycleMethod == CycleMethod.REPEAT ? "repeat" : cycleMethod == CycleMethod.REFLECT ? "reflect" : "pad");
+        svgRg.setAttribute("gradientUnits", rg.isProportional() ? "objectBoundingBox" : "userSpaceOnUse");
+        return HtmlUtil.setChildren(svgRg, Collections.map(rg.getStops(), SvgUtil::toSvgStop));
     }
 
     private static Element toSvgStop(Stop stop) {

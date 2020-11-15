@@ -20,7 +20,6 @@ import javafx.scene.transform.Affine;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import webfx.kit.util.properties.Properties;
 import webfx.platform.shared.services.log.Logger;
 
 import java.util.HashMap;
@@ -35,11 +34,6 @@ public class HtmlGraphicsContext implements GraphicsContext {
     private CanvasRenderingContext2D ctx;
     private boolean proportionalFillLinearGradient;
 
-    public HtmlGraphicsContext(Canvas canvas) {
-        this.canvas = canvas;
-        Properties.onPropertySet(canvas.sceneProperty(), scene -> ctx = getCanvasRenderingContext2D((HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement()));
-    }
-
     HtmlGraphicsContext(HTMLCanvasElement canvasElement) {
         this(getCanvasRenderingContext2D(canvasElement));
     }
@@ -47,6 +41,15 @@ public class HtmlGraphicsContext implements GraphicsContext {
     HtmlGraphicsContext(CanvasRenderingContext2D ctx) {
         canvas = null;
         this.ctx = ctx;
+    }
+
+    public HtmlGraphicsContext(Canvas canvas) {
+        this.canvas = canvas;
+        HTMLCanvasElement canvasElement = (HTMLCanvasElement) ((HtmlNodePeer) this.canvas.getOrCreateAndBindNodePeer()).getElement();
+        // Setting the canvas size now because if done later (by the WebFx mapping), this will erase the canvas!
+        canvasElement.width =  (int) this.canvas.getWidth();  // Won't be touched by the mapper (see HtmlCanvasPeer.updateWidth())
+        canvasElement.height = (int) this.canvas.getHeight(); // Won't be touched by the mapper (see HtmlCanvasPeer.updateHeight())
+        ctx = getCanvasRenderingContext2D(canvasElement);
     }
 
     private static CanvasRenderingContext2D getCanvasRenderingContext2D(HTMLCanvasElement canvasElement) {
@@ -172,6 +175,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         stroke = p; // Memorizing the value for getStroke()
         ctx.strokeStyle = CanvasRenderingContext2D.StrokeStyleUnionType.of(toCanvasPaint(p));
     }
+
     @Override
     public Paint getStroke() {
         return stroke;

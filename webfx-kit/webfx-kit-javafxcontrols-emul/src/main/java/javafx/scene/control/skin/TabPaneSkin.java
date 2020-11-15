@@ -824,6 +824,7 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
 
             measureClosingTabs = true;
             double headersPrefWidth = snapSize(headersRegion.prefWidth(-1));
+            headersPrefWidth += 3 * (getSkinnable().getTabs().size() - 1); // WebFx addition to count the 3 pixel margin added between each tab
             measureClosingTabs = false;
 
             double headersPrefHeight = snapSize(headersRegion.prefHeight(-1));
@@ -861,7 +862,8 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
         }
 
         private void addTab(Tab tab, int addToIndex) {
-            TabHeaderSkin tabHeaderSkin = new TabHeaderSkin(tab); tab.getProperties().put("skin", tabHeaderSkin); // WebFx addition
+            TabHeaderSkin tabHeaderSkin = new TabHeaderSkin(tab);
+            tab.getProperties().put("skin", tabHeaderSkin); // WebFx addition
             headersRegion.getChildren().add(addToIndex, tabHeaderSkin);
         }
 

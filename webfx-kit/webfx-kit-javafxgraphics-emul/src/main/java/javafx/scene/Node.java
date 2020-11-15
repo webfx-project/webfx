@@ -29,6 +29,7 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Window;
+import webfx.kit.launcher.WebFxKitLauncher;
 import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
 import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
@@ -1208,8 +1209,18 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return nodePeer;
     }
 
+    // Phantom scene used to temporary create and bind peers when the application code is already working with nodes
+    // before their insertion in the scene graph (ex: drawing in a canvas before it is inserted).
+    private final static Scene PHANTOM_SCENE = new Scene(null);
+
     public NodePeer getOrCreateAndBindNodePeer() {
-        return getScene().getOrCreateAndBindNodePeer(this);
+        Scene scene = getScene();
+        if (scene == null) { // Quite annoying (the code is asking the peer before the node has been inserted in the scene graph)
+            scene = WebFxKitLauncher.getPrimaryStage().getScene(); // Using the main scene (the most probably case)
+            if (scene == null) // If still not set (can happen in application initialization code)
+                scene = PHANTOM_SCENE; // We temporary use a phantom scene for the initial binding (until the final scene is set on the node)
+        }
+        return scene.getOrCreateAndBindNodePeer(this);
     }
 
     public void setNodePeer(NodePeer nodePeer) {

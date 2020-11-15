@@ -33,7 +33,7 @@ public abstract class HtmlNodePeer
 
     @Override
     public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
-        Element container = getContainer();
+        Element container = getVisibleContainer();
         if (!(container instanceof HTMLElement))
             super.updateLocalToParentTransforms(localToParentTransforms);
         else {
@@ -112,11 +112,7 @@ public abstract class HtmlNodePeer
     }
 
     public static String toPx(double position) {
-        return toPixel(position) + "px";
-    }
-
-    static long toPixel(double position) {
-        return Math.round(position);
+        return position + "px";
     }
 
 }

@@ -47,6 +47,7 @@ public abstract class HtmlSvgNodePeer
 
     private final E element;
     private Element container;
+    private boolean containerInvisible;
     private Element childrenContainer;
     protected DomType containerType;
 
@@ -67,6 +68,12 @@ public abstract class HtmlSvgNodePeer
         storePeerInElement(container);
     }
 
+    public void makeContainerInvisible() { // To makes sure the container has no visible effect (no extra space, etc...)
+        if (container instanceof HTMLElement)
+            ((HTMLElement) container).style.display = "contents";
+        containerInvisible = true;
+    }
+
     protected void storePeerInElement(Object element) {
         HtmlUtil.setJsJavaObjectAttribute((JavaScriptObject) element, "nodePeer", this);
     }
@@ -84,7 +91,7 @@ public abstract class HtmlSvgNodePeer
             while (node != null) {
                 javafx.scene.Parent parent = node.getParent();
                 if (parent == null && node.getScene().getRoot() != node)
-                    return getPeerFromElementOrParents((Element) ((HtmlSvgNodePeer) node.getNodePeer()).element.parentNode);
+                    return getPeerFromElementOrParents((Element) ((HtmlSvgNodePeer) node.getNodePeer()).container.parentNode);
                 node = parent;
             }
         }
@@ -93,6 +100,10 @@ public abstract class HtmlSvgNodePeer
 
     public Element getContainer() {
         return container;
+    }
+
+    public Element getVisibleContainer() {
+        return containerInvisible ? element : container;
     }
 
     public Element getChildrenContainer() {
@@ -522,7 +533,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setElementStyleAttribute(String name, Object value) {
-        HtmlUtil.setStyleAttribute(container, name, value);
+        HtmlUtil.setStyleAttribute(getVisibleContainer(), name, value);
     }
 
     @Override
@@ -671,7 +682,7 @@ public abstract class HtmlSvgNodePeer
         if (styleAttribute != null)
             setElementStyleAttribute(styleAttribute, value);
         else
-            setElementAttribute(container, name, value);
+            setElementAttribute(getVisibleContainer(), name, value);
     }
 
     protected static void setElementAttribute(Element e, String name, String value) {
@@ -691,10 +702,11 @@ public abstract class HtmlSvgNodePeer
 
     protected void setElementAttribute(String name, Number value) {
         String styleAttribute;
-        if (container == element && (styleAttribute = getStyleAttribute(name)) != null)
+        Element topVisibleElement = getVisibleContainer();
+        if (topVisibleElement == element && (styleAttribute = getStyleAttribute(name)) != null)
             setElementStyleAttribute(styleAttribute, value);
         else
-            setElementAttribute(container, name, value);
+            setElementAttribute(topVisibleElement, name, value);
     }
 
     private void setElementAttribute(Element e, String name, Number value) {
@@ -705,7 +717,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setFontAttributes(Font font) {
-        HtmlFonts.setHtmlFontStyleAttributes(font, container);
+        HtmlFonts.setHtmlFontStyleAttributes(font, getVisibleContainer());
     }
 
     private static String toSvgBlendMode(BlendMode blendMode) {

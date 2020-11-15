@@ -113,7 +113,7 @@ abstract class SvgShapePeer
         super.updateLocalToParentTransforms(localToParentTransforms);
     }
 
-    protected SVGRect getBBox() {
+    public SVGRect getBBox() {
         return null;
     }
 

@@ -209,19 +209,23 @@ public final class HtmlScenePeer extends ScenePeerBase {
             //long t0 = System.currentTimeMillis();
             Element childrenContainer = parentPeer.getChildrenContainer();
             if (childrenChange == null)
-                HtmlUtil.setChildren(childrenContainer, Collections.map(parent.getChildren(), this::toChildElement));
+                HtmlUtil.setChildren(childrenContainer, toChildElements(parent.getChildren()));
             else {
                 //Logger.log(childrenChange);
                 while (childrenChange.next()) {
                     if (childrenChange.wasRemoved())
-                        HtmlUtil.removeChildren(childrenContainer, Collections.map(childrenChange.getRemoved(), this::toChildElement));
+                        HtmlUtil.removeChildren(childrenContainer, toChildElements(childrenChange.getRemoved()));
                     if (childrenChange.wasAdded())
-                        HtmlUtil.appendChildren(childrenContainer, Collections.map(childrenChange.getAddedSubList(), this::toChildElement));
+                        HtmlUtil.appendChildren(childrenContainer, toChildElements(childrenChange.getAddedSubList()));
                 }
             }
             //long t1 = System.currentTimeMillis();
-            //Logger.log("setChildren() in " + (t1 - t0) + "ms / parent treeVisible = " + parentPeer.isTreeVisible() + ", isAnimationFrame = " + UiScheduler().isAnimationFrameNow());
+            //Logger.log("setChildren() in " + (t1 - t0) + "ms / parent treeVisible = " + parentPeer.isTreeVisible() + ", isAnimationFrame = " + UiScheduler.isAnimationFrameNow());
         }
+    }
+
+    private List<Element> toChildElements(List<Node> nodes) {
+        return Collections.map(nodes, this::toChildElement);
     }
 
     private Element toChildElement(Node node) {
@@ -239,7 +243,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     public void onNodePeerCreated(NodePeer<Node> nodePeer) {
         if (nodePeer instanceof HtmlNodePeer) {
             HtmlNodePeer htmlNodePeer = (HtmlNodePeer) nodePeer;
-            HTMLElement htmlElement = (HTMLElement) htmlNodePeer.getElement();
+            HTMLElement htmlElement = (HTMLElement) htmlNodePeer.getVisibleContainer();
             HtmlUtil.absolutePosition(htmlElement);
             CSSStyleDeclaration style = htmlElement.style;
             // Positioned to left top corner by default

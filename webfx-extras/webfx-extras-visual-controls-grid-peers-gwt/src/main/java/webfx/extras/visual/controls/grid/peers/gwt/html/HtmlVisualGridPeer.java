@@ -6,17 +6,18 @@ import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import webfx.extras.cell.renderer.ImageTextRenderer;
+import webfx.extras.label.Label;
+import webfx.extras.visual.*;
+import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.extras.visual.controls.grid.peers.base.VisualGridPeerBase;
 import webfx.extras.visual.controls.grid.peers.base.VisualGridPeerMixin;
-import webfx.extras.visual.*;
-import webfx.extras.label.Label;
-import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
+import webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.DomType;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import webfx.extras.cell.renderer.ImageTextRenderer;
-import webfx.extras.visual.controls.grid.VisualGrid;
 import webfx.platform.shared.util.Strings;
 import webfx.platform.shared.util.tuples.Unit;
 
@@ -160,14 +161,16 @@ public final class HtmlVisualGridPeer
         }
         if (textAlign != null)
             cssStyle.textAlign = textAlign;
-        Element contentElement = toContainerElement(content, getNode().getScene());
+        HtmlSvgNodePeer nodePeer = content == null ? null : toNodePeer(content, getNode().getScene());
+        Element contentElement =  nodePeer == null ? null : nodePeer.getContainer();
         if (contentElement != null) {
-            setStyleAttribute(contentElement, "position", "relative");
+            Element visibleContainer = nodePeer.getVisibleContainer();
+            setStyleAttribute(visibleContainer, "position", "relative");
             //setStyleAttribute(contentElement, "width", null);
             //setStyleAttribute(contentElement, "height", null);
             if (content instanceof HBox || content instanceof CheckBox) { // temporary code for HBox, especially for table headers
                 double spacing = content instanceof HBox ? ((HBox) content).getSpacing() : 0;
-                resetChildrenPositionToRelative(contentElement, spacing);
+                resetChildrenPositionToRelative(visibleContainer, spacing);
             } else if (content instanceof Parent) {
                 if (content instanceof Region) {
                     Region region = (Region) content;
@@ -190,6 +193,12 @@ public final class HtmlVisualGridPeer
                 contentElement.removeChild(childNode);
                 i--; n--;
             } else {
+                // Case of an invisible container (like created by HtmlImagePeer) -> we need to apply the style attributes to the child and not this element
+                if (childNode instanceof HTMLElement && "contents".equals(((HTMLElement) childNode).style.display)) {
+                    childNode = childNode.firstChild;
+                    if (childNode == null)
+                        continue;
+                }
                 setStyleAttribute(childNode, "position", "relative");
                 if (spacing > 0 && i < n - 1)
                     setStyleAttribute(childNode, "margin-right", toPx(spacing));

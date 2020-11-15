@@ -7,6 +7,7 @@ import javafx.scene.effect.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
+import javafx.scene.paint.RadialGradient;
 import javafx.scene.text.TextAlignment;
 import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
@@ -27,7 +28,7 @@ public abstract class SvgNodePeer
 
         extends HtmlSvgNodePeer<Element, N, NB, NM> {
 
-    private Map<String, Element> svgLinearGradients;
+    private Map<String, Element> svgLinearGradients, svgRadialGradients;
     private Element svgClipPath;
 
     SvgNodePeer(NB base, Element element) {
@@ -170,6 +171,14 @@ public abstract class SvgNodePeer
                 svgLinearGradients.put(name, svgLinearGradient = getSvgRoot().addDef(SvgUtil.createLinearGradient()));
             SvgUtil.updateLinearGradient((LinearGradient) paint, svgLinearGradient);
             value = SvgUtil.getDefUrl(svgLinearGradient);
+        } else if (paint instanceof RadialGradient) {
+            if (svgRadialGradients == null)
+                svgRadialGradients = new HashMap<>();
+            Element svgRadialGradient = svgRadialGradients.get(name);
+            if (svgRadialGradient == null)
+                svgRadialGradients.put(name, svgRadialGradient = getSvgRoot().addDef(SvgUtil.createRadialGradient()));
+            SvgUtil.updateRadialGradient((RadialGradient) paint, svgRadialGradient);
+            value = SvgUtil.getDefUrl(svgRadialGradient);
         }
         return value;
     }

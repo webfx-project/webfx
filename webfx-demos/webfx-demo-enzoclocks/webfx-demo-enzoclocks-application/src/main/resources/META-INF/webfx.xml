@@ -1,0 +1,11 @@
+<module>
+
+    <providers>
+        <provider spi="javafx.application.Application">webfx.demo.enzoclocks.EnzoClocksApplication</provider>
+    </providers>
+
+    <resource-packages>
+        <package>eu.hansolo.enzo.clock</package>
+    </resource-packages>
+
+</module>

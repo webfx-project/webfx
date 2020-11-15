@@ -22,6 +22,13 @@ public class Line extends Shape implements
     public Line() {
     }
 
+    public Line(double startX, double startY, double endX, double endY) {
+        setStartX(startX);
+        setStartY(startY);
+        setEndX(endX);
+        setEndY(endY);
+    }
+
     private final DoubleProperty startXProperty = new SimpleDoubleProperty(0d);
 
     @Override
