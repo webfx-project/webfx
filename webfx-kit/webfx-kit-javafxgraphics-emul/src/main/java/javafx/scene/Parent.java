@@ -47,7 +47,7 @@ public class Parent extends Node {
         node.setScene(scene);
         if (node instanceof Parent) {
             for (Node child : ((Parent) node).getChildren()) {
-                if (child.getScene() != scene)
+                //if (child.getScene() != scene) // Commented this optimisation as it prevents the Mandelbrot canvas thumbnail to get the scene back when returning to home page
                     setAndPropagateScene(child, scene);
 /* Commented this optimization as it was causing problems in Mandelbrot demo: when going back to first page, 1 or 2 thumbnails had the scene set and not others
                 else // If already done for this child, assuming it's done for others
