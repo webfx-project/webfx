@@ -1,23 +1,20 @@
 package webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import elemental2.dom.Element;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLImageElement;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
+import elemental2.dom.*;
 import javafx.scene.Parent;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import webfx.kit.mapper.peers.javafxgraphics.base.ImageViewPeerBase;
 import webfx.kit.mapper.peers.javafxgraphics.base.ImageViewPeerMixin;
+import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import webfx.kit.mapper.peers.javafxgraphics.markers.HasTextFillProperty;
 import webfx.platform.shared.services.resource.ResourceService;
 import webfx.platform.shared.util.Numbers;
 import webfx.platform.shared.util.Strings;
-
-import static webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil.createImageElement;
-import static webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil.createNodeFromHtml;
 
 /**
  * @author Bruno Salmon
@@ -31,11 +28,15 @@ public final class HtmlImageViewPeer
     //private Double loadedWidth, loadedHeight;
 
     public HtmlImageViewPeer() {
-        this((NB) new ImageViewPeerBase(), createImageElement());
+        this((NB) new ImageViewPeerBase(), HtmlUtil.createImageElement());
     }
 
     public HtmlImageViewPeer(NB base, HTMLElement element) {
         super(base, element);
+        HTMLElement container = HtmlUtil.createElement("fx-image");
+        HtmlUtil.setChild(container, element);
+        setContainer(container);
+        makeContainerInvisible();
         HTMLImageElement e = (HTMLImageElement) getElement();
         e.onload = evt -> {
             onLoad();
@@ -58,8 +59,24 @@ public final class HtmlImageViewPeer
         String imageUrl = image == null ? null : image.getUrl();
         if (tryInlineSvg(imageUrl))
             onLoad();
-        else
+        else {
             setElementAttribute("src", imageUrl);
+            // Special case of a writable image
+            if (image instanceof WritableImage) {
+                // The WebFx emulation code stored the image in a canvas
+                Canvas canvas = ((WritableImage) image).getCanvas();
+                if (canvas != null) { // If set,
+                    // We will replace the image with a canvas. First getting the canvas peer and element
+                    HtmlNodePeer canvasPeer = (HtmlNodePeer) canvas.getOrCreateAndBindNodePeer();
+                    HTMLCanvasElement canvasElement = (HTMLCanvasElement) canvasPeer.getElement();
+                    // If the canvas has already been inserted into the DOM (this can happen because the same image can be used in different ImageView)
+                    if (canvasElement.parentNode != null) // In that case, we need to make a copy of the canvas
+                        canvasElement = HtmlCanvasImage.copyCanvas(canvasElement);
+                    // We finally replace the node with the canvas element
+                    HtmlUtil.setChild(getContainer(), canvasElement);
+                }
+            }
+        }
     }
 
     private void onLoad() {
@@ -75,7 +92,7 @@ public final class HtmlImageViewPeer
 
     public static void onHTMLImageLoaded(HTMLImageElement imageElement, Image image) {
         double requestedWidth = image.getRequestedWidth();
-        image.setWidth(requestedWidth > 0 ? requestedWidth : (double) imageElement.naturalWidth);
+        image.setWidth(requestedWidth  > 0 ? requestedWidth  : (double) imageElement.naturalWidth);
         double requestedHeight = image.getRequestedHeight();
         image.setHeight(requestedWidth > 0 ? requestedHeight : (double) imageElement.naturalHeight);
         image.setProgress(1);
@@ -112,7 +129,7 @@ public final class HtmlImageViewPeer
                 if (svgTagIndex != -1)
                     svgFile = svgFile.substring(svgTagIndex);
                 // Creating the svg element from the file content
-                Element svgNode = createNodeFromHtml(svgFile);
+                Element svgNode = HtmlUtil.createNodeFromHtml(svgFile);
                 // Setting width and height if defined
                 ImageView imageView = getNode();
                 double fitWidth = imageView.getFitWidth();
@@ -126,8 +143,7 @@ public final class HtmlImageViewPeer
                 if (parent instanceof HasTextFillProperty) // Ex: Labeled (removed instanceof Labeled because it was introducing a dependency with javafx-controls)
                     applyTextFillToSvg(svgNode, HtmlPaints.toHtmlCssPaint(((HasTextFillProperty) parent).getTextFill()));
                 // Switching the node from image to svg
-                setContainer(svgNode);
-                HtmlUtil.replaceNode(getElement(), svgNode);
+                HtmlUtil.setChild(getContainer(), svgNode);
                 return true;
             }
         }

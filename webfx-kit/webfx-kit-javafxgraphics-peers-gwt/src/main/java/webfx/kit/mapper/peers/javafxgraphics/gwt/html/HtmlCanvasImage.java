@@ -13,12 +13,21 @@ final class HtmlCanvasImage extends WritableImage {
     private final HTMLCanvasElement snapshotCanvasElement;
 
     HtmlCanvasImage(HTMLCanvasElement sourceCanvasElement) {
-        super(null, sourceCanvasElement.clientWidth, sourceCanvasElement.clientHeight, false, false, false);
-        snapshotCanvasElement = HtmlUtil.createElement("canvas");
-        snapshotCanvasElement.width = sourceCanvasElement.clientWidth;
-        snapshotCanvasElement.height = sourceCanvasElement.clientHeight;
-        CanvasRenderingContext2D ctx = (CanvasRenderingContext2D) (Object) snapshotCanvasElement.getContext("2d");
-        ctx.drawImage(sourceCanvasElement, 0, 0);
+        super(null, sourceCanvasElement.width, sourceCanvasElement.height, false, false, false);
+        snapshotCanvasElement = copyCanvas(sourceCanvasElement);
+    }
+
+    static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource) {
+        HTMLCanvasElement canvasCopy = HtmlUtil.createElement("canvas");
+        int width = canvasSource.width;
+        int height = canvasSource.height;
+        canvasCopy.width = width;
+        canvasCopy.height = height;
+        if (width > 0 && height > 0) { // Checking size because drawImage is raising an exception on zero sized canvas
+            CanvasRenderingContext2D ctx = (CanvasRenderingContext2D) (Object) canvasCopy.getContext("2d");
+            ctx.drawImage(canvasSource, 0, 0);
+        }
+        return canvasCopy;
     }
 
     public HTMLCanvasElement getSnapshotCanvasElement() {

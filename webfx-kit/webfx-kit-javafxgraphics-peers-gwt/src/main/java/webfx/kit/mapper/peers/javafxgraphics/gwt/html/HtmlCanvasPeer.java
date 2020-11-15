@@ -28,12 +28,20 @@ public final class HtmlCanvasPeer
 
     @Override
     public void updateWidth(Number width) {
-        ((HTMLCanvasElement) getElement()).width = width.intValue();
+        HTMLCanvasElement canvasElement = (HTMLCanvasElement) getElement();
+        int intWidth = width.intValue();
+        // Preventing erasing canvas if already correctly sized
+        if (canvasElement.width != intWidth) // May be already correctly set (ex: Canvas in WritableImage)
+            canvasElement.width = intWidth;  // Note: this erases the canvas! (even with identical value)
     }
 
     @Override
     public void updateHeight(Number height) {
-        ((HTMLCanvasElement) getElement()).height = height.intValue();
+        HTMLCanvasElement canvasElement = (HTMLCanvasElement) getElement();
+        int intHeight = height.intValue();
+        // Preventing erasing canvas if already correctly sized
+        if (canvasElement.height != intHeight) // May be already correctly set (ex: Canvas in WritableImage)
+            canvasElement.height = intHeight;  // Note: this erases the canvas! (even with identical value)
     }
 
     @Override
