@@ -128,7 +128,7 @@ public class TracerView {
             Bounds gearBounds = gearButton.getLayoutBounds();
             gearRotate.setPivotX((gearBounds.getMinX() + gearBounds.getMaxX()) / 2);
             gearRotate.setPivotY((gearBounds.getMinY() + gearBounds.getMaxY()) / 2);
-            Logger.log("Gear pivot = " + gearRotate.getPivotX() + ", " + gearRotate.getPivotY());
+            //Logger.log("Gear pivot = " + gearRotate.getPivotX() + ", " + gearRotate.getPivotY());
             updatePlaceButtonBar(); // To refresh buttons color
             if (!hasSeveralPlaces)
                 showPlace(0);

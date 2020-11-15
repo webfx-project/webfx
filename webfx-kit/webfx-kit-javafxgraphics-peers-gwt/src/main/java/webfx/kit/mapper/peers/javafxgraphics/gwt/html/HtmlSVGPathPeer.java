@@ -8,7 +8,6 @@ import javafx.scene.effect.Effect;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.FillRule;
 import javafx.scene.shape.SVGPath;
-import javafx.scene.transform.Affine;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
@@ -95,11 +94,11 @@ public final class HtmlSVGPathPeer
         bBox = null;
         if (svgElement != null) {
             getBBox();
-            svgElement.setAttribute("width", bBox.width);
+            svgElement.setAttribute("width",  bBox.width);
             svgElement.setAttribute("height", bBox.height);
             svgElement.setAttribute("viewBox", bBox.x + " " + bBox.y + " " + bBox.width + " " + bBox.height);
             CSSStyleDeclaration style = getElement().style;
-            style.width  = CSSProperties.WidthUnionType.of(bBox.width + "px");
+            style.width  = CSSProperties.WidthUnionType.of( bBox.width  + "px");
             style.height = CSSProperties.HeightUnionType.of(bBox.height + "px");
             style.left   = bBox.x + "px";
             style.top    = bBox.y + "px";
@@ -122,11 +121,11 @@ public final class HtmlSVGPathPeer
                         Scale scale = (Scale) transform;
                         tx /= scale.getX();
                         ty /= scale.getY();
-                    } else {
+                    }/* else { // Commented as it is wrong. TODO: extract the correct scale factors from Affine transform
                         Affine affine = transform.toAffine();
                         tx /= affine.getMxx();
                         ty /= affine.getMyy();
-                    }
+                    }*/
                 }
                 forSvgTransforms.add(transform);
             }
