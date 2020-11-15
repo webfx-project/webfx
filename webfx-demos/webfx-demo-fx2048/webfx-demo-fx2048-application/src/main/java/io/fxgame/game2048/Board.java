@@ -1,6 +1,5 @@
 package io.fxgame.game2048;
 
-import io.fxgame.game2048.emul.DateTimeFormatter;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -24,6 +23,7 @@ import webfx.extras.webtext.controls.HtmlText;
 
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -171,7 +171,7 @@ public class Board extends VBox {
         lblTime.setPadding(new Insets(3));
         lblTime.textProperty().bind(clock);
         timer = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            clock.set(fmt.format(LocalTime.now().minusNanos(time.toNanoOfDay())/*.format(fmt)*/));
+            clock.set(LocalTime.now().minusNanos(time.toNanoOfDay()).format(fmt));
         }), new KeyFrame(Duration.seconds(1)));
         timer.setCycleCount(Animation.INDEFINITE);
         hTime.getChildren().add(lblTime);
@@ -553,7 +553,7 @@ public class Board extends VBox {
         lblPoints.setLayoutX(scoreBottomRight.getX() - 12 - lblPointsWidth);
         lblPoints.setLayoutY(scoreBottomRight.getY());
         lblPoints.toFront();
-        //Logger.log("scoreBounds = " + scoreBounds + "\nsceneScoreBottomRight = " + sceneScoreBottomRight + "\nlocalScoreBottomRight = " + localScoreBottomRight + "\nlblPointsWidth = " + lblPointsWidth + "\nlayoutX = " + lblPoints.getLayoutX());
+        //webfx.platform.shared.services.log.Logger.log("scoreBounds = " + scoreBounds + "\nscoreBottomRight = " + scoreBottomRight + "\nlblPointsWidth = " + lblPointsWidth + "\nlayoutX = " + lblPoints.getLayoutX());
 
         final var kvO = new KeyValue(lblPoints.opacityProperty(), 0);
         final var kvY = new KeyValue(lblPoints.layoutYProperty(), lblPoints.getLayoutY() + 50);

@@ -106,7 +106,6 @@
     <!--=========================< webfx-demo-fx2048-application >==========================-->
     <!-- used by webfx-demo-fx2048-application-gwt (APPLICATION) -->
     <source path="io/fxgame/game2048"/>
-    <source path="io/fxgame/game2048/emul"/>
     <resource path="io/fxgame/game2048"/>
     <public includes="io/fxgame/game2048/" path=""/>
     <!--=========================< webfx-extras-webtext-controls >==========================-->

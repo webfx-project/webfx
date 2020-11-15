@@ -10,11 +10,9 @@ module webfx.demo.fx2048.application {
     requires webfx.extras.webtext.controls;
     requires webfx.platform.client.storage;
     requires webfx.platform.shared.resource;
-    requires webfx.platform.shared.util;
 
     // Exported packages
     exports io.fxgame.game2048;
-    exports io.fxgame.game2048.emul;
 
     // Resources packages
     opens io.fxgame.game2048;
