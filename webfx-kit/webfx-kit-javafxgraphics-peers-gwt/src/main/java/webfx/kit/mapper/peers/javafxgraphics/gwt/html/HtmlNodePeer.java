@@ -33,7 +33,7 @@ public abstract class HtmlNodePeer
 
     @Override
     public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
-        Element container = getContainer();
+        Element container = getVisibleContainer();
         if (!(container instanceof HTMLElement))
             super.updateLocalToParentTransforms(localToParentTransforms);
         else {
