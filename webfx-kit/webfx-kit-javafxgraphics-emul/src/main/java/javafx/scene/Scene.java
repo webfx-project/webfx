@@ -607,9 +607,19 @@ public class Scene implements EventTarget,
 
     private final SceneRequester sceneRequester = new SceneRequester() {
 
+        private Scene getScene(Node node) {
+            // Using preferably the scene finally set on the node in case the peer has been created and bound with a
+            // different scene (ex: a temporary phantom scene - see Node.getOrCreateAndBindNodePeer()). In that case,
+            // we redirect all calls to the final scene.
+            Scene scene = node.getScene(); // The same as this scene for most of the case (except case explained above).
+            // But if the node is still not inserted in the scene graph, we use the present scene instance for handling
+            // the node properties changes
+            return scene != null ? scene : Scene.this;
+        }
+
         @Override
         public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
-            executePropertyChange(() -> updateViewProperty(node, changedProperty));
+            executePropertyChange(() -> getScene(node).updateViewProperty(node, changedProperty));
         }
 
         @Override
@@ -617,7 +627,7 @@ public class Scene implements EventTarget,
             if (change != null && !UiScheduler.isAnimationFrameNow())
                 change = new SnapshotChange(change);
             ListChangeListener.Change finalChange = change;
-            executePropertyChange(() -> updateViewList(node, changedList, finalChange));
+            executePropertyChange(() -> getScene(node).updateViewList(node, changedList, finalChange));
         }
 
         private void executePropertyChange(Runnable runnable) {
