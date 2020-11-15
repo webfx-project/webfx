@@ -30,34 +30,31 @@ In this example, WebFx maps the JavaFx scene graph into the browser DOM.
 
 It was very easy (30mn) to rewrite this [sketch.js demo][sketch-particles-demo-link] in JavaFx
 and recompile it to JavaScript with WebFx.
-Of course the JS size is bigger (85k vs 7k) due to the JavaFx layer (javafx-base + javafx-graphics modules), but it's not that bad!
+Of course the JS size is bigger (85k vs 7k) due to the JavaFx layer (javafx-base + javafx-graphics modules), but it's not that bad! (thanks to GWT dead code elimination).
 In this example, WebFx maps a JavaFx canvas into a browser canvas.
 
 ### Custom controls
 
 You can easily write custom controls with the JavaFx API and even design several skins for the same control.
 You can also reuse or port existing Java/JavaFx libraries as demonstrated below.
-Note that all these demos are still very simple applications written with just a single file of source code. 
 
 * [Tally Counter][webfx-tallycounter-demo-link] ([source code][webfx-tallycounter-source-link])
 
 Let's write something a bit more useful but still simple: a Tally counter.
 To display the counter, this demo is using an odometer control which was already implemented in JavaFx on this [Github repository][hansolo-odometer-link].
-The layout is more designed for mobiles.
+The layout is designed for mobiles.
 
-* [Clock][webfx-clock-demo-link] ([source code][webfx-clock-source-link])
+* [Modern gauge][webfx-moderngauge-demo-link] ([source code][webfx-moderngauge-source-link])
 
-The same author (Hansolo) developed a clock control with different skins in another JavaFx library called [Medusa][hansolo-medusa-link].
-Let's just use it!
-
-* [Gauge][webfx-gauge-demo-link] ([source code][webfx-gauge-source-link])
-
-In that same Medusa library Hansolo also developed a gauge control with many skins.
+This demo is using [Medusa][hansolo-medusa-link], a JavaFx library which offers a gauge control with many skins.
 Let's see what the Modern skin looks like.
+
+* [Enzo clocks][webfx-enzoclocks-demo-link] ([source code][webfx-enzoclocks-source-link])
+
+This demo is using [Enzo][hansolo-enzo-link], a JavaFx library which offers many controls, in particular a clock control with several designs. 
 
 ### Games
 
-Ok all demos so far were just a few pieces of code.
 Let's see now what WebFx can do when it's about compiling an entire application. 
 Let's start with a couple of games! :-)
 
@@ -105,10 +102,10 @@ The ray tracing computation code was taken from this [JavaFx application][raytra
 [webfx-particles-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-particles/webfx-demo-particles-application/src/main/java/webfx/demo/particles/ParticlesApplication.java
 [webfx-tallycounter-demo-link]: https://webfx-tallycounter-demo.netlify.app
 [webfx-tallycounter-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-tallycounter/webfx-demo-tallycounter-application/src/main/java/webfx/demo/tallycounter/TallyCounterApplication.java
-[webfx-clock-demo-link]: https://webfx-clock-demo.netlify.app
-[webfx-clock-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-clock/webfx-demo-clock-application/src/main/java/webfx/demo/clock/ClockApplication.java
-[webfx-gauge-demo-link]: https://webfx-gauge-demo.netlify.app
-[webfx-gauge-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-gauge/webfx-demo-gauge-application/src/main/java/webfx/demo/gauge/GaugeApplication.java
+[webfx-moderngauge-demo-link]: https://webfx-moderngauge-demo.netlify.app
+[webfx-moderngauge-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-moderngauge/webfx-demo-moderngauge-application/src/main/java/webfx/demo/moderngauge/ModernGaugeApplication.java
+[webfx-enzoclocks-demo-link]: https://webfx-enzoclocks-demo.netlify.app
+[webfx-enzoclocks-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-enzoclocks/webfx-demo-enzoclocks-application/src/main/java/webfx/demo/enzoclocks/EnzoClocksApplication.java
 [webfx-spacefx-demo-link]: https://webfx-spacefx-demo.netlify.app
 [webfx-fx2048-demo-link]: https://webfx-fx2048-demo.netlify.app
 [webfx-mandelbrot-demo-link]: https://webfx-mandelbrot-demo.netlify.app
@@ -119,5 +116,6 @@ The ray tracing computation code was taken from this [JavaFx application][raytra
 [sketch-particles-demo-link]: https://soulwire.github.io/sketch.js/examples/particles.html
 [hansolo-odometer-link]: https://github.com/HanSolo/odometer
 [hansolo-medusa-link]: https://github.com/HanSolo/Medusa
+[hansolo-enzo-link]: https://bitbucket.org/hansolo/enzo/src
 [hansolo-spacefx-link]: https://github.com/HanSolo/SpaceFX
 [fx2048-link]: https://github.com/brunoborges/fx2048
