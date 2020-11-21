@@ -1,6 +1,8 @@
 package webfx.tools.buildtool;
 
+import webfx.tools.buildtool.sourcegenerators.GluonFilesGenerator;
 import webfx.tools.buildtool.sourcegenerators.GwtFilesGenerator;
+import webfx.tools.buildtool.sourcegenerators.JavaFilesGenerator;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,33 +16,45 @@ public final class BuildTool {
         long t0 = System.currentTimeMillis();
         RootModule webfxRootModule = new RootModule(getWebfxRootDirectory());
 
+        ProjectModule parentModule = webfxRootModule
+                //.findProjectModule("webfx-demos")
+                ;
+
+        // Updating Maven module files for all source modules (<dependencies> section in pom.xml)
+        parentModule
+                .getThisAndChildrenModulesInDepth()
+                .filter(ProjectModule::hasSourceDirectory)
+                .forEach(m -> m.getMavenModuleFile().updateAndWrite());
+
+        // Generating files for Java modules (module-info.java and META-INF/services)
+        parentModule
+                .getThisAndChildrenModulesInDepth()
+                .filter(ProjectModule::hasSourceDirectory)
+                .filter(ProjectModule::hasJavaSourceDirectory)
+                .filter(m -> m.getTarget().isPlatformSupported(Platform.JRE))
+                .forEach(JavaFilesGenerator::generateJavaFiles)
+        ;
+
+        // Generate files for executable GWT modules (module.gwt.xml, index.html, super sources, service loader, resource bundle)
+        parentModule
+                .getThisAndChildrenModulesInDepth()
+                .filter(m -> m.isExecutable(Platform.GWT))
+                .forEach(GwtFilesGenerator::generateGwtFiles);
+
+        // Generate files for executable Gluon modules (graalvm_config/reflection.json)
+        parentModule
+                .getThisAndChildrenModulesInDepth()
+                .filter(m -> m.isExecutable(Platform.JRE))
+                .filter(m -> m.getTarget().hasTag(TargetTag.GLUON))
+                .forEach(GluonFilesGenerator::generateGraalVmReflectionJson);
+
+
 /*
         ModuleReporter reporter = new ModuleReporter(webfxRootModule);
         reporter.listDependenciesPathsBetween("webfx-kit-javafxgraphics-peers-gwt", "webfx-kit-extracontrols");
         reporter.listProjectModuleJavaClassesDependingOn("webfx-kit-javafxgraphics-peers-gwt", "webfx-kit-extracontrols");
 */
 
-
-        ProjectModule parentModule = webfxRootModule
-                //.findProjectModule("webfx-demos")
-                ;
-        parentModule
-                .getThisAndChildrenModulesInDepth()
-                .filter(ProjectModule::hasSourceDirectory)
-                .forEach(m -> m.getMavenModuleFile().updateAndWrite());
-        parentModule
-                .getThisAndChildrenModulesInDepth()
-                .filter(ProjectModule::hasSourceDirectory)
-                .filter(ProjectModule::hasJavaSourceDirectory)
-                .filter(m -> m.getTarget().isPlatformSupported(Platform.JRE))
-                //.filter(m -> !m.getName().contains("-peers"))
-                //.filter(m -> !m.isDirectlyDependingOn("jsinterop-annotations"))
-                .forEach(m -> m.getJavaModuleFile().writeFile())
-        ;
-        parentModule
-                .getThisAndChildrenModulesInDepth()
-                .filter(m -> m.isExecutable(Platform.GWT))
-                .forEach(GwtFilesGenerator::generateGwtFiles);
 /*
         webfxRootModule.getChildModuleInDepth("webfx-platform-shared-appcontainer-vertx")
             .getUsedJavaPackages()

@@ -43,6 +43,7 @@
         <module>mongoose-backend-operations-mail</module>
         <module>mongoose-backend-operations-moneytransfer</module>
         <module>mongoose-backend-operations-resourceconfiguration</module>
+        <module>mongoose-backend-application-gluon</module>
 
     </modules>
 

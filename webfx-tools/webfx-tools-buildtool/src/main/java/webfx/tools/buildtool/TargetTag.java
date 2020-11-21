@@ -11,6 +11,7 @@ public enum TargetTag {
     JAVA            ("java", PLAT_API_PARTITION, Platform.JRE /*, Platform.ANDROID*/),
     JRE             ("jre", JAVA, Platform.JRE),
     JAVAFX          ("javafx", JRE), // => DESKTOP
+    GLUON          ("gluon", JAVAFX), // => native
     WEB             ("web", PLAT_API_PARTITION, Platform.GWT, Platform.TEAVM), // => BROWSER
     GWT             ("gwt", WEB, Platform.GWT),
     TEAVM           ("teavm", WEB, Platform.TEAVM),

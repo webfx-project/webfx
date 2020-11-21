@@ -16,7 +16,7 @@
         <module>webfx-demo-colorfulcircles-application</module>
         <module>webfx-demo-colorfulcircles-application-javafx</module>
         <module>webfx-demo-colorfulcircles-application-gwt</module>
+        <module>webfx-demo-colorfulcircles-application-gluon</module>
     </modules>
-
 
 </project>

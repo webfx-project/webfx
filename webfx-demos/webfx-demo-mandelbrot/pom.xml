@@ -20,6 +20,7 @@
         <module>webfx-demo-mandelbrot-webassembly-teavm</module>
         <module>webfx-demo-mandelbrot-application</module>
         <module>webfx-demo-mandelbrot-application-javafx</module>
+        <module>webfx-demo-mandelbrot-application-gluon</module>
         <module>webfx-demo-mandelbrot-application-gwt</module>
     </modules>
 

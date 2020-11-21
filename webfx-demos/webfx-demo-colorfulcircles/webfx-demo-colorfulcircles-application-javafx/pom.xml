@@ -42,12 +42,4 @@
     
     </dependencies>
 
-    <!-- Making the jar file executable with its associated lib directory -->
-
-    <properties>
-        <plugins.param.jre.mainClass>webfx.platform.shared.services.appcontainer.ApplicationContainer</plugins.param.jre.mainClass>
-        <!-- disabling classes-dependencies unpack to avoid including them again in the jar -->
-        <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
-    </properties>
-
 </project>

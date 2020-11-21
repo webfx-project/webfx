@@ -1,0 +1,16 @@
+<module>
+
+    <graalvm-reflection-json>
+        <![CDATA[
+[
+  {
+    "name" : "webfx.demo.mandelbrot.webworker.MandelbrotWebWorker",
+    "methods" : [
+      { "name" : "<init>", "parameterTypes" : [] }
+    ]
+  }
+]
+        ]]>
+    </graalvm-reflection-json>
+
+</module>

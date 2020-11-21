@@ -16,6 +16,7 @@
         <module>webfx-demo-fx2048-application</module>
         <module>webfx-demo-fx2048-application-javafx</module>
         <module>webfx-demo-fx2048-application-gwt</module>
+        <module>webfx-demo-fx2048-application-gluon</module>
     </modules>
 
 

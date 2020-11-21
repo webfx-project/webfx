@@ -62,7 +62,7 @@ public class JavaModuleFile extends ModuleFile {
             providedJavaServices
                     .stream()
                     .sorted()
-                    .forEach(s -> sb.append("    provides ").append(s).append(" with ").append(module.getProvidedJavaServiceImplementations(s).collect(Collectors.joining(", "))).append(";\n"));
+                    .forEach(s -> sb.append("    provides ").append(s).append(" with ").append(module.getProvidedJavaServiceImplementations(s, true).collect(Collectors.joining(", "))).append(";\n"));
         }
         sb.append("\n}");
 

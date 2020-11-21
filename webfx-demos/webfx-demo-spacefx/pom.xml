@@ -17,6 +17,7 @@
         <module>webfx-demo-spacefx-application</module>
         <module>webfx-demo-spacefx-application-javafx</module>
         <module>webfx-demo-spacefx-application-gwt</module>
+        <module>webfx-demo-spacefx-application-gluon</module>
     </modules>
 
 </project>

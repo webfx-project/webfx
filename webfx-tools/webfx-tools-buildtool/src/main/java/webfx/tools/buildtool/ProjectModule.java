@@ -616,7 +616,7 @@ public class ProjectModule extends ModuleImpl {
         if (isExecutable(Platform.GWT))
             return ReusableStream.of(getRootModule().findModule("webfx-kit-gwt"), getRootModule().findModule("webfx-platform-gwt-emul-javabase"), getRootModule().findModule("gwt-time"));
         if (isExecutable(Platform.JRE)) {
-            if (getTarget().hasTag(TargetTag.JAVAFX))
+            if (getTarget().hasTag(TargetTag.JAVAFX) || getTarget().hasTag(TargetTag.GLUON))
                 return ReusableStream.of(getRootModule().findModule("webfx-kit-javafx"), getRootModule().findModule("webfx-platform-java-appcontainer-impl"));
             return mapDestinationModules(transitiveDependenciesWithoutEmulationAndImplicitProvidersCache)
                     .filter(RootModule::isJavaFxEmulModule);
@@ -792,10 +792,12 @@ public class ProjectModule extends ModuleImpl {
                 ;
     }
 
-    public ReusableStream<String> getProvidedJavaServiceImplementations(String javaService) {
+    public ReusableStream<String> getProvidedJavaServiceImplementations(String javaService, boolean replaceDollarWithDot) {
         // Providers declared in the webfx module file
-        return getWebfxModuleFile().providedJavaServicesProviders(javaService)
-                .map(s -> s.replace('$', '.'));
+        ReusableStream<String> implementations = getWebfxModuleFile().providedJavaServicesProviders(javaService);
+        if (replaceDollarWithDot)
+            implementations = implementations.map(s -> s.replace('$', '.'));
+        return implementations;
 
     }
 
