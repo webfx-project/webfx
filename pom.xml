@@ -76,10 +76,10 @@
         <plugin.dependency.param.copy-libs.phase>validate</plugin.dependency.param.copy-libs.phase>
         <plugin.shade.param.fat.phase>package</plugin.shade.param.fat.phase>
         <plugin.antrun.param.j2objc.phase>compile</plugin.antrun.param.j2objc.phase>
-        <plugin.gwt.param.skipCompilation>false</plugin.gwt.param.skipCompilation>
+        <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>
         <plugin.gwt.param.draftCompile>false</plugin.gwt.param.draftCompile>
         <plugin.gwt.param.optimize>9</plugin.gwt.param.optimize>
-        <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
+        <plugin.gwt.param.module>${artifactId}</plugin.gwt.param.module>
         <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
         <plugin.teavm.param.targetType>JAVASCRIPT</plugin.teavm.param.targetType>
         <plugin.teavm.param.minifying>true</plugin.teavm.param.minifying>
@@ -701,6 +701,18 @@
     </build>
 
     <profiles>
+
+        <!-- profile to compile the java code into javascript using GWT -->
+        <profile>
+            <id>gwt-compile</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <properties>
+                <plugin.gwt.param.skipCompilation>false</plugin.gwt.param.skipCompilation>
+            </properties>
+        </profile>
 
         <profile>
             <id>gluon-desktop</id>
