@@ -1,5 +1,9 @@
 package javafx.scene.control;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ObjectPropertyBase;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.skin.TextFieldSkin;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -48,6 +52,32 @@ public class TextField extends TextInputControl implements HasAlignmentProperty,
     public Property<TextAlignment> textAlignmentProperty() {
         return textAlignmentProperty;
     }
+
+    /**
+     * The action handler associated with this text field, or
+     * {@code null} if no action handler is assigned.
+     *
+     * The action handler is normally called when the user types the ENTER key.
+     */
+    private ObjectProperty<EventHandler<ActionEvent>> onAction = new ObjectPropertyBase<EventHandler<ActionEvent>>() {
+        @Override
+        protected void invalidated() {
+            setEventHandler(ActionEvent.ACTION, get());
+        }
+
+        @Override
+        public Object getBean() {
+            return TextField.this;
+        }
+
+        @Override
+        public String getName() {
+            return "onAction";
+        }
+    };
+    public final ObjectProperty<EventHandler<ActionEvent>> onActionProperty() { return onAction; }
+    public final EventHandler<ActionEvent> getOnAction() { return onActionProperty().get(); }
+    public final void setOnAction(EventHandler<ActionEvent> value) { onActionProperty().set(value); }
 
     // Setting the default skin
     @Override

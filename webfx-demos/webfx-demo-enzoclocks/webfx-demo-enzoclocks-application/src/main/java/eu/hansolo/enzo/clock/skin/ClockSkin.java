@@ -42,11 +42,11 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.shape.SVGPath;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.*;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import webfx.kit.util.properties.Properties;
+import webfx.kit.util.properties.Unregisterable;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoField;
@@ -367,6 +367,7 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
         clock.designProperty().addListener(observable -> handleControlPropertyChanged("DESIGN"));
         clock.highlightVisibleProperty().addListener(observable -> handleControlPropertyChanged("DESIGN"));
         clock.timeProperty().addListener(observable -> handleControlPropertyChanged("TIME"));
+        clock.textProperty().addListener(observable -> handleControlPropertyChanged("TEXT"));
         clock.runningProperty().addListener(observable -> handleControlPropertyChanged("RUNNING"));
     }
 
@@ -381,6 +382,8 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
             secondPointerGroup.setOpacity(getSkinnable().isSecondPointerVisible() ? 1 : 0);
         } else if ("TIME".equals(PROPERTY)) {
             updateTime();
+        } else if ("TEXT".equals(PROPERTY)) {
+            updateDesign();
         }
     }
 
@@ -548,6 +551,10 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
         }
         tickLabelGroup.setOpacity(Clock.Design.BRAUN == clock.getDesign() ? 1 : 0);
         foreground.setOpacity(clock.isHighlightVisible() ? 1 : 0);
+        hourPointerFlour.setOpacity(Clock.Design.BRAUN == clock.getDesign() ? 1 : 0);
+        minutePointerFlour.setOpacity(Clock.Design.BRAUN == clock.getDesign() ? 1 : 0);
+        secondPointer.setOpacity(Clock.Design.BOSCH == clock.getDesign() ? 0 : 1);
+
         resize();
 
         if (wasRunning) {
@@ -762,7 +769,7 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
     private final static Color SECOND_POINTER_COLOR = Color.rgb(207, 43, 27);
     private final static Color POINTER_FLOUR_BRAUN_COLOR = Color.web("#D8E0BD");
     private final static Color SECOND_POINTER_BRAUN_COLOR = Color.web("#F0C843");
-    private boolean backgroundRadiiBound;
+    Unregisterable radiiBinding;
 
     private boolean isDayMode() {
         return !nightDayStyleClass.contains("night");
@@ -785,10 +792,9 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
                     setBackground(background, LinearGradient.valueOf(isDayMode() ? "from 16% 16% to 83% 83% rgb(201, 201, 197) 0%, rgb(226, 226, 221) 100%" : "from 16% 16% to 83% 83% rgb(8,8,8) 0%, rgb(10,10,10) 100%"), radii);
                     break;
             }
-            if (!backgroundRadiiBound) {
-                Properties.runOnPropertiesChange(width -> styleBackground(style), background.widthProperty());
-                backgroundRadiiBound = true;
-            }
+            if (radiiBinding != null)
+                radiiBinding.unregister();
+            radiiBinding = Properties.runOnPropertiesChange(width -> styleBackground(style), background.widthProperty());
             background.setBorder(new Border(new BorderStroke(Color.web("#303030") /*LinearGradient.valueOf("#202020, #505050")*/, BorderStrokeStyle.SOLID, radii, BorderStroke.THIN)));
         }
     }
@@ -837,6 +843,8 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
                 case "tick-label-braun":
                     tickLabel.setFill(isDayMode() ? POINTER_TICK_KNOB_DAY_BOSH_BRAUN_COLOR : POINTER_TICK_KNOB_NIGHT_BOSH_BRAUN_COLOR);
                     break;
+                default:
+                    tickLabel.setFill(null);
             }
     }
 
@@ -844,28 +852,27 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
         if (STYLE_WITH_CSS)
             pointer.getStyleClass().setAll(nightDayStyleClass, style);
         else {
-            //Node effectNode = pointer;
             switch (style) {
                 case "hour-pointer-ios6":
                 case "hour-pointer-db":
                     setBackground(pointer, isDayMode() ? POINTER_TICK_KNOB_DAY_BOSH_BRAUN_COLOR : POINTER_TICK_KNOB_NIGHT_BOSH_BRAUN_COLOR);
+                    setShape(pointer, null, null);
                     break;
                 case "hour-pointer-bosch":
-                    //effectNode =
+                    setBackground(pointer, null, null);
                     setShape(pointer,
                             isDayMode() ? POINTER_TICK_KNOB_DAY_BOSH_BRAUN_COLOR : POINTER_TICK_KNOB_NIGHT_BOSH_BRAUN_COLOR,
                             "M 98.5 44.15 C 98.5 42.275 101.5 42.275 101.5 44.15 L 103.9 119 L 103.9 119 L 96.1 119 L 96.1 119 L 98.5 44.15 Z"
                     );
                     break;
                 case "hour-pointer-braun":
-                    //effectNode =
+                    setBackground(pointer, null, null);
                     setShape(pointer,
                             isDayMode() ? POINTER_TICK_KNOB_DAY_BOSH_BRAUN_COLOR : POINTER_TICK_KNOB_NIGHT_BOSH_BRAUN_COLOR,
                             "M 98.8626 16.5547 C 98.8626 15.9023 99.3718 15.3735 100 15.3735 C 100.6282 15.3735 101.1374 15.9023 101.1374 16.5547 L 101.1374 51.4836 L 98.8626 51.4836 L 98.8626 16.5547 ZM 97.4003 15.7226 L 97.375 89.8438 C 92.9806 91.0384 89.5 95.0617 89.5 100 C 89.5 105.8712 94.3466 110.5 100 110.5 C 105.6534 110.5 110.5 105.8087 110.5 99.9375 C 110.5 94.9992 106.9881 91.0384 102.5938 89.8438 L 102.5997 15.7226 C 102.5997 14.232 101.4358 13.0236 100 13.0236 C 98.5642 13.0236 97.4003 14.232 97.4003 15.7226 Z"
                     );
                     break;
             }
-            //effectNode.setEffect(pointerShadow);
         }
     }
 
@@ -880,6 +887,8 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
                             "M 97.4003 15.7226 L 97.375 89.8438 C 92.9806 91.0384 89.5 95.0617 89.5 100 C 89.5 105.8712 94.3466 110.5 100 110.5 C 105.6534 110.5 110.5 105.8087 110.5 99.9375 C 110.5 94.9992 106.9881 91.0384 102.5938 89.8438 L 102.5997 15.7226 C 102.5997 14.232 101.4358 13.0236 100 13.0236 C 98.5642 13.0236 97.4003 14.232 97.4003 15.7226 Z"
                     );
                     break;
+                default:
+                    setShape(pointer, null, null);
             }
     }
 
@@ -887,28 +896,27 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
         if (STYLE_WITH_CSS)
             pointer.getStyleClass().setAll(nightDayStyleClass, style);
         else {
-            //Node effectNode = pointer;
             switch (style) {
                 case "minute-pointer-ios6":
                 case "minute-pointer-db":
                     setBackground(pointer, isDayMode() ? POINTER_TICK_KNOB_DAY_BOSH_BRAUN_COLOR : POINTER_TICK_KNOB_NIGHT_BOSH_BRAUN_COLOR);
+                    setShape(pointer, null, null);
                     break;
                 case "minute-pointer-bosch":
-                    //effectNode =
+                    setBackground(pointer, null, null);
                     setShape(pointer,
                             isDayMode() ? POINTER_TICK_KNOB_DAY_BOSH_BRAUN_COLOR : POINTER_TICK_KNOB_NIGHT_BOSH_BRAUN_COLOR,
                             "M 98.5 13.2884 C 98.5 10.6372 101.5 10.6372 101.5 13.2884 L 103.9 119 L 103.9 119 L 96.1 119 L 96.1 119 L 98.5 13.2884 Z"
                     );
                     break;
                 case "minute-pointer-braun":
-                    //effectNode =
+                    setBackground(pointer, null, null);
                     setShape(pointer,
                             isDayMode() ? POINTER_TICK_KNOB_DAY_BOSH_BRAUN_COLOR : POINTER_TICK_KNOB_NIGHT_BOSH_BRAUN_COLOR,
                             "M 97.7253 34.1114 C 97.7253 32.8263 98.7437 31.7847 100 31.7847 C 101.2563 31.7847 102.2747 32.8263 102.2747 34.1114 L 102.2747 50.0657 L 97.7253 50.0657 L 97.7253 34.1114 ZM 89.5 99.9688 C 89.5 105.7513 94.3466 110.4688 100 110.4688 C 105.6534 110.4688 110.5 105.7825 110.5 100 C 110.5 95.631 107.6861 91.8506 103.9688 90.2813 L 103.9688 34.2188 C 103.9688 31.9653 102.2619 30 100.0625 30 C 97.8631 30 96 31.9653 96 34.2188 L 95.9688 90.3125 C 92.3361 91.9205 89.5 95.6624 89.5 99.9688 Z"
                     );
                     break;
             }
-            //effectNode.setEffect(pointerShadow);
         }
     }
 
@@ -923,6 +931,8 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
                             "M 89.5 99.9688 C 89.5 105.7513 94.3466 110.4688 100 110.4688 C 105.6534 110.4688 110.5 105.7825 110.5 100 C 110.5 95.631 107.6861 91.8506 103.9688 90.2813 L 103.9688 34.2188 C 103.9688 31.9653 102.2619 30 100.0625 30 C 97.8631 30 96 31.9653 96 34.2188 L 95.9688 90.3125 C 92.3361 91.9205 89.5 95.6624 89.5 99.9688 Z"
                     );
                     break;
+                default:
+                    setShape(pointer, null, null);
             }
     }
 
@@ -930,34 +940,26 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
         if (STYLE_WITH_CSS)
             pointer.getStyleClass().setAll(nightDayStyleClass, style);
         else {
-            //Node effectNode = null;
             switch (style) {
                 case "second-pointer-ios6":
-                    //effectNode =
                     setShape(pointer,
                             SECOND_POINTER_COLOR,
                             "M 8 72.3988 C 8.5426 72.3988 8.9825 72.8517 8.9825 73.4104 C 8.9825 73.9691 8.5426 74.422 8 74.422 C 7.4574 74.422 7.0175 73.9691 7.0175 73.4104 C 7.0175 72.8517 7.4574 72.3988 8 72.3988 ZM 8 0 C 3.5817 0 0 3.6878 0 8.237 C 0 12.3437 2.9187 15.7486 6.7368 16.3721 L 6.7368 70.1944 C 5.5024 70.7088 4.6316 71.9549 4.6316 73.4104 C 4.6316 74.8659 5.5024 76.112 6.7368 76.6264 L 6.7368 100 L 9.2632 100 L 9.2632 76.6264 C 10.4976 76.112 11.3684 74.8659 11.3684 73.4104 C 11.3684 71.9549 10.4976 70.7088 9.2632 70.1944 L 9.2632 16.3721 C 13.0813 15.7486 16 12.3437 16 8.237 C 16 3.6878 12.4183 0 8 0 Z"
                     );
                     break;
                 case "second-pointer-db":
-                    //effectNode =
                     setShape(pointer,
                             SECOND_POINTER_COLOR,
                             "M 58 28.5 C 58 31.5376 60.4624 34 63.5 34 C 66.5376 34 69 31.5376 69 28.5 C 69 25.4624 66.5376 23 63.5 23 C 60.4624 23 58 25.4624 58 28.5 ZM 57 28.5 C 57 25.1732 59.5017 22.4292 62.725 22.045 L 63 6 L 64 6 L 64.275 22.045 C 67.5008 22.427 70 25.1715 70 28.5 C 70 31.7503 67.6157 34.4445 64.5 34.925 L 65 64 L 62 64 L 62.5 34.925 C 59.3843 34.4445 57 31.7503 57 28.5 Z"
                     );
                     break;
                 case "second-pointer-braun":
-                    //effectNode =
                     setShape(pointer,
                             SECOND_POINTER_BRAUN_COLOR,
                             "M 108.5625 98.375 C 108.5625 93.9001 105.5881 90.6532 101.4375 89.9375 L 100.9098 16.6569 C 100.9098 16.6569 100.5587 12.3988 100 12.3988 C 99.4206 12.3988 99.1487 16.6782 99.1487 16.6782 L 98.5 89.9375 C 94.3627 90.6646 91.3125 93.9724 91.3125 98.4375 C 91.3125 101.8148 93.0277 104.3504 95.6958 105.8991 L 95.6958 115.0436 C 95.6958 116.7373 97.0299 118.1102 98.6756 118.1102 L 101.1588 118.1102 C 102.8045 118.1102 104.1386 116.7373 104.1386 115.0436 L 104.1386 105.9928 C 106.8975 104.4712 108.5625 101.8217 108.5625 98.375 Z"
                     );
                     break;
             }
-/*
-            if (effectNode != null)
-                effectNode.setEffect(secondPointerShadow);
-*/
         }
     }
 
@@ -984,14 +986,13 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
                             "M 0 100 C 0 44.7708 44.7708 0 100 0 C 155.2292 0 200 44.7708 200 100 C 200 155.2292 155.2292 200 100 200 C 44.7708 200 0 155.2292 0 100 Z"
                     );
                     break;
-/*
                 case "center-knob-braun":
-                    setShape(centerKnob,
+                    /*setShape(centerKnob,
                             SECOND_POINTER_BRAUN_COLOR,
                             "M 58 62.5 C 58 59.4624 60.4624 57 63.5 57 C 66.5376 57 69 59.4624 69 62.5 C 69 65.5376 66.5376 68 63.5 68 C 60.4624 68 58 65.5376 58 62.5 Z"
-                    );
+                    );*/
+                    setShape(centerKnob, null, null);
                     break;
-*/
             }
     }
 
@@ -1008,6 +1009,8 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
                             "M 4.9839 72.482 C 18.0152 31.1014 53.9389 1.0572 100.1166 1.0572 C 146.5602 1.0572 182.6676 31.4482 195.4718 73.1978 C 196.9087 77.883 150.0777 100.1673 100 100 C 50.2169 99.8337 3.4843 77.2438 4.9839 72.482 Z"
                     );
                     break;
+                default:
+                    setShape(foreground,null, null);
             }
     }
 
@@ -1016,15 +1019,19 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
     }
 
     private static void setBackground(Region region, Paint fill, CornerRadii radii) {
-        region.setBackground(new Background(new BackgroundFill(fill, radii, null)));
+        region.setBackground(fill == null ? null : new Background(new BackgroundFill(fill, radii, null)));
     }
 
-    private Shape setShape(Pane pane, Paint fill, String svgPath) {
-        SVGPath p = new SVGPath();
-        p.setFill(fill);
-        p.setContent(svgPath);
-        pane.getChildren().setAll(p);
-        return p;
+    private void setShape(Pane pane, Paint fill, String svgPath) {
+        ObservableList<Node> children = pane.getChildren();
+        if (svgPath == null)
+            children.clear();
+        else {
+            SVGPath p = new SVGPath();
+            p.setFill(fill);
+            p.setContent(svgPath);
+            children.setAll(p);
+        }
     }
 
     private static void resizeRelocate(Region region, double x, double y, double width, double height) {
@@ -1046,7 +1053,7 @@ public class ClockSkin extends SkinBase<Clock> implements Skin<Clock> {
         }
     }
 
-    private static void log(String message) {
+    /*private static void log(String message) {
         webfx.platform.shared.services.log.Logger.log(message);
-    }
+    }*/
 }

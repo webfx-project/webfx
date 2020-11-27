@@ -88,6 +88,8 @@ public interface NodePeerMixin
 
     void updateScaleY(Number scaleX);
 
+    void updateRotate(Number rotate);
+
     void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change);
 
     void updateLocalToParentTransforms(List<Transform> localToParentTransforms);

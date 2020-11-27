@@ -275,6 +275,10 @@ public final class GridCollator extends VisualGrid {
         }
 
         @Override
+        public void updateRotate(Number rotate) {
+        }
+
+        @Override
         public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
             container.getTransforms().setAll(transforms);
         }

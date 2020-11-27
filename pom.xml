@@ -62,7 +62,7 @@
         <plugin.proguard.version>2.0.14</plugin.proguard.version>
         <plugin.gwt.version>1.0.0</plugin.gwt.version>
         <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
-        <plugin.gluon.version>0.1.34</plugin.gluon.version>
+        <plugin.gluon.version>0.1.35</plugin.gluon.version>
 
         <webfx.mainClass>webfx.platform.shared.services.appcontainer.ApplicationContainer</webfx.mainClass>
 
@@ -79,7 +79,7 @@
         <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>
         <plugin.gwt.param.draftCompile>false</plugin.gwt.param.draftCompile>
         <plugin.gwt.param.optimize>9</plugin.gwt.param.optimize>
-        <plugin.gwt.param.module>${artifactId}</plugin.gwt.param.module>
+        <plugin.gwt.param.module>${project.artifactId}</plugin.gwt.param.module>
         <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
         <plugin.teavm.param.targetType>JAVASCRIPT</plugin.teavm.param.targetType>
         <plugin.teavm.param.minifying>true</plugin.teavm.param.minifying>

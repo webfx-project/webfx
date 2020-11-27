@@ -4,6 +4,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -15,6 +16,7 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
@@ -79,17 +81,22 @@ public final class CirclesPackerPane extends Pane {
             }
 
         }
-        zoomNodes(recentlyAddedNodes, false);
-        zoomNodes(recentlyRemovedNodes, true);
-        if (timeline != null)
+        if (timeline != null) {
             timeline.stop();
+            zoomNodes(
+                getChildren().stream().filter(Node::isManaged).filter(node -> node.getScaleX() != 1).collect(Collectors.toList()),
+                    false, false);
+        }
+        zoomNodes(recentlyAddedNodes, false, true);
+        zoomNodes(recentlyRemovedNodes, true, true);
         if (!keyValues.isEmpty()) {
             timeline = new Timeline(new KeyFrame(Duration.millis(500), keyValues.stream().toArray(KeyValue[]::new)));
             timeline.setOnFinished(e -> {
                 getChildren().removeAll(reintroducedNodes);
                 reintroducedNodes.clear();
             });
-            timeline.play();
+            // Postponing the play so that the animation starts after all properties changes have been processed by WebFx
+            Platform.runLater(timeline::play);
         }
         getChildren().addAll(recentlyRemovedNodes);
         reintroducedNodes.addAll(recentlyRemovedNodes);
@@ -99,17 +106,21 @@ public final class CirclesPackerPane extends Pane {
         skipTimeline = false;
     }
 
-    private void zoomNodes(List<Node> nodes, boolean removed) {
+    private void zoomNodes(List<Node> nodes, boolean removed, boolean applyInitialScale) {
+        // Added nodes will scale from 0 to 1 and removed nodes from 1 to 0
         double initialScale = removed ? 1 : 0, endScale = 1 - initialScale;
         nodes.forEach(node -> {
-            if (removed)
-                node.setManaged(false);
-            node.setScaleX(initialScale);
-            node.setScaleY(initialScale);
+            if (removed) // Removed nodes are also excluded from the layout (circles packer algorithm)
+                node.setManaged(false); // This is how to exclude them
+            if (applyInitialScale) {
+                node.setScaleX(initialScale);
+                node.setScaleY(initialScale);
+            }
             keyValues.addAll(Arrays.asList(
                     new KeyValue(node.scaleXProperty(), endScale, Interpolator.EASE_OUT),
                     new KeyValue(node.scaleYProperty(), endScale, Interpolator.EASE_OUT)
             ));
+            // Removed nodes are also fading
             if (removed)
                 keyValues.add(new KeyValue(node.opacityProperty(), 0, Interpolator.EASE_OUT));
         });

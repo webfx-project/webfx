@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.text.Font;
+import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import webfx.kit.mapper.peers.javafxgraphics.markers.HasFontProperty;
 import webfx.kit.mapper.peers.javafxgraphics.markers.HasPromptTextProperty;
 import webfx.kit.mapper.peers.javafxgraphics.markers.HasTextProperty;
@@ -51,5 +52,52 @@ public abstract class TextInputControl extends Control implements
         if (!textProperty.isBound()) {
             setText("");
         }
+    }
+
+    public final int getLength() { return getText().length(); }
+
+    /**
+     * Selects all text in the text input.
+     */
+    public void selectAll() {
+        selectRange(0, getLength());
+    }
+
+    /**
+     * Moves the caret to before the first char of the text. This function
+     * also has the effect of clearing the selection.
+     */
+    public void home() {
+        // user wants to go to start
+        selectRange(0, 0);
+    }
+
+    /**
+     * Moves the caret to after the last char of the text. This function
+     * also has the effect of clearing the selection.
+     */
+    public void end() {
+        // user wants to go to end
+        final int textLength = getLength();
+        if (textLength > 0) {
+            selectRange(textLength, textLength);
+        }
+    }
+
+    /**
+     * Positions the anchor and caretPosition explicitly.
+     * @param anchor the anchor
+     * @param caretPosition the caretPosition
+     */
+    public void selectRange(int anchor, int caretPosition) {
+        NodePeer peer = getOrCreateAndBindNodePeer();
+        if (peer instanceof SelectableTextInputControlPeer)
+            ((SelectableTextInputControlPeer) peer).selectRange(anchor, caretPosition);
+    }
+
+    public interface SelectableTextInputControlPeer {
+
+        void selectRange(int anchor, int caretPosition);
+
     }
 }
