@@ -7,9 +7,11 @@ module webfx.demo.enzoclocks.application {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
+    requires webfx.extras.type;
+    requires webfx.extras.visual;
+    requires webfx.extras.visual.controls.grid;
     requires webfx.kit.util;
     requires webfx.platform.client.uischeduler;
-    requires webfx.platform.shared.log;
     requires webfx.platform.shared.resource;
     requires webfx.platform.shared.scheduler;
 
@@ -20,6 +22,7 @@ module webfx.demo.enzoclocks.application {
     exports eu.hansolo.enzo.fonts;
     exports webfx.demo.enzoclocks;
     exports webfx.demo.enzoclocks.circlespacker;
+    exports webfx.demo.enzoclocks.settings;
 
     // Resources packages
     opens eu.hansolo.enzo.clock;

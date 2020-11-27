@@ -1,0 +1,39 @@
+name: Enzo clocks demo - Linux Native
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '15.0.1' # The JDK version to make available on the path.
+          java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+          architecture: x64 # (x64 or x86) - defaults to x64
+      - name: Build the whole project with Maven and JDK 15 (target JDK 11)
+        run: mvn -B -P\!gwt-compile install
+      - name: Setup GraalVM environment
+        uses: DeLaGuardo/setup-graalvm@master
+        with:
+          graalvm-version: 20.3.0.java11
+      - name: Install libraries
+        run: sudo apt install libasound2-dev libavcodec-dev libavformat-dev libavutil-dev libgl-dev libgtk-3-dev libpango1.0-dev libxtst-dev
+      - name: Move to gluon module
+        run: cd webfx-demos/webfx-demo-enzoclocks/webfx-demo-enzoclocks-application-gluon
+      - name: Make staging directory
+        run: mkdir staging
+      - name: Gluon Build
+        run: mvn -Pgluon-desktop client:build client:package
+        env:
+          GRAALVM_HOME: ${{ env.JAVA_HOME }}
+      - name: Copy native client to staging
+        run: cp -r target/client/x86_64-linux/webfx-demo-* staging
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Enzo-clocks-demo-linux-x64
+          path: staging

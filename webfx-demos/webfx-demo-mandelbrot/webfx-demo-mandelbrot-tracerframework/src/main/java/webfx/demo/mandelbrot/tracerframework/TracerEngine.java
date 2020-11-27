@@ -266,6 +266,7 @@ public final class TracerEngine {
     }
 
     private void computeInThread() {
+        pixelComputer.initFrame(width, height, placeIndex, frameIndex);
         // Getting the next line index to computed (but for UI thread, we just continue where we stopped last time)
         int lineIndex = pickNextLineIndexToCompute();
         LineComputationInfo lineComputationInfo = getLineComputationInfo(lineIndex);

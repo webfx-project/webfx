@@ -56,6 +56,97 @@
         </dependency>
         
         <dependency>
+            <artifactId>webfx-extras-cell</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-imagestore</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-label</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-type</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-visual</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-visual-controls</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-visual-controls-grid</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-visual-controls-grid-peers-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-visual-controls-grid-peers-base</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-visual-controls-peers-base</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-webtext-controls</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-webtext-controls-peers-base</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
+            <artifactId>webfx-extras-webtext-controls-peers-gwt</artifactId>
+            <groupId>${webfx.groupId}</groupId>
+            <version>${webfx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        
+        <dependency>
             <artifactId>webfx-kit-gwt</artifactId>
             <groupId>${webfx.groupId}</groupId>
             <version>${webfx.version}</version>
@@ -218,14 +309,6 @@
     
     </dependencies>
 
-    <properties>
-        <!-- Setting the GWT plugin configuration parameters -->
-        <plugin.gwt.param.module>webfx-demo-enzoclocks-application-gwt</plugin.gwt.param.module>
-        <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>
-        <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
-        <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
-    </properties>
-
     <build>
         <plugins>
 
@@ -243,19 +326,10 @@
         </plugins>
     </build>
 
+    <!-- Redefining the GWT profile here so it can be activated locally when invoking this pom directly -->
+    <!-- Note: activating a profile locally here will trigger the properties defined in the root pom -->
     <profiles>
-        <!-- profile to compile the java code into javascript using GWT -->
-        <profile>
-            <id>gwt-compile</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
-            <properties>
-                <plugin.gwt.param.skipCompilation>false</plugin.gwt.param.skipCompilation>
-            </properties>
-
-        </profile>
+        <profile><id>gwt-compile</id></profile>
     </profiles>
 
 </project>

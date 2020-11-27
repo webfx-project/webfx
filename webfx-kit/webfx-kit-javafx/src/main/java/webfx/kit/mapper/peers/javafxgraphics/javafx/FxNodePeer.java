@@ -130,6 +130,11 @@ public abstract class FxNodePeer
     }
 
     @Override
+    public void updateRotate(Number rotate) {
+        fxNode.setRotate(Numbers.doubleValue(rotate));
+    }
+
+    @Override
     public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
         fxNode.getTransforms().setAll(transforms);
     }

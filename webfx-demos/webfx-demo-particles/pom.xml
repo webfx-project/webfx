@@ -16,6 +16,7 @@
         <module>webfx-demo-particles-application</module>
         <module>webfx-demo-particles-application-javafx</module>
         <module>webfx-demo-particles-application-gwt</module>
+        <module>webfx-demo-particles-application-gluon</module>
     </modules>
 
 </project>

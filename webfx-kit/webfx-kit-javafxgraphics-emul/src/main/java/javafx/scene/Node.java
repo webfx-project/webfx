@@ -25,6 +25,7 @@ import javafx.scene.effect.Effect;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.LayoutFlags;
+import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
@@ -634,6 +635,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
 
     private Translate layoutTranslateTransform;
     private Scale scaleTransform;
+    private Rotate rotateTransform;
     
     @Override
     public List<Transform> localToParentTransforms() {
@@ -650,8 +652,21 @@ public abstract class Node implements INode, EventTarget, Styleable {
                 layoutTranslateTransform = Translate.create();
             layoutTranslateTransform.setX(ltX);
             layoutTranslateTransform.setY(ltY);
-            allTransforms = new ArrayList<>();
+            if (allTransforms == null)
+                allTransforms = new ArrayList<>();
             allTransforms.add(layoutTranslateTransform);
+        }
+        double rotate = getRotate();
+        if (rotate != 0) {
+            if (rotateTransform == null)
+                rotateTransform = new Rotate();
+            rotateTransform.setAngle(rotate);
+            Bounds b = getBoundsInLocal();
+            rotateTransform.setPivotX((b.getMinX() + b.getMaxX()) / 2);
+            rotateTransform.setPivotY((b.getMinY() + b.getMaxY()) / 2);
+            if (allTransforms == null)
+                allTransforms = new ArrayList<>();
+            allTransforms.add(rotateTransform);
         }
         double scaleX = getScaleX(), scaleY = getScaleY();
         if (scaleX != 1 || scaleY != 1) {
@@ -1303,6 +1318,10 @@ public abstract class Node implements INode, EventTarget, Styleable {
         layoutBounds.setValue(getLayoutBounds());
     }
 
+    public Bounds getBoundsInLocal() {
+        return getLayoutBounds(); // Temporary
+    }
+
     protected void createLayoutMeasurable(NodePeer nodePeer) {
         // Always creating a new LayoutMeasurable (even when nodePeer is valid) so that min/pref/max
         // width/height user values are returned in priority whenever they have been set.
@@ -1535,6 +1554,24 @@ public abstract class Node implements INode, EventTarget, Styleable {
         if (scaleZProperty == null)
             scaleZProperty = new SimpleDoubleProperty(DEFAULT_SCALE_Z);
         return scaleZProperty;
+    }
+
+    private final static double DEFAULT_ROTATE = 0;
+    private DoubleProperty rotateProperty;
+
+    public final void setRotate(double value) {
+        rotateProperty().set(value);
+    }
+
+    public final double getRotate() {
+        return (rotateProperty == null) ? DEFAULT_ROTATE
+                : rotateProperty.get();
+    }
+
+    public final DoubleProperty rotateProperty() {
+        if (rotateProperty == null)
+            rotateProperty = new SimpleDoubleProperty(DEFAULT_ROTATE);
+        return rotateProperty;
     }
 
     /**
@@ -1935,10 +1972,10 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return new Point2D(tempPt.x, tempPt.y);
     }
 
-    public Point2D sceneToLocal(double localX, double localY) {
+    public Point2D sceneToLocal(double sceneX, double sceneY) {
         final com.sun.javafx.geom.Point2D tempPt =
                 TempState.getInstance().point;
-        tempPt.setLocation((float)localX, (float)localY);
+        tempPt.setLocation((float)sceneX, (float)sceneY);
         sceneToLocal(tempPt);
         return new Point2D(tempPt.x, tempPt.y);
     }

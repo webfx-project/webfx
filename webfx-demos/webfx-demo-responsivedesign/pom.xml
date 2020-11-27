@@ -16,6 +16,7 @@
         <module>webfx-demo-responsivedesign-application</module>
         <module>webfx-demo-responsivedesign-application-javafx</module>
         <module>webfx-demo-responsivedesign-application-gwt</module>
+        <module>webfx-demo-responsivedesign-application-gluon</module>
     </modules>
 
 

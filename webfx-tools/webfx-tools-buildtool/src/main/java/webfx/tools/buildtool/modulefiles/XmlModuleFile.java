@@ -89,6 +89,11 @@ abstract class XmlModuleFile extends ModuleFile {
         return XmlUtil.lookupNode(getDocument(), xpathExpression);
     }
 
+    String lookupNodeTextContent(String xpathExpression) {
+        Node node = lookupNode(xpathExpression);
+        return node == null ? null : node.getTextContent();
+    }
+
     ReusableStream<String> lookupNodeListTextContent(String xPathExpression) {
         return XmlUtil.nodeListToReusableStream(lookupNodeList(xPathExpression), Node::getTextContent);
     }

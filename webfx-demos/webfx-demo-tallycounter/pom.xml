@@ -15,6 +15,7 @@
     <modules>
         <module>webfx-demo-tallycounter-application</module>
         <module>webfx-demo-tallycounter-application-javafx</module>
+        <module>webfx-demo-tallycounter-application-gluon</module>
         <module>webfx-demo-tallycounter-application-gwt</module>
     </modules>
 

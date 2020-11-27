@@ -21,7 +21,6 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import webfx.platform.client.services.uischeduler.UiScheduler;
 import webfx.platform.shared.services.log.Logger;
@@ -66,9 +65,8 @@ public class TracerView {
     private AnimationTimer snapshotsPlayer;
 
     // Keeping reference to show or hide these buttons
-    private SVGPath pauseButton, resumeButton, gearButton, exitButton;
+    private Pane pauseButton, resumeButton, gearButton, exitButton;
     private Arc progressArc;
-    private final Rotate gearRotate = new Rotate();
 
     private final HBox placeButtonBar = new HBox(6);
 
@@ -93,16 +91,15 @@ public class TracerView {
         stackPane.setClip(new Rectangle(canvasWidth, canvasHeight)); // To hide the button bar when it's animated down
 
         placeButtonBar.getChildren().setAll(
-                createSvgButton(SvgButtonPaths.getLightPath(),      this::onLightClicked),
+                                createSvgButton(SvgButtonPaths.getLightPath(),      this::onLightClicked),
                 pauseButton  =  createSvgButton(SvgButtonPaths.getPausePath(),      this::onPauseOrResumeClicked),
                 resumeButton =  createSvgButton(SvgButtonPaths.getResumePath(),     this::onPauseOrResumeClicked),
-                createSvgButton(SvgButtonPaths.getPlayPath(),       this::onSlowPlayClicked),
-                createSvgButton(SvgButtonPaths.getPlay2Path(),      this::onFullPlayClicked),
+                                createSvgButton(SvgButtonPaths.getPlayPath(),       this::onSlowPlayClicked),
+                                createSvgButton(SvgButtonPaths.getPlay2Path(),      this::onFullPlayClicked),
                 gearButton   =  createSvgButton(SvgButtonPaths.getGearPath(),       this::onGearClicked),
                 exitButton   =  createSvgButton(SvgButtonPaths.getExitPath(),       this::onExitClicked),
                 progressArc  =  new Arc(32, 32, 30, 30, 90, 0)
         );
-        gearButton.getTransforms().add(gearRotate);
         progressArc.setType(ArcType.ROUND);
         progressArc.setManaged(false);
         progressArc.layoutXProperty().bind(pauseButton.layoutXProperty());
@@ -125,10 +122,6 @@ public class TracerView {
                 exitButton.translateXProperty().bind(placeButtonBar.translateXProperty());
                 exitButton.setVisible(false); // initially invisible
             }
-            Bounds gearBounds = gearButton.getLayoutBounds();
-            gearRotate.setPivotX((gearBounds.getMinX() + gearBounds.getMaxX()) / 2);
-            gearRotate.setPivotY((gearBounds.getMinY() + gearBounds.getMaxY()) / 2);
-            //Logger.log("Gear pivot = " + gearRotate.getPivotX() + ", " + gearRotate.getPivotY());
             updatePlaceButtonBar(); // To refresh buttons color
             if (!hasSeveralPlaces)
                 showPlace(0);
@@ -206,7 +199,7 @@ public class TracerView {
         // WebFx can't calculate layoutBounds before the node is inserted in the DOM so we postpone the call
         UiScheduler.scheduleInAnimationFrame(
                 () -> widthConsumer.accept(node.getLayoutBounds().getWidth()),
-                3); // 2 frames delay should be ok
+                5); // 5 frames delay should be ok
     }
 
     private Node createPlaceThumbnail(int placeIndex) {
@@ -254,8 +247,8 @@ public class TracerView {
     private GridPane settingsView;
     private Odometer odometer;
     private Timeline odometerTimeline;
-    private final SVGPath incrementButton = createSvgButton(SvgButtonPaths.getUpPath(),   this::increment);
-    private final SVGPath decrementButton = createSvgButton(SvgButtonPaths.getDownPath(), this::decrement);
+    private final Pane incrementButton = createSvgButton(SvgButtonPaths.getUpPath(),   this::increment);
+    private final Pane decrementButton = createSvgButton(SvgButtonPaths.getDownPath(), this::decrement);
     private final Text workersText = new Text("Workers"), webAssemblyText = new Text("WebAssembly");
     private int requestedThreadCounts = -1;
     private boolean requestUsingWebAssembly;
@@ -304,7 +297,7 @@ public class TracerView {
             overlayVBox.getChildren().add(0, settingsView);
             fadeNode(settingsView, true);
         }
-        animateProperty(1000, gearRotate.angleProperty(), wasShowing ? 0 : 180);
+        animateProperty(1000, getSvgButtonPath(gearButton).rotateProperty(), wasShowing ? 0 : 180);
     }
 
     private void hideSettings() {
@@ -359,16 +352,31 @@ public class TracerView {
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     }
 
-    private static SVGPath createSvgButton(String content, Runnable clickRunnable) {
-        SVGPath svgPath = new SVGPath();
-        svgPath.setContent(content);
-        svgPath.setCursor(Cursor.HAND);
-        svgPath.setOnMouseClicked(e -> clickRunnable.run());
-        return svgPath;
+    private static Pane createSvgButton(String content, Runnable clickRunnable) {
+        SVGPath path = new SVGPath();
+        path.setContent(content);
+        // We now embed the svg path in a pane. The reason is for a better click experience. Because in JavaFx (not in
+        // the browser), the clicking area is only the filled shape, not the empty space in that shape. So when clicking
+        // on a gear icon on a mobile for example, even if globally our finger covers the icon, the final click point
+        // may be in this empty space, making the button not reacting, leading to a frustrating experience.
+        Pane pane = new Pane(path); // Will act as the mouse click area covering the entire surface
+        // The pane needs to be reduced to the svg path size (which we can get using the layout bounds).
+        path.sceneProperty().addListener(p -> { // This postpone is necessary only when running in the browser, not in standard JavaFx
+            Bounds b = path.getLayoutBounds(); // Bounds computation should be correct now even in the browser
+            pane.setMinSize(b.getWidth(), b.getHeight());
+            pane.setMaxSize(b.getWidth(), b.getHeight());
+        });
+        pane.setCursor(Cursor.HAND);
+        pane.setOnMouseClicked(e -> clickRunnable.run());
+        return pane;
+    }
+
+    private SVGPath getSvgButtonPath(Pane svgButton) {
+        return (SVGPath) svgButton.getChildren().get(0);
     }
 
     private void updatePlaceButtonBar() {
-        placeButtonBar.getChildren().stream().filter(n -> n instanceof Shape).forEach(n -> ((Shape) n).setFill(overlayFill));
+        placeButtonBar.getChildren().forEach(this::setOverlayFillOnShapes);
         setOverlayFillOnShapes(exitButton, incrementButton, decrementButton, workersText, webAssemblyText);
         switchKnob.setFill(overlayFill == Color.WHITE || overlayFill == Color.YELLOW || overlayFill == Color.CYAN ? Color.BLACK : Color.WHITE);
         switchButton.setBackground(new Background(new BackgroundFill(overlayFill, new CornerRadii(radius), null)));
@@ -378,9 +386,11 @@ public class TracerView {
         showButton(gearButton, !completed);
     }
 
-    private void setOverlayFillOnShapes(Shape... shapes) {
-        for (Shape shape : shapes)
+    private void setOverlayFillOnShapes(Node... nodes) {
+        for (Node node : nodes) {
+            Shape shape = node instanceof Shape ? (Shape) node : getSvgButtonPath((Pane) node);
             shape.setFill(overlayFill);
+        }
     }
 
     private static void showButton(Node button, boolean isShown) {

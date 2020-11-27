@@ -20,6 +20,7 @@
         <module>webfx-demo-raytracer-application</module>
         <module>webfx-demo-raytracer-application-javafx</module>
         <module>webfx-demo-raytracer-application-gwt</module>
+        <module>webfx-demo-raytracer-application-gluon</module>
     </modules>
 
 </project>

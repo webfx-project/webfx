@@ -55,6 +55,7 @@ public abstract class NodePeerBase
                 , node.layoutYProperty()
                 , node.translateXProperty()
                 , node.translateYProperty()
+                , node.rotateProperty()
                 , node.mouseTransparentProperty()
                 , node.onMouseDraggedProperty()
         );
@@ -115,6 +116,7 @@ public abstract class NodePeerBase
                 || updateProperty(node.layoutYProperty(), changedProperty, p -> mixin.updateLayoutY(p.doubleValue()))
                 || updateProperty(node.translateXProperty(), changedProperty, p -> mixin.updateTranslateX(p.doubleValue()))
                 || updateProperty(node.translateYProperty(), changedProperty, p -> mixin.updateTranslateY(p.doubleValue()))
+                || updateProperty(node.rotateProperty(), changedProperty, p -> mixin.updateTranslateY(p.doubleValue()))
                 || updateProperty(node.scaleXProperty(), changedProperty, p -> mixin.updateScaleX(p.doubleValue()))
                 || updateProperty(node.scaleYProperty(), changedProperty, p -> mixin.updateScaleY(p.doubleValue()))
                 || updateProperty(node.cursorProperty(), changedProperty, mixin::updateCursor)

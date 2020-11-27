@@ -58,7 +58,7 @@ public abstract class HtmlSvgNodePeer
         setChildrenContainer(element);
     }
 
-    public E getElement() {
+    public final E getElement() {
         return element;
     }
 
@@ -448,8 +448,7 @@ public abstract class HtmlSvgNodePeer
         return new TouchPoint(touch.identifier, state, touch.clientX, touch.clientY, touch.screenX, touch.screenY, null, null);
     }
 
-    private static GestureRecognizers gestureRecognizers = new GestureRecognizers();
-
+    private static final GestureRecognizers gestureRecognizers = new GestureRecognizers();
 
     @Override
     public void requestFocus() {
@@ -487,6 +486,11 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void updateScaleY(Number scaleX) {
+        updateLocalToParentTransforms();
+    }
+
+    @Override
+    public void updateRotate(Number rotate) {
         updateLocalToParentTransforms();
     }
 
@@ -717,7 +721,11 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setFontAttributes(Font font) {
-        HtmlFonts.setHtmlFontStyleAttributes(font, getVisibleContainer());
+        setFontAttributes(font, getVisibleContainer());
+    }
+
+    protected void setFontAttributes(Font font, Element element) {
+        HtmlFonts.setHtmlFontStyleAttributes(font, element);
     }
 
     private static String toSvgBlendMode(BlendMode blendMode) {

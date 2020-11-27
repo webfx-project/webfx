@@ -25,7 +25,7 @@
 
     <properties>
         <plugin.teavm.param.mainClass>webfx.demo.mandelbrot.webassembly.teavm.TeaVmMandelbrotWebAssemblyEntryPoints</plugin.teavm.param.mainClass>
-        <plugin.teavm.targetType>WEBASSEMBLY</plugin.teavm.targetType>
+        <plugin.teavm.param.targetType>WEBASSEMBLY</plugin.teavm.param.targetType>
     </properties>
 
     <build>

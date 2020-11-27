@@ -981,17 +981,6 @@
     
     </dependencies>
 
-    <properties>
-        <!-- Setting the GWT plugin configuration parameters -->
-        <plugin.gwt.param.module>mongoose-frontend-application-gwt</plugin.gwt.param.module>
-        <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>
-        <!-- Changing parameters to speed up compilation time while in development -->
-        <plugin.gwt.param.draftCompile>true</plugin.gwt.param.draftCompile>
-        <plugin.gwt.param.optimize>0</plugin.gwt.param.optimize>
-        <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
-        <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
-    </properties>
-
     <build>
         <plugins>
 
@@ -1059,19 +1048,10 @@
         </plugins>
     </build>
 
+    <!-- Redefining the GWT profile here so it can be activated locally when invoking this pom directly -->
+    <!-- Note: activating a profile locally here will trigger the properties defined in the root pom -->
     <profiles>
-        <!-- profile to compile the java code into javascript using GWT -->
-        <profile>
-            <id>gwt-compile</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
-            <properties>
-                <plugin.gwt.param.skipCompilation>false</plugin.gwt.param.skipCompilation>
-            </properties>
-
-        </profile>
+        <profile><id>gwt-compile</id></profile>
     </profiles>
 
 </project>

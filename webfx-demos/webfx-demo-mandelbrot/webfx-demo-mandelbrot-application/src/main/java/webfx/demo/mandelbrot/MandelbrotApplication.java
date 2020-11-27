@@ -19,8 +19,9 @@ package webfx.demo.mandelbrot;
 
 
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import webfx.demo.mandelbrot.tracerframework.TracerView;
 
@@ -29,27 +30,21 @@ import webfx.demo.mandelbrot.tracerframework.TracerView;
  */
 public final class MandelbrotApplication extends Application {
 
-    private final static int REQUESTED_WIDTH = 640, REQUESTED_HEIGHT = 480; // Initial requested size but final size will probably be different when running in the browser
-    private final static int MAX_PIXELS_COUNT = REQUESTED_WIDTH * REQUESTED_HEIGHT; // Limiting the frame weight as we will take a snapshot for each
+    private final static double MAX_PIXELS_COUNT = 640 * 480; // Limiting the frame weight as we will take a snapshot for each
 
     @Override
     public void start(Stage primaryStage) {
-        // Creating the scene with the specified size (this size is ignored if running in the browser)
-        Scene scene = new Scene(new Pane(), REQUESTED_WIDTH, REQUESTED_HEIGHT);
-        primaryStage.setScene(scene);
-
-        // Reading back the scene size which may finally be different in the case we run in the browser
-        double finalSceneWidth  = scene.getWidth();
-        double finalSceneHeight = scene.getHeight();
-
         // Deciding the canvas size
-        int canvasWidth  = Math.min((int) finalSceneWidth,  REQUESTED_WIDTH);
-        int canvasHeight = Math.min((int) finalSceneHeight, MAX_PIXELS_COUNT / canvasWidth);
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        double w = screenBounds.getWidth(), h = screenBounds.getHeight(), r = w / h, wh = w * h;
+        if (wh > MAX_PIXELS_COUNT) {
+            w = Math.sqrt(MAX_PIXELS_COUNT * r);
+            h = w / r;
+        }
 
-        scene.setRoot(new TracerView(canvasWidth, canvasHeight, new MandelbrotPixelComputer()).buildView());
-
+        // Creating the scene with the specified size (this size is ignored if running in the browser)
+        primaryStage.setScene(new Scene(new TracerView((int) w, (int) h, new MandelbrotPixelComputer()).buildView(), w, h));
         primaryStage.setTitle("WebFx Mandelbrot");
         primaryStage.show();
     }
-
 }

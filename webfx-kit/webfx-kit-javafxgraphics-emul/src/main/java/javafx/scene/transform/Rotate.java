@@ -113,7 +113,9 @@ public class Rotate extends PivotTransform implements
 
     @Override
     public Point2D transform(double x, double y) {
-        return GeometryUtil.rotate(getPivotX(), getPivotY(), x, y, getAngle());
+        if (Z_AXIS.equals(getAxis())) // Ignoring 3D transforms for now
+            return GeometryUtil.rotate(getPivotX(), getPivotY(), x, y, getAngle());
+        return new Point2D((float) x, (float) y);
     }
 
     @Override

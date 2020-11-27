@@ -16,6 +16,7 @@
         <module>webfx-demo-moderngauge-application</module>
         <module>webfx-demo-moderngauge-application-javafx</module>
         <module>webfx-demo-moderngauge-application-gwt</module>
+        <module>webfx-demo-moderngauge-application-gluon</module>
     </modules>
 
 </project>

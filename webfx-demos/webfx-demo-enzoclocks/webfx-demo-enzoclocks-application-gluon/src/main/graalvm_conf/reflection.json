@@ -1,0 +1,25 @@
+[
+  {
+    "name" : "eu.hansolo.enzo.clock.skin.ClockSkin",
+    "methods" : [
+      { "name" : "<init>", "parameterTypes" : ["eu.hansolo.enzo.clock.Clock"] }
+    ]
+  },    {
+        "name" : "webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
+        "methods" : [
+            { "name" : "<init>", "parameterTypes" : [] }
+        ]
+    },
+    {
+        "name" : "webfx.kit.mapper.peers.javafxcontrols.javafx.skin.FxControlPeerSkin",
+        "methods" : [
+            { "name" : "<init>", "parameterTypes" : ["javafx.scene.control.Control"] }
+        ]
+    },
+    {
+        "name" : "javafx.scene.control.TableColumnBase",
+        "methods" : [
+            { "name" : "<init>", "parameterTypes" : [] }
+        ]
+    }
+]

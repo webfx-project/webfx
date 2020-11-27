@@ -73,6 +73,10 @@ public final class WebFxModuleFile extends XmlModuleFile {
         return lookupNodeListTextContent("/module/reflect/array-new-instance//class");
     }
 
+    public String getGraalVmReflectionJson() {
+        return lookupNodeTextContent("/module/graalvm-reflection-json");
+    }
+
     public ReusableStream<String> providedJavaServices() {
         return lookupNodeListAttribute("/module/providers//provider", "spi").distinct();
     }

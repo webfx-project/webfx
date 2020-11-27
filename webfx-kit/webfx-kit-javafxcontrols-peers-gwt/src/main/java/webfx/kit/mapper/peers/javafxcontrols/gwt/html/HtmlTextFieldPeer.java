@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
 import webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerBase;
 import webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerMixin;
 import webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
@@ -46,6 +47,11 @@ public class HtmlTextFieldPeer
             n = ((ToolkitTextBox) n).getEmbeddingTextField();
         if (n instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
             HtmlUtil.setAttribute(getElement(), "type", "password");
+    }
+
+    @Override
+    public void updateFont(Font font) {
+        setFontAttributes(font, getFocusElement());
     }
 
     @Override
