@@ -30,11 +30,11 @@ jobs:
           path: ${{ enzoclocks-gwt-build }}
       - name: Pushes to build repository
         uses: cpina/github-action-push-to-another-repository@master
-          env:
-            API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-          with:
-            source-directory: ${{ enzoclocks-gwt-build }}
-            destination-repository-username: 'webfx-project'
-            destination-repository-name: 'webfx-demo-enzoclock-build'
-            destination-github-username: 'salmonb'
-            user-email: dev.salmonb@gmail.com
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: ${{ enzoclocks-gwt-build }}
+          destination-repository-username: 'webfx-project'
+          destination-repository-name: 'webfx-demo-enzoclock-build'
+          destination-github-username: 'salmonb'
+          user-email: dev.salmonb@gmail.com
