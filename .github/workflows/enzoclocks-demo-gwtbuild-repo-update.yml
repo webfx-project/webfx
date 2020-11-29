@@ -21,7 +21,7 @@ jobs:
       - name: Build the whole project with Maven and JDK 15 (target Java 11)
         run: mvn -P\!gwt-compile install
       - name: GWT Build
-        run: mvn Pgwt-compile install
+        run: mvn -Pgwt-compile install
         working-directory: ${{ env.enzoclocks-gwt-module }}
       - name: Upload GWT build
         uses: actions/upload-artifact@v2
