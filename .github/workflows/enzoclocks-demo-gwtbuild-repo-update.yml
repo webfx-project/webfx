@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       enzoclocks-gwt-module: ./webfx-demos/webfx-demo-enzoclocks/webfx-demo-enzoclocks-application-gwt
-      enzoclocks-gwt-build: ${{ env.enzoclocks-gwt-module }}/target/webfx-demo-enzoclocks-application-gwt-0.1.0-SNAPSHOT/webfx_demo_enzoclocks_application_gwt/
+      enzoclocks-gwt-build:  ./webfx-demos/webfx-demo-enzoclocks/webfx-demo-enzoclocks-application-gwt/target/webfx-demo-enzoclocks-application-gwt-0.1.0-SNAPSHOT/webfx_demo_enzoclocks_application_gwt/
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 15
@@ -27,13 +27,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Enzo-clocks-gwt-war
-          path: ${{ enzoclocks-gwt-build }}
+          path: ${{ env.enzoclocks-gwt-build }}
       - name: Pushes to build repository
         uses: cpina/github-action-push-to-another-repository@master
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: ${{ enzoclocks-gwt-build }}
+          source-directory: ${{ env.enzoclocks-gwt-build }}
           destination-repository-username: 'webfx-project'
           destination-repository-name: 'webfx-demo-enzoclock-build'
           destination-github-username: 'salmonb'
