@@ -19,14 +19,14 @@ And a web build resulting from the compilation of your application code together
 
 ### Basics
 
-* [Colorful circles][webfx-colorfulcircles-demo-link] ([source code][webfx-colorfulcircles-source-link])
+* [Colorful circles][webfx-colorfulcircles-demo-link] ([Github repository][webfx-colorfulcircles-repo-link])
 
 One of the simplest JavaFx application you can write beyond Hello World.
 The [original code][colorfulcircles-oracle-code-link] was written by Oracle when JavaFx was first launched
 (the code has been slightly modified for this demo to better fit in the browser window).
 In this example, WebFx maps the JavaFx scene graph into the browser DOM.
 
-* [Particles][webfx-particles-demo-link] ([source code][webfx-particles-source-link])
+* [Particles][webfx-particles-demo-link] ([Github repository][webfx-particles-repo-link])
 
 It was very easy (30mn) to rewrite this [sketch.js demo][sketch-particles-demo-link] in JavaFx
 and recompile it to JavaScript with WebFx.
@@ -38,27 +38,27 @@ In this example, WebFx maps a JavaFx canvas into a browser canvas.
 You can easily write custom controls with the JavaFx API and even design several skins for the same control.
 You can also reuse or port existing Java/JavaFx libraries as demonstrated below.
 
-* [Tally Counter][webfx-tallycounter-demo-link] ([source code][webfx-tallycounter-source-link])
+* [Tally Counter][webfx-tallycounter-demo-link] ([Github repository][webfx-tallycounter-repo-link])
 
 Let's write something a bit more useful but still simple: a Tally counter.
 To display the counter, this demo is using an odometer control which was already implemented in JavaFx on this [Github repository][hansolo-odometer-link].
 The layout is designed for mobiles.
 
-* [Modern gauge][webfx-moderngauge-demo-link] ([source code][webfx-moderngauge-source-link])
+* [Modern gauge][webfx-moderngauge-demo-link] ([Github repository][webfx-moderngauge-repo-link])
 
 This demo is using [Medusa][hansolo-medusa-link], a JavaFx library which offers a gauge control with many skins.
 Let's see what the Modern skin looks like.
 
-* [Enzo clocks][webfx-enzoclocks-demo-link] ([source code][webfx-enzoclocks-source-link])
+* [Enzo clocks][webfx-enzoclocks-demo-link] ([Github repository][webfx-enzoclocks-repo-link])
 
 This demo is using [Enzo][hansolo-enzo-link], a JavaFx library which offers many controls, in particular a clock control with several designs. 
 
 ### Games
 
 Let's see now what WebFx can do when it's about compiling an entire application. 
-Let's start with a couple of games! :-)
+Let's start with a couple of games!
 
-* [FX2048][webfx-fx2048-demo-link]
+* [Fx2048][webfx-fx2048-demo-link] ([Github repository][webfx-fx2048-repo-link])
 
 This is the game 2048 (try to sum 2048 on a single tile).
 There was already a [JavaFx version][fx2048-link] and WebFx transpiled it for the browser.
@@ -66,7 +66,7 @@ This is a scene graph based game styled with CSS.
 Also good to play on mobiles and tablets
 (use the arrow keys or touch screen to play). 
 
-* [SpaceFX][webfx-spacefx-demo-link]
+* [SpaceFx][webfx-spacefx-demo-link] ([Github repository][webfx-spacefx-repo-link])
 
 This space game was also already written [in JavaFx][hansolo-spacefx-link] and is an example of a canvas based game.
 To be played using the keyboard (instructions on start screen) on a computer, or a tablet with a bluetooth keyboard.
@@ -79,13 +79,13 @@ such as web workers and WebAssembly modules, which can be useful for application
 WebFx can interact with third-party web workers and WebAssembly modules or you can write your own in Java.
 In the following demos, they are written in Java and compiled with [TeaVM][teavm-website]. 
 
-* [Mandelbrot][webfx-mandelbrot-demo-link]
+* [Mandelbrot][webfx-mandelbrot-demo-link] ([Github repository][webfx-mandelbrot-repo-link])
 
 This application proposes 9 Mandelbrot places to visit and computes for each a series of frames to play a zoom effect.
 You can adjust the number of web workers and switch between JavaScript and WebAssembly in the settings.
 The Mandelbrot computation code was taken from this [Java Swing application][mandelbrot-computation-source].  
 
-* [Ray tracer][webfx-raytracer-demo-link]
+* [Ray tracer][webfx-raytracer-demo-link] ([Github repository][webfx-raytracer-repo-link])
 
 A very similar application but with ray tracing, which requires even more computation resources.
 The ray tracing computation code was taken from this [JavaFx application][raytracer-computation-source].  
@@ -97,20 +97,24 @@ The ray tracing computation code was taken from this [JavaFx application][raytra
 [webfx-framework-link]: https://github.com/webfx-project/webfx/blob/master/webfx-framework
 [webfx-platform-link]: https://github.com/webfx-project/webfx/blob/master/webfx-platform
 [webfx-colorfulcircles-demo-link]: https://webfx-colorfulcircles-demo.netlify.app
-[webfx-colorfulcircles-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-colorfulcircles/webfx-demo-colorfulcircles-application/src/main/java/webfx/demo/colorfulcircles/ColorfulCircles.java
+[webfx-colorfulcircles-repo-link]: https://github.com/webfx-project/webfx-demo-colorfulcircles
 [webfx-particles-demo-link]: https://webfx-particles-demo.netlify.app
-[webfx-particles-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-particles/webfx-demo-particles-application/src/main/java/webfx/demo/particles/ParticlesApplication.java
+[webfx-particles-repo-link]: https://github.com/webfx-project/webfx-demo-particles
 [webfx-tallycounter-demo-link]: https://webfx-tallycounter-demo.netlify.app
-[webfx-tallycounter-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-tallycounter/webfx-demo-tallycounter-application/src/main/java/webfx/demo/tallycounter/TallyCounterApplication.java
+[webfx-tallycounter-repo-link]: https://github.com/webfx-project/webfx-demo-tallycounter
 [webfx-moderngauge-demo-link]: https://webfx-moderngauge-demo.netlify.app
-[webfx-moderngauge-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-moderngauge/webfx-demo-moderngauge-application/src/main/java/webfx/demo/moderngauge/ModernGaugeApplication.java
+[webfx-moderngauge-repo-link]: https://github.com/webfx-project/webfx-demo-moderngauge
 [webfx-enzoclocks-demo-link]: https://webfx-enzoclocks-demo.netlify.app
-[webfx-enzoclocks-source-link]: https://github.com/webfx-project/webfx/blob/master/webfx-demos/webfx-demo-enzoclocks/webfx-demo-enzoclocks-application/src/main/java/webfx/demo/enzoclocks/EnzoClocksApplication.java
-[webfx-spacefx-demo-link]: https://webfx-spacefx-demo.netlify.app
+[webfx-enzoclocks-repo-link]: https://github.com/webfx-project/webfx-demo-enzoclocks
 [webfx-fx2048-demo-link]: https://webfx-fx2048-demo.netlify.app
+[webfx-fx2048-repo-link]: https://github.com/webfx-project/webfx-demo-fx2048
+[webfx-spacefx-demo-link]: https://webfx-spacefx-demo.netlify.app
+[webfx-spacefx-repo-link]: https://github.com/webfx-project/webfx-demo-spacefx
 [webfx-mandelbrot-demo-link]: https://webfx-mandelbrot-demo.netlify.app
+[webfx-mandelbrot-repo-link]: https://github.com/webfx-project/webfx-demo-mandelbrot
 [mandelbrot-computation-source]: http://math.hws.edu/eck/js/mandelbrot/java/xMandelbrotSource-1-2/edu/hws/eck/umb/
 [webfx-raytracer-demo-link]: https://webfx-raytracer-demo.netlify.app
+[webfx-raytracer-repo-link]: https://github.com/webfx-project/webfx-demo-raytracer
 [raytracer-computation-source]: https://github.com/steventrowland/JavaFX-Ray-Tracer
 [colorfulcircles-oracle-code-link]: https://docs.oracle.com/javafx/2/get_started/ColorfulCircles.java.html
 [sketch-particles-demo-link]: https://soulwire.github.io/sketch.js/examples/particles.html

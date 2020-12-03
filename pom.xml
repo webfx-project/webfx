@@ -739,16 +739,6 @@
         </profile>
 
         <profile>
-            <id>webfx-demos</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>webfx-demos</module>
-            </modules>
-        </profile>
-
-        <profile>
             <id>mongoose</id>
             <activation>
                 <activeByDefault>false</activeByDefault>

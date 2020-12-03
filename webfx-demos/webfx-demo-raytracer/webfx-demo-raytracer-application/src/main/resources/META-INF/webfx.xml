@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="javafx.application.Application">webfx.demo.raytracer.RayTracerApplication</provider>
-    </providers>
-
-</module>
