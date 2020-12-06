@@ -24,6 +24,9 @@
         <webfx.groupId>org.webfx</webfx.groupId>
         <webfx.version>0.1.0-SNAPSHOT</webfx.version>
 
+        <webfx.mainClass>webfx.platform.shared.services.appcontainer.ApplicationContainer</webfx.mainClass>
+        <webfx.mainModule>webfx.platform.shared.services.appcontainer</webfx.mainModule>
+
         <!-- java version -->
         <java.version>11</java.version>
         <java.level>${java.version}</java.level>
@@ -63,8 +66,8 @@
         <plugin.gwt.version>1.0.0</plugin.gwt.version>
         <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
         <plugin.gluon.version>0.1.35</plugin.gluon.version>
-
-        <webfx.mainClass>webfx.platform.shared.services.appcontainer.ApplicationContainer</webfx.mainClass>
+        <plugin.javapackager.version>1.4.2</plugin.javapackager.version>
+        <plugin.javafx.version>0.0.3</plugin.javafx.version>
 
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
         <plugin.compiler.param.exclude></plugin.compiler.param.exclude>
@@ -86,6 +89,12 @@
         <plugin.teavm.param.debug>false</plugin.teavm.param.debug>
         <plugin.gluon.param.target>TBD</plugin.gluon.param.target>
         <plugin.gluon.param.mainClass>${webfx.mainClass}</plugin.gluon.param.mainClass>
+        <plugin.javapackager.name>WebFxApp</plugin.javapackager.name>
+        <plugin.javapackager.displayName>WebFx Application</plugin.javapackager.displayName>
+        <plugin.javapackager.url>TBD</plugin.javapackager.url>
+        <plugin.javapackager.organizationName>WebFx</plugin.javapackager.organizationName>
+        <plugin.javapackager.organizationUrl>https://webfx-project.org</plugin.javapackager.organizationUrl>
+        <plugin.javapackager.organizationEmail>info@webfx-project.org</plugin.javapackager.organizationEmail>
 
         <application.name>${project.name}</application.name>
         <application.version>${project.version}</application.version>
@@ -695,6 +704,57 @@
                     </configuration>
                 </plugin>
 
+
+                <!--
+                 ******************************************************************************************
+                 * Javapackager plugin configuration (MacOS/Linux package & windows installer generation) *
+                 ******************************************************************************************
+                 -->
+                <plugin>
+                    <groupId>io.github.fvarrui</groupId>
+                    <artifactId>javapackager</artifactId>
+                    <version>${plugin.javapackager.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>package</goal>
+                            </goals>
+                            <configuration>
+                                <!-- mandatory -->
+                                <mainClass>${webfx.mainClass}</mainClass>
+                                <!-- optional -->
+                                <bundleJre>true</bundleJre>
+                                <name>${plugin.javapackager.name}</name>
+                                <displayName>${plugin.javapackager.displayName}</displayName>
+                                <url>${plugin.javapackager.url}</url>
+                                <organizationName>${plugin.javapackager.organizationName}</organizationName>
+                                <organizationUrl>${plugin.javapackager.organizationUrl}</organizationUrl>
+                                <organizationEmail>${plugin.javapackager.organizationEmail}</organizationEmail>
+                                <outputDirectory>${project.build.directory}/javapackager</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+
+                <!--
+                 ********************************************************
+                 * JavaFx plugin configuration (jlink Image generation) *
+                 ********************************************************
+                 -->
+                <plugin>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>${plugin.javafx.version}</version>
+                    <configuration>
+                        <release>${maven.compiler.release}</release>
+                        <jlinkImageName>jlinkImage</jlinkImageName>
+                        <launcher>launcher</launcher>
+                        <mainClass>${webfx.mainModule}/${webfx.mainClass}</mainClass>
+                    </configuration>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -749,29 +809,6 @@
             </modules>
         </profile>
 
-        <!--
-                        <profile>
-                            <id>idea-build-fix</id>
-                            <activation>
-                                <activeByDefault>false</activeByDefault>
-                            </activation>
-                            <dependencyManagement>
-                                <dependencies>
-                                    <dependency>
-                                        <groupId>com.google.gwt</groupId>
-                                        <artifactId>gwt-user</artifactId>
-                                        <version>${lib.gwt.version}</version>
-                                        <exclusions>
-                                            <exclusion>
-                                                <groupId>javax.validation</groupId>
-                                                <artifactId>validation-api</artifactId>
-                                            </exclusion>
-                                        </exclusions>
-                                    </dependency>
-                                </dependencies>
-                            </dependencyManagement>
-                        </profile>
-                -->
     </profiles>
 
 </project>
