@@ -798,17 +798,6 @@
             </properties>
         </profile>
 
-        <profile>
-            <id>mongoose</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <modules>
-                <!-- Mongoose app (will move to another repo once webfx API will be stable) -->
-                <module>mongoose</module>
-            </modules>
-        </profile>
-
     </profiles>
 
 </project>

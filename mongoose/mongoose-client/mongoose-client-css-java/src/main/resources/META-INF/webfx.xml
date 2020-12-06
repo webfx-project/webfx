@@ -1,8 +1,0 @@
-<module implements-module="mongoose-client-css">
-
-    <resource-packages>
-        <package>mongoose.client.css</package>
-        <package>mongoose.client.fonts</package>
-    </resource-packages>
-
-</module>
