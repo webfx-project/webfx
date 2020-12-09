@@ -4,10 +4,7 @@ import webfx.tools.buildtool.modulefiles.*;
 import webfx.tools.buildtool.util.splitfiles.SplitFiles;
 import webfx.tools.util.reusablestream.ReusableStream;
 
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,7 +22,7 @@ public class ProjectModule extends ModuleImpl {
      * Returns the children modules if any (only first level under this module).
      */
     private final ReusableStream<ProjectModule> childrenModulesCache =
-            ReusableStream.create(() -> SplitFiles.uncheckedWalk(getHomeDirectory(), 1))
+            getChildrenHomePaths()
                     .filter(path -> !SplitFiles.uncheckedIsSameFile(path, getHomeDirectory()))
                     .filter(Files::isDirectory)
                     .filter(path -> Files.exists(path.resolve("pom.xml")))
@@ -386,7 +383,7 @@ public class ProjectModule extends ModuleImpl {
         this(homeDirectory, null);
     }
 
-    private ProjectModule(Path homeDirectory, ProjectModule parentModule) {
+    ProjectModule(Path homeDirectory, ProjectModule parentModule) {
         super(homeDirectory.getFileName().toString());
         this.parentModule = parentModule;
         this.homeDirectory = homeDirectory;
@@ -488,6 +485,10 @@ public class ProjectModule extends ModuleImpl {
     /*************************
      ***** Basic streams *****
      *************************/
+
+    ReusableStream<Path> getChildrenHomePaths() {
+        return ReusableStream.create(() -> SplitFiles.uncheckedWalk(getHomeDirectory(), 1, FileVisitOption.FOLLOW_LINKS));
+    }
 
     ///// Java classes
 

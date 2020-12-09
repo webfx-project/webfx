@@ -25,11 +25,25 @@ public final class RootModule extends ProjectModule {
      ***** Constructor *****
      ***********************/
 
-    RootModule(Path rootDirectory) {
-        super(rootDirectory);
+    private final static ThreadLocal<List<Path>> ADDITIONAL_CHILDREN_HOME_PATHS_THREAD_LOCAL = new ThreadLocal<>();
+    private final List<Path> additionalChildrenHomePaths = new ArrayList<>();
+
+    RootModule(Path rootDirectory, Path... additionalChildrenModulesHomePaths) {
+        super(register(rootDirectory, additionalChildrenModulesHomePaths));
+        additionalChildrenHomePaths.addAll(ADDITIONAL_CHILDREN_HOME_PATHS_THREAD_LOCAL.get());
         registerThirdPartyModules();
     }
 
+    private static Path register(Path rootDirectory, Path... additionalPaths) {
+        ADDITIONAL_CHILDREN_HOME_PATHS_THREAD_LOCAL.set(Arrays.asList(additionalPaths));
+        return rootDirectory;
+    }
+
+    @Override
+    ReusableStream<Path> getChildrenHomePaths() {
+        List<Path> paths = additionalChildrenHomePaths != null ? additionalChildrenHomePaths : ADDITIONAL_CHILDREN_HOME_PATHS_THREAD_LOCAL.get();
+        return super.getChildrenHomePaths().concat(paths);
+    }
 
     /********************************
      ***** Registration methods *****
