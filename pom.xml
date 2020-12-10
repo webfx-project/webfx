@@ -17,7 +17,6 @@
     <modules>
         <module>webfx-platform</module>
         <module>webfx-kit</module>
-        <module>webfx-extras</module>
         <module>webfx-tools</module>
     </modules>
 
