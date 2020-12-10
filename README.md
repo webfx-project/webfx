@@ -5,7 +5,7 @@ WebFx solves this problem by providing a web port of JavaFx (the [webfx-kit][web
 that can be compiled by GWT together with your application code.
 
 Because JavaFx was not originally designed for web applications, WebFx also provides an application framework
-(the [webfx-framework][webfx-framework-link] module) with web-oriented features (such as a UI router),
+(the [webfx-framework][webfx-framework-link] module) with web-oriented features (such as a UI router, Web workers, WebAssembly modules, etc...),
 as well as many other features (such as authn, authz, i18n, orm) for building modern web applications.
 
 For low level features such as json, timers, websockets, web workers, etc... WebFx provides some cross-platform APIs
