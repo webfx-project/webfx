@@ -1,7 +1,7 @@
 package javafx.stage;
 
 import javafx.geometry.Rectangle2D;
-import webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
 
 /**
  * @author Bruno Salmon

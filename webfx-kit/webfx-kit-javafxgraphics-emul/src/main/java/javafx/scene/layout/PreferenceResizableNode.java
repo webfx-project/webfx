@@ -1,7 +1,7 @@
 package javafx.scene.layout;
 
 import javafx.scene.INode;
-import webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
 
 /**
  * @author Bruno Salmon

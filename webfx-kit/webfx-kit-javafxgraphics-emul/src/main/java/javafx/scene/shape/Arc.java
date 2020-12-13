@@ -32,7 +32,7 @@ import javafx.beans.property.DoublePropertyBase;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.scene.paint.Paint;
-import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 
 /**

@@ -4,11 +4,11 @@ import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasEndXProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasEndYProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasStartXProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasStartYProperty;
-import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasEndXProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasEndYProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasStartXProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasStartYProperty;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 /**
  * @author Bruno Salmon

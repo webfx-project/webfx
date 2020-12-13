@@ -4,8 +4,8 @@ import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.*;
 import javafx.scene.Node;
-import webfx.kit.mapper.peers.javafxgraphics.markers.*;
-import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 /**
  * @author Bruno Salmon

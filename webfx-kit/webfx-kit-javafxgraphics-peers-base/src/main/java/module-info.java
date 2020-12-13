@@ -11,6 +11,6 @@ module webfx.kit.javafxgraphics.peers.base {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.kit.mapper.peers.javafxgraphics.base;
+    exports dev.webfx.kit.mapper.peers.javafxgraphics.base;
 
 }

@@ -8,11 +8,11 @@ module webfx.platform.client.uischeduler {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.client.services.uischeduler;
-    exports webfx.platform.client.services.uischeduler.spi;
-    exports webfx.platform.client.services.uischeduler.spi.impl;
+    exports dev.webfx.platform.client.services.uischeduler;
+    exports dev.webfx.platform.client.services.uischeduler.spi;
+    exports dev.webfx.platform.client.services.uischeduler.spi.impl;
 
     // Used services
-    uses webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider;
+    uses dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider;
 
 }

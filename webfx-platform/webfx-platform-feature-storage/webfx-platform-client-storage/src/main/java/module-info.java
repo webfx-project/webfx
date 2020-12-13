@@ -7,11 +7,11 @@ module webfx.platform.client.storage {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.client.services.storage;
-    exports webfx.platform.client.services.storage.spi;
+    exports dev.webfx.platform.client.services.storage;
+    exports dev.webfx.platform.client.services.storage.spi;
 
     // Used services
-    uses webfx.platform.client.services.storage.spi.LocalStorageProvider;
-    uses webfx.platform.client.services.storage.spi.SessionStorageProvider;
+    uses dev.webfx.platform.client.services.storage.spi.LocalStorageProvider;
+    uses dev.webfx.platform.client.services.storage.spi.SessionStorageProvider;
 
 }

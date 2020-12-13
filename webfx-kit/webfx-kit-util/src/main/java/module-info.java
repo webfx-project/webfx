@@ -8,7 +8,7 @@ module webfx.kit.util {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.kit.util.properties;
-    exports webfx.kit.util.properties.conversion;
+    exports dev.webfx.kit.util.properties;
+    exports dev.webfx.kit.util.properties.conversion;
 
 }

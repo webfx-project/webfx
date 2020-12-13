@@ -4,8 +4,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
-import webfx.kit.util.properties.ObservableLists;
-import webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.util.properties.ObservableLists;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon

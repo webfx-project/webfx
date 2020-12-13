@@ -7,11 +7,11 @@ module webfx.platform.shared.shutdown {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.shared.services.shutdown;
-    exports webfx.platform.shared.services.shutdown.spi;
-    exports webfx.platform.shared.services.shutdown.spi.impl;
+    exports dev.webfx.platform.shared.services.shutdown;
+    exports dev.webfx.platform.shared.services.shutdown.spi;
+    exports dev.webfx.platform.shared.services.shutdown.spi.impl;
 
     // Used services
-    uses webfx.platform.shared.services.shutdown.spi.ShutdownProvider;
+    uses dev.webfx.platform.shared.services.shutdown.spi.ShutdownProvider;
 
 }

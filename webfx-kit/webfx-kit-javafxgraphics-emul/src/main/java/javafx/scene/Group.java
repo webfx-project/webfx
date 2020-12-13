@@ -4,8 +4,8 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
 import javafx.scene.layout.LayoutFlags;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasAutoSizeChildrenProperty;
-import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasAutoSizeChildrenProperty;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 /**
  * @author Bruno Salmon

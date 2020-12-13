@@ -6,9 +6,9 @@ module webfx.platform.java.shutdown.impl {
     requires webfx.platform.shared.shutdown;
 
     // Exported packages
-    exports webfx.platform.java.services.shutdown.spi.impl;
+    exports dev.webfx.platform.java.services.shutdown.spi.impl;
 
     // Provided services
-    provides webfx.platform.shared.services.shutdown.spi.ShutdownProvider with webfx.platform.java.services.shutdown.spi.impl.JavaShutdownProvider;
+    provides dev.webfx.platform.shared.services.shutdown.spi.ShutdownProvider with dev.webfx.platform.java.services.shutdown.spi.impl.JavaShutdownProvider;
 
 }

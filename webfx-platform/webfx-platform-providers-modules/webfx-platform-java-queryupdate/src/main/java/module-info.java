@@ -12,6 +12,6 @@ module webfx.platform.java.queryupdate {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.java.services_shared_code.queryupdate.jdbc;
+    exports dev.webfx.platform.java.services_shared_code.queryupdate.jdbc;
 
 }

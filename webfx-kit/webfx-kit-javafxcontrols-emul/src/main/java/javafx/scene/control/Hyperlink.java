@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * <p>An HTML like label which can be a graphic and/or text which responds to rollovers and clicks.

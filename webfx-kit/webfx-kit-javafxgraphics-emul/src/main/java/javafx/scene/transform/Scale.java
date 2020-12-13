@@ -4,8 +4,8 @@ import com.sun.javafx.geom.Point2D;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasXProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasYProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasXProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasYProperty;
 
 /**
  * @author Bruno Salmon

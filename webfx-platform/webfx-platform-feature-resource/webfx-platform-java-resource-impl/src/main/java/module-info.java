@@ -8,9 +8,9 @@ module webfx.platform.java.resource.impl {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.java.services.resource.spi.impl;
+    exports dev.webfx.platform.java.services.resource.spi.impl;
 
     // Provided services
-    provides webfx.platform.shared.services.resource.spi.ResourceServiceProvider with webfx.platform.java.services.resource.spi.impl.JavaResourceServiceProvider;
+    provides dev.webfx.platform.shared.services.resource.spi.ResourceServiceProvider with dev.webfx.platform.java.services.resource.spi.impl.JavaResourceServiceProvider;
 
 }

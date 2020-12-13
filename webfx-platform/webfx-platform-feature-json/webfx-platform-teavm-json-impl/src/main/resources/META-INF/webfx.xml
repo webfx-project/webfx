@@ -1,7 +1,7 @@
 <module>
 
     <providers>
-        <provider spi="webfx.platform.shared.services.json.spi.JsonProvider">webfx.platform.teavm.services.json.spi.impl.TeaVmJsonObject</provider>
+        <provider spi="dev.webfx.platform.shared.services.json.spi.JsonProvider">dev.webfx.platform.teavm.services.json.spi.impl.TeaVmJsonObject</provider>
     </providers>
 
 </module>

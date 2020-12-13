@@ -7,10 +7,10 @@ module webfx.platform.shared.log {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.shared.services.log;
-    exports webfx.platform.shared.services.log.spi;
+    exports dev.webfx.platform.shared.services.log;
+    exports dev.webfx.platform.shared.services.log.spi;
 
     // Used services
-    uses webfx.platform.shared.services.log.spi.LoggerProvider;
+    uses dev.webfx.platform.shared.services.log.spi.LoggerProvider;
 
 }

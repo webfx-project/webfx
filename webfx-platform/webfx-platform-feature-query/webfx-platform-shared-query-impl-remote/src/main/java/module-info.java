@@ -6,9 +6,9 @@ module webfx.platform.shared.query.impl.remote {
     requires webfx.platform.shared.query;
 
     // Exported packages
-    exports webfx.platform.shared.services.query.spi.impl.remote;
+    exports dev.webfx.platform.shared.services.query.spi.impl.remote;
 
     // Provided services
-    provides webfx.platform.shared.services.query.spi.QueryServiceProvider with webfx.platform.shared.services.query.spi.impl.remote.RemoteQueryServiceProvider;
+    provides dev.webfx.platform.shared.services.query.spi.QueryServiceProvider with dev.webfx.platform.shared.services.query.spi.impl.remote.RemoteQueryServiceProvider;
 
 }

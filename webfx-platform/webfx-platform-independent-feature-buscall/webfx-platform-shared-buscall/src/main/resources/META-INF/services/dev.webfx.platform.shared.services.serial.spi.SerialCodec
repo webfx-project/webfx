@@ -1,0 +1,3 @@
+dev.webfx.platform.shared.services.buscall.BusCallArgument$ProvidedSerialCodec
+dev.webfx.platform.shared.services.buscall.BusCallResult$ProvidedSerialCodec
+dev.webfx.platform.shared.services.buscall.SerializableAsyncResult$ProvidedSerialCodec

@@ -9,16 +9,16 @@ module webfx.platform.shared.appcontainer {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.shared.services.appcontainer;
-    exports webfx.platform.shared.services.appcontainer.spi;
-    exports webfx.platform.shared.services.appcontainer.spi.impl;
+    exports dev.webfx.platform.shared.services.appcontainer;
+    exports dev.webfx.platform.shared.services.appcontainer.spi;
+    exports dev.webfx.platform.shared.services.appcontainer.spi.impl;
 
     // Used services
-    uses webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider;
-    uses webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
-    uses webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
+    uses dev.webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider;
+    uses dev.webfx.platform.shared.services.appcontainer.spi.ApplicationJob;
+    uses dev.webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer;
 
     // Provided services
-    provides webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer with webfx.platform.shared.services.appcontainer.spi.impl.ApplicationJobsStarter;
+    provides dev.webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer with dev.webfx.platform.shared.services.appcontainer.spi.impl.ApplicationJobsStarter;
 
 }

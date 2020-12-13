@@ -1,7 +1,7 @@
 <module>
 
     <providers>
-        <provider spi="webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">webfx.platform.server.services.submitlistener.SubmitListenerModuleInitializer</provider>
+        <provider spi="dev.webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">dev.webfx.platform.server.services.submitlistener.SubmitListenerModuleInitializer</provider>
     </providers>
 
 </module>

@@ -6,8 +6,8 @@ import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.beans.property.*;
 import javafx.geometry.VPos;
 import javafx.scene.shape.Shape;
-import webfx.kit.mapper.peers.javafxgraphics.markers.*;
-import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 /**
  * @author Bruno Salmon

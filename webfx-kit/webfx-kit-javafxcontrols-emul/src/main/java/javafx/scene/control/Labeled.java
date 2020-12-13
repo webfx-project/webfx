@@ -10,8 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import webfx.kit.mapper.peers.javafxgraphics.markers.*;
-import webfx.kit.util.properties.Properties;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import dev.webfx.kit.util.properties.Properties;
 /**
  * @author Bruno Salmon
  */

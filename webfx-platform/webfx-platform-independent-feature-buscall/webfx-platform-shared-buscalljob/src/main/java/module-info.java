@@ -9,9 +9,9 @@ module webfx.platform.shared.buscalljob {
     requires webfx.platform.shared.log;
 
     // Exported packages
-    exports webfx.platform.server.jobs.buscall;
+    exports dev.webfx.platform.server.jobs.buscall;
 
     // Provided services
-    provides webfx.platform.shared.services.appcontainer.spi.ApplicationJob with webfx.platform.server.jobs.buscall.BusCallServerJob;
+    provides dev.webfx.platform.shared.services.appcontainer.spi.ApplicationJob with dev.webfx.platform.server.jobs.buscall.BusCallServerJob;
 
 }

@@ -7,10 +7,10 @@ module webfx.platform.shared.scheduler {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.shared.services.scheduler;
-    exports webfx.platform.shared.services.scheduler.spi;
+    exports dev.webfx.platform.shared.services.scheduler;
+    exports dev.webfx.platform.shared.services.scheduler.spi;
 
     // Used services
-    uses webfx.platform.shared.services.scheduler.spi.SchedulerProvider;
+    uses dev.webfx.platform.shared.services.scheduler.spi.SchedulerProvider;
 
 }

@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon

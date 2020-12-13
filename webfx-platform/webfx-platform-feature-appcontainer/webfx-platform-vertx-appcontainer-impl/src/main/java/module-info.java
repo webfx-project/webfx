@@ -13,9 +13,9 @@ module webfx.platform.vertx.appcontainer.impl {
     requires webfx.platform.vertx.instance;
 
     // Exported packages
-    exports webfx.platform.vertx.services.appcontainer.spi.impl;
+    exports dev.webfx.platform.vertx.services.appcontainer.spi.impl;
 
     // Provided services
-    provides webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider with webfx.platform.vertx.services.appcontainer.spi.impl.VertxApplicationContainerVerticle;
+    provides dev.webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider with dev.webfx.platform.vertx.services.appcontainer.spi.impl.VertxApplicationContainerVerticle;
 
 }

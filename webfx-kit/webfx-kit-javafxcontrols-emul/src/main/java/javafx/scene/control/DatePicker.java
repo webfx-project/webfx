@@ -4,7 +4,7 @@ import javafx.util.StringConverter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 import java.time.LocalDate;
 

@@ -30,12 +30,12 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Window;
-import webfx.kit.launcher.WebFxKitLauncher;
-import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
-import webfx.kit.mapper.peers.javafxgraphics.markers.*;
-import webfx.platform.client.services.uischeduler.UiScheduler;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import dev.webfx.platform.client.services.uischeduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -8,16 +8,16 @@ import javafx.beans.property.*;
 import javafx.event.*;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import webfx.kit.mapper.WebFxKitMapper;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasSceneProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
-import webfx.kit.launcher.WebFxKitLauncher;
-import webfx.kit.util.properties.Properties;
-import webfx.platform.client.services.uischeduler.AnimationFramePass;
-import webfx.platform.client.services.uischeduler.UiScheduler;
-import webfx.platform.shared.services.scheduler.Scheduled;
+import dev.webfx.kit.mapper.WebFxKitMapper;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasSceneProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.kit.util.properties.Properties;
+import dev.webfx.platform.client.services.uischeduler.AnimationFramePass;
+import dev.webfx.platform.client.services.uischeduler.UiScheduler;
+import dev.webfx.platform.shared.services.scheduler.Scheduled;
 
 /**
  * @author Bruno Salmon

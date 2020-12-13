@@ -11,6 +11,6 @@ module webfx.kit.javafxcontrols.peers.base {
     requires webfx.kit.javafxgraphics.peers.base;
 
     // Exported packages
-    exports webfx.kit.mapper.peers.javafxcontrols.base;
+    exports dev.webfx.kit.mapper.peers.javafxcontrols.base;
 
 }

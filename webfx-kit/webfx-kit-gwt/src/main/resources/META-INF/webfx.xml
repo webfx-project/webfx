@@ -9,8 +9,8 @@
     </dependencies>
 
     <providers>
-        <provider spi="webfx.kit.launcher.spi.WebFxKitLauncherProvider">webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</provider>
-        <provider spi="webfx.kit.mapper.spi.WebFxKitMapperProvider">webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider</provider>
+        <provider spi="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</provider>
+        <provider spi="dev.webfx.kit.mapper.spi.WebFxKitMapperProvider">dev.webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider</provider>
     </providers>
 
     <html if-module-property-true="show-loading-spinner-on-startup">

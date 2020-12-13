@@ -6,9 +6,9 @@ module webfx.platform.shared.bus.impl.simple {
     requires webfx.platform.shared.bus;
 
     // Exported packages
-    exports webfx.platform.shared.services.bus.spi.impl.simple;
+    exports dev.webfx.platform.shared.services.bus.spi.impl.simple;
 
     // Provided services
-    provides webfx.platform.shared.services.bus.spi.BusServiceProvider with webfx.platform.shared.services.bus.spi.impl.simple.SimpleBusServiceProvider;
+    provides dev.webfx.platform.shared.services.bus.spi.BusServiceProvider with dev.webfx.platform.shared.services.bus.spi.impl.simple.SimpleBusServiceProvider;
 
 }

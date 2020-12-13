@@ -18,6 +18,6 @@ module webfx.platform.vertx.queryupdate {
     requires webfx.platform.vertx.instance;
 
     // Exported packages
-    exports webfx.platform.vertx.services_shared_code.queryupdate;
+    exports dev.webfx.platform.vertx.services_shared_code.queryupdate;
 
 }

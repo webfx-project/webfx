@@ -11,15 +11,15 @@ module webfx.kit.launcher {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.kit.launcher;
-    exports webfx.kit.launcher.spi;
-    exports webfx.kit.launcher.spi.base;
+    exports dev.webfx.kit.launcher;
+    exports dev.webfx.kit.launcher.spi;
+    exports dev.webfx.kit.launcher.spi.base;
 
     // Used services
+    uses dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
     uses javafx.application.Application;
-    uses webfx.kit.launcher.spi.WebFxKitLauncherProvider;
 
     // Provided services
-    provides webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer with webfx.kit.launcher.WebFxKitLauncherModuleInitializer;
+    provides dev.webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer with dev.webfx.kit.launcher.WebFxKitLauncherModuleInitializer;
 
 }

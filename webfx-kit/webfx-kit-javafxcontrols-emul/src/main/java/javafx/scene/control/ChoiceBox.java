@@ -13,7 +13,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.util.StringConverter;
-import webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * The ChoiceBox is used for presenting the user with a relatively small set of

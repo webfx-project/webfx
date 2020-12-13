@@ -38,11 +38,11 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <cupDefinition>src/main/java/webfx/platform/shared/services/json/parser/javacup/JsonParser.cup</cupDefinition>
+                            <cupDefinition>src/main/java/dev/webfx/platform/shared/services/json/parser/javacup/JsonParser.cup</cupDefinition>
                             <outputDirectory>src/main/java</outputDirectory>
                             <className>JavaCupJsonParser</className>
                             <symbolsName>JsonSymbols</symbolsName>
-                            <packageName>webfx.platform.shared.services.json.parser.javacup</packageName>
+                            <packageName>dev.webfx.platform.shared.services.json.parser.javacup</packageName>
                         </configuration>
                     </execution>
                 </executions>
@@ -55,7 +55,7 @@
                 <configuration>
                     <outputDirectory>src/main/java</outputDirectory>
                     <lexDefinitions>
-                        <lexDefinition>src/main/java/webfx/platform/shared/services/json/parser/jflex/JsonLexer.flex</lexDefinition>
+                        <lexDefinition>src/main/java/dev/webfx/platform/shared/services/json/parser/jflex/JsonLexer.flex</lexDefinition>
                     </lexDefinitions>
                 </configuration>
             </plugin>

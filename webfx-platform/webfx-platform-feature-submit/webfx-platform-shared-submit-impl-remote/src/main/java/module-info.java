@@ -6,9 +6,9 @@ module webfx.platform.shared.submit.impl.remote {
     requires webfx.platform.shared.submit;
 
     // Exported packages
-    exports webfx.platform.shared.services.submit.spi.impl.remote;
+    exports dev.webfx.platform.shared.services.submit.spi.impl.remote;
 
     // Provided services
-    provides webfx.platform.shared.services.submit.spi.SubmitServiceProvider with webfx.platform.shared.services.submit.spi.impl.remote.RemoteSubmitServiceProvider;
+    provides dev.webfx.platform.shared.services.submit.spi.SubmitServiceProvider with dev.webfx.platform.shared.services.submit.spi.impl.remote.RemoteSubmitServiceProvider;
 
 }

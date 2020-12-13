@@ -6,9 +6,9 @@ module webfx.platform.java.appcontainer.impl {
     requires webfx.platform.shared.appcontainer;
 
     // Exported packages
-    exports webfx.platform.java.services.appcontainer.spi.impl;
+    exports dev.webfx.platform.java.services.appcontainer.spi.impl;
 
     // Provided services
-    provides webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider with webfx.platform.java.services.appcontainer.spi.impl.JavaApplicationContainerProvider;
+    provides dev.webfx.platform.shared.services.appcontainer.spi.ApplicationContainerProvider with dev.webfx.platform.java.services.appcontainer.spi.impl.JavaApplicationContainerProvider;
 
 }

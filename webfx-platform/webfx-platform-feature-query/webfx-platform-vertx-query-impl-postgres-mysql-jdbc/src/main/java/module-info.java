@@ -8,9 +8,9 @@ module webfx.platform.vertx.query.impl.postgres.mysql.jdbc {
     requires webfx.platform.vertx.queryupdate;
 
     // Exported packages
-    exports webfx.platform.vertx.services.query.spi.impl;
+    exports dev.webfx.platform.vertx.services.query.spi.impl;
 
     // Provided services
-    provides webfx.platform.shared.services.query.spi.QueryServiceProvider with webfx.platform.vertx.services.query.spi.impl.VertxQueryServiceProvider;
+    provides dev.webfx.platform.shared.services.query.spi.QueryServiceProvider with dev.webfx.platform.vertx.services.query.spi.impl.VertxQueryServiceProvider;
 
 }

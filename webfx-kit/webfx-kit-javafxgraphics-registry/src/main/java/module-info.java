@@ -3,6 +3,6 @@
 module webfx.kit.javafxgraphics.registry {
 
     // Exported packages
-    exports webfx.kit.registry.javafxgraphics;
+    exports dev.webfx.kit.registry.javafxgraphics;
 
 }

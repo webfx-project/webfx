@@ -8,9 +8,9 @@ module webfx.platform.java.submit.impl.jdbc {
     requires webfx.platform.shared.submit;
 
     // Exported packages
-    exports webfx.platform.java.services.submit.spi.impl.jdbc;
+    exports dev.webfx.platform.java.services.submit.spi.impl.jdbc;
 
     // Provided services
-    provides webfx.platform.shared.services.submit.spi.SubmitServiceProvider with webfx.platform.java.services.submit.spi.impl.jdbc.JdbcSubmitServiceProvider;
+    provides dev.webfx.platform.shared.services.submit.spi.SubmitServiceProvider with dev.webfx.platform.java.services.submit.spi.impl.jdbc.JdbcSubmitServiceProvider;
 
 }

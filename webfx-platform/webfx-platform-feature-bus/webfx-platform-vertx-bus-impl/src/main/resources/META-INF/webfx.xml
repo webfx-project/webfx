@@ -1,7 +1,7 @@
 <module>
 
     <providers>
-        <provider spi="webfx.platform.shared.services.bus.spi.BusServiceProvider">webfx.platform.vertx.services.bus.spi.impl.VertxBusServiceProvider</provider>
+        <provider spi="dev.webfx.platform.shared.services.bus.spi.BusServiceProvider">dev.webfx.platform.vertx.services.bus.spi.impl.VertxBusServiceProvider</provider>
     </providers>
 
 </module>

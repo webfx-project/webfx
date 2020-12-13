@@ -14,13 +14,13 @@ module webfx.kit.javafx {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.kit.launcher.spi.javafx;
-    exports webfx.kit.mapper.peers.javafxcontrols.javafx.skin;
-    exports webfx.kit.mapper.peers.javafxgraphics.javafx;
-    exports webfx.platform.client.services.uischeduler.spi.impl.javafx;
+    exports dev.webfx.kit.launcher.spi.javafx;
+    exports dev.webfx.kit.mapper.peers.javafxcontrols.javafx.skin;
+    exports dev.webfx.kit.mapper.peers.javafxgraphics.javafx;
+    exports dev.webfx.platform.client.services.uischeduler.spi.impl.javafx;
 
     // Provided services
-    provides webfx.kit.launcher.spi.WebFxKitLauncherProvider with webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider;
-    provides webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider with webfx.platform.client.services.uischeduler.spi.impl.javafx.FxUiSchedulerProvider;
+    provides dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider with dev.webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider;
+    provides dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider with dev.webfx.platform.client.services.uischeduler.spi.impl.javafx.FxUiSchedulerProvider;
 
 }

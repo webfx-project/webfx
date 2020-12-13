@@ -9,7 +9,7 @@ module webfx.kit.javafxgraphics.peers {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.kit.mapper.peers.javafxgraphics;
-    exports webfx.kit.mapper.peers.javafxgraphics.markers;
+    exports dev.webfx.kit.mapper.peers.javafxgraphics;
+    exports dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
 }

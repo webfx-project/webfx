@@ -8,9 +8,9 @@ module webfx.platform.java.scheduler.impl {
     requires webfx.platform.shared.scheduler;
 
     // Exported packages
-    exports webfx.platform.java.services.scheduler.spi.impl;
+    exports dev.webfx.platform.java.services.scheduler.spi.impl;
 
     // Provided services
-    provides webfx.platform.shared.services.scheduler.spi.SchedulerProvider with webfx.platform.java.services.scheduler.spi.impl.JavaSchedulerProvider;
+    provides dev.webfx.platform.shared.services.scheduler.spi.SchedulerProvider with dev.webfx.platform.java.services.scheduler.spi.impl.JavaSchedulerProvider;
 
 }

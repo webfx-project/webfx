@@ -8,11 +8,11 @@ module webfx.platform.shared.datascope {
     requires webfx.platform.shared.serial;
 
     // Exported packages
-    exports webfx.platform.shared.datascope;
-    exports webfx.platform.shared.datascope.aggregate;
-    exports webfx.platform.shared.datascope.schema;
+    exports dev.webfx.platform.shared.datascope;
+    exports dev.webfx.platform.shared.datascope.aggregate;
+    exports dev.webfx.platform.shared.datascope.schema;
 
     // Provided services
-    provides webfx.platform.shared.services.serial.spi.SerialCodec with webfx.platform.shared.datascope.aggregate.AggregateScope.ProvidedSerialCodec;
+    provides dev.webfx.platform.shared.services.serial.spi.SerialCodec with dev.webfx.platform.shared.datascope.aggregate.AggregateScope.ProvidedSerialCodec;
 
 }

@@ -15,11 +15,11 @@ import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.util.Callback;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasBackgroundProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasBorderProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasPaddingProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasSnapToPixelProperty;
-import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasBackgroundProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasBorderProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasPaddingProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasSnapToPixelProperty;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 import java.util.List;
 import java.util.function.Function;

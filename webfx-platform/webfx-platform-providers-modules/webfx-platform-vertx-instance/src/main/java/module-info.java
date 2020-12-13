@@ -6,6 +6,6 @@ module webfx.platform.vertx.instance {
     requires vertx.core;
 
     // Exported packages
-    exports webfx.platform.vertx.services_shared_code.instance;
+    exports dev.webfx.platform.vertx.services_shared_code.instance;
 
 }

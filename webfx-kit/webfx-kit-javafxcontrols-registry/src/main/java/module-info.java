@@ -3,6 +3,6 @@
 module webfx.kit.javafxcontrols.registry {
 
     // Exported packages
-    exports webfx.kit.registry.javafxcontrols;
+    exports dev.webfx.kit.registry.javafxcontrols;
 
 }

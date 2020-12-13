@@ -34,10 +34,10 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.property.StringPropertyBase;
 import javafx.geometry.Bounds;
 import javafx.scene.paint.Paint;
-import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
-import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
-import webfx.platform.shared.services.log.Logger;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import dev.webfx.platform.shared.services.log.Logger;
 
 /**
  * The {@code SVGPath} class represents a simple shape that is constructed by

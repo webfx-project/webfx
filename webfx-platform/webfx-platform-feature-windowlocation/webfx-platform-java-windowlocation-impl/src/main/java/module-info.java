@@ -9,9 +9,9 @@ module webfx.platform.java.windowlocation.impl {
     requires webfx.platform.shared.bus;
 
     // Exported packages
-    exports webfx.platform.java.services.windowlocation.spi.impl;
+    exports dev.webfx.platform.java.services.windowlocation.spi.impl;
 
     // Provided services
-    provides webfx.platform.client.services.windowlocation.spi.WindowLocationProvider with webfx.platform.java.services.windowlocation.spi.impl.JavaWindowLocationProvider;
+    provides dev.webfx.platform.client.services.windowlocation.spi.WindowLocationProvider with dev.webfx.platform.java.services.windowlocation.spi.impl.JavaWindowLocationProvider;
 
 }

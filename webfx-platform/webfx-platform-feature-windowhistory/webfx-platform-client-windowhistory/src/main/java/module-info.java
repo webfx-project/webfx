@@ -9,11 +9,11 @@ module webfx.platform.client.windowhistory {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.client.services.windowhistory;
-    exports webfx.platform.client.services.windowhistory.spi;
-    exports webfx.platform.client.services.windowhistory.spi.impl;
+    exports dev.webfx.platform.client.services.windowhistory;
+    exports dev.webfx.platform.client.services.windowhistory.spi;
+    exports dev.webfx.platform.client.services.windowhistory.spi.impl;
 
     // Used services
-    uses webfx.platform.client.services.windowhistory.spi.WindowHistoryProvider;
+    uses dev.webfx.platform.client.services.windowhistory.spi.WindowHistoryProvider;
 
 }

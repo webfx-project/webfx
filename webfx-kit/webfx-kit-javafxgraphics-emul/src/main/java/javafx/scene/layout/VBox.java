@@ -6,7 +6,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasFillWidthProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFillWidthProperty;
 
 import java.util.List;
 

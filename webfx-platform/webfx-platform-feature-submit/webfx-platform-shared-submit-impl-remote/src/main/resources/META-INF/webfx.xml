@@ -1,7 +1,7 @@
 <module>
 
     <providers>
-        <provider spi="webfx.platform.shared.services.submit.spi.SubmitServiceProvider">webfx.platform.shared.services.submit.spi.impl.remote.RemoteSubmitServiceProvider</provider>
+        <provider spi="dev.webfx.platform.shared.services.submit.spi.SubmitServiceProvider">dev.webfx.platform.shared.services.submit.spi.impl.remote.RemoteSubmitServiceProvider</provider>
     </providers>
 
 </module>

@@ -7,10 +7,10 @@ module webfx.platform.java.storage.impl {
     requires webfx.platform.client.storage;
 
     // Exported packages
-    exports webfx.platform.java.services.storage.spi.impl;
+    exports dev.webfx.platform.java.services.storage.spi.impl;
 
     // Provided services
-    provides webfx.platform.client.services.storage.spi.LocalStorageProvider with webfx.platform.java.services.storage.spi.impl.JavaLocalStorageProvider;
-    provides webfx.platform.client.services.storage.spi.SessionStorageProvider with webfx.platform.java.services.storage.spi.impl.JavaSessionStorageProvider;
+    provides dev.webfx.platform.client.services.storage.spi.LocalStorageProvider with dev.webfx.platform.java.services.storage.spi.impl.JavaLocalStorageProvider;
+    provides dev.webfx.platform.client.services.storage.spi.SessionStorageProvider with dev.webfx.platform.java.services.storage.spi.impl.JavaSessionStorageProvider;
 
 }

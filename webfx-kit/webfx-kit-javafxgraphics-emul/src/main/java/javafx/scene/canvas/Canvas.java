@@ -31,8 +31,8 @@ import javafx.scene.Node;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.RectBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
-import webfx.kit.mapper.WebFxKitMapper;
-import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import dev.webfx.kit.mapper.WebFxKitMapper;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 /**
  * {@code Canvas} is an image that can be drawn on using a set of graphics

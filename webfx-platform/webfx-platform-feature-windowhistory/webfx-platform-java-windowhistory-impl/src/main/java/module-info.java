@@ -6,9 +6,9 @@ module webfx.platform.java.windowhistory.impl {
     requires webfx.platform.client.windowhistory;
 
     // Exported packages
-    exports webfx.platform.java.services.windowhistory.spi.impl;
+    exports dev.webfx.platform.java.services.windowhistory.spi.impl;
 
     // Provided services
-    provides webfx.platform.client.services.windowhistory.spi.WindowHistoryProvider with webfx.platform.java.services.windowhistory.spi.impl.JavaWindowHistoryProvider;
+    provides dev.webfx.platform.client.services.windowhistory.spi.WindowHistoryProvider with dev.webfx.platform.java.services.windowhistory.spi.impl.JavaWindowHistoryProvider;
 
 }

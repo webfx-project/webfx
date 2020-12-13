@@ -8,9 +8,9 @@ module webfx.platform.vertx.scheduler.impl {
     requires webfx.platform.vertx.instance;
 
     // Exported packages
-    exports webfx.platform.vertx.services.scheduler.spi.impl;
+    exports dev.webfx.platform.vertx.services.scheduler.spi.impl;
 
     // Provided services
-    provides webfx.platform.shared.services.scheduler.spi.SchedulerProvider with webfx.platform.vertx.services.scheduler.spi.impl.VertxSchedulerProvider;
+    provides dev.webfx.platform.shared.services.scheduler.spi.SchedulerProvider with dev.webfx.platform.vertx.services.scheduler.spi.impl.VertxSchedulerProvider;
 
 }

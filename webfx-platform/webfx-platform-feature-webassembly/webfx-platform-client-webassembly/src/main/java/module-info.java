@@ -7,10 +7,10 @@ module webfx.platform.client.webassembly {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.client.services.webassembly;
-    exports webfx.platform.client.services.webassembly.spi;
+    exports dev.webfx.platform.client.services.webassembly;
+    exports dev.webfx.platform.client.services.webassembly.spi;
 
     // Used services
-    uses webfx.platform.client.services.webassembly.spi.WebAssemblyProvider;
+    uses dev.webfx.platform.client.services.webassembly.spi.WebAssemblyProvider;
 
 }

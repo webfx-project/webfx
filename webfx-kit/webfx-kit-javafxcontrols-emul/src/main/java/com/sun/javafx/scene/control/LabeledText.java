@@ -2,7 +2,7 @@ package com.sun.javafx.scene.control;
 
 import javafx.scene.control.Labeled;
 import javafx.scene.text.Text;
-import webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * LabeledText allows the Text to be styled by the CSS properties of Labeled

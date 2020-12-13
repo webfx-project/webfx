@@ -1,7 +1,7 @@
 <module>
 
     <providers>
-        <provider spi="webfx.platform.shared.services.webworker.spi.WorkerServiceProvider">webfx.platform.gwt.services.webworker.spi.impl.GwtWorkerServiceProvider</provider>
+        <provider spi="dev.webfx.platform.shared.services.webworker.spi.WorkerServiceProvider">dev.webfx.platform.gwt.services.webworker.spi.impl.GwtWorkerServiceProvider</provider>
     </providers>
 
 </module>

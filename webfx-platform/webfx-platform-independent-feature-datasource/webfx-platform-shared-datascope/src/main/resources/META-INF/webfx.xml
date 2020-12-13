@@ -1,7 +1,7 @@
 <module>
 
     <providers>
-        <provider spi="webfx.platform.shared.services.serial.spi.SerialCodec">webfx.platform.shared.datascope.aggregate.AggregateScope$ProvidedSerialCodec</provider>
+        <provider spi="dev.webfx.platform.shared.services.serial.spi.SerialCodec">dev.webfx.platform.shared.datascope.aggregate.AggregateScope$ProvidedSerialCodec</provider>
     </providers>
 
 </module>

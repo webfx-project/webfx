@@ -5,10 +5,10 @@ import javafx.collections.ObservableMap;
 import javafx.geometry.Bounds;
 import javafx.geometry.Orientation;
 import javafx.scene.transform.Transform;
-import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurableMixin;
-import webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurableMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
 
 import java.util.List;
 

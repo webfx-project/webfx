@@ -28,8 +28,8 @@ package javafx.application;
 import com.sun.javafx.application.ParametersImpl;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import webfx.kit.launcher.WebFxKitLauncher;
-import webfx.platform.shared.services.log.Logger;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.platform.shared.services.log.Logger;
 
 import java.util.List;
 import java.util.Map;

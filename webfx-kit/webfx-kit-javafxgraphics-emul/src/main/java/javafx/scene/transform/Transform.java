@@ -3,7 +3,7 @@ package javafx.scene.transform;
 import javafx.beans.property.Property;
 import com.sun.javafx.geom.Point2D;
 import javafx.beans.value.ObservableValue;
-import webfx.kit.util.properties.Properties;
+import dev.webfx.kit.util.properties.Properties;
 
 /**
  * @author Bruno Salmon

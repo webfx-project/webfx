@@ -7,7 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasFillHeightProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFillHeightProperty;
 
 import java.util.List;
 

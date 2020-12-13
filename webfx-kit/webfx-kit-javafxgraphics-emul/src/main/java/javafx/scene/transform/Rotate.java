@@ -4,7 +4,7 @@ import com.sun.javafx.geom.Point2D;
 import javafx.beans.property.*;
 import javafx.geometry.GeometryUtil;
 import javafx.geometry.Point3D;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasAngleProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasAngleProperty;
 
 /**
  * @author Bruno Salmon

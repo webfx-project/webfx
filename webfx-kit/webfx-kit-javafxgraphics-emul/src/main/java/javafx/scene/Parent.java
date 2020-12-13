@@ -10,8 +10,8 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.layout.PreferenceResizableNode;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasManagedProperty;
-import webfx.kit.util.properties.ObservableLists;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasManagedProperty;
+import dev.webfx.kit.util.properties.ObservableLists;
 
 import java.util.ArrayList;
 import java.util.List;

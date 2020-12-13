@@ -1,7 +1,7 @@
 <module>
 
     <providers>
-        <provider spi="webfx.platform.shared.services.query.spi.QueryServiceProvider">webfx.platform.java.services.query.spi.impl.jdbc.JdbcQueryServiceProvider</provider>
+        <provider spi="dev.webfx.platform.shared.services.query.spi.QueryServiceProvider">dev.webfx.platform.java.services.query.spi.impl.jdbc.JdbcQueryServiceProvider</provider>
     </providers>
 
 </module>

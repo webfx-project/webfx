@@ -7,8 +7,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.Region;
-import webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 
 /**
  * @author Bruno Salmon

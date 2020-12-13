@@ -7,10 +7,10 @@ module webfx.platform.shared.resource {
     requires webfx.platform.shared.util;
 
     // Exported packages
-    exports webfx.platform.shared.services.resource;
-    exports webfx.platform.shared.services.resource.spi;
+    exports dev.webfx.platform.shared.services.resource;
+    exports dev.webfx.platform.shared.services.resource.spi;
 
     // Used services
-    uses webfx.platform.shared.services.resource.spi.ResourceServiceProvider;
+    uses dev.webfx.platform.shared.services.resource.spi.ResourceServiceProvider;
 
 }

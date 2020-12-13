@@ -1,7 +1,7 @@
 package javafx.scene.input;
 
 import javafx.scene.image.Image;
-import webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -5,7 +5,7 @@ import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import javafx.beans.property.*;
 import javafx.geometry.*;
 import javafx.scene.Node;
-import webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon

@@ -7,13 +7,13 @@ module webfx.platform.shared.util {
     requires java.logging;
 
     // Exported packages
-    exports webfx.platform.shared.util;
-    exports webfx.platform.shared.util.async;
-    exports webfx.platform.shared.util.collection;
-    exports webfx.platform.shared.util.function;
-    exports webfx.platform.shared.util.noreflect;
-    exports webfx.platform.shared.util.serviceloader;
-    exports webfx.platform.shared.util.tuples;
-    exports webfx.platform.shared.util.uuid;
+    exports dev.webfx.platform.shared.util;
+    exports dev.webfx.platform.shared.util.async;
+    exports dev.webfx.platform.shared.util.collection;
+    exports dev.webfx.platform.shared.util.function;
+    exports dev.webfx.platform.shared.util.noreflect;
+    exports dev.webfx.platform.shared.util.serviceloader;
+    exports dev.webfx.platform.shared.util.tuples;
+    exports dev.webfx.platform.shared.util.uuid;
 
 }

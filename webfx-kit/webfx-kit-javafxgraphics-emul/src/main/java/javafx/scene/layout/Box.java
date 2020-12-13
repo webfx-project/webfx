@@ -9,8 +9,8 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.util.Callback;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasAlignmentProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasSpacingProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasAlignmentProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasSpacingProperty;
 
 import java.util.List;
 

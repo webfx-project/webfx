@@ -33,7 +33,7 @@ import javafx.beans.property.ObjectPropertyBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Paint;
-import webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 import java.util.Collection;
 

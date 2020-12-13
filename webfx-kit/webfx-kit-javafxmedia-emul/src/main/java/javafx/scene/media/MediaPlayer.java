@@ -1,7 +1,7 @@
 package javafx.scene.media;
 
-import webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
-import webfx.kit.mapper.peers.javafxmedia.WebFxKitMediaMapper;
+import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
+import dev.webfx.kit.mapper.peers.javafxmedia.WebFxKitMediaMapper;
 
 /**
  * @author Bruno Salmon

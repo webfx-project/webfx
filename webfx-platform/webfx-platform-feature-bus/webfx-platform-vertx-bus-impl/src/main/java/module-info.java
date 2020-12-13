@@ -10,9 +10,9 @@ module webfx.platform.vertx.bus.impl {
     requires webfx.platform.vertx.instance;
 
     // Exported packages
-    exports webfx.platform.vertx.services.bus.spi.impl;
+    exports dev.webfx.platform.vertx.services.bus.spi.impl;
 
     // Provided services
-    provides webfx.platform.shared.services.bus.spi.BusServiceProvider with webfx.platform.vertx.services.bus.spi.impl.VertxBusServiceProvider;
+    provides dev.webfx.platform.shared.services.bus.spi.BusServiceProvider with dev.webfx.platform.vertx.services.bus.spi.impl.VertxBusServiceProvider;
 
 }

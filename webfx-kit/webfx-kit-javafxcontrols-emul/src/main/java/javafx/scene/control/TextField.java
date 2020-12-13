@@ -13,9 +13,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.paint.Color;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasAlignmentProperty;
-import webfx.kit.mapper.peers.javafxgraphics.markers.HasTextAlignmentProperty;
-import webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasAlignmentProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextAlignmentProperty;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon

@@ -10,9 +10,9 @@ module webfx.platform.java.webworker.impl {
     requires webfx.platform.shared.webworker;
 
     // Exported packages
-    exports webfx.platform.java.services.webworker.spi.impl;
+    exports dev.webfx.platform.java.services.webworker.spi.impl;
 
     // Provided services
-    provides webfx.platform.shared.services.webworker.spi.WorkerServiceProvider with webfx.platform.java.services.webworker.spi.impl.JavaWorkerServiceProvider;
+    provides dev.webfx.platform.shared.services.webworker.spi.WorkerServiceProvider with dev.webfx.platform.java.services.webworker.spi.impl.JavaWorkerServiceProvider;
 
 }

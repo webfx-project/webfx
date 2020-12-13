@@ -1,6 +1,6 @@
 package javafx.scene.input;
 
-import webfx.platform.shared.util.Strings;
+import dev.webfx.platform.shared.util.Strings;
 
 /**
  * This class represents a key combination in which the main key is specified

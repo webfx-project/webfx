@@ -1,21 +1,21 @@
 <module>
 
     <providers>
-        <provider spi="webfx.kit.launcher.spi.WebFxKitLauncherProvider">webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider</provider>
-        <provider spi="webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider">webfx.platform.client.services.uischeduler.spi.impl.javafx.FxUiSchedulerProvider</provider>
+        <provider spi="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider</provider>
+        <provider spi="dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.client.services.uischeduler.spi.impl.javafx.FxUiSchedulerProvider</provider>
     </providers>
 
     <graalvm-reflection-json>
         <![CDATA[
 [
     {
-        "name" : "webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
+        "name" : "dev.webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
         "methods" : [
             { "name" : "<init>", "parameterTypes" : [] }
         ]
     },
     {
-        "name" : "webfx.kit.mapper.peers.javafxcontrols.javafx.skin.FxControlPeerSkin",
+        "name" : "dev.webfx.kit.mapper.peers.javafxcontrols.javafx.skin.FxControlPeerSkin",
         "methods" : [
             { "name" : "<init>", "parameterTypes" : ["javafx.scene.control.Control"] }
         ]
