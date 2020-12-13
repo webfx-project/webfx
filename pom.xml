@@ -6,7 +6,7 @@
 
     <parent>
         <artifactId>webfx-parent</artifactId>
-        <groupId>org.webfx</groupId>
+        <groupId>dev.webfx</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
