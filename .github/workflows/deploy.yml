@@ -1,0 +1,35 @@
+name: Deploy to Sonatype repository
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      # WebFx requires at least JDK 13 due to javac bugs in prior versions (otherwise JDK 11+ should be enough in theory)
+      jdk-version: '15.0.1'
+
+    steps:
+
+      # Set up the JDK and Maven settings.xml
+      - name: Set up JDK ${{ env.jdk-version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.jdk-version }}
+          server-id: sonatype-deploy
+          server-username: SONATYPE_USERNAME
+          server-password: SONATYPE_PASSWORD
+
+      # Checkout this repository
+      - name: Checkout this repository
+        uses: actions/checkout@v2
+
+      # Build all modules and deploy their SNAPSHOT artifacts to sonatype repository
+      - name: Deploy this repository
+        run: mvn -B -P '!gwt-compile,!javafx-fatjar,!javapackager' deploy
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
