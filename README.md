@@ -43,14 +43,17 @@ And a web build resulting from the compilation of your application code together
 
 ## Status
 
-The project is still in incubation phase (please don't open any issue at this stage).
-But don't hesitate to star the repository to let us know you are potentially interested in this technology for your future projects.
-Your questions and comments are also very welcome in our [discussion thread][webfx-discussion-link].
+The project is still in incubation phase.
+We are currently building the website, and the next step will be a guide to get you started.
+
+You can't use the project before these steps are completed, but don't hesitate to star the repository to let us know you are potentially interested in this technology for your future projects.
+
+Your questions and comments are also very welcome in this [discussion thread][webfx-discussion-link].
 
 [gwt-website]: http://www.gwtproject.org/
 [teavm-website]: http://teavm.org/
-[webfx-kit-link]: https://github.com/webfx-project/webfx/blob/master/webfx-kit
-[webfx-platform-link]: https://github.com/webfx-project/webfx/blob/master/webfx-platform
+[webfx-kit-link]: https://github.com/webfx-project/webfx/blob/main/webfx-kit
+[webfx-platform-link]: https://github.com/webfx-project/webfx/blob/main/webfx-platform
 [webfx-colorfulcircles-demo-link]: https://colorfulcircles.webfx.dev
 [webfx-colorfulcircles-repo-link]: https://github.com/webfx-project/webfx-demo-colorfulcircles
 [webfx-particles-demo-link]: https://particles.webfx.dev
