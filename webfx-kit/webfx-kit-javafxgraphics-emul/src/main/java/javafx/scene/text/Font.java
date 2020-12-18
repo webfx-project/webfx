@@ -70,6 +70,10 @@ public class Font {
         return new Font(family, weight, posture, size);
     }
 
+    public static Font font(String family, FontPosture posture, double size) {
+        return font(family, null, posture, size);
+    }
+
     public static Font font(String family, FontWeight weight, double size) {
         return font(family, weight, null, size);
     }
