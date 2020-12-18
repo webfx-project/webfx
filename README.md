@@ -1,16 +1,16 @@
-# WebFx
+# WebFX
 
-WebFx uses [GWT][gwt-website] to compile your Java code into JavaScript.
-Normally GWT can only compile the java code (your application logic) and not the JavaFx code (your application UI).
-WebFx solves this problem by providing a web port of JavaFx (the [webfx-kit][webfx-kit-link] module)
+WebFX uses [GWT][gwt-website] to compile your Java code into JavaScript.
+Normally GWT can only compile the java code (your application logic) and not the JavaFX code (your application UI).
+WebFX solves this problem by providing a web port of JavaFX (the [webfx-kit][webfx-kit-link] module)
 that can be compiled by GWT together with your application code.
 
-WebFx also provides (via the [webfx-platform][webfx-platform-link] module) some cross-platform APIs (ex: json, timers, websockets, web workers, etc...) 
+WebFX also provides (via the [webfx-platform][webfx-platform-link] module) some cross-platform APIs (ex: json, timers, websockets, web workers, etc...) 
 that work both in the JVM and the browser.
 
 You will have 2 builds of your application.
-A pure JavaFx build that you will use for the development, testing and debugging in your preferred Java IDE.
-And a web build resulting from the compilation of your application code together with the WebFx code by GWT.
+A pure JavaFX build that you will use for the development, testing and debugging in your preferred Java IDE.
+And a web build resulting from the compilation of your application code together with the WebFX code by GWT.
 
 ## Live demos
 
@@ -30,9 +30,9 @@ And a web build resulting from the compilation of your application code together
 
 ### Games
 
-* [Fx2048][webfx-fx2048-demo-link] ([Github repository][webfx-fx2048-repo-link])
+* [FX2048][webfx-fx2048-demo-link] ([Github repository][webfx-fx2048-repo-link])
 
-* [SpaceFx][webfx-spacefx-demo-link] ([Github repository][webfx-spacefx-repo-link])
+* [SpaceFX][webfx-spacefx-demo-link] ([Github repository][webfx-spacefx-repo-link])
 
 ### Heavy computation
 #### (Web workers & WebAssembly)
