@@ -6,8 +6,7 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.effect.Effect;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.FillRule;
-import javafx.scene.shape.SVGPath;
+import javafx.scene.shape.*;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
@@ -84,6 +83,47 @@ public final class HtmlSVGPathPeer
     }
 
     @Override
+    public void updateStroke(Paint stroke) {
+        if (isBound())
+            svgPathPeer.updateStroke(stroke);
+    }
+
+    @Override
+    public void updateStrokeWidth(Double strokeWidth) {
+        svgPathPeer.updateStrokeWidth(strokeWidth);
+    }
+
+    @Override
+    public void updateStrokeType(StrokeType strokeType) {
+        svgPathPeer.updateStrokeType(strokeType);
+    }
+
+    @Override
+    public void updateStrokeLineCap(StrokeLineCap strokeLineCap) {
+        svgPathPeer.updateStrokeLineCap(strokeLineCap);
+    }
+
+    @Override
+    public void updateStrokeLineJoin(StrokeLineJoin strokeLineJoin) {
+        svgPathPeer.updateStrokeLineJoin(strokeLineJoin);
+    }
+
+    @Override
+    public void updateStrokeMiterLimit(Double strokeMiterLimit) {
+        svgPathPeer.updateStrokeMiterLimit(strokeMiterLimit);
+    }
+
+    @Override
+    public void updateStrokeDashOffset(Double strokeDashOffset) {
+        svgPathPeer.updateStrokeDashOffset(strokeDashOffset);
+    }
+
+    @Override
+    public void updateStrokeDashArray(List<Double> dashArray) {
+        svgPathPeer.updateStrokeDashArray(dashArray);
+    }
+
+    @Override
     public void updateFillRule(FillRule fillRule) {
         svgPathPeer.updateFillRule(fillRule);
     }
@@ -93,10 +133,11 @@ public final class HtmlSVGPathPeer
         svgPathPeer.updatePath(content);
         bBox = null;
         if (svgElement != null) {
-            getBBox();
+            getBBox(); // Note: bBox doesn't include strokes
             svgElement.setAttribute("width",  bBox.width);
             svgElement.setAttribute("height", bBox.height);
             svgElement.setAttribute("viewBox", bBox.x + " " + bBox.y + " " + bBox.width + " " + bBox.height);
+            svgElement.setAttribute("overflow", "visible"); // To avoid clipping the strokes
             CSSStyleDeclaration style = getElement().style;
             style.width  = CSSProperties.WidthUnionType.of( bBox.width  + "px");
             style.height = CSSProperties.HeightUnionType.of(bBox.height + "px");

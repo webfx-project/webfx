@@ -1,17 +1,17 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DomType;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.platform.shared.util.collection.Collections;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
 import javafx.geometry.Insets;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerBase;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerMixin;
-import dev.webfx.platform.shared.util.collection.Collections;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DomType;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 
 import java.util.List;
 

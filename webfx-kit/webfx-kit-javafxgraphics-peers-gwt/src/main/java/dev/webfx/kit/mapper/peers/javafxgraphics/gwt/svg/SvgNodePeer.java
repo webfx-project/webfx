@@ -160,7 +160,7 @@ public abstract class SvgNodePeer
     }
 
     private String toPaintAttribute(String name, Paint paint) {
-        String value = null;
+        String value = "none";
         if (paint instanceof Color)
             value = HtmlPaints.toSvgCssPaint(paint);
         else if (paint instanceof LinearGradient) {

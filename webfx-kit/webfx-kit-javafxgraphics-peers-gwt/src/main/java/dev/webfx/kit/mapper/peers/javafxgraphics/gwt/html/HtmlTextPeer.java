@@ -132,8 +132,8 @@ public final class HtmlTextPeer
     @Override
     public void updateFont(Font font) {
         setFontAttributes(font);
-        updateYOnNextPulse();
         clearCache();
+        updateYOnNextPulse();
     }
 
     @Override

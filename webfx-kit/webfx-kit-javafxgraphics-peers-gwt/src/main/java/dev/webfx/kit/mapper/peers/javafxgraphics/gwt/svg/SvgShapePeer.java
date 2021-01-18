@@ -82,16 +82,18 @@ abstract class SvgShapePeer
 
     private void updateSvgStroke() {
         N n = getNode();
-        Paint stroke = n.getStroke();
-        boolean hasStroke = stroke != null && getNode().getStrokeWidth() > 0;
-        setPaintAttribute("stroke", stroke);
-        setElementAttribute("stroke-width", hasStroke ? n.getStrokeWidth() : null);
-        setElementAttribute("stroke-linecap", hasStroke ? SvgUtil.toSvgStrokeLineCap(n.getStrokeLineCap()) : null);
-        setElementAttribute("stroke-linejoin", hasStroke ? SvgUtil.toSvgStrokeLineJoin(n.getStrokeLineJoin()) : null);
-        setElementAttribute("stroke-miterlimit", hasStroke ? n.getStrokeMiterLimit() : null);
-        setElementAttribute("stroke-dashoffset", hasStroke ? n.getStrokeDashOffset() : null);
-        setElementAttribute("stroke-dasharray", hasStroke ? Collections.toStringWithNoBrackets(n.getStrokeDashArray()) : null);
-        setElementAttribute("stroke-alignment", hasStroke ? SvgUtil.toSvgStrokeAlignment(n.getStrokeType()) : null);
+        if (n != null) {
+            Paint stroke = n.getStroke();
+            boolean hasStroke = stroke != null && getNode().getStrokeWidth() > 0;
+            setPaintAttribute("stroke", stroke);
+            setElementAttribute("stroke-width", hasStroke ? n.getStrokeWidth() : null);
+            setElementAttribute("stroke-linecap", hasStroke ? SvgUtil.toSvgStrokeLineCap(n.getStrokeLineCap()) : null);
+            setElementAttribute("stroke-linejoin", hasStroke ? SvgUtil.toSvgStrokeLineJoin(n.getStrokeLineJoin()) : null);
+            setElementAttribute("stroke-miterlimit", hasStroke ? n.getStrokeMiterLimit() : null);
+            setElementAttribute("stroke-dashoffset", hasStroke ? n.getStrokeDashOffset() : null);
+            setElementAttribute("stroke-dasharray", hasStroke ? Collections.toStringWithNoBrackets(n.getStrokeDashArray()) : null);
+            setElementAttribute("stroke-alignment", hasStroke ? SvgUtil.toSvgStrokeAlignment(n.getStrokeType()) : null);
+        }
     }
 
     @Override

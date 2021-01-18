@@ -3,6 +3,8 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 import elemental2.dom.*;
 import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -153,6 +155,14 @@ public final class HtmlImageViewPeer
     public static void applyTextFillToSvg(Element svgNode, String fill) {
         if ("SVG".equalsIgnoreCase(svgNode.tagName))
             setElementAttribute(svgNode, "fill", fill);
+    }
+
+    @Override
+    public void updateEffect(Effect effect) {
+        if (effect instanceof DropShadow)
+            setElementStyleAttribute("filter", toFilter(effect));
+        else
+            super.updateEffect(effect);
     }
 
     // Overriding HtmlLayoutMeasurer for the inline svg case -> 2 problems in this case:

@@ -1,11 +1,8 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import elemental2.dom.Element;
-import elemental2.dom.HTMLElement;
-import javafx.geometry.VPos;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutCache;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurableNoHGrow;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.SvgRoot;
@@ -13,9 +10,12 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.SvgRootBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgTextPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
-import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
+import javafx.geometry.VPos;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon
@@ -47,6 +47,8 @@ public final class HtmlSvgTextPeer
         HtmlUtil.setChildren(svgElement, svgRoot.getDefsElement(), svgTextPeer.getElement());
         HtmlUtil.setChild(getElement(), svgElement);
         svgTextPeer.bind(node, sceneRequester);
+        // Temporary hack for the WebFx website: making svg area unclickable (otherwise interfere with container clicks)
+        setElementStyleAttribute("pointer-events", "none");
     }
 
     @Override
