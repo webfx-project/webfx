@@ -3,7 +3,6 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutCache;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurableNoHGrow;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.SvgRoot;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.SvgRootBase;
@@ -48,7 +47,7 @@ public final class HtmlSvgTextPeer
         HtmlUtil.setChild(getElement(), svgElement);
         svgTextPeer.bind(node, sceneRequester);
         // Temporary hack for the WebFx website: making svg area unclickable (otherwise interfere with container clicks)
-        setElementStyleAttribute("pointer-events", "none");
+        //setElementStyleAttribute("pointer-events", "none");
     }
 
     @Override
@@ -62,11 +61,13 @@ public final class HtmlSvgTextPeer
         return width ? svgElement.getBoundingClientRect().width : svgElement.getBoundingClientRect().height;
     }
 
+/*
     private final HtmlLayoutCache cache = new HtmlLayoutCache();
     @Override
     public HtmlLayoutCache getCache() {
         return cache;
     }
+*/
 
     @Override
     public void updateText(String text) {}
