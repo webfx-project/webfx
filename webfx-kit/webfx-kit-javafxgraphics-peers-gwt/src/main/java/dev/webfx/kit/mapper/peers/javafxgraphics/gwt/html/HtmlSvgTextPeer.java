@@ -40,9 +40,10 @@ public final class HtmlSvgTextPeer
         Element svgElement = SvgUtil.createSvgElement("svg");
         SvgRoot svgRoot = new SvgRootBase();
         node.getProperties().put("svgRoot", svgRoot);
-        // Setting arbitrary large size to avoid the path to be cropped by the svg tag
-        svgElement.setAttribute("width", 100_000);
-        svgElement.setAttribute("height", 100_000);
+        svgElement.setAttribute("overflow", "visible"); // To avoid clipping the strokes
+        // Arbitrary size (ok since overflow is visible)
+        svgElement.setAttribute("width", 1); // 1 is enough
+        svgElement.setAttribute("height", 100_000); // Have to use a big number (great than element height?), otherwise the element is translated down for any reason
         HtmlUtil.setChildren(svgElement, svgRoot.getDefsElement(), svgTextPeer.getElement());
         HtmlUtil.setChild(getElement(), svgElement);
         svgTextPeer.bind(node, sceneRequester);

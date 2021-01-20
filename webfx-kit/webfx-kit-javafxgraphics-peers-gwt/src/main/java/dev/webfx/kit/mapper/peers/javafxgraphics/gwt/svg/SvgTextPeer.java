@@ -25,6 +25,8 @@ public final class SvgTextPeer
 
     public SvgTextPeer(NB base) {
         super(base, SvgUtil.createSvgText());
+        // Removing outline (by setting with=0) which otherwise appears when clicking on the text (default user agent behavior)
+        setElementStyleAttribute("outline-width", "0");
     }
 
     @Override
