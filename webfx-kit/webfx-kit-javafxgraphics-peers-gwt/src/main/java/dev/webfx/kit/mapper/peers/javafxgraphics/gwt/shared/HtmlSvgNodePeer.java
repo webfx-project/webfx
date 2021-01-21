@@ -441,10 +441,10 @@ public abstract class HtmlSvgNodePeer
             }
         //}
         if (state == TouchPoint.State.PRESSED)
-            gestureRecognizers.notifyBeginTouchEvent((long) e.timeStamp, 0, false, 1);
-        gestureRecognizers.notifyNextTouchEvent((long) e.timeStamp, state.name(), touch.identifier, (int) touch.clientX, (int) touch.clientY, (int) touch.screenX, (int) touch.screenY);
+            gestureRecognizers.notifyBeginTouchEvent((long) (e.timeStamp * 1000000), 0, false, 1);
+        gestureRecognizers.notifyNextTouchEvent((long) (e.timeStamp * 1000000), state.name(), touch.identifier, (int) touch.clientX, (int) touch.clientY, (int) touch.screenX, (int) touch.screenY);
         if (state == TouchPoint.State.RELEASED)
-            gestureRecognizers.notifyEndTouchEvent((long) e.timeStamp);
+            gestureRecognizers.notifyEndTouchEvent((long) (e.timeStamp * 1000000));
         return new TouchPoint(touch.identifier, state, touch.clientX, touch.clientY, touch.screenX, touch.screenY, null, null);
     }
 
