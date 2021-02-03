@@ -9,12 +9,19 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.SvgRootBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgTextPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
-import elemental2.dom.Element;
-import elemental2.dom.HTMLElement;
+import elemental2.dom.*;
+import elemental2.svg.SVGRect;
 import javafx.geometry.VPos;
+import javafx.scene.effect.Effect;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -24,6 +31,7 @@ public final class HtmlSvgTextPeer
         extends HtmlShapePeer<N, NB, NM>
         implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoHGrow {
 
+    private final Element svgElement = SvgUtil.createSvgElement("svg");
     private SvgTextPeer svgTextPeer = new SvgTextPeer();
 
     public HtmlSvgTextPeer() {
@@ -36,30 +44,77 @@ public final class HtmlSvgTextPeer
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
-        getNodePeerBase().setNode(node);
-        Element svgElement = SvgUtil.createSvgElement("svg");
+        svgTextPeer.getNodePeerBase().setNode(node);
         SvgRoot svgRoot = new SvgRootBase();
         node.getProperties().put("svgRoot", svgRoot);
-        svgElement.setAttribute("overflow", "visible"); // To avoid clipping the strokes
-        // Arbitrary size (ok since overflow is visible)
-        svgElement.setAttribute("width", 1); // 1 is enough
-        svgElement.setAttribute("height", 100_000); // Have to use a big number (great than element height?), otherwise the element is translated down for any reason
         HtmlUtil.setChildren(svgElement, svgRoot.getDefsElement(), svgTextPeer.getElement());
+        HtmlUtil.appendChild(DomGlobal.document.body, svgElement);
+        super.bind(node, sceneRequester);
         HtmlUtil.setChild(getElement(), svgElement);
-        svgTextPeer.bind(node, sceneRequester);
-        // Temporary hack for the WebFx website: making svg area unclickable (otherwise interfere with container clicks)
-        //setElementStyleAttribute("pointer-events", "none");
+    }
+
+    private SVGRect bBox;
+
+    private SVGRect getBBox() {
+        //if (bBox == null)
+            bBox = svgTextPeer.getBBox();
+        return bBox;
     }
 
     @Override
-    public NB getNodePeerBase() {
-        return (NB) svgTextPeer.getNodePeerBase();
+    public void updateEffect(Effect effect) {
+        svgTextPeer.updateEffect(effect);
+        updateViewBox();
+    }
+
+    @Override
+    public void updateFill(Paint fill) {
+        svgTextPeer.updateFill(fill);
+    }
+
+    @Override
+    public void updateStroke(Paint stroke) {
+        svgTextPeer.updateStroke(stroke);
+    }
+
+    @Override
+    public void updateStrokeWidth(Double strokeWidth) {
+        svgTextPeer.updateStrokeWidth(strokeWidth);
+    }
+
+    @Override
+    public void updateStrokeType(StrokeType strokeType) {
+        svgTextPeer.updateStrokeType(strokeType);
+    }
+
+    @Override
+    public void updateStrokeLineCap(StrokeLineCap strokeLineCap) {
+        svgTextPeer.updateStrokeLineCap(strokeLineCap);
+    }
+
+    @Override
+    public void updateStrokeLineJoin(StrokeLineJoin strokeLineJoin) {
+        svgTextPeer.updateStrokeLineJoin(strokeLineJoin);
+    }
+
+    @Override
+    public void updateStrokeMiterLimit(Double strokeMiterLimit) {
+        svgTextPeer.updateStrokeMiterLimit(strokeMiterLimit);
+    }
+
+    @Override
+    public void updateStrokeDashOffset(Double strokeDashOffset) {
+        svgTextPeer.updateStrokeDashOffset(strokeDashOffset);
+    }
+
+    @Override
+    public void updateStrokeDashArray(List<Double> dashArray) {
+        svgTextPeer.updateStrokeDashArray(dashArray);
     }
 
     @Override
     public double measure(HTMLElement e, boolean width) {
-        Element svgElement = svgTextPeer.getElement();
-        return width ? svgElement.getBoundingClientRect().width : svgElement.getBoundingClientRect().height;
+        return width ? getBBox().width : getBBox().height;
     }
 
 /*
@@ -70,25 +125,55 @@ public final class HtmlSvgTextPeer
     }
 */
 
-    @Override
-    public void updateText(String text) {}
+    private void updateViewBox() {
+        SVGRect bb = getBBox(); // Note: bBox doesn't include strokes, nor effect (drop shadow, etc...)
+        double width = bb.width, height = bb.height, x = bb.x, y = bb.y;
+        // Adding extra space if there is an effect to prevent it to be clipped
+        if (getNode().getEffect() != null) {
+            // Assuming 20px will be enough - TODO: Make an accurate computation
+            width += 20;
+            height += 20;
+        }
+        svgElement.setAttribute("width", width);
+        svgElement.setAttribute("height", height);
+        svgElement.setAttribute("viewBox", x + " " + y + " " + width + " " + height);
+        svgElement.setAttribute("overflow", "visible"); // To avoid clipping the strokes (but may clip shadow, that's why we added margin in the viewBox)
+    }
 
     @Override
-    public void updateTextOrigin(VPos textOrigin) {}
+    public void updateText(String text) {
+        svgTextPeer.updateText(text);
+        updateViewBox();
+    }
 
     @Override
-    public void updateX(Double x) {}
+    public void updateTextOrigin(VPos textOrigin) {
+        svgTextPeer.updateTextOrigin(textOrigin);
+    }
 
     @Override
-    public void updateY(Double y) {}
+    public void updateX(Double x) {
+        svgTextPeer.updateX(x);
+    }
 
     @Override
-    public void updateWrappingWidth(Double wrappingWidth) {}
+    public void updateY(Double y) {
+        svgTextPeer.updateY(y);
+    }
 
     @Override
-    public void updateTextAlignment(TextAlignment textAlignment) {}
+    public void updateWrappingWidth(Double wrappingWidth) {
+        svgTextPeer.updateWrappingWidth(wrappingWidth);
+    }
 
     @Override
-    public void updateFont(Font font) {}
+    public void updateTextAlignment(TextAlignment textAlignment) {
+        svgTextPeer.updateTextAlignment(textAlignment);
+    }
 
+    @Override
+    public void updateFont(Font font) {
+        svgTextPeer.updateFont(font);
+        updateViewBox();
+    }
 }
