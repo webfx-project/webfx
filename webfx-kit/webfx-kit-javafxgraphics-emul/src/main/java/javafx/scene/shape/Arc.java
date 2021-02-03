@@ -480,7 +480,12 @@ public class Arc extends Shape {
 
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        throw new UnsupportedOperationException("Arc.impl_computeGeomBounds() not implemented!");
+        // Note: approximate Geom bounds that considers the arc is full
+        Double radiusX = getRadiusX();
+        Double centerX = getCenterX();
+        Double radiusY = getRadiusY();
+        Double centerY = getCenterY();
+        return bounds.deriveWithNewBounds((float) (centerX - radiusX), (float) (centerY - radiusY), 0, (float) (centerX + radiusX), (float) (centerY + radiusY), 0);
     }
 
     static {
