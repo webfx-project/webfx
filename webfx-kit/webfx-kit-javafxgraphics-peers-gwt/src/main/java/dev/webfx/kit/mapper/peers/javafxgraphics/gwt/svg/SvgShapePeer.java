@@ -1,6 +1,11 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.ShapePeerBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.ShapePeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
+import dev.webfx.platform.shared.util.collection.Collections;
 import elemental2.dom.Element;
+import elemental2.svg.SVGLocatable;
 import elemental2.svg.SVGRect;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
@@ -9,10 +14,6 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.ShapePeerBase;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.ShapePeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
-import dev.webfx.platform.shared.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +117,7 @@ abstract class SvgShapePeer
     }
 
     public SVGRect getBBox() {
-        return null;
+        return ((SVGLocatable) getElement()).getBBox();
     }
 
 }

@@ -1,14 +1,12 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg;
 
-import elemental2.dom.Element;
-import elemental2.svg.SVGPathElement;
-import elemental2.svg.SVGRect;
-import javafx.collections.ListChangeListener;
-import javafx.scene.shape.*;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.PathPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.PathPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
 import dev.webfx.platform.shared.util.collection.Collections;
+import elemental2.dom.Element;
+import javafx.collections.ListChangeListener;
+import javafx.scene.shape.*;
 
 import java.util.List;
 
@@ -64,10 +62,4 @@ public final class SvgPathPeer
         } else if (pathElement instanceof ClosePath)
             sb.append('Z');
     }
-
-    @Override
-    public SVGRect getBBox() {
-        return ((SVGPathElement) getElement()).getBBox();
-    }
-
 }

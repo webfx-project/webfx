@@ -1,11 +1,9 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg;
 
-import elemental2.svg.SVGRect;
-import elemental2.svg.SVGTextElement;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
-import dev.webfx.platform.shared.util.Numbers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
+import dev.webfx.platform.shared.util.Numbers;
 import javafx.geometry.VPos;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -55,15 +53,24 @@ public final class SvgTextPeer
         setElementAttribute("x", x);
     }
 
+    private void updateX() {
+        updateX(getNode().getX());
+    }
+
     @Override
     public void updateY(Double y) {
-        setElementAttribute("y", y);
+        // In Svg, text.y refers to the bottom, whereas in JavaFX, it refers to the top
+        setElementAttribute("y", y + getBBox().height); // So we consider this difference here
+    }
+
+    private void updateY() {
+        updateY(getNode().getY());
     }
 
     @Override
     public void updateWrappingWidth(Double wrappingWidth) {
         setElementAttribute("width", wrappingWidth);
-        updateX(getNode().getX());
+        updateX();
     }
 
     @Override
@@ -74,10 +81,6 @@ public final class SvgTextPeer
     @Override
     public void updateFont(Font font) {
         setFontAttributes(font);
-    }
-
-    @Override
-    public SVGRect getBBox() {
-        return ((SVGTextElement) getElement()).getBBox();
+        updateY();
     }
 }
