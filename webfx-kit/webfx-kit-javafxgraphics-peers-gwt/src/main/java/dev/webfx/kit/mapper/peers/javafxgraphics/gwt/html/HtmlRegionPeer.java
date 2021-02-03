@@ -37,21 +37,21 @@ public abstract class HtmlRegionPeer
         double w = width.doubleValue();
         if (w >= 0) {
             if (subtractCssPaddingBorderWhenUpdatingSize)
-                w = subtractCssPaddingBorderWidth(w);
+                w -= computeCssPaddingBorderWidth();
             else {
                 if (subtractNodePaddingWhenUpdatingSize)
-                    w = subtractNodePaddingWidth(w);
+                    w -= getNodePaddingWidth();
                 if (subtractNodeBorderWhenUpdatingSize)
-                    w = subtractNodeBorderWidth(w);
+                    w -= getNodeBorderWidth();
             }
             getElement().style.width = CSSProperties.WidthUnionType.of(toPx(w));
             clearLayoutCache();
         }
     }
 
-    private double subtractCssPaddingBorderWidth(double width) {
+    private double computeCssPaddingBorderWidth() {
         CSSStyleDeclaration cs = HtmlUtil.getComputedStyle(getElement());
-        return width - sumPx(cs.paddingLeft, cs.paddingRight, cs.borderLeft, cs.borderRight);
+        return sumPx(cs.paddingLeft, cs.paddingRight, cs.borderLeftWidth, cs.borderRightWidth);
     }
 
     private static double sumPx(Object... values) {
@@ -65,23 +65,21 @@ public abstract class HtmlRegionPeer
         return result;
     }
 
-    private double subtractNodePaddingWidth(double width) {
+    private double getNodePaddingWidth() {
         N node = getNode();
         Insets padding = node.getPadding();
-        if (padding != null)
-            width -= (padding.getLeft() + padding.getRight());
-        return width;
+        return padding == null ? 0 : padding.getLeft() + padding.getRight();
     }
 
-    private double subtractNodeBorderWidth(double width) {
+    private double getNodeBorderWidth() {
         N node = getNode();
         Border border = node.getBorder();
         if (border != null) {
             Insets insets = border.getInsets();
             if (insets != null)
-                width -= (insets.getLeft() + insets.getRight());
+                return insets.getLeft() + insets.getRight();
         }
-        return width;
+        return 0;
     }
 
     @Override
@@ -89,40 +87,43 @@ public abstract class HtmlRegionPeer
         double h = height.doubleValue();
         if (h >= 0) {
             if (subtractCssPaddingBorderWhenUpdatingSize)
-                h = subtractCssPaddingBorderHeight(h);
+                h -= computeCssPaddingBorderHeight();
             else {
                 if (subtractNodePaddingWhenUpdatingSize)
-                    h = subtractNodePaddingHeight(h);
+                    h -= getNodePaddingHeight();
                 if (subtractNodeBorderWhenUpdatingSize)
-                    h = subtractNodeBorderHeight(h);
+                    h -= getNodeBorderHeight();
             }
             getElement().style.height = CSSProperties.HeightUnionType.of(toPx(h));
             clearLayoutCache();
         }
     }
 
-    private double subtractCssPaddingBorderHeight(double height) {
+    private double computeCssPaddingBorderHeight() {
         CSSStyleDeclaration cs = HtmlUtil.getComputedStyle(getElement());
-        return height - sumPx(cs.paddingTop, cs.paddingBottom, cs.borderTop, cs.borderBottom);
+        return sumPx(cs.paddingTop, cs.paddingBottom, cs.borderTopWidth, cs.borderBottomWidth);
     }
 
-    private double subtractNodePaddingHeight(double height) {
+    private double getNodePaddingHeight() {
         N node = getNode();
         Insets padding = node.getPadding();
-        if (padding != null)
-            height -= (padding.getTop() + padding.getBottom());
-        return height;
+        return padding == null ? 0 : padding.getTop() + padding.getBottom();
     }
 
-    private double subtractNodeBorderHeight(double height) {
+    private double getNodeBorderHeight() {
         N node = getNode();
         Border border = node.getBorder();
         if (border != null) {
             Insets insets = border.getInsets();
             if (insets != null)
-                height -= (insets.getTop() + insets.getBottom());
+                return insets.getTop() + insets.getBottom();
         }
-        return height;
+        return 0;
+    }
+
+    private void updateWidthAndHeight() {
+        updateWidth(getNode().getWidth());
+        updateHeight(getNode().getHeight());
     }
 
     @Override
@@ -152,6 +153,8 @@ public abstract class HtmlRegionPeer
             style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
             applyBorderRadii(null);
         }
+        if (subtractCssPaddingBorderWhenUpdatingSize || subtractNodeBorderWhenUpdatingSize)
+            updateWidthAndHeight();
     }
 
     @Override
@@ -159,6 +162,8 @@ public abstract class HtmlRegionPeer
         // Note: this code should be executed only if the html content is managed by the peer, otherwise it should be
         // skipped (ex: css padding not needed for layout peers or controls with content provided by skin)
         getElement().style.padding = toCssPadding(padding);
+        if (subtractCssPaddingBorderWhenUpdatingSize || subtractNodePaddingWhenUpdatingSize)
+            updateWidthAndHeight();
     }
 
     protected CSSProperties.PaddingUnionType toCssPadding(Insets padding) {
