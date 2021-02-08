@@ -60,6 +60,9 @@ public abstract class SvgNodePeer
         if (filterPrimitives == null || filterPrimitives.isEmpty())
             return null;
         Element filter = SvgUtil.createFilter();
+        // Doubling the filter region, otherwise the effect (ex: drop shadow) might be cropped by the filter region
+        filter.setAttribute("width", "200%");
+        filter.setAttribute("height", "200%");
         filterPrimitives.forEach(filter::appendChild);
         return getSvgRoot().addDef(filter);
     }
