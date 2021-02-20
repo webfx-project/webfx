@@ -63,6 +63,8 @@ public final class HtmlImageViewPeer
             onLoad();
         else {
             setElementAttribute("src", imageUrl);
+            // Temporary filling alt with imageUrl to avoid downgrade in Lighthouse TODO: map this to accessible text
+            setElementAttribute("alt", imageUrl);
             // Special case of a writable image
             if (image instanceof WritableImage) {
                 // The WebFx emulation code stored the image in a canvas

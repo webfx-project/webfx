@@ -1,12 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import elemental2.dom.*;
-import javafx.collections.ListChangeListener;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.LayoutFlags;
-import javafx.scene.text.TextFlow;
 import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
@@ -17,6 +10,13 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.util.properties.Properties;
 import dev.webfx.platform.client.services.uischeduler.UiScheduler;
 import dev.webfx.platform.shared.util.collection.Collections;
+import elemental2.dom.*;
+import javafx.collections.ListChangeListener;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.LayoutFlags;
+import javafx.scene.text.TextFlow;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +40,13 @@ public final class HtmlScenePeer extends ScenePeerBase {
         HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
         installStylesheetsListener(scene);
         document.fonts.setOnloadingdone(p0 -> { onCssOrFontLoaded(); return null; });
+        // The following code is just to avoid a downgrade in Lighthouse (iframe should have a title)
+        NodeList<Element> iframes = document.getElementsByTagName("iframe"); // Looking for the GWT iframe
+        if (iframes.length > 0) {
+            HTMLIFrameElement iframe = (HTMLIFrameElement) iframes.getAt(0);
+            iframe.title = "GWT iframe"; // and set it a title
+            iframe.setAttribute("aria-hidden", "true"); // also good to do to avoid confusion with accessibility features
+        }
     }
 
     private void installMouseListeners() {

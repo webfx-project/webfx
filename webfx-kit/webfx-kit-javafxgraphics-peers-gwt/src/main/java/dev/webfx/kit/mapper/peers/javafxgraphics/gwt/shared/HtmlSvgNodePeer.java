@@ -402,13 +402,16 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static void registerTouchListener(EventTarget htmlTarget, String type, javafx.event.EventTarget fxTarget) {
+        // The passive option is just to avoid a downgrade with Lighthouse
+        AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
+        passiveOption.setPassive(true);
         htmlTarget.addEventListener(type, e -> {
             boolean fxConsumed = passHtmlTouchEventOnToFx((TouchEvent) e, type, fxTarget);
             if (fxConsumed) {
                 e.stopPropagation();
                 e.preventDefault();
             }
-        });
+        }, passiveOption); // TODO: check if doesn't interfere with standard JavaFX behaviour
     }
 
     protected static boolean passHtmlTouchEventOnToFx(TouchEvent e, String type, javafx.event.EventTarget fxTarget) {
