@@ -114,6 +114,24 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     }
 
     @Override
+    public boolean supportsWebP() {
+        return supportsWebPJS();
+    }
+
+    private static native boolean supportsWebPJS() /*-{
+        // Check FF, Edge by user agent
+        var m = navigator.userAgent.match(/(Edge|Firefox)\/(\d+)\./)
+        if (m) {
+            return (m[1] === 'Firefox' && +m[2] >= 65)
+                || (m[1] === 'Edge' && +m[2] >= 18)
+        }
+
+        // Use canvas hack for webkit-based browsers
+        var e = document.createElement('canvas');
+        return e.toDataURL && e.toDataURL('image/webp').indexOf('data:image/webp') == 0;
+    }-*/;
+
+    @Override
     public void launchApplication(Factory<Application> applicationFactory, String... args) {
         application = applicationFactory.create();
         if (application != null)

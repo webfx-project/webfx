@@ -50,4 +50,6 @@ public interface WebFxKitLauncherProvider {
     default double getVerticalScrollbarExtraWidth() {
         return 0;
     }
+
+    default boolean supportsWebP() { return false; }
 }

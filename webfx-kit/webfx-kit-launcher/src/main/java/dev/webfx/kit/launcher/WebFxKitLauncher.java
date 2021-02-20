@@ -49,8 +49,11 @@ public final class WebFxKitLauncher {
         return getProvider().getPrimaryStage();
     }
 
-    public static  double getVerticalScrollbarExtraWidth() {
+    public static double getVerticalScrollbarExtraWidth() {
         return getProvider().getVerticalScrollbarExtraWidth();
     }
 
+    public static boolean supportsWebP() {
+        return getProvider().supportsWebP();
+    }
 }
