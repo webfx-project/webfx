@@ -129,7 +129,7 @@ public abstract class UiSchedulerProviderBase implements UiSchedulerProvider {
                     + (pulsePassStart - propertiesPassStart) / MILLIS_IN_NANO + "ms properties + "
                     + (nanoEnd - pulsePassStart) / MILLIS_IN_NANO  + "ms layout/pulse");
 */
-        boolean noMoreAnimationScheduled = propertiesAnimations.isEmpty() && uiAnimations.isEmpty() && pulseAnimations.isEmpty();
+        boolean noMoreAnimationScheduled = propertiesAnimations.isEmpty() && uiAnimations.isEmpty(); // && pulseAnimations.isEmpty(); // periodic pulse animations can actually pause and be restarted by requestNextScenePulse() (otherwise Lighthouse downgrade)
         onExecuteAnimationPipeFinished(noMoreAnimationScheduled);
         if (!noMoreAnimationScheduled)
             checkExecuteAnimationPipeIsScheduledForNextAnimationFrame();

@@ -4,20 +4,20 @@ import com.sun.javafx.stage.WindowEventDispatcher;
 import com.sun.javafx.stage.WindowHelper;
 import com.sun.javafx.stage.WindowPeerListener;
 import com.sun.javafx.tk.TKPulseListener;
-import javafx.beans.property.*;
-import javafx.event.*;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.mapper.WebFxKitMapper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasSceneProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
-import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.util.properties.Properties;
 import dev.webfx.platform.client.services.uischeduler.AnimationFramePass;
 import dev.webfx.platform.client.services.uischeduler.UiScheduler;
 import dev.webfx.platform.shared.services.scheduler.Scheduled;
+import javafx.beans.property.*;
+import javafx.event.*;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 
 /**
  * @author Bruno Salmon

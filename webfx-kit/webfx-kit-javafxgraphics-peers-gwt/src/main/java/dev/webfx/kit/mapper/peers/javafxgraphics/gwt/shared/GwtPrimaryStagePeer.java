@@ -1,13 +1,11 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared;
 
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.StagePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.platform.client.services.uischeduler.AnimationFramePass;
-import dev.webfx.platform.client.services.uischeduler.UiScheduler;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import static elemental2.dom.DomGlobal.document;
 import static elemental2.dom.DomGlobal.window;
@@ -26,9 +24,13 @@ public final class GwtPrimaryStagePeer extends StagePeerBase {
         HtmlUtil.setStyleAttribute(document.body, "margin", "0");
         // Disabling default text selection (as in JavaFx) to avoid nasty selection graphical elements (buttons etc...)
         HtmlUtil.setStyleAttribute(document.body, "user-select", "none");
-        // Checking the window size on each pulse (window.onsize is not enough because it doesn't detect vertical scroll bar apparition)
+        // Considering the current window size
         changedWindowSize();
-        UiScheduler.schedulePeriodicInAnimationFrame(this::changedWindowSize, AnimationFramePass.PROPERTY_CHANGE_PASS);
+/* Finally commented and replaced by window resize event to avoid lasting activity on animation frame (Lighthouse downgrade)
+        // Checking the window size on each pulse (window resize event is not enough because it doesn't detect vertical scroll bar apparition)
+        //UiScheduler.schedulePeriodicInAnimationFrame(this::changedWindowSize, AnimationFramePass.PROPERTY_CHANGE_PASS);
+*/
+        window.addEventListener("resize", e -> changedWindowSize());
     }
 
     @Override
