@@ -56,6 +56,7 @@ public abstract class NodePeerBase
                 , node.translateXProperty()
                 , node.translateYProperty()
                 , node.rotateProperty()
+                , node.cursorProperty()
                 , node.mouseTransparentProperty()
                 , node.onMouseDraggedProperty()
         );
