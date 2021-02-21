@@ -456,7 +456,10 @@ public class HtmlGraphicsContext implements GraphicsContext {
     private void arc(double x, double y, double w, double h, double startAngle, double arcExtent, ArcType closure) {
         if (proportionalFillLinearGradient)
             applyProportionalFillLinearGradiant(x, y, w, h);
-        ctx.arc(x + w / 2, y + h / 2, w / 2, degreesToRadiant(-startAngle), degreesToRadiant(-startAngle - arcExtent), true);
+        // Inverting angles because HTML is clockwise whereas JavaFX is anticlockwise
+        startAngle = -startAngle;
+        double endAngle = startAngle - arcExtent;
+        ctx.arc(x + w / 2, y + h / 2, w / 2, degreesToRadiant(Math.min(startAngle, endAngle)), degreesToRadiant(Math.max(startAngle, endAngle)));
         if (closure == ArcType.ROUND)
             ctx.lineTo(x + w / 2, y + h / 2);
     }
