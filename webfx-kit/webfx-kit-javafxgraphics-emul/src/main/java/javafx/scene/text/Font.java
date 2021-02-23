@@ -26,6 +26,20 @@ public class Font {
 
 
     /**
+     * Searches for an appropriate font based on the given font family name and
+     * default font size.
+     * This method is not guaranteed to return a specific font, but does
+     * its best to find one that fits the specified requirements. A null or empty
+     * value for family allows the implementation to select any suitable font.
+     *
+     * @param family The family of the font
+     * @return The font that best fits the specified requirements.
+     */
+    public static Font font(String family) {
+        return font(family, null, null, -1);
+    }
+
+    /**
      * Constructs a font using the specified full face name and size
      * @param name full name of the font.
      * @param size the font size to use
@@ -96,7 +110,7 @@ public class Font {
      */
     public static synchronized Font getDefault() {
         if (DEFAULT == null)
-            DEFAULT = font("Roboto", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 15);
+            DEFAULT = font("System", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 15);
         return DEFAULT;
     }
 
