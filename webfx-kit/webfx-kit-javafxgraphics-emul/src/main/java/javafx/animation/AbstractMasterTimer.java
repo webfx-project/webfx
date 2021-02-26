@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 abstract class AbstractMasterTimer {
 
-    private static boolean fullspeed = false; // Settings.getBoolean(FULLSPEED_PROP);
+    private static boolean fullspeed = true; // Settings.getBoolean(FULLSPEED_PROP);
 
     // enables the code path which estimates the next pulse time to be just
     // enough in advance of the vsync to complete rendering before it happens
@@ -231,6 +231,8 @@ abstract class AbstractMasterTimer {
 
         @Override
         public long getDelay() {
+            if (fullspeed)
+                return 0;
             long now = nanos();
             long timeUntilPulse = (nextPulseTime - now) / 1000000;
             return Math.max(0, timeUntilPulse);
