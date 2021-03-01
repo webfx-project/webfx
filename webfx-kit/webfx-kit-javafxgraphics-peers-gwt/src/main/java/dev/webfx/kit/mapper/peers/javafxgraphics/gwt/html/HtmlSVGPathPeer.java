@@ -1,15 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import elemental2.dom.*;
-import elemental2.svg.SVGRect;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
-import javafx.scene.effect.Effect;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.*;
-import javafx.scene.transform.Scale;
-import javafx.scene.transform.Transform;
-import javafx.scene.transform.Translate;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.SVGPathPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.SVGPathPeerMixin;
@@ -20,6 +10,20 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.SvgRootBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgPathPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
+import elemental2.dom.CSSProperties;
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLElement;
+import elemental2.svg.SVGElement;
+import elemental2.svg.SVGRect;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.scene.effect.Effect;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.*;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,7 @@ public final class HtmlSVGPathPeer
         implements SVGPathPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoGrow {
 
     private final SvgPathPeer svgPathPeer = new SvgPathPeer();
-    private final Element svgElement = SvgUtil.createSvgElement("svg");
+    private final SVGElement svgElement = (SVGElement) SvgUtil.createSvgElement("svg");
 
     public HtmlSVGPathPeer() {
         this((NB) new SVGPathPeerBase(), HtmlUtil.createElement("fx-svgpath"));
@@ -65,10 +69,17 @@ public final class HtmlSVGPathPeer
     private SVGRect bBox;
 
     private SVGRect getBBox() {
-        if (bBox == null)
+        if (bBox == null) {
             bBox = svgPathPeer.getBBox();
+            if (bBox.width == 0)
+                bBox = getViewBox(svgElement);
+        }
         return bBox;
     }
+
+    private static native SVGRect getViewBox(SVGElement svgElement) /*-{
+        return svgElement.viewBox.baseVal;
+    }-*/;
 
     @Override
     public void updateEffect(Effect effect) {
