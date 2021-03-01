@@ -26,6 +26,7 @@
 package javafx.scene.input;
 
 import javafx.beans.NamedArg;
+import javafx.event.Event;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
 
@@ -225,6 +226,11 @@ public final class SwipeEvent extends GestureEvent {
         SwipeEvent e = copyFor(newSource, newTarget);
         e.eventType = type;
         return e;
+    }
+
+    @Override
+    public Event duplicate() {
+        return new SwipeEvent(source, target, getEventType(), getX(), getY(), getScreenX(), getScreenY(), isShiftDown(), isControlDown(), isAltDown(), isMetaDown(), isDirect(), touchCount, getPickResult());
     }
 
     @Override
