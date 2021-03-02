@@ -71,8 +71,11 @@ public final class HtmlSVGPathPeer
     private SVGRect getBBox() {
         if (bBox == null) {
             bBox = svgPathPeer.getBBox();
-            if (bBox.width == 0)
-                bBox = getViewBox(svgElement);
+            if (bBox.width == 0) {
+                SVGRect viewBox = getViewBox(svgElement);
+                if (viewBox != null) // null value happens on FireFox
+                    bBox = viewBox;
+            }
         }
         return bBox;
     }
