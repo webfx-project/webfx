@@ -354,7 +354,7 @@ public abstract class Control extends Region implements Skinnable {
      *      the maximum width.
      * @return A double representing the maximum width of this control.
      */
-    @Override public double computeMaxWidth(double height) {
+    @Override protected double computeMaxWidth(double height) {
         if (skinBase != null) {
             return skinBase.computeMaxWidth(height, snappedTopInset(), snappedRightInset(), snappedBottomInset(), snappedLeftInset());
         } else {
@@ -378,7 +378,7 @@ public abstract class Control extends Region implements Skinnable {
      *      the maximum height.
      * @return A double representing the maximum height of this control.
      */
-    @Override public double computeMaxHeight(double width) {
+    @Override protected double computeMaxHeight(double width) {
         if (skinBase != null) {
             return skinBase.computeMaxHeight(width, snappedTopInset(), snappedRightInset(), snappedBottomInset(), snappedLeftInset());
         } else {
