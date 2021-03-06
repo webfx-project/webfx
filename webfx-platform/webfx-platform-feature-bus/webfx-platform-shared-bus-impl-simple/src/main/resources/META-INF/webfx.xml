@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="dev.webfx.platform.shared.services.bus.spi.BusServiceProvider">dev.webfx.platform.shared.services.bus.spi.impl.simple.SimpleBusServiceProvider</provider>
-    </providers>
-
-</module>

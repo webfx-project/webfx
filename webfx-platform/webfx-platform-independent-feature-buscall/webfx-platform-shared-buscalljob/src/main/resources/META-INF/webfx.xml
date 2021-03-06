@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="dev.webfx.platform.shared.services.appcontainer.spi.ApplicationJob">dev.webfx.platform.server.jobs.buscall.BusCallServerJob</provider>
-    </providers>
-
-</module>

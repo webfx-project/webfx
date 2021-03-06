@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="dev.webfx.platform.client.services.webassembly.spi.WebAssemblyProvider">dev.webfx.platform.teavm.services.webassembly.spi.impl.TeaVmWebAssemblyProvider</provider>
-    </providers>
-
-</module>

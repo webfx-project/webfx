@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="dev.webfx.platform.shared.services.json.spi.JsonProvider">dev.webfx.platform.shared.services.json.spi.impl.java.JavaJsonProvider</provider>
-    </providers>
-
-</module>

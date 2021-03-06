@@ -5,9 +5,6 @@ Normally GWT can only compile the java code (your application logic) and not the
 WebFX solves this problem by providing a web port of JavaFX (the [webfx-kit][webfx-kit-link] module)
 that can be compiled by GWT together with your application code.
 
-WebFX also provides (via the [webfx-platform][webfx-platform-link] module) some cross-platform APIs (ex: json, timers, websockets, web workers, etc...) 
-that work both in the JVM and the browser.
-
 You will have 2 builds of your application.
 A pure JavaFX build that you will use for the development, testing and debugging in your preferred Java IDE.
 And a web build resulting from the compilation of your application code together with the WebFX code by GWT.
@@ -51,9 +48,7 @@ You can't use the project before these steps are completed, but don't hesitate t
 Your questions and comments are also very welcome in this [discussion thread][webfx-discussion-link].
 
 [gwt-website]: http://www.gwtproject.org/
-[teavm-website]: http://teavm.org/
 [webfx-kit-link]: https://github.com/webfx-project/webfx/blob/main/webfx-kit
-[webfx-platform-link]: https://github.com/webfx-project/webfx/blob/main/webfx-platform
 [webfx-colorfulcircles-demo-link]: https://colorfulcircles.webfx.dev
 [webfx-colorfulcircles-repo-link]: https://github.com/webfx-project/webfx-demo-colorfulcircles
 [webfx-particles-demo-link]: https://particles.webfx.dev
