@@ -16,7 +16,6 @@
 
         <module>webfx-platform-shared-appcontainer</module>
         <module>webfx-platform-java-appcontainer-impl</module>
-        <module>webfx-platform-vertx-appcontainer-impl</module>
         <module>webfx-platform-gwt-appcontainer-impl</module>
 
     </modules>

@@ -16,7 +16,6 @@
 
         <module>webfx-platform-shared-scheduler</module>
         <module>webfx-platform-java-scheduler-impl</module>
-        <module>webfx-platform-vertx-scheduler-impl</module>
 
     </modules>
 
