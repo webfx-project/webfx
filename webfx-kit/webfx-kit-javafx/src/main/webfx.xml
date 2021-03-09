@@ -1,4 +1,4 @@
-<module>
+<module executable="true" >
 
     <providers>
         <provider spi="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider</provider>
