@@ -1,8 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="dev.webfx.platform.client.services.storage.spi.LocalStorageProvider">dev.webfx.platform.java.services.storage.spi.impl.JavaLocalStorageProvider</provider>
-        <provider spi="dev.webfx.platform.client.services.storage.spi.SessionStorageProvider">dev.webfx.platform.java.services.storage.spi.impl.JavaSessionStorageProvider</provider>
-    </providers>
-
-</module>

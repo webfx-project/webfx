@@ -1,7 +1,0 @@
-<module>
-
-    <providers>
-        <provider spi="dev.webfx.platform.shared.services.log.spi.LoggerProvider">dev.webfx.platform.gwt.services.log.spi.impl.GwtLoggerProvider</provider>
-    </providers>
-
-</module>

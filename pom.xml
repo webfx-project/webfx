@@ -27,7 +27,6 @@
     </repositories>
 
     <modules>
-        <module>webfx-platform</module>
         <module>webfx-kit</module>
     </modules>
 
