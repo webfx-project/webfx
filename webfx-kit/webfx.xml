@@ -1,0 +1,32 @@
+<module>
+
+    <libraries>
+
+        <module name="javafx-controls">
+            <packages>
+                <package>javafx.scene.chart</package>
+            </packages>
+        </module>
+
+        <module name="javafx-graphics">
+            <packages>
+                <package>javafx.concurrent</package>
+            </packages>
+        </module>
+
+        <module name="javafx-swing">
+            <packages>
+                <package>javafx.embed.swing</package>
+            </packages>
+        </module>
+
+        <module name="javafx-web">
+            <packages>
+                <package>javafx.scene.web</package>
+            </packages>
+        </module>
+
+    </libraries>
+
+</module>
+
