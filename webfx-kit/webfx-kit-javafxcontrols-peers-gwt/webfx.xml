@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <module>
 
+    <packages exports="true"/>
+
     <html if-uses-java-class="javafx.scene.control.ScrollPane">
         <head>
             <link rel="stylesheet" type="text/css" href="dev/webfx/kit/mapper/peers/javafxcontrols/gwt/html/perfect-scrollbar.css"/>
