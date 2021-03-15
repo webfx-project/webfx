@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<module implements-module="webfx-kit-javafxgraphics-registry">
+<module>
+
+    <implements>
+        <module>webfx-kit-javafxgraphics-registry</module>
+    </implements>
 
     <dependencies>
         <source-modules/>
