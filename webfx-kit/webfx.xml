@@ -33,29 +33,29 @@
 
     <libraries>
 
-        <module name="javafx-controls">
+        <library name="javafx-controls">
             <packages>
                 <package>javafx.scene.chart</package>
             </packages>
-        </module>
+        </library>
 
-        <module name="javafx-graphics">
+        <library name="javafx-graphics">
             <packages>
                 <package>javafx.concurrent</package>
             </packages>
-        </module>
+        </library>
 
-        <module name="javafx-swing">
+        <library name="javafx-swing">
             <packages>
                 <package>javafx.embed.swing</package>
             </packages>
-        </module>
+        </library>
 
-        <module name="javafx-web">
+        <library name="javafx-web">
             <packages>
                 <package>javafx.scene.web</package>
             </packages>
-        </module>
+        </library>
 
     </libraries>
 
