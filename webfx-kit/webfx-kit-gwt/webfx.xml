@@ -6,8 +6,8 @@
     </packages>
 
     <providers>
-        <provider spi="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</provider>
-        <provider spi="dev.webfx.kit.mapper.spi.WebFxKitMapperProvider">dev.webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider</provider>
+        <dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>dev.webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>
+        <dev.webfx.kit.mapper.spi.WebFxKitMapperProvider>dev.webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider</dev.webfx.kit.mapper.spi.WebFxKitMapperProvider>
     </providers>
 
     <dependencies>

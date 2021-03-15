@@ -6,7 +6,7 @@
     </packages>
 
     <providers>
-        <provider spi="dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider">dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtWebFxKitMediaMapperProvider</provider>
+        <dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider>dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtWebFxKitMediaMapperProvider</dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider>
     </providers>
 
     <dependencies>

@@ -6,7 +6,7 @@
     </packages>
 
     <providers>
-        <provider spi="dev.webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">dev.webfx.kit.launcher.WebFxKitLauncherModuleInitializer</provider>
+        <dev.webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer>dev.webfx.kit.launcher.WebFxKitLauncherModuleInitializer</dev.webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer>
     </providers>
 
     <dependencies>
