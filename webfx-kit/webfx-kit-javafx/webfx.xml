@@ -6,6 +6,10 @@
         <provider spi="dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.client.services.uischeduler.spi.impl.javafx.FxUiSchedulerProvider</provider>
     </providers>
 
+    <dependencies>
+        <source-modules/>
+    </dependencies>
+
     <graalvm-reflection-json>
         <![CDATA[
 [

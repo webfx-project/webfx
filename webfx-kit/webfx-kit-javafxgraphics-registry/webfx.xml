@@ -5,4 +5,8 @@
         <source-packages/>
     </packages>
 
+    <dependencies>
+        <source-modules/>
+    </dependencies>
+
 </module>

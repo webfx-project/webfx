@@ -5,16 +5,15 @@
         <source-packages/>
     </packages>
 
-    <dependencies>
-
-        <source-module>javafx-base</source-module>
-
-    </dependencies>
-
     <providers>
         <provider spi="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</provider>
         <provider spi="dev.webfx.kit.mapper.spi.WebFxKitMapperProvider">dev.webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider</provider>
     </providers>
+
+    <dependencies>
+        <source-modules/>
+        <source-module>javafx-base</source-module>
+    </dependencies>
 
     <html if-module-property-true="show-loading-spinner-on-startup">
         <head>

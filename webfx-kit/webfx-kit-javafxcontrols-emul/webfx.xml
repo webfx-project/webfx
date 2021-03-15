@@ -6,4 +6,8 @@
         <resource-package>images.checkbox</resource-package>
     </packages>
 
+    <dependencies>
+        <source-modules/>
+    </dependencies>
+
 </module>

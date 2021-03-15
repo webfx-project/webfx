@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <module implements-module="webfx-kit-javafxcontrols-registry">
 
+    <dependencies>
+        <source-modules/>
+    </dependencies>
+
 </module>

@@ -5,6 +5,10 @@
         <source-packages/>
     </packages>
 
+    <dependencies>
+        <source-modules/>
+    </dependencies>
+
     <html if-uses-java-class="javafx.scene.control.ScrollPane">
         <head>
             <link rel="stylesheet" type="text/css" href="dev/webfx/kit/mapper/peers/javafxcontrols/gwt/html/perfect-scrollbar.css"/>

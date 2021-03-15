@@ -9,4 +9,8 @@
         <provider spi="dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider">dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtWebFxKitMediaMapperProvider</provider>
     </providers>
 
+    <dependencies>
+        <source-modules/>
+    </dependencies>
+
 </module>

@@ -9,4 +9,8 @@
         <provider spi="dev.webfx.platform.shared.services.appcontainer.spi.ApplicationModuleInitializer">dev.webfx.kit.launcher.WebFxKitLauncherModuleInitializer</provider>
     </providers>
 
+    <dependencies>
+        <source-modules/>
+    </dependencies>
+
 </module>
