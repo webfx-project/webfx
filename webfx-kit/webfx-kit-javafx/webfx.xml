@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<module executable="true" >
+<project executable="true" >
+
+    <packages>
+        <source-packages/>
+    </packages>
 
     <providers>
         <provider spi="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider</provider>
@@ -35,4 +39,4 @@
         ]]>
     </graalvm-reflection-json>
 
-</module>
+</project>

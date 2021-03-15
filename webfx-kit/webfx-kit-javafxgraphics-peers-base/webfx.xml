@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<module>
+<project>
 
     <packages>
         <source-packages/>
@@ -10,4 +10,4 @@
         <source-module>javafx-base</source-module>
     </dependencies>
 
-</module>
+</project>

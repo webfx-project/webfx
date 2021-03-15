@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<module>
+<project>
 
     <packages>
         <source-packages/>
@@ -18,4 +18,4 @@
         </body>
     </html>
 
-</module>
+</project>
