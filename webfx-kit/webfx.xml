@@ -1,62 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
 
-    <modules>
-
-        <module>webfx-kit-util</module>
-        <module>webfx-kit-launcher</module>
-
-        <module>webfx-kit-javafxgraphics-peers</module>
-        <module>webfx-kit-javafxgraphics-peers-base</module>
-        <module>webfx-kit-javafxgraphics-peers-gwt</module>
-
-        <module>webfx-kit-javafxgraphics-registry</module>
-        <module>webfx-kit-javafxgraphics-registry-gwt</module>
-
-        <module>webfx-kit-javafxcontrols-peers-base</module>
-        <module>webfx-kit-javafxcontrols-peers-gwt</module>
-
-        <module>webfx-kit-javafxcontrols-registry</module>
-        <module>webfx-kit-javafxcontrols-registry-gwt</module>
-
-        <module>webfx-kit-javafxmedia-peers-gwt</module>
-
-        <module>webfx-kit-javafxbase-emul</module>
-        <module>webfx-kit-javafxgraphics-emul</module>
-        <module>webfx-kit-javafxcontrols-emul</module>
-        <module>webfx-kit-javafxmedia-emul</module>
-
-        <module>webfx-kit-javafx</module>
-        <module>webfx-kit-gwt</module>
-
-    </modules>
-
     <libraries>
 
-        <library name="javafx-controls">
-            <packages>
-                <package>javafx.scene.chart</package>
-            </packages>
-        </library>
+        <group>
+            <groupId>org.openjfx</groupId>
+            <version>15.0.1</version>
 
-        <library name="javafx-graphics">
-            <packages>
-                <package>javafx.concurrent</package>
-            </packages>
-        </library>
+            <library name="javafx-base">
+            </library>
 
-        <library name="javafx-swing">
-            <packages>
-                <package>javafx.embed.swing</package>
-            </packages>
-        </library>
+            <library name="javafx-graphics">
+                <packages>
+                    <package>javafx.concurrent</package>
+                </packages>
+            </library>
 
-        <library name="javafx-web">
-            <packages>
-                <package>javafx.scene.web</package>
-            </packages>
-        </library>
+            <library name="javafx-controls">
+                <packages>
+                    <package>javafx.scene.chart</package>
+                </packages>
+            </library>
 
+            <library name="javafx-media">
+            </library>
+
+            <library name="javafx-web">
+                <packages>
+                    <package>javafx.scene.web</package>
+                </packages>
+            </library>
+
+            <library name="javafx-swing">
+                <packages>
+                    <package>javafx.embed.swing</package>
+                </packages>
+            </library>
+
+        </group>
     </libraries>
 
 </project>
