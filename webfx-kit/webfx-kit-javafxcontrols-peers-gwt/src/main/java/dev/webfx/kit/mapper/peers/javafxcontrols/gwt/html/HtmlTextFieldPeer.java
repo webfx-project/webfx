@@ -3,6 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxcontrols.gwt.html;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
+import javafx.collections.ObservableList;
 import javafx.scene.control.skin.TextFieldSkin;
 import javafx.scene.control.skin.ToolkitTextBox;
 import javafx.geometry.Pos;
@@ -58,9 +59,13 @@ public class HtmlTextFieldPeer
     protected Element getFocusElement() {
         Node n = getNode();
         Skin skin = getNode().getSkin();
-        if (skin instanceof TextFieldSkin)
-            n = ((TextFieldSkin) skin).getChildren().get(0); // Should be the ToolkitTextBox
-        return ((HtmlSvgNodePeer) n.getNodePeer()).getElement();
+        if (skin instanceof TextFieldSkin) {
+            ObservableList<Node> children = ((TextFieldSkin) skin).getChildren();
+            if (!children.isEmpty())
+                n = children.get(0); // Should be the ToolkitTextBox
+        }
+        HtmlSvgNodePeer nodePeer = n == null ? null : (HtmlSvgNodePeer) n.getNodePeer();
+        return nodePeer == null ? null : nodePeer.getElement();
     }
 
     @Override
