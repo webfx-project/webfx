@@ -13,15 +13,15 @@ And a web build resulting from the compilation of your application code together
 
 ### Basics
 
-* [Colorful circles][webfx-colorfulcircles-demo-link] ([single source code][webfx-colorfulcircles-code-link] - [Github repository][webfx-colorfulcircles-repo-link])
+* [Colorful circles][webfx-colorfulcircles-demo-link] ([single source file][webfx-colorfulcircles-code-link] - [Github repository][webfx-colorfulcircles-repo-link])
 
-* [Particles][webfx-particles-demo-link] ([single source code][webfx-particles-code-link] - [Github repository][webfx-particles-repo-link])
+* [Particles][webfx-particles-demo-link] ([single source file][webfx-particles-code-link] - [Github repository][webfx-particles-repo-link])
 
 ### Custom controls
 
-* [Tally Counter][webfx-tallycounter-demo-link] ([single source code][webfx-tallycounter-code-link] - [Github repository][webfx-tallycounter-repo-link])
+* [Tally Counter][webfx-tallycounter-demo-link] ([single source file][webfx-tallycounter-code-link] - [Github repository][webfx-tallycounter-repo-link])
 
-* [Modern gauge][webfx-moderngauge-demo-link] ([single source code][webfx-moderngauge-code-link] - [Github repository][webfx-moderngauge-repo-link])
+* [Modern gauge][webfx-moderngauge-demo-link] ([single source file][webfx-moderngauge-code-link] - [Github repository][webfx-moderngauge-repo-link])
 
 * [Enzo clocks][webfx-enzoclocks-demo-link] ([Github repository][webfx-enzoclocks-repo-link])
 
