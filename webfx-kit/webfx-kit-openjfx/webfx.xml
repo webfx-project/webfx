@@ -18,13 +18,13 @@
         <![CDATA[
 [
     {
-        "name" : "dev.webfx.kit.launcher.spi.javafx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
+        "name" : "dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
         "methods" : [
             { "name" : "<init>", "parameterTypes" : [] }
         ]
     },
     {
-        "name" : "dev.webfx.kit.mapper.peers.javafxcontrols.javafx.skin.FxControlPeerSkin",
+        "name" : "dev.webfx.kit.mapper.peers.javafxcontrols.openjfx.skin.FxControlPeerSkin",
         "methods" : [
             { "name" : "<init>", "parameterTypes" : ["javafx.scene.control.Control"] }
         ]
