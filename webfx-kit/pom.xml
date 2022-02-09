@@ -38,7 +38,7 @@
         <module>webfx-kit-javafxcontrols-emul</module>
         <module>webfx-kit-javafxmedia-emul</module>
 
-        <module>webfx-kit-javafx</module>
+        <module>webfx-kit-openjfx</module>
         <module>webfx-kit-gwt</module>
 
     </modules>
