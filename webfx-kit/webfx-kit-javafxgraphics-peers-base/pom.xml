@@ -26,13 +26,6 @@
         </dependency>
     
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-base</artifactId>
-            <version>16</version>
-            <scope>provided</scope>
-        </dependency>
-    
-        <dependency>
             <groupId>dev.webfx</groupId>
             <artifactId>webfx-kit-javafxgraphics-peers</artifactId>
             <version>0.1.0-SNAPSHOT</version>
