@@ -5,7 +5,7 @@
 
         <group>
             <groupId>org.openjfx</groupId>
-            <version>16</version>
+            <version>17.0.2</version>
 
             <library name="javafx-base">
             </library>

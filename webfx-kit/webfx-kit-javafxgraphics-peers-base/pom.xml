@@ -14,14 +14,14 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
-            <version>16</version>
+            <version>17.0.2</version>
             <scope>provided</scope>
         </dependency>
     
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>16</version>
+            <version>17.0.2</version>
             <scope>provided</scope>
         </dependency>
     
