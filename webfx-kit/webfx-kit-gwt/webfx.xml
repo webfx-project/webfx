@@ -11,8 +11,9 @@
     </providers>
 
     <dependencies>
-        <source-modules/>
-        <source-module>javafx-base</source-module>
+        <source-modules>
+            <undiscovered-source-module>javafx-base</undiscovered-source-module>
+        </source-modules>
     </dependencies>
 
     <html if-module-property-true="show-loading-spinner-on-startup">
