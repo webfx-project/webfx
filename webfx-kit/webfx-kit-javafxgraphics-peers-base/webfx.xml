@@ -6,9 +6,9 @@
     </packages>
 
     <dependencies>
-        <source-modules>
-            <undiscovered-source-module>javafx-base</undiscovered-source-module>
-        </source-modules>
+        <used-by-source-modules>
+            <undiscovered-used-by-source-module>javafx-base</undiscovered-used-by-source-module>
+        </used-by-source-modules>
     </dependencies>
 
 </project>

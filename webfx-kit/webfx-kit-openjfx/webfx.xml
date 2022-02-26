@@ -11,7 +11,7 @@
     </providers>
 
     <dependencies>
-        <source-modules/>
+        <used-by-source-modules/>
     </dependencies>
 
     <graalvm-reflection-json>

@@ -6,7 +6,7 @@
     </packages>
 
     <dependencies>
-        <source-modules/>
+        <used-by-source-modules/>
     </dependencies>
 
 </project>
