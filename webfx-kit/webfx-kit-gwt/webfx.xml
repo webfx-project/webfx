@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
 
-    <packages>
+    <exported-packages>
         <source-packages/>
-    </packages>
+    </exported-packages>
 
     <providers>
         <dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>dev.webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>

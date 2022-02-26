@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
 
-    <packages>
+    <exported-packages>
         <source-packages/>
         <resource-package>images.checkbox</resource-package>
-    </packages>
+    </exported-packages>
 
     <dependencies>
         <used-by-source-modules/>

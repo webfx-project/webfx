@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
 
-    <packages>
+    <exported-packages>
         <source-packages/>
-    </packages>
+    </exported-packages>
 
     <providers>
         <dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider>dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtWebFxKitMediaMapperProvider</dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider>

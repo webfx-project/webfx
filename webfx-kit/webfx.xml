@@ -11,30 +11,30 @@
             </library>
 
             <library name="javafx-graphics">
-                <packages>
+                <exported-packages>
                     <package>javafx.concurrent</package>
-                </packages>
+                </exported-packages>
             </library>
 
             <library name="javafx-controls">
-                <packages>
+                <exported-packages>
                     <package>javafx.scene.chart</package>
-                </packages>
+                </exported-packages>
             </library>
 
             <library name="javafx-media">
             </library>
 
             <library name="javafx-web">
-                <packages>
+                <exported-packages>
                     <package>javafx.scene.web</package>
-                </packages>
+                </exported-packages>
             </library>
 
             <library name="javafx-swing">
-                <packages>
+                <exported-packages>
                     <package>javafx.embed.swing</package>
-                </packages>
+                </exported-packages>
             </library>
 
         </group>
