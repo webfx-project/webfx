@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-abstract class SvgShapePeer
+public abstract class SvgShapePeer
         <N extends Shape, NB extends ShapePeerBase<N, NB, NM>, NM extends ShapePeerMixin<N, NB, NM>>
 
         extends SvgNodePeer<N, NB, NM>

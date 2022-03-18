@@ -28,6 +28,10 @@ public final class SvgUtil {
         return createSvgElement("defs");
     }
 
+    public static Element createSvgLine() {
+        return createSvgElement("line");
+    }
+
     public static Element createSvgRectangle() {
         return createSvgElement("rect");
     }
