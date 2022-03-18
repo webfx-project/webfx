@@ -2339,4 +2339,18 @@ public class GridPane extends Pane {
             return singleSizes;
         }
     }
+
+    public final int getRowCount() {
+        int nRows = this.getRowConstraints().size();
+        for (int i = 0; i < this.getChildren().size(); i++) {
+            Node child = this.getChildren().get(i);
+            if (child.isManaged()) {
+                int rowIndex = GridPane.getNodeRowIndex(child);
+                int rowEnd = GridPane.getNodeRowEnd(child);
+                nRows = Math.max(nRows, (rowEnd != GridPane.REMAINING? rowEnd : rowIndex) + 1);
+            }
+        }
+        return nRows;
+    }
+
 }
