@@ -65,6 +65,8 @@ public final class HtmlImageViewPeer
             setElementAttribute("src", imageUrl);
             // Temporary filling alt with imageUrl to avoid downgrade in Lighthouse TODO: map this to accessible text
             setElementAttribute("alt", imageUrl);
+            // But removing the alt text and hiding the image if the link is broken (to align with JavaFX behaviour which doesn't display such things)
+            setElementAttribute("onerror", "this.style.display='none'; this.alt=''");
             // Special case of a writable image
             if (image instanceof WritableImage) {
                 // The WebFx emulation code stored the image in a canvas
