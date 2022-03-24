@@ -37,7 +37,7 @@ public abstract class Shape extends Node implements
         return smoothProperty;
     }
 
-    private final Property<Paint> stokeProperty = new SimpleObjectProperty<>(Color.BLACK);
+    private final Property<Paint> stokeProperty = new SimpleObjectProperty<>();
     @Override
     public Property<Paint> strokeProperty() {
         return stokeProperty;

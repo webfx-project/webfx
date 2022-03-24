@@ -9,6 +9,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasEndYProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasStartXProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasStartYProperty;
 import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import javafx.scene.paint.Color;
 
 /**
  * @author Bruno Salmon
@@ -20,9 +21,11 @@ public class Line extends Shape implements
         HasEndYProperty {
 
     public Line() {
+        setStroke(Color.BLACK); // Setting a black stroke by default
     }
 
     public Line(double startX, double startY, double endX, double endY) {
+        this();
         setStartX(startX);
         setStartY(startY);
         setEndX(endX);
