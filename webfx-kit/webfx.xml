@@ -5,7 +5,7 @@
 
         <group>
             <groupId>org.openjfx</groupId>
-            <version>17.0.2</version>
+            <!-- Voluntarily omitting the version here as it is declared in the dependency management of the parent root pom -->
 
             <library name="javafx-base">
             </library>
@@ -28,12 +28,6 @@
             <library name="javafx-web">
                 <exported-packages>
                     <package>javafx.scene.web</package>
-                </exported-packages>
-            </library>
-
-            <library name="javafx-swing">
-                <exported-packages>
-                    <package>javafx.embed.swing</package>
                 </exported-packages>
             </library>
 
