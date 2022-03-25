@@ -64,15 +64,4 @@
         <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
     </properties>
 
-    <build>
-        <plugins>
-
-            <!-- Generating the source artifact for GWT compilation -->
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-        </plugins>
-    </build>
-
 </project>

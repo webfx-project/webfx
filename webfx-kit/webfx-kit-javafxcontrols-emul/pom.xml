@@ -62,17 +62,4 @@
     
     </dependencies>
 
-    <build>
-        <plugins>
-
-            <!-- Generating the source artifact -->
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-        </plugins>
-
-    </build>
-
-
 </project>
