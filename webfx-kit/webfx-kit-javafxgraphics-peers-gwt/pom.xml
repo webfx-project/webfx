@@ -26,19 +26,16 @@
         <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-dom</artifactId>
-            <version>1.1.0</version>
         </dependency>
     
         <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-svg</artifactId>
-            <version>1.1.0</version>
         </dependency>
     
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <version>2.9.0</version>
         </dependency>
     
         <dependency>
