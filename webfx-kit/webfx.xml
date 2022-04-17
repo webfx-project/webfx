@@ -1,7 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project>
 
-    <libraries>
+    <modules>
+        <subdirectories-modules/>
+    </modules>
+
+    <required-libraries>
 
         <group>
             <groupId>org.openjfx</groupId>
@@ -32,7 +36,7 @@
             </library>
 
         </group>
-    </libraries>
+    </required-libraries>
 
 </project>
 

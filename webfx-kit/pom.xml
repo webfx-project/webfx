@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- File managed by WebFX (DO NOT EDIT MANUALLY) -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -11,36 +12,28 @@
     </parent>
 
     <artifactId>webfx-kit</artifactId>
+
     <packaging>pom</packaging>
 
     <modules>
-
-        <module>webfx-kit-util</module>
-        <module>webfx-kit-launcher</module>
-
+        <module>webfx-kit-gwt</module>
+        <module>webfx-kit-javafxbase-emul</module>
+        <module>webfx-kit-javafxcontrols-emul</module>
+        <module>webfx-kit-javafxcontrols-peers-base</module>
+        <module>webfx-kit-javafxcontrols-peers-gwt</module>
+        <module>webfx-kit-javafxcontrols-registry</module>
+        <module>webfx-kit-javafxcontrols-registry-gwt</module>
+        <module>webfx-kit-javafxgraphics-emul</module>
         <module>webfx-kit-javafxgraphics-peers</module>
         <module>webfx-kit-javafxgraphics-peers-base</module>
         <module>webfx-kit-javafxgraphics-peers-gwt</module>
-
         <module>webfx-kit-javafxgraphics-registry</module>
         <module>webfx-kit-javafxgraphics-registry-gwt</module>
-
-        <module>webfx-kit-javafxcontrols-peers-base</module>
-        <module>webfx-kit-javafxcontrols-peers-gwt</module>
-
-        <module>webfx-kit-javafxcontrols-registry</module>
-        <module>webfx-kit-javafxcontrols-registry-gwt</module>
-
-        <module>webfx-kit-javafxmedia-peers-gwt</module>
-
-        <module>webfx-kit-javafxbase-emul</module>
-        <module>webfx-kit-javafxgraphics-emul</module>
-        <module>webfx-kit-javafxcontrols-emul</module>
         <module>webfx-kit-javafxmedia-emul</module>
-
+        <module>webfx-kit-javafxmedia-peers-gwt</module>
+        <module>webfx-kit-launcher</module>
         <module>webfx-kit-openjfx</module>
-        <module>webfx-kit-gwt</module>
-
+        <module>webfx-kit-util</module>
     </modules>
 
 </project>
