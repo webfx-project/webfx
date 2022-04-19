@@ -1,9 +1,8 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import elemental2.dom.*;
 import dev.webfx.platform.shared.util.Strings;
-import dev.webfx.platform.shared.util.async.Future;
+import elemental2.dom.*;
 
 import static elemental2.dom.DomGlobal.document;
 
@@ -269,19 +268,21 @@ public final class HtmlUtil {
         return null;
     }
 
-    public static Future<Void> loadScript(String src) {
+    public static void loadScript(String src, Runnable onLoad) {
         NodeList<Element> scriptElements = document.head.getElementsByTagName("script");
         for (int i = 0, n = scriptElements.getLength(); i < n; i++) {
             HTMLScriptElement headElement = (HTMLScriptElement) scriptElements.item(i);
-            if (src.equals(headElement.src))
-                return Future.succeededFuture();
+            if (src.equals(headElement.src)) {
+                if (onLoad != null)
+                    onLoad.run();
+                return;
+            }
         }
-        Future<Void> future = Future.future();
         HTMLScriptElement script = createElement("script");
-        script.onload = a -> future.complete();
+        if (onLoad != null)
+            script.onload = a -> onLoad.run();
         script.src = src;
         document.head.appendChild(script);
-        return future;
     }
 
     public static void onNodeInsertedIntoDocument(Node node, Runnable runnable) {

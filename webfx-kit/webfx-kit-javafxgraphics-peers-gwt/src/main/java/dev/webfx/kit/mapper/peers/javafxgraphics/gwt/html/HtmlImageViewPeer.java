@@ -128,7 +128,7 @@ public final class HtmlImageViewPeer
         // First checking the extension is svg
         if (Strings.endsWith(url, ".svg")) {
             // We do inline svg only for images that have been included in the resources
-            String svgFile = ResourceService.getText(url).result();
+            String svgFile = ResourceService.getText(url);
             if (svgFile != null) { // Yes the images is in the resources so we have the content already
                 // Removing all what is before the svg tag (ex: <?xml ...?>)
                 int svgTagIndex = svgFile.indexOf("<svg");
