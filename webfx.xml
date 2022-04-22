@@ -33,10 +33,6 @@
 
         <project name="webfx">
 
-            <update-options>
-                <generate-export-snapshot/>
-            </update-options>
-
             <modules>
                 <module>webfx-kit</module>
             </modules>
@@ -427,6 +423,9 @@
                 </used-by-source-modules>
             </dependencies>
 
+            <used-services>
+                <required-service>dev.webfx.kit.mapper.spi.WebFxKitMapperProvider</required-service>
+            </used-services>
         </project>
 
         <project name="webfx-kit-javafxgraphics-peers">
@@ -540,6 +539,9 @@
                 </used-by-source-modules>
             </dependencies>
 
+            <used-services>
+                <required-service>dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider</required-service>
+            </used-services>
         </project>
 
         <project name="webfx-kit-javafxmedia-peers-gwt">
@@ -584,6 +586,10 @@
                 </used-by-source-modules>
             </dependencies>
 
+            <used-services>
+                <required-service>javafx.application.Application</required-service>
+                <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
+            </used-services>
         </project>
 
         <project executable="false" name="webfx-kit-openjfx">
