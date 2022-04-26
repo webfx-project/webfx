@@ -115,13 +115,6 @@
             <dependencies>
                 <used-by-source-modules>
                     <undetected-module>javafx-base</undetected-module>
-                    <module>elemental2-dom</module>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-kit-javafxgraphics-peers-gwt</module>
-                    <module>webfx-kit-launcher</module>
-                    <module>webfx-platform-shared-log</module>
-                    <module>webfx-platform-shared-util</module>
                 </used-by-source-modules>
             </dependencies>
 
@@ -236,6 +229,16 @@
                 <package>dev.webfx.kit.mapper.spi.gwt</package>
             </source-packages>
 
+            <used-by-source-modules>
+                <module>elemental2-dom</module>
+                <module>java.base</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxgraphics-peers-gwt</module>
+                <module>webfx-kit-launcher</module>
+                <module>webfx-platform-shared-log</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
+
         </project>
 
         <project name="webfx-kit-javafxbase-emul">
@@ -245,9 +248,7 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>java.base</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
@@ -265,6 +266,10 @@
                 <package>com.sun.javafx.event</package>
             </source-packages>
 
+            <used-by-source-modules>
+                <module>java.base</module>
+            </used-by-source-modules>
+
         </project>
 
         <project name="webfx-kit-javafxcontrols-emul">
@@ -275,17 +280,7 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxbase-emul</module>
-                    <module>webfx-kit-javafxcontrols-registry</module>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-kit-javafxgraphics-peers</module>
-                    <module>webfx-kit-util</module>
-                    <module>webfx-platform-client-uischeduler</module>
-                    <module>webfx-platform-shared-scheduler</module>
-                    <module>webfx-platform-shared-util</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
@@ -296,6 +291,18 @@
                 <package>com.sun.javafx.scene.control</package>
             </source-packages>
 
+            <used-by-source-modules>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxcontrols-registry</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-util</module>
+                <module>webfx-platform-client-uischeduler</module>
+                <module>webfx-platform-shared-scheduler</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
+
         </project>
 
         <project name="webfx-kit-javafxcontrols-peers-base">
@@ -305,19 +312,21 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxbase-emul</module>
-                    <module>webfx-kit-javafxcontrols-emul</module>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-kit-javafxgraphics-peers</module>
-                    <module>webfx-kit-javafxgraphics-peers-base</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
                 <package>dev.webfx.kit.mapper.peers.javafxcontrols.base</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxcontrols-emul</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxgraphics-peers-base</module>
+            </used-by-source-modules>
 
         </project>
 
@@ -328,18 +337,7 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>elemental2-dom</module>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxbase-emul</module>
-                    <module>webfx-kit-javafxcontrols-emul</module>
-                    <module>webfx-kit-javafxcontrols-peers-base</module>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-kit-javafxgraphics-peers</module>
-                    <module>webfx-kit-javafxgraphics-peers-gwt</module>
-                    <module>webfx-platform-client-uischeduler</module>
-                    <module>webfx-platform-shared-util</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <html if-uses-java-class="javafx.scene.control.ScrollPane">
@@ -354,6 +352,19 @@
             <source-packages>
                 <package>dev.webfx.kit.mapper.peers.javafxcontrols.gwt.html</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>elemental2-dom</module>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxcontrols-emul</module>
+                <module>webfx-kit-javafxcontrols-peers-base</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxgraphics-peers-gwt</module>
+                <module>webfx-platform-client-uischeduler</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
 
         </project>
 
@@ -371,6 +382,8 @@
                 <package>dev.webfx.kit.registry.javafxcontrols</package>
             </source-packages>
 
+            <used-by-source-modules/>
+
         </project>
 
         <project name="webfx-kit-javafxcontrols-registry-gwt">
@@ -380,17 +393,19 @@
             </implements>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>webfx-kit-javafxcontrols-emul</module>
-                    <module>webfx-kit-javafxcontrols-peers-gwt</module>
-                    <module>webfx-kit-javafxgraphics-peers</module>
-                    <module>webfx-kit-javafxgraphics-peers-gwt</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
                 <package>dev.webfx.kit.registry.javafxcontrols</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>webfx-kit-javafxcontrols-emul</module>
+                <module>webfx-kit-javafxcontrols-peers-gwt</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxgraphics-peers-gwt</module>
+            </used-by-source-modules>
 
         </project>
 
@@ -401,21 +416,7 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>java-nio-emul</module>
-                    <module>java.base</module>
-                    <module>java.logging</module>
-                    <module>webfx-kit-javafxbase-emul</module>
-                    <module>webfx-kit-javafxgraphics-peers</module>
-                    <module>webfx-kit-javafxgraphics-registry</module>
-                    <module>webfx-kit-launcher</module>
-                    <module>webfx-kit-util</module>
-                    <module>webfx-platform-client-uischeduler</module>
-                    <module>webfx-platform-shared-log</module>
-                    <module>webfx-platform-shared-scheduler</module>
-                    <module>webfx-platform-shared-shutdown</module>
-                    <module>webfx-platform-shared-util</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
@@ -455,6 +456,22 @@
                 <package>com.sun.scenario.animation</package>
             </source-packages>
 
+            <used-by-source-modules>
+                <module>java-nio-emul</module>
+                <module>java.base</module>
+                <module>java.logging</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxgraphics-registry</module>
+                <module>webfx-kit-launcher</module>
+                <module>webfx-kit-util</module>
+                <module>webfx-platform-client-uischeduler</module>
+                <module>webfx-platform-shared-log</module>
+                <module>webfx-platform-shared-scheduler</module>
+                <module>webfx-platform-shared-shutdown</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
+
             <used-services>
                 <required-service>dev.webfx.kit.mapper.spi.WebFxKitMapperProvider</required-service>
             </used-services>
@@ -468,18 +485,20 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxbase-emul</module>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-platform-shared-util</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.markers</package>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
 
         </project>
 
@@ -492,18 +511,21 @@
             <dependencies>
                 <used-by-source-modules>
                     <undetected-module>javafx-base</undetected-module>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxbase-emul</module>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-kit-javafxgraphics-peers</module>
-                    <module>webfx-kit-util</module>
-                    <module>webfx-platform-shared-util</module>
                 </used-by-source-modules>
             </dependencies>
 
             <source-packages>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.base</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-util</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
 
         </project>
 
@@ -514,21 +536,7 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>elemental2-dom</module>
-                    <module>elemental2-svg</module>
-                    <module>gwt-user</module>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxbase-emul</module>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-kit-javafxgraphics-peers</module>
-                    <module>webfx-kit-javafxgraphics-peers-base</module>
-                    <module>webfx-kit-util</module>
-                    <module>webfx-platform-client-uischeduler</module>
-                    <module>webfx-platform-shared-log</module>
-                    <module>webfx-platform-shared-resource</module>
-                    <module>webfx-platform-shared-util</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
@@ -538,6 +546,22 @@
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable</package>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>elemental2-dom</module>
+                <module>elemental2-svg</module>
+                <module>gwt-user</module>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxgraphics-peers-base</module>
+                <module>webfx-kit-util</module>
+                <module>webfx-platform-client-uischeduler</module>
+                <module>webfx-platform-shared-log</module>
+                <module>webfx-platform-shared-resource</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
 
         </project>
 
@@ -555,6 +579,8 @@
                 <package>dev.webfx.kit.registry.javafxgraphics</package>
             </source-packages>
 
+            <used-by-source-modules/>
+
         </project>
 
         <project name="webfx-kit-javafxgraphics-registry-gwt">
@@ -564,16 +590,18 @@
             </implements>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-kit-javafxgraphics-peers</module>
-                    <module>webfx-kit-javafxgraphics-peers-gwt</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
                 <package>dev.webfx.kit.registry.javafxgraphics</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxgraphics-peers-gwt</module>
+            </used-by-source-modules>
 
         </project>
 
@@ -584,10 +612,7 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>java.base</module>
-                    <module>webfx-platform-shared-util</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
@@ -595,6 +620,11 @@
                 <package>dev.webfx.kit.mapper.peers.javafxmedia</package>
                 <package>dev.webfx.kit.mapper.peers.javafxmedia.spi</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>java.base</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
 
             <used-services>
                 <required-service>dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider</required-service>
@@ -613,15 +643,17 @@
             </providers>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>elemental2-dom</module>
-                    <module>webfx-kit-javafxmedia-emul</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
                 <package>dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>elemental2-dom</module>
+                <module>webfx-kit-javafxmedia-emul</module>
+            </used-by-source-modules>
 
         </project>
 
@@ -636,14 +668,7 @@
             </providers>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-platform-client-uischeduler</module>
-                    <module>webfx-platform-shared-boot</module>
-                    <module>webfx-platform-shared-log</module>
-                    <module>webfx-platform-shared-util</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
@@ -651,6 +676,15 @@
                 <package>dev.webfx.kit.launcher.spi.base</package>
                 <package>dev.webfx.kit.launcher</package>
             </source-packages>
+
+            <used-by-source-modules>
+                <module>java.base</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-platform-client-uischeduler</module>
+                <module>webfx-platform-shared-boot</module>
+                <module>webfx-platform-shared-log</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
 
             <used-services>
                 <required-service>javafx.application.Application</required-service>
@@ -671,17 +705,7 @@
             </providers>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxbase-emul</module>
-                    <module>webfx-kit-javafxcontrols-emul</module>
-                    <module>webfx-kit-javafxgraphics-emul</module>
-                    <module>webfx-kit-javafxgraphics-peers</module>
-                    <module>webfx-kit-javafxgraphics-peers-base</module>
-                    <module>webfx-kit-launcher</module>
-                    <module>webfx-platform-client-uischeduler</module>
-                    <module>webfx-platform-shared-util</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <graalvm-reflection-json>
@@ -716,6 +740,18 @@
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.openjfx</package>
             </source-packages>
 
+            <used-by-source-modules>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxcontrols-emul</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxgraphics-peers-base</module>
+                <module>webfx-kit-launcher</module>
+                <module>webfx-platform-client-uischeduler</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
+
         </project>
 
         <project name="webfx-kit-util">
@@ -725,11 +761,7 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules>
-                    <module>java.base</module>
-                    <module>webfx-kit-javafxbase-emul</module>
-                    <module>webfx-platform-shared-util</module>
-                </used-by-source-modules>
+                <used-by-source-modules/>
             </dependencies>
 
             <source-packages>
@@ -737,7 +769,21 @@
                 <package>dev.webfx.kit.util.properties.conversion</package>
             </source-packages>
 
+            <used-by-source-modules>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-platform-shared-util</module>
+            </used-by-source-modules>
+
         </project>
+
+        <usages>
+
+            <java-package name="java.util.regex"/>
+
+            <java-class name="javafx.scene.control.ScrollPane"/>
+
+        </usages>
 
     </export-snapshot>
 
