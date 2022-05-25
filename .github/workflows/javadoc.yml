@@ -43,7 +43,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
         with:
-          source-directory: ${{ target-javadoc-dir }}
+          source-directory: ${{ env.target-javadoc-dir }}
           destination-repository-username: ${{ env.web-push-repository-owner }}
           destination-repository-name: ${{ env.web-push-repository-name }}
           target-branch: ${{ env.web-push-branch }}
