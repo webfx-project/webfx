@@ -1,0 +1,51 @@
+name: Build and publish JavaDoc
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      # WebFX requires at least JDK 13 due to javac bugs in prior versions (otherwise JDK 11+ should be enough in theory)
+      jdk-version: '18'
+      repo-dir: .
+      target-javadoc-dir: ${{ repo-dir }}/target/site/apidocs
+      web-push-repository-name:  'webfx-website-netlify'
+      web-push-repository-owner: 'webfx-project'
+      web-push-branch: 'javadoc'
+      web-push-username: ${{ github.actor }}
+      web-push-email: ${{ secrets.API_GITHUB_EMAIL }}
+
+    steps:
+
+      # Set up the JDK and Maven settings.xml
+      - name: Set up JDK ${{ env.jdk-version }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ env.jdk-version }}
+
+      # Checkout this repository
+      - name: Checkout this repository
+        uses: actions/checkout@v3
+        with:
+          path: ${{ env.repo-dir }}
+
+      # Build JavaDoc
+      - name: Build JavaDoc
+        run: mvn -B mvn javadoc:aggregate -Ddoclint=none -Dmaven.compiler.release=8 # Using Java 8 for now due to JavaDoc errors with modules
+
+      - name: Publish JavaDoc to ${{ env.web-push-branch }} branch
+        uses: cpina/github-action-push-to-another-repository@master
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
+        with:
+          source-directory: ${{ target-javadoc-dir }}
+          destination-repository-username: ${{ env.web-push-repository-owner }}
+          destination-repository-name: ${{ env.web-push-repository-name }}
+          target-branch: ${{ env.web-push-branch }}
+          destination-github-username: ${{ env.web-push-username }}
+          user-email: ${{ env.web-push-email }}
