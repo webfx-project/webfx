@@ -12,7 +12,7 @@ jobs:
       # WebFX requires at least JDK 13 due to javac bugs in prior versions (otherwise JDK 11+ should be enough in theory)
       jdk-version: '18'
       repo-dir: .
-      target-javadoc-dir: ${{ repo-dir }}/target/site/apidocs
+      target-javadoc-dir: ./target/site/apidocs
       web-push-repository-name:  'webfx-website-netlify'
       web-push-repository-owner: 'webfx-project'
       web-push-branch: 'javadoc'
