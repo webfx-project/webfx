@@ -13,7 +13,7 @@ jobs:
       jdk-version: '18'
       repo-dir: .
       target-javadoc-dir: ./target/site/apidocs
-      web-push-repository-name:  'webfx-website-netlify'
+      web-push-repository-name:  'webfx-netlify'
       web-push-repository-owner: 'webfx-project'
       web-push-branch: 'javadoc'
       web-push-username: ${{ github.actor }}
