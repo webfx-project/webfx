@@ -252,18 +252,18 @@
             </dependencies>
 
             <source-packages>
-                <package>javafx.util</package>
-                <package>javafx.beans</package>
-                <package>javafx.beans.property</package>
-                <package>javafx.beans.value</package>
-                <package>javafx.beans.binding</package>
-                <package>javafx.collections</package>
-                <package>javafx.collections.transformation</package>
-                <package>javafx.event</package>
                 <package>com.sun.javafx</package>
                 <package>com.sun.javafx.binding</package>
                 <package>com.sun.javafx.collections</package>
                 <package>com.sun.javafx.event</package>
+                <package>javafx.beans</package>
+                <package>javafx.beans.binding</package>
+                <package>javafx.beans.property</package>
+                <package>javafx.beans.value</package>
+                <package>javafx.collections</package>
+                <package>javafx.collections.transformation</package>
+                <package>javafx.event</package>
+                <package>javafx.util</package>
             </source-packages>
 
             <used-by-source-modules>
@@ -284,11 +284,11 @@
             </dependencies>
 
             <source-packages>
-                <package>javafx.scene.control</package>
-                <package>javafx.scene.control.skin</package>
+                <package>com.sun.javafx.scene.control</package>
                 <package>com.sun.javafx.scene.control.behavior</package>
                 <package>com.sun.javafx.scene.control.skin</package>
-                <package>com.sun.javafx.scene.control</package>
+                <package>javafx.scene.control</package>
+                <package>javafx.scene.control.skin</package>
             </source-packages>
 
             <used-by-source-modules>
@@ -420,40 +420,40 @@
             </dependencies>
 
             <source-packages>
-                <package>javafx.css</package>
-                <package>javafx.animation</package>
-                <package>javafx.stage</package>
-                <package>javafx.geometry</package>
-                <package>javafx.application</package>
-                <package>javafx.scene.paint</package>
-                <package>javafx.scene</package>
-                <package>javafx.scene.shape</package>
-                <package>javafx.scene.input</package>
-                <package>javafx.scene.layout</package>
-                <package>javafx.scene.effect</package>
-                <package>javafx.scene.image</package>
-                <package>javafx.scene.canvas</package>
-                <package>javafx.scene.text</package>
-                <package>javafx.scene.transform</package>
-                <package>dev.webfx.kit.mapper</package>
-                <package>dev.webfx.kit.mapper.spi</package>
-                <package>dev.webfx.kit.mapper.spi.base</package>
-                <package>dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling</package>
-                <package>dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base</package>
-                <package>com.sun.javafx.util</package>
+                <package>com.sun.javafx.application</package>
                 <package>com.sun.javafx.cursor</package>
-                <package>com.sun.javafx.tk</package>
-                <package>com.sun.javafx.tk.quantum</package>
                 <package>com.sun.javafx.geom</package>
                 <package>com.sun.javafx.geom.transform</package>
-                <package>com.sun.javafx.stage</package>
                 <package>com.sun.javafx.geometry</package>
-                <package>com.sun.javafx.application</package>
                 <package>com.sun.javafx.scene</package>
                 <package>com.sun.javafx.scene.input</package>
-                <package>com.sun.javafx.scene.traversal</package>
                 <package>com.sun.javafx.scene.text</package>
+                <package>com.sun.javafx.scene.traversal</package>
+                <package>com.sun.javafx.stage</package>
+                <package>com.sun.javafx.tk</package>
+                <package>com.sun.javafx.tk.quantum</package>
+                <package>com.sun.javafx.util</package>
                 <package>com.sun.scenario.animation</package>
+                <package>dev.webfx.kit.mapper</package>
+                <package>dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling</package>
+                <package>dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base</package>
+                <package>dev.webfx.kit.mapper.spi</package>
+                <package>dev.webfx.kit.mapper.spi.base</package>
+                <package>javafx.animation</package>
+                <package>javafx.application</package>
+                <package>javafx.css</package>
+                <package>javafx.geometry</package>
+                <package>javafx.scene</package>
+                <package>javafx.scene.canvas</package>
+                <package>javafx.scene.effect</package>
+                <package>javafx.scene.image</package>
+                <package>javafx.scene.input</package>
+                <package>javafx.scene.layout</package>
+                <package>javafx.scene.paint</package>
+                <package>javafx.scene.shape</package>
+                <package>javafx.scene.text</package>
+                <package>javafx.scene.transform</package>
+                <package>javafx.stage</package>
             </source-packages>
 
             <used-by-source-modules>
@@ -489,8 +489,8 @@
             </dependencies>
 
             <source-packages>
-                <package>dev.webfx.kit.mapper.peers.javafxgraphics.markers</package>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics</package>
+                <package>dev.webfx.kit.mapper.peers.javafxgraphics.markers</package>
             </source-packages>
 
             <used-by-source-modules>
@@ -540,11 +540,11 @@
             </dependencies>
 
             <source-packages>
-                <package>dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg</package>
-                <package>dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util</package>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html</package>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable</package>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared</package>
+                <package>dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg</package>
+                <package>dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util</package>
             </source-packages>
 
             <used-by-source-modules>
@@ -616,9 +616,9 @@
             </dependencies>
 
             <source-packages>
-                <package>javafx.scene.media</package>
                 <package>dev.webfx.kit.mapper.peers.javafxmedia</package>
                 <package>dev.webfx.kit.mapper.peers.javafxmedia.spi</package>
+                <package>javafx.scene.media</package>
             </source-packages>
 
             <used-by-source-modules>
@@ -672,9 +672,9 @@
             </dependencies>
 
             <source-packages>
+                <package>dev.webfx.kit.launcher</package>
                 <package>dev.webfx.kit.launcher.spi</package>
                 <package>dev.webfx.kit.launcher.spi.base</package>
-                <package>dev.webfx.kit.launcher</package>
             </source-packages>
 
             <used-by-source-modules>
@@ -687,8 +687,8 @@
             </used-by-source-modules>
 
             <used-services>
-                <required-service>javafx.application.Application</required-service>
                 <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
+                <required-service>javafx.application.Application</required-service>
             </used-services>
 
         </project>
@@ -734,10 +734,10 @@
             </graalvm-reflection-json>
 
             <source-packages>
-                <package>dev.webfx.platform.client.services.uischeduler.spi.impl.openjfx</package>
                 <package>dev.webfx.kit.launcher.spi.openjfx</package>
                 <package>dev.webfx.kit.mapper.peers.javafxcontrols.openjfx.skin</package>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.openjfx</package>
+                <package>dev.webfx.platform.client.services.uischeduler.spi.impl.openjfx</package>
             </source-packages>
 
             <used-by-source-modules>
