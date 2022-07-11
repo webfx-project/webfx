@@ -6,8 +6,8 @@
     </exported-packages>
 
     <providers>
-        <dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider</dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>
-        <dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider>dev.webfx.platform.client.services.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider>
+        <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider</provider>
+        <provider interface="dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.client.services.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</provider>
     </providers>
 
     <dependencies>

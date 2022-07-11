@@ -108,8 +108,8 @@
             </exported-packages>
 
             <providers>
-                <dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>dev.webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>
-                <dev.webfx.kit.mapper.spi.WebFxKitMapperProvider>dev.webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider</dev.webfx.kit.mapper.spi.WebFxKitMapperProvider>
+                <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</provider>
+                <provider interface="dev.webfx.kit.mapper.spi.WebFxKitMapperProvider">dev.webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider</provider>
             </providers>
 
             <dependencies>
@@ -639,7 +639,7 @@
             </exported-packages>
 
             <providers>
-                <dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider>dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtWebFxKitMediaMapperProvider</dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider>
+                <provider interface="dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider">dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtWebFxKitMediaMapperProvider</provider>
             </providers>
 
             <dependencies>
@@ -664,7 +664,7 @@
             </exported-packages>
 
             <providers>
-                <dev.webfx.platform.shared.services.boot.spi.ApplicationModuleBooter>dev.webfx.kit.launcher.WebFxKitLauncherModuleBooter</dev.webfx.platform.shared.services.boot.spi.ApplicationModuleBooter>
+                <provider interface="dev.webfx.platform.shared.services.boot.spi.ApplicationModuleBooter">dev.webfx.kit.launcher.WebFxKitLauncherModuleBooter</provider>
             </providers>
 
             <dependencies>
@@ -687,8 +687,8 @@
             </used-by-source-modules>
 
             <used-services>
-                <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
                 <required-service>javafx.application.Application</required-service>
+                <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
             </used-services>
 
         </project>
@@ -700,8 +700,8 @@
             </exported-packages>
 
             <providers>
-                <dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider</dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider>
-                <dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider>dev.webfx.platform.client.services.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider>
+                <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider</provider>
+                <provider interface="dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.client.services.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</provider>
             </providers>
 
             <dependencies>
