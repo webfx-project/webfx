@@ -37,7 +37,7 @@ import javafx.scene.paint.Paint;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
-import dev.webfx.platform.shared.services.log.Logger;
+import dev.webfx.platform.console.Console;
 
 /**
  * The {@code SVGPath} class represents a simple shape that is constructed by
@@ -187,7 +187,7 @@ public class SVGPath extends Shape {
             return new BoxBounds((float) layoutBounds.getMinX(), (float) layoutBounds.getMinY(), 0, (float) layoutBounds.getMaxX(), (float) layoutBounds.getMaxY(), 0);
         }
         if (!warned) {
-            Logger.log("Warning: SVGPath.impl_computeGeomBounds() not implemented");
+            Console.log("Warning: SVGPath.impl_computeGeomBounds() not implemented");
             warned = true;
         }
         return new BoxBounds(0, 0, 0, 0, 0, 0);

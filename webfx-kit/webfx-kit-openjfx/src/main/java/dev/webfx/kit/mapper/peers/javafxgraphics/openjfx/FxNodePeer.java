@@ -15,7 +15,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerImpl;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
-import dev.webfx.platform.shared.util.Numbers;
+import dev.webfx.platform.util.Numbers;
 
 import java.util.List;
 

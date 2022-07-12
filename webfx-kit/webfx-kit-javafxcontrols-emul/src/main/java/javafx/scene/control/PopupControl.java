@@ -7,8 +7,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.stage.PopupWindow;
 import javafx.stage.Window;
-import dev.webfx.platform.client.services.uischeduler.AnimationFramePass;
-import dev.webfx.platform.client.services.uischeduler.UiScheduler;
+import dev.webfx.platform.uischeduler.AnimationFramePass;
+import dev.webfx.platform.uischeduler.UiScheduler;
 
 /**
  * An extension of PopupWindow that allows for CSS styling.

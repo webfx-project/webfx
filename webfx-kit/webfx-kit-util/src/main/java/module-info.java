@@ -5,7 +5,7 @@ module webfx.kit.util {
     // Direct dependencies modules
     requires java.base;
     requires javafx.base;
-    requires webfx.platform.shared.util;
+    requires webfx.platform.util;
 
     // Exported packages
     exports dev.webfx.kit.util.properties;

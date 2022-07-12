@@ -28,9 +28,9 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.*;
-import dev.webfx.platform.shared.util.Booleans;
-import dev.webfx.platform.shared.util.Strings;
-import dev.webfx.platform.shared.util.collection.Collections;
+import dev.webfx.platform.util.Booleans;
+import dev.webfx.platform.util.Strings;
+import dev.webfx.platform.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.Iterator;

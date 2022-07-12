@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
+import dev.webfx.platform.console.Console;
 import elemental2.dom.*;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -20,7 +21,6 @@ import javafx.scene.transform.Affine;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.platform.shared.services.log.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,7 +105,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public Affine getTransform(Affine xform) {
-        Logger.log("HtmlGraphicsContext.getTransform() not implemented");
+        Console.log("HtmlGraphicsContext.getTransform() not implemented");
         return null;
     }
 
@@ -225,12 +225,12 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void setLineJoin(StrokeLineJoin join) {
-        Logger.log("HtmlGraphicsContext.setLineJoin() not implemented");
+        Console.log("HtmlGraphicsContext.setLineJoin() not implemented");
     }
 
     @Override
     public StrokeLineJoin getLineJoin() {
-        Logger.log("HtmlGraphicsContext.getLineJoin() not implemented");
+        Console.log("HtmlGraphicsContext.getLineJoin() not implemented");
         return null;
     }
 
@@ -396,7 +396,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void appendSVGPath(String svgpath) {
-        Logger.log("HtmlGraphicsContext.appendSVGPath() not implemented");
+        Console.log("HtmlGraphicsContext.appendSVGPath() not implemented");
     }
 
     @Override
@@ -466,12 +466,12 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
         @Override
     public void fillRoundRect(double x, double y, double w, double h, double arcWidth, double arcHeight) {
-        Logger.log("HtmlGraphicsContext.fillRoundRect() not implemented");
+        Console.log("HtmlGraphicsContext.fillRoundRect() not implemented");
     }
 
     @Override
     public void strokeRoundRect(double x, double y, double w, double h, double arcWidth, double arcHeight) {
-        Logger.log("HtmlGraphicsContext.strokeRoundRect() not implemented");
+        Console.log("HtmlGraphicsContext.strokeRoundRect() not implemented");
     }
 
     @Override
@@ -484,17 +484,17 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void fillPolygon(double[] xPoints, double[] yPoints, int nPoints) {
-        Logger.log("HtmlGraphicsContext.fillPolygon() not implemented");
+        Console.log("HtmlGraphicsContext.fillPolygon() not implemented");
     }
 
     @Override
     public void strokePolygon(double[] xPoints, double[] yPoints, int nPoints) {
-        Logger.log("HtmlGraphicsContext.strokePolygon() not implemented");
+        Console.log("HtmlGraphicsContext.strokePolygon() not implemented");
     }
 
     @Override
     public void strokePolyline(double[] xPoints, double[] yPoints, int nPoints) {
-        Logger.log("HtmlGraphicsContext.strokePolyline() not implemented");
+        Console.log("HtmlGraphicsContext.strokePolyline() not implemented");
     }
 
     @Override
@@ -571,7 +571,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public PixelWriter getPixelWriter() {
-        Logger.log("HtmlGraphicsContext.getPixelWriter() not implemented");
+        Console.log("HtmlGraphicsContext.getPixelWriter() not implemented");
         return null;
     }
 
@@ -587,7 +587,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
             ctx.shadowColor = HtmlPaints.toCssColor(dropShadow.getColor());
         } else {
             ctx.shadowBlur = 0;
-            Logger.log("HtmlGraphicsContext.setEffect() not implemented for effect = " + e);
+            Console.log("HtmlGraphicsContext.setEffect() not implemented for effect = " + e);
         }
     }
 
@@ -598,7 +598,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void applyEffect(Effect e) {
-        Logger.log("HtmlGraphicsContext.applyEffect() not implemented");
+        Console.log("HtmlGraphicsContext.applyEffect() not implemented");
     }
 
     private double degreesToRadiant(double degree) {

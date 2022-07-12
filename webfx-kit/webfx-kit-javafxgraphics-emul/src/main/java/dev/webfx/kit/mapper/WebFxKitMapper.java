@@ -12,7 +12,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
 import dev.webfx.kit.mapper.spi.WebFxKitMapperProvider;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry;
-import dev.webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
 
 import java.util.ServiceLoader;
 

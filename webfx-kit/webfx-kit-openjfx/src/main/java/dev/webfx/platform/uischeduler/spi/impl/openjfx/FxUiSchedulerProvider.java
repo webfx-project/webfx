@@ -1,11 +1,11 @@
-package dev.webfx.platform.client.services.uischeduler.spi.impl.openjfx;
+package dev.webfx.platform.uischeduler.spi.impl.openjfx;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
-import dev.webfx.platform.client.services.uischeduler.spi.impl.UiSchedulerProviderBase;
+import dev.webfx.platform.uischeduler.spi.impl.UiSchedulerProviderBase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

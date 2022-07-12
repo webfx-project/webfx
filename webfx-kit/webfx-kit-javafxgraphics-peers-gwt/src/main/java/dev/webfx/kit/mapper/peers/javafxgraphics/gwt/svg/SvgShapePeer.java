@@ -3,7 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.ShapePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.ShapePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
-import dev.webfx.platform.shared.util.collection.Collections;
+import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.Element;
 import elemental2.svg.SVGLocatable;
 import elemental2.svg.SVGRect;

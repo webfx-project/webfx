@@ -13,8 +13,8 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.util.properties.ObservableLists;
 import dev.webfx.kit.util.properties.Properties;
-import dev.webfx.platform.shared.util.Arrays;
-import dev.webfx.platform.shared.util.collection.Collections;
+import dev.webfx.platform.util.Arrays;
+import dev.webfx.platform.util.collection.Collections;
 
 import java.util.List;
 import java.util.function.BiConsumer;

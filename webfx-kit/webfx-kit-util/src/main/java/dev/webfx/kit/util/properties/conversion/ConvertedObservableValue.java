@@ -3,7 +3,7 @@ package dev.webfx.kit.util.properties.conversion;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import dev.webfx.platform.shared.util.function.Converter;
+import dev.webfx.platform.util.function.Converter;
 
 /**
  * @author Bruno Salmon

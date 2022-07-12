@@ -1,6 +1,6 @@
 package javafx.animation;
 
-import dev.webfx.platform.client.services.uischeduler.UiScheduler;
+import dev.webfx.platform.uischeduler.UiScheduler;
 
 /**
  * @author Bruno Salmon

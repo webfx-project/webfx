@@ -6,8 +6,8 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlL
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.SliderPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.SliderPeerMixin;
-import dev.webfx.platform.shared.util.Numbers;
-import dev.webfx.platform.shared.util.Strings;
+import dev.webfx.platform.util.Numbers;
+import dev.webfx.platform.util.Strings;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import javafx.scene.control.Slider;
 

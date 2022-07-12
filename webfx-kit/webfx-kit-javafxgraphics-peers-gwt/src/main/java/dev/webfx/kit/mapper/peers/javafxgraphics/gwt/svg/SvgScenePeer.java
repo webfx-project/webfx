@@ -21,8 +21,8 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
 import dev.webfx.kit.util.properties.Properties;
-import dev.webfx.platform.shared.util.Numbers;
-import dev.webfx.platform.shared.util.collection.Collections;
+import dev.webfx.platform.util.Numbers;
+import dev.webfx.platform.util.collection.Collections;
 
 /**
  * @author Bruno Salmon

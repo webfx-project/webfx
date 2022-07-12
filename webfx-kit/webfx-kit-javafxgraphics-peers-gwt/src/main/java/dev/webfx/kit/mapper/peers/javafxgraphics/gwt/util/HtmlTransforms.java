@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util;
 
-import dev.webfx.platform.shared.util.collection.Collections;
+import dev.webfx.platform.util.collection.Collections;
 import javafx.scene.transform.*;
 
 import java.util.Collection;

@@ -13,10 +13,10 @@ import javafx.scene.input.Dragboard;
 import javafx.stage.Screen;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DragboardDataTransferHolder;
 import dev.webfx.kit.launcher.spi.base.WebFxKitLauncherProviderBase;
-import dev.webfx.platform.shared.services.log.Logger;
-import dev.webfx.platform.shared.util.Strings;
-import dev.webfx.platform.shared.util.collection.Collections;
-import dev.webfx.platform.shared.util.function.Factory;
+import dev.webfx.platform.console.Console;
+import dev.webfx.platform.util.Strings;
+import dev.webfx.platform.util.collection.Collections;
+import dev.webfx.platform.util.function.Factory;
 
 import java.util.Map;
 
@@ -140,7 +140,7 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
                 application.init();
                 application.start(getPrimaryStage());
             } catch (Exception e) {
-                Logger.log("Error while launching the JavaFx application", e);
+                Console.log("Error while launching the JavaFx application", e);
             }
     }
 

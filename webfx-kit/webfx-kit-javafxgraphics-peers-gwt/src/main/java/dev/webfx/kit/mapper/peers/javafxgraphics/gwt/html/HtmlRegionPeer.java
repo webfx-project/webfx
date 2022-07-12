@@ -5,7 +5,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DomType;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.platform.shared.util.collection.Collections;
+import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;

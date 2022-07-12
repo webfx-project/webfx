@@ -7,8 +7,8 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.Dragboard;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import dev.webfx.platform.client.services.uischeduler.UiScheduler;
-import dev.webfx.platform.shared.util.function.Factory;
+import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.util.function.Factory;
 
 /**
  * @author Bruno Salmon

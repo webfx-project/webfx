@@ -1,7 +1,7 @@
 package javafx.application;
 
-import dev.webfx.platform.client.services.uischeduler.UiScheduler;
-import dev.webfx.platform.shared.services.shutdown.Shutdown;
+import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.shutdown.Shutdown;
 
 /**
  * Application platform support class.

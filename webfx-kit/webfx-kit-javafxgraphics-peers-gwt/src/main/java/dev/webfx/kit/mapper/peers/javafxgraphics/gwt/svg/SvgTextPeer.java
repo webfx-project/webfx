@@ -3,7 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
-import dev.webfx.platform.shared.util.Numbers;
+import dev.webfx.platform.util.Numbers;
 import javafx.geometry.VPos;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;

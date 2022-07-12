@@ -7,7 +7,7 @@
 
     <providers>
         <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider</provider>
-        <provider interface="dev.webfx.platform.client.services.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.client.services.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</provider>
+        <provider interface="dev.webfx.platform.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</provider>
     </providers>
 
     <dependencies>

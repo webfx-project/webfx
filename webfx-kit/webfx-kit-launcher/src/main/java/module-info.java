@@ -5,10 +5,10 @@ module webfx.kit.launcher {
     // Direct dependencies modules
     requires java.base;
     requires javafx.graphics;
-    requires webfx.platform.client.uischeduler;
-    requires webfx.platform.shared.boot;
-    requires webfx.platform.shared.log;
-    requires webfx.platform.shared.util;
+    requires webfx.platform.boot;
+    requires webfx.platform.console;
+    requires webfx.platform.uischeduler;
+    requires webfx.platform.util;
 
     // Exported packages
     exports dev.webfx.kit.launcher;
@@ -20,6 +20,6 @@ module webfx.kit.launcher {
     uses javafx.application.Application;
 
     // Provided services
-    provides dev.webfx.platform.shared.services.boot.spi.ApplicationModuleBooter with dev.webfx.kit.launcher.WebFxKitLauncherModuleBooter;
+    provides dev.webfx.platform.boot.spi.ApplicationModuleBooter with dev.webfx.kit.launcher.WebFxKitLauncherModuleBooter;
 
 }

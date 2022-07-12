@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
 import dev.webfx.kit.launcher.spi.base.WebFxKitLauncherProviderBase;
-import dev.webfx.platform.shared.util.function.Factory;
+import dev.webfx.platform.util.function.Factory;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,9 +14,9 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCal
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextFillProperty;
-import dev.webfx.platform.shared.services.resource.ResourceService;
-import dev.webfx.platform.shared.util.Numbers;
-import dev.webfx.platform.shared.util.Strings;
+import dev.webfx.platform.resource.Resource;
+import dev.webfx.platform.util.Numbers;
+import dev.webfx.platform.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -128,7 +128,7 @@ public final class HtmlImageViewPeer
         // First checking the extension is svg
         if (Strings.endsWith(url, ".svg")) {
             // We do inline svg only for images that have been included in the resources
-            String svgFile = ResourceService.getText(url);
+            String svgFile = Resource.getText(url);
             if (svgFile != null) { // Yes the images is in the resources so we have the content already
                 // Removing all what is before the svg tag (ex: <?xml ...?>)
                 int svgTagIndex = svgFile.indexOf("<svg");

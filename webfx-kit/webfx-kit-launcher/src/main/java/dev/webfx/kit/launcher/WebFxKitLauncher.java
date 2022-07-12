@@ -1,11 +1,11 @@
 package dev.webfx.kit.launcher;
 
+import dev.webfx.platform.console.Console;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
-import dev.webfx.platform.shared.services.log.Logger;
-import dev.webfx.platform.shared.util.function.Factory;
-import dev.webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+import dev.webfx.platform.util.function.Factory;
+import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
 
 import java.util.ServiceLoader;
 
@@ -27,7 +27,7 @@ public final class WebFxKitLauncher {
         try {
             provider = getProvider();
         } catch (Exception e) {
-            Logger.log("No FxKitLauncher provider (assuming server side), JavaFx application will not be launched");
+            Console.log("No FxKitLauncher provider (assuming server side), JavaFx application will not be launched");
         }
         if (provider != null)
             provider.launchApplication(applicationFactory, args);

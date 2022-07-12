@@ -3,7 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.PathPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.PathPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
-import dev.webfx.platform.shared.util.collection.Collections;
+import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.Element;
 import javafx.collections.ListChangeListener;
 import javafx.scene.shape.*;

@@ -4,7 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import dev.webfx.platform.shared.services.scheduler.Scheduler;
+import dev.webfx.platform.scheduler.Scheduler;
 
 /**
  * A dialog that shows a text input control to the user.

@@ -3,7 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
-import dev.webfx.platform.shared.util.function.Factory;
+import dev.webfx.platform.util.function.Factory;
 
 import java.util.HashMap;
 import java.util.Map;

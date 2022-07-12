@@ -10,7 +10,7 @@ import dev.webfx.kit.mapper.peers.javafxcontrols.base.RadioButtonPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.NoWrapWhiteSpacePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurableNoGrow;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.platform.shared.util.Booleans;
+import dev.webfx.platform.util.Booleans;
 
 /**
  * @author Bruno Salmon

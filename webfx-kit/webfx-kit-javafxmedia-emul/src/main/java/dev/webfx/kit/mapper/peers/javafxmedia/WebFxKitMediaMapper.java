@@ -2,7 +2,7 @@ package dev.webfx.kit.mapper.peers.javafxmedia;
 
 import javafx.scene.media.Media;
 import dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider;
-import dev.webfx.platform.shared.util.serviceloader.SingleServiceProvider;
+import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
 
 import java.util.ServiceLoader;
 

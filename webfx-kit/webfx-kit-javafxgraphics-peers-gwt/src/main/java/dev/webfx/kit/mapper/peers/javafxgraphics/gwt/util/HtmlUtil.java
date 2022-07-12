@@ -1,7 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import dev.webfx.platform.shared.util.Strings;
+import dev.webfx.platform.util.Strings;
 import elemental2.dom.*;
 
 import static elemental2.dom.DomGlobal.document;

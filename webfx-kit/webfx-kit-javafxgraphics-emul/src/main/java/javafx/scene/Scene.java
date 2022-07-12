@@ -37,10 +37,10 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.util.properties.ObservableLists;
 import dev.webfx.kit.util.properties.Properties;
-import dev.webfx.platform.client.services.uischeduler.AnimationFramePass;
-import dev.webfx.platform.client.services.uischeduler.UiScheduler;
-import dev.webfx.platform.shared.services.scheduler.Scheduled;
-import dev.webfx.platform.shared.util.collection.Collections;
+import dev.webfx.platform.uischeduler.AnimationFramePass;
+import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.scheduler.Scheduled;
+import dev.webfx.platform.util.collection.Collections;
 
 import java.util.*;
 import java.util.logging.Logger;

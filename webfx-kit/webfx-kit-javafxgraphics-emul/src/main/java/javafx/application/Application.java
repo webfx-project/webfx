@@ -29,7 +29,7 @@ import com.sun.javafx.application.ParametersImpl;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
-import dev.webfx.platform.shared.services.log.Logger;
+import dev.webfx.platform.console.Console;
 
 import java.util.List;
 import java.util.Map;
@@ -189,7 +189,7 @@ public abstract class Application {
 
     private static void reportIncorrectWebfxLaunchEntryPoint() {
         String msg = "Please use FxKitLauncher.launchApplication() and not Application.launch() to make your application run in the browser";
-        Logger.log(msg);
+        Console.log(msg);
         throw new UnsupportedOperationException(msg);
     }
 
