@@ -97,7 +97,7 @@ public class SeparatorSkin extends SkinBase<Separator> {
         registerChangeListener(control.halignmentProperty(), e -> getSkinnable().requestLayout());
         registerChangeListener(control.valignmentProperty(), e -> getSkinnable().requestLayout());
 
-        // WebFx style
+        // WebFX style
         line.setBorder(new Border(new BorderStroke(Color.grayRgb(0xc8), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1, 0, 0, 0))));
     }
 

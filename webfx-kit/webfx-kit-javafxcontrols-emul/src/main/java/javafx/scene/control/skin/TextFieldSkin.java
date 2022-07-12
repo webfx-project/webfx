@@ -16,7 +16,7 @@ public class TextFieldSkin extends TextInputControlSkin<TextField, TextFieldBeha
      * caret are each translated individually when horizontal
      * translation is needed to keep the caretPosition visible.
      */
-    private final ToolkitTextBox textGroup; // WebFx change
+    private final ToolkitTextBox textGroup; // WebFX change
 
     /**
      * Create a new TextFieldSkin.

@@ -1011,7 +1011,7 @@ public class SplitPaneSkin extends SkinBase<SplitPane> {
             getChildren().add(grabber);
 
             // TODO register a listener for SplitPane.Divider position
-            // WebFx
+            // WebFX
             setBorder(BORDER);
             setBackground(horizontal ? HORIZONTAL_BACKGROUND : VERTICAL_BACKGROUND);
             //grabber.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));

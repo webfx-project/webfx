@@ -179,7 +179,7 @@ public class ContextMenuSkin implements Skin<ContextMenu> {
             tlFocus = new TwoLevelFocusPopupBehavior(popupMenu); // needs to be last.
         }
 */
-        // WebFx hardcoded style
+        // WebFX hardcoded style
         root.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THIN)));
         root.setPadding(new Insets(2, 0, 3 , 0));
     }

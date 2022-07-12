@@ -668,7 +668,7 @@ public abstract class PopupWindow extends Window {
     private Bounds cachedAnchorBounds;
 
     private Bounds getExtendedBounds() {
-        /*if (cachedExtendedBounds == null)*/ { // WebFx disabled cache otherwise ContextMenu size is 0
+        /*if (cachedExtendedBounds == null)*/ { // WebFX disabled cache otherwise ContextMenu size is 0
             final Parent rootNode = getScene().getRoot();
 /*
             cachedExtendedBounds = union(rootNode.getLayoutBounds(),
@@ -681,7 +681,7 @@ public abstract class PopupWindow extends Window {
     }
 
     private Bounds getAnchorBounds() {
-        /*if (cachedAnchorBounds == null)*/ { // WebFx disabled cache otherwise ContextMenu size is 0
+        /*if (cachedAnchorBounds == null)*/ { // WebFX disabled cache otherwise ContextMenu size is 0
             cachedAnchorBounds = getAnchorLocation().isContentLocation()
                     ? getScene().getRoot()
                     .getLayoutBounds()

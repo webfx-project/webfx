@@ -46,7 +46,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     public HtmlGraphicsContext(Canvas canvas) {
         this.canvas = canvas;
         HTMLCanvasElement canvasElement = (HTMLCanvasElement) ((HtmlNodePeer) this.canvas.getOrCreateAndBindNodePeer()).getElement();
-        // Setting the canvas size now because if done later (by the WebFx mapping), this will erase the canvas!
+        // Setting the canvas size now because if done later (by the WebFX mapping), this will erase the canvas!
         canvasElement.width =  (int) this.canvas.getWidth();  // Won't be touched by the mapper (see HtmlCanvasPeer.updateWidth())
         canvasElement.height = (int) this.canvas.getHeight(); // Won't be touched by the mapper (see HtmlCanvasPeer.updateHeight())
         ctx = getCanvasRenderingContext2D(canvasElement);
@@ -554,7 +554,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         else if (img != null) {
             HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
             // This scaleX/Y computation was necessary to make SpaceFX work
-            // (perhaps it's because this method behaves differently between html and JavaFx?)
+            // (perhaps it's because this method behaves differently between html and JavaFX?)
             double scaleX = imageElement.width / img.getWidth();
             double scaleY = imageElement.height / img.getHeight();
             ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);

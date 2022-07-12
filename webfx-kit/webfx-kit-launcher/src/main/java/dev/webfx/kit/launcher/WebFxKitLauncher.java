@@ -27,7 +27,7 @@ public final class WebFxKitLauncher {
         try {
             provider = getProvider();
         } catch (Exception e) {
-            Console.log("No FxKitLauncher provider (assuming server side), JavaFx application will not be launched");
+            Console.log("No FxKitLauncher provider (assuming server side), JavaFX application will not be launched");
         }
         if (provider != null)
             provider.launchApplication(applicationFactory, args);

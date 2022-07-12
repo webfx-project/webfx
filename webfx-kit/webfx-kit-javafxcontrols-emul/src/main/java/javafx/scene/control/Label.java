@@ -112,7 +112,7 @@ public class Label extends Labeled {
     public final void setLabelFor(Node value) { labelForProperty().setValue(value); }
     public final Node getLabelFor() { return labelFor == null ? null : labelFor.getValue(); }
 
-    // WebFx addition
+    // WebFX addition
 
     @Override
     protected Skin<?> createDefaultSkin() {

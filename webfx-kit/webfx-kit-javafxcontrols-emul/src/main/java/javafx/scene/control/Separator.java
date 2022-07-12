@@ -95,7 +95,7 @@ public class Separator extends Control {
 
         /*((StyleableProperty<Orientation>)(WritableValue<Orientation>)orientationProperty())
                 .applyStyle(null, orientation != null ? orientation : Orientation.HORIZONTAL);*/
-        setOrientation(orientation); // WebFx
+        setOrientation(orientation); // WebFX
     }
 
     /***************************************************************************

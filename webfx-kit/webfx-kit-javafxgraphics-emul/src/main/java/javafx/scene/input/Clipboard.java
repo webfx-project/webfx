@@ -91,7 +91,7 @@ public class Clipboard {
      * Whether user has put something on this clipboard. Needed for DnD.
      */
     private boolean contentPut = false;
-    private final Map<DataFormat, Object> webFxMap = new HashMap<>(); // WebFx addition
+    private final Map<DataFormat, Object> webFxMap = new HashMap<>(); // WebFX addition
 
     // future:
     /*

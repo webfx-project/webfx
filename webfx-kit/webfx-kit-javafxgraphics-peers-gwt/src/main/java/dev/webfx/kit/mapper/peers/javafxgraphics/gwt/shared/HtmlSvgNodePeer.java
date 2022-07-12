@@ -177,7 +177,7 @@ public abstract class HtmlSvgNodePeer
         dropListener = updateHtmlEventListener(dropListener, "drop", eventHandler, evt -> {
                 evt.preventDefault();
                 callFxDragEventHandler(evt, DragEvent.DRAG_DROPPED, eventHandler);
-                // Also simulating JavaFx behavior which calls drag exit after drop
+                // Also simulating JavaFX behavior which calls drag exit after drop
                 if (dragLeaveListener != null)
                     dragLeaveListener.handleEvent(evt);
             });
@@ -209,9 +209,9 @@ public abstract class HtmlSvgNodePeer
 
     private void callFxDragEventHandler(Event evt, EventType<DragEvent> dragEventType, EventHandler<? super DragEvent> eventHandler) {
         MouseEvent me = (MouseEvent) evt;
-        // HTML also triggers dragenter and dragleave events on children as opposed to JavaFx so we just ignore them
+        // HTML also triggers dragenter and dragleave events on children as opposed to JavaFX so we just ignore them
         if (!element.contains((elemental2.dom.Node) me.relatedTarget)) { // thanks to this condition
-            // Otherwise we call the JavaFx handler
+            // Otherwise we call the JavaFX handler
             DragboardDataTransferHolder.setDragboardDataTransfer(me.dataTransfer);
             DragEvent dragEvent = FxEvents.toDragEvent(me, dragEventType, getNode());
             eventHandler.handle(dragEvent);
@@ -732,7 +732,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static String toSvgBlendMode(BlendMode blendMode) {
-        // JavaFx use the same names as SVG for ADD, MULTIPLY, SCREEN, OVERLAY, DARKEN, COLOR_DODGE, COLOR_BURN, HARD_LIGHT, SOFT_LIGHT, DIFFERENCE, EXCLUSION
+        // JavaFX use the same names as SVG for ADD, MULTIPLY, SCREEN, OVERLAY, DARKEN, COLOR_DODGE, COLOR_BURN, HARD_LIGHT, SOFT_LIGHT, DIFFERENCE, EXCLUSION
         // SVG doesn't support (so far): SRC_OVER, SRC_ATOP, RED, GREEN, BLUE but we return them as is just in case it is supported in the future
         return blendMode == null ? null : enumNameToCss(blendMode.name());
     }
@@ -746,7 +746,7 @@ public abstract class HtmlSvgNodePeer
             return null;
         CursorType cursorType = cursor.getCurrentFrame().getCursorType();
         switch (cursorType) {
-            // Starting with differences of names between JavaFx and CSS:
+            // Starting with differences of names between JavaFX and CSS:
             case HAND: return "pointer";
             case OPEN_HAND: return "grab";
             case CLOSED_HAND: return "grabbing";

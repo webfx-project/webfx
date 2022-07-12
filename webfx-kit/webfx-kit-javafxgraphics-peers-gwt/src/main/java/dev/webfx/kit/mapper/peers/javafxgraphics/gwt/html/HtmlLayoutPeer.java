@@ -22,6 +22,6 @@ public final class HtmlLayoutPeer
 
     @Override
     public void updatePadding(Insets padding) {
-        // We do not apply the padding into css here because it is already considered by the JavaFx layout system
+        // We do not apply the padding into css here because it is already considered by the JavaFX layout system
     }
 }

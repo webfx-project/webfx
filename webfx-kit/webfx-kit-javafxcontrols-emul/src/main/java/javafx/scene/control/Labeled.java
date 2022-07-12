@@ -409,7 +409,7 @@ public abstract class Labeled extends Control implements
             graphic.setScene(scene);
     }
 
-    { // WebFx
+    { // WebFX
         // Requesting a new layout pass on text and image properties change
         Properties.runOnPropertiesChange(this::requestParentLayout, textProperty, graphicProperty, fontProperty(), alignmentProperty(), textAlignmentProperty());
     }

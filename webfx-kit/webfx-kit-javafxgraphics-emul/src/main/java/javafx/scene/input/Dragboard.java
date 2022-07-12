@@ -15,7 +15,7 @@ public class Dragboard extends Clipboard {
      * Whether access to the data requires a permission.
      */
     //private boolean dataAccessRestricted = true;
-    private final Scene scene; // WebFx addition
+    private final Scene scene; // WebFX addition
 
     public Dragboard(Scene scene) {
         this.scene = scene;

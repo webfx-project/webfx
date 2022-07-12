@@ -42,7 +42,7 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
             setCancelButton(true);
         }
 
-        // Extra WebFx code to simulate caspian css button padding (-fx-padding: 0.3333em, 0.6666em, 0.3333em, 0.66666em)
+        // Extra WebFX code to simulate caspian css button padding (-fx-padding: 0.3333em, 0.6666em, 0.3333em, 0.66666em)
         paddingExplicitlySetByUser = button.getPadding() != Button.PADDING;
         if (!paddingExplicitlySetByUser) {
             updatePaddingOnFontChange(); // Now
@@ -84,7 +84,7 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
                 }
             }
         }
-        // WebFx code
+        // WebFX code
         else if ("FONT".equals(p)) {
             if (!paddingExplicitlySetByUser)
                 updatePaddingOnFontChange();
@@ -94,7 +94,7 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
         }
     }
 
-    private void updatePaddingOnFontChange() { // WebFx
+    private void updatePaddingOnFontChange() { // WebFX
         Font font = getSkinnable().getFont();
         if (font != null) {
             double fontSize = font.getSize();

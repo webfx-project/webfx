@@ -189,12 +189,12 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
             getSkinnable().getSelectionModel().selectFirst();
         }
         selectedTab = getSkinnable().getSelectionModel().getSelectedItem();
-        isSelectingTab = false; updateSelectedTabBorderAndBackground(); // WebFx addition
+        isSelectingTab = false; updateSelectedTabBorderAndBackground(); // WebFX addition
 
         initializeSwipeHandlers();
     }
 
-    private void updateSelectedTabBorderAndBackground() { // WebFx addition
+    private void updateSelectedTabBorderAndBackground() { // WebFX addition
         if (selectedTab != null) {
             TabHeaderSkin skin = (TabHeaderSkin) selectedTab.getProperties().get("skin");
             if (skin != null)
@@ -749,7 +749,7 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
                         double tabHeaderPrefWidth = snapSize(tabHeader.prefWidth(-1) * tabHeader.animationTransition.get());
                         double tabHeaderPrefHeight = snapSize(tabHeader.prefHeight(-1));
                         tabHeader.resize(tabHeaderPrefWidth, tabHeaderPrefHeight);
-                        tabHeaderPrefWidth += 3; // WebFx addition for margin between tabs
+                        tabHeaderPrefWidth += 3; // WebFX addition for margin between tabs
                         // This ensures that the tabs are located in the correct position
                         // when there are tabs of differing heights.
                         double startY = tabPosition.equals(Side.BOTTOM) ?
@@ -804,7 +804,7 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
 
             });*/
 
-            // WebFx addition (styling tab-header-area)
+            // WebFX addition (styling tab-header-area)
             headerBackground.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
             //setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THIN)));
             setPadding(new Insets(5, 0, 0, 10)); // Setting for TOP
@@ -824,7 +824,7 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
 
             measureClosingTabs = true;
             double headersPrefWidth = snapSize(headersRegion.prefWidth(-1));
-            headersPrefWidth += 3 * (getSkinnable().getTabs().size() - 1); // WebFx addition to count the 3 pixel margin added between each tab
+            headersPrefWidth += 3 * (getSkinnable().getTabs().size() - 1); // WebFX addition to count the 3 pixel margin added between each tab
             measureClosingTabs = false;
 
             double headersPrefHeight = snapSize(headersRegion.prefHeight(-1));
@@ -863,7 +863,7 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
 
         private void addTab(Tab tab, int addToIndex) {
             TabHeaderSkin tabHeaderSkin = new TabHeaderSkin(tab);
-            tab.getProperties().put("skin", tabHeaderSkin); // WebFx addition
+            tab.getProperties().put("skin", tabHeaderSkin); // WebFX addition
             headersRegion.getChildren().add(addToIndex, tabHeaderSkin);
         }
 
@@ -1331,14 +1331,14 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
             pseudoClassStateChanged(BOTTOM_PSEUDOCLASS_STATE, (side == Side.BOTTOM));
             pseudoClassStateChanged(LEFT_PSEUDOCLASS_STATE, (side == Side.LEFT));*/
 
-            // WebFx addition
+            // WebFX addition
             setPadding(new Insets(3, 6, 3, 6));
             StackPane.setMargin(this, new Insets(0, 3, 0, 0));
             label.setTextAlignment(TextAlignment.CENTER); // tab-label
             updateBorderAndBackground();
         }
 
-        void updateBorderAndBackground() { // WebFx addition
+        void updateBorderAndBackground() { // WebFX addition
             boolean selected = tab == selectedTab;
             CornerRadii radii = new CornerRadii(5, 5, 0, 0, false);
             setBackground(new Background(new BackgroundFill(Color.grayRgb(selected ? 0xF5 : 0xE5), radii, null)));
@@ -1359,7 +1359,7 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
                 // changed.
                 inner.requestLayout();
                 requestLayout();
-                Platform.runLater(this::updateBorderAndBackground); // WebFx addition
+                Platform.runLater(this::updateBorderAndBackground); // WebFX addition
             } else if ("TEXT".equals(p)) {
                 label.setText(getTab().getText());
             } else if ("GRAPHIC".equals(p)) {

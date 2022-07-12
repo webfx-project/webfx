@@ -193,7 +193,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return layoutYProperty;
     }
 
-    // Cache property (only for JavaFx API compatibility - currently ignored by implementation)
+    // Cache property (only for JavaFX API compatibility - currently ignored by implementation)
     private BooleanProperty cacheProperty;
 
     public final BooleanProperty cacheProperty() {
@@ -210,7 +210,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return cacheProperty().getValue();
     }
 
-    // CacheHint property (only for JavaFx API compatibility - currently ignored by implementation)
+    // CacheHint property (only for JavaFX API compatibility - currently ignored by implementation)
     private Property<CacheHint> cacheHintProperty;
 
     public final Property<CacheHint> cacheHintProperty() {
@@ -779,7 +779,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
     final boolean isCanReceiveFocus() {
-        updateCanReceiveFocus(); // Computed here as opposed to JavaFx original code (because impl_isTreeVisible() is delegated to the target peer)
+        updateCanReceiveFocus(); // Computed here as opposed to JavaFX original code (because impl_isTreeVisible() is delegated to the target peer)
         return canReceiveFocus;
     }
 

@@ -69,7 +69,7 @@ public final class HtmlImageViewPeer
             setElementAttribute("onerror", "this.style.display='none'; this.alt=''");
             // Special case of a writable image
             if (image instanceof WritableImage) {
-                // The WebFx emulation code stored the image in a canvas
+                // The WebFX emulation code stored the image in a canvas
                 Canvas canvas = ((WritableImage) image).getCanvas();
                 if (canvas != null) { // If set,
                     // We will replace the image with a canvas. First getting the canvas peer and element

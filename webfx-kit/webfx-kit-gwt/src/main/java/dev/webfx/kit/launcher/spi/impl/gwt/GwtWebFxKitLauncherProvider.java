@@ -140,7 +140,7 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
                 application.init();
                 application.start(getPrimaryStage());
             } catch (Exception e) {
-                Console.log("Error while launching the JavaFx application", e);
+                Console.log("Error while launching the JavaFX application", e);
             }
     }
 

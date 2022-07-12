@@ -368,7 +368,7 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
 
             // title region consists of the title and the arrow regions
             update();
-            // WebFx addition
+            // WebFX addition
             setBackground(TITLE_BACKGROUND);
             setBorder(TITLE_BORDER);
             setPadding(new Insets(5));
@@ -529,7 +529,7 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
         }
     }
 
-    // WebFx
+    // WebFX
     private final static CornerRadii TITLE_RADII = new CornerRadii(5, 5 , 0, 0, false);
     private final static Border TITLE_BORDER = new Border(new BorderStroke(Color.DARKGRAY, Color.DARKGRAY, Color.DARKGRAY, Color.DARKGRAY, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, TITLE_RADII, BorderStroke.THIN, Insets.EMPTY));
     private final static Background TITLE_BACKGROUND = new Background(new BackgroundFill(LinearGradient.valueOf("to bottom, white 0%, #E0E0E0 100%"), TITLE_RADII, Insets.EMPTY));

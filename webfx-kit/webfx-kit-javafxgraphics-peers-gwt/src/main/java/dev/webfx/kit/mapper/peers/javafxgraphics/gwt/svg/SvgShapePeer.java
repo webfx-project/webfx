@@ -99,13 +99,13 @@ public abstract class SvgShapePeer
 
     @Override
     public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
-        // We also need to consider here a difference between standard SVG and JavaFx regarding the coordinate system:
+        // We also need to consider here a difference between standard SVG and JavaFX regarding the coordinate system:
         // - In standard SVG, the top left corner of the viewport always refers to (x=0,y=0) even if part of the shape
         //   is negative (so this negative part actually won't show on the viewport)
-        // - In JavaFx, the top left corner of the viewport also refers to (x=0,y=0) in general, except a part of the
+        // - In JavaFX, the top left corner of the viewport also refers to (x=0,y=0) in general, except a part of the
         //   shape is negative. In that case, the coordinate system is shifted so that the negative part of the shape
         //   automatically appears on the viewport
-        // We need here to emulate the same behavior as JavaFx by translating the shape when part of it is negative.
+        // We need here to emulate the same behavior as JavaFX by translating the shape when part of it is negative.
         SVGRect bBox = getBBox();
         if (bBox != null && (bBox.x < 0 || bBox.y < 0)) {
             List<Transform> forSvgTransforms = new ArrayList<>(localToParentTransforms.size() + 1);

@@ -248,7 +248,7 @@ public abstract class Control extends Region implements Skinnable {
                     // skin properties are never exposed.
                     //impl_reapplyCSS();
 
-                    // WebFx addition to fix the following problem: SplitPaneSkin.layoutChildren() was not called
+                    // WebFX addition to fix the following problem: SplitPaneSkin.layoutChildren() was not called
                     // when initializing the scene with a SplitPane as root node (ex: in responsive design demo)
                     // so the window just looked empty (but resizing it made the nodes appear).
                     layoutChildren();

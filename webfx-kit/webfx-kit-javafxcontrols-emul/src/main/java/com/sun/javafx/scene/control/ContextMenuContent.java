@@ -221,7 +221,7 @@ public class ContextMenuContent extends Region {
         // 2) The parent menu is in the correct position (i.e. to the left of this
         //    menu in normal LTR systems).
         final double newWidth = maxRightWidth + maxLabelWidth + maxGraphicWidth + maxLeftWidth;
-        if (contextMenu != null) { // WebFx addition
+        if (contextMenu != null) { // WebFX addition
             Window ownerWindow = contextMenu.getOwnerWindow();
             if (ownerWindow instanceof ContextMenu) {
                 if (contextMenu.getX() < ownerWindow.getX()) {
@@ -390,7 +390,7 @@ public class ContextMenuContent extends Region {
     }
 
     @Override protected double computeMaxHeight(double height) {
-        return Double.MAX_VALUE; // WebFx change (was getScreenHeight(); but it was returning -1)
+        return Double.MAX_VALUE; // WebFX change (was getScreenHeight(); but it was returning -1)
     }
 
     private double getScreenHeight() {
@@ -1173,7 +1173,7 @@ public class ContextMenuContent extends Region {
             };
             addEventHandler(ActionEvent.ACTION, actionEventHandler);
 
-            // WebFx hardcoded style
+            // WebFX hardcoded style
             setOnMouseEntered(e -> {
                 setBackground(new Background(new BackgroundFill(Color.web("#0096c9"), null, null)));
                 getLabel().setTextFill(Color.WHITE);
@@ -1249,7 +1249,7 @@ public class ContextMenuContent extends Region {
                     graphicPane.getChildren().add(graphicNode);
                     graphic = graphicPane;
                     getChildren().add(graphic);
-                    // WebFx addition
+                    // WebFX addition
                     graphicPane.setPadding(new Insets(0, 4, 0, 0));
                 }
 
@@ -1295,7 +1295,7 @@ public class ContextMenuContent extends Region {
                 // get the ability to draw an accelerator
                 if (item instanceof Menu) {
                     // --- add arrow / accelerator / mnemonic to right column
-                    //Region rightNode = new Region(); // WebFx change to hardcoded Path (since no CSS)
+                    //Region rightNode = new Region(); // WebFX change to hardcoded Path (since no CSS)
                     Path rightNode = new Path(new MoveTo(0, -4), new LineTo(4, 0), new LineTo(0, 4), new ClosePath());
                     rightNode.setMouseTransparent(true);
                     rightNode.getStyleClass().add("arrow");
@@ -1306,7 +1306,7 @@ public class ContextMenuContent extends Region {
                     rightPane.setMouseTransparent(true);
                     rightPane.getStyleClass().add("right-container");
                     rightPane.getChildren().add(rightNode);
-                    rightPane.setPadding(new Insets(0, 2, 12, 2)); // WebFx
+                    rightPane.setPadding(new Insets(0, 2, 12, 2)); // WebFX
                     right = rightPane;
                     getChildren().add(rightPane);
 

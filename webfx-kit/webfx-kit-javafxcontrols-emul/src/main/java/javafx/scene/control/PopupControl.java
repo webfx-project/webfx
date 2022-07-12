@@ -1172,7 +1172,7 @@ public class PopupControl extends PopupWindow implements Skinnable, Styleable {
 
     }
 
-    // WebFx addition
+    // WebFX addition
 
     @Override
     public void show(Window owner) {

@@ -52,7 +52,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     private void installMouseListeners() {
         registerMouseListener("mousedown");
         registerMouseListener("mouseup");
-        //registerMouseListener("click"); // Not necessary as the JavaFx Scene already generates them based on the mouse pressed and released events
+        //registerMouseListener("click"); // Not necessary as the JavaFX Scene already generates them based on the mouse pressed and released events
         registerMouseListener("mouseenter");
         registerMouseListener("mouseleave");
         registerMouseListener("mousemove");
@@ -75,7 +75,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             }
             return null;
         };
-        // Disabling default browser drag & drop as JavaFx has its own
+        // Disabling default browser drag & drop as JavaFX has its own
         //container.setAttribute("ondragstart", "return false;");
         //container.setAttribute("ondrop", "return false;");
     }
@@ -90,7 +90,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     private void passHtmlMouseEventOnToFx(MouseEvent e, String type) {
         javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(e, type);
         if (fxMouseEvent != null) {
-            // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFx stack
+            // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFX stack
             Scene scene = getScene();
             // Also fixing a problem: mouse released and mouse pressed are sent very closely on mobiles and might be
             // treated in the same animation frame, which prevents the button pressed state (ex: a background bound to
@@ -105,7 +105,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
                     UiScheduler.scheduleInAnimationFrame(() -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, 1);
                 }
             }
-            // Stopping propagation if the event has been consumed by JavaFx
+            // Stopping propagation if the event has been consumed by JavaFX
             if (fxMouseEvent.isConsumed())
                 e.stopPropagation();
             // Note: important to not stop propagation for third-party js components (ex: perfect-scrollbar)

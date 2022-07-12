@@ -10,7 +10,7 @@ import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 /**
  * @author Bruno Salmon
  */
-public class ToolkitTextBox extends TextField { // WebFx specific class (not part of JavaFx)
+public class ToolkitTextBox extends TextField { // WebFX specific class (not part of JavaFX)
 
     private final TextField embeddingTextField;
 

@@ -23,7 +23,7 @@ import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 public class Hyperlink extends ButtonBase {
 
     {
-        setTextFill(Color.web("0x0096c9ff")); // Resulting color used by default in JavaFx
+        setTextFill(Color.web("0x0096c9ff")); // Resulting color used by default in JavaFX
     }
 
     /***************************************************************************

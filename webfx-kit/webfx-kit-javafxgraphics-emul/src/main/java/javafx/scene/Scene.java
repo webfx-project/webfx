@@ -1476,17 +1476,17 @@ public class Scene implements EventTarget,
 
     private DnDGesture dndGesture;
 
-    public DnDGesture getOrCreateDndGesture() {  // WebFx addition
+    public DnDGesture getOrCreateDndGesture() {  // WebFX addition
         return dndGesture != null ? dndGesture : (dndGesture = new DnDGesture());
     }
 
-    public void clearDndGesture() {  // WebFx addition
+    public void clearDndGesture() {  // WebFX addition
         dndGesture = null;
     }
 
     Dragboard startDragAndDrop(EventTarget source, TransferMode... transferModes) {
         //Toolkit.getToolkit().checkFxUserThread();
-        getOrCreateDndGesture().processingDragDetected(); // WebFx addition
+        getOrCreateDndGesture().processingDragDetected(); // WebFX addition
         if (dndGesture == null ||
                 (dndGesture.dragDetected != DragDetectedState.PROCESSING))
         {
@@ -2643,7 +2643,7 @@ public class Scene implements EventTarget,
             return WebFxKitLauncher.getProvider().createDragboard(Scene.this);
         }
 
-        public Dragboard getOrCreateDragboard() { // WebFx addition
+        public Dragboard getOrCreateDragboard() { // WebFX addition
             if (dragboard == null) {
                 dragboard = createDragboard(null, false);
                 sourceTransferModes = new HashSet<>(Collections.listOf(TransferMode.ANY));
