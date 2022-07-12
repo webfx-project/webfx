@@ -1,4 +1,4 @@
-package dev.webfx.kit.launcher.spi.gwt;
+package dev.webfx.kit.launcher.spi.impl.gwt;
 
 import com.sun.javafx.application.ParametersImpl;
 import elemental2.dom.DataTransfer;
@@ -12,7 +12,7 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.stage.Screen;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DragboardDataTransferHolder;
-import dev.webfx.kit.launcher.spi.base.WebFxKitLauncherProviderBase;
+import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;

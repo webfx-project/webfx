@@ -1,9 +1,9 @@
-package dev.webfx.kit.launcher.spi.openjfx;
+package dev.webfx.kit.launcher.spi.impl.openjfx;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
-import dev.webfx.kit.launcher.spi.base.WebFxKitLauncherProviderBase;
+import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.platform.util.function.Factory;
 
 import java.util.ArrayList;

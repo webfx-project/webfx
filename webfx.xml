@@ -108,8 +108,8 @@
             </exported-packages>
 
             <providers>
-                <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.gwt.GwtWebFxKitLauncherProvider</provider>
-                <provider interface="dev.webfx.kit.mapper.spi.WebFxKitMapperProvider">dev.webfx.kit.mapper.spi.gwt.GwtWebFxKitHtmlMapperProvider</provider>
+                <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.impl.gwt.GwtWebFxKitLauncherProvider</provider>
+                <provider interface="dev.webfx.kit.mapper.spi.WebFxKitMapperProvider">dev.webfx.kit.mapper.spi.impl.gwt.GwtWebFxKitHtmlMapperProvider</provider>
             </providers>
 
             <dependencies>
@@ -225,8 +225,8 @@
             </html>
 
             <source-packages>
-                <package>dev.webfx.kit.launcher.spi.gwt</package>
-                <package>dev.webfx.kit.mapper.spi.gwt</package>
+                <package>dev.webfx.kit.launcher.spi.impl.gwt</package>
+                <package>dev.webfx.kit.mapper.spi.impl.gwt</package>
             </source-packages>
 
             <used-by-source-modules>
@@ -438,7 +438,7 @@
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling</package>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base</package>
                 <package>dev.webfx.kit.mapper.spi</package>
-                <package>dev.webfx.kit.mapper.spi.base</package>
+                <package>dev.webfx.kit.mapper.spi.impl.base</package>
                 <package>javafx.animation</package>
                 <package>javafx.application</package>
                 <package>javafx.css</package>
@@ -674,7 +674,7 @@
             <source-packages>
                 <package>dev.webfx.kit.launcher</package>
                 <package>dev.webfx.kit.launcher.spi</package>
-                <package>dev.webfx.kit.launcher.spi.base</package>
+                <package>dev.webfx.kit.launcher.spi.impl.base</package>
             </source-packages>
 
             <used-by-source-modules>
@@ -700,7 +700,7 @@
             </exported-packages>
 
             <providers>
-                <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider</provider>
+                <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider</provider>
                 <provider interface="dev.webfx.platform.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</provider>
             </providers>
 
@@ -712,7 +712,7 @@
         <![CDATA[
 [
     {
-        "name" : "dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
+        "name" : "dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
         "methods" : [
             { "name" : "<init>", "parameterTypes" : [] }
         ]
@@ -734,7 +734,7 @@
             </graalvm-reflection-json>
 
             <source-packages>
-                <package>dev.webfx.kit.launcher.spi.openjfx</package>
+                <package>dev.webfx.kit.launcher.spi.impl.openjfx</package>
                 <package>dev.webfx.kit.mapper.peers.javafxcontrols.openjfx.skin</package>
                 <package>dev.webfx.kit.mapper.peers.javafxgraphics.openjfx</package>
                 <package>dev.webfx.platform.uischeduler.spi.impl.openjfx</package>

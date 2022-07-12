@@ -1,4 +1,4 @@
-package dev.webfx.kit.mapper.spi.gwt;
+package dev.webfx.kit.mapper.spi.impl.gwt;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -6,7 +6,7 @@ import javafx.stage.Window;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.StagePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
-import dev.webfx.kit.mapper.spi.base.WebFxKitMapperProviderBase;
+import dev.webfx.kit.mapper.spi.impl.base.WebFxKitMapperProviderBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.GwtPrimaryStagePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.GwtSecondaryStagePeer;

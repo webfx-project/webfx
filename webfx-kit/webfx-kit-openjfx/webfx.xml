@@ -6,7 +6,7 @@
     </exported-packages>
 
     <providers>
-        <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider</provider>
+        <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider</provider>
         <provider interface="dev.webfx.platform.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</provider>
     </providers>
 
@@ -18,7 +18,7 @@
         <![CDATA[
 [
     {
-        "name" : "dev.webfx.kit.launcher.spi.openjfx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
+        "name" : "dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
         "methods" : [
             { "name" : "<init>", "parameterTypes" : [] }
         ]

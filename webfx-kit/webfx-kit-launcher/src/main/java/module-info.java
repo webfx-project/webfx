@@ -13,7 +13,7 @@ module webfx.kit.launcher {
     // Exported packages
     exports dev.webfx.kit.launcher;
     exports dev.webfx.kit.launcher.spi;
-    exports dev.webfx.kit.launcher.spi.base;
+    exports dev.webfx.kit.launcher.spi.impl.base;
 
     // Used services
     uses dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;

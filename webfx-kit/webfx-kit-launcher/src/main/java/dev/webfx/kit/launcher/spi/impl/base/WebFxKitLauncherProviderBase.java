@@ -1,4 +1,4 @@
-package dev.webfx.kit.launcher.spi.base;
+package dev.webfx.kit.launcher.spi.impl.base;
 
 import javafx.stage.Stage;
 import dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
