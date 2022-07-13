@@ -7,7 +7,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.FxEvents;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.kit.util.properties.Properties;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.*;
@@ -35,7 +35,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         super(scene);
         HtmlUtil.setStyleAttribute(container, "width", "100%");
         HtmlUtil.setStyleAttribute(container, "height", "100vh"); // 100% is not good on mobile when the browser navigation bar is hidden, but 100vh works
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
+        FXProperties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
         HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
         installStylesheetsListener(scene);

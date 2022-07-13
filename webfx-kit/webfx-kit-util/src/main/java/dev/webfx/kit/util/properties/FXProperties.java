@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 /**
  * @author Bruno Salmon
  */
-public final class Properties {
+public final class FXProperties {
 
     public static Unregisterable runOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
         return new UnregisterableListener(consumer, properties);

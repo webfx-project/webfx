@@ -20,7 +20,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.SvgUtil;
-import dev.webfx.kit.util.properties.Properties;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.collection.Collections;
 
@@ -35,9 +35,9 @@ public final class SvgScenePeer extends ScenePeerBase implements SvgRoot {
     public SvgScenePeer(Scene scene) {
         super(scene);
         HtmlUtil.setAttribute(container, "width", "100%");
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerWidth(), scene.widthProperty());
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
-        Properties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
+        FXProperties.runNowAndOnPropertiesChange(property -> updateContainerWidth(), scene.widthProperty());
+        FXProperties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
+        FXProperties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
     }
 
     private void updateContainerWidth() {

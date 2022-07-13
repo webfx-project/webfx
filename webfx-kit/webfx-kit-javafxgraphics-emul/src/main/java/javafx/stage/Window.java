@@ -10,7 +10,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasSceneProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
-import dev.webfx.kit.util.properties.Properties;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.uischeduler.AnimationFramePass;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.scheduler.Scheduled;
@@ -510,7 +510,7 @@ public class Window implements EventTarget,
         if (scene != null) {
             scene.impl_setWindow(this);
             // Notifying the peer about the change
-            Properties.runNowAndOnPropertiesChange(p -> {
+            FXProperties.runNowAndOnPropertiesChange(p -> {
                 if (impl_peer != null)
                     impl_peer.onSceneRootChanged();
             }, scene.rootProperty());

@@ -12,7 +12,7 @@ import javafx.scene.transform.Translate;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.util.properties.ObservableLists;
-import dev.webfx.kit.util.properties.Properties;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.util.Arrays;
 import dev.webfx.platform.util.collection.Collections;
 
@@ -84,7 +84,7 @@ public abstract class NodePeerBase
     }
 
     protected void requestUpdateOnPropertiesChange(SceneRequester sceneRequester, ObservableValue... properties) {
-        Properties.runOnPropertiesChange(property -> requestUpdateProperty(sceneRequester, property), properties);
+        FXProperties.runOnPropertiesChange(property -> requestUpdateProperty(sceneRequester, property), properties);
     }
 
     private void requestUpdateProperty(SceneRequester sceneRequester, ObservableValue changedProperty) {
@@ -155,7 +155,7 @@ public abstract class NodePeerBase
             properties = new Property[]{scale.xProperty(), scale.yProperty(), scale.pivotXProperty(), scale.pivotYProperty()};
         }
         if (properties != null)
-            Properties.runOnPropertiesChange(() -> {
+            FXProperties.runOnPropertiesChange(() -> {
                 mixin.updateTransforms(node.getTransforms(), null);
 /*
                 ScenePeer scenePeer = node.getScene().impl_getPeer();

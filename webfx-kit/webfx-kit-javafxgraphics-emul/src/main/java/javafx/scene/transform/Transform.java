@@ -3,7 +3,7 @@ package javafx.scene.transform;
 import javafx.beans.property.Property;
 import com.sun.javafx.geom.Point2D;
 import javafx.beans.value.ObservableValue;
-import dev.webfx.kit.util.properties.Properties;
+import dev.webfx.kit.util.properties.FXProperties;
 
 /**
  * @author Bruno Salmon
@@ -63,7 +63,7 @@ public abstract class Transform {
     public abstract Property[] propertiesInvalidatingCache();
 
     private void clearInverseCacheOnPropertyChange(ObservableValue... properties) {
-        Properties.runOnPropertiesChange(property -> clearInverseCacheNow(), properties);
+        FXProperties.runOnPropertiesChange(property -> clearInverseCacheNow(), properties);
     }
 
     public Point2D inverseTransform(double x, double y)  {

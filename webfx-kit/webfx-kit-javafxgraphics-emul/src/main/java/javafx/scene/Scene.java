@@ -36,7 +36,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasRootProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.util.properties.ObservableLists;
-import dev.webfx.kit.util.properties.Properties;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.uischeduler.AnimationFramePass;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.scheduler.Scheduled;
@@ -700,7 +700,7 @@ public class Scene implements EventTarget,
             else { // Standard case (the node view was successfully created)
                 nodePeer.bind(node, sceneRequester);
                 if (node instanceof Parent)
-                    Properties.onPropertySet((ObservableValue) node.getProperties().get("skinProperty"),
+                    FXProperties.onPropertySet((ObservableValue) node.getProperties().get("skinProperty"),
                             skin -> keepParentAndChildrenPeersUpdated((Parent) node), true);
             }
             node.callNodePeerHandlers();

@@ -11,7 +11,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
-import dev.webfx.kit.util.properties.Properties;
+import dev.webfx.kit.util.properties.FXProperties;
 /**
  * @author Bruno Salmon
  */
@@ -411,6 +411,6 @@ public abstract class Labeled extends Control implements
 
     { // WebFX
         // Requesting a new layout pass on text and image properties change
-        Properties.runOnPropertiesChange(this::requestParentLayout, textProperty, graphicProperty, fontProperty(), alignmentProperty(), textAlignmentProperty());
+        FXProperties.runOnPropertiesChange(this::requestParentLayout, textProperty, graphicProperty, fontProperty(), alignmentProperty(), textAlignmentProperty());
     }
 }
