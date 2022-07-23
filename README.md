@@ -1,9 +1,6 @@
 # WebFX
 
-WebFX uses [GWT][gwt-website] to compile your Java code into JavaScript.
-Normally GWT can only compile the Java code (your application logic) and not the JavaFX code (your application UI).
-WebFX solves this problem by providing a GWT compatible version of OpenJFX (the [webfx-kit](webfx-kit) module)
-that can be transpiled by GWT together with your application code.
+WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript web app (with no plugin or server required for its execution in the browser).
 
 For more explanation, please visit the [website][webfx-website] and read the [documentation][webfx-docs].
 
