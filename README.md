@@ -9,7 +9,7 @@ For more explanation, please visit the [website][webfx-website] and read the [do
 
 ## Live demos
 
-We have a dedicated space for the [demos](https://github.com/webfx-demos). You will find all the demos presented on the website, plus a couple of additional live demos, with their source code and GitHub workflow.
+We have a dedicated space for the [demos][webfx-demos]. You will find all the demos presented on the website, plus a couple of additional live demos, with their source code and GitHub workflow.
 
 ## Fully cross-platform
 
@@ -53,7 +53,7 @@ You can greatly help the project by:
 - Starring the project if you like it, or wish to encourage us
 - Sharing the [website][webfx-website] with people who might be interested
 - Giving us feedback in our GitHub [discussions][webfx-discussions]
-- Sharing your first WebFX applications (we might add some to our demo list)
+- Sharing your first WebFX applications (we might add some to our [demo list][webfx-demos])
 - [Contacting us][webfx-contact] if you wish to contribute to the development
 - In particular, if you have some expertise in Java language syntax parsing, we can entrust some jobs to you, starting with fixing the current limitation of the [WebFX CLI][webfx-cli-repo].
 
@@ -72,6 +72,7 @@ After writing some demos, it became clear that WebFX had a great potential. The 
 
 [webfx-website]: https://webfx.dev
 [webfx-docs]: https://docs.webfx.dev
+[webfx-demos]: https://github.com/webfx-demos
 [webfx-guide]: https://docs.webfx.dev/#_getting_started
 [webfx-blog]: https://blog.webfx.dev
 [webfx-discussions]: https://github.com/webfx-project/webfx/discussions
