@@ -1,4 +1,4 @@
-Here is the WebFX roadmap (past and future) up to the General Availability:
+# Roadmap
 
 - [x] Proof of concept
 - [x] Prototype
@@ -45,7 +45,7 @@ The minimal coverage will prioritize performance and exclude features having a b
 But if you still wish to use JavaFX CSS in your web app, you will be able to enable the CSS coverage.
 More coverages (such as FXML, 3D, etc...) can be planned in the future.
 
-[webfx-website]: https://preview.webfx.dev
+[webfx-website]: https://webfx.dev
 [webfx-docs]: https://docs.webfx.dev
 [webfx-guide]: https://docs.webfx.dev/#_getting_started
 [webfx-blog]: https://blog.webfx.dev
