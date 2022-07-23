@@ -1,6 +1,6 @@
 # Roadmap
 
-- [x] Proof of concept
+- [x] Proof of Concept
 - [x] Prototype
 - [x] [Demos](https://github.com/webfx-demos)
 - [x] CI pipeline (using GitHub workflow)
@@ -14,19 +14,19 @@
 - [ ] GitHub workflow automatic generation by the CLI
 - [ ] WebFX maven plugin
 - [ ] Investigating work
-    - [ ] [JxBrowser][jxbrowser-website] support
-    - [ ] [J2CL][j2cl-repo] support
-    - [ ] [TeaVM][teavm-website] support
-    - [ ] [Kotlin][kotlin-website] support
-    - [ ] SVG support
+  - [ ] [JxBrowser][jxbrowser-website] support
+  - [ ] [J2CL][j2cl-repo] support
+  - [ ] [TeaVM][teavm-website] support
+  - [ ] [Kotlin][kotlin-website] support
+  - [ ] SVG support
 - [ ] Additional CLI features for contributors
 - [ ] Improvement of the OpenJFX patch process
-    - [ ] Automate the process to ease a rebase on OpenJFX
-    - [ ] Rebase WebFX on OpenJFX latest version
-    - [ ] Add code masking to allow coverage customization
+  - [ ] Automate the process to ease a rebase on OpenJFX
+  - [ ] Rebase WebFX on OpenJFX latest version
+  - [ ] Add code masking to allow coverage customization
 - [ ] Creation of initial coverages
-    - [ ] Minimal coverage
-    - [ ] CSS coverage
+  - [ ] Minimal coverage
+  - [ ] CSS coverage
 - [ ] Open issues
 - [ ] General Availability
 
@@ -35,13 +35,13 @@ The IDE will simply run your app with the WebFX runtime (instead of OpenJFX) in 
 This will considerably speed up the development cycle of web apps.
 
 An effort will also be made to make WebFX transpiler agnostic, as much as possible.
-So alternative transpilers (sucha as J2CL & TeaVM) will be considered.
-TeaVM is a byte-code transpiler (whereas GWT is a Java source transpiler) which will also open the door to alternative JVM languages such as Kotlin.
+Alternative transpilers (such as J2CL & TeaVM) will be considered.
+Whereas GWT is a Java source transpiler, TeaVM is a byte-code transpiler, which will also open the door to alternative JVM languages such as Kotlin.
 
-Some redesign work is also necessary to transit from the current patching process (which is mainly a manual patch of OpenJFX 8) to a more professional patch process with tools allowing regular rebase on OpenJFX.
+Some redesign work is also necessary to transit from the current patching process (which is mainly a manual patch of OpenJFX 8) to a more professional patch process with tooling allowing regular rebase on OpenJFX.
 
 Finally, WebFX will allow you to customize your JavaFX coverage.
-The minimal coverage will prioritize performance and exclude features having a big impact on the resulted JS, such as JavaFX CSS (look at the [FX2048 demo](https://github.com/webfx-demos/webfx-demo-fx2048/) to see how to make an HTML version and a JavaFX version of your CSS instead).
+The minimal coverage will prioritize performance and exclude features having a big impact on the resulted JS, such as JavaFX CSS (look at the [FX2048 demo](https://github.com/webfx-demos/webfx-demo-fx2048/) to see how to make a separate HTML version and JavaFX version of your CSS instead).
 But if you still wish to use JavaFX CSS in your web app, you will be able to enable the CSS coverage.
 More coverages (such as FXML, 3D, etc...) can be planned in the future.
 
