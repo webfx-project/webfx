@@ -2,6 +2,10 @@
 
 WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript web app (with no plugin or server required for its execution in the browser).
 
+<p align="center">
+  <img src="https://docs.webfx.dev/webfx-how-it-works.svg" />
+</p>
+
 For more explanation, please visit the [website][webfx-website] and read the [documentation][webfx-docs].
 
 ## Fully cross-platform
