@@ -1,5 +1,7 @@
 # How to contribute to WebFX
 
+Thank you so much for your wish to contribute to WebFX. There are many areas where you can help. We have listed here different ideas, but we are open to your own ideas too. We would be very happy if you find a job that meets your wish and skill. 
+
 ## Reporting bugs
 
 We are aware that there are bugs in the [WebFX kit](webfx-kit), but we don't accept bug reports at the moment (issues are not open). The reason is that we have some deep work to do first (see our [roadmap](ROADMAP.md)). However, there are some exceptions:
@@ -110,6 +112,10 @@ This is not really planned in our roadmap, but an interesting parallel developme
 We can't really do the same with iOS (developing in Java with Xcode), but we may still be able to realise a transpilable iOS mapper using a transpiler such as [J2ObjC](https://github.com/google/j2objc).
 
 **If you are happy to work on an iOS mapper prototype, please [contact us][webfx-contactus].**
+
+***
+
+Thank you so much! :blush:
 
 [webfx-cli-repo]: https://github.com/webfx-project/webfx-cli
 [webfx-platform-repo]: https://github.com/webfx-project/webfx-platform
