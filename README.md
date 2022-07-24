@@ -18,7 +18,7 @@ WebFX doesn't target only the Web. WebFX applications can be compiled to run nat
 - [ ] (not yet documented) Embed (Raspberry Pi) - 64-bit support for native, 32/64-bit support for embed JRE
 
 You can check out the demos to see how a GitHub workflow can generate these executables.
-For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-demo-fx2048/blob/main/.github/workflows/builds.yml) for the FX2048 demo and the [executables](https://github.com/webfx-demos/webfx-demo-fx2048/releases) that it generated (just expand the release Assets to see them).
+For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-demo-fx2048/blob/main/.github/workflows/builds.yml) for the FX2048 demo and the [executables](https://github.com/webfx-demos/webfx-demo-fx2048/releases) that it generated.
 
 ## Live demos
 
