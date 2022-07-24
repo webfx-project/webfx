@@ -10,9 +10,10 @@
 - [x] [Documentation][webfx-docs]
 - [x] [Blog][webfx-blog]
 - [ ] FAQ
-- [ ] Customization (application name, icon, etc...)
+- [ ] Document webfx.xml syntax
+- [ ] App customization (application name, icon, etc...)
 - [ ] GitHub workflow automatic generation by the CLI
-- [ ] WebFX maven plugin
+- [ ] [WebFX Maven plugin](webfx-maven-plugin)
 - [ ] Investigating work
   - [ ] [JxBrowser][jxbrowser-website] support
   - [ ] [J2CL][j2cl-repo] support
