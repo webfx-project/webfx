@@ -26,7 +26,7 @@ We have a dedicated space for the [demos][webfx-demos]. You will find all the de
 
 ## Getting started
 
-A [guide to getting started][webfx-guide] is included in the documentation.
+The [guide to getting started][webfx-guide] is included in the documentation.
 
 ## Status
 

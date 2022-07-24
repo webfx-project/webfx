@@ -26,7 +26,7 @@ Extending the JavaFX coverage is not our priority at the moment for the same rea
 
 **We are accepting pull requests in case you submit a new patched JavaFX control or feature.**
 
-## Porting libraries
+## Porting JavaFX libraries
 
 We have a dedicated space for WebFX libraries called [webfx-libs](https://github.com/webfx-libs). We started to port some JavaFX libraries to WebFX, for example the Odometer, Enzo and Medusa libraries that we used for the demos. You can use these libraries as well in your WebFX applications. But because we did a partial port (of only the features required for the demos), you may need to extend their coverage.
 
@@ -73,6 +73,12 @@ One of the next step in our [roadmap](ROADMAP.md) is to document the syntax of `
 
 **If you are happy to help with writing the XSD, please [contact us][webfx-contactus].**
 
+
+## Reviewing our documentation
+
+If our [documentation](https://docs.webfx.dev) is not clear or not detailed enough, or if you wish we document other aspects of WebFX not planned in the [roadmap](ROADMAP.md), please let us know.
+
+**You can open an issue in our [webfx-docs](https://github.com/webfx-project/webfx-docs) repository.**
 
 ## Reviewing our code
 
