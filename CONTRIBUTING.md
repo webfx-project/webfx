@@ -60,19 +60,19 @@ New WebFX users with no experience in Apple development may have difficulties to
 
 Most of the [webfx-kit](webfx-kit) doesn't require JavaDoc as its API is the JavaFX API which is already largely documented. However, the [webfx-platform][webfx-platform-repo] needs to be documented. 
 
-- **If you are happy to help with writing the JavaDoc, please [contact us][webfx-contactus].**
+- **If you are happy to help with writing some JavaDoc, please [contact us][webfx-contactus].**
 
 ## Writing unit tests
 
 Like for any long-term software, it will be necessary to write unit tests. We will start with the [webfx-platform][webfx-platform-repo].
 
-- **If you are happy to help with writing these unit tests, please [contact us][webfx-contactus].**
+- **If you are happy to help with writing some unit tests, please [contact us][webfx-contactus].**
 
 ## Writing XML Schema
 
 One of the next step in our [roadmap](ROADMAP.md) is to document the syntax of `webfx.xml` files. It would be helpful to also write a XSD to assist WebFX developers when they modify these  files. 
 
-- **If you are happy to help with writing the XSD, please [contact us][webfx-contactus].**
+- **If you are happy to help with writing the `webfx.xml` XSD, please [contact us][webfx-contactus].**
 
 
 ## Reviewing our documentation
@@ -83,7 +83,7 @@ If our [documentation](https://docs.webfx.dev) is not clear or not detailed enou
 
 ## Reviewing our code
 
-Because we are in the incubation phase, now is the best time to review our code, especially our API (breaking changes are much less painful during that time). If you find it difficult to use, or feel it could be improved, don't hesitate to give us your feedback.
+Because we are in the incubation phase, now is the best time to review our code, especially our API (breaking changes will be much more painful after that time). If you find it difficult to use, or feel it could be improved, don't hesitate to give us your feedback.
 
 - **If the code is in the [webfx-platform][webfx-platform-repo], you can open an issue.**
 

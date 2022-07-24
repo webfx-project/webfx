@@ -54,7 +54,7 @@ You can greatly help the project by:
 - Starring the project if you like it
 - Sharing the [website][webfx-website] with people who might be interested
 - Giving us feedback in our GitHub [discussions][webfx-discussions]
-- Sharing your first WebFX applications (we might add some to our [demo list][webfx-demos] if you wish)
+- Sharing your first WebFX applications (we can add it to our [demo list][webfx-demos] if you wish)
 
 You want to get involved in the development as well? You are very welcome! Please read our [contributing guide](CONTRIBUTING.md).
 
