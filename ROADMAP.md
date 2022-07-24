@@ -10,7 +10,7 @@
 - [x] [Documentation][webfx-docs]
 - [x] [Blog][webfx-blog]
 - [ ] FAQ
-- [ ] Document webfx.xml syntax
+- [ ] webfx.xml syntax documentation
 - [ ] App customization (application name, icon, etc...)
 - [ ] GitHub workflow automatic generation by the CLI
 - [ ] [WebFX Maven plugin](webfx-maven-plugin)

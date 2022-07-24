@@ -36,7 +36,7 @@ If you want to use another JavaFX library which is not listed, your can try to p
 
 ## Writing the Maven plugin
 
-We need to develop a [WebFX Maven plugin](webfx-maven-plugin) to make large WebFX libraries (with many modules, like those we provide) quicker to import in WebFX applications. The feature is already implemented in the WebFX CLI, we just need to embed it in a Maven plugin.
+We need to develop a [WebFX Maven plugin][webfx-maven-plugin-repo] to make large WebFX libraries (with many modules, like those we provide) quicker to import in WebFX applications. The feature is already implemented in the WebFX CLI, we just need to embed it in a Maven plugin.
 
 **If you are happy to write this Maven plugin, please [contact us][webfx-contactus].**
 
@@ -71,6 +71,15 @@ One of the next step in our [roadmap](ROADMAP.md) is to document the syntax of `
 
 **If you are happy to help with writing the XSD, please [contact us][webfx-contactus].**
 
+
+## Reviewing our code
+
+Because we are in the incubation phase, now is the best time to review our code, especially our API (breaking changes are much less painful during that time). If you find it difficult to use, or feel it could be improved, don't hesitate to give us your feedback.
+
+**If the code is in the [webfx-platform][webfx-platform-repo], you can open an issue.**
+
+**If the code is in the [webfx-kit](webfx-kit), please [contact us][webfx-contactus].**
+
 ## Investigating J2CL
 
 As mentioned in our [roadmap](ROADMAP.md), we will investigate the possibility of supporting alternative transpilers, starting with [J2CL](https://github.com/google/j2cl). If you already have some experience with J2CL and would like to help, you are very welcome.
@@ -83,19 +92,26 @@ In the same way, we would like to investigate [TeaVM](https://teavm.org). We alr
 
 **If you are happy to help us investigate the TeaVM support, please [contact us][webfx-contactus].**
 
+## Preparing the Kotlin demo
+
+The TeaVM support will open the door to alternative languages such as Kotlin. To demonstrate this, we will need to make a Kotlin demo. This demo will take a Kotlin app with a JavaFX UI and transpile it into JS with TeaVM. This Kotlin app can be prepared in advance.
+
+**If you are happy to develop a nice Kotlin app for the demo, please [contact us][webfx-contactus].**
+
 
 ## Prototyping an Android mapper
 
-This is not really planned in our roadmap, but an interesting development would be to implement an Android mapper (in addition to the DOM mapper). This would let us develop Android applications directly in Android Studio with that WebFX runtime, and direct access to all the Android API at the same time. We could make a first prototype with the ColourfulCircles demo (just needs a Circle mapper), or the Particles demo (just needs a Canvas mapper).
+This is not really planned in our roadmap, but an interesting parallel development would be to implement an Android mapper (in addition to the DOM mapper). This would let us develop Android applications directly in Android Studio with that Android WebFX runtime, giving direct access to all the Android API at the same time. We could make a first prototype with the ColourfulCircles demo (just needs a Circle mapper), or the Particles demo (just needs a Canvas mapper).
 
 **If you are happy to work on an Android mapper prototype, please [contact us][webfx-contactus].** 
 
 ## Prototyping an iOS mapper
 
-We can't really do the same with iOS, but we may still be able to realise an iOS mapper using a transpiler such as [J2ObjC](https://github.com/google/j2objc).
+We can't really do the same with iOS (developing in Java with Xcode), but we may still be able to realise a transpilable iOS mapper using a transpiler such as [J2ObjC](https://github.com/google/j2objc).
 
 **If you are happy to work on an iOS mapper prototype, please [contact us][webfx-contactus].**
 
 [webfx-cli-repo]: https://github.com/webfx-project/webfx-cli
 [webfx-platform-repo]: https://github.com/webfx-project/webfx-platform
+[webfx-maven-plugin-repo]: https://github.com/webfx-project/webfx-platform
 [webfx-contactus]: mailto:maintainer@webfx.dev
