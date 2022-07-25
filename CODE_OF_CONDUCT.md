@@ -1,4 +1,5 @@
-All what we do depends on our mind. If we have a good mind, we will perform good actions.
+<p style="text-align: center;">All what we do depends on our mind. If we have a good mind, we will perform good actions.</p>
+
 
 ***
 **A mind of belief**
