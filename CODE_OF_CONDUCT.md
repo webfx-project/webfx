@@ -13,17 +13,12 @@ WebFX if the fruit of our imagination. Everything starts in the imagination. Let
 ***
 **A mind of effort**
 
-With laziness, we can't accomplish anything. With effort, we can accomplish everything. Let's abandon laziness, and apply great effort to achieve our goal.
+With laziness, we can't accomplish anything. With effort, we can accomplish everything. Let's apply great effort to achieve our goal.
 
 ***
 **A mind of joy**
 
 Effort doesn't mean pain. Effort means joy. Otherwise, how could we maintain a constant effort? 
-
-***
-**A mind of patience**
-
-Everything takes time. And difficulties are everywhere. That's not a reason to become angry. Let's just accept this reality joyfully. 
 
 ***
 **A mind of respect**
@@ -34,6 +29,11 @@ Everybody is welcome to join our community. Everyone is equally important. Every
 **A mind of tolerance**
 
 Each one can have different views and opinions, they are all valuable and will be considered, but of course in the end, choices have to be made.
+
+***
+**A mind of patience**
+
+Things might not go in the direction we want. That's not a reason to become angry. Let's just trust and accept joyfully what's happening.
 
 ***
 **A mind of generosity**
