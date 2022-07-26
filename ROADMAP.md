@@ -9,7 +9,7 @@
 - [x] [WebFX Website][webfx-website]
 - [x] [WebFX Docs][webfx-docs]
 - [x] [WebFX Blog][webfx-blog]
-- [ ] FAQ
+- [ ] Unit test support in WebFX CLI
 - [ ] webfx.xml syntax documentation
 - [ ] App customization (application name, icon, etc...)
 - [ ] GitHub workflow automatic generation by the CLI
