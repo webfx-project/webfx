@@ -1,6 +1,6 @@
 # How to contribute to WebFX
 
-Thank you so much for your wish to contribute to WebFX. There are many areas where help is needed, and we have listed here some suggestions, but we are open to your own suggestions too.
+Thank you so much for your wish to contribute to WebFX! There are many areas where help is needed, and we have listed some suggestions below, but we are also open to your own suggestions.
 
 
 ## Reporting bugs
