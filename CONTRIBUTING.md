@@ -42,7 +42,7 @@ If you want to use another JavaFX library which is not listed, you can try to pa
 
 ## Writing the Maven plugin
 
-We need to develop a [WebFX Maven Plugin][webfx-maven-plugin-repo] to speed up the import of large WebFX libraries into WebFX applications. The feature is already implemented in the WebFX CLI, we just need to embed it in a Maven plugin.
+We need to develop a Maven Plugin to speed up the import of large WebFX libraries into WebFX applications. The feature is already implemented in the WebFX CLI, we just need to embed it in a Maven plugin.
 
 - **If you are happy to write the plugin, please [contact us][webfx-contactus].**
 
@@ -106,7 +106,7 @@ As mentioned in our [roadmap](ROADMAP.md), we will investigate the possibility o
 
 ## Investigating TeaVM
 
-Similarly, we would like to investigate [TeaVM](https://teavm.org). We have already demonstrated in the Mandelbrot demo how to use TeaVM to transpile a part of the application logic into WebAssembly, but here it's about going further by transpiling the whole application.
+Similarly, we would like to investigate [TeaVM](https://teavm.org). We have already demonstrated in the [Mandelbrot demo](https://mandelbrot.webfx.dev) how to use TeaVM to transpile a part of the application logic into WebAssembly, but here it's about going further by transpiling the whole application.
 
 - **If you are happy to help us investigate the TeaVM support, please [contact us][webfx-contactus].**
 
