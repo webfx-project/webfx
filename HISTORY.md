@@ -1,0 +1,5 @@
+# History
+
+The project started in 2015 with the idea to develop a new UI toolkit for GWT inspired from JavaFX. When Java 9 arrived 2 years later with the new module system, it became possible to reuse the javafx package name. This is how the idea to finally emulate JavaFX instead of creating a new toolkit arose. After the refactoring of the initial prototype to get it aligned with the JavaFX API was completed, the new features were taken from the OpenJFX code instead, and patched to make them GWT compatible.
+
+After writing some demos, it became clear that WebFX had a great potential. The context was a complex enterprise application (Java back-end, JavaFX back-office & JS web app), and we were looking for a Java-based cross-platform solution to solve our need to share a lot of logic and UI code between the 2 front-ends, and also target the mobiles in the future. After a successful prototype, the decision was finally made this year to rewrite the system onto WebFX! Both projects (WebFX and that enterprise application) are being open-sourced on GitHub (we will communicate more on this later). Great news for WebFX!
