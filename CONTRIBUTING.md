@@ -65,7 +65,7 @@ New WebFX users with no experience in Apple development may have difficulties bu
 
 Most of the [WebFX Kit](webfx-kit) doesn't require JavaDoc as its API is compatible with the JavaFX API, which is already largely documented. However, the [WebFX Platform][webfx-platform-repo] needs to be documented.
 
-- **Please [contact us][webfx-contactus] if would like to write some JavaDoc.**
+- **Please [contact us][webfx-contactus] if you would like to write some JavaDoc.**
 
 
 ## Writing unit tests
