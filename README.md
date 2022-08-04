@@ -36,6 +36,10 @@ WebFX is not yet ready for production.
 At this stage, we provide only snapshot releases, and breaking changes may occur until the first official release.
 But you are very welcome to try WebFX and play with it.
 
+## Ecosystem
+
+In addition to this repository, a whole ecosystem is being built for the development of complex WebFX applications, such as Enterprise level applications. You can find more information at the [WebFX Project](https://github.com/webfx-project) level.
+
 ## Roadmap
 
 You can consult our [roadmap](ROADMAP.md). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
