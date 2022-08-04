@@ -22,7 +22,7 @@ For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-
 
 ## Ecosystem
 
-In addition to this repository, which is the very heart of WebFX, a whole ecosystem is being built for the development of complex WebFX applications, such as Enterprise level applications. You can find more information at the [WebFX Project](https://github.com/webfx-project/.github/tree/ecosystem/profile) level.
+In addition to this repository, which is the very heart of WebFX, a whole ecosystem is being built for the development of complex WebFX applications, such as Enterprise level applications. This ecosystem is presented at the [WebFX Project](https://github.com/webfx-project/.github/tree/ecosystem/profile) level.
 
 ## Live demos
 
