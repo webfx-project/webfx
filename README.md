@@ -20,6 +20,10 @@ WebFX doesn't target only the Web. WebFX applications can be compiled to run nat
 You can check out the demos to see how a GitHub workflow can generate these executables.
 For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-demo-fx2048/blob/main/.github/workflows/builds.yml) for the FX2048 demo and the [executables](https://github.com/webfx-demos/webfx-demo-fx2048/releases) that it generated.
 
+## Ecosystem
+
+In addition to this repository, which is the very heart of WebFX, a whole ecosystem is being built for the development of complex WebFX applications, such as Enterprise level applications. You can find more information at the [WebFX Project](https://github.com/webfx-project/.github/tree/ecosystem/profile) level.
+
 ## Live demos
 
 We have a dedicated space for the [demos][webfx-demos]. You will find all the demos presented on the website, plus a couple of additional live demos, with their source code and GitHub workflow.
@@ -35,10 +39,6 @@ Although the project successfully passed the Proof of Concept and the prototype 
 WebFX is not yet ready for production.
 At this stage, we provide only snapshot releases, and breaking changes may occur until the first official release.
 But you are very welcome to try WebFX and play with it.
-
-## Ecosystem
-
-In addition to this repository, a whole ecosystem is being built for the development of complex WebFX applications, such as Enterprise level applications. You can find more information at the [WebFX Project](https://github.com/webfx-project) level.
 
 ## Roadmap
 
