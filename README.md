@@ -12,10 +12,12 @@ For more explanation, please visit the [website][webfx-website] and read the [do
 
 WebFX doesn't target only the Web. WebFX applications can be compiled to run natively on all major platforms from a single code base:
 
-- [x] Desktop (Windows, macOS & Linux) - 64-bit support for native, 32/64-bit support for embed JRE
-- [x] Tablet & mobiles (Android & iOS) - 64-bit support for native, no 32-bit support
-- [x] Browser (Chrome, FireFox, Edge, etc...)
-- [ ] (not yet documented) Embed (Raspberry Pi) - 64-bit support for native, 32/64-bit support for embed JRE
+| Platform                                    | 32-bit JRE | 64-bit JRE | 64-bit Native |
+|---------------------------------------------|:----------:|:----------:|:-------------:|
+| Desktop (Windows, macOS & Linux)            |     ✅      |     ✅      |       ✅       |
+| Tablet & mobiles (Android & iOS)            |     ❌      |     ❌      |       ✅       |
+| Embed (Raspberry Pi) *~ not yet documented* |     ✅      |     ✅      |       ✅       |
+| Browser (Chrome, FireFox, Edge, etc...)     |     --     |     --     |      --       |
 
 You can check out the demos to see how a GitHub workflow can generate these executables.
 For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-demo-fx2048/blob/main/.github/workflows/builds.yml) for the FX2048 demo and the [executables](https://github.com/webfx-demos/webfx-demo-fx2048/releases) that it generated.
