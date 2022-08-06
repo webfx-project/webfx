@@ -16,10 +16,10 @@ WebFX doesn't target only the Web. WebFX applications can be compiled to run nat
 
 | Platform                                    | 32-bit JRE | 64-bit JRE | 64-bit Native |
 |---------------------------------------------|:----------:|:----------:|:-------------:|
-| Desktop (Windows, macOS & Linux)            |     ✅      |     ✅      |       ✅       |
-| Tablet & mobiles (Android & iOS)            |     ❌      |     ❌      |       ✅       |
+| Desktops (Windows, macOS & Linux)           |     ✅      |     ✅      |       ✅       |
+| Tablets & mobiles (Android & iOS)           |     ❌      |     ❌      |       ✅       |
 | Embed (Raspberry Pi) ~ *not yet documented* |     ✅      |     ✅      |       ✅       |
-| Browser (Chrome, FireFox, Edge, etc...)     |     --     |     --     |      --       |
+| Browsers (Chrome, FireFox, Edge, etc...)    |     --     |     --     |      --       |
 
 </div>
 
