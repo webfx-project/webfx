@@ -30,9 +30,9 @@ For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-
 
 In addition to this repository, which is the very heart of WebFX, a whole ecosystem is being built for the development of complex WebFX applications, such as Enterprise level applications. This ecosystem is presented at the [WebFX Project](https://github.com/webfx-project) level.
 
-## Live demos
+## More live demos
 
-We have a dedicated space for the [demos][webfx-demos]. You will find all the demos presented on the website, plus a couple of additional live demos, with their source code and GitHub workflow.
+We have a dedicated space for the [demos][webfx-demos]. You will find all the demos presented on the website, plus a few additional live demos, with their source code and GitHub workflow.
 
 ## Getting started
 
