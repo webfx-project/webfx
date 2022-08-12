@@ -1,6 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.base;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Slider;
 
 /**
@@ -16,6 +17,8 @@ public interface SliderPeerMixin
     void updateMax(Number max);
 
     void updateValue(Number value);
+
+    void updateOrientation(Orientation orientation);
 
     default void updateNodeValue(Double value) {
         DoubleProperty valueProperty = getNodePeerBase().getNode().valueProperty();

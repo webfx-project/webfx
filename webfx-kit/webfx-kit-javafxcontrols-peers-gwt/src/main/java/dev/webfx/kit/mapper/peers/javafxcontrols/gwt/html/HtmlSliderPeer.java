@@ -1,14 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwt.html;
 
-import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLInputElement;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.SliderPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.SliderPeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Slider;
 
 /**
@@ -27,7 +28,7 @@ public final class HtmlSliderPeer
     public HtmlSliderPeer(NB base, HTMLElement element) {
         super(base, element);
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
-        setElementStyleAttribute("-web-kit-appearance", "slider-vertical");
+        inputElement.step = "0.01"; // To get a smoother step by default (otherwise step = 1 makes a discrete step)
         inputElement.oninput = e -> {
             updateNodeValue(Numbers.doubleValue(inputElement.value));
             return null;
@@ -52,4 +53,8 @@ public final class HtmlSliderPeer
         inputElement.value = Strings.toString(value);
     }
 
+    @Override
+    public void updateOrientation(Orientation orientation) {
+        setElementStyleAttribute("appearance", orientation == Orientation.HORIZONTAL ? "slider-horizontal" : "slider-vertical");
+    }
 }

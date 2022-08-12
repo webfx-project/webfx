@@ -19,6 +19,7 @@ public class SliderPeerBase
                 , s.minProperty()
                 , s.maxProperty()
                 , s.valueProperty()
+                , s.orientationProperty()
         );
     }
 
@@ -29,6 +30,7 @@ public class SliderPeerBase
                 || updateProperty(s.minProperty(), changedProperty, mixin::updateMin)
                 || updateProperty(s.maxProperty(), changedProperty, mixin::updateMax)
                 || updateProperty(s.valueProperty(), changedProperty, mixin::updateValue)
+                || updateProperty(s.orientationProperty(), changedProperty, mixin::updateOrientation)
                 ;
     }
 }

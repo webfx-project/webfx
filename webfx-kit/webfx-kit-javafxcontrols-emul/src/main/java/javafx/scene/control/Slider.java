@@ -1,11 +1,14 @@
 package javafx.scene.control;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasMaxProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasMinProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasValueProperty;
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Orientation;
 
 /**
  * @author Bruno Salmon
@@ -48,6 +51,14 @@ public class Slider extends Control implements
     public DoubleProperty valueProperty() {
         return valueProperty;
     }
+
+    private final ObjectProperty<Orientation> orientationProperty = new SimpleObjectProperty<>(Orientation.HORIZONTAL);
+    public ObjectProperty<Orientation> orientationProperty() {
+        return orientationProperty;
+    }
+
+    public void setOrientation(Orientation orientation) { orientationProperty().setValue(orientation); }
+    public Orientation getOrientation() { return orientationProperty().get(); }
 
     static {
         JavaFxControlsRegistry.registerSlider();
