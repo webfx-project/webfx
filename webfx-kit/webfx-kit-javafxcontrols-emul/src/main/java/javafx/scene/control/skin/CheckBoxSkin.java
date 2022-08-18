@@ -29,8 +29,8 @@ public class CheckBoxSkin extends LabeledSkinBase<CheckBox, ButtonBehavior<Check
         // Temporary resource image based checkbox
         ImageView innerbox = new ImageView();
         innerbox.imageUrlProperty().bind(FXProperties.compute(checkbox.selectedProperty(), selected -> selected ? "images/checkbox/checked.png" : "images/checkbox/unchecked.png"));
-        innerbox.setFitWidth(16d);
-        innerbox.setFitHeight(16d);
+        innerbox.setFitWidth(18d);
+        innerbox.setFitHeight(18d);
         StackPane.setMargin(innerbox, new Insets(5));
 
         box.getChildren().add(innerbox);
