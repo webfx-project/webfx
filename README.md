@@ -68,10 +68,6 @@ You can greatly help the project by:
 
 You want to get involved in the development as well? You are very welcome! Please read our [contributing guide](CONTRIBUTING.md).
 
-## History
-
-If you are interested, here is a brief [history](HISTORY.md) of the project.
-
 ## License
 
 WebFX is a free, open-source software licensed under the [Apache License 2.0](LICENSE)
