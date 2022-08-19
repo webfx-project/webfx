@@ -220,6 +220,7 @@ abstract class AbstractMasterTimer {
         public void run() {
             if (paused)
                 return;
+            scheduled = false;
             long now = nanos();
             recordStart((nextPulseTime - now) / 1000000);
             timePulseImpl(now);
@@ -272,12 +273,16 @@ abstract class AbstractMasterTimer {
             }
         }
 
+        private boolean scheduled; // Flag used to avoid multiple schedules
+
         private void updateAnimationRunnable() {
             boolean newInactive = (animationTimersLength == 0 && receiversLength == 0);
             if (inactive != newInactive)
                 inactive = newInactive;
-            if (!inactive)
+            if (!inactive && !scheduled) {
                 postUpdateAnimationRunnable(this);
+                scheduled = true; // Will be back to false once run() is called
+            }
         }
     }
 
