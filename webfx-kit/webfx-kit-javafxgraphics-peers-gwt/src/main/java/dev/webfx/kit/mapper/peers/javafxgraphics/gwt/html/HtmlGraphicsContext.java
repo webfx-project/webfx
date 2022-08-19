@@ -111,7 +111,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void setGlobalAlpha(double alpha) {
-        ctx.globalAlpha = alpha;
+        ctx.globalAlpha = Math.max(0, Math.min(alpha, 1));
     }
 
     @Override
