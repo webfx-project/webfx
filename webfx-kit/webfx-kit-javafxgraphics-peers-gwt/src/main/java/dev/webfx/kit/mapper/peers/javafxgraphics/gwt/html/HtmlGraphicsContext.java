@@ -484,17 +484,32 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void fillPolygon(double[] xPoints, double[] yPoints, int nPoints) {
-        Console.log("HtmlGraphicsContext.fillPolygon() not implemented");
+        if (drawLines(xPoints, yPoints, nPoints, true))
+            fill();
     }
 
     @Override
     public void strokePolygon(double[] xPoints, double[] yPoints, int nPoints) {
-        Console.log("HtmlGraphicsContext.strokePolygon() not implemented");
+        if (drawLines(xPoints, yPoints, nPoints, true))
+            stroke();
     }
 
     @Override
     public void strokePolyline(double[] xPoints, double[] yPoints, int nPoints) {
-        Console.log("HtmlGraphicsContext.strokePolyline() not implemented");
+        if (drawLines(xPoints, yPoints, nPoints, false))
+            stroke();
+    }
+
+    private boolean drawLines(double[] xPoints, double[] yPoints, int nPoints, boolean close) {
+        if (nPoints < 2)
+            return false;
+        beginPath();
+        moveTo(xPoints[0], yPoints[0]);
+        for (int i = 1; i < nPoints; i++)
+            lineTo(xPoints[i], yPoints[i]);
+        if (close)
+            lineTo(xPoints[0], yPoints[0]);
+        return true;
     }
 
     @Override
