@@ -336,4 +336,14 @@ public class Image implements
         return progress;
     }
 
+    private Object peerImageData; // Can be used by the peer to store underlying image, such as HTML Canvas or ImageData
+
+    public Object getPeerImageData() {
+        return peerImageData;
+    }
+
+    public void setPeerImageData(Object peerImageData) {
+        this.peerImageData = peerImageData;
+    }
+
 }
