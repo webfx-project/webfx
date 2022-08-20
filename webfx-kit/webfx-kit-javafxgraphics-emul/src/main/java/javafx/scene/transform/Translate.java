@@ -1,11 +1,10 @@
 package javafx.scene.transform;
 
 import com.sun.javafx.geom.Point2D;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasXProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasYProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  * @author Bruno Salmon
@@ -26,7 +25,12 @@ public class Translate extends Transform implements
         setY(y);
     }
 
-    private final DoubleProperty xProperty = new SimpleDoubleProperty(0d);
+    private final DoubleProperty xProperty = new SimpleDoubleProperty(0d) {
+        @Override
+        protected void invalidated() {
+            transformChanged();
+        }
+    };
 
     public static Translate create() {
         return new Translate();
@@ -45,7 +49,12 @@ public class Translate extends Transform implements
         return xProperty;
     }
 
-    private final DoubleProperty yProperty = new SimpleDoubleProperty(0d);
+    private final DoubleProperty yProperty = new SimpleDoubleProperty(0d) {
+        @Override
+        protected void invalidated() {
+            transformChanged();
+        }
+    };
     @Override
     public DoubleProperty yProperty() {
         return yProperty;
@@ -62,12 +71,7 @@ public class Translate extends Transform implements
     }
 
     @Override
-    public Property[] propertiesInvalidatingCache() {
-        return new Property[]{xProperty, yProperty};
-    }
-
-    @Override
-    public Affine toAffine() {
+    protected Affine createAffine() {
         return new Affine(1, 0, 0, 1, getX(), getY());
     }
 }

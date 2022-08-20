@@ -1,9 +1,6 @@
 package javafx.scene.transform;
 
-import javafx.beans.property.Property;
 import com.sun.javafx.geom.Point2D;
-import javafx.beans.value.ObservableValue;
-import dev.webfx.kit.util.properties.FXProperties;
 
 /**
  * @author Bruno Salmon
@@ -40,30 +37,27 @@ public abstract class Transform {
         return inverseTransform(point.x, point.y);
     }
 
-    public abstract Affine toAffine();
+    private Affine affineCache;
+
+    public Affine toAffine() {
+        if (affineCache == null)
+            affineCache = createAffine();
+        return affineCache;
+    }
+
+    protected abstract Affine createAffine();
 
     private Transform inverseCache;
-    private boolean automaticClearInverseCacheSetup;
 
     private Transform getInverseCache() {
-        if (inverseCache == null) {
+        if (inverseCache == null)
             inverseCache = createInverse();
-            if (!automaticClearInverseCacheSetup) {
-                clearInverseCacheOnPropertyChange(propertiesInvalidatingCache());
-                automaticClearInverseCacheSetup = true;
-            }
-        }
         return inverseCache;
     }
 
-    private void clearInverseCacheNow() {
+    protected void transformChanged() {
         inverseCache = null;
-    }
-
-    public abstract Property[] propertiesInvalidatingCache();
-
-    private void clearInverseCacheOnPropertyChange(ObservableValue... properties) {
-        FXProperties.runOnPropertiesChange(property -> clearInverseCacheNow(), properties);
+        affineCache = null;
     }
 
     public Point2D inverseTransform(double x, double y)  {

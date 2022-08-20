@@ -1,10 +1,13 @@
 package javafx.scene.transform;
 
 import com.sun.javafx.geom.Point2D;
-import javafx.beans.property.*;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasAngleProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ObjectPropertyBase;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.GeometryUtil;
 import javafx.geometry.Point3D;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasAngleProperty;
 
 /**
  * @author Bruno Salmon
@@ -66,7 +69,12 @@ public class Rotate extends PivotTransform implements
         setPivotY(pivotY);
     }
 
-    private final DoubleProperty angleProperty = new SimpleDoubleProperty(0d);
+    private final DoubleProperty angleProperty = new SimpleDoubleProperty(0d) {
+        @Override
+        protected void invalidated() {
+            transformChanged();
+        }
+    };
     @Override
     public DoubleProperty angleProperty() {
         return angleProperty;
@@ -90,12 +98,10 @@ public class Rotate extends PivotTransform implements
         if (axis == null) {
             axis = new ObjectPropertyBase<Point3D>(Z_AXIS) {
 
-/*
                 @Override
                 public void invalidated() {
                     transformChanged();
                 }
-*/
 
                 @Override
                 public Object getBean() {
@@ -124,12 +130,7 @@ public class Rotate extends PivotTransform implements
     }
 
     @Override
-    public Property[] propertiesInvalidatingCache() {
-        return new Property[]{angleProperty, pivotXProperty, pivotYProperty};
-    }
-
-    @Override
-    public Affine toAffine() {
+    protected Affine createAffine() {
         double rads = Math.toRadians(getAngle());
         double px = getPivotX();
         double py = getPivotY();
@@ -142,5 +143,29 @@ public class Rotate extends PivotTransform implements
         double myy = cos;
         double ty = py * (1 - cos) - px * sin;
         return new Affine(mxx, mxy, myx, myy, tx, ty);
+    }
+
+    public double getMxx() {
+        return toAffine().getMxx();
+    }
+
+    public double getMxy() {
+        return toAffine().getMxy();
+    }
+
+    public double getMyx() {
+        return toAffine().getMyx();
+    }
+
+    public double getMyy() {
+        return toAffine().getMyy();
+    }
+
+    public double getTx() {
+        return toAffine().getTx();
+    }
+
+    public double getTy() {
+        return toAffine().getTy();
     }
 }

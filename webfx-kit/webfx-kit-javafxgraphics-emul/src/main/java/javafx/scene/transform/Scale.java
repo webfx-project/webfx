@@ -1,11 +1,10 @@
 package javafx.scene.transform;
 
 import com.sun.javafx.geom.Point2D;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasXProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasYProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  * @author Bruno Salmon
@@ -28,14 +27,24 @@ public class Scale extends PivotTransform implements
     }
 
 
-    private final DoubleProperty xProperty = new SimpleDoubleProperty(1d);
+    private final DoubleProperty xProperty = new SimpleDoubleProperty(1d) {
+        @Override
+        protected void invalidated() {
+            transformChanged();
+        }
+    };
 
     @Override
     public DoubleProperty xProperty() {
         return xProperty;
     }
 
-    private final DoubleProperty yProperty = new SimpleDoubleProperty(1d);
+    private final DoubleProperty yProperty = new SimpleDoubleProperty(1d) {
+        @Override
+        protected void invalidated() {
+            transformChanged();
+        }
+    };
     @Override
     public DoubleProperty yProperty() {
         return yProperty;
@@ -54,12 +63,7 @@ public class Scale extends PivotTransform implements
     }
 
     @Override
-    public Property[] propertiesInvalidatingCache() {
-        return new Property[]{xProperty, yProperty, pivotXProperty, pivotYProperty};
-    }
-
-    @Override
-    public Affine toAffine() {
+    protected Affine createAffine() {
         return new Affine(getX(), 0, 0, getY(), (1 - getX()) * getPivotX(), (1 - getY()) * getPivotY());
     }
 }

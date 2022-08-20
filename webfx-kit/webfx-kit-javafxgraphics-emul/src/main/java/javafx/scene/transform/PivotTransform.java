@@ -20,13 +20,25 @@ abstract class PivotTransform extends Transform implements
         setPivotY(pivotY);
     }
 
-    final DoubleProperty pivotXProperty = new SimpleDoubleProperty(0d);
+    final DoubleProperty pivotXProperty = new SimpleDoubleProperty(0d) {
+        @Override
+        protected void invalidated() {
+            transformChanged();
+        }
+    };
+
     @Override
     public DoubleProperty pivotXProperty() {
         return pivotXProperty;
     }
 
-    final DoubleProperty pivotYProperty = new SimpleDoubleProperty(0d);
+    final DoubleProperty pivotYProperty = new SimpleDoubleProperty(0d) {
+        @Override
+        protected void invalidated() {
+            transformChanged();
+        }
+    };
+
     @Override
     public DoubleProperty pivotYProperty() {
         return pivotYProperty;
