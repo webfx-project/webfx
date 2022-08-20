@@ -6,6 +6,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgLinePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgShapePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import elemental2.dom.HTMLElement;
+import javafx.scene.Cursor;
 import javafx.scene.shape.Line;
 
 /**
@@ -26,6 +27,7 @@ public final class HtmlLinePeer
 
     public HtmlLinePeer(NB base, HTMLElement element) {
         super(base, element);
+        setElementStyleAttribute("pointer-events", "all");
     }
 
     @Override
@@ -67,4 +69,8 @@ public final class HtmlLinePeer
         updateViewBox();
     }
 
+    @Override
+    public void updateCursor(Cursor cursor) {
+        svgLinePeer.updateCursor(cursor);
+    }
 }
