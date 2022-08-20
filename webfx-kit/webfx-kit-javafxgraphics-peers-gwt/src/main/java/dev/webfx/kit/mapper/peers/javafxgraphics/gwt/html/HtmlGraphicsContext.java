@@ -539,18 +539,20 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private void drawUnloadedImage(double x, double y, double w, double h, String strokeStyle) {
-        ctx.save();
-        ctx.beginPath();
-        double cx = x + w / 2;
-        double cy = y + h / 2;
-        double r = Math.min(w, h) / 2;
-        ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-        ctx.strokeStyle = BaseRenderingContext2D.StrokeStyleUnionType.of(strokeStyle);
-        ctx.stroke();
-        if (r > 20)
-            ctx.strokeRect(x + 5, cy - 5, w - 10, 10);
-        ctx.closePath();
-        ctx.restore();
+        if (w > 0 && h > 0) {
+            ctx.save();
+            ctx.beginPath();
+            double cx = x + w / 2;
+            double cy = y + h / 2;
+            double r = Math.min(w, h) / 2;
+            ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+            ctx.strokeStyle = BaseRenderingContext2D.StrokeStyleUnionType.of(strokeStyle);
+            ctx.stroke();
+            if (r > 20)
+                ctx.strokeRect(x + 5, cy - 5, w - 10, 10);
+            ctx.closePath();
+            ctx.restore();
+        }
     }
 
     private static final Map<String, HTMLImageElement> htmlImageElementMap = new HashMap<>();
