@@ -1,13 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import elemental2.dom.*;
-import javafx.scene.Parent;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.ImageViewPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.ImageViewPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
@@ -17,6 +9,15 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextFillProperty;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLImageElement;
+import javafx.scene.Parent;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * @author Bruno Salmon
@@ -67,20 +68,15 @@ public final class HtmlImageViewPeer
             setElementAttribute("alt", imageUrl);
             // But removing the alt text and hiding the image if the link is broken (to align with JavaFX behaviour which doesn't display such things)
             setElementAttribute("onerror", "this.style.display='none'; this.alt=''");
-            // Special case of a writable image
-            if (image instanceof WritableImage) {
-                // The WebFX emulation code stored the image in a canvas
-                Canvas canvas = ((WritableImage) image).getCanvas();
-                if (canvas != null) { // If set,
-                    // We will replace the image with a canvas. First getting the canvas peer and element
-                    HtmlNodePeer canvasPeer = (HtmlNodePeer) canvas.getOrCreateAndBindNodePeer();
-                    HTMLCanvasElement canvasElement = (HTMLCanvasElement) canvasPeer.getElement();
-                    // If the canvas has already been inserted into the DOM (this can happen because the same image can be used in different ImageView)
-                    if (canvasElement.parentNode != null) // In that case, we need to make a copy of the canvas
-                        canvasElement = HtmlCanvasPeer.copyCanvas(canvasElement);
-                    // We finally replace the node with the canvas element
-                    HtmlUtil.setChild(getContainer(), canvasElement);
-                }
+            // Special case of a canvas image (ex: the WebFX WritableImage emulation code stored the image in a canvas)
+            HTMLCanvasElement canvasElement = HtmlCanvasPeer.getImageCanvasElement(image);
+            if (canvasElement != null) {
+                // We will replace the image with a canvas. First getting the canvas peer and element
+                // If the canvas has already been inserted into the DOM (this can happen because the same image can be used in different ImageView)
+                if (canvasElement.parentNode != null) // In that case, we need to make a copy of the canvas
+                    canvasElement = HtmlCanvasPeer.copyCanvas(canvasElement);
+                // We finally replace the node with the canvas element
+                HtmlUtil.setChild(getContainer(), canvasElement);
             }
         }
     }

@@ -2,12 +2,15 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
+import elemental2.dom.ImageData;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -57,9 +60,28 @@ public final class HtmlCanvasPeer
             image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
 
         HTMLCanvasElement canvasElement = getCanvasElement();
-        image.setPeerImageData(copyCanvas(canvasElement, (int) image.getWidth(), (int) image.getHeight(), params.getFill()));
+        HTMLCanvasElement canvasCopy = copyCanvas(canvasElement, (int) image.getWidth(), (int) image.getHeight(), params.getFill());
+        setImageCanvasElement(image, canvasCopy);
 
         return image;
+    }
+
+    static void setImageCanvasElement(Image image, HTMLCanvasElement canvasElement) {
+        image.setPeerImageData(canvasElement);
+        image.setPixelReaderFactory(() -> {
+            CanvasRenderingContext2D ctx = (CanvasRenderingContext2D) (Object) canvasElement.getContext("2d");
+            ImageData imageData = ctx.getImageData(0, 0, canvasElement.width, canvasElement.height);
+            return new ImageDataPixelReader(imageData);
+        });
+    }
+
+    static HTMLCanvasElement getImageCanvasElement(Image image) {
+        Object peerImageData = image.getPeerImageData();
+        if (peerImageData instanceof HtmlSvgNodePeer)
+            peerImageData = ((HtmlSvgNodePeer<?, ?, ?, ?>) peerImageData).getElement();
+        if (peerImageData instanceof HTMLCanvasElement)
+            return (HTMLCanvasElement) peerImageData;
+        return null;
     }
 
     static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource) {

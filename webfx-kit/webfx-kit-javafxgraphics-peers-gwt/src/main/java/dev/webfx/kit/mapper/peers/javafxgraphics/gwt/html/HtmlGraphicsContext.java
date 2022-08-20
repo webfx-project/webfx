@@ -1,5 +1,8 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.platform.console.Console;
 import elemental2.dom.*;
 import javafx.geometry.VPos;
@@ -18,9 +21,6 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Affine;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -520,9 +520,9 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double x, double y, double w, double h) {
         if (img != null) {
-            Object peerImageData = img.getPeerImageData();
-            if (peerImageData instanceof HTMLCanvasElement)
-                ctx.drawImage((HTMLCanvasElement) peerImageData, x, y, w, h);
+            HTMLCanvasElement canvasElement = HtmlCanvasPeer.getImageCanvasElement(img);
+            if (canvasElement != null)
+                ctx.drawImage(canvasElement, x, y, w, h);
             else {
                 HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
                 ctx.drawImage(imageElement, x, y, w, h);
@@ -567,9 +567,9 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
         if (img != null) {
-            Object peerImageData = img.getPeerImageData();
-            if (peerImageData instanceof HTMLCanvasElement)
-                ctx.drawImage((HTMLCanvasElement) peerImageData, sx, sy, sw, sh, dx, dy, dw, dh);
+            HTMLCanvasElement canvasElement = HtmlCanvasPeer.getImageCanvasElement(img);
+            if (canvasElement != null)
+                ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
             else {
                 HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
                 // This scaleX/Y computation was necessary to make SpaceFX work

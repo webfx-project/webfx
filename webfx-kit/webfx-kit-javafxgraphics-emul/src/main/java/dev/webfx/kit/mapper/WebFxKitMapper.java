@@ -1,18 +1,20 @@
 package dev.webfx.kit.mapper;
 
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.stage.Stage;
-import javafx.stage.Window;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.StagePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
 import dev.webfx.kit.mapper.spi.WebFxKitMapperProvider;
-import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry;
 import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.util.ServiceLoader;
 
@@ -43,5 +45,9 @@ public final class WebFxKitMapper {
 
     public static GraphicsContext getGraphicsContext2D(Canvas canvas) {
         return getProvider().getGraphicsContext2D(canvas);
+    }
+
+    public static PixelWriter getImagePixelWriter(Image image) {
+        return getProvider().getImagePixelWriter(image);
     }
 }

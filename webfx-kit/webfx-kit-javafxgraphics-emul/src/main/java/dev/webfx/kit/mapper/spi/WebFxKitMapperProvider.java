@@ -4,6 +4,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.CanvasPixelWriter;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
@@ -30,5 +33,10 @@ public interface WebFxKitMapperProvider {
     default GraphicsContext getGraphicsContext2D(Canvas canvas) {
         return null;
     }
+
+    default PixelWriter getImagePixelWriter(Image image) {
+        return new CanvasPixelWriter(image);
+    }
+
 
 }

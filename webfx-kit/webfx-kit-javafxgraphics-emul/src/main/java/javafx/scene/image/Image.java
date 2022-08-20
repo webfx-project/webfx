@@ -1,9 +1,11 @@
 package javafx.scene.image;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
+import java.util.function.Supplier;
 
 /**
  * The {@code Image} class represents graphical images and is used for loading
@@ -346,4 +348,20 @@ public class Image implements
         this.peerImageData = peerImageData;
     }
 
+    private PixelReader pixelReader;
+    private Supplier<PixelReader> pixelReaderFactory;
+
+    public PixelReader getPixelReader() {
+        if (pixelReader == null && pixelReaderFactory != null)
+            pixelReader = pixelReaderFactory.get();
+        return pixelReader;
+    }
+
+    public void setPixelReader(PixelReader pixelReader) {
+        this.pixelReader = pixelReader;
+    }
+
+    public void setPixelReaderFactory(Supplier<PixelReader> pixelReaderFactory) {
+        this.pixelReaderFactory = pixelReaderFactory;
+    }
 }
