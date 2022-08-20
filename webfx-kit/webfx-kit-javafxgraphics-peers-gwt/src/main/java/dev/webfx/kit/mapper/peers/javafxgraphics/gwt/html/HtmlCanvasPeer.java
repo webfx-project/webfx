@@ -1,13 +1,16 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.WritableImage;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerBase;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerMixin;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 /**
  * @author Bruno Salmon
@@ -26,9 +29,12 @@ public final class HtmlCanvasPeer
         super(base, element);
     }
 
+    private HTMLCanvasElement getCanvasElement() {
+        return (HTMLCanvasElement) getElement();
+    }
     @Override
     public void updateWidth(Number width) {
-        HTMLCanvasElement canvasElement = (HTMLCanvasElement) getElement();
+        HTMLCanvasElement canvasElement = getCanvasElement();
         int intWidth = width.intValue();
         // Preventing erasing canvas if already correctly sized
         if (canvasElement.width != intWidth) // May be already correctly set (ex: Canvas in WritableImage)
@@ -37,7 +43,7 @@ public final class HtmlCanvasPeer
 
     @Override
     public void updateHeight(Number height) {
-        HTMLCanvasElement canvasElement = (HTMLCanvasElement) getElement();
+        HTMLCanvasElement canvasElement = getCanvasElement();
         int intHeight = height.intValue();
         // Preventing erasing canvas if already correctly sized
         if (canvasElement.height != intHeight) // May be already correctly set (ex: Canvas in WritableImage)
@@ -46,6 +52,42 @@ public final class HtmlCanvasPeer
 
     @Override
     public WritableImage snapshot(SnapshotParameters params, WritableImage image) {
-        return new HtmlCanvasImage((HTMLCanvasElement) getElement());
+        N canvas = getNode();
+        if (image == null)
+            image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
+
+        HTMLCanvasElement canvasElement = getCanvasElement();
+        image.setPeerImageData(copyCanvas(canvasElement, (int) image.getWidth(), (int) image.getHeight(), params.getFill()));
+
+        return image;
     }
+
+    static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource) {
+        return copyCanvas(canvasSource, null);
+    }
+
+    static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource, Paint fill) {
+        return copyCanvas(canvasSource, canvasSource.width, canvasSource.height, fill);
+    }
+
+    static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource, int width, int height, Paint fill) {
+        HTMLCanvasElement canvasCopy = HtmlUtil.createElement("canvas");
+        canvasCopy.width = width;
+        canvasCopy.height = height;
+        if (width > 0 && height > 0) { // Checking size because drawImage is raising an exception on zero sized canvas
+            CanvasRenderingContext2D ctx = (CanvasRenderingContext2D) (Object) canvasCopy.getContext("2d");
+            if (fill != null) {
+                if (fill == Color.TRANSPARENT)
+                    ctx.clearRect(0, 0, width, height);
+                else {
+                    HtmlGraphicsContext graphicsContext = new HtmlGraphicsContext(ctx);
+                    graphicsContext.setFill(fill);
+                    graphicsContext.fillRect(0, 0, width, height);
+                }
+            }
+            ctx.drawImage(canvasSource, 0, 0, width, height, 0, 0, width ,height);
+        }
+        return canvasCopy;
+    }
+
 }

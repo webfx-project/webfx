@@ -519,20 +519,22 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void drawImage(Image img, double x, double y, double w, double h) {
-        if (img instanceof HtmlCanvasImage)
-            ctx.drawImage(((HtmlCanvasImage) img).getSnapshotCanvasElement(), x, y, w, h);
-        else if (img != null) {
-            HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
-            ctx.drawImage(imageElement, x, y, w, h);
-            if (!imageElement.complete) {
-                drawUnloadedImage(x, y, w, h, "#C0C0C0C0");
-                imageElement.onload = e -> {
+        if (img != null) {
+            Object peerImageData = img.getPeerImageData();
+            if (peerImageData instanceof HTMLCanvasElement)
+                ctx.drawImage((HTMLCanvasElement) peerImageData, x, y, w, h);
+            else {
+                HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
+                ctx.drawImage(imageElement, x, y, w, h);
+                if (!imageElement.complete) {
+                    drawUnloadedImage(x, y, w, h, "#C0C0C0C0");
+                    imageElement.onload = e -> {
+                        HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+                        return null;
+                    };
+                } else
                     HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
-                    return null;
-                };
-            } else
-                HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
-
+            }
         }
     }
 
@@ -564,23 +566,26 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
-        if (img instanceof HtmlCanvasImage)
-            ctx.drawImage(((HtmlCanvasImage) img).getSnapshotCanvasElement(), sx, sy, sw, sh, dx, dy, dw, dh);
-        else if (img != null) {
-            HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
-            // This scaleX/Y computation was necessary to make SpaceFX work
-            // (perhaps it's because this method behaves differently between html and JavaFX?)
-            double scaleX = imageElement.width / img.getWidth();
-            double scaleY = imageElement.height / img.getHeight();
-            ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);
-            if (!imageElement.complete) {
-                //drawUnloadedImage(dx, dy, dw, dh, "#C0C0C010");
-                imageElement.onload = e -> {
+        if (img != null) {
+            Object peerImageData = img.getPeerImageData();
+            if (peerImageData instanceof HTMLCanvasElement)
+                ctx.drawImage((HTMLCanvasElement) peerImageData, sx, sy, sw, sh, dx, dy, dw, dh);
+            else {
+                HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
+                // This scaleX/Y computation was necessary to make SpaceFX work
+                // (perhaps it's because this method behaves differently between html and JavaFX?)
+                double scaleX = imageElement.width / img.getWidth();
+                double scaleY = imageElement.height / img.getHeight();
+                ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);
+                if (!imageElement.complete) {
+                    drawUnloadedImage(dx, dy, dw, dh, "#C0C0C0C0");
+                    imageElement.onload = e -> {
+                        HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+                        return null;
+                    };
+                } else
                     HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
-                    return null;
-                };
-            } else
-                HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+            }
         }
     }
 

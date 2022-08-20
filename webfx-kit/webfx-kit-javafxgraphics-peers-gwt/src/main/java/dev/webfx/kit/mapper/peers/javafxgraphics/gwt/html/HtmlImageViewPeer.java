@@ -77,7 +77,7 @@ public final class HtmlImageViewPeer
                     HTMLCanvasElement canvasElement = (HTMLCanvasElement) canvasPeer.getElement();
                     // If the canvas has already been inserted into the DOM (this can happen because the same image can be used in different ImageView)
                     if (canvasElement.parentNode != null) // In that case, we need to make a copy of the canvas
-                        canvasElement = HtmlCanvasImage.copyCanvas(canvasElement);
+                        canvasElement = HtmlCanvasPeer.copyCanvas(canvasElement);
                     // We finally replace the node with the canvas element
                     HtmlUtil.setChild(getContainer(), canvasElement);
                 }
