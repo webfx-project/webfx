@@ -29,6 +29,8 @@ package javafx.scene;
 //import javafx.application.Platform;
 //import com.sun.javafx.logging.PlatformLogger;
 
+import javafx.scene.paint.Paint;
+
 /**
  * Parameters used to specify the rendering attributes for Node snapshot.
  * @since JavaFX 2.2
@@ -37,10 +39,10 @@ public class SnapshotParameters {
 /*
     private boolean depthBuffer;
     private Camera camera;
-    private Transform transform;
+    private Transform transform;*/
     private Paint fill;
-    private Rectangle2D viewport;
-*/
+    //private Rectangle2D viewport;
+
     /**
      * Constructs a new SnapshotParameters object with default values for
      * all rendering attributes.
@@ -160,11 +162,9 @@ public class SnapshotParameters {
      *
      * @return the fill
      */
-/*
     public Paint getFill() {
         return fill;
     }
-*/
 
     /**
      * Sets the fill to the specified value. This is used to fill the entire
@@ -174,11 +174,9 @@ public class SnapshotParameters {
      *
      * @param fill the fill to set
      */
-/*
     public void setFill(Paint fill) {
         this.fill = fill;
     }
-*/
 
     /**
      * Gets the current viewport
