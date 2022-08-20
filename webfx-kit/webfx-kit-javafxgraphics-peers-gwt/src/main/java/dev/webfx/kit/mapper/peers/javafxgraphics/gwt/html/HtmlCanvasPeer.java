@@ -11,6 +11,7 @@ import elemental2.dom.ImageData;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -25,7 +26,7 @@ public final class HtmlCanvasPeer
         implements CanvasPeerMixin<N, NB, NM> {
 
     public HtmlCanvasPeer() {
-        this((NB) new CanvasPeerBase(), HtmlUtil.createElement("canvas"));
+        this((NB) new CanvasPeerBase(), createCanvasElement(-1, -1));
     }
 
     public HtmlCanvasPeer(NB base, HTMLElement element) {
@@ -68,11 +69,24 @@ public final class HtmlCanvasPeer
 
     static void setImageCanvasElement(Image image, HTMLCanvasElement canvasElement) {
         image.setPeerImageData(canvasElement);
-        image.setPixelReaderFactory(() -> {
-            CanvasRenderingContext2D ctx = (CanvasRenderingContext2D) (Object) canvasElement.getContext("2d");
-            ImageData imageData = ctx.getImageData(0, 0, canvasElement.width, canvasElement.height);
-            return new ImageDataPixelReader(imageData);
-        });
+        image.setPixelReaderFactory(() -> new ImageDataPixelReader(getCanvasImageData(canvasElement)));
+    }
+
+    public static HTMLCanvasElement createCanvasElement(int width, int height) {
+        HTMLCanvasElement canvasElement =  HtmlUtil.createElement("canvas");
+        if (width > 0 && height > 0) {
+            canvasElement.width = width;
+            canvasElement.height = height;
+        }
+        return canvasElement;
+    }
+
+    public static CanvasRenderingContext2D getCanvasContext(HTMLCanvasElement canvasElement) {
+        return (CanvasRenderingContext2D) (Object) canvasElement.getContext("2d");
+    }
+
+    public static ImageData getCanvasImageData(HTMLCanvasElement canvasElement) {
+        return getCanvasContext(canvasElement).getImageData(0, 0, canvasElement.width, canvasElement.height);
     }
 
     static HTMLCanvasElement getImageCanvasElement(Image image) {
@@ -81,6 +95,16 @@ public final class HtmlCanvasPeer
             peerImageData = ((HtmlSvgNodePeer<?, ?, ?, ?>) peerImageData).getElement();
         if (peerImageData instanceof HTMLCanvasElement)
             return (HTMLCanvasElement) peerImageData;
+        if (image instanceof WritableImage) {
+            PixelWriter pixelWriter = ((WritableImage) image).peekPixelWriter();
+            if (pixelWriter instanceof ImageDataPixelWriter) {
+                ImageData imageData = ((ImageDataPixelWriter) pixelWriter).getImageData();
+                HTMLCanvasElement canvasElement = createCanvasElement(imageData.width, imageData.height);
+                getCanvasContext(canvasElement).putImageData(imageData, 0, 0);
+                image.setPeerImageData(canvasElement);
+                return canvasElement;
+            }
+        }
         return null;
     }
 
@@ -93,11 +117,9 @@ public final class HtmlCanvasPeer
     }
 
     static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource, int width, int height, Paint fill) {
-        HTMLCanvasElement canvasCopy = HtmlUtil.createElement("canvas");
-        canvasCopy.width = width;
-        canvasCopy.height = height;
+        HTMLCanvasElement canvasCopy = createCanvasElement(width, height);
         if (width > 0 && height > 0) { // Checking size because drawImage is raising an exception on zero sized canvas
-            CanvasRenderingContext2D ctx = (CanvasRenderingContext2D) (Object) canvasCopy.getContext("2d");
+            CanvasRenderingContext2D ctx = getCanvasContext(canvasCopy);
             if (fill != null) {
                 if (fill == Color.TRANSPARENT)
                     ctx.clearRect(0, 0, width, height);

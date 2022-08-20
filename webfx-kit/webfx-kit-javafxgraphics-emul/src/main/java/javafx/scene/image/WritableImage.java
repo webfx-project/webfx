@@ -38,6 +38,10 @@ public class WritableImage extends Image {
         return pixelWriter;
     }
 
+    public PixelWriter peekPixelWriter() {
+        return pixelWriter;
+    }
+
     @Override
     public Object getPeerImageData() {
         Object peerImageData = super.getPeerImageData();

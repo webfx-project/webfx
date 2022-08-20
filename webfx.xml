@@ -687,8 +687,8 @@
             </used-by-source-modules>
 
             <used-services>
-                <required-service>javafx.application.Application</required-service>
                 <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
+                <required-service>javafx.application.Application</required-service>
             </used-services>
 
         </project>
