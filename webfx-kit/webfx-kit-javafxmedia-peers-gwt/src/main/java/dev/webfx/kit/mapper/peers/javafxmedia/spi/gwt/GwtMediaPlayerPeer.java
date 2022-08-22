@@ -28,7 +28,11 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void play() {
         audio.src = media.getUrl();
-        audio.play();
+        //audio.play(); // Commented as is not enough on iPad
+        // To make it work on iPad, we first call load()
+        audio.load();
+        // And then play() whenever possible
+        audio.oncanplaythrough = e -> audio.play();
     }
 
     @Override
