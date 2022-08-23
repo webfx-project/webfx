@@ -12,6 +12,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     private final HTMLAudioElement audio;
     private final Media media;
+    private boolean explicitVolume;
 
     public GwtMediaPlayerPeer(Media media) {
         this.media = media;
@@ -29,6 +30,9 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void play() {
         audio.src = media.getUrl();
+        audio.muted = false;
+        if (!explicitVolume)
+            audio.volume = 1;
         audio.play();
     }
 
@@ -46,5 +50,6 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void setVolume(double volume) {
         audio.volume = volume;
+        explicitVolume = true;
     }
 }
