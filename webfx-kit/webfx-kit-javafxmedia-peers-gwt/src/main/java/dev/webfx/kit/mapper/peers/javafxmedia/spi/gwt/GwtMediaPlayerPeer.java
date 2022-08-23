@@ -14,10 +14,11 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private final Media media;
 
     public GwtMediaPlayerPeer(Media media) {
-        audio = (HTMLAudioElement) DomGlobal.document.createElement("audio");
         this.media = media;
-        //audio.src = media.getUrl();
-        //audio.load();
+        audio = (HTMLAudioElement) DomGlobal.document.createElement("audio");
+        // Trick to make play() work on iOS & iPad (from https://stackoverflow.com/questions/31776548/why-cant-javascript-play-audio-files-on-iphone-safari)
+        audio.autoplay = true;
+        audio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
     }
 
     @Override
@@ -28,11 +29,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void play() {
         audio.src = media.getUrl();
-        //audio.play(); // Commented as is not enough on iPad
-        // To make it work on iPad, we first call load()
-        audio.load();
-        // And then play() whenever possible
-        audio.oncanplaythrough = e -> audio.play();
+        audio.play();
     }
 
     @Override
