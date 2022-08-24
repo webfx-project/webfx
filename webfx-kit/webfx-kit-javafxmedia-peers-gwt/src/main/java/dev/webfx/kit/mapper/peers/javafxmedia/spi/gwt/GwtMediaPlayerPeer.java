@@ -4,8 +4,10 @@ import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLAudioElement;
 import elemental2.dom.Response;
+import elemental2.media.AudioBuffer;
 import elemental2.media.AudioBufferSourceNode;
 import elemental2.media.AudioContext;
+import elemental2.media.GainNode;
 import javafx.scene.media.Media;
 
 /**
@@ -13,100 +15,119 @@ import javafx.scene.media.Media;
  */
 final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
-    private static final AudioContext[] AUDIO_CONTEXTS = new AudioContext[7];
-    private final AudioContext audioContext;
-    private static int INDEX = -1;
-    private int index;
+    // Creating one single audio context for the whole application
+    // If the user has not yet interacted with the page, the audio context will be in "suspended" mode
+    private static final AudioContext AUDIO_CONTEXT = new AudioContext();
+    private final Media media;
+    private AudioBuffer audioBuffer;
     private AudioBufferSourceNode bufferSource;
+    private GainNode gainNode;
+    private double volume = 1;
     private final HTMLAudioElement audio; // alternative option for local files (as window.fetch() raises a CORS exception)
-    boolean playWhenReady, loopWhenReady;
+    boolean fetched, playWhenReady, loopWhenReady;
 
     public GwtMediaPlayerPeer(Media media) {
+        this.media = media;
         String url = media.getUrl();
-        if (url == null) {
+        if (url == null)
             audio = null;
-            audioContext = null;
-        } else if (url.startsWith("file") || !url.startsWith("http") && DomGlobal.window.location.protocol.equals("file:")) {
+        else if (url.startsWith("file") || !url.startsWith("http") && DomGlobal.window.location.protocol.equals("file:")) {
             audio = (HTMLAudioElement) DomGlobal.document.createElement("audio");
             audio.src = url;
-            audioContext = null;
         } else {
             audio = null;
-            INDEX++;
-            if (INDEX >= AUDIO_CONTEXTS.length)
-                INDEX = 0;
-            AudioContext ac = AUDIO_CONTEXTS[index = INDEX];
-            if (ac == null)
-                ac = AUDIO_CONTEXTS[INDEX] = new AudioContext();
-            audioContext = ac;
-            DomGlobal.window.fetch(url)
-                    .then(Response::arrayBuffer)
-                    .then(audioContext::decodeAudioData)
-                    .then(buffer -> {
-                        bufferSource = audioContext.createBufferSource();
-                        bufferSource.buffer = buffer;
-                        bufferSource.connect(audioContext.destination);
-                        if (loopWhenReady)
-                            bufferSource.loop = true;
-                        if (playWhenReady)
-                            bufferSource.start();
-                        return null;
-                    });
+            fetch(false);
         }
     }
 
-    private boolean isWebAudioApi() {
-        return audioContext != null;
+    private void fetch(boolean resumeIfSuspended) {
+        if (AUDIO_CONTEXT.state.equals("suspended")) {
+            if (!resumeIfSuspended)
+                return;
+            AUDIO_CONTEXT.resume();
+        }
+        DomGlobal.window.fetch(media.getUrl())
+                .then(Response::arrayBuffer)
+                .then(AUDIO_CONTEXT::decodeAudioData)
+                .then(buffer -> {
+                    audioBuffer = buffer;
+                    onAudioBufferReady();
+                    return null;
+                });
+        fetched = true;
+    }
+
+    private void onAudioBufferReady() {
+        if (bufferSource != null) {
+            bufferSource.buffer = audioBuffer;
+            if (loopWhenReady)
+                bufferSource.loop = true;
+            if (playWhenReady)
+                bufferSource.start();
+        }
+    }
+
+    private boolean isBackupAudioApi() {
+        return audio != null;
     }
 
     @Override
     public void setCycleCount(int cycleCount) {
         boolean loop = cycleCount == -1;
-        if (!isWebAudioApi())
+        if (isBackupAudioApi())
             audio.loop = loop;
         else if (bufferSource != null)
             bufferSource.loop = loop;
         else
             loopWhenReady = true;
-
     }
 
     @Override
     public void play() {
-        if (!isWebAudioApi())
+        if (isBackupAudioApi())
             audio.play();
         else if (bufferSource != null)
             bufferSource.start();
-        else
+        else {
+            if (!fetched)
+                fetch(true);
+            bufferSource = AUDIO_CONTEXT.createBufferSource();
+            gainNode = AUDIO_CONTEXT.createGain();
+            setVolume(volume);
+            bufferSource.connect(gainNode);
+            gainNode.connect(AUDIO_CONTEXT.destination);
             playWhenReady = true;
+            if (audioBuffer != null)
+                onAudioBufferReady();
+        }
     }
 
     @Override
     public void pause() {
-        if (!isWebAudioApi())
+        if (isBackupAudioApi())
             audio.pause();
         else
-            audioContext.suspend();
+            AUDIO_CONTEXT.suspend();
     }
 
     @Override
     public void stop() {
-        if (!isWebAudioApi()) {
+        if (isBackupAudioApi()) {
             audio.pause();
             audio.currentTime = 0;
         } else {
             if (bufferSource != null)
                 bufferSource.stop();
             playWhenReady = false;
-            audioContext.close();
-            AUDIO_CONTEXTS[index] = null;
         }
     }
 
     @Override
     public void setVolume(double volume) {
-        if (!isWebAudioApi())
+        this.volume = volume;
+        if (isBackupAudioApi())
             audio.volume = volume;
-        // Not yet implemented for the web audio API
+        else if (gainNode != null)
+            gainNode.gain.value = volume;
     }
 }
