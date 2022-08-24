@@ -551,6 +551,7 @@
                 <module>elemental2-dom</module>
                 <module>elemental2-svg</module>
                 <module>gwt-user</module>
+                <module>java-nio-emul</module>
                 <module>java.base</module>
                 <module>webfx-kit-javafxbase-emul</module>
                 <module>webfx-kit-javafxgraphics-emul</module>
@@ -652,6 +653,7 @@
 
             <used-by-source-modules>
                 <module>elemental2-dom</module>
+                <module>elemental2-media</module>
                 <module>webfx-kit-javafxmedia-emul</module>
             </used-by-source-modules>
 
@@ -687,8 +689,8 @@
             </used-by-source-modules>
 
             <used-services>
-                <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
                 <required-service>javafx.application.Application</required-service>
+                <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
             </used-services>
 
         </project>

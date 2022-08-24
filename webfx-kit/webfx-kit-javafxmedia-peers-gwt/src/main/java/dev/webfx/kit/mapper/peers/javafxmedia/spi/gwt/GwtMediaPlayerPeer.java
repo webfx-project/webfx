@@ -1,55 +1,112 @@
 package dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt;
 
+import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLAudioElement;
+import elemental2.dom.Response;
+import elemental2.media.AudioBufferSourceNode;
+import elemental2.media.AudioContext;
 import javafx.scene.media.Media;
-import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 
 /**
  * @author Bruno Salmon
  */
 final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
-    private final HTMLAudioElement audio;
-    private final Media media;
-    private boolean explicitVolume;
+    private static final AudioContext[] AUDIO_CONTEXTS = new AudioContext[7];
+    private final AudioContext audioContext;
+    private static int INDEX = -1;
+    private int index;
+    private AudioBufferSourceNode bufferSource;
+    private final HTMLAudioElement audio; // alternative option for local files (as window.fetch() raises a CORS exception)
+    boolean playWhenReady, loopWhenReady;
 
     public GwtMediaPlayerPeer(Media media) {
-        this.media = media;
-        audio = (HTMLAudioElement) DomGlobal.document.createElement("audio");
-        // Trick to make play() work on iOS & iPad (from https://stackoverflow.com/questions/31776548/why-cant-javascript-play-audio-files-on-iphone-safari)
-        audio.autoplay = true;
-        audio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+        String url = media.getUrl();
+        if (url == null) {
+            audio = null;
+            audioContext = null;
+        } else if (url.startsWith("file") || !url.startsWith("http") && DomGlobal.window.location.protocol.equals("file:")) {
+            audio = (HTMLAudioElement) DomGlobal.document.createElement("audio");
+            audio.src = url;
+            audioContext = null;
+        } else {
+            audio = null;
+            INDEX++;
+            if (INDEX >= AUDIO_CONTEXTS.length)
+                INDEX = 0;
+            AudioContext ac = AUDIO_CONTEXTS[index = INDEX];
+            if (ac == null)
+                ac = AUDIO_CONTEXTS[INDEX] = new AudioContext();
+            audioContext = ac;
+            DomGlobal.window.fetch(url)
+                    .then(Response::arrayBuffer)
+                    .then(audioContext::decodeAudioData)
+                    .then(buffer -> {
+                        bufferSource = audioContext.createBufferSource();
+                        bufferSource.buffer = buffer;
+                        bufferSource.connect(audioContext.destination);
+                        if (loopWhenReady)
+                            bufferSource.loop = true;
+                        if (playWhenReady)
+                            bufferSource.start();
+                        return null;
+                    });
+        }
+    }
+
+    private boolean isWebAudioApi() {
+        return audioContext != null;
     }
 
     @Override
     public void setCycleCount(int cycleCount) {
-        audio.loop = cycleCount == -1;
+        boolean loop = cycleCount == -1;
+        if (!isWebAudioApi())
+            audio.loop = loop;
+        else if (bufferSource != null)
+            bufferSource.loop = loop;
+        else
+            loopWhenReady = true;
+
     }
 
     @Override
     public void play() {
-        audio.src = media.getUrl();
-        audio.muted = false;
-        if (!explicitVolume)
-            audio.volume = 1;
-        audio.play();
+        if (!isWebAudioApi())
+            audio.play();
+        else if (bufferSource != null)
+            bufferSource.start();
+        else
+            playWhenReady = true;
     }
 
     @Override
     public void pause() {
-        audio.pause();
+        if (!isWebAudioApi())
+            audio.pause();
+        else
+            audioContext.suspend();
     }
 
     @Override
     public void stop() {
-        audio.pause();
-        audio.currentTime = 0;
+        if (!isWebAudioApi()) {
+            audio.pause();
+            audio.currentTime = 0;
+        } else {
+            if (bufferSource != null)
+                bufferSource.stop();
+            playWhenReady = false;
+            audioContext.close();
+            AUDIO_CONTEXTS[index] = null;
+        }
     }
 
     @Override
     public void setVolume(double volume) {
-        audio.volume = volume;
-        explicitVolume = true;
+        if (!isWebAudioApi())
+            audio.volume = volume;
+        // Not yet implemented for the web audio API
     }
 }
