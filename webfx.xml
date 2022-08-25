@@ -652,8 +652,10 @@
             </source-packages>
 
             <used-by-source-modules>
+                <module>elemental2-core</module>
                 <module>elemental2-dom</module>
                 <module>elemental2-media</module>
+                <module>java.base</module>
                 <module>webfx-kit-javafxmedia-emul</module>
             </used-by-source-modules>
 

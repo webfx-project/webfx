@@ -63,8 +63,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private void onAudioBufferReady() {
         if (bufferSource != null) {
             bufferSource.buffer = audioBuffer;
-            if (loopWhenReady)
-                bufferSource.loop = true;
+            bufferSource.loop = loopWhenReady;
             if (playWhenReady)
                 startBufferSource();
         }
@@ -90,7 +89,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         else if (bufferSource != null)
             bufferSource.loop = loop;
         else
-            loopWhenReady = true;
+            loopWhenReady = loop;
     }
 
     @Override
