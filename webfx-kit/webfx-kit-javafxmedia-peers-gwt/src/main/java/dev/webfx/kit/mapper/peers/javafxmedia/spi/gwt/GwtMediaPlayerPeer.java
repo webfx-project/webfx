@@ -1,19 +1,21 @@
 package dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
+import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLAudioElement;
 import elemental2.dom.Response;
-import elemental2.media.AudioBuffer;
-import elemental2.media.AudioBufferSourceNode;
-import elemental2.media.AudioContext;
-import elemental2.media.GainNode;
+import elemental2.media.*;
 import javafx.scene.media.Media;
+
+import java.time.Duration;
 
 /**
  * @author Bruno Salmon
  */
 final class GwtMediaPlayerPeer implements MediaPlayerPeer {
+
+    // Note: Only the sound supported for now (no video yet)
 
     // Creating one single audio context for the whole application
     // If the user has not yet interacted with the page, the audio context will be in "suspended" mode
@@ -24,14 +26,15 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private GainNode gainNode;
     private double volume = 1;
     private final HTMLAudioElement audio; // alternative option for local files (as window.fetch() raises a CORS exception)
-    boolean fetched, playWhenReady, loopWhenReady;
+    private boolean fetched, playWhenReady, loopWhenReady;
+    private long audioStartTime = -1;
+    private AnalyserNode analyser;
+    private Uint8Array array;
 
     public GwtMediaPlayerPeer(Media media) {
         this.media = media;
         String url = media.getUrl();
-        if (url == null)
-            audio = null;
-        else if (url.startsWith("file") || !url.startsWith("http") && DomGlobal.window.location.protocol.equals("file:")) {
+        if (url.startsWith("file") || !url.startsWith("http") && DomGlobal.window.location.protocol.equals("file:")) {
             audio = (HTMLAudioElement) DomGlobal.document.createElement("audio");
             audio.src = url;
         } else {
@@ -63,8 +66,16 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             if (loopWhenReady)
                 bufferSource.loop = true;
             if (playWhenReady)
-                bufferSource.start();
+                startBufferSource();
         }
+    }
+
+    private void startBufferSource() {
+        bufferSource.start();
+    }
+
+    private void captureAudioStartTimeNow() {
+        audioStartTime = audioCurrentTime();
     }
 
     private boolean isBackupAudioApi() {
@@ -84,10 +95,11 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     @Override
     public void play() {
-        if (isBackupAudioApi())
+        if (isBackupAudioApi()) {
             audio.play();
-        else if (bufferSource != null)
-            bufferSource.start();
+            captureAudioStartTimeNow();
+        } else if (bufferSource != null)
+            startBufferSource();
         else {
             if (!fetched)
                 fetch(true);
@@ -129,5 +141,29 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             audio.volume = volume;
         else if (gainNode != null)
             gainNode.gain.value = volume;
+    }
+
+    @Override
+    public Duration getCurrentTime() {
+        if (audioStartTime == -1) {
+            if (!isBackupAudioApi()) {
+                if (analyser == null) {
+                    analyser = AUDIO_CONTEXT.createAnalyser();
+                    analyser.fftSize = 32; // Min value
+                    bufferSource.connect(analyser);
+                    analyser.connect(gainNode);
+                    array = new Uint8Array(analyser.frequencyBinCount);
+                }
+                analyser.getByteTimeDomainData(array);
+                if (array.getAt(0) != 128)
+                    captureAudioStartTimeNow();
+            }
+            return Duration.ZERO;
+        }
+        return Duration.ofMillis(audioCurrentTime() - audioStartTime);
+    }
+
+    private static long audioCurrentTime() {
+        return (long) (AUDIO_CONTEXT.currentTime * 1000);
     }
 }

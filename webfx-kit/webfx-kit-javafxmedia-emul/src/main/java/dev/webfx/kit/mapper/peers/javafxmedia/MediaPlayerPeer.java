@@ -1,5 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxmedia;
 
+import java.time.Duration;
+
 /**
  * @author Bruno Salmon
  */
@@ -15,4 +17,5 @@ public interface MediaPlayerPeer {
 
     void setVolume(double volume);
 
+    Duration getCurrentTime();
 }

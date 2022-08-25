@@ -3,6 +3,8 @@ package javafx.scene.media;
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 import dev.webfx.kit.mapper.peers.javafxmedia.WebFxKitMediaMapper;
 
+import java.time.Duration;
+
 /**
  * @author Bruno Salmon
  */
@@ -32,5 +34,9 @@ public class MediaPlayer {
 
     public void setVolume(double volume) {
         peer.setVolume(volume);
+    }
+
+    public final Duration getCurrentTime() {
+        return peer.getCurrentTime();
     }
 }
