@@ -1,11 +1,14 @@
 package dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
+import dev.webfx.platform.scheduler.Scheduled;
+import dev.webfx.platform.uischeduler.UiScheduler;
 import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLAudioElement;
 import elemental2.dom.Response;
 import elemental2.media.*;
+import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 
 import java.time.Duration;
@@ -27,9 +30,17 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private double volume = 1;
     private final HTMLAudioElement audio; // alternative option for local files (as window.fetch() raises a CORS exception)
     private boolean fetched, playWhenReady, loopWhenReady;
-    private long audioStartTime = -1;
+    private double audioStartTimeMillis = -1;
     private AnalyserNode analyser;
-    private Uint8Array array;
+    private Uint8Array byteTimeArray;
+    private Uint8Array byteFrequencyArray;
+    //private Float32Array floatTimeArray;
+    //private Float32Array floatFrequencyArray;
+    private int arraySize = 16;
+    private AudioSpectrumListener listener;
+    private Scheduled listenerScheduled;
+    private double audioSpectrumInterval;
+    private float[] magnitudes, phases;
 
     public GwtMediaPlayerPeer(Media media) {
         this.media = media;
@@ -74,7 +85,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }
 
     private void captureAudioStartTimeNow() {
-        audioStartTime = audioCurrentTime();
+        audioStartTimeMillis = audioCurrentTimeMillis();
     }
 
     private boolean isBackupAudioApi() {
@@ -97,19 +108,46 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         if (isBackupAudioApi()) {
             audio.play();
             captureAudioStartTimeNow();
-        } else if (bufferSource != null)
-            startBufferSource();
-        else {
-            if (!fetched)
-                fetch(true);
-            bufferSource = AUDIO_CONTEXT.createBufferSource();
-            gainNode = AUDIO_CONTEXT.createGain();
-            setVolume(volume);
-            bufferSource.connect(gainNode);
-            gainNode.connect(AUDIO_CONTEXT.destination);
-            playWhenReady = true;
-            if (audioBuffer != null)
-                onAudioBufferReady();
+        } else {
+            if (bufferSource != null)
+                startBufferSource();
+            else {
+                if (!fetched)
+                    fetch(true);
+                bufferSource = AUDIO_CONTEXT.createBufferSource();
+                gainNode = AUDIO_CONTEXT.createGain();
+                setVolume(volume);
+                bufferSource.connect(gainNode);
+                gainNode.connect(AUDIO_CONTEXT.destination);
+                playWhenReady = true;
+                if (audioBuffer != null)
+                    onAudioBufferReady();
+            }
+            scheduleListener();
+        }
+    }
+
+    private void scheduleListener() {
+        if (listener != null && listenerScheduled == null && audioSpectrumInterval > 0) {
+            //DomGlobal.window.console.log("Scheduling listener, audioSpectrumInterval = " + audioSpectrumInterval);
+            listenerScheduled = UiScheduler.schedulePeriodic((long) (audioSpectrumInterval * 1000), () -> {
+                //DomGlobal.window.console.log("Calling spectrum listener");
+                AnalyserNode analyzer = getOrCreateAnalyzer();
+                analyzer.getByteFrequencyData(byteFrequencyArray);
+                analyzer.getByteTimeDomainData(byteTimeArray);
+                for (int i = 0; i < arraySize; i++) {
+                    magnitudes[i] = -60 + 60 * byteFrequencyArray.getAt(i).floatValue() / 256;
+                    phases[i] = byteTimeArray.getAt(i).floatValue();
+                }
+                listener.spectrumDataUpdate(elapsedTimeMillis(), audioSpectrumInterval, magnitudes, phases);
+            });
+        }
+    }
+
+    private void unscheduleListener() {
+        if (listenerScheduled != null) {
+            listenerScheduled.cancel();
+            listenerScheduled = null;
         }
     }
 
@@ -130,6 +168,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             if (bufferSource != null)
                 bufferSource.stop();
             playWhenReady = false;
+            unscheduleListener();
         }
     }
 
@@ -144,25 +183,55 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     @Override
     public Duration getCurrentTime() {
-        if (audioStartTime == -1) {
+        if (audioStartTimeMillis < 0) {
             if (!isBackupAudioApi()) {
-                if (analyser == null) {
-                    analyser = AUDIO_CONTEXT.createAnalyser();
-                    analyser.fftSize = 32; // Min value
-                    bufferSource.connect(analyser);
-                    analyser.connect(gainNode);
-                    array = new Uint8Array(analyser.frequencyBinCount);
-                }
-                analyser.getByteTimeDomainData(array);
-                if (array.getAt(0) != 128)
+                getOrCreateAnalyzer().getByteTimeDomainData(byteTimeArray);
+                if (byteTimeArray.getAt(0) != 128)
                     captureAudioStartTimeNow();
             }
             return Duration.ZERO;
         }
-        return Duration.ofMillis(audioCurrentTime() - audioStartTime);
+        return Duration.ofMillis((long) elapsedTimeMillis());
     }
 
-    private static long audioCurrentTime() {
-        return (long) (AUDIO_CONTEXT.currentTime * 1000);
+    private double elapsedTimeMillis() {
+        return audioCurrentTimeMillis() - audioStartTimeMillis;
+    }
+
+    private AnalyserNode getOrCreateAnalyzer() {
+        if (analyser == null) {
+            analyser = AUDIO_CONTEXT.createAnalyser();
+            analyser.frequencyBinCount = arraySize;
+            analyser.minDecibels = -60;
+            analyser.maxDecibels = 0;
+            byteTimeArray = new Uint8Array(arraySize);
+            byteFrequencyArray = new Uint8Array(arraySize);
+            //floatTimeArray = new Float32Array(arraySize);
+            //floatFrequencyArray = new Float32Array(arraySize);
+            bufferSource.connect(analyser);
+            analyser.connect(gainNode);
+        }
+        return analyser;
+    }
+
+    private static double audioCurrentTimeMillis() {
+        return AUDIO_CONTEXT.currentTime * 1000;
+    }
+
+    @Override
+    public void setAudioSpectrumInterval(double value) {
+        audioSpectrumInterval = value;
+    }
+
+    @Override
+    public void setAudioSpectrumNumBands(int value) {
+        arraySize = value;
+        magnitudes = new float[value];
+        phases = new float[value];
+    }
+
+    @Override
+    public void setAudioSpectrumListener(AudioSpectrumListener listener) {
+        this.listener = listener;
     }
 }

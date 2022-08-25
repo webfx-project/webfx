@@ -1,5 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxmedia;
 
+import javafx.scene.media.AudioSpectrumListener;
+
 import java.time.Duration;
 
 /**
@@ -18,4 +20,11 @@ public interface MediaPlayerPeer {
     void setVolume(double volume);
 
     Duration getCurrentTime();
+
+    void setAudioSpectrumInterval(double value);
+
+    void setAudioSpectrumNumBands(int value);
+
+    void setAudioSpectrumListener(AudioSpectrumListener listener);
+
 }
