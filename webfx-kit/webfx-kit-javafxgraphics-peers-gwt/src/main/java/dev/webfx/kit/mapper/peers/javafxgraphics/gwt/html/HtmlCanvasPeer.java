@@ -56,11 +56,18 @@ public final class HtmlCanvasPeer
     @Override
     public WritableImage snapshot(SnapshotParameters params, WritableImage image) {
         N canvas = getNode();
-        if (image == null)
-            image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
+        int width, height;
+        if (image != null) {
+            width  = (int) image.getWidth();
+            height = (int) image.getHeight();
+        } else {
+            width  = (int) canvas.getWidth();
+            height = (int) canvas.getHeight();
+            image  = new WritableImage(width , height);
+        }
 
         HTMLCanvasElement canvasToCopy = getCanvasElement();
-        setPeerImageData(image, getCanvasImageData(canvasToCopy));
+        setPeerImageData(image, getCanvasImageData(canvasToCopy, width, height));
 
         return image;
     }
@@ -129,7 +136,11 @@ public final class HtmlCanvasPeer
     }
 
     public static ImageData getCanvasImageData(HTMLCanvasElement canvasElement) {
-        return getCanvasContext(canvasElement).getImageData(0, 0, canvasElement.width, canvasElement.height);
+        return getCanvasImageData(canvasElement, canvasElement.width, canvasElement.height);
+    }
+
+    public static ImageData getCanvasImageData(HTMLCanvasElement canvasElement, int width, int height) {
+        return getCanvasContext(canvasElement).getImageData(0, 0, width, height);
     }
 
     static HTMLCanvasElement getImageCanvasElement(Image image) {
