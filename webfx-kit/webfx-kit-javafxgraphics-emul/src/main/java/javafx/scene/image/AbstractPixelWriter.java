@@ -11,6 +11,21 @@ import java.nio.IntBuffer;
  */
 public abstract class AbstractPixelWriter implements PixelWriter {
 
+    private final Image image;
+
+    public AbstractPixelWriter() {
+        this(null);
+    }
+
+    public AbstractPixelWriter(Image image) {
+        this.image = image;
+    }
+
+    protected void markImageCanvasDirty() {
+        if (image != null)
+            image.setPeerCanvasDirty(true);
+    }
+
     @Override
     public PixelFormat getPixelFormat() {
         return PixelFormat.getByteBgraInstance();
@@ -18,6 +33,11 @@ public abstract class AbstractPixelWriter implements PixelWriter {
 
     @Override
     public void setArgb(int x, int y, int argb) {
+        setArgbImpl(x, y, argb);
+        markImageCanvasDirty();
+    }
+
+    protected void setArgbImpl(int x, int y, int argb) {
         int a = ((argb >> 24) & 0xff);
         int r = ((argb >> 16) & 0xff);
         int g = ((argb >>  8) & 0xff);
@@ -44,7 +64,8 @@ public abstract class AbstractPixelWriter implements PixelWriter {
         ByteBuffer buf = ByteBuffer.wrap(buffer, offset, h * scanlineStride);
         for (int y0 = 0; y0 < h; y0++)
             for (int x0 = 0; x0 < w; x0++)
-                setArgb(x + x0, y + y0, pixelformat.getArgb(buf, x0, y0, scanlineStride));
+                setArgbImpl(x + x0, y + y0, pixelformat.getArgb(buf, x0, y0, scanlineStride));
+        markImageCanvasDirty();
     }
 
     @Override

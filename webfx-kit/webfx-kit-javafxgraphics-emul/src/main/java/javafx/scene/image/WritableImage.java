@@ -26,6 +26,17 @@ public class WritableImage extends Image {
         setHeight(height);
     }
 
+    public WritableImage(PixelReader pixelReader, int width, int height) {
+        this (width, height);
+        if (pixelReader != null) {
+            getPixelWriter();
+            // Not performant copy TODO: replace with performant copy with ImageData
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    pixelWriter.setColor(x, y, pixelReader.getColor(x, y));
+        }
+    }
+
     private PixelWriter pixelWriter;
 
     public void setPixelWriter(PixelWriter pixelWriter) {
@@ -43,14 +54,14 @@ public class WritableImage extends Image {
     }
 
     @Override
-    public Object getPeerImageData() {
-        Object peerImageData = super.getPeerImageData();
-        if (peerImageData == null && pixelWriter instanceof CanvasPixelWriter) {
+    public Object getPeerCanvas() {
+        Object peerCanvas = super.getPeerCanvas();
+        if (peerCanvas == null && pixelWriter instanceof CanvasPixelWriter) {
             Canvas canvas = ((CanvasPixelWriter) pixelWriter).getCanvas();
             if (canvas != null)
-                setPeerImageData(peerImageData = canvas.getOrCreateAndBindNodePeer()); // Will be used by HtmlCanvasPeer.getImageCanvasElement()
+                setPeerCanvas(peerCanvas = canvas.getOrCreateAndBindNodePeer()); // Will be used by HtmlCanvasPeer.getPeerCanvas()
         }
-        return peerImageData;
+        return peerCanvas;
     }
 
 }

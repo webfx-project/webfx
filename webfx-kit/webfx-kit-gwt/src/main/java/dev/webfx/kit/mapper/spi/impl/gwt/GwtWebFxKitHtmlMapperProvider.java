@@ -49,8 +49,6 @@ public final class GwtWebFxKitHtmlMapperProvider extends WebFxKitMapperProviderB
 
     @Override
     public PixelWriter getImagePixelWriter(Image image) {
-        return new ImageDataPixelWriter(
-                HtmlCanvasPeer.getCanvasImageData(
-                        HtmlCanvasPeer.createCanvasElement((int) image.getWidth(), (int) image.getHeight())));
+        return new ImageDataPixelWriter(image, HtmlCanvasPeer.getOrCreatePeerImageData(image));
     }
 }

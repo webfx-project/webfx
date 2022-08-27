@@ -11,7 +11,6 @@ import elemental2.dom.ImageData;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -60,16 +59,60 @@ public final class HtmlCanvasPeer
         if (image == null)
             image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
 
-        HTMLCanvasElement canvasElement = getCanvasElement();
-        HTMLCanvasElement canvasCopy = copyCanvas(canvasElement, (int) image.getWidth(), (int) image.getHeight(), params.getFill());
-        setImageCanvasElement(image, canvasCopy);
+        HTMLCanvasElement canvasToCopy = getCanvasElement();
+        setPeerImageData(image, getCanvasImageData(canvasToCopy));
 
         return image;
     }
 
-    static void setImageCanvasElement(Image image, HTMLCanvasElement canvasElement) {
-        image.setPeerImageData(canvasElement);
-        image.setPixelReaderFactory(() -> new ImageDataPixelReader(getCanvasImageData(canvasElement)));
+    static void setPeerImageData(Image image, ImageData imageData) {
+        image.setPeerImageData(imageData);
+        image.setPixelReaderFactory(() -> new ImageDataPixelReader(getPeerImageData(image)));
+    }
+
+    static ImageData getPeerImageData(Image image) {
+        Object peerImageData = image.getPeerImageData();
+        return peerImageData instanceof ImageData ? (ImageData) peerImageData : null;
+    }
+
+    public static ImageData getOrCreatePeerImageData(Image image) {
+        ImageData imageData = getPeerImageData(image);
+        if (imageData == null) {
+            HTMLCanvasElement peerCanvas = getOrCreatePeerCanvas(image);
+            imageData = getCanvasImageData(peerCanvas);
+            setPeerImageData(image, imageData);
+        }
+        return imageData;
+    }
+
+    static void setPeerCanvas(Image image, HTMLCanvasElement canvasElement, boolean dirty) {
+        image.setPeerCanvas(canvasElement);
+        image.setPeerCanvasDirty(dirty);
+    }
+
+    static HTMLCanvasElement getPeerCanvas(Image image) {
+        Object peerCanvas = image.getPeerCanvas();
+        return peerCanvas instanceof HTMLCanvasElement ? (HTMLCanvasElement) peerCanvas : null;
+    }
+
+    static HTMLCanvasElement getOrCreatePeerCanvas(Image image) {
+        HTMLCanvasElement peerCanvas = getPeerCanvas(image);
+        if (peerCanvas == null) {
+            peerCanvas = createCanvasElement((int) image.getWidth(), (int) image.getHeight());
+            setPeerCanvas(image, peerCanvas, true);
+        }
+        return peerCanvas;
+    }
+
+    static HTMLCanvasElement getRenderingCanvas(Image image) {
+        HTMLCanvasElement peerCanvas = getOrCreatePeerCanvas(image);
+        if (image.isPeerCanvasDirty()) {
+            ImageData imageData = getPeerImageData(image);
+            if (imageData != null)
+                getCanvasContext(peerCanvas).putImageData(imageData, 0, 0);
+            image.setPeerCanvasDirty(false);
+        }
+        return peerCanvas;
     }
 
     public static HTMLCanvasElement createCanvasElement(int width, int height) {
@@ -90,22 +133,15 @@ public final class HtmlCanvasPeer
     }
 
     static HTMLCanvasElement getImageCanvasElement(Image image) {
-        Object peerImageData = image.getPeerImageData();
-        if (peerImageData instanceof HtmlSvgNodePeer)
-            peerImageData = ((HtmlSvgNodePeer<?, ?, ?, ?>) peerImageData).getElement();
-        if (peerImageData instanceof HTMLCanvasElement)
-            return (HTMLCanvasElement) peerImageData;
-        if (image instanceof WritableImage) {
-            PixelWriter pixelWriter = ((WritableImage) image).peekPixelWriter();
-            if (pixelWriter instanceof ImageDataPixelWriter) {
-                ImageData imageData = ((ImageDataPixelWriter) pixelWriter).getImageData();
-                HTMLCanvasElement canvasElement = createCanvasElement(imageData.width, imageData.height);
-                getCanvasContext(canvasElement).putImageData(imageData, 0, 0);
-                image.setPeerImageData(canvasElement);
-                return canvasElement;
-            }
+        HTMLCanvasElement htmlPeerCanvas = getPeerCanvas(image);
+        if (htmlPeerCanvas == null) {
+            Object peerCanvas = image.getPeerCanvas();
+            if (peerCanvas instanceof HtmlSvgNodePeer)
+                peerCanvas = ((HtmlSvgNodePeer<?, ?, ?, ?>) peerCanvas).getElement();
+            if (peerCanvas instanceof HTMLCanvasElement)
+                htmlPeerCanvas = (HTMLCanvasElement) peerCanvas;
         }
-        return null;
+        return htmlPeerCanvas;
     }
 
     static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource) {

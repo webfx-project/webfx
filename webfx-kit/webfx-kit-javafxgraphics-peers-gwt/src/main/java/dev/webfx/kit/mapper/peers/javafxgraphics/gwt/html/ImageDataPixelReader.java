@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
+import elemental2.core.Uint8ClampedArray;
 import elemental2.dom.ImageData;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelReader;
@@ -33,16 +34,25 @@ public class ImageDataPixelReader implements PixelReader {
     @Override
     public int getArgb(int x, int y) {
         int i = getIndex(x, y);
-        int r = imageData.data.getAt(i++).intValue();
-        int g = imageData.data.getAt(i++).intValue();
-        int b = imageData.data.getAt(i++).intValue();
-        int a = imageData.data.getAt(i).intValue();
+        Uint8ClampedArray data = imageData.data;
+        int r = data.getAt(i++).intValue();
+        int g = data.getAt(i++).intValue();
+        int b = data.getAt(i++).intValue();
+        int a = data.getAt(i).intValue();
         return a << 24 | r << 16 | g << 8 | b;
     }
 
     @Override
     public Color getColor(int x, int y) {
-        return null;
+        int i = getIndex(x, y);
+        Uint8ClampedArray data = imageData.data;
+        int r = data.getAt(i++).intValue();
+        int g = data.getAt(i++).intValue();
+        int b = data.getAt(i++).intValue();
+        int a = data.getAt(i).intValue();
+        if (a == 255 && r == 0 && g == 0 && b == 0)
+            return Color.BLACK;
+        return a == 0 ? Color.TRANSPARENT : a != 255 ? Color.rgb(r, g, b, (double) a / 255) : Color.rgb(r, g, b);
     }
 
     @Override

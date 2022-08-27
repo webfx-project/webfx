@@ -2,6 +2,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
 import elemental2.dom.ImageData;
 import javafx.scene.image.AbstractPixelWriter;
+import javafx.scene.image.Image;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.paint.Color;
 
@@ -13,6 +14,11 @@ public class ImageDataPixelWriter extends AbstractPixelWriter {
     private final ImageData imageData;
 
     public ImageDataPixelWriter(ImageData imageData) {
+        this(null, imageData);
+    }
+
+    public ImageDataPixelWriter(Image image, ImageData imageData) {
+        super(image);
         this.imageData = imageData;
     }
 
@@ -36,6 +42,7 @@ public class ImageDataPixelWriter extends AbstractPixelWriter {
         imageData.data.setAt(index++, g);
         imageData.data.setAt(index++, b);
         imageData.data.setAt(index, a);
+        markImageCanvasDirty();
     }
         @Override
     public void setColor(int x, int y, Color c) {

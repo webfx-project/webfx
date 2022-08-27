@@ -11,6 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
+import javafx.scene.image.CanvasPixelWriter;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.LinearGradient;
@@ -520,14 +521,50 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double x, double y, double w, double h) {
         if (img != null) {
+            ImageData imageData = HtmlCanvasPeer.getPeerImageData(img);
+            if (imageData != null) {
+                // Note: putImageData() is faster, but it doesn't stretch the image (as opposed to drawImage())
+                if (false /* DOESN'T HANDLE TRANSPARENCY */ && imageData.width == w && imageData.height == h) // If no stretch is required
+                    ctx.putImageData(imageData, (int) x, (int) y);  // We use putImageData()
+                else { // Otherwise we use the Image canvas instead
+                    HTMLCanvasElement canvasElement = HtmlCanvasPeer.getRenderingCanvas(img);
+                    ctx.drawImage(canvasElement, x, y, w, h);
+                }
+            } else {
+                HTMLCanvasElement canvasElement = HtmlCanvasPeer.getImageCanvasElement(img);
+                if (canvasElement != null)
+                    ctx.drawImage(canvasElement, x, y, w, h);
+                else {
+                    HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
+                    ctx.drawImage(imageElement, x, y, w, h);
+                    if (!imageElement.complete) {
+                        drawUnloadedImage(x, y, w, h, "#C0C0C0C0");
+                        imageElement.onload = e -> {
+                            HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+                            return null;
+                        };
+                    } else
+                        HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
+        if (img != null) {
             HTMLCanvasElement canvasElement = HtmlCanvasPeer.getImageCanvasElement(img);
             if (canvasElement != null)
-                ctx.drawImage(canvasElement, x, y, w, h);
+                ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
             else {
                 HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
-                ctx.drawImage(imageElement, x, y, w, h);
+                // This scaleX/Y computation was necessary to make SpaceFX work
+                // (perhaps it's because this method behaves differently between html and JavaFX?)
+                double scaleX = imageElement.width / img.getWidth();
+                double scaleY = imageElement.height / img.getHeight();
+                ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);
                 if (!imageElement.complete) {
-                    drawUnloadedImage(x, y, w, h, "#C0C0C0C0");
+                    drawUnloadedImage(dx, dy, dw, dh, "#C0C0C0C0");
                     imageElement.onload = e -> {
                         HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
                         return null;
@@ -566,35 +603,12 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return imageElement;
     }
 
-    @Override
-    public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
-        if (img != null) {
-            HTMLCanvasElement canvasElement = HtmlCanvasPeer.getImageCanvasElement(img);
-            if (canvasElement != null)
-                ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
-            else {
-                HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
-                // This scaleX/Y computation was necessary to make SpaceFX work
-                // (perhaps it's because this method behaves differently between html and JavaFX?)
-                double scaleX = imageElement.width / img.getWidth();
-                double scaleY = imageElement.height / img.getHeight();
-                ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);
-                if (!imageElement.complete) {
-                    drawUnloadedImage(dx, dy, dw, dh, "#C0C0C0C0");
-                    imageElement.onload = e -> {
-                        HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
-                        return null;
-                    };
-                } else
-                    HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
-            }
-        }
-    }
-
+    private PixelWriter pixelWriter;
     @Override
     public PixelWriter getPixelWriter() {
-        Console.log("HtmlGraphicsContext.getPixelWriter() not implemented");
-        return null;
+        if (pixelWriter == null)
+            pixelWriter = new CanvasPixelWriter(canvas);
+        return pixelWriter;
     }
 
     private Effect effect;

@@ -14,8 +14,11 @@ public class CanvasPixelWriter extends AbstractPixelWriter {
     private final GraphicsContext gc;
 
     public CanvasPixelWriter(Image image) {
-        this(image.getWidth(), image.getHeight());
-        //gc.drawImage(image, 0, 0);
+        super(image);
+        canvas = new Canvas(image.getWidth(), image.getHeight());
+        gc = canvas.getGraphicsContext2D();
+        image.setPeerCanvas(canvas.getOrCreateAndBindNodePeer());
+        image.setPeerCanvasDirty(true);
     }
 
     public CanvasPixelWriter(double width, double height) {
@@ -32,8 +35,12 @@ public class CanvasPixelWriter extends AbstractPixelWriter {
     }
 
     public void setColor(int x, int y, Color c) { // The only implemented method for now
-        gc.setFill(c);
-        gc.fillRect(x, y, 1, 1);
+        if (Color.TRANSPARENT.equals(c))
+            gc.clearRect(x, y, 1, 1);
+        else {
+            gc.setFill(c);
+            gc.fillRect(x, y, 1, 1);
+        }
     }
 
 }

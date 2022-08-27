@@ -338,7 +338,7 @@ public class Image implements
         return progress;
     }
 
-    private Object peerImageData; // Can be used by the peer to store underlying image, such as HTML Canvas or ImageData
+    private Object peerImageData; // Can be used by the peer to store the underlying image, such as ImageData
 
     public Object getPeerImageData() {
         return peerImageData;
@@ -346,6 +346,26 @@ public class Image implements
 
     public void setPeerImageData(Object peerImageData) {
         this.peerImageData = peerImageData;
+    }
+
+    private Object peerCanvas; // Can be used by the peer to render the image
+
+    public Object getPeerCanvas() {
+        return peerCanvas;
+    }
+
+    public void setPeerCanvas(Object peerCanvas) {
+        this.peerCanvas = peerCanvas;
+    }
+
+    private boolean peerCanvasDirty;
+
+    public boolean isPeerCanvasDirty() {
+        return peerCanvasDirty;
+    }
+
+    public void setPeerCanvasDirty(boolean peerCanvasDirty) {
+        this.peerCanvasDirty = peerCanvasDirty;
     }
 
     private PixelReader pixelReader;
