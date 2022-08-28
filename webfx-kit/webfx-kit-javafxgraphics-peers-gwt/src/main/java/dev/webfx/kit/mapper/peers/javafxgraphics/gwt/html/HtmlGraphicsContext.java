@@ -3,6 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
 import elemental2.dom.*;
 import javafx.geometry.VPos;
@@ -46,11 +47,16 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     public HtmlGraphicsContext(Canvas canvas) {
         this.canvas = canvas;
-        HTMLCanvasElement canvasElement = (HTMLCanvasElement) ((HtmlNodePeer) this.canvas.getOrCreateAndBindNodePeer()).getElement();
-        // Setting the canvas size now because if done later (by the WebFX mapping), this will erase the canvas!
-        canvasElement.width =  (int) this.canvas.getWidth();  // Won't be touched by the mapper (see HtmlCanvasPeer.updateWidth())
-        canvasElement.height = (int) this.canvas.getHeight(); // Won't be touched by the mapper (see HtmlCanvasPeer.updateHeight())
+        HTMLCanvasElement canvasElement = (HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement();
+        // Setting the canvas size now because if done later (by the WebFX mapper), this will erase the canvas!
+        // And also resizing it immediately on canvas size change, because when the user resize the canvas, he will probably draw on it just after (if we wait the mapper to react in the next animation frame, it will to late)
+        FXProperties.runNowAndOnPropertiesChange(() -> resizeCanvasElement(canvasElement), canvas.widthProperty(), canvas.heightProperty());
         ctx = getCanvasRenderingContext2D(canvasElement);
+    }
+
+    private void resizeCanvasElement(HTMLCanvasElement canvasElement) {
+        canvasElement.width =  (int) canvas.getWidth();  // Once done here, it won't be touched again by the mapper (see HtmlCanvasPeer.updateWidth())
+        canvasElement.height = (int) canvas.getHeight(); // Once done here, it won't be touched again by the mapper (see HtmlCanvasPeer.updateHeight())
     }
 
     private static CanvasRenderingContext2D getCanvasRenderingContext2D(HTMLCanvasElement canvasElement) {
