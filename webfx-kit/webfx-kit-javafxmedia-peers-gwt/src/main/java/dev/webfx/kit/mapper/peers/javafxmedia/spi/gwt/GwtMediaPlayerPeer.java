@@ -214,8 +214,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         return analyser;
     }
 
-    private static double audioCurrentTimeMillis() {
-        return AUDIO_CONTEXT.currentTime * 1000;
+    private double audioCurrentTimeMillis() {
+        return isBackupAudioApi() ? System.currentTimeMillis() : AUDIO_CONTEXT.currentTime * 1000;
     }
 
     @Override
