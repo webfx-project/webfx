@@ -1,12 +1,14 @@
 package dev.webfx.kit.launcher.spi.impl.gwt;
 
 import com.sun.javafx.application.ParametersImpl;
+import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import elemental2.dom.DataTransfer;
 import elemental2.dom.DomGlobal;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
@@ -116,6 +118,11 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     @Override
     public boolean supportsWebP() {
         return supportsWebPJS();
+    }
+
+    @Override
+    public FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
+        return new GwtFastPixelReaderWriter(image);
     }
 
     private static native boolean supportsWebPJS() /*-{

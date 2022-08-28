@@ -1,7 +1,9 @@
 package dev.webfx.kit.launcher;
 
+import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.platform.console.Console;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
 import dev.webfx.platform.util.function.Factory;
@@ -56,4 +58,9 @@ public final class WebFxKitLauncher {
     public static boolean supportsWebP() {
         return getProvider().supportsWebP();
     }
+
+    public static FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
+        return getProvider().getFastPixelReaderWriter(image);
+    }
+
 }

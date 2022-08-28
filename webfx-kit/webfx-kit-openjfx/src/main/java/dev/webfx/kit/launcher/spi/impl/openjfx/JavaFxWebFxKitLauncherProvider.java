@@ -1,7 +1,9 @@
 package dev.webfx.kit.launcher.spi.impl.openjfx;
 
+import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.platform.util.function.Factory;
@@ -106,5 +108,10 @@ public final class JavaFxWebFxKitLauncherProvider extends WebFxKitLauncherProvid
                 application.start(primaryStage);
         }
 
+    }
+
+    @Override
+    public FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
+        return new OpenJFXFastPixelReaderWriter(image);
     }
 }
