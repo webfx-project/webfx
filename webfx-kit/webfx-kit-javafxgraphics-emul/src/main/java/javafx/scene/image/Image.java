@@ -338,10 +338,30 @@ public class Image implements
         return progress;
     }
 
+    private Object peerImage;
+
+    public Object getPeerImage() {
+        return peerImage;
+    }
+
+    public void setPeerImage(Object peerImage) {
+        this.peerImage = peerImage;
+    }
+
     private Object peerImageData; // Can be used by the peer to store the underlying image, such as ImageData
 
     public Object getPeerImageData() {
         return peerImageData;
+    }
+
+    private String peerUrl;
+
+    public String getPeerUrl() {
+        return peerUrl;
+    }
+
+    public void setPeerUrl(String peerUrl) {
+        this.peerUrl = peerUrl;
     }
 
     public void setPeerImageData(Object peerImageData) {

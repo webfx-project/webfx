@@ -5,6 +5,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
+import dev.webfx.platform.util.Objects;
 import elemental2.dom.*;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -23,9 +24,6 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Affine;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -59,7 +57,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         canvasElement.height = (int) canvas.getHeight(); // Once done here, it won't be touched again by the mapper (see HtmlCanvasPeer.updateHeight())
     }
 
-    private static CanvasRenderingContext2D getCanvasRenderingContext2D(HTMLCanvasElement canvasElement) {
+    static CanvasRenderingContext2D getCanvasRenderingContext2D(HTMLCanvasElement canvasElement) {
         return (CanvasRenderingContext2D) (Object) canvasElement.getContext("2d");
     }
 
@@ -527,30 +525,21 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double x, double y, double w, double h) {
         if (img != null) {
-            ImageData imageData = HtmlCanvasPeer.getPeerImageData(img);
+            boolean loadImage = img.getUrl() != null;
+            ImageData imageData = loadImage ? null : HtmlCanvasPeer.getPeerImageData(img);
             if (imageData != null) {
-                // Note: putImageData() is faster, but it doesn't stretch the image (as opposed to drawImage())
-                if (false /* DOESN'T HANDLE TRANSPARENCY */ && imageData.width == w && imageData.height == h) // If no stretch is required
-                    ctx.putImageData(imageData, (int) x, (int) y);  // We use putImageData()
-                else { // Otherwise we use the Image canvas instead
-                    HTMLCanvasElement canvasElement = HtmlCanvasPeer.getRenderingCanvas(img);
-                    ctx.drawImage(canvasElement, x, y, w, h);
-                }
+                HTMLCanvasElement canvasElement = HtmlCanvasPeer.getRenderingCanvas(img);
+                ctx.drawImage(canvasElement, x, y, w, h);
             } else {
-                HTMLCanvasElement canvasElement = HtmlCanvasPeer.getImageCanvasElement(img);
+                HTMLCanvasElement canvasElement = loadImage ? null : HtmlCanvasPeer.getImageCanvasElement(img);
                 if (canvasElement != null)
                     ctx.drawImage(canvasElement, x, y, w, h);
                 else {
-                    HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
-                    ctx.drawImage(imageElement, x, y, w, h);
-                    if (!imageElement.complete) {
-                        drawUnloadedImage(x, y, w, h, "#C0C0C0C0");
-                        imageElement.onload = e -> {
-                            HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
-                            return null;
-                        };
-                    } else
-                        HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+                    HTMLImageElement imageElement = getHTMLImageElement(img);
+                    if (imageElement.complete)
+                        ctx.drawImage(imageElement, x, y, w, h);
+                    else
+                        drawUnloadedImage(x, y, w, h);
                 }
             }
         }
@@ -559,29 +548,50 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
         if (img != null) {
-            HTMLCanvasElement canvasElement = HtmlCanvasPeer.getImageCanvasElement(img);
-            if (canvasElement != null)
+            boolean loadImage = img.getUrl() != null;
+            ImageData imageData = loadImage ? null : HtmlCanvasPeer.getPeerImageData(img);
+            if (imageData != null) {
+                HTMLCanvasElement canvasElement = HtmlCanvasPeer.getRenderingCanvas(img);
                 ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
-            else {
-                HTMLImageElement imageElement = getHTMLImageElement(img.getUrl());
-                // This scaleX/Y computation was necessary to make SpaceFX work
-                // (perhaps it's because this method behaves differently between html and JavaFX?)
-                double scaleX = imageElement.width / img.getWidth();
-                double scaleY = imageElement.height / img.getHeight();
-                ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);
-                if (!imageElement.complete) {
-                    drawUnloadedImage(dx, dy, dw, dh, "#C0C0C0C0");
-                    imageElement.onload = e -> {
-                        HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
-                        return null;
-                    };
-                } else
-                    HtmlImageViewPeer.onHTMLImageLoaded(imageElement, img);
+            } else {
+                HTMLCanvasElement canvasElement = loadImage ? null : HtmlCanvasPeer.getImageCanvasElement(img);
+                if (canvasElement != null)
+                    ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
+                else {
+                    HTMLImageElement imageElement = getHTMLImageElement(img);
+                    if (imageElement.complete) {
+                        // This scaleX/Y computation was necessary to make SpaceFX work
+                        // (perhaps it's because this method behaves differently between html and JavaFX?)
+                        double scaleX = imageElement.width / img.getWidth();
+                        double scaleY = imageElement.height / img.getHeight();
+                        ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);
+                    } else
+                        drawUnloadedImage(dx, dy, dw, dh);
+                }
             }
         }
     }
 
-    private void drawUnloadedImage(double x, double y, double w, double h, String strokeStyle) {
+    static HTMLImageElement getHTMLImageElement(Image image) {
+        HTMLImageElement imageElement;
+        Object peerImage = image.getPeerImage();
+        if (peerImage instanceof HTMLImageElement)
+            imageElement = (HTMLImageElement) peerImage;
+        else
+            image.setPeerImage(imageElement = HtmlUtil.createImageElement());
+        String url = image.getUrl();
+        if (!Objects.areEquals(url, image.getPeerUrl())) {
+            image.setPeerUrl(url);
+            imageElement.src = url;
+            imageElement.onload = e -> {
+                HtmlImageViewPeer.onHTMLImageLoaded(imageElement, image);
+                return null;
+            };
+        }
+        return imageElement;
+    }
+
+    private void drawUnloadedImage(double x, double y, double w, double h) {
         if (w > 0 && h > 0) {
             ctx.save();
             ctx.beginPath();
@@ -589,24 +599,13 @@ public class HtmlGraphicsContext implements GraphicsContext {
             double cy = y + h / 2;
             double r = Math.min(w, h) / 2;
             ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-            ctx.strokeStyle = BaseRenderingContext2D.StrokeStyleUnionType.of(strokeStyle);
+            ctx.strokeStyle = BaseRenderingContext2D.StrokeStyleUnionType.of("#C0C0C0C0");
             ctx.stroke();
             if (r > 20)
                 ctx.strokeRect(x + 5, cy - 5, w - 10, 10);
             ctx.closePath();
             ctx.restore();
         }
-    }
-
-    private static final Map<String, HTMLImageElement> htmlImageElementMap = new HashMap<>();
-
-    private HTMLImageElement getHTMLImageElement(String url) {
-        HTMLImageElement imageElement = htmlImageElementMap.get(url);
-        if (imageElement == null) {
-            htmlImageElementMap.put(url, imageElement = HtmlUtil.createImageElement());
-            imageElement.src = url;
-        }
-        return imageElement;
     }
 
     private PixelWriter pixelWriter;

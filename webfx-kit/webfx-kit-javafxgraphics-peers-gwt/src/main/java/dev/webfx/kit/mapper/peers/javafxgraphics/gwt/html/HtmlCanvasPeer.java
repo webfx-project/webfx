@@ -59,7 +59,11 @@ public final class HtmlCanvasPeer
         int width, height;
         if (image != null) {
             width  = (int) image.getWidth();
+            if (width == 0)
+                width = (int) image.getRequestedWidth();
             height = (int) image.getHeight();
+            if (height == 0)
+                height = (int) image.getRequestedHeight();
         } else {
             width  = (int) canvas.getWidth();
             height = (int) canvas.getHeight();
@@ -105,8 +109,18 @@ public final class HtmlCanvasPeer
     static HTMLCanvasElement getOrCreatePeerCanvas(Image image) {
         HTMLCanvasElement peerCanvas = getPeerCanvas(image);
         if (peerCanvas == null) {
-            peerCanvas = createCanvasElement((int) image.getWidth(), (int) image.getHeight());
-            setPeerCanvas(image, peerCanvas, true);
+            int width = (int) image.getWidth();
+            if (width == 0)
+                width = (int) image.getRequestedWidth();
+            int height = (int) image.getHeight();
+            if (height == 0)
+                height = (int) image.getRequestedHeight();
+            peerCanvas = createCanvasElement(width, height);
+            boolean loadedImage = image.getUrl() != null;
+            if (loadedImage)
+                HtmlGraphicsContext.getCanvasRenderingContext2D(peerCanvas).drawImage(HtmlGraphicsContext.getHTMLImageElement(image), 0, 0);
+            else
+                setPeerCanvas(image, peerCanvas, true);
         }
         return peerCanvas;
     }
