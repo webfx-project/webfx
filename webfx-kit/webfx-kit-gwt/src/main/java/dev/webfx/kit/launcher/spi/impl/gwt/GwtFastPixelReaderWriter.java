@@ -34,7 +34,7 @@ public class GwtFastPixelReaderWriter implements FastPixelReaderWriter {
 
     @Override
     public boolean gotToNextPixel() {
-        if (index > maxIndex)
+        if (index >= maxIndex)
             return false;
         index += 4;
         return true;
