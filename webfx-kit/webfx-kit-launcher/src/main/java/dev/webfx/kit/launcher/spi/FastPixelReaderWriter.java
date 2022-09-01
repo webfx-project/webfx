@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 /**
  * @author Bruno Salmon
  */
-public interface FastPixelReaderWriter {
+public interface FastPixelReaderWriter extends FastPixelReader {
 
     Image getImage();
 
@@ -28,5 +28,16 @@ public interface FastPixelReaderWriter {
     void setBlue(int blue);
 
     void setOpacity(int opacity);
+
+    default void setArgb(int opacity, int red, int green, int blue) {
+        setOpacity(opacity);
+        setRgb(red, green, blue);
+    }
+
+    default void setRgb(int red, int green, int blue) {
+        setRed(red);
+        setGreen(green);
+        setBlue(blue);
+    }
 
 }
