@@ -3,7 +3,10 @@ package dev.webfx.kit.launcher.spi.impl.openjfx;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.platform.util.function.Factory;
@@ -113,5 +116,13 @@ public final class JavaFxWebFxKitLauncherProvider extends WebFxKitLauncherProvid
     @Override
     public FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
         return new OpenJFXFastPixelReaderWriter(image);
+    }
+
+    private final Text measurementText = new Text();
+    @Override
+    public Bounds measureText(String text, Font font) {
+        measurementText.setText(text);
+        measurementText.setFont(font);
+        return measurementText.getLayoutBounds();
     }
 }

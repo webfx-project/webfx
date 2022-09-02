@@ -2,10 +2,12 @@ package dev.webfx.kit.launcher.spi;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.Dragboard;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import dev.webfx.platform.uischeduler.UiScheduler;
@@ -55,4 +57,6 @@ public interface WebFxKitLauncherProvider {
     default boolean supportsWebP() { return false; }
 
     FastPixelReaderWriter getFastPixelReaderWriter(Image image);
+
+    Bounds measureText(String text, Font font);
 }

@@ -1,24 +1,31 @@
 package dev.webfx.kit.launcher.spi.impl.gwt;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.sun.javafx.application.ParametersImpl;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
+import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DragboardDataTransferHolder;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.platform.console.Console;
+import dev.webfx.platform.util.Strings;
+import dev.webfx.platform.util.collection.Collections;
+import dev.webfx.platform.util.function.Factory;
 import elemental2.dom.DataTransfer;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLCanvasElement;
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DragboardDataTransferHolder;
-import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
-import dev.webfx.platform.console.Console;
-import dev.webfx.platform.util.Strings;
-import dev.webfx.platform.util.collection.Collections;
-import dev.webfx.platform.util.function.Factory;
 
 import java.util.Map;
 
@@ -124,6 +131,29 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     public FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
         return new GwtFastPixelReaderWriter(image);
     }
+
+    private final HTMLCanvasElement canvas = HtmlUtil.createElement("canvas");
+
+
+    @Override
+    public Bounds measureText(String text, Font font) {
+        JavaScriptObject textMetrics = getTextMetrics(canvas, text, HtmlFonts.getHtmlFontDefinition(font));
+        return new BoundingBox(0, 0, getJsonWidth(textMetrics), getJsonHeight(textMetrics));
+    }
+
+    private native JavaScriptObject getTextMetrics(HTMLCanvasElement canvas, String text, String font)/*-{
+        var context = canvas.getContext("2d");
+        context.font = font;
+        return { width: context.measureText(text).width, height: parseFloat(context.font.match(/\d+/)) };
+    }-*/;
+
+    private static native double getJsonWidth(JavaScriptObject json)/*-{
+        return json.width;
+    }-*/;
+
+    private static native double getJsonHeight(JavaScriptObject json)/*-{
+        return json.height;
+    }-*/;
 
     private static native boolean supportsWebPJS() /*-{
         // Check FF, Edge by user agent

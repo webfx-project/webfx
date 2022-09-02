@@ -1,13 +1,15 @@
 package dev.webfx.kit.launcher;
 
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
-import dev.webfx.platform.console.Console;
-import javafx.application.Application;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
 import dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
+import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.function.Factory;
 import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
+import javafx.application.Application;
+import javafx.geometry.Bounds;
+import javafx.scene.image.Image;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.util.ServiceLoader;
 
@@ -61,6 +63,10 @@ public final class WebFxKitLauncher {
 
     public static FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
         return getProvider().getFastPixelReaderWriter(image);
+    }
+
+    public static Bounds measureText(String text, Font font) {
+        return getProvider().measureText(text, font);
     }
 
 }
