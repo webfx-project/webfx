@@ -228,6 +228,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         arraySize = value;
         magnitudes = new float[value];
         phases = new float[value];
+        if (analyser != null)
+            analyser.frequencyBinCount = arraySize;
     }
 
     @Override
