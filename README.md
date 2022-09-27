@@ -53,7 +53,9 @@ You can consult our [roadmap](ROADMAP.md). Issues will be open when approaching 
 
 ## Keep updated
 
-You can follow us by subscribing to our [blog][webfx-blog] where we will post regular news and updates on the progress made.
+You can follow us on [Twitter](https://twitter.com/WebFXProject) or subscribe to our [blog][webfx-blog] where we will post regular news and updates on the progress made.
+
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/WebFXProject.svg?style=social&label=Follow%20%40WebFXProject)](https://twitter.com/WebFXProject)
 
 ## Get involved!
 
