@@ -102,6 +102,8 @@ public final class HtmlCanvasPeer
     }
 
     static HTMLCanvasElement getPeerCanvas(Image image) {
+        if (image == null)
+            return null;
         Object peerCanvas = image.getPeerCanvas();
         return peerCanvas instanceof HTMLCanvasElement ? (HTMLCanvasElement) peerCanvas : null;
     }
@@ -159,7 +161,7 @@ public final class HtmlCanvasPeer
 
     static HTMLCanvasElement getImageCanvasElement(Image image) {
         HTMLCanvasElement htmlPeerCanvas = getPeerCanvas(image);
-        if (htmlPeerCanvas == null) {
+        if (htmlPeerCanvas == null && image != null) {
             Object peerCanvas = image.getPeerCanvas();
             if (peerCanvas instanceof HtmlSvgNodePeer)
                 peerCanvas = ((HtmlSvgNodePeer<?, ?, ?, ?>) peerCanvas).getElement();
