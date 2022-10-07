@@ -27,6 +27,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.gwtproject</groupId>
+            <artifactId>gwt-user</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
         </dependency>

@@ -29,6 +29,7 @@ public final class SvgPathPeer
 
     @Override
     public void updateFillRule(FillRule fillRule) {
+        setElementAttribute("fill-rule", fillRule == FillRule.EVEN_ODD ? "evenodd" : fillRule == FillRule.NON_ZERO ? "nonzero" : null);
     }
 
     public void updatePath(String path) {

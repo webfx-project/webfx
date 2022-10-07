@@ -231,6 +231,7 @@
 
             <used-by-source-modules>
                 <module>elemental2-dom</module>
+                <module>gwt-user</module>
                 <module>java.base</module>
                 <module>webfx-kit-javafxgraphics-emul</module>
                 <module>webfx-kit-javafxgraphics-peers-gwt</module>
