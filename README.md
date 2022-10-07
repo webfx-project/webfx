@@ -1,4 +1,4 @@
-# WebFX
+# WebFX [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/WebFXProject.svg?style=social&label=Follow%20%40WebFXProject)](https://twitter.com/WebFXProject)
 
 WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript web app (with no plugin or server required for its execution in the browser).
 
@@ -55,8 +55,6 @@ You can consult our [roadmap](ROADMAP.md). Issues will be open when approaching 
 
 You can follow us on [Twitter](https://twitter.com/WebFXProject) or subscribe to our [blog][webfx-blog] where we will post regular news and updates on the progress made.
 
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/WebFXProject.svg?style=social&label=Follow%20%40WebFXProject)](https://twitter.com/WebFXProject)
-
 ## Get involved!
 
 You can greatly help the project by:
@@ -64,6 +62,7 @@ You can greatly help the project by:
 - Following the [guide][webfx-guide] and start experimenting with WebFX
 - Reporting any issues you may have with the [WebFX CLI][webfx-cli-repo], which we will try to fix
 - Starring the project if you like it
+- Retweeting our [pinned tweet](https://twitter.com/WebFXProject) if you want to spread the word
 - Sharing the [website][webfx-website] with people who might be interested
 - Giving us feedback in our GitHub [discussions][webfx-discussions]
 - Sharing your first WebFX applications (we can add it to our [demo list][webfx-demos] if you wish)
