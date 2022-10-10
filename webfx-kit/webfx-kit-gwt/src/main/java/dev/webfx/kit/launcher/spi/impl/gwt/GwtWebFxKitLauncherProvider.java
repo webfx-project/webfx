@@ -107,7 +107,11 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
 
             @Override
             public Object getContentImpl(DataFormat dataFormat) {
-                return DragboardDataTransferHolder.getDragboardDataTransfer().getData(Collections.first(dataFormat.getIdentifiers()));
+                DataTransfer dataTransfer = DragboardDataTransferHolder.getDragboardDataTransfer();
+                if (dataFormat == DataFormat.FILES)
+                    return dataTransfer.files;
+                String jsType = Collections.first(dataFormat.getIdentifiers());
+                return dataTransfer.getData(jsType);
             }
         };
     }
