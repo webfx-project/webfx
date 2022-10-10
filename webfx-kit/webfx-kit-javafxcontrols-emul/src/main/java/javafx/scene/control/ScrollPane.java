@@ -2,10 +2,10 @@ package javafx.scene.control;
 
 import com.sun.javafx.scene.control.behavior.ScrollPaneBehavior;
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 import javafx.beans.property.*;
 import javafx.geometry.*;
 import javafx.scene.Node;
-import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -251,9 +251,36 @@ public class ScrollPane extends Control {
         return viewportBounds;
     }
 
+    private final BooleanProperty fitToWidthProperty = new SimpleBooleanProperty();
+
+    public BooleanProperty fitToWidthProperty() {
+        return fitToWidthProperty;
+    }
+
+    public boolean isFitToWidth() {
+        return fitToWidthProperty.get();
+    }
+    public void setFitToWidth(boolean fitWidth) {
+        fitToWidthProperty.set(fitWidth);
+    }
+
+    private final BooleanProperty fitToHeightProperty = new SimpleBooleanProperty();
+
+    public BooleanProperty fitToHeightProperty() {
+        return fitToHeightProperty;
+    }
+
+    public boolean isFitToHeight() {
+        return fitToHeightProperty.get();
+    }
+    public void setFitToHeight(boolean fitHeight) {
+        fitToHeightProperty.set(fitHeight);
+    }
+
     @Override
     protected void layoutChildren() {
-        layoutInArea(getChildren().get(0), 0, 0, Double.MAX_VALUE, Double.MAX_VALUE, 0, Insets.EMPTY, false, false, HPos.LEFT, VPos.TOP, true);
+        boolean fitToWidth = isFitToWidth(), fitToHeight = isFitToHeight();
+        layoutInArea(getChildren().get(0), 0, 0, fitToWidth ? getWidth() : Double.MAX_VALUE, fitToHeight ? getHeight() : Double.MAX_VALUE, 0, Insets.EMPTY, fitToWidth, fitToHeight, HPos.LEFT, VPos.TOP, true);
         if (onChildrenLayout != null)
             onChildrenLayout.run();
     }
