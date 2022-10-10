@@ -44,7 +44,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     public GwtMediaPlayerPeer(Media media) {
         this.media = media;
-        String url = media.getUrl();
+        String url = media.getSource();
         if (url.startsWith("file") || !url.startsWith("http") && DomGlobal.window.location.protocol.equals("file:")) {
             audio = (HTMLAudioElement) DomGlobal.document.createElement("audio");
             audio.src = url;
@@ -54,13 +54,18 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         }
     }
 
+    @Override
+    public Media getMedia() {
+        return media;
+    }
+
     private void fetch(boolean resumeIfSuspended) {
         if (AUDIO_CONTEXT.state.equals("suspended")) {
             if (!resumeIfSuspended)
                 return;
             AUDIO_CONTEXT.resume();
         }
-        DomGlobal.window.fetch(media.getUrl())
+        DomGlobal.window.fetch(media.getSource())
                 .then(Response::arrayBuffer)
                 .then(AUDIO_CONTEXT::decodeAudioData)
                 .then(buffer -> {
@@ -166,7 +171,13 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             audio.currentTime = 0;
         } else {
             if (bufferSource != null)
-                bufferSource.stop();
+                try {
+                    bufferSource.stop(); // May raise an exception
+                } catch (Throwable th) {
+                    DomGlobal.console.log(th);
+                } finally {
+                    bufferSource = null;
+                }
             playWhenReady = false;
             unscheduleListener();
         }

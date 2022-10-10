@@ -1,6 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxmedia;
 
 import javafx.scene.media.AudioSpectrumListener;
+import javafx.scene.media.Media;
 
 import java.time.Duration;
 
@@ -8,6 +9,8 @@ import java.time.Duration;
  * @author Bruno Salmon
  */
 public interface MediaPlayerPeer {
+
+    Media getMedia();
 
     void setCycleCount(int cycleCount);
 

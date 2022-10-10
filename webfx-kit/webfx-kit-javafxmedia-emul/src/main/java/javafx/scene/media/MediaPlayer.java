@@ -16,6 +16,10 @@ public class MediaPlayer {
         peer = WebFxKitMediaMapper.createMediaPlayerPeer(media);
     }
 
+    public Media getMedia() {
+        return peer.getMedia();
+    }
+
     public void setCycleCount(int cycleCount) {
         peer.setCycleCount(cycleCount);
     }

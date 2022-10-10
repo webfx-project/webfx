@@ -5,13 +5,13 @@ package javafx.scene.media;
  */
 public final class Media {
 
-    private final String url;
+    private final String source;
 
-    public Media(String url) {
-        this.url = url;
+    public Media(String source) {
+        this.source = source;
     }
 
-    public String getUrl() {
-        return url;
+    public String getSource() {
+        return source;
     }
 }
