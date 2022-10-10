@@ -73,37 +73,48 @@ public class Region extends Parent implements
         return heightProperty;
     }
 
-    private final DoubleProperty maxWidthProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
+    private class MinPrefMaxProperty extends SimpleDoubleProperty {
+        public MinPrefMaxProperty() {
+            super(USE_COMPUTED_SIZE);
+        }
+
+        @Override
+        protected void invalidated() {
+            requestParentLayout();
+        }
+    }
+
+    private final DoubleProperty maxWidthProperty = new MinPrefMaxProperty();
     @Override
     public DoubleProperty maxWidthProperty() {
         return maxWidthProperty;
     }
 
-    private final DoubleProperty minWidthProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
+    private final DoubleProperty minWidthProperty = new MinPrefMaxProperty();
     @Override
     public DoubleProperty minWidthProperty() {
         return minWidthProperty;
     }
 
-    private final DoubleProperty maxHeightProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
+    private final DoubleProperty maxHeightProperty = new MinPrefMaxProperty();
     @Override
     public DoubleProperty maxHeightProperty() {
         return maxHeightProperty;
     }
 
-    private final DoubleProperty minHeightProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
+    private final DoubleProperty minHeightProperty = new MinPrefMaxProperty();
     @Override
     public DoubleProperty minHeightProperty() {
         return minHeightProperty;
     }
 
-    private final DoubleProperty prefWidthProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
+    private final DoubleProperty prefWidthProperty = new MinPrefMaxProperty();
     @Override
     public DoubleProperty prefWidthProperty() {
         return prefWidthProperty;
     }
 
-    private final DoubleProperty prefHeightProperty = new SimpleDoubleProperty(USE_COMPUTED_SIZE);
+    private final DoubleProperty prefHeightProperty = new MinPrefMaxProperty();
     @Override
     public DoubleProperty prefHeightProperty() {
         return prefHeightProperty;
