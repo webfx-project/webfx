@@ -82,11 +82,18 @@ public final class HtmlImageViewPeer
     }
 
     private void onLoad() {
-        Image image = getNode().getImage();
+        N node = getNode();
+        Image image = node.getImage();
         if (image != null) {
             HTMLElement element = getElement();
-            if (element instanceof HTMLImageElement)
+            if (element instanceof HTMLImageElement) {
                 onHTMLImageLoaded((HTMLImageElement) element, image);
+                // Reestablishing the image width & height changed by the previous call when a fitWidth/fitHeight is set
+                if (node.getFitWidth() > 0)
+                    image.setWidth(node.getFitWidth());
+                if (node.getFitHeight() > 0)
+                    image.setHeight(node.getFitHeight());
+            }
         }
         if (sizeChangedCallback != null) // && loadedWidth == null && loadedHeight == null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
             sizeChangedCallback.run();
@@ -96,7 +103,7 @@ public final class HtmlImageViewPeer
         double requestedWidth = image.getRequestedWidth();
         image.setWidth(requestedWidth  > 0 ? requestedWidth  : (double) imageElement.naturalWidth);
         double requestedHeight = image.getRequestedHeight();
-        image.setHeight(requestedWidth > 0 ? requestedHeight : (double) imageElement.naturalHeight);
+        image.setHeight(requestedHeight > 0 ? requestedHeight : (double) imageElement.naturalHeight);
         image.setProgress(1);
     }
 
@@ -108,6 +115,11 @@ public final class HtmlImageViewPeer
     @Override
     public void updateFitHeight(Double fitHeight) {
         setElementAttribute("height", Numbers.doubleValue(fitHeight) == 0 ? null : toPx(fitHeight));
+    }
+
+    @Override
+    public void updatePreserveRatio(Boolean preserveRatio) {
+        setElementStyleAttribute("object-fit", Boolean.TRUE.equals(preserveRatio) ? "contain" : null);
     }
 
     @Override

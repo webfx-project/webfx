@@ -17,6 +17,8 @@ public interface ImageViewPeerMixin
 
     void updateFitHeight(Double fitHeight);
 
+    void updatePreserveRatio(Boolean preserveRatio);
+
     void updateX(Double x);
 
     void updateY(Double y);

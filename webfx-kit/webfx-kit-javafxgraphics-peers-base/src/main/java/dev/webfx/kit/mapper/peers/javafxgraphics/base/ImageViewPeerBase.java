@@ -33,6 +33,7 @@ public class ImageViewPeerBase
                 || updateProperty(node.yProperty(), changedProperty, p -> mixin.updateY(p.doubleValue()))
                 || updateProperty(node.fitWidthProperty(), changedProperty, p -> mixin.updateFitWidth(p.doubleValue()))
                 || updateProperty(node.fitHeightProperty(), changedProperty, p -> mixin.updateFitHeight(p.doubleValue()))
+                || updateProperty(node.preserveRatioProperty(), changedProperty, p -> mixin.updatePreserveRatio(p))
                 ;
     }
 
