@@ -6,6 +6,7 @@
     </exported-packages>
 
     <providers>
+        <provider interface="dev.webfx.platform.boot.spi.ApplicationModuleBooter">dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtMediaModuleBooter</provider>
         <provider interface="dev.webfx.kit.mapper.peers.javafxmedia.spi.WebFxKitMediaMapperProvider">dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtWebFxKitMediaMapperProvider</provider>
     </providers>
 
