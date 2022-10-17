@@ -9,11 +9,10 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextFillProperty;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
-import elemental2.dom.Element;
-import elemental2.dom.HTMLCanvasElement;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLImageElement;
+import elemental2.dom.*;
 import javafx.scene.Parent;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
@@ -28,6 +27,8 @@ public final class HtmlImageViewPeer
         extends HtmlNodePeer<N, NB, NM>
         implements ImageViewPeerMixin<N, NB, NM>, HasSizeChangedCallback {
 
+    private final static GraphicsContext BACKGROUND_LOADING_CONTEXT = new Canvas().getGraphicsContext2D();
+
     //private Double loadedWidth, loadedHeight;
 
     public HtmlImageViewPeer() {
@@ -40,8 +41,8 @@ public final class HtmlImageViewPeer
         HtmlUtil.setChild(container, element);
         setContainer(container);
         makeContainerInvisible();
-        HTMLImageElement e = (HTMLImageElement) getElement();
-        e.onload = evt -> {
+        HTMLImageElement imageElement = (HTMLImageElement) getElement();
+        imageElement.onload = evt -> {
             onLoad();
             return null;
         };
@@ -77,7 +78,8 @@ public final class HtmlImageViewPeer
                     canvasElement = HtmlCanvasPeer.copyCanvas(canvasElement);
                 // We finally replace the node with the canvas element
                 HtmlUtil.setChild(getContainer(), canvasElement);
-            }
+            } else if (image != null && image.isBackgroundLoading())
+                BACKGROUND_LOADING_CONTEXT.drawImage(image, 0, 0); // This forces the browser to load the image immediately in the background
         }
     }
 
@@ -109,12 +111,12 @@ public final class HtmlImageViewPeer
 
     @Override
     public void updateFitWidth(Double fitWidth) {
-        setElementAttribute("width", Numbers.doubleValue(fitWidth) == 0 ? null : toPx(fitWidth));
+        setElementAttribute("width", Numbers.doubleValue(fitWidth) <= 0 ? null : toPx(fitWidth));
     }
 
     @Override
     public void updateFitHeight(Double fitHeight) {
-        setElementAttribute("height", Numbers.doubleValue(fitHeight) == 0 ? null : toPx(fitHeight));
+        setElementAttribute("height", Numbers.doubleValue(fitHeight) <= 0 ? null : toPx(fitHeight));
     }
 
     @Override

@@ -287,6 +287,8 @@ public class Image implements
         this.preserveRatio = preserveRatio;
         this.smooth = smooth;
         this.backgroundLoading = backgroundLoading;
+        if (backgroundLoading)
+            new ImageView(this).getOrCreateAndBindNodePeer(); // The ImageView peer should do the background loading (see HtmlImageViewPeer)
     }
 
     private final DoubleProperty widthProperty = new SimpleDoubleProperty(-1d);
