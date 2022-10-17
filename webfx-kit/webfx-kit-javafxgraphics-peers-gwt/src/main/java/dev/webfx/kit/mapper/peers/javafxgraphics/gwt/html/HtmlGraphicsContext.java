@@ -31,7 +31,7 @@ import javafx.scene.transform.Affine;
 public class HtmlGraphicsContext implements GraphicsContext {
 
     private final Canvas canvas;
-    private CanvasRenderingContext2D ctx;
+    private final CanvasRenderingContext2D ctx;
     private boolean proportionalFillLinearGradient;
 
     HtmlGraphicsContext(HTMLCanvasElement canvasElement) {
@@ -399,9 +399,14 @@ public class HtmlGraphicsContext implements GraphicsContext {
         ctx.rect(x, y, w, h);
     }
 
+    private Path2D path2D;
     @Override
-    public void appendSVGPath(String svgpath) {
-        Console.log("HtmlGraphicsContext.appendSVGPath() not implemented");
+    public void appendSVGPath(String svgPath) {
+        Path2D p2D = new Path2D(svgPath);
+        if (path2D == null)
+            path2D = p2D;
+        else
+            path2D.addPath(p2D);
     }
 
     @Override
@@ -411,12 +416,20 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void fill() {
-        ctx.fill();
+        if (path2D != null) {
+            ctx.fill(path2D);
+            path2D = null;
+        } else
+            ctx.fill();
     }
 
     @Override
     public void stroke() {
-        ctx.stroke();
+        if (path2D != null) {
+            ctx.stroke(path2D);
+            path2D = null;
+        } else
+            ctx.stroke();
     }
 
     @Override
@@ -471,13 +484,23 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
         @Override
     public void fillRoundRect(double x, double y, double w, double h, double arcWidth, double arcHeight) {
-        Console.log("HtmlGraphicsContext.fillRoundRect() not implemented");
+        ctx.beginPath();
+        roundRect(ctx, x, y, w, h, arcWidth / 2, arcHeight / 2);
+        ctx.closePath();
+        ctx.fill();
     }
 
     @Override
     public void strokeRoundRect(double x, double y, double w, double h, double arcWidth, double arcHeight) {
-        Console.log("HtmlGraphicsContext.strokeRoundRect() not implemented");
+        ctx.beginPath();
+        roundRect(ctx, x, y, w, h, arcWidth / 2, arcHeight / 2);
+        ctx.closePath();
+        ctx.stroke();
     }
+
+    private static native void roundRect(CanvasRenderingContext2D ctx, double x, double y, double w, double h, double arcWidth, double arcHeight) /*-{
+        ctx.roundRect(x, y, w, h, [arcWidth, arcHeight]);
+    }-*/ ;
 
     @Override
     public void strokeLine(double x1, double y1, double x2, double y2) {
@@ -642,7 +665,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         Console.log("HtmlGraphicsContext.applyEffect() not implemented");
     }
 
-    private double degreesToRadiant(double degree) {
+    private static double degreesToRadiant(double degree) {
         return degree * Math.PI / 180;
     }
 }
