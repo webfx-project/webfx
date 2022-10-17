@@ -131,11 +131,13 @@ public abstract class HtmlRegionPeer
         CSSStyleDeclaration style = getElement().style;
         style.background = toCssBackground(background);
         // Temporary code for corner radii that considers only the first one
-        BackgroundFill firstFill = background == null ? null : Collections.get(background.getFills(), 0);
-        CornerRadii radii = firstFill == null ? null : firstFill.getRadii();
-        if (radii == null)
-            style.border = null;
-        applyBorderRadii(radii);
+        if (getNode().getBorder() == null) { // Doesn't reset border from background if there is border property set
+            BackgroundFill firstFill = background == null ? null : Collections.get(background.getFills(), 0);
+            CornerRadii radii = firstFill == null ? null : firstFill.getRadii();
+            if (radii == null)
+                style.border = null;
+            applyBorderRadii(radii);
+        }
     }
 
     @Override
