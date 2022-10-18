@@ -4,9 +4,7 @@ import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import elemental2.core.Uint8Array;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLAudioElement;
-import elemental2.dom.Response;
+import elemental2.dom.*;
 import elemental2.media.*;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
@@ -41,6 +39,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private Scheduled listenerScheduled;
     private double audioSpectrumInterval;
     private float[] magnitudes, phases;
+    private Runnable onEndOfMedia;
 
     public GwtMediaPlayerPeer(Media media) {
         this.media = media;
@@ -87,6 +86,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     private void startBufferSource() {
         bufferSource.start();
+        bufferSource.onended = p0 -> doOnEnded();
     }
 
     private void captureAudioStartTimeNow() {
@@ -246,5 +246,15 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void setAudioSpectrumListener(AudioSpectrumListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public void setOnEndOfMedia(Runnable onEndOfMedia) {
+        this.onEndOfMedia = onEndOfMedia;
+    }
+
+    private void doOnEnded() {
+        if (onEndOfMedia != null)
+            onEndOfMedia.run();
     }
 }

@@ -65,4 +65,7 @@ public class MediaPlayer {
         peer.setAudioSpectrumListener(listener);
     }
 
+    public final void setOnEndOfMedia(Runnable onEndOfMedia) {
+        peer.setOnEndOfMedia(onEndOfMedia);
+    }
 }
