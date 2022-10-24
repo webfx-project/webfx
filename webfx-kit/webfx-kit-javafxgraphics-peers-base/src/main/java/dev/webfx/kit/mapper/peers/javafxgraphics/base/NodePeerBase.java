@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 /**
  * @author Bruno Salmon
  */
-public abstract class NodePeerBase
+public class NodePeerBase
         <N extends Node, NB extends NodePeerBase<N, NB, NM>, NM extends NodePeerMixin<N, NB, NM>>
 
         implements NodePeer<N> {

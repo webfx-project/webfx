@@ -10,10 +10,17 @@ import java.time.Duration;
  */
 public class MediaPlayer {
 
+    public static final int INDEFINITE = -1; // Note: this is a count, not a Duration.
+
     private final MediaPlayerPeer peer;
+    private int cycleCount;
 
     public MediaPlayer(Media media) {
         peer = WebFxKitMediaMapper.createMediaPlayerPeer(media);
+    }
+
+    public MediaPlayerPeer getPeer() {
+        return peer;
     }
 
     public Media getMedia() {
@@ -21,7 +28,12 @@ public class MediaPlayer {
     }
 
     public void setCycleCount(int cycleCount) {
+        this.cycleCount = cycleCount;
         peer.setCycleCount(cycleCount);
+    }
+
+    public int getCycleCount() {
+        return cycleCount;
     }
 
     public void play() {

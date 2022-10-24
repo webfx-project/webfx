@@ -26,9 +26,9 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private AudioBufferSourceNode bufferSource;
     private GainNode gainNode;
     private double volume = 1;
-    private final HTMLAudioElement audio; // alternative option for local files (as window.fetch() raises a CORS exception)
+    private HTMLMediaElement mediaElement; // alternative option for local files (as window.fetch() raises a CORS exception)
     private boolean fetched, playWhenReady, loopWhenReady;
-    private double audioStartTimeMillis = -1;
+    private double mediaStartTimeMillis = -1;
     private AnalyserNode analyser;
     private Uint8Array byteTimeArray;
     private Uint8Array byteFrequencyArray;
@@ -44,13 +44,20 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     public GwtMediaPlayerPeer(Media media) {
         this.media = media;
         String url = media.getSource();
-        if (url.startsWith("file") || !url.startsWith("http") && DomGlobal.window.location.protocol.equals("file:")) {
-            audio = (HTMLAudioElement) DomGlobal.document.createElement("audio");
-            audio.src = url;
-        } else {
-            audio = null;
+        if (url.startsWith("file") || !url.startsWith("http") && DomGlobal.window.location.protocol.equals("file:"))
+            setMediaElement((HTMLAudioElement) DomGlobal.document.createElement("audio"));
+        else {
+            mediaElement = null;
             fetch(false);
         }
+    }
+
+    public void setMediaElement(HTMLMediaElement mediaElement) {
+        this.mediaElement = mediaElement;
+        mediaElement.src = media.getSource();
+        if (loopWhenReady)
+            mediaElement.loop = true;
+        mediaElement.addEventListener("ended", evt -> doOnEnded());
     }
 
     @Override
@@ -89,19 +96,19 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         bufferSource.onended = p0 -> doOnEnded();
     }
 
-    private void captureAudioStartTimeNow() {
-        audioStartTimeMillis = audioCurrentTimeMillis();
+    private void captureMediaStartTimeNow() {
+        mediaStartTimeMillis = mediaCurrentTimeMillis();
     }
 
-    private boolean isBackupAudioApi() {
-        return audio != null;
+    private boolean hasMediaElement() {
+        return mediaElement != null;
     }
 
     @Override
     public void setCycleCount(int cycleCount) {
         boolean loop = cycleCount == -1;
-        if (isBackupAudioApi())
-            audio.loop = loop;
+        if (hasMediaElement())
+            mediaElement.loop = loop;
         else if (bufferSource != null)
             bufferSource.loop = loop;
         else
@@ -110,9 +117,10 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     @Override
     public void play() {
-        if (isBackupAudioApi()) {
-            audio.play();
-            captureAudioStartTimeNow();
+        if (hasMediaElement()) {
+            setVolume(volume);
+            mediaElement.play();
+            captureMediaStartTimeNow();
         } else {
             if (bufferSource != null)
                 startBufferSource();
@@ -158,17 +166,17 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     @Override
     public void pause() {
-        if (isBackupAudioApi())
-            audio.pause();
+        if (hasMediaElement())
+            mediaElement.pause();
         else
             AUDIO_CONTEXT.suspend();
     }
 
     @Override
     public void stop() {
-        if (isBackupAudioApi()) {
-            audio.pause();
-            audio.currentTime = 0;
+        if (hasMediaElement()) {
+            mediaElement.pause();
+            mediaElement.currentTime = 0;
         } else {
             if (bufferSource != null)
                 try {
@@ -186,19 +194,19 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void setVolume(double volume) {
         this.volume = volume;
-        if (isBackupAudioApi())
-            audio.volume = volume;
+        if (hasMediaElement())
+            mediaElement.volume = volume;
         else if (gainNode != null)
             gainNode.gain.value = volume;
     }
 
     @Override
     public Duration getCurrentTime() {
-        if (audioStartTimeMillis < 0) {
-            if (!isBackupAudioApi()) {
+        if (mediaStartTimeMillis < 0) {
+            if (!hasMediaElement()) {
                 getOrCreateAnalyzer().getByteTimeDomainData(byteTimeArray);
                 if (byteTimeArray.getAt(0) != 128)
-                    captureAudioStartTimeNow();
+                    captureMediaStartTimeNow();
             }
             return Duration.ZERO;
         }
@@ -206,7 +214,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }
 
     private double elapsedTimeMillis() {
-        return audioCurrentTimeMillis() - audioStartTimeMillis;
+        return mediaCurrentTimeMillis() - mediaStartTimeMillis;
     }
 
     private AnalyserNode getOrCreateAnalyzer() {
@@ -225,8 +233,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         return analyser;
     }
 
-    private double audioCurrentTimeMillis() {
-        return isBackupAudioApi() ? System.currentTimeMillis() : AUDIO_CONTEXT.currentTime * 1000;
+    private double mediaCurrentTimeMillis() {
+        return hasMediaElement() ? System.currentTimeMillis() : AUDIO_CONTEXT.currentTime * 1000;
     }
 
     @Override

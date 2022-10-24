@@ -31,7 +31,7 @@ public abstract class HtmlNodePeer
 
         extends HtmlSvgNodePeer<HTMLElement, N, NB, NM> {
 
-    HtmlNodePeer(NB base, HTMLElement element) {
+    public HtmlNodePeer(NB base, HTMLElement element) {
         super(base, element);
     }
 

@@ -11,26 +11,25 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webfx-kit-javafxmedia-emul</artifactId>
+    <artifactId>webfx-kit-javafxmedia-registry-gwt</artifactId>
 
     <dependencies>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxgraphics-emul</artifactId>
+            <artifactId>webfx-kit-javafxmedia-emul</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxmedia-registry</artifactId>
+            <artifactId>webfx-kit-javafxgraphics-peers</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-util</artifactId>
+            <artifactId>webfx-kit-javafxmedia-peers-gwt</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 

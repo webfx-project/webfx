@@ -61,6 +61,8 @@
                 <module>webfx-kit-javafxgraphics-registry-gwt</module>
                 <module>webfx-kit-javafxmedia-emul</module>
                 <module>webfx-kit-javafxmedia-peers-gwt</module>
+                <module>webfx-kit-javafxmedia-registry</module>
+                <module>webfx-kit-javafxmedia-registry-gwt</module>
                 <module>webfx-kit-launcher</module>
                 <module>webfx-kit-openjfx</module>
                 <module>webfx-kit-util</module>
@@ -626,6 +628,8 @@
 
             <used-by-source-modules>
                 <module>java.base</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxmedia-registry</module>
                 <module>webfx-platform-util</module>
             </used-by-source-modules>
 
@@ -659,10 +663,58 @@
                 <module>elemental2-dom</module>
                 <module>elemental2-media</module>
                 <module>java.base</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxgraphics-peers-base</module>
+                <module>webfx-kit-javafxgraphics-peers-gwt</module>
                 <module>webfx-kit-javafxmedia-emul</module>
                 <module>webfx-platform-boot</module>
                 <module>webfx-platform-scheduler</module>
                 <module>webfx-platform-uischeduler</module>
+            </used-by-source-modules>
+
+        </project>
+
+        <project interface="true" name="webfx-kit-javafxmedia-registry">
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <source-packages>
+                <package>dev.webfx.kit.registry.javafxmedia</package>
+            </source-packages>
+
+            <used-by-source-modules/>
+
+        </project>
+
+        <project name="webfx-kit-javafxmedia-registry-gwt">
+
+            <implements>
+                <module>webfx-kit-javafxmedia-registry</module>
+            </implements>
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <source-packages>
+                <package>dev.webfx.kit.registry.javafxmedia</package>
+            </source-packages>
+
+            <used-by-source-modules>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxmedia-emul</module>
+                <module>webfx-kit-javafxmedia-peers-gwt</module>
             </used-by-source-modules>
 
         </project>
@@ -697,8 +749,8 @@
             </used-by-source-modules>
 
             <used-services>
-                <required-service>javafx.application.Application</required-service>
                 <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
+                <required-service>javafx.application.Application</required-service>
             </used-services>
 
         </project>
