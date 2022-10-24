@@ -32,6 +32,12 @@ import javafx.scene.media.Media;
  */
 public class GwtMediaModuleBooter implements ApplicationModuleBooter {
 
+    private static boolean USER_INTERACTED;
+
+    public static boolean hasUserInteracted() {
+        return USER_INTERACTED;
+    }
+
     @Override
     public String getModuleName() {
         return "webfx-kit-javafxmedia-peer-gwt";
@@ -49,6 +55,7 @@ public class GwtMediaModuleBooter implements ApplicationModuleBooter {
         options.setCapture(true); // Our listener will be called first
         options.setOnce(true); // We need the listener to be called only once (will be automatically removed after that)
         DomGlobal.document.body.addEventListener("mousedown", e -> { // We use "mousedown" to detect the first user interaction
+            USER_INTERACTED = true;
             String tinySilentMp3Data = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
             new GwtMediaPlayerPeer(new Media(tinySilentMp3Data)).play(); // This will unlock the sound
         }, options);
