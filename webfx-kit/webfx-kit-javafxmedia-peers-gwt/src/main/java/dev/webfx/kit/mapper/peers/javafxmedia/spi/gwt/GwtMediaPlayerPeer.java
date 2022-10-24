@@ -124,7 +124,13 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     public void play() {
         if (hasMediaElement()) {
             setVolume(volume);
-            mediaElement.play();
+            try {
+                mediaElement.play();
+            } catch (Throwable e) { // This can happen if we try to play a video before the first user interaction
+                // In that case, we mute the video and try again
+                mediaElement.muted = true;
+                mediaElement.play();
+            }
             captureMediaStartTimeNow();
         } else {
             if (bufferSource != null)
