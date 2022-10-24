@@ -24,6 +24,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private AudioBufferSourceNode bufferSource;
     private GainNode gainNode;
     private double volume = 1;
+    private boolean mute;
     private HTMLMediaElement mediaElement; // alternative option for local files (as window.fetch() raises a CORS exception)
     private boolean fetched, playWhenReady, loopWhenReady;
     private double mediaStartTimeMillis = -1;
@@ -63,6 +64,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         mediaElement.src = media.getSource();
         if (loopWhenReady)
             mediaElement.loop = true;
+        if (mute)
+            mediaElement.muted = true;
     }
 
     @Override
@@ -124,8 +127,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     public void play() {
         if (hasMediaElement()) {
             setVolume(volume);
-            // Muting the media if the user hasn't yet interacted (otherwise play() will raise an exception)
-            if (!GwtMediaModuleBooter.hasUserInteracted())
+            // Muting the media if asked or if the user hasn't yet interacted (otherwise play() will raise an exception)
+            if (mute || !GwtMediaModuleBooter.hasUserInteracted())
                 mediaElement.muted = true;
             mediaElement.play();
             captureMediaStartTimeNow();
@@ -206,6 +209,11 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             mediaElement.volume = volume;
         else if (gainNode != null)
             gainNode.gain.value = volume;
+    }
+
+    @Override
+    public void setMute(boolean mute) {
+        this.mute = mute;
     }
 
     @Override

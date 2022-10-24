@@ -52,6 +52,11 @@ public class MediaPlayer {
         peer.setVolume(volume);
     }
 
+
+    public final void setMute(boolean mute) {
+        peer.setMute(mute);
+    }
+
     public final Duration getCurrentTime() {
         return peer.getCurrentTime();
     }

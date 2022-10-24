@@ -22,6 +22,8 @@ public interface MediaPlayerPeer {
 
     void setVolume(double volume);
 
+    void setMute(boolean mute);
+
     Duration getCurrentTime();
 
     void setAudioSpectrumInterval(double value);
