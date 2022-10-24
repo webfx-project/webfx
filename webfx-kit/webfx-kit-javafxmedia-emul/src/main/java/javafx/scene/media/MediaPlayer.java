@@ -80,4 +80,9 @@ public class MediaPlayer {
     public final void setOnEndOfMedia(Runnable onEndOfMedia) {
         peer.setOnEndOfMedia(onEndOfMedia);
     }
+
+    public final void setOnPlaying(Runnable onPlaying) {
+        peer.setOnPlaying(onPlaying);
+    }
+
 }

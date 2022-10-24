@@ -16,8 +16,6 @@ import java.time.Duration;
  */
 final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
-    // Note: Only the sound supported for now (no video yet)
-
     // Creating one single audio context for the whole application
     // If the user has not yet interacted with the page, the audio context will be in "suspended" mode
     private static final AudioContext AUDIO_CONTEXT = new AudioContext();
@@ -39,7 +37,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private Scheduled listenerScheduled;
     private double audioSpectrumInterval;
     private float[] magnitudes, phases;
-    private Runnable onEndOfMedia;
+    private Runnable onEndOfMedia, onPlaying;
 
     public GwtMediaPlayerPeer(Media media) {
         this.media = media;
@@ -54,10 +52,17 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     public void setMediaElement(HTMLMediaElement mediaElement) {
         this.mediaElement = mediaElement;
+        mediaElement.onplaying = p0 -> {
+            doOnPlaying();
+            return null;
+        };
+        mediaElement.onended = p0 -> {
+            doOnEnded();
+            return null;
+        };
         mediaElement.src = media.getSource();
         if (loopWhenReady)
             mediaElement.loop = true;
-        mediaElement.addEventListener("ended", evt -> doOnEnded());
     }
 
     @Override
@@ -259,6 +264,16 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void setOnEndOfMedia(Runnable onEndOfMedia) {
         this.onEndOfMedia = onEndOfMedia;
+    }
+
+    @Override
+    public void setOnPlaying(Runnable onPlaying) {
+        this.onPlaying = onPlaying;
+    }
+
+    private void doOnPlaying() {
+        if (onPlaying != null)
+            onPlaying.run();
     }
 
     private void doOnEnded() {
