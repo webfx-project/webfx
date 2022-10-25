@@ -93,4 +93,9 @@ public class HtmlMediaViewPeer
     private double getVideoHeight() {
         return loaded ? videoElement.videoHeight : videoElement.offsetHeight;
     }
+
+    @Override
+    public double measure(HTMLElement e, boolean width) { // Important correction of measure() for FireFox where offsetWidth/Height is not immediately equals to videoWidth/Height
+        return width ? getVideoWidth() : getVideoHeight();
+    }
 }
