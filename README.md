@@ -50,7 +50,10 @@ For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-
 WebFX compiles your JavaFX application together with the WebFX Kit - a GWT compatible version of OpenJFX.
 
 <p align="center">
-  <img src="https://docs.webfx.dev/webfx-how-it-works.svg" />
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://docs.webfx.dev/webfx-readmes/webfx-kit-dark.svg">
+      <img src="https://docs.webfx.dev/webfx-how-it-works.svg">
+    </picture>
 </p>
 
 For more explanation, please read the [documentation][webfx-docs].
