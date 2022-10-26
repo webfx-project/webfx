@@ -1,27 +1,31 @@
 # WebFX [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/WebFXProject.svg?style=social&label=WebFXProject)](https://twitter.com/WebFXProject)
 
-WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript web app (with no plugin or server required for its execution in the browser). For more explanation, please visit the [website][webfx-website].
+WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript web app (with no plugin or server required for its execution in the browser).
+
+For more explanation, please visit the [website][webfx-website].
 
 ## Demos
 
 <div align="center">
 <table>
 <tr>
-<td colspan="2" align="center"><a href="https://colorfulcircles.webfx.dev"> <img alt="Colorful Circles" src="https://webfx-demos.github.io/webfx-demos-videos/ColorfulCircles.webp"/><br/> Colorful Circles</a></td>
-<td colspan="2" align="center"><a href="https://tallycounter.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/TallyCounter.webp"/><br/>Tally Counter</a>
+<td align="center"><a href="https://tallycounter.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/TallyCounter.webp"/><br/>Tally Counter</a>
 </td>
 <td align="center"><a href="https://moderngauge.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/ModernGauge.webp"/><br/>Modern Gauge</a></td>
+<td align="center"><a href="https://enzoclocks.webfx.dev"> <img src="https://webfx-demos.github.io/webfx-demos-videos/EnzoClocks.webp"/><br/> Enzo Clocks</a></td>
 <td align="center"><a href="https://fx2048.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/FX2048.webp"/><br/>FX2048</a></td>
 </tr>
 <tr>
 <td align="center"><a href="https://spacefx.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/SpaceFX.webp"/><br/>SpaceFX</a> ♪</td>
-<td colspan="2" align="center"><a href="https://demofx.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/DemoFX.webp"/><br/>DemoFX</a> ♪</td>
-<td colspan="2" align="center"><a href="https://raytracer.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/RayTracer.webp"/><br/>Ray Tracer</a></td>
-<td colspan="2" align="center"><a href="https://mandelbrot.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/Mandelbrot.GIF"/><br/>Mandelbrot</a></td>
+<td align="center"><a href="https://demofx.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/DemoFX.webp"/><br/>DemoFX</a> ♪</td>
+<td align="center"><a href="https://raytracer.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/RayTracer.webp"/><br/>Ray Tracer</a></td>
+<td align="center"><a href="https://mandelbrot.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/Mandelbrot.GIF"/><br/>Mandelbrot</a></td>
 </tr>
 <tr>
-<td colspan="7" align="center">
-<a href="https://github.com/webfx-demos">More demos</a>
+<td colspan="4" align="center">
+<a href="https://github.com/webfx-demos">
+<img width="100%" src='https://webfx-demos.github.io/webfx-demos-videos/MoreDemos.svg'/>
+</a>
 </td>
 </tr>
 </table>
@@ -49,12 +53,12 @@ For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-
 
 WebFX compiles your JavaFX application together with the WebFX Kit - a GWT compatible version of OpenJFX.
 
-<p align="center">
+<div align="center">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://docs.webfx.dev/webfx-readmes/webfx-kit-dark.svg">
       <img src="https://docs.webfx.dev/webfx-how-it-works.svg">
     </picture>
-</p>
+</div>
 
 For more explanation, please read the [documentation][webfx-docs].
 
