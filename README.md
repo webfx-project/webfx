@@ -1,12 +1,31 @@
 # WebFX [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/WebFXProject.svg?style=social&label=WebFXProject)](https://twitter.com/WebFXProject)
 
-WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript web app (with no plugin or server required for its execution in the browser).
+WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript web app (with no plugin or server required for its execution in the browser). For more explanation, please visit the [website][webfx-website].
 
-<p align="center">
-  <img src="https://docs.webfx.dev/webfx-how-it-works.svg" />
-</p>
+## Demos
 
-For more explanation, please visit the [website][webfx-website] and read the [documentation][webfx-docs].
+<div align="center">
+<table>
+<tr>
+<td colspan="2" align="center"><a href="https://colorfulcircles.webfx.dev"> <img alt="Colorful Circles" src="https://webfx-demos.github.io/webfx-demos-videos/ColorfulCircles.webp"/><br/> Colorful Circles</a></td>
+<td colspan="2" align="center"><a href="https://tallycounter.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/TallyCounter.webp"/><br/>Tally Counter</a>
+</td>
+<td align="center"><a href="https://moderngauge.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/ModernGauge.webp"/><br/>Modern Gauge</a></td>
+<td align="center"><a href="https://fx2048.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/FX2048.webp"/><br/>FX2048</a></td>
+</tr>
+<tr>
+<td align="center"><a href="https://spacefx.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/SpaceFX.webp"/><br/>SpaceFX</a> ♪</td>
+<td colspan="2" align="center"><a href="https://demofx.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/DemoFX.webp"/><br/>DemoFX</a> ♪</td>
+<td colspan="2" align="center"><a href="https://raytracer.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/RayTracer.webp"/><br/>Ray Tracer</a></td>
+<td colspan="2" align="center"><a href="https://mandelbrot.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/Mandelbrot.GIF"/><br/>Mandelbrot</a></td>
+</tr>
+<tr>
+<td colspan="7" align="center">
+<a href="https://github.com/webfx-demos">More demos</a>
+</td>
+</tr>
+</table>
+</div>
 
 ## Fully cross-platform
 
@@ -26,13 +45,15 @@ WebFX doesn't target only the Web. WebFX applications can be compiled to run nat
 You can check out the demos to see how a GitHub workflow can generate these executables.
 For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-demo-fx2048/blob/main/.github/workflows/builds.yml) for the FX2048 demo and the [executables](https://github.com/webfx-demos/webfx-demo-fx2048/releases) that it generated.
 
-## Ecosystem
+## How it works
 
-In addition to this repository, which is the very heart of WebFX, a whole ecosystem is being built for the development of complex WebFX applications, such as Enterprise level applications. This ecosystem is presented at the [WebFX Project](https://github.com/webfx-project) level.
+WebFX compiles your JavaFX application together with the WebFX Kit - a GWT compatible version of OpenJFX.
 
-## More demos
+<p align="center">
+  <img src="https://docs.webfx.dev/webfx-how-it-works.svg" />
+</p>
 
-We have a dedicated space for the [demos][webfx-demos]. You will find all the demos presented on the website, and many more live demos, with their source code and GitHub workflow.
+For more explanation, please read the [documentation][webfx-docs].
 
 ## Getting started
 
@@ -46,12 +67,16 @@ WebFX is not yet ready for production.
 At this stage, we provide only snapshot releases, and breaking changes may occur until the first official release.
 But you are very welcome to try WebFX and play with it.
 
+## Ecosystem
+
+In addition to the WebFX Kit, a whole ecosystem is being built for the development of complex WebFX applications, such as Enterprise level applications. This ecosystem is presented at the [WebFX Project](https://github.com/webfx-project) level.
+
 ## Roadmap
 
 You can consult our [roadmap](ROADMAP.md). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
 
 
-## Keep updated
+## Keep updated [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/WebFXProject.svg?style=social&label=WebFXProject)](https://twitter.com/WebFXProject)
 
 You can follow us on [Twitter](https://twitter.com/WebFXProject) or subscribe to our [blog][webfx-blog] where we will post regular news and updates on the progress made.
 
