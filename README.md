@@ -80,7 +80,7 @@ In addition to the WebFX Kit, a whole ecosystem is being built for the developme
 
 ## Roadmap
 
-You can consult our [roadmap](ROADMAP.md). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
+You can consult our [roadmap](docs/ROADMAP.md). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
 
 
 ## Keep updated [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/WebFXProject.svg?style=social&label=WebFXProject)](https://twitter.com/WebFXProject)
@@ -96,11 +96,11 @@ You can greatly help the project by:
 - Giving us feedback in our GitHub [discussions][webfx-discussions]
 - Sharing your first WebFX applications (we can add it to our [demo list][webfx-demos] if you wish)
 
-You want to get involved in the development as well? You are very welcome! Please read our [contributing guide](CONTRIBUTING.md).
+You want to get involved in the development as well? You are very welcome! Please read our [contributing guide](docs/CONTRIBUTING.md).
 
 ## License
 
-WebFX is a free, open-source software licensed under the [Apache License 2.0](LICENSE)
+WebFX is a free, open-source software licensed under the [Apache License 2.0](docs/LICENSE)
 
 [webfx-website]: https://webfx.dev
 [webfx-docs]: https://docs.webfx.dev

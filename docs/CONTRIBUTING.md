@@ -5,7 +5,7 @@ Thank you so much for your wish to contribute to WebFX! There are many areas whe
 
 ## Reporting bugs
 
-We are aware that there are bugs in the [WebFX Kit](webfx-kit), but we are not accepting bug reports at this time (issues are not open). The reason is that we have some deep work to do first (see our [roadmap](ROADMAP.md)). However, there are some exceptions:
+We are aware that there are bugs in the [WebFX Kit](../webfx-kit), but we are not accepting bug reports at this time (issues are not open). The reason is that we have some deep work to do first (see our [roadmap](ROADMAP.md)). However, there are some exceptions:
 
 - **You can report bugs found in the [WebFX CLI][webfx-cli-repo].** Issues are open for the CLI, and we will do our best to fix them.
 - **You can report bugs found in the [WebFX Platform][webfx-platform-repo]**, which is our foundation layer & API for cross-platform development (it contains all Java classes whose package starts with `dev.webfx.platform`).
@@ -13,7 +13,7 @@ We are aware that there are bugs in the [WebFX Kit](webfx-kit), but we are not a
 
 ## Fixing bugs
 
-If you found a bug in the [WebFX Kit](webfx-kit) (in this repository), either in the emulated JavaFX classes (package starting with `javafx` or `com.sun.javafx`), or in the WebFX classes (package starting with `dev.webfx.kit`), you can fork [WebFX](https://github.com/webfx-project/webfx) and try to fix it.
+If you found a bug in the [WebFX Kit](../webfx-kit) (in this repository), either in the emulated JavaFX classes (package starting with `javafx` or `com.sun.javafx`), or in the WebFX classes (package starting with `dev.webfx.kit`), you can fork [WebFX](https://github.com/webfx-project/webfx) and try to fix it.
 
 - **We are accepting pull requests should you wish to submit a bug fix from your fork.**
 
@@ -63,7 +63,7 @@ New WebFX users with no experience in Apple development may have difficulties bu
 
 ## Writing JavaDoc
 
-Most of the [WebFX Kit](webfx-kit) doesn't require JavaDoc as its API is compatible with the JavaFX API, which is already largely documented. However, the [WebFX Platform][webfx-platform-repo] needs to be documented.
+Most of the [WebFX Kit](../webfx-kit) doesn't require JavaDoc as its API is compatible with the JavaFX API, which is already largely documented. However, the [WebFX Platform][webfx-platform-repo] needs to be documented.
 
 - **Please [contact us][webfx-contactus] if you would like to write some JavaDoc.**
 
@@ -94,7 +94,7 @@ Where our [documentation](https://docs.webfx.dev) is not clear or detailed enoug
 Because we are in the incubation phase, now is the best time to review our code, especially our API (breaking changes will be much more painful after that time). If you find it difficult to use, or feel it could be improved, don't hesitate to give us your feedback.
 
 - **If the code is in the [WebFX Platform][webfx-platform-repo], you can open an issue.**
-- **If the code is in the [WebFX Kit](webfx-kit), please [contact us][webfx-contactus].**
+- **If the code is in the [WebFX Kit](../webfx-kit), please [contact us][webfx-contactus].**
 
 
 ## Investigating J2CL
