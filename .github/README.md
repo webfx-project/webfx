@@ -24,7 +24,7 @@ For more explanation, please visit the [website][webfx-website].
 <tr>
 <td colspan="4" align="center">
 <a href="https://github.com/webfx-demos">
-<img width="100%" src='https://webfx-demos.github.io/webfx-demos-videos/MoreDemos.svg'/>
+<img width="100%" src='MoreDemos.svg'/>
 </a>
 </td>
 </tr>
@@ -33,18 +33,31 @@ For more explanation, please visit the [website][webfx-website].
 
 ## Fully cross-platform
 
-WebFX doesn't target only the Web. WebFX applications can be compiled to run natively on all major platforms from a single code base:
+WebFX doesn't target only the Web. WebFX applications can be compiled to run natively on 7 platforms from a single code base:
 
 <div align="center">
 
-| Platform                                    | 32-bit JRE | 64-bit JRE | 64-bit Native |
-|---------------------------------------------|:----------:|:----------:|:-------------:|
-| Desktops (Windows, macOS & Linux)           |     ✅      |     ✅      |       ✅       |
-| Tablets & mobiles (Android & iOS)           |     ❌      |     ❌      |       ✅       |
-| Embed (Raspberry Pi) ~ *not yet documented* |     ✅      |     ✅      |       ✅       |
-| Browsers (Chrome, FireFox, Edge, etc...)    |     --     |     --     |      --       |
+<table>
+<tr>
+<td><img height="50" src="windows.svg"/></td>
+<td><img height="50" src="apple.svg"/></td>
+<td><img height="50" src="linux.svg"/></td>
+<td><img height="50" src="android.svg"/></td>
+<td><img height="50" src="ios.png"/></td>
+<td><img height="50" src="raspberry-pi.svg"/></td>
+<td><img height="50" src="html5.svg"/></td>
+</tr>
+</table>
+
+| Platform                                    |          32-bit JRE           |          64-bit JRE           |         64-bit Native         |
+|---------------------------------------------|:-----------------------------:|:-----------------------------:|:-----------------------------:|
+| Desktops (Windows, macOS & Linux)           |               ✅               |               ✅               |               ✅               |
+| Tablets & mobiles (Android & iOS)           |               ❌               |               ❌               |               ✅               |
+| Embed (Raspberry Pi) ~ *not yet documented* |               ✅               |               ✅               |               ✅               |
+| Browsers (Chrome, FireFox, Edge, etc...)    | <img height=24 src="JS.svg"/> | <img height=24 src="JS.svg"/> | <img height=24 src="JS.svg"/> |
 
 </div>
+
 
 You can check out the demos to see how a GitHub workflow can generate these executables.
 For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-demo-fx2048/blob/main/.github/workflows/builds.yml) for the FX2048 demo and the [executables](https://github.com/webfx-demos/webfx-demo-fx2048/releases) that it generated.
