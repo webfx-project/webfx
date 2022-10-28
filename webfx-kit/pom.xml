@@ -33,6 +33,11 @@
         <module>webfx-kit-javafxmedia-peers-gwt</module>
         <module>webfx-kit-javafxmedia-registry</module>
         <module>webfx-kit-javafxmedia-registry-gwt</module>
+        <module>webfx-kit-javafxweb-emul</module>
+        <module>webfx-kit-javafxweb-peers-base</module>
+        <module>webfx-kit-javafxweb-peers-gwt</module>
+        <module>webfx-kit-javafxweb-registry</module>
+        <module>webfx-kit-javafxweb-registry-gwt</module>
         <module>webfx-kit-launcher</module>
         <module>webfx-kit-openjfx</module>
         <module>webfx-kit-util</module>

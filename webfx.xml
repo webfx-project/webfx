@@ -63,6 +63,11 @@
                 <module>webfx-kit-javafxmedia-peers-gwt</module>
                 <module>webfx-kit-javafxmedia-registry</module>
                 <module>webfx-kit-javafxmedia-registry-gwt</module>
+                <module>webfx-kit-javafxweb-emul</module>
+                <module>webfx-kit-javafxweb-peers-base</module>
+                <module>webfx-kit-javafxweb-peers-gwt</module>
+                <module>webfx-kit-javafxweb-registry</module>
+                <module>webfx-kit-javafxweb-registry-gwt</module>
                 <module>webfx-kit-launcher</module>
                 <module>webfx-kit-openjfx</module>
                 <module>webfx-kit-util</module>
@@ -719,6 +724,118 @@
 
         </project>
 
+        <project name="webfx-kit-javafxweb-emul">
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <source-packages>
+                <package>javafx.scene.web</package>
+            </source-packages>
+
+            <used-by-source-modules>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-javafxweb-registry</module>
+            </used-by-source-modules>
+
+        </project>
+
+        <project name="webfx-kit-javafxweb-peers-base">
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <source-packages>
+                <package>dev.webfx.kit.mapper.peers.javafxweb.base</package>
+            </source-packages>
+
+            <used-by-source-modules>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxgraphics-peers-base</module>
+                <module>webfx-kit-javafxweb-emul</module>
+            </used-by-source-modules>
+
+        </project>
+
+        <project name="webfx-kit-javafxweb-peers-gwt">
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <source-packages>
+                <package>dev.webfx.kit.mapper.peers.javafxweb.spi.gwt</package>
+            </source-packages>
+
+            <used-by-source-modules>
+                <module>elemental2-dom</module>
+                <module>webfx-kit-javafxgraphics-peers-gwt</module>
+                <module>webfx-kit-javafxweb-emul</module>
+                <module>webfx-kit-javafxweb-peers-base</module>
+            </used-by-source-modules>
+
+        </project>
+
+        <project interface="true" name="webfx-kit-javafxweb-registry">
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <source-packages>
+                <package>dev.webfx.kit.registry.javafxweb</package>
+            </source-packages>
+
+            <used-by-source-modules/>
+
+        </project>
+
+        <project name="webfx-kit-javafxweb-registry-gwt">
+
+            <implements>
+                <module>webfx-kit-javafxweb-registry</module>
+            </implements>
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <source-packages>
+                <package>dev.webfx.kit.registry.javafxweb</package>
+            </source-packages>
+
+            <used-by-source-modules>
+                <module>webfx-kit-javafxgraphics-peers</module>
+                <module>webfx-kit-javafxweb-emul</module>
+                <module>webfx-kit-javafxweb-peers-gwt</module>
+            </used-by-source-modules>
+
+        </project>
+
         <project name="webfx-kit-launcher">
 
             <exported-packages>
@@ -749,8 +866,8 @@
             </used-by-source-modules>
 
             <used-services>
-                <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
                 <required-service>javafx.application.Application</required-service>
+                <required-service>dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider</required-service>
             </used-services>
 
         </project>
