@@ -39,13 +39,23 @@ WebFX doesn't target only the Web. WebFX applications can be compiled to run nat
 
 <table>
 <tr>
-<td><img height="50" src="windows.svg"/></td>
-<td><img height="50" src="apple.svg"/></td>
-<td><img height="50" src="linux.svg"/></td>
-<td><img height="50" src="android.svg"/></td>
-<td><img height="50" src="ios.png"/></td>
-<td><img height="50" src="raspberry-pi.svg"/></td>
-<td><img height="50" src="html5.svg"/></td>
+<td><img src="windows.svg"/></td>
+<td>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="apple-dark.svg">
+        <img src="apple.svg" />
+    </picture>
+</td>
+<td>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="linux-dark.svg">
+        <img src="linux.svg" />
+    </picture>
+</td>
+<td><img src="android.svg"/></td>
+<td><img src="ios.svg"/></td>
+<td><img src="raspberry-pi.svg"/></td>
+<td><img src="html5.svg"/></td>
 </tr>
 </table>
 
@@ -54,7 +64,7 @@ WebFX doesn't target only the Web. WebFX applications can be compiled to run nat
 | Desktops (Windows, macOS & Linux)           |               ✅               |               ✅               |               ✅               |
 | Tablets & mobiles (Android & iOS)           |               ❌               |               ❌               |               ✅               |
 | Embed (Raspberry Pi) ~ *not yet documented* |               ✅               |               ✅               |               ✅               |
-| Browsers (Chrome, FireFox, Edge, etc...)    | <img height=24 src="JS.svg"/> | <img height=24 src="JS.svg"/> | <img height=24 src="JS.svg"/> |
+| Web (Chrome, FireFox, Edge, etc...)         | <img height=24 src="JS.svg"/> | <img height=24 src="JS.svg"/> | <img height=24 src="JS.svg"/> |
 
 </div>
 
