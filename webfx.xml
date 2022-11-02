@@ -785,6 +785,9 @@
 
             <used-by-source-modules>
                 <module>elemental2-dom</module>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxgraphics-peers</module>
                 <module>webfx-kit-javafxgraphics-peers-gwt</module>
                 <module>webfx-kit-javafxweb-emul</module>
                 <module>webfx-kit-javafxweb-peers-base</module>
@@ -940,7 +943,9 @@
             </exported-packages>
 
             <dependencies>
-                <used-by-source-modules/>
+                <used-by-source-modules>
+                    <module transitive="true">webfx-platform-util</module>
+                </used-by-source-modules>
             </dependencies>
 
             <source-packages>

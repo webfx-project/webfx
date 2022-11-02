@@ -6,7 +6,9 @@
     </exported-packages>
 
     <dependencies>
-        <used-by-source-modules/>
+        <used-by-source-modules>
+            <module transitive="true">webfx-platform-util</module> <!-- Due to use of dev.webfx.platform.util.function.Converter in ObservableLists -->
+        </used-by-source-modules>
     </dependencies>
 
 </project>
