@@ -128,7 +128,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         if (hasMediaElement()) {
             setVolume(volume);
             // Muting the media if asked or if the user hasn't yet interacted (otherwise play() will raise an exception)
-            if (mute || !GwtMediaModuleBooter.hasUserInteracted())
+            if (mute || GwtMediaModuleBooter.mediaRequiresUserInteractionFirst())
                 mediaElement.muted = true;
             mediaElement.play();
             captureMediaStartTimeNow();

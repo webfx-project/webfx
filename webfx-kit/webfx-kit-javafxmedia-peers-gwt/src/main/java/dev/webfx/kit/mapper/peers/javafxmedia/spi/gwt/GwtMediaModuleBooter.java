@@ -32,10 +32,10 @@ import javafx.scene.media.Media;
  */
 public class GwtMediaModuleBooter implements ApplicationModuleBooter {
 
-    private static boolean USER_INTERACTED;
+    private static boolean MEDIA_REQUIRES_USER_INTERACTION_FIRST = true;
 
-    public static boolean hasUserInteracted() {
-        return USER_INTERACTED;
+    public static boolean mediaRequiresUserInteractionFirst() {
+        return MEDIA_REQUIRES_USER_INTERACTION_FIRST;
     }
 
     @Override
@@ -54,10 +54,10 @@ public class GwtMediaModuleBooter implements ApplicationModuleBooter {
         options.setPassive(true); // We promise we won't call preventDefault()
         options.setCapture(true); // Our listener will be called first
         options.setOnce(true); // We need the listener to be called only once (will be automatically removed after that)
-        DomGlobal.document.body.addEventListener("mousedown", e -> { // We use "mousedown" to detect the first user interaction
-            USER_INTERACTED = true;
+        DomGlobal.document.body.addEventListener("click", e -> { // We use "click" to detect the first user interaction
             String tinySilentMp3Data = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
             new GwtMediaPlayerPeer(new Media(tinySilentMp3Data)).play(); // This will unlock the sound
+            MEDIA_REQUIRES_USER_INTERACTION_FIRST = false;
         }, options);
     }
 
