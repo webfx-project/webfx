@@ -18,7 +18,7 @@ For more explanation, please visit the [website][webfx-website].
 <tr>
 <td align="center"><a href="https://demofx.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/DemoFX.webp"/><br/>DemoFX</a> ♪</td>
 <td align="center"><a href="https://raytracer.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/RayTracer.webp"/><br/>Ray Tracer</a></td>
-<td align="center"><a href="https://mandelbrot.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/Mandelbrot.GIF"/><br/>Mandelbrot</a></td>
+<td align="center"><a href="https://mandelbrot.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/Mandelbrot.webp"/><br/>Mandelbrot</a></td>
 <td align="center"><a href="https://fx2048.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/FX2048.webp"/><br/>FX2048</a></td>
 </tr>
 <tr>
@@ -40,18 +40,8 @@ WebFX doesn't target only the Web. WebFX applications can be compiled to run nat
 <table>
 <tr>
 <td><img src="windows.svg"/></td>
-<td>
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="apple-dark.svg">
-        <img src="apple.svg" />
-    </picture>
-</td>
-<td>
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="linux-dark.svg">
-        <img src="linux.svg" />
-    </picture>
-</td>
+<td><img src="apple-dark.svg"/></td>
+<td><img src="linux-dark.svg"/></td>
 <td><img src="android.svg"/></td>
 <td><img src="ios.svg"/></td>
 <td><img src="raspberry-pi.svg"/></td>
