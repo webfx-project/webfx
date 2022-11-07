@@ -58,6 +58,20 @@ public class WebView extends Parent {
         return urlProperty;
     }
 
+    private final StringProperty loadContentProperty = new SimpleStringProperty();
+
+    public void setLoadContent(String loadContent) {
+        loadContentProperty.set(loadContent);
+    }
+
+    public String getLoadContent() {
+        return loadContentProperty.get();
+    }
+
+    public StringProperty loadContentProperty() {
+        return loadContentProperty;
+    }
+
     public WebEngine getEngine() {
         return engine;
     }

@@ -8,4 +8,6 @@ public interface EmulWebViewPeerMixin
         extends WebViewPeerMixin<N, NB, NM> {
 
     void updateUrl(String url);
+
+    void updateLoadContent(String content);
 }

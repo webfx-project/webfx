@@ -14,4 +14,8 @@ public class WebEngine {
     public void load(String url) {
         webView.setUrl(url);
     }
+
+    public void loadContent(String loadContent) {
+        webView.setLoadContent(loadContent);
+    }
 }

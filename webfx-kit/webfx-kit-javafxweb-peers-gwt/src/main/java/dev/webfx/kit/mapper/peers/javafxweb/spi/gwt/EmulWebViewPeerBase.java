@@ -16,7 +16,8 @@ public class EmulWebViewPeerBase
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         requestUpdateOnPropertiesChange(sceneRequester
-                , getNode().urlProperty()
+                , node.urlProperty()
+                , node.loadContentProperty()
         );
     }
 
@@ -24,6 +25,7 @@ public class EmulWebViewPeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
                 || updateProperty(node.urlProperty(), changedProperty, mixin::updateUrl)
+                || updateProperty(node.loadContentProperty(), changedProperty, mixin::updateLoadContent)
                 ;
     }
 

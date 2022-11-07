@@ -8,8 +8,6 @@ import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLIFrameElement;
 import javafx.scene.web.WebView;
 
-import java.util.Objects;
-
 /**
  * @author Bruno Salmon
  */
@@ -40,8 +38,14 @@ public class HtmlWebViewPeer
     @Override
     public void updateUrl(String url) {
         HTMLIFrameElement iFrame = (HTMLIFrameElement) getElement();
-        if (!Objects.equals(iFrame.src, url))
+        if (url != null)
             iFrame.src = url;
     }
 
+    @Override
+    public void updateLoadContent(String content) {
+        HTMLIFrameElement iFrame = (HTMLIFrameElement) getElement();
+        if (content != null)
+            iFrame.srcdoc = content;
+    }
 }
