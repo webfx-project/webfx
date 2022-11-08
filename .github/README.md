@@ -4,7 +4,7 @@ WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can t
 
 For more explanation, please visit the [website][webfx-website].
 
-## Demos
+## Graphical demos
 
 <div align="center">
 <table>
@@ -30,6 +30,31 @@ For more explanation, please visit the [website][webfx-website].
 </tr>
 </table>
 </div>
+
+## Enterprise demo (coming soon)
+
+[Modality](https://github.com/modalityone/modality) is the first real-world Enterprise-level WebFX application in development. Here are a few wireframes of the back-office (WebFX will provide all the components required for these UIs):
+
+<table>
+<tr>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-01.png"><img src="https://modality.one/wireframes/Modality-wireframe-01-thumbnail.png"/></a></td>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-02.png"><img src="https://modality.one/wireframes/Modality-wireframe-02-thumbnail.png"/></a></td>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-03.png"><img src="https://modality.one/wireframes/Modality-wireframe-03-thumbnail.png"/></a></td>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-04.png"><img src="https://modality.one/wireframes/Modality-wireframe-04-thumbnail.png"/></a></td>
+</tr>
+<tr>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-05.png"><img src="https://modality.one/wireframes/Modality-wireframe-05-thumbnail.png"/></a></td>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-06.png"><img src="https://modality.one/wireframes/Modality-wireframe-06-thumbnail.png"/></a></td>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-07.png"><img src="https://modality.one/wireframes/Modality-wireframe-07-thumbnail.png"/></a></td>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-08.png"><img src="https://modality.one/wireframes/Modality-wireframe-08-thumbnail.png"/></a></td>
+</tr>
+<tr>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-09.png"><img src="https://modality.one/wireframes/Modality-wireframe-09-thumbnail.png"/></a></td>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-10.png"><img src="https://modality.one/wireframes/Modality-wireframe-10-thumbnail.png"/></a></td>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-11.png"><img src="https://modality.one/wireframes/Modality-wireframe-11-thumbnail.png"/></a></td>
+<td><a href="https://modality.one/wireframes/Modality-wireframe-12.png"><img src="https://modality.one/wireframes/Modality-wireframe-12-thumbnail.png"/></a></td>
+</tr>
+</table>
 
 ## Fully cross-platform
 
@@ -79,17 +104,20 @@ For more explanation, please read the [documentation][webfx-docs].
 
 The [guide to getting started][webfx-guide] is included in the documentation.
 
-## Status
-
-Although the project successfully passed the Proof of Concept and the prototype phases, it's still in the incubation phase. We are working to make it a Minimal Viable Product.
-
-WebFX is not yet ready for production.
-At this stage, we provide only snapshot releases, and breaking changes may occur until the first official release.
-But you are very welcome to try WebFX and play with it.
-
 ## Ecosystem
 
-In addition to the WebFX Kit, a whole ecosystem is being built for the development of complex WebFX applications, such as Enterprise level applications. This ecosystem is presented at the [WebFX Project](https://github.com/webfx-project) level.
+<div align="center">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://docs.webfx.dev/webfx-readmes/webfx-project-dark.svg">
+      <img src="https://docs.webfx.dev/webfx-readmes/webfx-project-light.svg" />
+    </picture>
+</div>
+
+Although the WebFX Kit (this repository) is the very heart of the project, there are other important repositories that together comprise the WebFX ecosystem. More info about them is given at the [organization level](https://github.com/webfx-project).
+
+## Status
+
+WebFX is still in the incubation phase. At this stage, we provide only snapshot releases, and breaking changes may occur until the first official release.
 
 ## Roadmap
 
