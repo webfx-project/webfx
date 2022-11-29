@@ -23,12 +23,18 @@ public abstract class HtmlControlPeer
     }
 
     protected void prepareDomForAdditionalSkinChildren() {
-        HTMLElement spanContainer = createAbsolutePositionSpan();
-        setContainer(spanContainer);
-        HTMLElement childrenContainer = createAbsolutePositionSpan();
-        HtmlUtil.setStyleAttribute(childrenContainer, "pointer-events", "none");
-        setChildrenContainer(childrenContainer);
-        HtmlUtil.setChildren(spanContainer, getElement(), childrenContainer);
+        // We need to set the cursor style to inherit, otherwise a call to setCursor() from the JavaFX application code
+        // (which will be mapped to the skin container) won't be correctly displayed when hovering the area of that html
+        // control element (ex: setting a hand cursor won't work on the button area which will still display the default
+        // arrow cursor). Setting the cursor style to inherit fixes the issue (ex: the hand cursor set on the skin
+        // container will also be displayed when hovering the button element).
+        setElementStyleAttribute("cursor", "inherit");
+        HTMLElement skinContainer = createAbsolutePositionSpan();
+        setContainer(skinContainer);
+        HTMLElement skinChildrenContainer = createAbsolutePositionSpan();
+        HtmlUtil.setStyleAttribute(skinChildrenContainer, "pointer-events", "none");
+        setChildrenContainer(skinChildrenContainer);
+        HtmlUtil.setChildren(skinContainer, getElement(), skinChildrenContainer);
     }
 
     private static HTMLElement createAbsolutePositionSpan() {
