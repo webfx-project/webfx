@@ -752,10 +752,9 @@ public abstract class HtmlSvgNodePeer
             case CLOSED_HAND: return "grabbing";
             case H_RESIZE: return "ew-resize";
             case V_RESIZE: return "ns-resize";
+            case DISAPPEAR: return "no-drop";
             case IMAGE: // TODO: extract url from ImageCursorFrame
-            case DISAPPEAR: // What cursor is that ???
-            case NONE: return "none";
-            // Then all other cursors have the same name: DEFAULT, CROSSHAIR, TEXT, WAIT, SW_RESIZE, SE_RESIZE, NW_RESIZE, NE_RESIZE, N_RESIZE, S_RESIZE, W_RESIZE, E_RESIZE, MOVE
+            // Then all other cursors have the same name: DEFAULT, CROSSHAIR, TEXT, WAIT, SW_RESIZE, SE_RESIZE, NW_RESIZE, NE_RESIZE, N_RESIZE, S_RESIZE, W_RESIZE, E_RESIZE, MOVE, NONE
             default: return enumNameToCss(cursorType.name());
         }
     }
