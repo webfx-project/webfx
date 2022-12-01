@@ -230,7 +230,9 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static boolean isFxEventConsumed(javafx.event.Event fxEvent) {
-        return fxEvent != null && fxEvent.isConsumed();
+        // Note: the event returned by JavaFX EventUtil.fireEvent() may return null, and in that case, this means that
+        // the passed event has been consumed. When it returns a non-null event, we need to call isConsumed() to know.
+        return fxEvent == null || fxEvent.isConsumed();
     }
 
     private void installFocusListener() {
