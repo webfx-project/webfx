@@ -30,6 +30,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -644,31 +645,41 @@ public class SplitPaneSkin extends SkinBase<SplitPane> {
             event.consume();
         });
 
-        divider.setOnMousePressed(e -> {
-            if (horizontal) {
-                divider.setInitialPos(divider.getDividerPos());
-                divider.setPressPos(e.getSceneX());
-                divider.setPressPos(false //getSkinnable().getEffectiveNodeOrientation() == NodeOrientation.RIGHT_TO_LEFT
-                        ? getSkinnable().getWidth() - e.getSceneX() : e.getSceneX());
-            } else {
-                divider.setInitialPos(divider.getDividerPos());
-                divider.setPressPos(e.getSceneY());
-            }
-            e.consume();
-        });
+        // Handling mouse events
+        divider.setOnMousePressed(e -> onDividerPressed(divider, e.getSceneX(), e.getSceneY(), e));
+        divider.setOnMouseDragged(e -> onDividerDragged(divider, e.getSceneX(), e.getSceneY(), e));
 
-        divider.setOnMouseDragged(e -> {
-            double delta = 0;
-            if (horizontal) {
-                delta = false // getSkinnable().getEffectiveNodeOrientation() == NodeOrientation.RIGHT_TO_LEFT
-                        ? getSkinnable().getWidth() - e.getSceneX() : e.getSceneX();
-            } else {
-                delta = e.getSceneY();
-            }
-            delta -= divider.getPressPos();
-            setAndCheckAbsoluteDividerPos(divider, Math.ceil(divider.getInitialPos() + delta));
-            e.consume();
-        });
+        // Handling touch events (WebFX addition)
+        divider.setOnTouchPressed(e -> onDividerPressed(divider, e.getTouchPoint().getSceneX(), e.getTouchPoint().getSceneY(), e));
+        divider.setOnTouchMoved(e ->   onDividerDragged(divider, e.getTouchPoint().getSceneX(), e.getTouchPoint().getSceneY(), e));
+    }
+
+    // WebFX addition to handle both setOnMousePressed() and setOnTouchPressed()
+    private void onDividerPressed(ContentDivider divider, double sceneX, double sceneY, Event e) {
+        if (horizontal) {
+            divider.setInitialPos(divider.getDividerPos());
+            divider.setPressPos(sceneX);
+            divider.setPressPos(false //getSkinnable().getEffectiveNodeOrientation() == NodeOrientation.RIGHT_TO_LEFT
+                    ? getSkinnable().getWidth() - sceneX : sceneX);
+        } else {
+            divider.setInitialPos(divider.getDividerPos());
+            divider.setPressPos(sceneY);
+        }
+        e.consume();
+    }
+
+    // WebFX addition to handle both setOnTouchPressed() and setOnTouchMoved()
+    private void onDividerDragged(ContentDivider divider, double sceneX, double sceneY, Event e) {
+        double delta = 0;
+        if (horizontal) {
+            delta = false // getSkinnable().getEffectiveNodeOrientation() == NodeOrientation.RIGHT_TO_LEFT
+                    ? getSkinnable().getWidth() - sceneX : sceneX;
+        } else {
+            delta = sceneY;
+        }
+        delta -= divider.getPressPos();
+        setAndCheckAbsoluteDividerPos(divider, Math.ceil(divider.getInitialPos() + delta));
+        e.consume();
     }
 
     private Content getLeft(ContentDivider d) {
