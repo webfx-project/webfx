@@ -10,7 +10,7 @@ jobs:
 
     env:
       # WebFX requires at least JDK 13 due to javac bugs in prior versions (otherwise JDK 11+ should be enough in theory)
-      jdk-version: '18'
+      jdk-version: '19'
 
     steps:
 
