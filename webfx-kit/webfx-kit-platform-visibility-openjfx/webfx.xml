@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <exported-packages>
+        <source-packages/>
+    </exported-packages>
+
+    <dependencies>
+        <used-by-source-modules/>
+    </dependencies>
+
+    <providers>
+        <provider interface="dev.webfx.platform.visibility.spi.VisibilityProvider">dev.webfx.kit.platform.visibility.spi.impl.openjfx.OpenJFXVisibilityProvider</provider>
+    </providers>
+
+</project>

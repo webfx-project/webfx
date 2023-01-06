@@ -70,6 +70,7 @@
                 <module>webfx-kit-javafxweb-registry-gwt</module>
                 <module>webfx-kit-launcher</module>
                 <module>webfx-kit-openjfx</module>
+                <module>webfx-kit-platform-visibility-openjfx</module>
                 <module>webfx-kit-util</module>
             </modules>
 
@@ -785,7 +786,6 @@
 
             <used-by-source-modules>
                 <module>elemental2-dom</module>
-                <module>java.base</module>
                 <module>webfx-kit-javafxbase-emul</module>
                 <module>webfx-kit-javafxgraphics-peers</module>
                 <module>webfx-kit-javafxgraphics-peers-gwt</module>
@@ -936,6 +936,33 @@
 
         </project>
 
+        <project name="webfx-kit-platform-visibility-openjfx">
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <providers>
+                <provider interface="dev.webfx.platform.visibility.spi.VisibilityProvider">dev.webfx.kit.platform.visibility.spi.impl.openjfx.OpenJFXVisibilityProvider</provider>
+            </providers>
+
+            <source-packages>
+                <package>dev.webfx.kit.platform.visibility.spi.impl.openjfx</package>
+            </source-packages>
+
+            <used-by-source-modules>
+                <module>webfx-kit-javafxbase-emul</module>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-launcher</module>
+                <module>webfx-platform-visibility</module>
+            </used-by-source-modules>
+
+        </project>
+
         <project name="webfx-kit-util">
 
             <exported-packages>
@@ -944,7 +971,7 @@
 
             <dependencies>
                 <used-by-source-modules>
-                    <module transitive="true">webfx-platform-util</module>
+                    <module transitive="true">webfx-platform-util</module>                    <!-- Due to use of dev.webfx.platform.util.function.Converter in ObservableLists -->
                 </used-by-source-modules>
             </dependencies>
 
