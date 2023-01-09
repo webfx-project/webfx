@@ -70,6 +70,7 @@
                 <module>webfx-kit-javafxweb-registry-gwt</module>
                 <module>webfx-kit-launcher</module>
                 <module>webfx-kit-openjfx</module>
+                <module>webfx-kit-platform-audio-openjfx</module>
                 <module>webfx-kit-platform-visibility-openjfx</module>
                 <module>webfx-kit-util</module>
             </modules>
@@ -932,6 +933,31 @@
                 <module>webfx-kit-launcher</module>
                 <module>webfx-platform-uischeduler</module>
                 <module>webfx-platform-util</module>
+            </used-by-source-modules>
+
+        </project>
+
+        <project name="webfx-kit-platform-audio-openjfx">
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <providers>
+                <provider interface="dev.webfx.platform.audio.spi.AudioServiceProvider">dev.webfx.kit.platform.audio.spi.impl.openjfx.OpenJFXAudioServiceProvider</provider>
+            </providers>
+
+            <source-packages>
+                <package>dev.webfx.kit.platform.audio.spi.impl.openjfx</package>
+            </source-packages>
+
+            <used-by-source-modules>
+                <module>webfx-kit-javafxmedia-emul</module>
+                <module>webfx-platform-audio</module>
             </used-by-source-modules>
 
         </project>
