@@ -48,6 +48,9 @@ public class MediaPlayer {
         peer.stop();
     }
 
+    public void dispose() {
+    }
+
     public void setVolume(double volume) {
         peer.setVolume(volume);
     }
