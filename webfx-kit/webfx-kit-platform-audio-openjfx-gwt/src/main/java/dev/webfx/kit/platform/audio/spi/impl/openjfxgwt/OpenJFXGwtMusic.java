@@ -1,4 +1,4 @@
-package dev.webfx.kit.platform.audio.spi.impl.openjfx;
+package dev.webfx.kit.platform.audio.spi.impl.openjfxgwt;
 
 import dev.webfx.platform.audio.Audio;
 import javafx.scene.media.Media;
@@ -7,11 +7,11 @@ import javafx.scene.media.MediaPlayer;
 /**
  * @author Bruno Salmon
  */
-public class OpenJFXMusic implements Audio {
+public class OpenJFXGwtMusic implements Audio {
 
     private MediaPlayer mediaPlayer;
 
-    public OpenJFXMusic(Media media) {
+    public OpenJFXGwtMusic(Media media) {
         mediaPlayer = new MediaPlayer(media);
     }
 

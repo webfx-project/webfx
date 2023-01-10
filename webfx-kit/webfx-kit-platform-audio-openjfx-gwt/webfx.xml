@@ -10,7 +10,7 @@
     </dependencies>
 
     <providers>
-        <provider interface="dev.webfx.platform.audio.spi.AudioServiceProvider">dev.webfx.kit.platform.audio.spi.impl.openjfx.OpenJFXAudioServiceProvider</provider>
+        <provider interface="dev.webfx.platform.audio.spi.AudioServiceProvider">dev.webfx.kit.platform.audio.spi.impl.openjfxgwt.OpenJFXGwtAudioServiceProvider</provider>
     </providers>
 
 </project>

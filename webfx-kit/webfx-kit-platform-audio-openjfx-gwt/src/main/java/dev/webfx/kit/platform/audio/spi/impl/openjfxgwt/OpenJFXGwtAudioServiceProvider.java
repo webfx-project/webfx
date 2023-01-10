@@ -1,4 +1,4 @@
-package dev.webfx.kit.platform.audio.spi.impl.openjfx;
+package dev.webfx.kit.platform.audio.spi.impl.openjfxgwt;
 
 import dev.webfx.platform.audio.Audio;
 import dev.webfx.platform.audio.spi.AudioServiceProvider;
@@ -8,15 +8,15 @@ import javafx.scene.media.Media;
 /**
  * @author Bruno Salmon
  */
-public final class OpenJFXAudioServiceProvider implements AudioServiceProvider {
+public final class OpenJFXGwtAudioServiceProvider implements AudioServiceProvider {
 
     @Override
     public Audio loadSound(String url) {
-        return new OpenJFXSound(new AudioClip(url));
+        return new OpenJFXGwtSound(new AudioClip(url));
     }
 
     @Override
     public Audio loadMusic(String url) {
-        return new OpenJFXMusic(new Media(url));
+        return new OpenJFXGwtMusic(new Media(url));
     }
 }

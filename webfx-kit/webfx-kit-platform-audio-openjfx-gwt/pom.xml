@@ -11,13 +11,14 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webfx-kit-platform-audio-openjfx</artifactId>
+    <artifactId>webfx-kit-platform-audio-openjfx-gwt</artifactId>
 
     <dependencies>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

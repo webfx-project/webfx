@@ -1,4 +1,4 @@
-package dev.webfx.kit.platform.audio.spi.impl.openjfx;
+package dev.webfx.kit.platform.audio.spi.impl.openjfxgwt;
 
 import dev.webfx.platform.audio.Audio;
 import javafx.scene.media.AudioClip;
@@ -6,11 +6,11 @@ import javafx.scene.media.AudioClip;
 /**
  * @author Bruno Salmon
  */
-final class OpenJFXSound implements Audio {
+final class OpenJFXGwtSound implements Audio {
 
     private AudioClip audioClip;
 
-    public OpenJFXSound(AudioClip audioClip) {
+    public OpenJFXGwtSound(AudioClip audioClip) {
         this.audioClip = audioClip;
     }
 
