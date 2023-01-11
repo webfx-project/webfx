@@ -1502,6 +1502,49 @@ public class Scene implements EventTarget,
     }
 
 
+    /* *************************************************************************
+     *                                                                         *
+     *                             Mouse Handling                              *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Defines a function to be called when a mouse button has been clicked
+     * (pressed and released) on this {@code Scene}.
+     */
+    private ObjectProperty<EventHandler<? super MouseEvent>> onMouseClicked;
+
+    public final void setOnMouseClicked(EventHandler<? super MouseEvent> value) {
+        onMouseClickedProperty().set(value);
+    }
+
+    public final EventHandler<? super MouseEvent> getOnMouseClicked() {
+        return onMouseClicked == null ? null : onMouseClicked.get();
+    }
+
+    public final ObjectProperty<EventHandler<? super MouseEvent>> onMouseClickedProperty() {
+        if (onMouseClicked == null) {
+            onMouseClicked = new ObjectPropertyBase<EventHandler<? super MouseEvent>>() {
+
+                @Override
+                protected void invalidated() {
+                    setEventHandler(MouseEvent.MOUSE_CLICKED, get());
+                }
+
+                @Override
+                public Object getBean() {
+                    return Scene.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "onMouseClicked";
+                }
+            };
+        }
+        return onMouseClicked;
+    }
+
     /*******************************************************************************
      *                                                                             *
      * Mouse Event Handling                                                        *
