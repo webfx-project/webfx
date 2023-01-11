@@ -9,6 +9,7 @@ import javafx.scene.media.AudioClip;
 final class OpenJFXGwtSound implements Audio {
 
     private AudioClip audioClip;
+    private long startTime;
 
     public OpenJFXGwtSound(AudioClip audioClip) {
         this.audioClip = audioClip;
@@ -27,6 +28,7 @@ final class OpenJFXGwtSound implements Audio {
     @Override
     public void play() {
         audioClip.play();
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -47,5 +49,10 @@ final class OpenJFXGwtSound implements Audio {
     @Override
     public boolean isDisposed() {
         return audioClip == null;
+    }
+
+    @Override
+    public long getCurrentTimeMillis() {
+        return System.currentTimeMillis() - startTime;
     }
 }

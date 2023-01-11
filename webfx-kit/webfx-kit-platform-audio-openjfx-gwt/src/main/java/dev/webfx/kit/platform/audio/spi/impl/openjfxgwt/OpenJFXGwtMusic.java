@@ -50,4 +50,9 @@ public class OpenJFXGwtMusic implements Audio {
     public boolean isDisposed() {
         return mediaPlayer == null;
     }
+
+    @Override
+    public long getCurrentTimeMillis() {
+        return (long) mediaPlayer.getCurrentTime().toMillis();
+    }
 }
