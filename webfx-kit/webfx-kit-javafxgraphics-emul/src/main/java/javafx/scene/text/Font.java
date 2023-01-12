@@ -1,5 +1,8 @@
 package javafx.scene.text;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  * @author Bruno Salmon
  */
@@ -12,6 +15,8 @@ public class Font {
     private final FontWeight weight;
     private final FontPosture posture;
     private final double size;
+
+    private final String url;
 
     /**
      * Constructs a font using the default face "System".
@@ -53,11 +58,16 @@ public class Font {
     }
 
     public Font(String name, String family, FontWeight weight, FontPosture posture, double size) {
+        this(name, family, weight, posture, size, null);
+    }
+
+    private Font(String name, String family, FontWeight weight, FontPosture posture, double size, String url) {
         this.name = name;
         this.family = family != null ? family : DEFAULT_FAMILY;
         this.weight = weight != null ? weight : FontWeight.NORMAL;
         this.posture = posture != null ? posture : FontPosture.REGULAR;
         this.size = size;
+        this.url = url;
     }
 
     public String getName() {
@@ -78,6 +88,10 @@ public class Font {
 
     public double getSize() {
         return size;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public static Font font(String family, FontWeight weight, FontPosture posture, double size) {
@@ -110,8 +124,38 @@ public class Font {
      */
     public static synchronized Font getDefault() {
         if (DEFAULT == null)
-            DEFAULT = font("System", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 15);
+            DEFAULT = font(DEFAULT_FAMILY, FontWeight.SEMI_BOLD, FontPosture.REGULAR, 15);
         return DEFAULT;
+    }
+
+    public static Font loadFont(String url, double size) {
+        // Guessing the font properties from the url:
+        String name = url;
+        FontWeight weight = FontWeight.NORMAL;
+        FontPosture posture = FontPosture.REGULAR;
+        // 1) removing the path (for both name and family)
+        int slashIndex = name.lastIndexOf('/');
+        if (slashIndex > 0)
+            name = name.substring(slashIndex + 1);
+        String family = name;
+        // 2) removing the extension from family (ex: .ttf)
+        int dotIndex = family.lastIndexOf('.');
+        if (dotIndex > 0)
+            family = family.substring(0, slashIndex);
+        // 3) Removing the dash from family (ex: Bitwise-m19x => Bitwise). TODO: Also setting the posture (ex: Roboto-Italic)
+        int dashIndex = family.lastIndexOf('-');
+        if (dashIndex > 0)
+            family = family.substring(0, dashIndex);
+        Font font = new Font(name, family, weight, posture, size, url);
+        // Adding the font to those that need to be loaded by the peer (see HtmlScenePeer)
+        LOADED_FONTS.add(font);
+        return font;
+    }
+
+    private final static ObservableList<Font> LOADED_FONTS = FXCollections.observableArrayList();
+
+    public static ObservableList<Font> getLoadedFonts() {
+        return LOADED_FONTS;
     }
 
 }

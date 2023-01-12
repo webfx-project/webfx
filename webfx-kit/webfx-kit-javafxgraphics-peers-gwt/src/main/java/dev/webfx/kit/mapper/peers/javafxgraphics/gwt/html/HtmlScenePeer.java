@@ -12,10 +12,12 @@ import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.*;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.LayoutFlags;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
 
 import java.util.HashMap;
@@ -39,6 +41,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         installMouseListeners();
         HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
         installStylesheetsListener(scene);
+        installFontsListener();
         document.fonts.setOnloadingdone(p0 -> { onCssOrFontLoaded(); return null; });
         // The following code is just to avoid a downgrade in Lighthouse (iframe should have a title)
         NodeList<Element> iframes = document.getElementsByTagName("iframe"); // Looking for the GWT iframe
@@ -114,19 +117,21 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void installStylesheetsListener(Scene scene) {
-        scene.getStylesheets().addListener((ListChangeListener<String>) change -> {
+        ObservableList<String> stylesheets = scene.getStylesheets();
+        addStyleSheets(stylesheets);
+        stylesheets.addListener((ListChangeListener<String>) change -> {
             while (change.next()) {
                 if (change.wasRemoved() || change.wasUpdated())
-                    removeStyleSheet(change.getRemoved());
+                    removeStyleSheets(change.getRemoved());
                 if (change.wasAdded() || change.wasUpdated())
-                    addStyleSheet(change.getAddedSubList());
+                    addStyleSheets(change.getAddedSubList());
             }
         });
     }
 
-    private Map<String /* href  => */, Element /* link */> stylesheetLinks = new HashMap<>();
+    private final Map<String /* href  => */, Element /* link */> stylesheetLinks = new HashMap<>();
 
-    private void addStyleSheet(List<? extends String> hrefs) {
+    private void addStyleSheets(List<? extends String> hrefs) {
         hrefs.forEach(href -> {
             Element link = document.createElement("link");
             link.setAttribute("rel", "stylesheet");
@@ -138,11 +143,43 @@ public final class HtmlScenePeer extends ScenePeerBase {
         });
     }
 
-    private void removeStyleSheet(List<? extends String> hrefs) {
+    private void removeStyleSheets(List<? extends String> hrefs) {
         hrefs.forEach(href -> {
             Element link = stylesheetLinks.remove(href);
             if (link != null)
                 link.parentNode.removeChild(link);
+        });
+    }
+
+    private void installFontsListener() {
+        ObservableList<Font> loadedFonts = Font.getLoadedFonts();
+        addFonts(loadedFonts);
+        loadedFonts.addListener((ListChangeListener<Font>) change -> {
+            while (change.next()) {
+                if (change.wasRemoved() || change.wasUpdated())
+                    removeFonts(change.getRemoved());
+                if (change.wasAdded() || change.wasUpdated())
+                    addFonts(change.getAddedSubList());
+            }
+        });
+    }
+
+    private final Map<String /* url  => */, FontFace /* link */> fontFaces = new HashMap<>();
+
+    private void addFonts(List<? extends Font> fonts) {
+        fonts.forEach(font -> {
+            FontFace fontFace = new FontFace(font.getFamily(), "url("  + font.getUrl() + ")");
+            fontFaces.put(font.getUrl(), fontFace);
+            document.fonts.add(fontFace);
+            fontFace.load();
+        });
+    }
+
+    private void removeFonts(List<? extends Font> fonts) {
+        fonts.forEach(font -> {
+            FontFace fontFace = fontFaces.remove(font);
+            if (fontFace != null)
+                document.fonts.delete(fontFace);
         });
     }
 
