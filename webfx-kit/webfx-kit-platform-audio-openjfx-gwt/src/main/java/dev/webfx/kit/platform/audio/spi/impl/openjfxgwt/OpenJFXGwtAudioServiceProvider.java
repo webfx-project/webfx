@@ -19,4 +19,9 @@ public final class OpenJFXGwtAudioServiceProvider implements AudioServiceProvide
     public Audio loadMusic(String url) {
         return new OpenJFXGwtMusic(new Media(url));
     }
+
+    @Override
+    public boolean supportsMusicSpectrumAnalysis() {
+        return true;
+    }
 }
