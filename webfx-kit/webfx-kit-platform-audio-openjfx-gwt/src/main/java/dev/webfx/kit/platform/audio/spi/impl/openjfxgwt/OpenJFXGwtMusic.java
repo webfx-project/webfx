@@ -1,6 +1,7 @@
 package dev.webfx.kit.platform.audio.spi.impl.openjfxgwt;
 
 import dev.webfx.platform.audio.Audio;
+import dev.webfx.platform.audio.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -55,4 +56,25 @@ public class OpenJFXGwtMusic implements Audio {
     public long getCurrentTimeMillis() {
         return (long) mediaPlayer.getCurrentTime().toMillis();
     }
+
+    @Override
+    public boolean supportsSpectrumAnalysis() {
+        return true;
+    }
+
+    @Override
+    public void setAudioSpectrumInterval(double value) {
+        mediaPlayer.setAudioSpectrumInterval(value);
+    }
+
+    @Override
+    public void setAudioSpectrumNumBands(int value) {
+        mediaPlayer.setAudioSpectrumNumBands(value);
+    }
+
+    @Override
+    public void setAudioSpectrumListener(AudioSpectrumListener listener) {
+        mediaPlayer.setAudioSpectrumListener(listener::spectrumDataUpdate);
+    }
+
 }
