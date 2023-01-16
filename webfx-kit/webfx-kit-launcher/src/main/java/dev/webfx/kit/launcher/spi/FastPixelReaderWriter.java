@@ -40,4 +40,10 @@ public interface FastPixelReaderWriter extends FastPixelReader {
         setBlue(blue);
     }
 
+    default boolean createCache() {
+        return false;
+    }
+
+    default void writeCache() {}
+
 }
