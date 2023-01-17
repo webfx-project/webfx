@@ -18,8 +18,6 @@ import dev.webfx.platform.util.function.Factory;
  */
 public interface WebFxKitLauncherProvider {
 
-    String getUserAgent();
-
     HostServices getHostServices();
 
     boolean isStageProgrammaticallyRelocatableAndResizable();

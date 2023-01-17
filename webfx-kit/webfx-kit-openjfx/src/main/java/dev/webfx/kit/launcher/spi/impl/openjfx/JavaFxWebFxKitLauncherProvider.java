@@ -26,7 +26,7 @@ public final class JavaFxWebFxKitLauncherProvider extends WebFxKitLauncherProvid
     private static Application application;
 
     public JavaFxWebFxKitLauncherProvider() {
-        super("JavaFX", true);
+        super(true);
     }
 
     @Override

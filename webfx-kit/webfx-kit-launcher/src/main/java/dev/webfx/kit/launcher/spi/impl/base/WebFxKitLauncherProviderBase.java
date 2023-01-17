@@ -8,22 +8,11 @@ import dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
  */
 public abstract class WebFxKitLauncherProviderBase implements WebFxKitLauncherProvider {
 
-    private final String userAgent;
     private final boolean stageProgrammaticallyRelocatableAndResizable;
     private Stage primaryStage;
 
-    public WebFxKitLauncherProviderBase(String userAgent) {
-        this(userAgent, false);
-    }
-
-    public WebFxKitLauncherProviderBase(String userAgent, boolean stageProgrammaticallyRelocatableAndResizable) {
-        this.userAgent = userAgent;
+    public WebFxKitLauncherProviderBase(boolean stageProgrammaticallyRelocatableAndResizable) {
         this.stageProgrammaticallyRelocatableAndResizable = stageProgrammaticallyRelocatableAndResizable;
-    }
-
-    @Override
-    public String getUserAgent() {
-        return userAgent;
     }
 
     @Override

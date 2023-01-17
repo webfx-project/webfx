@@ -24,7 +24,7 @@ public final class WebFxKitLauncherModuleBooter implements ApplicationModuleBoot
 
     @Override
     public void bootModule() {
-        WebFxKitLauncher.launchApplication(() ->  SingleServiceProvider.getProvider(Application.class, () -> ServiceLoader.load(Application.class), SingleServiceProvider.NotFoundPolicy.RETURN_NULL), ApplicationBooter.getMainArgs());
+        WebFxKitLauncher.launchApplication(() -> SingleServiceProvider.getProvider(Application.class, () -> ServiceLoader.load(Application.class), SingleServiceProvider.NotFoundPolicy.RETURN_NULL), ApplicationBooter.getMainArgs());
     }
 
     @Override

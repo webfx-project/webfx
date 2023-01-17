@@ -22,10 +22,6 @@ public final class WebFxKitLauncher {
         return SingleServiceProvider.getProvider(WebFxKitLauncherProvider.class, () -> ServiceLoader.load(WebFxKitLauncherProvider.class));
     }
 
-    public static String getUserAgent() {
-        return getProvider().getUserAgent();
-    }
-
     public static void launchApplication(Factory<Application> applicationFactory, String... args) {
         WebFxKitLauncherProvider provider = null;
         try {
