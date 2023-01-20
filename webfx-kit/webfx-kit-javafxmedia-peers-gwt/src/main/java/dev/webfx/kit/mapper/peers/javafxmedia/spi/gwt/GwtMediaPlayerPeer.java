@@ -100,6 +100,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }
 
     private void startBufferSource() {
+        if (bufferSource.playbackRate.value == 0) // This means that the AudioBufferSourceNode was paused
+            bufferSource.playbackRate.value = 1;  // We reestablished the normal speed to resume
         bufferSource.start();
         bufferSource.onended = p0 -> doOnEnded();
     }
@@ -180,7 +182,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         if (hasMediaElement())
             mediaElement.pause();
         else
-            AUDIO_CONTEXT.suspend();
+            bufferSource.playbackRate.value = 0; // Using this trick as there is no pause() method in AudioBufferSourceNode
     }
 
     @Override
