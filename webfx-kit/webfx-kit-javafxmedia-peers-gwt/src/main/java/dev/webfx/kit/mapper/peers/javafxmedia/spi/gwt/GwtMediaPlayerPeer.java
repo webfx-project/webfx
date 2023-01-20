@@ -182,7 +182,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     public void pause() {
         if (hasMediaElement())
             mediaElement.pause();
-        else
+        else if (bufferSource != null)
             bufferSource.playbackRate.value = 0; // Using this trick as there is no pause() method in AudioBufferSourceNode
     }
 
