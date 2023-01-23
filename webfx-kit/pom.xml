@@ -43,6 +43,7 @@
         <module>webfx-kit-platform-audio-openjfx-gwt</module>
         <module>webfx-kit-platform-visibility-openjfx</module>
         <module>webfx-kit-util</module>
+        <module>webfx-kit-util-scene</module>
     </modules>
 
 </project>

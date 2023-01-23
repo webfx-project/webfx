@@ -73,6 +73,7 @@
                 <module>webfx-kit-platform-audio-openjfx-gwt</module>
                 <module>webfx-kit-platform-visibility-openjfx</module>
                 <module>webfx-kit-util</module>
+                <module>webfx-kit-util-scene</module>
             </modules>
 
             <required-libraries>
@@ -1010,6 +1011,27 @@
                 <module>java.base</module>
                 <module>webfx-kit-javafxbase-emul</module>
                 <module>webfx-platform-util</module>
+            </used-by-source-modules>
+
+        </project>
+
+        <project name="webfx-kit-util-scene">
+
+            <exported-packages>
+                <source-packages/>
+            </exported-packages>
+
+            <dependencies>
+                <used-by-source-modules/>
+            </dependencies>
+
+            <source-packages>
+                <package>dev.webfx.kit.util.scene</package>
+            </source-packages>
+
+            <used-by-source-modules>
+                <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-platform-os</module>
             </used-by-source-modules>
 
         </project>
