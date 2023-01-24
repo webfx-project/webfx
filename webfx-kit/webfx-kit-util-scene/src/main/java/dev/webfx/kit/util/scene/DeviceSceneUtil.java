@@ -38,6 +38,20 @@ public final class DeviceSceneUtil {
                 :  new Rectangle2D(0, 0, width, height);
     }
 
+    public static Rectangle2D getSceneBoundsWithMaxPixelsCapOnDesktop(double maxPixels) {
+        Rectangle2D screenVisualBounds = getScreenVisualBounds();
+        if (isAndroidOrIOS())
+            return screenVisualBounds;
+        double w = screenVisualBounds.getWidth(), h = screenVisualBounds.getHeight(); // Trying full-screen
+        double wh = w * h;
+        if (wh <= maxPixels)
+            return screenVisualBounds;
+        double r = w / h;
+        w = Math.sqrt(maxPixels * r);
+        h = w / r;
+        return new Rectangle2D(0, 0, w, h);
+    }
+
     private static Rectangle2D getScreenVisualBounds() {
         return Screen.getPrimary().getVisualBounds();
     }
