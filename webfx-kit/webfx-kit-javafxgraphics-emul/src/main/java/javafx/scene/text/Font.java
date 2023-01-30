@@ -141,7 +141,7 @@ public class Font {
         // 2) removing the extension from family (ex: .ttf)
         int dotIndex = family.lastIndexOf('.');
         if (dotIndex > 0)
-            family = family.substring(0, slashIndex);
+            family = family.substring(0, dotIndex);
         // 3) Removing the dash from family (ex: Bitwise-m19x => Bitwise). TODO: Also setting the posture (ex: Roboto-Italic)
         int dashIndex = family.lastIndexOf('-');
         if (dashIndex > 0)
