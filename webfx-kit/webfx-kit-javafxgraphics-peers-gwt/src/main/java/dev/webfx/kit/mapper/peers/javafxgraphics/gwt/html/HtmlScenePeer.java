@@ -188,13 +188,15 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private static void clearLayoutCache(Node node) {
-        node.clearCache();
-        if (node instanceof Parent) {
-            Parent parent = (Parent) node;
-            parent.setLayoutFlag(LayoutFlags.NEEDS_LAYOUT);
-            parent.getChildren().forEach(HtmlScenePeer::clearLayoutCache);
+        if (node != null) {
+            node.clearCache();
+            if (node instanceof Parent) {
+                Parent parent = (Parent) node;
+                parent.setLayoutFlag(LayoutFlags.NEEDS_LAYOUT);
+                parent.getChildren().forEach(HtmlScenePeer::clearLayoutCache);
+            }
+            node.onPeerSizeChanged();
         }
-        node.onPeerSizeChanged();
     }
 
     private void updateContainerFill() {
