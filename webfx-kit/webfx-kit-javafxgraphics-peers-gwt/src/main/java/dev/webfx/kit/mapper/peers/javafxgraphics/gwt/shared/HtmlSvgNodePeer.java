@@ -5,6 +5,17 @@ import com.sun.javafx.cursor.CursorType;
 import com.sun.javafx.event.EventUtil;
 import com.sun.javafx.tk.quantum.GestureRecognizers;
 import com.sun.javafx.tk.quantum.SwipeGestureRecognizer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerImpl;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgNodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.*;
+import dev.webfx.platform.util.Booleans;
+import dev.webfx.platform.util.Strings;
+import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.*;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
@@ -20,17 +31,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.TouchPoint;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Transform;
-import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerImpl;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgNodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.*;
-import dev.webfx.platform.util.Booleans;
-import dev.webfx.platform.util.Strings;
-import dev.webfx.platform.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -230,8 +230,8 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static boolean isFxEventConsumed(javafx.event.Event fxEvent) {
-        // Note: the event returned by JavaFX EventUtil.fireEvent() may return null, and in that case, this means that
-        // the passed event has been consumed. When it returns a non-null event, we need to call isConsumed() to know.
+        // Note: the event returned by JavaFX EventUtil.fireEvent() may be null, and in that case, this means that the
+        // passed event has been consumed. When it returns a non-null event, we need to call isConsumed() to know.
         return fxEvent == null || fxEvent.isConsumed();
     }
 
@@ -286,7 +286,7 @@ public abstract class HtmlSvgNodePeer
                 case "keyup": eventType = KeyEvent.KEY_RELEASED; break;
                 default: eventType = KeyEvent.KEY_TYPED;
             }
-        return new KeyEvent(eventType, e.char_, e.keyIdentifier, keyCode, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
+        return new KeyEvent(eventType, e.key, e.key, keyCode, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
     }
 
     private static KeyCode toFxKeyCode(String htmlKey) {
