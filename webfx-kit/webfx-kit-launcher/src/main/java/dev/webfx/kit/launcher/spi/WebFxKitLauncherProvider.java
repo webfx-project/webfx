@@ -2,6 +2,8 @@ package dev.webfx.kit.launcher.spi;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -57,4 +59,8 @@ public interface WebFxKitLauncherProvider {
     FastPixelReaderWriter getFastPixelReaderWriter(Image image);
 
     Bounds measureText(String text, Font font);
+
+    default ObservableList<Font> loadingFonts() {
+        return FXCollections.emptyObservableList(); // Default implementation fpr synchronous font loading toolkits (such as OpenJFX)
+    }
 }

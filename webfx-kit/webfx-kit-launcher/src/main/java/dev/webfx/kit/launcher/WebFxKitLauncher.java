@@ -6,6 +6,7 @@ import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.function.Factory;
 import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
@@ -63,6 +64,10 @@ public final class WebFxKitLauncher {
 
     public static Bounds measureText(String text, Font font) {
         return getProvider().measureText(text, font);
+    }
+
+    public static ObservableList<Font> loadingFonts() {
+        return getProvider().loadingFonts();
     }
 
 }

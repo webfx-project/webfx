@@ -148,14 +148,20 @@ public class Font {
             family = family.substring(0, dashIndex);
         Font font = new Font(name, family, weight, posture, size, url);
         // Adding the font to those that need to be loaded by the peer (see HtmlScenePeer)
-        LOADED_FONTS.add(font);
+        REQUESTED_FONTS.add(font);
         return font;
     }
 
-    private final static ObservableList<Font> LOADED_FONTS = FXCollections.observableArrayList();
+    private final static ObservableList<Font> REQUESTED_FONTS = FXCollections.observableArrayList();
+    private final static ObservableList<Font> LOADING_FONTS = FXCollections.observableArrayList();
 
-    public static ObservableList<Font> getLoadedFonts() {
-        return LOADED_FONTS;
+    public static ObservableList<Font> getRequestedFonts() {
+        return REQUESTED_FONTS;
     }
+
+    public static ObservableList<Font> getLoadingFonts() {
+        return LOADING_FONTS;
+    }
+
 
 }
