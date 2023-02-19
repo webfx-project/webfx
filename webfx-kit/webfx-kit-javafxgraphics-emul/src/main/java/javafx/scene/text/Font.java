@@ -149,6 +149,7 @@ public class Font {
         Font font = new Font(name, family, weight, posture, size, url);
         // Adding the font to those that need to be loaded by the peer (see HtmlScenePeer)
         REQUESTED_FONTS.add(font);
+        LOADING_FONTS.add(font);
         return font;
     }
 

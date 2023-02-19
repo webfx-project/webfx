@@ -168,7 +168,6 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     private void addFonts(List<? extends Font> fonts) {
         fonts.forEach(font -> {
-            Font.getLoadingFonts().addAll(fonts);
             FontFace fontFace = new FontFace(font.getFamily(), "url("  + font.getUrl() + ")");
             fontFaces.put(font.getUrl(), fontFace);
             document.fonts.add(fontFace);
