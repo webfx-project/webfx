@@ -42,7 +42,6 @@ public final class HtmlScenePeer extends ScenePeerBase {
         HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
         installStylesheetsListener(scene);
         installFontsListener();
-        document.fonts.setOnloadingdone(p0 -> { onCssOrFontLoaded(); Font.getLoadingFonts().clear();  return null; });
         // The following code is just to avoid a downgrade in Lighthouse (iframe should have a title)
         NodeList<Element> iframes = document.getElementsByTagName("iframe"); // Looking for the GWT iframe
         if (iframes.length > 0) {
@@ -152,9 +151,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void installFontsListener() {
-        ObservableList<Font> loadedFonts = Font.getRequestedFonts();
-        addFonts(loadedFonts);
-        loadedFonts.addListener((ListChangeListener<Font>) change -> {
+        ObservableList<Font> requestedFonts = Font.getRequestedFonts();
+        addFonts(requestedFonts);
+        requestedFonts.addListener((ListChangeListener<Font>) change -> {
             while (change.next()) {
                 if (change.wasRemoved() || change.wasUpdated())
                     removeFonts(change.getRemoved());
@@ -173,6 +172,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             document.fonts.add(fontFace);
             fontFace.load();
         });
+        document.fonts.getReady().then(p0 -> { onCssOrFontLoaded(); Font.getLoadingFonts().clear(); return null; });
     }
 
     private void removeFonts(List<? extends Font> fonts) {
