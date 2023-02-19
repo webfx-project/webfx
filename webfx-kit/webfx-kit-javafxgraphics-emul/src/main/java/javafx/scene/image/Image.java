@@ -263,22 +263,27 @@ public class Image implements
         this(url, 0, 0, false, false, backgroundLoading);
     }
 
-    /**
-     * Construct a new {@code Image} with the specified parameters.
-     *
-     * @param url the string representing the URL to use in fetching the pixel
-     *      data
-     * @param requestedWidth the image's bounding box width
-     * @param requestedHeight the image's bounding box height
-     * @param preserveRatio indicates whether to preserve the aspect ratio of
-     *      the original image when scaling to fit the image within the
-     *      specified bounding box
-     * @param smooth indicates whether to use a better quality filtering
-     *      algorithm or a faster one when scaling this image to fit within
-     *      the specified bounding box
-     * @throws NullPointerException if URL is null
-     * @throws IllegalArgumentException if URL is invalid or unsupported
-     */
+    public Image(String url, double requestedWidth, double requestedHeight,
+                 boolean preserveRatio, boolean smooth) {
+        this(url, requestedWidth, requestedHeight, preserveRatio, smooth, true);
+    }
+
+        /**
+         * Construct a new {@code Image} with the specified parameters.
+         *
+         * @param url the string representing the URL to use in fetching the pixel
+         *      data
+         * @param requestedWidth the image's bounding box width
+         * @param requestedHeight the image's bounding box height
+         * @param preserveRatio indicates whether to preserve the aspect ratio of
+         *      the original image when scaling to fit the image within the
+         *      specified bounding box
+         * @param smooth indicates whether to use a better quality filtering
+         *      algorithm or a faster one when scaling this image to fit within
+         *      the specified bounding box
+         * @throws NullPointerException if URL is null
+         * @throws IllegalArgumentException if URL is invalid or unsupported
+         */
     public Image(String url, double requestedWidth, double requestedHeight,
                  boolean preserveRatio, boolean smooth, boolean backgroundLoading) {
         this.url = url;
