@@ -169,8 +169,8 @@ public final class HtmlScenePeer extends ScenePeerBase {
         fonts.forEach(font -> {
             FontFace fontFace = new FontFace(font.getFamily(), "url("  + font.getUrl() + ")");
             fontFaces.put(font.getUrl(), fontFace);
+            document.fonts.add(fontFace);
             fontFace.load().then(p0 -> {
-                document.fonts.add(fontFace);
                 onCssOrFontLoaded();
                 Font.getLoadingFonts().remove(font);
                 return null; });
