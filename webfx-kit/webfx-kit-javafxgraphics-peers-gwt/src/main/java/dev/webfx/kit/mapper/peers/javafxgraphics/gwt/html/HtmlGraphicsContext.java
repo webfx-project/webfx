@@ -16,6 +16,7 @@ import javafx.scene.effect.Effect;
 import javafx.scene.image.CanvasPixelWriter;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
@@ -189,6 +190,8 @@ public class HtmlGraphicsContext implements GraphicsContext {
     private Object toCanvasPaint(Paint paint) {
         if (paint instanceof LinearGradient)
             return toCanvasLinearGradient((LinearGradient) paint, 0, 0, 1, 1);
+        if (paint instanceof ImagePattern)
+            return toCanvasPattern((ImagePattern) paint);
         return HtmlPaints.toHtmlCssPaint(paint);
     }
 
@@ -199,6 +202,21 @@ public class HtmlGraphicsContext implements GraphicsContext {
         CanvasGradient clg = ctx.createLinearGradient(x + lg.getStartX() * width, y + lg.getStartY() * height, x + lg.getEndX() * width, y + lg.getEndY() * height);
         lg.getStops().forEach(s -> clg.addColorStop(s.getOffset(), HtmlPaints.toCssColor(s.getColor())));
         return clg;
+    }
+
+    private CanvasPattern toCanvasPattern(ImagePattern imagePattern) {
+        CanvasPattern peerPattern = (CanvasPattern) imagePattern.getPeerPattern(); // Getting cache version if available
+        if (peerPattern == null) {
+            Image img = imagePattern.getImage();
+            if (img != null) {
+                HTMLImageElement imageElement = getHTMLImageElement(img);
+                if (imageElement.complete) {
+                    peerPattern = ctx.createPattern(imageElement, "repeat");
+                    imagePattern.setPeerPattern(peerPattern);
+                }
+            }
+        }
+        return peerPattern;
     }
 
     private void applyProportionalFillLinearGradiant(double x, double y, double width, double height) {
