@@ -16,6 +16,7 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.collections.ObservableList;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -143,6 +144,11 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     public Bounds measureText(String text, Font font) {
         JavaScriptObject textMetrics = getTextMetrics(canvas, text, HtmlFonts.getHtmlFontDefinition(font));
         return new BoundingBox(0, 0, getJsonWidth(textMetrics), getJsonHeight(textMetrics));
+    }
+
+    @Override
+    public ObservableList<Font> loadingFonts() {
+        return Font.getLoadingFonts();
     }
 
     private native JavaScriptObject getTextMetrics(HTMLCanvasElement canvas, String text, String font)/*-{
