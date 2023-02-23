@@ -1,6 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
 import javafx.geometry.VPos;
@@ -48,10 +49,13 @@ public final class HtmlTextPeer
 
     @Override
     public void updateEffect(Effect effect) {
+        CSSStyleDeclaration style = getElement().style;
         if (effect instanceof DropShadow)
-            getElement().style.textShadow = toCssTextShadow((DropShadow) effect);
-        else
+            style.textShadow = toCssTextShadow((DropShadow) effect);
+        else {
+            style.textShadow = null;
             super.updateEffect(effect);
+        }
     }
 
     private String toCssTextShadow(DropShadow shadow) {
