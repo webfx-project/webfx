@@ -1,12 +1,18 @@
 package dev.webfx.kit.util.scene;
 
-import dev.webfx.platform.os.OSFamily;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.platform.os.OperatingSystem;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
+
+import java.util.Arrays;
 
 /**
  * @author Bruno Salmon
@@ -61,8 +67,39 @@ public final class DeviceSceneUtil {
     }
 
     private static boolean isAndroidOrIOS() {
-        OSFamily osFamily = OperatingSystem.getOSFamily();
-        return osFamily == OSFamily.ANDROID || osFamily == OSFamily.IOS;
+        return OperatingSystem.isMobile();
+    }
+
+    public static void onFontsLoaded(Runnable runnable) {
+        onObservableListEmpty(WebFxKitLauncher.loadingFonts(), runnable);
+    }
+
+    public static void onObservableListEmpty(ObservableList<Font> list, Runnable runnable) {
+        if (!runIfObservableListEmpty(list, runnable))
+            list.addListener((ListChangeListener<Font>) c -> runIfObservableListEmpty(list, runnable));
+    }
+
+    private static boolean runIfObservableListEmpty(ObservableList<Font> list, Runnable runnable) {
+        boolean empty = list.isEmpty();
+        if (empty)
+            runnable.run();
+        return empty;
+    }
+
+    public static void onImagesLoaded(Runnable runnable, Image... images) {
+        if (!runIfImagesLoaded(runnable, images))
+            Arrays.stream(images).forEach(i -> i.progressProperty().addListener((observable, oldValue, newValue) -> runIfImagesLoaded(runnable, images)));
+    }
+
+    private static boolean runIfImagesLoaded(Runnable runnable, Image... images) {
+        boolean loaded = Arrays.stream(images).allMatch(i -> i.getProgress() >= 1);
+        if (loaded)
+            runnable.run();
+        return loaded;
+    }
+
+    public static void onFontsAndImagesLoaded(Runnable runnable, Image... images) {
+        onFontsLoaded(() -> onImagesLoaded(runnable, images));
     }
 
 }
