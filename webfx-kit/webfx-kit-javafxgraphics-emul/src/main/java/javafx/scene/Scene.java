@@ -1545,6 +1545,81 @@ public class Scene implements EventTarget,
         return onMouseClicked;
     }
 
+    /**
+     * Defines a function to be called when a mouse button
+     * has been pressed on this {@code Scene}.
+     */
+    private ObjectProperty<EventHandler<? super MouseEvent>> onMousePressed;
+
+    public final void setOnMousePressed(EventHandler<? super MouseEvent> value) {
+        onMousePressedProperty().set(value);
+    }
+
+    public final EventHandler<? super MouseEvent> getOnMousePressed() {
+        return onMousePressed == null ? null : onMousePressed.get();
+    }
+
+    public final ObjectProperty<EventHandler<? super MouseEvent>> onMousePressedProperty() {
+        if (onMousePressed == null) {
+            onMousePressed = new ObjectPropertyBase<EventHandler<? super MouseEvent>>() {
+
+                @Override
+                protected void invalidated() {
+                    setEventHandler(MouseEvent.MOUSE_PRESSED, get());
+                }
+
+                @Override
+                public Object getBean() {
+                    return Scene.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "onMousePressed";
+                }
+            };
+        }
+        return onMousePressed;
+    }
+
+    /**
+     * Defines a function to be called when a mouse button
+     * has been released on this {@code Scene}.
+     */
+    private ObjectProperty<EventHandler<? super MouseEvent>> onMouseReleased;
+
+    public final void setOnMouseReleased(EventHandler<? super MouseEvent> value) {
+        onMouseReleasedProperty().set(value);
+    }
+
+    public final EventHandler<? super MouseEvent> getOnMouseReleased() {
+        return onMouseReleased == null ? null : onMouseReleased.get();
+    }
+
+    public final ObjectProperty<EventHandler<? super MouseEvent>> onMouseReleasedProperty() {
+        if (onMouseReleased == null) {
+            onMouseReleased = new ObjectPropertyBase<EventHandler<? super MouseEvent>>() {
+
+                @Override
+                protected void invalidated() {
+                    setEventHandler(MouseEvent.MOUSE_RELEASED, get());
+                }
+
+                @Override
+                public Object getBean() {
+                    return Scene.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "onMouseReleased";
+                }
+            };
+        }
+        return onMouseReleased;
+    }
+
+
     /*******************************************************************************
      *                                                                             *
      * Mouse Event Handling                                                        *
