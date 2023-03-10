@@ -130,30 +130,40 @@ public abstract class HtmlRegionPeer
     public void updateBackground(Background background) {
         CSSStyleDeclaration style = getElement().style;
         style.background = toCssBackground(background);
-        // Temporary code for corner radii that considers only the first one
-        if (getNode().getBorder() == null) { // Doesn't reset border from background if there is border property set
-            BackgroundFill firstFill = background == null ? null : Collections.get(background.getFills(), 0);
-            CornerRadii radii = firstFill == null ? null : firstFill.getRadii();
-            if (radii == null)
-                style.border = null;
-            applyBorderRadii(radii);
+        // If a border is also set on the node, we take it as higher priority
+        if (getNode().getBorder() == null) { // so we apply the background border only if no other border is set on the node
+            applyBackgroundBorder(background, style);
         }
+    }
+
+    private void applyBackgroundBorder(Background background, CSSStyleDeclaration style) {
+        CornerRadii radii = null;
+        if (background != null) {
+            // Note: for now, we support only one border that we take from the first background fill
+            BackgroundFill firstFill = Collections.get(background.getFills(), 0);
+            if (firstFill != null)
+                radii = firstFill.getRadii();
+        }
+        if (radii == null)
+            style.border = null;
+        applyBorderRadii(radii, style);
     }
 
     @Override
     public void updateBorder(Border border) {
-        BorderStroke firstStroke = border == null ? null : Collections.get(border.getStrokes(), 0);
         CSSStyleDeclaration style = getElement().style;
+        // Note: for now, we support only one border that we take from the first border stroke
+        BorderStroke firstStroke = border == null ? null : Collections.get(border.getStrokes(), 0);
         if (firstStroke != null) {
             BorderWidths widths = firstStroke.getWidths();
             style.borderLeft = toCssBorder(firstStroke.getLeftStroke(), firstStroke.getLeftStyle(), widths.getLeft(), widths.isLeftAsPercentage());
             style.borderTop = toCssBorder(firstStroke.getTopStroke(), firstStroke.getTopStyle(), widths.getTop(), widths.isTopAsPercentage());
             style.borderRight = toCssBorder(firstStroke.getRightStroke(), firstStroke.getRightStyle(), widths.getRight(), widths.isRightAsPercentage());
             style.borderBottom = toCssBorder(firstStroke.getBottomStroke(), firstStroke.getBottomStyle(), widths.getBottom(), widths.isBottomAsPercentage());
-            applyBorderRadii(firstStroke.getRadii());
-        } else if (getNode().getBackground() == null) { // Avoiding erasing the possible border associated with background
+            applyBorderRadii(firstStroke.getRadii(), style);
+        } else {
             style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
-            applyBorderRadii(null);
+            applyBackgroundBorder(getNode().getBackground(), style);
         }
         if (subtractCssPaddingBorderWhenUpdatingSize || subtractNodeBorderWhenUpdatingSize)
             updateWidthAndHeight();
@@ -175,8 +185,7 @@ public abstract class HtmlRegionPeer
         return CSSProperties.PaddingUnionType.of(cssPadding);
     }
 
-    private void applyBorderRadii(CornerRadii radii) {
-        CSSStyleDeclaration style = getElement().style;
+    private void applyBorderRadii(CornerRadii radii, CSSStyleDeclaration style) {
         if (radii != null) {
             style.borderTopLeftRadius = CSSProperties.BorderTopLeftRadiusUnionType.of(toPx(Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius())));
             style.borderTopRightRadius = CSSProperties.BorderTopRightRadiusUnionType.of(toPx(Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius())));
