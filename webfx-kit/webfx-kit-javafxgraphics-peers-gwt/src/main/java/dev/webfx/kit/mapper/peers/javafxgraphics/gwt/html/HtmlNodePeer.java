@@ -1,6 +1,12 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlTransforms;
+import dev.webfx.platform.util.Strings;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.Element;
@@ -12,12 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.effect.*;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Transform;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlTransforms;
-import dev.webfx.platform.util.Strings;
 import javafx.scene.transform.Translate;
 
 import java.util.ArrayList;
@@ -36,13 +36,13 @@ public abstract class HtmlNodePeer
     }
 
     @Override
-    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+    public void updateAllNodeTransforms(List<Transform> allNodeTransforms) {
         Element container = getVisibleContainer();
         if (!(container instanceof HTMLElement))
-            super.updateLocalToParentTransforms(localToParentTransforms);
+            super.updateAllNodeTransforms(allNodeTransforms);
         else {
             // We fix here a difference in the behaviour between HTML & JavaFX regarding borders: in JavaFX borders are
-            // purely graphical with no impact on the coordinates system, while HTML makes borders act like padding.
+            // purely graphical with no impact on the coordinates, while HTML makes borders act like padding.
             // For example, if a box has a 5px border, in HTML local coordinates (0,0) will start after the border, so
             // at (5,5) from the left top box corner, while in JavaFX local coordinates (0,0) stay at the corner.
             Parent parent = getNode().getParent();
@@ -58,19 +58,22 @@ public abstract class HtmlNodePeer
                         // If there is a border, we add a node translation to revert the HTML behaviour
                         if (leftBorder != 0 || topBorder != 0) {
                             // First making a copy because the original is an observable list bound for updates
-                            localToParentTransforms = new ArrayList<>(localToParentTransforms);
+                            allNodeTransforms = new ArrayList<>(allNodeTransforms);
                             // Adding the revert translation that will finally emulate the same behaviour as JavaFX
-                            localToParentTransforms.add(0, new Translate(-leftBorder, -topBorder));
+                            allNodeTransforms.add(0, new Translate(-leftBorder, -topBorder));
                         }
                     }
                 }
             }
-            String transform = HtmlTransforms.toHtmlTransforms(localToParentTransforms);
+            String transform = HtmlTransforms.toHtmlTransforms(allNodeTransforms);
             CSSStyleDeclaration style = ((HTMLElement) container).style;
             style.transform = transform;
+            // The transform origin depends on whether the transforms explicitly expresses the pivot. When using matrix,
+            // the pivot is explicitly expressed and the origin is meant to be (0, 0). When using simpler transforms
+            // such as rotate() or scale(), the pivot is implicit and is meant to be the center of the node.
             if (Strings.contains(transform, "matrix"))
-                style.transformOrigin = CSSProperties.TransformOriginUnionType.of("0px 0px 0px");
-            else if (Strings.contains(transform,"scale"))
+                style.transformOrigin = CSSProperties.TransformOriginUnionType.of("0px 0px");
+            else
                 style.transformOrigin = CSSProperties.TransformOriginUnionType.of("center");
         }
     }

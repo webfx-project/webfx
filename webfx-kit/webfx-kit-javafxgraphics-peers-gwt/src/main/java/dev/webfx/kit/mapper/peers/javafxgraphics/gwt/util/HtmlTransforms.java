@@ -38,18 +38,18 @@ public final class HtmlTransforms {
     }
 
     private static StringBuilder toHtmlRotate(Rotate rotate, StringBuilder sb) {
-        if (Rotate.X_AXIS.equals(rotate.getAxis())) // Assuming half height pivot (used for FlipPanel in Enzo Clock demo) TODO: generalize pivot
+        if (Rotate.X_AXIS.equals(rotate.getAxis())) // Assuming half height pivot (used for FlipPanel in EnzoClocks demo) TODO: generalize pivot
             return sb.append("rotateX(").append(rotate.getAngle()).append("deg)");
-        if (Rotate.Y_AXIS.equals(rotate.getAxis())) // Assuming half width pivot (used for FlipPanel in Enzo Clock demo) TODO: generalize pivot
+        if (Rotate.Y_AXIS.equals(rotate.getAxis())) // Assuming half width pivot (used for FlipPanel in EnzoClocks demo) TODO: generalize pivot
             return sb.append("rotateY(").append(rotate.getAngle()).append("deg)");
-        if (rotate.getPivotX() == 0 && rotate.getPivotY() == 0)
-            return sb.append("rotate(").append(rotate.getAngle()).append("deg)");
+        //if (rotate.getPivotX() == 0 && rotate.getPivotY() == 0) // Commented as the correct condition is when the pivot is at the node center (no way to test this here)
+        //    return sb.append("rotate(").append(rotate.getAngle()).append("deg)");
         return toHtmlAffine(rotate.toAffine(), sb);
     }
 
     private static StringBuilder toHtmlScale(Scale scale, StringBuilder sb) {
-        if (scale.getPivotX() == 0 && scale.getPivotY() == 0)
-            return sb.append("scale(").append(scale.getX()).append(", ").append(scale.getY()).append(")");
+        //if (scale.getPivotX() == 0 && scale.getPivotY() == 0) // Commented as the correct condition is when the pivot is at the node center (no way to test this here)
+        //    return sb.append("scale(").append(scale.getX()).append(", ").append(scale.getY()).append(")");
         return toHtmlAffine(scale.toAffine(), sb);
     }
 

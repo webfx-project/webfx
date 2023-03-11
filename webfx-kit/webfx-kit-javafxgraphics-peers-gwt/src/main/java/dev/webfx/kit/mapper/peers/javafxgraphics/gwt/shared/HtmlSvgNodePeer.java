@@ -466,50 +466,50 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void updateLayoutX(Number layoutX) {
-        updateLocalToParentTransforms();
+        updateAllNodeTransforms();
     }
 
     @Override
     public void updateLayoutY(Number layoutY) {
-        updateLocalToParentTransforms();
+        updateAllNodeTransforms();
     }
 
     @Override
     public void updateTranslateX(Number translateX) {
-        updateLocalToParentTransforms();
+        updateAllNodeTransforms();
     }
 
     @Override
     public void updateTranslateY(Number translateY) {
-        updateLocalToParentTransforms();
+        updateAllNodeTransforms();
     }
 
     @Override
     public void updateScaleX(Number scaleX) {
-        updateLocalToParentTransforms();
+        updateAllNodeTransforms();
     }
 
     @Override
     public void updateScaleY(Number scaleX) {
-        updateLocalToParentTransforms();
+        updateAllNodeTransforms();
     }
 
     @Override
     public void updateRotate(Number rotate) {
-        updateLocalToParentTransforms();
+        updateAllNodeTransforms();
     }
 
     @Override
     public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
-        updateLocalToParentTransforms();
+        updateAllNodeTransforms();
     }
 
-    private void updateLocalToParentTransforms() {
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
+    private void updateAllNodeTransforms() {
+        updateAllNodeTransforms(getNodePeerBase().getNode().getAllNodeTransforms());
     }
 
     @Override
-    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+    public void updateAllNodeTransforms(List<Transform> localToParentTransforms) {
         boolean isSvg = containerType == DomType.SVG;
         setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
     }

@@ -31,7 +31,7 @@ public interface INode extends
 
     ObservableList<Transform> getTransforms();
 
-    List<Transform> localToParentTransforms();
+    List<Transform> getAllNodeTransforms();
 
     default void relocate(double x, double y) {
         Bounds layoutBounds = getLayoutBounds();

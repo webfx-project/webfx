@@ -144,7 +144,7 @@ public abstract class FxNodePeer
     }
 
     @Override
-    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+    public void updateAllNodeTransforms(List<Transform> allNodeTransforms) {
         // never called
     }
 

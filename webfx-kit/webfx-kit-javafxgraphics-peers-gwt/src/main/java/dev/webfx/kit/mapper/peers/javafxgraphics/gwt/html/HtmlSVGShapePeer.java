@@ -16,8 +16,10 @@ import elemental2.svg.SVGElement;
 import elemental2.svg.SVGRect;
 import javafx.scene.effect.Effect;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.*;
-import javafx.scene.transform.Scale;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 
@@ -180,34 +182,28 @@ public abstract class HtmlSVGShapePeer
     }
 
     @Override
-    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+    public void updateAllNodeTransforms(List<Transform> allNodeTransforms) {
+        // We need to consider the possible shifted position of the BBox when applying the transforms
         double tx = getBBox().x, ty = bBox.y;
         if (tx != 0 || ty != 0) {
-            List<Transform> forSvgTransforms = new ArrayList<>(localToParentTransforms.size() + 2);
-            boolean allTranslate = true;
+            // Note: EnzoClocks is a good demo to check this code (see if the needles are correctly positioned)
+            List<Transform> forSvgTransforms = new ArrayList<>(allNodeTransforms.size() + 2);
+            boolean hasTransformsOtherThanTranslate = false;
+            // Translating the BBox to (0, 0) before applying other transforms
             forSvgTransforms.add(new Translate(-tx, -ty));
-            for (Transform transform : localToParentTransforms) {
-                if (!(transform instanceof Translate)) {
-                    allTranslate = false;
-                    if (transform instanceof Scale) {
-                        Scale scale = (Scale) transform;
-                        tx /= scale.getX();
-                        ty /= scale.getY();
-                    }/* else { // Commented as it is wrong. TODO: extract the correct scale factors from Affine transform
-                        Affine affine = transform.toAffine();
-                        tx /= affine.getMxx();
-                        ty /= affine.getMyy();
-                    }*/
-                }
+            // Applying all other transforms
+            for (Transform transform : allNodeTransforms) {
+                hasTransformsOtherThanTranslate = hasTransformsOtherThanTranslate || !(transform instanceof Translate);
                 forSvgTransforms.add(transform);
             }
-            if (!allTranslate) {
+            if (hasTransformsOtherThanTranslate) { // No need to do that double translation if there is no transforms, or they are just all translations
+                // Finally translating the BBox back to its original position
                 forSvgTransforms.add(new Translate(tx, ty));
-                localToParentTransforms = forSvgTransforms;
+                allNodeTransforms = forSvgTransforms;
             }
 
         }
-        super.updateLocalToParentTransforms(localToParentTransforms);
+        super.updateAllNodeTransforms(allNodeTransforms);
     }
 
 }

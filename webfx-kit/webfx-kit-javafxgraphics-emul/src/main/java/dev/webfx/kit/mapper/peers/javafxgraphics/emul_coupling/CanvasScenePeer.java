@@ -1,13 +1,12 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling;
 
 import com.sun.javafx.geom.Point2D;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.PickResult;
-import javafx.scene.transform.Transform;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
 
 import java.util.Collection;
 import java.util.List;
@@ -81,9 +80,8 @@ public abstract class CanvasScenePeer
         if (!node.isVisible())
             return null;
         // The passed point is actually expressed in the parent coordinates space (after the transforms have been applied).
-        // Before going further, we need to express it in the node local coordinates space (by applying inverse transforms).
-        for (Transform transform : node.localToParentTransforms())
-            point = transform.inverseTransform(point);
+        // Before going further, we need to express it in the node local coordinates space.
+        node.localToParent(point);
         // If the node is a parent, we return the pick result from its children if any
         if (node instanceof Parent) {
             PickResult pickResult = pickFromNodes(point, ((Parent) node).getChildren());

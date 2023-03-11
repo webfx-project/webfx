@@ -39,7 +39,7 @@ public final class SvgPathPeer
     @Override
     public void updateElements(List<PathElement> elements, ListChangeListener.Change<PathElement> change) {
         updatePath(toSvgPathData(elements));
-        updateLocalToParentTransforms(getNode().localToParentTransforms());
+        updateAllNodeTransforms(getNode().getAllNodeTransforms());
     }
 
     private String toSvgPathData(List<PathElement> elements) {

@@ -9,6 +9,12 @@ import com.sun.javafx.scene.EventHandlerProperties;
 import com.sun.javafx.scene.NodeEventDispatcher;
 import com.sun.javafx.scene.traversal.Direction;
 import com.sun.javafx.util.TempState;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import dev.webfx.platform.uischeduler.UiScheduler;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -30,12 +36,6 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Window;
-import dev.webfx.kit.launcher.WebFxKitLauncher;
-import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
-import dev.webfx.platform.uischeduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -638,12 +638,16 @@ public abstract class Node implements INode, EventTarget, Styleable {
     private Rotate rotateTransform;
     
     @Override
-    public List<Transform> localToParentTransforms() {
-        ObservableList<Transform> transforms = getTransforms();
-        List<Transform> allTransforms = null;
+    public List<Transform> getAllNodeTransforms() {
+        // We need to consider all transforms: I) those declared directly at the Node level via translateX/Y, rotateX/Y
+        // and scaleX/Y, and II) the general ones declared in getTransforms()
+        // We start with I) ie those declared at the Node level
+        List<Transform> nodeLevelTransforms = null;
+        // Note: JavaFX applies them in the following sequence: 1) Translation, 2) Rotation, and 3) Scale.
+        // 1) Translation (we also include the layout in it)
         double ltX = getTranslateX();
         double ltY = getTranslateY();
-        //if (!(getParent() instanceof Group)) { // Breaks clock, Tallycounter and SpaceFX demos
+        //if (!(getParent() instanceof Group)) { // Breaks EnzoClocks, TallyCounter and SpaceFX demos
             ltX += getLayoutX();
             ltY += getLayoutY();
         //}
@@ -652,38 +656,46 @@ public abstract class Node implements INode, EventTarget, Styleable {
                 layoutTranslateTransform = Translate.create();
             layoutTranslateTransform.setX(ltX);
             layoutTranslateTransform.setY(ltY);
-            if (allTransforms == null)
-                allTransforms = new ArrayList<>();
-            allTransforms.add(layoutTranslateTransform);
+            nodeLevelTransforms = new ArrayList<>();
+            nodeLevelTransforms.add(layoutTranslateTransform);
         }
+        // 2) Rotation
         double rotate = getRotate();
         if (rotate != 0) {
             if (rotateTransform == null)
                 rotateTransform = new Rotate();
+            // Setting angle
             rotateTransform.setAngle(rotate);
+            // Setting pivot = node center
             Bounds b = getBoundsInLocal();
             rotateTransform.setPivotX((b.getMinX() + b.getMaxX()) / 2);
             rotateTransform.setPivotY((b.getMinY() + b.getMaxY()) / 2);
-            if (allTransforms == null)
-                allTransforms = new ArrayList<>();
-            allTransforms.add(rotateTransform);
+            if (nodeLevelTransforms == null)
+                nodeLevelTransforms = new ArrayList<>();
+            nodeLevelTransforms.add(rotateTransform);
         }
+        // 3) Scale
         double scaleX = getScaleX(), scaleY = getScaleY();
         if (scaleX != 1 || scaleY != 1) {
             if (scaleTransform == null)
                 scaleTransform = new Scale();
             scaleTransform.setX(scaleX);
             scaleTransform.setY(scaleY);
-            if (allTransforms == null)
-                allTransforms = new ArrayList<>();
-            allTransforms.add(scaleTransform);
-            //webfx.platform.shared.services.log.Logger.log("ltX = " + ltX + ", ltY = " + ltY);
+            Bounds b = getBoundsInLocal();
+            scaleTransform.setPivotX((b.getMinX() + b.getMaxX()) / 2);
+            scaleTransform.setPivotY((b.getMinY() + b.getMaxY()) / 2);
+            if (nodeLevelTransforms == null)
+                nodeLevelTransforms = new ArrayList<>();
+            nodeLevelTransforms.add(scaleTransform);
         }
-        if (allTransforms != null) {
-            allTransforms.addAll(transforms);
-            return allTransforms;
-        }
-        return transforms;
+        // We finished with I), so we now need to add II)
+        // If I) is empty, we just return II)
+        if (nodeLevelTransforms == null)
+            return getTransforms();
+
+        // Otherwise we return the concatenation I) + II)
+        nodeLevelTransforms.addAll(getTransforms());
+        return nodeLevelTransforms;
     }
 
     @Override
@@ -1956,8 +1968,11 @@ public abstract class Node implements INode, EventTarget, Styleable {
      * Transforms in place the specified point from local coords to parent
      * coords. Made package private for the sake of testing.
      */
-    void localToParent(com.sun.javafx.geom.Point2D pt) {
-        for (Transform transform : localToParentTransforms()) {
+    public void localToParent(com.sun.javafx.geom.Point2D pt) {
+        // Note: we need to iterate all Node transforms in the inverse order
+        List<Transform> transforms = getAllNodeTransforms();
+        for (int i = transforms.size() - 1; i >= 0; i--) {
+            Transform transform = transforms.get(i);
             com.sun.javafx.geom.Point2D p = transform.transform(pt);
             pt.x = p.x;
             pt.y = p.y;
@@ -1988,11 +2003,21 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
     void parentToLocal(com.sun.javafx.geom.Point2D pt) {
-        for (Transform transform : localToParentTransforms()) {
+//        List<Transform> transforms = localToParentTransforms();
+        for (Transform transform : getAllNodeTransforms()) {
+//        for (int i = transforms.size() - 1; i >= 0; i--) { Transform transform = transforms.get(i);
             com.sun.javafx.geom.Point2D p = transform.inverseTransform(pt);
             pt.x = p.x;
             pt.y = p.y;
         }
+    }
+
+    public Point2D parentToLocal(double x, double y) {
+        final com.sun.javafx.geom.Point2D tempPt =
+                TempState.getInstance().point;
+        tempPt.setLocation((float)x, (float)y);
+        parentToLocal(tempPt);
+        return new Point2D(tempPt.x, tempPt.y);
     }
 
     /**

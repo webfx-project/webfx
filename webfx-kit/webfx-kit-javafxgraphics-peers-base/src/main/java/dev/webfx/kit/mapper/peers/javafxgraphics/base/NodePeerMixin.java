@@ -92,7 +92,7 @@ public interface NodePeerMixin
 
     void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change);
 
-    void updateLocalToParentTransforms(List<Transform> localToParentTransforms);
+    void updateAllNodeTransforms(List<Transform> localToParentTransforms);
 
     void updateDisabled(Boolean disabled);
 
