@@ -123,7 +123,7 @@ public final class TouchPoint implements Serializable{
         y = newCoordinates.getY();
         z = newCoordinates.getZ();
 */
-        final Point2D p = InputEventUtils.recomputeCoordinates(this.pickResult, null);
+        final Point2D p = InputEventUtils.recomputeCoordinates(this.pickResult, newSource);
         this.x = p.x;
         this.y = p.y;
 

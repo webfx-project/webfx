@@ -6,6 +6,22 @@ import com.sun.javafx.scene.SceneEventDispatcher;
 import com.sun.javafx.scene.input.InputEventUtils;
 import com.sun.javafx.tk.TKPulseListener;
 import com.sun.javafx.tk.TKSceneListener;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.kit.mapper.WebFxKitMapper;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFillProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasRootProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
+import dev.webfx.kit.util.properties.FXProperties;
+import dev.webfx.kit.util.properties.ObservableLists;
+import dev.webfx.platform.scheduler.Scheduled;
+import dev.webfx.platform.uischeduler.AnimationFramePass;
+import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.util.collection.Collections;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -25,22 +41,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Window;
 import javafx.util.Duration;
-import dev.webfx.kit.mapper.WebFxKitMapper;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFillProperty;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasRootProperty;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
-import dev.webfx.kit.launcher.WebFxKitLauncher;
-import dev.webfx.kit.util.properties.ObservableLists;
-import dev.webfx.kit.util.properties.FXProperties;
-import dev.webfx.platform.uischeduler.AnimationFramePass;
-import dev.webfx.platform.uischeduler.UiScheduler;
-import dev.webfx.platform.scheduler.Scheduled;
-import dev.webfx.platform.util.collection.Collections;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -2922,6 +2922,23 @@ public class Scene implements EventTarget,
             final EventHandler<? super T> eventHandler) {
         getInternalEventDispatcher().getEventHandlerManager()
                 .setEventHandler(eventType, eventHandler);
+    }
+
+    /**
+     * Registers an event handler to this scene. The handler is called when the
+     * scene receives an {@code Event} of the specified type during the bubbling
+     * phase of event delivery.
+     *
+     * @param <T> the specific event class of the handler
+     * @param eventType the type of the events to receive by the handler
+     * @param eventHandler the handler to register
+     * @throws NullPointerException if the event type or handler is null
+     */
+    public final <T extends Event> void addEventHandler(
+            final EventType<T> eventType,
+            final EventHandler<? super T> eventHandler) {
+        getInternalEventDispatcher().getEventHandlerManager()
+                .addEventHandler(eventType, eventHandler);
     }
 
 }

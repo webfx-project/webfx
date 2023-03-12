@@ -183,10 +183,6 @@ public abstract class FxNodePeer
         fxNode.setOnDragDone(eventHandler);
     }
 
-    @Override
-    public void onListeningTouchEvents(boolean listening) {
-    }
-
     private static MouseEvent toMouseEvent(Object source, EventTarget target, MouseEvent e) {
         return new MouseEvent(source, target, e.getEventType(), e.getX(), e.getY(), e.getScreenX(), e.getScreenY(), null, e.getClickCount(), e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(), e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), null);
     }

@@ -79,10 +79,6 @@ public class NodePeerBase
     public void requestFocus() {
     }
 
-    @Override
-    public void onListeningTouchEvents(boolean listening) {
-    }
-
     protected void requestUpdateOnPropertiesChange(SceneRequester sceneRequester, ObservableValue... properties) {
         FXProperties.runOnPropertiesChange(property -> requestUpdateProperty(sceneRequester, property), properties);
     }

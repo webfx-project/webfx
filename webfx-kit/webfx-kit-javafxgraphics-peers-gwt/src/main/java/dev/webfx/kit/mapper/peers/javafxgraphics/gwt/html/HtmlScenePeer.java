@@ -39,7 +39,8 @@ public final class HtmlScenePeer extends ScenePeerBase {
         HtmlUtil.setStyleAttribute(container, "height", "100vh"); // 100% is not good on mobile when the browser navigation bar is hidden, but 100vh works
         FXProperties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
-        HtmlSvgNodePeer.installKeyboardListeners(DomGlobal.window, scene);
+        HtmlSvgNodePeer.installTouchListeners(container, scene, false);
+        HtmlSvgNodePeer.installKeyboardListeners(document, scene); // Note: doesn't work with container (focus problem?), so we use document instead (works also with DomGlobal.window)
         installStylesheetsListener(scene);
         installFontsListener();
         // The following code is just to avoid a downgrade in Lighthouse (iframe should have a title)
@@ -64,7 +65,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             if (e instanceof MouseEvent // For now we manage only context menu from the mouse
                     // Also checking that we received the mouse up event on that scene before. This is to prevent the
                     // following case: when a context menu is already displayed (=> in another popup window/scene) and
-                    // the user right click on a menu item, the menu action will be triggered on the mouseup within the
+                    // the user right-click on a menu item, the menu action will be triggered on the mouseup within the
                     // popup window/scene (so far, so good) but then oncontextmenu is called on this scene by the browser
                     // whereas the intention of the user was just to trigger the menu action (which also closes the
                     // context menu) but not to display the context menu again. So we prevent this by checking the last
@@ -96,7 +97,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             Scene scene = getScene();
             // Also fixing a problem: mouse released and mouse pressed are sent very closely on mobiles and might be
             // treated in the same animation frame, which prevents the button pressed state (ex: a background bound to
-            // the button pressedProperty) to appear before the action (which might be time consuming) is fired, so the
+            // the button pressedProperty) to appear before the action (which might be time-consuming) is fired, so the
             // user doesn't know if the button has been successfully pressed or not during the action execution.
             if (fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_RELEASED && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
                 UiScheduler.scheduleInAnimationFrame(() -> scene.impl_processMouseEvent(fxMouseEvent), 1);

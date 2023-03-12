@@ -37,6 +37,8 @@ public class EventHandlerManager extends BasicEventDispatcher {
 
         CompositeEventHandler<T> compositeEventHandler = createGetCompositeEventHandler(eventType);
         compositeEventHandler.addEventHandler(eventHandler);
+
+        notifyEventSourcesListener(eventType, eventSource); // WebFX addition
     }
 
     /**
@@ -70,6 +72,8 @@ public class EventHandlerManager extends BasicEventDispatcher {
 
         CompositeEventHandler<T> compositeEventHandler = createGetCompositeEventHandler(eventType);
         compositeEventHandler.addEventFilter(eventFilter);
+
+        notifyEventSourcesListener(eventType, eventSource); // WebFX addition
     }
 
     /**
@@ -111,6 +115,8 @@ public class EventHandlerManager extends BasicEventDispatcher {
         }
 
         compositeEventHandler.setEventHandler(eventHandler);
+
+        notifyEventSourcesListener(eventType, eventSource); // WebFX addition
     }
 
     public final <T extends Event> EventHandler<? super T> getEventHandler(EventType<T> eventType) {
@@ -215,4 +221,23 @@ public class EventHandlerManager extends BasicEventDispatcher {
             throw new NullPointerException("Event filter must not be null");
         }
     }
+
+    // WebFX addition
+
+    /* EventSourcesListener is used by HtmlSvgNodePeer to be notified when an event handler or filter is added to a node,
+    * so it can add an appropriate HTML event handler on the HTML peer. */
+    public interface EventSourcesListener {
+        void onEventSource(EventType<?> eventType, Object eventSource);
+    }
+    private static EventSourcesListener eventSourcesListener;
+
+    public static void setEventSourcesListener(EventSourcesListener eventSourcesListener) {
+        EventHandlerManager.eventSourcesListener = eventSourcesListener;
+    }
+
+    private static void notifyEventSourcesListener(EventType<?> eventType, Object eventSource) {
+        if (eventSourcesListener != null)
+            eventSourcesListener.onEventSource(eventType, eventSource);
+    }
+
 }
