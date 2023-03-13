@@ -15,7 +15,7 @@ public class MediaView extends Node {
     public MediaView(MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;
         // We create and bind the node peer right now, so that GwtMediaPlayerPeer.setMediaElement() is called straightaway.
-        // Then if the uer calls mediaPlayer.play() before the node is inserted in the scene graph, then it will correctly
+        // Then if the user calls mediaPlayer.play() before the node is inserted in the scene graph, then it will correctly
         // propagate this call to the media element.
         getOrCreateAndBindNodePeer();
     }

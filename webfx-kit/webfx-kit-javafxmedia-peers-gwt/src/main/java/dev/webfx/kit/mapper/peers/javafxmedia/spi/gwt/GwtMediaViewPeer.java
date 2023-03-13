@@ -16,18 +16,18 @@ import javafx.scene.media.MediaView;
 /**
  * @author Bruno Salmon
  */
-public class HtmlMediaViewPeer
+public class GwtMediaViewPeer
         <E extends Element, N extends MediaView, NB extends NodePeerBase<N, NB, NM>, NM extends NodePeerMixin<N, NB, NM>>
         extends HtmlNodePeer<N, NB, NM>
         implements HtmlLayoutMeasurable, HasSizeChangedCallback {
 
     private final HTMLVideoElement videoElement;
     private boolean loaded;
-    public HtmlMediaViewPeer() {
+    public GwtMediaViewPeer() {
         this((NB) new NodePeerBase(), HtmlUtil.createElement("video"));
     }
 
-    public HtmlMediaViewPeer(NB base, HTMLElement element) {
+    public GwtMediaViewPeer(NB base, HTMLElement element) {
         super(base, element);
         videoElement = (HTMLVideoElement) getElement();
         videoElement.controls = false; // There is no controls in JavaFX MediaView

@@ -4,10 +4,12 @@ import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import elemental2.core.Uint8Array;
-import elemental2.dom.*;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLAudioElement;
+import elemental2.dom.HTMLMediaElement;
+import elemental2.dom.Response;
 import elemental2.media.*;
 import javafx.scene.media.AudioSpectrumListener;
-import javafx.scene.media.Media;
 
 import java.time.Duration;
 
@@ -19,9 +21,10 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     // Creating one single audio context for the whole application
     // If the user has not yet interacted with the page, the audio context will be in "suspended" mode
     private static final AudioContext AUDIO_CONTEXT = new AudioContext();
-    private final Media media;
+    private final String mediaUrl;
     private AudioBuffer audioBuffer;
     private AudioBufferSourceNode bufferSource;
+    private boolean bufferSourcePlayed;
     private GainNode gainNode;
     private double volume = 1;
     private boolean mute;
@@ -40,18 +43,19 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private float[] magnitudes, phases;
     private Runnable onEndOfMedia, onPlaying;
 
-    public GwtMediaPlayerPeer(Media media) {
-        this.media = media;
-        String url = media.getSource();
-        if (url.startsWith("file") || !url.startsWith("http") && DomGlobal.window.location.protocol.equals("file:"))
+    public GwtMediaPlayerPeer(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+        if (mediaUrl.startsWith("file") || !mediaUrl.startsWith("http") && DomGlobal.window.location.protocol.equals("file:"))
             setMediaElement((HTMLAudioElement) DomGlobal.document.createElement("audio"));
         else {
             mediaElement = null;
-            fetch(false);
+            // TODO: should we check if mediaUrl is a sound url indeed before making this call?
+            // TODO: should we check if mediaUrl is a (long) music, and create an audio element instead in this case?
+            fetchAudioBuffer(false);
         }
     }
 
-    public void setMediaElement(HTMLMediaElement mediaElement) {
+    public void setMediaElement(HTMLMediaElement mediaElement) { // GwtMediaViewPeer also calls this method to pass the video element
         this.mediaElement = mediaElement;
         mediaElement.onplaying = p0 -> {
             doOnPlaying();
@@ -61,25 +65,20 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             doOnEnded();
             return null;
         };
-        mediaElement.src = media.getSource();
+        mediaElement.src = mediaUrl;
         if (loopWhenReady)
             mediaElement.loop = true;
         if (mute)
             mediaElement.muted = true;
     }
 
-    @Override
-    public Media getMedia() {
-        return media;
-    }
-
-    private void fetch(boolean resumeIfSuspended) {
+    private void fetchAudioBuffer(boolean resumeIfSuspended) {
         if (AUDIO_CONTEXT.state.equals("suspended")) {
             if (!resumeIfSuspended)
                 return;
             AUDIO_CONTEXT.resume();
         }
-        DomGlobal.window.fetch(media.getSource())
+        DomGlobal.window.fetch(mediaUrl)
                 .then(Response::arrayBuffer)
                 .then(AUDIO_CONTEXT::decodeAudioData)
                 .then(buffer -> {
@@ -104,10 +103,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             bufferSource.playbackRate.value = 1;  // We reestablished the normal speed to resume
         else {
             bufferSource.start();
-            bufferSource.onended = p0 -> {
-                bufferSource = null; // Releasing the buffer source (we can't start it more than once)
-                doOnEnded();
-            };
+            bufferSource.onended = p0 -> doOnEnded();
+            bufferSourcePlayed = true; // a buffer source can be played only once, so this flag indicates a new bufferSource is needed to play this sound again
         }
     }
 
@@ -140,11 +137,12 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             mediaElement.play();
             captureMediaStartTimeNow();
         } else {
-            if (bufferSource != null)
+            // If the buffer source is already ready to play, we start it now
+            if (bufferSource != null && !bufferSourcePlayed /* can't be played twice */ )
                 startBufferSource();
-            else {
+            else { // the buffer is not yet ready, or has already been played
                 if (!fetched)
-                    fetch(true);
+                    fetchAudioBuffer(true);
                 bufferSource = AUDIO_CONTEXT.createBufferSource();
                 gainNode = AUDIO_CONTEXT.createGain();
                 setVolume(volume);

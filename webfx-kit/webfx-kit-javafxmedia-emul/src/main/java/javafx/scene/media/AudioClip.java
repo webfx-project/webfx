@@ -7,43 +7,24 @@ public class AudioClip {
 
     public static final int INDEFINITE = -1; // Note: this is a count, not a Duration.
 
-    private final Media media;
-    private MediaPlayer mediaPlayer;
+    private final MediaPlayer mediaPlayer;
     private double volume = 1;
-    private int cycleCount = 1;
 
     public AudioClip(String url) {
-        media = new Media(url);
-    }
-
-    private MediaPlayer getOrCreateMediaPlayer() {
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer(media);
-            applySettings();
-        }
-        return mediaPlayer;
-    }
-
-    private void applySettings() {
-        if (mediaPlayer != null) {
-            mediaPlayer.setVolume(volume);
-            mediaPlayer.setCycleCount(cycleCount);
-        }
+        mediaPlayer = new MediaPlayer(new Media(url));
     }
 
     public void play() {
-        getOrCreateMediaPlayer().play();
-        mediaPlayer = null;
+        mediaPlayer.play();
     }
 
     public void stop() {
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        mediaPlayer.stop();
     }
 
     public void setVolume(double volume) {
         this.volume = volume;
-        applySettings();
+        mediaPlayer.setVolume(volume);
     }
 
     public double getVolume() {
@@ -51,12 +32,11 @@ public class AudioClip {
     }
 
     public void setCycleCount(int cycleCount) {
-        this.cycleCount = cycleCount;
-        applySettings();
+        mediaPlayer.setCycleCount(cycleCount);
     }
 
     public int getCycleCount() {
-        return cycleCount;
+        return mediaPlayer.getCycleCount();
     }
 
 }

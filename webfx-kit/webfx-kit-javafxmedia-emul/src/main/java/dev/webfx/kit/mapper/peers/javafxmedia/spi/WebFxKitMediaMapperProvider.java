@@ -1,6 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxmedia.spi;
 
-import javafx.scene.media.Media;
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 
 /**
@@ -8,7 +7,7 @@ import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
  */
 public interface WebFxKitMediaMapperProvider {
 
-    default MediaPlayerPeer createMediaPlayerPeer(Media media) {
+    default MediaPlayerPeer createMediaPlayerPeer(String mediaUrl) {
         return null;
     }
 
