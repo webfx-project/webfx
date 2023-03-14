@@ -4,6 +4,9 @@ import dev.webfx.platform.boot.spi.ApplicationModuleBooter;
 import elemental2.dom.AddEventListenerOptions;
 import elemental2.dom.DomGlobal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * The purpose of this module booter is to ensure that the sound will play ok on iOS and iPadOS after the first user
@@ -32,9 +35,14 @@ import elemental2.dom.DomGlobal;
 public class GwtMediaModuleBooter implements ApplicationModuleBooter {
 
     private static boolean MEDIA_REQUIRES_USER_INTERACTION_FIRST;
+    private static final List<Runnable> ON_FIRST_USER_INTERACTION_RUNNABLES = new ArrayList<>();
 
     public static boolean mediaRequiresUserInteractionFirst() {
         return MEDIA_REQUIRES_USER_INTERACTION_FIRST;
+    }
+
+    public static void runOnFirstUserInteraction(Runnable onFirstUserInteraction) {
+        ON_FIRST_USER_INTERACTION_RUNNABLES.add(onFirstUserInteraction);
     }
 
     @Override
@@ -53,11 +61,19 @@ public class GwtMediaModuleBooter implements ApplicationModuleBooter {
         options.setPassive(true); // We promise we won't call preventDefault()
         options.setCapture(true); // Our listener will be called first
         options.setOnce(true); // We need the listener to be called only once (will be automatically removed after that)
-        DomGlobal.document.body.addEventListener("click", e -> { // We use "click" to detect the first user interaction
+        // We use "click" and "keydown" events to detect the first user interaction
+        DomGlobal.window.addEventListener("click", e -> doOnUserInteraction(), options);
+        DomGlobal.window.addEventListener("keydown", e -> doOnUserInteraction(), options);
+    }
+
+    private void doOnUserInteraction() {
+        if (MEDIA_REQUIRES_USER_INTERACTION_FIRST) {
             String tinySilentMp3Data = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
-            new GwtMediaPlayerPeer(tinySilentMp3Data).play(); // This will unlock the sound
+            new GwtMediaPlayerPeer(tinySilentMp3Data, true).play(); // This will unlock the sound
             MEDIA_REQUIRES_USER_INTERACTION_FIRST = false;
-        }, options);
+            ON_FIRST_USER_INTERACTION_RUNNABLES.forEach(Runnable::run);
+            ON_FIRST_USER_INTERACTION_RUNNABLES.clear();
+        }
     }
 
 }

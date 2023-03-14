@@ -17,8 +17,12 @@ public class MediaPlayer {
     private int cycleCount;
 
     public MediaPlayer(Media media) {
+        this(media, false);
+    }
+
+    MediaPlayer(Media media, boolean audioClip) {
         this.media = media;
-        peer = WebFxKitMediaMapper.createMediaPlayerPeer(media.getSource());
+        peer = WebFxKitMediaMapper.createMediaPlayerPeer(media.getSource(), audioClip);
     }
 
     public MediaPlayerPeer getPeer() {

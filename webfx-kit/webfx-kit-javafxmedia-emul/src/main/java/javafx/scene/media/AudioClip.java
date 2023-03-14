@@ -11,7 +11,7 @@ public class AudioClip {
     private double volume = 1;
 
     public AudioClip(String url) {
-        mediaPlayer = new MediaPlayer(new Media(url));
+        mediaPlayer = new MediaPlayer(new Media(url), true);
     }
 
     public void play() {

@@ -25,6 +25,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private AudioBuffer audioBuffer;
     private AudioBufferSourceNode bufferSource;
     private boolean bufferSourcePlayed;
+    private MediaElementAudioSourceNode mediaElementSource;
     private GainNode gainNode;
     private double volume = 1;
     private boolean mute;
@@ -43,16 +44,12 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private float[] magnitudes, phases;
     private Runnable onEndOfMedia, onPlaying;
 
-    public GwtMediaPlayerPeer(String mediaUrl) {
+    public GwtMediaPlayerPeer(String mediaUrl, boolean audioClip) {
         this.mediaUrl = mediaUrl;
-        if (mediaUrl.startsWith("file") || !mediaUrl.startsWith("http") && DomGlobal.window.location.protocol.equals("file:"))
+        if (!audioClip || mediaUrl.startsWith("file") || !mediaUrl.startsWith("http") && DomGlobal.window.location.protocol.equals("file:"))
             setMediaElement((HTMLAudioElement) DomGlobal.document.createElement("audio"));
-        else {
-            mediaElement = null;
-            // TODO: should we check if mediaUrl is a sound url indeed before making this call?
-            // TODO: should we check if mediaUrl is a (long) music, and create an audio element instead in this case?
+        else
             fetchAudioBuffer(false);
-        }
     }
 
     public void setMediaElement(HTMLMediaElement mediaElement) { // GwtMediaViewPeer also calls this method to pass the video element
@@ -70,27 +67,34 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             mediaElement.loop = true;
         if (mute)
             mediaElement.muted = true;
+        mediaElement.crossOrigin = "anonymous"; // to avoid this possible error: MediaElementAudioSource outputs zeros due to CORS access restrictions
     }
 
     private void fetchAudioBuffer(boolean resumeIfSuspended) {
+        if (isAudioContextReady(resumeIfSuspended)) {
+            DomGlobal.window.fetch(mediaUrl)
+                    .then(Response::arrayBuffer)
+                    .then(AUDIO_CONTEXT::decodeAudioData)
+                    .then(buffer -> {
+                        audioBuffer = buffer;
+                        onAudioBufferReady();
+                        return null;
+                    });
+            fetched = true;
+        }
+    }
+
+    private boolean isAudioContextReady(boolean resumeIfSuspended) {
         if (AUDIO_CONTEXT.state.equals("suspended")) {
             if (!resumeIfSuspended)
-                return;
+                return false;
             AUDIO_CONTEXT.resume();
         }
-        DomGlobal.window.fetch(mediaUrl)
-                .then(Response::arrayBuffer)
-                .then(AUDIO_CONTEXT::decodeAudioData)
-                .then(buffer -> {
-                    audioBuffer = buffer;
-                    onAudioBufferReady();
-                    return null;
-                });
-        fetched = true;
+        return true;
     }
 
     private void onAudioBufferReady() {
-        if (bufferSource != null) {
+        if (bufferSource != null && !bufferSourcePlayed) {
             bufferSource.buffer = audioBuffer;
             bufferSource.loop = loopWhenReady;
             if (playWhenReady)
@@ -132,8 +136,17 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         if (hasMediaElement()) {
             setVolume(volume);
             // Muting the media if asked or if the user hasn't yet interacted (otherwise play() will raise an exception)
-            if (mute || GwtMediaModuleBooter.mediaRequiresUserInteractionFirst())
+            if (!GwtMediaModuleBooter.mediaRequiresUserInteractionFirst())
+                mediaElement.muted = mute;
+            else {
                 mediaElement.muted = true;
+                GwtMediaModuleBooter.runOnFirstUserInteraction(() -> mediaElement.muted = mute);
+            }
+            // mediaElementSource is required for possible spectrum analysis
+            if (isAudioContextReady(true)) {
+                mediaElementSource = AUDIO_CONTEXT.createMediaElementSource(mediaElement);
+                mediaElementSource.connect(AUDIO_CONTEXT.destination);
+            }
             mediaElement.play();
             captureMediaStartTimeNow();
         } else {
@@ -144,6 +157,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                 if (!fetched)
                     fetchAudioBuffer(true);
                 bufferSource = AUDIO_CONTEXT.createBufferSource();
+                bufferSourcePlayed = false;
                 gainNode = AUDIO_CONTEXT.createGain();
                 setVolume(volume);
                 bufferSource.connect(gainNode);
@@ -152,8 +166,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                 if (audioBuffer != null)
                     onAudioBufferReady();
             }
-            scheduleListener();
         }
+        scheduleListener();
     }
 
     private void scheduleListener() {
@@ -203,8 +217,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                     bufferSource = null;
                 }
             playWhenReady = false;
-            unscheduleListener();
         }
+        unscheduleListener();
     }
 
     @Override
@@ -248,8 +262,13 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             byteFrequencyArray = new Uint8Array(arraySize);
             //floatTimeArray = new Float32Array(arraySize);
             //floatFrequencyArray = new Float32Array(arraySize);
-            bufferSource.connect(analyser);
-            analyser.connect(gainNode);
+            if (bufferSource != null) {
+                bufferSource.connect(analyser);
+                analyser.connect(gainNode);
+            } else if (mediaElementSource != null) {
+                mediaElementSource.connect(analyser);
+                analyser.connect(AUDIO_CONTEXT.destination);
+            }
         }
         return analyser;
     }

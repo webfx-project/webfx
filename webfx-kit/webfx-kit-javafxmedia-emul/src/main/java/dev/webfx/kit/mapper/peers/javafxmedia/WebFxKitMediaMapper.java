@@ -14,7 +14,7 @@ public class WebFxKitMediaMapper {
         return SingleServiceProvider.getProvider(WebFxKitMediaMapperProvider.class, () -> ServiceLoader.load(WebFxKitMediaMapperProvider.class));
     }
 
-    public static MediaPlayerPeer createMediaPlayerPeer(String mediaUrl) {
-        return getProvider().createMediaPlayerPeer(mediaUrl);
+    public static MediaPlayerPeer createMediaPlayerPeer(String mediaUrl, boolean audioClip) {
+        return getProvider().createMediaPlayerPeer(mediaUrl, audioClip);
     }
 }

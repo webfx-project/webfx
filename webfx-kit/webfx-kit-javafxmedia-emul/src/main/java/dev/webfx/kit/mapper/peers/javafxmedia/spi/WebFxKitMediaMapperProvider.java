@@ -7,7 +7,7 @@ import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
  */
 public interface WebFxKitMediaMapperProvider {
 
-    default MediaPlayerPeer createMediaPlayerPeer(String mediaUrl) {
+    default MediaPlayerPeer createMediaPlayerPeer(String mediaUrl, boolean audioClip) {
         return null;
     }
 
