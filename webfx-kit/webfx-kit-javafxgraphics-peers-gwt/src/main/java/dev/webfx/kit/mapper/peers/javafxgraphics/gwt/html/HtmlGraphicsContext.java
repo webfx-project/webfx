@@ -517,7 +517,11 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private static native void roundRect(CanvasRenderingContext2D ctx, double x, double y, double w, double h, double arcWidth, double arcHeight) /*-{
-        ctx.roundRect(x, y, w, h, [arcWidth, arcHeight]);
+        try {
+           ctx.roundRect(x, y, w, h, [arcWidth, arcHeight]);
+        } catch (e) { // Not supported in FireFox...
+           ctx.rect(x, y, w, h);
+        }
     }-*/ ;
 
     @Override
