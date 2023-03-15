@@ -143,7 +143,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                 GwtMediaModuleBooter.runOnFirstUserInteraction(() -> mediaElement.muted = mute);
             }
             // mediaElementSource is required for possible spectrum analysis
-            if (isAudioContextReady(true)) {
+            if (isAudioContextReady(true) && mediaElementSource == null) {
                 mediaElementSource = AUDIO_CONTEXT.createMediaElementSource(mediaElement);
                 mediaElementSource.connect(AUDIO_CONTEXT.destination);
             }
