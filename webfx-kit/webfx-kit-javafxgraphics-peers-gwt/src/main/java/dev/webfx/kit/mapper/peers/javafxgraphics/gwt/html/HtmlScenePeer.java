@@ -39,7 +39,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         HtmlUtil.setStyleAttribute(container, "height", "100vh"); // 100% is not good on mobile when the browser navigation bar is hidden, but 100vh works
         FXProperties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
-        HtmlSvgNodePeer.installTouchListeners(container, scene, false);
+        HtmlSvgNodePeer.installTouchListeners(container, scene);
         HtmlSvgNodePeer.installKeyboardListeners(document, scene); // Note: doesn't work with container (focus problem?), so we use document instead (works also with DomGlobal.window)
         installStylesheetsListener(scene);
         installFontsListener();

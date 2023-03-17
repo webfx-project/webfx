@@ -23,7 +23,6 @@ import elemental2.dom.*;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
-import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -398,9 +397,11 @@ public abstract class HtmlSvgNodePeer
 
     private boolean touchListenersInstalled;
 
-    private void installTouchListeners(boolean forFxSwipe) {
+    private void installTouchListeners(boolean swipe) {
+        if (swipe)
+            getNode().getProperties().put("webfx-swipe", true);
         if (!touchListenersInstalled) {
-            installTouchListeners(element, getNode(), forFxSwipe);
+            installTouchListeners(element, getNode());
             touchListenersInstalled = true;
         }
     }
@@ -408,21 +409,21 @@ public abstract class HtmlSvgNodePeer
     private static final GestureRecognizers gestureRecognizers = new GestureRecognizers();
 
 
-    public static void installTouchListeners(EventTarget htmlTarget, javafx.event.EventTarget fxTarget, boolean forFxSwipe) {
-        registerTouchListener(htmlTarget, "touchstart", fxTarget, forFxSwipe);
-        registerTouchListener(htmlTarget, "touchmove", fxTarget, forFxSwipe);
-        registerTouchListener(htmlTarget, "touchend", fxTarget, forFxSwipe);
-        registerTouchListener(htmlTarget, "touchcancel", fxTarget, forFxSwipe);
+    public static void installTouchListeners(EventTarget htmlTarget, javafx.event.EventTarget fxTarget) {
+        registerTouchListener(htmlTarget, "touchstart", fxTarget);
+        registerTouchListener(htmlTarget, "touchmove", fxTarget);
+        registerTouchListener(htmlTarget, "touchend", fxTarget);
+        registerTouchListener(htmlTarget, "touchcancel", fxTarget);
     }
 
-    private static void registerTouchListener(EventTarget htmlTarget, String type, javafx.event.EventTarget fxTarget, boolean forFxSwipe) {
+    private static void registerTouchListener(EventTarget htmlTarget, String type, javafx.event.EventTarget fxTarget) {
         // We don't enable the browsers built-in touch scrolling features, because this is not a standard behaviour in
         // JavaFX, and this can interfere with the user experience, especially with games.
         // Note that this will cause a downgrade in Lighthouse.
         AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
         passiveOption.setPassive(false); // May be set to true in some cases to improve Lighthouse score
         htmlTarget.addEventListener(type, e -> {
-            boolean fxConsumed = passHtmlTouchEventOnToFx((TouchEvent) e, type, fxTarget, forFxSwipe);
+            boolean fxConsumed = passHtmlTouchEventOnToFx((TouchEvent) e, type, fxTarget);
             if (fxConsumed) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -430,8 +431,8 @@ public abstract class HtmlSvgNodePeer
         }, passiveOption);
     }
 
-    protected static boolean passHtmlTouchEventOnToFx(TouchEvent e, String type, javafx.event.EventTarget fxTarget, boolean forFxSwipe) {
-        javafx.scene.input.TouchEvent fxTouchEvent = toFxTouchEvent(e, type, fxTarget, forFxSwipe);
+    protected static boolean passHtmlTouchEventOnToFx(TouchEvent e, String type, javafx.event.EventTarget fxTarget) {
+        javafx.scene.input.TouchEvent fxTouchEvent = toFxTouchEvent(e, type, fxTarget);
         boolean consumed = passOnToFx(fxTarget, fxTouchEvent);
         // We simulate the JavaFX behaviour where unconsumed touch events are fired again as mouse events.
         if (!consumed && fxTarget instanceof Scene) { // Only at the scene level
@@ -450,7 +451,7 @@ public abstract class HtmlSvgNodePeer
         return consumed; // should be normally: return consumed
     }
 
-    private static javafx.scene.input.TouchEvent toFxTouchEvent(TouchEvent e, String type, javafx.event.EventTarget fxTarget, boolean forFxSwipe) {
+    private static javafx.scene.input.TouchEvent toFxTouchEvent(TouchEvent e, String type, javafx.event.EventTarget fxTarget) {
         EventType<javafx.scene.input.TouchEvent> eventType;
         switch (type) {
             case "touchstart": eventType = javafx.scene.input.TouchEvent.TOUCH_PRESSED; break;
@@ -459,13 +460,13 @@ public abstract class HtmlSvgNodePeer
             case "touchcancel":
             default : eventType = javafx.scene.input.TouchEvent.TOUCH_RELEASED; break;
         }
-        List<TouchPoint> touchPoints = e.changedTouches.asList().stream().map(t -> toFxTouchPoint(t, e, fxTarget, forFxSwipe)).collect(Collectors.toList());
+        List<TouchPoint> touchPoints = e.changedTouches.asList().stream().map(t -> toFxTouchPoint(t, e, fxTarget)).collect(Collectors.toList());
         return new javafx.scene.input.TouchEvent(null, fxTarget, eventType, touchPoints.get(0),
                 touchPoints,
                 0, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
     }
 
-    private static TouchPoint toFxTouchPoint(Touch touch, TouchEvent e, javafx.event.EventTarget fxTarget, boolean forFxSwipe) {
+    private static TouchPoint toFxTouchPoint(Touch touch, TouchEvent e, javafx.event.EventTarget fxTarget) {
         TouchPoint.State state = TouchPoint.State.STATIONARY;
         //if (e.changedTouches.asList().contains(touch)) {
             switch (e.type) {
@@ -476,15 +477,9 @@ public abstract class HtmlSvgNodePeer
         //}
         double touchX = touch.pageX;
         double touchY = touch.pageY;
-        PickResult pickResult = null;
-        if (fxTarget instanceof Node) {
-            pickResult = new PickResult(fxTarget, touchX, touchY);
-            Point2D p = ((Node) fxTarget).sceneToLocal(touchX, touchY);
-            touchX = p.getX();
-            touchY = p.getY();
-        }
         int touchId = touch.identifier;
-        if (forFxSwipe) {
+        boolean swipe = fxTarget instanceof Node && Boolean.TRUE.equals(((Node) fxTarget).getProperties().get("webfx-swipe"));
+        if (swipe) {
             long time = (long) (e.timeStamp * 1_000_000);
             SwipeGestureRecognizer.CURRENT_TARGET = fxTarget;
             if (state == TouchPoint.State.PRESSED)
@@ -493,6 +488,7 @@ public abstract class HtmlSvgNodePeer
             if (state == TouchPoint.State.RELEASED)
                 gestureRecognizers.notifyEndTouchEvent(time);
         }
+        PickResult pickResult = new PickResult(fxTarget, touchX, touchY);
         return new TouchPoint(touchId, state, touchX, touchY, touch.screenX, touch.screenY, fxTarget, pickResult);
     }
 
