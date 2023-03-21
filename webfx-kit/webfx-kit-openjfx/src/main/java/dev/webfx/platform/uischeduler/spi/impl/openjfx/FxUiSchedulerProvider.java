@@ -35,11 +35,6 @@ public final class FxUiSchedulerProvider extends UiSchedulerProviderBase {
         return WebFxKitLauncher.isReady() && Platform.isFxApplicationThread();
     }
 
-    @Override
-    public long nanoTime() {
-        return System.nanoTime();
-    }
-
     private Timeline timeline;
 
     @Override

@@ -1,7 +1,5 @@
 package javafx.animation;
 
-import dev.webfx.platform.uischeduler.UiScheduler;
-
 import java.util.Arrays;
 
 /**
@@ -99,11 +97,7 @@ abstract class AbstractMasterTimer {
     public long nanos() {
         if (fixedPulseLength > 0)
             return debugNanos;
-        return paused ? startPauseTime : systemNanoTime() - totalPausedTime;
-    }
-
-    private long systemNanoTime() {
-        return UiScheduler.nanoTime();
+        return paused ? startPauseTime : System.nanoTime() - totalPausedTime;
     }
 
     public boolean isFullspeed() {
