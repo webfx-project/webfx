@@ -516,12 +516,26 @@ public class HtmlGraphicsContext implements GraphicsContext {
         ctx.stroke();
     }
 
-    private static native void roundRect(CanvasRenderingContext2D ctx, double x, double y, double w, double h, double arcWidth, double arcHeight) /*-{
-        try {
-           ctx.roundRect(x, y, w, h, [arcWidth, arcHeight]);
-        } catch (e) { // Not supported in FireFox...
-           ctx.rect(x, y, w, h);
+    private static Boolean BROWSER_SUPPORTS_ROUND_RECT = null;
+    private static void roundRect(CanvasRenderingContext2D ctx, double x, double y, double w, double h, double arcWidth, double arcHeight) {
+        if (BROWSER_SUPPORTS_ROUND_RECT == null) {
+            BROWSER_SUPPORTS_ROUND_RECT = checkRoundRectNativeSupport(ctx);
+            if (!BROWSER_SUPPORTS_ROUND_RECT) {
+                Console.log("Note: canvas roundRect() function is not supported by this browser - WebFX will use rect() instead");
+            }
         }
+        if (BROWSER_SUPPORTS_ROUND_RECT)
+            roundRectNative(ctx, x, y, w, h, arcWidth, arcHeight);
+        else
+            ctx.rect(x, y, w, h);
+    }
+
+    private static native boolean checkRoundRectNativeSupport(CanvasRenderingContext2D ctx) /*-{
+        return typeof ctx.roundRect === 'function';
+    }-*/ ;
+
+    private static native void roundRectNative(CanvasRenderingContext2D ctx, double x, double y, double w, double h, double arcWidth, double arcHeight) /*-{
+       ctx.roundRect(x, y, w, h, [arcWidth, arcHeight]);
     }-*/ ;
 
     @Override
