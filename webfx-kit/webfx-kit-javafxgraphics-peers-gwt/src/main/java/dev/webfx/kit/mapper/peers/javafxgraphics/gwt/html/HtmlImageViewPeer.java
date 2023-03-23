@@ -70,12 +70,12 @@ public final class HtmlImageViewPeer
             // But removing the alt text and hiding the image if the link is broken (to align with JavaFX behaviour which doesn't display such things)
             setElementAttribute("onerror", "this.style.display='none'; this.alt=''");
             // Special case of a canvas image (ex: the WebFX WritableImage emulation code stored the image in a canvas)
-            HTMLCanvasElement canvasElement = HtmlCanvasPeer.getImageCanvasElement(image);
+            HTMLCanvasElement canvasElement = CanvasElementHelper.getCanvasElementAssociatedWithImage(image);
             if (canvasElement != null) {
                 // We will replace the image with a canvas. First getting the canvas peer and element
                 // If the canvas has already been inserted into the DOM (this can happen because the same image can be used in different ImageView)
                 if (canvasElement.parentNode != null) // In that case, we need to make a copy of the canvas
-                    canvasElement = HtmlCanvasPeer.copyCanvas(canvasElement);
+                    canvasElement = CanvasElementHelper.copyCanvasElement(canvasElement);
                 // We finally replace the node with the canvas element
                 HtmlUtil.setChild(getContainer(), canvasElement);
             } else if (image != null && image.isBackgroundLoading())

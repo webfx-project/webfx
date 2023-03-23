@@ -2,18 +2,12 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.ImageData;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 /**
  * @author Bruno Salmon
@@ -25,7 +19,7 @@ public final class HtmlCanvasPeer
         implements CanvasPeerMixin<N, NB, NM> {
 
     public HtmlCanvasPeer() {
-        this((NB) new CanvasPeerBase(), createCanvasElement(-1, -1));
+        this((NB) new CanvasPeerBase(), CanvasElementHelper.createCanvasElement(-1, -1));
     }
 
     public HtmlCanvasPeer(NB base, HTMLElement element) {
@@ -70,131 +64,11 @@ public final class HtmlCanvasPeer
             image  = new WritableImage(width , height);
         }
 
-        HTMLCanvasElement canvasToCopy = getCanvasElement();
-        setPeerImageData(image, getCanvasImageData(canvasToCopy, width, height));
+        HTMLCanvasElement canvasElement = getCanvasElement();
+        ImageData imageData = ImageDataHelper.captureCanvasImageData(canvasElement, width, height);
+        ImageDataHelper.associateImageDataWithImage(imageData, image);
 
         return image;
-    }
-
-    static void setPeerImageData(Image image, ImageData imageData) {
-        image.setPeerImageData(imageData);
-        image.setPixelReaderFactory(() -> new ImageDataPixelReader(getPeerImageData(image)));
-    }
-
-    static ImageData getPeerImageData(Image image) {
-        Object peerImageData = image.getPeerImageData();
-        return peerImageData instanceof ImageData ? (ImageData) peerImageData : null;
-    }
-
-    public static ImageData getOrCreatePeerImageData(Image image) {
-        ImageData imageData = getPeerImageData(image);
-        if (imageData == null) {
-            HTMLCanvasElement peerCanvas = getOrCreatePeerCanvas(image);
-            imageData = getCanvasImageData(peerCanvas);
-            setPeerImageData(image, imageData);
-        }
-        return imageData;
-    }
-
-    static void setPeerCanvas(Image image, HTMLCanvasElement canvasElement, boolean dirty) {
-        image.setPeerCanvas(canvasElement);
-        image.setPeerCanvasDirty(dirty);
-    }
-
-    static HTMLCanvasElement getPeerCanvas(Image image) {
-        if (image == null)
-            return null;
-        Object peerCanvas = image.getPeerCanvas();
-        return peerCanvas instanceof HTMLCanvasElement ? (HTMLCanvasElement) peerCanvas : null;
-    }
-
-    static HTMLCanvasElement getOrCreatePeerCanvas(Image image) {
-        HTMLCanvasElement peerCanvas = getPeerCanvas(image);
-        if (peerCanvas == null) {
-            int width = (int) image.getWidth();
-            if (width == 0)
-                width = (int) image.getRequestedWidth();
-            int height = (int) image.getHeight();
-            if (height == 0)
-                height = (int) image.getRequestedHeight();
-            peerCanvas = createCanvasElement(width, height);
-            boolean loadedImage = image.getUrl() != null;
-            if (loadedImage)
-                HtmlGraphicsContext.getCanvasRenderingContext2D(peerCanvas).drawImage(HtmlGraphicsContext.getHTMLImageElement(image), 0, 0);
-            else
-                setPeerCanvas(image, peerCanvas, true);
-        }
-        return peerCanvas;
-    }
-
-    static HTMLCanvasElement getRenderingCanvas(Image image) {
-        HTMLCanvasElement peerCanvas = getOrCreatePeerCanvas(image);
-        if (image.isPeerCanvasDirty()) {
-            ImageData imageData = getPeerImageData(image);
-            if (imageData != null)
-                getCanvasContext(peerCanvas).putImageData(imageData, 0, 0);
-            image.setPeerCanvasDirty(false);
-        }
-        return peerCanvas;
-    }
-
-    public static HTMLCanvasElement createCanvasElement(int width, int height) {
-        HTMLCanvasElement canvasElement =  HtmlUtil.createElement("canvas");
-        if (width > 0 && height > 0) {
-            canvasElement.width = width;
-            canvasElement.height = height;
-        }
-        return canvasElement;
-    }
-
-    public static CanvasRenderingContext2D getCanvasContext(HTMLCanvasElement canvasElement) {
-        return (CanvasRenderingContext2D) (Object) canvasElement.getContext("2d");
-    }
-
-    public static ImageData getCanvasImageData(HTMLCanvasElement canvasElement) {
-        return getCanvasImageData(canvasElement, canvasElement.width, canvasElement.height);
-    }
-
-    public static ImageData getCanvasImageData(HTMLCanvasElement canvasElement, int width, int height) {
-        return getCanvasContext(canvasElement).getImageData(0, 0, width, height);
-    }
-
-    static HTMLCanvasElement getImageCanvasElement(Image image) {
-        HTMLCanvasElement htmlPeerCanvas = getPeerCanvas(image);
-        if (htmlPeerCanvas == null && image != null) {
-            Object peerCanvas = image.getPeerCanvas();
-            if (peerCanvas instanceof HtmlSvgNodePeer)
-                peerCanvas = ((HtmlSvgNodePeer<?, ?, ?, ?>) peerCanvas).getElement();
-            if (peerCanvas instanceof HTMLCanvasElement)
-                htmlPeerCanvas = (HTMLCanvasElement) peerCanvas;
-        }
-        return htmlPeerCanvas;
-    }
-
-    static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource) {
-        return copyCanvas(canvasSource, null);
-    }
-
-    static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource, Paint fill) {
-        return copyCanvas(canvasSource, canvasSource.width, canvasSource.height, fill);
-    }
-
-    static HTMLCanvasElement copyCanvas(HTMLCanvasElement canvasSource, int width, int height, Paint fill) {
-        HTMLCanvasElement canvasCopy = createCanvasElement(width, height);
-        if (width > 0 && height > 0) { // Checking size because drawImage is raising an exception on zero sized canvas
-            CanvasRenderingContext2D ctx = getCanvasContext(canvasCopy);
-            if (fill != null) {
-                if (fill == Color.TRANSPARENT)
-                    ctx.clearRect(0, 0, width, height);
-                else {
-                    HtmlGraphicsContext graphicsContext = new HtmlGraphicsContext(ctx);
-                    graphicsContext.setFill(fill);
-                    graphicsContext.fillRect(0, 0, width, height);
-                }
-            }
-            ctx.drawImage(canvasSource, 0, 0, width, height, 0, 0, width ,height);
-        }
-        return canvasCopy;
     }
 
 }

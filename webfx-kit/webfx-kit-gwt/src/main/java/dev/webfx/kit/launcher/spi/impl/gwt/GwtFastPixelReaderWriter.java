@@ -1,7 +1,7 @@
 package dev.webfx.kit.launcher.spi.impl.gwt;
 
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlCanvasPeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.ImageDataHelper;
 import elemental2.dom.ImageData;
 import javafx.scene.image.Image;
 
@@ -17,7 +17,7 @@ public class GwtFastPixelReaderWriter implements FastPixelReaderWriter {
 
     public GwtFastPixelReaderWriter(Image image) {
         this.image = image;
-        imageData = HtmlCanvasPeer.getOrCreatePeerImageData(image);
+        imageData = ImageDataHelper.getOrCreateImageDataAssociatedWithImage(image);
         maxIndex = imageData.data.length - 4;
         image.setPeerCanvasDirty(true);
     }

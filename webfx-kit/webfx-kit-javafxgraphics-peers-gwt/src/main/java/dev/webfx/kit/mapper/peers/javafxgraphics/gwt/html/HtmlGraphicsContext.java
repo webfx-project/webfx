@@ -36,7 +36,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     private boolean proportionalFillLinearGradient;
 
     HtmlGraphicsContext(HTMLCanvasElement canvasElement) {
-        this(getCanvasRenderingContext2D(canvasElement));
+        this(Context2DHelper.getCanvasContext2D(canvasElement));
     }
 
     HtmlGraphicsContext(CanvasRenderingContext2D ctx) {
@@ -44,22 +44,18 @@ public class HtmlGraphicsContext implements GraphicsContext {
         this.ctx = ctx;
     }
 
-    public HtmlGraphicsContext(Canvas canvas) {
+    public HtmlGraphicsContext(Canvas canvas, boolean willReadFrequently) {
         this.canvas = canvas;
         HTMLCanvasElement canvasElement = (HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement();
         // Setting the canvas size now because if done later (by the WebFX mapper), this will erase the canvas!
         // And also resizing it immediately on canvas size change, because when the user resize the canvas, he will probably draw on it just after (if we wait the mapper to react in the next animation frame, it will to late)
         FXProperties.runNowAndOnPropertiesChange(() -> resizeCanvasElement(canvasElement), canvas.widthProperty(), canvas.heightProperty());
-        ctx = getCanvasRenderingContext2D(canvasElement);
+        ctx = Context2DHelper.getCanvasContext2D(canvasElement, willReadFrequently);
     }
 
     private void resizeCanvasElement(HTMLCanvasElement canvasElement) {
         canvasElement.width =  (int) canvas.getWidth();  // Once done here, it won't be touched again by the mapper (see HtmlCanvasPeer.updateWidth())
         canvasElement.height = (int) canvas.getHeight(); // Once done here, it won't be touched again by the mapper (see HtmlCanvasPeer.updateHeight())
-    }
-
-    static CanvasRenderingContext2D getCanvasRenderingContext2D(HTMLCanvasElement canvasElement) {
-        return (CanvasRenderingContext2D) (Object) canvasElement.getContext("2d");
     }
 
     @Override
@@ -111,7 +107,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public Affine getTransform(Affine xform) {
-        Console.log("HtmlGraphicsContext.getTransform() not implemented");
+        Console.log("WARNING: HtmlGraphicsContext.getTransform() not implemented");
         return null;
     }
 
@@ -248,12 +244,12 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void setLineJoin(StrokeLineJoin join) {
-        Console.log("HtmlGraphicsContext.setLineJoin() not implemented");
+        Console.log("WARNING: HtmlGraphicsContext.setLineJoin() not implemented");
     }
 
     @Override
     public StrokeLineJoin getLineJoin() {
-        Console.log("HtmlGraphicsContext.getLineJoin() not implemented");
+        Console.log("WARNING: HtmlGraphicsContext.getLineJoin() not implemented");
         return null;
     }
 
@@ -521,7 +517,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         if (BROWSER_SUPPORTS_ROUND_RECT == null) {
             BROWSER_SUPPORTS_ROUND_RECT = checkRoundRectNativeSupport(ctx);
             if (!BROWSER_SUPPORTS_ROUND_RECT) {
-                Console.log("Note: canvas roundRect() function is not supported by this browser - WebFX will use rect() instead");
+                Console.log("WARNING: canvas roundRect() function is not supported by this browser - WebFX will use rect() instead");
             }
         }
         if (BROWSER_SUPPORTS_ROUND_RECT)
@@ -585,12 +581,12 @@ public class HtmlGraphicsContext implements GraphicsContext {
     public void drawImage(Image img, double x, double y, double w, double h) {
         if (img != null) {
             boolean loadImage = img.getUrl() != null;
-            ImageData imageData = loadImage ? null : HtmlCanvasPeer.getPeerImageData(img);
+            ImageData imageData = loadImage ? null : ImageDataHelper.getImageDataAssociatedWithImage(img);
             if (imageData != null) {
-                HTMLCanvasElement canvasElement = HtmlCanvasPeer.getRenderingCanvas(img);
+                HTMLCanvasElement canvasElement = CanvasElementHelper.getCanvasElementReadyToRenderImage(img);
                 ctx.drawImage(canvasElement, x, y, w, h);
             } else {
-                HTMLCanvasElement canvasElement = loadImage ? null : HtmlCanvasPeer.getImageCanvasElement(img);
+                HTMLCanvasElement canvasElement = loadImage ? null : CanvasElementHelper.getCanvasElementAssociatedWithImage(img);
                 if (canvasElement != null)
                     ctx.drawImage(canvasElement, x, y, w, h);
                 else {
@@ -608,12 +604,12 @@ public class HtmlGraphicsContext implements GraphicsContext {
     public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
         if (img != null) {
             boolean loadImage = img.getUrl() != null;
-            ImageData imageData = loadImage ? null : HtmlCanvasPeer.getPeerImageData(img);
+            ImageData imageData = loadImage ? null : ImageDataHelper.getImageDataAssociatedWithImage(img);
             if (imageData != null) {
-                HTMLCanvasElement canvasElement = HtmlCanvasPeer.getRenderingCanvas(img);
+                HTMLCanvasElement canvasElement = CanvasElementHelper.getCanvasElementReadyToRenderImage(img);
                 ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
             } else {
-                HTMLCanvasElement canvasElement = loadImage ? null : HtmlCanvasPeer.getImageCanvasElement(img);
+                HTMLCanvasElement canvasElement = loadImage ? null : CanvasElementHelper.getCanvasElementAssociatedWithImage(img);
                 if (canvasElement != null)
                     ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
                 else {
@@ -687,7 +683,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
             ctx.shadowColor = HtmlPaints.toCssColor(dropShadow.getColor());
         } else {
             ctx.shadowBlur = 0;
-            Console.log("HtmlGraphicsContext.setEffect() not implemented for effect = " + e);
+            Console.log("WARNING: HtmlGraphicsContext.setEffect() not implemented for effect = " + e);
         }
     }
 
@@ -698,7 +694,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void applyEffect(Effect e) {
-        Console.log("HtmlGraphicsContext.applyEffect() not implemented");
+        Console.log("WARNING: HtmlGraphicsContext.applyEffect() not implemented");
     }
 
     private static double degreesToRadiant(double degree) {
