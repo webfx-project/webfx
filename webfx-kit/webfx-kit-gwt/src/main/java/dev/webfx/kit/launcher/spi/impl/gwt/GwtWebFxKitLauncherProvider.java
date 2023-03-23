@@ -4,6 +4,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.sun.javafx.application.ParametersImpl;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
+import dev.webfx.kit.mapper.WebFxKitMapper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DragboardDataTransferHolder;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
@@ -21,6 +22,8 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
@@ -135,6 +138,11 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     @Override
     public FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
         return new GwtFastPixelReaderWriter(image);
+    }
+
+    @Override
+    public GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
+        return WebFxKitMapper.getGraphicsContext2D(canvas, willReadFrequently);
     }
 
     private final HTMLCanvasElement canvas = HtmlUtil.createElement("canvas");

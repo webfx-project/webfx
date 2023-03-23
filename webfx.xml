@@ -243,6 +243,7 @@
                 <module>elemental2-dom</module>
                 <module>gwt-user</module>
                 <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
                 <module>webfx-kit-javafxgraphics-emul</module>
                 <module>webfx-kit-javafxgraphics-peers-gwt</module>
                 <module>webfx-kit-launcher</module>
@@ -863,6 +864,7 @@
 
             <used-by-source-modules>
                 <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
                 <module>webfx-kit-javafxgraphics-emul</module>
                 <module>webfx-platform-boot</module>
                 <module>webfx-platform-console</module>
@@ -1030,7 +1032,10 @@
             </source-packages>
 
             <used-by-source-modules>
+                <module>java.base</module>
+                <module>webfx-kit-javafxbase-emul</module>
                 <module>webfx-kit-javafxgraphics-emul</module>
+                <module>webfx-kit-launcher</module>
                 <module>webfx-platform-os</module>
             </used-by-source-modules>
 

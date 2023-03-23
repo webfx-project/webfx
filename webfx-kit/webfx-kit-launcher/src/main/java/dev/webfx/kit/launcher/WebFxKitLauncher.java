@@ -8,6 +8,8 @@ import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -60,6 +62,10 @@ public final class WebFxKitLauncher {
 
     public static FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
         return getProvider().getFastPixelReaderWriter(image);
+    }
+
+    public static GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
+        return getProvider().getGraphicsContext2D(canvas, willReadFrequently);
     }
 
     public static Bounds measureText(String text, Font font) {

@@ -44,7 +44,11 @@ public final class WebFxKitMapper {
     }
 
     public static GraphicsContext getGraphicsContext2D(Canvas canvas) {
-        return getProvider().getGraphicsContext2D(canvas);
+        return getGraphicsContext2D(canvas, false);
+    }
+
+    public static GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
+        return getProvider().getGraphicsContext2D(canvas, willReadFrequently);
     }
 
     public static PixelWriter getImagePixelWriter(Image image) {

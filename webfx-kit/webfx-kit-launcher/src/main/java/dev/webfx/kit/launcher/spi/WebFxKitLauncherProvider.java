@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.Dragboard;
@@ -57,6 +59,10 @@ public interface WebFxKitLauncherProvider {
     default boolean supportsWebP() { return false; }
 
     FastPixelReaderWriter getFastPixelReaderWriter(Image image);
+
+    default GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
+        return canvas.getGraphicsContext2D();
+    }
 
     Bounds measureText(String text, Font font);
 

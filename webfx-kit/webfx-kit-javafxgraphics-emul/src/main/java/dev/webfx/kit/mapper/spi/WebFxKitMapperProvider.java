@@ -30,8 +30,8 @@ public interface WebFxKitMapperProvider {
         return NodePeerFactoryRegistry.createNodePeer(node);
     }
 
-    default GraphicsContext getGraphicsContext2D(Canvas canvas) {
-        return null;
+    default GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
+        return canvas.getGraphicsContext2D();
     }
 
     default PixelWriter getImagePixelWriter(Image image) {
