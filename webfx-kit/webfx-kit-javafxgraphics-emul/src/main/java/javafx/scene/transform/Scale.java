@@ -66,4 +66,11 @@ public class Scale extends PivotTransform implements
     protected Affine createAffine() {
         return new Affine(getX(), 0, 0, getY(), (1 - getX()) * getPivotX(), (1 - getY()) * getPivotY());
     }
+
+    public static Scale scale(double x, double y) {
+        final Scale scale = new Scale();
+        scale.setX(x);
+        scale.setY(y);
+        return scale;
+    }
 }
