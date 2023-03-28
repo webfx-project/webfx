@@ -30,6 +30,7 @@ package javafx.scene;
 //import com.sun.javafx.logging.PlatformLogger;
 
 import javafx.scene.paint.Paint;
+import javafx.scene.transform.Transform;
 
 /**
  * Parameters used to specify the rendering attributes for Node snapshot.
@@ -38,8 +39,8 @@ import javafx.scene.paint.Paint;
 public class SnapshotParameters {
 /*
     private boolean depthBuffer;
-    private Camera camera;
-    private Transform transform;*/
+    private Camera camera;*/
+    private Transform transform;
     private Paint fill;
     //private Rectangle2D viewport;
 
@@ -137,11 +138,9 @@ public class SnapshotParameters {
      *
      * @return the transform
      */
-/*
     public Transform getTransform() {
         return transform;
     }
-*/
 
     /**
      * Sets the transform to the specified value. This transform is applied to
@@ -151,11 +150,9 @@ public class SnapshotParameters {
      *
      * @param transform the transform to set
      */
-/*
     public void setTransform(Transform transform) {
         this.transform = transform;
     }
-*/
 
     /**
      * Gets the current fill.
