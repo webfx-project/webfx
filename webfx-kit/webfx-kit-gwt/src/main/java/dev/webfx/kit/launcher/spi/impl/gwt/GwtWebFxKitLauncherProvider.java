@@ -123,7 +123,7 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     @Override
     public Screen getPrimaryScreen() {
         elemental2.dom.Screen screen = DomGlobal.screen;
-        return Screen.from(toRectangle2D(screen.width, screen.height), toRectangle2D(screen.availWidth, screen.availHeight));
+        return Screen.from(toRectangle2D(screen.width, screen.height), toRectangle2D(screen.availWidth, screen.availHeight), DomGlobal.window.devicePixelRatio, DomGlobal.window.devicePixelRatio);
     }
 
     private static Rectangle2D toRectangle2D(double width, double height) {
