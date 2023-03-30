@@ -105,7 +105,7 @@ public class Canvas extends Node {
     private int lastsizeindex;
 */
 
-    private GraphicsContext theContext;
+    public GraphicsContext theContext; // Made public for WebFxKitMapper
 
     /*{
         // To initialize the class helper at the begining each constructor of this class

@@ -4,7 +4,10 @@ import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.StagePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.*;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlGraphicsContext;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlScenePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.ImageDataHelper;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.ImageDataPixelWriter;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.GwtPrimaryStagePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.GwtSecondaryStagePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.GwtWindowPeer;
@@ -40,7 +43,7 @@ public final class GwtWebFxKitHtmlMapperProvider extends WebFxKitMapperProviderB
     }
 
     @Override
-    public GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
+    public GraphicsContext createGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
         return new HtmlGraphicsContext(canvas, willReadFrequently);
     }
 

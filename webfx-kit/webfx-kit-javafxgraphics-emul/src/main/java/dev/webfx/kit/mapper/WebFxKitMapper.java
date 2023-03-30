@@ -48,7 +48,12 @@ public final class WebFxKitMapper {
     }
 
     public static GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
-        return getProvider().getGraphicsContext2D(canvas, willReadFrequently);
+        // Subsequent calls => returning the previous context (ignoring willReadFrequently)
+        if (canvas.theContext != null) {
+            return canvas.theContext;
+        }
+        // First call => instantiating the context with the requested willReadFrequently value
+        return canvas.theContext = getProvider().createGraphicsContext2D(canvas, willReadFrequently);
     }
 
     public static PixelWriter getImagePixelWriter(Image image) {
