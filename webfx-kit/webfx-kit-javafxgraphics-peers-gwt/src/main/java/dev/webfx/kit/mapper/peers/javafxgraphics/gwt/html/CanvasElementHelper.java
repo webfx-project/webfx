@@ -39,9 +39,12 @@ public final class CanvasElementHelper {
                 if (fill == Color.TRANSPARENT)
                     ctx.clearRect(0, 0, width, height);
                 else {
-                    HtmlGraphicsContext graphicsContext = new HtmlGraphicsContext(ctx);
-                    graphicsContext.setFill(fill);
-                    graphicsContext.fillRect(0, 0, width, height);
+                    // Wrapping the context with HtmlGraphicsContext to be able to call setFill() with JavaFX fill
+                    HtmlGraphicsContext gc = new HtmlGraphicsContext(ctx);
+                    gc.save();
+                    gc.setFill(fill);
+                    gc.fillRect(0, 0, width, height);
+                    gc.restore();
                 }
             }
             ctx.drawImage(canvasSource, 0, 0, width, height, 0, 0, width ,height);
@@ -78,13 +81,13 @@ public final class CanvasElementHelper {
     static HTMLCanvasElement getOrCreateCanvasElementAssociatedWithImage(Image image) {
         HTMLCanvasElement peerCanvas = getImagePeerCanvas(image);
         if (peerCanvas == null) {
-            int width = (int) image.getWidth();
+            double width = image.getWidth();
             if (width == 0)
-                width = (int) image.getRequestedWidth();
-            int height = (int) image.getHeight();
+                width = image.getRequestedWidth();
+            double height = image.getHeight();
             if (height == 0)
-                height = (int) image.getRequestedHeight();
-            peerCanvas = createCanvasElement(width, height);
+                height = image.getRequestedHeight();
+            peerCanvas = createCanvasElement((int) width, (int) height);
             boolean loadedImage = image.getUrl() != null;
             if (loadedImage)
                 Context2DHelper.getCanvasContext2D(peerCanvas).drawImage(HtmlGraphicsContext.getHTMLImageElement(image), 0, 0);
