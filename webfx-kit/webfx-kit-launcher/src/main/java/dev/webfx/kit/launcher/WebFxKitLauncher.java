@@ -64,6 +64,24 @@ public final class WebFxKitLauncher {
         return getProvider().getFastPixelReaderWriter(image);
     }
 
+    public static Canvas createWillReadFrequentlyCanvas() {
+        return createCanvas( true);
+    }
+
+    public static Canvas createWillReadFrequentlyCanvas(double width, double height) {
+        return createCanvas(width, height, true);
+    }
+
+    public static Canvas createCanvas(boolean willReadFrequently) {
+        return createCanvas(0, 0, willReadFrequently);
+    }
+
+    public static Canvas createCanvas(double width, double height, boolean willReadFrequently) {
+        Canvas canvas = new Canvas(width, height);
+        getGraphicsContext2D(canvas, willReadFrequently);
+        return canvas;
+    }
+
     public static GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
         return getProvider().getGraphicsContext2D(canvas, willReadFrequently);
     }
