@@ -8,6 +8,10 @@ import elemental2.dom.ImageData;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.WritableImage;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
+
+import static dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlGraphicsContext.*;
 
 /**
  * @author Bruno Salmon
@@ -31,25 +35,27 @@ public final class HtmlCanvasPeer
     }
     @Override
     public void updateWidth(Number width) {
-        HTMLCanvasElement canvasElement = getCanvasElement();
-        int intWidth = width.intValue();
-        // Preventing erasing canvas if already correctly sized
-        if (canvasElement.width != intWidth) // May be already correctly set (ex: Canvas in WritableImage)
-            canvasElement.width = intWidth;  // Note: this erases the canvas! (even with identical value)
+        // Note: probably already updated by HtmlGraphicsContext
+        updateCanvasElementWidth(getCanvasElement(), width.doubleValue());
     }
 
     @Override
     public void updateHeight(Number height) {
-        HTMLCanvasElement canvasElement = getCanvasElement();
-        int intHeight = height.intValue();
-        // Preventing erasing canvas if already correctly sized
-        if (canvasElement.height != intHeight) // May be already correctly set (ex: Canvas in WritableImage)
-            canvasElement.height = intHeight;  // Note: this erases the canvas! (even with identical value)
+        // Note: probably already updated by HtmlGraphicsContext
+        updateCanvasElementHeight(getCanvasElement(), height.doubleValue());
     }
 
     @Override
     public WritableImage snapshot(SnapshotParameters params, WritableImage image) {
-        N canvas = getNode();
+        double scaleX = 1, scaleY = 1;
+        if (params != null) {
+            Transform transform = params.getTransform();
+            if (transform instanceof Scale) {
+                Scale scale = (Scale) transform;
+                scaleX = scale.getX();
+                scaleY = scale.getY();
+            }
+        }
         int width, height;
         if (image != null) {
             width  = (int) image.getWidth();
@@ -59,13 +65,21 @@ public final class HtmlCanvasPeer
             if (height == 0)
                 height = (int) image.getRequestedHeight();
         } else {
-            width  = (int) canvas.getWidth();
-            height = (int) canvas.getHeight();
+            N canvas = getNode();
+            width  = (int) (canvas.getWidth() * scaleX);
+            height = (int) (canvas.getHeight() * scaleY);
             image  = new WritableImage(width , height);
         }
 
-        HTMLCanvasElement canvasElement = getCanvasElement();
-        ImageData imageData = ImageDataHelper.captureCanvasImageData(canvasElement, width, height);
+        HTMLCanvasElement canvasToCopy = getCanvasElement();
+        // Making a rescaled copy of the canvas if necessary before capturing the image
+        if (scaleX != DPR || scaleY != DPR) {
+            HTMLCanvasElement c = CanvasElementHelper.createCanvasElement(width, height);
+            // Note: wrong Elemental2 signature. Correct signature = drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+            Context2DHelper.getCanvasContext2D(c).drawImage(canvasToCopy, 0, 0, width * DPR, height * DPR, 0, 0, width, height);
+            canvasToCopy = c;
+        }
+        ImageData imageData = ImageDataHelper.captureCanvasImageData(canvasToCopy, width, height);
         ImageDataHelper.associateImageDataWithImage(imageData, image);
 
         return image;
