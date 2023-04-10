@@ -1236,7 +1236,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return nodePeer;
     }
 
-    // Phantom scene used to temporary create and bind peers when the application code is already working with nodes
+    // Phantom scene used to temporarily create and bind peers when the application code is already working with nodes
     // before their insertion in the scene graph (ex: drawing in a canvas before it is inserted).
     private final static Scene PHANTOM_SCENE = new Scene(null);
 
@@ -1245,7 +1245,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         if (scene == null) { // Quite annoying (the code is asking the peer before the node has been inserted in the scene graph)
             scene = WebFxKitLauncher.getPrimaryStage().getScene(); // Using the main scene (the most probably case)
             if (scene == null) // If still not set (can happen in application initialization code)
-                scene = PHANTOM_SCENE; // We temporary use a phantom scene for the initial binding (until the final scene is set on the node)
+                scene = PHANTOM_SCENE; // We temporarily use a phantom scene for the initial binding (until the final scene is set on the node)
         }
         return scene.getOrCreateAndBindNodePeer(this);
     }
@@ -2433,6 +2433,28 @@ public abstract class Node implements INode, EventTarget, Styleable {
         throw new IllegalStateException("Cannot start drag and drop on node "
                 + "that is not in scene");
     }
+
+
+    public final void setOnScroll(
+            EventHandler<? super ScrollEvent> value) {
+        onScrollProperty().set(value);
+    }
+
+    public final EventHandler<? super ScrollEvent> getOnScroll() {
+        return (eventHandlerProperties == null)
+                ? null : eventHandlerProperties.getOnScroll();
+    }
+
+    /**
+     * Defines a function to be called when user performs a scrolling action.
+     * @return the event handler that is called when user performs a scrolling
+     * action
+     */
+    public final ObjectProperty<EventHandler<? super ScrollEvent>>
+    onScrollProperty() {
+        return getEventHandlerProperties().onScrollProperty();
+    }
+
 
     /**
      * Takes a snapshot of this node and returns the rendered image when

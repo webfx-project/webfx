@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -384,15 +385,39 @@ public abstract class HtmlSvgNodePeer
     static {
         EventHandlerManager.setEventSourcesListener((eventType, eventSource) -> {
             if (eventSource instanceof Node) {
-                boolean swipe = eventType.getName().startsWith("SWIPE");
-                if (swipe || eventType.getName().startsWith("TOUCH") || eventType == javafx.scene.input.MouseEvent.MOUSE_DRAGGED) {
-                    ((Node) eventSource).onNodePeerReady(peer -> {
-                        if (peer instanceof HtmlSvgNodePeer)
-                            ((HtmlSvgNodePeer) peer).installTouchListeners(swipe);
-                    });
-                }
+                String eventTypeName = eventType.getName();
+                if (eventTypeName.contains("SCROLL")) // registering for scroll events
+                    callPeerWhenReady(eventSource, HtmlSvgNodePeer::installScrollListeners);
+                else if  (eventTypeName.contains("SWIPE")) // registering for swipe events
+                    callPeerWhenReady(eventSource, HtmlSvgNodePeer::installSwipeListeners);
+                else if (eventType == javafx.scene.input.MouseEvent.MOUSE_DRAGGED)
+                    callPeerWhenReady(eventSource, peer -> peer.installTouchListeners(false));
             }
         });
+    }
+
+    static void callPeerWhenReady(Object nodeSource, Consumer<HtmlSvgNodePeer> peerCaller) {
+        ((Node) nodeSource).onNodePeerReady(peer -> {
+            if (peer instanceof HtmlSvgNodePeer)
+                peerCaller.accept(((HtmlSvgNodePeer) peer));
+        });
+    }
+
+    private void installScrollListeners() {
+        // Listening mouse wheel scroll only for now
+        element.onwheel = e -> {
+            WheelEvent we = (WheelEvent) e;
+            N node = getNode();
+            ScrollEvent fxEvent = new ScrollEvent(node, node, ScrollEvent.SCROLL, we.pageX, we.pageY, we.screenX, we.screenY,
+                    we.shiftKey, we.ctrlKey, we.altKey, we.metaKey, true,false, we.deltaX, we.deltaY, we.deltaX, we.deltaY,
+                    ScrollEvent.HorizontalTextScrollUnits.NONE, 0, ScrollEvent.VerticalTextScrollUnits.NONE, 0, 0, new PickResult(node, we.pageX, we.pageY));
+            passOnToFx(node, fxEvent);
+            return false;
+        };
+    }
+
+    private void installSwipeListeners() {
+        installTouchListeners(true);
     }
 
     private boolean touchListenersInstalled;
