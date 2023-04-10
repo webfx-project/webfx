@@ -171,7 +171,7 @@ public final class EventHandlerProperties {
         }
         return onDragDetected;
     }
-/*
+
     private EventHandlerProperty<ScrollEvent> onScroll;
 
     public final EventHandler<? super ScrollEvent> getOnScroll() {
@@ -188,7 +188,7 @@ public final class EventHandlerProperties {
         }
         return onScroll;
     }
-
+/*
     private EventHandlerProperty<ScrollEvent> onScrollStarted;
 
     public final EventHandler<? super ScrollEvent> getOnScrollStarted() {
