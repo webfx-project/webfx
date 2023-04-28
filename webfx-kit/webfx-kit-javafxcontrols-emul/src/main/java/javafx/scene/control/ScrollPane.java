@@ -281,8 +281,16 @@ public class ScrollPane extends Control {
     protected void layoutChildren() {
         boolean fitToWidth = isFitToWidth(), fitToHeight = isFitToHeight();
         layoutInArea(getChildren().get(0), 0, 0, fitToWidth ? getWidth() : Double.MAX_VALUE, fitToHeight ? getHeight() : Double.MAX_VALUE, 0, Insets.EMPTY, fitToWidth, fitToHeight, HPos.LEFT, VPos.TOP, true);
+        // Note: the viewport bounds is mostly set by HtmlScrollPanePeer (that relies on a third-party JS library),
+        // but this code was added to fix an issue where the viewport bounds is not initialised by the peer on first
+        // layout pass.
+        Bounds vb = getViewportBounds();
+        if (vb.getWidth() != getWidth() || vb.getHeight() != getHeight())
+            setViewportBounds(new BoundingBox(vb.getMinX(), vb.getMinY(), getWidth(), getHeight()));
+        // Otherwise, the layout pass is notified to the peer throw this onChildrenLayout runnable
         if (onChildrenLayout != null)
             onChildrenLayout.run();
+        // TODO: make a better separation of the job between ScrollPane and the peer to set the viewport bounds
     }
 
     public void setOnChildrenLayout(Runnable onChildrenLayout) {
