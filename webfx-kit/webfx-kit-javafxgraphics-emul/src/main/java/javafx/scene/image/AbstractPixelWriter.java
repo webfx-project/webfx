@@ -51,12 +51,12 @@ public abstract class AbstractPixelWriter implements PixelWriter {
 
     @Override
     public void setColor(int x, int y, Color c) {
-        throw new UnsupportedOperationException("AbstractPixelWriter.setColor()");
+        throw new UnsupportedOperationException("setColor() in " + getClass());
     }
 
     @Override
     public <T extends Buffer> void setPixels(int x, int y, int w, int h, PixelFormat<T> pixelformat, T buffer, int scanlineStride) {
-        throw new UnsupportedOperationException("AbstractPixelWriter.setPixels()");
+        throw new UnsupportedOperationException("setPixels() in " + getClass());
     }
 
     @Override
@@ -70,12 +70,19 @@ public abstract class AbstractPixelWriter implements PixelWriter {
 
     @Override
     public void setPixels(int x, int y, int w, int h, PixelFormat<IntBuffer> pixelformat, int[] buffer, int offset, int scanlineStride) {
-        throw new UnsupportedOperationException("AbstractPixelWriter.setPixels()");
+        throw new UnsupportedOperationException("setPixels() in " + getClass());
     }
 
     @Override
     public void setPixels(int dstx, int dsty, int w, int h, PixelReader reader, int srcx, int srcy) {
-        throw new UnsupportedOperationException("AbstractPixelWriter.setPixels()");
+        //long t0 = System.currentTimeMillis();
+        for (int y = 0; y < h; y++) {
+              for (int x = 0; x < w; x++) {
+                  setArgb(dstx + x, dsty + y, reader.getArgb(srcx + x, srcy + y));
+              }
+        }
+        //long t1 = System.currentTimeMillis();
+        //Console.log(getClass() + " executed non-optimised setPixels() executed in " + (t1 - t0) + "ms");
     }
 
 }
