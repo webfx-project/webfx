@@ -42,6 +42,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private Scheduled listenerScheduled;
     private double audioSpectrumInterval;
     private float[] magnitudes, phases;
+    private int cycleCount = 1;
+    private int playedCycleCount = 0;
     private Runnable onEndOfMedia, onPlaying;
 
     public GwtMediaPlayerPeer(String mediaUrl, boolean audioClip) {
@@ -122,6 +124,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     @Override
     public void setCycleCount(int cycleCount) {
+        this.cycleCount = cycleCount;
         boolean loop = cycleCount == -1;
         if (hasMediaElement())
             mediaElement.loop = loop;
@@ -133,6 +136,11 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     @Override
     public void play() {
+        playedCycleCount = 0;
+        replay();
+    }
+
+    private void replay() {
         if (hasMediaElement()) {
             setVolume(volume);
             // Muting the media if asked or if the user hasn't yet interacted (otherwise play() will raise an exception)
@@ -312,7 +320,10 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }
 
     private void doOnEnded() {
-        if (onEndOfMedia != null)
+        playedCycleCount++;
+        if (playedCycleCount < cycleCount)
+            replay();
+        else if (onEndOfMedia != null)
             onEndOfMedia.run();
     }
 }
