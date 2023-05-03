@@ -263,7 +263,11 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static KeyEvent toFxKeyEvent(KeyboardEvent e, String type) {
-        KeyCode keyCode = toFxKeyCode(e.key); // e.key = physical key, e.code = logical key (ie taking into account selected system keyboard)
+        // Trying first to get the JavaFX code from e.code = logical key (takes into account selected system keyboard)
+        KeyCode keyCode = toFxKeyCode(e.code);
+        // Otherwise from e.key = physical code
+        if (keyCode == KeyCode.UNDEFINED)
+            keyCode = toFxKeyCode(e.key);
         EventType<KeyEvent> eventType;
         if (keyCode == KeyCode.ESCAPE)
             eventType = KeyEvent.KEY_PRESSED;
