@@ -1,9 +1,10 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics;
 
+import dev.webfx.platform.console.Console;
+import dev.webfx.platform.util.function.Factory;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
-import dev.webfx.platform.util.function.Factory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +51,7 @@ public final class NodePeerFactoryRegistry {
                 return (V) factory.create();
         }
         // If still not found, we return null after logging the problem
-        System.out.println("WARNING: No NodePeer factory registered for " + node.getClass());
+        Console.log("WARNING: No NodePeer factory registered for " + node.getClass());
         return null;
     }
 }
