@@ -9,6 +9,7 @@ public class AudioClip {
 
     private final MediaPlayer mediaPlayer;
     private double volume = 1;
+    private boolean playing;
 
     public AudioClip(String url) {
         mediaPlayer = new MediaPlayer(new Media(url), true);
@@ -16,6 +17,8 @@ public class AudioClip {
 
     public void play() {
         mediaPlayer.play();
+        playing = true;
+        mediaPlayer.setOnEndOfMedia(() -> playing = false);
     }
 
     public void stop() {
@@ -39,4 +42,7 @@ public class AudioClip {
         return mediaPlayer.getCycleCount();
     }
 
+    public boolean isPlaying() {
+        return playing;
+    }
 }
