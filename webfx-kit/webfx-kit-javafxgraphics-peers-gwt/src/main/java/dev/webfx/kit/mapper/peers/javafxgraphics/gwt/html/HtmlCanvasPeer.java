@@ -64,6 +64,11 @@ public final class HtmlCanvasPeer
             height = (int) image.getHeight();
             if (height == 0)
                 height = (int) image.getRequestedHeight();
+            // The same writable image instance may be used several times to create several canvas snapshots. So it's
+            // important to clear the canvas cache of that image (which may contain a previous snapshot set by
+            // CanvasElementHelper using gc.putImageData()). This will ensure that any new call to gc.drawImage() will
+            // render the new version of this image (= this snapshot).
+            image.setPeerCanvas(null);
         } else {
             N canvas = getNode();
             width  = (int) (canvas.getWidth() * scaleX);
