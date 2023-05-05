@@ -415,7 +415,11 @@ public abstract class HtmlSvgNodePeer
             ScrollEvent fxEvent = new ScrollEvent(node, node, ScrollEvent.SCROLL, we.pageX, we.pageY, we.screenX, we.screenY,
                     we.shiftKey, we.ctrlKey, we.altKey, we.metaKey, true,false, we.deltaX, we.deltaY, we.deltaX, we.deltaY,
                     ScrollEvent.HorizontalTextScrollUnits.NONE, 0, ScrollEvent.VerticalTextScrollUnits.NONE, 0, 0, new PickResult(node, we.pageX, we.pageY));
-            passOnToFx(node, fxEvent);
+            boolean fxConsumed = passOnToFx(node, fxEvent);
+            if (fxConsumed) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
             return false;
         };
     }
