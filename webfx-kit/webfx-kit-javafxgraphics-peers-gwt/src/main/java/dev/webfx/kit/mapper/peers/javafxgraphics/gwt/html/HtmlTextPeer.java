@@ -1,6 +1,16 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutCache;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurableNoHGrow;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.util.Numbers;
+import dev.webfx.platform.util.Objects;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
@@ -12,16 +22,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutCache;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurableNoHGrow;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.platform.uischeduler.UiScheduler;
-import dev.webfx.platform.util.Numbers;
-import dev.webfx.platform.util.Objects;
 
 /**
  * @author Bruno Salmon
@@ -95,12 +95,14 @@ public final class HtmlTextPeer
     @Override
     public void updateY(Double y) {
         VPos textOrigin = getNode().getTextOrigin();
-        if (textOrigin == VPos.CENTER || textOrigin == VPos.BOTTOM) {
-            double clientHeight = getLayoutBounds().getHeight(); // time consuming call
+        if (textOrigin == VPos.CENTER || textOrigin == VPos.BOTTOM || textOrigin == VPos.BASELINE) {
+            double clientHeight = getLayoutBounds().getHeight(); // time-consuming call
             if (textOrigin == VPos.CENTER)
                 y = y - clientHeight / 2;
-            else // if (textOrigin == VPos.BOTTOM)
+            else if (textOrigin == VPos.BOTTOM)
                 y = y - clientHeight;
+            else
+                y = y - clientHeight + getBaselineHeight(getElement());
         }
         setElementStyleAttribute("top", toPx(y));
     }
@@ -195,4 +197,21 @@ public final class HtmlTextPeer
     private static native double getTextMetricsWidth(JavaScriptObject metrics)/*-{
         return metrics.width;
     }-*/;
+
+
+    // Function to compute the baseline of an element (from Bob reply in StackOverflow https://stackoverflow.com/questions/10247132/how-can-i-get-the-height-of-the-baseline-of-a-certain-font)
+
+    private static final HTMLElement baselineLocator = HtmlUtil.createElement("img"); // needs to be an inline element without a baseline (so its bottom (not baseline) is used for alignment)
+    static {
+        baselineLocator.style.verticalAlign = "baseline" ; // aligns bottom of baselineLocator with baseline of el
+    }
+
+    private static double getBaselineHeight(HTMLElement el) {
+        double bottomY = el.getBoundingClientRect().bottom; //viewport pos of bottom of el
+        el.appendChild(baselineLocator);
+        double baseLineY = baselineLocator.getBoundingClientRect().bottom;  //viewport pos of baseline
+        el.removeChild(baselineLocator);
+        return bottomY - baseLineY;
+    }
+
 }
