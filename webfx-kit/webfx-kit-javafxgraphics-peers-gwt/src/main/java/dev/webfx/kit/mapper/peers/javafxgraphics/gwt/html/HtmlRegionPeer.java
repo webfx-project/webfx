@@ -10,6 +10,7 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
 import javafx.geometry.Insets;
+import javafx.geometry.Side;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 
@@ -232,8 +233,8 @@ public abstract class HtmlRegionPeer
             BackgroundImage bi = Collections.get(images, i);
             if (bi != null) {
                 sb.append("url(").append(bi.getImage().getUrl()).append(")");
+                toCssBackgroundPositionSize(bi.getPosition(), bi.getSize(), sb);
                 toCssBackgroundRepeat(bi.getRepeatX(), bi.getRepeatY(), sb);
-                toCssBackgroundPosition(bi.getPosition(), sb);
             }
         }
         return sb;
@@ -254,10 +255,42 @@ public abstract class HtmlRegionPeer
         return sb;
     }
 
-    private static StringBuilder toCssBackgroundPosition(BackgroundPosition position, StringBuilder sb) {
+    private static StringBuilder toCssBackgroundPositionSize(BackgroundPosition position, BackgroundSize size, StringBuilder sb) {
+        boolean isContain = size != null && size.isContain();
+        boolean isCover = size != null && size.isCover();
         if (position != null) {
-            sb.append(' ').append(position.getHorizontalPosition()).append(position.isHorizontalAsPercentage() ? "%" : "px");
-            sb.append(' ').append(position.getVerticalPosition()).append(position.isVerticalAsPercentage() ? "%" : "px");
+            Side horizontalSide = position.getHorizontalSide();
+            if (horizontalSide != null && isCover) {
+                sb.append(' ').append(horizontalSide.toString().toLowerCase());
+            } else {
+                double hPos = position.getHorizontalPosition();
+                boolean percent = position.isHorizontalAsPercentage();
+                sb.append(' ').append(percent ? 100 * hPos : hPos).append(percent ? "%" : "px");
+            }
+            Side verticalSide = position.getVerticalSide();
+            if (verticalSide != null && isCover) {
+                sb.append(' ').append(verticalSide.toString().toLowerCase());
+            } else {
+                double vPos = position.getVerticalPosition();
+                boolean percent = position.isVerticalAsPercentage();
+                sb.append(' ').append(percent ? 100 * vPos : vPos).append(percent ? "%" : "px");
+            }
+        }
+        if (isContain)
+            sb.append(" / contain");
+        else if (isCover) {
+            sb.append(" / cover");
+        } else if (size != null) {
+            double width = size.getWidth();
+            if (width >= 0) {
+                boolean percent = size.isWidthAsPercentage();
+                sb.append(" / ").append(percent ? 100 * width : width).append(percent ? "%" : "px");
+            }
+            double height = size.getHeight();
+            if (height >= 0) {
+                boolean percent = size.isHeightAsPercentage();
+                sb.append(" / ").append(percent ? 100 * height : height).append(percent ? "%" : "px");
+            }
         }
         return sb;
     }
