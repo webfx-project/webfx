@@ -90,6 +90,10 @@ public final class WebFxKitLauncher {
         return getProvider().measureText(text, font);
     }
 
+    public static double measureBaselineOffset(Font font) {
+        return getProvider().measureBaselineOffset(font);
+    }
+
     public static ObservableList<Font> loadingFonts() {
         return getProvider().loadingFonts();
     }

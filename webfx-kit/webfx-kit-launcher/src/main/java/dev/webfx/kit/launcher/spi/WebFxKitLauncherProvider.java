@@ -66,6 +66,8 @@ public interface WebFxKitLauncherProvider {
 
     Bounds measureText(String text, Font font);
 
+    double measureBaselineOffset(Font font);
+
     default ObservableList<Font> loadingFonts() {
         return FXCollections.emptyObservableList(); // Default implementation fpr synchronous font loading toolkits (such as OpenJFX)
     }

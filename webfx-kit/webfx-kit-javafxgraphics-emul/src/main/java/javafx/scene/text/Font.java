@@ -1,5 +1,6 @@
 package javafx.scene.text;
 
+import dev.webfx.kit.launcher.WebFxKitLauncher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,6 +18,8 @@ public class Font {
     private final double size;
 
     private final String url;
+
+    private double baselineOffset = Double.NaN;
 
     /**
      * Constructs a font using the default face "System".
@@ -92,6 +95,20 @@ public class Font {
 
     public String getUrl() {
         return url;
+    }
+
+    public boolean isBaselineOffsetSet() {
+        return !Double.isNaN(baselineOffset);
+    }
+
+    public double getBaselineOffset() {
+        if (!isBaselineOffsetSet())
+            baselineOffset = WebFxKitLauncher.measureBaselineOffset(this);
+        return baselineOffset;
+    }
+
+    public void setBaselineOffset(double baselineOffset) {
+        this.baselineOffset = baselineOffset;
     }
 
     public static Font font(String family, FontWeight weight, FontPosture posture, double size) {

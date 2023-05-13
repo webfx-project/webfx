@@ -125,4 +125,11 @@ public final class JavaFxWebFxKitLauncherProvider extends WebFxKitLauncherProvid
         measurementText.setFont(font);
         return measurementText.getLayoutBounds();
     }
+
+    @Override
+    public double measureBaselineOffset(Font font) {
+        Text text = new Text("Baseline text");
+        text.setFont(font);
+        return text.getBaselineOffset();
+    }
 }

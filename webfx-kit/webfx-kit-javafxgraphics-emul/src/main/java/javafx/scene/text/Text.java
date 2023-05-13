@@ -3,11 +3,11 @@ package javafx.scene.text;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.BoxBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 import javafx.beans.property.*;
 import javafx.geometry.VPos;
 import javafx.scene.shape.Shape;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
-import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -120,6 +120,14 @@ public class Text extends Shape implements
                     }*/;
         }
         return boundsType;
+    }
+
+    @Override
+    public double getBaselineOffset() {
+        Font font = getFont();
+        if (font != null)
+            return font.getBaselineOffset();
+        return super.getBaselineOffset();
     }
 
     private static boolean warned;

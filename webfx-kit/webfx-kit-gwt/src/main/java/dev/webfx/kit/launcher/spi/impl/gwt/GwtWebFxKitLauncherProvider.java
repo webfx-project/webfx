@@ -12,9 +12,7 @@ import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Factory;
-import elemental2.dom.DataTransfer;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.*;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.collections.ObservableList;
@@ -152,6 +150,32 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     public Bounds measureText(String text, Font font) {
         JavaScriptObject textMetrics = getTextMetrics(canvas, text, HtmlFonts.getHtmlFontDefinition(font));
         return new BoundingBox(0, 0, getJsonWidth(textMetrics), getJsonHeight(textMetrics));
+    }
+
+    private static final HTMLElement baselineSample = HtmlUtil.createSpanElement();
+    private static final HTMLElement baselineLocator = HtmlUtil.createImageElement();
+    static {
+        baselineSample.appendChild(DomGlobal.document.createTextNode("Baseline text"));
+        baselineSample.style.position = "absolute";
+        baselineSample.style.lineHeight = CSSProperties.LineHeightUnionType.of("100%");
+        baselineLocator.style.verticalAlign = "baseline";
+        baselineSample.appendChild(baselineLocator);
+    }
+
+    @Override
+    public double measureBaselineOffset(Font font) {
+        if (font == null)
+            return 0;
+        if (!font.isBaselineOffsetSet()) {
+            HtmlFonts.setHtmlFontStyleAttributes(font, baselineSample);
+            DomGlobal.document.body.appendChild(baselineSample);
+            double top = baselineSample.getBoundingClientRect().top;
+            double baseLineY = baselineLocator.getBoundingClientRect().bottom;
+            DomGlobal.document.body.removeChild(baselineSample);
+            double baselineOffset = baseLineY - top;
+            font.setBaselineOffset(baselineOffset);
+        }
+        return font.getBaselineOffset();
     }
 
     @Override
