@@ -15,8 +15,12 @@ import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
 import javafx.geometry.VPos;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -87,24 +91,47 @@ public final class HtmlTextPeer
         updateYOnNextPulse();
     }
 
+
+    // Obscure JavaFX behaviour: layout positioning can take precedence over direct positioning (x,y), and in this case
+    // (x,y) are just ignored. But in a Pane, it's possible to set layoutX,Y + (x,y), and they will be both considered
+    // and added. So, having layoutX,Y positioned doesn't necessary mean that (x,y) are ignored. It's not cleared when
+    // direct positioning (x,y) is applicable. In practice, it seems that it is applicable only in the following cases:
+    // 1) when the node is not managed
+    // 2) when the node is in a Group
+    // 3) when the node is in a Parent, Region or Pane (but not subclasses)
+    private boolean isDirectPositioningApplicable() {
+        N node = getNode();
+        if (!node.isManaged())
+            return true;
+        Parent parent = node.getParent();
+        if (parent == null || parent instanceof Group)
+            return true;
+        Class<? extends Parent> parentClass = parent.getClass();
+        return parentClass.equals(Parent.class) || parentClass.equals(Region.class) || parentClass.equals(Pane.class);
+    }
+
     @Override
     public void updateX(Double x) {
-        setElementStyleAttribute("left", toPx(x));
+        setElementStyleAttribute("left", isDirectPositioningApplicable() ? toPx(x) : "0");
     }
 
     @Override
     public void updateY(Double y) {
-        VPos textOrigin = getNode().getTextOrigin();
-        if (textOrigin == VPos.CENTER || textOrigin == VPos.BOTTOM || textOrigin == VPos.BASELINE) {
-            double clientHeight = getLayoutBounds().getHeight(); // time-consuming call
-            if (textOrigin == VPos.CENTER)
-                y = y - clientHeight / 2;
-            else if (textOrigin == VPos.BOTTOM)
-                y = y - clientHeight;
-            else
-                y = y - clientHeight + getBaselineHeight(getElement());
+        if (!isDirectPositioningApplicable())
+            setElementStyleAttribute("top", "0");
+        else {
+            double top = y;
+            switch (getNode().getTextOrigin()) {
+                case CENTER:   top = y - getLayoutBounds().getHeight() / 2; break;
+                case BOTTOM:   top = y - getLayoutBounds().getHeight(); break;
+                case BASELINE: {
+                    Font font = getNode().getFont();
+                    if (font != null)
+                        top = y - font.getBaselineOffset();
+                }
+            }
+            setElementStyleAttribute("top", toPx(top));
         }
-        setElementStyleAttribute("top", toPx(y));
     }
 
     private Runnable updateYRunnable;
@@ -197,21 +224,5 @@ public final class HtmlTextPeer
     private static native double getTextMetricsWidth(JavaScriptObject metrics)/*-{
         return metrics.width;
     }-*/;
-
-
-    // Function to compute the baseline of an element (from Bob reply in StackOverflow https://stackoverflow.com/questions/10247132/how-can-i-get-the-height-of-the-baseline-of-a-certain-font)
-
-    private static final HTMLElement baselineLocator = HtmlUtil.createElement("img"); // needs to be an inline element without a baseline (so its bottom (not baseline) is used for alignment)
-    static {
-        baselineLocator.style.verticalAlign = "baseline" ; // aligns bottom of baselineLocator with baseline of el
-    }
-
-    private static double getBaselineHeight(HTMLElement el) {
-        double bottomY = el.getBoundingClientRect().bottom; //viewport pos of bottom of el
-        el.appendChild(baselineLocator);
-        double baseLineY = baselineLocator.getBoundingClientRect().bottom;  //viewport pos of baseline
-        el.removeChild(baselineLocator);
-        return bottomY - baseLineY;
-    }
 
 }
