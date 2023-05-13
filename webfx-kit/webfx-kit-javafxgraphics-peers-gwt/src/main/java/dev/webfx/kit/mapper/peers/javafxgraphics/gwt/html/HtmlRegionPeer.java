@@ -224,8 +224,8 @@ public abstract class HtmlRegionPeer
         List<BackgroundFill> fills = bg.getFills();
         List<BackgroundImage> images = bg.getImages();
         int n = Math.max(Collections.size(fills), Collections.size(images));
-        for (int i = 0; i < n; i++) {
-            if (i > 0)
+        for (int i = n - 1; i >= 0; i--) { // listed in reverse order in HTML/CSS
+            if (i < n - 1)
                 sb.append(',');
             BackgroundFill bf = Collections.get(fills, i);
             if (bf != null)
