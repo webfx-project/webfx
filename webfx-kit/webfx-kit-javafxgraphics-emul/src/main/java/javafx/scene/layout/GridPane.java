@@ -2340,6 +2340,12 @@ public class GridPane extends Pane {
         }
     }
 
+    /**
+     * Returns the number of rows in this GridPane.
+     *
+     * @return the row count
+     * @since 9
+     */
     public final int getRowCount() {
         int nRows = this.getRowConstraints().size();
         for (int i = 0; i < this.getChildren().size(); i++) {
@@ -2351,6 +2357,25 @@ public class GridPane extends Pane {
             }
         }
         return nRows;
+    }
+
+    /**
+     * Returns the number of columns in this GridPane.
+     *
+     * @return the column count
+     * @since 9
+     */
+    public final int getColumnCount() {
+        int nColumns = this.getColumnConstraints().size();
+        for (int i = 0; i < this.getChildren().size(); i++) {
+            Node child = this.getChildren().get(i);
+            if (child.isManaged()) {
+                int columnIndex = GridPane.getNodeColumnIndex(child);
+                int columnEnd = GridPane.getNodeColumnEnd(child);
+                nColumns = Math.max(nColumns, (columnEnd != GridPane.REMAINING? columnEnd : columnIndex) + 1);
+            }
+        }
+        return nColumns;
     }
 
 }
