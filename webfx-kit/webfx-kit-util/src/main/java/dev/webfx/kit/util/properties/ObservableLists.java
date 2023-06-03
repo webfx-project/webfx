@@ -1,13 +1,14 @@
 package dev.webfx.kit.util.properties;
 
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import dev.webfx.platform.util.Arrays;
 import dev.webfx.platform.util.Objects;
 import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Converter;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon
@@ -45,6 +46,10 @@ public final class ObservableLists {
 
     public static <T> void bind(ObservableList<T> list1, ObservableList<T> list2) {
         runNowAndOnListChange(c -> list1.setAll(list2), list2);
+    }
+
+    public static <A, B> void bindTransformed(ObservableList<A> aList, ObservableList<B> bList, Function<List<B>, List<A>> bToAListTransformer) {
+        runNowAndOnListChange(c -> aList.setAll(bToAListTransformer.apply(bList)), bList);
     }
 
     public static <A, B> void bindConverted(ObservableList<A> aList, ObservableList<B> bList, Converter<B, A> bToAConverter) {
