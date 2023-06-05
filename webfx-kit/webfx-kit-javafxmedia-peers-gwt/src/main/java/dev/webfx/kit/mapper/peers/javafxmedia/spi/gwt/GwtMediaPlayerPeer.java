@@ -137,26 +137,29 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void play() {
         playedCycleCount = 0;
-        replay();
+        playOnceCycle();
     }
 
-    private void replay() {
+    private void playOnceCycle() {
         if (hasMediaElement()) {
             setVolume(volume);
-            // Muting the media if asked or if the user hasn't yet interacted (otherwise play() will raise an exception)
-            if (!GwtMediaModuleBooter.mediaRequiresUserInteractionFirst())
-                mediaElement.muted = mute;
-            else {
-                mediaElement.muted = true;
-                GwtMediaModuleBooter.runOnFirstUserInteraction(() -> mediaElement.muted = mute);
-            }
+            mediaElement.muted = mute;
             // mediaElementSource is required for possible spectrum analysis
             if (isAudioContextReady(true) && mediaElementSource == null) {
                 mediaElementSource = AUDIO_CONTEXT.createMediaElementSource(mediaElement);
                 mediaElementSource.connect(AUDIO_CONTEXT.destination);
             }
-            mediaElement.play();
-            captureMediaStartTimeNow();
+            // Here is the remaining piece of code to play the media element
+            Runnable playMediaElement = () -> {
+                mediaElement.play(); // raises an exception if the user hasn't interacted before
+                captureMediaStartTimeNow();
+            };
+            // If the user hasn't yet interacted, we postpone the play on the first user interaction
+            if (GwtMediaModuleBooter.mediaRequiresUserInteractionFirst()) {
+                GwtMediaModuleBooter.runOnFirstUserInteraction(playMediaElement);
+            } else { // otherwise, we play it now
+                playMediaElement.run();
+            }
         } else {
             // If the buffer source is already ready to play, we start it now
             if (bufferSource != null && !bufferSourcePlayed /* can't be played twice */ )
@@ -331,7 +334,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private void doOnEnded() {
         playedCycleCount++;
         if (playedCycleCount < cycleCount)
-            replay();
+            playOnceCycle();
         else if (onEndOfMedia != null)
             onEndOfMedia.run();
     }

@@ -34,7 +34,7 @@ import java.util.List;
  */
 public class GwtMediaModuleBooter implements ApplicationModuleBooter {
 
-    private static boolean MEDIA_REQUIRES_USER_INTERACTION_FIRST;
+    private static boolean MEDIA_REQUIRES_USER_INTERACTION_FIRST = true;
     private static final List<Runnable> ON_FIRST_USER_INTERACTION_RUNNABLES = new ArrayList<>();
 
     public static boolean mediaRequiresUserInteractionFirst() {
@@ -61,8 +61,9 @@ public class GwtMediaModuleBooter implements ApplicationModuleBooter {
         options.setPassive(true); // We promise we won't call preventDefault()
         options.setCapture(true); // Our listener will be called first
         options.setOnce(true); // We need the listener to be called only once (will be automatically removed after that)
-        // We use "click" and "keydown" events to detect the first user interaction
-        DomGlobal.window.addEventListener("click", e -> doOnUserInteraction(), options);
+        // We use "mousedown", "touchstart" and "keydown" events to detect the first user interaction
+        DomGlobal.window.addEventListener("mousedown", e -> doOnUserInteraction(), options);
+        DomGlobal.window.addEventListener("touchstart", e -> doOnUserInteraction(), options);
         DomGlobal.window.addEventListener("keydown", e -> doOnUserInteraction(), options);
     }
 
