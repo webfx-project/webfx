@@ -2946,4 +2946,30 @@ public class Scene implements EventTarget,
                 .addEventHandler(eventType, eventHandler);
     }
 
+    /**
+     * Moves the focus to a reasonable initial location. Called when a scene's
+     * focus is dirty and there's no current owner, or if the owner has been
+     * removed from the scene.
+     */
+    public void focusInitial() {
+        Node firstFocusTraversable = getFirstFocusTraversable(getRoot());
+        if (firstFocusTraversable != null)
+            firstFocusTraversable.requestFocus();
+    }
+
+    private Node getFirstFocusTraversable(Parent parent) {
+        List<Node> parentsNodes = parent.getChildrenUnmodifiable();
+        for (Node n : parentsNodes) {
+            if (!n.isVisible()) continue;
+            if (n.isFocusTraversable()) {
+                return n;
+            }
+            if (n instanceof Parent) {
+                Node result = getFirstFocusTraversable((Parent)n);
+                if (result != null) return result;
+            }
+        }
+        return null;
+    }
+
 }

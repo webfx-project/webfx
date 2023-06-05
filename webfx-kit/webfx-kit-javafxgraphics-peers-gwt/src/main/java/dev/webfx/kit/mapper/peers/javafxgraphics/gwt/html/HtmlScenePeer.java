@@ -9,13 +9,17 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.*;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
@@ -40,7 +44,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         FXProperties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
         HtmlSvgNodePeer.installTouchListeners(container, scene);
-        HtmlSvgNodePeer.installKeyboardListeners(document, scene); // Note: doesn't work with container (focus problem?), so we use document instead (works also with DomGlobal.window)
+        installKeyboardListeners(scene);
         installStylesheetsListener(scene);
         installFontsListener();
         // The following code is just to avoid a downgrade in Lighthouse (iframe should have a title)
@@ -106,6 +110,16 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 if (fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_PRESSED) {
                     atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
                     UiScheduler.scheduleInAnimationFrame(() -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, 1);
+                    /* Try to uncomment this code if the focus hasn't been updated after clicking on a Node (not necessary so far)
+                    if (scene.mouseHandler.lastEvent != null) {
+                        PickResult pickResult = scene.mouseHandler.lastEvent.getPickResult();
+                        if (pickResult != null) {
+                            Node node = pickResult.getIntersectedNode();
+                            if (node != null && node.isFocusTraversable()) {
+                                node.requestFocus();
+                            }
+                        }
+                    }*/
                 }
             }
             // Stopping propagation if the event has been consumed by JavaFX
@@ -282,4 +296,148 @@ public final class HtmlScenePeer extends ScenePeerBase {
         }
     }
 
+    public static void installKeyboardListeners(Scene scene) {
+        registerKeyboardListener("keydown", scene);
+        registerKeyboardListener( "keyup", scene);
+    }
+
+    private static void registerKeyboardListener(String type, Scene scene) {
+        document.addEventListener(type, e -> {
+            Node focusOwner = scene.getFocusOwner();
+            if (focusOwner == null || focusOwner.getScene() != scene) {
+                scene.focusInitial();
+                focusOwner = scene.getFocusOwner();
+            }
+            javafx.event.EventTarget fxTarget = focusOwner != null ? focusOwner : scene;
+            boolean fxConsumed = passHtmlKeyEventOnToFx((KeyboardEvent) e, type, fxTarget);
+            if (fxConsumed) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        });
+    }
+
+    private static boolean passHtmlKeyEventOnToFx(KeyboardEvent e, String type, javafx.event.EventTarget fxTarget) {
+        return HtmlSvgNodePeer.passOnToFx(fxTarget, toFxKeyEvent(e, type));
+    }
+
+    private static KeyEvent toFxKeyEvent(KeyboardEvent e, String type) {
+        // Trying first to get the JavaFX code from e.code = logical key (takes into account selected system keyboard)
+        KeyCode keyCode = toFxKeyCode(e.code);
+        // Otherwise from e.key = physical code
+        if (keyCode == KeyCode.UNDEFINED)
+            keyCode = toFxKeyCode(e.key);
+        EventType<KeyEvent> eventType;
+        switch (type) {
+            case "keydown": eventType = KeyEvent.KEY_PRESSED; break;
+            case "keyup": eventType = KeyEvent.KEY_RELEASED; break;
+            default: eventType = KeyEvent.KEY_TYPED;
+        }
+        return new KeyEvent(eventType, e.key, e.key, keyCode, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
+    }
+
+    private static KeyCode toFxKeyCode(String htmlKey) {
+        if (htmlKey == null)
+            return KeyCode.UNDEFINED;
+        // See https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/code
+        switch (htmlKey) {
+            case "Escape": return KeyCode.ESCAPE; // 0x0001
+            case "Minus": return KeyCode.MINUS; // 0x000C
+            case "Equal": return KeyCode.EQUALS; // 0x000D
+            case "Backspace": return KeyCode.BACK_SPACE; // 0x000E
+            case "Tab": return KeyCode.TAB; // 0x000F
+            // KeyQ (0x0010) to KeyP (0x0019) -> default
+            case "BracketLeft": return KeyCode.OPEN_BRACKET; // 0x001A
+            case "BracketRight": return KeyCode.CLOSE_BRACKET; // 0x001B
+            case "Enter": return KeyCode.ENTER; // 0x001C
+            case "ControlLeft": return KeyCode.CONTROL; // 0x001D
+            // KeyA (0x001E) to KeyL (0x0026) -> default
+            case "Semicolon": return KeyCode.SEMICOLON; // 0x0027
+            case "Quote": return KeyCode.QUOTE; // 0x0028
+            case "Backquote": return KeyCode.BACK_QUOTE; // 0x0029
+            case "ShiftLeft": return KeyCode.SHIFT; // 0x002A
+            case "Backslash": return KeyCode.BACK_SLASH; // 0x002B
+            // KeyZ (0x002C) to KeyM (0x0032) -> default
+            case "Comma": return KeyCode.COMMA; // 0x0033
+            case "Period": return KeyCode.PERIOD; // 0x0034
+            case "Slash": return KeyCode.SLASH; // 0x0035
+            case "ShiftRight" : return KeyCode.SHIFT; // 0x0036
+            case "NumpadMultiply": return KeyCode.MULTIPLY; // 0x0037
+            case "AltLeft": return KeyCode.ALT; // 0x0038
+            case " ":
+            case "Space": return KeyCode.SPACE; // 0x0039
+            case "CapsLock": return KeyCode.CAPS; // 0x003A
+            // F1 (0x003B) to F10 (0x0044) -> default
+            case "Pause": return KeyCode.PAUSE; // 0x0045
+            case "ScrollLock": return KeyCode.SCROLL_LOCK; // 0x0046
+            // Numpad7 (0x0047) to Numpad9 (0x0049) -> default
+            case "NumpadSubtract": return KeyCode.SUBTRACT; // 0x004A
+            // Numpad4 (0x004B) to Numpad6 (0x004D) -> default
+            case "NumpadAdd": return KeyCode.ADD; // 0x004E
+            // Numpad1 (0x004F) to Numpad0 (0x0052) -> default
+            case "NumpadDecimal": return KeyCode.DECIMAL; // 0x0053
+            case "PrintScreen": return KeyCode.PRINTSCREEN; // 0x0054
+            case "IntlBackslash": return KeyCode.BACK_SLASH; // 0x0056
+            // F11 (0x0057) to F12 (0x0058) -> default
+            case "NumpadEqual": return KeyCode.EQUALS; // 0x0059
+            // F13 (0x0057) to F23 (0x006E) -> default
+            case "KanaMode": return KeyCode.KANA; // 0x0070
+            case "Convert": return KeyCode.CONVERT; // 0x0079
+            case "NonConvert": return KeyCode.NONCONVERT; // 0x007B
+            case "NumpadComma": return KeyCode.COMMA; // 0x007E
+            case "Paste": return KeyCode.PASTE; // 0xE00A
+            case "MediaTrackPrevious": return KeyCode.TRACK_PREV; // 0xE010
+            case "Cut": return KeyCode.CUT; // 0xE018
+            case "Copy": return KeyCode.COPY; // 0xE018
+            case "MediaTrackNext": return KeyCode.TRACK_NEXT; // 0xE019
+            case "NumpadEnter": return KeyCode.ENTER; // 0xE01C
+            case "ControlRight": return KeyCode.CONTROL; // 0xE01D
+            case "VolumeMute":
+            case "AudioVolumeMute": return KeyCode.MUTE; // 0xE020
+            case "MediaPlayPause": return KeyCode.PAUSE; // 0xE022
+            case "MediaStop": return KeyCode.STOP; // 0xE024
+            case "Eject": return KeyCode.EJECT_TOGGLE; // 0xE02D
+            case "VolumeDown":
+            case "AudioVolumeDown": return KeyCode.VOLUME_DOWN; // 0xE02E
+            case "VolumeUp":
+            case "AudioVolumeUp": return KeyCode.VOLUME_UP; // 0xE030
+            case "BrowserHome": return KeyCode.HOME; // 0xE032
+            case "NumpadDivide": return KeyCode.DIVIDE; // 0xE035
+            case "AltRight": return KeyCode.ALT_GRAPH; // 0xE038
+            case "Help": return KeyCode.HELP; // 0xE03B
+            case "NumLock": return KeyCode.NUM_LOCK; // 0xE045
+            case "Home": return KeyCode.HOME; // 0xE047
+            case "ArrowUp": return KeyCode.UP; // 0xE048
+            case "PageUp": return KeyCode.PAGE_UP; // 0xE049
+            case "ArrowLeft": return KeyCode.LEFT; // 0xE04B
+            case "ArrowRight": return KeyCode.RIGHT; // 0xE04D
+            case "End": return KeyCode.END; // 0xE04F
+            case "ArrowDown": return KeyCode.DOWN; // 0xE050
+            case "PageDown": return KeyCode.PAGE_DOWN; // 0xE051
+            case "Insert": return KeyCode.INSERT; // 0xE052
+            case "Delete": return KeyCode.DELETE; // 0xE053
+            case "OSLeft":
+            case "MetaLeft": return KeyCode.META; // 0xE05B
+            case "OSRight":
+            case "MetaRight": return KeyCode.META; // 0xE05C
+            case "ContextMenu": return KeyCode.CONTEXT_MENU; // 0xE05D
+            case "Power": return KeyCode.POWER; // 0xE05E
+            default: {
+                String fxKeyName = htmlKey;
+                int length = htmlKey.length();
+                if (length == 6 && htmlKey.startsWith("Digit")) // Digit0 to Digit9
+                    fxKeyName = String.valueOf(htmlKey.charAt(5)); // -> 0 to 9
+                else if (length == 4 && htmlKey.startsWith("Key")) // KeyQ, etc...
+                    fxKeyName = String.valueOf(htmlKey.charAt(3)); // -> Q, etc...
+                else if (htmlKey.startsWith("Numpad"))
+                    fxKeyName = Strings.replaceAll(htmlKey,"Numpad", "Numpad ");
+                KeyCode keyCode = KeyCode.getKeyCode(fxKeyName);
+                if (keyCode == null)
+                    keyCode = KeyCode.getKeyCode(fxKeyName.toUpperCase());
+                if (keyCode == null)
+                    keyCode = KeyCode.UNDEFINED;
+                return keyCode;
+            }
+        }
+    }
 }
