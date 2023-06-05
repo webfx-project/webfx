@@ -2958,15 +2958,17 @@ public class Scene implements EventTarget,
     }
 
     private Node getFirstFocusTraversable(Parent parent) {
-        List<Node> parentsNodes = parent.getChildrenUnmodifiable();
-        for (Node n : parentsNodes) {
-            if (!n.isVisible()) continue;
-            if (n.isFocusTraversable()) {
-                return n;
-            }
-            if (n instanceof Parent) {
-                Node result = getFirstFocusTraversable((Parent)n);
-                if (result != null) return result;
+        if (parent != null) {
+            List<Node> parentsNodes = parent.getChildrenUnmodifiable();
+            for (Node n : parentsNodes) {
+                if (!n.isVisible()) continue;
+                if (n.isFocusTraversable()) {
+                    return n;
+                }
+                if (n instanceof Parent) {
+                    Node result = getFirstFocusTraversable((Parent) n);
+                    if (result != null) return result;
+                }
             }
         }
         return null;
