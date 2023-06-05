@@ -175,13 +175,18 @@ public class Scene implements EventTarget,
         // Temporary code to automatically assume the following behavior:
         // - the root node width is bound to the scene width
         // - the scene height is bound to the root node height (which eventually is bound to the preferred height)
+        private Parent oldRoot;
         @Override
         protected void invalidated() {
             Parent root = getValue();
             root.setScene(Scene.this);
             root.setSceneRoot(true);
             resizeRootOnSceneSizeChange(getWidth(), getHeight()); // Necessary when root changed without scene being resized
-            createAndBindRootNodePeerAndChildren(getRoot());
+            createAndBindRootNodePeerAndChildren(root);
+            // Resetting the scene to null for the old root and its children
+            if (oldRoot != null && oldRoot.getScene() == Scene.this)
+                Parent.setAndPropagateScene(oldRoot, null);
+            oldRoot = root;
         }
     };
 

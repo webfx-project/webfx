@@ -43,7 +43,7 @@ public class Parent extends Node {
         });
     }
 
-    private static void setAndPropagateScene(Node node, Scene scene) {
+    static void setAndPropagateScene(Node node, Scene scene) {
         node.setScene(scene);
         if (node instanceof Parent) {
             for (Node child : ((Parent) node).getChildren()) {
