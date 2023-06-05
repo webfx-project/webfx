@@ -17,6 +17,8 @@ public interface MediaPlayerPeer {
 
     void stop();
 
+    void dispose();
+
     void setVolume(double volume);
 
     void setMute(boolean mute);

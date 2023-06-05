@@ -55,6 +55,7 @@ public class MediaPlayer {
     }
 
     public void dispose() {
+        peer.dispose();
     }
 
     public void setVolume(double volume) {

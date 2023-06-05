@@ -230,6 +230,15 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }
 
     @Override
+    public void dispose() {
+        stop();
+        if (hasMediaElement()) {
+            // It's necessary to reset the media element source to dispose it
+            mediaElement.src = ""; // Note: setting src to null causes issues (Chrome tries to download "null")
+        }
+    }
+
+    @Override
     public void setVolume(double volume) {
         this.volume = volume;
         if (hasMediaElement())
