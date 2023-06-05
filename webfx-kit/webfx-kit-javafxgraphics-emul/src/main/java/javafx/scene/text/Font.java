@@ -4,6 +4,8 @@ import dev.webfx.kit.launcher.WebFxKitLauncher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Objects;
+
 /**
  * @author Bruno Salmon
  */
@@ -164,10 +166,47 @@ public class Font {
         if (dashIndex > 0)
             family = family.substring(0, dashIndex);
         Font font = new Font(name, family, weight, posture, size, url);
-        // Adding the font to those that need to be loaded by the peer (see HtmlScenePeer)
-        REQUESTED_FONTS.add(font);
-        LOADING_FONTS.add(font);
+        // Checking if this font was already requested
+        int index = REQUESTED_FONTS.indexOf(font); // works thanks to equals() & hasCode() implementations below
+        if (index != -1) {
+            // If yes, we return the previous instance
+            font = REQUESTED_FONTS.get(index);
+        } else {
+            // Otherwise we add the font to those that need to be loaded by the peer
+            LOADING_FONTS.add(font); // will be removed from that list once loaded (see HtmlScenePeer)
+            // And add that font to the requested fonts
+            REQUESTED_FONTS.add(font); // will never be removed from that list
+        }
         return font;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Font font = (Font) o;
+
+        if (Double.compare(font.size, size) != 0) return false;
+        if (!Objects.equals(name, font.name)) return false;
+        if (!family.equals(font.family)) return false;
+        if (weight != font.weight) return false;
+        if (posture != font.posture) return false;
+        return Objects.equals(url, font.url);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = name != null ? name.hashCode() : 0;
+        result = 31 * result + family.hashCode();
+        result = 31 * result + weight.hashCode();
+        result = 31 * result + posture.hashCode();
+        temp = Double.doubleToLongBits(size);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        return result;
     }
 
     private final static ObservableList<Font> REQUESTED_FONTS = FXCollections.observableArrayList();
@@ -180,6 +219,5 @@ public class Font {
     public static ObservableList<Font> getLoadingFonts() {
         return LOADING_FONTS;
     }
-
 
 }
