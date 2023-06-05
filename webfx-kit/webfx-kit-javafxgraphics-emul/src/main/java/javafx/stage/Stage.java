@@ -4,11 +4,14 @@ import com.sun.javafx.tk.StagePeerListener;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.mapper.WebFxKitMapper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.StagePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTitleProperty;
+import javafx.scene.image.Image;
 
 /**
  * The JavaFX {@code Stage} class is the top level JavaFX container.
@@ -629,4 +632,8 @@ public class Stage extends Window implements HasTitleProperty {
 
     public void setMinHeight(double minHeight) {}
 
+    private final ObservableList<Image> icons = FXCollections.observableArrayList();
+    public final ObservableList<Image> getIcons() {
+        return icons;
+    }
 }
