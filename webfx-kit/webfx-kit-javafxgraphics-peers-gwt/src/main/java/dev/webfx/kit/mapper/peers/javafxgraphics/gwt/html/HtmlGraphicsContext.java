@@ -400,15 +400,36 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void fillText(String text, double x, double y) {
+        // Multiline management (as opposed to HTML, JavaFX fillText() supports multiline
+        if (!text.contains("\n")) { // General case = single line
+            fillTextSingleLine(text, x, y);
+        } else { // Multiline case
+            double lineHeight = measureTextHeight() * 1.7; // empirical formula that works for Food Dice demo
+            for (String line : text.split("\n")) {
+                fillTextSingleLine(line, x, y);
+                y += lineHeight;
+            }
+        }
+    }
+
+    private void fillTextSingleLine(String text, double x, double y) {
         applyProportionalFillLinearGradiantForTextIfApplicable(text, x, y);
         ctx.fillText(text, x, y);
     }
 
+    private double measureTextWidth(String text) {
+        return ctx.measureText(text).width;
+    }
+
+    private double measureTextHeight() {
+        // Pb: measureText() doesn't return height nor any information about the font (should change in the future)
+        return ctx.measureText("M").width; // Quick dirty approximation for now
+    }
+
     private void applyProportionalFillLinearGradiantForTextIfApplicable(String text, double x, double y) {
         if (proportionalFillLinearGradient) {
-            double width = ctx.measureText(text).width;
-            // Pb: measureText() doesn't return height nor any information about the font (should change in the future)
-            double height = ctx.measureText("M").width; // Quick dirty approximation for now
+            double width = measureTextWidth(text);
+            double height = measureTextHeight();
             double dy = 0;
             VPos tbl = textBaseline;
             if (tbl == null)
