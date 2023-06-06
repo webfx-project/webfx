@@ -667,6 +667,18 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double x, double y, double w, double h) {
         if (img != null) {
+            // Flipping management: JavaFX flips images when passing negative values for w or h. As this feature is not
+            // natively supported in HTML, we need to add the necessary canvas operations to simulate it.
+            boolean flipX = w < 0;
+            boolean flipY = h < 0;
+            if (flipX || flipY) {
+                ctx.save();
+                ctx.translate(x, y); // Moving to pivot before flipping
+                ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1); // flipping the canvas
+                ctx.translate(-x, -y); // Moving back to original position after flipping
+                w = Math.abs(w);
+                h = Math.abs(h);
+            }
             boolean loadImage = img.getUrl() != null;
             ImageData imageData = loadImage ? null : ImageDataHelper.getImageDataAssociatedWithImage(img);
             if (imageData != null) {
@@ -684,12 +696,15 @@ public class HtmlGraphicsContext implements GraphicsContext {
                         drawUnloadedImage(x, y, w, h);
                 }
             }
+            if (flipX || flipY)
+                ctx.restore();
         }
     }
 
     @Override
     public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
         if (img != null) {
+            // TODO: Add flipping management here too
             boolean loadImage = img.getUrl() != null;
             ImageData imageData = loadImage ? null : ImageDataHelper.getImageDataAssociatedWithImage(img);
             if (imageData != null) {
