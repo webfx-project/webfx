@@ -10,6 +10,7 @@ module webfx.kit.openjfx {
     requires webfx.kit.javafxgraphics.peers;
     requires webfx.kit.javafxgraphics.peers.base;
     requires webfx.kit.launcher;
+    requires webfx.platform.scheduler;
     requires webfx.platform.uischeduler;
     requires webfx.platform.util;
 
