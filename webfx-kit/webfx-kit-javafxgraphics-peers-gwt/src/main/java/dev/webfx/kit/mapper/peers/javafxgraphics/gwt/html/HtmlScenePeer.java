@@ -18,11 +18,13 @@ import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +49,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         installKeyboardListeners(scene);
         installStylesheetsListener(scene);
         installFontsListener();
+        installIconsListener();
         // The following code is just to avoid a downgrade in Lighthouse (iframe should have a title)
         NodeList<Element> iframes = document.getElementsByTagName("iframe"); // Looking for the GWT iframe
         if (iframes.length > 0) {
@@ -93,7 +96,6 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     private boolean atLeastOneAnimationFrameOccurredSinceLastMousePressed = true;
 
-    //private MouseEvent lastMouseEvent;
     private void passHtmlMouseEventOnToFx(MouseEvent e, String type) {
         javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(e, type);
         if (fxMouseEvent != null) {
@@ -127,7 +129,6 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 e.stopPropagation();
             // Note: important to not stop propagation for third-party js components (ex: perfect-scrollbar)
         }
-        //lastMouseEvent = e;
     }
 
     private void installStylesheetsListener(Scene scene) {
@@ -178,7 +179,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         });
     }
 
-    private final Map<String /* url  => */, FontFace /* link */> fontFaces = new HashMap<>();
+    private final Map<String /* url  => */, FontFace> fontFaces = new HashMap<>();
 
     private void addFonts(List<? extends Font> fonts) {
         fonts.forEach(font -> {
@@ -202,6 +203,45 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     private void onCssOrFontLoaded() {
         clearLayoutCache(scene.getRoot());
+    }
+
+    private void installIconsListener() {
+        FXProperties.onPropertySet(getScene().windowProperty(), window -> {
+            if (window instanceof Stage) {
+                ObservableList<Image> icons = ((Stage) window).getIcons();
+                addIcons(icons);
+                icons.addListener((ListChangeListener<Image>) change -> {
+                    while (change.next()) {
+                        if (change.wasRemoved() || change.wasUpdated())
+                            removeIcons(change.getRemoved());
+                        if (change.wasAdded() || change.wasUpdated())
+                            addIcons(change.getAddedSubList());
+                    }
+                });
+            }
+        });
+    }
+
+    private final Map<String /* icon  => */, Element /* link */> iconLinks = new HashMap<>();
+
+    private void addIcons(List<? extends Image> icons) {
+        icons.forEach(icon -> {
+            String url = icon.getUrl();
+            Element link = document.createElement("link");
+            link.setAttribute("rel", "icon");
+            link.setAttribute("type", "image");
+            link.setAttribute("href", url);
+            document.head.appendChild(link);
+            iconLinks.put(url, link); // Keeping a reference to the link for eventual removal
+        });
+    }
+
+    private void removeIcons(List<? extends Image> icons) {
+        icons.forEach(icon -> {
+            Element link = iconLinks.remove(icon.getUrl());
+            if (link != null)
+                link.parentNode.removeChild(link);
+        });
     }
 
     private static void clearLayoutCache(Node node) {
