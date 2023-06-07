@@ -632,10 +632,10 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setElementAttribute(String name, Number value) {
-        String styleAttribute;
         Element topVisibleElement = getVisibleContainer();
-        if (topVisibleElement == element && (styleAttribute = getStyleAttribute(name)) != null)
-            setElementStyleAttribute(styleAttribute, value);
+        String styleAttribute = getStyleAttribute(name);
+        if (styleAttribute != null) // Note: previous code was excluding this case when topVisibleElement == element (can't remember the reason) but this was preventing opacity working on buttons (which are embed in a <span> container)
+            HtmlUtil.setStyleAttribute(topVisibleElement, name, value);
         else
             setElementAttribute(topVisibleElement, name, value);
     }
