@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import static elemental2.dom.DomGlobal.document;
 
@@ -132,16 +133,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void installStylesheetsListener(Scene scene) {
-        ObservableList<String> stylesheets = scene.getStylesheets();
-        addStyleSheets(stylesheets);
-        stylesheets.addListener((ListChangeListener<String>) change -> {
-            while (change.next()) {
-                if (change.wasRemoved() || change.wasUpdated())
-                    removeStyleSheets(change.getRemoved());
-                if (change.wasAdded() || change.wasUpdated())
-                    addStyleSheets(change.getAddedSubList());
-            }
-        });
+        mapObservableList(scene.getStylesheets(), s -> addStyleSheets(s), s -> removeStyleSheets(s));
     }
 
     private final Map<String /* href  => */, Element /* link */> stylesheetLinks = new HashMap<>();
@@ -167,16 +159,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void installFontsListener() {
-        ObservableList<Font> requestedFonts = Font.getRequestedFonts();
-        addFonts(requestedFonts);
-        requestedFonts.addListener((ListChangeListener<Font>) change -> {
-            while (change.next()) {
-                if (change.wasRemoved() || change.wasUpdated())
-                    removeFonts(change.getRemoved());
-                if (change.wasAdded() || change.wasUpdated())
-                    addFonts(change.getAddedSubList());
-            }
-        });
+        mapObservableList(Font.getRequestedFonts(), fonts -> addFonts(fonts), fonts -> removeFonts(fonts));
     }
 
     private final Map<String /* url  => */, FontFace> fontFaces = new HashMap<>();
@@ -208,16 +191,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     private void installIconsListener() {
         FXProperties.onPropertySet(getScene().windowProperty(), window -> {
             if (window instanceof Stage) {
-                ObservableList<Image> icons = ((Stage) window).getIcons();
-                addIcons(icons);
-                icons.addListener((ListChangeListener<Image>) change -> {
-                    while (change.next()) {
-                        if (change.wasRemoved() || change.wasUpdated())
-                            removeIcons(change.getRemoved());
-                        if (change.wasAdded() || change.wasUpdated())
-                            addIcons(change.getAddedSubList());
-                    }
-                });
+                mapObservableList(((Stage) window).getIcons(), icons -> addIcons(icons), icons -> removeIcons(icons));
             }
         });
     }
@@ -479,5 +453,19 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 return keyCode;
             }
         }
+    }
+
+    // Utility method to help mapping observable lists
+
+    private static <T> void mapObservableList(ObservableList<T> ol, Consumer<List<? extends T>> adder, Consumer<List<? extends T>> remover) {
+        adder.accept(ol);
+        ol.addListener((ListChangeListener<T>) change -> {
+            while (change.next()) {
+                if (change.wasRemoved() || change.wasUpdated())
+                    remover.accept(change.getRemoved());
+                if (change.wasAdded() || change.wasUpdated())
+                    adder.accept(change.getAddedSubList());
+            }
+        });
     }
 }
