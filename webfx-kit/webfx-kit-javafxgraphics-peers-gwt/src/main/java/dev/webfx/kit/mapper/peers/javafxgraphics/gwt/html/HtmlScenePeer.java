@@ -318,7 +318,10 @@ public final class HtmlScenePeer extends ScenePeerBase {
     private static void registerKeyboardListener(String type, Scene scene) {
         document.addEventListener(type, e -> {
             Node focusOwner = scene.getFocusOwner();
-            if (focusOwner == null || focusOwner.getScene() != scene) {
+            // Resetting the focus owner to scene initial when it's not valid, so in the following cases:
+            if (focusOwner == null // 1) No focus set yet
+                    || focusOwner.getScene() != scene // 2) focus doesn't match the scene (probably removed from the scene)
+                    || !focusOwner.impl_isTreeVisible()) { // 3) the focus is not visible in the scene graph (works also as a workaround when scene is not reset to null by WebFX)
                 scene.focusInitial();
                 focusOwner = scene.getFocusOwner();
             }
