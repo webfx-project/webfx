@@ -2,6 +2,7 @@ package javafx.scene.layout;
 
 import com.sun.javafx.UnmodifiableArrayList;
 import javafx.geometry.Insets;
+import javafx.scene.paint.Paint;
 
 import java.util.Collections;
 import java.util.List;
@@ -251,6 +252,20 @@ public final class Background {
         int result = this.fills.hashCode();
         result = 31 * result + this.images.hashCode();
         hash = result;
+    }
+
+    /**
+     * A convenience factory method for creating a {@code Background} with a single {@code Paint}.
+     *
+     * @implSpec
+     * This call is equivalent to {@link BackgroundFill#BackgroundFill(Paint, CornerRadii, Insets)
+     * new Background(new BackgroundFill(fill, null, null));}.
+     * @param fill the fill of the background. If {@code null}, {@code Color.TRANSPARENT} will be used.
+     * @return a new background of the given fill
+     * @since 18
+     */
+    public static Background fill(Paint fill) {
+        return new Background(new BackgroundFill(fill, null, null));
     }
 
     /**
