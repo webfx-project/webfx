@@ -11,6 +11,7 @@ import javafx.scene.media.MediaPlayer;
 public class OpenJFXGwtMusic implements Audio {
 
     private MediaPlayer mediaPlayer;
+    private boolean playing;
 
     public OpenJFXGwtMusic(Media media) {
         mediaPlayer = new MediaPlayer(media);
@@ -28,16 +29,20 @@ public class OpenJFXGwtMusic implements Audio {
 
     @Override
     public void play() {
+        playing = true;
+        mediaPlayer.setOnEndOfMedia(() -> playing = false);
         mediaPlayer.play();
     }
 
     @Override
     public void pause() {
+        playing = false;
         mediaPlayer.pause();
     }
 
     @Override
     public void stop() {
+        playing = false;
         mediaPlayer.stop();
     }
 
@@ -50,6 +55,16 @@ public class OpenJFXGwtMusic implements Audio {
     @Override
     public boolean isDisposed() {
         return mediaPlayer == null;
+    }
+
+    @Override
+    public void setCycleCount(int cycleCount) {
+        mediaPlayer.setCycleCount(cycleCount);
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return playing;
     }
 
     @Override

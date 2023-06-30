@@ -53,6 +53,16 @@ final class OpenJFXGwtSound implements Audio {
     }
 
     @Override
+    public void setCycleCount(int cycleCount) {
+        audioClip.setCycleCount(cycleCount);
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return audioClip.isPlaying();
+    }
+
+    @Override
     public long getCurrentTimeMillis() {
         return System.currentTimeMillis() - startTime;
     }
