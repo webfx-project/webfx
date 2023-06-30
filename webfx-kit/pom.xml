@@ -30,6 +30,7 @@
         <module>webfx-kit-javafxgraphics-registry</module>
         <module>webfx-kit-javafxgraphics-registry-gwt</module>
         <module>webfx-kit-javafxmedia-emul</module>
+        <module>webfx-kit-javafxmedia-gluon</module>
         <module>webfx-kit-javafxmedia-peers-gwt</module>
         <module>webfx-kit-javafxmedia-registry</module>
         <module>webfx-kit-javafxmedia-registry-gwt</module>
