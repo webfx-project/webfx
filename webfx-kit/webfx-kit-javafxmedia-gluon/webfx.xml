@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <!-- Note: this Gluon module is actually not following the standard WebFX cross-platform mechanism (it's neither a
+     cross-platform Java Service provider, neither a module implementing an interface module). It's a specific case
+      hardcoded in the WebFX CLI. -->
+
+    <exported-packages>
+        <source-packages/>
+    </exported-packages>
+
+    <dependencies>
+        <used-by-source-modules/>
+    </dependencies>
+
+</project>
