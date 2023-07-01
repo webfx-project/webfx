@@ -689,9 +689,9 @@ public class Scene implements EventTarget,
     }
 
     void createAndBindNodePeerAndChildren(Node node) {
-        NodePeer nodePeer = getOrCreateAndBindNodePeer(node);
-        if (nodePeer instanceof Parent)
-            updateChildrenPeers(((Parent) nodePeer).getChildren());
+        getOrCreateAndBindNodePeer(node);
+        if (node instanceof Parent)
+            updateChildrenPeers(((Parent) node).getChildren());
     }
 
     public NodePeer getOrCreateAndBindNodePeer(Node node) {
