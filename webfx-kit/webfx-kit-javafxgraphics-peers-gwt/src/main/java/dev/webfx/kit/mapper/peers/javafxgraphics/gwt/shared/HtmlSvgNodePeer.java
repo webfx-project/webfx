@@ -241,12 +241,12 @@ public abstract class HtmlSvgNodePeer
     static {
         EventHandlerManager.setEventSourcesListener((eventType, eventSource) -> {
             if (eventSource instanceof Node) {
-                String eventTypeName = eventType.getName();
-                if (eventTypeName.contains("SCROLL")) // registering for scroll events
+                EventType<?> superType = eventType.getSuperType();
+                if (superType == ScrollEvent.ANY) // registering for scroll events
                     callPeerWhenReady(eventSource, HtmlSvgNodePeer::installScrollListeners);
-                else if  (eventTypeName.contains("SWIPE")) // registering for swipe events
+                else if  (superType == SwipeEvent.ANY) // registering for swipe events
                     callPeerWhenReady(eventSource, HtmlSvgNodePeer::installSwipeListeners);
-                else if (eventType == javafx.scene.input.MouseEvent.MOUSE_DRAGGED)
+                else if (superType == javafx.scene.input.TouchEvent.ANY || eventType == javafx.scene.input.MouseEvent.MOUSE_DRAGGED)
                     callPeerWhenReady(eventSource, peer -> peer.installTouchListeners(false));
             }
         });
