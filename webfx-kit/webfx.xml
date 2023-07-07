@@ -35,6 +35,12 @@
                 </exported-packages>
             </library>
 
+            <library name="javafx-fxml">
+                <exported-packages>
+                    <package>javafx.fxml</package>
+                </exported-packages>
+            </library>
+
         </group>
     </required-libraries>
 
