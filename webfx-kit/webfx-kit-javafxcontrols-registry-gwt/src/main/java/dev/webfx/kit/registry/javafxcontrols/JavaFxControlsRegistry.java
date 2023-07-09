@@ -70,4 +70,8 @@ public class JavaFxControlsRegistry {
         registerNodePeerFactory(ScrollPane.class, HtmlScrollPanePeer::new);
     }
 
+    public static void registerProgressBar() {
+        registerNodePeerFactory(ProgressBar.class, HtmlProgressBarPeer::new);
+    }
+
 }
