@@ -33,16 +33,18 @@ public final class HtmlRectanglePeer
         // the node to be completely hidden (observed with Label). TODO: Fix problem cause (wrong computation)
         if (width == 0 && height == 0)
             return null;
-        // inset(top right bottom left round top-radius right-radius bottom-radius left-radius)
         double top = r.getY();
         double left = r.getX();
         double right = left + width;
         double bottom = top + height;
-/*
-            double leftRadius = r.getArcWidth() / 2, rightRadius = leftRadius;
-            double topRadius = r.getArcHeight() / 2, bottomRadius = topRadius;
-            return "inset(" + toPx(top) + " " + toPx(right) + " " + toPx(bottom) + " " + toPx(left) + " round " + topRadius + "px " + rightRadius + "px " + bottomRadius + "px " + leftRadius + "px)";
-*/
+
+        // Returning inset with a round property for round rectangles
+        double cornerRadius = Math.max(r.getArcWidth() / 2, r.getArcHeight() / 2);
+        if (cornerRadius > 0)
+            // inset(inset-top inset-right inset-bottom inset-left round radius) <- values are relative to borders
+            return "inset(" + toPx(top) + " " + toPx(width - right) + " " + toPx(height - bottom) + " " + toPx(left) + " round " + toPx(cornerRadius) + ")";
+
+        // Otherwise returning polygon
         // Note: replaced toPx(top) by top + "px" etc... to preserve precision (required for Mandelbrot thumbnails zoom effect as scale is not 1)
         return "polygon(" + left + "px " + top + "px, " + right + "px " + top + "px, " + right + "px " + bottom + "px, " + left + "px " + bottom + "px)";
     }
