@@ -31,7 +31,11 @@ public final class HtmlProgressBarPeer
     @Override
     public void updateProgress(Number progress) {
         HTMLProgressElement progressElement = (HTMLProgressElement) getElement();
-        progressElement.value = progress.doubleValue() * 100;
+        double progressValue = progress.doubleValue();
+        if (progressValue == ProgressBar.INDETERMINATE_PROGRESS)
+            progressElement.removeAttribute("value");
+        else
+            progressElement.value = progressValue * 100;
     }
 
 }
