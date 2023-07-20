@@ -3,6 +3,8 @@ package dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt;
 import dev.webfx.platform.boot.spi.ApplicationModuleBooter;
 import elemental2.dom.AddEventListenerOptions;
 import elemental2.dom.DomGlobal;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +72,7 @@ public class GwtMediaModuleBooter implements ApplicationModuleBooter {
     private void doOnUserInteraction() {
         if (MEDIA_REQUIRES_USER_INTERACTION_FIRST) {
             String tinySilentMp3Data = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
-            new GwtMediaPlayerPeer(tinySilentMp3Data, true).play(); // This will unlock the sound
+            new GwtMediaPlayerPeer(new MediaPlayer(new Media(tinySilentMp3Data)), true).play(); // This will unlock the sound
             MEDIA_REQUIRES_USER_INTERACTION_FIRST = false;
             ON_FIRST_USER_INTERACTION_RUNNABLES.forEach(Runnable::run);
             ON_FIRST_USER_INTERACTION_RUNNABLES.clear();

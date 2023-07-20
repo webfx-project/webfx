@@ -2,6 +2,7 @@ package dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 import dev.webfx.platform.scheduler.Scheduled;
+import dev.webfx.platform.scheduler.Scheduler;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
@@ -9,29 +10,43 @@ import elemental2.dom.HTMLAudioElement;
 import elemental2.dom.HTMLMediaElement;
 import elemental2.dom.Response;
 import elemental2.media.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.media.AudioSpectrumListener;
-
-import java.time.Duration;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /**
  * @author Bruno Salmon
  */
 final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
+    private static final boolean PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP = true;
+    private static final long MEDIA_PLAYER_CURRENT_TIME_SYNC_RATE_MILLIS = 250; // Same rate as mediaElement.ontimeupdate
+    private static final boolean SYNC_START_TIME_WITH_AUDIO_BUFFER_FIRST_SOUND_DETECTION = true;
+
     // Creating one single audio context for the whole application
     // If the user has not yet interacted with the page, the audio context will be in "suspended" mode
     private static final AudioContext AUDIO_CONTEXT = new AudioContext();
+    private final MediaPlayer mediaPlayer;
+    private ObjectProperty<Duration> mediaPlayerCurrentTimeProperty;
     private final String mediaUrl;
+    private final boolean audioClip;
     private AudioBuffer audioBuffer;
     private AudioBufferSourceNode bufferSource;
+    private double bufferSourceStartOffset;
+    private boolean audioBufferFirstSoundDetected; // used only if SYNC_START_TIME_WITH_AUDIO_BUFFER_FIRST_SOUND_DETECTION = true
+    private boolean seekingBufferSource;
+    private boolean bufferSourceWasPlayingOnSeeking;
     private boolean bufferSourcePlayed;
+    private final StopWatch bufferSourceStopWatchMillis;
+    private Scheduled mediaPlayerCurrentTimePeriodicSyncer;
     private MediaElementAudioSourceNode mediaElementSource;
     private GainNode gainNode;
     private double volume = 1;
     private boolean mute;
     private HTMLMediaElement mediaElement; // alternative option for local files (as window.fetch() raises a CORS exception)
     private boolean fetched, playWhenReady, loopWhenReady;
-    private double mediaStartTimeMillis = -1;
     private AnalyserNode analyser;
     private Uint8Array byteTimeArray;
     private Uint8Array byteFrequencyArray;
@@ -46,16 +61,47 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private int playedCycleCount = 0;
     private Runnable onEndOfMedia, onPlaying;
 
-    public GwtMediaPlayerPeer(String mediaUrl, boolean audioClip) {
-        this.mediaUrl = mediaUrl;
-        if (!audioClip || mediaUrl.startsWith("file") || !mediaUrl.startsWith("http") && DomGlobal.window.location.protocol.equals("file:"))
+    public GwtMediaPlayerPeer(MediaPlayer mediaPlayer, boolean audioClip) {
+        this.mediaPlayer = mediaPlayer;
+        this.mediaUrl = mediaPlayer.getMedia().getSource();
+        this.audioClip = audioClip;
+        if (!audioClip && PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP || mediaUrl.startsWith("file") || !mediaUrl.startsWith("http") && DomGlobal.window.location.protocol.equals("file:")) {
             setMediaElement((HTMLAudioElement) DomGlobal.document.createElement("audio"));
-        else
+            bufferSourceStopWatchMillis = null;
+        } else {
+            bufferSourceStopWatchMillis = audioClip ? null : new StopWatch(() -> secondsDoubleToMillisLong(AUDIO_CONTEXT.currentTime));
             fetchAudioBuffer(false);
+        }
     }
+
+    /*static {
+        if (!isAudioContextReady(false)) {
+            AUDIO_CONTEXT.onstatechange = p0 -> {
+                Console.log("AudioContext state changed to " + AUDIO_CONTEXT.state);
+                return null;
+            };
+        }
+    }*/
+
+    private static boolean isAudioContextReady(boolean resumeIfSuspended) {
+        if (AUDIO_CONTEXT.state.equalsIgnoreCase("suspended")) {
+            if (!resumeIfSuspended)
+                return false;
+            AUDIO_CONTEXT.resume();
+        }
+        return true;
+    }
+
 
     public void setMediaElement(HTMLMediaElement mediaElement) { // GwtMediaViewPeer also calls this method to pass the video element
         this.mediaElement = mediaElement;
+        if (!audioClip) {
+            mediaElement.onloadedmetadata = p0 -> {
+                setMediaDuration(mediaElement.duration);
+                mediaPlayer.setStatus(MediaPlayer.Status.READY);
+                return null;
+            };
+        }
         mediaElement.onplaying = p0 -> {
             doOnPlaying();
             return null;
@@ -72,6 +118,55 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         mediaElement.crossOrigin = "anonymous"; // to avoid this possible error: MediaElementAudioSource outputs zeros due to CORS access restrictions
     }
 
+    private void setMediaDuration(double seconds) {
+        setMediaDuration(Duration.seconds(seconds));
+    }
+
+    private void setMediaDuration(Duration duration) {
+        mediaPlayer.getMedia().setDuration(duration);
+    }
+
+    private void setMediaPlayerCurrentTime(double seconds) {
+        setMediaPlayerCurrentTime(Duration.seconds(seconds));
+    }
+
+    private void setMediaPlayerCurrentTime(Duration duration) {
+        if (mediaPlayerCurrentTimeProperty != null)
+            mediaPlayerCurrentTimeProperty.set(duration);
+    }
+
+    private void syncMediaPlayerCurrentTime() {
+        setMediaPlayerCurrentTime(getCurrentTimeDuration());
+    }
+
+    @Override
+    public Duration getCurrentTime() { // Note: this method is never called for AudioClip
+        if (mediaPlayerCurrentTimeProperty != null)
+            return mediaPlayerCurrentTimeProperty.get();
+        Duration currentTimeDuration;
+        if (SYNC_START_TIME_WITH_AUDIO_BUFFER_FIRST_SOUND_DETECTION && !audioBufferFirstSoundDetected && !hasMediaElement()) {
+            getOrCreateAnalyzer().getByteTimeDomainData(byteTimeArray);
+            if (byteTimeArray.getAt(0) != 128) {
+                audioBufferFirstSoundDetected = true;
+                bufferSourceStopWatchMillis.startAt(secondsDoubleToMillisLong(bufferSourceStartOffset));
+            }
+            currentTimeDuration = Duration.ZERO;
+        } else
+            currentTimeDuration = getCurrentTimeDuration();
+        //Console.log("getCurrentTime() = " + currentTimeDuration);
+        return currentTimeDuration;
+    }
+
+    private Duration getCurrentTimeDuration() { // Note: this method is never called for AudioClip
+        return Duration.millis(getCurrentTimeMillis());
+    }
+
+    private double getCurrentTimeMillis() { // Note: this method is never called for AudioClip
+        if (hasMediaElement())
+            return mediaElement.currentTime * 1000;
+        return bufferSourceStopWatchMillis.getStopWatchElapsedTime();
+    }
+
     private void fetchAudioBuffer(boolean resumeIfSuspended) {
         if (isAudioContextReady(resumeIfSuspended)) {
             DomGlobal.window.fetch(mediaUrl)
@@ -79,20 +174,16 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                     .then(AUDIO_CONTEXT::decodeAudioData)
                     .then(buffer -> {
                         audioBuffer = buffer;
+                        if (!audioClip) {
+                            mediaPlayer.setStatus(MediaPlayer.Status.READY);
+                            setMediaDuration(audioBuffer.duration);
+                        }
                         onAudioBufferReady();
                         return null;
                     });
             fetched = true;
-        }
-    }
-
-    private boolean isAudioContextReady(boolean resumeIfSuspended) {
-        if (AUDIO_CONTEXT.state.equals("suspended")) {
-            if (!resumeIfSuspended)
-                return false;
-            AUDIO_CONTEXT.resume();
-        }
-        return true;
+        } else if (GwtMediaModuleBooter.mediaRequiresUserInteractionFirst())
+            GwtMediaModuleBooter.runOnFirstUserInteraction(() -> fetchAudioBuffer(true));
     }
 
     private void onAudioBufferReady() {
@@ -104,18 +195,23 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         }
     }
 
-    private void startBufferSource() {
-        if (bufferSource.playbackRate.value == 0) // This means that the AudioBufferSourceNode was paused
-            bufferSource.playbackRate.value = 1;  // We reestablished the normal speed to resume
-        else {
-            bufferSource.start();
-            bufferSource.onended = p0 -> doOnEnded();
-            bufferSourcePlayed = true; // a buffer source can be played only once, so this flag indicates a new bufferSource is needed to play this sound again
-        }
+    private static long secondsDoubleToMillisLong(double secondsDouble) {
+        return (long) (secondsDouble * 1000);
     }
 
-    private void captureMediaStartTimeNow() {
-        mediaStartTimeMillis = mediaCurrentTimeMillis();
+    private void startBufferSource() {
+        if (isBufferSourcePaused())
+            resumeBufferSource();
+        else {
+            bufferSource.start(0, bufferSourceStartOffset);
+            bufferSource.onended = p0 -> doOnEnded();
+            bufferSourcePlayed = true; // a buffer source can be played only once, so this flag indicates a new bufferSource is needed to play this sound again
+            if (!audioClip) {
+                bufferSourceStopWatchMillis.startAt(secondsDoubleToMillisLong(bufferSourceStartOffset));
+                startMediaPlayerCurrentTimePeriodicSyncer();
+                mediaPlayer.setStatus(MediaPlayer.Status.PLAYING);
+            }
+        }
     }
 
     private boolean hasMediaElement() {
@@ -152,7 +248,8 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             // Here is the remaining piece of code to play the media element
             Runnable playMediaElement = () -> {
                 mediaElement.play(); // raises an exception if the user hasn't interacted before
-                captureMediaStartTimeNow();
+                if (!audioClip)
+                    startMediaPlayerCurrentTimePeriodicSyncer();
             };
             // If the user hasn't yet interacted, we postpone the play on the first user interaction
             if (GwtMediaModuleBooter.mediaRequiresUserInteractionFirst()) {
@@ -162,7 +259,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             }
         } else {
             // If the buffer source is already ready to play, we start it now
-            if (bufferSource != null && !bufferSourcePlayed /* can't be played twice */ )
+            if (bufferSource != null && (isBufferSourcePaused() || !bufferSourcePlayed /* can't be played twice */))
                 startBufferSource();
             else { // the buffer is not yet ready, or has already been played
                 if (!fetched)
@@ -193,7 +290,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                     magnitudes[i] = -60 + 60 * byteFrequencyArray.getAt(i).floatValue() / 256;
                     phases[i] = byteTimeArray.getAt(i).floatValue();
                 }
-                listener.spectrumDataUpdate(elapsedTimeMillis(), audioSpectrumInterval, magnitudes, phases);
+                listener.spectrumDataUpdate(getCurrentTimeMillis(), audioSpectrumInterval, magnitudes, phases);
             });
         }
     }
@@ -207,10 +304,34 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     @Override
     public void pause() {
-        if (hasMediaElement())
+        if (hasMediaElement()) {
             mediaElement.pause();
-        else if (bufferSource != null)
-            bufferSource.playbackRate.value = 0; // Using this trick as there is no pause() method in AudioBufferSourceNode
+            if (!audioClip)
+                mediaPlayer.setStatus(MediaPlayer.Status.PAUSED);
+        } else if (bufferSource != null)
+            pauseBufferSource();
+    }
+
+    private void pauseBufferSource() {
+        bufferSource.playbackRate.value = 0; // Using this trick as there is no pause() method in AudioBufferSourceNode
+        if (!audioClip) {
+            bufferSourceStopWatchMillis.pause();
+            stopMediaPlayerCurrentTimePropertyPeriodicSyncer();
+            mediaPlayer.setStatus(MediaPlayer.Status.PAUSED);
+        }
+    }
+
+    private boolean isBufferSourcePaused() {
+        return bufferSource.playbackRate.value == 0;
+    }
+
+    private void resumeBufferSource() {
+        bufferSource.playbackRate.value = 1; // We reestablished the normal speed to resume
+        if (!audioClip) {
+            bufferSourceStopWatchMillis.resume();
+            startMediaPlayerCurrentTimePeriodicSyncer();
+            mediaPlayer.setStatus(MediaPlayer.Status.PLAYING);
+        }
     }
 
     @Override
@@ -228,6 +349,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                     bufferSource = null;
                 }
             playWhenReady = false;
+            audioBufferFirstSoundDetected = false;
         }
         unscheduleListener();
     }
@@ -255,23 +377,6 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         this.mute = mute;
     }
 
-    @Override
-    public Duration getCurrentTime() {
-        if (mediaStartTimeMillis < 0) {
-            if (!hasMediaElement()) {
-                getOrCreateAnalyzer().getByteTimeDomainData(byteTimeArray);
-                if (byteTimeArray.getAt(0) != 128)
-                    captureMediaStartTimeNow();
-            }
-            return Duration.ZERO;
-        }
-        return Duration.ofMillis((long) elapsedTimeMillis());
-    }
-
-    private double elapsedTimeMillis() {
-        return mediaCurrentTimeMillis() - mediaStartTimeMillis;
-    }
-
     private AnalyserNode getOrCreateAnalyzer() {
         if (analyser == null) {
             analyser = AUDIO_CONTEXT.createAnalyser();
@@ -293,8 +398,33 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         return analyser;
     }
 
-    private double mediaCurrentTimeMillis() {
-        return hasMediaElement() ? System.currentTimeMillis() : AUDIO_CONTEXT.currentTime * 1000;
+    @Override
+    public ObjectProperty<Duration> mediaPlayerCurrentTimeProperty() {
+        if (mediaPlayerCurrentTimeProperty == null) {
+            mediaPlayerCurrentTimeProperty = new SimpleObjectProperty<>(Duration.ZERO);
+            if (bufferSource != null && bufferSourcePlayed && !isBufferSourcePaused())
+                startMediaPlayerCurrentTimePeriodicSyncer();
+        }
+        return mediaPlayerCurrentTimeProperty;
+    }
+
+    private void startMediaPlayerCurrentTimePeriodicSyncer() {
+        if (hasMediaElement()) {
+            mediaElement.ontimeupdate = p0 -> { // observed time update rate = 250ms
+                syncMediaPlayerCurrentTime();
+                return null;
+            };
+        } else if (mediaPlayerCurrentTimePeriodicSyncer == null && mediaPlayerCurrentTimeProperty != null)
+            mediaPlayerCurrentTimePeriodicSyncer = Scheduler.schedulePeriodic(MEDIA_PLAYER_CURRENT_TIME_SYNC_RATE_MILLIS, this::syncMediaPlayerCurrentTime);
+    }
+
+    private void stopMediaPlayerCurrentTimePropertyPeriodicSyncer() {
+        if (hasMediaElement()) {
+            mediaElement.ontimeupdate = null;
+        } else if (mediaPlayerCurrentTimePeriodicSyncer != null) {
+            mediaPlayerCurrentTimePeriodicSyncer.cancel();
+            mediaPlayerCurrentTimePeriodicSyncer = null;
+        }
     }
 
     @Override
@@ -327,15 +457,49 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }
 
     private void doOnPlaying() {
+        if (!audioClip)
+            mediaPlayer.setStatus(MediaPlayer.Status.PLAYING);
         if (onPlaying != null)
             onPlaying.run();
     }
 
     private void doOnEnded() {
+        if (seekingBufferSource) {
+            seekingBufferSource = false;
+            if (bufferSourceWasPlayingOnSeeking)
+                play();
+            return;
+        }
         playedCycleCount++;
         if (playedCycleCount < cycleCount)
             playOnceCycle();
-        else if (onEndOfMedia != null)
-            onEndOfMedia.run();
+        else {
+            if (!audioClip) {
+                stopMediaPlayerCurrentTimePropertyPeriodicSyncer();
+                mediaPlayer.setStatus(MediaPlayer.Status.STOPPED);
+            }
+            bufferSourceStartOffset = 0;
+            if (onEndOfMedia != null)
+                onEndOfMedia.run();
+        }
+    }
+
+    @Override
+    public void seek(Duration duration) { // This method is never called for AudioClip
+        double jsDuration = Math.max(0, duration.toSeconds()); // Can't be negative
+        jsDuration = Math.min(jsDuration, mediaPlayer.getMedia().getDuration().toSeconds());
+        setMediaPlayerCurrentTime(jsDuration);
+        if (hasMediaElement())
+            mediaElement.currentTime = jsDuration;
+        else {
+            bufferSourceStopWatchMillis.startAt(secondsDoubleToMillisLong(jsDuration));
+            bufferSourceStopWatchMillis.pause();
+            bufferSourceStartOffset = jsDuration;
+            if (bufferSource != null && bufferSourcePlayed) {
+                seekingBufferSource = true;
+                bufferSourceWasPlayingOnSeeking = !isBufferSourcePaused();
+                stop(); // play() will be called again after the bufferSource has stopped in doOnEnded()
+            }
+        }
     }
 }

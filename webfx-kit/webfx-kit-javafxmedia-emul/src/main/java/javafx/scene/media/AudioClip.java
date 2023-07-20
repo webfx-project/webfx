@@ -8,11 +8,17 @@ public class AudioClip {
     public static final int INDEFINITE = -1; // Note: this is a count, not a Duration.
 
     private final MediaPlayer mediaPlayer;
+    private final String sourceURL;
     private double volume = 1;
     private boolean playing;
 
-    public AudioClip(String url) {
-        mediaPlayer = new MediaPlayer(new Media(url), true);
+    public AudioClip(String source) {
+        mediaPlayer = new MediaPlayer(new Media(source), true);
+        this.sourceURL = source;
+    }
+
+    public String getSource() {
+        return sourceURL;
     }
 
     public void play() {
