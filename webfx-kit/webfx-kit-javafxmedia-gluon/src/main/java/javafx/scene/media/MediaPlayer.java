@@ -188,6 +188,7 @@ public class MediaPlayer {
                         Console.log("[WebFX Platform]: File size: " + Files.size(file));
                         UiScheduler.runInUiThread(() -> loadGluonMusicNow(extForm));
                     } catch (IOException e) {
+                        Console.log("[WebFX Platform]: Error while downloading " + extForm, e);
                         statusProperty.set(Status.HALTED);
                     }});
                 }
@@ -244,7 +245,6 @@ public class MediaPlayer {
         }
     }
 
-
     public void pause() {
         if (audio != null) {
             audio.pause();
@@ -276,6 +276,12 @@ public class MediaPlayer {
     public void setVolume(double volume) {
         if (audio != null)
             audio.setVolume(volume);
+    }
+
+    public void setOnPlaying(Runnable onPlaying) {
+    }
+
+    public void setOnEndOfMedia(Runnable onEndOfMedia) {
     }
 
     public ReadOnlyObjectProperty<Duration> currentTimeProperty() {
