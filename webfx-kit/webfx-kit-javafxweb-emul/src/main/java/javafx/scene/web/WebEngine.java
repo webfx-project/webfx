@@ -15,7 +15,11 @@ public class WebEngine {
         webView.setUrl(url);
     }
 
-    public void loadContent(String loadContent) {
-        webView.setLoadContent(loadContent);
+    public void loadContent(String content) {
+        loadContent(content, "text/html");
+    }
+
+    public void loadContent(String content, String contentType) {
+        webView.setLoadContent(content);
     }
 }
