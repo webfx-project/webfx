@@ -1,6 +1,6 @@
 // File managed by WebFX (DO NOT EDIT MANUALLY)
 
-module webfx.kit.javafxmedia.gluon {
+module javafx.media {
 
     // Direct dependencies modules
     requires com.gluonhq.attach.storage;
