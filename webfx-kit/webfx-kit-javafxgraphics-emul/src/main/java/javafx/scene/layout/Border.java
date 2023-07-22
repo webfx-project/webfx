@@ -2,6 +2,7 @@ package javafx.scene.layout;
 
 import com.sun.javafx.UnmodifiableArrayList;
 import javafx.geometry.Insets;
+import javafx.scene.paint.Paint;
 
 import java.util.Collections;
 import java.util.List;
@@ -270,6 +271,20 @@ public final class Border {
         int result = this.strokes.hashCode();
         result = 31 * result + this.images.hashCode();
         hash = result;
+    }
+
+    /**
+     * A convenience factory method for creating a solid {@code Border} with a single {@code Paint}.
+     *
+     * @implSpec
+     * This call is equivalent to {@link BorderStroke#BorderStroke(Paint, BorderStrokeStyle, CornerRadii, BorderWidths)
+     * new Border(new BorderStroke(stroke, BorderStrokeStyle.SOLID, null, null));}.
+     * @param stroke the stroke of the border (for all sides). If {@code null}, {@code Color.BLACK} will be used.
+     * @return a new border of the given stroke
+     * @since 18
+     */
+    public static Border stroke(Paint stroke) {
+        return new Border(new BorderStroke(stroke, BorderStrokeStyle.SOLID, null, null));
     }
 
     /**
