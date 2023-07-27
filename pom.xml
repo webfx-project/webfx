@@ -9,6 +9,7 @@
         <groupId>dev.webfx</groupId>
         <artifactId>webfx-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
+        <relativePath/>
     </parent>
 
     <artifactId>webfx</artifactId>
