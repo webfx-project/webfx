@@ -30,9 +30,6 @@
             </library>
 
             <library name="javafx-web">
-                <exported-packages>
-                    <package>javafx.scene.web</package>
-                </exported-packages>
             </library>
 
         </group>
