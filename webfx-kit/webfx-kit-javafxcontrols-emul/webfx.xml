@@ -3,7 +3,7 @@
 
     <exported-packages>
         <source-packages/>
-        <resource-package>images.checkbox</resource-package>
+        <resource-packages/>
     </exported-packages>
 
     <dependencies>
