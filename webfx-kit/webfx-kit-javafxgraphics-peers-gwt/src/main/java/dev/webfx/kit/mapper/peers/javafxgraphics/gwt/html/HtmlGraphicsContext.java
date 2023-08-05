@@ -712,9 +712,9 @@ public class HtmlGraphicsContext implements GraphicsContext {
             boolean flip = flipX || flipY;
             if (flip) {
                 ctx.save();
-                ctx.translate(sx, sy); // Moving to pivot before flipping
+                ctx.translate(dx, dy); // Moving to pivot before flipping
                 ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1); // flipping the canvas
-                ctx.translate(-sx, -sy); // Moving back to original position after flipping
+                ctx.translate(-dx, -dy); // Moving back to original position after flipping
                 sw = Math.abs(sw);
                 sh = Math.abs(sh);
                 dw = Math.abs(dw);
