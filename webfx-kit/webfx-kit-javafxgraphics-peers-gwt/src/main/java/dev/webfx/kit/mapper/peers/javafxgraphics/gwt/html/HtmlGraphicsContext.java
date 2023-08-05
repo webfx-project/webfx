@@ -671,7 +671,8 @@ public class HtmlGraphicsContext implements GraphicsContext {
             // natively supported in HTML, we need to add the necessary canvas operations to simulate it.
             boolean flipX = w < 0;
             boolean flipY = h < 0;
-            if (flipX || flipY) {
+            boolean flip = flipX || flipY;
+            if (flip) {
                 ctx.save();
                 ctx.translate(x, y); // Moving to pivot before flipping
                 ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1); // flipping the canvas
@@ -696,7 +697,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
                         drawUnloadedImage(x, y, w, h);
                 }
             }
-            if (flipX || flipY)
+            if (flip)
                 ctx.restore();
         }
     }
@@ -704,7 +705,21 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void drawImage(Image img, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
         if (img != null) {
-            // TODO: Add flipping management here too
+            // Flipping management: JavaFX flips images when passing negative values for w or h. As this feature is not
+            // natively supported in HTML, we need to add the necessary canvas operations to simulate it.
+            boolean flipX = sw * dw < 0;
+            boolean flipY = sh * dh < 0;
+            boolean flip = flipX || flipY;
+            if (flip) {
+                ctx.save();
+                ctx.translate(sx, sy); // Moving to pivot before flipping
+                ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1); // flipping the canvas
+                ctx.translate(-sx, -sy); // Moving back to original position after flipping
+                sw = Math.abs(sw);
+                sh = Math.abs(sh);
+                dw = Math.abs(dw);
+                dh = Math.abs(dh);
+            }
             boolean loadImage = img.getUrl() != null;
             ImageData imageData = loadImage ? null : ImageDataHelper.getImageDataAssociatedWithImage(img);
             if (imageData != null) {
@@ -727,6 +742,8 @@ public class HtmlGraphicsContext implements GraphicsContext {
                         drawUnloadedImage(dx, dy, dw, dh);
                 }
             }
+            if (flip)
+                ctx.restore();
         }
     }
 
