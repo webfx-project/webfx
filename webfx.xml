@@ -15,4 +15,8 @@
         <webfx-library artifact="dev.webfx:webfx-platform:0.1.0-SNAPSHOT"/>
     </required-libraries>
 
+    <maven-repositories>
+        <snapshot-repository id="webfx-snapshots">https://oss.sonatype.org/content/repositories/snapshots/</snapshot-repository>
+    </maven-repositories>
+
 </project>
