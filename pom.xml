@@ -15,8 +15,6 @@
     <artifactId>webfx</artifactId>
 
     <repositories>
-
-        <!-- For WebFX snapshots download (including webfx-parent) -->
         <repository>
             <id>webfx-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -27,7 +25,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-
     </repositories>
 
     <packaging>pom</packaging>
