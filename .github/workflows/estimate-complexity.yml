@@ -1,0 +1,17 @@
+name: Estimate Complexity Using SCC
+
+on: [push]
+
+jobs:
+  scc_job:
+    runs-on: ubuntu-latest
+    name: SCC analysis
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Execute scc.
+        id: scc
+        uses: hdmsantander/scc-docker-action@3.0
+        with:
+          args: ${{ env.workspace }} webfx-* --ci -i java
