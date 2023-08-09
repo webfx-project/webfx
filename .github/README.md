@@ -1,8 +1,8 @@
 ![Deploy to Sonatype](https://github.com/webfx-project/webfx/actions/workflows/build-and-deploy-to-sonatype.yml/badge.svg)
 ![Scc Code Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=code)
 ![Scc Blanks Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=blanks)
-![Scc Lines Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=lines)
 ![Scc Comments Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=comments)
+![Scc Lines Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=lines)
 ![Scc COCOMO Badge](https://sloc.xyz/github/webfx-project/webfx/?category=cocomo)
 ![Discover Vulnerabilities Using CodeQL](https://github.com/webfx-project/webfx/actions/workflows/discover-vulnerabilities.yml/badge.svg)
 
