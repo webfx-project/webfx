@@ -1,12 +1,13 @@
-![Deploy to Sonatype](https://github.com/webfx-project/webfx/actions/workflows/build-and-deploy-to-sonatype.yml/badge.svg)
 ![Scc Code Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=code)
 ![Scc Blanks Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=blanks)
 ![Scc Comments Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=comments)
 ![Scc Lines Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=lines)
 ![Scc COCOMO Badge](https://sloc.xyz/github/webfx-project/webfx/?category=cocomo)
+[![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-1DA1F2?logo=twitter)](https://twitter.com/WebFXProject)
 ![Discover Vulnerabilities Using CodeQL](https://github.com/webfx-project/webfx/actions/workflows/discover-vulnerabilities.yml/badge.svg)
+![Deploy to Sonatype](https://github.com/webfx-project/webfx/actions/workflows/build-and-deploy-to-sonatype.yml/badge.svg)
 
-# WebFX [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/WebFXProject.svg?style=social&label=WebFXProject)](https://twitter.com/WebFXProject)
+# WebFX
 
 WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript web app (with no plugin or server required for its execution in the browser).
 
@@ -132,7 +133,7 @@ WebFX is still in the incubation phase. At this stage, we provide only snapshot 
 You can consult our [roadmap](ROADMAP.md). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
 
 
-## Keep updated [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/WebFXProject.svg?style=social&label=WebFXProject)](https://twitter.com/WebFXProject)
+## Keep updated [![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-1DA1F2?logo=twitter)](https://twitter.com/WebFXProject)
 
 You can follow us on [Twitter](https://twitter.com/WebFXProject) or subscribe to our [blog][webfx-blog] where we will post regular news and updates on the progress made.
 
