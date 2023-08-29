@@ -3,6 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.GwtWindowPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.FxEvents;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
@@ -81,7 +82,11 @@ public final class HtmlScenePeer extends ScenePeerBase {
                     // last mouse event will be the oncontextmenu event).
                     /*&& lastMouseEvent != null && "mouseup".equals(lastMouseEvent.type)*/) {
                 MouseEvent me = (MouseEvent) e;
-                listener.menuEvent(me.x, me.y, me.pageX, me.pageY, false);
+                // By the way, we set the correction for window.screenY (see GwtWindowPeer comment), knowing that pageY
+                // is giving the correct value for the context menu in the page coordinates.
+                GwtWindowPeer.windowScreenYCorrection = DomGlobal.window.screenY - me.screenY + me.pageY;
+                // Finally we generate the menu event for JavaFX
+                listener.menuEvent(me.x, me.y, me.screenX, me.screenY, false);
                 //lastMouseEvent = me;
             }
             return null;
