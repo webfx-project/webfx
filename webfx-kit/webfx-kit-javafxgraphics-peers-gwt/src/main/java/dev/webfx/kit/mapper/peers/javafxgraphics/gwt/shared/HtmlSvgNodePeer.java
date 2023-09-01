@@ -331,7 +331,11 @@ public abstract class HtmlSvgNodePeer
             javafx.scene.input.MouseEvent mouseEvent = new javafx.scene.input.MouseEvent(eventType, p.getSceneX(), p.getSceneY(), p.getScreenX(), p.getScreenY(), MouseButton.PRIMARY, fxTouchEvent.getTouchCount(), fxTouchEvent.isShiftDown(), fxTouchEvent.isControlDown(), fxTouchEvent.isAltDown(), fxTouchEvent.isMetaDown(),
                     !requestPdrExit /* primaryButtonDown must be false for a pdr exit, true otherwise */, false, false, false, false, false, null);
             ((Scene) fxTarget).impl_processMouseEvent(mouseEvent);
-            return true; // We return true (even if not consumed) to always prevent browsers built-in touch scrolling
+            // We return true (even if not consumed) to always prevent browsers built-in touch scrolling, unless if the
+            // target is a standard html tag that reacts to touch elements, such as <a> or <input> (ex: slider)
+            if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLInputElement)
+                return false;
+            return true;
         }
         return consumed; // should be normally: return consumed
     }
