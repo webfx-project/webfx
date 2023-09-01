@@ -332,8 +332,10 @@ public abstract class HtmlSvgNodePeer
                     !requestPdrExit /* primaryButtonDown must be false for a pdr exit, true otherwise */, false, false, false, false, false, null);
             ((Scene) fxTarget).impl_processMouseEvent(mouseEvent);
             // We return true (even if not consumed) to always prevent browsers built-in touch scrolling, unless if the
-            // target is a standard html tag that reacts to touch elements, such as <a> or <input> (ex: slider)
-            if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLInputElement)
+            // target is a standard html tag that reacts to touch elements, such as:
+            if (e.target instanceof HTMLAnchorElement // <a> clickable link
+                    || e.target instanceof HTMLInputElement // <input> (ex: slider)
+                    || e.target instanceof HTMLLabelElement) // <label> that may embed an <input> such as WebFX Extras FilePicker button
                 return false;
             return true;
         }
