@@ -1,4 +1,4 @@
-name: Discover Vulnerabilities Using CodeQL
+name: Vulnerabilities
 
 on: [push]
 
