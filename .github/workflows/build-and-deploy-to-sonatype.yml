@@ -1,4 +1,4 @@
-name: Deploy to Sonatype
+name: Deploy SNAPSHOTS
 
 on:
   push:
