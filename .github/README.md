@@ -3,9 +3,11 @@
 ![Scc Comments Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=comments)
 ![Scc Lines Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=lines)
 ![Scc COCOMO Badge](https://sloc.xyz/github/webfx-project/webfx/?category=cocomo)
-[![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-1DA1F2?logo=twitter)](https://twitter.com/WebFXProject)
 ![Discover Vulnerabilities Using CodeQL](https://github.com/webfx-project/webfx/actions/workflows/discover-vulnerabilities.yml/badge.svg)
 ![Deploy to Sonatype](https://github.com/webfx-project/webfx/actions/workflows/build-and-deploy-to-sonatype.yml/badge.svg)
+
+[![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white)](https://www.jfx-central.com/tools/webfx)
+[![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=twitter)](https://twitter.com/WebFXProject)
 
 # WebFX
 
@@ -133,7 +135,7 @@ WebFX is still in the incubation phase. At this stage, we provide only snapshot 
 You can consult our [roadmap](ROADMAP.md). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
 
 
-## Keep updated [![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-1DA1F2?logo=twitter)](https://twitter.com/WebFXProject)
+## Keep updated [![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=twitter)](https://twitter.com/WebFXProject)
 
 You can follow us on [Twitter](https://twitter.com/WebFXProject) or subscribe to our [blog][webfx-blog] where we will post regular news and updates on the progress made.
 
