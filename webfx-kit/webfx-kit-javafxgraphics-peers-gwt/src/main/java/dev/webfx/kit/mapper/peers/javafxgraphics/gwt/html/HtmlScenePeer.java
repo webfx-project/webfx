@@ -72,15 +72,15 @@ public final class HtmlScenePeer extends ScenePeerBase {
             //e.stopPropagation();
             e.preventDefault(); // To prevent the browser default context menu
             if (e instanceof MouseEvent // For now we manage only context menu from the mouse
-                    // Also checking that we received the mouse up event on that scene before. This is to prevent the
-                    // following case: when a context menu is already displayed (=> in another popup window/scene) and
-                    // the user right-click on a menu item, the menu action will be triggered on the mouseup within the
-                    // popup window/scene (so far, so good) but then oncontextmenu is called on this scene by the browser
-                    // whereas the intention of the user was just to trigger the menu action (which also closes the
-                    // context menu) but not to display the context menu again. So we prevent this by checking the last
-                    // mouse event was a mouse up on that scene which is the correct sequence (in the above case, the
-                    // last mouse event will be the oncontextmenu event).
-                    /*&& lastMouseEvent != null && "mouseup".equals(lastMouseEvent.type)*/) {
+                // Also checking that we received the mouse up event on that scene before. This is to prevent the
+                // following case: when a context menu is already displayed (=> in another popup window/scene) and
+                // the user right-click on a menu item, the menu action will be triggered on the mouseup within the
+                // popup window/scene (so far, so good) but then oncontextmenu is called on this scene by the browser
+                // whereas the intention of the user was just to trigger the menu action (which also closes the
+                // context menu) but not to display the context menu again. So we prevent this by checking the last
+                // mouse event was a mouse up on that scene which is the correct sequence (in the above case, the
+                // last mouse event will be the oncontextmenu event).
+                /*&& lastMouseEvent != null && "mouseup".equals(lastMouseEvent.type)*/) {
                 MouseEvent me = (MouseEvent) e;
                 // By the way, we set the correction for window.screenY (see GwtWindowPeer comment), knowing that pageY
                 // is giving the correct value for the context menu in the page coordinates.
@@ -262,7 +262,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     @Override
-    public void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<Node> childrenChange) {
+    public void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<? extends Node> childrenChange) {
         if (!(parent instanceof HasNoChildrenPeers)) {
             HtmlSvgNodePeer parentPeer = HtmlSvgNodePeer.toNodePeer(parent, scene);
             //long t0 = System.currentTimeMillis();
@@ -283,7 +283,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         }
     }
 
-    private List<Element> toChildElements(List<Node> nodes) {
+    private List<Element> toChildElements(List<? extends Node> nodes) {
         return Collections.map(nodes, this::toChildElement);
     }
 

@@ -3,15 +3,17 @@ package javafx.scene;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.RectBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasManagedProperty;
+import dev.webfx.kit.util.properties.FXProperties;
+import dev.webfx.kit.util.properties.ObservableLists;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.LayoutFlags;
 import javafx.scene.layout.PreferenceResizableNode;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasManagedProperty;
-import dev.webfx.kit.util.properties.ObservableLists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,39 +25,47 @@ import java.util.stream.Collectors;
 public class Parent extends Node {
 
     private final ObservableList<Node> children = FXCollections.observableArrayList();
-
     {
-        children.addListener((ListChangeListener<Node>) c -> {
-            Scene scene = getScene();
-            while (c.next()) {
-                if (c.wasAdded())
-                    for (Node child : c.getAddedSubList()) {
-                        setAndPropagateScene(child, scene);
-                        child.setParent(this);
-                    }
-                else if (c.wasRemoved())// Setting parent and scene to null for removed children
-                    for (Node child : c.getRemoved()) {
-                        child.setParent(null);
-                        setAndPropagateScene(child, null);
-                    }
-            }
-            managedChildChanged();
-        });
+        children.addListener(this::onChildrenChanged);
     }
 
-    static void setAndPropagateScene(Node node, Scene scene) {
-        node.setScene(scene);
-        if (node instanceof Parent) {
-            for (Node child : ((Parent) node).getChildren()) {
-                //if (child.getScene() != scene) // Commented this optimisation as it prevents the Mandelbrot canvas thumbnail to get the scene back when returning to home page
-                    setAndPropagateScene(child, scene);
-/* Commented this optimization as it was causing problems in Mandelbrot demo: when going back to first page, 1 or 2 thumbnails had the scene set and not others
-                else // If already done for this child, assuming it's done for others
-                    break;
-*/
+    private void onChildrenChanged(ListChangeListener.Change<? extends Node> c) {
+        // This listener has 2 main tasks: 1) propagate this parent change to the children & 2) ask the scene to update
+        // the peers structure (scene graph => DOM tree mapping).
+
+        // Note: the following sequence is the only one that works to preserve the HTML scrollbar state when removed and
+        // put back to the DOM (perfectscrollbar.js loses its state when removed from the DOM). See HtmlScrollPanePeer.
+
+        // First we propagate this parent to the children. This is half of the job for 1) as we also need to null the
+        // parent to the removed children, but it's important to not do it yet at this stage.
+        for (Node child : getChildren())
+            child.setParent(this);
+        // Then we do 2) i.e. call scene.updateParentAndChildrenPeers()
+        Scene scene = getScene(); // Of course scene needs to be non-null and the node peer of this parent needs to be created
+        if (scene != null && getNodePeer() != null) {
+            scene.updateParentAndChildrenPeers(this, c);
+        }
+        // We do the second part of the job for 1) here, which is to null the parent of the removed children.
+        if (c != null) {
+            c.reset(); // Because scene.updateParentAndChildrenPeers() already used it.
+            while (c.next()) {
+                if (c.wasRemoved())// Setting parent and scene to null for removed children
+                    for (Node child : c.getRemoved()) {
+                        if (child.getParent() == Parent.this)
+                            child.setParent(null);
+                    }
             }
         }
+        // Final detail, we need to call managedChildChanged()
+        managedChildChanged();
     }
+
+    @Override
+    void onNodePeerBound() {
+        FXProperties.onPropertySet((ObservableValue) getProperties().get("skinProperty"),
+                skin -> onChildrenChanged(null), true);
+    }
+
 
     Parent() {
     }
@@ -636,8 +646,8 @@ public class Parent extends Node {
                                 ? dirtyChildren : children,
                         dirtyChildrenCount))
 */
-            // failed to update cached bounds, recreate them
-            createCachedBounds(children);
+        // failed to update cached bounds, recreate them
+        createCachedBounds(children);
     }
 
     // Note: this marks the currently processed child in terms of transformed bounds. In rare situations like

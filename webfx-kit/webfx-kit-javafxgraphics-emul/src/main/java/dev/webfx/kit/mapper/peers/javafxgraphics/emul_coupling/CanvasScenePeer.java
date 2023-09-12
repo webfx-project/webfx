@@ -24,7 +24,7 @@ public abstract class CanvasScenePeer
     }
 
     @Override
-    public void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<Node> childrenChange) {
+    public void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<? extends Node> childrenChange) {
         scene.updateChildrenPeers(parent.getChildren());
         requestCanvasRepaint();
     }

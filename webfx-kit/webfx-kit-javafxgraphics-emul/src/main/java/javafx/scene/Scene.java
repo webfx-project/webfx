@@ -16,7 +16,6 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFillProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasRootProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
-import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.kit.util.properties.ObservableLists;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.AnimationFramePass;
@@ -185,7 +184,7 @@ public class Scene implements EventTarget,
             createAndBindRootNodePeerAndChildren(root);
             // Resetting the scene to null for the old root and its children
             if (oldRoot != null && oldRoot.getScene() == Scene.this)
-                Parent.setAndPropagateScene(oldRoot, null);
+                oldRoot.setScene(null);
             oldRoot = root;
         }
     };
@@ -652,11 +651,12 @@ public class Scene implements EventTarget,
             // Setting the parent to all children
             for (Node child : parent.getChildren())
                 child.setParent(parent);
-            updateParentAndChildrenPeers(parent, (ListChangeListener.Change<Node>) c);
+            // Note:
+            updateParentAndChildrenPeers(parent, c);
         }, parent.getChildren());
     }
 
-    private void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<Node> childrenChange) {
+    void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<? extends Node> childrenChange) {
         impl_getPeer().updateParentAndChildrenPeers(parent, childrenChange);
     }
 
@@ -704,9 +704,7 @@ public class Scene implements EventTarget,
                 node.setNodePeer(nodePeer = createUnimplementedNodePeer(node)); // Displaying a "Unimplemented..." button instead
             else { // Standard case (the node view was successfully created)
                 nodePeer.bind(node, sceneRequester);
-                if (node instanceof Parent)
-                    FXProperties.onPropertySet((ObservableValue) node.getProperties().get("skinProperty"),
-                            skin -> keepParentAndChildrenPeersUpdated((Parent) node), true);
+                node.onNodePeerBound();
             }
             node.callNodePeerHandlers();
         }
@@ -1185,36 +1183,36 @@ public class Scene implements EventTarget,
             if (h != Scene.this.getHeight()) Scene.this.setHeight((double)h);
         }
 
-/*
-        @Override
-        public void mouseEvent(EventType<MouseEvent> type, double x, double y, double screenX, double screenY,
-                               MouseButton button, boolean popupTrigger, boolean synthesized,
-                               boolean shiftDown, boolean controlDown, boolean altDown, boolean metaDown,
-                               boolean primaryDown, boolean middleDown, boolean secondaryDown)
-        {
-            MouseEvent mouseEvent = new MouseEvent(type, x, y, screenX, screenY, button,
-                    0, // click count will be adjusted by clickGenerator later anyway
-                    shiftDown, controlDown, altDown, metaDown,
-                    primaryDown, middleDown, secondaryDown, synthesized, popupTrigger, false, null);
-            impl_processMouseEvent(mouseEvent);
-        }
+        /*
+                @Override
+                public void mouseEvent(EventType<MouseEvent> type, double x, double y, double screenX, double screenY,
+                                       MouseButton button, boolean popupTrigger, boolean synthesized,
+                                       boolean shiftDown, boolean controlDown, boolean altDown, boolean metaDown,
+                                       boolean primaryDown, boolean middleDown, boolean secondaryDown)
+                {
+                    MouseEvent mouseEvent = new MouseEvent(type, x, y, screenX, screenY, button,
+                            0, // click count will be adjusted by clickGenerator later anyway
+                            shiftDown, controlDown, altDown, metaDown,
+                            primaryDown, middleDown, secondaryDown, synthesized, popupTrigger, false, null);
+                    impl_processMouseEvent(mouseEvent);
+                }
 
-        @Override
-        public void keyEvent(KeyEvent keyEvent)
-        {
-            impl_processKeyEvent(keyEvent);
-        }
+                @Override
+                public void keyEvent(KeyEvent keyEvent)
+                {
+                    impl_processKeyEvent(keyEvent);
+                }
 
-        @Override
-        public void inputMethodEvent(EventType<InputMethodEvent> type,
-                                     ObservableList<InputMethodTextRun> composed, String committed,
-                                     int caretPosition)
-        {
-            InputMethodEvent inputMethodEvent = new InputMethodEvent(
-                    type, composed, committed, caretPosition);
-            processInputMethodEvent(inputMethodEvent);
-        }
-        */
+                @Override
+                public void inputMethodEvent(EventType<InputMethodEvent> type,
+                                             ObservableList<InputMethodTextRun> composed, String committed,
+                                             int caretPosition)
+                {
+                    InputMethodEvent inputMethodEvent = new InputMethodEvent(
+                            type, composed, committed, caretPosition);
+                    processInputMethodEvent(inputMethodEvent);
+                }
+                */
         public void menuEvent(double x, double y, double xAbs, double yAbs,
                               boolean isKeyboardTrigger) {
             Scene.this.processMenuEvent(x, y, xAbs,yAbs, isKeyboardTrigger);

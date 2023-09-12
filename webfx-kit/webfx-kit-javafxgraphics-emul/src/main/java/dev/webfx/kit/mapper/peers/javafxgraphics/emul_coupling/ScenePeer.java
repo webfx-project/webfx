@@ -14,7 +14,7 @@ public interface ScenePeer extends TKScene {
 
     Scene getScene();
 
-    void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<Node> childrenChange);
+    void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<? extends Node> childrenChange);
 
     NodePeer pickPeer(double sceneX, double sceneY);
 

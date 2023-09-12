@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwt.html;
 
+import dev.webfx.kit.util.properties.FXProperties;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import javafx.geometry.BoundingBox;
@@ -39,6 +40,12 @@ public final class HtmlScrollPanePeer
         setChildrenContainer(psContainer);
         HtmlUtil.setChildren(getElement(), psContainer);
         node.setOnChildrenLayout(HtmlScrollPanePeer.this::scheduleUpdate);
+        // The following listener is to reestablish the scroll position on scene change. For ex when the user 1) switches
+        // to another page through UI routing and then 2) come back, this node is removed from the scene graph at 1) =>
+        // scene = null until 2) => scene reestablished, but Perfect scrollbar lost its state when removed from the DOM.
+        // This listener will trigger a schedule update at 2) which will restore the perfect scrollbar state (scrollTop
+        // & scrollLeft will be reapplied).
+        FXProperties.runOnPropertiesChange(this::scheduleUpdate, node.sceneProperty());
     }
 
     private double scrollTop, scrollLeft;

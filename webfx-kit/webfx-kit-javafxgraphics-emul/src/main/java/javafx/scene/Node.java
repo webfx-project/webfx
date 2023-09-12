@@ -49,10 +49,55 @@ import static javafx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
  */
 public abstract class Node implements INode, EventTarget, Styleable {
 
-    private final Property<Parent> parentProperty = new SimpleObjectProperty<>();
+
+    // This method is called when the node peer has been created, inserted to the DOM, and bound to this node (i.e.
+    // reacting to the properties changes to update the HTML mapping). The node may need to do something at this point.
+    void onNodePeerBound() { }
+
+    private final Property<Parent> parentProperty = new SimpleObjectProperty<>() {
+        protected void invalidated() {
+            // The child automatically inherits the scene from the parent (if the parent is null, the scene is set to
+            // null for this child)
+            Parent parent = getParent();
+            Scene newScene = parent == null ? null : parent.getScene();
+            setScene(newScene); // Note: the scene will be propagated to the possible children in the scene listener (see below)
+        }
+    };
     @Override
     public Property<Parent> parentProperty() {
         return parentProperty;
+    }
+
+    private final ObjectProperty<Scene> scene = new SimpleObjectProperty<>() {
+        @Override
+        protected void invalidated() {
+            Scene newScene = getScene();
+            // Initialising the event dispatcher if not already done
+            if (newScene != null)
+                newScene.initializeInternalEventDispatcher();
+            // Propagating the scene to the children
+            if (Node.this instanceof Parent) {
+                for (Node child : ((Parent) Node.this).getChildren()) {
+                    child.setScene(newScene);
+                }
+            }
+            // Also to the clip (if set)
+            Node clip = getClip();
+            if (clip != null)
+                clip.setScene(newScene);
+        }
+    };
+
+    public ObjectProperty<Scene> sceneProperty() {
+        return scene;
+    }
+
+    public Scene getScene() {
+        return scene.getValue();
+    }
+
+    public void setScene(Scene scene) {
+        this.scene.setValue(scene);
     }
 
     private final Property<Boolean> managedProperty = new SimpleObjectProperty<Boolean>(true) {
@@ -64,6 +109,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
             notifyManagedChanged();
         }
     };
+
     @Override
     public Property<Boolean> managedProperty() {
         return managedProperty;
@@ -636,7 +682,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
     private Translate layoutTranslateTransform;
     private Scale scaleTransform;
     private Rotate rotateTransform;
-    
+
     @Override
     public List<Transform> getAllNodeTransforms() {
         // We need to consider all transforms: I) those declared directly at the Node level via translateX/Y, rotateX/Y
@@ -648,8 +694,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
         double ltX = getTranslateX();
         double ltY = getTranslateY();
         //if (!(getParent() instanceof Group)) { // Breaks EnzoClocks, TallyCounter and SpaceFX demos
-            ltX += getLayoutX();
-            ltY += getLayoutY();
+        ltX += getLayoutX();
+        ltY += getLayoutY();
         //}
         if (ltX != 0 || ltY != 0) {
             if (layoutTranslateTransform == null)
@@ -1288,25 +1334,6 @@ public abstract class Node implements INode, EventTarget, Styleable {
             peerFocusRequested = true;
     }
 
-    private ObjectProperty<Scene> scene = new SimpleObjectProperty<>();
-
-    public ObjectProperty<Scene> sceneProperty() {
-        return scene;
-    }
-
-    public Scene getScene() {
-        return scene.getValue();
-    }
-
-    public void setScene(Scene scene) {
-        this.scene.setValue(scene);
-        Node clip = getClip();
-        if (clip != null)
-            clip.setScene(scene);
-        if (scene != null)
-            scene.initializeInternalEventDispatcher();
-    }
-
     private LayoutMeasurable layoutMeasurable;
 
     public LayoutMeasurable getLayoutMeasurable() {
@@ -1338,7 +1365,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         // Always creating a new LayoutMeasurable (even when nodePeer is valid) so that min/pref/max
         // width/height user values are returned in priority whenever they have been set.
         layoutMeasurable = new LayoutMeasurable() {
-            private LayoutMeasurable acceptedLayoutMeasurable = nodePeer instanceof LayoutMeasurable && shouldUseLayoutMeasurable() ? (LayoutMeasurable) nodePeer : null;
+            private final LayoutMeasurable acceptedLayoutMeasurable = nodePeer instanceof LayoutMeasurable && shouldUseLayoutMeasurable() ? (LayoutMeasurable) nodePeer : null;
             {
                 if (nodePeer instanceof HasSizeChangedCallback)
                     UiScheduler.scheduleDeferred(() ->
