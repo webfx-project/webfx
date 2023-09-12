@@ -9,7 +9,7 @@
 ![Discover Vulnerabilities Using CodeQL](https://github.com/webfx-project/webfx/actions/workflows/discover-vulnerabilities.yml/badge.svg)
 ![Deploy to Sonatype](https://github.com/webfx-project/webfx/actions/workflows/build-and-deploy-to-sonatype.yml/badge.svg)
 
-<img src="WebFX.png"/>
+<a href="https://webfx.dev"><img src="WebFX.png"/></a>
 &nbsp;
 
 [![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white)](https://www.jfx-central.com/tools/webfx) [![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=twitter)](https://twitter.com/WebFXProject)
