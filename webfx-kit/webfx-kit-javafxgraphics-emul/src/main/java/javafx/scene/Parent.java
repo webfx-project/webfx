@@ -49,10 +49,20 @@ public class Parent extends Node {
         if (c != null) {
             c.reset(); // Because scene.updateParentAndChildrenPeers() already used it.
             while (c.next()) {
-                if (c.wasRemoved())// Setting parent and scene to null for removed children
+                // Setting parent (and scene) to null for removed children
+                if (c.wasRemoved())
                     for (Node child : c.getRemoved()) {
                         if (child.getParent() == Parent.this)
                             child.setParent(null);
+                    }
+                // Setting parent to added children
+                // Note: we already did it in the initial loop, but maybe some children have been reset to null in the
+                // previous loop because children may be removed and then added again in the same list change. Ex:
+                // children.setAll(...) first removes all and then adds all nodes even for nodes already children before.
+                if (c.wasAdded())
+                    for (Node child : c.getAddedSubList()) {
+                        if (child.getParent() != Parent.this)
+                            child.setParent(Parent.this);
                     }
             }
         }
