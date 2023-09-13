@@ -25,6 +25,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
@@ -86,15 +87,21 @@ public abstract class HtmlSvgNodePeer
 
     public static NodePeer getPeerFromElementOrParents(Element element) {
         NodePeer nodePeer = null;
+        // Retrieving the node peer from the element (if not found, we search in parents)
         for (elemental2.dom.Node n = element; nodePeer == null && n != null; n = n.parentNode)
             nodePeer = getPeerFromElement(n);
+        // If we found it, we need to check that it's still an active peer bound to the scene graph.
         if (nodePeer != null) {
             Node node = nodePeer.getNode();
-            while (node != null) {
-                javafx.scene.Parent parent = node.getParent();
-                if (parent == null && node.getScene().getRoot() != node)
-                    return getPeerFromElementOrParents((Element) ((HtmlSvgNodePeer) node.getNodePeer()).container.parentNode);
-                node = parent;
+            Scene scene = node.getScene();
+            // If the node has been removed from the scene graph, we try to search again from its highest possible element
+            if (scene == null) {
+                while (true) {
+                    Parent parent = node.getParent();
+                    if (parent == null)
+                        return getPeerFromElementOrParents((Element) ((HtmlSvgNodePeer) node.getNodePeer()).container.parentNode);
+                    node = parent;
+                }
             }
         }
         return nodePeer;
