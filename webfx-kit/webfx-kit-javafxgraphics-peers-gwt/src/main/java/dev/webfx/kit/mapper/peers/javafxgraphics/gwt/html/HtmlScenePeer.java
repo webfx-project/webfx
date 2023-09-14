@@ -164,7 +164,19 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void installFontsListener() {
+        // Listening the fonts requested by the application code
         mapObservableList(Font.getRequestedFonts(), fonts -> addFonts(fonts), fonts -> removeFonts(fonts));
+        // Listening other possible fonts loaded from HTML CSS
+        document.fonts.getReady().then(p0 -> {
+            // Once a font is loaded, the browser will apply it to all text elements set to use that font, and this will
+            // probably change their size, but JavaFX won't detect that change, and this will create layout issues (ex:
+            // a text supposed to be centered won't appear centered anymore with the new font). To fix those issues, we
+            // call onCssOrFontLoaded() which forces a layout of the whole scene graph. However, we postpone that call
+            // a few animation frames later, because the measurement of the text elements is still not considering the
+            // new font at this point, a little delay seems necessary after fonts.getReady() (browser bug?).
+            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 5); // 5 animation frames seem enough
+            return null;
+        });
     }
 
     private final Map<String /* url  => */, FontFace> fontFaces = new HashMap<>();
@@ -177,20 +189,21 @@ public final class HtmlScenePeer extends ScenePeerBase {
             fontFace.load().then(p0 -> {
                 onCssOrFontLoaded();
                 Font.getLoadingFonts().remove(font);
-                return null; });
+                return null;
+            });
         });
     }
 
     private void removeFonts(List<? extends Font> fonts) {
         fonts.forEach(font -> {
-            FontFace fontFace = fontFaces.remove(font);
+            FontFace fontFace = fontFaces.remove(font.getUrl());
             if (fontFace != null)
                 document.fonts.delete(fontFace);
         });
     }
 
     private void onCssOrFontLoaded() {
-        clearLayoutCache(scene.getRoot());
+        forceWholeSceneGraphLayout(scene);
     }
 
     private void installIconsListener() {
@@ -223,13 +236,17 @@ public final class HtmlScenePeer extends ScenePeerBase {
         });
     }
 
-    private static void clearLayoutCache(Node node) {
+    private static void forceWholeSceneGraphLayout(Scene scene) {
+        forceLayoutOnThisNodeAndChildren(scene.getRoot());
+    }
+
+    private static void forceLayoutOnThisNodeAndChildren(Node node) {
         if (node != null) {
             node.clearCache();
             if (node instanceof Parent) {
                 Parent parent = (Parent) node;
                 parent.setLayoutFlag(LayoutFlags.NEEDS_LAYOUT);
-                parent.getChildren().forEach(HtmlScenePeer::clearLayoutCache);
+                parent.getChildren().forEach(HtmlScenePeer::forceLayoutOnThisNodeAndChildren);
             }
             node.onPeerSizeChanged();
         }
