@@ -1,6 +1,7 @@
 package javafx.scene.control.skin;
 
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.kit.util.properties.ObservableLists;
 import javafx.geometry.Insets;
 import javafx.scene.control.Skin;
@@ -20,9 +21,10 @@ public class ToolkitTextBox extends TextField { // WebFX specific class (not par
         editableProperty().bind(embeddingTextField.editableProperty());
         textProperty().bindBidirectional(embeddingTextField.textProperty());
         promptTextProperty().bind(embeddingTextField.promptTextProperty());
+        FXProperties.runNowAndOnPropertiesChange(() -> setDisabled(embeddingTextField.isDisabled()), embeddingTextField.disabledProperty());
+        FXProperties.runNowAndOnPropertiesChange(() -> setFocused(embeddingTextField.isFocused()), embeddingTextField.focusedProperty());
+        // Also forwarding user focus back to embeddingTextField
         focusedProperty().addListener((observable, oldValue, newValue) -> embeddingTextField.setFocused(newValue));
-        embeddingTextField.focusedProperty().addListener((observable, oldValue, newValue) -> setFocused(newValue));
-        embeddingTextField.disabledProperty().addListener((observable, oldValue, newValue) -> setDisabled(newValue));
     }
 
     public TextField getEmbeddingTextField() {
