@@ -1,11 +1,11 @@
 package javafx.scene.control.skin;
 
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import dev.webfx.kit.util.properties.ObservableLists;
 import javafx.geometry.Insets;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
-import dev.webfx.kit.util.properties.ObservableLists;
-import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * @author Bruno Salmon
@@ -22,6 +22,7 @@ public class ToolkitTextBox extends TextField { // WebFX specific class (not par
         promptTextProperty().bind(embeddingTextField.promptTextProperty());
         focusedProperty().addListener((observable, oldValue, newValue) -> embeddingTextField.setFocused(newValue));
         embeddingTextField.focusedProperty().addListener((observable, oldValue, newValue) -> setFocused(newValue));
+        embeddingTextField.disabledProperty().addListener((observable, oldValue, newValue) -> setDisabled(newValue));
     }
 
     public TextField getEmbeddingTextField() {

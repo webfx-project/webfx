@@ -1,14 +1,11 @@
 package javafx.scene.control;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.text.Font;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFontProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasPromptTextProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextProperty;
+import javafx.beans.property.*;
+import javafx.scene.text.Font;
 
 /**
  * @author Bruno Salmon
@@ -39,10 +36,11 @@ public abstract class TextInputControl extends Control implements
     /**
      * Indicates whether this TextInputControl can be edited by the user.
      */
-    private Property<Boolean> editable = new SimpleObjectProperty<>(this, "editable", true);
+    private final BooleanProperty editable = new SimpleBooleanProperty(this, "editable", true);
+
     public final boolean isEditable() { return editable.getValue(); }
     public final void setEditable(boolean value) { editable.setValue(value); }
-    public final Property<Boolean> editableProperty() { return editable; }
+    public final BooleanProperty editableProperty() { return editable; }
 
     /**
      * Clears the text.

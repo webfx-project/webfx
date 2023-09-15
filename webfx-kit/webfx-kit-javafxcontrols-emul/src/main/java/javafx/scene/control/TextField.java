@@ -1,21 +1,20 @@
 package javafx.scene.control;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ObjectPropertyBase;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.skin.TextFieldSkin;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.paint.Color;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasAlignmentProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextAlignmentProperty;
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ObjectPropertyBase;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.skin.TextFieldSkin;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon
@@ -86,7 +85,7 @@ public class TextField extends TextInputControl implements HasAlignmentProperty,
     }
 
     private final static Insets INITIAL_PADDING = new Insets(4, 7, 4, 7);
-    private final static Background INITIAL_BACKGROUND = new Background(new BackgroundFill(Color.WHITE, null, null));
+    private final static Background INITIAL_BACKGROUND = Background.fill(Color.WHITE);
 
     {
         setPadding(INITIAL_PADDING);
