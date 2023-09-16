@@ -80,6 +80,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
                 for (Node child : ((Parent) Node.this).getChildren()) {
                     child.setScene(newScene);
                 }
+                // If this parent is inserted into a new scene, we need to update the scene graph -> DOM mapping.
+                if (newScene != null)
+                    newScene.updateParentAndChildrenPeers((Parent) Node.this, null);
             }
             // Also to the clip (if set)
             Node clip = getClip();

@@ -16,7 +16,6 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFillProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasRootProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
-import dev.webfx.kit.util.properties.ObservableLists;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.AnimationFramePass;
 import dev.webfx.platform.uischeduler.UiScheduler;
@@ -644,16 +643,6 @@ public class Scene implements EventTarget,
 
     public SceneRequester getSceneRequester() {
         return sceneRequester;
-    }
-
-    private void keepParentAndChildrenPeersUpdated(Parent parent) {
-        ObservableLists.runNowAndOnListChange(c -> {
-            // Setting the parent to all children
-            for (Node child : parent.getChildren())
-                child.setParent(parent);
-            // Note:
-            updateParentAndChildrenPeers(parent, c);
-        }, parent.getChildren());
     }
 
     void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<? extends Node> childrenChange) {
