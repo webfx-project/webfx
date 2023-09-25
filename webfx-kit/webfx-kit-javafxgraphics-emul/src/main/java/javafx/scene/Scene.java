@@ -646,7 +646,10 @@ public class Scene implements EventTarget,
     }
 
     void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<? extends Node> childrenChange) {
-        impl_getPeer().updateParentAndChildrenPeers(parent, childrenChange);
+        ScenePeer scenePeer = impl_getPeer();
+        if (scenePeer != null && parent.getNodePeer() != null) {
+            scenePeer.updateParentAndChildrenPeers(parent, childrenChange);
+        }
     }
 
     private boolean updateViewProperty(Node node, ObservableValue changedProperty) {

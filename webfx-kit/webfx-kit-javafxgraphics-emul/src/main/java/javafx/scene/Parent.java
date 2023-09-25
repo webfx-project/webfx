@@ -42,7 +42,7 @@ public class Parent extends Node {
             child.setParent(this);
         // Then we do 2) i.e. call scene.updateParentAndChildrenPeers()
         Scene scene = getScene(); // Of course scene needs to be non-null and the node peer of this parent needs to be created
-        if (scene != null && getNodePeer() != null) {
+        if (scene != null) {
             scene.updateParentAndChildrenPeers(this, c);
         }
         // We do the second part of the job for 1) here, which is to null the parent of the removed children.
