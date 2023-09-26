@@ -1,23 +1,23 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwt.html;
 
+import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerBase;
+import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
 import javafx.collections.ObservableList;
-import javafx.scene.control.skin.TextFieldSkin;
-import javafx.scene.control.skin.ToolkitTextBox;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
+import javafx.scene.control.skin.TextFieldSkin;
+import javafx.scene.control.skin.ToolkitTextBox;
 import javafx.scene.text.Font;
-import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerBase;
-import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 
 /**
  * @author Bruno Salmon
@@ -52,7 +52,9 @@ public class HtmlTextFieldPeer
 
     @Override
     public void updateFont(Font font) {
-        setFontAttributes(font, getFocusElement());
+        Element focusElement = getFocusElement();
+        if (focusElement != null)
+            setFontAttributes(font, focusElement);
     }
 
     @Override
