@@ -48,8 +48,11 @@ public final class HtmlTransforms {
     }
 
     private static StringBuilder toHtmlScale(Scale scale, StringBuilder sb) {
-        //if (scale.getPivotX() == 0 && scale.getPivotY() == 0) // Commented as the correct condition is when the pivot is at the node center (no way to test this here)
-        //    return sb.append("scale(").append(scale.getX()).append(", ").append(scale.getY()).append(")");
+        // The following code should be commented as the correct condition is when the pivot is at the node center and
+        // there is no way to test this here. However, if we uncomment it, this breaks the WebFX Website LongTermCard
+        // (the HTML5 red frame is incorrectly shifted). TODO: generalize pivot
+        if (scale.getPivotX() == 0 && scale.getPivotY() == 0)
+            return sb.append("scale(").append(scale.getX()).append(", ").append(scale.getY()).append(")");
         return toHtmlAffine(scale.toAffine(), sb);
     }
 
