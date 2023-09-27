@@ -9,6 +9,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlL
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLMediaElement;
 import elemental2.dom.HTMLVideoElement;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -31,12 +32,6 @@ public class GwtMediaViewPeer
         super(base, element);
         videoElement = (HTMLVideoElement) getElement();
         videoElement.controls = false; // There is no controls in JavaFX MediaView
-        videoElement.onloadedmetadata = p0 -> {
-            loaded = true;
-            if (sizeChangedCallback != null)
-                sizeChangedCallback.run();
-            return null;
-        };
     }
 
     private Runnable sizeChangedCallback;
@@ -51,7 +46,17 @@ public class GwtMediaViewPeer
         N mediaView = getNode();
         MediaPlayer mediaPlayer = mediaView.getMediaPlayer();
         GwtMediaPlayerPeer peer = (GwtMediaPlayerPeer) mediaPlayer.getPeer();
-        peer.setMediaElement(videoElement);
+        peer.setMediaElement(videoElement); // This set videoElement listeners, including onloadedmetadata
+        // In addition, we would like to notify the size change which happens when metadata is loaded, but adding a
+        // listener through videoElement.addEventListener("onloadedmetadata") doesn't work (it's never called).
+        // So we redefine videoElement.onloadedmetadata but call the listener initially set by GwtMediaPlayerPeer.
+        HTMLMediaElement.OnloadedmetadataFn mediaPlayerOnloadedmetadata = videoElement.onloadedmetadata;
+        videoElement.onloadedmetadata = p0 -> {
+            loaded = true;
+            if (sizeChangedCallback != null)
+                sizeChangedCallback.run();
+            return mediaPlayerOnloadedmetadata.onInvoke(p0);
+        };
     }
 
     // Emulating the JavaFX API behaviour where min/pref/max width/height always returns the video min/height
