@@ -95,14 +95,14 @@ public final class HtmlTextPeer
     // Obscure JavaFX behaviour: layout positioning can take precedence over direct positioning (x,y), and in this case
     // (x,y) are just ignored. But in a Pane, it's possible to set layoutX,Y + (x,y), and they will be both considered
     // and added. So, having layoutX,Y positioned doesn't necessary mean that (x,y) are ignored. It's not cleared when
-    // direct positioning (x,y) is applicable. In practice, it seems that it is applicable only in the following cases:
-    // 1) when the node is not managed
-    // 2) when the node is in a Group
-    // 3) when the node is in a Parent, Region or Pane (but not subclasses)
+    // direct positioning (x,y) is applicable. The following rules seem to work in practice, so far:
+    // 1) if the node is not managed => layout positioning
+    // 2) if the node is in a Group => direct positioning
+    // 3) if the node is in a Parent, Region or Pane (but not subclasses) => direct positioning
     private boolean isDirectPositioningApplicable() {
         N node = getNode();
         if (!node.isManaged())
-            return true;
+            return false; // Otherwise this breaks the WebFX Website text positions (Card titles & circle letters)
         Parent parent = node.getParent();
         if (parent == null || parent instanceof Group)
             return true;
@@ -117,9 +117,7 @@ public final class HtmlTextPeer
 
     @Override
     public void updateY(Double y) {
-        if (!isDirectPositioningApplicable())
-            setElementStyleAttribute("top", "0");
-        else {
+        if (isDirectPositioningApplicable()) { // Direct positioning
             double top = y;
             switch (getNode().getTextOrigin()) {
                 case CENTER:   top = y - getLayoutBounds().getHeight() / 2; break;
@@ -131,6 +129,8 @@ public final class HtmlTextPeer
                 }
             }
             setElementStyleAttribute("top", toPx(top));
+        } else { // Layout positioning (case when it takes precedence over direct positioning)
+            setElementStyleAttribute("top", "0");
         }
     }
 
