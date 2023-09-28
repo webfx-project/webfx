@@ -66,6 +66,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         this.mediaUrl = mediaPlayer.getMedia().getSource();
         this.audioClip = audioClip;
         if (!audioClip && PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP || mediaUrl.startsWith("file") || !mediaUrl.startsWith("http") && DomGlobal.window.location.protocol.equals("file:")) {
+            // Note: Assuming is for audio, but in case of videos, this element will be replaced later by GwtMediaViewPeer
             setMediaElement((HTMLAudioElement) DomGlobal.document.createElement("audio"));
             bufferSourceStopWatchMillis = null;
         } else {
@@ -221,13 +222,11 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void setCycleCount(int cycleCount) {
         this.cycleCount = cycleCount;
-        boolean loop = cycleCount == -1;
+        boolean loop = loopWhenReady = cycleCount == MediaPlayer.INDEFINITE;
         if (hasMediaElement())
             mediaElement.loop = loop;
         else if (bufferSource != null)
             bufferSource.loop = loop;
-        else
-            loopWhenReady = loop;
     }
 
     @Override
