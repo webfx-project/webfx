@@ -2,6 +2,7 @@ package dev.webfx.kit.mapper.peers.javafxcontrols.gwt.html;
 
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
@@ -11,9 +12,13 @@ import dev.webfx.platform.util.Objects;
 import dev.webfx.platform.util.Strings;
 import elemental2.dom.*;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Font;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Bruno Salmon
@@ -53,7 +58,20 @@ public abstract class HtmlTextInputControlPeer
         FXProperties.runNowAndOnPropertiesChange(() -> onSceneChanged(node.getScene()), node.sceneProperty());
     }
 
+    private static final Set<Scene> FOCUS_LISTENER_SCENES = new HashSet<>();
+
     private void onSceneChanged(Scene scene) {
+        // When adding the TextInputControl to the scene graph, we ensure that there is a focus listener associated to
+        // that scene that will listen the focus changes, and call updatePromptText() when this happens. This is to
+        // reproduce the JavaFX behaviour where the prompt text is not displayed on focused nodes (as opposed to HTML).
+        if (scene != null && !FOCUS_LISTENER_SCENES.contains(scene)) {
+            FOCUS_LISTENER_SCENES.add(scene);
+            scene.focusOwnerProperty().addListener((observable, oldFocusOwner, newFocusOwner) -> {
+                updatePromptText(oldFocusOwner);
+                updatePromptText(newFocusOwner);
+            });
+        }
+        // We also update the "value" attribute for HTML CSS styling purpose (more comments in that method).
         updateElementInitialValue();
     }
 
@@ -68,6 +86,14 @@ public abstract class HtmlTextInputControlPeer
         if (focusElement != null) {
             String initialValue = Strings.isEmpty(getNode().getText()) ? "" : "not-empty";
             setElementAttribute(focusElement, "value", initialValue);
+        }
+    }
+
+    private static void updatePromptText(Node node) {
+        if (node instanceof TextInputControl) {
+            NodePeer nodePeer = node.getNodePeer();
+            if (nodePeer instanceof HtmlTextInputControlPeer)
+                ((HtmlTextInputControlPeer<?, ?, ?>) nodePeer).updatePromptText(((TextInputControl) node).getPromptText());
         }
     }
 
@@ -98,9 +124,19 @@ public abstract class HtmlTextInputControlPeer
     }
 
     @Override
-    public void updatePromptText(String prompt) {
-        if (!getNode().getStyleClass().contains("material"))
-            setPlaceholder(Strings.toSafeString(prompt));
+    public void updatePromptText(String promptText) {
+        String placeholder = Strings.toSafeString(promptText);
+        // In JavaFX, the prompt text is not displayed when the text input has the focus (as opposed to HTML).
+        // So we reproduce here this behaviour.
+        N node = getNode();
+        Scene scene = node.getScene();
+        if (scene != null && scene.getFocusOwner() == node)
+            placeholder = ""; // Clearing the placeholder on focused elements.
+        HTMLElement element = getElement();
+        if (element instanceof HTMLInputElement)
+            ((HTMLInputElement) element).placeholder = placeholder;
+        else if (element instanceof HTMLTextAreaElement)
+            setElementAttribute(element, "placeholder", placeholder);
     }
 
     @Override
@@ -125,11 +161,4 @@ public abstract class HtmlTextInputControlPeer
             ((HTMLTextAreaElement) element).value = value;
     }
 
-    protected void setPlaceholder(String placeholder) {
-        HTMLElement element = getElement();
-        if (element instanceof HTMLInputElement)
-            ((HTMLInputElement) element).placeholder = placeholder;
-        else if (element instanceof HTMLTextAreaElement)
-            setElementAttribute(element, "placeholder", placeholder);
-    }
 }
