@@ -23,7 +23,7 @@ public abstract class HtmlTextInputControlPeer
 
     public HtmlTextInputControlPeer(NB base, HTMLElement textInputElement) {
         super(base, textInputElement);
-        prepareDomForAdditionalSkinChildren();
+        prepareDomForAdditionalSkinChildren("fx-textinputcontrol");
         // Restoring pointer events (were disabled by prepareDomForAdditionalSkinChildren()) in case the graphic is clickable (ex: radio button)
         HtmlUtil.setStyleAttribute(getChildrenContainer(), "pointer-events", "auto");
         textInputElement.oninput = e -> {

@@ -22,23 +22,26 @@ public abstract class HtmlControlPeer
         super(base, element);
     }
 
-    protected void prepareDomForAdditionalSkinChildren() {
+    protected void prepareDomForAdditionalSkinChildren(String tagName) {
         // We need to set the cursor style to inherit, otherwise a call to setCursor() from the JavaFX application code
         // (which will be mapped to the skin container) won't be correctly displayed when hovering the area of that html
         // control element (ex: setting a hand cursor won't work on the button area which will still display the default
         // arrow cursor). Setting the cursor style to inherit fixes the issue (ex: the hand cursor set on the skin
         // container will also be displayed when hovering the button element).
         setElementStyleAttribute("cursor", "inherit");
-        HTMLElement skinContainer = createAbsolutePositionSpan();
+        HTMLElement skinContainer = createAbsolutePositionElement(tagName);
+        // We set the display to flex, the goal here is to remove all possible user-agent built-in paddings (most display
+        // modes - such as block - introduce additional paddings around the node, but not flex.
+        HtmlUtil.setStyleAttribute(skinContainer, "display", "flex");
         setContainer(skinContainer);
-        HTMLElement skinChildrenContainer = createAbsolutePositionSpan();
+        HTMLElement skinChildrenContainer = createAbsolutePositionElement("fx-skin");
         HtmlUtil.setStyleAttribute(skinChildrenContainer, "pointer-events", "none");
         setChildrenContainer(skinChildrenContainer);
         HtmlUtil.setChildren(skinContainer, getElement(), skinChildrenContainer);
     }
 
-    private static HTMLElement createAbsolutePositionSpan() {
-        HTMLElement spanElement = HtmlUtil.absolutePosition(HtmlUtil.createSpanElement());
+    private static HTMLElement createAbsolutePositionElement(String tagName) {
+        HTMLElement spanElement = HtmlUtil.absolutePosition(HtmlUtil.createElement(tagName));
         CSSStyleDeclaration style = spanElement.style;
         // Positioned to left top corner by default
         style.left = "0px";

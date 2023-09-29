@@ -29,7 +29,7 @@ public final class HtmlRadioButtonPeer
 
     public HtmlRadioButtonPeer(NB base, HTMLElement element) {
         super(base, element);
-        prepareDomForAdditionalSkinChildren();
+        prepareDomForAdditionalSkinChildren("fx-radiobutton");
         radioButtonElement = HtmlUtil.createRadioButton();
         CSSStyleDeclaration style = element.style;
         style.margin = CSSProperties.MarginUnionType.of("0");

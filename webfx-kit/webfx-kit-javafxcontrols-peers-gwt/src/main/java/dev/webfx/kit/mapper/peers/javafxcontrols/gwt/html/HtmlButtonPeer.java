@@ -24,7 +24,7 @@ public final class HtmlButtonPeer
 
     public HtmlButtonPeer(NB base, HTMLElement element) {
         super(base, element);
-        prepareDomForAdditionalSkinChildren();
+        prepareDomForAdditionalSkinChildren("fx-button");
     }
 
     @Override
