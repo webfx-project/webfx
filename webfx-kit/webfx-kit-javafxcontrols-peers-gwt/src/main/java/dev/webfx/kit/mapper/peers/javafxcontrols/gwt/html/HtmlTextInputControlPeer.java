@@ -1,16 +1,19 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwt.html;
 
-import elemental2.dom.*;
-import javafx.event.ActionEvent;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.text.Font;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Booleans;
 import dev.webfx.platform.util.Objects;
 import dev.webfx.platform.util.Strings;
+import elemental2.dom.*;
+import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Font;
 
 /**
  * @author Bruno Salmon
@@ -28,6 +31,7 @@ public abstract class HtmlTextInputControlPeer
         HtmlUtil.setStyleAttribute(getChildrenContainer(), "pointer-events", "auto");
         textInputElement.oninput = e -> {
             getNode().setText(getValue());
+            updateElementInitialValue();
             return null;
         };
         textInputElement.onkeypress = e -> {
@@ -41,6 +45,30 @@ public abstract class HtmlTextInputControlPeer
     specified width/height. On a text input, this will size the inner visual box (excluding the padding and border).
     */
         subtractCssPaddingBorderWhenUpdatingSize = true;
+    }
+
+    @Override
+    public void bind(N node, SceneRequester sceneRequester) {
+        super.bind(node, sceneRequester);
+        FXProperties.runNowAndOnPropertiesChange(() -> onSceneChanged(node.getScene()), node.sceneProperty());
+    }
+
+    private void onSceneChanged(Scene scene) {
+        updateElementInitialValue();
+    }
+
+    private void updateElementInitialValue() {
+        // The "value" attribute (which normally refers to the initial value only of the text input) has no meaning for
+        // WebFX (there is no mapping with JavaFX) but we update it here for HTML CSS styling purpose. We set it either
+        // to "" or "not-empty". This is used for example in modality.css with input[type="password"]:not([value=""]) {
+        // font-size: 36px; ... } to increase the size of the dots for passwords (otherwise they are tiny), but we don't
+        // want this big font size to be applied to the prompt text (i.e. html placeholder) which should be displayed in
+        // the normal font size otherwise (when the password input is empty).
+        Element focusElement = getFocusElement();
+        if (focusElement != null) {
+            String initialValue = Strings.isEmpty(getNode().getText()) ? "" : "not-empty";
+            setElementAttribute(focusElement, "value", initialValue);
+        }
     }
 
     @Override
@@ -81,7 +109,7 @@ public abstract class HtmlTextInputControlPeer
     }
 
     protected String getValue() {
-        HTMLElement element = getElement();
+        Element element = getFocusElement();
         if (element instanceof HTMLInputElement)
             return ((HTMLInputElement) element).value;
         if (element instanceof HTMLTextAreaElement)
@@ -90,7 +118,7 @@ public abstract class HtmlTextInputControlPeer
     }
 
     protected void setValue(String value) {
-        HTMLElement element = getElement();
+        Element element = getFocusElement();
         if (element instanceof HTMLInputElement)
             ((HTMLInputElement) element).value = value;
         else if (element instanceof HTMLTextAreaElement)
