@@ -28,7 +28,7 @@ public abstract class TextInputControlPeerBase
         return super.updateProperty(changedProperty)
                 || updateProperty(node.fontProperty(), changedProperty, mixin::updateFont)
                 || updateProperty(node.textProperty(), changedProperty, mixin::updateText)
-                || updateProperty(node.promptTextProperty(), changedProperty, mixin::updatePrompt)
+                || updateProperty(node.promptTextProperty(), changedProperty, mixin::updatePromptText)
                 || updateProperty(node.editableProperty(), changedProperty, mixin::updateEditable)
                 ;
     }

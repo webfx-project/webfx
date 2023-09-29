@@ -36,7 +36,7 @@ public abstract class HtmlTextInputControlPeer
             return null;
         };
     /*
-    The behavior when setting the style width/height on a text input seems different than on other html elements.
+    The behavior when setting the style width/height on a text input seems different from on other html elements.
     On other html elements (ex: a button) this will size the outer visual box (including padding and border) to the
     specified width/height. On a text input, this will size the inner visual box (excluding the padding and border).
     */
@@ -50,7 +50,7 @@ public abstract class HtmlTextInputControlPeer
             HTMLInputElement inputElement = (HTMLInputElement) focusElement;
             inputElement.setSelectionRange(anchor, caretPosition);
             // Note: There is a bug in Chrome: the previous selection request is ignored if it happens during a focus requested
-            // So let's double check if the selection has been applied
+            // So let's double-check if the selection has been applied
             if (inputElement.selectionStart != anchor || inputElement.selectionEnd != caretPosition)
                 // If not, we reapply the selection request later, after the focus request should have been completed
                 UiScheduler.scheduleInAnimationFrame(() -> inputElement.setSelectionRange(anchor, caretPosition), 1);
@@ -70,7 +70,7 @@ public abstract class HtmlTextInputControlPeer
     }
 
     @Override
-    public void updatePrompt(String prompt) {
+    public void updatePromptText(String prompt) {
         if (!getNode().getStyleClass().contains("material"))
             setPlaceholder(Strings.toSafeString(prompt));
     }
