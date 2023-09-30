@@ -14,6 +14,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.*;
+import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Booleans;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
@@ -126,26 +127,26 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
-        installFocusListener();
+        installFocusListeners();
     }
 
-    /******************* Drag & drop support *********************/
+    /******************************************** Drag & drop support *************************************************/
 
     private EventListener dragStartListener;
     @Override
     public void updateOnDragDetected(EventHandler<? super javafx.scene.input.MouseEvent> eventHandler) {
         setElementAttribute("draggable", eventHandler == null ? null : "true");
         dragStartListener = updateHtmlEventListener(dragStartListener, "dragstart", eventHandler, evt -> {
-                MouseEvent me = (MouseEvent) evt;
-                DragboardDataTransferHolder.setDragboardDataTransfer(me.dataTransfer);
-                javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(me, "mousemove");
-                eventHandler.handle(fxMouseEvent);
-                if (fxMouseEvent.isConsumed())
-                    evt.stopPropagation();
-                // If no drag done handler has been registered, registering a dummy one in order to detect when drag ends
-                if (dragEndListener == null)
-                    updateOnDragDone(e -> {}); // This is to ensure that clearDndGesture() will be called in callFxDragEventHandler()
-            });
+            MouseEvent me = (MouseEvent) evt;
+            DragboardDataTransferHolder.setDragboardDataTransfer(me.dataTransfer);
+            javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(me, "mousemove");
+            eventHandler.handle(fxMouseEvent);
+            if (fxMouseEvent.isConsumed())
+                evt.stopPropagation();
+            // If no drag done handler has been registered, registering a dummy one in order to detect when drag ends
+            if (dragEndListener == null)
+                updateOnDragDone(e -> {}); // This is to ensure that clearDndGesture() will be called in callFxDragEventHandler()
+        });
     }
 
     private EventListener dragEnterListener;
@@ -158,22 +159,22 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void updateOnDragOver(EventHandler<? super DragEvent> eventHandler) {
         dragOverListener = updateHtmlEventListener(dragOverListener, "dragover", eventHandler, evt -> callFxDragEventHandler(evt, DragEvent.DRAG_OVER, dragEvent -> {
-                eventHandler.handle(dragEvent);
-                if (dragEvent.isAccepted())
-                    evt.preventDefault();
-            }));
+            eventHandler.handle(dragEvent);
+            if (dragEvent.isAccepted())
+                evt.preventDefault();
+        }));
     }
 
     private EventListener dropListener;
     @Override
     public void updateOnDragDropped(EventHandler<? super DragEvent> eventHandler) {
         dropListener = updateHtmlEventListener(dropListener, "drop", eventHandler, evt -> {
-                evt.preventDefault();
-                callFxDragEventHandler(evt, DragEvent.DRAG_DROPPED, eventHandler);
-                // Also simulating JavaFX behavior which calls drag exit after drop
-                if (dragLeaveListener != null)
-                    dragLeaveListener.handleEvent(evt);
-            });
+            evt.preventDefault();
+            callFxDragEventHandler(evt, DragEvent.DRAG_DROPPED, eventHandler);
+            // Also simulating JavaFX behavior which calls drag exit after drop
+            if (dragLeaveListener != null)
+                dragLeaveListener.handleEvent(evt);
+        });
     }
 
     private EventListener dragLeaveListener;
@@ -216,7 +217,7 @@ public abstract class HtmlSvgNodePeer
         }
     }
 
-    /*********** End of "Drag & drop support" section ************/
+    /************************************* End of "Drag & drop support" section ***************************************/
 
     public static boolean passOnToFx(javafx.event.EventTarget eventTarget, javafx.event.Event fxEvent) {
         return isFxEventConsumed(EventUtil.fireEvent(eventTarget, fxEvent));
@@ -228,22 +229,97 @@ public abstract class HtmlSvgNodePeer
         return fxEvent == null || fxEvent.isConsumed();
     }
 
-    private void installFocusListener() {
-        element.onfocus = e -> {
-            passHtmlFocusEventOnToFx(e);
-            return null;
-        };
-    }
+    /************************************************* Focus mapping **************************************************/
 
-    protected void passHtmlFocusEventOnToFx(Event e) {
-        for (Node node = getNode(); node != null; node = node.getParent()) {
-            if (node.isFocusTraversable()) {
-                node.getScene().focusOwnerProperty().setValue(node);
-                break;
-            }
+    @Override
+    public void requestFocus() { // Called when the JavaFX application code requests the node to have the focus
+        // We transmit that request in HTML.
+        boolean focusAccepted = requestHtmlFocus();
+        // We check if that request has been accepted.
+        if (!focusAccepted) { // Sometimes, it can be refused!
+            // One of the possible reasons is that the DOM element is not visible. JavaFX accepts focus requests on
+            // invisible nodes, but not HTML (use case: the Email TextField in Modality login window while flipping
+            // back from SSO login). In order to fix this difference between JavaFX and HTML focus states, we retry
+            // periodically until either the JavaFX focus changes (=> initial request becomes not relevant anymore),
+            // or the HTML request is finally accepted (ex: when the Email/Password flipping side becomes visible).
+            UiScheduler.schedulePeriodic(250, scheduled -> {
+                if (!isJavaFxFocusOwner() || requestHtmlFocus()) {
+                    scheduled.cancel();
+                }
+            });
         }
     }
 
+    private boolean requestHtmlFocus() {
+        // We call focus() on the focus element associated with this node
+        Element focusableElement = getHtmlFocusableElement();
+        focusableElement.focus();
+        // We test if that element has now the focus, and return the test result.
+        return focusableElement.ownerDocument.activeElement == focusableElement;
+    }
+
+    protected Element getHtmlFocusableElement() {
+        return getElement();
+    }
+
+    protected Node getJavaFxFocusableNode() {
+        // The node we return as focusable is the first one that is focus traversable from this node or its parents.
+        for (Node node = getNode(); node != null; node = node.getParent()) {
+            if (node.isFocusTraversable()) { // indicates that this node accepts focus
+                return node;
+            }
+        }
+        return null;
+    }
+
+    private void installFocusListeners() {
+        // The purpose here is to map any HTML focus change back to JavaFX.
+        Element focusableElement = getHtmlFocusableElement();
+        if (focusableElement != null) {
+            // So when the HTML element gains focus, we set its associated JavaFX node as the focus owner of the scene.
+            focusableElement.onfocus = e -> {
+                setJavaFxFocusOwner(); // Transmitting the focus from HTML to JavaFX
+                return null;
+            };
+            // When it loses focus, it's often because another HTML element gained focus (so onfocus will be called on
+            // that new element and this will update the focus owner in JavaFX). However, if this doesn't happen for any
+            // reason, it's better to keep the JavaFX focus state synced with HTML by setting it to null.
+            focusableElement.onblur = e -> {
+                // We defer the code to ensure the focus change will be processed (most probably case).
+                UiScheduler.scheduleDeferred(() -> {
+                    // But if that focus change didn't happen (this node is still the focus owner for JavaFX), then we
+                    // reset the JavaFX focus state.
+                    if (isJavaFxFocusOwner())
+                        setJavaFxFocusOwner(null);
+                });
+                return null;
+            };
+        }
+    }
+
+    protected boolean isJavaFxFocusOwner() {
+        Node focusableNode = getJavaFxFocusableNode();
+        Scene scene = focusableNode == null ? null : focusableNode.getScene();
+        return scene != null && scene.getFocusOwner() == focusableNode;
+    }
+
+    protected void setJavaFxFocusOwner() {
+        Node focusableNode = getJavaFxFocusableNode();
+        if (focusableNode != null)
+            setJavaFxFocusOwner(focusableNode);
+    }
+
+    protected void setJavaFxFocusOwner(Node focusOwner) {
+        getNode().getScene().focusOwnerProperty().setValue(focusOwner);
+    }
+
+    /**************************************** End of "Focus mapping" section ******************************************/
+
+
+    @Override
+    public void updateLayoutX(Number layoutX) {
+        updateAllNodeTransforms();
+    }
 
     static {
         EventHandlerManager.setEventSourcesListener((eventType, eventSource) -> {
@@ -367,11 +443,11 @@ public abstract class HtmlSvgNodePeer
     private static TouchPoint toFxTouchPoint(Touch touch, TouchEvent e, javafx.event.EventTarget fxTarget) {
         TouchPoint.State state = TouchPoint.State.STATIONARY;
         //if (e.changedTouches.asList().contains(touch)) {
-            switch (e.type) {
-                case "touchstart": state = TouchPoint.State.PRESSED; break;
-                case "touchend": state = TouchPoint.State.RELEASED; break;
-                case "touchmove": state = TouchPoint.State.MOVED; break;
-            }
+        switch (e.type) {
+            case "touchstart": state = TouchPoint.State.PRESSED; break;
+            case "touchend": state = TouchPoint.State.RELEASED; break;
+            case "touchmove": state = TouchPoint.State.MOVED; break;
+        }
         //}
         double touchX = touch.pageX;
         double touchY = touch.pageY;
@@ -388,20 +464,6 @@ public abstract class HtmlSvgNodePeer
         }
         PickResult pickResult = new PickResult(fxTarget, touchX, touchY);
         return new TouchPoint(touchId, state, touchX, touchY, touch.screenX, touch.screenY, fxTarget, pickResult);
-    }
-
-    @Override
-    public void requestFocus() {
-        getFocusElement().focus();
-    }
-
-    protected Element getFocusElement() {
-        return getElement();
-    }
-
-    @Override
-    public void updateLayoutX(Number layoutX) {
-        updateAllNodeTransforms();
     }
 
     @Override

@@ -22,9 +22,14 @@ public class ToolkitTextBox extends TextField { // WebFX specific class (not par
         textProperty().bindBidirectional(embeddingTextField.textProperty());
         promptTextProperty().bind(embeddingTextField.promptTextProperty());
         FXProperties.runNowAndOnPropertiesChange(() -> setDisabled(embeddingTextField.isDisabled()), embeddingTextField.disabledProperty());
-        FXProperties.runNowAndOnPropertiesChange(() -> setFocused(embeddingTextField.isFocused()), embeddingTextField.focusedProperty());
-        // Also forwarding user focus back to embeddingTextField
-        focusedProperty().addListener((observable, oldValue, newValue) -> embeddingTextField.setFocused(newValue));
+        // We set focusTraversal to false so that when the user clicks on that ToolkitTextBox on the DOM side to get the
+        // focus, the focus mapping from HTML to JavaFX will pass the focus to embeddingTextField on the JavaFX side
+        // and not ToolkitTextBox. Otherwise, giving the focus to ToolkitTextBox would confuse an application code
+        // testing if the text field is focused.
+        setFocusTraversable(false); // see HtmlSvgNodePeer.getFocusableNode()
+        // The following code has been commented as it doesn't look necessary (to remove definitely if no issue).
+        //FXProperties.runNowAndOnPropertiesChange(() -> setFocused(embeddingTextField.isFocused()), embeddingTextField.focusedProperty());
+        //focusedProperty().addListener((observable, oldValue, newValue) -> embeddingTextField.setFocused(newValue));
     }
 
     public TextField getEmbeddingTextField() {

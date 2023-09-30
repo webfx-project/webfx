@@ -82,10 +82,10 @@ public abstract class HtmlTextInputControlPeer
         // font-size: 36px; ... } to increase the size of the dots for passwords (otherwise they are tiny), but we don't
         // want this big font size to be applied to the prompt text (i.e. html placeholder) which should be displayed in
         // the normal font size otherwise (when the password input is empty).
-        Element focusElement = getFocusElement();
-        if (focusElement != null) {
+        Element focusableElement = getHtmlFocusableElement();
+        if (focusableElement != null) {
             String initialValue = Strings.isEmpty(getNode().getText()) ? "" : "not-empty";
-            setElementAttribute(focusElement, "value", initialValue);
+            setElementAttribute(focusableElement, "value", initialValue);
         }
     }
 
@@ -99,9 +99,9 @@ public abstract class HtmlTextInputControlPeer
 
     @Override
     public void selectRange(int anchor, int caretPosition) {
-        Element focusElement = getFocusElement();
-        if (focusElement instanceof HTMLInputElement) {
-            HTMLInputElement inputElement = (HTMLInputElement) focusElement;
+        Element focusableElement = getHtmlFocusableElement();
+        if (focusableElement instanceof HTMLInputElement) {
+            HTMLInputElement inputElement = (HTMLInputElement) focusableElement;
             inputElement.setSelectionRange(anchor, caretPosition);
             // Note: There is a bug in Chrome: the previous selection request is ignored if it happens during a focus requested
             // So let's double-check if the selection has been applied
@@ -127,16 +127,14 @@ public abstract class HtmlTextInputControlPeer
     public void updatePromptText(String promptText) {
         String placeholder = Strings.toSafeString(promptText);
         // In JavaFX, the prompt text is not displayed when the text input has the focus (as opposed to HTML).
-        // So we reproduce here this behaviour.
-        N node = getNode();
-        Scene scene = node.getScene();
-        if (scene != null && scene.getFocusOwner() == node)
-            placeholder = ""; // Clearing the placeholder on focused elements.
-        HTMLElement element = getElement();
-        if (element instanceof HTMLInputElement)
-            ((HTMLInputElement) element).placeholder = placeholder;
-        else if (element instanceof HTMLTextAreaElement)
-            setElementAttribute(element, "placeholder", placeholder);
+        // So we reproduce this behaviour here.
+        if (isJavaFxFocusOwner())
+            placeholder = ""; // Clearing the placeholder on focused nodes.
+        Element focusableElement = getHtmlFocusableElement();
+        if (focusableElement instanceof HTMLInputElement)
+            ((HTMLInputElement) focusableElement).placeholder = placeholder;
+        else if (focusableElement instanceof HTMLTextAreaElement)
+            setElementAttribute(focusableElement, "placeholder", placeholder);
     }
 
     @Override
@@ -145,20 +143,20 @@ public abstract class HtmlTextInputControlPeer
     }
 
     protected String getValue() {
-        Element element = getFocusElement();
-        if (element instanceof HTMLInputElement)
-            return ((HTMLInputElement) element).value;
-        if (element instanceof HTMLTextAreaElement)
-            return ((HTMLTextAreaElement) element).value;
+        Element focusableElement = getHtmlFocusableElement();
+        if (focusableElement instanceof HTMLInputElement)
+            return ((HTMLInputElement) focusableElement).value;
+        if (focusableElement instanceof HTMLTextAreaElement)
+            return ((HTMLTextAreaElement) focusableElement).value;
         return null;
     }
 
     protected void setValue(String value) {
-        Element element = getFocusElement();
-        if (element instanceof HTMLInputElement)
-            ((HTMLInputElement) element).value = value;
-        else if (element instanceof HTMLTextAreaElement)
-            ((HTMLTextAreaElement) element).value = value;
+        Element focusableElement = getHtmlFocusableElement();
+        if (focusableElement instanceof HTMLInputElement)
+            ((HTMLInputElement) focusableElement).value = value;
+        else if (focusableElement instanceof HTMLTextAreaElement)
+            ((HTMLTextAreaElement) focusableElement).value = value;
     }
 
 }

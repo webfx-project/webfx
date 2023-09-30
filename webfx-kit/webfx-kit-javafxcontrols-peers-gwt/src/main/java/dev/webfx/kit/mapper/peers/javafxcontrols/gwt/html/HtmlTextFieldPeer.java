@@ -52,13 +52,13 @@ public class HtmlTextFieldPeer
 
     @Override
     public void updateFont(Font font) {
-        Element focusElement = getFocusElement();
-        if (focusElement != null)
-            setFontAttributes(font, focusElement);
+        Element focusableElement = getHtmlFocusableElement();
+        if (focusableElement != null)
+            setFontAttributes(font, focusableElement);
     }
 
     @Override
-    protected Element getFocusElement() {
+    protected Element getHtmlFocusableElement() {
         Node n = getNode();
         Skin skin = getNode().getSkin();
         if (skin instanceof TextFieldSkin) {
