@@ -3,7 +3,6 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.GwtWindowPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.FxEvents;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
@@ -71,7 +70,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         container.oncontextmenu = e -> {
             //e.stopPropagation();
             e.preventDefault(); // To prevent the browser default context menu
-            if (e instanceof MouseEvent // For now we manage only context menu from the mouse
+            if (e instanceof MouseEvent // For now, we manage only context menu from the mouse
                 // Also checking that we received the mouse up event on that scene before. This is to prevent the
                 // following case: when a context menu is already displayed (=> in another popup window/scene) and
                 // the user right-click on a menu item, the menu action will be triggered on the mouseup within the
@@ -82,12 +81,8 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 // last mouse event will be the oncontextmenu event).
                 /*&& lastMouseEvent != null && "mouseup".equals(lastMouseEvent.type)*/) {
                 MouseEvent me = (MouseEvent) e;
-                // By the way, we set the correction for window.screenY (see GwtWindowPeer comment), knowing that pageY
-                // is giving the correct value for the context menu in the page coordinates.
-                GwtWindowPeer.windowScreenYCorrection = DomGlobal.window.screenY - me.screenY + me.pageY;
                 // Finally we generate the menu event for JavaFX
                 listener.menuEvent(me.x, me.y, me.screenX, me.screenY, false);
-                //lastMouseEvent = me;
             }
             return null;
         };

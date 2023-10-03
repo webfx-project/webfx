@@ -19,9 +19,7 @@ public abstract class StagePeerBase extends WindowPeerBase implements StagePeer 
     @Override
     public void setTKStageListener(TKStageListener listener) {
         super.setTKStageListener(listener);
-        listener.changedLocation(0, 0);
         lastWidth = lastHeight = 0; // to force listener call in changedWindowSize()
-        //UiScheduler.requestNextScenePulse(); // to ensure changedWindowSize() will be called very soon
         changedWindowSize();
     }
 

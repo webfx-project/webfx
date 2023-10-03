@@ -15,12 +15,6 @@ import static elemental2.dom.DomGlobal.document;
 
 public class GwtWindowPeer extends WindowPeerBase {
 
-    // Variable set by HtmlScenePeer that contains the correction to apply on window.screenY, because browsers return
-    // a wrong value! What WebFX expects from window.screenY is to return the position on the screen of the top left
-    // corner of the browser PAGE (good). However, browsers (at least on macOS) return the position of the top left
-    // corner of the browser WINDOW (bad). There can be a quite big difference between the 2, due to the presence of
-    // browser tabs, bookmarks bar, etc...
-    public static double windowScreenYCorrection;
     // We actually don't create a separate window like in JavaFX, but simply simulate a window in the DOM
     private final HTMLElement windowElement = HtmlUtil.createElement("fx-window");
     private final CSSStyleDeclaration windowStyle = windowElement.style;
@@ -51,7 +45,7 @@ public class GwtWindowPeer extends WindowPeerBase {
         if (xSet)
             windowStyle.left = (x - DomGlobal.window.screenX)  + "px";
         if (ySet)
-            windowStyle.top = (y - DomGlobal.window.screenY + windowScreenYCorrection) + "px";
+            windowStyle.top = (y - DomGlobal.window.screenY - GwtPrimaryStagePeer.windowScreenYCorrection) + "px";
         if (w < 0 && cw > 0)
             w = cw; // + 6;
         if (h < 0 && ch > 0)

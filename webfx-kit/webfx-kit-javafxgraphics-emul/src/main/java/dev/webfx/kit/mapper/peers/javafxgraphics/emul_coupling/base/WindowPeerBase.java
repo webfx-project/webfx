@@ -7,7 +7,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
 public abstract class WindowPeerBase implements WindowPeer {
 
     private final Window window;
-    TKStageListener listener;
+    protected TKStageListener listener;
 
     protected WindowPeerBase(Window window) {
         this.window = window;
