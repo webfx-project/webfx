@@ -56,7 +56,7 @@ abstract class HtmlLabeledPeer
             if (graphic == null)
                 HtmlUtil.setChild(element, spanElement);
             else {
-                Element graphicElement = HtmlSvgNodePeer.toContainerElement(graphic, node.getScene());
+                Element graphicElement = HtmlSvgNodePeer.toContainerElement(graphic);
                 HtmlUtil.setStyleAttribute(graphicElement, "position", "relative");
                 HtmlUtil.setChildren(element, graphicElement, spanElement);
             }

@@ -16,6 +16,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFillProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasRootProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
+import dev.webfx.platform.console.Console;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.AnimationFramePass;
 import dev.webfx.platform.uischeduler.UiScheduler;
@@ -41,7 +42,6 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * @author Bruno Salmon
@@ -392,6 +392,7 @@ public class Scene implements EventTarget,
 
         @Override
         protected void invalidated() {
+            //Console.log("JavaFX focusOwner " + oldFocusOwner + " -> " + get());
             if (oldFocusOwner != null) {
                 ((Node.FocusedProperty) oldFocusOwner.focusedProperty()).store(false);
             }
@@ -687,13 +688,11 @@ public class Scene implements EventTarget,
     }
 
     public NodePeer getOrCreateAndBindNodePeer(Node node) {
-        if (node.getScene() != this)
-            node.setScene(this);
         NodePeer nodePeer = node.getNodePeer();
         if (nodePeer == null) {
             node.setNodePeer(nodePeer = createNodePeer(node));
             if (nodePeer == null) // The node view factory was unable to create a view for this node!
-                node.setNodePeer(nodePeer = createUnimplementedNodePeer(node)); // Displaying a "Unimplemented..." button instead
+                node.setNodePeer(nodePeer = createUnimplementedNodePeer(node)); // Displaying an "Unimplemented..." button instead
             else { // Standard case (the node view was successfully created)
                 nodePeer.bind(node, sceneRequester);
                 node.onNodePeerBound();
@@ -2273,7 +2272,7 @@ public class Scene implements EventTarget,
         if (nodePeer != null) {
             Node node = nodePeer.getNode();
             if (node == null) // Happens for any reason with HtmlPathNodePeer
-                Logger.getGlobal().warning("Scene.pick() detected that nodePeer.getNode() is null for nodePeer " + nodePeer);
+                Console.log("⚠️ Scene.pick() detected that nodePeer.getNode() is null for nodePeer " + nodePeer);
             else
                 pickResult = new PickResult(node, x, y);
         }

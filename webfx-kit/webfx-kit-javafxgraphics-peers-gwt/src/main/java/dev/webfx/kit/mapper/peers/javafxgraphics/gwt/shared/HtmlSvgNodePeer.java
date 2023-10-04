@@ -753,7 +753,7 @@ public abstract class HtmlSvgNodePeer
             case V_RESIZE: return "ns-resize";
             case DISAPPEAR: return "no-drop";
             case IMAGE: // TODO: extract url from ImageCursorFrame
-            // Then all other cursors have the same name: DEFAULT, CROSSHAIR, TEXT, WAIT, SW_RESIZE, SE_RESIZE, NW_RESIZE, NE_RESIZE, N_RESIZE, S_RESIZE, W_RESIZE, E_RESIZE, MOVE, NONE
+                // Then all other cursors have the same name: DEFAULT, CROSSHAIR, TEXT, WAIT, SW_RESIZE, SE_RESIZE, NW_RESIZE, NE_RESIZE, N_RESIZE, S_RESIZE, W_RESIZE, E_RESIZE, MOVE, NONE
             default: return enumNameToCss(cursorType.name());
         }
     }
@@ -766,12 +766,11 @@ public abstract class HtmlSvgNodePeer
         return Math.round(position);
     }
 
-    public static HtmlSvgNodePeer toNodePeer(Node node, Scene scene) {
-        node.setScene(scene);
+    public static HtmlSvgNodePeer toNodePeer(Node node) {
         return (HtmlSvgNodePeer) node.getOrCreateAndBindNodePeer();
     }
 
-    public static Element toContainerElement(Node node, Scene scene) {
-        return node == null ? null : toNodePeer(node, scene).getContainer();
+    public static Element toContainerElement(Node node) {
+        return node == null ? null : toNodePeer(node).getContainer();
     }
 }

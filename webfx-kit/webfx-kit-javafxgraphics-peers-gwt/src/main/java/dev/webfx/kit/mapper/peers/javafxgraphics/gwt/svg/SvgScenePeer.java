@@ -96,13 +96,13 @@ public final class SvgScenePeer extends ScenePeerBase implements SvgRoot {
 
     @Override
     public void onRootBound() {
-        HtmlUtil.setChildren(container, getDefsElement(), HtmlSvgNodePeer.toContainerElement(scene.getRoot(), scene));
+        HtmlUtil.setChildren(container, getDefsElement(), HtmlSvgNodePeer.toContainerElement(scene.getRoot()));
     }
 
     @Override
     public void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<? extends Node> childrenChange) {
-        HtmlSvgNodePeer parentPeer = HtmlSvgNodePeer.toNodePeer(parent, scene);
-        HtmlUtil.setChildren(parentPeer.getChildrenContainer(), Collections.map(parent.getChildren(), node -> HtmlSvgNodePeer.toContainerElement(node, scene)));
+        HtmlSvgNodePeer parentPeer = HtmlSvgNodePeer.toNodePeer(parent);
+        HtmlUtil.setChildren(parentPeer.getChildrenContainer(), Collections.map(parent.getChildren(), HtmlSvgNodePeer::toContainerElement));
     }
 
     @Override

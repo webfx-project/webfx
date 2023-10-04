@@ -33,21 +33,11 @@ public class Parent extends Node {
         // This listener has 2 main tasks: 1) propagate this parent change to the children & 2) ask the scene to update
         // the peers structure (scene graph => DOM tree mapping).
 
-        // Note: the following sequence is the only one that works to preserve the HTML scrollbar state when removed and
-        // put back to the DOM (perfectscrollbar.js loses its state when removed from the DOM). See HtmlScrollPanePeer.
-
-        // First we propagate this parent to the children. This is half of the job for 1) as we also need to null the
-        // parent to the removed children, but it's important to not do it yet at this stage.
-        for (Node child : getChildren())
-            child.setParent(this);
-        // Then we do 2) i.e. call scene.updateParentAndChildrenPeers()
-        Scene scene = getScene(); // Of course scene needs to be non-null and the node peer of this parent needs to be created
-        if (scene != null) {
-            scene.updateParentAndChildrenPeers(this, c);
-        }
-        // We do the second part of the job for 1) here, which is to null the parent of the removed children.
-        if (c != null) {
-            c.reset(); // Because scene.updateParentAndChildrenPeers() already used it.
+        // First we propagate this parent to the children (and set parent to null for removed children)
+        if (c == null) {
+            for (Node child : getChildren())
+                child.setParent(this);
+        } else {
             while (c.next()) {
                 // Setting parent (and scene) to null for removed children
                 if (c.wasRemoved())
@@ -56,9 +46,6 @@ public class Parent extends Node {
                             child.setParent(null);
                     }
                 // Setting parent to added children
-                // Note: we already did it in the initial loop, but maybe some children have been reset to null in the
-                // previous loop because children may be removed and then added again in the same list change. Ex:
-                // children.setAll(...) first removes all and then adds all nodes even for nodes already children before.
                 if (c.wasAdded())
                     for (Node child : c.getAddedSubList()) {
                         if (child.getParent() != Parent.this)
@@ -66,6 +53,14 @@ public class Parent extends Node {
                     }
             }
         }
+        // Then we do 2) i.e. call scene.updateParentAndChildrenPeers()
+        Scene scene = getScene(); // Of course scene needs to be non-null and the node peer of this parent needs to be created
+        if (scene != null) {
+            if (c != null)
+                c.reset(); // Because we already used it in the previous loop.
+            scene.updateParentAndChildrenPeers(this, c);
+        }
+
         // Final detail, we need to call managedChildChanged()
         managedChildChanged();
     }
