@@ -285,8 +285,4 @@ public final class HtmlUtil {
         document.head.appendChild(script);
     }
 
-    public static void onNodeInsertedIntoDocument(Node node, Runnable runnable) {
-        // Deprecated API! TODO: use MutationObserver instead
-        node.addEventListener("DOMNodeInsertedIntoDocument", evt -> runnable.run());
-    }
 }
