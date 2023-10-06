@@ -17,14 +17,18 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
 
     default Bounds getLayoutBounds() {
         Bounds layoutBounds;
+        // Looking the value in the cache (if the peer has one)
         HtmlLayoutCache cache = getCache();
         if (cache != null) {
             layoutBounds = cache.getCachedLayoutBounds();
             if (layoutBounds != null)
                 return layoutBounds;
         }
+        // Not in the cache, so we ask the browser to measure the layout bounds
         layoutBounds = measureLayoutBounds();
-        if (cache != null)
+        // Memorising the value (if cache present), unless the element is not connected (i.e. not in the DOM)
+        // as the value is probably not relevant for future cases (ex: CSS not applied)
+        if (cache != null && getElement().isConnected)
             cache.setCachedLayoutBounds(layoutBounds);
         return layoutBounds;
     }
@@ -89,7 +93,7 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
         double result = measure(e, width);
         style.width = styleWidth;
         style.height = styleHeight;
-        if (cache != null)
+        if (cache != null && e.isConnected) // no cache for non-connected elements (as explained above)
             cache.setCachedSize(value, width, result);
         return result;
     }
