@@ -36,7 +36,6 @@ public abstract class HtmlTextInputControlPeer
         HtmlUtil.setStyleAttribute(getChildrenContainer(), "pointer-events", "auto");
         textInputElement.oninput = e -> {
             getNode().setText(getValue());
-            updateElementInitialValue();
             return null;
         };
         textInputElement.onkeypress = e -> {
@@ -70,22 +69,6 @@ public abstract class HtmlTextInputControlPeer
                 updatePromptText(oldFocusOwner);
                 updatePromptText(newFocusOwner);
             });
-        }
-        // We also update the "value" attribute for HTML CSS styling purpose (more comments in that method).
-        updateElementInitialValue();
-    }
-
-    private void updateElementInitialValue() {
-        // The "value" attribute (which normally refers to the initial value only of the text input) has no meaning for
-        // WebFX (there is no mapping with JavaFX) but we update it here for HTML CSS styling purpose. We set it either
-        // to "" or "not-empty". This is used for example in modality.css with input[type="password"]:not([value=""]) {
-        // font-size: 36px; ... } to increase the size of the dots for passwords (otherwise they are tiny), but we don't
-        // want this big font size to be applied to the prompt text (i.e. html placeholder) which should be displayed in
-        // the normal font size otherwise (when the password input is empty).
-        Element focusableElement = getHtmlFocusableElement();
-        if (focusableElement != null) {
-            String initialValue = Strings.isEmpty(getNode().getText()) ? "" : "not-empty";
-            setElementAttribute(focusableElement, "value", initialValue);
         }
     }
 
@@ -121,6 +104,17 @@ public abstract class HtmlTextInputControlPeer
         String safeText = Strings.toSafeString(text);
         if (!Objects.areEquals(getValue(), safeText)) // To avoid caret position reset
             setValue(safeText);
+        // The "value" attribute (which normally refers to the initial value only of the text input) has no meaning for
+        // WebFX (there is no mapping with JavaFX) but we update it here for HTML CSS styling purpose. We set it either
+        // to "" or "not-empty". This is used for example in modality.css with input[type="password"]:not([value=""]) {
+        // font-size: 36px; ... } to increase the size of the dots for passwords (otherwise they are tiny), but we don't
+        // want this big font size to be applied to the prompt text (i.e. html placeholder) which should be displayed in
+        // the normal font size otherwise (when the password input is empty).
+        Element focusableElement = getHtmlFocusableElement();
+        if (focusableElement != null) {
+            String initialValue = Strings.isEmpty(safeText) ? "" : "not-empty";
+            setElementAttribute(focusableElement, "value", initialValue);
+        }
     }
 
     @Override
