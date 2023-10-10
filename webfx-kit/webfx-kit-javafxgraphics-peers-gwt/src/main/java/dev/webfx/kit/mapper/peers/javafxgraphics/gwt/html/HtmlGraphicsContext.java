@@ -272,13 +272,22 @@ public class HtmlGraphicsContext implements GraphicsContext {
             Image img = imagePattern.getImage();
             if (img != null) {
                 HTMLImageElement imageElement = getHTMLImageElement(img);
-                if (imageElement.complete) {
+                if (isImageLoadedWithoutError(imageElement)) { // Prevents uncaught exception with unloaded images or with error
                     peerPattern = ctx.createPattern(imageElement, "repeat");
                     imagePattern.setPeerPattern(peerPattern);
                 }
             }
         }
         return peerPattern;
+    }
+
+    private static boolean isImageLoadedWithoutError(HTMLImageElement imageElement) {
+        return imageElement.complete // indicates that the image loading has finished (but not if it was successful or not)
+                // There is no specific HTML attribute to report if there was an error (such as HTTP 404 image not found),
+                // there is only an onerror handler, but it's too late to use here. So we use naturalWidth for the test,
+                // because when the image is successfully loaded the browser sets the naturalWidth value (assuming the
+                // image is not zero-sized), while the browser leaves that value to 0 on error.
+                && imageElement.naturalWidth != 0;
     }
 
     private void applyProportionalFillLinearGradiant(double x, double y, double width, double height) {
@@ -583,7 +592,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
             ctx.lineTo(x + w / 2, y + h / 2);
     }
 
-        @Override
+    @Override
     public void fillRoundRect(double x, double y, double w, double h, double arcWidth, double arcHeight) {
         ctx.beginPath();
         roundRect(ctx, x, y, w, h, arcWidth / 2, arcHeight / 2);
@@ -691,7 +700,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
                     ctx.drawImage(canvasElement, x, y, w, h);
                 else {
                     HTMLImageElement imageElement = getHTMLImageElement(img);
-                    if (imageElement.complete)
+                    if (isImageLoadedWithoutError(imageElement)) // Prevents uncaught exception with unloaded images or with error
                         ctx.drawImage(imageElement, x, y, w, h);
                     else
                         drawUnloadedImage(x, y, w, h);
@@ -732,7 +741,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
                     ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
                 else {
                     HTMLImageElement imageElement = getHTMLImageElement(img);
-                    if (imageElement.complete) {
+                    if (isImageLoadedWithoutError(imageElement)) { // Prevents uncaught exception with unloaded images or with error
                         // This scaleX/Y computation was necessary to make SpaceFX work
                         // (perhaps it's because this method behaves differently between html and JavaFX?)
                         double scaleX = imageElement.width / img.getWidth();
