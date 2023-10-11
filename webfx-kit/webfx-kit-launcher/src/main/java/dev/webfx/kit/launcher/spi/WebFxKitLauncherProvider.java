@@ -56,7 +56,9 @@ public interface WebFxKitLauncherProvider {
         return 0;
     }
 
-    default boolean supportsWebP() { return false; }
+    default boolean supportsSvgImageFormat() { return false; }
+
+    default boolean supportsWebPImageFormat() { return false; }
 
     FastPixelReaderWriter getFastPixelReaderWriter(Image image);
 

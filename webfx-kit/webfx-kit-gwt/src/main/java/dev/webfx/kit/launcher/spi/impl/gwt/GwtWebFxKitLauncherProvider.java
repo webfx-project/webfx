@@ -129,7 +129,12 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     }
 
     @Override
-    public boolean supportsWebP() {
+    public boolean supportsSvgImageFormat() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsWebPImageFormat() {
         return supportsWebPJS();
     }
 

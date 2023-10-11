@@ -56,8 +56,12 @@ public final class WebFxKitLauncher {
         return getProvider().getVerticalScrollbarExtraWidth();
     }
 
-    public static boolean supportsWebP() {
-        return getProvider().supportsWebP();
+    public static boolean supportsSvgImageFormat() {
+        return getProvider().supportsSvgImageFormat();
+    }
+
+    public static boolean supportsWebPImageFormat() {
+        return getProvider().supportsWebPImageFormat();
     }
 
     public static FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
