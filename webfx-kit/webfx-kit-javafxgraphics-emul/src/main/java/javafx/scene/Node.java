@@ -2009,12 +2009,20 @@ public abstract class Node implements INode, EventTarget, Styleable {
         }
     }
 
+    public Point2D localToParent(Point2D pt) {
+        return localToParent(pt.getX(), pt.getY());
+    }
+
     public Point2D localToParent(double localX, double localY) {
         final com.sun.javafx.geom.Point2D tempPt =
                 TempState.getInstance().point;
         tempPt.setLocation((float)localX, (float)localY);
         localToParent(tempPt);
         return new Point2D(tempPt.x, tempPt.y);
+    }
+
+    public Point2D sceneToLocal(Point2D pt) {
+        return sceneToLocal(pt.getX(), pt.getY());
     }
 
     public Point2D sceneToLocal(double sceneX, double sceneY) {
