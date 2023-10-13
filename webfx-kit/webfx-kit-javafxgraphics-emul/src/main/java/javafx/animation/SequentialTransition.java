@@ -691,7 +691,7 @@ public final class SequentialTransition extends Transition {
         }
         if (oldIndex == curIndex) {
             if (currentRate == 0) {
-                offsetTicks += (newTicks - oldTicks) * Math.signum(this.clipEnvelope.getCurrentRate());
+                offsetTicks += (/*cast to fix CodeQL implicit-cast-in-compound-assignment security issue*/long) ((newTicks - oldTicks) * Math.signum(this.clipEnvelope.getCurrentRate()));
             } else {
                 offsetTicks += currentRate > 0 ? newTicks - oldTicks : oldTicks - newTicks;
             }

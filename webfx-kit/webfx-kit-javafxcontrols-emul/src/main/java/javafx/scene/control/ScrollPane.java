@@ -28,15 +28,15 @@ public class ScrollPane extends Control {
     protected void sceneToLocal(com.sun.javafx.geom.Point2D pt) {
         super.sceneToLocal(pt);
         Bounds viewportBounds = getViewportBounds();
-        pt.x += viewportBounds.getMinX();
-        pt.y += viewportBounds.getMinY();
+        pt.x += (/*cast to fix CodeQL implicit-cast-in-compound-assignment security issue*/float) viewportBounds.getMinX();
+        pt.y += (/*cast to fix CodeQL implicit-cast-in-compound-assignment security issue*/float) viewportBounds.getMinY();
     }
 
     @Override
     protected void localToScene(com.sun.javafx.geom.Point2D pt) {
         Bounds viewportBounds = getViewportBounds();
-        pt.x -= viewportBounds.getMinX();
-        pt.y -= viewportBounds.getMinY();
+        pt.x -= (/*cast to fix CodeQL implicit-cast-in-compound-assignment security issue*/float) viewportBounds.getMinX();
+        pt.y -= (/*cast to fix CodeQL implicit-cast-in-compound-assignment security issue*/float) viewportBounds.getMinY();
         super.localToScene(pt);
     }
 
