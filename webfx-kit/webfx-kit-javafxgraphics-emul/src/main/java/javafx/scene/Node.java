@@ -54,15 +54,16 @@ public abstract class Node implements INode, EventTarget, Styleable {
     // reacting to the properties changes to update the HTML mapping). The node may need to do something at this point.
     void onNodePeerBound() { }
 
-    private final Property<Parent> parentProperty = new SimpleObjectProperty<>() {
-        protected void invalidated() {
-            // The child automatically inherits the scene from the parent (if the parent is null, the scene is set to
-            // null for this child)
-            Parent parent = getParent();
-            Scene newScene = parent == null ? null : parent.getScene();
+    private final Property<Parent> parentProperty = new SimpleObjectProperty<>(); {
+        parentProperty.addListener((observable, oldParent, newParent) -> {
+            // If the node is transferred from one parent to another, we need to remove it from the previous parent
+            if (oldParent != null)
+                oldParent.getChildren().remove(Node.this);
+            // The child automatically inherits the scene from the parent (or set to null if it has no parent anymore)
+            Scene newScene = newParent == null ? null : newParent.getScene();
             setScene(newScene); // Note: the scene will be propagated to the possible children in the scene listener (see below)
-        }
-    };
+        });
+    }
     @Override
     public Property<Parent> parentProperty() {
         return parentProperty;
