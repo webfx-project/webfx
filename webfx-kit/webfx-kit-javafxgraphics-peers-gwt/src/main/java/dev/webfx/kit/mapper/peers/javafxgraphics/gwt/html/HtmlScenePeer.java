@@ -172,8 +172,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
             // call onCssOrFontLoaded() which forces a layout of the whole scene graph. However, we postpone that call
             // a few animation frames later, because the measurement of the text elements is still not considering the
             // new font at this point, a little delay seems necessary after fonts.getReady() (browser bug?).
-            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 5); // 5 animation frames seem enough in most cases
-            // Temporary test code:
+            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 5);  // 5 animation frames seem enough on localhost or when fonts were cached
+            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 30); // 30 animation frames seem enough on internet on first page load
+            // Temporary code to test other frameCount values if the previous ones were not enough:
             String fontsReadySubsequentFrameCount = Storage.getLocalStorageIfSupported().getItem("fontsReadySubsequentFrameCount");
             if (fontsReadySubsequentFrameCount != null) {
                 int frameCount = Numbers.parseInteger(fontsReadySubsequentFrameCount);
