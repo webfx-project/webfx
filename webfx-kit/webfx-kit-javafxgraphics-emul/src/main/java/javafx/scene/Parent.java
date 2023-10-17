@@ -33,24 +33,25 @@ public class Parent extends Node {
         // This listener has 2 main tasks: 1) propagate this parent change to the children & 2) ask the scene to update
         // the peers structure (scene graph => DOM tree mapping).
 
-        // First we propagate this parent to the children (and set parent to null for removed children)
+        // First we propagate this parent to the children (and set parent to null for removed children).
+        // Note that the scene propagation from parent to children is managed in Node.setParent()
         if (c == null) {
             for (Node child : getChildren())
                 child.setParent(this);
         } else {
             while (c.next()) {
+                List<? extends Node> removed = c.getRemoved();
+                List<? extends Node> addedSubList = c.getAddedSubList();
                 // Setting parent (and scene) to null for removed children
-                if (c.wasRemoved())
-                    for (Node child : c.getRemoved()) {
-                        if (child.getParent() == Parent.this)
-                            child.setParent(null);
-                    }
+                for (Node child : removed) {
+                    if (child.getParent() == Parent.this && !addedSubList.contains(child))
+                        child.setParent(null);
+                }
                 // Setting parent to added children
-                if (c.wasAdded())
-                    for (Node child : c.getAddedSubList()) {
-                        if (child.getParent() != Parent.this)
-                            child.setParent(Parent.this);
-                    }
+                for (Node child : addedSubList) {
+                    if (child.getParent() != Parent.this)
+                        child.setParent(Parent.this);
+                }
             }
         }
         // Then we do 2) i.e. call scene.updateParentAndChildrenPeers()
