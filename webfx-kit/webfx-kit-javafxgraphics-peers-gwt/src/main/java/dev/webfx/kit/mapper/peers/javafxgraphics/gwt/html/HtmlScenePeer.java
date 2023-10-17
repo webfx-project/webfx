@@ -169,7 +169,8 @@ public final class HtmlScenePeer extends ScenePeerBase {
             // call onCssOrFontLoaded() which forces a layout of the whole scene graph. However, we postpone that call
             // a few animation frames later, because the measurement of the text elements is still not considering the
             // new font at this point, a little delay seems necessary after fonts.getReady() (browser bug?).
-            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 5); // 5 animation frames seem enough
+            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 5); // 5 animation frames seem enough in most cases
+            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 10);// but sometimes not, so we schedule also 5 frames later
             return null;
         });
     }
