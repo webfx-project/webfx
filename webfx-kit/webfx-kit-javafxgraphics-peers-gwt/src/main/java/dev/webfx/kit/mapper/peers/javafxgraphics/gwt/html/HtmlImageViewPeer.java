@@ -9,7 +9,10 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextFillProperty;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
-import elemental2.dom.*;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLImageElement;
 import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -90,14 +93,9 @@ public final class HtmlImageViewPeer
             HTMLElement element = getElement();
             if (element instanceof HTMLImageElement) {
                 onHTMLImageLoaded((HTMLImageElement) element, image);
-                // Reestablishing the image width & height changed by the previous call when a fitWidth/fitHeight is set
-                if (node.getFitWidth() > 0)
-                    image.setWidth(node.getFitWidth());
-                if (node.getFitHeight() > 0)
-                    image.setHeight(node.getFitHeight());
             }
         }
-        if (sizeChangedCallback != null) // && loadedWidth == null && loadedHeight == null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
+        if (sizeChangedCallback != null)
             sizeChangedCallback.run();
     }
 
@@ -137,9 +135,9 @@ public final class HtmlImageViewPeer
     boolean tryInlineSvg(String url) {
         // First checking the extension is svg
         if (Strings.endsWith(url, ".svg")) {
-            // We do inline svg only for images that have been included in the resources
+            // We do inline svg only for images that have been embedded in the resources
             String svgFile = Resource.getText(url);
-            if (svgFile != null) { // Yes the images is in the resources so we have the content already
+            if (svgFile != null) { // Yes the images is in the resources, so we have the content already
                 // Removing all what is before the svg tag (ex: <?xml ...?>)
                 int svgTagIndex = svgFile.indexOf("<svg");
                 if (svgTagIndex != -1)
