@@ -1,15 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt;
 
+import com.google.gwt.storage.client.Storage;
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
+import dev.webfx.platform.console.Console;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.scheduler.Scheduler;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import elemental2.core.Uint8Array;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLAudioElement;
-import elemental2.dom.HTMLMediaElement;
-import elemental2.dom.Response;
+import elemental2.dom.*;
 import elemental2.media.*;
+import elemental2.promise.Promise;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.media.AudioSpectrumListener;
@@ -21,7 +21,8 @@ import javafx.util.Duration;
  */
 final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
-    private static final boolean PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP = true;
+    private static final boolean PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP = !"false".equals(Storage.getLocalStorageIfSupported().getItem("PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP"));
+    ;
     private static final long MEDIA_PLAYER_CURRENT_TIME_SYNC_RATE_MILLIS = 250; // Same rate as mediaElement.ontimeupdate
     private static final boolean SYNC_START_TIME_WITH_AUDIO_BUFFER_FIRST_SOUND_DETECTION = true;
 
@@ -170,8 +171,15 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     private void fetchAudioBuffer(boolean resumeIfSuspended) {
         if (isAudioContextReady(resumeIfSuspended)) {
-            DomGlobal.window.fetch(mediaUrl)
-                    .then(Response::arrayBuffer)
+            RequestInit init = RequestInit.create();
+            init.setMode("no-cors");
+            Request request = new Request(mediaUrl, init);
+            DomGlobal.window.fetch(request)
+                    .then(response -> {
+                        if (!response.ok)
+                            Console.log("HTTP error when fetching '" + mediaUrl + "', status = " + response.status);
+                        return response.arrayBuffer();
+                    })
                     .then(AUDIO_CONTEXT::decodeAudioData)
                     .then(buffer -> {
                         audioBuffer = buffer;
@@ -180,6 +188,11 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                             setMediaDuration(audioBuffer.duration);
                         }
                         onAudioBufferReady();
+                        return null;
+                    })
+                    .catch_((Promise.CatchOnRejectedCallbackFn<?>) error -> {
+                        Console.log("Error while fetching '" + mediaUrl + "'");
+                        Console.logNative(error);
                         return null;
                     });
             fetched = true;
