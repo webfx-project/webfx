@@ -129,12 +129,16 @@ public abstract class HtmlRegionPeer
 
     @Override
     public void updateBackground(Background background) {
-        CSSStyleDeclaration style = getElement().style;
+        CSSStyleDeclaration style = getBackgroundBorderElement().style;
         style.background = toCssBackground(background);
         // If a border is also set on the node, we take it as higher priority
         if (getNode().getBorder() == null) { // so we apply the background border only if no other border is set on the node
             applyBackgroundBorder(background, style);
         }
+    }
+
+    protected HTMLElement getBackgroundBorderElement() {
+        return (HTMLElement) getContainer();
     }
 
     private void applyBackgroundBorder(Background background, CSSStyleDeclaration style) {
@@ -152,7 +156,7 @@ public abstract class HtmlRegionPeer
 
     @Override
     public void updateBorder(Border border) {
-        CSSStyleDeclaration style = getElement().style;
+        CSSStyleDeclaration style = getBackgroundBorderElement().style;
         // Note: for now, we support only one border that we take from the first border stroke
         BorderStroke firstStroke = border == null ? null : Collections.get(border.getStrokes(), 0);
         if (firstStroke != null) {
