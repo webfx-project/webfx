@@ -2,6 +2,7 @@ package dev.webfx.kit.mapper.peers.javafxweb.spi.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.platform.util.Booleans;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.HTMLIFrameElement;
 import javafx.event.EventHandler;
@@ -50,22 +51,29 @@ public class HtmlWebViewPeer
     @Override
     public void updateUrl(String url) {
         if (url != null) {
-            // iFrame.src = url; // <= commented because this doesn't report any network errors despite iFrame.onerror
-            // For a better error reporting, we fetch the url ourselves, and then inject the result into the iFrame
-            iFrame.contentWindow.fetch(url)
-                    .then(response -> {
-                        response.text().then(text -> {
-                            updateLoadContent(text);
+            // In general, we use iFrame.src, but it doesn't report any network errors despite iFrame.onerror, which can
+            // be annoying in some cases. So we propose a prefetch alternative mode.
+            boolean usePrefetch = Booleans.isTrue(getNode().getProperties().get("webfx-prefetch"));
+            if (!usePrefetch)
+                iFrame.src = url;
+            else {
+                // For a better error reporting, we prefetch the url, and then inject the result into the iFrame, but
+                // this second method is not perfect either, as it may face security issue like CORS.
+                iFrame.contentWindow.fetch(url)
+                        .then(response -> {
+                            response.text().then(text -> {
+                                updateLoadContent(text);
+                                return null;
+                            }).catch_(error -> {
+                                reportError();
+                                return null;
+                            });
                             return null;
                         }).catch_(error -> {
                             reportError();
                             return null;
                         });
-                        return null;
-                    }).catch_(error -> {
-                        reportError();
-                        return null;
-                    });
+            }
         }
     }
 
