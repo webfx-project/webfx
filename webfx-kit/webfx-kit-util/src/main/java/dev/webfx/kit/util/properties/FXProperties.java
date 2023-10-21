@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import dev.webfx.platform.util.collection.Collections;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -79,6 +80,11 @@ public final class FXProperties {
 
     public static <T> void setIfNotBound(Property<T> property, T value) {
         if (!property.isBound())
+            property.setValue(value);
+    }
+
+    public static <T> void setIfNotEquals(Property<T> property, T value) {
+        if (!Objects.equals(value, property.getValue()))
             property.setValue(value);
     }
 
