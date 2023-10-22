@@ -89,10 +89,10 @@ abstract class HtmlLabeledPeer
 
     @Override
     public void updateWrapText(boolean wrapText) {
-        //if (doesSkinRelyOnPeerToProvideVisualContent()) { // Commented as we want the expected code below to be applied on Label (check if this test should be definitely removed)
+        if (doesSkinRelyOnPeerToProvideVisualContent()) { // Note: for LabeledSkinBase, the wrapping is done though its internal Text node having a wrapping width -> see HtmlTextPeer.updateWrappingWidth()
             setElementStyleAttribute("white-space", wrapText ? "normal" : "nowrap");
             //setElementStyleAttribute("line-height", wrapText ? "normal" : "100%"); // Commented as not sure about line-height: 100% when not wrapping text TODO: investigate the expected height in JavaFX
-        //}
+        }
     }
 
 }
