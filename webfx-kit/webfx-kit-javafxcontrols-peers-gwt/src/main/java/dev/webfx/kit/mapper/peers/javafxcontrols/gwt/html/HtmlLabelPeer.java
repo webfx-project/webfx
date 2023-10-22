@@ -20,8 +20,9 @@ public final class HtmlLabelPeer
 
     public HtmlLabelPeer(NB base) {
         super(base, HtmlUtil.createSpanElement());
-        // to have the text vertically centered, we need to set the line-height
-        setElementStyleAttribute("line-height", "100%"); // when expressed as %, it's regarding the font height (and not the node height)
+        // to have the text vertically centered, we need to set line-height: 100%
+        // Commented because we want space between lines when the text is wrapped. TODO: check if there is an effect on text vertically centered
+        // setElementStyleAttribute("line-height", "100%"); // 100% means node height = font height with no extra on top & bottom
         subtractCssPaddingBorderWhenUpdatingSize = true;
     }
 }

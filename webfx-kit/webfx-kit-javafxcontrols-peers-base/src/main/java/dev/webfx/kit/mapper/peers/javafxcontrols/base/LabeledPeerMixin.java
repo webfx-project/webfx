@@ -23,4 +23,6 @@ public interface LabeledPeerMixin
     void updateTextAlignment(TextAlignment textAlignment);
 
     void updateTextFill(Paint textFill);
+
+    void updateWrapText(boolean wrapText);
 }

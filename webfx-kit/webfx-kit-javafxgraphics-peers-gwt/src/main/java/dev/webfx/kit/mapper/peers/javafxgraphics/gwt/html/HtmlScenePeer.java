@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
+import com.google.gwt.storage.client.Storage;
 import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
@@ -8,7 +9,9 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.FxEvents;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
+import dev.webfx.platform.console.Console;
 import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.*;
@@ -169,8 +172,18 @@ public final class HtmlScenePeer extends ScenePeerBase {
             // call onCssOrFontLoaded() which forces a layout of the whole scene graph. However, we postpone that call
             // a few animation frames later, because the measurement of the text elements is still not considering the
             // new font at this point, a little delay seems necessary after fonts.getReady() (browser bug?).
-            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 5); // 5 animation frames seem enough in most cases
-            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 10);// but sometimes not, so we schedule also 5 frames later
+            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 5);  // 5 animation frames seem enough on localhost or when fonts were cached
+            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 30); // 30 animation frames seem enough on internet on first page load
+            // Temporary code to test other frameCount values if the previous ones were not enough:
+            String fontsReadySubsequentFrameCount = Storage.getLocalStorageIfSupported().getItem("fontsReadySubsequentFrameCount");
+            if (fontsReadySubsequentFrameCount != null) {
+                int frameCount = Numbers.parseInteger(fontsReadySubsequentFrameCount);
+                Console.log("fontsReadySubsequentFrameCount = " + frameCount);
+                UiScheduler.scheduleInAnimationFrame(() -> {
+                    onCssOrFontLoaded();
+                    Console.log("Subsequent onCssOrFontLoaded() on fonts ready called");
+                }, frameCount);
+            }
             return null;
         });
     }
@@ -343,7 +356,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             style.top = "0px";
             if (htmlNodePeer instanceof NormalWhiteSpacePeer)
                 style.whiteSpace = "normal";
-            else if (htmlNodePeer instanceof NoWrapWhiteSpacePeer || htmlElement.tagName.equalsIgnoreCase("SPAN"))
+            else if (htmlNodePeer instanceof NoWrapWhiteSpacePeer)
                 style.whiteSpace = "nowrap";
         }
     }

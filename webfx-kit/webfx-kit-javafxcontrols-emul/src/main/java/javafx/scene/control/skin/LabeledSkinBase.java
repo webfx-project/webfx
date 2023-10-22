@@ -1,9 +1,10 @@
 package javafx.scene.control.skin;
 
+import com.sun.javafx.scene.control.LabeledText;
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
-import com.sun.javafx.scene.control.LabeledText;
 import com.sun.javafx.scene.control.skin.Utils;
+import dev.webfx.platform.util.Strings;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -15,8 +16,8 @@ import javafx.scene.control.OverrunStyle;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
-import dev.webfx.platform.util.Strings;
 
 import static javafx.scene.control.ContentDisplay.*;
 import static javafx.scene.control.OverrunStyle.CLIP;
@@ -28,6 +29,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
      *  for the sake of testing!
      */
     LabeledText text;
+    final Text noWrappingText = new Text(); { noWrappingText.setVisible(false); } // WebFX addition (to remove if possible)
 
     /**
      * Indicates that the text content is invalid and needs to be updated.
@@ -573,14 +575,14 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             if (labeled.getContentDisplay() == GRAPHIC_ONLY) {
                 getChildren().clear();
             } else {
-                getChildren().setAll(text);
+                getChildren().setAll(noWrappingText, text);
             }
         } else {
             //graphic.layoutBoundsProperty().addListener(graphicPropertyChangedListener);
             if (isIgnoreText()) {
                 getChildren().setAll(graphic);
             } else {
-                getChildren().setAll(graphic, text);
+                getChildren().setAll(graphic, noWrappingText, text);
             }
 
             // RT-37420
@@ -687,21 +689,40 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
     }
 
     private double computeTextWidth(Font font, String text, double wrappingWidth) {
-        //return Utils.computeTextWidth(font, text, wrappingWidth);
-        return prepareDisplayedText(font, text, wrappingWidth).prefWidth(-1);
+        //return Utils.computeTextWidth(font, text, wrappingWidth); // Not supported by WebFX
+        // Alternative WebFX code:
+        if (Strings.isEmpty(text))
+            return 0;
+        /*if (wrappingWidth <= 0) // Commented because it doesn't include the extra space around the text like in the html node
+            return WebFxKitLauncher.measureText(text, font).getWidth();*/
+        return getTextToMeasure(font, text, wrappingWidth).prefWidth(-1);
     }
 
     private double computeTextHeight(Font font, String text, double wrappingWidth, double lineSpacing, TextBoundsType boundsType) {
-        //return Utils.computeTextHeight(font, text, wrappingWidth, lineSpacing, boundsType);
-        return Strings.isEmpty(text) ? 16 : prepareDisplayedText(font, text, wrappingWidth).prefHeight(-1);
+        //return Utils.computeTextHeight(font, text, wrappingWidth, lineSpacing, boundsType); // Not supported by WebFX
+        // Alternative WebFX code:
+        /*if (wrappingWidth <= 0 || Strings.isEmpty(text)) // Commented because it doesn't include the extra space around the text like in the html node
+            return WebFxKitLauncher.measureText(text, font).getHeight();*/
+        return getTextToMeasure(font, text, wrappingWidth).prefHeight(-1);
     }
 
-    private LabeledText prepareDisplayedText(Font font, String text, double wrappingWidth) {
-        LabeledText displayedText = this.text;
-        displayedText.setText(text);
-        //displayedText.setFont(font); // already bounded property
-        displayedText.setWrappingWidth(wrappingWidth);
-        return displayedText;
+    private Text getTextToMeasure(Font font, String text, double wrappingWidth) { // WebFX code
+        Text textToMesure;
+        // Using noWrappingText (and not this.text) in case of computation with no wrappingWidth (which happens each
+        // time JavaFX computes the label min and pref widths), because if we were using this.text, this constant
+        // changing of wrappingWidth (between 0 and the actual value set by the application) would create an infinite
+        // loop in the layout pass (not blocking loop but very time-consuming on each animation frame)
+        if (wrappingWidth <= 0) {
+            textToMesure = noWrappingText;
+            textToMesure.setFont(font);
+            textToMesure.setTextAlignment(getSkinnable().getTextAlignment());
+        } else {
+            textToMesure = this.text;
+            //textToMesure.setFont(font); // already bound to font
+            textToMesure.setWrappingWidth(wrappingWidth);
+        }
+        textToMesure.setText(text);
+        return textToMesure;
     }
 
     @Override protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -1112,7 +1133,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
          * If there is no overflow, and the label text has a
          * clip, then remove it.
          */
-        if ((text != null) &&
+        if ((text != null) && false && // Disabled in WebFX for now as wrapWidth & wrapHeight computation doesn't work well TODO: fix wrapWidth & wrapHeight computation
                 ((text.getLayoutBounds().getHeight() > wrapHeight) ||
                         (text.getLayoutBounds().getWidth() > wrapWidth))) {
 
