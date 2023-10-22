@@ -41,7 +41,10 @@ public final class HtmlTextPeer
 
     public HtmlTextPeer(NB base) {
         super(base, HtmlUtil.createSpanElement());
-        setElementStyleAttribute("line-height", "100%");
+        // Commented line-height: 100% below, because of Text being used in LabeledSkinBase (see noWrappingText field)
+        // for measuring label text width & height => must return same measures as label (so with normal line-height)
+        // TODO: See if it's a deviation from JavaFX (check the expected Text height in JavaFX)
+        // setElementStyleAttribute("line-height", "100%"); // 100% means node height = font height with no extra on top & bottom
     }
 
     private Runnable sizeChangedCallback;

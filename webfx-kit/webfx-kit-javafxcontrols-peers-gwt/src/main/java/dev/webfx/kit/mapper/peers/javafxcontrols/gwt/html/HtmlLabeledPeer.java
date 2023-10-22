@@ -86,4 +86,13 @@ abstract class HtmlLabeledPeer
                 HtmlImageViewPeer.applyTextFillToSvg(nodePeer.getContainer(), cssPaint);
         }
     }
+
+    @Override
+    public void updateWrapText(boolean wrapText) {
+        //if (doesSkinRelyOnPeerToProvideVisualContent()) { // Commented as we want the expected code below to be applied on Label (check if this test should be definitely removed)
+            setElementStyleAttribute("white-space", wrapText ? "normal" : "nowrap");
+            //setElementStyleAttribute("line-height", wrapText ? "normal" : "100%"); // Commented as not sure about line-height: 100% when not wrapping text TODO: investigate the expected height in JavaFX
+        //}
+    }
+
 }

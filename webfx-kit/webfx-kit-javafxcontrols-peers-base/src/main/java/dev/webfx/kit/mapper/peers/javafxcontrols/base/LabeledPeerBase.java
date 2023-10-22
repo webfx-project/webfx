@@ -21,6 +21,7 @@ public abstract class LabeledPeerBase
                 , node.fontProperty()
                 , node.textAlignmentProperty()
                 , node.textFillProperty()
+                , node.wrapTextProperty()
         );
     }
 
@@ -32,6 +33,7 @@ public abstract class LabeledPeerBase
                 || updateProperty(node.textFillProperty(), changedProperty, mixin::updateTextFill)
                 || updateProperty(node.graphicProperty(), changedProperty, mixin::updateGraphic)
                 || updateProperty(node.textProperty(), changedProperty, mixin::updateText)
+                || updateProperty(node.wrapTextProperty(), changedProperty, mixin::updateWrapText)
                 ;
     }
 }

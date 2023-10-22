@@ -356,7 +356,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             style.top = "0px";
             if (htmlNodePeer instanceof NormalWhiteSpacePeer)
                 style.whiteSpace = "normal";
-            else if (htmlNodePeer instanceof NoWrapWhiteSpacePeer || htmlElement.tagName.equalsIgnoreCase("SPAN"))
+            else if (htmlNodePeer instanceof NoWrapWhiteSpacePeer)
                 style.whiteSpace = "nowrap";
         }
     }
