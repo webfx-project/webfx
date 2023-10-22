@@ -155,6 +155,8 @@ public final class HtmlTextPeer
         double width = Numbers.doubleValue(wrappingWidth);
         if (width != 0)
             setElementStyleAttribute("width", toPx(width));
+        // Setting the wrapping mode in HTML through white-space style attribute
+        setElementStyleAttribute("white-space", width != 0 ? "normal" : "nowrap");
         clearCache();
         updateYOnNextPulse();
     }
