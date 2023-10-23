@@ -50,7 +50,7 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private GainNode gainNode;
     private double volume = 1;
     private boolean mute;
-    private HTMLMediaElement mediaElement; // alternative option for local files (as window.fetch() raises a CORS exception)
+    private HTMLMediaElement mediaElement;
     private boolean fetched, playWhenReady, loopWhenReady;
     private AnalyserNode analyser;
     private Uint8Array byteTimeArray;
@@ -255,21 +255,12 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         if (hasMediaElement()) {
             setVolume(volume);
             mediaElement.muted = mute;
-            // Here is the remaining piece of code to play the media element
-            Runnable playMediaElement = () -> {
-                setUpCors(); // Will decide the value to set for crossOrigin attribute (null or "anonymous"?)
-                mediaElement.play()
-                        // Memorising that the decided crossOrigin is working
-                        .then(e -> { memoriseWorkingCrossOrigin(); return null; });
-                if (!audioClip)
-                    startMediaPlayerCurrentTimePeriodicSyncer();
-            };
             // If the user hasn't yet interacted, we postpone the play on the first user interaction (otherwise
-            // mediaElement.play() will raise an exception)
+            // trying to play mediaElement will raise an exception)
             if (GwtMediaModuleBooter.mediaRequiresUserInteractionFirst()) {
-                GwtMediaModuleBooter.runOnFirstUserInteraction(playMediaElement);
+                GwtMediaModuleBooter.runOnFirstUserInteraction(this::callMediaElementPlay);
             } else { // otherwise, we play it now
-                playMediaElement.run();
+                callMediaElementPlay();
             }
         } else {
             // If the buffer source is already ready to play, we start it now
@@ -290,6 +281,27 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             }
         }
         scheduleListener();
+    }
+
+    private void callMediaElementPlay() {
+        // Before playing, we need to set the CORS strategy (if not already set)
+        setUpCors();
+        // Now we try to play, and call onMediaElementPlaySuccess() on success (implying we were not blocked by CORS)
+        mediaElement.play()
+                .then(e -> { onMediaElementPlaySuccess(mediaElement); return null; });
+        // If the CORS strategy was unknown, the previous play was in cors mode, and we try a second play in no-cors mode
+        // and if it succeeds, we call onMediaElementPlaySuccess() which will understand that the working strategy is no-cors
+        if (noCorsMediaElement != null)
+            noCorsMediaElement.play()
+                    .then(e -> { onMediaElementPlaySuccess(noCorsMediaElement); return null; });
+    }
+
+    private void onMediaElementPlaySuccess(HTMLMediaElement mediaElement) {
+        // We memorise the working CORS strategy
+        memoriseWorkingCrossOrigin(mediaElement);
+        // We also start a periodic timer to update the mediaPlayer currentTime
+        if (!audioClip) // Not necessary for audio clips (short sounds)
+            startMediaPlayerCurrentTimePeriodicSyncer();
     }
 
     private void scheduleListener() {
@@ -524,16 +536,25 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     // CORS management
 
-    private String mediaOrigin;
-    // This field will contain the crossOrigin value that works for this media
-    private String workingCrossOrigin; // possible values: null (not yet known), "null" (null) or "anonymous"
-
     // JS object memorizing the working crossOrigin for each remote origin (remoteOrigin => workingCrossOrigin)
     private static JavaScriptObject WORKING_CROSS_ORIGINS;
     // The key used to store WORKING_CROSS_ORIGINS in the local storage
     private static final String LOCAL_STORAGE_WORKING_CROSS_ORIGINS_KEY = "webfx-workingCrossOrigins";
+    private String mediaOrigin;
+    // This field will contain the working CORS strategy for this particular media
+    private String workingCrossOrigin; // 3 possible values:
+    // - null -> means that the CORS strategy has not being set yet (which doesn't matter for medias from same origin)
+    // - "null" -> means that mediaElement.crossOrigin = null; is the working CORS strategy
+    // - "anonymous" -> means that mediaElement.crossOrigin = "anonymous"; is the working CORS strategy
+    private HTMLMediaElement noCorsMediaElement;
+    private boolean corsSetup = false;
 
     private void setUpCors() {
+        // No need to set up the CORS strategy again if it was already done
+        if (corsSetup)
+            return;
+        corsSetup = true;
+
         // We don't need to pay attention to CORS when the media is downloaded from the same origin as the application.
         if (isMediaFromSameOrigin())
             return;
@@ -549,14 +570,13 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             return;
         }
 
-        // Now we are in the case of a media element that doesn't use the Web Audio API (no spectrum analysis for ex).
-        // We have 2 choices for the crossOrigin attribute:
+        // Now we are in the case of a media element, and we have 2 choices for the crossOrigin attribute:
 
         // 1) crossOrigin = null => the browser will fetch in no-cors mode ("Sec-Fetch-Mode: no-cors") and this will
         // succeed only if the server has NO CORS policy (i.e "Access-Control-Allow-Origin" is absent). Otherwise, (if
-        // "Access-Control-Allow-Origin" is present), it will fail, but unfortunately mediaElement.onerror will not be
-        // called, so there is no way to know it, the browser will just log this message in the console:
-        // MediaElementAudioSource outputs zeros due to CORS access restrictions
+        // "Access-Control-Allow-Origin" is present), it will fail. If it fails, the browser will just log this message
+        // in the console: "MediaElementAudioSource outputs zeros due to CORS access restrictions", mediaElement.onerror
+        // will not be called. If it succeeds, play().then() will be called <- used by callMediaElementPlay()
 
         // 2) crossOrigin = "anonymous" => the browser will fetch in cors mode ("Sec-Fetch-Mode: no-cors") and this will
         // succeed only if the server has a RELAXED CORS policy (i.e. "Access-Control-Allow-Origin: *" present).
@@ -565,38 +585,58 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         // 'Access-Control-Allow-Origin' header is present on the requested resource.
         // ⛔️ GET <mediaUrl> net::ERR_FAILED 206 (Partial Content)
         // ⛔️ Uncaught (in promise) DOMException: Failed to load because no supported source was found.
-        // but the good news is that mediaElement.onerror will be called in that case, so we can now it failed.
+        // mediaElement.onerror will be called in that case by most browsers, but not on iOS...
+        // If it succeeds, play().then() will be called <- used by callMediaElementPlay()
 
-        // As it's not possible to know in advance which CORS policy the remote origin has, we will try 2) and if it
-        // fails, we will retry with 1). Also, we will keep a list of which crossOrigin value works for each remote
-        // origin, so we can apply the correct value straightaway next times.
+        // As it's not possible to know in advance which CORS policy the remote origin has, we will try both strategies
+        // at the same time, and only one should work. Another possibility would be to try 2) first, and then try 1) if
+        // 2) failed, but this would imply the use mediaElement.onerror which is unreliable at this time on iOS.
 
+        // Also, we will keep a list of the working CORS strategy for each remote origin, so we can apply the correct
+        // strategy straightaway next times for all media coming from this remote origin. This list will be memorised
+        // in the local storage.
+
+        // If workingCrossOrigin is not yet set, we try to get it from the memorised working CORS strategies.
         if (workingCrossOrigin == null)
             workingCrossOrigin = getMemorisedWorkingCrossOrigin();
+        // If we can get it, then we use it to set mediaElement.crossOrigin, and that's it (this should work).
         if (workingCrossOrigin != null) {
             mediaElement.crossOrigin = "null".equals(workingCrossOrigin) ? null : workingCrossOrigin;
             return;
         }
 
-        // Trying 2) first
-        Console.log("🤷 Unknown CORS policy for remote origin " + mediaOrigin + ", so trying in cors mode first 🙏");
+        // If the CORS policy is unknown, we will try both strategies, and one will fail, which will cause some error
+        // messages in the browser console, so we log this message before to reassure people who are watching the
+        // console that it's kind of normal. There will be another log later from memoriseWorkingCrossOrigin().
+        Console.log("🤷 Unknown CORS policy for remote origin " + mediaOrigin + ", so trying both cors and no-cors modes (one should succeed, one should fail)");
+        // We try 2) with this.mediaElement
         mediaElement.crossOrigin = "anonymous"; // cors mode
-        mediaElement.onerror = e -> { // If it fails,
-            Console.log("⛔️ Cors mode failed for remote origin " + mediaOrigin + ", so retrying in no-cors mode 🙏");
-            mediaElement.crossOrigin = null; // no-cors mode
-            mediaElement.src = mediaUrl; // Necessary to reset the src attribute, otherwise mediaElement won't play again
-            mediaElement.onerror = null; // Avoiding infinite loop (especially when the failure is from another cause such as http 404)
-            mediaElement.play() // Second try
-                    // If working 🎉, memorising the crossOrigin
-                    .then(e2 -> { memoriseWorkingCrossOrigin(); return null; });
-            return null;
-        };
+
+        // We create another mediaElement with identical settings, except that crossOrigin is not set => no-cors mode
+        noCorsMediaElement = (HTMLMediaElement) DomGlobal.document.createElement("audio");
+        noCorsMediaElement.src = mediaElement.src;
+        noCorsMediaElement.onloadedmetadata = mediaElement.onloadedmetadata;
+        noCorsMediaElement.onplaying = mediaElement.onplaying;
+        noCorsMediaElement.onended = mediaElement.onended;
+        noCorsMediaElement.loop = mediaElement.loop;
+        noCorsMediaElement.muted = mediaElement.muted;
+        noCorsMediaElement.volume = mediaElement.volume;
+        noCorsMediaElement.ontimeupdate = mediaElement.ontimeupdate;
+
+        // The next step will be a call to callMediaElementPlay() which will call play() on both elements, and it will
+        // use play().then() to identify which one is working. Then onMediaElementPlaySuccess() will call
+        // memoriseWorkingCrossOrigin() with the working element, so we can memorise the working CORS strategy.
     }
 
     private boolean isMediaFromSameOrigin() {
         String appOrigin = DomGlobal.window.location.origin;
-        if (mediaOrigin == null)
-            mediaOrigin = new URL(mediaUrl).origin;
+        if (mediaOrigin == null) { // not yet set on first call, so set it now
+            try {
+                mediaOrigin = new URL(mediaUrl).origin;
+            } catch (Exception e) { // happens with incomplete urls (ex: relative paths)
+                mediaOrigin = appOrigin; // relative paths refer to the appOrigin
+            }
+        }
         return appOrigin.equals(mediaOrigin);
     }
 
@@ -613,14 +653,25 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         return HtmlUtil.getJsJavaObjectAttribute(WORKING_CROSS_ORIGINS, mediaOrigin);
     }
 
-    private void memoriseWorkingCrossOrigin() {
+    private void memoriseWorkingCrossOrigin(HTMLMediaElement mediaElement) {
+        // We don't need to pay attention to CORS when the media is downloaded from the same origin as the application.
+        if (isMediaFromSameOrigin())
+            return;
+        HTMLMediaElement otherMediaElement = mediaElement == this.mediaElement ? noCorsMediaElement : this.mediaElement;
+        if (otherMediaElement != null) {
+            otherMediaElement.muted = true;
+            otherMediaElement.onended = null;
+            otherMediaElement.pause();
+        }
+        this.mediaElement = mediaElement;
+        noCorsMediaElement = null;
         String workingCrossOrigin = mediaElement.crossOrigin;
         if (workingCrossOrigin == null)
             workingCrossOrigin = "null";
         if (!Objects.equals(this.workingCrossOrigin, workingCrossOrigin)) {
             this.workingCrossOrigin = workingCrossOrigin;
             if (mediaOrigin != null) {
-                Console.log("✅ " + ("null".equals(workingCrossOrigin) ? "No-cors" : "Cors") + " mode is working for remote origin " + mediaOrigin);
+                Console.log("✅ This is " + ("null".equals(workingCrossOrigin) ? "no-cors" : "cors") + " mode that is working for remote origin " + mediaOrigin + " (now memorized)");
                 HtmlUtil.setJsJavaObjectAttribute(WORKING_CROSS_ORIGINS, mediaOrigin, workingCrossOrigin);
                 Storage localStorage = Storage.getLocalStorageIfSupported();
                 if (localStorage != null) {
