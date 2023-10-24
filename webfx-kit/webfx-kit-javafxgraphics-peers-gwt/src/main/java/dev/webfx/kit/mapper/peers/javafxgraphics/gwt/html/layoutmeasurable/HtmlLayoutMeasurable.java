@@ -1,12 +1,13 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.DOMRect;
 import elemental2.dom.HTMLElement;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 
 /**
  * @author Bruno Salmon
@@ -99,7 +100,22 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
     }
 
     default double measure(HTMLElement e, boolean width) {
-        return width ? e.offsetWidth : e.offsetHeight;
+        // offsetWidth & offsetHeight return the correct values (including transforms), unfortunately their precision is
+        // only integer... This diminution can cause problems (ex: text in Label wrapped to next line while it shouldn't).
+        int i = width ? e.offsetWidth : e.offsetHeight;
+        // So we try to get a better precision (double) using getBoundingClientRect(), unfortunately it doesn't consider
+        // transforms... But we will prefer it in case there is no transforms
+        DOMRect bcr = e.getBoundingClientRect();
+        double d = width ? bcr.width : bcr.height;
+        if (i == (int) d) // If the double precision matches the integer precision, it's likely there is no transform,
+            return d; // so we return this more precise value
+        // Otherwise, it's likely that there is a transform, so we return the integer precision value
+        return i;
+        // TODO: Investigate this solution that may work return double precision even with transform:
+        // var matrix = new DOMMatrix(getComputedStyle(e).transform);
+        // const p1 = matrix.transformPoint(new DOMPoint(bcr.x, bcr.y));
+        // const p2 = matrix.transformPoint(new DOMPoint(bcr.x + brc.width, bcr.y + bcr.height));
+        // return width ? p2.x - p1.x : p2.y - p1.y;
     }
 
     default HtmlLayoutCache getCache() {
