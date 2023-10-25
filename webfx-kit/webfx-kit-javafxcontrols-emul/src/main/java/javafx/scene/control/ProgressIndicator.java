@@ -28,6 +28,7 @@ package javafx.scene.control;
 //import javafx.css.PseudoClass;
 
 import javafx.beans.property.*;
+import javafx.scene.control.skin.ProgressIndicatorSkin;
 //import javafx.scene.control.skin.ProgressIndicatorSkin;
 //import javafx.scene.AccessibleAttribute;
 //import javafx.scene.AccessibleRole;
@@ -185,9 +186,9 @@ public class ProgressIndicator extends Control {
      **************************************************************************/
 
     /** {@inheritDoc} */
-    /*@Override protected Skin<?> createDefaultSkin() {
+    @Override protected Skin<?> createDefaultSkin() {
         return new ProgressIndicatorSkin(this);
-    }*/
+    }
 
     /* *************************************************************************
      *                                                                         *
