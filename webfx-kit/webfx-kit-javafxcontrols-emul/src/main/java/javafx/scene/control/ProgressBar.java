@@ -88,9 +88,9 @@ public class ProgressBar extends ProgressIndicator {
      **************************************************************************/
 
     /** {@inheritDoc} */
-    /*@Override protected Skin<?> createDefaultSkin() {
-        return new ProgressBarSkin(this);
-    }*/
+    @Override protected Skin<?> createDefaultSkin() {
+        return null; // new ProgressBarSkin(this); // mapped to html progress for now
+    }
 
     /* *************************************************************************
      *                                                                         *
