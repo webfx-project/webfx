@@ -50,8 +50,8 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
             registerChangeListener(button.fontProperty(), "FONT");
             registerChangeListener(button.paddingProperty(), "PADDING");
         }
-        // Setting text color to gray when disabled (black otherwise)
-        getSkinnable().disabledProperty().addListener((observable, oldValue, disabled) -> getSkinnable().setTextFill(disabled ? Color.GRAY : Color.BLACK));
+        // Setting text color to gray when disabled (normal text fill otherwise)
+        getSkinnable().disabledProperty().addListener((observable, oldValue, disabled) -> getSkinnable().setTextFill(disabled ? Color.GRAY : getSkinnable().getTextFill()));
     }
 
     private boolean paddingExplicitlySetByUser;
