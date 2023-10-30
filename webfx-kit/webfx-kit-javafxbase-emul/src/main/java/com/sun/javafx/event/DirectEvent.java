@@ -28,4 +28,9 @@ public class DirectEvent extends Event {
     public Event getOriginalEvent() {
         return originalEvent;
     }
+
+    @Override
+    public Event duplicate() {
+        return new DirectEvent(originalEvent, source, target);
+    }
 }
