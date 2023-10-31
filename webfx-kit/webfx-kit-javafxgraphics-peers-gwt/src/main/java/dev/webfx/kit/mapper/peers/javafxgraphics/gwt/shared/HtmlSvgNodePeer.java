@@ -220,7 +220,18 @@ public abstract class HtmlSvgNodePeer
     /************************************* End of "Drag & drop support" section ***************************************/
 
     public static boolean passOnToFx(javafx.event.EventTarget eventTarget, javafx.event.Event fxEvent) {
-        return isFxEventConsumed(EventUtil.fireEvent(eventTarget, fxEvent));
+        // Ensuring that propagateToPeerEvent is reset to null before passing the event to JavaFX
+        javafx.event.Event.setPropagateToPeerEvent(null); // see Event comments for more explanation
+        // Passing the event to JavaFX and checking if it has been consumed by a JavaFX event handler
+        boolean stopPropagation = isFxEventConsumed(EventUtil.fireEvent(eventTarget, fxEvent));
+        // The value returned by this method indicates if we should stop the propagation of the event, or not (if not,
+        // it will be passed to the default browser event handling). By default, we stop the propagation of any event
+        // consumed by JavaFX. However, in some cases (see Event comments), a control can ask to bypass this default
+        // behaviour and to not stop the propagation of an event that it consumed, but pass it back to the browser and
+        // therefore eventually to the peer.
+        if (javafx.event.Event.getPropagateToPeerEvent() != null)
+            stopPropagation = false;
+        return stopPropagation;
     }
 
     private static boolean isFxEventConsumed(javafx.event.Event fxEvent) {
@@ -350,8 +361,8 @@ public abstract class HtmlSvgNodePeer
             ScrollEvent fxEvent = new ScrollEvent(node, node, ScrollEvent.SCROLL, we.pageX, we.pageY, we.screenX, we.screenY,
                     we.shiftKey, we.ctrlKey, we.altKey, we.metaKey, true,false, we.deltaX, we.deltaY, we.deltaX, we.deltaY,
                     ScrollEvent.HorizontalTextScrollUnits.NONE, 0, ScrollEvent.VerticalTextScrollUnits.NONE, 0, 0, new PickResult(node, we.pageX, we.pageY));
-            boolean fxConsumed = passOnToFx(node, fxEvent);
-            if (fxConsumed) {
+            boolean stopPropagation = passOnToFx(node, fxEvent);
+            if (stopPropagation) {
                 e.stopPropagation();
                 e.preventDefault();
             }
@@ -598,7 +609,7 @@ public abstract class HtmlSvgNodePeer
         N thisClip = getNode();
         for (Iterator<Node> it = clipNodes.iterator(); it.hasNext(); ) {
             Node clipNode = it.next();
-            if (clipNode.getClip() == thisClip) // double checking we are still the clip
+            if (clipNode.getClip() == thisClip) // double-checking we are still the clip
                 applyClipPathToClipNode(clipNode);
             else // Otherwise we remove that node from the clip nodes
                 it.remove();
