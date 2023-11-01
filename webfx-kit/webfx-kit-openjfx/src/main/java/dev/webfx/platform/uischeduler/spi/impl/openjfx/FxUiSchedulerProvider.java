@@ -1,13 +1,10 @@
 package dev.webfx.platform.uischeduler.spi.impl.openjfx;
 
-import dev.webfx.platform.scheduler.spi.SchedulerProviderBase;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.util.Duration;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.platform.scheduler.spi.SchedulerProviderBase;
 import dev.webfx.platform.uischeduler.spi.impl.UiSchedulerProviderBase;
+import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,6 +15,10 @@ import java.util.concurrent.Executors;
 public final class FxUiSchedulerProvider extends UiSchedulerProviderBase {
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
+
+    public FxUiSchedulerProvider() {
+        WebFxKitLauncher.onReady(this::executeAnimationPipe);
+    }
 
     @Override
     protected SchedulerProviderBase.ScheduledBase scheduledImpl(SchedulerProviderBase.WrappedRunnable wrappedRunnable, long delayMs) {
@@ -47,26 +48,22 @@ public final class FxUiSchedulerProvider extends UiSchedulerProviderBase {
         return WebFxKitLauncher.isReady() && Platform.isFxApplicationThread();
     }
 
-    private Timeline timeline;
+    private Runnable animationRunnable;
+    private final AnimationTimer animationTimer = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            animationRunnable.run();
+        }
+    };
 
     @Override
-    protected void checkExecuteAnimationPipeIsScheduledForNextAnimationFrame() {
-        synchronized (this) {
-            if (timeline == null) {
-                timeline = new Timeline(new KeyFrame(Duration.millis(1), event -> this.executeAnimationPipe()));
-                timeline.setCycleCount(Animation.INDEFINITE);
-                timeline.play();
-            }
-        }
+    protected void requestAnimationFrame(Runnable runnable) {
+        animationRunnable = runnable;
+        animationTimer.start();
     }
 
     @Override
-    protected void onExecuteAnimationPipeFinished(boolean noMoreAnimationScheduled) {
-        synchronized (this) {
-            if (noMoreAnimationScheduled && timeline != null) {
-                timeline.stop();
-                timeline = null;
-            }
-        }
+    protected void cancelAnimationFrame() {
+        animationTimer.stop();
     }
 }
