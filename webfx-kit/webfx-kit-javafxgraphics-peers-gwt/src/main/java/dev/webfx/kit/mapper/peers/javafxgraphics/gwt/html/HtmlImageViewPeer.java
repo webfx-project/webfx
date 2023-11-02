@@ -32,7 +32,7 @@ public final class HtmlImageViewPeer
 
     private final static GraphicsContext BACKGROUND_LOADING_CONTEXT = new Canvas().getGraphicsContext2D();
 
-    //private Double loadedWidth, loadedHeight;
+    private boolean loaded;
 
     public HtmlImageViewPeer() {
         this((NB) new ImageViewPeerBase(), HtmlUtil.createImageElement());
@@ -40,13 +40,13 @@ public final class HtmlImageViewPeer
 
     public HtmlImageViewPeer(NB base, HTMLElement element) {
         super(base, element);
-        HTMLElement container = HtmlUtil.createElement("fx-image");
+        HTMLElement container = HtmlUtil.createElement("fx-imageview");
         HtmlUtil.setChild(container, element);
         setContainer(container);
         makeContainerInvisible();
         HTMLImageElement imageElement = (HTMLImageElement) getElement();
         imageElement.onload = evt -> {
-            onLoad();
+            onLoaded();
             return null;
         };
     }
@@ -56,6 +56,10 @@ public final class HtmlImageViewPeer
     @Override
     public void setSizeChangedCallback(Runnable sizeChangedCallback) {
         this.sizeChangedCallback = sizeChangedCallback;
+        // Sometimes the image is loaded before the callback is set, and the ImageView hasn't yet been informed of the
+        // image size change, causing a wrong image layout (this was mainly observed on iOS)
+        if (loaded && sizeChangedCallback != null) // If this happens,
+            sizeChangedCallback.run(); // we call the callback a posteriori to fix the layout issue
     }
 
     @Override
@@ -65,7 +69,7 @@ public final class HtmlImageViewPeer
         //loadedWidth = loadedHeight = null;
         String imageUrl = image == null ? null : image.getUrl();
         if (tryInlineSvg(imageUrl))
-            onLoad();
+            onLoaded();
         else {
             setElementAttribute("src", imageUrl);
             // Temporary filling alt with imageUrl to avoid downgrade in Lighthouse TODO: map this to accessible text
@@ -86,7 +90,7 @@ public final class HtmlImageViewPeer
         }
     }
 
-    private void onLoad() {
+    private void onLoaded() {
         N node = getNode();
         Image image = node.getImage();
         if (image != null) {
@@ -97,12 +101,13 @@ public final class HtmlImageViewPeer
         }
         if (sizeChangedCallback != null)
             sizeChangedCallback.run();
+        loaded = true;
     }
 
     public static void onHTMLImageLoaded(HTMLImageElement imageElement, Image image) {
-        double requestedWidth = image.getRequestedWidth();
-        image.setWidth(requestedWidth  > 0 ? requestedWidth  : (double) imageElement.naturalWidth);
+        double requestedWidth  = image.getRequestedWidth();
         double requestedHeight = image.getRequestedHeight();
+        image.setWidth(requestedWidth   > 0 ? requestedWidth  : (double) imageElement.naturalWidth);
         image.setHeight(requestedHeight > 0 ? requestedHeight : (double) imageElement.naturalHeight);
         image.setProgress(1);
     }
