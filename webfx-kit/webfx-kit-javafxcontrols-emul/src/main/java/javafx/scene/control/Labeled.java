@@ -1,7 +1,10 @@
 package javafx.scene.control;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import dev.webfx.kit.util.properties.FXProperties;
 import javafx.beans.property.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -10,8 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
-import dev.webfx.kit.util.properties.FXProperties;
 /**
  * @author Bruno Salmon
  */
@@ -154,6 +155,14 @@ public abstract class Labeled extends Control implements
 
     public final boolean isWrapText() {
         return wrapText == null ? false : wrapText.getValue();
+    }
+
+    /**
+     * If wrapText is true, then contentBias will be HORIZONTAL, otherwise it is null.
+     * @return orientation of width/height dependency or null if there is none
+     */
+    @Override public Orientation getContentBias() {
+        return isWrapText()? Orientation.HORIZONTAL : null;
     }
 
     /**
