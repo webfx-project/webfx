@@ -30,6 +30,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
      */
     LabeledText text;
     final Text noWrappingText = new Text(); { noWrappingText.setVisible(false); } // WebFX addition (to remove if possible)
+    private double noWrappingTextWidth;
 
     /**
      * Indicates that the text content is invalid and needs to be updated.
@@ -538,7 +539,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
     private void updateWrappingWidth() {
         final Labeled labeled = getSkinnable();
         text.setWrappingWidth(0d);
-        if (labeled.isWrapText()) {
+        if (labeled.isWrapText() /* WebFX addition: */ && wrapWidth < noWrappingTextWidth) { // we don't set the wrapping width if not necessary due to lack of double precision in HTML (rounding to inferior pixel can cause an unwanted text wrap)
             // Note that the wrapping width needs to be set to zero before
             // getting the text's real preferred width.
             double w = Math.min(text.prefWidth(-1), wrapWidth);
@@ -695,7 +696,10 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             return 0;
         /*if (wrappingWidth <= 0) // Commented because it doesn't include the extra space around the text like in the html node
             return WebFxKitLauncher.measureText(text, font).getWidth();*/
-        return getTextToMeasure(font, text, wrappingWidth).prefWidth(-1);
+        double textWidth = getTextToMeasure(font, text, wrappingWidth).prefWidth(-1);
+        if (wrappingWidth == 0)
+            noWrappingTextWidth = textWidth;
+        return textWidth;
     }
 
     private double computeTextHeight(Font font, String text, double wrappingWidth, double lineSpacing, TextBoundsType boundsType) {
