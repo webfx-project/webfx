@@ -40,7 +40,7 @@ public final class HtmlTextPeer
     }
 
     public HtmlTextPeer(NB base) {
-        super(base, HtmlUtil.createSpanElement());
+        super(base, HtmlUtil.createElement("fx-text"));
         // Commented line-height: 100% below, because of Text being used in LabeledSkinBase (see noWrappingText field)
         // for measuring label text width & height => must return same measures as label (so with normal line-height)
         // TODO: See if it's a deviation from JavaFX (check the expected Text height in JavaFX)
