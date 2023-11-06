@@ -72,8 +72,10 @@ public abstract class HtmlSvgNodePeer
         storePeerInElement(container);
     }
 
-    public void makeContainerInvisible() { // To makes sure the container has no visible effect (no extra space, etc...)
-        if (container instanceof HTMLElement)
+    public void makeContainerInvisible() {
+        // Applying display = "contents" on the container to make sure it has no visible impact (ex: no extra space
+        // around the box) inherited from the user agent box style model
+        if (container instanceof HTMLElement && !container.tagName.startsWith("fx-")) // No need for fx- custom elements as they don't inherit any box style
             ((HTMLElement) container).style.display = "contents";
         containerInvisible = true;
     }
@@ -767,14 +769,6 @@ public abstract class HtmlSvgNodePeer
                 // Then all other cursors have the same name: DEFAULT, CROSSHAIR, TEXT, WAIT, SW_RESIZE, SE_RESIZE, NW_RESIZE, NE_RESIZE, N_RESIZE, S_RESIZE, W_RESIZE, E_RESIZE, MOVE, NONE
             default: return enumNameToCss(cursorType.name());
         }
-    }
-
-    static String toPx(double position) {
-        return toPixel(position) + "px";
-    }
-
-    static long toPixel(double position) {
-        return Math.round(position);
     }
 
     public static HtmlSvgNodePeer toNodePeer(Node node) {
