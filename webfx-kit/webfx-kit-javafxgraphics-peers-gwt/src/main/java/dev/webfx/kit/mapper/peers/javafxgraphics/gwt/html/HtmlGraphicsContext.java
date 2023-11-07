@@ -152,7 +152,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void rotate(double degrees) {
-        ctx.rotate(degreesToRadiant(degrees));
+        ctx.rotate(Math.toRadians(degrees));
     }
 
     @Override
@@ -501,7 +501,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void arc(double centerX, double centerY, double radiusX, double radiusY, double startAngle, double length) {
-        ctx.arc(centerX, centerY, radiusX, - degreesToRadiant(startAngle), - degreesToRadiant(startAngle + length));
+        ctx.arc(centerX, centerY, radiusX, -Math.toRadians(startAngle), -Math.toRadians(startAngle + length));
     }
 
     @Override
@@ -587,7 +587,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         // Inverting angles because HTML is clockwise whereas JavaFX is anticlockwise
         startAngle = -startAngle;
         double endAngle = startAngle - arcExtent;
-        ctx.arc(x + w / 2, y + h / 2, w / 2, degreesToRadiant(Math.min(startAngle, endAngle)), degreesToRadiant(Math.max(startAngle, endAngle)));
+        ctx.arc(x + w / 2, y + h / 2, w / 2, Math.toRadians(Math.min(startAngle, endAngle)), Math.toRadians(Math.max(startAngle, endAngle)));
         if (closure == ArcType.ROUND)
             ctx.lineTo(x + w / 2, y + h / 2);
     }
@@ -826,7 +826,4 @@ public class HtmlGraphicsContext implements GraphicsContext {
         Console.log("WARNING: HtmlGraphicsContext.applyEffect() not implemented");
     }
 
-    private static double degreesToRadiant(double degree) {
-        return degree * Math.PI / 180;
-    }
 }
