@@ -17,7 +17,6 @@ public final class HtmlLayoutPeer
 
     public HtmlLayoutPeer(String tag) {
         super((NB) new RegionPeerBase<N, NB, NM>(), HtmlUtil.createElement(tag));
-        subtractCssPaddingBorderWhenUpdatingSize = true;
     }
 
     @Override

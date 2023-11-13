@@ -1,16 +1,13 @@
 package javafx.scene.control;
 
-import javafx.scene.control.skin.ButtonSkin;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.LinearGradient;
-import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import javafx.scene.control.skin.ButtonSkin;
 
 /**
  * @author Bruno Salmon
@@ -139,13 +136,14 @@ public class Button extends ButtonBase {
         return new ButtonSkin(this);
     }
 
-    final static CornerRadii RADII = new CornerRadii(1);
+    /*final static CornerRadii RADII = new CornerRadii(1);
     final static Border BORDER = new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT));
     final static Background BACKGROUND = new Background(new BackgroundFill(LinearGradient.valueOf("from 0% 0% to 0% 100%, white 0%, #E0E0E0 100%"), RADII, Insets.EMPTY));
+    */
     public final static Insets PADDING = new Insets(6);
     {
-        setBorder(BORDER);
-        setBackground(BACKGROUND);
+        //setBorder(BORDER);
+        //setBackground(BACKGROUND);
         setPadding(PADDING);
         setAlignment(Pos.CENTER);
     }

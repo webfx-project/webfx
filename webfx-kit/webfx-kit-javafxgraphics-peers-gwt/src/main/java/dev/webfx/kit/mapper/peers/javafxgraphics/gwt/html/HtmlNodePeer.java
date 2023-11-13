@@ -81,9 +81,13 @@ public abstract class HtmlNodePeer
     @Override
     public void updateEffect(Effect effect) {
         String boxShadow = toBoxShadow(effect);
-        CSSStyleDeclaration style = getElement().style;
+        CSSStyleDeclaration style = getEffectElement().style;
         style.boxShadow = boxShadow;
         super.updateEffect(boxShadow != null ? null : effect); // other effects managed by filter function
+    }
+
+    protected HTMLElement getEffectElement() {
+        return getElement();
     }
 
     private String toBoxShadow(Effect effect) {
