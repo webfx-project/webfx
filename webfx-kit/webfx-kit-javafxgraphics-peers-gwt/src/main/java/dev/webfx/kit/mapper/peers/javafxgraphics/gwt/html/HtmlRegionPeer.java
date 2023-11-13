@@ -25,123 +25,51 @@ public abstract class HtmlRegionPeer
         extends HtmlNodePeer<N, NB, NM>
         implements RegionPeerMixin<N, NB, NM> {
 
-    protected boolean subtractCssPaddingBorderWhenUpdatingSize;
-    protected boolean subtractNodePaddingWhenUpdatingSize;
-    protected boolean subtractNodeBorderWhenUpdatingSize;
+    private final HTMLElement fxBackground = createBehindElement("fx-background");
+    private final HTMLElement fxBorder = createBehindElement("fx-border");
 
     protected HtmlRegionPeer(NB base, HTMLElement element) {
         super(base, element);
+        fxBorder.style.boxSizing = "border-box";
+        HTMLElement fxChildren = createBehindElement("fx-children");
+        setChildrenContainer(fxChildren);
+        HtmlUtil.setChildren(element, fxBackground, fxBorder, fxChildren);
+    }
+
+    private static HTMLElement createBehindElement(String tag) {
+        HTMLElement element = HtmlUtil.createElement(tag);
+        CSSStyleDeclaration style = element.style;
+        style.display = "block";
+        style.width =  CSSProperties.WidthUnionType.of("100%");
+        style.height = CSSProperties.HeightUnionType.of("100%");
+        style.position = "absolute";
+        style.left = "0";
+        style.top = "0";
+        return element;
     }
 
     @Override
     public void updateWidth(Number width) {
         double w = width.doubleValue();
         if (w >= 0) {
-            if (subtractCssPaddingBorderWhenUpdatingSize)
-                w -= computeCssPaddingBorderWidth();
-            else {
-                if (subtractNodePaddingWhenUpdatingSize)
-                    w -= getNodePaddingWidth();
-                if (subtractNodeBorderWhenUpdatingSize)
-                    w -= getNodeBorderWidth();
-            }
             getElement().style.width = CSSProperties.WidthUnionType.of(toPx(w));
             clearLayoutCache();
         }
-    }
-
-    private double computeCssPaddingBorderWidth() {
-        CSSStyleDeclaration cs = HtmlUtil.getComputedStyle(getElement());
-        return sumPx(cs.paddingLeft, cs.paddingRight, cs.borderLeftWidth, cs.borderRightWidth);
-    }
-
-    private static double sumPx(Object... values) {
-        double result = 0;
-        for (Object value : values) {
-            String s = value.toString();
-            int i = s.indexOf("px");
-            if (i > 0)
-                result += Double.parseDouble(s.substring(0, i));
-        }
-        return result;
-    }
-
-    private double getNodePaddingWidth() {
-        N node = getNode();
-        Insets padding = node.getPadding();
-        return padding == null ? 0 : padding.getLeft() + padding.getRight();
-    }
-
-    private double getNodeBorderWidth() {
-        N node = getNode();
-        Border border = node.getBorder();
-        if (border != null) {
-            Insets insets = border.getInsets();
-            if (insets != null)
-                return insets.getLeft() + insets.getRight();
-        }
-        return 0;
     }
 
     @Override
     public void updateHeight(Number height) {
         double h = height.doubleValue();
         if (h >= 0) {
-            if (subtractCssPaddingBorderWhenUpdatingSize)
-                h -= computeCssPaddingBorderHeight();
-            else {
-                if (subtractNodePaddingWhenUpdatingSize)
-                    h -= getNodePaddingHeight();
-                if (subtractNodeBorderWhenUpdatingSize)
-                    h -= getNodeBorderHeight();
-            }
             getElement().style.height = CSSProperties.HeightUnionType.of(toPx(h));
             clearLayoutCache();
         }
     }
 
-    private double computeCssPaddingBorderHeight() {
-        CSSStyleDeclaration cs = HtmlUtil.getComputedStyle(getElement());
-        return sumPx(cs.paddingTop, cs.paddingBottom, cs.borderTopWidth, cs.borderBottomWidth);
-    }
-
-    private double getNodePaddingHeight() {
-        N node = getNode();
-        Insets padding = node.getPadding();
-        return padding == null ? 0 : padding.getTop() + padding.getBottom();
-    }
-
-    private double getNodeBorderHeight() {
-        N node = getNode();
-        Border border = node.getBorder();
-        if (border != null) {
-            Insets insets = border.getInsets();
-            if (insets != null)
-                return insets.getTop() + insets.getBottom();
-        }
-        return 0;
-    }
-
-    private void updateWidthAndHeight() {
-        updateWidth(getNode().getWidth());
-        updateHeight(getNode().getHeight());
-    }
-
     @Override
     public void updateBackground(Background background) {
-        CSSStyleDeclaration style = getBackgroundBorderElement().style;
+        CSSStyleDeclaration style = getBackgroundElement().style;
         style.background = toCssBackground(background);
-        // If a border is also set on the node, we take it as higher priority
-        if (getNode().getBorder() == null) { // so we apply the background border only if no other border is set on the node
-            applyBackgroundBorder(background, style);
-        }
-    }
-
-    protected HTMLElement getBackgroundBorderElement() {
-        return (HTMLElement) getContainer();
-    }
-
-    private void applyBackgroundBorder(Background background, CSSStyleDeclaration style) {
         CornerRadii radii = null;
         if (background != null) {
             // Note: for now, we support only one border that we take from the first background fill
@@ -154,24 +82,34 @@ public abstract class HtmlRegionPeer
         applyBorderRadii(radii, style);
     }
 
+    protected HTMLElement getBackgroundElement() {
+        return fxBackground;
+    }
+
+    protected HTMLElement getBorderElement() {
+        return fxBorder;
+    }
+
+    @Override
+    protected HTMLElement getEffectElement() {
+        return fxBackground;
+    }
+
     @Override
     public void updateBorder(Border border) {
-        CSSStyleDeclaration style = getBackgroundBorderElement().style;
+        CSSStyleDeclaration style = getBorderElement().style;
         // Note: for now, we support only one border that we take from the first border stroke
         BorderStroke firstStroke = border == null ? null : Collections.get(border.getStrokes(), 0);
-        if (firstStroke != null) {
+        if (firstStroke == null) {
+            style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
+        } else {
             BorderWidths widths = firstStroke.getWidths();
-            style.borderLeft = toCssBorder(firstStroke.getLeftStroke(), firstStroke.getLeftStyle(), widths.getLeft(), widths.isLeftAsPercentage());
-            style.borderTop = toCssBorder(firstStroke.getTopStroke(), firstStroke.getTopStyle(), widths.getTop(), widths.isTopAsPercentage());
-            style.borderRight = toCssBorder(firstStroke.getRightStroke(), firstStroke.getRightStyle(), widths.getRight(), widths.isRightAsPercentage());
+            style.borderLeft   = toCssBorder(firstStroke.getLeftStroke(),   firstStroke.getLeftStyle(),   widths.getLeft(),   widths.isLeftAsPercentage());
+            style.borderTop    = toCssBorder(firstStroke.getTopStroke(),    firstStroke.getTopStyle(),    widths.getTop(),    widths.isTopAsPercentage());
+            style.borderRight  = toCssBorder(firstStroke.getRightStroke(),  firstStroke.getRightStyle(),  widths.getRight(),  widths.isRightAsPercentage());
             style.borderBottom = toCssBorder(firstStroke.getBottomStroke(), firstStroke.getBottomStyle(), widths.getBottom(), widths.isBottomAsPercentage());
             applyBorderRadii(firstStroke.getRadii(), style);
-        } else {
-            style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
-            applyBackgroundBorder(getNode().getBackground(), style);
         }
-        if (subtractCssPaddingBorderWhenUpdatingSize || subtractNodeBorderWhenUpdatingSize)
-            updateWidthAndHeight();
     }
 
     @Override
@@ -179,8 +117,6 @@ public abstract class HtmlRegionPeer
         // Note: this code should be executed only if the html content is managed by the peer, otherwise it should be
         // skipped (ex: css padding not needed for layout peers or controls with content provided by skin)
         getElement().style.padding = toCssPadding(padding);
-        if (subtractCssPaddingBorderWhenUpdatingSize || subtractNodePaddingWhenUpdatingSize)
-            updateWidthAndHeight();
     }
 
     protected CSSProperties.PaddingUnionType toCssPadding(Insets padding) {
@@ -191,13 +127,14 @@ public abstract class HtmlRegionPeer
     }
 
     private void applyBorderRadii(CornerRadii radii, CSSStyleDeclaration style) {
-        if (radii != null) {
-            style.borderTopLeftRadius = CSSProperties.BorderTopLeftRadiusUnionType.of(toPx(Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius())));
-            style.borderTopRightRadius = CSSProperties.BorderTopRightRadiusUnionType.of(toPx(Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius())));
-            style.borderBottomRightRadius = CSSProperties.BorderBottomRightRadiusUnionType.of(toPx(Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius())));
-            style.borderBottomLeftRadius = CSSProperties.BorderBottomLeftRadiusUnionType.of(toPx(Math.max(radii.getBottomLeftHorizontalRadius(), radii.getBottomLeftVerticalRadius())));
-        } else
+        if (radii == null)
             style.borderRadius = null;
+        else {
+            style.borderTopLeftRadius     = CSSProperties.BorderTopLeftRadiusUnionType.of(    toPx(Math.max(radii.getTopLeftHorizontalRadius(),     radii.getTopLeftVerticalRadius())));
+            style.borderTopRightRadius    = CSSProperties.BorderTopRightRadiusUnionType.of(   toPx(Math.max(radii.getTopRightHorizontalRadius(),    radii.getTopRightVerticalRadius())));
+            style.borderBottomRightRadius = CSSProperties.BorderBottomRightRadiusUnionType.of(toPx(Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius())));
+            style.borderBottomLeftRadius  = CSSProperties.BorderBottomLeftRadiusUnionType.of( toPx(Math.max(radii.getBottomLeftHorizontalRadius(),  radii.getBottomLeftVerticalRadius())));
+        }
     }
 
     private static String toCssBorder(Paint stroke, BorderStrokeStyle style, double width, boolean isPercentage) {

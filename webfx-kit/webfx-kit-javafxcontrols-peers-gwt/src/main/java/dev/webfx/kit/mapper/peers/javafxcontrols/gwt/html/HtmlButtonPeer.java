@@ -19,12 +19,11 @@ public final class HtmlButtonPeer
         implements ButtonPeerMixin<N, NB, NM>, NoWrapWhiteSpacePeer {
 
     public HtmlButtonPeer() {
-        this((NB) new ButtonPeerBase(), HtmlUtil.createButtonElement());
+        this((NB) new ButtonPeerBase(), HtmlUtil.createElement("fx-button"));
     }
 
     public HtmlButtonPeer(NB base, HTMLElement element) {
         super(base, element);
-        prepareDomForAdditionalSkinChildren("fx-button");
     }
 
     @Override
