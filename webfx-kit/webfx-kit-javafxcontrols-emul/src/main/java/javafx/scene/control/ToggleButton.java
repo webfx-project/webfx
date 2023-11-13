@@ -58,8 +58,8 @@ public class ToggleButton extends ButtonBase
         //((StyleableProperty<Pos>)(WritableValue<Pos>)alignmentProperty()).applyStyle(null, Pos.CENTER);
         //setMnemonicParsing(true);     // enable mnemonic auto-parsing by default
 
-        setBorder(Button.BORDER);
-        setBackground(Button.BACKGROUND);
+        //setBorder(Button.BORDER);
+        //setBackground(Button.BACKGROUND);
         setPadding(Button.PADDING);
         setAlignment(Pos.CENTER);
     }
@@ -132,11 +132,11 @@ public class ToggleButton extends ButtonBase
         if (toggleGroup == null) {
             toggleGroup = new SimpleObjectProperty<ToggleGroup>() {
                 private ToggleGroup old;
-/*
-            toggleGroup = new ObjectPropertyBase<ToggleGroup>() {
-                private ChangeListener<Toggle> listener = (o, oV, nV) ->
-                        getImpl_traversalEngine().setOverriddenFocusTraversability(nV != null ? isSelected() : null);
-*/
+                /*
+                            toggleGroup = new ObjectPropertyBase<ToggleGroup>() {
+                                private ChangeListener<Toggle> listener = (o, oV, nV) ->
+                                        getImpl_traversalEngine().setOverriddenFocusTraversability(nV != null ? isSelected() : null);
+                */
                 @Override protected void invalidated() {
                     final ToggleGroup tg = get();
                     if (tg != null && !tg.getToggles().contains(ToggleButton.this)) {
