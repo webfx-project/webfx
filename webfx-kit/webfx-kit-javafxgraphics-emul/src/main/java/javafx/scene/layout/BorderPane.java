@@ -1,19 +1,148 @@
+/*
+ * Copyright (c) 2011, 2021, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
+
 package javafx.scene.layout;
 
+import com.sun.javafx.geom.Vec2d;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.collections.ListChangeListener;
-import com.sun.javafx.geom.Vec2d;
 import javafx.geometry.*;
 import javafx.scene.Node;
 
 import java.util.List;
 
+
 /**
- * @author Bruno Salmon
+ * BorderPane lays out children in top, left, right, bottom, and center positions.
+ *
+ * <p> <img src="doc-files/borderpane.png" alt="A diagram that shows the position
+ * of each child"> </p>
+ *
+ * The top and bottom children will be resized to their preferred heights and
+ * extend the width of the border pane.  The left and right children will be resized
+ * to their preferred widths and extend the length between the top and bottom nodes.
+ * And the center node will be resized to fill the available space in the middle.
+ * Any of the positions may be null.
+ *
+ * Example:
+ * <pre><code>     <b>BorderPane borderPane = new BorderPane();</b>
+ *     ToolBar toolbar = new ToolBar();
+ *     HBox statusbar = new HBox();
+ *     Node appContent = new AppContentNode();
+ *     <b>borderPane.setTop(toolbar);
+ *     borderPane.setCenter(appContent);
+ *     borderPane.setBottom(statusbar);</b>
+ * </code></pre>
+ * <p>
+ * Borderpanes may be styled with backgrounds and borders using CSS.  See
+ * {@link javafx.scene.layout.Region Region} superclass for details.</p>
+ *
+ * <p>
+ * BorderPane honors the minimum, preferred, and maximum sizes of its children.
+ * If the child's resizable range prevents it from be resized to fit within its
+ * position, it will be aligned relative to the space using a default alignment
+ * as follows:
+ * <ul>
+ * <li>top: Pos.TOP_LEFT</li>
+ * <li>bottom: Pos.BOTTOM_LEFT</li>
+ * <li>left: Pos.TOP_LEFT</li>
+ * <li>right: Pos.TOP_RIGHT</li>
+ * <li>center: Pos.CENTER</li>
+ * </ul>
+ * See "Optional Layout Constraints" on how to customize these alignments.
+ *
+ * <p>
+ * BorderPane lays out each child set in the five positions regardless of the child's
+ * visible property value; unmanaged children are ignored.</p>
+ *
+ * <h2>Resizable Range</h2>
+ * <p>
+ * BorderPane is commonly used as the root of a {@link javafx.scene.Scene Scene},
+ * in which case its size will track the size of the scene.  If the scene or stage
+ * size has not been directly set by the application, the scene size will be
+ * initialized to the border pane's preferred size.   However, if a border pane
+ * has a parent other than the scene, that parent will resize the border pane within
+ * the border pane's resizable range during layout.   By default the border pane
+ * computes this range based on its content as outlined in the table below.
+ * </p>
+ *
+ * <table border="1">
+ * <caption>BorderPane Resize Table</caption>
+ * <tr><td></td><th scope="col">width</th><th scope="col">height</th></tr>
+ * <tr><th scope="row">minimum</th>
+ * <td>left/right insets plus width required to display right/left children at their pref widths and top/bottom/center with at least their min widths</td>
+ * <td>top/bottom insets plus height required to display top/bottom children at their pref heights and left/right/center with at least their min heights</td></tr>
+ * <tr><th scope="row">preferred</th>
+ * <td>left/right insets plus width required to display top/right/bottom/left/center children with at least their pref widths</td>
+ * <td>top/bottom insets plus height required to display top/right/bottom/left/center children with at least their pref heights</td></tr>
+ * <tr><th scope="row">maximum</th>
+ * <td>Double.MAX_VALUE</td><td>Double.MAX_VALUE</td></tr>
+ * </table>
+ * <p>
+ * A border pane's unbounded maximum width and height are an indication to the parent that
+ * it may be resized beyond its preferred size to fill whatever space is assigned to it.
+ * <p>
+ * BorderPane provides properties for setting the size range directly.  These
+ * properties default to the sentinel value Region.USE_COMPUTED_SIZE, however the
+ * application may set them to other values as needed:
+ * <pre><code>
+ *     <b>borderPane.setPrefSize(500,400);</b>
+ * </code></pre>
+ * Applications may restore the computed values by setting these properties back
+ * to Region.USE_COMPUTED_SIZE.
+ * <p>
+ * BorderPane does not clip its content by default, so it is possible that children's
+ * bounds may extend outside its own bounds if a child's min size prevents it from
+ * being fit within it space.</p>
+ *
+ * <h2>Optional Layout Constraints</h2>
+ *
+ * <p>
+ * An application may set constraints on individual children to customize BorderPane's layout.
+ * For each constraint, BorderPane provides a static method for setting it on the child.
+ * </p>
+ *
+ * <table border="1">
+ * <caption>BorderPane Constraint Table</caption>
+ * <tr><th scope="col">Constraint</th><th scope="col">Type</th><th scope="col">Description</th></tr>
+ * <tr><th scope="row">alignment</th><td>javafx.geometry.Pos</td><td>The alignment of the child within its area of the border pane.</td></tr>
+ * <tr><th scope="row">margin</th><td>javafx.geometry.Insets</td><td>Margin space around the outside of the child.</td></tr>
+ * </table>
+ * <p>
+ * Example:
+ * <pre><code>     ListView list = new ListView();
+ *     <b>BorderPane.setAlignment(list, Pos.TOP_LEFT);
+ *     BorderPane.setMargin(list, new Insets(12,12,12,12));</b>
+ *     borderPane.setCenter(list);
+ * </code></pre>
+ *
+ * @since JavaFX 2.0
  */
 public class BorderPane extends Pane {
-    /********************************************************************
+    /* ******************************************************************
      *  BEGIN static methods
      ********************************************************************/
 
@@ -75,7 +204,7 @@ public class BorderPane extends Pane {
         setMargin(child, null);
     }
 
-    /********************************************************************
+    /* ******************************************************************
      *  END static methods
      ********************************************************************/
 
@@ -123,10 +252,12 @@ public class BorderPane extends Pane {
      * resized to fill the center space (it's not resizable or its max size prevents
      * it) then it will be center aligned unless the child's alignment constraint
      * has been set.
+     * @return the node placed in the center of this border pane
      */
     public final ObjectProperty<Node> centerProperty() {
-        if (center == null)
+        if (center == null) {
             center = new BorderPositionProperty("center");
+        }
         return center;
     }
     private ObjectProperty<Node> center;
@@ -140,10 +271,12 @@ public class BorderPane extends Pane {
      * resized to fill the top space (it's not resizable or its max size prevents
      * it) then it will be aligned top-left within the space unless the child's
      * alignment constraint has been set.
+     * @return the node placed on the top edge of this border pane
      */
     public final ObjectProperty<Node> topProperty() {
-        if (top == null)
+        if (top == null) {
             top = new BorderPositionProperty("top");
+        }
         return top;
     }
     private ObjectProperty<Node> top;
@@ -157,10 +290,12 @@ public class BorderPane extends Pane {
      * resized to fill the bottom space (it's not resizable or its max size prevents
      * it) then it will be aligned bottom-left within the space unless the child's
      * alignment constraint has been set.
+     * @return the node placed on the bottom edge of this border pane
      */
     public final ObjectProperty<Node> bottomProperty() {
-        if (bottom == null)
+        if (bottom == null) {
             bottom = new BorderPositionProperty("bottom");
+        }
         return bottom;
     }
     private ObjectProperty<Node> bottom;
@@ -174,10 +309,12 @@ public class BorderPane extends Pane {
      * If the node cannot be resized to fill the left space (it's not resizable
      * or its max size prevents it) then it will be aligned top-left within the space
      * unless the child's alignment constraint has been set.
+     * @return the node placed on the left edge of this border pane
      */
     public final ObjectProperty<Node> leftProperty() {
-        if (left == null)
+        if (left == null) {
             left = new BorderPositionProperty("left");
+        }
         return left;
     }
     private ObjectProperty<Node> left;
@@ -191,10 +328,12 @@ public class BorderPane extends Pane {
      * If the node cannot be resized to fill the right space (it's not resizable
      * or its max size prevents it) then it will be aligned top-right within the space
      * unless the child's alignment constraint has been set.
+     * @return the node placed on the right edge of this border pane
      */
     public final ObjectProperty<Node> rightProperty() {
-        if (right == null)
+        if (right == null) {
             right = new BorderPositionProperty("right");
+        }
         return right;
     }
     private ObjectProperty<Node> right;
@@ -204,33 +343,36 @@ public class BorderPane extends Pane {
     /**
      * @return null unless the center, right, bottom, left or top has a content bias.
      */
-    @Override
-    public Orientation getContentBias() {
-        Node c = getCenter();
-        if (c != null && c.isManaged() && c.getContentBias() != null)
+    @Override public Orientation getContentBias() {
+        final Node c = getCenter();
+        if (c != null && c.isManaged() && c.getContentBias() != null) {
             return c.getContentBias();
+        }
 
-        Node r = getRight();
-        if (r != null && r.isManaged() && r.getContentBias() == Orientation.VERTICAL)
+        final Node r = getRight();
+        if (r != null && r.isManaged() && r.getContentBias() == Orientation.VERTICAL) {
             return r.getContentBias();
+        }
 
-        Node l = getLeft();
-        if (l != null && l.isManaged() && l.getContentBias() == Orientation.VERTICAL)
+        final Node l = getLeft();
+        if (l != null && l.isManaged() && l.getContentBias() == Orientation.VERTICAL) {
             return l.getContentBias();
-
-        Node b = getBottom();
-        if (b != null && b.isManaged() && b.getContentBias() == Orientation.HORIZONTAL)
+        }
+        final Node b = getBottom();
+        if (b != null && b.isManaged() && b.getContentBias() == Orientation.HORIZONTAL) {
             return b.getContentBias();
+        }
 
-        Node t = getTop();
-        if (t != null && t.isManaged() && t.getContentBias() == Orientation.HORIZONTAL)
+        final Node t = getTop();
+        if (t != null && t.isManaged() && t.getContentBias() == Orientation.HORIZONTAL) {
             return t.getContentBias();
+        }
+
 
         return null;
     }
 
-    @Override
-    protected double computeMinWidth(double height) {
+    @Override protected double computeMinWidth(double height) {
         double topMinWidth = getAreaWidth(getTop(), -1, true);
         double bottomMinWidth = getAreaWidth(getBottom(), -1, true);
 
@@ -255,15 +397,14 @@ public class BorderPane extends Pane {
             centerMinWidth = getAreaWidth(getCenter(), -1, true);
         }
 
-        Insets insets = getPadding();
+        final Insets insets = getInsets();
         return insets.getLeft() +
                 Math.max(leftPrefWidth + centerMinWidth + rightPrefWidth, Math.max(topMinWidth,bottomMinWidth)) +
                 insets.getRight();
     }
 
-    @Override
-    protected double computeMinHeight(double width) {
-        Insets insets = getPadding();
+    @Override protected double computeMinHeight(double width) {
+        final Insets insets = getInsets();
 
         // Bottom and top are always at their pref height
         double topPrefHeight = getAreaHeight(getTop(), width, false);
@@ -278,16 +419,16 @@ public class BorderPane extends Pane {
             double rightPrefWidth = getAreaWidth(getRight(), -1, false);
             centerMinHeight = getAreaHeight(getCenter(),
                     Math.max(0, width - leftPrefWidth - rightPrefWidth) , true);
-        } else
+        } else {
             centerMinHeight = getAreaHeight(getCenter(), -1, true);
+        }
 
         double middleAreaMinHeigh = Math.max(centerMinHeight, Math.max(rightMinHeight, leftMinHeight));
 
         return insets.getTop() + topPrefHeight + middleAreaMinHeigh + bottomPrefHeight + insets.getBottom();
     }
 
-    @Override
-    protected double computePrefWidth(double height) {
+    @Override protected double computePrefWidth(double height) {
         double topPrefWidth = getAreaWidth(getTop(), -1, false);
         double bottomPrefWidth = getAreaWidth(getBottom(), -1, false);
 
@@ -295,7 +436,7 @@ public class BorderPane extends Pane {
         double rightPrefWidth;
         double centerPrefWidth;
 
-        if (height != -1 && (childHasContentBias(getLeft(), Orientation.VERTICAL) ||
+        if ( height != -1 && (childHasContentBias(getLeft(), Orientation.VERTICAL) ||
                 childHasContentBias(getRight(), Orientation.VERTICAL) ||
                 childHasContentBias(getCenter(), Orientation.VERTICAL))) {
             double topPrefHeight = getAreaHeight(getTop(), -1, false);
@@ -312,15 +453,14 @@ public class BorderPane extends Pane {
             centerPrefWidth = getAreaWidth(getCenter(), -1, false);
         }
 
-        Insets insets = getPadding();
+        final Insets insets = getInsets();
         return insets.getLeft() +
                 Math.max(leftPrefWidth + centerPrefWidth + rightPrefWidth, Math.max(topPrefWidth,bottomPrefWidth)) +
                 insets.getRight();
     }
 
-    @Override
-    protected double computePrefHeight(double width) {
-        Insets insets = getPadding();
+    @Override protected double computePrefHeight(double width) {
+        final Insets insets = getInsets();
 
         double topPrefHeight = getAreaHeight(getTop(), width, false);
         double bottomPrefHeight = getAreaHeight(getBottom(), width, false);
@@ -333,61 +473,61 @@ public class BorderPane extends Pane {
             double rightPrefWidth = getAreaWidth(getRight(), -1, false);
             centerPrefHeight = getAreaHeight(getCenter(),
                     Math.max(0, width - leftPrefWidth - rightPrefWidth) , false);
-        } else
+        } else {
             centerPrefHeight = getAreaHeight(getCenter(), -1, false);
+        }
 
-        double middleAreaPrefHeight = Math.max(centerPrefHeight, Math.max(rightPrefHeight, leftPrefHeight));
+        double middleAreaPrefHeigh = Math.max(centerPrefHeight, Math.max(rightPrefHeight, leftPrefHeight));
 
-        return insets.getTop() + topPrefHeight + middleAreaPrefHeight + bottomPrefHeight + insets.getBottom();
+        return insets.getTop() + topPrefHeight + middleAreaPrefHeigh + bottomPrefHeight + insets.getBottom();
     }
 
-    @Override
-    public void layoutChildren() {
-        Insets insets = getPadding();
+    @Override protected void layoutChildren() {
+        final Insets insets = getInsets();
         double width = getWidth();
         double height = getHeight();
-        Orientation bias = getContentBias();
+        final Orientation bias = getContentBias();
 
         if (bias == null) {
-            double minWidth = minWidth(-1);
-            double minHeight = minHeight(-1);
+            final double minWidth = minWidth(-1);
+            final double minHeight = minHeight(-1);
             width = width < minWidth ? minWidth : width;
             height = height < minHeight ? minHeight : height;
         } else if (bias == Orientation.HORIZONTAL) {
-            double minWidth = minWidth(-1);
+            final double minWidth = minWidth(-1);
             width = width < minWidth ? minWidth : width;
-            double minHeight = minHeight(width);
+            final double minHeight = minHeight(width);
             height = height < minHeight ? minHeight : height;
         } else {
-            double minHeight = minHeight(-1);
+            final double minHeight = minHeight(-1);
             height = height < minHeight ? minHeight : height;
-            double minWidth = minWidth(height);
+            final double minWidth = minWidth(height);
             width = width < minWidth ? minWidth : width;
         }
 
-        double insideX = insets.getLeft();
-        double insideY = insets.getTop();
-        double insideWidth = width - insideX - insets.getRight();
-        double insideHeight = height - insideY - insets.getBottom();
-        Node c = getCenter();
-        Node r = getRight();
-        Node b = getBottom();
-        Node l = getLeft();
-        Node t = getTop();
+        final double insideX = insets.getLeft();
+        final double insideY = insets.getTop();
+        final double insideWidth = width - insideX - insets.getRight();
+        final double insideHeight = height - insideY - insets.getBottom();
+        final Node c = getCenter();
+        final Node r = getRight();
+        final Node b = getBottom();
+        final Node l = getLeft();
+        final Node t = getTop();
 
         double topHeight = 0;
         if (t != null && t.isManaged()) {
             Insets topMargin = getNodeMargin(t);
             double adjustedWidth = adjustWidthByMargin(insideWidth, topMargin);
             double adjustedHeight = adjustHeightByMargin(insideHeight, topMargin);
-            topHeight = snapSize(t.prefHeight(adjustedWidth));
+            topHeight = snapSizeY(t.prefHeight(adjustedWidth));
             topHeight = Math.min(topHeight, adjustedHeight);
             Vec2d result = boundedNodeSizeWithBias(t, adjustedWidth,
                     topHeight, true, true, TEMP_VEC2D);
-            topHeight = snapSize(result.y);
-            t.resize(snapSize(result.x), topHeight);
+            topHeight = snapSizeY(result.y);
+            t.resize(snapSizeX(result.x), topHeight);
 
-            topHeight = snapSpace(topMargin.getBottom()) + topHeight + snapSpace(topMargin.getTop());
+            topHeight = snapSpaceY(topMargin.getBottom()) + topHeight + snapSpaceY(topMargin.getTop());
             Pos alignment = getAlignment(t);
             positionInArea(t, insideX, insideY, insideWidth, topHeight, 0/*ignore baseline*/,
                     topMargin,
@@ -400,14 +540,14 @@ public class BorderPane extends Pane {
             Insets bottomMargin = getNodeMargin(b);
             double adjustedWidth = adjustWidthByMargin(insideWidth, bottomMargin);
             double adjustedHeight = adjustHeightByMargin(insideHeight - topHeight, bottomMargin);
-            bottomHeight = snapSize(b.prefHeight(adjustedWidth));
+            bottomHeight = snapSizeY(b.prefHeight(adjustedWidth));
             bottomHeight = Math.min(bottomHeight, adjustedHeight);
             Vec2d result = boundedNodeSizeWithBias(b, adjustedWidth,
                     bottomHeight, true, true, TEMP_VEC2D);
-            bottomHeight = snapSize(result.y);
-            b.resize(snapSize(result.x), bottomHeight);
+            bottomHeight = snapSizeY(result.y);
+            b.resize(snapSizeX(result.x), bottomHeight);
 
-            bottomHeight = snapSpace(bottomMargin.getBottom()) + bottomHeight + snapSpace(bottomMargin.getTop());
+            bottomHeight = snapSpaceY(bottomMargin.getBottom()) + bottomHeight + snapSpaceY(bottomMargin.getTop());
             Pos alignment = getAlignment(b);
             positionInArea(b, insideX, insideY + insideHeight - bottomHeight,
                     insideWidth, bottomHeight, 0/*ignore baseline*/,
@@ -421,14 +561,14 @@ public class BorderPane extends Pane {
             Insets leftMargin = getNodeMargin(l);
             double adjustedWidth = adjustWidthByMargin(insideWidth, leftMargin);
             double adjustedHeight = adjustHeightByMargin(insideHeight - topHeight - bottomHeight, leftMargin); // ????
-            leftWidth = snapSize(l.prefWidth(adjustedHeight));
+            leftWidth = snapSizeX(l.prefWidth(adjustedHeight));
             leftWidth = Math.min(leftWidth, adjustedWidth);
             Vec2d result = boundedNodeSizeWithBias(l, leftWidth, adjustedHeight,
                     true, true, TEMP_VEC2D);
-            leftWidth = snapSize(result.x);
-            l.resize(leftWidth, snapSize(result.y));
+            leftWidth = snapSizeX(result.x);
+            l.resize(leftWidth, snapSizeY(result.y));
 
-            leftWidth = snapSpace(leftMargin.getLeft()) + leftWidth + snapSpace(leftMargin.getRight());
+            leftWidth = snapSpaceX(leftMargin.getLeft()) + leftWidth + snapSpaceX(leftMargin.getRight());
             Pos alignment = getAlignment(l);
             positionInArea(l, insideX, insideY + topHeight,
                     leftWidth, insideHeight - topHeight - bottomHeight, 0/*ignore baseline*/,
@@ -443,14 +583,14 @@ public class BorderPane extends Pane {
             double adjustedWidth = adjustWidthByMargin(insideWidth - leftWidth, rightMargin);
             double adjustedHeight = adjustHeightByMargin(insideHeight - topHeight - bottomHeight, rightMargin);
 
-            rightWidth = snapSize(r.prefWidth(adjustedHeight));
+            rightWidth = snapSizeX(r.prefWidth(adjustedHeight));
             rightWidth = Math.min(rightWidth, adjustedWidth);
             Vec2d result = boundedNodeSizeWithBias(r, rightWidth, adjustedHeight,
                     true, true, TEMP_VEC2D);
-            rightWidth = snapSize(result.x);
-            r.resize(rightWidth, snapSize(result.y));
+            rightWidth = snapSizeX(result.x);
+            r.resize(rightWidth, snapSizeY(result.y));
 
-            rightWidth = snapSpace(rightMargin.getLeft()) + rightWidth + snapSpace(rightMargin.getRight());
+            rightWidth = snapSpaceX(rightMargin.getLeft()) + rightWidth + snapSpaceX(rightMargin.getRight());
             Pos alignment = getAlignment(r);
             positionInArea(r, insideX + insideWidth - rightWidth, insideY + topHeight,
                     rightWidth, insideHeight - topHeight - bottomHeight, 0/*ignore baseline*/,
@@ -490,10 +630,13 @@ public class BorderPane extends Pane {
     }
 
     private boolean childHasContentBias(Node child, Orientation orientation) {
-        return child != null && child.isManaged() && child.getContentBias() == orientation;
+        if (child != null && child.isManaged()) {
+            return child.getContentBias() == orientation;
+        }
+        return false;
     }
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      *                         Private Inner Class                             *
      *                                                                         *
@@ -506,16 +649,21 @@ public class BorderPane extends Pane {
 
         BorderPositionProperty(String propertyName) {
             this.propertyName = propertyName;
-            getChildren().addListener((ListChangeListener<Node>) c -> {
-                if (oldValue == null || isBeingInvalidated)
-                    return;
-                while (c.next()) {
-                    if (c.wasRemoved()) {
-                        List<? extends Node> removed = c.getRemoved();
-                        for (Node aRemoved : removed) {
-                            if (aRemoved == oldValue) {
-                                oldValue = null; // Do not remove again in invalidated
-                                set(null);
+            getChildren().addListener(new ListChangeListener<Node>() {
+
+                @Override
+                public void onChanged(ListChangeListener.Change<? extends Node> c) {
+                    if (oldValue == null || isBeingInvalidated) {
+                        return;
+                    }
+                    while (c.next()) {
+                        if (c.wasRemoved()) {
+                            List<? extends Node> removed = c.getRemoved();
+                            for (int i = 0, sz = removed.size(); i < sz; ++i) {
+                                if (removed.get(i) == oldValue) {
+                                    oldValue = null; // Do not remove again in invalidated
+                                    set(null);
+                                }
                             }
                         }
                     }
@@ -525,18 +673,20 @@ public class BorderPane extends Pane {
 
         @Override
         protected void invalidated() {
-            List<Node> children = getChildren();
+            final List<Node> children = getChildren();
 
             isBeingInvalidated = true;
             try {
-                if (oldValue != null)
+                if (oldValue != null) {
                     children.remove(oldValue);
+                }
 
-                Node _value = get();
-                oldValue = _value;
+                final Node _value = get();
+                this.oldValue = _value;
 
-                if (_value != null)
+                if (_value != null) {
                     children.add(_value);
+                }
             } finally {
                 isBeingInvalidated = false;
             }
@@ -553,4 +703,3 @@ public class BorderPane extends Pane {
         }
     }
 }
-
