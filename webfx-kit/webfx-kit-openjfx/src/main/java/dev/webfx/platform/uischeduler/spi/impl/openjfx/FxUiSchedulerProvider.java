@@ -16,10 +16,6 @@ public final class FxUiSchedulerProvider extends UiSchedulerProviderBase {
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
-    public FxUiSchedulerProvider() {
-        WebFxKitLauncher.onReady(this::executeAnimationPipe);
-    }
-
     @Override
     protected SchedulerProviderBase.ScheduledBase scheduledImpl(SchedulerProviderBase.WrappedRunnable wrappedRunnable, long delayMs) {
         // Redirecting to specific Java or JavaFX API in the following cases:
