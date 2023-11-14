@@ -1,10 +1,36 @@
+/*
+ * Copyright (c) 2009, 2021, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
+
 package javafx.scene.layout;
 
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.util.Callback;
+import javafx.css.CssMetaData;
+import javafx.css.StyleableObjectProperty;
 import javafx.geometry.*;
 import javafx.scene.Node;
+import javafx.util.Callback;
 
 import java.util.List;
 
@@ -14,7 +40,7 @@ import java.util.List;
  * <p>
  * The z-order of the children is defined by the order of the children list
  * with the 0th child being the bottom and last child on top.  If a border and/or
- * padding have been set, the children will be layed out within those insets.
+ * padding have been set, the children will be laid out within those insets.
  * <p>
  * The stackpane will attempt to resize each child to fill its content area.
  * If the child could not be sized to fill the stackpane (either because it was
@@ -22,9 +48,10 @@ import java.util.List;
  * the area using the alignment property, which defaults to Pos.CENTER.
  * <p>
  * StackPane example:
- * <pre><code>     StackPane stack = new StackPane();
- *     stack.getChildren().addAll(new Rectangle(100,100,Color.BLUE), new Label("Go!));
- * </code></pre>
+ * <pre>{@code
+ *     StackPane stack = new StackPane();
+ *     stack.getChildren().addAll(new Rectangle(100,100,Color.BLUE), new Label("Go!"));
+ * }</pre>
  * <p>
  * StackPane lays out each managed child regardless of the child's
  * visible property value; unmanaged children are ignored.</p>
@@ -32,21 +59,24 @@ import java.util.List;
  * StackPane may be styled with backgrounds and borders using CSS.  See
  * {@link javafx.scene.layout.Region Region} for details.</p>
  *
- * <h4>Resizable Range</h4>
+ * <h2>Resizable Range</h2>
  *
+ * <p>
  * A stackpane's parent will resize the stackpane within the stackpane's resizable range
  * during layout.   By default the stackpane computes this range based on its content
  * as outlined in the table below.
- * <p>
+ * </p>
+ *
  * <table border="1">
- * <tr><td></td><th>width</th><th>height</th></tr>
- * <tr><th>minimum</th>
+ * <caption>StackPane Resize Table</caption>
+ * <tr><td></td><th scope="col">width</th><th scope="col">height</th></tr>
+ * <tr><th scope="row">minimum</th>
  * <td>left/right insets plus the largest of the children's min widths.</td>
  * <td>top/bottom insets plus the largest of the children's min heights.</td></tr>
- * <tr><th>preferred</th>
+ * <tr><th scope="row">preferred</th>
  * <td>left/right insets plus the largest of the children's pref widths.</td>
  * <td>top/bottom insets plus the largest of the children's pref heights.</td></tr>
- * <tr><th>maximum</th>
+ * <tr><th scope="row">maximum</th>
  * <td>Double.MAX_VALUE</td><td>Double.MAX_VALUE</td></tr>
  * </table>
  * <p>
@@ -64,19 +94,22 @@ import java.util.List;
  * to USE_COMPUTED_SIZE.
  *
  * <p>
- * StackPane does not clip its content by default, so it is possible that childrens'
+ * StackPane does not clip its content by default, so it is possible that children's
  * bounds may extend outside its own bounds if a child's min size prevents it from
  * being fit within the stackpane.</p>
  *
- * <h4>Optional Layout Constraints</h4>
+ * <h2>Optional Layout Constraints</h2>
  *
+ * <p>
  * An application may set constraints on individual children to customize StackPane's layout.
  * For each constraint, StackPane provides a static method for setting it on the child.
- * <p>
+ * </p>
+ *
  * <table border="1">
- * <tr><th>Constraint</th><th>Type</th><th>Description</th></tr>
- * <tr><td>alignment</td><td>javafx.geometry.Pos</td><td>The alignment of the child within the stackpane.</td></tr>
- * <tr><td>margin</td><td>javafx.geometry.Insets</td><td>Margin space around the outside of the child.</td></tr>
+ * <caption>StackPane Constraint Table</caption>
+ * <tr><th>Constraint</th><th scope="col">Type</th><th scope="col">Description</th></tr>
+ * <tr><th scope="row">alignment</th><td>javafx.geometry.Pos</td><td>The alignment of the child within the stackpane.</td></tr>
+ * <tr><th scope="row">margin</th><td>javafx.geometry.Insets</td><td>Margin space around the outside of the child.</td></tr>
  * </table>
  * <p>
  * Examples:
@@ -97,10 +130,9 @@ import java.util.List;
 public class StackPane extends Pane {
 
     private boolean biasDirty = true;
-    private boolean performingLayout = false;
     private Orientation bias;
 
-    /********************************************************************
+    /* ******************************************************************
      *  BEGIN static methods
      ********************************************************************/
 
@@ -157,8 +189,7 @@ public class StackPane extends Pane {
         setAlignment(child, null);
         setMargin(child, null);
     }
-
-    /********************************************************************
+    /* ******************************************************************
      *  END static methods
      ********************************************************************/
 
@@ -183,13 +214,19 @@ public class StackPane extends Pane {
      * The default alignment of children within the stackpane's width and height.
      * This may be overridden on individual children by setting the child's
      * alignment constraint.
+     * @return the alignment of children within this stackpane
      */
     public final ObjectProperty<Pos> alignmentProperty() {
         if (alignment == null) {
-            alignment = new SimpleObjectProperty<Pos>(Pos.CENTER) {
+            alignment = new StyleableObjectProperty<Pos>(Pos.CENTER) {
                 @Override
                 public void invalidated() {
                     requestLayout();
+                }
+
+                @Override
+                public CssMetaData<StackPane, Pos> getCssMetaData() {
+                    return null; // StyleableProperties.ALIGNMENT;
                 }
 
                 @Override
@@ -239,21 +276,21 @@ public class StackPane extends Pane {
 
     @Override protected double computeMinWidth(double height) {
         List<Node>managed = getManagedChildren();
-        return getPadding().getLeft() +
+        return getInsets().getLeft() +
                 computeMaxMinAreaWidth(managed, marginAccessor, height, true) +
-                getPadding().getRight();
+                getInsets().getRight();
     }
 
     @Override protected double computeMinHeight(double width) {
         List<Node>managed = getManagedChildren();
-        return getPadding().getTop() +
+        return getInsets().getTop() +
                 computeMaxMinAreaHeight(managed, marginAccessor, getAlignmentInternal().getVpos(), width) +
-                getPadding().getBottom();
+                getInsets().getBottom();
     }
 
     @Override protected double computePrefWidth(double height) {
         List<Node>managed = getManagedChildren();
-        Insets padding = getPadding();
+        Insets padding = getInsets();
         return padding.getLeft() +
                 computeMaxPrefAreaWidth(managed, marginAccessor,
                         (height == -1) ? -1 : (height - padding.getTop() - padding.getBottom()), true) +
@@ -262,7 +299,7 @@ public class StackPane extends Pane {
 
     @Override protected double computePrefHeight(double width) {
         List<Node>managed = getManagedChildren();
-        Insets padding = getPadding();
+        Insets padding = getInsets();
         return padding.getTop() +
                 computeMaxPrefAreaHeight(managed, marginAccessor,
                         (width == -1) ? -1 : (width - padding.getLeft() - padding.getRight()),
@@ -272,39 +309,94 @@ public class StackPane extends Pane {
 
 
     @Override public void requestLayout() {
-        if (performingLayout) {
-            return;
-        }
         biasDirty = true;
         bias = null;
         super.requestLayout();
     }
 
     @Override protected void layoutChildren() {
-        performingLayout = true;
         List<Node> managed = getManagedChildren();
         Pos align = getAlignmentInternal();
         HPos alignHpos = align.getHpos();
         VPos alignVpos = align.getVpos();
         final double width = getWidth();
         double height = getHeight();
-        double top = getPadding().getTop();
-        double right = getPadding().getRight();
-        double left = getPadding().getLeft();
-        double bottom = getPadding().getBottom();
+        double top = getInsets().getTop();
+        double right = getInsets().getRight();
+        double left = getInsets().getLeft();
+        double bottom = getInsets().getBottom();
         double contentWidth = width - left - right;
         double contentHeight = height - top - bottom;
         double baselineOffset = alignVpos == VPos.BASELINE ?
                 getAreaBaselineOffset(managed, marginAccessor, i -> width, contentHeight, true)
                 : 0;
-        for (Node child : managed) {
+        for (int i = 0, size = managed.size(); i < size; i++) {
+            Node child = managed.get(i);
             Pos childAlignment = StackPane.getAlignment(child);
             layoutInArea(child, left, top,
                     contentWidth, contentHeight,
                     baselineOffset, getMargin(child),
-                    childAlignment != null ? childAlignment.getHpos() : alignHpos,
-                    childAlignment != null ? childAlignment.getVpos() : alignVpos);
+                    childAlignment != null? childAlignment.getHpos() : alignHpos,
+                    childAlignment != null? childAlignment.getVpos() : alignVpos);
         }
-        performingLayout = false;
     }
+
+    /* *************************************************************************
+     *                                                                         *
+     *                         Stylesheet Handling                             *
+     *                                                                         *
+     **************************************************************************/
+
+    /*
+     * Super-lazy instantiation pattern from Bill Pugh.
+     */
+    /*private static class StyleableProperties {
+        private static final CssMetaData<StackPane,Pos> ALIGNMENT =
+                new CssMetaData<StackPane,Pos>("-fx-alignment",
+                        new EnumConverter<Pos>(Pos.class),
+                        Pos.CENTER) {
+
+                    @Override
+                    public boolean isSettable(StackPane node) {
+                        return node.alignment == null ||
+                                !node.alignment.isBound();
+                    }
+
+                    @Override
+                    public StyleableProperty<Pos> getStyleableProperty(StackPane node) {
+                        return (StyleableProperty<Pos>)node.alignmentProperty();
+                    }
+                };
+
+        private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
+        static {
+            final List<CssMetaData<? extends Styleable, ?>> styleables =
+                    new ArrayList<CssMetaData<? extends Styleable, ?>>(Region.getClassCssMetaData());
+            styleables.add(ALIGNMENT);
+            STYLEABLES = Collections.unmodifiableList(styleables);
+        }
+    }*/
+
+    /**
+     * Gets the {@code CssMetaData} associated with this class, which may include the
+     * {@code CssMetaData} of its superclasses.
+     * @return the {@code CssMetaData}
+     * @since JavaFX 8.0
+     */
+    /*public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
+        return StyleableProperties.STYLEABLES;
+    }*/
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since JavaFX 8.0
+     */
+
+
+    /*@Override
+    public List<CssMetaData<? extends Styleable, ?>> getCssMetaData() {
+        return getClassCssMetaData();
+    }*/
+
 }

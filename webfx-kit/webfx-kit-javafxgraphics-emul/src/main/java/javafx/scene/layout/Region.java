@@ -253,7 +253,12 @@ public class Region extends Parent implements
         return backgroundProperty;
     }
 
-    private final Property<Border> borderProperty = new SimpleObjectProperty<>();
+    private final Property<Border> borderProperty = new SimpleObjectProperty<>() {
+        @Override
+        protected void invalidated() {
+            insets.fireValueChanged();
+        }
+    };
     @Override
     public Property<Border> borderProperty() {
         return borderProperty;
