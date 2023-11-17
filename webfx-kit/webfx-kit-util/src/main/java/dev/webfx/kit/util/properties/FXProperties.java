@@ -83,6 +83,12 @@ public final class FXProperties {
             property.setValue(value);
     }
 
+    public static <T> void setEvenIfBound(Property<T> property, T value) {
+        if (property.isBound())
+            property.unbind();
+        property.setValue(value);
+    }
+
     public static <T> void setIfNotEquals(Property<T> property, T value) {
         if (!Objects.equals(value, property.getValue()))
             property.setValue(value);
