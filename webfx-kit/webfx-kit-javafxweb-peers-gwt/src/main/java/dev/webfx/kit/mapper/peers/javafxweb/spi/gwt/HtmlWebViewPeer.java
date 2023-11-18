@@ -54,9 +54,16 @@ public class HtmlWebViewPeer
             // In general, we use iFrame.src, but it doesn't report any network errors despite iFrame.onerror, which can
             // be annoying in some cases. So we propose a prefetch alternative mode.
             boolean usePrefetch = Booleans.isTrue(getNode().getProperties().get("webfx-prefetch"));
-            if (!usePrefetch)
-                iFrame.src = url;
-            else {
+            if (!usePrefetch) {
+                // Commented the following code (iFrame.src = url) because it has a side effect on the parent window
+                // navigation when the url changes several times. The first time has no side effect, but the subsequent
+                // times add an unwanted new entry in the parent window history, so the user needs to click twice to go
+                // back to the previous page, instead of a single click.
+                //iFrame.src = url;
+
+                // Using the iframe location replace() method seems to work better without that side effect explained above.
+                iFrame.contentWindow.location.replace(url);
+            } else {
                 // For a better error reporting, we prefetch the url, and then inject the result into the iFrame, but
                 // this second method is not perfect either, as it may face security issue like CORS.
                 iFrame.contentWindow.fetch(url)
