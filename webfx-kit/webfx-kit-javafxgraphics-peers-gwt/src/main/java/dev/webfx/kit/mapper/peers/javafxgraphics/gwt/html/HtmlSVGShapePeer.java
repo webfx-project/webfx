@@ -49,6 +49,7 @@ public abstract class HtmlSVGShapePeer
     void doInitialUpdate() {
         N node = getNode();
         updateEffect(node.getEffect());
+        updateStroke(node.getStroke());
         updateFill(node.getFill());
     }
 
@@ -92,7 +93,7 @@ public abstract class HtmlSVGShapePeer
             style.top    = y + "px";
         }
     }
-        @Override
+    @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         SvgRoot svgRoot = new SvgRootBase();
