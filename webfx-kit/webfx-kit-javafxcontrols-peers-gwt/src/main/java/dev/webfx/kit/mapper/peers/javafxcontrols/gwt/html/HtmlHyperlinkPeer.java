@@ -17,16 +17,11 @@ public final class HtmlHyperlinkPeer
         implements HtmlLayoutMeasurableNoGrow {
 
     public HtmlHyperlinkPeer() {
-        this((NB) new ButtonBasePeerBase(), HtmlUtil.createElement("a"));
+        this((NB) new ButtonBasePeerBase(), HtmlUtil.createElement("fx-hyperlink"));
     }
 
     public HtmlHyperlinkPeer(NB base, HTMLElement element) {
         super(base, element);
-        element.setAttribute("href", "#");
-        element.onclick = e -> {
-            e.preventDefault();
-            return null;
-        };
     }
 
 }
