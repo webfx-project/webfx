@@ -42,7 +42,7 @@ public final class HtmlLinePeer
         width = Math.abs(node.getEndX() - node.getStartX());
         height = Math.abs(node.getEndY() - node.getStartY());
         addExtraOnEffect();
-        addExtraOnStrokeWidth();
+        increaseViewBoxWithStrokeWidth();
     }
 
     @Override

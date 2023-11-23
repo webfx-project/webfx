@@ -59,6 +59,7 @@ public abstract class HtmlSVGShapePeer
         y = bBox.y;
         width = bBox.width;
         height = bBox.height;
+        increaseViewBoxWithStrokeWidth();
     }
 
     void addExtraOnEffect() {
@@ -70,7 +71,7 @@ public abstract class HtmlSVGShapePeer
         }
     }
 
-    void addExtraOnStrokeWidth() {
+    void increaseViewBoxWithStrokeWidth() {
         // Adding extra space if there is a stroke
         N node = getNode();
         double strokeWidth = node.getStrokeWidth();
