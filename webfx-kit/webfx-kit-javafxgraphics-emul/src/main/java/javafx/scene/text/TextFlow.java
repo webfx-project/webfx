@@ -31,15 +31,15 @@ public class TextFlow extends /*Pane */ VBox {
 
     @Override
     public double prefHeight(double width) {
-        Insets insets = getPadding();
+        Insets insets = getInsets();
         double childPrefHeight;
         if (getChildren().isEmpty())
             childPrefHeight = 0;
         else
             childPrefHeight = getChildren().get(0).prefHeight(width);
-        return snapSpace(insets.getTop()) +
+        return snapSpaceY(insets.getTop()) +
                 childPrefHeight +
-                snapSpace(insets.getBottom());
+                snapSpaceY(insets.getBottom());
     }
 
     public void setTextAlignment(TextAlignment textAlignment) {}
