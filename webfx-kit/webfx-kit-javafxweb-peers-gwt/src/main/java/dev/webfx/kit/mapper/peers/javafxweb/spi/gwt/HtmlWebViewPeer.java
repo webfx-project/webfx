@@ -2,8 +2,8 @@ package dev.webfx.kit.mapper.peers.javafxweb.spi.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.platform.util.Booleans;
 import elemental2.dom.CSSProperties;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLIFrameElement;
 import javafx.event.EventHandler;
 import javafx.scene.web.WebErrorEvent;
@@ -26,10 +26,32 @@ public class HtmlWebViewPeer
     public HtmlWebViewPeer(NB base, HTMLIFrameElement iFrame) {
         super(base, iFrame);
         this.iFrame = iFrame;
+        // Allowing fullscreen for videos
+        HtmlUtil.setAttribute(iFrame, "allowfullscreen", "true");
+        // Error management. Actually this listener is never called by the browser for an unknown reason. So if it's
+        // important for the application code to be aware of errors (ex: network errors), webfx provides an alternative
+        // iFrame loading mode called prefetch which is able to report such errors (see updateUrl()).
         iFrame.onerror = e -> {
             reportError();
             return null;
         };
+        // Focus management.
+        // 1) Detecting when the iFrame gained focus
+        DomGlobal.window.addEventListener("blur", e -> { // when iFrame gained focus, the parent window lost focus
+            if (DomGlobal.document.activeElement == iFrame) { // and the active element should be the iFrame.
+                // Then, we set the WebView as the new focus owner in JavaFX
+                N webView = getNode();
+                webView.getScene().focusOwnerProperty().setValue(webView);
+            }
+        });
+        // 2) Detecting when the iFrame lost focus
+        DomGlobal.window.addEventListener("focus", e -> { // when iFrame lost focus, the parent window gained focus
+            // If the WebView is still the focus owner in JavaFX, we clear that focus to report the WebView lost focus
+            N webView = getNode();
+            if (webView.getScene().getFocusOwner() == webView) {
+                webView.getScene().focusOwnerProperty().setValue(null);
+            }
+        });
     }
 
     private void reportError() {
@@ -51,21 +73,11 @@ public class HtmlWebViewPeer
     @Override
     public void updateUrl(String url) {
         if (url != null) {
-            // In general, we use iFrame.src, but it doesn't report any network errors despite iFrame.onerror, which can
-            // be annoying in some cases. So we propose a prefetch alternative mode.
-            boolean usePrefetch = Booleans.isTrue(getNode().getProperties().get("webfx-prefetch"));
-            if (!usePrefetch) {
-                // Commented the following code (iFrame.src = url) because it has a side effect on the parent window
-                // navigation when the url changes several times. The first time has no side effect, but the subsequent
-                // times add an unwanted new entry in the parent window history, so the user needs to click twice to go
-                // back to the previous page, instead of a single click.
-                //iFrame.src = url;
-
-                // Using the iframe location replace() method seems to work better without that side effect explained above.
-                iFrame.contentWindow.location.replace(url);
-            } else {
+            // WebFX proposes different loading mode for the iFrame:
+            Object webfxLoadingMode = getNode().getProperties().get("webfx-loadingMode");
+            if ("prefetch".equals(webfxLoadingMode)) { // prefetch mode
                 // For a better error reporting, we prefetch the url, and then inject the result into the iFrame, but
-                // this second method is not perfect either, as it may face security issue like CORS.
+                // this alternative loading mode is not perfect either, as it may face security issue like CORS.
                 iFrame.contentWindow.fetch(url)
                         .then(response -> {
                             response.text().then(text -> {
@@ -80,6 +92,20 @@ public class HtmlWebViewPeer
                             reportError();
                             return null;
                         });
+            } else if ("replace".equals(webfxLoadingMode)) {
+                // Using iframe location replace() instead of setting iFrame.src has the benefit to not interfere with
+                // the parent window history (see explanation in standard loading mode below). However, it doesn't work
+                // in all situations (ex: embed YouTube videos are not loading in this mode).
+                iFrame.contentWindow.location.replace(url);
+            } else { // Standard loading mode
+                iFrame.src = url; // Standard way to load an iFrame
+                // But it has 2 downsides (which is why webfx proposes alternative loading modes):
+                // 1) it doesn't report any network errors (iFrame.onerror not called). Issue addressed by the webfx
+                // "prefetch" mode
+                // 2) it has a side effect on the parent window navigation when the url changes several times. The first
+                // time has no side effect, but the subsequent times add an unwanted new entry in the parent window
+                // history, so the user needs to click twice to go back to the previous page, instead of a single click.
+                // Issue addressed by the webfx "replace" mode.
             }
         }
     }
