@@ -26,6 +26,11 @@ public class HtmlWebViewPeer
     public HtmlWebViewPeer(NB base, HTMLIFrameElement iFrame) {
         super(base, iFrame);
         this.iFrame = iFrame;
+        // Allowing fullscreen for videos
+        HtmlUtil.setAttribute(iFrame, "allowfullscreen", "true");
+        // Error management. Actually this listener is never called by the browser for an unknown reason. So if it's
+        // important for the application code to be aware of errors (ex: network errors), webfx provides an alternative
+        // iFrame loading mode called prefetch which is able to report such errors (see updateUrl()).
         iFrame.onerror = e -> {
             reportError();
             return null;
