@@ -3,6 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxweb.spi.gwt;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import elemental2.dom.CSSProperties;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLIFrameElement;
 import javafx.event.EventHandler;
 import javafx.scene.web.WebErrorEvent;
@@ -29,6 +30,23 @@ public class HtmlWebViewPeer
             reportError();
             return null;
         };
+        // Focus management.
+        // 1) Detecting when the iFrame gained focus
+        DomGlobal.window.addEventListener("blur", e -> { // when iFrame gained focus, the parent window lost focus
+            if (DomGlobal.document.activeElement == iFrame) { // and the active element should be the iFrame.
+                // Then, we set the WebView as the new focus owner in JavaFX
+                N webView = getNode();
+                webView.getScene().focusOwnerProperty().setValue(webView);
+            }
+        });
+        // 2) Detecting when the iFrame lost focus
+        DomGlobal.window.addEventListener("focus", e -> { // when iFrame lost focus, the parent window gained focus
+            // If the WebView is still the focus owner in JavaFX, we clear that focus to report the WebView lost focus
+            N webView = getNode();
+            if (webView.getScene().getFocusOwner() == webView) {
+                webView.getScene().focusOwnerProperty().setValue(null);
+            }
+        });
     }
 
     private void reportError() {
