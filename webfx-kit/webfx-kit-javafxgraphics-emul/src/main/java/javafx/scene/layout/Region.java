@@ -6,10 +6,7 @@ import com.sun.javafx.geom.Vec2d;
 import com.sun.javafx.geom.transform.BaseTransform;
 import com.sun.javafx.util.TempState;
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.*;
 import javafx.scene.Node;
@@ -234,7 +231,15 @@ public class Region extends Parent implements
         return padding;
     }
 
-    private final Property<Boolean> snapToPixelProperty = new SimpleObjectProperty<Boolean>(true) {
+    // Note about snapToPixel property: its default value is true in OpenJFX, but WebFX changes this default value to
+    // false, as it has been observed this produces better results in the browser. A 1px mistake may happen during
+    // regions layout with snapToPixel = true, while it's resolved with snapToPixel = false. With snapToPixel = false,
+    // the mapping may produce non-integer values for HTML positions (ex: left: 15.2, width: 338.5, etc...) but the
+    // browser is snapping these values anyway. The issue in WebFX with snapToPixel = true probably comes from the WebFX
+    // method Node.getAllNodeTransforms() that reads back the layoutX/Y values to compute an overall transform for the
+    // Node that will be transmitted to the HTML mapper. This overall transform requires precise values when followed
+    // by other transforms such as rotate and scale.
+    private final Property<Boolean> snapToPixelProperty = new SimpleBooleanProperty(false) {
         @Override
         protected void invalidated() {
             updateSnappedInsets();
