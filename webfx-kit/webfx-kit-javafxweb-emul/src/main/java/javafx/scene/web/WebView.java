@@ -437,34 +437,6 @@ public class WebView extends Parent {
         return bounds.deriveWithNewBounds(0, 0, 0, (float) getWidth(), (float) getHeight(), 0);
     }
 
-    @Override
-    protected double impl_minWidth(double height) {
-        return 0;
-    }
-
-    @Override
-    protected double impl_minHeight(double width) {
-        return 0;
-    }
-    @Override
-    protected double impl_prefWidth(double height) {
-        return Double.MAX_VALUE;
-    }
-
-    @Override
-    protected double impl_prefHeight(double width) {
-        return Double.MAX_VALUE;
-    }
-
-    protected double impl_maxWidth(double height) {
-        return Double.MAX_VALUE;
-    }
-
-    @Override
-    protected double impl_maxHeight(double width) {
-        return Double.MAX_VALUE;
-    }
-
     static {
         JavaFxWebRegistry.registerWebView();
     }
