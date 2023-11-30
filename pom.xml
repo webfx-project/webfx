@@ -27,6 +27,22 @@
         </repository>
     </repositories>
 
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Removing implementation modules from JavaDoc because 1) they are not useful for users 2) gwt modules don't have a module-info.java which generates JavaDoc errors -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <configuration>
+                        <skippedModules>webfx-kit-javafxweb-registry-gwt</skippedModules>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
     <packaging>pom</packaging>
 
     <modules>
