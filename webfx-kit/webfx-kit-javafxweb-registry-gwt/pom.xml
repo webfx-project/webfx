@@ -17,8 +17,30 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
+            <artifactId>webfx-kit-javafxgraphics-emul</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
             <artifactId>webfx-kit-javafxweb-emul</artifactId>
             <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-kit-javafxweb-enginepeer-emul</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-dom</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.gwtproject</groupId>
+            <artifactId>gwt-user</artifactId>
         </dependency>
 
         <dependency>
@@ -30,6 +52,18 @@
         <dependency>
             <groupId>dev.webfx</groupId>
             <artifactId>webfx-kit-javafxweb-peers-gwt</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-kit-util</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-scheduler</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 

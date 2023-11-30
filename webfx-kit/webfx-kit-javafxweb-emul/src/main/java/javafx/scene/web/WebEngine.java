@@ -1,7 +1,10 @@
 package javafx.scene.web;
 
+import dev.webfx.kit.registry.javafxweb.JavaFxWebRegistry;
+import dev.webfx.kit.mapper.peers.javafxweb.engine.WebEnginePeer;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.concurrent.Worker;
 import javafx.event.EventHandler;
 
 /**
@@ -10,6 +13,7 @@ import javafx.event.EventHandler;
 public class WebEngine {
 
     private final WebView webView;
+    private final WebEnginePeer webEnginePeer;
 
     private final ObjectProperty<EventHandler<WebErrorEvent>> onError =
             new SimpleObjectProperty<>(this, "onError");
@@ -29,6 +33,11 @@ public class WebEngine {
 
     WebEngine(WebView webView) {
         this.webView = webView;
+        webEnginePeer = JavaFxWebRegistry.createWebEnginePeer(this);
+    }
+
+    public WebView getWebView() {
+        return webView;
     }
 
     public void load(String url) {
@@ -41,5 +50,15 @@ public class WebEngine {
 
     public void loadContent(String content, String contentType) {
         webView.setLoadContent(content);
+    }
+
+
+    public Worker<Void> getLoadWorker() {
+        return webEnginePeer.getLoadWorker();
+    }
+
+
+    public Object executeScript(String script) {
+        return webEnginePeer.executeScript(script);
     }
 }

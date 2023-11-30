@@ -13,4 +13,14 @@
 
     <artifactId>webfx-kit-javafxweb-registry</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-kit-javafxweb-enginepeer-emul</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
 </project>
