@@ -15,9 +15,6 @@
             </library>
 
             <library name="javafx-graphics">
-                <exported-packages>
-                    <package>javafx.concurrent</package>
-                </exported-packages>
             </library>
 
             <library name="javafx-controls">
