@@ -539,7 +539,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
     private void updateWrappingWidth() {
         final Labeled labeled = getSkinnable();
         text.setWrappingWidth(0d);
-        if (labeled.isWrapText() /* WebFX addition: */ && wrapWidth < noWrappingTextWidth) { // we don't set the wrapping width if not necessary due to lack of double precision in HTML (rounding to inferior pixel can cause an unwanted text wrap)
+        if (labeled.isWrapText() /* WebFX addition: */ && wrapWidth <= noWrappingTextWidth) { // we don't set the wrapping width if not necessary due to lack of double precision in HTML (rounding to inferior pixel can cause an unwanted text wrap)
             // Note that the wrapping width needs to be set to zero before
             // getting the text's real preferred width.
             double w = Math.min(text.prefWidth(-1), wrapWidth);
@@ -1146,7 +1146,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             }
 
             //if (labeled.getEffectiveNodeOrientation() == NodeOrientation.LEFT_TO_RIGHT) {
-                textClip.setX(text.getLayoutBounds().getMinX());
+            textClip.setX(text.getLayoutBounds().getMinX());
 /*
             } else {
                 textClip.setX(text.getLayoutBounds().getMaxX() - wrapWidth);
@@ -1184,16 +1184,16 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                     if (text != null && !text.isEmpty()) return text;
                 }
                 *//* Avoid the content in text.getText() as it can contain ellipses
-                 * for clipping
-                 *//*
+     * for clipping
+     *//*
                 if (labeled != null) {
                     String text = labeled.getText();
                     if (text != null && !text.isEmpty()) return text;
                 }
                 *//* Use the graphic as last resource. Note that this implementation
-                 * does not attempt to combine the label and graphics if both
-                 * are being displayed
-                 *//*
+     * does not attempt to combine the label and graphics if both
+     * are being displayed
+     *//*
                 if (graphic != null) {
                     Object result = graphic.queryAccessibleAttribute(AccessibleAttribute.TEXT);
                     if (result != null) return result;
