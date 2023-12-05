@@ -4,6 +4,7 @@ import com.sun.javafx.scene.control.LabeledText;
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import com.sun.javafx.scene.control.skin.Utils;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.util.Strings;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
@@ -18,6 +19,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
+
+import java.util.Objects;
 
 import static javafx.scene.control.ContentDisplay.*;
 import static javafx.scene.control.OverrunStyle.CLIP;
@@ -538,13 +541,14 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
      */
     private void updateWrappingWidth() {
         final Labeled labeled = getSkinnable();
-        text.setWrappingWidth(0d);
-        if (labeled.isWrapText() /* WebFX addition: */ && wrapWidth <= noWrappingTextWidth) { // we don't set the wrapping width if not necessary due to lack of double precision in HTML (rounding to inferior pixel can cause an unwanted text wrap)
+        //text.setWrappingWidth(0d);
+        if (labeled.isWrapText() /* WebFX addition: */ && wrapWidth < noWrappingTextWidth) { // we don't set the wrapping width if not necessary due to lack of double precision in HTML (rounding to inferior pixel can cause an unwanted text wrap)
             // Note that the wrapping width needs to be set to zero before
             // getting the text's real preferred width.
             double w = Math.min(text.prefWidth(-1), wrapWidth);
             text.setWrappingWidth(w);
-        }
+        } else
+            text.setWrappingWidth(0);
     }
 
     /**
@@ -719,13 +723,16 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         if (wrappingWidth <= 0) {
             textToMesure = noWrappingText;
             textToMesure.setFont(font);
-            textToMesure.setTextAlignment(getSkinnable().getTextAlignment());
-        } else {
+            //textToMesure.setTextAlignment(getSkinnable().getTextAlignment());
+            // Reusing also noWrappingText if the passed wrapping width is greater (=> for sure text will stay on 1 line) and text & font identical
+        } else if (noWrappingTextWidth > 0 && wrappingWidth > noWrappingTextWidth && Objects.equals(noWrappingText.getText(), text) && Objects.equals(noWrappingText.getFont(), font)) {
+            textToMesure = noWrappingText;
+        } else { // Otherwise using this.text to measure and apply wrapping width & text to it (should be final values to apply for html mapping)
             textToMesure = this.text;
             //textToMesure.setFont(font); // already bound to font
             textToMesure.setWrappingWidth(wrappingWidth);
         }
-        textToMesure.setText(text);
+        FXProperties.setIfNotEquals(textToMesure.textProperty(), text);
         return textToMesure;
     }
 
@@ -738,12 +745,12 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         final Font font = text.getFont();
 
         String str = labeled.getText();
-        if (str != null && str.length() > 0) {
+        /*if (str != null && str.length() > 0) { // Commented in WebFX because changing the text was introducing an infinite loop back between layout and html mapping (text change => size changed callback => layout)
             int newlineIndex = str.indexOf('\n');
             if (newlineIndex >= 0) {
                 str = str.substring(0, newlineIndex);
             }
-        }
+        }*/
 
         // TODO figure out how to cache this effectively.
         // Base minimum height on one line (ignoring wrapping here).
