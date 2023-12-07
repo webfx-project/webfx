@@ -2,6 +2,7 @@ package dev.webfx.kit.mapper.peers.javafxweb.spi.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.platform.util.Strings;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLIFrameElement;
@@ -72,7 +73,10 @@ public class HtmlWebViewPeer
 
     @Override
     public void updateUrl(String url) {
-        if (url != null) {
+        if (url == null) {
+            if (!Strings.isEmpty(iFrame.src))
+                iFrame.src = "";
+        } else {
             // WebFX proposes different loading mode for the iFrame:
             Object webfxLoadingMode = getNode().getProperties().get("webfx-loadingMode");
             if ("prefetch".equals(webfxLoadingMode)) { // prefetch mode
