@@ -121,10 +121,8 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         registerChangeListener(labeled.textAlignmentProperty(), "TEXT_ALIGNMENT");
         registerChangeListener(labeled.textOverrunProperty(), "TEXT_OVERRUN");
         registerChangeListener(labeled.wrapTextProperty(), "WRAP_TEXT");
-/*
-        registerChangeListener(labeled.underlineProperty(), "UNDERLINE");
+        //registerChangeListener(labeled.underlineProperty(), "UNDERLINE");
         registerChangeListener(labeled.lineSpacingProperty(), "LINE_SPACING");
-*/
         registerChangeListener(labeled.sceneProperty(), "SCENE");
     }
 
@@ -729,7 +727,8 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             textToMesure = noWrappingText;
         } else { // Otherwise using this.text to measure and apply wrapping width & text to it (should be final values to apply for html mapping)
             textToMesure = this.text;
-            //textToMesure.setFont(font); // already bound to font
+            //textToMesure.setFont(font); // already bound in LabeledText
+            //textToMesure.setLineSpacing(lineSpacing) // already bound in LabeledText
             textToMesure.setWrappingWidth(wrappingWidth);
         }
         FXProperties.setIfNotEquals(textToMesure.textProperty(), text);
@@ -789,7 +788,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                 Utils.boundedSize(graphic.prefWidth(-1), graphic.minWidth(-1), graphic.maxWidth(-1));
 
         // Now add on the graphic, gap, and padding as appropriate
-        final Node graphic = labeled.getGraphic();
+        //final Node graphic = labeled.getGraphic();
         if (isIgnoreGraphic()) {
             return textWidth + widthPadding;
         } else if (isIgnoreText()) {

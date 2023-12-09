@@ -29,10 +29,8 @@ public class LabeledText extends Text {
         this.setFill(this.labeled.getTextFill());
         this.setFont(this.labeled.getFont());
         this.setTextAlignment(this.labeled.getTextAlignment());
-/*
-        this.setUnderline(this.labeled.isUnderline());
+        //this.setUnderline(this.labeled.isUnderline());
         this.setLineSpacing(this.labeled.getLineSpacing());
-*/
 
         //
         // Bind the state of this Text object to that of the Labeled.
@@ -42,10 +40,8 @@ public class LabeledText extends Text {
         this.fontProperty().bind(this.labeled.fontProperty());
         // do not bind text - Text doesn't have -fx-text
         this.textAlignmentProperty().bind(this.labeled.textAlignmentProperty());
-/*
-        this.underlineProperty().bind(this.labeled.underlineProperty());
+        //this.underlineProperty().bind(this.labeled.underlineProperty());
         this.lineSpacingProperty().bind(this.labeled.lineSpacingProperty());
-*/
 
         getStyleClass().addAll("text");
     }

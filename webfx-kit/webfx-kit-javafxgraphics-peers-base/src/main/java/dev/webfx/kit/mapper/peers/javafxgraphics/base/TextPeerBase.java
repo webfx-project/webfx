@@ -20,6 +20,7 @@ public class TextPeerBase
                 , t.xProperty()
                 , t.yProperty()
                 , t.wrappingWidthProperty()
+                , t.lineSpacingProperty()
                 , t.textAlignmentProperty()
                 , t.fontProperty()
                 , t.textProperty()
@@ -34,8 +35,10 @@ public class TextPeerBase
                 || updateProperty(ts.xProperty(), changedProperty, p -> mixin.updateX(p.doubleValue()))
                 || updateProperty(ts.yProperty(), changedProperty, p -> mixin.updateY(p.doubleValue()))
                 || updateProperty(ts.wrappingWidthProperty(), changedProperty, p -> mixin.updateWrappingWidth(p.doubleValue()))
+                || updateProperty(ts.lineSpacingProperty(), changedProperty, mixin::updateLineSpacing)
                 || updateProperty(ts.textAlignmentProperty(), changedProperty, mixin::updateTextAlignment)
                 || updateProperty(ts.textOriginProperty(), changedProperty, mixin::updateTextOrigin)
-                || updateProperty(ts.fontProperty(), changedProperty, mixin::updateFont);
+                || updateProperty(ts.fontProperty(), changedProperty, mixin::updateFont)
+                ;
     }
 }

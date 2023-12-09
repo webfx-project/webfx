@@ -58,6 +58,20 @@ public class Text extends Shape implements
         return wrappingWidthProperty;
     }
 
+    private final DoubleProperty lineSpacingProperty = new SimpleDoubleProperty(0d);
+
+    public DoubleProperty lineSpacingProperty() {
+        return lineSpacingProperty;
+    }
+
+    public double getLineSpacing() {
+        return lineSpacingProperty.get();
+    }
+
+    public void setLineSpacing(double lineSpacing) {
+        this.lineSpacingProperty.set(lineSpacing);
+    }
+
     private final DoubleProperty yProperty = new SimpleDoubleProperty(0d);
     @Override
     public DoubleProperty yProperty() {

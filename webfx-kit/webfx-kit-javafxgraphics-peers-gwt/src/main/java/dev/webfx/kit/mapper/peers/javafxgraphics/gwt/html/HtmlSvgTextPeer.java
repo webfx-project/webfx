@@ -57,7 +57,7 @@ public final class HtmlSvgTextPeer
 
     private SVGRect getBBox() {
         //if (bBox == null)
-            bBox = svgTextPeer.getBBox();
+        bBox = svgTextPeer.getBBox();
         return bBox;
     }
 
@@ -164,6 +164,12 @@ public final class HtmlSvgTextPeer
     @Override
     public void updateWrappingWidth(Double wrappingWidth) {
         svgTextPeer.updateWrappingWidth(wrappingWidth);
+    }
+
+    @Override
+    public void updateLineSpacing(Number lineSpacing) {
+        svgTextPeer.updateLineSpacing(lineSpacing);
+        updateViewBox();
     }
 
     @Override

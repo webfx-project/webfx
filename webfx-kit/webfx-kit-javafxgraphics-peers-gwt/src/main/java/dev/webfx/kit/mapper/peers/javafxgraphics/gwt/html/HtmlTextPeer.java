@@ -9,7 +9,9 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Numbers;
+import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.HTMLElement;
 import javafx.geometry.VPos;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
@@ -129,12 +131,44 @@ public final class HtmlTextPeer
 
     @Override
     public void updateWrappingWidth(Double wrappingWidth) {
-        double width = Numbers.doubleValue(wrappingWidth);
-        if (width != 0)
-            setElementStyleAttribute("width", toPx(width));
-        // Setting the wrapping mode in HTML through white-space style attribute
-        setElementStyleAttribute("white-space", width != 0 ? "normal" : "nowrap");
+        updateWrappingWithAndLineSpacing(Numbers.doubleValue(wrappingWidth), getNode().getLineSpacing());
+    }
+
+    @Override
+    public void updateLineSpacing(Number lineSpacing) {
+        updateWrappingWithAndLineSpacing(getNode().getWrappingWidth(), Numbers.doubleValue(lineSpacing));
+    }
+
+    private void updateWrappingWithAndLineSpacing(double wrappingWidth, double lineSpacing) {
+        boolean isWrapping = wrappingWidth != 0;
+        HTMLElement element = getElement();
+        CSSStyleDeclaration style = element.style;
+        // First, we set the HTML line height with no extra spacing between lines (lineSpacing = 0).
+        // Note: it looks like JavaFX doesn't apply the same line height for single-line and multi-lines texts.
+        // For single-line, it looks like HTML "normal", and for multi-line it looks like 130% (empiric value).
+        style.lineHeight = CSSProperties.LineHeightUnionType.of(isWrapping ? "130%" : "normal"); // Note: 100% < normal < 130%
+        // We correct the line height if an additional line spacing is requested
+        if (isWrapping && lineSpacing != 0) { // not necessary if not wrapping (i.e. single line text)
+            // There is no HTML equivalent of the JavaFX lineSpacing which specifies only the extra space (expressed in
+            // pixels) between lines of space (and not the whole line height). So, to map this into HTML, we need to
+            // 1) get the value of the HTML line height expressed in pixels, and 2) correct it by adding lineSpacing.
+            // 1) Getting the value of line height in pixels (rather than "normal" or "130%"). To do that, we measure
+            // the current height of the element for a single line of text.
+            String currentText = element.textContent; // Memorising the current text (it may be a multi-line text)
+            element.textContent = "W"; // Temporarily changing the text content to a single letter (=> ensures single-line)
+            clearCache(); // Clearing the cache to ensure a fresh measurement
+            double lineHeightPx = measure(element, false); // We mesure the height = line height in pixels
+            element.textContent = currentText; // Re-establishing the current text
+            // 2) Correcting the line height by adding the requested line spacing
+            style.lineHeight = CSSProperties.LineHeightUnionType.of(toPx(lineHeightPx + lineSpacing));
+        }
+        // Mapping the wrapping with using the HTML width style attribute
+        style.width = isWrapping ? CSSProperties.WidthUnionType.of(toPx(wrappingWidth)) : null;
+        // Mapping the wrapping mode using the HTML white-space style attribute
+        style.whiteSpace = isWrapping ? "normal" : "nowrap";
+        // Clearing the measurement cache because HTML attributes have changed
         clearCache();
+        // An update of Y may be necessary (to consider textOrigin)
         updateYInAnimationFrame(false);
     }
 

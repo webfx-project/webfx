@@ -74,6 +74,11 @@ public final class SvgTextPeer
     }
 
     @Override
+    public void updateLineSpacing(Number lineSpacing) {
+        // TODO: implement SVG line spacing
+    }
+
+    @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
         setElementAttribute("text-anchor", textAlignmentToSvgTextAnchor(textAlignment));
     }

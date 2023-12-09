@@ -1,12 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwt.html;
 
-import elemental2.dom.Element;
-import elemental2.dom.HTMLElement;
-import javafx.scene.Node;
-import javafx.scene.control.Labeled;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.LabeledPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.LabeledPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlImageViewPeer;
@@ -15,6 +8,13 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.platform.util.Strings;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
+import javafx.scene.Node;
+import javafx.scene.control.Labeled;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon
@@ -91,8 +91,13 @@ abstract class HtmlLabeledPeer
     public void updateWrapText(boolean wrapText) {
         if (doesSkinRelyOnPeerToProvideVisualContent()) { // Note: for LabeledSkinBase, the wrapping is done though its internal Text node having a wrapping width -> see HtmlTextPeer.updateWrappingWidth()
             setElementStyleAttribute("white-space", wrapText ? "normal" : "nowrap");
-            //setElementStyleAttribute("line-height", wrapText ? "normal" : "100%"); // Commented as not sure about line-height: 100% when not wrapping text TODO: investigate the expected height in JavaFX
         }
     }
 
+    @Override
+    public void updateLineSpacing(Number lineSpacing) {
+        if (doesSkinRelyOnPeerToProvideVisualContent()) { // Note: for LabeledSkinBase, the wrapping is done though its internal Text node having a line spacing -> see HtmlTextPeer.updateLineSpacing()
+            // TODO: implement lineSpacing if necessary
+        }
+    }
 }
