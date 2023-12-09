@@ -43,6 +43,7 @@
         <module>webfx-kit-launcher</module>
         <module>webfx-kit-openjfx</module>
         <module>webfx-kit-platform-audio-openjfx-gwt</module>
+        <module>webfx-kit-platform-browser-openjfx</module>
         <module>webfx-kit-platform-visibility-openjfx</module>
         <module>webfx-kit-statusbar</module>
         <module>webfx-kit-statusbar-gluon</module>

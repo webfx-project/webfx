@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <exported-packages>
+        <source-packages/>
+        <resource-packages/>
+    </exported-packages>
+
+    <providers>
+        <provider interface="dev.webfx.platform.browser.spi.BrowserProvider">dev.webfx.kit.platform.browser.spi.impl.openjfx.OpenJFXBrowserProvider</provider>
+    </providers>
+
+    <dependencies>
+        <used-by-source-modules/>
+    </dependencies>
+
+</project>
