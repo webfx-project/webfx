@@ -169,7 +169,7 @@ public final class HtmlTextPeer
         // Clearing the measurement cache because HTML attributes have changed
         clearCache();
         // An update of Y may be necessary (to consider textOrigin)
-        updateYInAnimationFrame(false);
+        updateYInAnimationFrame(true);
     }
 
     @Override
