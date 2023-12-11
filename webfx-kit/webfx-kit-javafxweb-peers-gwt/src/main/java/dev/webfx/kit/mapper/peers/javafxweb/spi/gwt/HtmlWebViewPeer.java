@@ -1,10 +1,12 @@
 package dev.webfx.kit.mapper.peers.javafxweb.spi.gwt;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.platform.util.Strings;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLIFrameElement;
 import javafx.event.EventHandler;
 import javafx.scene.web.WebErrorEvent;
@@ -16,17 +18,21 @@ import javafx.scene.web.WebView;
 public class HtmlWebViewPeer
         <N extends WebView, NB extends EmulWebViewPeerBase<N, NB, NM>, NM extends EmulWebViewPeerMixin<N, NB, NM>>
         extends HtmlNodePeer<N, NB, NM>
-        implements EmulWebViewPeerMixin<N, NB, NM> {
+        implements EmulWebViewPeerMixin<N, NB, NM>, HasNoChildrenPeers {
 
     private final HTMLIFrameElement iFrame;
 
     public HtmlWebViewPeer() {
-        this((NB) new EmulWebViewPeerBase(), HtmlUtil.createElement("iframe"));
+        this((NB) new EmulWebViewPeerBase(), HtmlUtil.createElement("fx-webview"));
     }
 
-    public HtmlWebViewPeer(NB base, HTMLIFrameElement iFrame) {
-        super(base, iFrame);
-        this.iFrame = iFrame;
+    public HtmlWebViewPeer(NB base, HTMLElement webViewElement) {
+        super(base, webViewElement);
+        // There will be only child which will be an iFrame to display and load the web content.
+        iFrame = HtmlUtil.createElement("iframe");
+        HtmlUtil.setChild(getContainer(), iFrame);
+        HtmlUtil.setStyleAttribute(iFrame, "width", "100%");  // 100% of <fx-webview>
+        HtmlUtil.setStyleAttribute(iFrame, "height", "100%"); // 100% of <fx-webview>
         // Allowing fullscreen for videos
         HtmlUtil.setAttribute(iFrame, "allowfullscreen", "true");
         // Error management. Actually this listener is never called by the browser for an unknown reason. So if it's
@@ -55,6 +61,10 @@ public class HtmlWebViewPeer
         });
     }
 
+    public HTMLIFrameElement getIFrame() { // called by GwtWebEnginePeer
+        return iFrame;
+    }
+
     private void reportError() {
         EventHandler<WebErrorEvent> onError = getNode().getEngine().getOnError();
         if (onError != null)
@@ -63,12 +73,12 @@ public class HtmlWebViewPeer
 
     @Override
     public void updateWidth(Number width) {
-        iFrame.style.width = CSSProperties.WidthUnionType.of(toPx(width.doubleValue()));
+        getElement().style.width = CSSProperties.WidthUnionType.of(toPx(width.doubleValue()));
     }
 
     @Override
     public void updateHeight(Number height) {
-        iFrame.style.height = CSSProperties.HeightUnionType.of(toPx(height.doubleValue()));
+        getElement().style.height = CSSProperties.HeightUnionType.of(toPx(height.doubleValue()));
     }
 
     @Override
