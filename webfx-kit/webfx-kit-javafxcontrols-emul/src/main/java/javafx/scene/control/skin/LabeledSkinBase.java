@@ -723,7 +723,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             textToMesure.setFont(font);
             //textToMesure.setTextAlignment(getSkinnable().getTextAlignment());
             // Reusing also noWrappingText if the passed wrapping width is greater (=> for sure text will stay on 1 line) and text & font identical
-        } else if (noWrappingTextWidth > 0 && wrappingWidth > noWrappingTextWidth && Objects.equals(noWrappingText.getText(), text) && Objects.equals(noWrappingText.getFont(), font)) {
+        } else if (noWrappingTextWidth > 0 && wrappingWidth >= noWrappingTextWidth && Objects.equals(noWrappingText.getText(), text) && Objects.equals(noWrappingText.getFont(), font)) {
             textToMesure = noWrappingText;
         } else { // Otherwise using this.text to measure and apply wrapping width & text to it (should be final values to apply for html mapping)
             textToMesure = this.text;
