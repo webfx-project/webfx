@@ -4,7 +4,9 @@ import dev.webfx.kit.mapper.peers.javafxweb.engine.WebEnginePeerBase;
 import dev.webfx.kit.mapper.peers.javafxweb.spi.gwt.HtmlWebViewPeer;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.scheduler.Scheduler;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLIFrameElement;
+import elemental2.dom.Window;
 import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -15,7 +17,6 @@ import javafx.scene.web.WebView;
 final class GwtWebEnginePeer extends WebEnginePeerBase {
 
     private final WebEngine webEngine;
-    private HTMLIFrameElement iFrame;
 
     public GwtWebEnginePeer(WebEngine webEngine) {
         this.webEngine = webEngine;
@@ -23,13 +24,17 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
         FXProperties.runNowAndOnPropertiesChange(e -> updateState(), webView.sceneProperty());
     }
 
+    private Window getScriptWindow() {
+        HTMLIFrameElement iFrame = null;
+        HtmlWebViewPeer peer = (HtmlWebViewPeer) webEngine.getWebView().getNodePeer();
+        if (peer != null)
+            iFrame = peer.getIFrame();
+        return iFrame == null ? DomGlobal.window : iFrame.contentWindow;
+    }
+
     private void updateState() {
-        if (iFrame == null) {
-            HtmlWebViewPeer peer = (HtmlWebViewPeer) webEngine.getWebView().getNodePeer();
-            if (peer != null)
-                iFrame = (HTMLIFrameElement) peer.getElement();
-        }
-        if (iFrame != null && iFrame.contentWindow != null)
+        Window scriptWindow = getScriptWindow();
+        if (scriptWindow != null)
             worker.setState(Worker.State.READY);
         else {
             worker.setState(Worker.State.SCHEDULED);
@@ -40,7 +45,7 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
 
     @Override
     public Object executeScript(String script) {
-        Object result = GwtJSObject.eval(iFrame.contentWindow, script);
+        Object result = GwtJSObject.eval(getScriptWindow(), script);
         return GwtJSObject.wrapJSObject(result);
     }
 
