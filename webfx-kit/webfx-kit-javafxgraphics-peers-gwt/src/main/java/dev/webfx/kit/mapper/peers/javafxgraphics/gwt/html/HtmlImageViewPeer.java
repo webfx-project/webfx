@@ -76,6 +76,8 @@ public final class HtmlImageViewPeer
             setElementAttribute("alt", imageUrl);
             // But removing the alt text and hiding the image if the link is broken (to align with JavaFX behaviour which doesn't display such things)
             setElementAttribute("onerror", "this.style.display='none'; this.alt=''");
+            // When we change the image url, we remove the possible display='none' of the previous image (if it was on error)
+            setElementStyleAttribute("display", null);
             // Special case of a canvas image (ex: the WebFX WritableImage emulation code stored the image in a canvas)
             HTMLCanvasElement canvasElement = CanvasElementHelper.getCanvasElementAssociatedWithImage(image);
             if (canvasElement != null) {
