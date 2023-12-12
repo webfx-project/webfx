@@ -25,11 +25,14 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
     }
 
     private Window getScriptWindow() {
-        HTMLIFrameElement iFrame = null;
+        Window iFrameWindow = null;
         HtmlWebViewPeer peer = (HtmlWebViewPeer) webEngine.getWebView().getNodePeer();
-        if (peer != null)
-            iFrame = peer.getIFrame();
-        return iFrame == null ? DomGlobal.window : iFrame.contentWindow;
+        if (peer != null) {
+            HTMLIFrameElement iFrame = peer.getIFrame();
+            if (iFrame != null)
+                iFrameWindow = iFrame.contentWindow;
+        }
+        return iFrameWindow != null ? iFrameWindow : DomGlobal.window;
     }
 
     private void updateState() {
