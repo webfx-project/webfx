@@ -21,12 +21,13 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
     public GwtWebEnginePeer(WebEngine webEngine) {
         this.webEngine = webEngine;
         WebView webView = webEngine.getWebView();
-        FXProperties.runNowAndOnPropertiesChange(e -> updateState(), webView.sceneProperty());
+        FXProperties.runNowAndOnPropertiesChange(e -> updateState(), webView == null ? null : webView.sceneProperty());
     }
 
     private Window getScriptWindow() {
         Window iFrameWindow = null;
-        HtmlWebViewPeer peer = (HtmlWebViewPeer) webEngine.getWebView().getNodePeer();
+        WebView webView = webEngine.getWebView();
+        HtmlWebViewPeer peer = webView == null ? null : (HtmlWebViewPeer) webView.getNodePeer();
         if (peer != null) {
             HTMLIFrameElement iFrame = peer.getIFrame();
             if (iFrame != null)
