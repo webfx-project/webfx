@@ -16,11 +16,16 @@ import java.util.function.Function;
 public final class NodePeerFactoryRegistry {
 
     private final static Map<Class<? extends Node>, Factory<? extends NodePeer>> nodePeerFactories = new HashMap<>();
+    private final static Map<Class<? extends Node>, Function<String, ? extends NodePeer>> customTagNodePeerFactories = new HashMap<>();
     private static Function<Region, NodePeer<Region>> defaultRegionFactory;
     private static Function<Group, NodePeer<Group>> defaultGroupFactory;
 
     public static <N extends Node, V extends NodePeer<? super N>> void registerNodePeerFactory(Class<N> nodeClass, Factory<V> factory) {
         nodePeerFactories.put(nodeClass, factory);
+    }
+
+    public static <N extends Node, V extends NodePeer<? super N>> void registerCustomTagNodePeerFactory(Class<N> nodeClass, Function<String, V> factory) {
+        customTagNodePeerFactories.put(nodeClass, factory);
     }
 
     public static void registerDefaultRegionPeerFactory(Function<Region, NodePeer<Region>> defaultRegionFactory) {
@@ -31,9 +36,24 @@ public final class NodePeerFactoryRegistry {
         NodePeerFactoryRegistry.defaultGroupFactory = defaultGroupFactory;
     }
 
+    public static String requestedCustomTag(Node node) {
+        return (String) node.getProperties().get("webfx-htmlTag");
+    }
+
+    public static String classTag(Node node) {
+        return "fx-" + node.getClass().getSimpleName().toLowerCase();
+    }
+
     public static <N extends Node, V extends NodePeer<N>> V createNodePeer(N node) {
         Class<?> nodeClass = node.getClass();
+        String customTag = requestedCustomTag(node);
         // Searching the peer factory associated with the node class
+        Function<String, ? extends NodePeer> customTagFactory;
+        if (customTag != null) {
+            customTagFactory = customTagNodePeerFactories.get(nodeClass);
+            if (customTagFactory != null)
+                return (V) customTagFactory.apply(customTag);
+        }
         Factory<? extends NodePeer> factory = nodePeerFactories.get(nodeClass);
         if (factory != null)
             return (V) factory.create();
@@ -46,6 +66,11 @@ public final class NodePeerFactoryRegistry {
         // For other nodes, we search recursively in super classes
         while (nodeClass != null) {
             nodeClass = nodeClass.getSuperclass();
+            if (customTag != null) {
+                customTagFactory = customTagNodePeerFactories.get(nodeClass);
+                if (customTagFactory != null)
+                    return (V) customTagFactory.apply(customTag);
+            }
             factory = nodePeerFactories.get(nodeClass);
             if (factory != null)
                 return (V) factory.create();

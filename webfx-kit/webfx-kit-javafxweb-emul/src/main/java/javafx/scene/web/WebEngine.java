@@ -30,6 +30,9 @@ public class WebEngine {
         return onError;
     }
 
+    public WebEngine() {
+        this(null);
+    }
 
     WebEngine(WebView webView) {
         this.webView = webView;
