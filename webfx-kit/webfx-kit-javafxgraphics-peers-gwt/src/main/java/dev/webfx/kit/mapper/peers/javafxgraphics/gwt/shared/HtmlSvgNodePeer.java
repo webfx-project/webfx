@@ -588,7 +588,7 @@ public abstract class HtmlSvgNodePeer
             ((HtmlSvgNodePeer) clip.getOrCreateAndBindNodePeer()).bindAsClip(getNode());
     }
 
-    protected boolean clip;
+    protected boolean clip; // true when this node is actually used as a clip (=> not part of the scene graph)
     protected List<Node> clipNodes; // Contains the list of nodes that use this node as a clip
     protected String clipPath;
 
@@ -596,10 +596,9 @@ public abstract class HtmlSvgNodePeer
         clip = true;
         if (clipNodes == null)
             clipNodes = new ArrayList<>();
-        if (!clipNodes.contains(clipNode)) {
+        if (!clipNodes.contains(clipNode))
             clipNodes.add(clipNode);
-            applyClipPathToClipNode(clipNode);
-        }
+        applyClipPathToClipNode(clipNode);
     }
 
     protected final boolean isClip() {
@@ -607,11 +606,11 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected final void applyClipPathToClipNodes() { // Should be called when this node is a clip and that its properties has changed
-        clipPath = null; // To fore computation
+        clipPath = null; // To force computation
         N thisClip = getNode();
         for (Iterator<Node> it = clipNodes.iterator(); it.hasNext(); ) {
             Node clipNode = it.next();
-            if (clipNode.getClip() == thisClip) // double-checking we are still the clip
+            if (clipNode.getClip() == thisClip) // checking the node is still using that clip
                 applyClipPathToClipNode(clipNode);
             else // Otherwise we remove that node from the clip nodes
                 it.remove();
@@ -628,7 +627,7 @@ public abstract class HtmlSvgNodePeer
         return clipPath;
     }
 
-    protected String computeClipPath() { // To override for node that can be clip
+    protected String computeClipPath() { // To override for nodes that can be used as clip (ex: rectangle, circle, etc...)
         return null;
     }
 
