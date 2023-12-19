@@ -7,22 +7,40 @@ import javafx.scene.text.Text;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.*;
 
-import static dev.webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry.registerNodePeerFactory;
+import static dev.webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry.*;
 
 
 public class JavaFxGraphicsRegistry {
 
     public static void registerGroup() {
         NodePeerFactoryRegistry.registerDefaultGroupPeerFactory(node -> {
-            // Generating the tag to use for the
-            String tag = "fx-" + node.getClass().getSimpleName().toLowerCase();
-            registerNodePeerFactory(node.getClass(), () -> new HtmlGroupPeer<>(tag));
+            String tag = requestedCustomTag(node);
+            if (tag == null) {
+                String classTag = classTag(node);
+                // Hot registration for future cases
+                registerNodePeerFactory(node.getClass(), () -> new HtmlGroupPeer<>(classTag));
+                tag = classTag;
+            }
             return new HtmlGroupPeer<>(tag);
+        });
+    }
+
+    public static void registerRegion() {
+        NodePeerFactoryRegistry.registerDefaultRegionPeerFactory(node -> {
+            String tag = requestedCustomTag(node);
+            if (tag == null) {
+                String classTag = classTag(node);
+                // Hot registration for future cases
+                registerNodePeerFactory(node.getClass(), () -> new HtmlLayoutPeer<>(classTag));
+                tag = classTag;
+            }
+            return new HtmlLayoutPeer<>(tag);
         });
     }
 
     public static void registerRectangle() {
         registerNodePeerFactory(Rectangle.class, HtmlRectanglePeer::new);
+        registerCustomTagNodePeerFactory(Rectangle.class, HtmlRectanglePeer::new);
     }
 
     public static void registerArc() {
@@ -55,15 +73,6 @@ public class JavaFxGraphicsRegistry {
 
     public static void registerSVGPath() {
         registerNodePeerFactory(SVGPath.class, HtmlSVGPathPeer::new);
-    }
-
-    public static void registerRegion() {
-        NodePeerFactoryRegistry.registerDefaultRegionPeerFactory(node -> {
-            // Generating the tag to use for the
-            String tag = "fx-" + node.getClass().getSimpleName().toLowerCase();
-            registerNodePeerFactory(node.getClass(), () -> new HtmlLayoutPeer<>(tag));
-            return new HtmlLayoutPeer<>(tag);
-        });
     }
 
 }
