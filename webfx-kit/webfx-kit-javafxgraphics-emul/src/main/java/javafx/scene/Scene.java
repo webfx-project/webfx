@@ -471,6 +471,41 @@ public class Scene implements EventTarget,
                 .getAccelerators();
     }
 
+    /**
+     * Defines the mouse cursor for this {@code Scene}.
+     */
+    private ObjectProperty<Cursor> cursor;
+
+    public final void setCursor(Cursor value) {
+        cursorProperty().set(value);
+    }
+
+    public final Cursor getCursor() {
+        return cursor == null ? null : cursor.get();
+    }
+
+    public final ObjectProperty<Cursor> cursorProperty() {
+        if (cursor == null) {
+            cursor = new ObjectPropertyBase<Cursor>() {
+                @Override
+                protected void invalidated() {
+                    //markCursorDirty();
+                }
+
+                @Override
+                public Object getBean() {
+                    return Scene.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "cursor";
+                }
+            };
+        }
+        return cursor;
+    }
+
 
     /***************************************************************************
      *                                                                         *
