@@ -54,6 +54,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         installStylesheetsListener(scene);
         installFontsListener();
         installIconsListener();
+        installCursorListener();
         // The following code is just to avoid a downgrade in Lighthouse (iframe should have a title)
         NodeList<Element> iframes = document.getElementsByTagName("iframe"); // Looking for the GWT iframe
         if (iframes.length > 0) {
@@ -260,6 +261,13 @@ public final class HtmlScenePeer extends ScenePeerBase {
             node.onPeerSizeChanged();
         }
     }
+
+    private void installCursorListener() {
+        FXProperties.runNowAndOnPropertiesChange(() -> {
+            HtmlUtil.setStyleAttribute(getSceneNode(), "cursor", HtmlSvgNodePeer.toCssCursor(getScene().getCursor()));
+        }, getScene().cursorProperty());
+    }
+
 
     private void updateContainerFill() {
         container.style.background = HtmlPaints.toHtmlCssPaint(scene.getFill());

@@ -752,7 +752,7 @@ public abstract class HtmlSvgNodePeer
         return enumName.toLowerCase().replace('_', '-');
     }
 
-    private static String toCssCursor(Cursor cursor) {
+    public static String toCssCursor(Cursor cursor) {
         if (cursor == null)
             return null;
         CursorType cursorType = cursor.getCurrentFrame().getCursorType();
