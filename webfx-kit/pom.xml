@@ -35,7 +35,7 @@
         <module>webfx-kit-javafxmedia-registry</module>
         <module>webfx-kit-javafxmedia-registry-gwt</module>
         <module>webfx-kit-javafxweb-emul</module>
-        <module>webfx-kit-javafxweb-enginepeer-emul</module>
+        <module>webfx-kit-javafxweb-enginepeer</module>
         <module>webfx-kit-javafxweb-peers-base</module>
         <module>webfx-kit-javafxweb-peers-gwt</module>
         <module>webfx-kit-javafxweb-registry</module>
