@@ -80,6 +80,8 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private static void updateCanvasElementSize(HTMLCanvasElement canvasElement, double fxCanvasSize, boolean isWidth) {
+        boolean isWebGL = canvasElement.getAttribute("webgl") != null;
+        CanvasRenderingContext2D ctx = isWebGL ? null : Context2DHelper.getCanvasContext2D(canvasElement);
         // While HTML canvas and JavaFX canvas have an identical size in low-res screens, they differ in HDPI screens
         // because JavaFX automatically apply the pixel conversion, while HTML doesn't.
         int htmlSize = (int) (fxCanvasSize * DPR); // So we apply the DPR factor to get the hi-res number of pixels.
@@ -97,15 +99,15 @@ public class HtmlGraphicsContext implements GraphicsContext {
         if (htmlSizeHasChanged) {
             // We don't want to lose the context state when resizing the canvas, so we take a snapshot of it before
             // resizing, so we can restore it after that.
-            CanvasRenderingContext2D ctx = Context2DHelper.getCanvasContext2D(canvasElement);
-            Context2DStateSnapshot ctxStateSnapshot = new Context2DStateSnapshot(ctx);
+            Context2DStateSnapshot ctxStateSnapshot = ctx == null ? null : new Context2DStateSnapshot(ctx);
             // Now we can change the canvas size, as we are prepared
             if (isWidth)
                 canvasElement.width = htmlSize;  // => erases canvas & reset context sate
             else
                 canvasElement.height = htmlSize; // => erases canvas & reset context sate
             // We restore the context state that we have stored in the snapshot (this includes the initial DPR scale)
-            ctxStateSnapshot.reapply();
+            if (ctxStateSnapshot != null)
+                ctxStateSnapshot.reapply();
             // On HDPI screens, we must also set the CSS size, otherwise the CSS size will be taken from the canvas
             // size by default, which is not what we want because the CSS size is expressed in low-res and not in HDPI
             // pixels like the canvas size, so this would make the canvas appear much too big on the screen.
@@ -756,7 +758,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         }
     }
 
-    static HTMLImageElement getHTMLImageElement(Image image) {
+    public static HTMLImageElement getHTMLImageElement(Image image) {
         HTMLImageElement imageElement;
         Object peerImage = image.getPeerImage();
         if (peerImage instanceof HTMLImageElement)

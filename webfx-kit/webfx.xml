@@ -28,7 +28,16 @@
 
             <library name="javafx-web">
             </library>
-
+            <!--
+            <library name="joml.gwt">
+                <groupId>org.joml</groupId>
+                <artifactId>joml-gwt</artifactId>
+                <version>1.10.1</version>
+                <exported-packages>
+                    <package>org.joml</package>
+                </exported-packages>
+            </library>
+            -->
         </group>
     </required-libraries>
 

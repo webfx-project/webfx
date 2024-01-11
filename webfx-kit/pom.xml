@@ -49,6 +49,8 @@
         <module>webfx-kit-statusbar-none</module>
         <module>webfx-kit-util</module>
         <module>webfx-kit-util-scene</module>
+        <module>webfx-kit-webgl</module>
+        <module>webfx-kit-webgl-gwt</module>
     </modules>
 
 </project>

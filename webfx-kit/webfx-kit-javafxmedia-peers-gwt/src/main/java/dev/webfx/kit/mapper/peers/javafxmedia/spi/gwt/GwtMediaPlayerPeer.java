@@ -24,7 +24,7 @@ import java.util.Objects;
 /**
  * @author Bruno Salmon
  */
-final class GwtMediaPlayerPeer implements MediaPlayerPeer {
+public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     private static final boolean PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP = !"false".equals(Storage.getLocalStorageIfSupported().getItem("PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP"));
     private static final long MEDIA_PLAYER_CURRENT_TIME_SYNC_RATE_MILLIS = 250; // Same rate as mediaElement.ontimeupdate
@@ -121,6 +121,10 @@ final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         if (mute)
             mediaElement.muted = true;
         mediaElement.src = mediaUrl;
+    }
+
+    public HTMLMediaElement getMediaElement() {
+        return mediaElement;
     }
 
     private void setMediaDuration(double seconds) {

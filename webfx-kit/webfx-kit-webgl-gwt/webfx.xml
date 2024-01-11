@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <exported-packages>
+        <source-packages/>
+        <resource-packages/>
+    </exported-packages>
+
+    <dependencies>
+        <used-by-source-modules/>
+    </dependencies>
+
+    <providers>
+        <provider interface="dev.webfx.kit.webgl.spi.WebGLProvider">dev.webfx.kit.webgl.spi.impl.gwt.GwtWebGLProvider</provider>
+    </providers>
+
+</project>
