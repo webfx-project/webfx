@@ -1,5 +1,6 @@
 package dev.webfx.kit.webgl;
 
+import dev.webfx.platform.typedarray.TypedArray;
 import javafx.scene.image.Image;
 
 /**
@@ -327,7 +328,7 @@ public interface WebGLRenderingContext {
 
     void blendFuncSeparate(int srcRGB, int dstRGB, int srcAlpha, int dstAlpha);
 */
-    void bufferData(int target, ArrayBuffer data, int usage); /*{
+    void bufferData(int target, TypedArray data, int usage); /*{
         bufferData(
                 target, Js.<WebGLRenderingContext.BufferDataDataUnionType>uncheckedCast(data), usage);
     }*/
@@ -1026,7 +1027,7 @@ public interface WebGLRenderingContext {
             int img,
             int format0,
             int type0,
-            ArrayBuffer pixels);/* {
+            TypedArray pixels);/* {
         texImage2D(
                 target,
                 level,

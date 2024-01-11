@@ -1,7 +1,7 @@
 package dev.webfx.kit.webgl;
 
-import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
 import dev.webfx.kit.webgl.spi.WebGLProvider;
+import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
 import javafx.scene.Node;
 
 import java.util.ServiceLoader;
@@ -40,18 +40,6 @@ public final class WebGL {
 
     public static WebGLRenderingContext getContext(Node webglNode) {
         return getProvider().getContext(webglNode);
-    }
-
-    public static ArrayBuffer createFloat32Array(double... array) {
-        return getProvider().createFloat32Array(array);
-    }
-
-    public static ArrayBuffer createUint16Array(double... array) {
-        return getProvider().createUint16Array(array);
-    }
-
-    public static ArrayBuffer createUint8Array(double... array) {
-        return getProvider().Uint8Array(array);
     }
 
 }

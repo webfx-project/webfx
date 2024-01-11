@@ -29,11 +29,6 @@
 
         <dependency>
             <groupId>com.google.elemental2</groupId>
-            <artifactId>elemental2-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-dom</artifactId>
         </dependency>
 
@@ -63,6 +58,18 @@
         <dependency>
             <groupId>dev.webfx</groupId>
             <artifactId>webfx-kit-webgl</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-typedarray</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-typedarray-gwt</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 

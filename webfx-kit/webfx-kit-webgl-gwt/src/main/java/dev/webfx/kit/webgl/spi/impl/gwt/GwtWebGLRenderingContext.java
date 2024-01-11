@@ -3,6 +3,8 @@ package dev.webfx.kit.webgl.spi.impl.gwt;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlGraphicsContext;
 import dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtMediaPlayerPeer;
 import dev.webfx.kit.webgl.*;
+import dev.webfx.platform.typedarray.TypedArray;
+import dev.webfx.platform.typedarray.spi.impl.gwt.GwtTypedArray;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.HTMLVideoElement;
 import javafx.scene.image.Image;
@@ -95,8 +97,8 @@ public class GwtWebGLRenderingContext implements WebGLRenderingContext {
     }
 
     @Override
-    public void bufferData(int target, ArrayBuffer data, int usage) {
-        GwtArrayBuffer gwtArrayBuffer = (GwtArrayBuffer) data;
+    public void bufferData(int target, TypedArray data, int usage) {
+        GwtTypedArray gwtArrayBuffer = (GwtTypedArray) data;
         if (gwtArrayBuffer.jsArrayBuffer != null)
             gl.bufferData(target, gwtArrayBuffer.jsArrayBuffer, usage);
         else
@@ -180,8 +182,8 @@ public class GwtWebGLRenderingContext implements WebGLRenderingContext {
     }
 
     @Override
-    public void texImage2D(int target, int level, int internalformat, int format, int type, int img, int format0, int type0, ArrayBuffer pixels) {
-        GwtArrayBuffer gwtArrayBuffer = (GwtArrayBuffer) pixels;
+    public void texImage2D(int target, int level, int internalformat, int format, int type, int img, int format0, int type0, TypedArray pixels) {
+        GwtTypedArray gwtArrayBuffer = (GwtTypedArray) pixels;
         gl.texImage2D(target, level, internalformat, format, type, img, format0, type0, gwtArrayBuffer.jsArrayBufferView);
     }
 

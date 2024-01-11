@@ -2,11 +2,7 @@ package dev.webfx.kit.webgl.spi.impl.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlCanvasPeer;
-import dev.webfx.kit.webgl.ArrayBuffer;
 import dev.webfx.kit.webgl.spi.WebGLProvider;
-import elemental2.core.Float32Array;
-import elemental2.core.Uint16Array;
-import elemental2.core.Uint8Array;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.webgl.WebGLRenderingContext;
 import javafx.scene.Node;
@@ -68,7 +64,6 @@ public class GwtWebGLProvider implements WebGLProvider {
             if (jsContext == null)
                 return null;
             dev.webfx.kit.webgl.WebGLRenderingContext gln = new GwtWebGLRenderingContext(jsContext);
-            //gln = new WebGLRenderingContextLogger(gln);
             webglNode.getProperties().put("webglContext", gln);
             return gln;
         }
@@ -84,19 +79,4 @@ public class GwtWebGLProvider implements WebGLProvider {
         return null;
     }
 
-    @Override
-    public ArrayBuffer createFloat32Array(double... array) {
-        Float32Array float32Array = Float32Array.from(array);
-        return new GwtArrayBuffer(float32Array);
-    }
-
-    @Override
-    public ArrayBuffer createUint16Array(double... array) {
-        return new GwtArrayBuffer(new Uint16Array(array));
-    }
-
-    @Override
-    public ArrayBuffer Uint8Array(double... array) {
-        return new GwtArrayBuffer(new Uint8Array(array));
-    }
 }

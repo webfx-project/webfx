@@ -1,6 +1,7 @@
 package dev.webfx.kit.webgl.spi.impl;
 
 import dev.webfx.kit.webgl.*;
+import dev.webfx.platform.typedarray.TypedArray;
 import javafx.scene.image.Image;
 import javafx.scene.media.MediaView;
 
@@ -33,7 +34,7 @@ public class WebGLRenderingContextLogger implements WebGLRenderingContext {
     }
 
     @Override
-    public void bufferData(int target, ArrayBuffer data, int usage) {
+    public void bufferData(int target, TypedArray data, int usage) {
         log("bufferData(target = " + target +", data = " + data + ", usage = " + usage + ")");
         gl.bufferData(target, data, usage);
     }
@@ -215,7 +216,7 @@ public class WebGLRenderingContextLogger implements WebGLRenderingContext {
     }
 
     @Override
-    public void texImage2D(int target, int level, int internalformat, int format, int type, int img, int format0, int type0, ArrayBuffer pixels) {
+    public void texImage2D(int target, int level, int internalformat, int format, int type, int img, int format0, int type0, TypedArray pixels) {
         gl.texImage2D(target, level, internalformat, format, type, img, format0, type0, pixels);
     }
 

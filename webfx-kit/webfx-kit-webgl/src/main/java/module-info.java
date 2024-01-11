@@ -7,6 +7,7 @@ module webfx.kit.webgl {
     requires javafx.graphics;
     requires javafx.media;
     requires webfx.platform.console;
+    requires webfx.platform.typedarray;
     requires webfx.platform.util;
 
     // Exported packages
