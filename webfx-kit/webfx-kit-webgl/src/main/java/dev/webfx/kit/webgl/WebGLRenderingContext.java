@@ -306,10 +306,11 @@ public interface WebGLRenderingContext {
     int ZERO = 0;
 
     void activeTexture(int texture);
+
     void attachShader(WebGLProgram program, WebGLShader shader);
-/*
+
     void bindAttribLocation(WebGLProgram program, int index, String name);
-*/
+
     void bindBuffer(int target, WebGLBuffer buffer);
 /*
     void bindFramebuffer(int target, WebGLFramebuffer buffer);
@@ -317,7 +318,7 @@ public interface WebGLRenderingContext {
     void bindRenderbuffer(int target, WebGLRenderbuffer buffer);
 */
     void bindTexture(int target, WebGLTexture texture);
-/*
+
     void blendColor(double red, double green, double blue, double alpha);
 
     void blendEquation(int mode);
@@ -327,7 +328,7 @@ public interface WebGLRenderingContext {
     void blendFunc(int sfactor, int dfactor);
 
     void blendFuncSeparate(int srcRGB, int dstRGB, int srcAlpha, int dstAlpha);
-*/
+
     void bufferData(int target, TypedArray data, int usage); /*{
         bufferData(
                 target, Js.<WebGLRenderingContext.BufferDataDataUnionType>uncheckedCast(data), usage);
@@ -365,12 +366,11 @@ public interface WebGLRenderingContext {
 
     void clearColor(double red, double green, double blue, double alpha);
     void clearDepth(double depth);
-    /*
 
-        void clearStencil(int s);
+    void clearStencil(int s);
 
-        void colorMask(boolean red, boolean green, boolean blue, boolean alpha);
-    */
+    void colorMask(boolean red, boolean green, boolean blue, boolean alpha);
+
     void compileShader(WebGLShader shader);
 /*
     void compressedTexImage2D(
@@ -409,23 +409,23 @@ public interface WebGLRenderingContext {
     WebGLShader createShader(int type);
 
     WebGLTexture createTexture();
-/*
+
     void cullFace(int mode);
 
     void deleteBuffer(WebGLBuffer buffer);
-
+/*
     void deleteFramebuffer(WebGLFramebuffer buffer);
-
+*/
     void deleteProgram(WebGLProgram program);
-
+/*
     void deleteRenderbuffer(WebGLRenderbuffer buffer);
 */
     void deleteShader(WebGLShader shader);
-/*
+
     void deleteTexture(WebGLTexture texture);
-*/
+
     void depthFunc(int func);
-/*
+
     void depthMask(boolean flag);
 
     void depthRange(double nearVal, double farVal);
@@ -435,25 +435,24 @@ public interface WebGLRenderingContext {
     void disable(int flags);
 
     void disableVertexAttribArray(int index);
-*/
+
     void drawArrays(int mode, int first, int count);
     void drawElements(int mode, int count, int type, double offset);
     void enable(int cap);
     void enableVertexAttribArray(int index);
-    /*
 
-        Object finish();
+    Object finish();
 
-        Object flush();
-
+    Object flush();
+/*
         void framebufferRenderbuffer(
                 int target, int attachment, int renderbuffertarget, WebGLRenderbuffer renderbuffer);
-
+*/
         void framebufferTexture2D(
                 int target, int attachment, int textarget, WebGLTexture texture, int level);
 
         void frontFace(int mode);
-*/
+
         void generateMipmap(int target);
 /*
         WebGLActiveInfo getActiveAttrib(WebGLProgram program, int index);
@@ -463,54 +462,53 @@ public interface WebGLRenderingContext {
         JsArray<WebGLShader> getAttachedShaders(WebGLProgram program);
     */
     int getAttribLocation(WebGLProgram program, String name);
-/*
+
     Object getBufferParameter(int target, int pname);
-
+/*
     WebGLContextAttributes getContextAttributes();
-
+*/
     int getError();
-
+/*
     JsObject getExtension(String name);
-
+*/
     Object getFramebufferAttachmentParameter(int target, int attachment, int pname);
 
     Object getParameter(int pname);
-*/
+
     String getProgramInfoLog(WebGLProgram program);
 
     Object getProgramParameter(WebGLProgram program, int pname);
-/*
+
     Object getRenderbufferParameter(int target, int pname);
 
-*/
     String getShaderInfoLog(WebGLShader shader);
     Object getShaderParameter(WebGLShader shader, int pname);
 /*
     WebGLShaderPrecisionFormat getShaderPrecisionFormat(
             int shadertype, int precisiontype);
-
+*/
     String getShaderSource(WebGLShader shader);
-
+/*
     JsArray<String> getSupportedExtensions();
-
+*/
     Object getTexParameter(int target, int pname);
 
     Object getUniform(WebGLProgram program, WebGLUniformLocation location);
-*/
+
     WebGLUniformLocation getUniformLocation(WebGLProgram program, String name);
-/*
+
     Object getVertexAttrib(int index, int pname);
 
     double getVertexAttribOffset(int index, int pname);
 
     void hint(int target, int mode);
-
+/*
     boolean isBuffer(WebGLObject buffer);
-
+*/
     boolean isContextLost();
 
     boolean isEnabled(int cap);
-
+/*
     boolean isFramebuffer(WebGLObject framebuffer);
 
     boolean isProgram(WebGLObject program);
@@ -520,9 +518,9 @@ public interface WebGLRenderingContext {
     boolean isShader(WebGLObject shader);
 
     boolean isTexture(WebGLObject texture);
-
-    void lineWidth(double width);
 */
+    void lineWidth(double width);
+
     void linkProgram(WebGLProgram program);
 /*
     void pixelStorei(int pname, WebGLRenderingContext.PixelStoreiParamUnionType param);
@@ -530,24 +528,24 @@ public interface WebGLRenderingContext {
     void pixelStorei(int pname, boolean param);/* {
         pixelStorei(pname, Js.<WebGLRenderingContext.PixelStoreiParamUnionType>uncheckedCast(param));
     }*/
-/*
-    default void pixelStorei(int pname, int param) {
+
+    void pixelStorei(int pname, int param);/* {
         pixelStorei(pname, Js.<WebGLRenderingContext.PixelStoreiParamUnionType>uncheckedCast(param));
-    }
+    }*/
 
     void polygonOffset(double factor, double units);
-
+/*
     void readPixels(
             int x, int y, int width, int height, int format, int type, ArrayBufferView pixels);
-
+*/
     void renderbufferStorage(int target, int internalformat, int width, int height);
 
     void sampleCoverage(double coverage, boolean invert);
 
     void scissor(int x, int y, int width, int height);
-*/
+
     void shaderSource(WebGLShader shader, String source);
-/*
+
     void stencilFunc(int func, int ref, int mask);
 
     void stencilFuncSeparate(int face, int func, int ref, int mask);
@@ -559,7 +557,7 @@ public interface WebGLRenderingContext {
     void stencilOp(int fail, int zfail, int zpass);
 
     void stencilOpSeparate(int face, int fail, int zfail, int zpass);
-
+/*
     default void texImage2D(
             int target,
             int level,
@@ -1082,9 +1080,9 @@ public interface WebGLRenderingContext {
                 type,
                 Js.<WebGLRenderingContext.TexImage2DImgUnionType>uncheckedCast(img));
     }
-
-    void texParameterf(int target, int pname, double param);
 */
+    void texParameterf(int target, int pname, double param);
+
     void texParameteri(int target, int pname, int param);
 /*
     default void texSubImage2D(
@@ -1512,9 +1510,9 @@ public interface WebGLRenderingContext {
                 type,
                 Js.<WebGLRenderingContext.TexSubImage2DDataUnionType>uncheckedCast(data));
     }
-
+*/
     void uniform1f(WebGLUniformLocation location, double value);
-
+/*
     default void uniform1fv(WebGLUniformLocation location, Float32Array value) {
         uniform1fv(location, Js.<WebGLRenderingContext.Uniform1fvValueUnionType>uncheckedCast(value));
     }
@@ -1525,11 +1523,11 @@ public interface WebGLRenderingContext {
 
     void uniform1fv(
             WebGLUniformLocation location, WebGLRenderingContext.Uniform1fvValueUnionType value);
-
-    default void uniform1fv(WebGLUniformLocation location, double[] value) {
+*/
+    void uniform1fv(WebGLUniformLocation location, double[] value); /*{
         uniform1fv(location, Js.<JsArray<Double>>uncheckedCast(value));
-    }
-
+    }*/
+/*
     void uniform1i(
             WebGLUniformLocation location, WebGLRenderingContext.Uniform1iValueUnionType value);
 
@@ -1548,11 +1546,11 @@ public interface WebGLRenderingContext {
     default void uniform1iv(WebGLUniformLocation location, JsArray<Object> value) {
         uniform1iv(location, Js.<WebGLRenderingContext.Uniform1ivValueUnionType>uncheckedCast(value));
     }
-
-    default void uniform1iv(WebGLUniformLocation location, Object[] value) {
+*/
+    void uniform1iv(WebGLUniformLocation location, Object[] value); /*{
         uniform1iv(location, Js.<JsArray<Object>>uncheckedCast(value));
-    }
-
+    }*/
+/*
     void uniform1iv(
             WebGLUniformLocation location, WebGLRenderingContext.Uniform1ivValueUnionType value);
 
@@ -1568,11 +1566,11 @@ public interface WebGLRenderingContext {
 
     void uniform2fv(
             WebGLUniformLocation location, WebGLRenderingContext.Uniform2fvValueUnionType value);
-
-    default void uniform2fv(WebGLUniformLocation location, double[] value) {
+*/
+    void uniform2fv(WebGLUniformLocation location, double[] value); /*{
         uniform2fv(location, Js.<JsArray<Double>>uncheckedCast(value));
-    }
-
+    }*/
+/*
     void uniform2i(
             WebGLUniformLocation location,
             WebGLRenderingContext.Uniform2iValue1UnionType value1,
@@ -1645,17 +1643,17 @@ public interface WebGLRenderingContext {
     default void uniform2iv(WebGLUniformLocation location, JsArray<Object> value) {
         uniform2iv(location, Js.<WebGLRenderingContext.Uniform2ivValueUnionType>uncheckedCast(value));
     }
-
-    default void uniform2iv(WebGLUniformLocation location, Object[] value) {
+*/
+    void uniform2iv(WebGLUniformLocation location, Object[] value); /*{
         uniform2iv(location, Js.<JsArray<Object>>uncheckedCast(value));
-    }
-
+    }*/
+/*
     void uniform2iv(
             WebGLUniformLocation location, WebGLRenderingContext.Uniform2ivValueUnionType value);
-
+*/
     void uniform3f(
             WebGLUniformLocation location, double value1, double value2, double value3);
-
+/*
     default void uniform3fv(WebGLUniformLocation location, Float32Array value) {
         uniform3fv(location, Js.<WebGLRenderingContext.Uniform3fvValueUnionType>uncheckedCast(value));
     }
@@ -1666,11 +1664,11 @@ public interface WebGLRenderingContext {
 
     void uniform3fv(
             WebGLUniformLocation location, WebGLRenderingContext.Uniform3fvValueUnionType value);
-
-    default void uniform3fv(WebGLUniformLocation location, double[] value) {
+*/
+    void uniform3fv(WebGLUniformLocation location, double[] value); /*{
         uniform3fv(location, Js.<JsArray<Double>>uncheckedCast(value));
-    }
-
+    }*/
+/*
     void uniform3i(
             WebGLUniformLocation location,
             WebGLRenderingContext.Uniform3iValue1UnionType value1,
@@ -1971,17 +1969,17 @@ public interface WebGLRenderingContext {
     default void uniform3iv(WebGLUniformLocation location, JsArray<Object> value) {
         uniform3iv(location, Js.<WebGLRenderingContext.Uniform3ivValueUnionType>uncheckedCast(value));
     }
-
-    default void uniform3iv(WebGLUniformLocation location, Object[] value) {
+*/
+    void uniform3iv(WebGLUniformLocation location, Object[] value); /*{
         uniform3iv(location, Js.<JsArray<Object>>uncheckedCast(value));
-    }
-
+    }*/
+/*
     void uniform3iv(
             WebGLUniformLocation location, WebGLRenderingContext.Uniform3ivValueUnionType value);
-
+*/
     void uniform4f(
             WebGLUniformLocation location, double value1, double value2, double value3, double value4);
-
+/*
     default void uniform4fv(WebGLUniformLocation location, Float32Array value) {
         uniform4fv(location, Js.<WebGLRenderingContext.Uniform4fvValueUnionType>uncheckedCast(value));
     }
@@ -1992,11 +1990,11 @@ public interface WebGLRenderingContext {
 
     void uniform4fv(
             WebGLUniformLocation location, WebGLRenderingContext.Uniform4fvValueUnionType value);
-
-    default void uniform4fv(WebGLUniformLocation location, double[] value) {
+*/
+    void uniform4fv(WebGLUniformLocation location, double[] value); /*{
         uniform4fv(location, Js.<JsArray<Double>>uncheckedCast(value));
-    }
-
+    }*/
+/*
     void uniform4i(
             WebGLUniformLocation location,
             WebGLRenderingContext.Uniform4iValue1UnionType value1,
@@ -3099,12 +3097,12 @@ public interface WebGLRenderingContext {
             WebGLUniformLocation location,
             boolean transpose,
             WebGLRenderingContext.UniformMatrix2fvDataUnionType data);
-
-    default void uniformMatrix2fv(
-            WebGLUniformLocation location, boolean transpose, double[] data) {
+*/
+    void uniformMatrix2fv(
+            WebGLUniformLocation location, boolean transpose, double[] data); /*{
         uniformMatrix2fv(location, transpose, Js.<JsArray<Double>>uncheckedCast(data));
-    }
-
+    }*/
+/*
     default void uniformMatrix3fv(
             WebGLUniformLocation location, boolean transpose, Float32Array data) {
         uniformMatrix3fv(
@@ -3125,12 +3123,12 @@ public interface WebGLRenderingContext {
             WebGLUniformLocation location,
             boolean transpose,
             WebGLRenderingContext.UniformMatrix3fvDataUnionType data);
-
-    default void uniformMatrix3fv(
-            WebGLUniformLocation location, boolean transpose, double[] data) {
+*/
+    void uniformMatrix3fv(
+            WebGLUniformLocation location, boolean transpose, double[] data); /*{
         uniformMatrix3fv(location, transpose, Js.<JsArray<Double>>uncheckedCast(data));
-    }
-
+    }*/
+/*
     default void uniformMatrix4fv(
             WebGLUniformLocation location, boolean transpose, Float32Array data) {
         uniformMatrix4fv(
@@ -3158,11 +3156,11 @@ public interface WebGLRenderingContext {
     }*/
 
     void useProgram(WebGLProgram program);
-/*
+
     void validateProgram(WebGLProgram program);
 
     void vertexAttrib1f(int indx, double x);
-
+/*
     default void vertexAttrib1fv(int indx, Float32Array values) {
         vertexAttrib1fv(
                 indx, Js.<WebGLRenderingContext.VertexAttrib1fvValuesUnionType>uncheckedCast(values));
@@ -3175,13 +3173,13 @@ public interface WebGLRenderingContext {
 
     void vertexAttrib1fv(
             int indx, WebGLRenderingContext.VertexAttrib1fvValuesUnionType values);
-
-    default void vertexAttrib1fv(int indx, double[] values) {
+*/
+    void vertexAttrib1fv(int indx, double[] values); /*{
         vertexAttrib1fv(indx, Js.<JsArray<Double>>uncheckedCast(values));
-    }
+    }*/
 
     void vertexAttrib2f(int indx, double x, double y);
-
+/*
     default void vertexAttrib2fv(int indx, Float32Array values) {
         vertexAttrib2fv(
                 indx, Js.<WebGLRenderingContext.VertexAttrib2fvValuesUnionType>uncheckedCast(values));
@@ -3194,13 +3192,13 @@ public interface WebGLRenderingContext {
 
     void vertexAttrib2fv(
             int indx, WebGLRenderingContext.VertexAttrib2fvValuesUnionType values);
-
-    default void vertexAttrib2fv(int indx, double[] values) {
+*/
+    void vertexAttrib2fv(int indx, double[] values); /*{
         vertexAttrib2fv(indx, Js.<JsArray<Double>>uncheckedCast(values));
-    }
+    }*/
 
     void vertexAttrib3f(int indx, double x, double y, double z);
-
+/*
     default void vertexAttrib3fv(int indx, Float32Array values) {
         vertexAttrib3fv(
                 indx, Js.<WebGLRenderingContext.VertexAttrib3fvValuesUnionType>uncheckedCast(values));
@@ -3217,9 +3215,9 @@ public interface WebGLRenderingContext {
     default void vertexAttrib3fv(int indx, double[] values) {
         vertexAttrib3fv(indx, Js.<JsArray<Double>>uncheckedCast(values));
     }
-
+*/
     void vertexAttrib4f(int indx, double x, double y, double z, double w);
-
+/*
     default void vertexAttrib4fv(int indx, Float32Array values) {
         vertexAttrib4fv(
                 indx, Js.<WebGLRenderingContext.VertexAttrib4fvValuesUnionType>uncheckedCast(values));
@@ -3239,8 +3237,7 @@ public interface WebGLRenderingContext {
 */
     void vertexAttribPointer(
             int indx, int size, int type, boolean normalized, int stride, double offset);
-/*
+
     void viewport(int x, int y, int width, int height);
 
- */
 }
