@@ -125,5 +125,8 @@ public abstract class PathElement {
         }
         return absolute;
     }
+
+    // WebFX addition
+    public abstract void appendToSvgPath(StringBuilder sb);
 }
 

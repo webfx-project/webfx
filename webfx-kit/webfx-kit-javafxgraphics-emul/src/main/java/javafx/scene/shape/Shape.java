@@ -1,15 +1,12 @@
 package javafx.scene.shape;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
 
 /**
  * @author Bruno Salmon
@@ -25,27 +22,27 @@ public abstract class Shape extends Node implements
         HasStrokeMiterLimitProperty,
         HasStrokeDashOffsetProperty {
 
-    private final Property<Paint> fillProperty = new SimpleObjectProperty<>(Color.BLACK);
+    private final ObjectProperty<Paint> fillProperty = new SimpleObjectProperty<>(Color.BLACK);
     @Override
-    public Property<Paint> fillProperty() {
+    public ObjectProperty<Paint> fillProperty() {
         return fillProperty;
     }
 
-    private final Property<Boolean> smoothProperty = new SimpleObjectProperty<>(true);
+    private final BooleanProperty smoothProperty = new SimpleBooleanProperty(true);
     @Override
-    public Property<Boolean> smoothProperty() {
+    public BooleanProperty smoothProperty() {
         return smoothProperty;
     }
 
-    private final Property<Paint> stokeProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Paint> stokeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Paint> strokeProperty() {
+    public ObjectProperty<Paint> strokeProperty() {
         return stokeProperty;
     }
 
-    private final Property<StrokeType> strokeTypeProperty = new SimpleObjectProperty<>(StrokeType.CENTERED);
+    private final ObjectProperty<StrokeType> strokeTypeProperty = new SimpleObjectProperty<>(StrokeType.CENTERED);
     @Override
-    public Property<StrokeType> strokeTypeProperty() {
+    public ObjectProperty<StrokeType> strokeTypeProperty() {
         return strokeTypeProperty;
     }
 
@@ -55,15 +52,15 @@ public abstract class Shape extends Node implements
         return strokeWidthProperty;
     }
 
-    private final Property<StrokeLineCap> strokeLineCapProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<StrokeLineCap> strokeLineCapProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<StrokeLineCap> strokeLineCapProperty() {
+    public ObjectProperty<StrokeLineCap> strokeLineCapProperty() {
         return strokeLineCapProperty;
     }
 
-    private final Property<StrokeLineJoin> strokeLineJoinProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<StrokeLineJoin> strokeLineJoinProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<StrokeLineJoin> strokeLineJoinProperty() {
+    public ObjectProperty<StrokeLineJoin> strokeLineJoinProperty() {
         return strokeLineJoinProperty;
     }
 

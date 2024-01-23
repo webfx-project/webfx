@@ -44,23 +44,8 @@ public final class SvgPathPeer
 
     private String toSvgPathData(List<PathElement> elements) {
         StringBuilder sb = new StringBuilder();
-        Collections.forEach(elements, e -> appendPathElementToSvgPathData(e, sb));
+        Collections.forEach(elements, e -> e.appendToSvgPath(sb));
         return sb.toString();
     }
 
-    private void appendPathElementToSvgPathData(PathElement pathElement, StringBuilder sb) {
-        if (sb.length() > 0)
-            sb.append(' ');
-        if (pathElement instanceof MoveTo) {
-            MoveTo moveTo = (MoveTo) pathElement;
-            sb.append('M').append(moveTo.getX()).append(',').append(moveTo.getY());
-        } else if (pathElement instanceof LineTo) {
-            LineTo lineTo = (LineTo) pathElement;
-            sb.append('L').append(lineTo.getX()).append(',').append(lineTo.getY());
-        } else if (pathElement instanceof CubicCurveTo) {
-            CubicCurveTo cubicCurveTo = (CubicCurveTo) pathElement;
-            sb.append('C').append(cubicCurveTo.getControlX1()).append(',').append(cubicCurveTo.getControlY1()).append(' ').append(cubicCurveTo.getControlX2()).append(',').append(cubicCurveTo.getControlY2()).append(' ').append(cubicCurveTo.getX()).append(',').append(cubicCurveTo.getY());
-        } else if (pathElement instanceof ClosePath)
-            sb.append('Z');
-    }
 }
