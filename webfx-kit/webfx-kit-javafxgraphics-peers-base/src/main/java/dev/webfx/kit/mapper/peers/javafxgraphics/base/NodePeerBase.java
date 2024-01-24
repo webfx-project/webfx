@@ -102,34 +102,34 @@ public class NodePeerBase
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
         return updateProperty(node.mouseTransparentProperty(), changedProperty, mixin::updateMouseTransparent)
-                || updateProperty(node.idProperty(), changedProperty, mixin::updateId)
-                || updateProperty(node.visibleProperty(), changedProperty, mixin::updateVisible)
-                || updateProperty(node.disabledProperty(), changedProperty, mixin::updateDisabled)
-                || updateProperty(node.opacityProperty(), changedProperty, p-> mixin.updateOpacity(p.doubleValue()))
-                || updateProperty(node.clipProperty(), changedProperty, mixin::updateClip)
-                || updateProperty(node.blendModeProperty(), changedProperty, mixin::updateBlendMode)
-                || updateProperty(node.effectProperty(), changedProperty, mixin::updateEffect)
-                || updateProperty(node.layoutXProperty(), changedProperty, p -> mixin.updateLayoutX(p.doubleValue()))
-                || updateProperty(node.layoutYProperty(), changedProperty, p -> mixin.updateLayoutY(p.doubleValue()))
-                || updateProperty(node.translateXProperty(), changedProperty, p -> mixin.updateTranslateX(p.doubleValue()))
-                || updateProperty(node.translateYProperty(), changedProperty, p -> mixin.updateTranslateY(p.doubleValue()))
-                || updateProperty(node.rotateProperty(), changedProperty, p -> mixin.updateTranslateY(p.doubleValue()))
-                || updateProperty(node.scaleXProperty(), changedProperty, p -> mixin.updateScaleX(p.doubleValue()))
-                || updateProperty(node.scaleYProperty(), changedProperty, p -> mixin.updateScaleY(p.doubleValue()))
-                || updateProperty(node.cursorProperty(), changedProperty, mixin::updateCursor)
-                || updateProperty(node.onDragDetectedProperty(), changedProperty, mixin::updateOnDragDetected)
-                || updateProperty(node.onDragEnteredProperty(), changedProperty, mixin::updateOnDragEntered)
-                || updateProperty(node.onDragOverProperty(), changedProperty, mixin::updateOnDragOver)
-                || updateProperty(node.onDragDroppedProperty(), changedProperty, mixin::updateOnDragDropped)
-                || updateProperty(node.onDragExitedProperty(), changedProperty, mixin::updateOnDragExited)
-                || updateProperty(node.onDragDoneProperty(), changedProperty, mixin::updateOnDragDone)
+               || updateProperty(node.idProperty(), changedProperty, mixin::updateId)
+               || updateProperty(node.visibleProperty(), changedProperty, mixin::updateVisible)
+               || updateProperty(node.disabledProperty(), changedProperty, mixin::updateDisabled)
+               || updateProperty(node.opacityProperty(), changedProperty, p-> mixin.updateOpacity(p.doubleValue()))
+               || updateProperty(node.clipProperty(), changedProperty, mixin::updateClip)
+               || updateProperty(node.blendModeProperty(), changedProperty, mixin::updateBlendMode)
+               || updateProperty(node.effectProperty(), changedProperty, mixin::updateEffect)
+               || updateProperty(node.layoutXProperty(), changedProperty, p -> mixin.updateLayoutX(p.doubleValue()))
+               || updateProperty(node.layoutYProperty(), changedProperty, p -> mixin.updateLayoutY(p.doubleValue()))
+               || updateProperty(node.translateXProperty(), changedProperty, p -> mixin.updateTranslateX(p.doubleValue()))
+               || updateProperty(node.translateYProperty(), changedProperty, p -> mixin.updateTranslateY(p.doubleValue()))
+               || updateProperty(node.rotateProperty(), changedProperty, p -> mixin.updateTranslateY(p.doubleValue()))
+               || updateProperty(node.scaleXProperty(), changedProperty, p -> mixin.updateScaleX(p.doubleValue()))
+               || updateProperty(node.scaleYProperty(), changedProperty, p -> mixin.updateScaleY(p.doubleValue()))
+               || updateProperty(node.cursorProperty(), changedProperty, mixin::updateCursor)
+               || updateProperty(node.onDragDetectedProperty(), changedProperty, mixin::updateOnDragDetected)
+               || updateProperty(node.onDragEnteredProperty(), changedProperty, mixin::updateOnDragEntered)
+               || updateProperty(node.onDragOverProperty(), changedProperty, mixin::updateOnDragOver)
+               || updateProperty(node.onDragDroppedProperty(), changedProperty, mixin::updateOnDragDropped)
+               || updateProperty(node.onDragExitedProperty(), changedProperty, mixin::updateOnDragExited)
+               || updateProperty(node.onDragDoneProperty(), changedProperty, mixin::updateOnDragDone)
                 ;
     }
 
     @Override
     public boolean updateList(ObservableList list, ListChangeListener.Change change) {
         return updateList2(node.getTransforms(), list, change, this::updateTransforms)
-                || updateList2(node.getStyleClass(), list, change, mixin::updateStyleClass)
+               || updateList2(node.getStyleClass(), list, change, mixin::updateStyleClass)
                 ;
     }
 
@@ -173,6 +173,13 @@ public class NodePeerBase
         boolean hitChangedProperty = list == changedList;
         if (hitChangedProperty || changedList == null)
             updater.accept(list, change);
+        return hitChangedProperty;
+    }
+
+    protected <T> boolean updateList2(ObservableList<T> list, ObservableList<T> changedList, Consumer<List<T>> updater) {
+        boolean hitChangedProperty = list == changedList;
+        if (hitChangedProperty || changedList == null)
+            updater.accept(list);
         return hitChangedProperty;
     }
 }
