@@ -5,9 +5,12 @@ import com.sun.javafx.application.ParametersImpl;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.kit.mapper.WebFxKitMapper;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.CanvasElementHelper;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DragboardDataTransferHolder;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
@@ -15,6 +18,8 @@ import dev.webfx.platform.util.function.Factory;
 import elemental2.dom.*;
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
@@ -148,12 +153,33 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
         return WebFxKitMapper.getGraphicsContext2D(canvas, willReadFrequently);
     }
 
-    private final HTMLCanvasElement canvas = HtmlUtil.createElement("canvas");
+    // HDPI management
+
+    @Override
+    public DoubleProperty canvasPixelDensityProperty(Canvas canvas) {
+        String key = "webfx-canvasPixelDensityProperty";
+        DoubleProperty canvasPixelDensityProperty = (DoubleProperty) canvas.getProperties().get(key);
+        if (canvasPixelDensityProperty == null) {
+            canvas.getProperties().put(key, canvasPixelDensityProperty = new SimpleDoubleProperty(getDefaultCanvasPixelDensity()));
+            // Applying an immediate mapping between the JavaFX and HTML canvas, otherwise the default behaviour of the
+            // WebFX mapper (which is to postpone and process the mapping in the next animation frame) wouldn't work for
+            // canvas. The application will indeed probably draw in the canvas just after it is initialized (and sized).
+            // If we were to wait for the mapper to resize the canvas in the next animation frame, it would be too late.
+            HTMLCanvasElement canvasElement = (HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement();
+            FXProperties.runNowAndOnPropertiesChange(() ->
+                            CanvasElementHelper.resizeCanvasElement(canvasElement, canvas),
+                    canvas.widthProperty(), canvas.heightProperty(), canvasPixelDensityProperty);
+
+        }
+        return canvasPixelDensityProperty;
+    }
+
+    private final HTMLCanvasElement MEASURE_CANVAS = HtmlUtil.createElement("canvas");
 
 
     @Override
     public Bounds measureText(String text, Font font) {
-        JavaScriptObject textMetrics = getTextMetrics(canvas, text, HtmlFonts.getHtmlFontDefinition(font));
+        JavaScriptObject textMetrics = getTextMetrics(MEASURE_CANVAS, text, HtmlFonts.getHtmlFontDefinition(font));
         return new BoundingBox(0, 0, getJsonWidth(textMetrics), getJsonHeight(textMetrics));
     }
 
@@ -191,7 +217,8 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     private native JavaScriptObject getTextMetrics(HTMLCanvasElement canvas, String text, String font)/*-{
         var context = canvas.getContext("2d");
         context.font = font;
-        return { width: context.measureText(text).width, height: parseFloat(context.font.match(/\d+/)) };
+        var textMetrics = context.measureText(text);
+        return { width: textMetrics.width, height: textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent };
     }-*/;
 
     private static native double getJsonWidth(JavaScriptObject json)/*-{

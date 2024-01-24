@@ -90,6 +90,22 @@ public final class WebFxKitLauncher {
         return getProvider().getGraphicsContext2D(canvas, willReadFrequently);
     }
 
+    // Canvas HDPI management.
+    // Pixel density initially equals to Screen.outputScale, but then can be changed (ex: 1 to get a low-res canvas).
+
+    public static void setCanvasPixelDensity(Canvas canvas, double pixelDensity) {
+        getProvider().setCanvasPixelDensity(canvas, pixelDensity);
+    }
+
+    public static double getCanvasPixelDensity(Canvas canvas) {
+        return canvas == null ? getDefaultCanvasPixelDensity() : getProvider().getCanvasPixelDensity(canvas);
+    }
+
+    public static double getDefaultCanvasPixelDensity() {
+        return getProvider().getDefaultCanvasPixelDensity();
+    }
+
+
     public static Bounds measureText(String text, Font font) {
         return getProvider().measureText(text, font);
     }
