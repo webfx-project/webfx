@@ -29,10 +29,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private static final boolean PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP = !"false".equals(Storage.getLocalStorageIfSupported().getItem("PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP"));
     private static final long MEDIA_PLAYER_CURRENT_TIME_SYNC_RATE_MILLIS = 250; // Same rate as mediaElement.ontimeupdate
     private static final boolean SYNC_START_TIME_WITH_AUDIO_BUFFER_FIRST_SOUND_DETECTION = true;
-
-    // Creating one single audio context for the whole application
-    // If the user has not yet interacted with the page, the audio context will be in "suspended" mode
-    private static final AudioContext AUDIO_CONTEXT = new AudioContext();
+    private static AudioContext AUDIO_CONTEXT; // One single audio context for the whole application
     private final MediaPlayer mediaPlayer;
     private ObjectProperty<Duration> mediaPlayerCurrentTimeProperty;
     private final String mediaUrl;
@@ -80,6 +77,12 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         }
     }
 
+    static AudioContext getAudioContext() {
+        if (AUDIO_CONTEXT == null)
+            AUDIO_CONTEXT = new AudioContext();
+        return AUDIO_CONTEXT;
+    }
+
     /*static {
         if (!isAudioContextReady(false)) {
             AUDIO_CONTEXT.onstatechange = e -> {
@@ -90,10 +93,12 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }*/
 
     private static boolean isAudioContextReady(boolean resumeIfSuspended) {
-        if (AUDIO_CONTEXT.state.equalsIgnoreCase("suspended")) {
+        if (AUDIO_CONTEXT == null && GwtMediaModuleBooter.audioRequiresUserInteractionFirst())
+            return false;
+        if (getAudioContext().state.equalsIgnoreCase("suspended")) {
             if (!resumeIfSuspended)
                 return false;
-            AUDIO_CONTEXT.resume();
+            getAudioContext().resume();
         }
         return true;
     }
@@ -187,7 +192,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                             Console.log("HTTP error when fetching '" + mediaUrl + "', status = " + response.status);
                         return response.arrayBuffer();
                     })
-                    .then(AUDIO_CONTEXT::decodeAudioData)
+                    .then(getAudioContext()::decodeAudioData)
                     .then(buffer -> {
                         audioBuffer = buffer;
                         if (!audioClip) {
@@ -203,7 +208,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                         return null;
                     });
             fetched = true;
-        } else if (GwtMediaModuleBooter.mediaRequiresUserInteractionFirst())
+        } else if (GwtMediaModuleBooter.audioRequiresUserInteractionFirst())
             GwtMediaModuleBooter.runOnFirstUserInteraction(() -> fetchAudioBuffer(true));
     }
 
@@ -256,16 +261,25 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }
 
     private void playOnceCycle() {
+        // If the media is not muted and the user hasn't yet interacted, trying to play it will raise an exception. So
+        // it's better not to try (otherwise a warning will be logged in the console). If the media is an AudioClip
+        // (ex: short game sound) we will just ignore it, but if it's a music (ex: background music), we postpone the
+        // play to the first user interaction.
+        if (!mute && GwtMediaModuleBooter.audioRequiresUserInteractionFirst()) {
+            if (!audioClip && !playWhenReady) {
+                playWhenReady = true;
+                GwtMediaModuleBooter.runOnFirstUserInteraction(() -> {
+                    if (playWhenReady) // checking that the music hasn't been stopped or paused in the meantime
+                        playOnceCycle(); // Ok, we can now start playing the music
+                });
+            }
+            return;
+        }
+        playWhenReady = false;
         if (hasMediaElement()) {
             setVolume(volume);
             mediaElement.muted = mute;
-            // If the user hasn't yet interacted, we postpone the play on the first user interaction (otherwise
-            // trying to play mediaElement will raise an exception)
-            if (!mute && GwtMediaModuleBooter.mediaRequiresUserInteractionFirst()) {
-                GwtMediaModuleBooter.runOnFirstUserInteraction(this::callMediaElementPlay);
-            } else { // otherwise, we play it now
-                callMediaElementPlay();
-            }
+            callMediaElementPlay();
         } else {
             // If the buffer source is already ready to play, we start it now
             if (bufferSource != null && (isBufferSourcePaused() || !bufferSourcePlayed /* can't be played twice */))
@@ -273,12 +287,12 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             else { // the buffer is not yet ready, or has already been played
                 if (!fetched)
                     fetchAudioBuffer(true);
-                bufferSource = AUDIO_CONTEXT.createBufferSource();
+                bufferSource = getAudioContext().createBufferSource();
                 bufferSourcePlayed = false;
-                gainNode = AUDIO_CONTEXT.createGain();
+                gainNode = getAudioContext().createGain();
                 setVolume(volume);
                 bufferSource.connect(gainNode);
-                gainNode.connect(AUDIO_CONTEXT.destination);
+                gainNode.connect(getAudioContext().destination);
                 playWhenReady = true;
                 if (audioBuffer != null)
                     onAudioBufferReady();
@@ -340,6 +354,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                 mediaPlayer.setStatus(MediaPlayer.Status.PAUSED);
         } else if (bufferSource != null)
             pauseBufferSource();
+        playWhenReady = false;
     }
 
     private void pauseBufferSource() {
@@ -378,9 +393,9 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                 } finally {
                     bufferSource = null;
                 }
-            playWhenReady = false;
             audioBufferFirstSoundDetected = false;
         }
+        playWhenReady = false;
         unscheduleListener();
     }
 
@@ -409,7 +424,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     private AnalyserNode getOrCreateAnalyzer() {
         if (analyser == null) {
-            analyser = AUDIO_CONTEXT.createAnalyser();
+            analyser = getAudioContext().createAnalyser();
             analyser.frequencyBinCount = arraySize;
             analyser.minDecibels = -60;
             analyser.maxDecibels = 0;
@@ -423,11 +438,11 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             } else {
                 // mediaElementSource is required for possible spectrum analysis
                 if (isAudioContextReady(true) && mediaElementSource == null) {
-                    mediaElementSource = AUDIO_CONTEXT.createMediaElementSource(mediaElement);
-                    mediaElementSource.connect(AUDIO_CONTEXT.destination);
+                    mediaElementSource = getAudioContext().createMediaElementSource(mediaElement);
+                    mediaElementSource.connect(getAudioContext().destination);
                 }
                 mediaElementSource.connect(analyser);
-                analyser.connect(AUDIO_CONTEXT.destination);
+                analyser.connect(getAudioContext().destination);
             }
         }
         return analyser;
