@@ -38,8 +38,10 @@ public final class HtmlPathPeer
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
-        getNodePeerBase().setNode(node);
-        svgPathPeer.bind(node, sceneRequester);
+        // This peer is particular as we forward all the bindings to another peer (ie svgPathPeer).
+        svgPathPeer.bind(node, sceneRequester); // So we actually bind the node to svgPathPeer (and not this instance).
+        super.getNodePeerBase().setNode(node); // However, we tell this peer is associated with this node (necessary for correct pickPeer() behaviour).
+        // But because we are in HTML (not SVG), we need to embed the svgPathPeer element (SVG path) in an SVG element.
         Element svgElement = SvgUtil.createSvgElement("svg");
         SvgRoot svgRoot = new SvgRootBase();
         node.getProperties().put("svgRoot", svgRoot);
