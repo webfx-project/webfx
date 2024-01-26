@@ -7,6 +7,7 @@ import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.kit.mapper.WebFxKitMapper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.CanvasElementHelper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DragboardDataTransferHolder;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
@@ -42,6 +43,12 @@ import java.util.Map;
  */
 public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderBase {
 
+    private static final boolean IS_SAFARI;
+    static {
+        String userAgent = DomGlobal.navigator.userAgent.toLowerCase();
+        IS_SAFARI = userAgent.contains("safari") && !userAgent.contains("chrome") && !userAgent.contains("android");
+    }
+
     private Application application;
     private HostServices hostServices;
 
@@ -52,7 +59,20 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     @Override
     public HostServices getHostServices() {
         if (hostServices == null)
-            hostServices = uri -> DomGlobal.window.open(uri);
+            hostServices = uri -> {
+                // Note: Safari is blocking (on macOS) or ignoring (on iOS) window.open() when not called during a user
+                // interaction. If we are in that case, it's better to postpone the window opening to the next user
+                // interaction (which we hope will happen soon, such as a key or mouse release).
+                if (IS_SAFARI && !UserInteraction.isUserInteracting()) {
+                    UserInteraction.runOnNextUserInteraction(() -> {
+                        DomGlobal.window.open(uri, "_blank");
+                    }, true);
+                } else {
+                    // For other browsers, or with Safari but during a user interaction (ex: mouse click), it's ok to
+                    // open the browser window straightaway.
+                    DomGlobal.window.open(uri, "_blank");
+                }
+            };
         return hostServices;
     }
 

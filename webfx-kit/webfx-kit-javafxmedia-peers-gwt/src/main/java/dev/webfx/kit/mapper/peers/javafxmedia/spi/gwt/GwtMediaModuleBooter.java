@@ -34,6 +34,7 @@ import java.util.List;
  *
  * @author Bruno Salmon
  */
+@Deprecated
 public class GwtMediaModuleBooter implements ApplicationModuleBooter {
 
     private static boolean AUDIO_REQUIRES_USER_INTERACTION_FIRST = true;

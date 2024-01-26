@@ -104,17 +104,20 @@ public final class HtmlScenePeer extends ScenePeerBase {
     private void passHtmlMouseEventOnToFx(MouseEvent e, String type) {
         javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(e, type);
         if (fxMouseEvent != null) {
+            boolean isMousePressed = fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_PRESSED;
+            boolean isMouseReleased = fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_RELEASED;
+            UserInteraction.setUserInteracting(isMousePressed || isMouseReleased);
             // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFX stack
             Scene scene = getScene();
             // Also fixing a problem: mouse released and mouse pressed are sent very closely on mobiles and might be
             // treated in the same animation frame, which prevents the button pressed state (ex: a background bound to
             // the button pressedProperty) to appear before the action (which might be time-consuming) is fired, so the
             // user doesn't know if the button has been successfully pressed or not during the action execution.
-            if (fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_RELEASED && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
+            if (isMouseReleased && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
                 UiScheduler.scheduleInAnimationFrame(() -> scene.impl_processMouseEvent(fxMouseEvent), 1);
             else {
                 scene.impl_processMouseEvent(fxMouseEvent);
-                if (fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_PRESSED) {
+                if (isMousePressed) {
                     atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
                     UiScheduler.scheduleInAnimationFrame(() -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, 1);
                     /* Try to uncomment this code if the focus hasn't been updated after clicking on a Node (not necessary so far)
@@ -129,6 +132,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
                     }*/
                 }
             }
+            UserInteraction.setUserInteracting(false);
             // Stopping propagation if the event has been consumed by JavaFX
             if (fxMouseEvent.isConsumed())
                 e.stopPropagation();
@@ -385,7 +389,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 focusOwner = scene.getFocusOwner();
             }
             javafx.event.EventTarget fxTarget = focusOwner != null ? focusOwner : scene;
+            UserInteraction.setUserInteracting(true);
             boolean fxConsumed = passHtmlKeyEventOnToFx((KeyboardEvent) e, type, fxTarget);
+            UserInteraction.setUserInteracting(false);
             if (fxConsumed) {
                 e.stopPropagation();
                 e.preventDefault();
