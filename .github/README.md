@@ -35,7 +35,7 @@ For more explanation, please visit the [website][webfx-website].
 <tr>
 <td align="center"><a href="https://raytracer.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/RayTracer.webp"/><br/>Ray Tracer</a></td>
 <td align="center"><a href="https://mandelbrot.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/Mandelbrot.webp"/><br/>Mandelbrot</a></td>
-<td align="center"><a href="https://cube.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/Cube.webp"/><br/>Cube</a> ♪</td>
+<td align="center"><a href="https://cube.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/Cube.webp"/><br/>Cube</a></td>
 <td align="center"><a href="https://spacefx.webfx.dev"><img src="https://webfx-demos.github.io/webfx-demos-videos/SpaceFX.webp"/><br/>SpaceFX</a> ♪</td>
 </tr>
 <tr>
