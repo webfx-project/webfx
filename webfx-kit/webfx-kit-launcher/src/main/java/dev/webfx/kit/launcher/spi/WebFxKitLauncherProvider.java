@@ -2,6 +2,7 @@ package dev.webfx.kit.launcher.spi;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
@@ -64,6 +65,27 @@ public interface WebFxKitLauncherProvider {
 
     default GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
         return canvas.getGraphicsContext2D();
+    }
+
+    default DoubleProperty canvasPixelDensityProperty(Canvas canvas) {
+        return null;
+    }
+
+    default void setCanvasPixelDensity(Canvas canvas, double pixelDensity) {
+        DoubleProperty pixelDensityProperty = canvasPixelDensityProperty(canvas);
+        if (pixelDensityProperty != null)
+            pixelDensityProperty.set(pixelDensity);
+    }
+
+    default double getCanvasPixelDensity(Canvas canvas) {
+        DoubleProperty pixelDensityProperty = canvasPixelDensityProperty(canvas);
+        if (pixelDensityProperty != null)
+            return pixelDensityProperty.doubleValue();
+        return getDefaultCanvasPixelDensity();
+    }
+
+    default double getDefaultCanvasPixelDensity() {
+        return Screen.getPrimary().getOutputScaleX();
     }
 
     Bounds measureText(String text, Font font);

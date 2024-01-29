@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
+import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.CanvasPeerMixin;
 import elemental2.dom.HTMLCanvasElement;
@@ -10,8 +11,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.WritableImage;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
-
-import static dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlGraphicsContext.*;
 
 /**
  * @author Bruno Salmon
@@ -36,13 +35,13 @@ public final class HtmlCanvasPeer
     @Override
     public void updateWidth(Number width) {
         // Note: probably already updated by HtmlGraphicsContext
-        updateCanvasElementWidth(getCanvasElement(), width.doubleValue());
+        CanvasElementHelper.resizeCanvasElement(getCanvasElement(), getNode());
     }
 
     @Override
     public void updateHeight(Number height) {
         // Note: probably already updated by HtmlGraphicsContext
-        updateCanvasElementHeight(getCanvasElement(), height.doubleValue());
+        CanvasElementHelper.resizeCanvasElement(getCanvasElement(), getNode());
     }
 
     @Override
@@ -56,6 +55,7 @@ public final class HtmlCanvasPeer
                 scaleY = scale.getY();
             }
         }
+        N canvas = getNode();
         int width, height;
         if (image != null) {
             width  = (int) image.getWidth();
@@ -70,18 +70,18 @@ public final class HtmlCanvasPeer
             // render the new version of this image (= this snapshot).
             image.setPeerCanvas(null);
         } else {
-            N canvas = getNode();
             width  = (int) (canvas.getWidth() * scaleX);
             height = (int) (canvas.getHeight() * scaleY);
             image  = new WritableImage(width , height);
         }
 
         HTMLCanvasElement canvasToCopy = getCanvasElement();
+        double pixelDensity = WebFxKitLauncher.getCanvasPixelDensity(canvas);
         // Making a rescaled copy of the canvas if necessary before capturing the image
-        if (scaleX != DPR || scaleY != DPR) {
+        if (scaleX != pixelDensity || scaleY != pixelDensity) {
             HTMLCanvasElement c = CanvasElementHelper.createCanvasElement(width, height);
             // Note: wrong Elemental2 signature. Correct signature = drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
-            Context2DHelper.getCanvasContext2D(c).drawImage(canvasToCopy, 0, 0, width * DPR, height * DPR, 0, 0, width, height);
+            Context2DHelper.getCanvasContext2D(c).drawImage(canvasToCopy, 0, 0, width * pixelDensity, height * pixelDensity, 0, 0, width, height);
             canvasToCopy = c;
         }
         ImageData imageData = ImageDataHelper.captureCanvasImageData(canvasToCopy, width, height);

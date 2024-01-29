@@ -57,6 +57,7 @@ public final class HtmlCirclePeer
             style.width = CSSProperties.WidthUnionType.of(px);
             style.height = CSSProperties.HeightUnionType.of(px);
             style.borderRadius = CSSProperties.BorderRadiusUnionType.of(toPx(radius));
+            style.boxSizing = "border-box"; // We don't want the border to shift the circle position
             updateCenterX(getNode().getCenterX());
             updateCenterY(getNode().getCenterY());
         }

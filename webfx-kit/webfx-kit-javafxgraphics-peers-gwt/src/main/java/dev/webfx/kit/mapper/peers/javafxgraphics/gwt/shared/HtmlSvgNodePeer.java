@@ -12,6 +12,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerImpl;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg.SvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.*;
 import dev.webfx.platform.uischeduler.UiScheduler;
@@ -407,7 +408,8 @@ public abstract class HtmlSvgNodePeer
             boolean fxConsumed = passHtmlTouchEventOnToFx((TouchEvent) e, type, fxTarget);
             if (fxConsumed) {
                 e.stopPropagation();
-                e.preventDefault();
+                if (!UserInteraction.nextUserRunnableRequiresTouchEventDefault())
+                    e.preventDefault();
             }
         }, passiveOption);
     }
@@ -429,11 +431,9 @@ public abstract class HtmlSvgNodePeer
             ((Scene) fxTarget).impl_processMouseEvent(mouseEvent);
             // We return true (even if not consumed) to always prevent browsers built-in touch scrolling, unless if the
             // target is a standard html tag that reacts to touch elements, such as:
-            if (e.target instanceof HTMLAnchorElement // <a> clickable link
-                    || e.target instanceof HTMLInputElement // <input> (ex: slider)
-                    || e.target instanceof HTMLLabelElement) // <label> that may embed an <input> such as WebFX Extras FilePicker button
-                return false;
-            return true;
+            consumed = !(e.target instanceof HTMLAnchorElement) // <a> clickable link
+                       && !(e.target instanceof HTMLInputElement) // <input> (ex: slider)
+                       && !(e.target instanceof HTMLLabelElement); // <label> that may embed an <input> such as WebFX Extras FilePicker button
         }
         return consumed; // should be normally: return consumed
     }

@@ -72,4 +72,9 @@ public class ClosePath extends PathElement {
     public String toString() {
         return "ClosePath";
     }
+
+    @Override
+    public void appendToSvgPath(StringBuilder sb) {
+        sb.append(" Z");
+    }
 }

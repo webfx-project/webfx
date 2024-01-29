@@ -188,5 +188,9 @@ public class MoveTo extends PathElement {
         sb.append(", y=").append(getY());
         return sb.append("]").toString();
     }
-}
 
+    @Override
+    public void appendToSvgPath(StringBuilder sb) {
+        sb.append(" M ").append(getX()).append(',').append(getY());
+    }
+}

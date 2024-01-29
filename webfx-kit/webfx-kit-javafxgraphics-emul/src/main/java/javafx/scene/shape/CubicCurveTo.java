@@ -398,5 +398,9 @@ public class CubicCurveTo extends PathElement {
 
         return sb.append("]").toString();
     }
-}
 
+    @Override
+    public void appendToSvgPath(StringBuilder sb) {
+        sb.append(" C ").append(getControlX1()).append(',').append(getControlY1()).append(' ').append(getControlX2()).append(',').append(getControlY2()).append(' ').append(getX()).append(',').append(getY());
+    }
+}

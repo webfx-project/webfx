@@ -107,6 +107,7 @@ public interface WebGLRenderingContext {
     int GEQUAL = 518;
     int GREATER = 516;
     int GREEN_BITS = 3411;
+    int HALF_FLOAT = 5131;
     int HIGH_FLOAT = 36338;
     int HIGH_INT = 36341;
     int IMPLEMENTATION_COLOR_READ_FORMAT = 35739;
@@ -192,6 +193,11 @@ public interface WebGLRenderingContext {
     int RGB565 = 36194;
     int RGBA = 6408;
     int RGBA4 = 32854;
+    int RGBA16F = 34842;
+    int RG16F = 33327;
+    int RG = 33319;
+    int R16F = 33325;
+    int RED = 6403;
     int SAMPLER_2D = 35678;
     int SAMPLER_CUBE = 35680;
     int SAMPLES = 32937;
@@ -312,9 +318,9 @@ public interface WebGLRenderingContext {
     void bindAttribLocation(WebGLProgram program, int index, String name);
 
     void bindBuffer(int target, WebGLBuffer buffer);
-/*
-    void bindFramebuffer(int target, WebGLFramebuffer buffer);
 
+    void bindFramebuffer(int target, WebGLFramebuffer buffer);
+/*
     void bindRenderbuffer(int target, WebGLRenderbuffer buffer);
 */
     void bindTexture(int target, WebGLTexture texture);
@@ -359,9 +365,9 @@ public interface WebGLRenderingContext {
 
     void bufferSubData(
             int target, double offset, WebGLRenderingContext.BufferSubDataDataUnionType data);
-
-    int checkFramebufferStatus(int target);
 */
+    int checkFramebufferStatus(int target);
+
     void clear(int mask);
 
     void clearColor(double red, double green, double blue, double alpha);
@@ -399,9 +405,9 @@ public interface WebGLRenderingContext {
             int target, int level, int xoffset, int yoffset, int x, int y, int width, int height);
 */
     WebGLBuffer createBuffer();
-/*
+
     WebGLFramebuffer createFramebuffer();
-*/
+
     WebGLProgram createProgram();
 /*
     WebGLRenderbuffer createRenderbuffer();
@@ -454,13 +460,14 @@ public interface WebGLRenderingContext {
         void frontFace(int mode);
 
         void generateMipmap(int target);
-/*
+
         WebGLActiveInfo getActiveAttrib(WebGLProgram program, int index);
 
         WebGLActiveInfo getActiveUniform(WebGLProgram program, int index);
 
-        JsArray<WebGLShader> getAttachedShaders(WebGLProgram program);
-    */
+/*
+            JsArray<WebGLShader> getAttachedShaders(WebGLProgram program);
+*/
     int getAttribLocation(WebGLProgram program, String name);
 
     Object getBufferParameter(int target, int pname);
@@ -468,9 +475,9 @@ public interface WebGLRenderingContext {
     WebGLContextAttributes getContextAttributes();
 */
     int getError();
-/*
-    JsObject getExtension(String name);
-*/
+
+    /*Js*/Object getExtension(String name);
+
     Object getFramebufferAttachmentParameter(int target, int attachment, int pname);
 
     Object getParameter(int pname);
@@ -1553,9 +1560,9 @@ public interface WebGLRenderingContext {
 /*
     void uniform1iv(
             WebGLUniformLocation location, WebGLRenderingContext.Uniform1ivValueUnionType value);
-
+*/
     void uniform2f(WebGLUniformLocation location, double value1, double value2);
-
+/*
     default void uniform2fv(WebGLUniformLocation location, Float32Array value) {
         uniform2fv(location, Js.<WebGLRenderingContext.Uniform2fvValueUnionType>uncheckedCast(value));
     }
@@ -3240,4 +3247,7 @@ public interface WebGLRenderingContext {
 
     void viewport(int x, int y, int width, int height);
 
+    int getDrawingBufferWidth();
+
+    int getDrawingBufferHeight();
 }

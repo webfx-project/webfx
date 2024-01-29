@@ -1,9 +1,9 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
+import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
-import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.Objects;
 import elemental2.dom.*;
@@ -25,38 +25,27 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Affine;
-import javafx.stage.Screen;
 
 /**
  * @author Bruno Salmon
  */
 public class HtmlGraphicsContext implements GraphicsContext {
 
-    private final static boolean ENABLE_HDPI_CANVAS = true;
-    // DPR stands for Device Pixel Ratio (which is the HTML terminology, while JavaFX calls that output scale)
-    final static double DPR = ENABLE_HDPI_CANVAS ? Screen.getPrimary().getOutputScaleX() : 1;
-
     private final Canvas canvas;
     private final CanvasRenderingContext2D ctx;
     private boolean proportionalFillLinearGradient;
 
     // Main constructor (directly bound to a JavaFX canvas)
-
     public HtmlGraphicsContext(Canvas canvas, boolean willReadFrequently) {
         this.canvas = canvas;
         HTMLCanvasElement canvasElement = (HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement();
         ctx = Context2DHelper.getCanvasContext2D(canvasElement, willReadFrequently);
-        // Applying an immediate mapping between the JavaFX and HTML canvas, otherwise the default behaviour of the
-        // WebFX mapper (which is to postpone and process the mapping in the next animation frame) wouldn't work for
-        // canvas. The application will indeed probably draw in the canvas just after it is initialized (and sized).
-        // If we were to wait for the mapper to resize the canvas in the next animation frame, it would be too late.
-        FXProperties.runNowAndOnPropertiesChange(() -> resizeCanvasElement(canvasElement), canvas.widthProperty(), canvas.heightProperty());
-        // We apply a DPR scale on HDPI screens
-        ctx.scale(DPR, DPR);
+        // We apply a scale on HDPI screens
+        double pixelDensity = getPixelDensity(); // Note: this call will create the pixelDensityProperty and immediately size the canvas (see GwtWebFxKitLauncherProvider.canvasPixelDensityProperty())
+        ctx.scale(pixelDensity, pixelDensity);
     }
 
     // Alternative constructors used internally for some operations (not directly bound to a JavaFX canvas)
-
     HtmlGraphicsContext(HTMLCanvasElement canvasElement) {
         this(Context2DHelper.getCanvasContext2D(canvasElement));
     }
@@ -66,58 +55,9 @@ public class HtmlGraphicsContext implements GraphicsContext {
         this.ctx = ctx;
     }
 
-    private void resizeCanvasElement(HTMLCanvasElement canvasElement) {
-        updateCanvasElementWidth(canvasElement, canvas.getWidth());
-        updateCanvasElementHeight(canvasElement, canvas.getHeight());
-    }
-
-    static void updateCanvasElementWidth(HTMLCanvasElement canvasElement, double fxCanvasWidth) {
-        updateCanvasElementSize(canvasElement, fxCanvasWidth, true);
-    }
-
-    static void updateCanvasElementHeight(HTMLCanvasElement canvasElement, double fxCanvasHeight) {
-        updateCanvasElementSize(canvasElement, fxCanvasHeight, false);
-    }
-
-    private static void updateCanvasElementSize(HTMLCanvasElement canvasElement, double fxCanvasSize, boolean isWidth) {
-        boolean isWebGL = canvasElement.getAttribute("webgl") != null;
-        CanvasRenderingContext2D ctx = isWebGL ? null : Context2DHelper.getCanvasContext2D(canvasElement);
-        // While HTML canvas and JavaFX canvas have an identical size in low-res screens, they differ in HDPI screens
-        // because JavaFX automatically apply the pixel conversion, while HTML doesn't.
-        int htmlSize = (int) (fxCanvasSize * DPR); // So we apply the DPR factor to get the hi-res number of pixels.
-        // Note: the JavaFX canvas size might be 0 initially, but we set a minimal size of 1px for the HTML canvas, the
-        // reason is that transforms applied on zero-sized canvas are ignored on Chromium browsers (for example applying
-        // the DPR scale on a zero-sized canvas doesn't change the canvas transform), which would make our canvas state
-        // snapshot technique below fail.
-        if (htmlSize == 0)
-            htmlSize = 1;
-        // It's very important to prevent changing the canvas size when not necessary, because resetting an HTML canvas
-        // size has these 2 serious consequences (even with identical value):
-        // 1) the canvas is erased
-        // 2) the context state is reset (including transforms, such as the initial DPR scale on HDPI screens)
-        boolean htmlSizeHasChanged = isWidth ? canvasElement.width != htmlSize : canvasElement.height != htmlSize;
-        if (htmlSizeHasChanged) {
-            // We don't want to lose the context state when resizing the canvas, so we take a snapshot of it before
-            // resizing, so we can restore it after that.
-            Context2DStateSnapshot ctxStateSnapshot = ctx == null ? null : new Context2DStateSnapshot(ctx);
-            // Now we can change the canvas size, as we are prepared
-            if (isWidth)
-                canvasElement.width = htmlSize;  // => erases canvas & reset context sate
-            else
-                canvasElement.height = htmlSize; // => erases canvas & reset context sate
-            // We restore the context state that we have stored in the snapshot (this includes the initial DPR scale)
-            if (ctxStateSnapshot != null)
-                ctxStateSnapshot.reapply();
-            // On HDPI screens, we must also set the CSS size, otherwise the CSS size will be taken from the canvas
-            // size by default, which is not what we want because the CSS size is expressed in low-res and not in HDPI
-            // pixels like the canvas size, so this would make the canvas appear much too big on the screen.
-            if (DPR != 1) { // Scaling down the canvas size with CSS size on HDPI screens
-                if (isWidth)
-                    canvasElement.style.width = CSSProperties.WidthUnionType.of(fxCanvasSize + "px");
-                else
-                    canvasElement.style.height = CSSProperties.HeightUnionType.of(fxCanvasSize + "px");
-            }
-        }
+    // HDPI management
+    private double getPixelDensity() {
+        return WebFxKitLauncher.getCanvasPixelDensity(canvas);
     }
 
     @Override
@@ -164,11 +104,12 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     @Override
     public void setTransform(double mxx, double myx, double mxy, double myy, double mxt, double myt) {
-        if (DPR == 1)
+        double dpr = getPixelDensity();
+        if (dpr == 1)
             ctx.setTransform(mxx, myx, mxy, myy, mxt, myt);
         else {
             ctx.setTransform(1, 0, 0, 1, 0, 0); // Same as ctx.resetTransform() (but not provided by Elemental2)
-            ctx.scale(DPR, DPR);
+            ctx.scale(dpr, dpr);
             ctx.transform(mxx, myx, mxy, myy, mxt, myt);
         }
     }
@@ -285,11 +226,11 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     private static boolean isImageLoadedWithoutError(HTMLImageElement imageElement) {
         return imageElement.complete // indicates that the image loading has finished (but not if it was successful or not)
-                // There is no specific HTML attribute to report if there was an error (such as HTTP 404 image not found),
-                // there is only an onerror handler, but it's too late to use here. So we use naturalWidth for the test,
-                // because when the image is successfully loaded the browser sets the naturalWidth value (assuming the
-                // image is not zero-sized), while the browser leaves that value to 0 on error.
-                && imageElement.naturalWidth != 0;
+               // There is no specific HTML attribute to report if there was an error (such as HTTP 404 image not found),
+               // there is only an onerror handler, but it's too late to use here. So we use naturalWidth for the test,
+               // because when the image is successfully loaded the browser sets the naturalWidth value (assuming the
+               // image is not zero-sized), while the browser leaves that value to 0 on error.
+               && imageElement.naturalWidth != 0;
     }
 
     private void applyProportionalFillLinearGradiant(double x, double y, double width, double height) {

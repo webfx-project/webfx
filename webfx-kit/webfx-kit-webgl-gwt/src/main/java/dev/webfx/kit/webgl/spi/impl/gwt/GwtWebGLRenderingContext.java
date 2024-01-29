@@ -184,7 +184,7 @@ public class GwtWebGLRenderingContext implements WebGLRenderingContext {
     @Override
     public void texImage2D(int target, int level, int internalformat, int format, int type, int img, int format0, int type0, TypedArray pixels) {
         GwtTypedArray gwtArrayBuffer = (GwtTypedArray) pixels;
-        gl.texImage2D(target, level, internalformat, format, type, img, format0, type0, gwtArrayBuffer.jsArrayBufferView);
+        gl.texImage2D(target, level, internalformat, format, type, img, format0, type0, gwtArrayBuffer == null ? null : gwtArrayBuffer.jsArrayBufferView);
     }
 
     @Override
@@ -546,5 +546,50 @@ public class GwtWebGLRenderingContext implements WebGLRenderingContext {
     @Override
     public void viewport(int x, int y, int width, int height) {
         gl.viewport(x, y, width, height);
+    }
+
+    @Override
+    public Object getExtension(String name) {
+        return gl.getExtension(name);
+    }
+
+    @Override
+    public void bindFramebuffer(int target, WebGLFramebuffer buffer) {
+        gl.bindFramebuffer(target, buffer == null ? null : ((GwtWebGLFramebuffer) buffer).jsWebGLFramebuffer);
+    }
+
+    @Override
+    public int checkFramebufferStatus(int target) {
+        return gl.checkFramebufferStatus(target);
+    }
+
+    @Override
+    public WebGLFramebuffer createFramebuffer() {
+        return new GwtWebGLFramebuffer(gl.createFramebuffer());
+    }
+
+    @Override
+    public WebGLActiveInfo getActiveAttrib(WebGLProgram program, int index) {
+        return new GwtWebGLActiveInfo(gl.getActiveAttrib(((GwtWebGLProgram) program).jsWebGLProgram, index));
+    }
+
+    @Override
+    public WebGLActiveInfo getActiveUniform(WebGLProgram program, int index) {
+        return new GwtWebGLActiveInfo(gl.getActiveUniform(((GwtWebGLProgram) program).jsWebGLProgram, index));
+    }
+
+    @Override
+    public void uniform2f(WebGLUniformLocation location, double value1, double value2) {
+        gl.uniform2f(((GwtWebGLUniformLocation) location).jsWebGLUniformLocation, value1, value2);
+    }
+
+    @Override
+    public int getDrawingBufferWidth() {
+        return gl.drawingBufferWidth;
+    }
+
+    @Override
+    public int getDrawingBufferHeight() {
+        return gl.drawingBufferHeight;
     }
 }

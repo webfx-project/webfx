@@ -3,6 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.storage.client.Storage;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 import dev.webfx.platform.console.Console;
@@ -16,6 +17,7 @@ import elemental2.promise.Promise;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.media.AudioSpectrumListener;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
@@ -29,10 +31,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     private static final boolean PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP = !"false".equals(Storage.getLocalStorageIfSupported().getItem("PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP"));
     private static final long MEDIA_PLAYER_CURRENT_TIME_SYNC_RATE_MILLIS = 250; // Same rate as mediaElement.ontimeupdate
     private static final boolean SYNC_START_TIME_WITH_AUDIO_BUFFER_FIRST_SOUND_DETECTION = true;
-
-    // Creating one single audio context for the whole application
-    // If the user has not yet interacted with the page, the audio context will be in "suspended" mode
-    private static final AudioContext AUDIO_CONTEXT = new AudioContext();
+    private static AudioContext AUDIO_CONTEXT; // One single audio context for the whole application
     private final MediaPlayer mediaPlayer;
     private ObjectProperty<Duration> mediaPlayerCurrentTimeProperty;
     private final String mediaUrl;
@@ -80,6 +79,12 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         }
     }
 
+    static AudioContext getAudioContext() {
+        if (AUDIO_CONTEXT == null)
+            AUDIO_CONTEXT = new AudioContext();
+        return AUDIO_CONTEXT;
+    }
+
     /*static {
         if (!isAudioContextReady(false)) {
             AUDIO_CONTEXT.onstatechange = e -> {
@@ -90,10 +95,12 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }*/
 
     private static boolean isAudioContextReady(boolean resumeIfSuspended) {
-        if (AUDIO_CONTEXT.state.equalsIgnoreCase("suspended")) {
+        if (AUDIO_CONTEXT == null && UserInteraction.hasUserNotInteractedYet())
+            return false;
+        if (getAudioContext().state.equalsIgnoreCase("suspended")) {
             if (!resumeIfSuspended)
                 return false;
-            AUDIO_CONTEXT.resume();
+            getAudioContext().resume();
         }
         return true;
     }
@@ -187,7 +194,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                             Console.log("HTTP error when fetching '" + mediaUrl + "', status = " + response.status);
                         return response.arrayBuffer();
                     })
-                    .then(AUDIO_CONTEXT::decodeAudioData)
+                    .then(getAudioContext()::decodeAudioData)
                     .then(buffer -> {
                         audioBuffer = buffer;
                         if (!audioClip) {
@@ -203,8 +210,8 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                         return null;
                     });
             fetched = true;
-        } else if (GwtMediaModuleBooter.mediaRequiresUserInteractionFirst())
-            GwtMediaModuleBooter.runOnFirstUserInteraction(() -> fetchAudioBuffer(true));
+        } else if (UserInteraction.hasUserNotInteractedYet())
+            UserInteraction.runOnNextUserInteraction(() -> fetchAudioBuffer(true));
     }
 
     private void onAudioBufferReady() {
@@ -256,16 +263,27 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     }
 
     private void playOnceCycle() {
+        // If the media is not muted and the user hasn't yet interacted, trying to play it will raise an exception. So
+        // it's better not to try (otherwise a warning will be logged in the console). If the media is an AudioClip
+        // (ex: short game sound) we will just ignore it, but if it's a music (ex: background music), we postpone the
+        // play to the first user interaction.
+        if (!mute && UserInteraction.hasUserNotInteractedYet()) {
+            if (!audioClip && !playWhenReady) {
+                playWhenReady = true;
+                // checking that the music hasn't been stopped or paused in the meantime
+                // Ok, we can now start playing the music
+                UserInteraction.runOnNextUserInteraction(() -> {
+                    if (playWhenReady) // checking that the music hasn't been stopped or paused in the meantime
+                        playOnceCycle(); // Ok, we can now start playing the music
+                });
+            }
+            return;
+        }
+        playWhenReady = false;
         if (hasMediaElement()) {
             setVolume(volume);
             mediaElement.muted = mute;
-            // If the user hasn't yet interacted, we postpone the play on the first user interaction (otherwise
-            // trying to play mediaElement will raise an exception)
-            if (!mute && GwtMediaModuleBooter.mediaRequiresUserInteractionFirst()) {
-                GwtMediaModuleBooter.runOnFirstUserInteraction(this::callMediaElementPlay);
-            } else { // otherwise, we play it now
-                callMediaElementPlay();
-            }
+            callMediaElementPlay();
         } else {
             // If the buffer source is already ready to play, we start it now
             if (bufferSource != null && (isBufferSourcePaused() || !bufferSourcePlayed /* can't be played twice */))
@@ -273,12 +291,12 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             else { // the buffer is not yet ready, or has already been played
                 if (!fetched)
                     fetchAudioBuffer(true);
-                bufferSource = AUDIO_CONTEXT.createBufferSource();
+                bufferSource = getAudioContext().createBufferSource();
                 bufferSourcePlayed = false;
-                gainNode = AUDIO_CONTEXT.createGain();
+                gainNode = getAudioContext().createGain();
                 setVolume(volume);
                 bufferSource.connect(gainNode);
-                gainNode.connect(AUDIO_CONTEXT.destination);
+                gainNode.connect(getAudioContext().destination);
                 playWhenReady = true;
                 if (audioBuffer != null)
                     onAudioBufferReady();
@@ -340,6 +358,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                 mediaPlayer.setStatus(MediaPlayer.Status.PAUSED);
         } else if (bufferSource != null)
             pauseBufferSource();
+        playWhenReady = false;
     }
 
     private void pauseBufferSource() {
@@ -378,9 +397,9 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
                 } finally {
                     bufferSource = null;
                 }
-            playWhenReady = false;
             audioBufferFirstSoundDetected = false;
         }
+        playWhenReady = false;
         unscheduleListener();
     }
 
@@ -409,7 +428,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     private AnalyserNode getOrCreateAnalyzer() {
         if (analyser == null) {
-            analyser = AUDIO_CONTEXT.createAnalyser();
+            analyser = getAudioContext().createAnalyser();
             analyser.frequencyBinCount = arraySize;
             analyser.minDecibels = -60;
             analyser.maxDecibels = 0;
@@ -423,11 +442,11 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             } else {
                 // mediaElementSource is required for possible spectrum analysis
                 if (isAudioContextReady(true) && mediaElementSource == null) {
-                    mediaElementSource = AUDIO_CONTEXT.createMediaElementSource(mediaElement);
-                    mediaElementSource.connect(AUDIO_CONTEXT.destination);
+                    mediaElementSource = getAudioContext().createMediaElementSource(mediaElement);
+                    mediaElementSource.connect(getAudioContext().destination);
                 }
                 mediaElementSource.connect(analyser);
-                analyser.connect(AUDIO_CONTEXT.destination);
+                analyser.connect(getAudioContext().destination);
             }
         }
         return analyser;
@@ -685,4 +704,35 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
         }
     }
 
+    /**
+     *
+     * The purpose of this static initialiser is to ensure that the sound will play ok on iOS and iPadOS after the first
+     * user interaction.
+     * ==========================
+     * Description of the problem
+     * ==========================
+     * Other OS automatically unlock the sound on first user interaction, even if the application code doesn't play any
+     * sound at this time, it can play sound any time later after the first user interaction, even not necessarily during
+     *  a user interaction. On iOS and iPadOS however, this sound unlocking is not automatic. The unlocking happens only
+     * when the application plays a sound DURING the user interaction.
+     * Because of this difference, if the JavaFX application code tries to start playing sound using setOnMouseClicked(),
+     * this won't work (it will work however with setOnMousePressed() or setOnMouseReleased()). This is due to the way
+     * WebFX emulates the JavaFX click event, which is not based on the JavaScript "click" event as opposed to the other
+     * events, because JavaFX has its own way to fire it when detecting the mouse released, and WebFX postpones this process
+     * (see HtmlScenePeer.java, installMouseListeners() and passHtmlMouseEventOnToFx() methods).
+     * ===========================
+     * Description of the solution
+     * ===========================
+     * This static initializer will automatically detect the first (or next) user interaction and play a silent sound
+     * for a very short time during that interaction, causing the sound unlocking even on iOS and iPadOS. Then, if the
+     * JavaFX application requests playing sound using setOnMouseClicked(), it will work because the sound unlocking has
+     * previously been done.
+     */
+
+    static {
+        UserInteraction.runOnNextUserInteraction(() -> {
+            String tinySilentMp3Data = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+            new GwtMediaPlayerPeer(new MediaPlayer(new Media(tinySilentMp3Data)), true).play(); // This will unlock the sound
+        });
+    }
 }

@@ -34,13 +34,14 @@ import java.util.List;
  *
  * @author Bruno Salmon
  */
+@Deprecated
 public class GwtMediaModuleBooter implements ApplicationModuleBooter {
 
-    private static boolean MEDIA_REQUIRES_USER_INTERACTION_FIRST = true;
+    private static boolean AUDIO_REQUIRES_USER_INTERACTION_FIRST = true;
     private static final List<Runnable> ON_FIRST_USER_INTERACTION_RUNNABLES = new ArrayList<>();
 
-    public static boolean mediaRequiresUserInteractionFirst() {
-        return MEDIA_REQUIRES_USER_INTERACTION_FIRST;
+    public static boolean audioRequiresUserInteractionFirst() {
+        return AUDIO_REQUIRES_USER_INTERACTION_FIRST;
     }
 
     public static void runOnFirstUserInteraction(Runnable onFirstUserInteraction) {
@@ -70,10 +71,10 @@ public class GwtMediaModuleBooter implements ApplicationModuleBooter {
     }
 
     private void doOnUserInteraction() {
-        if (MEDIA_REQUIRES_USER_INTERACTION_FIRST) {
+        if (AUDIO_REQUIRES_USER_INTERACTION_FIRST) {
             String tinySilentMp3Data = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
             new GwtMediaPlayerPeer(new MediaPlayer(new Media(tinySilentMp3Data)), true).play(); // This will unlock the sound
-            MEDIA_REQUIRES_USER_INTERACTION_FIRST = false;
+            AUDIO_REQUIRES_USER_INTERACTION_FIRST = false;
             ON_FIRST_USER_INTERACTION_RUNNABLES.forEach(Runnable::run);
             ON_FIRST_USER_INTERACTION_RUNNABLES.clear();
         }
