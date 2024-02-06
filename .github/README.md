@@ -12,7 +12,7 @@
 <a href="https://webfx.dev"><img src="WebFX.png"/></a>
 &nbsp;
 
-[![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white)](https://www.jfx-central.com/tools/webfx) [![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=twitter)](https://twitter.com/WebFXProject)
+[![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white)](https://www.jfx-central.com/tools/webfx) [![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=twitter)](https://twitter.com/WebFXProject) [![Gitter](https://img.shields.io/badge/join%20chat-%23webfx-0f80c0?logo=gitter&logoColor=DF185E)](https://app.gitter.im/#/room/#webfx:gitter.im)
 
 </div>
 
@@ -134,14 +134,14 @@ Although the WebFX Kit (this repository) is the very heart of the project, there
 
 ## Status
 
-WebFX is still in the incubation phase. At this stage, we provide only snapshot releases, and breaking changes may occur until the first official release.
+WebFX is still in the incubation phase. You can consult our [roadmap](ROADMAP.md). At this stage, we provide only snapshot releases, and breaking changes may occur until the first official release.
 
-## Roadmap
+## Support
 
-You can consult our [roadmap](ROADMAP.md). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
+For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or chat with us on [Gitter](https://app.gitter.im/#/room/#webfx:gitter.im). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
 
 
-## Keep updated [![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=twitter)](https://twitter.com/WebFXProject)
+## Keep updated
 
 You can follow us on [Twitter](https://twitter.com/WebFXProject) or subscribe to our [blog][webfx-blog] where we will post regular news and updates on the progress made.
 
