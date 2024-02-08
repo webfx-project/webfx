@@ -12,7 +12,9 @@
 <a href="https://webfx.dev"><img src="WebFX.png"/></a>
 &nbsp;
 
-[![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white)](https://www.jfx-central.com/tools/webfx) [![Twitter Follow](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=twitter)](https://twitter.com/WebFXProject) [![Gitter](https://img.shields.io/badge/join%20chat-%23webfx-0f80c0?logo=gitter&logoColor=DF185E)](https://app.gitter.im/#/room/#webfx:gitter.im)
+[![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white)](https://www.jfx-central.com/tools/webfx)
+[![Twitter](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=twitter)](https://twitter.com/WebFXProject) 
+[![Discord](https://img.shields.io/badge/join-WebFX%20chat-0f80c0?logo=discord&logoColor=white)](https://discord.gg/7FQh3S5S)
 
 </div>
 
@@ -81,22 +83,22 @@ WebFX doesn't target only the Web. WebFX applications can be compiled to run nat
 
 <table>
 <tr>
+<td><img src="html5.svg"/></td>
+<td><img src="android.svg"/></td>
+<td><img src="ios.svg"/></td>
 <td><img src="windows.svg"/></td>
 <td><img src="apple-dark.svg"/></td>
 <td><img src="linux-dark.svg"/></td>
-<td><img src="android.svg"/></td>
-<td><img src="ios.svg"/></td>
 <td><img src="raspberry-pi.svg"/></td>
-<td><img src="html5.svg"/></td>
 </tr>
 </table>
 
-| Platform                                    |          32-bit JRE           |          64-bit JRE           |         64-bit Native         |
-|---------------------------------------------|:-----------------------------:|:-----------------------------:|:-----------------------------:|
-| Desktops (Windows, macOS & Linux)           |               ✅               |               ✅               |               ✅               |
-| Tablets & mobiles (Android & iOS)           |               ❌               |               ❌               |               ✅               |
-| Embed (Raspberry Pi) ~ *not yet documented* |               ✅               |               ✅               |               ✅               |
-| Web (Chrome, FireFox, Edge, etc...)         | <img height=24 src="JS.svg"/> | <img height=24 src="JS.svg"/> | <img height=24 src="JS.svg"/> |
+| Platform                                    |       32 or 64-bit JRE        |         64-bit Native         |
+|---------------------------------------------|:-----------------------------:|:-----------------------------:|
+| Desktops (Windows, macOS & Linux)           |               ✅               |               ✅               |
+| Tablets & mobiles (Android & iOS)           |               ❌               |               ✅               |
+| Embed (Raspberry Pi) ~ *not yet documented* |               ✅               |               ✅               |
+| Web (Chrome, FireFox, Edge, etc...)         | <img height=24 src="JS.svg"/> | <img height=24 src="JS.svg"/> |
 
 </div>
 
@@ -138,7 +140,7 @@ WebFX is still in the incubation phase. You can consult our [roadmap](ROADMAP.md
 
 ## Support
 
-For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or chat with us on [Gitter](https://app.gitter.im/#/room/#webfx:gitter.im). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
+For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or chat with us on [Discord](https://discord.gg/7FQh3S5S). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
 
 
 ## Keep updated
