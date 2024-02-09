@@ -75,7 +75,7 @@ For more explanation, please visit the [website][webfx-website].
 </tr>
 </table>
 
-## Fully cross-platform
+## Universal Platform Compatibility
 
 WebFX doesn't target only the Web. WebFX applications can be compiled to run natively on 7 platforms from a single code base:
 
