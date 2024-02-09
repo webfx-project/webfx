@@ -77,7 +77,7 @@ For more explanation, please visit the [website][webfx-website].
 
 ## Universal Platform Compatibility
 
-WebFX doesn't target only the Web. WebFX applications can be compiled to run natively on 7 platforms from a single code base:
+WebFX doesn't target only the Web. WebFX applications can be compiled to run natively on 7 platforms from a single code base!
 
 <div align="center">
 
