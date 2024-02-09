@@ -14,7 +14,7 @@
 
 [![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white)](https://www.jfx-central.com/tools/webfx)
 [![Twitter](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=twitter)](https://twitter.com/WebFXProject) 
-[![Discord](https://img.shields.io/badge/join-WebFX%20chat-0f80c0?logo=discord&logoColor=white)](https://discord.gg/7FQh3S5S)
+[![Discord](https://img.shields.io/badge/join-WebFX_chat-0f80c0?logo=discord&logoColor=white)](https://discord.gg/7FQh3S5S)
 
 </div>
 
@@ -140,12 +140,12 @@ WebFX is still in the incubation phase. You can consult our [roadmap](ROADMAP.md
 
 ## Support
 
-For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or chat with us on [Discord](https://discord.gg/7FQh3S5S). Issues will be open when approaching the General Availability, and the project will have reached a more stable state.
+For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or chat with us on [Discord](https://discord.gg/7FQh3S5S). You can open an issue to report a bug, or request a feature.
 
 
 ## Keep updated
 
-You can follow us on [Twitter](https://twitter.com/WebFXProject) or subscribe to our [blog][webfx-blog] where we will post regular news and updates on the progress made.
+You can follow us on [Twitter](https://twitter.com/WebFXProject), or subscribe to our [blog][webfx-blog] (low traffic).
 
 ## Get involved!
 
