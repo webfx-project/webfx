@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 /**
  * @author Bruno Salmon
  */
-public class GwtFastPixelReaderWriter implements FastPixelReaderWriter {
+public final class GwtFastPixelReaderWriter implements FastPixelReaderWriter {
 
     private final Image image;
     private final ImageData imageData;

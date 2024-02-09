@@ -28,6 +28,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.google.jsinterop</groupId>
+            <artifactId>base</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-core</artifactId>
         </dependency>
@@ -45,6 +50,11 @@
         <dependency>
             <groupId>org.gwtproject</groupId>
             <artifactId>gwt-user</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.jsinterop</groupId>
+            <artifactId>jsinterop-annotations</artifactId>
         </dependency>
 
         <dependency>

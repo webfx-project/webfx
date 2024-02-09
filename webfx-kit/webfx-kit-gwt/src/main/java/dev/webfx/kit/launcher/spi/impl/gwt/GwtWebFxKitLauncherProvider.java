@@ -1,11 +1,11 @@
 package dev.webfx.kit.launcher.spi.impl.gwt;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.sun.javafx.application.ParametersImpl;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.kit.mapper.WebFxKitMapper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.CanvasElementHelper;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.Context2DHelper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.DragboardDataTransferHolder;
@@ -34,6 +34,8 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 import java.util.Map;
 
@@ -96,23 +98,17 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     }
 
     private static void setClipboardContent(String text) {
-        callClipboardCommand(text, "copy");
+        JsClipboard.writeText(text);
     }
 
     private static String getClipboardContent() {
-        return callClipboardCommand(" ", "paste");
+        String[] content = { null };
+        JsClipboard.readText().then(text -> {
+            content[0] = text;
+            return null;
+        });
+        return content[0]; // Assuming the promise was instantly fulfilled
     }
-
-    private static native String callClipboardCommand(String text, String command) /*-{
-        var textArea = document.createElement('textarea');
-        textArea.setAttribute('style','width:1px;border:0;opacity:0;');
-        document.body.appendChild(textArea);
-        textArea.value = text;
-        textArea.select();
-        document.execCommand(command);
-        document.body.removeChild(textArea);
-        return textArea.value;
-    }-*/;
 
     @Override
     public Dragboard createDragboard(Scene scene) {
@@ -194,13 +190,15 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
         return canvasPixelDensityProperty;
     }
 
-    private final HTMLCanvasElement MEASURE_CANVAS = HtmlUtil.createElement("canvas");
-
+    private final HTMLCanvasElement MEASURE_CANVAS_ELEMENT = HtmlUtil.createElement("canvas");
 
     @Override
     public Bounds measureText(String text, Font font) {
-        JavaScriptObject textMetrics = getTextMetrics(MEASURE_CANVAS, text, HtmlFonts.getHtmlFontDefinition(font));
-        return new BoundingBox(0, 0, getJsonWidth(textMetrics), getJsonHeight(textMetrics));
+        CanvasRenderingContext2D context = Context2DHelper.getCanvasContext2D(MEASURE_CANVAS_ELEMENT);
+        context.font = HtmlFonts.getHtmlFontDefinition(font);
+        TextMetrics textMetrics = context.measureText(text);
+        JsPropertyMap<?> tm = Js.asPropertyMap(textMetrics);
+        return new BoundingBox(0, 0, textMetrics.width, (double) tm.get("actualBoundingBoxAscent") + (double) tm.get("actualBoundingBoxDescent"));
     }
 
     private static final HTMLElement baselineSample = HtmlUtil.createSpanElement();
@@ -233,21 +231,6 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     public ObservableList<Font> loadingFonts() {
         return Font.getLoadingFonts();
     }
-
-    private native JavaScriptObject getTextMetrics(HTMLCanvasElement canvas, String text, String font)/*-{
-        var context = canvas.getContext("2d");
-        context.font = font;
-        var textMetrics = context.measureText(text);
-        return { width: textMetrics.width, height: textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent };
-    }-*/;
-
-    private static native double getJsonWidth(JavaScriptObject json)/*-{
-        return json.width;
-    }-*/;
-
-    private static native double getJsonHeight(JavaScriptObject json)/*-{
-        return json.height;
-    }-*/;
 
     private static native boolean supportsWebPJS() /*-{
         // Check FF, Edge by user agent

@@ -1,15 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import elemental2.core.JsObject;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * @author Bruno Salmon
  */
 public final class Context2DHelper {
 
-    private static final JsObject WILL_READ_FREQUENTLY_OPTION = createWillReadFrequentlyOption();
+    private static final JsPropertyMap<?> WILL_READ_FREQUENTLY_OPTION = JsPropertyMap.of("willReadFrequently", true);
 
     public static CanvasRenderingContext2D getCanvasContext2D(HTMLCanvasElement canvasElement) {
         return getCanvasContext2D(canvasElement, false);
@@ -25,9 +25,5 @@ public final class Context2DHelper {
         // in those subsequent calls (such as standard JavaFX calls to canvas.getGraphicsContext2D()).
         return (CanvasRenderingContext2D) (Object) canvasElement.getContext("2d", willReadFrequently ? WILL_READ_FREQUENTLY_OPTION : null);
     }
-
-    private static native JsObject createWillReadFrequentlyOption() /*-{
-        return { willReadFrequently: true };
-    }-*/ ;
 
 }

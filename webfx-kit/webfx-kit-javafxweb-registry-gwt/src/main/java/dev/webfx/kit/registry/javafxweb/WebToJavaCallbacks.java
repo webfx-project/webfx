@@ -8,8 +8,7 @@ package dev.webfx.kit.registry.javafxweb;
  */
 public class WebToJavaCallbacks {
 
-    public native static void bindCallbackMethods(Object javaInstance, String javaClassName) /*-{
-    }-*/;
+    public static void bindCallbackMethods(Object javaInstance) {}
 
 
 }

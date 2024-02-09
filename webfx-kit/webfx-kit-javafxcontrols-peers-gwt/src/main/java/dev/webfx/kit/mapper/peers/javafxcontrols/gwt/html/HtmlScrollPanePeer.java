@@ -1,19 +1,21 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwt.html;
 
-import dev.webfx.kit.util.properties.FXProperties;
-import elemental2.dom.Element;
-import elemental2.dom.HTMLElement;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
-import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ScrollPanePeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ScrollPanePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlRegionPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.layoutmeasurable.HtmlLayoutMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.uischeduler.UiScheduler;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * @author Bruno Salmon
@@ -160,18 +162,19 @@ public final class HtmlScrollPanePeer
         }
     }
 
-    private native void callPerfectScrollbarInitialize(Element psContainer, boolean suppressScrollX, boolean suppressScrollY) /*-{
-        psContainer.ps = new $wnd.PerfectScrollbar(psContainer, {suppressScrollX: suppressScrollX, suppressScrollY: suppressScrollY});
-        var self = this;
-        psContainer.addEventListener('ps-scroll-x', function() { self.@HtmlScrollPanePeer::setScrollLeft(D)(psContainer.scrollLeft)});
-        psContainer.addEventListener('ps-scroll-y', function() { self.@HtmlScrollPanePeer::setScrollTop(D)(psContainer.scrollTop)});
-    }-*/;
+    private void callPerfectScrollbarInitialize(Element psContainer, boolean suppressScrollX, boolean suppressScrollY) {
+        PerfectScrollbar ps = new PerfectScrollbar(psContainer, JsPropertyMap.of("suppressScrollX", suppressScrollX, "suppressScrollY", suppressScrollY));
+        Js.asPropertyMap(psContainer).set("ps", ps);
+        psContainer.addEventListener("ps-scroll-x", e -> setScrollLeft(psContainer.scrollLeft));
+        psContainer.addEventListener("ps-scroll-y", e -> setScrollTop(psContainer.scrollTop));
+    };
 
-    private native void callPerfectScrollbarUpdate(Element psContainer) /*-{
-        psContainer.scrollLeft = this.@HtmlScrollPanePeer::scrollLeft;
-        psContainer.scrollTop = this.@HtmlScrollPanePeer::scrollTop;
-        psContainer.ps.update();
-    }-*/;
+    private void callPerfectScrollbarUpdate(Element psContainer) {
+        psContainer.scrollLeft = scrollLeft;
+        psContainer.scrollTop = scrollTop;
+        PerfectScrollbar ps = (PerfectScrollbar) Js.asPropertyMap(psContainer).get("ps");
+        ps.update();
+    }
 
     @Override
     public void updateWidth(Number width) {

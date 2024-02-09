@@ -12,8 +12,8 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
-import elemental2.svg.SVGElement;
 import elemental2.svg.SVGRect;
+import elemental2.svg.SVGSVGElement;
 import javafx.scene.effect.Effect;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
@@ -35,7 +35,7 @@ public abstract class HtmlSVGShapePeer
         extends HtmlShapePeer<N, NB, NM>
         implements ShapePeerMixin<N, NB, NM> {
 
-    protected final SVGElement svgElement = (SVGElement) SvgUtil.createSvgElement("svg");
+    protected final SVGSVGElement svgElement = (SVGSVGElement) SvgUtil.createSvgElement("svg");
     // Fields used for the position and size computation of the SVG viewBox
     protected double x, y, width, height;
 
@@ -118,17 +118,13 @@ public abstract class HtmlSVGShapePeer
         if (bBox == null) {
             bBox = getSvgShapePeer().getBBox();
             if (bBox.width == 0) {
-                SVGRect viewBox = getViewBox(svgElement);
+                SVGRect viewBox = svgElement.viewBox.baseVal;
                 if (viewBox != null) // null value happens on FireFox
                     bBox = viewBox;
             }
         }
         return bBox;
     }
-
-    private static native SVGRect getViewBox(SVGElement svgElement) /*-{
-        return svgElement.viewBox.baseVal;
-    }-*/;
 
     @Override
     public void updateEffect(Effect effect) {
