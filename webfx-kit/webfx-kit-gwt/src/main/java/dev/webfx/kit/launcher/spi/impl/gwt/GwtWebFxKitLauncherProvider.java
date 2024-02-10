@@ -13,6 +13,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
+import dev.webfx.platform.useragent.UserAgent;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Factory;
@@ -45,12 +46,6 @@ import java.util.Map;
  */
 public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderBase {
 
-    private static final boolean IS_SAFARI;
-    static {
-        String userAgent = DomGlobal.navigator.userAgent.toLowerCase();
-        IS_SAFARI = userAgent.contains("safari") && !userAgent.contains("chrome") && !userAgent.contains("android");
-    }
-
     private Application application;
     private HostServices hostServices;
 
@@ -65,10 +60,10 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
                 // Note: Safari is blocking (on macOS) or ignoring (on iOS) window.open() when not called during a user
                 // interaction. If we are in that case, it's better to postpone the window opening to the next user
                 // interaction (which we hope will happen soon, such as a key or mouse release).
-                if (IS_SAFARI && !UserInteraction.isUserInteracting()) {
-                    UserInteraction.runOnNextUserInteraction(() -> {
-                        DomGlobal.window.open(uri, "_blank");
-                    }, true);
+                if (UserAgent.isSafari() && !UserInteraction.isUserInteracting()) {
+                    UserInteraction.runOnNextUserInteraction(() ->
+                            DomGlobal.window.open(uri, "_blank")
+                            , true);
                 } else {
                     // For other browsers, or with Safari but during a user interaction (ex: mouse click), it's ok to
                     // open the browser window straightaway.
@@ -232,18 +227,16 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
         return Font.getLoadingFonts();
     }
 
-    private static native boolean supportsWebPJS() /*-{
+    private static boolean supportsWebPJS() {
         // Check FF, Edge by user agent
-        var m = navigator.userAgent.match(/(Edge|Firefox)\/(\d+)\./)
-        if (m) {
-            return (m[1] === 'Firefox' && +m[2] >= 65)
-                || (m[1] === 'Edge' && +m[2] >= 18)
-        }
-
+        if (UserAgent.isFireFox())
+            return UserAgent.getBrowserMajorVersion() >= 65;
+        if (UserAgent.isEdge())
+            return UserAgent.getBrowserMajorVersion() >= 18;
         // Use canvas hack for webkit-based browsers
-        var e = document.createElement('canvas');
-        return e.toDataURL && e.toDataURL('image/webp').indexOf('data:image/webp') == 0;
-    }-*/;
+        HTMLCanvasElement e = (HTMLCanvasElement) DomGlobal.document.createElement("canvas");
+        return Js.asPropertyMap(e).has("toDataURL") && e.toDataURL("image/webp").startsWith("data:image/webp");
+    };
 
     @Override
     public void launchApplication(Factory<Application> applicationFactory, String... args) {
