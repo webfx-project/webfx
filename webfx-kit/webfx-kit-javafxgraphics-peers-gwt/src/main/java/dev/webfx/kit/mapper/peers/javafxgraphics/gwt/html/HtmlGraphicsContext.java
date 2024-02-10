@@ -6,6 +6,8 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.Objects;
+import elemental2.core.Function;
+import elemental2.core.JsArray;
 import elemental2.dom.*;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -25,6 +27,7 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Affine;
+import jsinterop.base.Js;
 
 /**
  * @author Bruno Salmon
@@ -538,7 +541,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void fillRoundRect(double x, double y, double w, double h, double arcWidth, double arcHeight) {
         ctx.beginPath();
-        roundRect(ctx, x, y, w, h, arcWidth / 2, arcHeight / 2);
+        roundRect(x, y, w, h, arcWidth / 2, arcHeight / 2);
         ctx.closePath();
         ctx.fill();
     }
@@ -546,32 +549,27 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void strokeRoundRect(double x, double y, double w, double h, double arcWidth, double arcHeight) {
         ctx.beginPath();
-        roundRect(ctx, x, y, w, h, arcWidth / 2, arcHeight / 2);
+        roundRect(x, y, w, h, arcWidth / 2, arcHeight / 2);
         ctx.closePath();
         ctx.stroke();
     }
 
     private static Boolean BROWSER_SUPPORTS_ROUND_RECT = null;
-    private static void roundRect(CanvasRenderingContext2D ctx, double x, double y, double w, double h, double arcWidth, double arcHeight) {
+    private static Function ROUND_RECT_FUNCTION;
+
+    private void roundRect(double x, double y, double w, double h, double arcWidth, double arcHeight) {
         if (BROWSER_SUPPORTS_ROUND_RECT == null) {
-            BROWSER_SUPPORTS_ROUND_RECT = checkRoundRectNativeSupport(ctx);
+            ROUND_RECT_FUNCTION = (Function) Js.asPropertyMap(ctx).get("roundRect");
+            BROWSER_SUPPORTS_ROUND_RECT = ROUND_RECT_FUNCTION != null;
             if (!BROWSER_SUPPORTS_ROUND_RECT) {
                 Console.log("WARNING: canvas roundRect() function is not supported by this browser - WebFX will use rect() instead");
             }
         }
         if (BROWSER_SUPPORTS_ROUND_RECT)
-            roundRectNative(ctx, x, y, w, h, arcWidth, arcHeight);
+            ROUND_RECT_FUNCTION.apply(ctx, JsArray.of(x, y, w, h, JsArray.of(arcWidth, arcHeight)));
         else
             ctx.rect(x, y, w, h);
     }
-
-    private static native boolean checkRoundRectNativeSupport(CanvasRenderingContext2D ctx) /*-{
-        return typeof ctx.roundRect === 'function';
-    }-*/ ;
-
-    private static native void roundRectNative(CanvasRenderingContext2D ctx, double x, double y, double w, double h, double arcWidth, double arcHeight) /*-{
-       ctx.roundRect(x, y, w, h, [arcWidth, arcHeight]);
-    }-*/ ;
 
     @Override
     public void strokeLine(double x1, double y1, double x2, double y2) {

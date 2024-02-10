@@ -1,14 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import elemental2.core.JsObject;
 import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DOMMatrixReadOnly;
+import jsinterop.base.Js;
 
 /**
  * @author Bruno Salmon
  */
 final class Context2DStateSnapshot {
-    private final CanvasRenderingContext2D ctx;
+    private final CanvasRenderingContext2DWithSetTransform ctx;
     private final BaseRenderingContext2D.FillStyleUnionType fillStyle;
     private final BaseRenderingContext2D.StrokeStyleUnionType strokeStyle;
     private final double lineWidth;
@@ -25,10 +26,10 @@ final class Context2DStateSnapshot {
     private final String textAlign1;
     private final String textBaseline1;
     private final boolean imageSmoothingEnabled;
-    private final JsObject jsTransform;
+    private final DOMMatrixReadOnly jsTransform;
 
     public Context2DStateSnapshot(CanvasRenderingContext2D ctx) {
-        this.ctx = ctx;
+        this.ctx = Js.cast(ctx);
         fillStyle = ctx.fillStyle;
         strokeStyle = ctx.strokeStyle;
         lineWidth = ctx.lineWidth;
@@ -45,7 +46,7 @@ final class Context2DStateSnapshot {
         textAlign1 = ctx.textAlign;
         textBaseline1 = ctx.textBaseline;
         imageSmoothingEnabled = ctx.imageSmoothingEnabled;
-        jsTransform = getJsTransform(ctx);
+        jsTransform = ctx.getTransform();
     }
 
     void reapply() {
@@ -65,15 +66,7 @@ final class Context2DStateSnapshot {
         ctx.textAlign = textAlign1;
         ctx.textBaseline = textBaseline1;
         ctx.imageSmoothingEnabled = imageSmoothingEnabled;
-        setJsTransform(ctx, jsTransform);
-    }
-
-    private static native JsObject getJsTransform(CanvasRenderingContext2D ctx) /*-{
-        return ctx.getTransform();
-    }-*/ ;
-
-    private static native void setJsTransform(CanvasRenderingContext2D ctx, JsObject jsTransform) /*-{
         ctx.setTransform(jsTransform);
-    }-*/ ;
+    }
 
 }

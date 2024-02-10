@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="14.069903"
+   height="16"
+   viewBox="0 0 14.069903 16"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.2.1 (9c6d41e4, 2022-07-14)"
+   sodipodi:docname="plot.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title10">Construction plot</title>
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="24.419662"
+     inkscape:cx="3.2146227"
+     inkscape:cy="11.302368"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-bbox="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:snap-center="true"
+     inkscape:snap-global="true"
+     inkscape:bbox-paths="true"
+     inkscape:snap-page="true"
+     fit-margin-top="2"
+     fit-margin-right="2"
+     fit-margin-bottom="2"
+     fit-margin-left="2"
+     inkscape:window-width="1452"
+     inkscape:window-height="970"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:document-rotation="0"
+     inkscape:showpageshadow="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showborder="false"
+     borderlayer="false"
+     shape-rendering="auto" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Construction plot</dc:title>
+        <dc:date>2018-09-23</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>m1981</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>Public domain</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Inkscape</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>construction</rdf:li>
+            <rdf:li>plot</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>minimal</rdf:li>
+            <rdf:li>stripes</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description>A construction plot icon.</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-67.300407,43.071949)">
+    <g
+       id="g14367">
+      <path
+         id="rect14304"
+         style="opacity:1;vector-effect:none;fill:#ffffff;fill-rule:evenodd;stroke-width:1.07375;stop-color:#000000;stop-opacity:1"
+         inkscape:label="rect14304"
+         d="M 74.020392,-41.358811 75.697824,-41.262236 79.384489,-28.066739 69.966051,-28.107686 Z"
+         transform="matrix(0.99990235,-0.01397461,0.01051335,0.99994473,0,0)"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         style="display:inline;opacity:1;vector-effect:none;fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:0.0790114;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         d="M 74.39746,-43.071949 C 73.954292,-43.071949 73.597531,-42.976455 73.597531,-42.857801 V -42.466544 L 73.070105,-40.666382 C 73.155163,-40.680963 73.455708,-40.697895 74.39746,-40.697895 75.339545,-40.697895 75.640021,-40.680959 75.724985,-40.666382 L 75.19739,-42.466544 V -42.857801 C 75.19739,-42.976455 74.840629,-43.071949 74.39746,-43.071949 Z M 75.724985,-40.666382 75.731017,-40.645742 C 75.731017,-40.645742 75.78901,-40.65541 75.724985,-40.666382 Z M 73.070105,-40.666382 C 73.005963,-40.655383 73.064073,-40.645742 73.064073,-40.645742 Z M 72.528064,-38.816772 C 72.528064,-38.816772 72.526088,-38.815071 72.52676,-38.812198 Z M 72.52676,-38.812198 71.941346,-36.814507 C 71.941346,-36.814507 72.162338,-36.585845 74.397456,-36.581601 76.632574,-36.57736 76.853737,-36.814507 76.853737,-36.814507 L 76.268323,-38.812198 C 76.263851,-38.793361 76.132517,-38.755067 74.397453,-38.755067 72.662392,-38.755067 72.531216,-38.793361 72.526757,-38.812198 Z M 76.268323,-38.812198 C 76.268995,-38.815082 76.267019,-38.816772 76.267019,-38.816772 Z M 71.415976,-35.021586 70.762447,-32.791305 C 70.762447,-32.791305 70.999846,-31.677002 74.397453,-31.677002 77.795055,-31.677002 78.032632,-32.791305 78.032632,-32.791305 L 77.379103,-35.021586 C 77.379103,-35.021586 76.871951,-34.416011 74.397453,-34.416011 71.922958,-34.416011 71.415976,-35.021586 71.415976,-35.021586 Z M 70.637352,-32.364687 67.921058,-31.384505 C 67.093523,-30.965778 67.093523,-30.291545 67.921058,-29.872818 L 72.841599,-27.38307 C 73.661427,-26.968244 75.00929,-26.96824 75.829123,-27.38307 L 80.749659,-29.872818 C 81.577194,-30.291545 81.577194,-30.965778 80.749659,-31.384505 L 78.157644,-32.364687 78.612015,-30.814095 C 78.612015,-28.578364 70.182981,-28.578364 70.182981,-30.814095 Z"
+         id="rect4866"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ssccsccsscccccccccccsccsccccccsccscccssccccccc"
+         inkscape:label="rect4866" />
+    </g>
+  </g>
+</svg>

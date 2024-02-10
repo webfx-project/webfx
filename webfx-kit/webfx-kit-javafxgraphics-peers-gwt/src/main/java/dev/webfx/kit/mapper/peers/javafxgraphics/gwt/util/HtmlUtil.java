@@ -3,6 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util;
 import com.google.gwt.core.client.JavaScriptObject;
 import dev.webfx.platform.util.Strings;
 import elemental2.dom.*;
+import jsinterop.base.Js;
 
 import static elemental2.dom.DomGlobal.document;
 
@@ -57,12 +58,8 @@ public final class HtmlUtil {
     }
 
     private static Element getActiveElement() {
-        return getActiveElement(document);
-    }
-
-    private static native Element getActiveElement(Document document) /*-{
         return document.activeElement;
-    }-*/;
+    }
 
     public static <N extends Node> N appendChildren(N parent, Iterable<? extends Node> children) {
         for (Node child : children)
@@ -157,11 +154,11 @@ public final class HtmlUtil {
     }
 
     private static <E extends Element> E setPrefixedStyleAttribute(E e, String name, Object value) {
-        //e.style.setProperty(name, Strings.toString(value));
         String s = Strings.toString(value);
-        if (e instanceof HTMLElement)
+        if (e instanceof HTMLElement) {
+            //((HTMLElement) e).style.setProperty(name, s); // has some issues (ex: setting mouse-pointer doesn't work)
             setJsAttribute(((JavaScriptObject) (Object) ((HTMLElement) e).style), name, s);
-        else if (value != null)
+        } else if (value != null)
             appendStyle(e, name + ": " + value);
         return e;
     }
@@ -170,21 +167,17 @@ public final class HtmlUtil {
         return appendAttribute(e, "style", style, "; ");
     }
 
-    public static native void setJsAttribute(JavaScriptObject o, String name, String value) /*-{
-        o[name] = value;
-    }-*/;
+    public static void setJsAttribute(JavaScriptObject o, String name, String value) {
+        Js.asPropertyMap(o).set(name, value);
+    }
 
-    public static native void setJsJavaObjectAttribute(JavaScriptObject o, String name, Object value) /*-{
-        o[name] = value;
-    }-*/;
+    public static void setJsJavaObjectAttribute(JavaScriptObject o, String name, Object value) {
+        Js.asPropertyMap(o).set(name, value);
+    }
 
-    public static native <T> T getJsJavaObjectAttribute(JavaScriptObject o, String name) /*-{
-        return o[name];
-    }-*/;
-
-    public static native CSSStyleDeclaration getComputedStyle(Element e) /*-{
-        return $wnd.getComputedStyle(e);
-    }-*/;
+    public static <T> T getJsJavaObjectAttribute(JavaScriptObject o, String name) {
+        return (T) Js.asPropertyMap(o).get(name);
+    }
 
     public static <E extends Element> E createElement(String tagName) {
         return (E) document.createElement(tagName);
@@ -246,27 +239,10 @@ public final class HtmlUtil {
         return createElement("textarea");
     }
 
-    public static HTMLInputElement createCheckBox() {
-        return createInputElement("checkbox");
-    }
-
     public static HTMLInputElement createRadioButton() {
         return createInputElement("radio");
     }
 
-    public static <E extends Element> E getElementById(Element element, String id) {
-        return getElementById(element, id, "*");
-    }
-
-    public static <E extends Element> E getElementById(Element element, String id, String tag) {
-        NodeList<Element> elements = element.getElementsByTagName(tag);
-        for (int i = 0; i < elements.length; i++) {
-            Element e = elements.item(i);
-            if (id.equals(e.getAttribute("id")))
-                return (E) e;
-        }
-        return null;
-    }
 
     public static void loadScript(String src, Runnable onLoad) {
         NodeList<Element> scriptElements = document.head.getElementsByTagName("script");

@@ -49,8 +49,7 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
 
     @Override
     public Object executeScript(String script) {
-        Object result = GwtJSObject.eval(getScriptWindow(), script);
-        return GwtJSObject.wrapJSObject(result);
+        return GwtJSObject.eval(getScriptWindow(), script);
     }
 
 }
