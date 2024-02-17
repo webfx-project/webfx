@@ -1,6 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import dev.webfx.platform.util.Strings;
 import elemental2.dom.*;
 import jsinterop.base.Js;
@@ -157,7 +156,7 @@ public final class HtmlUtil {
         String s = Strings.toString(value);
         if (e instanceof HTMLElement) {
             //((HTMLElement) e).style.setProperty(name, s); // has some issues (ex: setting mouse-pointer doesn't work)
-            setJsAttribute(((JavaScriptObject) (Object) ((HTMLElement) e).style), name, s);
+            setJsAttribute(((HTMLElement) e).style, name, s);
         } else if (value != null)
             appendStyle(e, name + ": " + value);
         return e;
@@ -167,15 +166,15 @@ public final class HtmlUtil {
         return appendAttribute(e, "style", style, "; ");
     }
 
-    public static void setJsAttribute(JavaScriptObject o, String name, String value) {
+    public static void setJsAttribute(Object o, String name, String value) {
         Js.asPropertyMap(o).set(name, value);
     }
 
-    public static void setJsJavaObjectAttribute(JavaScriptObject o, String name, Object value) {
+    public static void setJsJavaObjectAttribute(Object o, String name, Object value) {
         Js.asPropertyMap(o).set(name, value);
     }
 
-    public static <T> T getJsJavaObjectAttribute(JavaScriptObject o, String name) {
+    public static <T> T getJsJavaObjectAttribute(Object o, String name) {
         return (T) Js.asPropertyMap(o).get(name);
     }
 
