@@ -1,6 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html;
 
-import com.google.gwt.storage.client.Storage;
 import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
@@ -15,6 +14,7 @@ import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.*;
+import elemental2.webstorage.WebStorageWindow;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventType;
@@ -180,7 +180,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 5);  // 5 animation frames seem enough on localhost or when fonts were cached
             UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 30); // 30 animation frames seem enough on internet on first page load
             // Temporary code to test other frameCount values if the previous ones were not enough:
-            String fontsReadySubsequentFrameCount = Storage.getLocalStorageIfSupported().getItem("fontsReadySubsequentFrameCount");
+            String fontsReadySubsequentFrameCount = WebStorageWindow.of(DomGlobal.window).localStorage.getItem("fontsReadySubsequentFrameCount");
             if (fontsReadySubsequentFrameCount != null) {
                 int frameCount = Numbers.parseInteger(fontsReadySubsequentFrameCount);
                 Console.log("fontsReadySubsequentFrameCount = " + frameCount);
