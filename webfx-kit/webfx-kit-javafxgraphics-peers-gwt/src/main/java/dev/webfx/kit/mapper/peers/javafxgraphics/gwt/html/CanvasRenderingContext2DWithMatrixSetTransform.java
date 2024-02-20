@@ -10,7 +10,7 @@ import jsinterop.annotations.JsType;
  * @author Bruno Salmon
  */
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "CanvasRenderingContext2D")
-final class CanvasRenderingContext2DWithSetTransform extends CanvasRenderingContext2D {
+final class CanvasRenderingContext2DWithMatrixSetTransform extends CanvasRenderingContext2D {
 
     @JsMethod
     public native void setTransform(DOMMatrixReadOnly transform);

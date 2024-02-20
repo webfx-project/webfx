@@ -30,7 +30,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.text.Font;
@@ -74,8 +73,8 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     }
 
     @Override
-    public Clipboard getSystemClipboard() {
-        return new Clipboard() {
+    public javafx.scene.input.Clipboard getSystemClipboard() {
+        return new javafx.scene.input.Clipboard() {
             @Override
             public boolean setContent(Map<DataFormat, Object> content) {
                 setClipboardContent((String) content.get(DataFormat.PLAIN_TEXT));
@@ -93,12 +92,12 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
     }
 
     private static void setClipboardContent(String text) {
-        JsClipboard.writeText(text);
+        Clipboard.writeText(text);
     }
 
     private static String getClipboardContent() {
         String[] content = { null };
-        JsClipboard.readText().then(text -> {
+        Clipboard.readText().then(text -> {
             content[0] = text;
             return null;
         });

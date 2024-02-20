@@ -1,6 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.shared;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.sun.javafx.cursor.CursorType;
 import com.sun.javafx.event.EventHandlerManager;
 import com.sun.javafx.event.EventUtil;
@@ -82,11 +81,11 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void storePeerInElement(Object element) {
-        HtmlUtil.setJsJavaObjectAttribute((JavaScriptObject) element, "nodePeer", this);
+        HtmlUtil.setJsJavaObjectAttribute(element, "nodePeer", this);
     }
 
     protected static NodePeer getPeerFromElement(Object element) {
-        return element == null ? null : (NodePeer) HtmlUtil.getJsJavaObjectAttribute((JavaScriptObject) element, "nodePeer");
+        return element == null ? null : (NodePeer) HtmlUtil.getJsJavaObjectAttribute(element, "nodePeer");
     }
 
     public static NodePeer getPeerFromElementOrParents(Element element) {

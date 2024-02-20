@@ -1,6 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwt.svg;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
@@ -91,7 +90,7 @@ public final class SvgScenePeer extends ScenePeerBase implements SvgRoot {
     @Override
     public NodePeer pickPeer(double sceneX, double sceneY) {
         Element element = DomGlobal.document.elementFromPoint(sceneX, sceneY);
-        return HtmlUtil.getJsJavaObjectAttribute((JavaScriptObject) (Object) element, "peer");
+        return HtmlUtil.getJsJavaObjectAttribute(element, "peer");
     }
 
     @Override
