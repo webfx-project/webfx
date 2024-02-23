@@ -1,8 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsonUtils;
-import com.google.gwt.storage.client.Storage;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
@@ -10,9 +7,13 @@ import dev.webfx.platform.console.Console;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.scheduler.Scheduler;
 import dev.webfx.platform.uischeduler.UiScheduler;
+import elemental2.core.Global;
+import elemental2.core.JsObject;
 import elemental2.core.Uint8Array;
 import elemental2.dom.*;
 import elemental2.media.*;
+import elemental2.webstorage.Storage;
+import elemental2.webstorage.WebStorageWindow;
 import elemental2.promise.Promise;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -20,6 +21,7 @@ import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import jsinterop.base.Js;
 
 import java.util.Objects;
 
@@ -28,7 +30,7 @@ import java.util.Objects;
  */
 public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
-    private static final boolean PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP = !"false".equals(Storage.getLocalStorageIfSupported().getItem("PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP"));
+    private static final boolean PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP = !"false".equals(WebStorageWindow.of(DomGlobal.window).localStorage.getItem("PREFER_MEDIA_ELEMENT_TO_AUDIO_BUFFER_FOR_NON_AUDIO_CLIP"));
     private static final long MEDIA_PLAYER_CURRENT_TIME_SYNC_RATE_MILLIS = 250; // Same rate as mediaElement.ontimeupdate
     private static final boolean SYNC_START_TIME_WITH_AUDIO_BUFFER_FIRST_SOUND_DETECTION = true;
     private static AudioContext AUDIO_CONTEXT; // One single audio context for the whole application
@@ -560,7 +562,7 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
     // CORS management
 
     // JS object memorizing the working crossOrigin for each remote origin (remoteOrigin => workingCrossOrigin)
-    private static JavaScriptObject WORKING_CROSS_ORIGINS;
+    private static JsObject WORKING_CROSS_ORIGINS;
     // The key used to store WORKING_CROSS_ORIGINS in the local storage
     private static final String LOCAL_STORAGE_WORKING_CROSS_ORIGINS_KEY = "webfx-workingCrossOrigins";
     private String mediaOrigin;
@@ -665,13 +667,13 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
 
     private String getMemorisedWorkingCrossOrigin() {
         if (WORKING_CROSS_ORIGINS == null) {
-            Storage localStorage = Storage.getLocalStorageIfSupported();
+            Storage localStorage = WebStorageWindow.of(DomGlobal.window).localStorage;
             if (localStorage != null) {
                 String item = localStorage.getItem(LOCAL_STORAGE_WORKING_CROSS_ORIGINS_KEY);
-                WORKING_CROSS_ORIGINS = JsonUtils.safeEval(item);
+                WORKING_CROSS_ORIGINS = Js.cast(Global.JSON.parse(item));
             }
             if (WORKING_CROSS_ORIGINS == null)
-                WORKING_CROSS_ORIGINS = JavaScriptObject.createObject();
+                WORKING_CROSS_ORIGINS = JsObject.create(null);
         }
         return HtmlUtil.getJsJavaObjectAttribute(WORKING_CROSS_ORIGINS, mediaOrigin);
     }
@@ -696,9 +698,9 @@ public final class GwtMediaPlayerPeer implements MediaPlayerPeer {
             if (mediaOrigin != null) {
                 Console.log("✅ This is " + ("null".equals(workingCrossOrigin) ? "no-cors" : "cors") + " mode that is working for remote origin " + mediaOrigin + " (now memorized)");
                 HtmlUtil.setJsJavaObjectAttribute(WORKING_CROSS_ORIGINS, mediaOrigin, workingCrossOrigin);
-                Storage localStorage = Storage.getLocalStorageIfSupported();
+                Storage localStorage = WebStorageWindow.of(DomGlobal.window).localStorage;
                 if (localStorage != null) {
-                    localStorage.setItem(LOCAL_STORAGE_WORKING_CROSS_ORIGINS_KEY, JsonUtils.stringify(WORKING_CROSS_ORIGINS));
+                    localStorage.setItem(LOCAL_STORAGE_WORKING_CROSS_ORIGINS_KEY, "" + WORKING_CROSS_ORIGINS.toJSON());
                 }
             }
         }
