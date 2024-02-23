@@ -155,11 +155,13 @@ WebFX is still in the incubation phase. You can consult our roadmap below. At th
     - [ ] <img src="plot.svg"></img> javafx-media ![](https://geps.dev/progress/85)
     - [ ] <img src="plot.svg"></img> javafx-web ![](https://geps.dev/progress/80)
     - [ ] <img src="plot.svg"></img> javafx-fxml ![](https://geps.dev/progress/10) ⓷
-- [ ] <img src="plot.svg"></img> Build & Runtime Environments
+- [ ] <img src="plot.svg"></img> Language, Build & Runtime Environments
   - [x] [GWT][gwt-website] support
   - [ ] <img src="plot.svg"></img> [J2CL][j2cl-repo] support ![](https://geps.dev/progress/50) ⓸
   - [ ] <img src="plot.svg"></img> [TeaVM][teavm-website] support ![](https://geps.dev/progress/20) ⓹
-  - [ ] [Kotlin][kotlin-website] support
+  - [ ] [Kotlin][kotlin-website] support (via J2CL or TeaVM)
+  - [ ] [Scala](https://www.scala-lang.org/) support (via TeaVM only)
+  - [ ] [WebAssembly][jxbrowser-website] support (via J2CL or TeaVM)
   - [ ] [JxBrowser][jxbrowser-website] support ⓺
 - [ ] <img src="plot.svg"></img> Ecosystem
     - [ ] <img src="plot.svg"></img> [WebFX Platform][webfx-platform-repo] ![](https://geps.dev/progress/85)
@@ -182,11 +184,11 @@ WebFX is still in the incubation phase. You can consult our roadmap below. At th
 
 ⓵ 100% = No 3D, no CSS. JavaFX 3D can't be easily mapped to HTML. For CSS, the WebFX approach is to rely on HTML CSS, rather than emulating JavaFX CSS in the browser. See ⓽ for more info about this approach.
 
-⓶ WebFX supports the general javafx-controls API (allowing you to write custom controls). So far, the specific supported controls are: Button, CheckBox, RadioButton, ContextMenu, Label, Hyperlink, TextField, TextArea, PasswordField, ProgressBar, Slider, ScrollPane, SplitPane & TabPane.
+⓶ WebFX supports the general javafx-controls API (allowing you to write custom controls). So far, the supported JavaFX controls are: Button, CheckBox, RadioButton, ContextMenu, Label, Hyperlink, TextField, TextArea, PasswordField, ProgressBar, Slider, ScrollPane, SplitPane & TabPane.
 
 ⓷ FXML relies on reflection, which is not supported by transpilers. Alternatively, WebFX could transform fxml files into transpilable Java code. A prototype has been made with this approach using [Memory Game](https://github.com/JaretWright/MemoryGame), a FXML-based JavaFX game (see working [demo](https://memorygame.webfx.dev)).
 
-⓸ An effort is currently being made to make WebFX transpiler-agnostic. J2CL (successor of GWT in active development) will be soon supported. This future-proof step will also bring all [next goodies](https://github.com/google/j2cl/issues/93) from J2CL, such as WebAssembly target (in addition to JS) and Kotlin language (in addition to Java). 
+⓸ An effort is currently being made to make WebFX transpiler-agnostic. J2CL (successor of GWT in active development) will be soon supported. This future-proof step will also bring all [next goodies](https://github.com/google/j2cl/issues/93) from J2CL, such as WebAssembly target (in addition to JavaScript) and Kotlin language (in addition to Java). 
 
 ⓹ TeaVM is another popular transpiler. Whereas GWT & J2CL are Java-source transpilers, TeaVM is a byte-code transpiler, which will open the door to other alternative JVM languages such as Scala. Also, TeaVM supports Java 21, including `record` and new `switch` expressions.
 
@@ -223,12 +225,12 @@ Some redesign work is also necessary to transit from the current patching proces
 
 ## Support
 
-For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or use our [general chat channel](https://discord.gg/7FQh3S5S) on Discord. You can open an issue to report a bug, or request a feature.
+For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or use our [#general](https://discord.gg/7FQh3S5S) chat channel on Discord. You can open an [issue](https://github.com/webfx-project/webfx/issues) to report a bug, or request a feature.
 
 
 ## Keep updated
 
-Depending on how often you would like to keep updated, you can subscribe to our [blog][webfx-blog] (low traffic), or follow us on [Twitter](https://twitter.com/WebFXProject) (medium traffic), or join the [news channel](https://discord.com/channels/1205089571835088907/1209157316197355530) on Discord (higher traffic).
+Depending on how often you would like to receive updates, you can subscribe to our [blog][webfx-blog] (RSS - low traffic), follow  [@WebFXProject](https://twitter.com/WebFXProject) (X - medium traffic), or join our [#news](https://discord.com/channels/1205089571835088907/1209157316197355530) channel (Discord - higher traffic).
 
 ## Get involved!
 
