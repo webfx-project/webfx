@@ -6,6 +6,6 @@ GitHub code security and analysis are enabled on this repository. All vulnerabil
 
 However, if you believe you have found a security vulnerability, please report it to us.
 
-Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.
+**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**
 
-Please use the "Report a vulnerability" button instead below.
+Instead, please report it privately using the "**Report a vulnerability**" button present on this page.
