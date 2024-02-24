@@ -8,4 +8,4 @@ However, if you believe you have found a security vulnerability, please report i
 
 **Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**
 
-Instead, please report it privately using the "**Report a vulnerability**" button present on this page.
+Instead, please report it privately using the "**Report a vulnerability**" button present on the [Security tab](https://github.com/webfx-project/webfx/security).
