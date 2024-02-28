@@ -1,13 +1,12 @@
 # How to contribute to WebFX
 
-Thank you so much for your wish to contribute to WebFX! There are many areas where help is needed, and we have listed some suggestions below, but we are also open to your own suggestions.
+Thank you so much for considering contributing to WebFX! There are many areas where help is needed, and we have listed some suggestions below, but we are also open to your own suggestions.
 
 
 ## Reporting bugs
 
-We are aware that there are bugs in the [WebFX Kit](../webfx-kit), but we are not accepting bug reports at this time (issues are not open). The reason is that we have some deep work to do first (see our [roadmap](ROADMAP.md)). However, there are some exceptions:
-
-- **You can report bugs found in the [WebFX CLI][webfx-cli-repo].** Issues are open for the CLI, and we will do our best to fix them.
+- **You can report bugs found in the [WebFX Kit](../webfx-kit).** Issues are open, and we will do our best to fix them.
+- **You can report bugs found in the [WebFX CLI][webfx-cli-repo]** as well.
 - **You can report bugs found in the [WebFX Platform][webfx-platform-repo]**, which is our foundation layer & API for cross-platform development (it contains all Java classes whose package starts with `dev.webfx.platform`).
 
 
@@ -24,7 +23,7 @@ We are also aware of a bug in the WebFX CLI (see the [Known limitation](https://
 
 ## Extending the JavaFX coverage
 
-Extending the JavaFX coverage is not our priority at the moment for the same reason explained above. However, if you want to use a JavaFX control or feature that is not yet covered, please feel free to fork, add the missing OpenJFX code, and patch it to make it GWT compatible (you can look to see how we did this with other classes).
+If you want to use a JavaFX control or feature that is not yet covered, please feel free to fork, add the missing OpenJFX code, and patch it to make it GWT compatible (you can look to see how we did this with other classes).
 
 - **We are accepting pull requests should you wish to submit your fix.**
 
@@ -38,20 +37,6 @@ We have a dedicated space for WebFX libraries called [WebFX Libs](https://github
 If you want to use another JavaFX library which is not listed, you can try to patch it and write your own WebFX port.
 
 - **We can then reference your library port in WebFX Libs (please [contact us][webfx-contactus])**
-
-
-## Writing the Maven plugin
-
-We need to develop a Maven Plugin to speed up the import of large WebFX libraries into WebFX applications. The feature is already implemented in the WebFX CLI, we just need to embed it in a Maven plugin.
-
-- **If you are happy to write the plugin, please [contact us][webfx-contactus].**
-
-
-## Designing a logo
-
-WebFX would benefit from a unique, well-designed logo.
-
-- **If you have any WebFX logo ideas or drafts, you can [send them to us][webfx-contactus]. We will be delighted to consider your propositions.**
 
 
 ## Writing an Apple signing guide
@@ -96,44 +81,7 @@ Because we are in the incubation phase, now is the best time to review our code,
 - **If the code is in the [WebFX Platform][webfx-platform-repo], you can open an issue.**
 - **If the code is in the [WebFX Kit](../webfx-kit), please [contact us][webfx-contactus].**
 
-
-## Investigating J2CL
-
-As mentioned in our [roadmap](ROADMAP.md), we will investigate the possibility of supporting alternative transpilers, beginning with [J2CL](https://github.com/google/j2cl).
-
-- **If you already have some experience with J2CL and would like to help, please [contact us][webfx-contactus].**
-
-
-## Investigating TeaVM
-
-Similarly, we would like to investigate [TeaVM](https://teavm.org). We have already demonstrated in the [Mandelbrot demo](https://mandelbrot.webfx.dev) how to use TeaVM to transpile a part of the application logic into WebAssembly, but here it's about going further by transpiling the whole application.
-
-- **If you are happy to help us investigate the TeaVM support, please [contact us][webfx-contactus].**
-
-
-## Preparing the Kotlin demo
-
-The TeaVM support will open the door to alternative languages such as Kotlin. To demonstrate this, we will need to make a Kotlin demo. The demo will take a Kotlin app with a JavaFX UI and transpile it into JS with TeaVM. The Kotlin app can be prepared in advance.
-
-- **If you are happy to develop an attractive Kotlin app for the demo, please [contact us][webfx-contactus].**
-
-
-## Prototyping an Android mapper
-
-This is not really planned in our roadmap, but an interesting parallel development would be to implement an Android mapper (in addition to the DOM mapper). This would allow us to develop Android applications directly in Android Studio with an Android WebFX runtime, providing direct access to the entire Android API at the same time. We could make a first prototype with the ColourfulCircles demo (just needs a Circle mapper), or the Particles demo (just needs a Canvas mapper).
-
-- **If you would like to work on an Android mapper prototype, please [contact us][webfx-contactus].** 
-
-
-## Prototyping an iOS mapper
-
-We can't really do the same with iOS (developing in Java with Xcode), but we may still be able to realise a transpilable iOS mapper using a transpiler such as [J2ObjC](https://github.com/google/j2objc).
-
-- **If you would like to work on an iOS mapper prototype, please [contact us][webfx-contactus].**
-
-
 ***
-
 
 Thank you so much for joining the WebFX community!
 
