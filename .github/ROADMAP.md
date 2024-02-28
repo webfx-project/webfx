@@ -16,7 +16,7 @@
   - [ ] <img src="plot.svg"></img> javafx-fxml ![](https://geps.dev/progress/10) ⓷
 - [ ] <img src="plot.svg"></img> Language, Build & Runtime Environments
   - [x] [GWT][gwt-website] support
-  - [ ] <img src="plot.svg"></img> [J2CL][j2cl-repo] support ![](https://geps.dev/progress/50) ⓸
+  - [ ] <img src="plot.svg"></img> [J2CL][j2cl-repo] support ![](https://geps.dev/progress/70) ⓸
   - [ ] <img src="plot.svg"></img> [TeaVM][teavm-website] support ![](https://geps.dev/progress/20) ⓹
   - [ ] [Kotlin][kotlin-website] support (via J2CL or TeaVM)
   - [ ] [Scala](https://www.scala-lang.org/) support (via TeaVM only)
@@ -60,3 +60,22 @@
 ⓽ WebFX CSS relies on dual format: JavaFX CSS & HTML CSS. WebFX developers will need to write both formats. Although it's more work, this is the most optimised approach (emulating JavaFX CSS and loading caspian.css in the browser would be a heavy approach). WebFX CSS will provide a lighter initial CSS for JavaFX that will replace caspian, using a modern sleek minimalistic flat design.
 
 Some redesign work is also necessary to transit from the current patching process (which is mainly a manual patch of OpenJFX 8) to a more professional patching process with tooling allowing regular rebasing onto OpenJFX.
+
+[webfx-website]: https://webfx.dev
+[webfx-docs]: https://docs.webfx.dev
+[webfx-guide]: https://docs.webfx.dev/#_getting_started
+[webfx-blog]: https://blog.webfx.dev
+[webfx-discussions]: https://github.com/webfx-project/webfx/discussions
+[webfx-cli-repo]: https://github.com/webfx-project/webfx-cli
+[webfx-platform-repo]: https://github.com/webfx-project/webfx-platform
+[webfx-extras-repo]: https://github.com/webfx-project/webfx-extras
+[webfx-stack-repo]: https://github.com/webfx-project/webfx-stack
+[webfx-libs-repo]: https://github.com/webfx-libs
+[webfx-maven-plugin]: https://github.com/webfx-project/webfx-maven-plugin
+[modality-repo]: https://github.com/modalityone/modality
+[github-workflow-example]: https://github.com/webfx-demos/webfx-demo-spacefx/blob/main/.github/workflows/builds.yml
+[gwt-website]: https://gwtproject.org
+[j2cl-repo]: https://github.com/google/j2cl
+[teavm-website]: https://teavm.org
+[jxbrowser-website]: https://www.teamdev.com/jxbrowser
+[kotlin-website]: https://kotlinlang.org
