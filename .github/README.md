@@ -6,7 +6,6 @@
 ![Scc Comments Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=comments)
 ![Scc Lines Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=lines)
 ![Scc COCOMO Badge](https://sloc.xyz/github/webfx-project/webfx/?category=cocomo)
-![Discover Vulnerabilities Using CodeQL](https://github.com/webfx-project/webfx/actions/workflows/discover-vulnerabilities.yml/badge.svg)
 ![Deploy to Sonatype](https://github.com/webfx-project/webfx/actions/workflows/build-and-deploy-to-sonatype.yml/badge.svg)
 
 <a href="https://webfx.dev"><img src="WebFX.png"/></a>
@@ -157,7 +156,7 @@ WebFX is still in the incubation phase. You can consult our roadmap below. At th
     - [ ] <img src="plot.svg"></img> javafx-fxml ![](https://geps.dev/progress/10) ⓷
 - [ ] <img src="plot.svg"></img> Language, Build & Runtime Environments
   - [x] [GWT][gwt-website] support
-  - [ ] <img src="plot.svg"></img> [J2CL][j2cl-repo] support ![](https://geps.dev/progress/50) ⓸
+  - [ ] <img src="plot.svg"></img> [J2CL][j2cl-repo] support ![](https://geps.dev/progress/70) ⓸
   - [ ] <img src="plot.svg"></img> [TeaVM][teavm-website] support ![](https://geps.dev/progress/20) ⓹
   - [ ] [Kotlin][kotlin-website] support (via J2CL or TeaVM)
   - [ ] [Scala](https://www.scala-lang.org/) support (via TeaVM only)
