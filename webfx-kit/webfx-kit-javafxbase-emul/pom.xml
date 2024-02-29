@@ -13,4 +13,15 @@
 
     <artifactId>webfx-kit-javafxbase-emul</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-javabase-emul-j2cl</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
+
+    </dependencies>
+
 </project>

@@ -40,7 +40,7 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxgraphics-peers-gwt</artifactId>
+            <artifactId>webfx-kit-javafxgraphics-peers-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
