@@ -1,8 +1,8 @@
 package dev.webfx.kit.mapper.peers.javafxweb.spi.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.html.HtmlNodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwt.util.HtmlUtil;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlNodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.platform.util.Strings;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.DomGlobal;

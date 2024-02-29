@@ -31,7 +31,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 
 /**
  * This enum describes the attributes that an assistive technology
@@ -214,7 +214,7 @@ public enum AccessibleAttribute {
      * <li>Parameters: </li>
      * </ul>
      */
-    DATE(LocalDate.class),
+    //DATE(LocalDate.class),
 
     /**
      * Returns true if the node is editable, otherwise false.

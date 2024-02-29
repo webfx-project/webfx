@@ -25,7 +25,6 @@
 
 package com.sun.javafx.collections;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -42,7 +41,8 @@ public class SortHelper {
     private static final int INSERTIONSORT_THRESHOLD = 7;
 
     public <T extends Comparable<? super T>> int[] sort(List<T> list) {
-        T[] a = (T[]) Array.newInstance(Comparable.class, list.size());
+        //T[] a = (T[]) Array.newInstance(Comparable.class, list.size());
+        Comparable[] a = new Comparable[list.size()];
         try {
             a = list.toArray(a);
         } catch (ArrayStoreException e) {
@@ -86,7 +86,7 @@ public class SortHelper {
     }
 
     public <T> int[] sort(T[] a, int fromIndex, int toIndex,
-                Comparator<? super T> c) {
+                          Comparator<? super T> c) {
         rangeCheck(a.length, fromIndex, toIndex);
         T[] aux = (T[])copyOfRange(a, fromIndex, toIndex);
         int[] result = initPermutation(a.length);
@@ -112,7 +112,7 @@ public class SortHelper {
     private static void rangeCheck(int arrayLen, int fromIndex, int toIndex) {
         if (fromIndex > toIndex)
             throw new IllegalArgumentException("fromIndex(" + fromIndex +
-                       ") > toIndex(" + toIndex+")");
+                                               ") > toIndex(" + toIndex+")");
         if (fromIndex < 0)
             throw new ArrayIndexOutOfBoundsException(fromIndex);
         if (toIndex > arrayLen)
@@ -126,7 +126,7 @@ public class SortHelper {
             throw new IllegalArgumentException(from + " > " + to);
         int[] copy = new int[newLength];
         System.arraycopy(original, from, copy, 0,
-                         Math.min(original.length - from, newLength));
+                Math.min(original.length - from, newLength));
         return copy;
     }
 
@@ -138,11 +138,11 @@ public class SortHelper {
         int newLength = to - from;
         if (newLength < 0)
             throw new IllegalArgumentException(from + " > " + to);
-        T[] copy = ((Object)newType == (Object)Object[].class)
-            ? (T[]) new Object[newLength]
-            : (T[]) Array.newInstance(newType.getComponentType(), newLength);
+        T[] copy = //((Object)newType == (Object)Object[].class)
+                /*?*/ (T[]) new Object[newLength]
+                /*: (T[]) Array.newInstance(newType.getComponentType(), newLength)*/;
         System.arraycopy(original, from, copy, 0,
-                         Math.min(original.length - from, newLength));
+                Math.min(original.length - from, newLength));
         return copy;
     }
 
@@ -150,17 +150,17 @@ public class SortHelper {
      * Merge sort from Oracle JDK 6
      */
     private void mergeSort(int[] src,
-                  int[] dest,
-                  int low,
-                  int high,
-                  int off) {
+                           int[] dest,
+                           int low,
+                           int high,
+                           int off) {
         int length = high - low;
 
         // Insertion sort on smallest arrays
         if (length < INSERTIONSORT_THRESHOLD) {
             for (int i=low; i<high; i++)
                 for (int j=i; j>low &&
-                     ((Comparable) dest[j-1]).compareTo(dest[j])>0; j--)
+                              ((Comparable) dest[j-1]).compareTo(dest[j])>0; j--)
                     swap(dest, j, j-1);
             return;
         }
@@ -201,17 +201,17 @@ public class SortHelper {
      * Merge sort from Oracle JDK 6
      */
     private void mergeSort(Object[] src,
-                  Object[] dest,
-                  int low,
-                  int high,
-                  int off) {
+                           Object[] dest,
+                           int low,
+                           int high,
+                           int off) {
         int length = high - low;
 
         // Insertion sort on smallest arrays
         if (length < INSERTIONSORT_THRESHOLD) {
             for (int i=low; i<high; i++)
                 for (int j=i; j>low &&
-                     ((Comparable) dest[j-1]).compareTo(dest[j])>0; j--)
+                              ((Comparable) dest[j-1]).compareTo(dest[j])>0; j--)
                     swap(dest, j, j-1);
             return;
         }
@@ -249,16 +249,16 @@ public class SortHelper {
     }
 
     private void mergeSort(Object[] src,
-                  Object[] dest,
-                  int low, int high, int off,
-                  Comparator c) {
+                           Object[] dest,
+                           int low, int high, int off,
+                           Comparator c) {
         int length = high - low;
 
         // Insertion sort on smallest arrays
         if (length < INSERTIONSORT_THRESHOLD) {
             for (int i=low; i<high; i++)
-            for (int j=i; j>low && c.compare(dest[j-1], dest[j])>0; j--)
-                swap(dest, j, j-1);
+                for (int j=i; j>low && c.compare(dest[j-1], dest[j])>0; j--)
+                    swap(dest, j, j-1);
             return;
         }
 
@@ -274,8 +274,8 @@ public class SortHelper {
         // If list is already sorted, just copy from src to dest.  This is an
         // optimization that results in faster sorts for nearly ordered lists.
         if (c.compare(src[mid-1], src[mid]) <= 0) {
-           System.arraycopy(src, low, dest, destLow, length);
-           return;
+            System.arraycopy(src, low, dest, destLow, length);
+            return;
         }
 
         // Merge sorted halves (now in src) into dest
