@@ -1,4 +1,4 @@
-package dev.webfx.kit.mapper.spi.impl.gwt;
+package dev.webfx.kit.mapper.spi.impl.gwtj2cl;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,7 +15,7 @@ import dev.webfx.kit.launcher.WebFxKitLauncher;
 /**
  * @author Bruno Salmon
  */
-public final class GwtWebFxKitSvgMapperProvider extends WebFxKitMapperProviderBase {
+public final class GwtJ2clWebFxKitSvgMapperProvider extends WebFxKitMapperProviderBase {
 
     @Override
     public StagePeer createStagePeer(Stage stage) {

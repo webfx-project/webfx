@@ -1,4 +1,4 @@
-package dev.webfx.kit.launcher.spi.impl.gwt;
+package dev.webfx.kit.launcher.spi.impl.gwtj2cl;
 
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.ImageDataHelper;
@@ -8,14 +8,14 @@ import javafx.scene.image.Image;
 /**
  * @author Bruno Salmon
  */
-public final class GwtFastPixelReaderWriter implements FastPixelReaderWriter {
+public final class GwtJ2clFastPixelReaderWriter implements FastPixelReaderWriter {
 
     private final Image image;
     private final ImageData imageData;
     private final int maxIndex;
     private int index = -4;
 
-    public GwtFastPixelReaderWriter(Image image) {
+    public GwtJ2clFastPixelReaderWriter(Image image) {
         this.image = image;
         imageData = ImageDataHelper.getOrCreateImageDataAssociatedWithImage(image);
         maxIndex = imageData.data.length - 4;

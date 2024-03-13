@@ -1,4 +1,4 @@
-package dev.webfx.kit.launcher.spi.impl.gwt;
+package dev.webfx.kit.launcher.spi.impl.gwtj2cl;
 
 import elemental2.promise.Promise;
 import jsinterop.annotations.JsPackage;

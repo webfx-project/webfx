@@ -1,4 +1,4 @@
-package dev.webfx.kit.launcher.spi.impl.gwt;
+package dev.webfx.kit.launcher.spi.impl.gwtj2cl;
 
 import com.sun.javafx.application.ParametersImpl;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
@@ -43,12 +43,12 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderBase {
+public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProviderBase {
 
     private Application application;
     private HostServices hostServices;
 
-    public GwtWebFxKitLauncherProvider() {
+    public GwtJ2clWebFxKitLauncherProvider() {
         super(false);
     }
 
@@ -155,7 +155,7 @@ public final class GwtWebFxKitLauncherProvider extends WebFxKitLauncherProviderB
 
     @Override
     public FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
-        return new GwtFastPixelReaderWriter(image);
+        return new GwtJ2clFastPixelReaderWriter(image);
     }
 
     @Override
