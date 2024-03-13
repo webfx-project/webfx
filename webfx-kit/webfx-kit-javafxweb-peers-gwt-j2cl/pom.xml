@@ -11,13 +11,13 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webfx-kit-javafxweb-registry-gwt</artifactId>
+    <artifactId>webfx-kit-javafxweb-peers-gwt-j2cl</artifactId>
 
     <dependencies>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxgraphics-emul</artifactId>
+            <artifactId>webfx-kit-javafxbase-emul</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -25,16 +25,6 @@
             <groupId>dev.webfx</groupId>
             <artifactId>webfx-kit-javafxweb-emul</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.jsinterop</groupId>
-            <artifactId>base</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.elemental2</groupId>
-            <artifactId>elemental2-core</artifactId>
         </dependency>
 
         <dependency>
@@ -50,25 +40,19 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxweb-enginepeer</artifactId>
+            <artifactId>webfx-kit-javafxgraphics-peers-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxweb-peers-gwt</artifactId>
+            <artifactId>webfx-kit-javafxweb-peers-base</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-util</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-scheduler</artifactId>
+            <artifactId>webfx-platform-util</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
