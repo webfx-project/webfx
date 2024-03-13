@@ -18,12 +18,13 @@
     <modules>
         <module>webfx-kit-javafxbase-emul</module>
         <module>webfx-kit-javafxcontrols-emul</module>
+        <module>webfx-kit-javafxgraphics-emul</module>
+        <module>webfx-kit-javafxmedia-emul</module>
+        <module>webfx-kit-javafxweb-emul</module>
         <module>webfx-kit-javafxcontrols-peers-base</module>
         <module>webfx-kit-javafxcontrols-peers-gwt-j2cl</module>
         <module>webfx-kit-javafxcontrols-registry</module>
         <module>webfx-kit-javafxcontrols-registry-gwt-j2cl</module>
-        <module>webfx-kit-javafxgraphics-emul</module>
-        <module>webfx-kit-javafxgraphics-fat-j2cl</module>
         <module>webfx-kit-javafxgraphics-gwt-j2cl</module>
         <module>webfx-kit-javafxgraphics-openjfx</module>
         <module>webfx-kit-javafxgraphics-peers</module>
@@ -31,17 +32,15 @@
         <module>webfx-kit-javafxgraphics-peers-gwt-j2cl</module>
         <module>webfx-kit-javafxgraphics-registry</module>
         <module>webfx-kit-javafxgraphics-registry-gwt-j2cl</module>
-        <module>webfx-kit-javafxmedia-emul</module>
         <module>webfx-kit-javafxmedia-gluon</module>
         <module>webfx-kit-javafxmedia-peers-gwt-j2cl</module>
         <module>webfx-kit-javafxmedia-registry</module>
         <module>webfx-kit-javafxmedia-registry-gwt-j2cl</module>
-        <module>webfx-kit-javafxweb-emul</module>
         <module>webfx-kit-javafxweb-enginepeer</module>
         <module>webfx-kit-javafxweb-peers-base</module>
-        <module>webfx-kit-javafxweb-peers-gwt</module>
+        <module>webfx-kit-javafxweb-peers-gwt-j2cl</module>
         <module>webfx-kit-javafxweb-registry</module>
-        <module>webfx-kit-javafxweb-registry-gwt</module>
+        <module>webfx-kit-javafxweb-registry-gwt-j2cl</module>
         <module>webfx-kit-launcher</module>
         <module>webfx-kit-platform-audio-openjfx-gwt-j2cl</module>
         <module>webfx-kit-platform-browser-openjfx</module>
@@ -50,6 +49,7 @@
         <module>webfx-kit-statusbar-gluon</module>
         <module>webfx-kit-statusbar-none</module>
         <module>webfx-kit-util</module>
+        <module>webfx-kit-javafxgraphics-fat-j2cl</module>
         <module>webfx-kit-util-scene</module>
         <module>webfx-kit-webgl</module>
         <module>webfx-kit-webgl-gwt-j2cl</module>

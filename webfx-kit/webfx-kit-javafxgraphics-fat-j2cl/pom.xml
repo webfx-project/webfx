@@ -86,18 +86,16 @@
                         <resource>
                             <directory>${project.build.directory}/generated-sources</directory>
                         </resource>
-                        <!-- required for J2CL -->
+                        <!-- Standard copy of the resources -->
+                        <resource>
+                            <directory>src/main/resources</directory>
+                        </resource>
+                        <!-- Additional copy of the sources (required for the J2CL plugin to work properly) -->
                         <resource>
                             <directory>src/main/java</directory>
                             <includes>
                                 <include>**/*.java</include>
-                                <include>**/*.native.js</include>
-                            </includes>
-                        </resource>
-                        <resource>
-                            <directory>src/main/resources</directory>
-                            <includes>
-                                <include>externs.js</include>
+                                <include>**/*.js</include>
                             </includes>
                         </resource>
                     </resources>
