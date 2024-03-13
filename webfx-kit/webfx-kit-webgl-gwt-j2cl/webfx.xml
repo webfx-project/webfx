@@ -8,7 +8,7 @@
 
     <dependencies>
         <used-by-source-modules>
-            <undetected-module>webfx-kit-javafxbase-emul</undetected-module>
+            <undetected-module>javafx-base</undetected-module>
         </used-by-source-modules>
     </dependencies>
 
