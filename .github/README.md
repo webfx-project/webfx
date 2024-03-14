@@ -103,7 +103,7 @@ WebFX doesn't target only the Web. WebFX applications can be compiled to run nat
 
 
 You can check out the demos to see how a GitHub workflow can generate these executables.
-For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-demo-fx2048/blob/master/.github/workflows/gradle.yml) for the FX2048 demo and the [executables](https://github.com/webfx-demos/webfx-demo-fx2048/releases) that it generated.
+For example, here is the [GitHub workflow](https://github.com/webfx-demos/webfx-demo-fx2048/blob/webfx/.github/workflows/builds.yml) for the FX2048 demo and the [executables](https://github.com/webfx-demos/webfx-demo-fx2048/releases) that it generated.
 
 ## How it works
 
