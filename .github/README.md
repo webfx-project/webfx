@@ -1,12 +1,11 @@
 
 <div align="center">
 
-![Scc Code Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=code)
-![Scc Blanks Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=blanks)
-![Scc Comments Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=comments)
-![Scc Lines Count Badge](https://sloc.xyz/github/webfx-project/webfx/?category=lines)
-![Scc COCOMO Badge](https://sloc.xyz/github/webfx-project/webfx/?category=cocomo)
-![Deploy to Sonatype](https://github.com/webfx-project/webfx/actions/workflows/build-and-deploy-to-sonatype.yml/badge.svg)
+[![JavaFX compatible](https://img.shields.io/badge/JavaFX-compatible-brightgreen.svg)](https://openjfx.io)
+[![GWT compatible](https://img.shields.io/badge/GWT-compatible-brightgreen.svg)][gwt-website]
+[![J2CL compatible](https://img.shields.io/badge/J2CL-compatible-brightgreen.svg)][j2cl-repo]
+[![Gluon compatible](https://img.shields.io/badge/Gluon-compatible-brightgreen.svg)](https://gluonhq.com)
+[![Vert.x compatible](https://img.shields.io/badge/Vert.x-compatible-brightgreen.svg)][vertx-website]
 
 <a href="https://webfx.dev"><img src="WebFX.png"/></a>
 &nbsp;
@@ -135,7 +134,9 @@ Although the WebFX Kit (this repository) is the very heart of the project, there
 
 ## Status
 
-WebFX is still in the incubation phase. You can consult our roadmap below. At this stage, we provide only snapshot releases, and breaking changes may occur until the first official release.
+![Sonatype](https://img.shields.io/badge/Sonatype-0.1.0--SNAPSHOT-brightgreen.svg)
+
+WebFX is still in the incubation phase. You can consult our roadmap below. At this stage, we provide only snapshot releases, and breaking changes may occur until the first official release. 
 
 <details>
   <summary>Roadmap</summary>
@@ -147,7 +148,7 @@ WebFX is still in the incubation phase. You can consult our roadmap below. At th
 - [x] [WebFX Website][webfx-website]
 - [x] [WebFX Docs][webfx-docs]
 - [x] [WebFX Blog][webfx-blog]
-- [ ] <img src="plot.svg"></img> JavaFX coverage
+- [ ] <img src="plot.svg"></img> ![JavaFX](https://img.shields.io/badge/JavaFX-compatible-brightgreen.svg)
     - [ ] <img src="plot.svg"></img> javafx-base ![](https://geps.dev/progress/80)
     - [ ] <img src="plot.svg"></img> javafx-graphics ![](https://geps.dev/progress/70) ⓵
     - [ ] <img src="plot.svg"></img> javafx-controls ![](https://geps.dev/progress/33) ⓶ 
@@ -155,13 +156,14 @@ WebFX is still in the incubation phase. You can consult our roadmap below. At th
     - [ ] <img src="plot.svg"></img> javafx-web ![](https://geps.dev/progress/80)
     - [ ] <img src="plot.svg"></img> javafx-fxml ![](https://geps.dev/progress/10) ⓷
 - [ ] <img src="plot.svg"></img> Language, Build & Runtime Environments
-  - [x] [GWT][gwt-website] support
-  - [ ] <img src="plot.svg"></img> [J2CL][j2cl-repo] support ![](https://geps.dev/progress/70) ⓸
-  - [ ] <img src="plot.svg"></img> [TeaVM][teavm-website] support ![](https://geps.dev/progress/20) ⓹
-  - [ ] [Kotlin][kotlin-website] support (via J2CL or TeaVM)
-  - [ ] [Scala](https://www.scala-lang.org/) support (via TeaVM only)
-  - [ ] [WebAssembly][jxbrowser-website] support (via J2CL or TeaVM)
-  - [ ] [JxBrowser][jxbrowser-website] support ⓺
+  - [x] ![GWT](https://img.shields.io/badge/GWT-compatible-brightgreen.svg)
+  - [ ] <img src="plot.svg"></img> ![J2CL](https://img.shields.io/badge/J2CL-compatible-brightgreen.svg) ![](https://geps.dev/progress/80) ⓸
+  - [ ] <img src="plot.svg"></img> ![TeaVM](https://img.shields.io/badge/TeaVM-compatible-brightgreen.svg) ![](https://geps.dev/progress/20) ⓹
+  - [ ] ![Kotlin compatible](https://img.shields.io/badge/Kotlin-compatible-brightgreen.svg) (via J2CL or TeaVM)
+  - [ ] ![Scala](https://img.shields.io/badge/Scala-compatible-brightgreen.svg) (via TeaVM only)
+  - [ ] ![JxBrowser](https://img.shields.io/badge/JxBrowser-debug-brightgreen.svg) ⓺
+  - [ ] ![WebAssembly](https://img.shields.io/badge/WebAssembly-target-brightgreen.svg) (via J2CL or TeaVM)
+  - [x] ![Vert.x compatible](https://img.shields.io/badge/Vert.x-compatible-brightgreen.svg) ⓼
 - [ ] <img src="plot.svg"></img> Ecosystem
     - [ ] <img src="plot.svg"></img> [WebFX Platform][webfx-platform-repo] ![](https://geps.dev/progress/85)
     - [ ] <img src="plot.svg"></img> [WebFX Extras][webfx-extras-repo] ![](https://geps.dev/progress/70) ⓻
@@ -187,15 +189,15 @@ WebFX is still in the incubation phase. You can consult our roadmap below. At th
 
 ⓷ FXML relies on reflection, which is not supported by transpilers. Alternatively, WebFX could transform fxml files into transpilable Java code. A prototype has been made with this approach using [Memory Game](https://github.com/JaretWright/MemoryGame), a FXML-based JavaFX game (see working [demo](https://memorygame.webfx.dev)).
 
-⓸ An effort is currently being made to make WebFX transpiler-agnostic. J2CL (successor of GWT in active development) will be soon supported. This future-proof step will also bring all [next goodies](https://github.com/google/j2cl/issues/93) from J2CL, such as WebAssembly target (in addition to JavaScript) and Kotlin language (in addition to Java). 
+⓸ An effort is currently being made to make WebFX transpiler-agnostic. [J2CL][j2cl-repo] (successor of [GWT][gwt-website] in active development) will be soon supported. This future-proof step will also bring all [next goodies](https://github.com/google/j2cl/issues/93) from J2CL, such as [WebAssembly][webassembly-website] target (in addition to JavaScript) and [Kotlin][kotlin-website] language (in addition to Java). 
 
-⓹ TeaVM is another popular transpiler. Whereas GWT & J2CL are Java-source transpilers, TeaVM is a byte-code transpiler, which will open the door to other alternative JVM languages such as Scala. Also, TeaVM supports Java 21, including `record` and new `switch` expressions.
+⓹ [TeaVM][teavm-website] is another popular transpiler. Whereas GWT & J2CL are Java-source transpilers, TeaVM is a byte-code transpiler, which will open the door to other alternative JVM languages such as [Scala][scala-website]. Also, TeaVM supports Java 21, including `record` and new `switch` expressions.
 
-⓺ The JxBrowser support will offer an external web view that developers can use to run, test and debug the web version of their WebFX app directly from Java (no transpilation required!). The IDE will simply run your app with the WebFX Kit runtime (instead of OpenJFX) in the JVM, and the DOM generated by WebFX will be rendered in JxBrowser (a Chromium-based browser controlled by Java). This will considerably speed up the development cycle of web apps.
+⓺ The [JxBrowser][jxbrowser-website] support will offer an external web view that developers can use to run, test and debug the web version of their WebFX app directly from Java (no transpilation required!). The IDE will simply run your app with the WebFX Kit runtime (instead of OpenJFX) in the JVM, and the DOM generated by WebFX will be rendered in JxBrowser (a Chromium-based browser controlled by Java). This will considerably speed up the development cycle of web apps.
 
 ⓻ WebFX extras provides additional features for WebFX, and simpler alternative controls to the complex JavaFX controls not yet supported (ex: simple data grid and charts).
 
-⓼ WebFX Stack provides additional enterprise-level features such as: UI router, I18n, Validation, Auth(n/z) with SSO support, client-side ORM, DB access, websocket-based event bus (for server communication - focus on Vert.x), and server push features. WebFX Stack + Vert.x is a Java full-stack solution (similar to React + Node.js).
+⓼ WebFX Stack provides additional enterprise-level features such as: UI router, I18n, Validation, Auth(n/z) with SSO support, client-side ORM, DB access, websocket-based event bus (for server communication - focus on [Vert.x][vertx-website]), and server push features. WebFX Stack + Vert.x is a Java full-stack solution (similar to React + Node.js).
 
 ⓽ WebFX CSS relies on dual format: JavaFX CSS & HTML CSS. WebFX developers will need to write both formats. Although it's more work, this is the most optimised approach (emulating JavaFX CSS and loading caspian.css in the browser would be a heavy approach). WebFX CSS will provide a lighter initial CSS for JavaFX that will replace caspian, using a modern sleek minimalistic flat design. 
 
@@ -214,12 +216,13 @@ Some redesign work is also necessary to transit from the current patching proces
 [webfx-maven-plugin]: https://github.com/webfx-project/webfx-maven-plugin
 [modality-repo]: https://github.com/modalityone/modality
 [github-workflow-example]: https://github.com/webfx-demos/webfx-demo-spacefx/blob/main/.github/workflows/builds.yml
-[gwt-website]: https://gwtproject.org
 [j2cl-repo]: https://github.com/google/j2cl
 [teavm-website]: https://teavm.org
 [jxbrowser-website]: https://www.teamdev.com/jxbrowser
 [kotlin-website]: https://kotlinlang.org
-
+[webassembly-website]: https://webassembly.org
+[scala-website]: https://www.scala-lang.org
+[vertx-website]: https://vertx.io
 </details>
 
 ## Support

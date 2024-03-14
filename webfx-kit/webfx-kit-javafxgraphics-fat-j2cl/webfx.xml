@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <providers>
+        <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.impl.gwtj2cl.GwtJ2clWebFxKitLauncherProvider</provider>
+        <provider interface="dev.webfx.kit.mapper.spi.WebFxKitMapperProvider">dev.webfx.kit.mapper.spi.impl.gwtj2cl.GwtJ2clWebFxKitHtmlMapperProvider</provider>
+    </providers>
+
+    <dependencies>
+        <!-- We can't use <source-dependencies> here because src/main/java is empty! The actual sources will be copied
+         from other WebFX modules using maven-dependency-plugin into target/generated-sources. This is because we couldn't
+         give these other WebFX modules directly to J2CL without creating a cyclic dependency (due to the OpenJFX modules
+         replacement clauses for the J2CL Maven plugin). So we create here a simpler monolithic module, which is an
+         aggregate of these other WebFX modules for javafx-graphics. And we provide the dependencies manually below. -->
+
+        <!-- These dependencies are required for a successful J2CL compilation of this module -->
+        <plugin-module scope="compile">webfx-kit-javafxbase-emul</plugin-module>
+        <plugin-module scope="provided">webfx-platform-boot</plugin-module>
+        <plugin-module scope="provided">webfx-platform-console</plugin-module>
+        <plugin-module scope="provided">webfx-platform-uischeduler</plugin-module>
+        <plugin-module scope="provided">webfx-platform-util</plugin-module>
+        <plugin-module scope="provided">webfx-platform-scheduler</plugin-module>
+        <plugin-module scope="provided">webfx-platform-useragent</plugin-module>
+        <plugin-module scope="compile">jsinterop-base</plugin-module>
+        <plugin-module scope="compile">elemental2-core</plugin-module>
+        <plugin-module scope="compile">elemental2-dom</plugin-module>
+        <plugin-module scope="compile">elemental2-svg</plugin-module>
+        <plugin-module scope="compile">elemental2-webstorage</plugin-module>
+        <plugin-module scope="compile">jsinterop-annotations</plugin-module>
+        <plugin-module>java-nio-emul</plugin-module>
+        <plugin-module>webfx-platform-javabase-emul-j2cl</plugin-module>
+
+        <!-- -->
+        <plugin-module scope="aggregate">webfx-kit-launcher</plugin-module>
+    </dependencies>
+
+    <maven-pom-manual>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>unpack-dependencies</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>dev.webfx</groupId>
+                                        <artifactId>webfx-kit-javafxgraphics-gwt-j2cl</artifactId>
+                                        <version>${webfx.version}</version>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>dev.webfx</groupId>
+                                        <artifactId>webfx-kit-launcher</artifactId>
+                                        <version>${webfx.version}</version>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>dev.webfx</groupId>
+                                        <artifactId>webfx-kit-javafxgraphics-emul</artifactId>
+                                        <version>${webfx.version}</version>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>dev.webfx</groupId>
+                                        <artifactId>webfx-kit-javafxgraphics-peers</artifactId>
+                                        <version>${webfx.version}</version>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>dev.webfx</groupId>
+                                        <artifactId>webfx-kit-javafxgraphics-peers-base</artifactId>
+                                        <version>${webfx.version}</version>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>dev.webfx</groupId>
+                                        <artifactId>webfx-kit-javafxgraphics-peers-gwt-j2cl</artifactId>
+                                        <version>${webfx.version}</version>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>dev.webfx</groupId>
+                                        <artifactId>webfx-kit-javafxgraphics-registry-gwt-j2cl</artifactId>
+                                        <version>${webfx.version}</version>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>dev.webfx</groupId>
+                                        <artifactId>webfx-kit-util</artifactId>
+                                        <version>${webfx.version}</version>
+                                    </artifactItem>
+                                </artifactItems>
+                                <includes>**/*.java</includes>
+                                <excludes>**/module-info.java</excludes>
+                                <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${plugin.resources.version}</version>
+                    <configuration>
+                        <resources>
+                            <resource>
+                                <directory>${project.build.directory}/generated-sources</directory>
+                            </resource>
+                            <!-- Standard copy of the resources -->
+                            <resource>
+                                <directory>src/main/resources</directory>
+                            </resource>
+                            <!-- Additional copy of the sources (required for the J2CL plugin to work properly) -->
+                            <resource>
+                                <directory>src/main/java</directory>
+                                <includes>
+                                    <include>**/*.java</include>
+                                    <include>**/*.js</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>generate-sources</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <configuration>
+                                <compileSourceRoots>
+                                    <compileSourceRoot>${project.build.directory}/generated-sources</compileSourceRoot>
+                                </compileSourceRoots>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+            </plugins>
+        </build>
+    </maven-pom-manual>
+
+    <html if-module-property-true="show-loading-spinner-on-startup">
+        <head>
+            <style>
+                /*********************************************
+                *** Page loading spinner (Material Design) ***
+                *********************************************/
+
+                #loadingSpinner {
+                position: fixed;
+                width: 100%;
+                height: 90%;
+                z-index: 100;
+                pointer-events: none;
+                }
+
+                #loadingSpinner, #loadingSpinner tr, #loadingSpinner td {
+                border: none;
+                background: transparent;
+                }
+
+                .loader {
+                position: relative;
+                margin: 0 auto;
+                width: 100px;
+                }
+
+                .loader:before {
+                content: '';
+                display: block;
+                padding-top: 100%;
+                }
+
+                .circular {
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                animation: rotate 2s linear infinite;
+                transform-origin: center center;
+                }
+
+                .path {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+                animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+                stroke-linecap: round;
+                }
+
+                @keyframes rotate {
+                100% {
+                transform: rotate(360deg);
+                }
+                }
+
+                @keyframes dash {
+                0% {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+                }
+                50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -35px;
+                }
+                100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124px;
+                }
+                }
+
+                @keyframes color {
+                100%,
+                0% {
+                stroke: #d62d20;
+                }
+                40% {
+                stroke: #0057e7;
+                }
+                66% {
+                stroke: #008744;
+                }
+                80%,
+                90% {
+                stroke: #ffa700;
+                }
+                }
+            </style>
+        </head>
+    </html>
+
+</project>

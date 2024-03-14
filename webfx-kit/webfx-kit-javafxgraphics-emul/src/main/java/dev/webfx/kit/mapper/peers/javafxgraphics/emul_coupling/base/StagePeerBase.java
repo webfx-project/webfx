@@ -44,10 +44,10 @@ public abstract class StagePeerBase extends WindowPeerBase implements StagePeer 
             scenePeer.changedWindowSize(width, height);
         lastWidth = width;
         lastHeight = height;
-        // Workaround for a browser bug observed on Chrome on iPad where the window width/height properties were still
-        // not final after rotating the iPad despite the resize event being fired in JS. So we schedule a subsequent
-        // update to get the final values (this won't create an infinite loop, because these values will stabilize).
-        UiScheduler.scheduleInAnimationFrame(this::changedWindowSize, 5); // 5 animation frames seem enough
+        // Workaround for a browser bug observed on iPad where the window width/height properties were still not final
+        // after rotating the iPad despite the resize event being fired in JS. So we schedule a subsequent update to get
+        // the final values (this won't create an infinite loop, because these values will stabilize).
+        UiScheduler.scheduleDelay(500, this::changedWindowSize); // 500ms seem enough
     }
 
     protected abstract double getPeerWindowWidth();
