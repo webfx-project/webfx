@@ -3,7 +3,6 @@
 module webfx.kit.statusbar {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.graphics;
     requires webfx.platform.util;
 

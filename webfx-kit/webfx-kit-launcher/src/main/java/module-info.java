@@ -3,7 +3,6 @@
 module webfx.kit.launcher {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.base;
     requires javafx.graphics;
     requires webfx.platform.boot;

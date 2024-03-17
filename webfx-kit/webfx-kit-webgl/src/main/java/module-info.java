@@ -3,7 +3,6 @@
 module webfx.kit.webgl {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.graphics;
     requires javafx.media;
     requires webfx.platform.typedarray;

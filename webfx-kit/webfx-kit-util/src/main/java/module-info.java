@@ -3,7 +3,6 @@
 module webfx.kit.util {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.base;
     requires transitive webfx.platform.util;
 

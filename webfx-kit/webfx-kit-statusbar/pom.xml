@@ -26,6 +26,7 @@
             <artifactId>webfx-platform-javabase-emul-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>

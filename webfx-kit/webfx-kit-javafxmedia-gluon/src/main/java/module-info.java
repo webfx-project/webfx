@@ -4,7 +4,6 @@ module javafx.media {
 
     // Direct dependencies modules
     requires com.gluonhq.attach.storage;
-    requires java.base;
     requires javafx.base;
     requires webfx.platform.audio;
     requires webfx.platform.console;

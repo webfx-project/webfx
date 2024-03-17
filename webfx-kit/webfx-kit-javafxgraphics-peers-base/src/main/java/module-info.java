@@ -3,7 +3,6 @@
 module webfx.kit.javafxgraphics.peers.base {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.base;
     requires javafx.graphics;
     requires webfx.kit.javafxgraphics.peers;
