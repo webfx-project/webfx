@@ -36,7 +36,7 @@ jobs:
 
       # Build JavaDoc
       - name: Build JavaDoc
-        run: mvn -B javadoc:aggregate -Ddoclint=none -Dmaven.compiler.release=8 # Using Java 8 for now due to JavaDoc errors with modules
+        run: mvn -B package javadoc:aggregate -Ddoclint=none -Dmaven.compiler.release=8 # Using Java 8 for now due to JavaDoc errors with modules
 
       - name: Publish JavaDoc to ${{ env.web-push-branch }} branch
         uses: cpina/github-action-push-to-another-repository@master
