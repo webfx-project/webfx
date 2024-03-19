@@ -157,13 +157,13 @@ WebFX is still in the incubation phase. You can consult our roadmap below. At th
     - [ ] <img src="plot.svg"></img> javafx-fxml ![](https://geps.dev/progress/10) ⓷
 - [ ] <img src="plot.svg"></img> Language, Build & Runtime Environments
   - [x] ![GWT](https://img.shields.io/badge/GWT-compatible-brightgreen.svg)
-  - [ ] <img src="plot.svg"></img> ![J2CL](https://img.shields.io/badge/J2CL-compatible-brightgreen.svg) ![](https://geps.dev/progress/80) ⓸
+  - [x] ![Vert.x compatible](https://img.shields.io/badge/Vert.x-compatible-brightgreen.svg) ⓼
+  - [ ] <img src="plot.svg"></img> ![J2CL](https://img.shields.io/badge/J2CL-compatible-brightgreen.svg) ![](https://geps.dev/progress/85) ⓸
   - [ ] <img src="plot.svg"></img> ![TeaVM](https://img.shields.io/badge/TeaVM-compatible-brightgreen.svg) ![](https://geps.dev/progress/20) ⓹
   - [ ] ![Kotlin compatible](https://img.shields.io/badge/Kotlin-compatible-brightgreen.svg) (via J2CL or TeaVM)
   - [ ] ![Scala](https://img.shields.io/badge/Scala-compatible-brightgreen.svg) (via TeaVM only)
   - [ ] ![JxBrowser](https://img.shields.io/badge/JxBrowser-debug-brightgreen.svg) ⓺
   - [ ] ![WebAssembly](https://img.shields.io/badge/WebAssembly-target-brightgreen.svg) (via J2CL or TeaVM)
-  - [x] ![Vert.x compatible](https://img.shields.io/badge/Vert.x-compatible-brightgreen.svg) ⓼
 - [ ] <img src="plot.svg"></img> Ecosystem
     - [ ] <img src="plot.svg"></img> [WebFX Platform][webfx-platform-repo] ![](https://geps.dev/progress/85)
     - [ ] <img src="plot.svg"></img> [WebFX Extras][webfx-extras-repo] ![](https://geps.dev/progress/70) ⓻
