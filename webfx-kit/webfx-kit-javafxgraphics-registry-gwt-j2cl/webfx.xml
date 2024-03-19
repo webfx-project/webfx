@@ -5,6 +5,10 @@
         <module>webfx-kit-javafxgraphics-registry</module>
     </implements>
 
+    <exported-packages>
+        <source-packages/>
+    </exported-packages>
+
     <dependencies>
         <used-by-source-modules/>
     </dependencies>
