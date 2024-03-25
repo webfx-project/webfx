@@ -118,4 +118,39 @@ public final class FXProperties {
                 });
         }
     }
+
+    public static <A, B> void bindConverted(Property<A> pA, ObservableValue<B> pB, Function<B, A> baConverter) {
+        pA.bind(compute(pB, baConverter));
+    }
+
+    public static <A, B> void bindConvertedBidirectional(Property<A> pA, Property<B> pB, Function<B, A> baConverter, Function<A, B> abConverter) {
+        boolean[] converting = { false };
+        pB.addListener(new ChangeListener<B>() {
+            @Override
+            public void changed(ObservableValue<? extends B> observable, B oldValue, B newValue) {
+                if (!converting[0]) {
+                    converting[0] = true;
+                    try {
+                        pA.setValue(baConverter.apply(newValue));
+                    } finally {
+                        converting[0] = false;
+                    }
+                }
+            }
+        });
+        pA.addListener(new ChangeListener<A>() {
+            @Override
+            public void changed(ObservableValue<? extends A> observable, A oldValue, A newValue) {
+                if (!converting[0]) {
+                    converting[0] = true;
+                    try {
+                        pB.setValue(abConverter.apply(newValue));
+                    } finally {
+                        converting[0] = false;
+                    }
+                }
+            }
+        });
+    }
+
 }
