@@ -27,7 +27,7 @@
   - [ ] <img src="plot.svg"></img> [WebFX Platform][webfx-platform-repo] ![](https://geps.dev/progress/85)
   - [ ] <img src="plot.svg"></img> [WebFX Extras][webfx-extras-repo] ![](https://geps.dev/progress/70) ⓻
   - [ ] <img src="plot.svg"></img> [WebFX Stack][webfx-stack-repo] ![](https://geps.dev/progress/60) ⓼
-  - [ ] <img src="plot.svg"></img> WebFX CSS ![](https://geps.dev/progress/40) ⓽
+  - [ ] <img src="plot.svg"></img> WebFX CSS ![](https://geps.dev/progress/75) ⓽
   - [x] [WebFX Libs][webfx-libs-repo] (subject to grow on demand)
 - [ ] <img src="plot.svg"></img> [WebFX Maven Plugin][webfx-maven-plugin] ![](https://geps.dev/progress/40)
 - [x] Enterprise application prototype

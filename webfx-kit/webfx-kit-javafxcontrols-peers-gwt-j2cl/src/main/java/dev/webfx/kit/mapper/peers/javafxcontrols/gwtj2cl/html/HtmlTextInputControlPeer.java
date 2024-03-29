@@ -4,7 +4,6 @@ import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Booleans;
@@ -31,9 +30,11 @@ public abstract class HtmlTextInputControlPeer
 
     public HtmlTextInputControlPeer(NB base, HTMLElement textInputElement, String containerTag) {
         super(base, textInputElement);
+        /* Commented as I can't remember the purpose, and it complexifies the DOM. TODO: remove if no side effect
         prepareDomForAdditionalSkinChildren(containerTag);
         // Restoring pointer events (were disabled by prepareDomForAdditionalSkinChildren()) in case the graphic is clickable (ex: radio button)
         HtmlUtil.setStyleAttribute(getChildrenContainer(), "pointer-events", "auto");
+        */
         textInputElement.oninput = e -> {
             getNode().setText(getValue());
             return null;

@@ -29,7 +29,7 @@ public class HtmlTextFieldPeer
         implements TextFieldPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlTextFieldPeer() {
-        this(HtmlUtil.createSpanElement());
+        this("fx-textfield");
     }
 
     public HtmlTextFieldPeer(HTMLElement element) {
@@ -37,7 +37,7 @@ public class HtmlTextFieldPeer
     }
 
     public HtmlTextFieldPeer(String tagName) {
-        this(HtmlUtil.createSpanElement(), tagName);
+        this(HtmlUtil.createElement(tagName), tagName);
     }
 
     public HtmlTextFieldPeer(HTMLElement element, String tagName) {

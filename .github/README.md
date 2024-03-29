@@ -12,7 +12,7 @@
 
 [![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white)](https://www.jfx-central.com/tools/webfx)
 [![Twitter](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=x)](https://twitter.com/WebFXProject) 
-[![Discord](https://img.shields.io/badge/join-support_chat-0f80c0?logo=discord&logoColor=white)](https://discord.gg/9sUeggb6)
+[![Discord](https://img.shields.io/badge/join-support_chat-0f80c0?logo=discord&logoColor=white)][webfx-discord]
 
 </div>
 
@@ -168,7 +168,7 @@ WebFX is still in the incubation phase. You can consult our roadmap below. At th
     - [ ] <img src="plot.svg"></img> [WebFX Platform][webfx-platform-repo] ![](https://geps.dev/progress/85)
     - [ ] <img src="plot.svg"></img> [WebFX Extras][webfx-extras-repo] ![](https://geps.dev/progress/70) ⓻
     - [ ] <img src="plot.svg"></img> [WebFX Stack][webfx-stack-repo] ![](https://geps.dev/progress/60) ⓼
-    - [ ] <img src="plot.svg"></img> WebFX CSS ![](https://geps.dev/progress/40) ⓽ 
+    - [ ] <img src="plot.svg"></img> WebFX CSS ![](https://geps.dev/progress/75) ⓽ 
     - [x] [WebFX Libs][webfx-libs-repo] (subject to grow on demand)
 - [ ] <img src="plot.svg"></img> [WebFX Maven Plugin][webfx-maven-plugin] ![](https://geps.dev/progress/40)
 - [x] Enterprise application prototype
@@ -227,12 +227,12 @@ Some redesign work is also necessary to transit from the current patching proces
 
 ## Support
 
-For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or use our [#general](https://discord.gg/9sUeggb6) chat channel on Discord. You can open an [issue](https://github.com/webfx-project/webfx/issues) to report a bug, or request a feature.
+For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or use our [#general][webfx-discord] chat channel on Discord. You can open an [issue](https://github.com/webfx-project/webfx/issues) to report a bug, or request a feature.
 
 
 ## Keep updated
 
-Depending on how often you would like to receive updates, you can subscribe to our [blog][webfx-blog] (RSS - low traffic), follow  [@WebFXProject](https://twitter.com/WebFXProject) (X - medium traffic), or join our [#news](https://discord.gg/dewCYzPG) channel (Discord - higher traffic).
+Depending on how often you would like to receive updates, you can subscribe to our [blog][webfx-blog] (RSS - low traffic), follow  [@WebFXProject][webfx-twitter] (X - medium traffic), or join our [#news][webfx-discord] channel (Discord - higher traffic).
 
 ## Get involved!
 
@@ -251,6 +251,8 @@ WebFX is a free, open-source software licensed under the [Apache License 2.0](..
 
 [webfx-website]: https://webfx.dev
 [webfx-docs]: https://docs.webfx.dev
+[webfx-discord]: https://discord.gg/9sUeggb6
+[webfx-twitter]: https://twitter.com/WebFXProject
 [webfx-demos]: https://github.com/webfx-demos
 [webfx-guide]: https://docs.webfx.dev/#_getting_started
 [webfx-blog]: https://blog.webfx.dev
