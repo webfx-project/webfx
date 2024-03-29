@@ -3,10 +3,8 @@ package javafx.scene.control.skin;
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.kit.util.properties.ObservableLists;
-import javafx.geometry.Insets;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
 
 /**
  * @author Bruno Salmon
@@ -42,10 +40,10 @@ public class ToolkitTextBox extends TextField { // WebFX specific class (not par
         return null;
     }
 
-    {
+    /*{ Commented since WebFX CSS. TODO: remove if no side effect
         setPadding(Insets.EMPTY);
         setBackground(Background.EMPTY);
-    }
+    }*/
 
     static {
         JavaFxControlsRegistry.registerToolkitTextBox();

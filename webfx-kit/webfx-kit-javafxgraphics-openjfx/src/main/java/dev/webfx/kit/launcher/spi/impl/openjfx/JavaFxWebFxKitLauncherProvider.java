@@ -1,7 +1,10 @@
 package dev.webfx.kit.launcher.spi.impl.openjfx;
 
+import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
+import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.platform.os.OperatingSystem;
+import dev.webfx.platform.util.function.Factory;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.geometry.Bounds;
@@ -9,8 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
-import dev.webfx.platform.util.function.Factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,8 +110,17 @@ public final class JavaFxWebFxKitLauncherProvider extends WebFxKitLauncherProvid
         public void start(Stage primaryStage) throws Exception {
             JavaFxWebFxKitLauncherProvider.primaryStage = primaryStage;
             onJavaFxToolkitReady();
-            if (application != null)
+            if (application != null) {
+                // WebFX CSS: automatically adding main.css style sheet to the scene when added to the stage
+                primaryStage.sceneProperty().addListener((observable, oldValue, newScene) -> {
+                    if (newScene != null) {
+                        String webFxCssResourcePath = WebFxKitLauncher.getWebFxCssResourcePath("main.css");
+                        if (!newScene.getStylesheets().contains(webFxCssResourcePath))
+                            newScene.getStylesheets().add(0, webFxCssResourcePath);
+                    }
+                });
                 application.start(primaryStage);
+            }
         }
 
     }

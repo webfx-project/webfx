@@ -118,4 +118,19 @@ public final class WebFxKitLauncher {
         return getProvider().loadingFonts();
     }
 
+    public static String getWebFxCssResourcePath(String webFxCssPath) {
+        // If webfxCssPath specifies the css protocol, we remove it before going further,
+        if (webFxCssPath.startsWith("css:"))
+            webFxCssPath = webFxCssPath.substring(4);
+        // otherwise, if it specifies another protocol (ex: https:), we return it untouched
+        else if (webFxCssPath.contains(":"))
+            return webFxCssPath;
+        // At this point it should be a css file located under the css folder in the resources
+        // We remove the possible head / to ensure it's now a relative path to that css folder
+        if (webFxCssPath.startsWith("/"))
+            webFxCssPath = webFxCssPath.substring(1);
+        // We resolve the relative path from the css resource folder
+        return "dev/webfx/kit/css/" + webFxCssPath;
+    }
+
 }

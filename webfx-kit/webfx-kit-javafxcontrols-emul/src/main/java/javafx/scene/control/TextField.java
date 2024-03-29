@@ -12,8 +12,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.skin.TextFieldSkin;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 /**
@@ -85,11 +83,9 @@ public class TextField extends TextInputControl implements HasAlignmentProperty,
     }
 
     private final static Insets INITIAL_PADDING = new Insets(4, 7, 4, 7);
-    private final static Background INITIAL_BACKGROUND = Background.fill(Color.WHITE);
 
     {
         setPadding(INITIAL_PADDING);
-        setBackground(INITIAL_BACKGROUND);
     }
 
     static {

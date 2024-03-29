@@ -1,0 +1,51 @@
+/***** Global variables *****/
+:root {
+    --fx-border-color: #c0c0c0;
+    --fx-border-radius: 5px;
+    --fx-border-style: solid;
+    --fx-border-width: 1px;
+    --fx-border-color-focus: #0096D6;
+    --fx-textfield-background: white;
+}
+
+::placeholder {
+    color: #888;
+}
+
+fx-button > fx-background {
+    background: linear-gradient(180deg, white, #e0e0e0);
+    border-radius: var(--fx-border-radius);
+}
+
+fx-button > fx-border, fx-textfield > fx-border, textarea {
+    border-color: var(--fx-border-color);
+    border-style: var(--fx-border-style);
+    border-width: var(--fx-border-width);
+    border-radius: var(--fx-border-radius);
+}
+
+fx-textfield:focus-within > fx-border, textarea:focus {
+    border-color: var(--fx-border-color-focus);
+    outline: none !important;
+}
+
+textarea {
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+fx-hyperlink fx-text:hover {
+    text-decoration: underline;
+}
+
+fx-textfield > fx-background {
+    background: var(--fx-textfield-background);
+    border-radius: var(--fx-border-radius);
+}
+
+/* Removing borders, outlines and background for input elements (to not interfere with the above) */
+input[type="text"], input[type="password"] {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}

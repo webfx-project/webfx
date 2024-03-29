@@ -116,7 +116,9 @@ public abstract class HtmlRegionPeer
     public void updatePadding(Insets padding) {
         // Note: this code should be executed only if the html content is managed by the peer, otherwise it should be
         // skipped (ex: css padding not needed for layout peers or controls with content provided by skin)
-        getElement().style.padding = toCssPadding(padding);
+        /* Finally commented on 29/03/2024 while working on WebFX CSS. TODO: completely remove this method if no side effect
+         getElement().style.padding = toCssPadding(padding);
+         */
     }
 
     protected CSSProperties.PaddingUnionType toCssPadding(Insets padding) {
