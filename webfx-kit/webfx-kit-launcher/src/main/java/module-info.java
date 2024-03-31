@@ -7,6 +7,7 @@ module webfx.kit.launcher {
     requires javafx.graphics;
     requires webfx.platform.boot;
     requires webfx.platform.console;
+    requires webfx.platform.service;
     requires webfx.platform.uischeduler;
     requires webfx.platform.util;
 
