@@ -1,7 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics;
 
 import dev.webfx.platform.console.Console;
-import dev.webfx.platform.util.function.Factory;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
@@ -9,18 +8,19 @@ import javafx.scene.layout.Region;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author Bruno Salmon
  */
 public final class NodePeerFactoryRegistry {
 
-    private final static Map<Class<? extends Node>, Factory<? extends NodePeer>> nodePeerFactories = new HashMap<>();
+    private final static Map<Class<? extends Node>, Supplier<? extends NodePeer>> nodePeerFactories = new HashMap<>();
     private final static Map<Class<? extends Node>, Function<String, ? extends NodePeer>> customTagNodePeerFactories = new HashMap<>();
     private static Function<Region, NodePeer<Region>> defaultRegionFactory;
     private static Function<Group, NodePeer<Group>> defaultGroupFactory;
 
-    public static <N extends Node, V extends NodePeer<? super N>> void registerNodePeerFactory(Class<N> nodeClass, Factory<V> factory) {
+    public static <N extends Node, V extends NodePeer<? super N>> void registerNodePeerFactory(Class<N> nodeClass, Supplier<V> factory) {
         nodePeerFactories.put(nodeClass, factory);
     }
 
@@ -54,9 +54,9 @@ public final class NodePeerFactoryRegistry {
             if (customTagFactory != null)
                 return (V) customTagFactory.apply(customTag);
         }
-        Factory<? extends NodePeer> factory = nodePeerFactories.get(nodeClass);
+        Supplier<? extends NodePeer> factory = nodePeerFactories.get(nodeClass);
         if (factory != null)
-            return (V) factory.create();
+            return (V) factory.get();
         // If not found, it can be because it's a derived class
         // For regions and groups, we delegate this search to their default factory
         if (node instanceof Region && defaultRegionFactory != null)
@@ -73,7 +73,7 @@ public final class NodePeerFactoryRegistry {
             }
             factory = nodePeerFactories.get(nodeClass);
             if (factory != null)
-                return (V) factory.create();
+                return (V) factory.get();
         }
         // If still not found, we return null after logging the problem
         Console.log("WARNING: No NodePeer factory registered for " + node.getClass());
